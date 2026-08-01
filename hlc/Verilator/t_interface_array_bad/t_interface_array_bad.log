@@ -280,7 +280,7 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_array_bad.v:6:1: Compile interface "foo_intf".
 [INF:CP0303] $Source01/t_interface_array_bad.v:14:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_array_bad.v:45:1: Compile module "baz".
-[ERR:EL0535] $Source01/t_interface_array_bad.v:22:21: Illegal implicit net "id:67, name:a".
+[WRN:CP0350] $Source01/t_interface_array_bad.v:22:21: Failed to bind "id:67, name:a".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -290,7 +290,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_array_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_array_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:foo_intf file:$Source01/t_interface_array_bad.v start:6:1 end:8:13:
       vpiParent: Design name:unnamed
@@ -307,8 +306,7 @@ Design name:unnamed:
             vpiFullName: foo_intf.a.logic
           vpiName: a
           vpiFullName: foo_intf.a
-          vpiNetType: none (12)
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:foo_intf
         vpiName: work
@@ -321,6 +319,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:bar start:19:20 end:19:23:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:19:4 end:19:19:
+            vpiParent: Variable name:bar
+            vpiName: logic
+            vpiFullName: t.bar.logic
+            vpiActual: ArrayTypespec
+          vpiName: bar
+          vpiFullName: t.bar
       vpiParameter (1 items):
         Parameter name:N start:16:15 end:16:16:
           vpiParent: Module name:t
@@ -435,22 +443,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:baz
             vpiName: baz
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:bar start:19:20 end:19:23:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:19:4 end:19:19:
-            vpiParent: Net name:bar
-            vpiName: logic
-            vpiFullName: t.bar.logic
-            vpiActual: ArrayTypespec
-          vpiName: bar
-          vpiFullName: t.bar
       vpiProcess (1 items):
         Initial start:38:4 end:41:7:
           vpiParent: Module name:t
@@ -500,7 +498,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:foos[bar]
                   vpiName: bar
                   vpiFullName: t.foos[bar].a.bar
-                  vpiActual: Net name:bar
+                  vpiActual: Variable name:bar
               RefObj name:a start:22:21 end:22:22:
                 vpiParent: HierPath name:foos[bar].a
                 vpiName: a
@@ -582,7 +580,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:baz
       vpiDefName: baz
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:baz
         vpiName: work
@@ -679,8 +677,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

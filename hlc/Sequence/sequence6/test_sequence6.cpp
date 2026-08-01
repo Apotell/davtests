@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,7 @@
 //     end
 //   endmodule
 //
-// -- ss.16.9.5 rules under test ------------------------------------------------
+// -- ss.16.9.5 rules under test ----
 //
 // Sequence 'and' operator (ss.16.9.5):
 //   * 'a and b' is the sequence conjunction operator.
@@ -43,27 +43,25 @@
 //     (possibly ending at different clock ticks).
 //   * This is semantically distinct from the expression-level logical '&&'.
 //   * The correct VPI opType for the sequence 'and' operator is vpiCompAndOp
-//     (sv_vpi_user.h, value 91 -- "Composite and operator").
-//   * Surelog incorrectly uses vpiLogAndOp (26, "binary logical AND") instead.
-//     This misrepresents the sequence 'and' as a boolean expression operator.
-//   * Each operand is a RefObj that must resolve to its Net declaration at
-//     compile time: RefObj("a") -> Net("a"), RefObj("b") -> Net("b").
+//     (sv_vpi_user.h, value 91 -- "Composite and operator") -- not vpiLogAndOp
+//     (26, "binary logical AND"), which would misrepresent the sequence 'and'
+//     as a boolean expression operator.
+//   * Each operand is a RefObj that must resolve to its Variable declaration at
+//     compile time: RefObj("a") -> Variable("a"), RefObj("b") -> Variable("b").
 //
 // Concurrent assert property (ss.16.14):
 //   * 'assert property(@(posedge clk) seq6)' uses seq6 as the property body.
 //   * The property expression 'seq6' must resolve (vpiActual) to the
 //     SequenceDecl for seq6 -- not be treated as an implicit net.
-//   * Surelog emits EL0535 ("Illegal implicit net") for 'seq6' here -- the
-//     same compile-time name resolution bug confirmed in sequence4 and sequence5.
 //
-// -- Expected HLDB tree (if compiler is correct) --------------------------------
+// -- Expected HLDB tree (if compiler is correct) ----
 //
 //   Module name:tb
 //   +-- getSequenceDecls() (1 item)
 //   |   +-- SequenceDecl name:"seq6"
-//   |         vpiExpr: Operation opType:logical_and (vpiLogAndOp = 26)
-//   |           operand[0]: RefObj name:"a" -> Net name:"a"
-//   |           operand[1]: RefObj name:"b" -> Net name:"b"
+//   |         vpiExpr: Operation opType:comp_and (vpiCompAndOp = 91)
+//   |           operand[0]: RefObj name:"a" -> Variable name:"a"
+//   |           operand[1]: RefObj name:"b" -> Variable name:"b"
 //   +-- getConcurrentAssertions() (1 item)
 //       +-- Assert
 //             PropertySpec
@@ -80,7 +78,7 @@
 #include <hldb/concurrent_assertions.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/ref_obj.h>
@@ -96,9 +94,9 @@ class Sequence6Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("tb", d->getAllModules());
@@ -125,15 +123,14 @@ static const hldb::Assert *getFirstAssert(const hldb::Module *m) {
 // ===========================================================================
 
 // ss.16.9.5 + ss.16.14: the SV file is syntactically and semantically valid
-// -- no errors expected.  If this test fails, Surelog emits EL0535 ("Illegal
-// implicit net") for 'seq6' in the assert property statement, meaning it
-// misidentifies the sequence name as an undeclared net instead of resolving
-// it to the SequenceDecl node.
+// -- no errors expected.  A compiler that fails to resolve the sequence name
+// 'seq6' to its SequenceDecl might misidentify it as an undeclared implicit
+// net instead, which would surface as a spurious error here.
 TEST_F(Sequence6Test, Compiler_NoErrors) {
   ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbError, 0) << "ss.16.14: assert property(@(posedge clk) seq6) must not produce "
-                                 "errors -- EL0535 'Illegal implicit net' means Surelog does not "
-                                 "resolve sequence names to SequenceDecl nodes";
+                                 "errors -- 'seq6' must resolve to its SequenceDecl, not be treated "
+                                 "as an implicit net";
 }
 
 TEST_F(Sequence6Test, Compiler_NoSyntaxErrors) {
@@ -181,10 +178,8 @@ TEST_F(Sequence6Test, Seq6_HasExpression) {
 
 // ss.16.9.5: 'a and b' is the sequence conjunction operator.  The correct
 // VPI opType is vpiCompAndOp (91, "Composite and operator") defined in
-// sv_vpi_user.h.  Surelog incorrectly emits vpiLogAndOp (26, binary logical
-// AND) -- a misrepresentation that conflates the sequence 'and' with the
-// expression-level '&&' operator.  If this test fails, Surelog is using the
-// wrong opType for the sequence 'and' operator.
+// sv_vpi_user.h -- not vpiLogAndOp (26, binary logical AND), which would
+// conflate the sequence 'and' with the expression-level '&&' operator.
 TEST_F(Sequence6Test, Seq6_Expr_IsAndOperation) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -192,9 +187,9 @@ TEST_F(Sequence6Test, Seq6_Expr_IsAndOperation) {
   ASSERT_NE(s6, nullptr);
   const hldb::Operation *op = s6->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "seq6 body must be an Operation";
-  EXPECT_EQ(op->getOpType(), vpiCompAndOp) << "ss.16.9.5: 'a and b' must have opType vpiCompAndOp (91) -- "
-                                              "Surelog incorrectly uses vpiLogAndOp (26, binary logical &&) "
-                                              "instead of the sequence-specific vpiCompAndOp (91)";
+  EXPECT_EQ(op->getOpType(), vpiCompAndOp) << "ss.16.9.5: 'a and b' must have opType vpiCompAndOp (91), "
+                                              "the sequence-specific composite-and operator -- not "
+                                              "vpiLogAndOp (26), which is the expression-level '&&'";
 }
 
 // ss.16.9.5: 'a and b' has two operand sequences.
@@ -226,7 +221,7 @@ TEST_F(Sequence6Test, Seq6_Operand0_IsRefToA) {
   EXPECT_EQ(op0->getName(), "a") << "ss.16.9.5: first operand of 'a and b' must reference signal 'a'";
 }
 
-// ss.16.9.5: the RefObj for 'a' must resolve (vpiActual) to Net name:'a'.
+// ss.16.9.5: the RefObj for 'a' must resolve (vpiActual) to Variable name:'a'.
 // This is compile-time name binding -- no elaboration guard needed.
 TEST_F(Sequence6Test, Seq6_Operand0_ResolvesToNet) {
   const hldb::Module *m = getTb(m_design);
@@ -240,7 +235,7 @@ TEST_F(Sequence6Test, Seq6_Operand0_ResolvesToNet) {
 
   const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(op0, nullptr);
-  EXPECT_NE(op0->getActual<hldb::Net>(), nullptr) << "ss.16.9.5: RefObj for 'a' must resolve to Net name:'a' at "
+  EXPECT_NE(op0->getActual<hldb::Variable>(), nullptr) << "ss.16.9.5: RefObj for 'a' must resolve to Variable name:'a' at "
                                                      "compile time";
 }
 
@@ -261,7 +256,7 @@ TEST_F(Sequence6Test, Seq6_Operand1_IsRefToB) {
   EXPECT_EQ(op1->getName(), "b") << "ss.16.9.5: second operand of 'a and b' must reference signal 'b'";
 }
 
-// ss.16.9.5: the RefObj for 'b' must resolve (vpiActual) to Net name:'b'.
+// ss.16.9.5: the RefObj for 'b' must resolve (vpiActual) to Variable name:'b'.
 // This is compile-time name binding -- no elaboration guard needed.
 TEST_F(Sequence6Test, Seq6_Operand1_ResolvesToNet) {
   const hldb::Module *m = getTb(m_design);
@@ -275,7 +270,7 @@ TEST_F(Sequence6Test, Seq6_Operand1_ResolvesToNet) {
 
   const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(op1, nullptr);
-  EXPECT_NE(op1->getActual<hldb::Net>(), nullptr) << "ss.16.9.5: RefObj for 'b' must resolve to Net name:'b' at "
+  EXPECT_NE(op1->getActual<hldb::Variable>(), nullptr) << "ss.16.9.5: RefObj for 'b' must resolve to Variable name:'b' at "
                                                      "compile time";
 }
 
@@ -328,10 +323,8 @@ TEST_F(Sequence6Test, Assert_PropertyExpr_ReferencesSeq6) {
 }
 
 // ss.16.14: the RefObj for 'seq6' in the concurrent assertion must resolve
-// (vpiActual) to the SequenceDecl node.  Surelog emits EL0535 for this
-// reference, treating 'seq6' as an implicit net instead of resolving it to
-// the SequenceDecl.  This is the same compile-time name resolution bug
-// confirmed in sequence4 and sequence5.
+// (vpiActual) to the SequenceDecl node -- compile-time name binding, the
+// same as resolving a signal reference to its Variable/Net node.
 TEST_F(Sequence6Test, Assert_PropertyExpr_ResolvedToSeq6Decl) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -342,8 +335,8 @@ TEST_F(Sequence6Test, Assert_PropertyExpr_ResolvedToSeq6Decl) {
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr);
   EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "ss.16.14: 'seq6' in assert property must resolve to SequenceDecl -- "
-         "Surelog emits EL0535 treating it as an implicit net instead";
+      << "ss.16.14: 'seq6' in assert property must resolve to SequenceDecl, not be "
+         "treated as an implicit net";
 }
 
 }  // namespace hlc

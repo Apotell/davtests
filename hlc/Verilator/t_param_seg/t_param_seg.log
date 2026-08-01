@@ -230,6 +230,7 @@ n<$Source01/t_param_seg.v> u<216> t<Top_level_rule> c<1> l<10:1> el<29:1>
         n<> u<212> t<ENDMODULE> p<213> l<28:1> el<28:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_param_seg.v:10:1: Compile module "t".
+[ERR:LN0813] $Source01/t_param_seg.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -239,7 +240,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_seg.v
       vpiPreprocFile: "$Output/lib/work/t_param_seg.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_param_seg.v start:10:1 end:28:10:
       vpiParent: Design name:unnamed
@@ -247,6 +247,15 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:err_count start:19:22 end:19:31:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:19:11 end:19:20:
+            vpiParent: Variable name:err_count
+            vpiFullName: t.err_count
+            vpiActual: LogicTypespec
+          vpiName: err_count
+          vpiFullName: t.err_count
       vpiParameter (1 items):
         Parameter name:M start:21:22 end:21:23:
           vpiParent: Module name:t
@@ -383,22 +392,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
-        Net name:err_count start:19:22 end:19:31:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:19:11 end:19:20:
-            vpiParent: Net name:err_count
-            vpiFullName: t.err_count
-            vpiActual: LogicTypespec
-          vpiName: err_count
-          vpiFullName: t.err_count
-          vpiNetType: reg (48)
+      vpiNet (3 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:10 end:17:10:
@@ -407,6 +407,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
         Net name:syndromes start:18:16 end:18:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:10 end:18:15:
@@ -415,6 +416,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: syndromes
           vpiFullName: t.syndromes
+          vpiNetType: wire (1)
         Net name:syn1 start:22:15 end:22:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:22:9 end:22:14:
@@ -454,11 +456,11 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: err_count
           vpiDirection: output (2)
-          vpiLowConn RefObj name:err_count start:12:4 end:12:13:
+          vpiLowConn RefObj name:err_count start:19:22 end:19:31:
             vpiParent: Port name:err_count
             vpiName: err_count
             vpiFullName: t.err_count.err_count
-            vpiActual: Net name:err_count
+            vpiActual: Variable name:err_count
           vpiTypespec RefTypespec start:19:11 end:19:20:
             vpiParent: Port name:err_count
             vpiFullName: t.err_count
@@ -467,7 +469,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:14:4 end:14:7:
+          vpiLowConn RefObj name:clk start:17:10 end:17:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -480,7 +482,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: syndromes
           vpiDirection: input (1)
-          vpiLowConn RefObj name:syndromes start:14:9 end:14:18:
+          vpiLowConn RefObj name:syndromes start:18:16 end:18:25:
             vpiParent: Port name:syndromes
             vpiName: syndromes
             vpiFullName: t.syndromes.syndromes
@@ -516,7 +518,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: err_count
                     vpiFullName: t.err_count
-                    vpiActual: Net name:err_count
+                    vpiActual: Variable name:err_count
                   vpiRhs Operation start:24:20 end:24:33:
                     vpiParent: Assignment
                     vpiOpType: concatenation (33)
@@ -562,20 +564,6 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
           vpiAlwaysType: always (1)
-      vpiContAssign (1 items):
-        ContAssign start:19:22 end:19:35:
-          vpiParent: Module name:t
-          vpiLhs: Net name:err_count
-          vpiRhs Constant start:19:34 end:19:35:
-            vpiParent: ContAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -593,7 +581,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -609,25 +597,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_param_seg/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.63,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_param_seg.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_param_seg.v': {'post_len': 1,
                                                          'pre_len': 269}},
-            'post_len': 0,
+            'post_len': 1,
             'pre_len': 269,
             'test_name': 'Verilator/t_param_seg'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/t_param_seg.v |      269 |         0 |
+| $Output/lib/work/t_param_seg.v |      269 |         1 |
 +================================+==========+===========+
-|                                |      269 |         0 |
+|                                |      269 |         1 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.63
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -638,7 +626,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_seg/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              82      82       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    82      82       0         0
 ===================== END REDUCTION RESULT =====================

@@ -185,7 +185,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:sub file:$Source01/dut.sv start:2:1 end:3:10:
       vpiParent: Design name:unnamed
@@ -202,12 +201,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: int_status
           vpiFullName: sub.int_status
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:sub
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -218,9 +216,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: int_status
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:24 end:2:34:
+          vpiLowConn RefObj name:int_status start:2:24 end:2:34:
             vpiParent: Port name:int_status
-            vpiFullName: sub.int_status
+            vpiName: int_status
+            vpiFullName: sub.int_status.int_status
             vpiActual: Variable name:int_status
           vpiTypespec RefTypespec start:2:13 end:2:23:
             vpiParent: Port name:int_status
@@ -265,12 +264,22 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:dut
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
+      vpiNet (1 items):
+        Net name:int_status start:13:18 end:13:28:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:13:11 end:13:16:
+            vpiParent: Net name:int_status
+            vpiFullName: dut.int_status
+            vpiActual: LogicTypespec
+          vpiName: int_status
+          vpiFullName: dut.int_status
+          vpiNetType: wire (1)
       vpiGenStmt (2 items):
         GenRegion start:7:3 end:10:14:
           vpiParent: Module name:dut
@@ -311,7 +320,7 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: GenRegion
             vpiFullName: dut
-            vpiVariable (2 items):
+            vpiVariable (1 items):
               Variable name:loop_int start:12:14 end:12:22:
                 vpiParent: Begin
                 vpiTypespec RefTypespec:
@@ -319,15 +328,6 @@ Design name:unnamed:
                   vpiFullName: dut.loop_int
                 vpiName: loop_int
                 vpiFullName: dut.loop_int
-              Variable name:int_status start:13:18 end:13:28:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:13:11 end:13:16:
-                  vpiParent: Variable name:int_status
-                  vpiFullName: dut.int_status
-                  vpiActual: LogicTypespec
-                vpiName: int_status
-                vpiFullName: dut.int_status
-                vpiNetType: wire (1)
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -453,7 +453,7 @@ Design name:unnamed:
                             vpiParent: Port
                             vpiName: int_status
                             vpiFullName: dut.gen_blk.sub_i.int_status
-                            vpiActual: Variable name:int_status
+                            vpiActual: Net name:int_status
                           vpiHighConn BitSelect name:int_status[loop_int] start:17:23 end:17:43:
                             vpiParent: Port
                             vpiName: int_status[loop_int]
@@ -462,7 +462,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:int_status[loop_int]
                               vpiName: int_status
                               vpiFullName: dut.gen_blk.sub_i.int_status
-                              vpiActual: Variable name:int_status
+                              vpiActual: Net name:int_status
                             vpiIndex RefObj name:loop_int start:17:34 end:17:42:
                               vpiParent: BitSelect name:int_status[loop_int]
                               vpiName: loop_int

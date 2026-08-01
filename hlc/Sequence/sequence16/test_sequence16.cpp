@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,13 +38,9 @@
 //          operands[0]: RefObj("a")   -- the repeated boolean expression
 //          operands[1]: Constant("3") -- exact count (vpiUIntConst=9)
 //
-// Compile-stage bugs exposed:
-//   Compiler_NoErrors  -- nbError is 0 even though EL0535 appears in the log;
-//                         Surelog does not place EL0535 in the nbError bucket.
-//   Assert_PropertyExpr_ResolvedToSeqGotoDecl -- 'seq_goto' in
-//                         assert property(@(posedge clk) seq_goto) is treated
-//                         as an implicit net (EL0535) instead of resolving to
-//                         the SequenceDecl; getActual<SequenceDecl>() is null.
+// Compile-stage: 'seq_goto' in assert property(@(posedge clk) seq_goto)
+// resolves correctly to its SequenceDecl and the compile produces zero
+// errors.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -57,6 +53,7 @@
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/range.h>
@@ -104,29 +101,34 @@ TEST_F(Sequence16Test, ModuleExists) {
 }
 
 // ===========================================================================
-// Nets -- bit clk, bit a
+// Variables -- bit clk, bit a (IEEE 1800-2023 Sec 6.7/6.8: no net-type
+// keyword means Variable, not Net, regardless of default_nettype)
 // ===========================================================================
 
-TEST_F(Sequence16Test, Net_clk_HasBitTypespec) {
+TEST_F(Sequence16Test, Variable_clk_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const clk = hldb::findByName<hldb::Net>("clk", tb->getNets());
-  ASSERT_NE(clk, nullptr) << "net 'clk' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const clk = hldb::findByName<hldb::Variable>("clk", tb->getVariables());
+  ASSERT_NE(clk, nullptr) << "variable 'clk' not found";
   ASSERT_NE(clk->getTypespec(), nullptr);
   EXPECT_NE(clk->getTypespec()->getActual<hldb::BitTypespec>(), nullptr)
       << "'bit clk' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("clk", tb->getNets()), nullptr)
+      << "'bit clk' has no net-type keyword -- must not also appear in vpiNet";
 }
 
-TEST_F(Sequence16Test, Net_a_HasBitTypespec) {
+TEST_F(Sequence16Test, Variable_a_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", tb->getNets());
-  ASSERT_NE(a, nullptr) << "net 'a' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", tb->getVariables());
+  ASSERT_NE(a, nullptr) << "variable 'a' not found";
   ASSERT_NE(a->getTypespec(), nullptr);
   EXPECT_NE(a->getTypespec()->getActual<hldb::BitTypespec>(), nullptr)
       << "'bit a' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("a", tb->getNets()), nullptr)
+      << "'bit a' has no net-type keyword -- must not also appear in vpiNet";
 }
 
 // ===========================================================================
@@ -197,9 +199,9 @@ TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_HasTwoOperands) {
       << "goto repeat must have 2 operands: the repeated expression and the count";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // operands[0] -- the repeated boolean expression: RefObj("a")
-// ---------------------------------------------------------------------------
+// ----
 
 TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_Operand0_IsRefObj) {
   const hldb::Module *const tb = getTb(m_design);
@@ -236,13 +238,13 @@ TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_Operand0_ResolvesToNet) {
   const hldb::RefObj *const ref =
       any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr)
-      << "RefObj 'a' in goto repeat must resolve to the Net declaration";
+  EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr)
+      << "RefObj 'a' in goto repeat must resolve to the Variable declaration";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // operands[1] -- the exact count: Constant("3"), not a Range
-// ---------------------------------------------------------------------------
+// ----
 
 TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_Operand1_IsConstant) {
   const hldb::Module *const tb = getTb(m_design);
@@ -413,9 +415,7 @@ TEST_F(Sequence16Test, Assert_PropertyExpr_NameIsSeqGoto) {
 
 TEST_F(Sequence16Test, Assert_PropertyExpr_ResolvedToSeqGotoDecl) {
   // ss.16.9: 'seq_goto' in the property expression must resolve to the
-  // SequenceDecl. Surelog bug EL0535 treats it as an implicit net instead;
-  // getActual<SequenceDecl>() returns null. This test FAILS intentionally
-  // to document the bug.
+  // SequenceDecl.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
@@ -428,10 +428,15 @@ TEST_F(Sequence16Test, Assert_PropertyExpr_ResolvedToSeqGotoDecl) {
   const hldb::RefObj *const propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr);
   EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "EL0535: 'seq_goto' in assert property must resolve to the "
-         "SequenceDecl; Surelog treats it as an implicit net instead";
+      << "ss.16.9: 'seq_goto' in assert property must resolve to the "
+         "SequenceDecl";
 }
 
+TEST_F(Sequence16Test, Compiler_NoErrors) {
+  EXPECT_EQ(m_compiler->getErrorStats().nbError, 0)
+      << "Compiler must not emit any error for legal use of 'seq_goto' in "
+         "assert property(@(posedge clk) seq_goto)";
+}
 
 }  // namespace hlc
 

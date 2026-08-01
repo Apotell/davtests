@@ -328,10 +328,10 @@ n<$Source01/t_package_enum.v> u<313> t<Top_level_rule> c<1> l<6:1> el<37:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/t_package_enum.v:6:1: Compile package "pkg".
 [INF:CP0303] $Source01/t_package_enum.v:14:1: Compile module "t".
-[ERR:EL0535] $Source01/t_package_enum.v:25:20: Illegal implicit net "id:83, name:E__NOT".
-[ERR:EL0535] $Source01/t_package_enum.v:26:26: Illegal implicit net "id:90, name:E__VAL".
-[ERR:EL0535] $Source01/t_package_enum.v:29:20: Illegal implicit net "id:105, name:E__VAL".
-[ERR:EL0535] $Source01/t_package_enum.v:30:26: Illegal implicit net "id:112, name:E__VAL".
+[WRN:CP0350] $Source01/t_package_enum.v:25:20: Failed to bind "id:83, name:E__NOT".
+[WRN:CP0350] $Source01/t_package_enum.v:26:26: Failed to bind "id:90, name:E__VAL".
+[WRN:CP0350] $Source01/t_package_enum.v:29:20: Failed to bind "id:105, name:E__VAL".
+[WRN:CP0350] $Source01/t_package_enum.v:30:26: Failed to bind "id:112, name:E__VAL".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -341,7 +341,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_package_enum.v
       vpiPreprocFile: "$Output/lib/work/t_package_enum.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:pkg file:$Source01/t_package_enum.v start:6:1 end:12:11:
       vpiParent: Design name:unnamed
@@ -433,7 +432,7 @@ Design name:unnamed:
             vpiFullName: pkg::E_t
             vpiActual: EnumTypespec
       vpiDefName: pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:pkg
         vpiName: work
@@ -446,6 +445,33 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:ttype start:15:15 end:15:20:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:15:4 end:15:13:
+            vpiParent: Variable name:ttype
+            vpiFullName: t.ttype
+            vpiActual: LogicTypespec
+          vpiName: ttype
+          vpiFullName: t.ttype
+          vpiVector: true
+        Variable name:m start:16:15 end:16:16:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:16:4 end:16:7:
+            vpiParent: Variable name:m
+            vpiFullName: t.m
+            vpiActual: LogicTypespec
+          vpiName: m
+          vpiFullName: t.m
+          vpiScalar: true
+        Variable name:l start:18:35 end:18:36:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:18:4 end:18:34:
+            vpiParent: Variable name:l
+            vpiFullName: t.l
+            vpiActual: EnumTypespec
+          vpiName: l
+          vpiFullName: t.l
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -526,37 +552,12 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (3 items):
-        Net name:ttype start:15:15 end:15:20:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:15:4 end:15:13:
-            vpiParent: Net name:ttype
-            vpiFullName: t.ttype
-            vpiActual: LogicTypespec
-          vpiName: ttype
-          vpiFullName: t.ttype
-        Net name:m start:16:15 end:16:16:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:16:4 end:16:7:
-            vpiParent: Net name:m
-            vpiFullName: t.m
-            vpiActual: LogicTypespec
-          vpiName: m
-          vpiFullName: t.m
-        Net name:l start:18:35 end:18:36:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:18:4 end:18:34:
-            vpiParent: Net name:l
-            vpiFullName: t.l
-            vpiActual: EnumTypespec
-          vpiName: l
-          vpiFullName: t.l
       vpiProcess (2 items):
         Always start:20:4 end:22:7:
           vpiParent: Module name:t
@@ -574,7 +575,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: m
                       vpiFullName: t.m
-                      vpiActual: Net name:m
+                      vpiActual: Variable name:m
                     Constant start:20:19 end:20:23:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -610,7 +611,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: ttype
                   vpiFullName: t.ttype
-                  vpiActual: Net name:ttype
+                  vpiActual: Variable name:ttype
                 vpiRhs HierPath name:pkg::E__NOT start:25:15 end:25:26:
                   vpiParent: Assignment
                   vpiName: pkg::E__NOT
@@ -633,7 +634,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: m
                   vpiFullName: t.m
-                  vpiActual: Net name:m
+                  vpiActual: Variable name:m
                 vpiRhs Operation start:26:12 end:26:32:
                   vpiParent: Assignment
                   vpiOpType: equal (14)
@@ -642,7 +643,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: ttype
                       vpiFullName: t.ttype
-                      vpiActual: Net name:ttype
+                      vpiActual: Variable name:ttype
                     HierPath name:pkg::E__VAL start:26:21 end:26:32:
                       vpiParent: Operation
                       vpiName: pkg::E__VAL
@@ -668,7 +669,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: m
                       vpiFullName: t.m
-                      vpiActual: Net name:m
+                      vpiActual: Variable name:m
                     Constant start:27:16 end:27:20:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -691,7 +692,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: ttype
                   vpiFullName: t.ttype
-                  vpiActual: Net name:ttype
+                  vpiActual: Variable name:ttype
                 vpiRhs HierPath name:pkg::E__VAL start:29:15 end:29:26:
                   vpiParent: Assignment
                   vpiName: pkg::E__VAL
@@ -714,7 +715,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: m
                   vpiFullName: t.m
-                  vpiActual: Net name:m
+                  vpiActual: Variable name:m
                 vpiRhs Operation start:30:12 end:30:32:
                   vpiParent: Assignment
                   vpiOpType: equal (14)
@@ -723,7 +724,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: ttype
                       vpiFullName: t.ttype
-                      vpiActual: Net name:ttype
+                      vpiActual: Variable name:ttype
                     HierPath name:pkg::E__VAL start:30:21 end:30:32:
                       vpiParent: Operation
                       vpiName: pkg::E__VAL
@@ -749,7 +750,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: m
                       vpiFullName: t.m
-                      vpiActual: Net name:m
+                      vpiActual: Variable name:m
                     Constant start:31:16 end:31:20:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -803,8 +804,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,8 +35,10 @@
 // parenthesized pre-increment-in-expression is accepted without error.
 //
 // Checked:
-//   - module top has exactly 2 nets, "a" and "b", both int
-//     (RefTypespec -> IntTypespec)
+//   - module top has exactly 2 variables, "a" and "b", both int
+//     (RefTypespec -> IntTypespec). Per IEEE 1800-2023 Sec 6.7/6.8: "int"
+//     has no net-type keyword and there is no port list, so both are
+//     Variables, not Nets; module has no nets (getNets() is null).
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment with lhs RefObj "b" and rhs an Operation (vpiPreIncOp,
 //     1 operand: RefObj "a") -- confirming "(++a)" is represented as a
@@ -68,11 +70,11 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -85,20 +87,22 @@ class AssignInExpressionTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables ----
 
 TEST_F(AssignInExpressionTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(AssignInExpressionTest, ModuleHasTwoIntNets) {
+TEST_F(AssignInExpressionTest, ModuleHasTwoIntVariablesAndNoNets) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  EXPECT_EQ(top->getNets(), nullptr) << "Sec 6.7/6.8: 'int a;'/'int b;' have no net-type keyword and there is "
+                                         "no port list, so neither becomes a Net";
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
   const char *const names[2] = {"a", "b"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   }
 }
 
@@ -138,7 +142,7 @@ TEST_F(AssignInExpressionTest, AssignmentToBHasPreIncrementOfAAsRhs) {
   EXPECT_EQ(any_cast<hldb::RefObj>(preInc->getOperands()->at(0))->getName(), "a");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssignInExpressionTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

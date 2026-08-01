@@ -747,6 +747,7 @@ n<$Source01/scopes.v> u<733> t<Top_level_rule> c<1> l<1:1> el<64:1>
         n<> u<729> t<ENDMODULE> p<730> l<63:1> el<63:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/scopes.v:1:1: Compile module "scopes_test_01".
+[ERR:LN0813] $Source01/scopes.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -756,7 +757,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: scopes.v
       vpiPreprocFile: "$Output/lib/work/scopes.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:scopes_test_01 file:$Source01/scopes.v start:1:1 end:63:10:
       vpiParent: Design name:unnamed
@@ -773,7 +773,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: scopes_test_01.x
-          vpiNetType: none (12)
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:scopes_test_01
@@ -830,7 +829,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:scopes_test_01
       vpiDefName: scopes_test_01
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:scopes_test_01
         vpiName: work
@@ -974,6 +973,7 @@ Design name:unnamed:
                           vpiActual: LogicTypespec
                         vpiName: x
                         vpiFullName: scopes_test_01.func_01.blk.x
+                        vpiVector: true
                     vpiTypespec (1 items):
                       LogicTypespec:
                         vpiParent: Begin name:blk
@@ -1200,6 +1200,7 @@ Design name:unnamed:
                           vpiActual: LogicTypespec
                         vpiName: func_02
                         vpiFullName: scopes_test_01.func_02.blk.func_02
+                        vpiVector: true
                     vpiTypespec (1 items):
                       LogicTypespec:
                         vpiParent: Begin name:blk
@@ -1285,6 +1286,7 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: y
                 vpiFullName: scopes_test_01.task_01.y
+                vpiVector: true
             vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -1461,6 +1463,7 @@ Design name:unnamed:
                       vpiActual: LogicTypespec
                     vpiName: x
                     vpiFullName: scopes_test_01.task_02.foo.x
+                    vpiVector: true
                   Variable name:z start:38:18 end:38:19:
                     vpiParent: Begin name:foo
                     vpiTypespec RefTypespec start:38:4 end:38:14:
@@ -1469,6 +1472,7 @@ Design name:unnamed:
                       vpiActual: LogicTypespec
                     vpiName: z
                     vpiFullName: scopes_test_01.task_02.foo.z
+                    vpiVector: true
                 vpiTypespec (1 items):
                   LogicTypespec:
                     vpiParent: Begin name:foo
@@ -1509,7 +1513,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: y
                       vpiFullName: scopes_test_01.task_02.foo.y
-                      vpiActual: Net name:y
+                      vpiActual: Port name:y
                   Begin name:bar start:40:4 end:44:7:
                     vpiParent: Begin name:foo
                     vpiName Identifier name:bar start:40:10 end:40:13:
@@ -1525,6 +1529,7 @@ Design name:unnamed:
                           vpiActual: LogicTypespec
                         vpiName: x
                         vpiFullName: scopes_test_01.task_02.foo.bar.x
+                        vpiVector: true
                     vpiTypespec (1 items):
                       LogicTypespec:
                         vpiParent: Begin name:bar
@@ -1604,7 +1609,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: y
                       vpiFullName: scopes_test_01.task_02.foo.y
-                      vpiActual: Net name:y
+                      vpiActual: Port name:y
                     vpiRhs Operation start:45:8 end:45:13:
                       vpiParent: Assignment
                       vpiOpType: bitwise xor (30)
@@ -1619,7 +1624,7 @@ Design name:unnamed:
                           vpiName: z
                           vpiFullName: scopes_test_01.task_02.foo.z
                           vpiActual: Variable name:z
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:k start:1:35 end:1:36:
           vpiParent: Module name:scopes_test_01
           vpiTypespec RefTypespec start:1:23 end:1:34:
@@ -1629,23 +1634,15 @@ Design name:unnamed:
           vpiName: k
           vpiFullName: scopes_test_01.k
           vpiNetType: wire (1)
-        Net name:y start:1:59 end:1:60:
-          vpiParent: Module name:scopes_test_01
-          vpiTypespec RefTypespec start:1:59 end:1:59:
-            vpiParent: Net name:y
-            vpiFullName: scopes_test_01.y
-            vpiActual: LogicTypespec
-          vpiName: y
-          vpiFullName: scopes_test_01.y
-          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:k start:1:35 end:1:36:
           vpiParent: Module name:scopes_test_01
           vpiName: k
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:35 end:1:36:
+          vpiLowConn RefObj name:k start:1:35 end:1:36:
             vpiParent: Port name:k
-            vpiFullName: scopes_test_01.k
+            vpiName: k
+            vpiFullName: scopes_test_01.k.k
             vpiActual: Net name:k
           vpiTypespec RefTypespec start:1:23 end:1:34:
             vpiParent: Port name:k
@@ -1655,9 +1652,10 @@ Design name:unnamed:
           vpiParent: Module name:scopes_test_01
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:56 end:1:57:
+          vpiLowConn RefObj name:x start:1:56 end:1:57:
             vpiParent: Port name:x
-            vpiFullName: scopes_test_01.x
+            vpiName: x
+            vpiFullName: scopes_test_01.x.x
             vpiActual: Variable name:x
           vpiTypespec RefTypespec start:1:38 end:1:55:
             vpiParent: Port name:x
@@ -1667,14 +1665,6 @@ Design name:unnamed:
           vpiParent: Module name:scopes_test_01
           vpiName: y
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:59 end:1:60:
-            vpiParent: Port name:y
-            vpiFullName: scopes_test_01.y
-            vpiActual: Net name:y
-          vpiTypespec RefTypespec start:1:59 end:1:59:
-            vpiParent: Port name:y
-            vpiFullName: scopes_test_01.y
-            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:49:2 end:62:5:
           vpiParent: Module name:scopes_test_01
@@ -1726,7 +1716,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: y
                     vpiFullName: scopes_test_01.y
-                    vpiActual: Net name:y
+                    vpiActual: Port name:y
                   vpiRhs FuncCall name:func_02 start:51:7 end:51:22:
                     vpiParent: Assignment
                     vpiName Identifier name:func_02 start:51:7 end:51:14:
@@ -1793,6 +1783,7 @@ Design name:unnamed:
                         vpiActual: LogicTypespec
                       vpiName: y
                       vpiFullName: scopes_test_01.foo.y
+                      vpiVector: true
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Begin name:foo
@@ -1888,7 +1879,7 @@ Design name:unnamed:
                         vpiParent: FuncCall name:func_01
                         vpiName: y
                         vpiFullName: scopes_test_01.y
-                        vpiActual: Net name:y
+                        vpiActual: Port name:y
                       RefObj name:x start:60:18 end:60:19:
                         vpiParent: FuncCall name:func_01
                         vpiName: x
@@ -1901,7 +1892,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: y
                     vpiFullName: scopes_test_01.y
-                    vpiActual: Net name:y
+                    vpiActual: Port name:y
                   vpiRhs FuncCall name:func_02 start:61:7 end:61:20:
                     vpiParent: Assignment
                     vpiName Identifier name:func_02 start:61:7 end:61:14:
@@ -1913,7 +1904,7 @@ Design name:unnamed:
                         vpiParent: FuncCall name:func_02
                         vpiName: y
                         vpiFullName: scopes_test_01.y
-                        vpiActual: Net name:y
+                        vpiActual: Port name:y
                       RefObj name:x start:61:18 end:61:19:
                         vpiParent: FuncCall name:func_02
                         vpiName: x
@@ -1933,7 +1924,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1978,7 +1969,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/scopes/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             277     277       0         0
+Others                             273     273       0         0
 ----------------------------------------------------------------
-                                   277     277       0         0
+                                   273     273       0         0
 ===================== END REDUCTION RESULT =====================

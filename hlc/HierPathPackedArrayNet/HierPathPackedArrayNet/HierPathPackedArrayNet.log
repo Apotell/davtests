@@ -214,8 +214,7 @@ n<$Source01/dut.sv> u<199> t<Top_level_rule> c<1> l<1:1> el<24:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "rvfi_pkg".
 [INF:CP0303] $Source01/dut.sv:11:1: Compile module "rvfi_tracer".
-[ERR:EL0535] $Source01/dut.sv:16:21: Illegal implicit net "id:74, name:clk_i".
-[ERR:EL0535] $Source01/dut.sv:18:19: Illegal implicit net "id:96, name:trap".
+[WRN:CP0350] $Source01/dut.sv:18:19: Failed to bind "id:96, name:trap".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "rvfi_pkg".
 [WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "rvfi_tracer".
 ====== HLDB =======
@@ -226,7 +225,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:rvfi_pkg file:$Source01/dut.sv start:1:1 end:9:11:
       vpiParent: Design name:unnamed
@@ -347,7 +345,7 @@ Design name:unnamed:
             vpiFullName: rvfi_pkg::rvfi_instr_t
             vpiActual: StructTypespec
       vpiDefName: rvfi_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:rvfi_pkg
         vpiName: work
@@ -450,7 +448,7 @@ Design name:unnamed:
             vpiFullName: rvfi_tracer
             vpiActual: UnsupportedTypespec name:rvfi_instr_t
       vpiDefName: rvfi_tracer
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:rvfi_tracer
         vpiName: work
@@ -472,9 +470,10 @@ Design name:unnamed:
           vpiParent: Module name:rvfi_tracer
           vpiName: rvfi_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:14:63 end:14:69:
+          vpiLowConn RefObj name:rvfi_i start:14:63 end:14:69:
             vpiParent: Port name:rvfi_i
-            vpiFullName: rvfi_tracer.rvfi_i
+            vpiName: rvfi_i
+            vpiFullName: rvfi_tracer.rvfi_i.rvfi_i
             vpiActual: Net name:rvfi_i
           vpiTypespec RefTypespec name:rvfi_instr_t start:14:19 end:14:31:
             vpiParent: Port name:rvfi_i
@@ -596,8 +595,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@
 //   T num = 0.0;
 //   endmodule
 //
-// -- ss.6.20.3 rules under test -----------------------------------------------
+// -- ss.6.20.3 rules under test ----
 //
 // A type parameter (ss.6.20.3):
 //   * Declared with the 'type' keyword in the parameter port list.
@@ -40,7 +40,7 @@
 //   * The initial value '0.0' is a real constant (ss.5.7.2), stored as a
 //     Constant node with constType vpiRealConst (2) in the variable's expr.
 //
-// -- UHDM tree ----------------------------------------------------------------
+// -- UHDM tree ----
 //
 //   Module name:top
 //   +-- getParameters() (AnyCollection, 1 item)
@@ -63,7 +63,7 @@
 // TypeParameter::getExpr() is NOT populated by Surelog -- use the ParamAssign
 // RHS to access the default type.
 //
-// -- VPI constants ------------------------------------------------------------
+// -- VPI constants ----
 //   vpiRealConst     = 2    (real constant, vpi_user.h)
 //   vpiTypeParameter = 609  (sv_vpi_user.h)
 
@@ -75,6 +75,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/net.h>
 #include <hldb/param_assign.h>
 #include <hldb/real_typespec.h>
 #include <hldb/ref_typespec.h>
@@ -91,9 +92,9 @@ class ParameterTypeTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
@@ -243,6 +244,15 @@ TEST_F(ParameterTypeTest, Num_InitValue_IsRealConst) {
   const hldb::Constant *c = v->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "initial value '0.0' must be a Constant node";
   EXPECT_EQ(c->getConstType(), vpiRealConst) << "ss.5.7.2: '0.0' must have constType vpiRealConst (2)";
+}
+
+// IEEE 1800-2023 Sec 6.7/6.8: 'T num' has no net-type keyword, so it is a
+// Variable, never a Net -- confirm the name is absent from the Net collection.
+TEST_F(ParameterTypeTest, Num_IsNotInNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(m->getNets() == nullptr || hldb::findByName<hldb::Net>("num", m->getNets()) == nullptr)
+      << "'num' has no net-type keyword; it must not appear in the module's Net collection";
 }
 
 }  // namespace hlc

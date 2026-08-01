@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Spec-based validation of IEEE 1800-2017 §16.9 consecutive repetition.
+// Spec-based validation of IEEE 1800-2023 sec. 16.9 consecutive repetition.
 // SV: tests/Google/chapter-16/16.9--sequence-cons-repetition.sv
 //
 //   logic clk; logic a; logic b;
@@ -23,55 +23,60 @@
 //   assert property (seq);
 //   assert property (seq_2);
 //
-// ── §16.9 rules under test ─────────────────────────────────────────────────
+// -- sec. 16.9 rules under test ----
 //
 // '[*n:m]' consecutive repetition: the operand MAY be a sequence expression.
-// So '(a ##[1:2] b) [*2]' is syntactically valid per §16.9.
+// So '(a ##[1:2] b) [*2]' is syntactically valid per sec. 16.9.
 //
 // '[*n]' single-count form: uses constant_expression (no ':').
 // '##[n:m]' variable delay uses a Range node as the delay operand.
 //
-// ── UHDM tree for seq ──────────────────────────────────────────────────────
+// None of 'logic clk', 'logic a', 'logic b' uses a net-type keyword, is
+// 'interconnect', or is a user-defined nettype, so per sec. 6.7/6.8 all
+// three are Variables, not Nets.
+//
+// -- UHDM tree for seq ----
 //
 //   ClockedSeq
-//   ├── clockingEvent  Operation { posedgeOp(39) }
-//   │   └── operands[0]  RefObj("clk")
-//   └── sequenceExpr   Operation { vpiCycleDelayOp(71) }       ← outer ##1
-//       ├── operands[0]  RefObj("b")
-//       ├── operands[1]  Constant("1", uintConst=9)
-//       └── operands[2]  Operation { vpiCycleDelayOp(71) }     ← inner ##1
-//           ├── operands[0]  Operation { vpiConsecutiveRepeatOp(77) }
-//           │   ├── operands[0]  RefObj("a")
-//           │   └── operands[1]  Range { left: Const("2",uint=9),
-//           │                            right: Const("10",uint=9) }
-//           ├── operands[1]  Constant("1", uintConst=9)
-//           └── operands[2]  RefObj("b")
+//   +-- clockingEvent  Operation { posedgeOp(39) }
+//   |   +-- operands[0]  RefObj("clk")
+//   +-- sequenceExpr   Operation { vpiCycleDelayOp(71) }       <- outer ##1
+//       +-- operands[0]  RefObj("b")
+//       +-- operands[1]  Constant("1", uintConst=9)
+//       +-- operands[2]  Operation { vpiCycleDelayOp(71) }     <- inner ##1
+//           +-- operands[0]  Operation { vpiConsecutiveRepeatOp(77) }
+//           |   +-- operands[0]  RefObj("a")
+//           |   +-- operands[1]  Range { left: Const("2",uint=9),
+//           |                             right: Const("10",uint=9) }
+//           +-- operands[1]  Constant("1", uintConst=9)
+//           +-- operands[2]  RefObj("b")
 //
-// ── UHDM tree for seq_2 ────────────────────────────────────────────────────
+// -- UHDM tree for seq_2 ----
 //
 //   ClockedSeq
-//   ├── clockingEvent  Operation { negedgeOp(40) }              ← negedge
-//   │   └── operands[0]  RefObj("clk")
-//   └── sequenceExpr   Operation { vpiCycleDelayOp(71) }        ← outer ##1
-//       ├── operands[0]  RefObj("b")
-//       ├── operands[1]  Constant("1", uintConst=9)
-//       └── operands[2]  Operation { vpiCycleDelayOp(71) }      ← inner ##1
-//           ├── operands[0]  Operation { vpiConsecutiveRepeatOp(77) }
-//           │   ├── operands[0]  Operation { vpiCycleDelayOp(71) }
-//           │   │   ├── operands[0]  RefObj("a")
-//           │   │   ├── operands[1]  Range { left: Const("1",uint=9),
-//           │   │   │                        right: Const("2",uint=9) }
-//           │   │   └── operands[2]  RefObj("b")
-//           │   └── operands[1]  Constant("2", uintConst=9)
-//           ├── operands[1]  Constant("1", uintConst=9)
-//           └── operands[2]  RefObj("b")
+//   +-- clockingEvent  Operation { negedgeOp(40) }              <- negedge
+//   |   +-- operands[0]  RefObj("clk")
+//   +-- sequenceExpr   Operation { vpiCycleDelayOp(71) }        <- outer ##1
+//       +-- operands[0]  RefObj("b")
+//       +-- operands[1]  Constant("1", uintConst=9)
+//       +-- operands[2]  Operation { vpiCycleDelayOp(71) }      <- inner ##1
+//           +-- operands[0]  Operation { vpiConsecutiveRepeatOp(77) }
+//           |   +-- operands[0]  Operation { vpiCycleDelayOp(71) }
+//           |   |   +-- operands[0]  RefObj("a")
+//           |   |   +-- operands[1]  Range { left: Const("1",uint=9),
+//           |   |   |                        right: Const("2",uint=9) }
+//           |   |   +-- operands[2]  RefObj("b")
+//           |   +-- operands[1]  Constant("2", uintConst=9)
+//           +-- operands[1]  Constant("1", uintConst=9)
+//           +-- operands[2]  RefObj("b")
 //
-// ── Surelog bugs ──────────────────────────────────────────────────────────
+// -- Named sequence references in the asserts ----
 //
-// BUG — EL0535 (both asserts):
-//   'assert property (seq)' and 'assert property (seq_2)': sequence names
-//   treated as implicit nets; getPropertyExpr() returns RefObj instead of
-//   SequenceInst.  Tests *_PropertyExpr_IsSequenceInst FAIL intentionally.
+// 'assert property (seq)' and 'assert property (seq_2)': a bare sequence
+// identifier with no argument list is represented as a RefObj whose
+// getActual() resolves to the corresponding SequenceDecl (this tool's
+// ObjectBinder pass resolves same-scope simple names without requiring
+// full hierarchical elaboration).
 //
 // NOTE: both '##1' and '##[n:m]' produce vpiCycleDelayOp(71).
 
@@ -93,7 +98,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sequence_decl.h>
-#include <hldb/sequence_inst.h>
+#include <hldb/variable.h>
 
 #include <string>
 
@@ -105,18 +110,18 @@ class ConsecutiveRepetitionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
+static const hldb::Variable *getVariable(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getNets()) return nullptr;
-  return hldb::findByName<hldb::Net>(name, m->getNets());
+  if (!m || !m->getVariables()) return nullptr;
+  return hldb::findByName<hldb::Variable>(name, m->getVariables());
 }
 
 static const hldb::SequenceDecl *getSeqDecl(const hldb::Design *d, std::string_view name) {
@@ -190,29 +195,41 @@ TEST_F(ConsecutiveRepetitionTest, ModuleExists) {
 }
 
 // ===========================================================================
-// Nets — logic clk, a, b
+// Variables -- logic clk, a, b (sec. 6.7/6.8: no net-type keyword -> Variable)
 // ===========================================================================
 
-TEST_F(ConsecutiveRepetitionTest, Net_clk_HasLogicTypespec) {
-  const auto *net = getNet(m_design, "clk");
-  ASSERT_NE(net, nullptr) << "net 'clk' not found";
-  ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
+TEST_F(ConsecutiveRepetitionTest, Variable_clk_HasLogicTypespec) {
+  const auto *var = getVariable(m_design, "clk");
+  ASSERT_NE(var, nullptr) << "variable 'clk' not found";
+  ASSERT_NE(var->getTypespec(), nullptr);
+  EXPECT_NE(var->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic clk' must produce a LogicTypespec";
 }
 
-TEST_F(ConsecutiveRepetitionTest, Net_a_HasLogicTypespec) {
-  const auto *net = getNet(m_design, "a");
-  ASSERT_NE(net, nullptr) << "net 'a' not found";
-  ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
+TEST_F(ConsecutiveRepetitionTest, Variable_a_HasLogicTypespec) {
+  const auto *var = getVariable(m_design, "a");
+  ASSERT_NE(var, nullptr) << "variable 'a' not found";
+  ASSERT_NE(var->getTypespec(), nullptr);
+  EXPECT_NE(var->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
 }
 
-TEST_F(ConsecutiveRepetitionTest, Net_b_HasLogicTypespec) {
-  const auto *net = getNet(m_design, "b");
-  ASSERT_NE(net, nullptr) << "net 'b' not found";
-  ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic b' must produce a LogicTypespec";
+TEST_F(ConsecutiveRepetitionTest, Variable_b_HasLogicTypespec) {
+  const auto *var = getVariable(m_design, "b");
+  ASSERT_NE(var, nullptr) << "variable 'b' not found";
+  ASSERT_NE(var->getTypespec(), nullptr);
+  EXPECT_NE(var->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic b' must produce a LogicTypespec";
+}
+
+TEST_F(ConsecutiveRepetitionTest, Variables_NotAlsoInNets) {
+  // sec. 6.7/6.8: none of clk/a/b uses a net-type keyword, so none may also
+  // appear in the module's net collection.
+  const auto *m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  if (m->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("clk", m->getNets()), nullptr) << "'clk' must not also appear in getNets()";
+    EXPECT_EQ(hldb::findByName<hldb::Net>("a", m->getNets()), nullptr) << "'a' must not also appear in getNets()";
+    EXPECT_EQ(hldb::findByName<hldb::Net>("b", m->getNets()), nullptr) << "'b' must not also appear in getNets()";
+  }
 }
 
 // ===========================================================================
@@ -235,22 +252,22 @@ TEST_F(ConsecutiveRepetitionTest, SeqDecl_seq2_Exists) {
 }
 
 // ===========================================================================
-// seq — @(posedge clk) b ##1 a [*2:10] ##1 b
+// seq -- @(posedge clk) b ##1 a [*2:10] ##1 b
 // ===========================================================================
 
 TEST_F(ConsecutiveRepetitionTest, Seq_SeqDecl_HasNoFormalArgs) {
   const auto *sd = getSeqDecl(m_design, "seq");
   ASSERT_NE(sd, nullptr);
-  EXPECT_EQ(sd->getSeqFormalDecls(), nullptr) << "seq: no port list — getSeqFormalDecls() must be null";
+  EXPECT_EQ(sd->getSeqFormalDecls(), nullptr) << "seq: no port list -- getSeqFormalDecls() must be null";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_SeqDecl_IsClockedSeq) {
   const auto *sd = getSeqDecl(m_design, "seq");
   ASSERT_NE(sd, nullptr);
-  EXPECT_NE(sd->getExpr<hldb::ClockedSeq>(), nullptr) << "seq: '@(posedge clk) …' body must be a ClockedSeq";
+  EXPECT_NE(sd->getExpr<hldb::ClockedSeq>(), nullptr) << "seq: '@(posedge clk) ...' body must be a ClockedSeq";
 }
 
-// ── clocking event: @(posedge clk) ────────────────────────────────────────
+// -- clocking event: @(posedge clk) ----
 
 TEST_F(ConsecutiveRepetitionTest, Seq_ClockingEvent_IsPosedge) {
   const auto *cs = getClockedSeq(m_design, "seq");
@@ -272,7 +289,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq_ClockingEvent_OperandIsClk) {
   EXPECT_EQ(ref->getName(), "clk");
 }
 
-// ── outer ##1 ─────────────────────────────────────────────────────────────
+// -- outer ##1 ----
 
 TEST_F(ConsecutiveRepetitionTest, Seq_OuterSeqOp_IsCycleDelayOp) {
   const auto *op = outerSeqOp(m_design, "seq");
@@ -307,7 +324,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq_OuterSeqOp_LeftSeq_IsRefObjB) {
   EXPECT_EQ(ref->getName(), "b") << "seq: outer ##1 left operand must be 'b' (first 'b' in source)";
 }
 
-// ── inner ##1 — order check ───────────────────────────────────────────────
+// -- inner ##1 -- order check ----
 
 TEST_F(ConsecutiveRepetitionTest, Seq_InnerSeqOp_IsCycleDelayOp) {
   const auto *op = innerSeqOp(m_design, "seq");
@@ -348,7 +365,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq_InnerSeqOp_RightSeq_IsRefObjB) {
   EXPECT_EQ(ref->getName(), "b") << "seq: inner ##1 right operand must be 'b' (final 'b' in source)";
 }
 
-// ── consecutive repeat 'a [*2:10]' ────────────────────────────────────────
+// -- consecutive repeat 'a [*2:10]' ----
 
 TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_HasTwoOperands) {
   const auto *rep = innerLeftOp(m_design, "seq");
@@ -367,7 +384,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_LowerBound_IsTwo) {
   ASSERT_NE(range, nullptr);
   const auto *lo = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(std::string(lo->getDecompile()), "2") << "§16.9: '[*2:10]' lower bound must be 2";
+  EXPECT_EQ(std::string(lo->getDecompile()), "2") << "sec. 16.9: '[*2:10]' lower bound must be 2";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_UpperBound_IsTen) {
@@ -375,7 +392,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_UpperBound_IsTen) {
   ASSERT_NE(range, nullptr);
   const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(std::string(hi->getDecompile()), "10") << "§16.9: '[*2:10]' upper bound must be 10";
+  EXPECT_EQ(std::string(hi->getDecompile()), "10") << "sec. 16.9: '[*2:10]' upper bound must be 10";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_BoundsAreUnsignedInt) {
@@ -385,8 +402,8 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_BoundsAreUnsignedInt) {
   const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(lo->getConstType(), vpiUIntConst) << "§16.9: '[*2:10]' lower bound must be vpiUIntConst (9)";
-  EXPECT_EQ(hi->getConstType(), vpiUIntConst) << "§16.9: '[*2:10]' upper bound must be vpiUIntConst (9)";
+  EXPECT_EQ(lo->getConstType(), vpiUIntConst) << "sec. 16.9: '[*2:10]' lower bound must be vpiUIntConst (9)";
+  EXPECT_EQ(hi->getConstType(), vpiUIntConst) << "sec. 16.9: '[*2:10]' upper bound must be vpiUIntConst (9)";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_RepeatedExpr_IsRefObjA) {
@@ -396,26 +413,26 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_RepeatedExpr_IsRefObjA) {
   ASSERT_GE(rep->getOperands()->size(), 1u);
   const auto *ref = any_cast<const hldb::RefObj *>((*rep->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "a") << "§16.9: 'a [*2:10]' repeated expression must be signal 'a'";
+  EXPECT_EQ(ref->getName(), "a") << "sec. 16.9: 'a [*2:10]' repeated expression must be signal 'a'";
 }
 
 // ===========================================================================
-// seq_2 — @(negedge clk) b ##1 ((a ##[1:2] b) [*2]) ##1 b
+// seq_2 -- @(negedge clk) b ##1 ((a ##[1:2] b) [*2]) ##1 b
 // ===========================================================================
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_SeqDecl_HasNoFormalArgs) {
   const auto *sd = getSeqDecl(m_design, "seq_2");
   ASSERT_NE(sd, nullptr);
-  EXPECT_EQ(sd->getSeqFormalDecls(), nullptr) << "seq_2: no port list — getSeqFormalDecls() must be null";
+  EXPECT_EQ(sd->getSeqFormalDecls(), nullptr) << "seq_2: no port list -- getSeqFormalDecls() must be null";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_SeqDecl_IsClockedSeq) {
   const auto *sd = getSeqDecl(m_design, "seq_2");
   ASSERT_NE(sd, nullptr);
-  EXPECT_NE(sd->getExpr<hldb::ClockedSeq>(), nullptr) << "seq_2: '@(negedge clk) …' body must be a ClockedSeq";
+  EXPECT_NE(sd->getExpr<hldb::ClockedSeq>(), nullptr) << "seq_2: '@(negedge clk) ...' body must be a ClockedSeq";
 }
 
-// ── clocking event: @(negedge clk) ────────────────────────────────────────
+// -- clocking event: @(negedge clk) ----
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_ClockingEvent_IsNegedge) {
   const auto *cs = getClockedSeq(m_design, "seq_2");
@@ -445,7 +462,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_ClockingEvent_OperandIsClk) {
   EXPECT_EQ(ref->getName(), "clk");
 }
 
-// ── outer ##1 ─────────────────────────────────────────────────────────────
+// -- outer ##1 ----
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_OuterSeqOp_IsCycleDelayOp) {
   const auto *op = outerSeqOp(m_design, "seq_2");
@@ -470,7 +487,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_OuterSeqOp_LeftSeq_IsRefObjB) {
   EXPECT_EQ(ref->getName(), "b") << "seq_2: outer ##1 left operand must be 'b' (first 'b' in source)";
 }
 
-// ── inner ##1 ─────────────────────────────────────────────────────────────
+// -- inner ##1 ----
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_IsCycleDelayOp) {
   const auto *op = innerSeqOp(m_design, "seq_2");
@@ -486,12 +503,12 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_HasThreeOperands) {
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_LeftSeq_ShouldBeConsecRepeat) {
-  // §16.9: '(a ##[1:2] b) [*2]' wraps the sub-sequence in
+  // sec. 16.9: '(a ##[1:2] b) [*2]' wraps the sub-sequence in
   // vpiConsecutiveRepeatOp(77).
   const auto *op = innerLeftOp(m_design, "seq_2");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiConsecutiveRepeatOp)
-      << "§16.9: '(a ##[1:2] b) [*2]' must produce vpiConsecutiveRepeatOp(77)";
+      << "sec. 16.9: '(a ##[1:2] b) [*2]' must produce vpiConsecutiveRepeatOp(77)";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_RightSeq_IsRefObjB) {
@@ -504,7 +521,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_RightSeq_IsRefObjB) {
   EXPECT_EQ(ref->getName(), "b") << "seq_2: inner ##1 right operand must be 'b' (final 'b' in source)";
 }
 
-// ── sub-sequence 'a ##[1:2] b' inside seq_2's consecutive repeat ───────────
+// -- sub-sequence 'a ##[1:2] b' inside seq_2's consecutive repeat ----
 //
 // vpiCycleDelayOp(71) at vpiConsecutiveRepeatOp(77) operands[0]:
 //   operands[0]  RefObj("a")
@@ -519,7 +536,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_HasThreeOperands) {
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_DelayIsRange) {
-  // '##[1:2]' variable delay — operands[1] is a Range, not a Constant.
+  // '##[1:2]' variable delay -- operands[1] is a Range, not a Constant.
   // '##1' fixed delay would have Constant as operands[1].
   const auto *sub = seq2CycleDelayOp(m_design);
   ASSERT_NE(sub, nullptr);
@@ -589,7 +606,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_RightIsRefObjB) {
 }
 
 // ===========================================================================
-// ConcurrentAssertions — two unlabelled asserts; accessed by index
+// ConcurrentAssertions -- two unlabelled asserts; accessed by index
 // ===========================================================================
 
 TEST_F(ConsecutiveRepetitionTest, ConcAssert_Collection_HasTwoEntries) {
@@ -599,7 +616,7 @@ TEST_F(ConsecutiveRepetitionTest, ConcAssert_Collection_HasTwoEntries) {
   EXPECT_EQ(m->getConcurrentAssertions()->size(), 2u) << "two concurrent assertions expected (seq, seq_2)";
 }
 
-// ── assert property (seq) — index 0 ───────────────────────────────────────
+// -- assert property (seq) -- index 0 ----
 
 TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 0);
@@ -613,16 +630,13 @@ TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq_Property_IsPropertySpec) {
   EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr) << "assert property must produce a PropertySpec node";
 }
 
-TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq_PropertyExpr_IsSequenceInst) {
-  // §16.9: property expr must be SequenceInst referencing 'seq'.
-  // Surelog bug EL0535: returns RefObj instead. This test FAILS intentionally.
+TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq_PropertyExpr_IsRefObj) {
+  // A bare sequence identifier with no argument list is represented as a
+  // RefObj referencing the named sequence 'seq'.
   const auto *ps = getPropSpec(m_design, 0);
   ASSERT_NE(ps, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr) << "§16.9: property expr must be SequenceInst";
-  } else {
-    EXPECT_NE(ps->getPropertyExpr<hldb::RefObj>(), nullptr) << "§16.9: property expr must be RefObj";
-  }
+  EXPECT_NE(ps->getPropertyExpr<hldb::RefObj>(), nullptr)
+      << "sec. 16.9: 'assert property (seq)' property expression must be a RefObj referencing 'seq'";
 }
 
 TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq_PropertyExpr_NameIsSeq) {
@@ -633,7 +647,19 @@ TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq_PropertyExpr_NameIsSeq) {
   EXPECT_EQ(expr->getName(), "seq") << "first assertion property expression must reference 'seq'";
 }
 
-// ── assert property (seq_2) — index 1 ─────────────────────────────────────
+TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq_PropertyExpr_ResolvesToSeqDecl) {
+  // The RefObj's actual must resolve to the SequenceDecl 'seq'.
+  const auto *ps = getPropSpec(m_design, 0);
+  ASSERT_NE(ps, nullptr);
+  const auto *ref = ps->getPropertyExpr<hldb::RefObj>();
+  ASSERT_NE(ref, nullptr);
+  const auto *sd = getSeqDecl(m_design, "seq");
+  ASSERT_NE(sd, nullptr);
+  EXPECT_EQ(ref->getActual<hldb::SequenceDecl>(), sd)
+      << "sec. 16.9: RefObj('seq')::getActual() must resolve to the SequenceDecl 'seq'";
+}
+
+// -- assert property (seq_2) -- index 1 ----
 
 TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq2_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 1);
@@ -647,16 +673,13 @@ TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq2_Property_IsPropertySpec) {
   EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr) << "assert property must produce a PropertySpec node";
 }
 
-TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq2_PropertyExpr_IsSequenceInst) {
-  // §16.9: property expr must be SequenceInst referencing 'seq_2'.
-  // Surelog bug EL0535: returns RefObj instead. This test FAILS intentionally.
+TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq2_PropertyExpr_IsRefObj) {
+  // A bare sequence identifier with no argument list is represented as a
+  // RefObj referencing the named sequence 'seq_2'.
   const auto *ps = getPropSpec(m_design, 1);
   ASSERT_NE(ps, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr) << "§16.9: property expr must be SequenceInst";
-  } else {
-    EXPECT_NE(ps->getPropertyExpr<hldb::RefObj>(), nullptr) << "§16.9: property expr must be RefObj";
-  }
+  EXPECT_NE(ps->getPropertyExpr<hldb::RefObj>(), nullptr)
+      << "sec. 16.9: 'assert property (seq_2)' property expression must be a RefObj referencing 'seq_2'";
 }
 
 TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq2_PropertyExpr_NameIsSeq2) {
@@ -665,6 +688,18 @@ TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq2_PropertyExpr_NameIsSeq2) {
   const auto *expr = ps->getPropertyExpr();
   ASSERT_NE(expr, nullptr);
   EXPECT_EQ(expr->getName(), "seq_2") << "second assertion property expression must reference 'seq_2'";
+}
+
+TEST_F(ConsecutiveRepetitionTest, ConcAssert_seq2_PropertyExpr_ResolvesToSeqDecl) {
+  // The RefObj's actual must resolve to the SequenceDecl 'seq_2'.
+  const auto *ps = getPropSpec(m_design, 1);
+  ASSERT_NE(ps, nullptr);
+  const auto *ref = ps->getPropertyExpr<hldb::RefObj>();
+  ASSERT_NE(ref, nullptr);
+  const auto *sd = getSeqDecl(m_design, "seq_2");
+  ASSERT_NE(sd, nullptr);
+  EXPECT_EQ(ref->getActual<hldb::SequenceDecl>(), sd)
+      << "sec. 16.9: RefObj('seq_2')::getActual() must resolve to the SequenceDecl 'seq_2'";
 }
 
 }  // namespace hlc

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,12 +48,14 @@
 // mixing up which pair goes with which comparison.
 //
 // Checked:
-//   - module top has exactly 6 nets: a, b, c, d, e, f, all [7:0]
-//     LogicTypespec, and since all six were declared on a single
-//     "reg [7:0] a, b, c, d, e, f;" line, module getTypespecs() has
-//     exactly 1 shared LogicTypespec entry (contrast with
-//     11.4.1--assignment-sim.sv, where two separate declaration lines
-//     produced two distinct LogicTypespec entries)
+//   - module top has exactly 6 variables: a, b, c, d, e, f, all [7:0]
+//     LogicTypespec. Per IEEE 1800-2023 Sec 6.7/6.8: "reg" has no
+//     net-type keyword and there is no port list, so all six are
+//     Variables, not Nets; module has no nets (getNets() is null). Since
+//     all six were declared on a single "reg [7:0] a, b, c, d, e, f;"
+//     line, module getTypespecs() has exactly 1 shared LogicTypespec
+//     entry (contrast with 11.4.1--assignment-sim.sv, where two separate
+//     declaration lines produced two distinct LogicTypespec entries)
 //   - the initial block is a Begin with exactly 12 statements:
 //       [0..5] six blocking Assignments, each net in turn assigned its
 //           own 8-bit binary Constant literal with the exact decompile
@@ -98,13 +100,13 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -124,20 +126,20 @@ class EqualityOpTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / nets ----
 
 TEST_F(EqualityOpTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(EqualityOpTest, ModuleHasSixEightBitLogicNets) {
+TEST_F(EqualityOpTest, ModuleHasSixEightBitLogicVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 6u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 6u);
   const char *const names[6] = {"a", "b", "c", "d", "e", "f"};
   for (uint32_t i = 0; i < 6u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    const hldb::LogicTypespec *const lt = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    const hldb::LogicTypespec *const lt = var->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(lt, nullptr);
     ASSERT_NE(lt->getRanges(), nullptr);
     ASSERT_EQ(lt->getRanges()->size(), 1u);
@@ -146,15 +148,21 @@ TEST_F(EqualityOpTest, ModuleHasSixEightBitLogicNets) {
   }
 }
 
-TEST_F(EqualityOpTest, ModuleHasOneSharedLogicTypespecForAllSixNets) {
+TEST_F(EqualityOpTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
+}
+
+TEST_F(EqualityOpTest, ModuleHasOneSharedLogicTypespecForAllSixVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
-  EXPECT_EQ(top->getTypespecs()->size(), 1u) << "all six nets were declared on one line and "
+  EXPECT_EQ(top->getTypespecs()->size(), 1u) << "all six variables were declared on one line and "
                                                  "should share a single LogicTypespec";
 }
 
-// --- the six literal assignments, preserving x/z bits exactly -------------
+// --- the six literal assignments, preserving x/z bits exactly ----
 
 TEST_F(EqualityOpTest, InitialBlockHasTwelveStatements) {
   const hldb::Begin *const blk = getInitialBody();
@@ -183,7 +191,7 @@ TEST_F(EqualityOpTest, FirstSixStatementsAssignTheExactBitPatterns) {
   }
 }
 
-// --- "==" (logical equality) on all three pairs ---------------------------
+// --- "==" (logical equality) on all three pairs ----
 
 TEST_F(EqualityOpTest, NextThreeStatementsAssertLogicalEqualityOnEachPair) {
   const hldb::Begin *const blk = getInitialBody();
@@ -207,7 +215,7 @@ TEST_F(EqualityOpTest, NextThreeStatementsAssertLogicalEqualityOnEachPair) {
   }
 }
 
-// --- "===" (case equality) on the SAME three pairs ------------------------
+// --- "===" (case equality) on the SAME three pairs ----
 
 TEST_F(EqualityOpTest, LastThreeStatementsAssertCaseEqualityOnTheSamePairs) {
   const hldb::Begin *const blk = getInitialBody();
@@ -232,7 +240,7 @@ TEST_F(EqualityOpTest, LastThreeStatementsAssertCaseEqualityOnTheSamePairs) {
   }
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(EqualityOpTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -262,7 +270,7 @@ TEST_F(EqualityOpTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- the actual point of the file: do the comparisons evaluate to 0 -------
+// --- the actual point of the file: do the comparisons evaluate to 0 ----
 
 TEST_F(EqualityOpTest, AllSixComparisonsEvaluateToZero) {
   GTEST_SKIP() << "The source asserts all six comparisons (a==b, c==d, e==f, a===b, c===d, "
@@ -276,15 +284,16 @@ TEST_F(EqualityOpTest, AllSixComparisonsEvaluateToZero) {
   ASSERT_NE(top, nullptr);
   const char *const names[6] = {"a", "b", "c", "d", "e", "f"};
   for (uint32_t i = 0; i < 6u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    // Net::getValue<T>() only ever exposes a declaration-time initializer;
-    // none of a..f has one (all are assigned inside the initial block),
-    // so this is null today -- there is no field anywhere that captures
-    // the 4-state value a net actually holds at runtime, let alone a
-    // computed comparison result between two of them. This ASSERT_NE
-    // fails today, which is the point: it proves no such field exists.
-    ASSERT_NE(net->getValue<hldb::Constant>(), nullptr) << names[i] << "'s runtime value is not "
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    // Variable::getValue<T>() only ever exposes a declaration-time
+    // initializer; none of a..f has one (all are assigned inside the
+    // initial block), so this is null today -- there is no field anywhere
+    // that captures the 4-state value a variable actually holds at
+    // runtime, let alone a computed comparison result between two of
+    // them. This ASSERT_NE fails today, which is the point: it proves no
+    // such field exists.
+    ASSERT_NE(var->getValue<hldb::Constant>(), nullptr) << names[i] << "'s runtime value is not "
                                                              "captured anywhere in the object model";
   }
 }

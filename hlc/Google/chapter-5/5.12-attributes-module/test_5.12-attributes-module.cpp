@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,12 @@
 */
 
 // Validates module-level attributes in all three syntactic forms:
-//   (* optimize_power *)     module topa — flag (no value)
-//   (* optimize_power=0 *)   module topb — valued, 0
-//   (* optimize_power=1 *)   module topc — valued, 1
+//   (* optimize_power *)     module topa -- flag (no value)
+//   (* optimize_power=0 *)   module topb -- valued, 0
+//   (* optimize_power=1 *)   module topc -- valued, 1
 //
 // Module attributes are accessible via Scope::getAttributes() on the Module
-// node itself — they are NOT inside any process or statement.
+// node itself -- they are NOT inside any process or statement.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -49,9 +49,9 @@ static const hldb::Attribute *findAttr(const hldb::Module *mod, std::string_view
   return nullptr;
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Three modules compiled from the same file
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesModule, ThreeModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_EQ(m_design->getAllModules()->size(), 3u) << "expected 3 modules: topa, topb, topc";
@@ -69,9 +69,9 @@ TEST_F(AttributesModule, TopcExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("topc", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// (* optimize_power *) — flag attribute, no value
-// ---------------------------------------------------------------------------
+// ----
+// (* optimize_power *) -- flag attribute, no value
+// ----
 TEST_F(AttributesModule, TopaHasOptimizePowerAttribute) {
   const hldb::Module *const topa = hldb::findByName<hldb::Module>("topa", m_design->getAllModules());
   ASSERT_NE(topa, nullptr);
@@ -86,12 +86,12 @@ TEST_F(AttributesModule, TopaOptimizePowerIsFlagAttribute) {
 
   const hldb::Attribute *const attr = findAttr(topa, "optimize_power");
   ASSERT_NE(attr, nullptr) << "topa should have 'optimize_power' attribute";
-  EXPECT_EQ(attr->getValue(), nullptr) << "(* optimize_power *) is a flag — getValue() should be null";
+  EXPECT_EQ(attr->getValue(), nullptr) << "(* optimize_power *) is a flag -- getValue() should be null";
 }
 
-// ---------------------------------------------------------------------------
-// (* optimize_power=0 *) — valued attribute, Constant "0"
-// ---------------------------------------------------------------------------
+// ----
+// (* optimize_power=0 *) -- valued attribute, Constant "0"
+// ----
 TEST_F(AttributesModule, TopbHasOptimizePowerAttribute) {
   const hldb::Module *const topb = hldb::findByName<hldb::Module>("topb", m_design->getAllModules());
   ASSERT_NE(topb, nullptr);
@@ -112,9 +112,9 @@ TEST_F(AttributesModule, TopbOptimizePowerValueIsZero) {
   EXPECT_EQ(val->getDecompile(), "0");
 }
 
-// ---------------------------------------------------------------------------
-// (* optimize_power=1 *) — valued attribute, Constant "1"
-// ---------------------------------------------------------------------------
+// ----
+// (* optimize_power=1 *) -- valued attribute, Constant "1"
+// ----
 TEST_F(AttributesModule, TopcHasOptimizePowerAttribute) {
   const hldb::Module *const topc = hldb::findByName<hldb::Module>("topc", m_design->getAllModules());
   ASSERT_NE(topc, nullptr);

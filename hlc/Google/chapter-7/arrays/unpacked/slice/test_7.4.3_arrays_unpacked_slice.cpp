@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,9 +29,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> ArrayTypespec static(1) range [7:0], elem
-//     -> BitTypespec
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//     (IEEE 1800-2023 6.7/6.8: 'bit arr_a/arr_b [7:0]' has no net-type
+//     keyword, so it is a variable_declaration, not a net_declaration);
+//     neither appears in getNets()
+//   - both variables: RefTypespec -> ArrayTypespec static(1) range [7:0],
+//     elem -> BitTypespec
 //   - Initial process: 1 Begin with 6 stmts (2 Assignment assign-pattern +
 //     2 SysFuncCall + 1 PartSelect Assignment + 1 SysTaskCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, rhs Operation
@@ -72,7 +75,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/part_select.h>
 #include <hldb/range.h>
@@ -80,6 +82,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -90,24 +93,31 @@ class UnpackedSliceTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(UnpackedSliceTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedSliceTest, ModuleHasTwoNets) {
+TEST_F(UnpackedSliceTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u)
+      << "6.7/6.8: 'bit arr_a/arr_b [7:0]' declared with no net-type keyword are variables";
 }
 
-TEST_F(UnpackedSliceTest, BothNetsAreArraysOfBitTypespecRangeSevenToZero) {
+TEST_F(UnpackedSliceTest, ModuleHasNoNets) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in slice.sv";
+}
+
+TEST_F(UnpackedSliceTest, BothVarsAreArraysOfBitTypespecRangeSevenToZero) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   const hldb::ArrayTypespec *const at = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -116,7 +126,7 @@ TEST_F(UnpackedSliceTest, BothNetsAreArraysOfBitTypespecRangeSevenToZero) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::BitTypespec>(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedSliceTest, InitialBeginHasSixStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -188,7 +198,7 @@ TEST_F(UnpackedSliceTest, SixthStmtDisplaysArrBBitsAfterSliceWrite) {
   EXPECT_EQ(fmt->getValue(), ":assert: ('%b%b%b%b_%b%b%b%b' == '0011_1000')");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedSliceTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -222,7 +232,7 @@ TEST_F(UnpackedSliceTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime bit pattern requires simulation ----------------------
+// --- known gap: runtime bit pattern requires simulation ----
 
 TEST_F(UnpackedSliceTest, RuntimeArrBBitPatternRequiresSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates slice.sv; it does not run a simulator, so "

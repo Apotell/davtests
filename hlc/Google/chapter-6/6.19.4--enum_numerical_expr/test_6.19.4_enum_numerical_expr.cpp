@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,9 +27,9 @@
 //
 // Checked:
 //   - design has module top
-//   - module has TypedefTypespec "e" → EnumTypespec with 4 consts (a, b, c, d)
+//   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
 //   - Begin block has 2 variables: i (IntegerTypespec) and val (TypedefTypespec e)
-//   - 2 statements: val=a (rhs RefObj → EnumConst) and i=val*4 (rhs vpiMultOp)
+//   - 2 statements: val=a (rhs RefObj -> EnumConst) and i=val*4 (rhs vpiMultOp)
 //   - multiply operands are RefObj "val" and Constant "4"
 //   - multiply constant 4 is stored as vpiUIntConst
 //   - multiply Operation carries no static result typespec
@@ -83,9 +83,9 @@ TEST_F(EnumNumericalExpr, TypedefEWithFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ---------------------------------------------------------------------------
-// Begin block — 2 variables: i (IntegerTypespec) and val (TypedefTypespec)
-// ---------------------------------------------------------------------------
+// ----
+// Begin block -- 2 variables: i (IntegerTypespec) and val (TypedefTypespec)
+// ----
 TEST_F(EnumNumericalExpr, BeginHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -123,9 +123,9 @@ TEST_F(EnumNumericalExpr, ValVariableIsTypedefType) {
   EXPECT_NE(val->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Statements — 2 assignments
-// ---------------------------------------------------------------------------
+// ----
+// Statements -- 2 assignments
+// ----
 TEST_F(EnumNumericalExpr, TwoStatements) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -153,9 +153,9 @@ TEST_F(EnumNumericalExpr, FirstAssignmentValEqualsA) {
   EXPECT_NE(rhs->getActual<hldb::EnumConst>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// 2nd assignment: i = val * 4 — rhs is Operation(multiply, val, 4)
-// ---------------------------------------------------------------------------
+// ----
+// 2nd assignment: i = val * 4 -- rhs is Operation(multiply, val, 4)
+// ----
 TEST_F(EnumNumericalExpr, SecondAssignmentRhsIsMultiplyOp) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

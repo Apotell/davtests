@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +18,8 @@
 //   typedef int triple [1:3];
 //   triple b = '{1:1, default:0};
 // Key type mapping:
-//   integer index key  (1:1)       → TaggedPattern.getTag<Constant>()
-//   default key        (default:0) → TaggedPattern.getTag<RefObj>("default")
+//   integer index key  (1:1)       -> TaggedPattern.getTag<Constant>()
+//   default key        (default:0) -> TaggedPattern.getTag<RefObj>("default")
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -30,6 +30,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -55,16 +56,16 @@ static const hldb::Variable *getVarB(const hldb::Design *design) {
   return nullptr;
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ArraysKeyIndex, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Typedef triple = int [1:3]
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ArraysKeyIndex, TypedefTripleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -129,11 +130,22 @@ TEST_F(ArraysKeyIndex, TripleArrayHasRangeOneToThree) {
   EXPECT_EQ(right->getDecompile(), "3") << "range right should be 3";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Variable b
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ArraysKeyIndex, VariableBExists) {
   ASSERT_NE(getVarB(m_design), nullptr) << "variable 'b' not found in top";
+}
+
+// `triple b` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it
+// must not also appear in the module's net collection.
+TEST_F(ArraysKeyIndex, VariableBIsNotDuplicatedAsNet) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr)
+        << "'b' has no net-type keyword and must not also appear as a Net";
+  }
 }
 
 TEST_F(ArraysKeyIndex, VariableBTypespecIsTriple) {
@@ -146,9 +158,9 @@ TEST_F(ArraysKeyIndex, VariableBTypespecIsTriple) {
   EXPECT_EQ(tdt->getName(), "triple");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Initializer: '{1:1, default:0}
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ArraysKeyIndex, InitializerIsAssignPatternWithTwoTaggedPatterns) {
   const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
@@ -165,9 +177,9 @@ TEST_F(ArraysKeyIndex, InitializerIsAssignPatternWithTwoTaggedPatterns) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// First TaggedPattern: 1:1 — integer index key
-// ---------------------------------------------------------------------------
+// ----
+// First TaggedPattern: 1:1 -- integer index key
+// ----
 TEST_F(ArraysKeyIndex, FirstTagIsIntegerConstant) {
   const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
@@ -179,7 +191,7 @@ TEST_F(ArraysKeyIndex, FirstTagIsIntegerConstant) {
   const hldb::TaggedPattern *const tp0 = any_cast<hldb::TaggedPattern>((*val->getOperands())[0]);
   ASSERT_NE(tp0, nullptr);
 
-  // Array index key 1 → tag is a Constant, not a RefObj or RefTypespec
+  // Array index key 1 -> tag is a Constant, not a RefObj or RefTypespec
   const hldb::Constant *const tag = tp0->getTag<hldb::Constant>();
   ASSERT_NE(tag, nullptr) << "first tag should be a Constant (integer index key '1')";
   EXPECT_EQ(tag->getDecompile(), "1") << "first index key should be 1";
@@ -201,9 +213,9 @@ TEST_F(ArraysKeyIndex, FirstPatternValueIsOne) {
   EXPECT_EQ(pattern->getDecompile(), "1") << "first pattern value should be 1";
 }
 
-// ---------------------------------------------------------------------------
-// Second TaggedPattern: default:0 — default key
-// ---------------------------------------------------------------------------
+// ----
+// Second TaggedPattern: default:0 -- default key
+// ----
 TEST_F(ArraysKeyIndex, SecondTagIsDefaultRefObj) {
   const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
@@ -215,7 +227,7 @@ TEST_F(ArraysKeyIndex, SecondTagIsDefaultRefObj) {
   const hldb::TaggedPattern *const tp1 = any_cast<hldb::TaggedPattern>((*val->getOperands())[1]);
   ASSERT_NE(tp1, nullptr);
 
-  // default key → tag is a RefObj named "default"
+  // default key -> tag is a RefObj named "default"
   const hldb::RefObj *const tag = tp1->getTag<hldb::RefObj>();
   ASSERT_NE(tag, nullptr) << "second tag should be a RefObj (the 'default' keyword)";
   EXPECT_EQ(tag->getName(), "default");

@@ -18,7 +18,7 @@ n<$Source01/relong/module_struct.v> u<270> t<Top_level_rule> c<1> l<1:1> el<37:1
     n<> u<5> t<Description> p<269> c<4> s<6> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<// typedef struct packed {> u<6> t<LINE_COMMENT> p<269> s<7> l<3:1> el<3:27>
     n<//     logic [1:0] last;> u<7> t<LINE_COMMENT> p<269> s<8> l<4:1> el<4:25>
     n<//     logic [1:0] first;> u<8> t<LINE_COMMENT> p<269> s<9> l<5:1> el<5:26>
@@ -285,8 +285,7 @@ n<$Source01/relong/module_struct.v> u<270> t<Top_level_rule> c<1> l<1:1> el<37:1
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/module_struct.v:9:1: Compile module "Example".
 [INF:CP0303] $Source01/relong/module_struct.v:30:1: Compile module "SubModule".
-[ERR:EL0535] $Source01/relong/module_struct.v:20:6: Illegal implicit net "id:81, name:in".
-[ERR:EL0535] $Source01/relong/module_struct.v:21:6: Illegal implicit net "id:84, name:out".
+[ERR:LN0813] $Source01/relong/module_struct.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -296,7 +295,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: module_struct.v
       vpiPreprocFile: "$Output/lib/work/relong/module_struct.v"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:module_struct.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: module_struct.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (2 items):
     Module name:Example file:$Source01/relong/module_struct.v start:9:1 end:28:10:
       vpiParent: Design name:unnamed
@@ -304,6 +313,24 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
+      vpiVariable (2 items):
+        Variable name:result start:11:23 end:11:29:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:11:5 end:11:22:
+            vpiParent: Variable name:result
+            vpiFullName: Example.result
+            vpiActual: LogicTypespec
+          vpiName: result
+          vpiFullName: Example.result
+        Variable name:s start:14:14 end:14:15:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:14:4 end:14:13:
+            vpiParent: Variable name:s
+            vpiFullName: Example.s
+            vpiActual: LogicTypespec
+          vpiName: s
+          vpiFullName: Example.s
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:Example
@@ -423,7 +450,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (5 items):
+      vpiNet (2 items):
         Net name:a start:10:22 end:10:23:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:10:5 end:10:21:
@@ -433,32 +460,6 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: Example.a
           vpiNetType: wire (1)
-        Net name:b start:10:25 end:10:26:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:10:25 end:10:25:
-            vpiParent: Net name:b
-            vpiFullName: Example.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: Example.b
-          vpiNetType: wire (1)
-        Net name:result start:11:23 end:11:29:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:11:5 end:11:22:
-            vpiParent: Net name:result
-            vpiFullName: Example.result
-            vpiActual: LogicTypespec
-          vpiName: result
-          vpiFullName: Example.result
-          vpiNetType: wire (1)
-        Net name:s start:14:14 end:14:15:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:14:4 end:14:13:
-            vpiParent: Net name:s
-            vpiFullName: Example.s
-            vpiActual: LogicTypespec
-          vpiName: s
-          vpiFullName: Example.s
         Net name:__s_out start:17:14 end:17:21:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:17:8 end:17:13:
@@ -473,9 +474,10 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:10:22 end:10:23:
+          vpiLowConn RefObj name:a start:10:22 end:10:23:
             vpiParent: Port name:a
-            vpiFullName: Example.a
+            vpiName: a
+            vpiFullName: Example.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:10:5 end:10:21:
             vpiParent: Port name:a
@@ -485,22 +487,15 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:10:25 end:10:26:
-            vpiParent: Port name:b
-            vpiFullName: Example.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:10:25 end:10:25:
-            vpiParent: Port name:b
-            vpiFullName: Example.b
-            vpiActual: LogicTypespec
         Port name:result start:11:23 end:11:29:
           vpiParent: Module name:Example
           vpiName: result
           vpiDirection: output (2)
-          vpiLowConn RefObj start:11:23 end:11:29:
+          vpiLowConn RefObj name:result start:11:23 end:11:29:
             vpiParent: Port name:result
-            vpiFullName: Example.result
-            vpiActual: Net name:result
+            vpiName: result
+            vpiFullName: Example.result.result
+            vpiActual: Variable name:result
           vpiTypespec RefTypespec start:11:5 end:11:22:
             vpiParent: Port name:result
             vpiFullName: Example.result
@@ -521,7 +516,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:s[3:2]
                   vpiName: s
                   vpiFullName: Example.s[3:2].s
-                  vpiActual: Net name:s
+                  vpiActual: Variable name:s
                 vpiRange Range start:18:15 end:18:18:
                   vpiParent: PartSelect name:s[3:2]
                   vpiLeftRange Constant start:18:15 end:18:16:
@@ -569,7 +564,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:s[1:0]
                       vpiName: s
                       vpiFullName: Example.s[1:0].s
-                      vpiActual: Net name:s
+                      vpiActual: Variable name:s
                     vpiRange Range start:25:11 end:25:14:
                       vpiParent: PartSelect name:s[1:0]
                       vpiLeftRange Constant start:25:11 end:25:12:
@@ -596,7 +591,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: b
                     vpiFullName: Example.b
-                    vpiActual: Net name:b
+                    vpiActual: Port name:b
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:15:11 end:15:21:
@@ -605,12 +600,12 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: result
             vpiFullName: Example.result
-            vpiActual: Net name:result
+            vpiActual: Variable name:result
           vpiRhs RefObj name:s start:15:20 end:15:21:
             vpiParent: ContAssign
             vpiName: s
             vpiFullName: Example.s
-            vpiActual: Net name:s
+            vpiActual: Variable name:s
       vpiRefInstance (1 items):
         RefInstance name:sub start:19:13 end:19:16:
           vpiParent: Module name:Example
@@ -649,6 +644,15 @@ Design name:unnamed:
         vpiParent: Module name:SubModule
         vpiName: SubModule
       vpiFullName: SubModule
+      vpiVariable (1 items):
+        Variable name:out start:32:21 end:32:24:
+          vpiParent: Module name:SubModule
+          vpiTypespec RefTypespec start:32:3 end:32:20:
+            vpiParent: Variable name:out
+            vpiFullName: SubModule.out
+            vpiActual: LogicTypespec
+          vpiName: out
+          vpiFullName: SubModule.out
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:SubModule
@@ -709,7 +713,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: SubModule.work
       vpiCell: SubModule
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:in start:31:20 end:31:22:
           vpiParent: Module name:SubModule
           vpiTypespec RefTypespec start:31:3 end:31:19:
@@ -719,23 +723,15 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: SubModule.in
           vpiNetType: wire (1)
-        Net name:out start:32:21 end:32:24:
-          vpiParent: Module name:SubModule
-          vpiTypespec RefTypespec start:32:3 end:32:20:
-            vpiParent: Net name:out
-            vpiFullName: SubModule.out
-            vpiActual: LogicTypespec
-          vpiName: out
-          vpiFullName: SubModule.out
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:in start:31:20 end:31:22:
           vpiParent: Module name:SubModule
           vpiName: in
           vpiDirection: input (1)
-          vpiLowConn RefObj start:31:20 end:31:22:
+          vpiLowConn RefObj name:in start:31:20 end:31:22:
             vpiParent: Port name:in
-            vpiFullName: SubModule.in
+            vpiName: in
+            vpiFullName: SubModule.in.in
             vpiActual: Net name:in
           vpiTypespec RefTypespec start:31:3 end:31:19:
             vpiParent: Port name:in
@@ -745,10 +741,11 @@ Design name:unnamed:
           vpiParent: Module name:SubModule
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:32:21 end:32:24:
+          vpiLowConn RefObj name:out start:32:21 end:32:24:
             vpiParent: Port name:out
-            vpiFullName: SubModule.out
-            vpiActual: Net name:out
+            vpiName: out
+            vpiFullName: SubModule.out.out
+            vpiActual: Variable name:out
           vpiTypespec RefTypespec start:32:3 end:32:20:
             vpiParent: Port name:out
             vpiFullName: SubModule.out
@@ -760,13 +757,15 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: out
             vpiFullName: SubModule.out
-            vpiActual: Net name:out
+            vpiActual: Variable name:out
           vpiRhs RefObj name:in start:35:16 end:35:18:
             vpiParent: ContAssign
             vpiName: in
             vpiFullName: SubModule.in
             vpiActual: Net name:in
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:Example:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Example start:9:8 end:9:15:
@@ -785,7 +784,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -801,25 +800,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/module_struct_v/mounts.json
 
 
-{'result': {'coverage': 93.42,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/module_struct.v': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/module_struct.v': {'post_len': 0,
                                                                   'pre_len': 319}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 319,
             'test_name': 'Zachjs/relong/module_struct_v'}}
 
 +-----------------------------------------+----------+-----------+
 | INPUT                                   |   PRELEN |   POSTLEN |
 +=========================================+==========+===========+
-| $Output/lib/work/relong/module_struct.v |      319 |        21 |
+| $Output/lib/work/relong/module_struct.v |      319 |         0 |
 +=========================================+==========+===========+
-|                                         |      319 |        21 |
+|                                         |      319 |         0 |
 +-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 93.42
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

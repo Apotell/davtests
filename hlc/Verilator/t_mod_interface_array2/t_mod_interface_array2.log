@@ -680,11 +680,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_mod_interface_array2.v:15:1: Compile module "intf_source".
 [INF:CP0303] $Source01/t_mod_interface_array2.v:27:1: Compile module "intf_sink".
 [INF:CP0303] $Source01/t_mod_interface_array2.v:39:1: Compile module "t".
-[ERR:EL0535] $Source01/t_mod_interface_array2.v:18:9: Illegal implicit net "id:67, name:source".
-[ERR:EL0535] $Source01/t_mod_interface_array2.v:22:27: Illegal implicit net "id:102, name:long_name".
-[ERR:EL0535] $Source01/t_mod_interface_array2.v:30:9: Illegal implicit net "id:126, name:sink".
-[ERR:EL0535] $Source01/t_mod_interface_array2.v:34:36: Illegal implicit net "id:164, name:long_name".
-[ERR:EL0535] $Source01/t_mod_interface_array2.v:47:12: Illegal implicit net "id:225, name:PARAM".
+[ERR:LN0813] $Source01/t_mod_interface_array2.v:1:1: Found 4 orphan node(s).
+[WRN:CP0350] $Source01/t_mod_interface_array2.v:22:27: Failed to bind "id:98, name:long_name".
+[WRN:CP0350] $Source01/t_mod_interface_array2.v:34:36: Failed to bind "id:156, name:long_name".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -694,7 +692,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_mod_interface_array2.v
       vpiPreprocFile: "$Output/lib/work/t_mod_interface_array2.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:a_if file:$Source01/t_mod_interface_array2.v start:9:1 end:13:13:
       vpiParent: Design name:unnamed
@@ -747,7 +744,7 @@ Design name:unnamed:
           vpiName Identifier name:logic start:10:4 end:10:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:a_if
         vpiName: work
@@ -789,7 +786,7 @@ Design name:unnamed:
         vpiParent: Module name:intf_source
         vpiName: intf_source
       vpiFullName: intf_source
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         UnsupportedTypespec name:logic start:17:10 end:17:23:
           vpiParent: Module name:intf_source
           vpiName Identifier name:logic start:17:10 end:17:15:
@@ -835,21 +832,6 @@ Design name:unnamed:
             vpiName: logic
             vpiFullName: intf_source.logic
             vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:a_if::source start:18:4 end:18:15:
-          vpiParent: Module name:intf_source
-          vpiPathElem (2 items):
-            RefObj name:a_if start:18:4 end:18:8:
-              vpiParent: UnsupportedTypespec name:a_if::source
-              vpiName: a_if
-              vpiFullName: intf_source.a_if::source.a_if
-              vpiActual: Interface name:a_if
-            RefObj name:source start:18:9 end:18:15:
-              vpiParent: UnsupportedTypespec name:a_if::source
-              vpiName: source
-              vpiFullName: intf_source.a_if::source.source
-          vpiName Identifier name:a_if::source:
-            vpiParent: UnsupportedTypespec name:a_if::source
-            vpiName: a_if::source
         ArrayTypespec:
           vpiParent: Module name:intf_source
           vpiArrayType: static (1)
@@ -884,19 +866,17 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-          vpiElemTypespec RefTypespec name:a_if::source start:18:4 end:18:15:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: a_if::source
-            vpiFullName: intf_source.a_if::source
-            vpiActual: UnsupportedTypespec name:a_if::source
+            vpiFullName: intf_source
       vpiDefName: intf_source
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:intf_source
         vpiName: work
         vpiFullName: intf_source.work
       vpiCell: intf_source
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:intf_input start:17:24 end:17:34:
           vpiParent: Module name:intf_source
           vpiTypespec RefTypespec name:logic start:17:10 end:17:15:
@@ -907,23 +887,15 @@ Design name:unnamed:
           vpiName: intf_input
           vpiFullName: intf_source.intf_input
           vpiNetType: wire (1)
-        Net name:i_intf_source start:18:16 end:18:29:
-          vpiParent: Module name:intf_source
-          vpiTypespec RefTypespec start:18:4 end:18:15:
-            vpiParent: Net name:i_intf_source
-            vpiFullName: intf_source.i_intf_source
-            vpiActual: ArrayTypespec
-          vpiName: i_intf_source
-          vpiFullName: intf_source.i_intf_source
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:intf_input start:17:24 end:17:34:
           vpiParent: Module name:intf_source
           vpiName: intf_input
           vpiDirection: input (1)
-          vpiLowConn RefObj start:17:24 end:17:34:
+          vpiLowConn RefObj name:intf_input start:17:24 end:17:34:
             vpiParent: Port name:intf_input
-            vpiFullName: intf_source.intf_input
+            vpiName: intf_input
+            vpiFullName: intf_source.intf_input.intf_input
             vpiActual: Net name:intf_input
           vpiTypespec RefTypespec name:logic start:17:10 end:17:15:
             vpiParent: Port name:intf_input
@@ -934,14 +906,6 @@ Design name:unnamed:
           vpiParent: Module name:intf_source
           vpiName: i_intf_source
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:18:16 end:18:29:
-            vpiParent: Port name:i_intf_source
-            vpiFullName: intf_source.i_intf_source
-            vpiActual: Net name:i_intf_source
-          vpiTypespec RefTypespec start:18:4 end:18:15:
-            vpiParent: Port name:i_intf_source
-            vpiFullName: intf_source.i_intf_source
-            vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:20:4 end:24:15:
           vpiParent: Module name:intf_source
@@ -1011,7 +975,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:i_intf_source[i]
                           vpiName: i_intf_source
                           vpiFullName: intf_source.i_intf_source[i].long_name.i_intf_source
-                          vpiActual: Net name:i_intf_source
+                          vpiActual: Port name:i_intf_source
                         vpiIndex RefObj name:i start:22:24 end:22:25:
                           vpiParent: BitSelect name:i_intf_source[i]
                           vpiName: i
@@ -1041,7 +1005,7 @@ Design name:unnamed:
         vpiParent: Module name:intf_sink
         vpiName: intf_sink
       vpiFullName: intf_sink
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:intf_sink
           vpiRange (1 items):
@@ -1077,21 +1041,6 @@ Design name:unnamed:
                     vpiDecompile: "1"
                     vpiValue: 1
           vpiVector: true
-        UnsupportedTypespec name:a_if::sink start:30:4 end:30:13:
-          vpiParent: Module name:intf_sink
-          vpiPathElem (2 items):
-            RefObj name:a_if start:30:4 end:30:8:
-              vpiParent: UnsupportedTypespec name:a_if::sink
-              vpiName: a_if
-              vpiFullName: intf_sink.a_if::sink.a_if
-              vpiActual: Interface name:a_if
-            RefObj name:sink start:30:9 end:30:13:
-              vpiParent: UnsupportedTypespec name:a_if::sink
-              vpiName: sink
-              vpiFullName: intf_sink.a_if::sink.sink
-          vpiName Identifier name:a_if::sink:
-            vpiParent: UnsupportedTypespec name:a_if::sink
-            vpiName: a_if::sink
         ArrayTypespec:
           vpiParent: Module name:intf_sink
           vpiArrayType: static (1)
@@ -1126,19 +1075,17 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-          vpiElemTypespec RefTypespec name:a_if::sink start:30:4 end:30:13:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: a_if::sink
-            vpiFullName: intf_sink.a_if::sink
-            vpiActual: UnsupportedTypespec name:a_if::sink
+            vpiFullName: intf_sink
       vpiDefName: intf_sink
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:intf_sink
         vpiName: work
         vpiFullName: intf_sink.work
       vpiCell: intf_sink
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:a_out start:29:19 end:29:24:
           vpiParent: Module name:intf_sink
           vpiTypespec RefTypespec start:29:4 end:29:18:
@@ -1148,23 +1095,15 @@ Design name:unnamed:
           vpiName: a_out
           vpiFullName: intf_sink.a_out
           vpiNetType: wire (1)
-        Net name:i_intf_sink start:30:14 end:30:25:
-          vpiParent: Module name:intf_sink
-          vpiTypespec RefTypespec start:30:4 end:30:13:
-            vpiParent: Net name:i_intf_sink
-            vpiFullName: intf_sink.i_intf_sink
-            vpiActual: ArrayTypespec
-          vpiName: i_intf_sink
-          vpiFullName: intf_sink.i_intf_sink
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a_out start:29:19 end:29:24:
           vpiParent: Module name:intf_sink
           vpiName: a_out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:29:19 end:29:24:
+          vpiLowConn RefObj name:a_out start:29:19 end:29:24:
             vpiParent: Port name:a_out
-            vpiFullName: intf_sink.a_out
+            vpiName: a_out
+            vpiFullName: intf_sink.a_out.a_out
             vpiActual: Net name:a_out
           vpiTypespec RefTypespec start:29:4 end:29:18:
             vpiParent: Port name:a_out
@@ -1174,14 +1113,6 @@ Design name:unnamed:
           vpiParent: Module name:intf_sink
           vpiName: i_intf_sink
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:30:14 end:30:25:
-            vpiParent: Port name:i_intf_sink
-            vpiFullName: intf_sink.i_intf_sink
-            vpiActual: Net name:i_intf_sink
-          vpiTypespec RefTypespec start:30:4 end:30:13:
-            vpiParent: Port name:i_intf_sink
-            vpiFullName: intf_sink.i_intf_sink
-            vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:32:4 end:36:15:
           vpiParent: Module name:intf_sink
@@ -1265,7 +1196,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:i_intf_sink[i]
                           vpiName: i_intf_sink
                           vpiFullName: intf_sink.i_intf_sink[i].long_name.i_intf_sink
-                          vpiActual: Net name:i_intf_sink
+                          vpiActual: Port name:i_intf_sink
                         vpiIndex RefObj name:i start:34:33 end:34:34:
                           vpiParent: BitSelect name:i_intf_sink[i]
                           vpiName: i
@@ -1281,6 +1212,34 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:a_in start:44:18 end:44:22:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:44:4 end:44:17:
+            vpiParent: Variable name:a_in
+            vpiName: logic
+            vpiFullName: t.a_in.logic
+            vpiActual: ArrayTypespec
+          vpiName: a_in
+          vpiFullName: t.a_in
+        Variable name:a_out start:45:18 end:45:23:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:45:4 end:45:17:
+            vpiParent: Variable name:a_out
+            vpiName: logic
+            vpiFullName: t.a_out.logic
+            vpiActual: ArrayTypespec
+          vpiName: a_out
+          vpiFullName: t.a_out
+        Variable name:ack_out start:46:18 end:46:25:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:46:4 end:46:17:
+            vpiParent: Variable name:ack_out
+            vpiName: logic
+            vpiFullName: t.ack_out.logic
+            vpiActual: ArrayTypespec
+          vpiName: ack_out
+          vpiFullName: t.ack_out
       vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1471,13 +1430,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:clk start:43:10 end:43:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:43:10 end:43:10:
@@ -1486,39 +1445,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:a_in start:44:18 end:44:22:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:44:4 end:44:17:
-            vpiParent: Net name:a_in
-            vpiName: logic
-            vpiFullName: t.a_in.logic
-            vpiActual: ArrayTypespec
-          vpiName: a_in
-          vpiFullName: t.a_in
-        Net name:a_out start:45:18 end:45:23:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:45:4 end:45:17:
-            vpiParent: Net name:a_out
-            vpiName: logic
-            vpiFullName: t.a_out.logic
-            vpiActual: ArrayTypespec
-          vpiName: a_out
-          vpiFullName: t.a_out
-        Net name:ack_out start:46:18 end:46:25:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:46:4 end:46:17:
-            vpiParent: Net name:ack_out
-            vpiName: logic
-            vpiFullName: t.ack_out.logic
-            vpiActual: ArrayTypespec
-          vpiName: ack_out
-          vpiFullName: t.ack_out
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:41:4 end:41:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:41:4 end:41:7:
+          vpiLowConn RefObj name:clk start:43:10 end:43:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1537,7 +1470,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: a_in
               vpiFullName: t.a_in
-              vpiActual: Net name:a_in
+              vpiActual: Variable name:a_in
             vpiRhs Constant start:51:19 end:51:21:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1574,7 +1507,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: a_in
                     vpiFullName: t.a_in
-                    vpiActual: Net name:a_in
+                    vpiActual: Variable name:a_in
                   vpiRhs Operation start:53:15 end:53:44:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1583,7 +1516,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a_in
                         vpiFullName: t.a_in
-                        vpiActual: Net name:a_in
+                        vpiActual: Variable name:a_in
                       Operation start:53:22 end:53:44:
                         vpiParent: Operation
                         vpiOpType: concatenation (33)
@@ -1641,7 +1574,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: ack_out
                     vpiFullName: t.ack_out
-                    vpiActual: Net name:ack_out
+                    vpiActual: Variable name:ack_out
                   vpiRhs Operation start:54:18 end:54:50:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1650,7 +1583,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: ack_out
                         vpiFullName: t.ack_out
-                        vpiActual: Net name:ack_out
+                        vpiActual: Variable name:ack_out
                       Operation start:54:28 end:54:50:
                         vpiParent: Operation
                         vpiOpType: concatenation (33)
@@ -1712,12 +1645,12 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: ack_out
                         vpiFullName: t.ack_out
-                        vpiActual: Net name:ack_out
+                        vpiActual: Variable name:ack_out
                       RefObj name:a_out start:55:22 end:55:27:
                         vpiParent: Operation
                         vpiName: a_out
                         vpiFullName: t.a_out
-                        vpiActual: Net name:a_out
+                        vpiActual: Variable name:a_out
                   vpiStmt Begin start:55:29 end:57:10:
                     vpiParent: IfStmt
                     vpiFullName: t
@@ -1737,7 +1670,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a_in
                         vpiFullName: t.a_in
-                        vpiActual: Net name:a_in
+                        vpiActual: Variable name:a_in
                   vpiStmt Begin start:59:19 end:62:10:
                     vpiParent: IfStmt
                     vpiFullName: t
@@ -1809,7 +1742,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: a_in
                 vpiFullName: t.source.a_in
-                vpiActual: Net name:a_in
+                vpiActual: Variable name:a_in
             Port start:48:29 end:48:36:
               vpiParent: RefInstance name:source
               vpiLowConn RefObj:
@@ -1838,7 +1771,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: a_out
                 vpiFullName: t.sink.a_out
-                vpiActual: Net name:a_out
+                vpiActual: Variable name:a_out
             Port start:49:28 end:49:35:
               vpiParent: RefInstance name:sink
               vpiLowConn RefObj:
@@ -1910,8 +1843,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1926,25 +1859,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_mod_interface_array2/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 97.89,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_mod_interface_array2.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_mod_interface_array2.v': {'post_len': 20,
                                                                     'pre_len': 948}},
-            'post_len': 0,
+            'post_len': 20,
             'pre_len': 948,
             'test_name': 'Verilator/t_mod_interface_array2'}}
 
 +-------------------------------------------+----------+-----------+
 | INPUT                                     |   PRELEN |   POSTLEN |
 +===========================================+==========+===========+
-| $Output/lib/work/t_mod_interface_array2.v |      948 |         0 |
+| $Output/lib/work/t_mod_interface_array2.v |      948 |        20 |
 +===========================================+==========+===========+
-|                                           |      948 |         0 |
+|                                           |      948 |        20 |
 +-------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 97.89
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1956,9 +1889,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            29      27       0         2
 Operation                           25      23       0         2
-RefTypespec                         57      55       0         2
+RefTypespec                         53      51       0         2
 ----------------------------------------------------------------
-Others                             185     185       0         0
+Others                             173     173       0         0
 ----------------------------------------------------------------
-                                   296     290       0         6
+                                   280     274       0         6
 ===================== END REDUCTION RESULT =====================

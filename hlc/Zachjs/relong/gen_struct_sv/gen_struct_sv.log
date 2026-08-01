@@ -18,7 +18,7 @@ n<$Source01/relong/gen_struct.sv> u<258> t<Top_level_rule> c<1> l<1:1> el<30:10>
     n<> u<5> t<Description> p<257> c<4> s<66> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<66> t<Description> p<257> c<65> s<256> l<3:1> el<7:14>
       n<> u<65> t<Package_item> p<66> c<64> l<3:1> el<7:14>
         n<> u<64> t<Package_or_generate_item_declaration> p<65> c<63> l<3:1> el<7:14>
@@ -272,9 +272,6 @@ n<$Source01/relong/gen_struct.sv> u<258> t<Top_level_rule> c<1> l<1:1> el<30:10>
         n<> u<254> t<ENDMODULE> p<255> l<30:1> el<30:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/gen_struct.sv:10:1: Compile module "Example".
-[ERR:EL0535] $Source01/relong/gen_struct.sv:21:21: Illegal implicit net "id:95, name:first".
-[ERR:EL0535] $Source01/relong/gen_struct.sv:22:21: Illegal implicit net "id:97, name:middle".
-[ERR:EL0535] $Source01/relong/gen_struct.sv:23:21: Illegal implicit net "id:99, name:last".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -284,7 +281,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: gen_struct.sv
       vpiPreprocFile: "$Output/lib/work/relong/gen_struct.sv"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:gen_struct.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: gen_struct.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (1 items):
     Module name:Example file:$Source01/relong/gen_struct.sv start:10:1 end:30:10:
       vpiParent: Design name:unnamed
@@ -292,7 +299,15 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (1 items):
+      vpiVariable (2 items):
+        Variable name:a start:11:23 end:11:24:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:11:5 end:11:22:
+            vpiParent: Variable name:a
+            vpiFullName: Example.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: Example.a
         Variable name:all start:12:25 end:12:28:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:12:5 end:12:24:
@@ -301,7 +316,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: all
           vpiFullName: Example.all
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:Example
@@ -362,25 +376,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (1 items):
-        Net name:a start:11:23 end:11:24:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:11:5 end:11:22:
-            vpiParent: Net name:a
-            vpiFullName: Example.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: Example.a
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:11:23 end:11:24:
           vpiParent: Module name:Example
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:11:23 end:11:24:
+          vpiLowConn RefObj name:a start:11:23 end:11:24:
             vpiParent: Port name:a
-            vpiFullName: Example.a
-            vpiActual: Net name:a
+            vpiName: a
+            vpiFullName: Example.a.a
+            vpiActual: Variable name:a
           vpiTypespec RefTypespec start:11:5 end:11:22:
             vpiParent: Port name:a
             vpiFullName: Example.a
@@ -389,9 +394,10 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: all
           vpiDirection: output (2)
-          vpiLowConn RefObj start:12:25 end:12:28:
+          vpiLowConn RefObj name:all start:12:25 end:12:28:
             vpiParent: Port name:all
-            vpiFullName: Example.all
+            vpiName: all
+            vpiFullName: Example.all.all
             vpiActual: Variable name:all
           vpiTypespec RefTypespec start:12:5 end:12:24:
             vpiParent: Port name:all
@@ -495,7 +501,6 @@ Design name:unnamed:
                         vpiActual: TypedefTypespec name:MyStruct_t
                       vpiName: s
                       vpiFullName: Example.s
-                      vpiNetType: none (12)
                   vpiStmt (2 items):
                     Always start:19:13 end:25:16:
                       vpiParent: Begin
@@ -536,7 +541,7 @@ Design name:unnamed:
                                     vpiParent: TaggedPattern
                                     vpiName: a
                                     vpiFullName: Example.a
-                                    vpiActual: Net name:a
+                                    vpiActual: Variable name:a
                                 TaggedPattern start:23:21 end:23:32:
                                   vpiParent: Operation
                                   vpiTag RefObj name:last start:23:21 end:23:25:
@@ -611,7 +616,9 @@ Design name:unnamed:
                         vpiName: s
                         vpiFullName: Example.s
                         vpiActual: Variable name:s
-  vpiTypespec (7 items):
+  vpiTypespec (8 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -730,7 +737,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -746,25 +753,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/gen_struct_sv/mounts.json
 
 
-{'result': {'coverage': 93.77,
+{'result': {'coverage': 99.72,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/gen_struct.sv': {'post_len': 22,
+            'files': {'$Output/lib/work/relong/gen_struct.sv': {'post_len': 1,
                                                                 'pre_len': 353}},
-            'post_len': 22,
+            'post_len': 1,
             'pre_len': 353,
             'test_name': 'Zachjs/relong/gen_struct_sv'}}
 
 +---------------------------------------+----------+-----------+
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
-| $Output/lib/work/relong/gen_struct.sv |      353 |        22 |
+| $Output/lib/work/relong/gen_struct.sv |      353 |         1 |
 +=======================================+==========+===========+
-|                                       |      353 |        22 |
+|                                       |      353 |         1 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 93.77
+[COVERAGE] : 99.72
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -775,7 +782,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/gen_struct_sv/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             109     109       0         0
+Others                             113     113       0         0
 ----------------------------------------------------------------
-                                   109     109       0         0
+                                   113     113       0         0
 ===================== END REDUCTION RESULT =====================

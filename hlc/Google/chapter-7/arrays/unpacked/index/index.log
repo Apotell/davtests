@@ -182,9 +182,8 @@ n<$Source01/index.sv> u<168> t<Top_level_rule> c<1> l<16:1> el<28:1>
         n<> u<164> t<ENDMODULE> p<165> l<27:1> el<27:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/index.sv:16:1: Compile module "top".
-[ERR:EL0535] $Source01/index.sv:22:22: Illegal implicit net "id:39, name:item".
-[ERR:EL0535] $Source01/index.sv:22:30: Illegal implicit net "id:41, name:item".
-[ERR:EL0535] $Source01/index.sv:22:35: Illegal implicit net "id:42, name:index".
+[WRN:CP0350] $Source01/index.sv:22:30: Failed to bind "id:41, name:item".
+[WRN:CP0350] $Source01/index.sv:22:35: Failed to bind "id:42, name:index".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -194,7 +193,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: index.sv
       vpiPreprocFile: "$Output/lib/work/index.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/index.sv start:16:1 end:27:10:
       vpiParent: Design name:unnamed
@@ -202,46 +200,17 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
-      vpiTypespec (2 items):
-        ArrayTypespec:
-          vpiParent: Module name:top
-          vpiArrayType: dynamic (2)
-          vpiElemTypespec RefTypespec start:18:1 end:18:4:
-            vpiParent: ArrayTypespec
-            vpiFullName: top
-            vpiActual: IntTypespec
-        ArrayTypespec:
-          vpiParent: Module name:top
-          vpiArrayType: queue (4)
-          vpiRange Range start:19:6 end:19:9:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:19:7 end:19:8:
-              vpiParent: Range
-              vpiConstType: unbounded (11)
-              vpiDecompile: "$"
-              vpiValue: "$"
-          vpiElemTypespec RefTypespec start:19:1 end:19:4:
-            vpiParent: ArrayTypespec
-            vpiFullName: top
-            vpiActual: IntTypespec
-      vpiDefName: top
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:top
-        vpiName: work
-        vpiFullName: top.work
-      vpiCell: top
-      vpiNet (2 items):
-        Net name:arr start:18:5 end:18:8:
+      vpiVariable (2 items):
+        Variable name:arr start:18:5 end:18:8:
           vpiParent: Module name:top
           vpiTypespec RefTypespec:
-            vpiParent: Net name:arr
+            vpiParent: Variable name:arr
             vpiFullName: top.arr
             vpiActual: ArrayTypespec
           vpiName: arr
           vpiFullName: top.arr
           vpiValue Operation start:18:13 end:18:27:
-            vpiParent: Net name:arr
+            vpiParent: Variable name:arr
             vpiOpType: concatenation (33)
             vpiOperand (4 items):
               Constant start:18:15 end:18:16:
@@ -284,14 +253,43 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-        Net name:q start:19:5 end:19:6:
+        Variable name:q start:19:5 end:19:6:
           vpiParent: Module name:top
           vpiTypespec RefTypespec:
-            vpiParent: Net name:q
+            vpiParent: Variable name:q
             vpiFullName: top.q
             vpiActual: ArrayTypespec
           vpiName: q
           vpiFullName: top.q
+      vpiTypespec (2 items):
+        ArrayTypespec:
+          vpiParent: Module name:top
+          vpiArrayType: dynamic (2)
+          vpiElemTypespec RefTypespec start:18:1 end:18:4:
+            vpiParent: ArrayTypespec
+            vpiFullName: top
+            vpiActual: IntTypespec
+        ArrayTypespec:
+          vpiParent: Module name:top
+          vpiArrayType: queue (4)
+          vpiRange Range start:19:6 end:19:9:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:19:7 end:19:8:
+              vpiParent: Range
+              vpiConstType: unbounded (11)
+              vpiDecompile: "$"
+              vpiValue: "$"
+          vpiElemTypespec RefTypespec start:19:1 end:19:4:
+            vpiParent: ArrayTypespec
+            vpiFullName: top
+            vpiActual: IntTypespec
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:top
+        vpiName: work
+        vpiFullName: top.work
+      vpiCell: top
       vpiProcess (1 items):
         Initial start:21:1 end:25:4:
           vpiParent: Module name:top
@@ -306,7 +304,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: q
                   vpiFullName: top.q
-                  vpiActual: Net name:q
+                  vpiActual: Variable name:q
                 vpiRhs HierPath name:arr.find start:22:6 end:22:42:
                   vpiParent: Assignment
                   vpiName: arr.find
@@ -316,7 +314,7 @@ Design name:unnamed:
                       vpiParent: HierPath name:arr.find
                       vpiName: arr
                       vpiFullName: top.arr
-                      vpiActual: Net name:arr
+                      vpiActual: Variable name:arr
                     MethodFuncCall name:find start:22:10 end:22:42:
                       vpiParent: HierPath name:arr.find
                       vpiName Identifier name:find start:22:10 end:22:14:
@@ -368,7 +366,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:q.size
                         vpiName: q
                         vpiFullName: top.q
-                        vpiActual: Net name:q
+                        vpiActual: Variable name:q
                       MethodFuncCall name:size start:24:5 end:24:9:
                         vpiParent: HierPath name:q.size
                         vpiName Identifier name:size start:24:5 end:24:9:
@@ -382,7 +380,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:q[0]
                       vpiName: q
                       vpiFullName: top.q
-                      vpiActual: Net name:q
+                      vpiActual: Variable name:q
                     vpiIndex Constant start:24:13 end:24:14:
                       vpiParent: BitSelect name:q[0]
                       vpiTypespec RefTypespec:
@@ -401,7 +399,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:q[1]
                       vpiName: q
                       vpiFullName: top.q
-                      vpiActual: Net name:q
+                      vpiActual: Variable name:q
                     vpiIndex Constant start:24:19 end:24:20:
                       vpiParent: BitSelect name:q[1]
                       vpiTypespec RefTypespec:
@@ -420,7 +418,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:q[2]
                       vpiName: q
                       vpiFullName: top.q
-                      vpiActual: Net name:q
+                      vpiActual: Variable name:q
                     vpiIndex Constant start:24:25 end:24:26:
                       vpiParent: BitSelect name:q[2]
                       vpiTypespec RefTypespec:
@@ -446,8 +444,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

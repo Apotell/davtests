@@ -715,8 +715,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_gen_for1.v:42:1: Compile module "Testit".
 [INF:CP0335] $Source01/t_gen_for1.v:53:42: Compile generate block "fnxtclk1".
 [INF:CP0303] $Source01/t_gen_for1.v:68:1: Compile module "fnxtclk".
-[ERR:EL0535] $Source01/t_gen_for1.v:55:7: Illegal implicit net "id:177, name:u".
-[ERR:EL0535] $Source01/t_gen_for1.v:58:7: Illegal implicit net "id:188, name:w".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -726,7 +724,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_gen_for1.v
       vpiPreprocFile: "$Output/lib/work/t_gen_for1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_gen_for1.v start:6:1 end:40:10:
       vpiParent: Design name:unnamed
@@ -734,6 +731,34 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:reset start:13:10 end:13:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:13:4 end:13:7:
+            vpiParent: Variable name:reset
+            vpiFullName: t.reset
+            vpiActual: LogicTypespec
+          vpiName: reset
+          vpiFullName: t.reset
+          vpiScalar: true
+        Variable name:cyc start:14:13 end:14:16:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:14:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:14:17 end:14:18:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -746,13 +771,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:Testit
             vpiName: Testit
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (2 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:10:10 end:10:10:
@@ -761,6 +786,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
         Net name:b start:12:10 end:12:11:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:12:10 end:12:10:
@@ -770,38 +796,12 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: t.b
           vpiNetType: wire (1)
-        Net name:reset start:13:10 end:13:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:4 end:13:7:
-            vpiParent: Net name:reset
-            vpiFullName: t.reset
-            vpiActual: LogicTypespec
-          vpiName: reset
-          vpiFullName: t.reset
-        Net name:cyc start:14:13 end:14:16:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:14:4 end:14:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:14:17 end:14:18:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:10:10 end:10:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -834,7 +834,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:24:14 end:24:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -843,7 +843,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:24:20 end:24:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -864,7 +864,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:25:16 end:25:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -888,7 +888,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: reset
                           vpiFullName: t.reset
-                          vpiActual: Net name:reset
+                          vpiActual: Variable name:reset
                         vpiRhs Constant start:26:12 end:26:16:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -909,7 +909,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         Constant start:28:20 end:28:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -933,7 +933,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: reset
                             vpiFullName: t.reset
-                            vpiActual: Net name:reset
+                            vpiActual: Variable name:reset
                           vpiRhs Constant start:29:12 end:29:16:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -954,7 +954,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: cyc
                             vpiFullName: t.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                           Constant start:31:20 end:31:22:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -978,7 +978,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: reset
                               vpiFullName: t.reset
-                              vpiActual: Net name:reset
+                              vpiActual: Variable name:reset
                             vpiRhs Constant start:32:12 end:32:16:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -999,7 +999,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:34:21 end:34:23:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1076,18 +1076,26 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: reset
                 vpiFullName: t.testit.reset
-                vpiActual: Net name:reset
+                vpiActual: Variable name:reset
               vpiHighConn RefObj name:reset start:21:14 end:21:19:
                 vpiParent: Port
                 vpiName: reset
                 vpiFullName: t.testit.reset
-                vpiActual: Net name:reset
+                vpiActual: Variable name:reset
     Module name:Testit file:$Source01/t_gen_for1.v start:42:1 end:66:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Testit start:42:8 end:42:14:
         vpiParent: Module name:Testit
         vpiName: Testit
       vpiFullName: Testit
+      vpiVariable (1 items):
+        Variable name:i start:51:18 end:51:19:
+          vpiParent: Module name:Testit
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: Testit.i
+          vpiName: i
+          vpiFullName: Testit.i
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:Testit
@@ -1146,13 +1154,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:Testit
       vpiDefName: Testit
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Testit
         vpiName: work
         vpiFullName: Testit.work
       vpiCell: Testit
-      vpiNet (7 items):
+      vpiNet (6 items):
         Net name:clk start:43:27 end:43:30:
           vpiParent: Module name:Testit
           vpiTypespec RefTypespec start:43:27 end:43:27:
@@ -1161,6 +1169,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: Testit.clk
+          vpiNetType: wire (1)
         Net name:reset start:44:14 end:44:19:
           vpiParent: Module name:Testit
           vpiTypespec RefTypespec start:44:14 end:44:14:
@@ -1169,6 +1178,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset
           vpiFullName: Testit.reset
+          vpiNetType: wire (1)
         Net name:b start:45:15 end:45:16:
           vpiParent: Module name:Testit
           vpiTypespec RefTypespec start:45:15 end:45:15:
@@ -1177,6 +1187,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: Testit.b
+          vpiNetType: wire (1)
         Net name:c start:47:19 end:47:20:
           vpiParent: Module name:Testit
           vpiTypespec RefTypespec start:47:9 end:47:14:
@@ -1204,19 +1215,12 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: Testit.d
           vpiNetType: wire (1)
-        Net name:i start:51:18 end:51:19:
-          vpiParent: Module name:Testit
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: Testit.i
-          vpiName: i
-          vpiFullName: Testit.i
       vpiPort (3 items):
         Port name:clk start:42:16 end:42:19:
           vpiParent: Module name:Testit
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:42:16 end:42:19:
+          vpiLowConn RefObj name:clk start:43:27 end:43:30:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: Testit.clk.clk
@@ -1229,7 +1233,7 @@ Design name:unnamed:
           vpiParent: Module name:Testit
           vpiName: reset
           vpiDirection: input (1)
-          vpiLowConn RefObj name:reset start:42:21 end:42:26:
+          vpiLowConn RefObj name:reset start:44:14 end:44:19:
             vpiParent: Port name:reset
             vpiName: reset
             vpiFullName: Testit.reset.reset
@@ -1242,7 +1246,7 @@ Design name:unnamed:
           vpiParent: Module name:Testit
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj name:b start:42:28 end:42:29:
+          vpiLowConn RefObj name:b start:45:15 end:45:16:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: Testit.b.b
@@ -1486,17 +1490,26 @@ Design name:unnamed:
         vpiParent: Module name:fnxtclk
         vpiName: fnxtclk
       vpiFullName: fnxtclk
+      vpiVariable (1 items):
+        Variable name:w start:72:21 end:72:22:
+          vpiParent: Module name:fnxtclk
+          vpiTypespec RefTypespec start:72:11 end:72:14:
+            vpiParent: Variable name:w
+            vpiFullName: fnxtclk.w
+            vpiActual: LogicTypespec
+          vpiName: w
+          vpiFullName: fnxtclk.w
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:fnxtclk
       vpiDefName: fnxtclk
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:fnxtclk
         vpiName: work
         vpiFullName: fnxtclk.work
       vpiCell: fnxtclk
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:u start:69:29 end:69:30:
           vpiParent: Module name:fnxtclk
           vpiTypespec RefTypespec start:69:29 end:69:29:
@@ -1505,6 +1518,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: u
           vpiFullName: fnxtclk.u
+          vpiNetType: wire (1)
         Net name:reset start:70:16 end:70:21:
           vpiParent: Module name:fnxtclk
           vpiTypespec RefTypespec start:70:16 end:70:16:
@@ -1513,6 +1527,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset
           vpiFullName: fnxtclk.reset
+          vpiNetType: wire (1)
         Net name:clk start:71:16 end:71:19:
           vpiParent: Module name:fnxtclk
           vpiTypespec RefTypespec start:71:16 end:71:16:
@@ -1521,21 +1536,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: fnxtclk.clk
-        Net name:w start:72:21 end:72:22:
-          vpiParent: Module name:fnxtclk
-          vpiTypespec RefTypespec start:72:11 end:72:14:
-            vpiParent: Net name:w
-            vpiFullName: fnxtclk.w
-            vpiActual: LogicTypespec
-          vpiName: w
-          vpiFullName: fnxtclk.w
-          vpiNetType: reg (48)
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:u start:68:17 end:68:18:
           vpiParent: Module name:fnxtclk
           vpiName: u
           vpiDirection: input (1)
-          vpiLowConn RefObj name:u start:68:17 end:68:18:
+          vpiLowConn RefObj name:u start:69:29 end:69:30:
             vpiParent: Port name:u
             vpiName: u
             vpiFullName: fnxtclk.u.u
@@ -1548,7 +1555,7 @@ Design name:unnamed:
           vpiParent: Module name:fnxtclk
           vpiName: reset
           vpiDirection: input (1)
-          vpiLowConn RefObj name:reset start:68:20 end:68:25:
+          vpiLowConn RefObj name:reset start:70:16 end:70:21:
             vpiParent: Port name:reset
             vpiName: reset
             vpiFullName: fnxtclk.reset.reset
@@ -1561,7 +1568,7 @@ Design name:unnamed:
           vpiParent: Module name:fnxtclk
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:68:27 end:68:30:
+          vpiLowConn RefObj name:clk start:71:16 end:71:19:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: fnxtclk.clk.clk
@@ -1574,11 +1581,11 @@ Design name:unnamed:
           vpiParent: Module name:fnxtclk
           vpiName: w
           vpiDirection: output (2)
-          vpiLowConn RefObj name:w start:68:32 end:68:33:
+          vpiLowConn RefObj name:w start:72:21 end:72:22:
             vpiParent: Port name:w
             vpiName: w
             vpiFullName: fnxtclk.w.w
-            vpiActual: Net name:w
+            vpiActual: Variable name:w
           vpiTypespec RefTypespec start:72:11 end:72:14:
             vpiParent: Port name:w
             vpiFullName: fnxtclk.w
@@ -1651,7 +1658,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: w
                           vpiFullName: fnxtclk.w
-                          vpiActual: Net name:w
+                          vpiActual: Variable name:w
                         vpiRhs Constant start:76:26 end:76:30:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -1672,7 +1679,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: w
                           vpiFullName: fnxtclk.w
-                          vpiActual: Net name:w
+                          vpiActual: Variable name:w
                         vpiRhs RefObj name:u start:79:26 end:79:27:
                           vpiParent: Assignment
                           vpiName: u
@@ -1706,7 +1713,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

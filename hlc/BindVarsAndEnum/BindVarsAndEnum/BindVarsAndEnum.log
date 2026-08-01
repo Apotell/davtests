@@ -451,7 +451,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2440,7 +2439,7 @@ Design name:unnamed:
         vpiParent: Module name:conditional_Fsm
         vpiName: conditional_Fsm
       vpiFullName: conditional_Fsm
-      vpiVariable (3 items):
+      vpiVariable (4 items):
         Variable name:count start:3:14 end:3:19:
           vpiParent: Module name:conditional_Fsm
           vpiTypespec RefTypespec start:3:3 end:3:13:
@@ -2449,7 +2448,15 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: count
           vpiFullName: conditional_Fsm.count
-          vpiNetType: none (12)
+        Variable name:clock start:5:7 end:5:12:
+          vpiParent: Module name:conditional_Fsm
+          vpiTypespec RefTypespec start:5:3 end:5:6:
+            vpiParent: Variable name:clock
+            vpiFullName: conditional_Fsm.clock
+            vpiActual: BitTypespec
+          vpiName: clock
+          vpiFullName: conditional_Fsm.clock
+          vpiScalar: true
         Variable name:curr_state start:8:9 end:8:19:
           vpiParent: Module name:conditional_Fsm
           vpiTypespec RefTypespec name:state start:8:3 end:8:8:
@@ -2459,7 +2466,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:state
           vpiName: curr_state
           vpiFullName: conditional_Fsm.curr_state
-          vpiNetType: none (12)
         Variable name:next_state start:8:21 end:8:31:
           vpiParent: Module name:conditional_Fsm
           vpiTypespec RefTypespec name:state start:8:3 end:8:8:
@@ -2469,7 +2475,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:state
           vpiName: next_state
           vpiFullName: conditional_Fsm.next_state
-          vpiNetType: none (12)
       vpiTypespec (4 items):
         BitTypespec:
           vpiParent: Module name:conditional_Fsm
@@ -2531,13 +2536,13 @@ Design name:unnamed:
             vpiFullName: conditional_Fsm.state
             vpiActual: EnumTypespec
       vpiDefName: conditional_Fsm
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:conditional_Fsm
         vpiName: work
         vpiFullName: conditional_Fsm.work
       vpiCell: conditional_Fsm
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:reset start:1:36 end:1:41:
           vpiParent: Module name:conditional_Fsm
           vpiTypespec RefTypespec start:1:26 end:1:35:
@@ -2556,22 +2561,15 @@ Design name:unnamed:
           vpiName: increment
           vpiFullName: conditional_Fsm.increment
           vpiNetType: wire (1)
-        Net name:clock start:5:7 end:5:12:
-          vpiParent: Module name:conditional_Fsm
-          vpiTypespec RefTypespec start:5:3 end:5:6:
-            vpiParent: Net name:clock
-            vpiFullName: conditional_Fsm.clock
-            vpiActual: BitTypespec
-          vpiName: clock
-          vpiFullName: conditional_Fsm.clock
       vpiPort (3 items):
         Port name:reset start:1:36 end:1:41:
           vpiParent: Module name:conditional_Fsm
           vpiName: reset
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:36 end:1:41:
+          vpiLowConn RefObj name:reset start:1:36 end:1:41:
             vpiParent: Port name:reset
-            vpiFullName: conditional_Fsm.reset
+            vpiName: reset
+            vpiFullName: conditional_Fsm.reset.reset
             vpiActual: Net name:reset
           vpiTypespec RefTypespec start:1:26 end:1:35:
             vpiParent: Port name:reset
@@ -2581,9 +2579,10 @@ Design name:unnamed:
           vpiParent: Module name:conditional_Fsm
           vpiName: increment
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:13 end:2:22:
+          vpiLowConn RefObj name:increment start:2:13 end:2:22:
             vpiParent: Port name:increment
-            vpiFullName: conditional_Fsm.increment
+            vpiName: increment
+            vpiFullName: conditional_Fsm.increment.increment
             vpiActual: Net name:increment
           vpiTypespec RefTypespec start:2:3 end:2:12:
             vpiParent: Port name:increment
@@ -2593,9 +2592,10 @@ Design name:unnamed:
           vpiParent: Module name:conditional_Fsm
           vpiName: count
           vpiDirection: output (2)
-          vpiLowConn RefObj start:3:14 end:3:19:
+          vpiLowConn RefObj name:count start:3:14 end:3:19:
             vpiParent: Port name:count
-            vpiFullName: conditional_Fsm.count
+            vpiName: count
+            vpiFullName: conditional_Fsm.count.count
             vpiActual: Variable name:count
           vpiTypespec RefTypespec start:3:3 end:3:13:
             vpiParent: Port name:count
@@ -2613,7 +2613,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: clock
                 vpiFullName: conditional_Fsm.clock
-                vpiActual: Net name:clock
+                vpiActual: Variable name:clock
               vpiRhs Operation start:11:24 end:11:30:
                 vpiParent: Assignment
                 vpiOpType: bitwise negation (4)
@@ -2622,7 +2622,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clock
                     vpiFullName: conditional_Fsm.clock
-                    vpiActual: Net name:clock
+                    vpiActual: Variable name:clock
             vpiDelay Constant start:11:11 end:11:15:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -2646,7 +2646,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clock
                   vpiFullName: conditional_Fsm.clock
-                  vpiActual: Net name:clock
+                  vpiActual: Variable name:clock
             vpiStmt Begin start:13:30 end:17:4:
               vpiParent: EventControl
               vpiFullName: conditional_Fsm

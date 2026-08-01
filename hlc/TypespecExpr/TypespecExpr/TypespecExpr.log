@@ -193,7 +193,6 @@ n<$Source01/dut.sv> u<178> t<Top_level_rule> c<1> l<1:1> el<12:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "Mod1".
 [INF:CP0303] $Source01/dut.sv:5:1: Compile module "Mod2".
-[ERR:EL0535] $Source01/dut.sv:9:12: Illegal implicit net "id:82, name:PARAM".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "Mod1".
 [WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "Mod2".
 ====== HLDB =======
@@ -204,7 +203,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:Mod1 file:$Source01/dut.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
@@ -221,7 +219,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: Mod1.x
-          vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:PARAM start:1:38 end:1:43:
           vpiParent: Module name:Mod1
@@ -305,7 +302,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: Mod1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Mod1
         vpiName: work
@@ -316,9 +313,10 @@ Design name:unnamed:
           vpiParent: Module name:Mod1
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:71 end:1:72:
+          vpiLowConn RefObj name:x start:1:71 end:1:72:
             vpiParent: Port name:x
-            vpiFullName: Mod1.x
+            vpiName: x
+            vpiFullName: Mod1.x.x
             vpiActual: Variable name:x
           vpiTypespec RefTypespec start:1:51 end:1:70:
             vpiParent: Port name:x
@@ -343,6 +341,16 @@ Design name:unnamed:
         vpiParent: Module name:Mod2
         vpiName: Mod2
       vpiFullName: Mod2
+      vpiVariable (1 items):
+        Variable name:x start:8:16 end:8:17:
+          vpiParent: Module name:Mod2
+          vpiTypespec RefTypespec start:8:4 end:8:15:
+            vpiParent: Variable name:x
+            vpiFullName: Mod2.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: Mod2.x
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:STRUCT start:7:21 end:7:27:
           vpiParent: Module name:Mod2
@@ -371,7 +379,7 @@ Design name:unnamed:
                   vpiParent: TaggedPattern
                   vpiName: x
                   vpiFullName: Mod2.x
-                  vpiActual: Net name:x
+                  vpiActual: Variable name:x
                 vpiPattern Constant start:7:36 end:7:38:
                   vpiParent: TaggedPattern
                   vpiTypespec RefTypespec:
@@ -463,21 +471,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:Mod1
             vpiName: Mod1
       vpiDefName: Mod2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Mod2
         vpiName: work
         vpiFullName: Mod2.work
       vpiCell: Mod2
-      vpiNet (1 items):
-        Net name:x start:8:16 end:8:17:
-          vpiParent: Module name:Mod2
-          vpiTypespec RefTypespec start:8:4 end:8:15:
-            vpiParent: Net name:x
-            vpiFullName: Mod2.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: Mod2.x
       vpiRefInstance (1 items):
         RefInstance name:mod1 start:9:27 end:9:31:
           vpiParent: Module name:Mod2
@@ -507,12 +506,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: x
                 vpiFullName: Mod2.mod1.x
-                vpiActual: Net name:x
+                vpiActual: Variable name:x
               vpiHighConn RefObj name:x start:9:35 end:9:36:
                 vpiParent: Port
                 vpiName: x
                 vpiFullName: Mod2.mod1.x
-                vpiActual: Net name:x
+                vpiActual: Variable name:x
   vpiTypespec (3 items):
     ModuleTypespec name:Mod1:
       vpiParent: Design name:unnamed
@@ -532,7 +531,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

@@ -142,6 +142,7 @@ n<$Source01/various/constmsk_test.v> u<128> t<Top_level_rule> c<1> l<1:1> el<5:1
         n<> u<124> t<ENDMODULE> p<125> l<4:1> el<4:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/various/constmsk_test.v:1:1: Compile module "test".
+[ERR:LN0813] $Source01/various/constmsk_test.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -151,7 +152,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: constmsk_test.v
       vpiPreprocFile: "$Output/lib/work/various/constmsk_test.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:test file:$Source01/various/constmsk_test.v start:1:1 end:4:10:
       vpiParent: Design name:unnamed
@@ -217,13 +217,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:test
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:A start:1:25 end:1:26:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:1:13 end:1:24:
@@ -242,23 +242,15 @@ Design name:unnamed:
           vpiName: Y1
           vpiFullName: test.Y1
           vpiNetType: wire (1)
-        Net name:Y2 start:1:45 end:1:47:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:1:45 end:1:45:
-            vpiParent: Net name:Y2
-            vpiFullName: test.Y2
-            vpiActual: LogicTypespec
-          vpiName: Y2
-          vpiFullName: test.Y2
-          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:A start:1:25 end:1:26:
           vpiParent: Module name:test
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:25 end:1:26:
+          vpiLowConn RefObj name:A start:1:25 end:1:26:
             vpiParent: Port name:A
-            vpiFullName: test.A
+            vpiName: A
+            vpiFullName: test.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:1:13 end:1:24:
             vpiParent: Port name:A
@@ -268,9 +260,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: Y1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:41 end:1:43:
+          vpiLowConn RefObj name:Y1 start:1:41 end:1:43:
             vpiParent: Port name:Y1
-            vpiFullName: test.Y1
+            vpiName: Y1
+            vpiFullName: test.Y1.Y1
             vpiActual: Net name:Y1
           vpiTypespec RefTypespec start:1:28 end:1:40:
             vpiParent: Port name:Y1
@@ -280,14 +273,6 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: Y2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:45 end:1:47:
-            vpiParent: Port name:Y2
-            vpiFullName: test.Y2
-            vpiActual: Net name:Y2
-          vpiTypespec RefTypespec start:1:45 end:1:45:
-            vpiParent: Port name:Y2
-            vpiFullName: test.Y2
-            vpiActual: LogicTypespec
       vpiContAssign (2 items):
         ContAssign start:2:12 end:2:36:
           vpiParent: Module name:test
@@ -358,7 +343,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: Y2
             vpiFullName: test.Y2
-            vpiActual: Net name:Y2
+            vpiActual: Port name:Y2
           vpiRhs Operation start:3:17 end:3:36:
             vpiParent: ContAssign
             vpiOpType: unary or (7)
@@ -428,7 +413,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -473,7 +458,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/various/constmsk_test.v/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              65      65       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    65      65       0         0
+                                    61      61       0         0
 ===================== END REDUCTION RESULT =====================

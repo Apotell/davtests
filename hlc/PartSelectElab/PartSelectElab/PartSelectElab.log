@@ -19,7 +19,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:test file:$Source01/dut.sv start:1:1 end:8:10:
       vpiParent: Design name:unnamed
@@ -27,7 +26,7 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:state start:1:24 end:1:29:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:1:13 end:1:23:
@@ -36,7 +35,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: state
           vpiFullName: test.state
-          vpiNetType: none (12)
+        Variable name:data start:2:12 end:2:16:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:2:1 end:2:11:
+            vpiParent: Variable name:data
+            vpiFullName: test.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: test.data
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -67,13 +74,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:1:37 end:1:40:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:1:31 end:1:36:
@@ -83,22 +90,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: test.clk
           vpiNetType: wire (1)
-        Net name:data start:2:12 end:2:16:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:2:1 end:2:11:
-            vpiParent: Net name:data
-            vpiFullName: test.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: test.data
       vpiPort (2 items):
         Port name:state start:1:24 end:1:29:
           vpiParent: Module name:test
           vpiName: state
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:24 end:1:29:
+          vpiLowConn RefObj name:state start:1:24 end:1:29:
             vpiParent: Port name:state
-            vpiFullName: test.state
+            vpiName: state
+            vpiFullName: test.state.state
             vpiActual: Variable name:state
           vpiTypespec RefTypespec start:1:13 end:1:23:
             vpiParent: Port name:state
@@ -108,9 +108,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:37 end:1:40:
+          vpiLowConn RefObj name:clk start:1:37 end:1:40:
             vpiParent: Port name:clk
-            vpiFullName: test.clk
+            vpiName: clk
+            vpiFullName: test.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:31 end:1:36:
             vpiParent: Port name:clk
@@ -144,7 +145,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:data[7:0]
                       vpiName: data
                       vpiFullName: test.data[7:0].data
-                      vpiActual: Net name:data
+                      vpiActual: Variable name:data
                     vpiRange Range start:5:8 end:5:11:
                       vpiParent: PartSelect name:data[7:0]
                       vpiLeftRange Constant start:5:8 end:5:9:
@@ -179,7 +180,7 @@ Design name:unnamed:
                           vpiParent: PartSelect name:data[7:0]
                           vpiName: data
                           vpiFullName: test.data[7:0].data
-                          vpiActual: Net name:data
+                          vpiActual: Variable name:data
                         vpiRange Range start:5:21 end:5:24:
                           vpiParent: PartSelect name:data[7:0]
                           vpiLeftRange Constant start:5:21 end:5:22:

@@ -86,7 +86,6 @@ n<$Source01/dut.sv> u<71> t<Top_level_rule> c<1> l<2:1> el<9:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:2:1: Compile module "top".
 [INF:CP0303] $Source01/dut.sv:6:1: Compile module "bus_conn".
-[ERR:EL0535] $Source01/dut.sv:3:24: Illegal implicit net "id:35, name:datain".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "top".
 [WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "bus_conn".
 ====== HLDB =======
@@ -97,7 +96,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:top file:$Source01/dut.sv start:2:1 end:4:10:
       vpiParent: Design name:unnamed
@@ -168,7 +166,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bus_conn
             vpiName: bus_conn
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -189,9 +187,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: inp
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:24 end:2:27:
+          vpiLowConn RefObj name:inp start:2:24 end:2:27:
             vpiParent: Port name:inp
-            vpiFullName: top.inp
+            vpiName: inp
+            vpiFullName: top.inp.inp
             vpiActual: Net name:inp
           vpiTypespec RefTypespec start:2:12 end:2:23:
             vpiParent: Port name:inp
@@ -230,7 +229,7 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:bus_conn
       vpiDefName: bus_conn
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bus_conn
         vpiName: work
@@ -261,9 +260,10 @@ Design name:unnamed:
           vpiParent: Module name:bus_conn
           vpiName: datain
           vpiDirection: input (1)
-          vpiLowConn RefObj start:7:7 end:7:13:
+          vpiLowConn RefObj name:datain start:7:7 end:7:13:
             vpiParent: Port name:datain
-            vpiFullName: bus_conn.datain
+            vpiName: datain
+            vpiFullName: bus_conn.datain.datain
             vpiActual: Net name:datain
           vpiTypespec RefTypespec start:7:1 end:7:6:
             vpiParent: Port name:datain
@@ -288,7 +288,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

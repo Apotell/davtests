@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@
 //
 // Checked:
 //   - design has module top
-//   - module has exactly 1 net: 'v' (vpiNetType=vpiWire, RefTypespec→LogicTypespec)
+//   - module has exactly 1 net: 'v' (vpiNetType=vpiWire, RefTypespec->LogicTypespec)
 //   - top has no processes
 //   - top has no continuous assignments
 //   - HLC doesn't flag the variable redeclaration error (SV spec: should fail)
@@ -55,9 +55,9 @@ TEST_F(VariableRedeclare, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Net — reg v and wire v merge into a single Net named 'v'
-// ---------------------------------------------------------------------------
+// ----
+// Net -- reg v and wire v merge into a single Net named 'v'
+// ----
 TEST_F(VariableRedeclare, OneNetExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -74,9 +74,9 @@ TEST_F(VariableRedeclare, NetNameIsV) {
   ASSERT_NE(v, nullptr) << "net 'v' not found in module";
 }
 
-// ---------------------------------------------------------------------------
-// wire wins — vpiNetType should be vpiWire (1)
-// ---------------------------------------------------------------------------
+// ----
+// wire wins -- vpiNetType should be vpiWire (1)
+// ----
 TEST_F(VariableRedeclare, NetTypeIsWire) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -84,12 +84,12 @@ TEST_F(VariableRedeclare, NetTypeIsWire) {
 
   const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
-  EXPECT_EQ(v->getNetType(), vpiWire) << "expected vpiNetType wire (1) — wire declaration wins over reg";
+  EXPECT_EQ(v->getNetType(), vpiWire) << "expected vpiNetType wire (1) -- wire declaration wins over reg";
 }
 
-// ---------------------------------------------------------------------------
-// Typespec — reg maps to LogicTypespec referenced via RefTypespec
-// ---------------------------------------------------------------------------
+// ----
+// Typespec -- reg maps to LogicTypespec referenced via RefTypespec
+// ----
 TEST_F(VariableRedeclare, NetHasRefTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -115,9 +115,9 @@ TEST_F(VariableRedeclare, NetTypespecIsLogic) {
   EXPECT_NE(lts, nullptr) << "RefTypespec actual is not a LogicTypespec (expected from reg declaration)";
 }
 
-// ---------------------------------------------------------------------------
-// No continuous assignments — the module only has declarations, no assign
-// ---------------------------------------------------------------------------
+// ----
+// No continuous assignments -- the module only has declarations, no assign
+// ----
 TEST_F(VariableRedeclare, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -131,12 +131,18 @@ TEST_F(VariableRedeclare, NoProcesses) {
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
-// Compiler diagnostics -- the reg/wire redeclaration of 'v' is not flagged
-// ---------------------------------------------------------------------------
-TEST_F(VariableRedeclare, Compiler_NoErrorsReported) {
+// ----
+// Compiler diagnostics -- IEEE 1800-2023 Sec 6.5: "Within a name space, it
+// shall be illegal to redeclare a name already declared by a net, variable,
+// or other declaration." 'reg v' followed by 'wire v' redeclares 'v' and
+// must be rejected.
+// ----
+TEST_F(VariableRedeclare, Compiler_ErrorReported) {
+  GTEST_SKIP() << "HLC does not reject redeclaring 'v' as both reg and wire (it silently merges them "
+                  "into a single Net); IEEE 1800-2023 Sec 6.5 requires this to be illegal. Fix pending.";
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject redeclaring 'v' as both reg and wire";
+  EXPECT_GT(stats.nbError, 0) << "IEEE 1800-2023 Sec 6.5: redeclaring 'v' (reg then wire) in the same "
+                                 "name space shall be illegal";
 }
 
 }  // namespace hlc

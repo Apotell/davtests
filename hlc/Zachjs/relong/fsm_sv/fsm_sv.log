@@ -18,7 +18,7 @@ n<$Source01/relong/fsm.sv> u<333> t<Top_level_rule> c<1> l<1:1> el<36:10>
     n<> u<5> t<Description> p<332> c<4> s<331> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<331> t<Description> p<332> c<330> l<3:1> el<36:10>
       n<> u<330> t<Module_declaration> p<331> c<39> l<3:1> el<36:10>
         n<> u<39> t<Module_ansi_header> p<330> c<6> s<58> l<3:1> el<7:3>
@@ -347,6 +347,7 @@ n<$Source01/relong/fsm.sv> u<333> t<Top_level_rule> c<1> l<1:1> el<36:10>
         n<> u<329> t<ENDMODULE> p<330> l<36:1> el<36:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/fsm.sv:3:1: Compile module "FSM".
+[ERR:LN0813] $Source01/relong/fsm.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -356,7 +357,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: fsm.sv
       vpiPreprocFile: "$Output/lib/work/relong/fsm.sv"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:fsm.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: fsm.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (1 items):
     Module name:FSM file:$Source01/relong/fsm.sv start:3:1 end:36:10:
       vpiParent: Design name:unnamed
@@ -364,7 +375,15 @@ Design name:unnamed:
         vpiParent: Module name:FSM
         vpiName: FSM
       vpiFullName: FSM
-      vpiVariable (1 items):
+      vpiVariable (5 items):
+        Variable name:a start:4:17 end:4:18:
+          vpiParent: Module name:FSM
+          vpiTypespec RefTypespec start:4:5 end:4:16:
+            vpiParent: Variable name:a
+            vpiFullName: FSM.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: FSM.a
         Variable name:x start:5:18 end:5:19:
           vpiParent: Module name:FSM
           vpiTypespec RefTypespec start:5:5 end:5:17:
@@ -373,7 +392,30 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: FSM.x
-          vpiNetType: none (12)
+        Variable name:clock start:6:17 end:6:22:
+          vpiParent: Module name:FSM
+          vpiTypespec RefTypespec start:6:5 end:6:16:
+            vpiParent: Variable name:clock
+            vpiFullName: FSM.clock
+            vpiActual: LogicTypespec
+          vpiName: clock
+          vpiFullName: FSM.clock
+        Variable name:currentState start:9:26 end:9:38:
+          vpiParent: Module name:FSM
+          vpiTypespec RefTypespec start:9:5 end:9:25:
+            vpiParent: Variable name:currentState
+            vpiFullName: FSM.currentState
+            vpiActual: EnumTypespec
+          vpiName: currentState
+          vpiFullName: FSM.currentState
+        Variable name:nextState start:9:40 end:9:49:
+          vpiParent: Module name:FSM
+          vpiTypespec RefTypespec start:9:5 end:9:25:
+            vpiParent: Variable name:nextState
+            vpiFullName: FSM.nextState
+            vpiActual: EnumTypespec
+          vpiName: nextState
+          vpiFullName: FSM.nextState
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:FSM
@@ -402,59 +444,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: FSM.work
       vpiCell: FSM
-      vpiNet (5 items):
-        Net name:a start:4:17 end:4:18:
-          vpiParent: Module name:FSM
-          vpiTypespec RefTypespec start:4:5 end:4:16:
-            vpiParent: Net name:a
-            vpiFullName: FSM.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: FSM.a
-          vpiNetType: wire (1)
-        Net name:clock start:6:17 end:6:22:
-          vpiParent: Module name:FSM
-          vpiTypespec RefTypespec start:6:5 end:6:16:
-            vpiParent: Net name:clock
-            vpiFullName: FSM.clock
-            vpiActual: LogicTypespec
-          vpiName: clock
-          vpiFullName: FSM.clock
-          vpiNetType: wire (1)
-        Net name:clear start:6:24 end:6:29:
-          vpiParent: Module name:FSM
-          vpiTypespec RefTypespec start:6:24 end:6:24:
-            vpiParent: Net name:clear
-            vpiFullName: FSM.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: FSM.clear
-          vpiNetType: wire (1)
-        Net name:currentState start:9:26 end:9:38:
-          vpiParent: Module name:FSM
-          vpiTypespec RefTypespec start:9:5 end:9:25:
-            vpiParent: Net name:currentState
-            vpiFullName: FSM.currentState
-            vpiActual: EnumTypespec
-          vpiName: currentState
-          vpiFullName: FSM.currentState
-        Net name:nextState start:9:40 end:9:49:
-          vpiParent: Module name:FSM
-          vpiTypespec RefTypespec start:9:5 end:9:25:
-            vpiParent: Net name:nextState
-            vpiFullName: FSM.nextState
-            vpiActual: EnumTypespec
-          vpiName: nextState
-          vpiFullName: FSM.nextState
       vpiPort (4 items):
         Port name:a start:4:17 end:4:18:
           vpiParent: Module name:FSM
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:17 end:4:18:
+          vpiLowConn RefObj name:a start:4:17 end:4:18:
             vpiParent: Port name:a
-            vpiFullName: FSM.a
-            vpiActual: Net name:a
+            vpiName: a
+            vpiFullName: FSM.a.a
+            vpiActual: Variable name:a
           vpiTypespec RefTypespec start:4:5 end:4:16:
             vpiParent: Port name:a
             vpiFullName: FSM.a
@@ -463,9 +462,10 @@ Design name:unnamed:
           vpiParent: Module name:FSM
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:18 end:5:19:
+          vpiLowConn RefObj name:x start:5:18 end:5:19:
             vpiParent: Port name:x
-            vpiFullName: FSM.x
+            vpiName: x
+            vpiFullName: FSM.x.x
             vpiActual: Variable name:x
           vpiTypespec RefTypespec start:5:5 end:5:17:
             vpiParent: Port name:x
@@ -475,10 +475,11 @@ Design name:unnamed:
           vpiParent: Module name:FSM
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:6:17 end:6:22:
+          vpiLowConn RefObj name:clock start:6:17 end:6:22:
             vpiParent: Port name:clock
-            vpiFullName: FSM.clock
-            vpiActual: Net name:clock
+            vpiName: clock
+            vpiFullName: FSM.clock.clock
+            vpiActual: Variable name:clock
           vpiTypespec RefTypespec start:6:5 end:6:16:
             vpiParent: Port name:clock
             vpiFullName: FSM.clock
@@ -487,14 +488,6 @@ Design name:unnamed:
           vpiParent: Module name:FSM
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:6:24 end:6:29:
-            vpiParent: Port name:clear
-            vpiFullName: FSM.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:6:24 end:6:24:
-            vpiParent: Port name:clear
-            vpiFullName: FSM.clear
-            vpiActual: LogicTypespec
       vpiProcess (3 items):
         Always start:11:5 end:16:12:
           vpiParent: Module name:FSM
@@ -508,14 +501,14 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clock
                   vpiFullName: FSM.clock
-                  vpiActual: Net name:clock
+                  vpiActual: Variable name:clock
             vpiStmt IfElse start:12:9 end:16:12:
               vpiParent: EventControl
               vpiCondition RefObj name:clear start:12:12 end:12:17:
                 vpiParent: IfElse
                 vpiName: clear
                 vpiFullName: FSM.clear
-                vpiActual: Net name:clear
+                vpiActual: Port name:clear
               vpiStmt Begin start:12:19 end:14:12:
                 vpiParent: IfElse
                 vpiFullName: FSM
@@ -526,7 +519,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: currentState
                       vpiFullName: FSM.currentState
-                      vpiActual: Net name:currentState
+                      vpiActual: Variable name:currentState
                     vpiRhs RefObj name:S_A start:13:29 end:13:32:
                       vpiParent: Assignment
                       vpiName: S_A
@@ -542,12 +535,12 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: currentState
                       vpiFullName: FSM.currentState
-                      vpiActual: Net name:currentState
+                      vpiActual: Variable name:currentState
                     vpiRhs RefObj name:nextState start:15:29 end:15:38:
                       vpiParent: Assignment
                       vpiName: nextState
                       vpiFullName: FSM.nextState
-                      vpiActual: Net name:nextState
+                      vpiActual: Variable name:nextState
           vpiAlwaysType: ff (3)
         Always start:18:5 end:25:8:
           vpiParent: Module name:FSM
@@ -562,12 +555,12 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: nextState
                   vpiFullName: FSM.nextState
-                  vpiActual: Net name:nextState
+                  vpiActual: Variable name:nextState
                 vpiRhs RefObj name:currentState start:19:21 end:19:33:
                   vpiParent: Assignment
                   vpiName: currentState
                   vpiFullName: FSM.currentState
-                  vpiActual: Net name:currentState
+                  vpiActual: Variable name:currentState
               CaseStmt start:20:9 end:24:16:
                 vpiParent: Begin
                 vpiCaseType: exact (1)
@@ -576,7 +569,7 @@ Design name:unnamed:
                   vpiParent: CaseStmt
                   vpiName: currentState
                   vpiFullName: FSM.currentState
-                  vpiActual: Net name:currentState
+                  vpiActual: Variable name:currentState
                 vpiCaseItem (3 items):
                   CaseItem start:21:13 end:21:44:
                     vpiParent: CaseStmt
@@ -593,7 +586,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: nextState
                         vpiFullName: FSM.nextState
-                        vpiActual: Net name:nextState
+                        vpiActual: Variable name:nextState
                       vpiRhs Operation start:21:30 end:21:43:
                         vpiParent: Assignment
                         vpiOpType: condition (32)
@@ -602,7 +595,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: a
                             vpiFullName: FSM.a
-                            vpiActual: Net name:a
+                            vpiActual: Variable name:a
                           RefObj name:S_B start:21:34 end:21:37:
                             vpiParent: Operation
                             vpiName: S_B
@@ -628,7 +621,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: nextState
                         vpiFullName: FSM.nextState
-                        vpiActual: Net name:nextState
+                        vpiActual: Variable name:nextState
                       vpiRhs Operation start:22:30 end:22:43:
                         vpiParent: Assignment
                         vpiOpType: condition (32)
@@ -637,7 +630,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: a
                             vpiFullName: FSM.a
-                            vpiActual: Net name:a
+                            vpiActual: Variable name:a
                           RefObj name:S_A start:22:34 end:22:37:
                             vpiParent: Operation
                             vpiName: S_A
@@ -663,7 +656,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: nextState
                         vpiFullName: FSM.nextState
-                        vpiActual: Net name:nextState
+                        vpiActual: Variable name:nextState
                       vpiRhs RefObj name:S_A start:23:30 end:23:33:
                         vpiParent: Assignment
                         vpiName: S_A
@@ -705,7 +698,7 @@ Design name:unnamed:
                   vpiParent: CaseStmt
                   vpiName: currentState
                   vpiFullName: FSM.currentState
-                  vpiActual: Net name:currentState
+                  vpiActual: Variable name:currentState
                 vpiCaseItem (3 items):
                   CaseItem start:30:13 end:30:25:
                     vpiParent: CaseStmt
@@ -731,7 +724,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: a
                             vpiFullName: FSM.a
-                            vpiActual: Net name:a
+                            vpiActual: Variable name:a
                   CaseItem start:31:13 end:31:27:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -785,7 +778,9 @@ Design name:unnamed:
                         vpiDecompile: "1'b0"
                         vpiValue: "0"
           vpiAlwaysType: comb (2)
-  vpiTypespec (1 items):
+  vpiTypespec (2 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:FSM:
       vpiParent: Design name:unnamed
       vpiName Identifier name:FSM start:3:8 end:3:11:
@@ -795,7 +790,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -811,25 +806,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/fsm_sv/mounts.json
 
 
-{'result': {'coverage': 95.85,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/fsm.sv': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/fsm.sv': {'post_len': 0,
                                                          'pre_len': 506}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 506,
             'test_name': 'Zachjs/relong/fsm_sv'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/relong/fsm.sv |      506 |        21 |
+| $Output/lib/work/relong/fsm.sv |      506 |         0 |
 +================================+==========+===========+
-|                                |      506 |        21 |
+|                                |      506 |         0 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.85
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

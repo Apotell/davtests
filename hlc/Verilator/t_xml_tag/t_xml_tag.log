@@ -235,7 +235,7 @@ n<$Source01/t_xml_tag.v> u<220> t<Top_level_rule> c<1> l<6:1> el<44:1>
 AST_DEBUG_END
 [INF:CP0304] $Source01/t_xml_tag.v:6:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_xml_tag.v:11:1: Compile module "m".
-[ERR:EL0535] $Source01/t_xml_tag.v:32:30: Illegal implicit net "id:81, name:value".
+[WRN:CP0350] $Source01/t_xml_tag.v:32:30: Failed to bind "id:81, name:value".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -245,7 +245,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_xml_tag.v
       vpiPreprocFile: "$Output/lib/work/t_xml_tag.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:ifc file:$Source01/t_xml_tag.v start:6:1 end:9:13:
       vpiParent: Design name:unnamed
@@ -266,7 +265,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:ifc
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
         vpiName: work
@@ -303,7 +302,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: this_struct
           vpiFullName: m.this_struct
-          vpiNetType: none (12)
       vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:m
@@ -423,7 +421,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: m
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:m
         vpiName: work
@@ -531,9 +529,10 @@ Design name:unnamed:
           vpiParent: Module name:m
           vpiName: clk_ip
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:11 end:13:17:
+          vpiLowConn RefObj name:clk_ip start:13:11 end:13:17:
             vpiParent: Port name:clk_ip
-            vpiFullName: m.clk_ip
+            vpiName: clk_ip
+            vpiFullName: m.clk_ip.clk_ip
             vpiActual: Net name:clk_ip
           vpiTypespec RefTypespec start:13:4 end:13:9:
             vpiParent: Port name:clk_ip
@@ -543,9 +542,10 @@ Design name:unnamed:
           vpiParent: Module name:m
           vpiName: rst_ip
           vpiDirection: input (1)
-          vpiLowConn RefObj start:14:11 end:14:17:
+          vpiLowConn RefObj name:rst_ip start:14:11 end:14:17:
             vpiParent: Port name:rst_ip
-            vpiFullName: m.rst_ip
+            vpiName: rst_ip
+            vpiFullName: m.rst_ip.rst_ip
             vpiActual: Net name:rst_ip
           vpiTypespec RefTypespec start:14:4 end:14:9:
             vpiParent: Port name:rst_ip
@@ -555,9 +555,10 @@ Design name:unnamed:
           vpiParent: Module name:m
           vpiName: foo_op
           vpiDirection: output (2)
-          vpiLowConn RefObj start:15:11 end:15:17:
+          vpiLowConn RefObj name:foo_op start:15:11 end:15:17:
             vpiParent: Port name:foo_op
-            vpiFullName: m.foo_op
+            vpiName: foo_op
+            vpiFullName: m.foo_op.foo_op
             vpiActual: Net name:foo_op
           vpiTypespec RefTypespec start:15:4 end:15:10:
             vpiParent: Port name:foo_op
@@ -617,8 +618,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

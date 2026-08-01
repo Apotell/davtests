@@ -618,9 +618,9 @@ n<$Source01/event3.v> u<603> t<Top_level_rule> c<1> l<1:1> el<63:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/event3.v:1:1: Compile module "et1".
 [INF:CP0303] $Source01/event3.v:48:1: Compile module "m".
-[ERR:EL0535] $Source01/event3.v:27:12: Illegal implicit net "id:129, name:e2".
-[ERR:EL0535] $Source01/event3.v:30:12: Illegal implicit net "id:143, name:e2".
-[ERR:EL0535] $Source01/event3.v:33:12: Illegal implicit net "id:157, name:e2".
+[WRN:CP0350] $Source01/event3.v:27:12: Failed to bind "id:129, name:e2".
+[WRN:CP0350] $Source01/event3.v:30:12: Failed to bind "id:143, name:e2".
+[WRN:CP0350] $Source01/event3.v:33:12: Failed to bind "id:157, name:e2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -630,7 +630,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: event3.v
       vpiPreprocFile: "$Output/lib/work/event3.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:et1 file:$Source01/event3.v start:1:1 end:46:10:
       vpiParent: Design name:unnamed
@@ -638,6 +637,42 @@ Design name:unnamed:
         vpiParent: Module name:et1
         vpiName: et1
       vpiFullName: et1
+      vpiVariable (4 items):
+        Variable name:a start:2:12 end:2:13:
+          vpiParent: Module name:et1
+          vpiTypespec RefTypespec start:2:1 end:2:11:
+            vpiParent: Variable name:a
+            vpiFullName: et1.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: et1.a
+          vpiVector: true
+        Variable name:b start:3:12 end:3:13:
+          vpiParent: Module name:et1
+          vpiTypespec RefTypespec start:3:1 end:3:11:
+            vpiParent: Variable name:b
+            vpiFullName: et1.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: et1.b
+          vpiVector: true
+        Variable name:y start:6:12 end:6:13:
+          vpiParent: Module name:et1
+          vpiTypespec RefTypespec start:6:1 end:6:11:
+            vpiParent: Variable name:y
+            vpiFullName: et1.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: et1.y
+          vpiVector: true
+        Variable name:e1 start:8:7 end:8:9:
+          vpiParent: Module name:et1
+          vpiTypespec RefTypespec start:8:1 end:8:6:
+            vpiParent: Variable name:e1
+            vpiFullName: et1.e1
+            vpiActual: EventTypespec
+          vpiName: e1
+          vpiFullName: et1.e1
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:et1
@@ -751,29 +786,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:m
             vpiName: m
       vpiDefName: et1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:et1
         vpiName: work
         vpiFullName: et1.work
       vpiCell: et1
-      vpiNet (5 items):
-        Net name:a start:2:12 end:2:13:
-          vpiParent: Module name:et1
-          vpiTypespec RefTypespec start:2:1 end:2:11:
-            vpiParent: Net name:a
-            vpiFullName: et1.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: et1.a
-        Net name:b start:3:12 end:3:13:
-          vpiParent: Module name:et1
-          vpiTypespec RefTypespec start:3:1 end:3:11:
-            vpiParent: Net name:b
-            vpiFullName: et1.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: et1.b
+      vpiNet (1 items):
         Net name:x start:5:13 end:5:14:
           vpiParent: Module name:et1
           vpiTypespec RefTypespec start:5:6 end:5:12:
@@ -783,22 +802,6 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: et1.x
           vpiNetType: wire (1)
-        Net name:y start:6:12 end:6:13:
-          vpiParent: Module name:et1
-          vpiTypespec RefTypespec start:6:1 end:6:11:
-            vpiParent: Net name:y
-            vpiFullName: et1.y
-            vpiActual: LogicTypespec
-          vpiName: y
-          vpiFullName: et1.y
-        Net name:e1 start:8:7 end:8:9:
-          vpiParent: Module name:et1
-          vpiTypespec RefTypespec start:8:1 end:8:6:
-            vpiParent: Net name:e1
-            vpiFullName: et1.e1
-            vpiActual: EventTypespec
-          vpiName: e1
-          vpiFullName: et1.e1
       vpiProcess (3 items):
         Initial start:10:1 end:16:4:
           vpiParent: Module name:et1
@@ -846,7 +849,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName: a
                     vpiFullName: et1.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:12:36 end:12:42:
                     vpiParent: SysTaskCall name:$monitor
                     vpiTypespec RefTypespec:
@@ -861,7 +864,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName: b
                     vpiFullName: et1.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Constant start:12:47 end:12:53:
                     vpiParent: SysTaskCall name:$monitor
                     vpiTypespec RefTypespec:
@@ -891,7 +894,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName: y
                     vpiFullName: et1.y
-                    vpiActual: Net name:y
+                    vpiActual: Variable name:y
               DelayControl start:14:2 end:15:10:
                 vpiParent: Begin
                 vpiStmt SysTaskCall name:$finish start:15:2 end:15:9:
@@ -922,7 +925,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: et1.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:19:6 end:19:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -940,7 +943,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b
                   vpiFullName: et1.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
                 vpiRhs Constant start:20:6 end:20:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -960,7 +963,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: a
                     vpiFullName: et1.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   vpiRhs Constant start:22:6 end:22:8:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -990,7 +993,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: b
                     vpiFullName: et1.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   vpiRhs Constant start:24:6 end:24:8:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1020,7 +1023,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: a
                     vpiFullName: et1.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   vpiRhs Constant start:26:6 end:26:8:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1073,7 +1076,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: b
                     vpiFullName: et1.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   vpiRhs Constant start:29:6 end:29:8:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1126,7 +1129,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: a
                     vpiFullName: et1.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   vpiRhs Constant start:32:6 end:32:8:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1177,7 +1180,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b
                   vpiFullName: et1.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
                 vpiRhs Constant start:34:6 end:34:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1197,7 +1200,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: a
                     vpiFullName: et1.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   vpiRhs Constant start:36:6 end:36:8:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1226,7 +1229,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: e1
               vpiFullName: et1.e1
-              vpiActual: Net name:e1
+              vpiActual: Variable name:e1
             vpiStmt Begin start:39:12 end:41:4:
               vpiParent: EventControl
               vpiFullName: et1
@@ -1237,12 +1240,12 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: y
                     vpiFullName: et1.y
-                    vpiActual: Net name:y
+                    vpiActual: Variable name:y
                   vpiRhs RefObj name:b start:40:7 end:40:8:
                     vpiParent: Assignment
                     vpiName: b
                     vpiFullName: et1.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:m1 start:44:3 end:44:5:
@@ -1263,7 +1266,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: a
                 vpiFullName: et1.m1.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
             Port start:44:9 end:44:10:
               vpiParent: RefInstance name:m1
               vpiLowConn RefObj:
@@ -1280,6 +1283,24 @@ Design name:unnamed:
         vpiParent: Module name:m
         vpiName: m
       vpiFullName: m
+      vpiVariable (2 items):
+        Variable name:x start:50:15 end:50:16:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:51:1 end:51:14:
+            vpiParent: Variable name:x
+            vpiFullName: m.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: m.x
+          vpiVector: true
+        Variable name:e2 start:53:7 end:53:9:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:53:1 end:53:6:
+            vpiParent: Variable name:e2
+            vpiFullName: m.e2
+            vpiActual: EventTypespec
+          vpiName: e2
+          vpiFullName: m.e2
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:m
@@ -1362,13 +1383,13 @@ Design name:unnamed:
         EventTypespec start:53:1 end:53:6:
           vpiParent: Module name:m
       vpiDefName: m
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:m
         vpiName: work
         vpiFullName: m.work
       vpiCell: m
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:a start:49:14 end:49:15:
           vpiParent: Module name:m
           vpiTypespec RefTypespec start:49:7 end:49:13:
@@ -1377,28 +1398,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: m.a
-        Net name:x start:50:15 end:50:16:
-          vpiParent: Module name:m
-          vpiTypespec RefTypespec start:50:8 end:50:14:
-            vpiParent: Net name:x
-            vpiFullName: m.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: m.x
-        Net name:e2 start:53:7 end:53:9:
-          vpiParent: Module name:m
-          vpiTypespec RefTypespec start:53:1 end:53:6:
-            vpiParent: Net name:e2
-            vpiFullName: m.e2
-            vpiActual: EventTypespec
-          vpiName: e2
-          vpiFullName: m.e2
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:48:11 end:48:12:
           vpiParent: Module name:m
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:48:11 end:48:12:
+          vpiLowConn RefObj name:a start:49:14 end:49:15:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: m.a.a
@@ -1411,15 +1417,14 @@ Design name:unnamed:
           vpiParent: Module name:m
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj name:x start:48:13 end:48:14:
+          vpiLowConn RefObj name:x start:50:15 end:50:16:
             vpiParent: Port name:x
             vpiName: x
             vpiFullName: m.x.x
-            vpiActual: Net name:x
+            vpiActual: Variable name:x
           vpiTypespec RefTypespec start:50:8 end:50:14:
             vpiParent: Port name:x
             vpiFullName: m.x
-            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:55:1 end:60:4:
           vpiParent: Module name:m
@@ -1429,7 +1434,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: e2
               vpiFullName: m.e2
-              vpiActual: Net name:e2
+              vpiActual: Variable name:e2
             vpiStmt Begin start:55:12 end:60:4:
               vpiParent: EventControl
               vpiFullName: m
@@ -1442,7 +1447,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: x
                       vpiFullName: m.x
-                      vpiActual: Net name:x
+                      vpiActual: Variable name:x
                     vpiRhs RefObj name:a start:57:7 end:57:8:
                       vpiParent: Assignment
                       vpiName: a
@@ -1478,7 +1483,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:et1.e1
                             vpiName: e1
                             vpiFullName: m.e1
-                            vpiActual: Net name:e1
+                            vpiActual: Variable name:e1
                   vpiDelay Constant start:58:3 end:58:4:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -1511,8 +1516,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

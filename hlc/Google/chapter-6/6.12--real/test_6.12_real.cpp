@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,14 @@
 //
 // Checked:
 //   - design has module top
-//   - module has exactly 1 net: 'a'
-//   - 'a' typespec → RealTypespec
+//   - module has exactly 1 variable: 'a'
+//   - 'a' typespec -> RealTypespec
 //   - 'a' initial value: Constant vpiRealConst, decompile "0.5"
 //   - top has no continuous assignments
 //   - top has no processes
-//   - net type of 'a' is vpiRealVar (the SV real keyword maps to a special net type)
+//   - 'a' is modeled as a generic hldb::Variable (getVpiType() == vpiVariable);
+//     the "real" classification is carried entirely by its RealTypespec, not
+//     by a distinct per-kind object type
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -39,6 +41,7 @@
 #include <hldb/net.h>
 #include <hldb/real_typespec.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -49,67 +52,62 @@ class Real : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(Real, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
-}
+TEST_F(Real, ModuleExists) { ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr); }
 
-TEST_F(Real, OneNetExists) {
+TEST_F(Real, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly one net 'a'";
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u) << "expected exactly one variable 'a'";
 }
 
-TEST_F(Real, ANetExists) {
+TEST_F(Real, AVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
+  ASSERT_NE(hldb::findByName<hldb::Variable>("a", top->getVariables()), nullptr) << "variable 'a' not found";
 }
 
-// ---------------------------------------------------------------------------
-// Typespec — net 'a' must resolve to RealTypespec
-// ---------------------------------------------------------------------------
-TEST_F(Real, ANetTypespecIsReal) {
+TEST_F(Real, ANotInNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'real' has no net-type keyword, so 'a'
+  // must not also be materialized as a Net.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("a", top->getNets()) == nullptr)
+      << "'real a' must not appear in vpiNet";
+}
+
+// ----
+// Typespec -- variable 'a' must resolve to RealTypespec
+// ----
+TEST_F(Real, AVariableTypespecIsReal) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
 
   const hldb::RefTypespec *const rts = a->getTypespec();
-  ASSERT_NE(rts, nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "net 'a' typespec does not resolve to RealTypespec";
+  ASSERT_NE(rts, nullptr) << "variable 'a' has no typespec";
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "variable 'a' typespec does not resolve to RealTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// Net type -- the SV 'real' keyword maps to vpiRealVar, not vpiWire/vpiReg
-// ---------------------------------------------------------------------------
-TEST_F(Real, ANetTypeIsRealVar) {
-  GTEST_SKIP() << "Net types aren't being set correctly yet";
+// ----
+// Initial value -- vpiConstType=vpiRealConst, decompile "0.5"
+// ----
+TEST_F(Real, AVariableInitialValueConstType) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getNetType(), vpiRealVar) << "expected vpiNetType vpiRealVar (47) for 'real a'";
-}
-
-// ---------------------------------------------------------------------------
-// Initial value — vpiConstType=vpiRealConst, decompile "0.5"
-// ---------------------------------------------------------------------------
-TEST_F(Real, ANetInitialValueConstType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
 
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
-  ASSERT_NE(init, nullptr) << "net 'a' has no initial value Constant";
+  ASSERT_NE(init, nullptr) << "variable 'a' has no initial value Constant";
   EXPECT_EQ(init->getConstType(), vpiRealConst) << "expected vpiRealConst (2) for a real-typed initial value";
 }
 
-TEST_F(Real, ANetInitialValueIsHalf) {
+TEST_F(Real, AVariableInitialValueIsHalf) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
 
   const hldb::Constant *const init = a->getValue<hldb::Constant>();

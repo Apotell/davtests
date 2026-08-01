@@ -292,13 +292,12 @@ n<$Source01/scope1.v> u<277> t<Top_level_rule> c<1> l<25:1> el<62:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/scope1.v:25:1: Compile module "glob".
 [INF:CP0303] $Source01/scope1.v:32:1: Compile module "main".
-[ERR:EL0535] $Source01/scope1.v:40:6: Illegal implicit net "id:29, name:var1".
-[ERR:EL0535] $Source01/scope1.v:41:6: Illegal implicit net "id:36, name:var2".
-[ERR:EL0535] $Source01/scope1.v:45:13: Illegal implicit net "id:42, name:fake".
-[ERR:EL0535] $Source01/scope1.v:49:14: Illegal implicit net "id:54, name:var1".
-[ERR:EL0535] $Source01/scope1.v:50:43: Illegal implicit net "id:65, name:var1".
-[ERR:EL0535] $Source01/scope1.v:53:14: Illegal implicit net "id:73, name:var2".
-[ERR:EL0535] $Source01/scope1.v:54:43: Illegal implicit net "id:84, name:var2".
+[WRN:CP0350] $Source01/scope1.v:40:6: Failed to bind "id:29, name:var1".
+[WRN:CP0350] $Source01/scope1.v:41:6: Failed to bind "id:36, name:var2".
+[WRN:CP0350] $Source01/scope1.v:49:14: Failed to bind "id:54, name:var1".
+[WRN:CP0350] $Source01/scope1.v:50:43: Failed to bind "id:65, name:var1".
+[WRN:CP0350] $Source01/scope1.v:53:14: Failed to bind "id:73, name:var2".
+[WRN:CP0350] $Source01/scope1.v:54:43: Failed to bind "id:84, name:var2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -308,7 +307,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: scope1.v
       vpiPreprocFile: "$Output/lib/work/scope1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:glob file:$Source01/scope1.v start:25:1 end:30:10:
       vpiParent: Design name:unnamed
@@ -316,17 +314,36 @@ Design name:unnamed:
         vpiParent: Module name:glob
         vpiName: glob
       vpiFullName: glob
+      vpiVariable (2 items):
+        Variable name:var1 start:28:8 end:28:12:
+          vpiParent: Module name:glob
+          vpiTypespec RefTypespec start:28:4 end:28:7:
+            vpiParent: Variable name:var1
+            vpiFullName: glob.var1
+            vpiActual: LogicTypespec
+          vpiName: var1
+          vpiFullName: glob.var1
+          vpiScalar: true
+        Variable name:var2 start:29:8 end:29:12:
+          vpiParent: Module name:glob
+          vpiTypespec RefTypespec start:29:4 end:29:7:
+            vpiParent: Variable name:var2
+            vpiFullName: glob.var2
+            vpiActual: LogicTypespec
+          vpiName: var2
+          vpiFullName: glob.var2
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:glob
       vpiDefName: glob
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:glob
         vpiName: work
         vpiFullName: glob.work
       vpiCell: glob
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:fake start:26:10 end:26:14:
           vpiParent: Module name:glob
           vpiTypespec RefTypespec start:26:10 end:26:10:
@@ -335,28 +352,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: fake
           vpiFullName: glob.fake
-        Net name:var1 start:28:8 end:28:12:
-          vpiParent: Module name:glob
-          vpiTypespec RefTypespec start:28:4 end:28:7:
-            vpiParent: Net name:var1
-            vpiFullName: glob.var1
-            vpiActual: LogicTypespec
-          vpiName: var1
-          vpiFullName: glob.var1
-        Net name:var2 start:29:8 end:29:12:
-          vpiParent: Module name:glob
-          vpiTypespec RefTypespec start:29:4 end:29:7:
-            vpiParent: Net name:var2
-            vpiFullName: glob.var2
-            vpiActual: LogicTypespec
-          vpiName: var2
-          vpiFullName: glob.var2
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:fake start:25:13 end:25:17:
           vpiParent: Module name:glob
           vpiName: fake
           vpiDirection: input (1)
-          vpiLowConn RefObj name:fake start:25:13 end:25:17:
+          vpiLowConn RefObj name:fake start:26:10 end:26:14:
             vpiParent: Port name:fake
             vpiName: fake
             vpiFullName: glob.fake.fake
@@ -378,7 +380,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:glob
             vpiName: glob
       vpiDefName: main
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:main
         vpiName: work
@@ -658,8 +660,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

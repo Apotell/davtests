@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +18,17 @@
 // as an implicit net in the top module:
 //   module top:  wire a=1, b=0, d;  test mod(a, b, c);  assign d = c;
 //   module test: input a, b; output c;  assign c = a | b;
-// HLC reports EL0535 twice (implicit net 'c') but still produces UHDM.
+// Per IEEE 1800-2023 Sec 6.10, the undeclared identifier 'c' (used both as a
+// port connection and as the RHS of a continuous assignment) is implicitly
+// declared as a scalar net of the default net type (wire). This is legal
+// SystemVerilog; HLC compiles this with 0 errors and, at this
+// (non-elaborated) stage, does not materialize a Net object for 'c' -- only
+// RefObj references with no vpiActual back-pointer are recorded.
 //
 // Checked:
 //   - design has exactly 2 modules (top, test)
 //   - top has 3 explicit nets (a=1, b=0, d); 'c' is implicit and absent from vpiNet
-//   - top has 1 ContAssign: lhs=d, rhs=c (RefObj with no vpiActual — implicit)
+//   - top has 1 ContAssign: lhs=d, rhs=c (RefObj with no vpiActual -- implicit)
 //   - top has 1 RefInstance named "mod" with 3 port connections
 //   - RefInstance "mod" typespec is a ModuleTypespec pointing to test (via getName())
 //   - port connection for 'c' on the RefInstance has no vpiActual (implicit net)
@@ -57,17 +62,17 @@ class ImplicitPortConnection : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Design level
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ImplicitPortConnection, TwoModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "expected top and test";
 }
 
-// ---------------------------------------------------------------------------
-// top — net declarations (a, b, d explicit; c implicit)
-// ---------------------------------------------------------------------------
+// ----
+// top -- net declarations (a, b, d explicit; c implicit)
+// ----
 TEST_F(ImplicitPortConnection, TopModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
@@ -76,7 +81,7 @@ TEST_F(ImplicitPortConnection, TopHasThreeNets) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 3u) << "expected nets a, b, d — 'c' is implicit and absent from vpiNet";
+  EXPECT_EQ(top->getNets()->size(), 3u) << "expected nets a, b, d -- 'c' is implicit and absent from vpiNet";
 }
 
 TEST_F(ImplicitPortConnection, TopANetHasInitialValueOne) {
@@ -110,12 +115,12 @@ TEST_F(ImplicitPortConnection, TopCNetNotDeclared) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr)
-      << "'c' should not appear in vpiNet of top — it is implicit (EL0535)";
+      << "'c' should not appear in vpiNet of top -- implicit net not yet bound/materialized";
 }
 
-// ---------------------------------------------------------------------------
-// top — assign d = c (RHS 'c' has no vpiActual)
-// ---------------------------------------------------------------------------
+// ----
+// top -- assign d = c (RHS 'c' has no vpiActual)
+// ----
 TEST_F(ImplicitPortConnection, TopContAssignLhsIsD) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -135,12 +140,12 @@ TEST_F(ImplicitPortConnection, TopContAssignRhsIsCWithNoActual) {
   const hldb::RefObj *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "ContAssign RHS is not a RefObj";
   EXPECT_EQ(rhs->getName(), "c");
-  EXPECT_EQ(rhs->getActual(), nullptr) << "'c' is implicit — RHS RefObj should have no vpiActual";
+  EXPECT_EQ(rhs->getActual(), nullptr) << "'c' is implicit -- RHS RefObj should have no vpiActual";
 }
 
-// ---------------------------------------------------------------------------
-// top — module instantiation: test mod(a, b, c)
-// ---------------------------------------------------------------------------
+// ----
+// top -- module instantiation: test mod(a, b, c)
+// ----
 TEST_F(ImplicitPortConnection, TopHasOneRefInstance) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -179,7 +184,7 @@ TEST_F(ImplicitPortConnection, TopPortCConnectionHasNoActual) {
   ASSERT_NE(inst->getPorts(), nullptr);
   ASSERT_EQ(inst->getPorts()->size(), 3u);
 
-  // Third port connection is 'c' — implicit, so highConn RefObj has no vpiActual
+  // Third port connection is 'c' -- implicit, so highConn RefObj has no vpiActual
   const hldb::Port *const port_c = any_cast<hldb::Port>(inst->getPorts()->at(2));
   ASSERT_NE(port_c, nullptr);
   const hldb::RefObj *const hc = port_c->getHighConn<hldb::RefObj>();
@@ -220,9 +225,9 @@ TEST_F(ImplicitPortConnection, TopRefInstanceModTypespecGetModuleIsNull) {
       << "getName() is the only reliable way to identify the submodule";
 }
 
-// ---------------------------------------------------------------------------
-// test — module definition with ports and assign c = a | b
-// ---------------------------------------------------------------------------
+// ----
+// test -- module definition with ports and assign c = a | b
+// ----
 TEST_F(ImplicitPortConnection, TestModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("test", m_design->getAllModules()), nullptr);
 }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2026 Alain Dargelas
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +14,13 @@
  limitations under the License.
 */
 
-// Validates IEEE 1800-2017 §19 covergroup HLDB model built by Phase2ModelBuilder.
+// Validates IEEE 1800-2017 Sec 19 covergroup HLDB model built by Phase2ModelBuilder.
 // Tests covergroup declarations nested inside a module body so they are
 // reachable via module->getCoverGroups().
 //
 // DUT (dut.sv) declares inside module covergroup_dut:
-//   cg_basic   — 3 coverpoints, 2 crosses, interleaved coverage_options
-//   cg_clocked — covergroup with @(posedge clk) sampling event
+//   cg_basic   -- 3 coverpoints, 2 crosses, interleaved coverage_options
+//   cg_clocked -- covergroup with @(posedge clk) sampling event
 //
 // CoverGroup stores all coverage_spec_or_option items (coverpoint,
 // cover_cross, coverage_option) in order via getStmts() AnyCollection.
@@ -154,7 +154,7 @@ class CovergroupDeclTest : public Test {
   }
 };
 
-// --- Module and covergroup presence ----------------------------------------
+// --- Module and covergroup presence ----
 
 TEST_F(CovergroupDeclTest, ModuleExists) {
   const hldb::Module *mod = hldb::findByName<hldb::Module>("covergroup_dut", m_design->getAllModules());
@@ -183,7 +183,7 @@ TEST_F(CovergroupDeclTest, CgClockedFound) {
   ASSERT_NE(cg, nullptr) << "cg_clocked not found in module";
 }
 
-// --- cg_basic structure: ordered stmt list ---------------------------------
+// --- cg_basic structure: ordered stmt list ----
 // getStmts() is the AnyCollection holding coverage_option, cover_point, and
 // cover_cross items in source order.
 
@@ -224,7 +224,7 @@ TEST_F(CovergroupDeclTest, CgBasicStmtTotalCount) {
   EXPECT_EQ(stmts->size(), 7u) << "cg_basic should have 7 ordered stmt items";
 }
 
-// --- cross_item_list: 2-way cross ------------------------------------------
+// --- cross_item_list: 2-way cross ----
 
 TEST_F(CovergroupDeclTest, TwoWayCrossFound) {
   const hldb::Module *mod = hldb::findByName<hldb::Module>("covergroup_dut", m_design->getAllModules());
@@ -235,7 +235,7 @@ TEST_F(CovergroupDeclTest, TwoWayCrossFound) {
   ASSERT_NE(cx, nullptr) << "2-way cross cx_op_addr not found";
 }
 
-// --- cross_item_list: 3-way cross ------------------------------------------
+// --- cross_item_list: 3-way cross ----
 // cross_item_list grammar: cross_item COMMA cross_item (COMMA cross_item)*
 // A 3-way cross exercises the repeating (COMMA cross_item)* portion.
 // Each cross_item is a plain identifier naming a coverpoint (resolved at
@@ -283,7 +283,7 @@ TEST_F(CovergroupDeclTest, TwoWayCrossHasTwoStmts) {
   EXPECT_EQ(cx->getCrossItems()->size(), 2u) << "2-way cross should have 2 RefObj items in stmts";
 }
 
-// Three items: cp_op, cp_addr, cp_valid — exercises the repeating grammar rule.
+// Three items: cp_op, cp_addr, cp_valid -- exercises the repeating grammar rule.
 TEST_F(CovergroupDeclTest, ThreeWayCrossHasThreeStmts) {
   const hldb::Module *mod = hldb::findByName<hldb::Module>("covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
@@ -311,7 +311,7 @@ TEST_F(CovergroupDeclTest, ThreeWayCrossStmtNames) {
   EXPECT_EQ((*items)[2]->getName(), "cp_valid") << "third cross item should be cp_valid";
 }
 
-// --- cp_op coverpoint -------------------------------------------------------
+// --- cp_op coverpoint ----
 // CoverPoint stores the first declared bin via getCoverBin() (card:1).
 // cp_op's first bin is "rd" (regular bins, binType=0, isWildcard=false).
 
@@ -347,7 +347,7 @@ TEST_F(CovergroupDeclTest, CpOpFirstBinIsRegular) {
   EXPECT_FALSE(bin->getIsWildcard());
 }
 
-// --- cp_addr coverpoint -----------------------------------------------------
+// --- cp_addr coverpoint ----
 // cp_addr's first bin is "lo" (regular bins covering low nibble).
 
 TEST_F(CovergroupDeclTest, CpAddrFound) {
@@ -381,7 +381,7 @@ TEST_F(CovergroupDeclTest, CpAddrFirstBinIsRegular) {
   EXPECT_EQ(bin->getBinType(), vpiBinsTypeBins) << "First bin 'lo' should be regular";
 }
 
-// --- cp_valid coverpoint ----------------------------------------------------
+// --- cp_valid coverpoint ----
 
 TEST_F(CovergroupDeclTest, CpValidFound) {
   const hldb::Module *mod = hldb::findByName<hldb::Module>("covergroup_dut", m_design->getAllModules());
@@ -402,7 +402,7 @@ TEST_F(CovergroupDeclTest, CpValidHasFirstBin) {
   EXPECT_NE(firstBin(cp), nullptr) << "cp_valid should have at least one bin";
 }
 
-// --- cg_clocked ------------------------------------------------------------
+// --- cg_clocked ----
 
 TEST_F(CovergroupDeclTest, CgClockedHasSamplingEvent) {
   const hldb::Module *mod = hldb::findByName<hldb::Module>("covergroup_dut", m_design->getAllModules());
@@ -429,7 +429,7 @@ TEST_F(CovergroupDeclTest, CgClockedCpStateName) {
   ASSERT_NE(cp, nullptr) << "cp_state not found in cg_clocked";
 }
 
-// --- module top ------------------------------------------------------------
+// --- module top ----
 // module top declares covergroup cg @(posedge clk) with coverpoints a, b
 // and a cross c whose body has 3 bins_selection items (select_expressions).
 // Cross stmts: 2 RefObj cross items (a, b) + 3 CoverBin from body = 5 total.
@@ -487,11 +487,11 @@ static const hldb::CoverBin *findCrossBin(const hldb::CoverCross *cx, std::strin
 
 // cross c:
 //   bins c1 = ! binsof(a) intersect {[100:200]}
-//     → value: NOT( INTERSECT(RefObj("a"), ListOp([100:200])) )
+//     -> value: NOT( INTERSECT(RefObj("a"), ListOp([100:200])) )
 //   bins c2 = binsof(a.a2) || binsof(b.b2)
-//     → value: LOGOR(RefObj("a.a2"), RefObj("b.b2"))
+//     -> value: LOGOR(RefObj("a.a2"), RefObj("b.b2"))
 //   bins c3 = binsof(a.a1) && binsof(b.b4)
-//     → value: LOGAND(RefObj("a.a1"), RefObj("b.b4"))
+//     -> value: LOGAND(RefObj("a.a1"), RefObj("b.b4"))
 TEST_F(CovergroupDeclTest, ModuleTopCrossBinC1HasValue) {
   const hldb::Module *mod = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
@@ -500,7 +500,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC1HasValue) {
   const auto *bin = findCrossBin(cx, "c1");
   ASSERT_NE(bin, nullptr) << "bins c1 not found";
   ASSERT_NE(bin->getValue(), nullptr) << "c1 should have a value (NOT INTERSECT expr)";
-  // c1 = ! binsof(a) intersect {[100:200]} → NOT operation
+  // c1 = ! binsof(a) intersect {[100:200]} -> NOT operation
   SCOPED_TRACE("c1 value AnyType=" + std::to_string((int)bin->getValue()->getAnyType()));
   const auto *notOp = any_cast<hldb::Operation>(bin->getValue());
   ASSERT_NE(notOp, nullptr) << "c1 value should be an Operation (NOT)";
@@ -515,7 +515,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC2HasValue) {
   const auto *bin = findCrossBin(cx, "c2");
   ASSERT_NE(bin, nullptr) << "bins c2 not found";
   ASSERT_NE(bin->getValue(), nullptr) << "c2 should have a value (binsof || binsof)";
-  // c2 = binsof(a.a2) || binsof(b.b2) → logical-OR operation
+  // c2 = binsof(a.a2) || binsof(b.b2) -> logical-OR operation
   const auto *orOp = any_cast<hldb::Operation>(bin->getValue());
   ASSERT_NE(orOp, nullptr) << "c2 value should be an Operation (||)";
   EXPECT_EQ(orOp->getOpType(), vpiLogOrOp) << "c2 op should be vpiLogOrOp";
@@ -539,7 +539,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC3HasValue) {
   const auto *bin = findCrossBin(cx, "c3");
   ASSERT_NE(bin, nullptr) << "bins c3 not found";
   ASSERT_NE(bin->getValue(), nullptr) << "c3 should have a value (binsof && binsof)";
-  // c3 = binsof(a.a1) && binsof(b.b4) → logical-AND operation
+  // c3 = binsof(a.a1) && binsof(b.b4) -> logical-AND operation
   const auto *andOp = any_cast<hldb::Operation>(bin->getValue());
   ASSERT_NE(andOp, nullptr) << "c3 value should be an Operation (&&)";
   EXPECT_EQ(andOp->getOpType(), vpiLogAndOp) << "c3 op should be vpiLogAndOp";
@@ -598,7 +598,7 @@ TEST_F(CovergroupDeclTest, ModuleTopBinA1HasValue) {
   ASSERT_NE(cp, nullptr);
   const auto *b = getBinAt(cp, 0);
   ASSERT_NE(b, nullptr);
-  // bin a1 = { [0:63] } — value is a vpiListOp Operation wrapping a Range
+  // bin a1 = { [0:63] } -- value is a vpiListOp Operation wrapping a Range
   EXPECT_NE(b->getValue(), nullptr) << "bins a1 should have a value (vpiListOp from range_list)";
 }
 
@@ -615,7 +615,7 @@ TEST_F(CovergroupDeclTest, ModuleTopBinA2HasValue) {
 }
 
 // coverpoint a stmts order: a1(bin), option.weight(opt), a2(bin), a3(bin),
-//                           option.at_least(opt), a4(bin) — 6 items total.
+//                           option.at_least(opt), a4(bin) -- 6 items total.
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointAStmtCount) {
   const hldb::Module *mod = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
@@ -652,7 +652,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointAStmtOrderPreserved) {
 }
 
 // coverpoint b stmts order: option.weight(opt), b1(bin), b2(bin),
-//                           option.auto_bin_max(opt), b3(bin), b4(bin) — 6 items.
+//                           option.auto_bin_max(opt), b3(bin), b4(bin) -- 6 items.
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointBStmtCount) {
   const hldb::Module *mod = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
@@ -674,13 +674,13 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointBStmtOrderPreserved) {
   const auto *stmts = cp->getStmts();
   ASSERT_NE(stmts, nullptr);
   ASSERT_EQ(stmts->size(), 6u);
-  // [0] option.weight = 1 (CoverageOption — before first bin)
+  // [0] option.weight = 1 (CoverageOption -- before first bin)
   EXPECT_NE(any_cast<hldb::CoverageOption>((*stmts)[0]), nullptr) << "[0] expected CoverageOption";
   // [1] b1 (CoverBin)
   EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[1]), nullptr) << "[1] expected CoverBin (b1)";
   // [2] b2 (CoverBin)
   EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[2]), nullptr) << "[2] expected CoverBin (b2)";
-  // [3] option.auto_bin_max = 8 (CoverageOption — in middle)
+  // [3] option.auto_bin_max = 8 (CoverageOption -- in middle)
   EXPECT_NE(any_cast<hldb::CoverageOption>((*stmts)[3]), nullptr) << "[3] expected CoverageOption";
   // [4] b3 (CoverBin)
   EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[4]), nullptr) << "[4] expected CoverBin (b3)";
@@ -688,7 +688,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointBStmtOrderPreserved) {
   EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[5]), nullptr) << "[5] expected CoverBin (b4)";
 }
 
-// --- module cg_extra -------------------------------------------------------
+// --- module cg_extra ----
 // Helper: find a CoverCross with an empty name (unlabeled cross).
 static const hldb::CoverCross *findUnlabeledCX(hldb::AnyCollection *stmts) {
   if (stmts == nullptr) return nullptr;

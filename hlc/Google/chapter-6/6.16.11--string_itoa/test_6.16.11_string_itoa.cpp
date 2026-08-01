@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,14 +20,16 @@
 //     initial
 //       a.itoa(12);
 //   endmodule
+// Per IEEE 1800-2023 6.8/6.16: 'string' has no explicit net-type keyword, so
+// 'a' is a variable_declaration, not a net_declaration.
 //
 // Checked:
-//   - design has module top with 1 net (a: string, uninitialized)
-//   - net 'a' typespec resolves to StringTypespec
-//   - net 'a' has no compile-time initial value (itoa writes at runtime)
+//   - design has module top with 1 variable (a: string, uninitialized)
+//   - variable 'a' typespec resolves to StringTypespec
+//   - variable 'a' has no compile-time initial value (itoa writes at runtime)
 //   - top has 1 Initial process
 //   - Initial stmt is a HierPath named "a.itoa(12)"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
+//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
 //   - HierPath element[1] is FuncCall "itoa" with 1 argument
 //   - argument to itoa is Constant "12" stored as vpiUIntConst (HLDB stores
 //     unsized integer literals as unsigned; vpiIntConst is NOT used here)
@@ -42,11 +44,13 @@
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
 #include <hldb/initial.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -61,35 +65,43 @@ TEST_F(StringItoa, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Net — only 'a' (string, uninitialized); itoa writes into it
-// ---------------------------------------------------------------------------
-TEST_F(StringItoa, OneNetExists) {
+// ----
+// Variable -- only 'a' (string, uninitialized); itoa writes into it
+// ----
+TEST_F(StringItoa, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u) << "only net 'a'; itoa is void";
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u) << "only variable 'a'; itoa is void";
 }
 
-TEST_F(StringItoa, ANetTypespecIsString) {
+TEST_F(StringItoa, NoNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'string' has no net-type keyword, so 'a'
+  // must not be materialized as a Net.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
+}
+
+TEST_F(StringItoa, AVariableTypespecIsString) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringItoa, ANetHasNoInitialValue) {
+TEST_F(StringItoa, AVariableHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr) << "net 'a' is declared without an initial value";
+  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr) << "variable 'a' is declared without an initial value";
 }
 
-// ---------------------------------------------------------------------------
-// Initial process — initial a.itoa(12)
-// ---------------------------------------------------------------------------
+// ----
+// Initial process -- initial a.itoa(12)
+// ----
 TEST_F(StringItoa, InitialProcessExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -107,9 +119,9 @@ TEST_F(StringItoa, InitialStmtIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.itoa(12)");
 }
 
-// ---------------------------------------------------------------------------
-// HierPath — receiver 'a' and FuncCall 'itoa' with 1 argument
-// ---------------------------------------------------------------------------
+// ----
+// HierPath -- receiver 'a' and FuncCall 'itoa' with 1 argument
+// ----
 TEST_F(StringItoa, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -122,7 +134,7 @@ TEST_F(StringItoa, HierPathReceiverIsA) {
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
-  EXPECT_NE(receiver->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(StringItoa, HierPathMethodIsItoa) {

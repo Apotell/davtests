@@ -18,7 +18,7 @@ n<$Source01/relong/case.v> u<637> t<Top_level_rule> c<1> l<1:1> el<69:1>
     n<> u<5> t<Description> p<636> c<4> s<214> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<214> t<Description> p<636> c<213> s<355> l<3:1> el<16:10>
       n<> u<213> t<Module_declaration> p<214> c<45> l<3:1> el<16:10>
         n<> u<45> t<Module_ansi_header> p<213> c<6> s<46> l<3:1> el<7:3>
@@ -663,7 +663,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: case.v
       vpiPreprocFile: "$Output/lib/work/relong/case.v"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:case.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: case.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (4 items):
     Module name:Example file:$Source01/relong/case.v start:3:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -671,6 +681,15 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
+      vpiVariable (1 items):
+        Variable name:data start:6:24 end:6:28:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:6:5 end:6:23:
+            vpiParent: Variable name:data
+            vpiFullName: Example.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: Example.data
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:Example
@@ -801,7 +820,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:select start:4:22 end:4:28:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:4:5 end:4:21:
@@ -810,15 +829,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: select
           vpiFullName: Example.select
-          vpiNetType: wire (1)
-        Net name:data start:6:24 end:6:28:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:6:5 end:6:23:
-            vpiParent: Net name:data
-            vpiFullName: Example.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: Example.data
           vpiNetType: wire (1)
         Net name:__data start:9:16 end:9:22:
           vpiParent: Module name:Example
@@ -834,9 +844,10 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: select
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:22 end:4:28:
+          vpiLowConn RefObj name:select start:4:22 end:4:28:
             vpiParent: Port name:select
-            vpiFullName: Example.select
+            vpiName: select
+            vpiFullName: Example.select.select
             vpiActual: Net name:select
           vpiTypespec RefTypespec start:4:5 end:4:21:
             vpiParent: Port name:select
@@ -846,10 +857,11 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:24 end:6:28:
+          vpiLowConn RefObj name:data start:6:24 end:6:28:
             vpiParent: Port name:data
-            vpiFullName: Example.data
-            vpiActual: Net name:data
+            vpiName: data
+            vpiFullName: Example.data.data
+            vpiActual: Variable name:data
           vpiTypespec RefTypespec start:6:5 end:6:23:
             vpiParent: Port name:data
             vpiFullName: Example.data
@@ -861,7 +873,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: data
             vpiFullName: Example.data
-            vpiActual: Net name:data
+            vpiActual: Variable name:data
           vpiRhs Operation start:10:19 end:10:52:
             vpiParent: ContAssign
             vpiOpType: concatenation (33)
@@ -951,7 +963,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: Example.case0.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
               vpiHighConn BitSelect name:__data[0] start:12:45 end:12:54:
                 vpiParent: Port
                 vpiName: "__data[0]"
@@ -998,7 +1010,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: Example.case1.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
               vpiHighConn BitSelect name:__data[1] start:13:47 end:13:56:
                 vpiParent: Port
                 vpiName: "__data[1]"
@@ -1045,7 +1057,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: Example.case2.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
               vpiHighConn BitSelect name:__data[2] start:14:46 end:14:55:
                 vpiParent: Port
                 vpiName: "__data[2]"
@@ -1080,7 +1092,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: UniqueCase.data
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:UniqueCase
@@ -1156,9 +1167,10 @@ Design name:unnamed:
           vpiParent: Module name:UniqueCase
           vpiName: select
           vpiDirection: input (1)
-          vpiLowConn RefObj start:19:22 end:19:28:
+          vpiLowConn RefObj name:select start:19:22 end:19:28:
             vpiParent: Port name:select
-            vpiFullName: UniqueCase.select
+            vpiName: select
+            vpiFullName: UniqueCase.select.select
             vpiActual: Net name:select
           vpiTypespec RefTypespec start:19:5 end:19:21:
             vpiParent: Port name:select
@@ -1168,9 +1180,10 @@ Design name:unnamed:
           vpiParent: Module name:UniqueCase
           vpiName: data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:20:22 end:20:26:
+          vpiLowConn RefObj name:data start:20:22 end:20:26:
             vpiParent: Port name:data
-            vpiFullName: UniqueCase.data
+            vpiName: data
+            vpiFullName: UniqueCase.data.data
             vpiActual: Variable name:data
           vpiTypespec RefTypespec start:20:5 end:20:21:
             vpiParent: Port name:data
@@ -1321,7 +1334,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: WildcardCase.data
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:WildcardCase
@@ -1397,9 +1409,10 @@ Design name:unnamed:
           vpiParent: Module name:WildcardCase
           vpiName: select
           vpiDirection: input (1)
-          vpiLowConn RefObj start:36:22 end:36:28:
+          vpiLowConn RefObj name:select start:36:22 end:36:28:
             vpiParent: Port name:select
-            vpiFullName: WildcardCase.select
+            vpiName: select
+            vpiFullName: WildcardCase.select.select
             vpiActual: Net name:select
           vpiTypespec RefTypespec start:36:5 end:36:21:
             vpiParent: Port name:select
@@ -1409,9 +1422,10 @@ Design name:unnamed:
           vpiParent: Module name:WildcardCase
           vpiName: data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:37:22 end:37:26:
+          vpiLowConn RefObj name:data start:37:22 end:37:26:
             vpiParent: Port name:data
-            vpiFullName: WildcardCase.data
+            vpiName: data
+            vpiFullName: WildcardCase.data.data
             vpiActual: Variable name:data
           vpiTypespec RefTypespec start:37:5 end:37:21:
             vpiParent: Port name:data
@@ -1562,7 +1576,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: DefaultCase.data
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:DefaultCase
@@ -1638,9 +1651,10 @@ Design name:unnamed:
           vpiParent: Module name:DefaultCase
           vpiName: select
           vpiDirection: input (1)
-          vpiLowConn RefObj start:55:22 end:55:28:
+          vpiLowConn RefObj name:select start:55:22 end:55:28:
             vpiParent: Port name:select
-            vpiFullName: DefaultCase.select
+            vpiName: select
+            vpiFullName: DefaultCase.select.select
             vpiActual: Net name:select
           vpiTypespec RefTypespec start:55:5 end:55:21:
             vpiParent: Port name:select
@@ -1650,9 +1664,10 @@ Design name:unnamed:
           vpiParent: Module name:DefaultCase
           vpiName: data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:56:22 end:56:26:
+          vpiLowConn RefObj name:data start:56:22 end:56:26:
             vpiParent: Port name:data
-            vpiFullName: DefaultCase.data
+            vpiName: data
+            vpiFullName: DefaultCase.data.data
             vpiActual: Variable name:data
           vpiTypespec RefTypespec start:56:5 end:56:21:
             vpiParent: Port name:data
@@ -1778,6 +1793,8 @@ Design name:unnamed:
                           vpiValue: "8"
           vpiAlwaysType: always (1)
   vpiTypespec (7 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:Example:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Example start:3:8 end:3:15:
@@ -1794,8 +1811,6 @@ Design name:unnamed:
         vpiName: UniqueCase
       vpiModule: Module name:UniqueCase
     LogicTypespec:
-      vpiParent: Design name:unnamed
-    IntTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:WildcardCase:
       vpiParent: Design name:unnamed
@@ -1828,25 +1843,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/case_v/mounts.json
 
 
-{'result': {'coverage': 97.58,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/case.v': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/case.v': {'post_len': 0,
                                                          'pre_len': 867}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 867,
             'test_name': 'Zachjs/relong/case_v'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/relong/case.v |      867 |        21 |
+| $Output/lib/work/relong/case.v |      867 |         0 |
 +================================+==========+===========+
-|                                |      867 |        21 |
+|                                |      867 |         0 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.58
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1857,7 +1872,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/case_v/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             270     270       0         0
+Others                             273     273       0         0
 ----------------------------------------------------------------
-                                   270     270       0         0
+                                   273     273       0         0
 ===================== END REDUCTION RESULT =====================

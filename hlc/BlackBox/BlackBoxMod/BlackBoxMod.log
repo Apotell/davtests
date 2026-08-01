@@ -145,8 +145,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "nyuzi".
 [INF:CP0335] $Source01/dut.sv:17:17: Compile generate block "core_gen".
 [INF:CP0303] $Source01/dut.sv:25:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:31:12: Illegal implicit net "id:60, name:o".
-[ERR:EL0535] $Source01/dut.sv:27:21: Illegal implicit net "id:67, name:core_gen".
 [WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "core".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "nyuzi".
 [WRN:PA0205] $Source01/dut.sv:25:1: No timescale set for "top".
@@ -200,7 +198,6 @@ Design name:unnamed:
           vpiPMIBody Identifier name:nyuzi.core_gen[0].core start:27:15 end:27:37:
             vpiParent: PreprocMacroInstance name:CORE0
             vpiName: nyuzi.core_gen[0].core
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:core file:$Source01/dut.sv start:5:1 end:9:10:
       vpiParent: Design name:unnamed
@@ -208,43 +205,43 @@ Design name:unnamed:
         vpiParent: Module name:core
         vpiName: core
       vpiFullName: core
+      vpiVariable (1 items):
+        Variable name:wb_writeback_en start:7:5 end:7:20:
+          vpiParent: Module name:core
+          vpiTypespec RefTypespec start:7:1 end:7:4:
+            vpiParent: Variable name:wb_writeback_en
+            vpiFullName: core.wb_writeback_en
+            vpiActual: IntTypespec
+          vpiName: wb_writeback_en
+          vpiFullName: core.wb_writeback_en
       vpiDefName: core
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:core
         vpiName: work
         vpiFullName: core.work
       vpiCell: core
-      vpiNet (1 items):
-        Net name:wb_writeback_en start:7:5 end:7:20:
-          vpiParent: Module name:core
-          vpiTypespec RefTypespec start:7:1 end:7:4:
-            vpiParent: Net name:wb_writeback_en
-            vpiFullName: core.wb_writeback_en
-            vpiActual: IntTypespec
-          vpiName: wb_writeback_en
-          vpiFullName: core.wb_writeback_en
     Module name:nyuzi file:$Source01/dut.sv start:12:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:nyuzi start:12:8 end:12:13:
         vpiParent: Module name:nyuzi
         vpiName: nyuzi
       vpiFullName: nyuzi
+      vpiVariable (1 items):
+        Variable name:core_idx start:14:12 end:14:20:
+          vpiParent: Module name:nyuzi
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:core_idx
+            vpiFullName: nyuzi.core_idx
+          vpiName: core_idx
+          vpiFullName: nyuzi.core_idx
       vpiDefName: nyuzi
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:nyuzi
         vpiName: work
         vpiFullName: nyuzi.work
       vpiCell: nyuzi
-      vpiNet (1 items):
-        Net name:core_idx start:14:12 end:14:20:
-          vpiParent: Module name:nyuzi
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:core_idx
-            vpiFullName: nyuzi.core_idx
-          vpiName: core_idx
-          vpiFullName: nyuzi.core_idx
       vpiGenStmt (1 items):
         GenRegion start:15:5 end:20:16:
           vpiParent: Module name:nyuzi
@@ -334,7 +331,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:nyuzi
             vpiName: nyuzi
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -384,7 +381,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:nyuzi.core_gen[0].core.wb_writeback_en
                 vpiName: wb_writeback_en
                 vpiFullName: top.wb_writeback_en
-                vpiActual: Net name:wb_writeback_en
+                vpiActual: Variable name:wb_writeback_en
       vpiRefInstance (1 items):
         RefInstance name:nyuzi start:29:8 end:29:13:
           vpiParent: Module name:top
@@ -419,7 +416,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************

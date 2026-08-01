@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +19,20 @@
 //   (* fsm_state=1 *) logic [7:0] b;
 //   (* fsm_state=0 *) logic [7:0] c;
 //
-// Key finding from UHDM dump:
-//   Variable/net attributes are NOT attached to the Net node itself.
-//   They are hoisted to the containing Module's vpiAttribute list.
-//   The three nets (a, b, c) each have no attributes — all three
-//   fsm_state attributes appear on Module::getAttributes() in
-//   declaration order (index 0 → a, 1 → b, 2 → c).
+// Per IEEE 1800-2023 Sec 5.12, an attribute_instance immediately preceding a
+// declaration attaches to that declaration -- each of a/b/c should carry its
+// own single fsm_state attribute, and the module itself should have none.
+//
+// KNOWN BUG: HLC currently hoists all three attributes onto the containing
+// Module's vpiAttribute list instead of attaching them to the individual
+// variables. The tests below assert the STANDARD-correct behavior and are
+// marked GTEST_SKIP() until that's fixed -- do not "fix" them to match
+// current (wrong) output.
 //
 // Attribute forms:
-//   index 0: (* fsm_state *)   → flag, getValue() == nullptr
-//   index 1: (* fsm_state=1 *) → Constant, getDecompile() == "1"
-//   index 2: (* fsm_state=0 *) → Constant, getDecompile() == "0"
+//   a: (* fsm_state *)   -> flag, getValue() == nullptr
+//   b: (* fsm_state=1 *) -> Constant, getDecompile() == "1"
+//   c: (* fsm_state=0 *) -> Constant, getDecompile() == "0"
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -54,79 +57,95 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module and nets
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesVariable, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr); }
 
-TEST_F(AttributesVariable, ThreeNetsExist) {
+TEST_F(AttributesVariable, ThreeVariablesExist) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 3u);
 
   bool hasA = false, hasB = false, hasC = false;
-  for (const hldb::Net *const n : *top->getNets()) {
+  for (const hldb::Variable *const n : *top->getVariables()) {
     if (n->getName() == "a") hasA = true;
     if (n->getName() == "b") hasB = true;
     if (n->getName() == "c") hasC = true;
   }
-  EXPECT_TRUE(hasA) << "net 'a' missing";
-  EXPECT_TRUE(hasB) << "net 'b' missing";
-  EXPECT_TRUE(hasC) << "net 'c' missing";
+  EXPECT_TRUE(hasA) << "variable 'a' missing";
+  EXPECT_TRUE(hasB) << "variable 'b' missing";
+  EXPECT_TRUE(hasC) << "variable 'c' missing";
 }
 
-// ---------------------------------------------------------------------------
-// Variable attributes are hoisted to the module's attribute list, not the net.
-// ---------------------------------------------------------------------------
-TEST_F(AttributesVariable, NetsHaveNoDirectAttributes) {
+// `logic [7:0]` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8
+// a, b, c must not also appear in the module's net collection.
+TEST_F(AttributesVariable, VariablesAreNotDuplicatedAsNets) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-
-  for (const hldb::Net *const n : *top->getNets()) {
-    EXPECT_TRUE(!n->getAttributes() || n->getAttributes()->empty())
-        << "net '" << n->getName() << "' should have no direct attributes";
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr);
+    EXPECT_EQ(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr);
+    EXPECT_EQ(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr);
   }
 }
 
-TEST_F(AttributesVariable, ModuleHasThreeFsmStateAttributes) {
+// ----
+// Per IEEE 1800-2023 Sec 5.12, attributes attach to the declaration they
+// immediately precede, not to the enclosing module.
+// KNOWN BUG: HLC currently hoists them onto the module instead -- skipped
+// until that's fixed.
+// ----
+TEST_F(AttributesVariable, ModuleHasNoAttributes) {
+  GTEST_SKIP() << "HLC hoists per-declaration attributes onto the module instead of the "
+                  "individual variable (IEEE 1800-2023 Sec 5.12); fix pending.";
+
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getAttributes(), nullptr);
-  ASSERT_EQ(top->getAttributes()->size(), 3u);
-
-  for (size_t i = 0; i < 3u; ++i) {
-    EXPECT_EQ((*top->getAttributes())[i]->getName(), "fsm_state")
-        << "attribute[" << i << "] should be named 'fsm_state'";
-  }
+  EXPECT_TRUE(!top->getAttributes() || top->getAttributes()->empty())
+      << "attributes preceding a, b, c belong to those variables, not the module";
 }
 
-// ---------------------------------------------------------------------------
-// (* fsm_state *) — attribute for net 'a', flag (no value)
-// ---------------------------------------------------------------------------
-TEST_F(AttributesVariable, FsmStateForAIsFlagAttribute) {
+// ----
+// (* fsm_state *) -- attribute for variable 'a', flag (no value)
+// ----
+TEST_F(AttributesVariable, VariableAHasFsmStateFlagAttribute) {
+  GTEST_SKIP() << "HLC hoists per-declaration attributes onto the module instead of the "
+                  "individual variable (IEEE 1800-2023 Sec 5.12); fix pending.";
+
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getAttributes(), nullptr);
-  ASSERT_EQ(top->getAttributes()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Attribute *const attr = (*top->getAttributes())[0];
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  ASSERT_NE(a, nullptr);
+  ASSERT_NE(a->getAttributes(), nullptr);
+  ASSERT_EQ(a->getAttributes()->size(), 1u);
+
+  const hldb::Attribute *const attr = (*a->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getName(), "fsm_state");
   EXPECT_EQ(attr->getValue(), nullptr) << "(* fsm_state *) is a flag attribute and should have no value";
 }
 
-// ---------------------------------------------------------------------------
-// (* fsm_state=1 *) — attribute for net 'b', value = 1
-// ---------------------------------------------------------------------------
-TEST_F(AttributesVariable, FsmStateForBValueIsOne) {
+// ----
+// (* fsm_state=1 *) -- attribute for variable 'b', value = 1
+// ----
+TEST_F(AttributesVariable, VariableBHasFsmStateValueOne) {
+  GTEST_SKIP() << "HLC hoists per-declaration attributes onto the module instead of the "
+                  "individual variable (IEEE 1800-2023 Sec 5.12); fix pending.";
+
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getAttributes(), nullptr);
-  ASSERT_EQ(top->getAttributes()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Attribute *const attr = (*top->getAttributes())[1];
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  ASSERT_NE(b, nullptr);
+  ASSERT_NE(b->getAttributes(), nullptr);
+  ASSERT_EQ(b->getAttributes()->size(), 1u);
+
+  const hldb::Attribute *const attr = (*b->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getName(), "fsm_state");
 
@@ -135,16 +154,23 @@ TEST_F(AttributesVariable, FsmStateForBValueIsOne) {
   EXPECT_EQ(val->getDecompile(), "1");
 }
 
-// ---------------------------------------------------------------------------
-// (* fsm_state=0 *) — attribute for net 'c', value = 0
-// ---------------------------------------------------------------------------
-TEST_F(AttributesVariable, FsmStateForCValueIsZero) {
+// ----
+// (* fsm_state=0 *) -- attribute for variable 'c', value = 0
+// ----
+TEST_F(AttributesVariable, VariableCHasFsmStateValueZero) {
+  GTEST_SKIP() << "HLC hoists per-declaration attributes onto the module instead of the "
+                  "individual variable (IEEE 1800-2023 Sec 5.12); fix pending.";
+
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getAttributes(), nullptr);
-  ASSERT_EQ(top->getAttributes()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Attribute *const attr = (*top->getAttributes())[2];
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
+  ASSERT_NE(c, nullptr);
+  ASSERT_NE(c->getAttributes(), nullptr);
+  ASSERT_EQ(c->getAttributes()->size(), 1u);
+
+  const hldb::Attribute *const attr = (*c->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getName(), "fsm_state");
 

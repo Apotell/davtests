@@ -387,8 +387,6 @@ n<$Source01/basicexpr3.v> u<372> t<Top_level_rule> c<1> l<22:1> el<62:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/basicexpr3.v:22:1: Compile module "mul".
 [INF:CP0303] $Source01/basicexpr3.v:30:1: Compile module "test".
-[ERR:EL0535] $Source01/basicexpr3.v:36:19: Illegal implicit net "id:68, name:a".
-[ERR:EL0535] $Source01/basicexpr3.v:36:25: Illegal implicit net "id:71, name:b".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -398,7 +396,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: basicexpr3.v
       vpiPreprocFile: "$Output/lib/work/basicexpr3.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:mul file:$Source01/basicexpr3.v start:22:1 end:28:10:
       vpiParent: Design name:unnamed
@@ -438,21 +435,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:mul
       vpiDefName: mul
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mul
         vpiName: work
         vpiFullName: mul.work
       vpiCell: mul
       vpiNet (3 items):
-        Net name:q start:24:14 end:24:15:
-          vpiParent: Module name:mul
-          vpiTypespec RefTypespec start:24:8 end:24:13:
-            vpiParent: Net name:q
-            vpiFullName: mul.q
-            vpiActual: LogicTypespec
-          vpiName: q
-          vpiFullName: mul.q
         Net name:a start:23:7 end:23:8:
           vpiParent: Module name:mul
           vpiTypespec RefTypespec start:23:7 end:23:7:
@@ -461,6 +450,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: mul.a
+          vpiNetType: wire (1)
         Net name:b start:23:9 end:23:10:
           vpiParent: Module name:mul
           vpiTypespec RefTypespec start:23:7 end:23:7:
@@ -469,12 +459,22 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: mul.b
+          vpiNetType: wire (1)
+        Net name:q start:24:14 end:24:15:
+          vpiParent: Module name:mul
+          vpiTypespec RefTypespec start:24:8 end:24:13:
+            vpiParent: Net name:q
+            vpiFullName: mul.q
+            vpiActual: LogicTypespec
+          vpiName: q
+          vpiFullName: mul.q
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:q start:22:13 end:22:14:
           vpiParent: Module name:mul
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj name:q start:22:13 end:22:14:
+          vpiLowConn RefObj name:q start:24:14 end:24:15:
             vpiParent: Port name:q
             vpiName: q
             vpiFullName: mul.q.q
@@ -487,7 +487,7 @@ Design name:unnamed:
           vpiParent: Module name:mul
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:22:15 end:22:16:
+          vpiLowConn RefObj name:a start:23:7 end:23:8:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: mul.a.a
@@ -500,7 +500,7 @@ Design name:unnamed:
           vpiParent: Module name:mul
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:22:17 end:22:18:
+          vpiLowConn RefObj name:b start:23:9 end:23:10:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: mul.b.b
@@ -565,6 +565,16 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
+      vpiVariable (1 items):
+        Variable name:d start:32:5 end:32:6:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:32:1 end:32:4:
+            vpiParent: Variable name:d
+            vpiFullName: test.d
+            vpiActual: LogicTypespec
+          vpiName: d
+          vpiFullName: test.d
+          vpiScalar: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -604,21 +614,13 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: ivl_synthesis_off
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (2 items):
-        Net name:d start:32:5 end:32:6:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:32:1 end:32:4:
-            vpiParent: Net name:d
-            vpiFullName: test.d
-            vpiActual: LogicTypespec
-          vpiName: d
-          vpiFullName: test.d
+      vpiNet (1 items):
         Net name:q start:34:12 end:34:13:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:34:6 end:34:11:
@@ -679,7 +681,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d
                   vpiFullName: test.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
                 vpiRhs Constant start:43:9 end:43:10:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -767,7 +769,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d
                   vpiFullName: test.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
                 vpiRhs Constant start:51:9 end:51:10:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -884,7 +886,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: d
                 vpiFullName: test.u_mul.d
-                vpiActual: Net name:d
+                vpiActual: Variable name:d
             Port start:36:24 end:36:29:
               vpiParent: RefInstance name:u_mul
               vpiLowConn RefObj name:b start:36:25 end:36:26:
@@ -895,7 +897,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: d
                 vpiFullName: test.u_mul.d
-                vpiActual: Net name:d
+                vpiActual: Variable name:d
   vpiTypespec (5 items):
     ModuleTypespec name:mul:
       vpiParent: Design name:unnamed
@@ -919,7 +921,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

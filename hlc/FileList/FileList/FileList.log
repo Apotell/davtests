@@ -218,12 +218,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pack.sv
       vpiPreprocFile: "$Output/lib/work/pack.sv"
-      vpiDefNetType: none (12)
     SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:prim_util_pkg file:$Source01/pack.sv start:1:1 end:7:11:
       vpiParent: Design name:unnamed
@@ -232,7 +230,7 @@ Design name:unnamed:
         vpiName: prim_util_pkg
       vpiFullName: prim_util_pkg
       vpiDefName: prim_util_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:prim_util_pkg
         vpiName: work
@@ -317,6 +315,16 @@ Design name:unnamed:
         vpiParent: Module name:foo
         vpiName: foo
       vpiFullName: foo
+      vpiVariable (1 items):
+        Variable name:a start:6:22 end:6:23:
+          vpiParent: Module name:foo
+          vpiTypespec RefTypespec start:6:1 end:6:21:
+            vpiParent: Variable name:a
+            vpiFullName: foo.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: foo.a
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:foo
@@ -383,13 +391,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: foo
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo
         vpiName: work
         vpiFullName: foo.work
       vpiCell: foo
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clk start:2:11 end:2:14:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec start:2:5 end:2:10:
@@ -408,22 +416,15 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: foo.out
           vpiNetType: wire (1)
-        Net name:a start:6:22 end:6:23:
-          vpiParent: Module name:foo
-          vpiTypespec RefTypespec start:6:1 end:6:21:
-            vpiParent: Net name:a
-            vpiFullName: foo.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: foo.a
       vpiPort (2 items):
         Port name:clk start:2:11 end:2:14:
           vpiParent: Module name:foo
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:11 end:2:14:
+          vpiLowConn RefObj name:clk start:2:11 end:2:14:
             vpiParent: Port name:clk
-            vpiFullName: foo.clk
+            vpiName: clk
+            vpiFullName: foo.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:2:5 end:2:10:
             vpiParent: Port name:clk
@@ -433,9 +434,10 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:3:12 end:3:15:
+          vpiLowConn RefObj name:out start:3:12 end:3:15:
             vpiParent: Port name:out
-            vpiFullName: foo.out
+            vpiName: out
+            vpiFullName: foo.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:3:5 end:3:11:
             vpiParent: Port name:out
@@ -468,7 +470,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: a
                     vpiFullName: foo.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   vpiRhs Operation start:8:10 end:8:18:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -477,7 +479,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a
                         vpiFullName: foo.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                       Constant start:8:14 end:8:18:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -505,7 +507,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a[0]
               vpiName: a
               vpiFullName: foo.a
-              vpiActual: Net name:a
+              vpiActual: Variable name:a
             vpiIndex Constant start:10:16 end:10:17:
               vpiParent: BitSelect name:a[0]
               vpiTypespec RefTypespec:

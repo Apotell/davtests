@@ -202,6 +202,7 @@ n<$Source01/basic05.sv> u<188> t<Top_level_rule> c<1> l<1:1> el<20:1>
         n<> u<184> t<ENDMODULE> p<185> l<19:1> el<19:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/basic05.sv:1:1: Compile module "top".
+[ERR:LN0813] $Source01/basic05.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -211,7 +212,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: basic05.sv
       vpiPreprocFile: "$Output/lib/work/basic05.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/basic05.sv start:1:1 end:19:10:
       vpiParent: Design name:unnamed
@@ -248,12 +248,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: read
                       vpiFullName: top.read
-                      vpiActual: Net name:read
+                      vpiActual: Variable name:read
                     RefObj name:write start:13:53 end:13:58:
                       vpiParent: Operation
                       vpiName: write
                       vpiFullName: top.write
-                      vpiActual: Net name:write
+                      vpiActual: Variable name:write
         Assert start:17:8 end:17:61:
           vpiParent: Module name:top
           vpiLabel Identifier name:a_wr start:17:2 end:17:6:
@@ -278,12 +278,40 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: write
                   vpiFullName: top.write
-                  vpiActual: Net name:write
+                  vpiActual: Variable name:write
                 RefObj name:ready start:17:53 end:17:58:
                   vpiParent: Operation
                   vpiName: ready
                   vpiFullName: top.ready
-                  vpiActual: Net name:ready
+                  vpiActual: Variable name:ready
+      vpiVariable (3 items):
+        Variable name:read start:2:8 end:2:12:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:2:2 end:2:7:
+            vpiParent: Variable name:read
+            vpiFullName: top.read
+            vpiActual: LogicTypespec
+          vpiName: read
+          vpiFullName: top.read
+          vpiScalar: true
+        Variable name:write start:2:14 end:2:19:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:2:2 end:2:7:
+            vpiParent: Variable name:write
+            vpiFullName: top.write
+            vpiActual: LogicTypespec
+          vpiName: write
+          vpiFullName: top.write
+          vpiScalar: true
+        Variable name:ready start:2:21 end:2:26:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:2:2 end:2:7:
+            vpiParent: Variable name:ready
+            vpiFullName: top.ready
+            vpiActual: LogicTypespec
+          vpiName: ready
+          vpiFullName: top.ready
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -293,13 +321,13 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:demo
             vpiName: demo
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:24:
@@ -309,47 +337,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: top.clock
           vpiNetType: wire (1)
-        Net name:ctrl start:1:32 end:1:36:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:1:32 end:1:32:
-            vpiParent: Net name:ctrl
-            vpiFullName: top.ctrl
-            vpiActual: LogicTypespec
-          vpiName: ctrl
-          vpiFullName: top.ctrl
-          vpiNetType: wire (1)
-        Net name:read start:2:8 end:2:12:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:2:2 end:2:7:
-            vpiParent: Net name:read
-            vpiFullName: top.read
-            vpiActual: LogicTypespec
-          vpiName: read
-          vpiFullName: top.read
-        Net name:write start:2:14 end:2:19:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:2:2 end:2:7:
-            vpiParent: Net name:write
-            vpiFullName: top.write
-            vpiActual: LogicTypespec
-          vpiName: write
-          vpiFullName: top.write
-        Net name:ready start:2:21 end:2:26:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:2:2 end:2:7:
-            vpiParent: Net name:ready
-            vpiFullName: top.ready
-            vpiActual: LogicTypespec
-          vpiName: ready
-          vpiFullName: top.ready
       vpiPort (2 items):
         Port name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:25 end:1:30:
+          vpiLowConn RefObj name:clock start:1:25 end:1:30:
             vpiParent: Port name:clock
-            vpiFullName: top.clock
+            vpiName: clock
+            vpiFullName: top.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:1:13 end:1:24:
             vpiParent: Port name:clock
@@ -359,14 +355,6 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: ctrl
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:32 end:1:36:
-            vpiParent: Port name:ctrl
-            vpiFullName: top.ctrl
-            vpiActual: Net name:ctrl
-          vpiTypespec RefTypespec start:1:32 end:1:32:
-            vpiParent: Port name:ctrl
-            vpiFullName: top.ctrl
-            vpiActual: LogicTypespec
       vpiContAssign (3 items):
         ContAssign start:9:9 end:9:24:
           vpiParent: Module name:top
@@ -374,7 +362,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: read
             vpiFullName: top.read
-            vpiActual: Net name:read
+            vpiActual: Variable name:read
           vpiRhs HierPath name:uut.read start:9:16 end:9:24:
             vpiParent: ContAssign
             vpiName: uut.read
@@ -389,14 +377,14 @@ Design name:unnamed:
                 vpiParent: HierPath name:uut.read
                 vpiName: read
                 vpiFullName: top.read
-                vpiActual: Net name:read
+                vpiActual: Variable name:read
         ContAssign start:10:9 end:10:26:
           vpiParent: Module name:top
           vpiLhs RefObj name:write start:10:9 end:10:14:
             vpiParent: ContAssign
             vpiName: write
             vpiFullName: top.write
-            vpiActual: Net name:write
+            vpiActual: Variable name:write
           vpiRhs HierPath name:uut.write start:10:17 end:10:26:
             vpiParent: ContAssign
             vpiName: uut.write
@@ -411,14 +399,14 @@ Design name:unnamed:
                 vpiParent: HierPath name:uut.write
                 vpiName: write
                 vpiFullName: top.write
-                vpiActual: Net name:write
+                vpiActual: Variable name:write
         ContAssign start:11:9 end:11:26:
           vpiParent: Module name:top
           vpiLhs RefObj name:ready start:11:9 end:11:14:
             vpiParent: ContAssign
             vpiName: ready
             vpiFullName: top.ready
-            vpiActual: Net name:ready
+            vpiActual: Variable name:ready
           vpiRhs HierPath name:uut.ready start:11:17 end:11:26:
             vpiParent: ContAssign
             vpiName: uut.ready
@@ -433,7 +421,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:uut.ready
                 vpiName: ready
                 vpiFullName: top.ready
-                vpiActual: Net name:ready
+                vpiActual: Variable name:ready
       vpiRefInstance (1 items):
         RefInstance name:uut start:4:7 end:4:10:
           vpiParent: Module name:top
@@ -462,12 +450,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ctrl
                 vpiFullName: top.uut.ctrl
-                vpiActual: Net name:ctrl
+                vpiActual: Port name:ctrl
               vpiHighConn RefObj name:ctrl start:6:9 end:6:13:
                 vpiParent: Port
                 vpiName: ctrl
                 vpiFullName: top.uut.ctrl
-                vpiActual: Net name:ctrl
+                vpiActual: Port name:ctrl
   vpiTypespec (1 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -478,7 +466,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -523,7 +511,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/sva/basic05/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    66      66       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

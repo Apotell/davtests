@@ -582,18 +582,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/simple/paramods.v:26:1: Compile module "pm_test3".
 [WRN:CP0323] $Source01/simple/paramods.v:26:1: Multiply defined typedef "inc".
 [INF:CP0303] $Source01/simple/paramods.v:42:1: Compile module "inc".
-[ERR:EL0535] $Source01/simple/paramods.v:7:8: Illegal implicit net "id:57, name:step".
-[ERR:EL0535] $Source01/simple/paramods.v:7:25: Illegal implicit net "id:60, name:in".
-[ERR:EL0535] $Source01/simple/paramods.v:7:33: Illegal implicit net "id:63, name:out".
-[ERR:EL0535] $Source01/simple/paramods.v:8:8: Illegal implicit net "id:72, name:width".
-[ERR:EL0535] $Source01/simple/paramods.v:8:19: Illegal implicit net "id:77, name:step".
-[ERR:EL0535] $Source01/simple/paramods.v:19:18: Illegal implicit net "id:132, name:in".
-[ERR:EL0535] $Source01/simple/paramods.v:19:26: Illegal implicit net "id:135, name:out".
-[ERR:EL0535] $Source01/simple/paramods.v:31:13: Illegal implicit net "id:198, name:in".
-[ERR:EL0535] $Source01/simple/paramods.v:31:21: Illegal implicit net "id:201, name:out".
-[ERR:EL0535] $Source01/simple/paramods.v:34:16: Illegal implicit net "id:218, name:step".
-[ERR:EL0535] $Source01/simple/paramods.v:35:16: Illegal implicit net "id:225, name:step".
-[ERR:EL0535] $Source01/simple/paramods.v:36:16: Illegal implicit net "id:232, name:width".
+[WRN:CP0350] $Source01/simple/paramods.v:34:16: Failed to bind "id:218, name:step".
+[WRN:CP0350] $Source01/simple/paramods.v:35:16: Failed to bind "id:225, name:step".
+[WRN:CP0350] $Source01/simple/paramods.v:36:16: Failed to bind "id:232, name:width".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -603,7 +594,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: paramods.v
       vpiPreprocFile: "$Output/lib/work/simple/paramods.v"
-      vpiDefNetType: none (12)
   vpiAllModules (4 items):
     Module name:pm_test1 file:$Source01/simple/paramods.v start:2:1 end:10:10:
       vpiParent: Design name:unnamed
@@ -675,7 +665,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:inc
             vpiName: inc
       vpiDefName: pm_test1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:pm_test1
         vpiName: work
@@ -690,6 +680,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: pm_test1.a
+          vpiNetType: wire (1)
         Net name:b start:4:16 end:4:17:
           vpiParent: Module name:pm_test1
           vpiTypespec RefTypespec start:4:7 end:4:12:
@@ -698,6 +689,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: pm_test1.b
+          vpiNetType: wire (1)
         Net name:x start:5:14 end:5:15:
           vpiParent: Module name:pm_test1
           vpiTypespec RefTypespec start:5:8 end:5:13:
@@ -706,6 +698,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: pm_test1.x
+          vpiNetType: wire (1)
         Net name:y start:5:17 end:5:18:
           vpiParent: Module name:pm_test1
           vpiTypespec RefTypespec start:5:8 end:5:13:
@@ -714,12 +707,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: pm_test1.y
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:a start:2:17 end:2:18:
           vpiParent: Module name:pm_test1
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:2:17 end:2:18:
+          vpiLowConn RefObj name:a start:4:13 end:4:14:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: pm_test1.a.a
@@ -732,7 +726,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test1
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:2:20 end:2:21:
+          vpiLowConn RefObj name:b start:4:16 end:4:17:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: pm_test1.b.b
@@ -745,7 +739,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test1
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj name:x start:2:23 end:2:24:
+          vpiLowConn RefObj name:x start:5:14 end:5:15:
             vpiParent: Port name:x
             vpiName: x
             vpiFullName: pm_test1.x.x
@@ -758,7 +752,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test1
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y start:2:26 end:2:27:
+          vpiLowConn RefObj name:y start:5:17 end:5:18:
             vpiParent: Port name:y
             vpiName: y
             vpiFullName: pm_test1.y.y
@@ -951,7 +945,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:inc
             vpiName: inc
       vpiDefName: pm_test2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:pm_test2
         vpiName: work
@@ -966,6 +960,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: pm_test2.a
+          vpiNetType: wire (1)
         Net name:b start:16:16 end:16:17:
           vpiParent: Module name:pm_test2
           vpiTypespec RefTypespec start:16:7 end:16:12:
@@ -974,6 +969,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: pm_test2.b
+          vpiNetType: wire (1)
         Net name:x start:17:14 end:17:15:
           vpiParent: Module name:pm_test2
           vpiTypespec RefTypespec start:17:8 end:17:13:
@@ -982,6 +978,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: pm_test2.x
+          vpiNetType: wire (1)
         Net name:y start:17:17 end:17:18:
           vpiParent: Module name:pm_test2
           vpiTypespec RefTypespec start:17:8 end:17:13:
@@ -990,12 +987,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: pm_test2.y
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:a start:14:17 end:14:18:
           vpiParent: Module name:pm_test2
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:14:17 end:14:18:
+          vpiLowConn RefObj name:a start:16:13 end:16:14:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: pm_test2.a.a
@@ -1008,7 +1006,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test2
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:14:20 end:14:21:
+          vpiLowConn RefObj name:b start:16:16 end:16:17:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: pm_test2.b.b
@@ -1021,7 +1019,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test2
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj name:x start:14:23 end:14:24:
+          vpiLowConn RefObj name:x start:17:14 end:17:15:
             vpiParent: Port name:x
             vpiName: x
             vpiFullName: pm_test2.x.x
@@ -1034,7 +1032,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test2
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y start:14:26 end:14:27:
+          vpiLowConn RefObj name:y start:17:17 end:17:18:
             vpiParent: Port name:y
             vpiName: y
             vpiFullName: pm_test2.y.y
@@ -1212,7 +1210,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:inc
             vpiName: inc
       vpiDefName: pm_test3
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:pm_test3
         vpiName: work
@@ -1227,6 +1225,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: pm_test3.a
+          vpiNetType: wire (1)
         Net name:b start:28:16 end:28:17:
           vpiParent: Module name:pm_test3
           vpiTypespec RefTypespec start:28:7 end:28:12:
@@ -1235,6 +1234,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: pm_test3.b
+          vpiNetType: wire (1)
         Net name:x start:29:14 end:29:15:
           vpiParent: Module name:pm_test3
           vpiTypespec RefTypespec start:29:8 end:29:13:
@@ -1243,6 +1243,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: pm_test3.x
+          vpiNetType: wire (1)
         Net name:y start:29:17 end:29:18:
           vpiParent: Module name:pm_test3
           vpiTypespec RefTypespec start:29:8 end:29:13:
@@ -1251,12 +1252,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: pm_test3.y
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:a start:26:17 end:26:18:
           vpiParent: Module name:pm_test3
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:26:17 end:26:18:
+          vpiLowConn RefObj name:a start:28:13 end:28:14:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: pm_test3.a.a
@@ -1269,7 +1271,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test3
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:26:20 end:26:21:
+          vpiLowConn RefObj name:b start:28:16 end:28:17:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: pm_test3.b.b
@@ -1282,7 +1284,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test3
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj name:x start:26:23 end:26:24:
+          vpiLowConn RefObj name:x start:29:14 end:29:15:
             vpiParent: Port name:x
             vpiName: x
             vpiFullName: pm_test3.x.x
@@ -1295,7 +1297,7 @@ Design name:unnamed:
           vpiParent: Module name:pm_test3
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y start:26:26 end:26:27:
+          vpiLowConn RefObj name:y start:29:17 end:29:18:
             vpiParent: Port name:y
             vpiName: y
             vpiFullName: pm_test3.y.y
@@ -1576,7 +1578,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: inc
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:inc
         vpiName: work
@@ -1591,6 +1593,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: inc.in
+          vpiNetType: wire (1)
         Net name:out start:48:20 end:48:23:
           vpiParent: Module name:inc
           vpiTypespec RefTypespec start:48:8 end:48:19:
@@ -1599,12 +1602,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: inc.out
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:in start:42:12 end:42:14:
           vpiParent: Module name:inc
           vpiName: in
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in start:42:12 end:42:14:
+          vpiLowConn RefObj name:in start:47:19 end:47:21:
             vpiParent: Port name:in
             vpiName: in
             vpiFullName: inc.in.in
@@ -1617,7 +1621,7 @@ Design name:unnamed:
           vpiParent: Module name:inc
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:42:16 end:42:19:
+          vpiLowConn RefObj name:out start:48:20 end:48:23:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: inc.out.out
@@ -1679,8 +1683,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 12
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

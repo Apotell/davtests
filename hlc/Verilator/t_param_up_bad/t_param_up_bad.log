@@ -143,8 +143,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_param_up_bad.v:12:1: Compile module "child".
 [INF:CP0303] $Source01/t_param_up_bad.v:18:1: Compile module "parent".
 [INF:CP0303] $Source01/t_param_up_bad.v:28:1: Compile module "t".
-[ERR:EL0535] $Source01/t_param_up_bad.v:15:19: Illegal implicit net "id:28, name:bar".
-[ERR:EL0535] $Source01/t_param_up_bad.v:15:23: Illegal implicit net "id:29, name:foo".
+[WRN:CP0350] $Source01/t_param_up_bad.v:15:19: Failed to bind "id:28, name:bar".
+[WRN:CP0350] $Source01/t_param_up_bad.v:15:23: Failed to bind "id:29, name:foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -154,7 +154,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_up_bad.v
       vpiPreprocFile: "$Output/lib/work/t_param_up_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:child file:$Source01/t_param_up_bad.v start:12:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -162,6 +161,16 @@ Design name:unnamed:
         vpiParent: Module name:child
         vpiName: child
       vpiFullName: child
+      vpiVariable (1 items):
+        Variable name:a_bad start:13:10 end:13:15:
+          vpiParent: Module name:child
+          vpiTypespec RefTypespec name:logic start:13:4 end:13:9:
+            vpiParent: Variable name:a_bad
+            vpiName: logic
+            vpiFullName: child.a_bad.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: a_bad
+          vpiFullName: child.a_bad
       vpiTypespec (1 items):
         UnsupportedTypespec name:logic start:13:4 end:13:9:
           vpiParent: Module name:child
@@ -169,22 +178,12 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
       vpiDefName: child
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:child
         vpiName: work
         vpiFullName: child.work
       vpiCell: child
-      vpiNet (1 items):
-        Net name:a_bad start:13:10 end:13:15:
-          vpiParent: Module name:child
-          vpiTypespec RefTypespec name:logic start:13:4 end:13:9:
-            vpiParent: Net name:a_bad
-            vpiName: logic
-            vpiFullName: child.a_bad.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: a_bad
-          vpiFullName: child.a_bad
       vpiContAssign (1 items):
         ContAssign start:15:11 end:15:26:
           vpiParent: Module name:child
@@ -192,7 +191,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: a_bad
             vpiFullName: child.a_bad
-            vpiActual: Net name:a_bad
+            vpiActual: Variable name:a_bad
           vpiRhs HierPath name:bar.foo start:15:19 end:15:26:
             vpiParent: ContAssign
             vpiName: bar.foo
@@ -212,6 +211,16 @@ Design name:unnamed:
         vpiParent: Module name:parent
         vpiName: parent
       vpiFullName: parent
+      vpiVariable (1 items):
+        Variable name:bar start:24:18 end:24:21:
+          vpiParent: Module name:parent
+          vpiTypespec RefTypespec name:some_struct_t start:24:4 end:24:17:
+            vpiParent: Variable name:bar
+            vpiName: some_struct_t
+            vpiFullName: parent.bar.some_struct_t
+            vpiActual: TypedefTypespec name:some_struct_t
+          vpiName: bar
+          vpiFullName: parent.bar
       vpiParameter (1 items):
         Parameter name:PARAM start:20:15 end:20:20:
           vpiParent: Module name:parent
@@ -248,22 +257,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:child
             vpiName: child
       vpiDefName: parent
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:parent
         vpiName: work
         vpiFullName: parent.work
       vpiCell: parent
-      vpiNet (1 items):
-        Net name:bar start:24:18 end:24:21:
-          vpiParent: Module name:parent
-          vpiTypespec RefTypespec name:some_struct_t start:24:4 end:24:17:
-            vpiParent: Net name:bar
-            vpiName: some_struct_t
-            vpiFullName: parent.bar.some_struct_t
-            vpiActual: TypedefTypespec name:some_struct_t
-          vpiName: bar
-          vpiFullName: parent.bar
       vpiRefInstance (1 items):
         RefInstance name:c start:25:10 end:25:11:
           vpiParent: Module name:parent
@@ -286,7 +285,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:parent
             vpiName: parent
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -365,8 +364,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

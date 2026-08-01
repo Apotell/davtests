@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,10 +25,10 @@
 //
 // Checked:
 //   - design has module top
-//   - module has TypedefTypespec "e" → EnumTypespec with 4 consts (a, b, c, d)
-//   - Initial → Begin has 2 Variables (val, n) and NO assignment statements
+//   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
+//   - Initial -> Begin has 2 Variables (val, n) and NO assignment statements
 //     (inline initializers are stored as vpiValue, not as stmt assignments)
-//   - val: TypedefTypespec, inline init RefObj "a" → EnumConst
+//   - val: TypedefTypespec, inline init RefObj "a" -> EnumConst
 //   - n: IntTypespec ("int" keyword), inline init HierPath "val.num()"
 //   - HierPath pathElems[0] is RefObj "val", pathElems[1] is FuncCall "num" (no args)
 //   - HierPath receiver RefObj "val" resolves to the local Variable
@@ -67,9 +67,9 @@ TEST_F(EnumNum, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Module typespec — TypedefTypespec "e" → EnumTypespec with 4 consts
-// ---------------------------------------------------------------------------
+// ----
+// Module typespec -- TypedefTypespec "e" -> EnumTypespec with 4 consts
+// ----
 TEST_F(EnumNum, TypedefEExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -93,9 +93,9 @@ TEST_F(EnumNum, EnumHasFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ---------------------------------------------------------------------------
-// Begin block — 2 variables, NO assignment statements
-// ---------------------------------------------------------------------------
+// ----
+// Begin block -- 2 variables, NO assignment statements
+// ----
 TEST_F(EnumNum, BeginHasTwoVariablesNoStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -109,9 +109,9 @@ TEST_F(EnumNum, BeginHasTwoVariablesNoStmts) {
       << "int n = val.num() is an inline initializer, not an assignment statement";
 }
 
-// ---------------------------------------------------------------------------
-// Variable "val" — TypedefTypespec, inline init = EnumConst "a"
-// ---------------------------------------------------------------------------
+// ----
+// Variable "val" -- TypedefTypespec, inline init = EnumConst "a"
+// ----
 TEST_F(EnumNum, ValVariableDeclaredWithInitA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -129,9 +129,9 @@ TEST_F(EnumNum, ValVariableDeclaredWithInitA) {
   EXPECT_NE(initVal->getActual<hldb::EnumConst>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Variable "n" — IntTypespec, inline init = HierPath "val.num()"
-// ---------------------------------------------------------------------------
+// ----
+// Variable "n" -- IntTypespec, inline init = HierPath "val.num()"
+// ----
 TEST_F(EnumNum, NVariableIsIntType) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

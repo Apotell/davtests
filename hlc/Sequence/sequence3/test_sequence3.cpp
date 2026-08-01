@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,8 @@
 
 // Validates that a consecutive-repetition sequence (seq3: a[*2]) and an inline
 // concurrent assert property with clocking event are captured in the HLDB graph.
-// Grammar: sequence_expr → expression_or_dist boolean_abbrev (consecutive_repetition)
-// maps to Operation with vpiConsecutiveRepeatOp (60).
+// Grammar: sequence_expr -> expression_or_dist boolean_abbrev (consecutive_repetition)
+// maps to Operation with vpiConsecutiveRepeatOp (77).
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -45,9 +45,9 @@ TEST_F(Sequence3, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("tb", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Sequence declaration
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence3, SequenceDeclaration) {
   const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
@@ -115,24 +115,24 @@ TEST_F(Sequence3, SequenceExprHasTwoOperands) {
   const hldb::Operation *const expr = seq3->getExpr<hldb::Operation>();
   ASSERT_NE(expr, nullptr) << "seq3 expression is not an Operation";
   ASSERT_NE(expr->getOperands(), nullptr) << "seq3 Operation has no operands";
-  // a[*2] → ConsecutiveRepeatOp(a, 2): the repeated expression and the count
+  // a[*2] -> ConsecutiveRepeatOp(a, 2): the repeated expression and the count
   EXPECT_EQ(expr->getOperands()->size(), 2u) << "expected 2 operands (signal 'a' and repetition count 2)";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // No separate property declaration (clocking event is inline in the assert)
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence3, NoSeparatePropertyDecl) {
   const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const bool hasPropertyDecls = tb->getPropertyDecls() != nullptr && !tb->getPropertyDecls()->empty();
-  EXPECT_FALSE(hasPropertyDecls) << "tb should have no named property declaration — the assert property is inline";
+  EXPECT_FALSE(hasPropertyDecls) << "tb should have no named property declaration -- the assert property is inline";
 }
 
-// ---------------------------------------------------------------------------
-// Concurrent assertion — assert property(@(posedge clk) seq3)
-// ---------------------------------------------------------------------------
+// ----
+// Concurrent assertion -- assert property(@(posedge clk) seq3)
+// ----
 TEST_F(Sequence3, ConcurrentAssertion) {
   const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);

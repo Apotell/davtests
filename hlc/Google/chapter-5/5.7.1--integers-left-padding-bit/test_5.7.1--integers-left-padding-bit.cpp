@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,10 +27,8 @@
 //   end
 //
 // UHDM representation:
-//   '0 and '1 → Constant, vpiConstType: binary (3), vpiSize: 1
-//     Decompile: "'0" / "'1"
-//   'x and 'd → Assignment is present but vpiRhs is absent (null).
-//     Surelog does not emit a Constant node for the X/Z fill forms.
+//   '0, '1, 'x, 'z -> Constant, vpiConstType: binary (3), vpiSize: 1
+//     Decompile: "'0" / "'1" / "'x" / "'z"
 //
 // All 4 assignments are blocking (=, not <=).
 
@@ -45,9 +43,9 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/process_stmt.h>
 #include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -76,21 +74,29 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t 
   return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module structure
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersLeftPaddingBit, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
-TEST_F(IntegersLeftPaddingBit, FourNetsExist) {
+TEST_F(IntegersLeftPaddingBit, FourVariablesExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 4u) << "expected 4 nets: a, b, c, d (logic[15:0])";
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 4u) << "expected 4 variables: a, b, c, d (logic[15:0])";
 }
 
-// ---------------------------------------------------------------------------
-// Initial block — Begin wrapper with 4 blocking assignments
-// ---------------------------------------------------------------------------
+// `logic` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 none of
+// a, b, c, d must appear in the module's net collection.
+TEST_F(IntegersLeftPaddingBit, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "bare 'logic' declarations must not appear as Nets";
+}
+
+// ----
+// Initial block -- Begin wrapper with 4 blocking assignments
+// ----
 TEST_F(IntegersLeftPaddingBit, InitialBlockHasBegin) {
   ASSERT_NE(getBegin(m_design), nullptr) << "Initial block should contain a Begin statement";
 }
@@ -113,9 +119,9 @@ TEST_F(IntegersLeftPaddingBit, AllAssignmentsAreBlocking) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// '0 fill constant — binary (3), size 1, decompile "'0"
-// ---------------------------------------------------------------------------
+// ----
+// '0 fill constant -- binary (3), size 1, decompile "'0"
+// ----
 TEST_F(IntegersLeftPaddingBit, AssignmentA_RhsIsBinaryConstant) {
   // a = '0
   const hldb::Assignment *const assign = getAssignment(m_design, 0);
@@ -142,9 +148,9 @@ TEST_F(IntegersLeftPaddingBit, AssignmentA_RhsDecompile) {
   EXPECT_EQ(rhs->getDecompile(), "'0");
 }
 
-// ---------------------------------------------------------------------------
-// '1 fill constant — binary (3), size 1, decompile "'1"
-// ---------------------------------------------------------------------------
+// ----
+// '1 fill constant -- binary (3), size 1, decompile "'1"
+// ----
 TEST_F(IntegersLeftPaddingBit, AssignmentB_RhsIsBinaryConstant) {
   // b = '1
   const hldb::Assignment *const assign = getAssignment(m_design, 1);
@@ -170,11 +176,11 @@ TEST_F(IntegersLeftPaddingBit, AssignmentB_RhsDecompile) {
   EXPECT_EQ(rhs->getDecompile(), "'1");
 }
 
-// ---------------------------------------------------------------------------
-// 'x fill constant — binary (3), size 1, decompile "'x"
-// ---------------------------------------------------------------------------
+// ----
+// 'x fill constant -- binary (3), size 1, decompile "'x"
+// ----
 TEST_F(IntegersLeftPaddingBit, AssignmentC_RhsIsBinaryConstant) {
-  // c = 'x  —  no RHS constant emitted by Surelog
+  // c = 'x
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
@@ -198,11 +204,11 @@ TEST_F(IntegersLeftPaddingBit, AssignmentC_RhsDecompile) {
   EXPECT_EQ(rhs->getDecompile(), "'x");
 }
 
-// ---------------------------------------------------------------------------
-// 'x fill constant — binary (3), size 1, decompile "'x"
-// ---------------------------------------------------------------------------
+// ----
+// 'z fill constant -- binary (3), size 1, decompile "'z"
+// ----
 TEST_F(IntegersLeftPaddingBit, AssignmentD_RhsIsBinaryConstant) {
-  // d = 'z  —  no RHS constant emitted by Surelog
+  // d = 'z
   const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();

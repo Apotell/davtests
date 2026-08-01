@@ -106,7 +106,6 @@ n<$Source01/dut.sv> u<91> t<Top_level_rule> c<1> l<2:1> el<14:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:2:1: Compile module "rvdffe".
 [INF:CP0303] $Source01/dut.sv:6:1: Compile module "dut".
-[ERR:EL0535] $Source01/dut.sv:10:31: Illegal implicit net "id:46, name:din".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "rvdffe".
 [WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "dut".
 ====== HLDB =======
@@ -117,7 +116,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:rvdffe file:$Source01/dut.sv start:2:1 end:4:10:
       vpiParent: Design name:unnamed
@@ -153,7 +151,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: rvdffe
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:rvdffe
         vpiName: work
@@ -174,9 +172,10 @@ Design name:unnamed:
           vpiParent: Module name:rvdffe
           vpiName: din
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:25 end:3:28:
+          vpiLowConn RefObj name:din start:3:25 end:3:28:
             vpiParent: Port name:din
-            vpiFullName: rvdffe.din
+            vpiName: din
+            vpiFullName: rvdffe.din.din
             vpiActual: Net name:din
           vpiTypespec RefTypespec start:3:5 end:3:24:
             vpiParent: Port name:din
@@ -188,6 +187,16 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:rs2_ext_in start:8:25 end:8:35:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:8:4 end:8:23:
+            vpiParent: Variable name:rs2_ext_in
+            vpiFullName: dut.rs2_ext_in
+            vpiActual: LogicTypespec
+          vpiName: rs2_ext_in
+          vpiFullName: dut.rs2_ext_in
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -222,21 +231,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:rvdffe
             vpiName: rvdffe
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (1 items):
-        Net name:rs2_ext_in start:8:25 end:8:35:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:8:4 end:8:23:
-            vpiParent: Net name:rs2_ext_in
-            vpiFullName: dut.rs2_ext_in
-            vpiActual: LogicTypespec
-          vpiName: rs2_ext_in
-          vpiFullName: dut.rs2_ext_in
       vpiRefInstance (1 items):
         RefInstance name:i_b_x_ff start:10:12 end:10:20:
           vpiParent: Module name:dut
@@ -261,7 +261,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:rs2_ext_in[32:0]
                   vpiName: rs2_ext_in
                   vpiFullName: dut.i_b_x_ff.rs2_ext_in[32:0].rs2_ext_in
-                  vpiActual: Net name:rs2_ext_in
+                  vpiActual: Variable name:rs2_ext_in
                 vpiRange Range start:10:46 end:10:50:
                   vpiParent: PartSelect name:rs2_ext_in[32:0]
                   vpiLeftRange Constant start:10:46 end:10:48:
@@ -303,7 +303,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

@@ -15,26 +15,25 @@ COMMAND: -wd ../../../tests/OneNetModPort -fileunit -writepp -d db -sv dut.v tb.
 [INF:CP0304] $Source01/dut.v:9:1: Compile interface "ConnectTB".
 [INF:CP0303] $Source01/dut.v:22:1: Compile module "middle".
 [INF:CP0303] $Source01/dut.v:26:1: Compile module "SUB".
+[ERR:LN0813] $Source01/dut.v:1:1: Found 1 orphan node(s).
 [INF:CP0306] $Source01/tb.v:1:9: Compile program "TESTBENCH".
 [WRN:CP0314] $Source01/tb.v:1:9: Using programs is discouraged "TESTBENCH", programs are obsoleted by UVM.
 [INF:CP0303] $Source01/tb.v:15:1: Compile module "TOP".
-[ERR:EL0535] $Source01/dut.v:3:17: Illegal implicit net "id:38, name:drive".
-[ERR:EL0535] $Source01/dut.v:4:21: Illegal implicit net "id:44, name:observe".
-[ERR:EL0535] $Source01/dut.v:23:22: Illegal implicit net "id:88, name:drive".
-[ERR:EL0535] $Source01/dut.v:23:13: Illegal implicit net "id:90, name:inp".
-[ERR:EL0535] $Source01/dut.v:23:40: Illegal implicit net "id:93, name:observe".
-[ERR:EL0535] $Source01/dut.v:23:31: Illegal implicit net "id:95, name:out".
-[ERR:EL0535] $Source01/tb.v:1:31: Illegal implicit net "id:121, name:tb".
-[ERR:EL0535] $Source01/tb.v:5:51: Illegal implicit net "id:144, name:drive".
-[ERR:EL0535] $Source01/tb.v:5:63: Illegal implicit net "id:147, name:observe".
-[ERR:EL0535] $Source01/tb.v:6:10: Illegal implicit net "id:152, name:drive".
-[ERR:EL0535] $Source01/tb.v:7:20: Illegal implicit net "id:163, name:drive".
-[ERR:EL0535] $Source01/tb.v:7:34: Illegal implicit net "id:166, name:observe".
-[ERR:EL0535] $Source01/tb.v:8:15: Illegal implicit net "id:188, name:drive".
-[ERR:EL0535] $Source01/tb.v:9:20: Illegal implicit net "id:199, name:drive".
-[ERR:EL0535] $Source01/tb.v:9:34: Illegal implicit net "id:202, name:observe".
-[ERR:EL0535] $Source01/tb.v:17:19: Illegal implicit net "id:232, name:drive".
-[ERR:EL0535] $Source01/tb.v:17:33: Illegal implicit net "id:237, name:observe".
+[ERR:LN0813] $Source01/tb.v:1:1: Found 1 orphan node(s).
+[WRN:CP0350] $Source01/dut.v:3:17: Failed to bind "id:38, name:drive".
+[WRN:CP0350] $Source01/dut.v:4:21: Failed to bind "id:44, name:observe".
+[WRN:CP0350] $Source01/dut.v:23:22: Failed to bind "id:84, name:drive".
+[WRN:CP0350] $Source01/dut.v:23:40: Failed to bind "id:89, name:observe".
+[WRN:CP0350] $Source01/tb.v:5:51: Failed to bind "id:136, name:drive".
+[WRN:CP0350] $Source01/tb.v:5:63: Failed to bind "id:139, name:observe".
+[WRN:CP0350] $Source01/tb.v:6:10: Failed to bind "id:144, name:drive".
+[WRN:CP0350] $Source01/tb.v:7:20: Failed to bind "id:155, name:drive".
+[WRN:CP0350] $Source01/tb.v:7:34: Failed to bind "id:158, name:observe".
+[WRN:CP0350] $Source01/tb.v:8:15: Failed to bind "id:180, name:drive".
+[WRN:CP0350] $Source01/tb.v:9:20: Failed to bind "id:191, name:drive".
+[WRN:CP0350] $Source01/tb.v:9:34: Failed to bind "id:194, name:observe".
+[WRN:CP0350] $Source01/tb.v:17:19: Failed to bind "id:224, name:drive".
+[WRN:CP0350] $Source01/tb.v:17:33: Failed to bind "id:229, name:observe".
 [WRN:PA0205] $Source01/dut.v:2:1: No timescale set for "dut".
 [WRN:PA0205] $Source01/dut.v:22:1: No timescale set for "middle".
 [WRN:PA0205] $Source01/dut.v:26:1: No timescale set for "SUB".
@@ -49,12 +48,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.v
       vpiPreprocFile: "$Output/lib/work/dut.v"
-      vpiDefNetType: none (12)
     SourceFile name:tb.v file:$Source01/tb.v:
       vpiParent: Design name:unnamed
       vpiName: tb.v
       vpiPreprocFile: "$Output/lib/work/tb.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:ConnectTB file:$Source01/dut.v start:9:1 end:20:13:
       vpiParent: Design name:unnamed
@@ -71,7 +68,6 @@ Design name:unnamed:
             vpiFullName: ConnectTB.drive.logic
           vpiName: drive
           vpiFullName: ConnectTB.drive
-          vpiNetType: none (12)
         Variable name:observe start:11:9 end:11:16:
           vpiParent: Interface name:ConnectTB
           vpiTypespec RefTypespec name:logic start:11:3 end:11:8:
@@ -80,8 +76,7 @@ Design name:unnamed:
             vpiFullName: ConnectTB.observe.logic
           vpiName: observe
           vpiFullName: ConnectTB.observe
-          vpiNetType: none (12)
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ConnectTB
         vpiName: work
@@ -137,33 +132,7 @@ Design name:unnamed:
         vpiParent: Program name:TESTBENCH
         vpiName: TESTBENCH
       vpiFullName: TESTBENCH
-      vpiVariable (1 items):
-        Variable name:intf start:1:34 end:1:38:
-          vpiParent: Program name:TESTBENCH
-          vpiTypespec RefTypespec start:1:21 end:1:33:
-            vpiParent: Variable name:intf
-            vpiFullName: TESTBENCH.intf
-            vpiActual: UnsupportedTypespec name:ConnectTB::tb
-          vpiName: intf
-          vpiFullName: TESTBENCH.intf
-          vpiNetType: wire (1)
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:ConnectTB::tb start:1:21 end:1:33:
-          vpiParent: Program name:TESTBENCH
-          vpiPathElem (2 items):
-            RefObj name:ConnectTB start:1:21 end:1:30:
-              vpiParent: UnsupportedTypespec name:ConnectTB::tb
-              vpiName: ConnectTB
-              vpiFullName: TESTBENCH.ConnectTB::tb.ConnectTB
-              vpiActual: Interface name:ConnectTB
-            RefObj name:tb start:1:31 end:1:33:
-              vpiParent: UnsupportedTypespec name:ConnectTB::tb
-              vpiName: tb
-              vpiFullName: TESTBENCH.ConnectTB::tb.tb
-          vpiName Identifier name:ConnectTB::tb:
-            vpiParent: UnsupportedTypespec name:ConnectTB::tb
-            vpiName: ConnectTB::tb
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Program name:TESTBENCH
         vpiName: work
@@ -510,14 +479,6 @@ Design name:unnamed:
           vpiParent: Program name:TESTBENCH
           vpiName: intf
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:34 end:1:38:
-            vpiParent: Port name:intf
-            vpiFullName: TESTBENCH.intf
-            vpiActual: Variable name:intf
-          vpiTypespec RefTypespec start:1:21 end:1:33:
-            vpiParent: Port name:intf
-            vpiFullName: TESTBENCH.intf
-            vpiActual: UnsupportedTypespec name:ConnectTB::tb
   vpiAllModules (4 items):
     Module name:dut file:$Source01/dut.v start:2:1 end:7:10:
       vpiParent: Design name:unnamed
@@ -534,7 +495,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut.o
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -544,7 +504,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:middle
             vpiName: middle
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -565,9 +525,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:24 end:2:25:
+          vpiLowConn RefObj name:i start:2:24 end:2:25:
             vpiParent: Port name:i
-            vpiFullName: dut.i
+            vpiName: i
+            vpiFullName: dut.i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec start:2:13 end:2:23:
             vpiParent: Port name:i
@@ -577,9 +538,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:38 end:2:39:
+          vpiLowConn RefObj name:o start:2:38 end:2:39:
             vpiParent: Port name:o
-            vpiFullName: dut.o
+            vpiName: o
+            vpiFullName: dut.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:2:27 end:2:37:
             vpiParent: Port name:o
@@ -662,58 +624,24 @@ Design name:unnamed:
         vpiParent: Module name:middle
         vpiName: middle
       vpiFullName: middle
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:ConnectTB::dut start:22:16 end:22:29:
-          vpiParent: Module name:middle
-          vpiPathElem (2 items):
-            RefObj name:ConnectTB start:22:16 end:22:25:
-              vpiParent: UnsupportedTypespec name:ConnectTB::dut
-              vpiName: ConnectTB
-              vpiFullName: middle.ConnectTB::dut.ConnectTB
-              vpiActual: Interface name:ConnectTB
-            RefObj name:dut start:22:26 end:22:29:
-              vpiParent: UnsupportedTypespec name:ConnectTB::dut
-              vpiName: dut
-              vpiFullName: middle.ConnectTB::dut.dut
-              vpiActual: Module name:dut
-          vpiName Identifier name:ConnectTB::dut:
-            vpiParent: UnsupportedTypespec name:ConnectTB::dut
-            vpiName: ConnectTB::dut
+      vpiTypespec (1 items):
         ModuleTypespec name:SUB start:23:3 end:23:6:
           vpiParent: Module name:middle
           vpiName Identifier name:SUB start:23:3 end:23:6:
             vpiParent: ModuleTypespec name:SUB
             vpiName: SUB
       vpiDefName: middle
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:middle
         vpiName: work
         vpiFullName: middle.work
       vpiCell: middle
-      vpiNet (1 items):
-        Net name:intf start:22:30 end:22:34:
-          vpiParent: Module name:middle
-          vpiTypespec RefTypespec start:22:16 end:22:29:
-            vpiParent: Net name:intf
-            vpiFullName: middle.intf
-            vpiActual: UnsupportedTypespec name:ConnectTB::dut
-          vpiName: intf
-          vpiFullName: middle.intf
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:intf start:22:30 end:22:34:
           vpiParent: Module name:middle
           vpiName: intf
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:22:30 end:22:34:
-            vpiParent: Port name:intf
-            vpiFullName: middle.intf
-            vpiActual: Net name:intf
-          vpiTypespec RefTypespec start:22:16 end:22:29:
-            vpiParent: Port name:intf
-            vpiFullName: middle.intf
-            vpiActual: UnsupportedTypespec name:ConnectTB::dut
       vpiRefInstance (1 items):
         RefInstance name:sub1 start:23:7 end:23:11:
           vpiParent: Module name:middle
@@ -739,7 +667,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:intf.drive
                     vpiName: intf
                     vpiFullName: middle.sub1.intf
-                    vpiActual: Net name:intf
+                    vpiActual: Port name:intf
                   RefObj name:drive start:23:22 end:23:27:
                     vpiParent: HierPath name:intf.drive
                     vpiName: drive
@@ -759,7 +687,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:intf.observe
                     vpiName: intf
                     vpiFullName: middle.sub1.intf
-                    vpiActual: Net name:intf
+                    vpiActual: Port name:intf
                   RefObj name:observe start:23:40 end:23:47:
                     vpiParent: HierPath name:intf.observe
                     vpiName: observe
@@ -779,12 +707,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: SUB.out
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:SUB
       vpiDefName: SUB
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:SUB
         vpiName: work
@@ -805,9 +732,10 @@ Design name:unnamed:
           vpiParent: Module name:SUB
           vpiName: inp
           vpiDirection: input (1)
-          vpiLowConn RefObj start:26:24 end:26:27:
+          vpiLowConn RefObj name:inp start:26:24 end:26:27:
             vpiParent: Port name:inp
-            vpiFullName: SUB.inp
+            vpiName: inp
+            vpiFullName: SUB.inp.inp
             vpiActual: Net name:inp
           vpiTypespec RefTypespec start:26:13 end:26:23:
             vpiParent: Port name:inp
@@ -817,9 +745,10 @@ Design name:unnamed:
           vpiParent: Module name:SUB
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:26:40 end:26:43:
+          vpiLowConn RefObj name:out start:26:40 end:26:43:
             vpiParent: Port name:out
-            vpiFullName: SUB.out
+            vpiName: out
+            vpiFullName: SUB.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:26:29 end:26:39:
             vpiParent: Port name:out
@@ -851,7 +780,7 @@ Design name:unnamed:
             vpiParent: ProgramTypespec name:TESTBENCH
             vpiName: TESTBENCH
       vpiDefName: TOP
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:TOP
         vpiName: work
@@ -977,8 +906,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 17
-[WARNING] : 7
+[  ERROR] : 2
+[WARNING] : 21
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -993,26 +922,28 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/OneNetModPort/OneNetModPort/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 97.39,
             'error_count': 0,
             'file_count': 2,
-            'files': {'$Output/lib/work/dut.v': {'post_len': 0, 'pre_len': 441},
-                      '$Output/lib/work/tb.v': {'post_len': 0, 'pre_len': 517}},
-            'post_len': 0,
+            'files': {'$Output/lib/work/dut.v': {'post_len': 13,
+                                                 'pre_len': 441},
+                      '$Output/lib/work/tb.v': {'post_len': 12,
+                                                'pre_len': 517}},
+            'post_len': 25,
             'pre_len': 958,
             'test_name': 'OneNetModPort/OneNetModPort'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/dut.v |      441 |         0 |
-| $Output/lib/work/tb.v  |      517 |         0 |
+| $Output/lib/work/dut.v |      441 |        13 |
+| $Output/lib/work/tb.v  |      517 |        12 |
 +========================+==========+===========+
-|                        |      958 |         0 |
+|                        |      958 |        25 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 97.39
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1023,7 +954,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetModPort/OneNetModPort/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             230     230       0         0
+Others                             214     214       0         0
 ----------------------------------------------------------------
-                                   230     230       0         0
+                                   214     214       0         0
 ===================== END REDUCTION RESULT =====================

@@ -283,8 +283,6 @@ n<$Source01/dut.sv> u<268> t<Top_level_rule> c<1> l<1:1> el<17:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
 [INF:CP0303] $Source01/dut.sv:9:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:5:25: Illegal implicit net "id:54, name:j".
-[ERR:EL0535] $Source01/dut.sv:5:34: Illegal implicit net "id:58, name:j".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "top".
 ====== HLDB =======
@@ -295,7 +293,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:dut file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
@@ -312,7 +309,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: data
           vpiFullName: dut.data
-          vpiNetType: none (12)
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -389,7 +385,7 @@ Design name:unnamed:
             vpiFullName: dut
             vpiActual: LogicTypespec
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -410,9 +406,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:18 end:1:21:
+          vpiLowConn RefObj name:clk start:1:18 end:1:21:
             vpiParent: Port name:clk
-            vpiFullName: dut.clk
+            vpiName: clk
+            vpiFullName: dut.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:12 end:1:17:
             vpiParent: Port name:clk
@@ -422,9 +419,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:43 end:1:47:
+          vpiLowConn RefObj name:data start:1:43 end:1:47:
             vpiParent: Port name:data
-            vpiFullName: dut.data
+            vpiName: data
+            vpiFullName: dut.data.data
             vpiActual: Variable name:data
           vpiTypespec RefTypespec start:1:23 end:1:42:
             vpiParent: Port name:data
@@ -532,7 +530,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: B
           vpiFullName: top.B
-          vpiNetType: none (12)
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -637,7 +634,7 @@ Design name:unnamed:
             vpiFullName: top
             vpiActual: BitTypespec
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -658,9 +655,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:9:18 end:9:21:
+          vpiLowConn RefObj name:clk start:9:18 end:9:21:
             vpiParent: Port name:clk
-            vpiFullName: top.clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:9:12 end:9:17:
             vpiParent: Port name:clk
@@ -670,9 +668,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: B
           vpiDirection: output (2)
-          vpiLowConn RefObj start:9:45 end:9:46:
+          vpiLowConn RefObj name:B start:9:45 end:9:46:
             vpiParent: Port name:B
-            vpiFullName: top.B
+            vpiName: B
+            vpiFullName: top.B.B
             vpiActual: Variable name:B
           vpiTypespec RefTypespec start:9:23 end:9:44:
             vpiParent: Port name:B
@@ -858,7 +857,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

@@ -815,8 +815,6 @@ n<$Source01/t_math_mul.v> u<800> t<Top_level_rule> c<1> l<6:1> el<72:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_math_mul.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_math_mul.v:52:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_math_mul.v:19:14: Illegal implicit net "id:76, name:in1".
-[ERR:EL0535] $Source01/t_math_mul.v:19:31: Illegal implicit net "id:87, name:in2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -826,7 +824,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_math_mul.v
       vpiPreprocFile: "$Output/lib/work/t_math_mul.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_math_mul.v start:6:1 end:50:10:
       vpiParent: Design name:unnamed
@@ -834,6 +831,33 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:cyc start:13:12 end:13:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:13:4 end:13:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+        Variable name:crc start:14:15 end:14:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:14:14:
+            vpiParent: Variable name:crc
+            vpiFullName: t.crc
+            vpiActual: LogicTypespec
+          vpiName: crc
+          vpiFullName: t.crc
+          vpiVector: true
+        Variable name:sum start:15:15 end:15:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:15:4 end:15:14:
+            vpiParent: Variable name:sum
+            vpiFullName: t.sum
+            vpiActual: LogicTypespec
+          vpiName: sum
+          vpiFullName: t.sum
+          vpiVector: true
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -950,13 +974,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (6 items):
+      vpiNet (3 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -965,30 +989,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:13:12 end:13:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:4 end:13:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-        Net name:crc start:14:15 end:14:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:14:4 end:14:14:
-            vpiParent: Net name:crc
-            vpiFullName: t.crc
-            vpiActual: LogicTypespec
-          vpiName: crc
-          vpiFullName: t.crc
-        Net name:sum start:15:15 end:15:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:15:4 end:15:14:
-            vpiParent: Net name:sum
-            vpiFullName: t.sum
-            vpiActual: LogicTypespec
-          vpiName: sum
-          vpiFullName: t.sum
+          vpiNetType: wire (1)
         Net name:out1 start:17:16 end:17:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:15:
@@ -1012,7 +1013,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1031,7 +1032,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:13:29 end:13:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1065,7 +1066,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:25:14 end:25:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1074,7 +1075,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:25:20 end:25:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1091,7 +1092,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: crc
                     vpiFullName: t.crc
-                    vpiActual: Net name:crc
+                    vpiActual: Variable name:crc
                   vpiRhs Operation start:26:14 end:26:48:
                     vpiParent: Assignment
                     vpiOpType: concatenation (33)
@@ -1104,7 +1105,7 @@ Design name:unnamed:
                           vpiParent: PartSelect name:crc[62:0]
                           vpiName: crc
                           vpiFullName: t.crc[62:0].crc
-                          vpiActual: Net name:crc
+                          vpiActual: Variable name:crc
                         vpiRange Range start:26:19 end:26:23:
                           vpiParent: PartSelect name:crc[62:0]
                           vpiLeftRange Constant start:26:19 end:26:21:
@@ -1143,7 +1144,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:crc[63]
                                   vpiName: crc
                                   vpiFullName: t.crc
-                                  vpiActual: Net name:crc
+                                  vpiActual: Variable name:crc
                                 vpiIndex Constant start:26:30 end:26:32:
                                   vpiParent: BitSelect name:crc[63]
                                   vpiTypespec RefTypespec:
@@ -1162,7 +1163,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:crc[2]
                                   vpiName: crc
                                   vpiFullName: t.crc
-                                  vpiActual: Net name:crc
+                                  vpiActual: Variable name:crc
                                 vpiIndex Constant start:26:38 end:26:39:
                                   vpiParent: BitSelect name:crc[2]
                                   vpiTypespec RefTypespec:
@@ -1181,7 +1182,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:crc[0]
                               vpiName: crc
                               vpiFullName: t.crc
-                              vpiActual: Net name:crc
+                              vpiActual: Variable name:crc
                             vpiIndex Constant start:26:45 end:26:46:
                               vpiParent: BitSelect name:crc[0]
                               vpiTypespec RefTypespec:
@@ -1198,7 +1199,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: sum
                     vpiFullName: t.sum
-                    vpiActual: Net name:sum
+                    vpiActual: Variable name:sum
                   vpiRhs Operation start:27:14 end:27:62:
                     vpiParent: Assignment
                     vpiOpType: bitwise xor (30)
@@ -1215,7 +1216,7 @@ Design name:unnamed:
                               vpiParent: PartSelect name:sum[62:0]
                               vpiName: sum
                               vpiFullName: t.sum[62:0].sum
-                              vpiActual: Net name:sum
+                              vpiActual: Variable name:sum
                             vpiRange Range start:27:19 end:27:23:
                               vpiParent: PartSelect name:sum[62:0]
                               vpiLeftRange Constant start:27:19 end:27:21:
@@ -1254,7 +1255,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:sum[63]
                                       vpiName: sum
                                       vpiFullName: t.sum
-                                      vpiActual: Net name:sum
+                                      vpiActual: Variable name:sum
                                     vpiIndex Constant start:27:30 end:27:32:
                                       vpiParent: BitSelect name:sum[63]
                                       vpiTypespec RefTypespec:
@@ -1273,7 +1274,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:sum[2]
                                       vpiName: sum
                                       vpiFullName: t.sum
-                                      vpiActual: Net name:sum
+                                      vpiActual: Variable name:sum
                                     vpiIndex Constant start:27:38 end:27:39:
                                       vpiParent: BitSelect name:sum[2]
                                       vpiTypespec RefTypespec:
@@ -1292,7 +1293,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:sum[0]
                                   vpiName: sum
                                   vpiFullName: t.sum
-                                  vpiActual: Net name:sum
+                                  vpiActual: Variable name:sum
                                 vpiIndex Constant start:27:45 end:27:46:
                                   vpiParent: BitSelect name:sum[0]
                                   vpiTypespec RefTypespec:
@@ -1327,7 +1328,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:28:16 end:28:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1348,7 +1349,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: crc
                           vpiFullName: t.crc
-                          vpiActual: Net name:crc
+                          vpiActual: Variable name:crc
                         vpiRhs Constant start:30:10 end:30:31:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -1365,7 +1366,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: sum
                           vpiFullName: t.sum
-                          vpiActual: Net name:sum
+                          vpiActual: Variable name:sum
                         vpiRhs Constant start:31:10 end:31:15:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -1386,7 +1387,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         Constant start:33:21 end:33:23:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -1411,7 +1412,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: sum
                                 vpiFullName: t.sum
-                                vpiActual: Net name:sum
+                                vpiActual: Variable name:sum
                               Constant start:34:15 end:34:35:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -1437,7 +1438,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: cyc
                             vpiFullName: t.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                           Constant start:36:21 end:36:23:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -1461,7 +1462,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:38:21 end:38:23:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1485,7 +1486,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: cyc
                                 vpiFullName: t.cyc
-                                vpiActual: Net name:cyc
+                                vpiActual: Variable name:cyc
                               Constant start:40:21 end:40:23:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -1509,7 +1510,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: cyc
                                   vpiFullName: t.cyc
-                                  vpiActual: Net name:cyc
+                                  vpiActual: Variable name:cyc
                                 Constant start:42:21 end:42:23:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -1533,7 +1534,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: cyc
                                     vpiFullName: t.cyc
-                                    vpiActual: Net name:cyc
+                                    vpiActual: Variable name:cyc
                                   Constant start:44:21 end:44:23:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
@@ -1594,7 +1595,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:crc[15:0]
                   vpiName: crc
                   vpiFullName: t.sub.crc[15:0].crc
-                  vpiActual: Net name:crc
+                  vpiActual: Variable name:crc
                 vpiRange Range start:19:22 end:19:26:
                   vpiParent: PartSelect name:crc[15:0]
                   vpiLeftRange Constant start:19:22 end:19:24:
@@ -1631,7 +1632,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:crc[31:16]
                   vpiName: crc
                   vpiFullName: t.sub.crc[31:16].crc
-                  vpiActual: Net name:crc
+                  vpiActual: Variable name:crc
                 vpiRange Range start:19:39 end:19:44:
                   vpiParent: PartSelect name:crc[31:16]
                   vpiLeftRange Constant start:19:39 end:19:41:
@@ -1679,6 +1680,23 @@ Design name:unnamed:
         vpiParent: Module name:sub
         vpiName: sub
       vpiFullName: sub
+      vpiVariable (2 items):
+        Variable name:out1 start:61:29 end:61:33:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:61:11 end:61:28:
+            vpiParent: Variable name:out1
+            vpiFullName: sub.out1
+            vpiActual: LogicTypespec
+          vpiName: out1
+          vpiFullName: sub.out1
+        Variable name:out2 start:62:31 end:62:35:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:62:11 end:62:30:
+            vpiParent: Variable name:out2
+            vpiFullName: sub.out2
+            vpiActual: LogicTypespec
+          vpiName: out2
+          vpiFullName: sub.out2
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:sub
@@ -1786,31 +1804,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
         vpiFullName: sub.work
       vpiCell: sub
-      vpiNet (4 items):
-        Net name:out1 start:61:29 end:61:33:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:61:11 end:61:28:
-            vpiParent: Net name:out1
-            vpiFullName: sub.out1
-            vpiActual: LogicTypespec
-          vpiName: out1
-          vpiFullName: sub.out1
-          vpiNetType: reg (48)
-        Net name:out2 start:62:31 end:62:35:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:62:11 end:62:30:
-            vpiParent: Net name:out2
-            vpiFullName: sub.out2
-            vpiActual: LogicTypespec
-          vpiName: out2
-          vpiFullName: sub.out2
-          vpiNetType: reg (48)
+      vpiNet (2 items):
         Net name:in1 start:59:22 end:59:25:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:59:15 end:59:21:
@@ -1819,6 +1819,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in1
           vpiFullName: sub.in1
+          vpiNetType: wire (1)
         Net name:in2 start:60:22 end:60:25:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:60:15 end:60:21:
@@ -1827,16 +1828,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in2
           vpiFullName: sub.in2
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:out1 start:54:4 end:54:8:
           vpiParent: Module name:sub
           vpiName: out1
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out1 start:54:4 end:54:8:
+          vpiLowConn RefObj name:out1 start:61:29 end:61:33:
             vpiParent: Port name:out1
             vpiName: out1
             vpiFullName: sub.out1.out1
-            vpiActual: Net name:out1
+            vpiActual: Variable name:out1
           vpiTypespec RefTypespec start:61:11 end:61:28:
             vpiParent: Port name:out1
             vpiFullName: sub.out1
@@ -1845,11 +1847,11 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: out2
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out2 start:54:10 end:54:14:
+          vpiLowConn RefObj name:out2 start:62:31 end:62:35:
             vpiParent: Port name:out2
             vpiName: out2
             vpiFullName: sub.out2.out2
-            vpiActual: Net name:out2
+            vpiActual: Variable name:out2
           vpiTypespec RefTypespec start:62:11 end:62:30:
             vpiParent: Port name:out2
             vpiFullName: sub.out2
@@ -1858,7 +1860,7 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: in1
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in1 start:56:4 end:56:7:
+          vpiLowConn RefObj name:in1 start:59:22 end:59:25:
             vpiParent: Port name:in1
             vpiName: in1
             vpiFullName: sub.in1.in1
@@ -1871,7 +1873,7 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: in2
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in2 start:56:9 end:56:12:
+          vpiLowConn RefObj name:in2 start:60:22 end:60:25:
             vpiParent: Port name:in2
             vpiName: in2
             vpiFullName: sub.in2.in2
@@ -1896,7 +1898,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: out1
                     vpiFullName: sub.out1
-                    vpiActual: Net name:out1
+                    vpiActual: Variable name:out1
                   vpiRhs Operation start:66:14 end:66:41:
                     vpiParent: Assignment
                     vpiOpType: multiply (25)
@@ -1930,7 +1932,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: out2
                     vpiFullName: sub.out2
-                    vpiActual: Net name:out2
+                    vpiActual: Variable name:out2
                   vpiRhs Operation start:67:14 end:67:45:
                     vpiParent: Assignment
                     vpiOpType: multiply (25)
@@ -1983,7 +1985,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

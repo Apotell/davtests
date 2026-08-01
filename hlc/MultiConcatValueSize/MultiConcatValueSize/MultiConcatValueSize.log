@@ -767,15 +767,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:41:1: Compile module "sub_top".
 [INF:CP0335] $Source01/dut.sv:45:49: Compile generate block "gen_dio_attr".
 [INF:CP0303] $Source01/dut.sv:52:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:18:7: Illegal implicit net "id:822, name:dio_pad_type".
-[ERR:EL0535] $Source01/dut.sv:37:25: Illegal implicit net "id:890, name:a".
-[ERR:EL0535] $Source01/dut.sv:47:10: Illegal implicit net "id:931, name:PadType".
-[ERR:EL0535] $Source01/dut.sv:48:25: Illegal implicit net "id:934, name:b".
-[ERR:EL0535] $Source01/dut.sv:54:7: Illegal implicit net "id:952, name:dio_pad_type".
-[ERR:EL0535] $Source01/dut.sv:54:34: Illegal implicit net "id:956, name:NDioPads".
-[ERR:EL0535] $Source01/dut.sv:54:65: Illegal implicit net "id:960, name:B".
-[ERR:EL0535] $Source01/dut.sv:58:8: Illegal implicit net "id:971, name:TargetCfg".
-[ERR:EL0535] $Source01/dut.sv:59:13: Illegal implicit net "id:974, name:c".
+[WRN:CP0350] $Source01/dut.sv:54:34: Failed to bind "id:956, name:NDioPads".
+[WRN:CP0350] $Source01/dut.sv:54:65: Failed to bind "id:960, name:B".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "prim_pad_wrapper_pkg".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "pinmux_pkg".
@@ -791,7 +784,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (3 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2425,7 +2417,7 @@ Design name:unnamed:
             vpiFullName: prim_pad_wrapper_pkg::pad_type_e
             vpiActual: EnumTypespec
       vpiDefName: prim_pad_wrapper_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:prim_pad_wrapper_pkg
         vpiName: work
@@ -2579,7 +2571,7 @@ Design name:unnamed:
             vpiFullName: pinmux_pkg::target_cfg_t
             vpiActual: StructTypespec
       vpiDefName: pinmux_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:pinmux_pkg
         vpiName: work
@@ -3032,7 +3024,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: a
           vpiFullName: prim_generic_pad_attr.a
-          vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:PadType start:24:25 end:24:32:
           vpiParent: Module name:prim_generic_pad_attr
@@ -3063,7 +3054,7 @@ Design name:unnamed:
             vpiParent: ImportTypespec name:prim_pad_wrapper_pkg
             vpiName: prim_pad_wrapper_pkg
       vpiDefName: prim_generic_pad_attr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:prim_generic_pad_attr
         vpiName: work
@@ -3074,9 +3065,10 @@ Design name:unnamed:
           vpiParent: Module name:prim_generic_pad_attr
           vpiName: a
           vpiDirection: output (2)
-          vpiLowConn RefObj start:22:41 end:22:42:
+          vpiLowConn RefObj name:a start:22:41 end:22:42:
             vpiParent: Port name:a
-            vpiFullName: prim_generic_pad_attr.a
+            vpiName: a
+            vpiFullName: prim_generic_pad_attr.a.a
             vpiActual: Variable name:a
           vpiTypespec RefTypespec start:22:30 end:22:40:
             vpiParent: Port name:a
@@ -3141,7 +3133,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: b
           vpiFullName: prim_pad_attr.b
-          vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:PadType start:32:25 end:32:32:
           vpiParent: Module name:prim_pad_attr
@@ -3172,7 +3163,7 @@ Design name:unnamed:
             vpiParent: ImportTypespec name:prim_pad_wrapper_pkg
             vpiName: prim_pad_wrapper_pkg
       vpiDefName: prim_pad_attr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:prim_pad_attr
         vpiName: work
@@ -3183,9 +3174,10 @@ Design name:unnamed:
           vpiParent: Module name:prim_pad_attr
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj start:30:33 end:30:34:
+          vpiLowConn RefObj name:b start:30:33 end:30:34:
             vpiParent: Port name:b
-            vpiFullName: prim_pad_attr.b
+            vpiName: b
+            vpiFullName: prim_pad_attr.b.b
             vpiActual: Variable name:b
           vpiTypespec RefTypespec start:30:22 end:30:32:
             vpiParent: Port name:b
@@ -3266,7 +3258,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: c
           vpiFullName: sub_top.c
-          vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:TargetCfg start:43:27 end:43:36:
           vpiParent: Module name:sub_top
@@ -3297,7 +3288,7 @@ Design name:unnamed:
             vpiParent: ImportTypespec name:pinmux_pkg
             vpiName: pinmux_pkg
       vpiDefName: sub_top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub_top
         vpiName: work
@@ -3308,9 +3299,10 @@ Design name:unnamed:
           vpiParent: Module name:sub_top
           vpiName: c
           vpiDirection: output (2)
-          vpiLowConn RefObj start:41:27 end:41:28:
+          vpiLowConn RefObj name:c start:41:27 end:41:28:
             vpiParent: Port name:c
-            vpiFullName: sub_top.c
+            vpiName: c
+            vpiFullName: sub_top.c.c
             vpiActual: Variable name:c
           vpiTypespec RefTypespec start:41:16 end:41:26:
             vpiParent: Port name:c
@@ -3443,7 +3435,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: o
           vpiFullName: top.o
-          vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:PinmuxTargetCfg start:53:40 end:53:55:
           vpiParent: Module name:top
@@ -3518,7 +3509,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub_top
             vpiName: sub_top
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -3529,9 +3520,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:52:23 end:52:24:
+          vpiLowConn RefObj name:o start:52:23 end:52:24:
             vpiParent: Port name:o
-            vpiFullName: top.o
+            vpiName: o
+            vpiFullName: top.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:52:12 end:52:22:
             vpiParent: Port name:o
@@ -3628,8 +3620,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 9
-[WARNING] : 7
+[  ERROR] : 0
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

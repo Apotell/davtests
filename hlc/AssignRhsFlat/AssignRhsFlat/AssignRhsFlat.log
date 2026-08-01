@@ -131,8 +131,6 @@ n<$Source01/dut.sv> u<114> t<Top_level_rule> c<1> l<1:1> el<15:1>
         n<> u<110> t<ENDMODULE> p<111> l<13:1> el<13:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
-[ERR:EL0535] $Source01/dut.sv:12:17: Illegal implicit net "id:31, name:BC1".
-[ERR:EL0535] $Source01/dut.sv:12:42: Illegal implicit net "id:43, name:BC2".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 ====== HLDB =======
 Design name:unnamed:
@@ -142,7 +140,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:dut file:$Source01/dut.sv start:1:1 end:13:10:
       vpiParent: Design name:unnamed
@@ -150,6 +147,16 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:test start:10:5 end:10:9:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec name:ABC start:10:1 end:10:4:
+            vpiParent: Variable name:test
+            vpiName: ABC
+            vpiFullName: dut.test.ABC
+            vpiActual: TypedefTypespec name:ABC
+          vpiName: test
+          vpiFullName: dut.test
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -206,22 +213,12 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:dut
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (1 items):
-        Net name:test start:10:5 end:10:9:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec name:ABC start:10:1 end:10:4:
-            vpiParent: Net name:test
-            vpiName: ABC
-            vpiFullName: dut.test.ABC
-            vpiActual: TypedefTypespec name:ABC
-          vpiName: test
-          vpiFullName: dut.test
       vpiContAssign (1 items):
         ContAssign start:12:8 end:12:61:
           vpiParent: Module name:dut
@@ -229,7 +226,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: test
             vpiFullName: dut.test
-            vpiActual: Net name:test
+            vpiActual: Variable name:test
           vpiRhs Operation start:12:15 end:12:61:
             vpiParent: ContAssign
             vpiOpType: assign pattern (87)
@@ -319,7 +316,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

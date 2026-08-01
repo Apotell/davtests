@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,20 +19,20 @@
 //   $display("Array size %d\n", array.size());
 //
 // UHDM structure:
-//   Net "array" → ArrayTypespec (static)
+//   Variable "array" -> ArrayTypespec (static)
 //     Range: vpiLeftRange = Operation(subtract, opType=11) with Constant "3"
-//     ElemTypespec → LogicTypespec [7:0]
-//   Initial → Begin
+//     ElemTypespec -> LogicTypespec [7:0]
+//   Initial -> Begin
 //     SysTaskCall "$display"
-//       Arguments[0]: Constant (vpiStringConst=6) — format string
+//       Arguments[0]: Constant (vpiStringConst=6) -- format string
 //       Arguments[1]: HierPath "array.size()"
 //         PathElems[0]: RefObj "array"
 //         PathElems[1]: FuncCall "size"
 //
 // Key API:
-//   SysTaskCall inherits TFCall::getArguments() → AnyCollection*
-//   HierPath::getPathElems()                    → AnyCollection*
-//   FuncCall inherits TFCall::getName()         → std::string_view
+//   SysTaskCall inherits TFCall::getArguments() -> AnyCollection*
+//   HierPath::getPathElems()                    -> AnyCollection*
+//   FuncCall inherits TFCall::getName()         -> std::string_view
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -54,6 +54,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -67,12 +68,10 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Net *getNetArray(const hldb::Design *d) {
+static const hldb::Variable *getVariableArray(const hldb::Design *d) {
   const hldb::Module *const top = getTop(d);
-  if (!top || !top->getNets()) return nullptr;
-  for (const hldb::Net *const n : *top->getNets())
-    if (n->getName() == "array") return n;
-  return nullptr;
+  if (!top || !top->getVariables()) return nullptr;
+  return hldb::findByName<hldb::Variable>("array", top->getVariables());
 }
 
 // Returns the $display SysTaskCall inside initial begin.
@@ -90,26 +89,39 @@ static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
   return nullptr;
 }
 
-// ---------------------------------------------------------------------------
-// Module and net
-// ---------------------------------------------------------------------------
+// ----
+// Module and variable
+// ----
 TEST_F(BuiltinMethodsArrays, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr); }
 
-TEST_F(BuiltinMethodsArrays, NetArrayExists) { ASSERT_NE(getNetArray(m_design), nullptr) << "net 'array' not found"; }
+TEST_F(BuiltinMethodsArrays, VariableArrayExists) {
+  ASSERT_NE(getVariableArray(m_design), nullptr) << "variable 'array' not found";
+}
 
-// ---------------------------------------------------------------------------
+// `reg` is a variable keyword, not one of the net-type keywords in IEEE
+// 1800-2023 Sec 6.7/6.8, so 'array' must not appear as a Net.
+TEST_F(BuiltinMethodsArrays, VariableArrayIsNotDuplicatedAsNet) {
+  const hldb::Module *const top = getTop(m_design);
+  ASSERT_NE(top, nullptr);
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("array", top->getNets()), nullptr)
+        << "'array' is a reg (variable) and must not also appear as a Net";
+  }
+}
+
+// ----
 // Array typespec: static ArrayTypespec with LogicTypespec [7:0] element
-// ---------------------------------------------------------------------------
-TEST_F(BuiltinMethodsArrays, NetArrayHasArrayTypespec) {
-  const hldb::Net *const n = getNetArray(m_design);
+// ----
+TEST_F(BuiltinMethodsArrays, VariableArrayHasArrayTypespec) {
+  const hldb::Variable *const n = getVariableArray(m_design);
   ASSERT_NE(n, nullptr);
   ASSERT_NE(n->getTypespec(), nullptr);
   EXPECT_NE(any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual()), nullptr)
-      << "net 'array' should resolve to an ArrayTypespec";
+      << "variable 'array' should resolve to an ArrayTypespec";
 }
 
 TEST_F(BuiltinMethodsArrays, ArrayDimensionLeftRangeIsSubtractOp) {
-  const hldb::Net *const n = getNetArray(m_design);
+  const hldb::Variable *const n = getVariableArray(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
@@ -122,7 +134,7 @@ TEST_F(BuiltinMethodsArrays, ArrayDimensionLeftRangeIsSubtractOp) {
 }
 
 TEST_F(BuiltinMethodsArrays, ArrayDimensionOperandIsConstantThree) {
-  const hldb::Net *const n = getNetArray(m_design);
+  const hldb::Variable *const n = getVariableArray(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
@@ -137,7 +149,7 @@ TEST_F(BuiltinMethodsArrays, ArrayDimensionOperandIsConstantThree) {
 }
 
 TEST_F(BuiltinMethodsArrays, ArrayElemTypespecIsLogicTypespec) {
-  const hldb::Net *const n = getNetArray(m_design);
+  const hldb::Variable *const n = getVariableArray(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
@@ -146,9 +158,9 @@ TEST_F(BuiltinMethodsArrays, ArrayElemTypespecIsLogicTypespec) {
       << "element typespec should be LogicTypespec";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // $display system call
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(BuiltinMethodsArrays, DisplayCallExists) {
   ASSERT_NE(getDisplay(m_design), nullptr) << "$display call not found";
 }
@@ -178,9 +190,9 @@ TEST_F(BuiltinMethodsArrays, FirstArgumentIsStringConstant) {
   EXPECT_EQ(fmt->getConstType(), 6) << "format string should have string const type";
 }
 
-// ---------------------------------------------------------------------------
-// array.size() — HierPath with RefObj + FuncCall
-// ---------------------------------------------------------------------------
+// ----
+// array.size() -- HierPath with RefObj + FuncCall
+// ----
 TEST_F(BuiltinMethodsArrays, SecondArgumentIsHierPath) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);

@@ -7,7 +7,6 @@ VERSION: 1.84
 COMMAND: -wd ../../../tests/SequenceExpr -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SequenceExpr/SequenceExpr
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
-[NTE:PP0128] $Source01/dut.sv:118:35: Non ASCII character detected, replaced by space.
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 5297
@@ -638,7 +637,7 @@ n<$Source01/dut.sv> u<5296> t<Top_level_rule> c<1> l<18:1> el<626:1>
                                     n<> u<606> t<Primary_literal> p<607> c<605> l<115:35> el<115:36>
                                       n<3> u<605> t<INTEGRAL_NUMBER> p<606> l<115:35> el<115:36>
                       n<> u<614> t<ENDSEQUENCE> p<615> l<116:3> el<116:14>
-        n<// - consecutive_repetition  [*    ] ----------------------------------------> u<622> t<LINE_COMMENT> p<5293> s<623> l<118:3> el<118:80>
+        n<// - consecutive_repetition  [* ...] ---------------------------------------> u<622> t<LINE_COMMENT> p<5293> s<623> l<118:3> el<118:79>
         n<// 3c. [* N]  exact count> u<623> t<LINE_COMMENT> p<5293> s<645> l<120:3> el<120:28>
         n<> u<645> t<Non_port_module_item> p<5293> c<644> s<646> l<121:3> el<123:14>
           n<> u<644> t<Module_or_generate_item> p<645> c<643> l<121:3> el<123:14>
@@ -755,7 +754,7 @@ n<$Source01/dut.sv> u<5296> t<Top_level_rule> c<1> l<18:1> el<626:1>
                                   n<> u<724> t<Constant_primary> p<725> c<723> l<142:10> el<142:11>
                                     n<$> u<723> t<DOLLAR> p<724> l<142:10> el<142:11>
                       n<> u<731> t<ENDSEQUENCE> p<732> l<143:3> el<143:14>
-        n<// - non_consecutive_repetition  [=    ] -------------------------------------> u<739> t<LINE_COMMENT> p<5293> s<740> l<145:3> el<145:81>
+        n<// - non_consecutive_repetition  [= ...] ------------------------------------> u<739> t<LINE_COMMENT> p<5293> s<740> l<145:3> el<145:80>
         n<// 3h. [= N]  exact non-consecutive> u<740> t<LINE_COMMENT> p<5293> s<762> l<147:3> el<147:38>
         n<> u<762> t<Non_port_module_item> p<5293> c<761> s<763> l<148:3> el<150:14>
           n<> u<761> t<Module_or_generate_item> p<762> c<760> l<148:3> el<150:14>
@@ -834,7 +833,7 @@ n<$Source01/dut.sv> u<5296> t<Top_level_rule> c<1> l<18:1> el<626:1>
                                   n<> u<803> t<Constant_primary> p<804> c<802> l<159:10> el<159:11>
                                     n<$> u<802> t<DOLLAR> p<803> l<159:10> el<159:11>
                       n<> u<810> t<ENDSEQUENCE> p<811> l<160:3> el<160:14>
-        n<// - goto_repetition  [->    ] ------------------------------------------------> u<818> t<LINE_COMMENT> p<5293> s<819> l<162:3> el<162:82>
+        n<// - goto_repetition  [-> ...] -----------------------------------------------> u<818> t<LINE_COMMENT> p<5293> s<819> l<162:3> el<162:81>
         n<// 3k. [-> N]  exact goto> u<819> t<LINE_COMMENT> p<5293> s<841> l<164:3> el<164:28>
         n<> u<841> t<Non_port_module_item> p<5293> c<840> s<842> l<165:3> el<167:14>
           n<> u<840> t<Module_or_generate_item> p<841> c<839> l<165:3> el<167:14>
@@ -5321,7 +5320,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:sequence_expr_coverage file:$Source01/dut.sv start:18:1 end:625:10:
       vpiParent: Design name:unnamed
@@ -5340,7 +5338,7 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq_a
             vpiName: a
             vpiFullName: sequence_expr_coverage.seq_a.a
-            vpiActual: Net name:a
+            vpiActual: Variable name:a
         SequenceDecl name:seq_ab start:27:3 end:27:56:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:seq_ab start:27:12 end:27:18:
@@ -5355,7 +5353,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.seq_ab.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:27:36 end:27:37:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -5370,7 +5368,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.seq_ab.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:seq_abc start:28:3 end:28:58:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:seq_abc start:28:12 end:28:19:
@@ -5385,7 +5383,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.seq_abc.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:28:36 end:28:37:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -5404,7 +5402,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.seq_abc.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Constant start:28:42 end:28:43:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -5419,7 +5417,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.seq_abc.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
         SequenceDecl name:seq_with_arg start:29:3 end:29:56:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:seq_with_arg start:29:12 end:29:24:
@@ -5466,7 +5464,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt1_fixed.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
         SequenceDecl name:alt1_range start:41:3 end:43:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt1_range start:41:12 end:41:22:
@@ -5503,7 +5501,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt1_range.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
         SequenceDecl name:alt1_star start:46:3 end:48:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt1_star start:46:12 end:46:21:
@@ -5538,7 +5536,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt1_star.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
         SequenceDecl name:alt1_plus start:51:3 end:53:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt1_plus start:51:12 end:51:21:
@@ -5573,7 +5571,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt1_plus.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
         SequenceDecl name:alt1_chained start:56:3 end:58:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt1_chained start:56:12 end:56:24:
@@ -5612,7 +5610,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt1_chained.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
         SequenceDecl name:alt1_then_delay start:61:3 end:63:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt1_then_delay start:61:12 end:61:27:
@@ -5641,7 +5639,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt1_then_delay.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Range start:62:14 end:62:17:
                     vpiParent: Operation
                     vpiLeftRange Constant start:62:14 end:62:15:
@@ -5668,7 +5666,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt1_then_delay.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
         SequenceDecl name:alt2_fixed start:70:3 end:72:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt2_fixed start:70:12 end:70:22:
@@ -5683,7 +5681,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt2_fixed.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:71:9 end:71:10:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -5698,7 +5696,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt2_fixed.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt2_range start:75:3 end:77:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt2_range start:75:12 end:75:22:
@@ -5713,7 +5711,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt2_range.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:76:10 end:76:13:
                 vpiParent: Operation
                 vpiLeftRange Constant start:76:10 end:76:11:
@@ -5740,7 +5738,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt2_range.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt2_star start:80:3 end:82:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt2_star start:80:12 end:80:21:
@@ -5755,7 +5753,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt2_star.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:81:7 end:81:12:
                 vpiParent: Operation
                 vpiLeftRange Constant:
@@ -5780,7 +5778,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt2_star.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt2_plus start:85:3 end:87:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt2_plus start:85:12 end:85:21:
@@ -5795,7 +5793,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt2_plus.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:86:7 end:86:12:
                 vpiParent: Operation
                 vpiLeftRange Constant:
@@ -5820,7 +5818,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt2_plus.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt2_chain3 start:90:3 end:92:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt2_chain3 start:90:12 end:90:23:
@@ -5835,7 +5833,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt2_chain3.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:91:9 end:91:10:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -5854,7 +5852,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt2_chain3.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Constant start:91:15 end:91:16:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -5869,7 +5867,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt2_chain3.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
         SequenceDecl name:alt2_chain4_mixed start:95:3 end:97:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt2_chain4_mixed start:95:12 end:95:29:
@@ -5884,7 +5882,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt2_chain4_mixed.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:96:9 end:96:10:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -5903,7 +5901,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt2_chain4_mixed.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Range start:96:16 end:96:19:
                     vpiParent: Operation
                     vpiLeftRange Constant start:96:16 end:96:17:
@@ -5934,7 +5932,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: c
                         vpiFullName: sequence_expr_coverage.alt2_chain4_mixed.c
-                        vpiActual: Net name:c
+                        vpiActual: Variable name:c
                       Range start:96:23 end:96:28:
                         vpiParent: Operation
                         vpiLeftRange Constant:
@@ -5959,7 +5957,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: d
                         vpiFullName: sequence_expr_coverage.alt2_chain4_mixed.d
-                        vpiActual: Net name:d
+                        vpiActual: Variable name:d
         SequenceDecl name:alt2_zero start:100:3 end:102:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt2_zero start:100:12 end:100:21:
@@ -5974,7 +5972,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt2_zero.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:101:9 end:101:10:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -5989,7 +5987,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt2_zero.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt3_bare start:109:3 end:111:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt3_bare start:109:12 end:109:21:
@@ -6000,7 +5998,7 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:alt3_bare
             vpiName: a
             vpiFullName: sequence_expr_coverage.alt3_bare.a
-            vpiActual: Net name:a
+            vpiActual: Variable name:a
         SequenceDecl name:alt3_dist start:114:3 end:116:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt3_dist start:114:12 end:114:21:
@@ -6072,7 +6070,7 @@ Design name:unnamed:
               vpiParent: Distribution
               vpiName: data
               vpiFullName: sequence_expr_coverage.alt3_dist.data
-              vpiActual: Net name:data
+              vpiActual: Variable name:data
         SequenceDecl name:alt3_consec_exact start:121:3 end:123:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt3_consec_exact start:121:12 end:121:29:
@@ -6087,7 +6085,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_consec_exact.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:122:8 end:122:9:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -6112,7 +6110,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_consec_range.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:127:8 end:127:11:
                 vpiParent: Operation
                 vpiLeftRange Constant start:127:8 end:127:9:
@@ -6149,7 +6147,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_consec_star.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:132:6 end:132:9:
                 vpiParent: Operation
                 vpiLeftRange Constant:
@@ -6184,7 +6182,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_consec_plus.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:137:6 end:137:9:
                 vpiParent: Operation
                 vpiLeftRange Constant:
@@ -6219,7 +6217,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_consec_unbounded.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:142:8 end:142:11:
                 vpiParent: Operation
                 vpiLeftRange Constant start:142:8 end:142:9:
@@ -6255,7 +6253,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_nonconsec_exact.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:149:8 end:149:9:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -6280,7 +6278,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_nonconsec_range.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:154:8 end:154:11:
                 vpiParent: Operation
                 vpiLeftRange Constant start:154:8 end:154:9:
@@ -6317,7 +6315,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_nonconsec_unbounded.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:159:8 end:159:11:
                 vpiParent: Operation
                 vpiLeftRange Constant start:159:8 end:159:9:
@@ -6353,7 +6351,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_goto_exact.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:166:9 end:166:10:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -6378,7 +6376,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_goto_range.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:171:9 end:171:12:
                 vpiParent: Operation
                 vpiLeftRange Constant start:171:9 end:171:10:
@@ -6415,7 +6413,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt3_goto_unbounded.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:176:9 end:176:12:
                 vpiParent: Operation
                 vpiLeftRange Constant start:176:9 end:176:10:
@@ -6447,7 +6445,7 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:alt4_paren_only
             vpiName: a
             vpiFullName: sequence_expr_coverage.alt4_paren_only.a
-            vpiActual: Net name:a
+            vpiActual: Variable name:a
         SequenceDecl name:alt4_assign start:191:3 end:193:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt4_assign start:191:12 end:191:23:
@@ -6462,7 +6460,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_assign.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Assignment start:192:9 end:192:16:
                 vpiParent: Operation
                 vpiBlocking: true
@@ -6470,7 +6468,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt4_assign.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Constant start:192:15 end:192:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -6495,7 +6493,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_compound_assign.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Assignment start:197:9 end:197:17:
                 vpiParent: Operation
                 vpiBlocking: true
@@ -6503,7 +6501,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt4_compound_assign.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -6512,7 +6510,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: sequence_expr_coverage.alt4_compound_assign.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:197:16 end:197:17:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -6537,7 +6535,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_post_inc.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Operation start:202:9 end:202:14:
                 vpiParent: Operation
                 vpiOpType: post inc (64)
@@ -6546,7 +6544,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: cnt
                     vpiFullName: sequence_expr_coverage.alt4_post_inc.cnt
-                    vpiActual: Net name:cnt
+                    vpiActual: Variable name:cnt
         SequenceDecl name:alt4_pre_dec start:206:3 end:208:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt4_pre_dec start:206:12 end:206:24:
@@ -6561,7 +6559,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_pre_dec.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Operation start:207:9 end:207:14:
                 vpiParent: Operation
                 vpiOpType: pre dec (67)
@@ -6570,7 +6568,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: cnt
                     vpiFullName: sequence_expr_coverage.alt4_pre_dec.cnt
-                    vpiActual: Net name:cnt
+                    vpiActual: Variable name:cnt
         SequenceDecl name:alt4_multi_match start:211:3 end:213:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt4_multi_match start:211:12 end:211:28:
@@ -6585,7 +6583,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_multi_match.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Assignment start:212:9 end:212:17:
                 vpiParent: Operation
                 vpiBlocking: true
@@ -6593,7 +6591,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt4_multi_match.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -6602,7 +6600,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: sequence_expr_coverage.alt4_multi_match.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:212:16 end:212:17:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -6620,7 +6618,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.alt4_multi_match.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
                 vpiRhs Constant start:212:23 end:212:24:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -6645,7 +6643,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_consec_abbrev.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:217:20 end:217:21:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -6663,7 +6661,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt4_consec_abbrev.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -6672,7 +6670,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: sequence_expr_coverage.alt4_consec_abbrev.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:217:16 end:217:17:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -6697,7 +6695,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_consec_range_abbrev.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Range start:222:20 end:222:23:
                 vpiParent: Operation
                 vpiLeftRange Constant start:222:20 end:222:21:
@@ -6727,7 +6725,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt4_consec_range_abbrev.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -6736,7 +6734,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: sequence_expr_coverage.alt4_consec_range_abbrev.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:222:16 end:222:17:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -6761,7 +6759,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_nonconsec_abbrev.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:227:17 end:227:18:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -6779,7 +6777,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.alt4_nonconsec_abbrev.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
                 vpiRhs Constant start:227:13 end:227:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -6804,7 +6802,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt4_goto_abbrev.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:232:18 end:232:19:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -6822,7 +6820,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.alt4_goto_abbrev.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
                 vpiRhs Constant start:232:13 end:232:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -6896,7 +6894,7 @@ Design name:unnamed:
                   vpiParent: Distribution
                   vpiName: data
                   vpiFullName: sequence_expr_coverage.alt4_dist_match_abbrev.data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
               Range start:237:47 end:237:50:
                 vpiParent: Operation
                 vpiLeftRange Constant start:237:47 end:237:48:
@@ -6926,7 +6924,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt4_dist_match_abbrev.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -6935,7 +6933,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: sequence_expr_coverage.alt4_dist_match_abbrev.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:237:43 end:237:44:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -6973,7 +6971,7 @@ Design name:unnamed:
                 vpiParent: SubroutineCall name:seq_with_arg
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt5_param.seq_with_arg.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
         SequenceDecl name:alt5_consec_exact start:256:3 end:258:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt5_consec_exact start:256:12 end:256:29:
@@ -7120,7 +7118,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt6_paren_seq.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:282:10 end:282:11:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -7135,7 +7133,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt6_paren_seq.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt6_with_match start:286:3 end:288:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt6_with_match start:286:12 end:286:27:
@@ -7150,7 +7148,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt6_with_match.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Constant start:287:10 end:287:11:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -7165,7 +7163,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt6_with_match.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt6_match_consec_exact start:291:3 end:293:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt6_match_consec_exact start:291:12 end:291:35:
@@ -7184,7 +7182,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt6_match_consec_exact.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:292:10 end:292:11:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7199,7 +7197,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt6_match_consec_exact.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Constant start:292:26 end:292:27:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -7217,7 +7215,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt6_match_consec_exact.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -7226,7 +7224,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: sequence_expr_coverage.alt6_match_consec_exact.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:292:22 end:292:23:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -7255,7 +7253,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt6_match_consec_range.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Range start:297:11 end:297:14:
                     vpiParent: Operation
                     vpiLeftRange Constant start:297:11 end:297:12:
@@ -7282,7 +7280,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt6_match_consec_range.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Range start:297:30 end:297:33:
                 vpiParent: Operation
                 vpiLeftRange Constant start:297:30 end:297:31:
@@ -7312,7 +7310,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt6_match_consec_range.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -7321,7 +7319,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: sequence_expr_coverage.alt6_match_consec_range.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:297:26 end:297:27:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -7350,7 +7348,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt6_star.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:302:10 end:302:11:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7365,7 +7363,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt6_star.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Range start:302:14 end:302:17:
                 vpiParent: Operation
                 vpiLeftRange Constant:
@@ -7404,7 +7402,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt6_plus.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:307:10 end:307:11:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7419,7 +7417,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt6_plus.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Range start:307:14 end:307:17:
                 vpiParent: Operation
                 vpiLeftRange Constant:
@@ -7458,7 +7456,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt6_complex.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Range start:312:11 end:312:14:
                     vpiParent: Operation
                     vpiLeftRange Constant start:312:11 end:312:12:
@@ -7489,7 +7487,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: b
                         vpiFullName: sequence_expr_coverage.alt6_complex.b
-                        vpiActual: Net name:b
+                        vpiActual: Variable name:b
                       Constant start:312:20 end:312:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -7504,7 +7502,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: c
                         vpiFullName: sequence_expr_coverage.alt6_complex.c
-                        vpiActual: Net name:c
+                        vpiActual: Variable name:c
               Constant start:312:42 end:312:43:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -7522,7 +7520,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt6_complex.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Constant start:312:31 end:312:32:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -7540,7 +7538,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d
                   vpiFullName: sequence_expr_coverage.alt6_complex.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
                 vpiRhs Constant start:312:38 end:312:39:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -7565,12 +7563,12 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt7_simple.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               RefObj name:b start:321:11 end:321:12:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt7_simple.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt7_sequenced start:325:3 end:327:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt7_sequenced start:325:12 end:325:26:
@@ -7589,7 +7587,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt7_sequenced.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:326:10 end:326:11:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7604,7 +7602,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt7_sequenced.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Operation start:326:20 end:326:27:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -7613,7 +7611,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt7_sequenced.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
                   Constant start:326:24 end:326:25:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7628,7 +7626,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: d
                     vpiFullName: sequence_expr_coverage.alt7_sequenced.d
-                    vpiActual: Net name:d
+                    vpiActual: Variable name:d
         SequenceDecl name:alt7_chained start:330:3 end:332:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt7_chained start:330:12 end:330:24:
@@ -7647,17 +7645,17 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt7_chained.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   RefObj name:b start:331:11 end:331:12:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt7_chained.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               RefObj name:c start:331:17 end:331:18:
                 vpiParent: Operation
                 vpiName: c
                 vpiFullName: sequence_expr_coverage.alt7_chained.c
-                vpiActual: Net name:c
+                vpiActual: Variable name:c
         SequenceDecl name:alt7_instances start:335:3 end:337:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt7_instances start:335:12 end:335:26:
@@ -7692,12 +7690,12 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt8_simple.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               RefObj name:b start:345:17 end:345:18:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt8_simple.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt8_sequenced start:349:3 end:351:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt8_sequenced start:349:12 end:349:26:
@@ -7716,7 +7714,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt8_sequenced.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Range start:350:11 end:350:14:
                     vpiParent: Operation
                     vpiLeftRange Constant start:350:11 end:350:12:
@@ -7743,7 +7741,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt8_sequenced.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Operation start:350:30 end:350:41:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -7752,7 +7750,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt8_sequenced.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
                   Range start:350:35 end:350:38:
                     vpiParent: Operation
                     vpiLeftRange Constant start:350:35 end:350:36:
@@ -7779,7 +7777,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: d
                     vpiFullName: sequence_expr_coverage.alt8_sequenced.d
-                    vpiActual: Net name:d
+                    vpiActual: Variable name:d
         SequenceDecl name:alt8_with_rep start:354:3 end:356:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt8_with_rep start:354:12 end:354:25:
@@ -7798,7 +7796,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt8_with_rep.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:355:8 end:355:9:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7817,7 +7815,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt8_with_rep.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Constant start:355:26 end:355:27:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7836,7 +7834,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: c
                         vpiFullName: sequence_expr_coverage.alt8_with_rep.c
-                        vpiActual: Net name:c
+                        vpiActual: Variable name:c
                       Constant start:355:32 end:355:33:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -7851,7 +7849,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: d
                         vpiFullName: sequence_expr_coverage.alt8_with_rep.d
-                        vpiActual: Net name:d
+                        vpiActual: Variable name:d
         SequenceDecl name:alt9_simple start:363:3 end:365:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt9_simple start:363:12 end:363:23:
@@ -7866,12 +7864,12 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt9_simple.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               RefObj name:b start:364:10 end:364:11:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt9_simple.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
         SequenceDecl name:alt9_sequenced start:368:3 end:370:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt9_sequenced start:368:12 end:368:26:
@@ -7890,7 +7888,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt9_sequenced.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:369:10 end:369:11:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7905,7 +7903,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt9_sequenced.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Operation start:369:19 end:369:26:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -7914,7 +7912,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt9_sequenced.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
                   Constant start:369:23 end:369:24:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -7929,7 +7927,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: d
                     vpiFullName: sequence_expr_coverage.alt9_sequenced.d
-                    vpiActual: Net name:d
+                    vpiActual: Variable name:d
         SequenceDecl name:alt9_chained start:373:3 end:375:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt9_chained start:373:12 end:373:24:
@@ -7948,17 +7946,17 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt9_chained.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   RefObj name:b start:374:10 end:374:11:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt9_chained.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               RefObj name:c start:374:15 end:374:16:
                 vpiParent: Operation
                 vpiName: c
                 vpiFullName: sequence_expr_coverage.alt9_chained.c
-                vpiActual: Net name:c
+                vpiActual: Variable name:c
         SequenceDecl name:alt9_instances start:378:3 end:380:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt9_instances start:378:12 end:378:26:
@@ -7997,7 +7995,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt10_simple.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:388:21 end:388:22:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -8012,7 +8010,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt10_simple.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
         SequenceDecl name:alt10_one_match start:392:3 end:394:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt10_one_match start:392:12 end:392:27:
@@ -8031,7 +8029,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt10_one_match.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Range start:393:22 end:393:25:
                     vpiParent: Operation
                     vpiLeftRange Constant start:393:22 end:393:23:
@@ -8058,7 +8056,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt10_one_match.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Assignment start:393:30 end:393:37:
                 vpiParent: Operation
                 vpiBlocking: true
@@ -8066,7 +8064,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt10_one_match.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Constant start:393:36 end:393:37:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -8095,7 +8093,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt10_multi_match.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:398:21 end:398:22:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -8114,7 +8112,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: b
                         vpiFullName: sequence_expr_coverage.alt10_multi_match.b
-                        vpiActual: Net name:b
+                        vpiActual: Variable name:b
                       Constant start:398:27 end:398:28:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -8129,7 +8127,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: c
                         vpiFullName: sequence_expr_coverage.alt10_multi_match.c
-                        vpiActual: Net name:c
+                        vpiActual: Variable name:c
               Assignment start:398:32 end:398:39:
                 vpiParent: Operation
                 vpiBlocking: true
@@ -8137,7 +8135,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: sequence_expr_coverage.alt10_multi_match.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Constant start:398:38 end:398:39:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -8155,7 +8153,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d
                   vpiFullName: sequence_expr_coverage.alt10_multi_match.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
                 vpiRhs Constant start:398:45 end:398:46:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -8184,7 +8182,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt10_inner_complex.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Range start:403:22 end:403:25:
                     vpiParent: Operation
                     vpiLeftRange Constant start:403:22 end:403:23:
@@ -8215,7 +8213,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: b
                         vpiFullName: sequence_expr_coverage.alt10_inner_complex.b
-                        vpiActual: Net name:b
+                        vpiActual: Variable name:b
                       Constant start:403:30 end:403:31:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -8240,7 +8238,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt11_simple.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Operation start:412:19 end:412:26:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -8249,7 +8247,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt11_simple.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Constant start:412:23 end:412:24:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -8264,7 +8262,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt11_simple.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
         SequenceDecl name:alt11_chain start:416:3 end:418:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt11_chain start:416:12 end:416:23:
@@ -8279,7 +8277,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt11_chain.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Operation start:417:19 end:417:32:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -8288,7 +8286,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt11_chain.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Constant start:417:23 end:417:24:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -8307,7 +8305,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: c
                         vpiFullName: sequence_expr_coverage.alt11_chain.c
-                        vpiActual: Net name:c
+                        vpiActual: Variable name:c
                       Constant start:417:29 end:417:30:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -8322,7 +8320,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: d
                         vpiFullName: sequence_expr_coverage.alt11_chain.d
-                        vpiActual: Net name:d
+                        vpiActual: Variable name:d
         SequenceDecl name:alt11_range start:421:3 end:423:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt11_range start:421:12 end:421:23:
@@ -8341,7 +8339,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: data
                     vpiFullName: sequence_expr_coverage.alt11_range.data
-                    vpiActual: Net name:data
+                    vpiActual: Variable name:data
                   Constant start:422:14 end:422:18:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -8360,7 +8358,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt11_range.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Range start:422:37 end:422:40:
                     vpiParent: Operation
                     vpiLeftRange Constant start:422:37 end:422:38:
@@ -8387,7 +8385,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt11_range.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
         SequenceDecl name:alt11_instance start:426:3 end:428:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt11_instance start:426:12 end:426:26:
@@ -8402,7 +8400,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt11_instance.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               RefObj name:seq_abc start:427:18 end:427:25:
                 vpiParent: Operation
                 vpiName: seq_abc
@@ -8422,7 +8420,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.alt12_simple.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Operation start:436:15 end:436:26:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -8431,7 +8429,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt12_simple.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Range start:436:20 end:436:23:
                     vpiParent: Operation
                     vpiLeftRange Constant start:436:20 end:436:21:
@@ -8458,7 +8456,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt12_simple.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
         SequenceDecl name:alt12_sequenced start:440:3 end:442:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt12_sequenced start:440:12 end:440:27:
@@ -8477,7 +8475,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt12_sequenced.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:441:10 end:441:11:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -8492,7 +8490,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt12_sequenced.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Operation start:441:23 end:441:35:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -8501,7 +8499,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt12_sequenced.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
                   Range start:441:28 end:441:32:
                     vpiParent: Operation
                     vpiLeftRange Constant start:441:28 end:441:29:
@@ -8528,7 +8526,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: d
                     vpiFullName: sequence_expr_coverage.alt12_sequenced.d
-                    vpiActual: Net name:d
+                    vpiActual: Variable name:d
         SequenceDecl name:alt12_window start:445:3 end:447:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt12_window start:445:12 end:445:24:
@@ -8543,7 +8541,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: sequence_expr_coverage.alt12_window.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
               Operation start:446:15 end:446:26:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -8552,7 +8550,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt12_window.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Range start:446:20 end:446:23:
                     vpiParent: Operation
                     vpiLeftRange Constant start:446:20 end:446:21:
@@ -8579,7 +8577,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt12_window.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
         SequenceDecl name:alt12_instance_within start:450:3 end:452:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt12_instance_within start:450:12 end:450:33:
@@ -8603,7 +8601,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.alt12_instance_within.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Range start:451:25 end:451:28:
                     vpiParent: Operation
                     vpiLeftRange Constant start:451:25 end:451:26:
@@ -8630,7 +8628,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.alt12_instance_within.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
         SequenceDecl name:alt13_posedge start:459:3 end:461:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt13_posedge start:459:12 end:459:25:
@@ -8647,12 +8645,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.alt13_posedge.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr RefObj name:a start:460:20 end:460:21:
               vpiParent: ClockedSeq
               vpiName: a
               vpiFullName: sequence_expr_coverage.alt13_posedge.a
-              vpiActual: Net name:a
+              vpiActual: Variable name:a
         SequenceDecl name:alt13_negedge start:464:3 end:466:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt13_negedge start:464:12 end:464:25:
@@ -8669,12 +8667,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.alt13_negedge.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr RefObj name:a start:465:20 end:465:21:
               vpiParent: ClockedSeq
               vpiName: a
               vpiFullName: sequence_expr_coverage.alt13_negedge.a
-              vpiActual: Net name:a
+              vpiActual: Variable name:a
         SequenceDecl name:alt13_edge start:469:3 end:471:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt13_edge start:469:12 end:469:22:
@@ -8691,12 +8689,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.alt13_edge.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr RefObj name:a start:470:17 end:470:18:
               vpiParent: ClockedSeq
               vpiName: a
               vpiFullName: sequence_expr_coverage.alt13_edge.a
-              vpiActual: Net name:a
+              vpiActual: Variable name:a
         SequenceDecl name:alt13_sequenced start:474:3 end:476:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt13_sequenced start:474:12 end:474:27:
@@ -8713,7 +8711,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.alt13_sequenced.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr Operation start:475:21 end:475:28:
               vpiParent: ClockedSeq
               vpiOpType: binary cycle delay (71)
@@ -8722,7 +8720,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.alt13_sequenced.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:475:25 end:475:26:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -8737,7 +8735,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.alt13_sequenced.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         SequenceDecl name:alt13_in_chain start:479:3 end:481:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt13_in_chain start:479:12 end:479:26:
@@ -8754,7 +8752,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.alt13_in_chain.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr Operation start:480:20 end:480:33:
               vpiParent: ClockedSeq
               vpiOpType: binary cycle delay (71)
@@ -8763,7 +8761,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.alt13_in_chain.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:480:24 end:480:25:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -8782,7 +8780,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.alt13_in_chain.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                     Constant start:480:30 end:480:31:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -8797,7 +8795,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.alt13_in_chain.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         SequenceDecl name:alt13_domain_switch start:484:3 end:486:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt13_domain_switch start:484:12 end:484:31:
@@ -8814,7 +8812,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.alt13_domain_switch.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr Operation start:485:20 end:485:43:
               vpiParent: ClockedSeq
               vpiOpType: binary cycle delay (71)
@@ -8823,7 +8821,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.alt13_domain_switch.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:485:24 end:485:25:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -8844,12 +8842,12 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: clk2
                         vpiFullName: sequence_expr_coverage.alt13_domain_switch.clk2
-                        vpiActual: Net name:clk2
+                        vpiActual: Variable name:clk2
                   vpiSequenceExpr RefObj name:b start:485:42 end:485:43:
                     vpiParent: ClockedSeq
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.alt13_domain_switch.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
         SequenceDecl name:alt13_with_and start:489:3 end:491:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:alt13_with_and start:489:12 end:489:26:
@@ -8866,7 +8864,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.alt13_with_and.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr Operation start:490:21 end:490:28:
               vpiParent: ClockedSeq
               vpiOpType: comp-and (91)
@@ -8875,12 +8873,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.alt13_with_and.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 RefObj name:b start:490:27 end:490:28:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.alt13_with_and.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         SequenceDecl name:combo_and_or start:498:3 end:500:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:combo_and_or start:498:12 end:498:24:
@@ -8899,12 +8897,12 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.combo_and_or.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   RefObj name:b start:499:12 end:499:13:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.combo_and_or.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
               Operation start:499:19 end:499:26:
                 vpiParent: Operation
                 vpiOpType: comp-and (91)
@@ -8913,12 +8911,12 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.combo_and_or.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
                   RefObj name:d start:499:25 end:499:26:
                     vpiParent: Operation
                     vpiName: d
                     vpiFullName: sequence_expr_coverage.combo_and_or.d
-                    vpiActual: Net name:d
+                    vpiActual: Variable name:d
         SequenceDecl name:combo_throughout_within start:503:3 end:505:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:combo_throughout_within start:503:12 end:503:35:
@@ -8933,7 +8931,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.combo_throughout_within.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Operation start:504:19 end:504:41:
                 vpiParent: Operation
                 vpiOpType: within (75)
@@ -8942,7 +8940,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.combo_throughout_within.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
                   Operation start:504:29 end:504:40:
                     vpiParent: Operation
                     vpiOpType: binary cycle delay (71)
@@ -8951,7 +8949,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: c
                         vpiFullName: sequence_expr_coverage.combo_throughout_within.c
-                        vpiActual: Net name:c
+                        vpiActual: Variable name:c
                       Range start:504:34 end:504:37:
                         vpiParent: Operation
                         vpiLeftRange Constant start:504:34 end:504:35:
@@ -8978,7 +8976,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: d
                         vpiFullName: sequence_expr_coverage.combo_throughout_within.d
-                        vpiActual: Net name:d
+                        vpiActual: Variable name:d
         SequenceDecl name:combo_first_match_and start:508:3 end:510:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:combo_first_match_and start:508:12 end:508:33:
@@ -9001,7 +8999,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a
                         vpiFullName: sequence_expr_coverage.combo_first_match_and.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                       Range start:509:22 end:509:25:
                         vpiParent: Operation
                         vpiLeftRange Constant start:509:22 end:509:23:
@@ -9028,7 +9026,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: b
                         vpiFullName: sequence_expr_coverage.combo_first_match_and.b
-                        vpiActual: Net name:b
+                        vpiActual: Variable name:b
               Operation start:509:35 end:509:42:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -9037,7 +9035,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.combo_first_match_and.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
                   Constant start:509:39 end:509:40:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -9052,7 +9050,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: d
                     vpiFullName: sequence_expr_coverage.combo_first_match_and.d
-                    vpiActual: Net name:d
+                    vpiActual: Variable name:d
         SequenceDecl name:combo_clk_or start:513:3 end:515:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:combo_clk_or start:513:12 end:513:24:
@@ -9069,7 +9067,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.combo_clk_or.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr Operation start:514:21 end:514:27:
               vpiParent: ClockedSeq
               vpiOpType: comp-or (92)
@@ -9078,12 +9076,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.combo_clk_or.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 RefObj name:b start:514:26 end:514:27:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.combo_clk_or.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         SequenceDecl name:combo_leading_inst_rep start:518:3 end:520:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:combo_leading_inst_rep start:518:12 end:518:34:
@@ -9141,7 +9139,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.combo_leading_inst_rep.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
         SequenceDecl name:combo_inst_throughout start:523:3 end:525:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:combo_inst_throughout start:523:12 end:523:33:
@@ -9160,7 +9158,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: data
                     vpiFullName: sequence_expr_coverage.combo_inst_throughout.data
-                    vpiActual: Net name:data
+                    vpiActual: Variable name:data
                   Constant start:524:14 end:524:18:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -9224,7 +9222,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a
                         vpiFullName: sequence_expr_coverage.combo_fm_intersect.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                       Range start:529:22 end:529:25:
                         vpiParent: Operation
                         vpiLeftRange Constant start:529:22 end:529:23:
@@ -9251,7 +9249,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: b
                         vpiFullName: sequence_expr_coverage.combo_fm_intersect.b
-                        vpiActual: Net name:b
+                        vpiActual: Variable name:b
               Operation start:529:41 end:529:52:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -9260,7 +9258,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.combo_fm_intersect.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
                   Range start:529:46 end:529:49:
                     vpiParent: Operation
                     vpiLeftRange Constant start:529:46 end:529:47:
@@ -9287,7 +9285,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: d
                     vpiFullName: sequence_expr_coverage.combo_fm_intersect.d
-                    vpiActual: Net name:d
+                    vpiActual: Variable name:d
         SequenceDecl name:combo_group_within start:533:3 end:535:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:combo_group_within start:533:12 end:533:30:
@@ -9310,7 +9308,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a
                         vpiFullName: sequence_expr_coverage.combo_group_within.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                       Constant start:534:10 end:534:11:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -9325,7 +9323,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: b
                         vpiFullName: sequence_expr_coverage.combo_group_within.b
-                        vpiActual: Net name:b
+                        vpiActual: Variable name:b
                   Constant start:534:23 end:534:24:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -9344,7 +9342,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cnt
                         vpiFullName: sequence_expr_coverage.combo_group_within.cnt
-                        vpiActual: Net name:cnt
+                        vpiActual: Variable name:cnt
               Operation start:534:34 end:534:46:
                 vpiParent: Operation
                 vpiOpType: binary cycle delay (71)
@@ -9353,7 +9351,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: sequence_expr_coverage.combo_group_within.c
-                    vpiActual: Net name:c
+                    vpiActual: Variable name:c
                   Range start:534:39 end:534:43:
                     vpiParent: Operation
                     vpiLeftRange Constant start:534:39 end:534:40:
@@ -9380,7 +9378,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: e
                     vpiFullName: sequence_expr_coverage.combo_group_within.e
-                    vpiActual: Net name:e
+                    vpiActual: Variable name:e
         SequenceDecl name:combo_throughout_rep_inst start:538:3 end:540:14:
           vpiParent: Module name:sequence_expr_coverage
           vpiName Identifier name:combo_throughout_rep_inst start:538:12 end:538:37:
@@ -9395,7 +9393,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: sequence_expr_coverage.combo_throughout_rep_inst.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               Operation start:539:23 end:539:27:
                 vpiParent: Operation
                 vpiOpType: consecutive repeat (77)
@@ -9431,7 +9429,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.combo_clk_throughout.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiSequenceExpr Operation start:544:21 end:544:43:
               vpiParent: ClockedSeq
               vpiOpType: throughout (74)
@@ -9440,7 +9438,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.combo_clk_throughout.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Operation start:544:35 end:544:42:
                   vpiParent: Operation
                   vpiOpType: binary cycle delay (71)
@@ -9449,7 +9447,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.combo_clk_throughout.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                     Constant start:544:39 end:544:40:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -9464,7 +9462,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.combo_clk_throughout.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
       vpiConcurrentAssertions (42 items):
         Assert start:552:20 end:552:59:
           vpiParent: Module name:sequence_expr_coverage
@@ -9481,7 +9479,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:552:52 end:552:57:
               vpiParent: PropertySpec
               vpiOpType: unary cycle delay (70)
@@ -9500,7 +9498,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
         Assert start:553:20 end:553:63:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt1_range start:553:3 end:553:16:
@@ -9516,7 +9514,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:553:52 end:553:61:
               vpiParent: PropertySpec
               vpiOpType: unary cycle delay (70)
@@ -9547,7 +9545,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
         Assert start:554:20 end:554:61:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt1_star start:554:3 end:554:15:
@@ -9563,7 +9561,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:554:52 end:554:59:
               vpiParent: PropertySpec
               vpiOpType: unary cycle delay (70)
@@ -9592,7 +9590,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
         Assert start:555:20 end:555:61:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt1_plus start:555:3 end:555:15:
@@ -9608,7 +9606,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:555:52 end:555:59:
               vpiParent: PropertySpec
               vpiOpType: unary cycle delay (70)
@@ -9637,7 +9635,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
         Assert start:558:20 end:558:61:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt2_fixed start:558:3 end:558:16:
@@ -9653,7 +9651,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:558:52 end:558:59:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -9662,7 +9660,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:558:56 end:558:57:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -9677,7 +9675,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:559:20 end:559:65:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt2_range start:559:3 end:559:16:
@@ -9693,7 +9691,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:559:52 end:559:63:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -9702,7 +9700,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Range start:559:57 end:559:60:
                   vpiParent: Operation
                   vpiLeftRange Constant start:559:57 end:559:58:
@@ -9729,7 +9727,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:560:20 end:560:79:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt2_chain start:560:3 end:560:16:
@@ -9745,7 +9743,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:560:52 end:560:77:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -9754,7 +9752,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:560:56 end:560:57:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -9773,7 +9771,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                     Range start:560:63 end:560:66:
                       vpiParent: Operation
                       vpiLeftRange Constant start:560:63 end:560:64:
@@ -9804,7 +9802,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: c
                           vpiFullName: sequence_expr_coverage.c
-                          vpiActual: Net name:c
+                          vpiActual: Variable name:c
                         Range start:560:70 end:560:75:
                           vpiParent: Operation
                           vpiLeftRange Constant:
@@ -9829,7 +9827,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: d
                           vpiFullName: sequence_expr_coverage.d
-                          vpiActual: Net name:d
+                          vpiActual: Variable name:d
         Assert start:563:20 end:563:65:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt3_cx start:563:3 end:563:13:
@@ -9845,7 +9843,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:563:52 end:563:63:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -9858,7 +9856,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Constant start:563:55 end:563:56:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -9873,7 +9871,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:564:20 end:564:67:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt3_cr start:564:3 end:564:13:
@@ -9889,7 +9887,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:564:52 end:564:65:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -9902,7 +9900,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Range start:564:55 end:564:58:
                       vpiParent: Operation
                       vpiLeftRange Constant start:564:55 end:564:56:
@@ -9929,7 +9927,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:565:20 end:565:64:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt3_cstar start:565:3 end:565:16:
@@ -9945,7 +9943,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:565:52 end:565:62:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -9958,7 +9956,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Range start:565:53 end:565:56:
                       vpiParent: Operation
                       vpiLeftRange Constant:
@@ -9983,7 +9981,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:566:20 end:566:64:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt3_cplus start:566:3 end:566:16:
@@ -9999,7 +9997,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:566:52 end:566:62:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10012,7 +10010,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Range start:566:53 end:566:56:
                       vpiParent: Operation
                       vpiLeftRange Constant:
@@ -10037,7 +10035,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:568:20 end:568:71:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt3_ncx start:568:3 end:568:14:
@@ -10053,7 +10051,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:568:52 end:568:69:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -10062,7 +10060,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:568:56 end:568:57:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -10085,7 +10083,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                         Constant start:568:61 end:568:62:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -10110,7 +10108,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:569:20 end:569:73:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt3_ncr start:569:3 end:569:14:
@@ -10126,7 +10124,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:569:52 end:569:71:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -10135,7 +10133,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:569:56 end:569:57:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -10158,7 +10156,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                         Range start:569:61 end:569:64:
                           vpiParent: Operation
                           vpiLeftRange Constant start:569:61 end:569:62:
@@ -10195,7 +10193,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:571:20 end:571:72:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt3_gx start:571:3 end:571:13:
@@ -10211,7 +10209,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:571:52 end:571:70:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -10220,7 +10218,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:571:56 end:571:57:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -10243,7 +10241,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                         Constant start:571:62 end:571:63:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -10268,7 +10266,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:572:20 end:572:74:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt3_gr start:572:3 end:572:13:
@@ -10284,7 +10282,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:572:52 end:572:72:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -10293,7 +10291,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:572:56 end:572:57:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -10316,7 +10314,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                         Range start:572:62 end:572:65:
                           vpiParent: Operation
                           vpiLeftRange Constant start:572:62 end:572:63:
@@ -10353,7 +10351,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:575:20 end:575:76:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt4_assign start:575:3 end:575:17:
@@ -10369,7 +10367,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:575:52 end:575:74:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10382,7 +10380,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Constant start:575:66 end:575:67:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -10400,7 +10398,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: cnt
                         vpiFullName: sequence_expr_coverage.cnt
-                        vpiActual: Net name:cnt
+                        vpiActual: Variable name:cnt
                       vpiRhs Constant start:575:62 end:575:63:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -10415,7 +10413,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:576:20 end:576:74:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt4_inc start:576:3 end:576:14:
@@ -10431,7 +10429,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:576:52 end:576:72:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10444,7 +10442,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Constant start:576:64 end:576:65:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -10463,12 +10461,12 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: cnt
                           vpiFullName: sequence_expr_coverage.cnt
-                          vpiActual: Net name:cnt
+                          vpiActual: Variable name:cnt
                 RefObj name:b start:576:71 end:576:72:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:577:20 end:577:74:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt4_nc start:577:3 end:577:13:
@@ -10484,7 +10482,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:577:52 end:577:72:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -10497,7 +10495,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Constant start:577:64 end:577:65:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -10515,7 +10513,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: b
                         vpiFullName: sequence_expr_coverage.b
-                        vpiActual: Net name:b
+                        vpiActual: Variable name:b
                       vpiRhs Constant start:577:60 end:577:61:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -10540,7 +10538,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: c
                   vpiFullName: sequence_expr_coverage.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
         Assert start:578:20 end:578:75:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt4_goto start:578:3 end:578:15:
@@ -10556,7 +10554,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:578:52 end:578:73:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -10569,7 +10567,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Constant start:578:65 end:578:66:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -10587,7 +10585,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: b
                         vpiFullName: sequence_expr_coverage.b
-                        vpiActual: Net name:b
+                        vpiActual: Variable name:b
                       vpiRhs Constant start:578:60 end:578:61:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -10612,7 +10610,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: c
                   vpiFullName: sequence_expr_coverage.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
         Assert start:581:20 end:581:66:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt5_inst start:581:3 end:581:15:
@@ -10628,7 +10626,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:581:52 end:581:64:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10642,7 +10640,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: c
                   vpiFullName: sequence_expr_coverage.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
         Assert start:582:20 end:582:69:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt5_rep start:582:3 end:582:14:
@@ -10658,7 +10656,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:582:52 end:582:67:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10686,7 +10684,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:583:20 end:583:68:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt5_star start:583:3 end:583:15:
@@ -10702,7 +10700,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:583:52 end:583:66:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10740,7 +10738,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
         Assert start:586:20 end:586:82:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt6_match start:586:3 end:586:16:
@@ -10756,7 +10754,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:586:52 end:586:80:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10773,7 +10771,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: sequence_expr_coverage.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         Constant start:586:57 end:586:58:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -10788,7 +10786,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                     Constant start:586:72 end:586:73:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -10806,7 +10804,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: cnt
                         vpiFullName: sequence_expr_coverage.cnt
-                        vpiActual: Net name:cnt
+                        vpiActual: Variable name:cnt
                       vpiRhs Constant start:586:68 end:586:69:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -10821,7 +10819,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: c
                   vpiFullName: sequence_expr_coverage.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
         Assert start:587:20 end:587:72:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt6_plus start:587:3 end:587:15:
@@ -10837,7 +10835,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:587:52 end:587:70:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10854,7 +10852,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: sequence_expr_coverage.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         Constant start:587:57 end:587:58:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -10869,7 +10867,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                     Range start:587:61 end:587:64:
                       vpiParent: Operation
                       vpiLeftRange Constant:
@@ -10894,7 +10892,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: c
                   vpiFullName: sequence_expr_coverage.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
         Assert start:590:20 end:590:69:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt7 start:590:3 end:590:10:
@@ -10910,7 +10908,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:590:52 end:590:67:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10919,7 +10917,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Operation start:590:59 end:590:66:
                   vpiParent: Operation
                   vpiOpType: comp-and (91)
@@ -10928,12 +10926,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                     RefObj name:c start:590:65 end:590:66:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:591:20 end:591:85:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt7_seq start:591:3 end:591:14:
@@ -10949,7 +10947,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:591:52 end:591:83:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -10958,7 +10956,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Operation start:591:59 end:591:82:
                   vpiParent: Operation
                   vpiOpType: comp-and (91)
@@ -10971,7 +10969,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: sequence_expr_coverage.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         Constant start:591:64 end:591:65:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -10986,7 +10984,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                     Operation start:591:74 end:591:81:
                       vpiParent: Operation
                       vpiOpType: binary cycle delay (71)
@@ -10995,7 +10993,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: c
                           vpiFullName: sequence_expr_coverage.c
-                          vpiActual: Net name:c
+                          vpiActual: Variable name:c
                         Constant start:591:78 end:591:79:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -11010,7 +11008,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: d
                           vpiFullName: sequence_expr_coverage.d
-                          vpiActual: Net name:d
+                          vpiActual: Variable name:d
         Assert start:594:20 end:594:75:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt8 start:594:3 end:594:10:
@@ -11026,7 +11024,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:594:52 end:594:73:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -11035,7 +11033,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Operation start:594:59 end:594:72:
                   vpiParent: Operation
                   vpiOpType: intersect (72)
@@ -11044,12 +11042,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                     RefObj name:c start:594:71 end:594:72:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:595:20 end:595:99:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt8_seq start:595:3 end:595:14:
@@ -11065,7 +11063,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:595:52 end:595:97:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -11074,7 +11072,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Operation start:595:59 end:595:96:
                   vpiParent: Operation
                   vpiOpType: intersect (72)
@@ -11087,7 +11085,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: sequence_expr_coverage.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         Range start:595:65 end:595:68:
                           vpiParent: Operation
                           vpiLeftRange Constant start:595:65 end:595:66:
@@ -11114,7 +11112,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                     Operation start:595:84 end:595:95:
                       vpiParent: Operation
                       vpiOpType: binary cycle delay (71)
@@ -11123,7 +11121,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: c
                           vpiFullName: sequence_expr_coverage.c
-                          vpiActual: Net name:c
+                          vpiActual: Variable name:c
                         Range start:595:89 end:595:92:
                           vpiParent: Operation
                           vpiLeftRange Constant start:595:89 end:595:90:
@@ -11150,7 +11148,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: d
                           vpiFullName: sequence_expr_coverage.d
-                          vpiActual: Net name:d
+                          vpiActual: Variable name:d
         Assert start:598:20 end:598:68:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt9 start:598:3 end:598:10:
@@ -11166,7 +11164,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:598:52 end:598:66:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -11179,17 +11177,17 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     RefObj name:b start:598:58 end:598:59:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                 RefObj name:c start:598:65 end:598:66:
                   vpiParent: Operation
                   vpiName: c
                   vpiFullName: sequence_expr_coverage.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
         Assert start:599:20 end:599:73:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt9_chain start:599:3 end:599:16:
@@ -11205,7 +11203,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:599:52 end:599:71:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -11222,22 +11220,22 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: sequence_expr_coverage.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         RefObj name:b start:599:58 end:599:59:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                     RefObj name:c start:599:63 end:599:64:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
                 RefObj name:d start:599:70 end:599:71:
                   vpiParent: Operation
                   vpiName: d
                   vpiFullName: sequence_expr_coverage.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
         Assert start:602:20 end:602:84:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt10 start:602:3 end:602:11:
@@ -11253,7 +11251,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:602:52 end:602:82:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -11270,7 +11268,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: sequence_expr_coverage.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         Range start:602:69 end:602:72:
                           vpiParent: Operation
                           vpiLeftRange Constant start:602:69 end:602:70:
@@ -11297,12 +11295,12 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                 RefObj name:c start:602:81 end:602:82:
                   vpiParent: Operation
                   vpiName: c
                   vpiFullName: sequence_expr_coverage.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
         Assert start:603:20 end:603:89:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt10_match start:603:3 end:603:17:
@@ -11318,7 +11316,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:603:52 end:603:87:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -11335,7 +11333,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: sequence_expr_coverage.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         Constant start:603:68 end:603:69:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -11350,7 +11348,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                     Assignment start:603:73 end:603:80:
                       vpiParent: Operation
                       vpiBlocking: true
@@ -11358,7 +11356,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: cnt
                         vpiFullName: sequence_expr_coverage.cnt
-                        vpiActual: Net name:cnt
+                        vpiActual: Variable name:cnt
                       vpiRhs Constant start:603:79 end:603:80:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -11373,7 +11371,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: c
                   vpiFullName: sequence_expr_coverage.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
         Assert start:606:20 end:606:76:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt11 start:606:3 end:606:11:
@@ -11389,7 +11387,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:606:52 end:606:74:
               vpiParent: PropertySpec
               vpiOpType: throughout (74)
@@ -11398,7 +11396,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Operation start:606:66 end:606:73:
                   vpiParent: Operation
                   vpiOpType: binary cycle delay (71)
@@ -11407,7 +11405,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                     Constant start:606:70 end:606:71:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -11422,7 +11420,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:607:20 end:607:93:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt11_dist start:607:3 end:607:16:
@@ -11438,7 +11436,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:607:52 end:607:91:
               vpiParent: PropertySpec
               vpiOpType: throughout (74)
@@ -11451,7 +11449,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: data
                       vpiFullName: sequence_expr_coverage.data
-                      vpiActual: Net name:data
+                      vpiActual: Variable name:data
                     Constant start:607:61 end:607:65:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -11470,7 +11468,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                     Range start:607:84 end:607:87:
                       vpiParent: Operation
                       vpiLeftRange Constant start:607:84 end:607:85:
@@ -11497,7 +11495,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:610:20 end:610:76:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt12 start:610:3 end:610:11:
@@ -11513,7 +11511,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:610:52 end:610:74:
               vpiParent: PropertySpec
               vpiOpType: within (75)
@@ -11522,7 +11520,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: sequence_expr_coverage.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
                 Operation start:610:62 end:610:73:
                   vpiParent: Operation
                   vpiOpType: binary cycle delay (71)
@@ -11531,7 +11529,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Range start:610:67 end:610:70:
                       vpiParent: Operation
                       vpiLeftRange Constant start:610:67 end:610:68:
@@ -11558,7 +11556,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
         Assert start:611:20 end:611:85:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt12_seq start:611:3 end:611:15:
@@ -11574,7 +11572,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:611:52 end:611:83:
               vpiParent: PropertySpec
               vpiOpType: within (75)
@@ -11587,7 +11585,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     Constant start:611:57 end:611:58:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -11602,7 +11600,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                 Operation start:611:70 end:611:82:
                   vpiParent: Operation
                   vpiOpType: binary cycle delay (71)
@@ -11611,7 +11609,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
                     Range start:611:75 end:611:79:
                       vpiParent: Operation
                       vpiLeftRange Constant start:611:75 end:611:76:
@@ -11638,7 +11636,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: d
                       vpiFullName: sequence_expr_coverage.d
-                      vpiActual: Net name:d
+                      vpiActual: Variable name:d
         Assert start:614:20 end:614:76:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt13_pos start:614:3 end:614:15:
@@ -11654,7 +11652,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr ClockedSeq start:614:52 end:614:74:
               vpiParent: PropertySpec
               vpiClockingEvent Operation start:614:54 end:614:65:
@@ -11665,7 +11663,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clk
                     vpiFullName: sequence_expr_coverage.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
               vpiSequenceExpr Operation start:614:67 end:614:74:
                 vpiParent: ClockedSeq
                 vpiOpType: binary cycle delay (71)
@@ -11674,7 +11672,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:614:71 end:614:72:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -11689,7 +11687,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
         Assert start:615:20 end:615:76:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt13_neg start:615:3 end:615:15:
@@ -11705,7 +11703,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr ClockedSeq start:615:52 end:615:74:
               vpiParent: PropertySpec
               vpiClockingEvent Operation start:615:54 end:615:65:
@@ -11716,7 +11714,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clk
                     vpiFullName: sequence_expr_coverage.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
               vpiSequenceExpr Operation start:615:67 end:615:74:
                 vpiParent: ClockedSeq
                 vpiOpType: binary cycle delay (71)
@@ -11725,7 +11723,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: sequence_expr_coverage.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   Constant start:615:71 end:615:72:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -11740,7 +11738,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
         Assert start:616:20 end:616:77:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_alt13_switch start:616:3 end:616:18:
@@ -11756,7 +11754,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:616:52 end:616:75:
               vpiParent: PropertySpec
               vpiOpType: binary cycle delay (71)
@@ -11765,7 +11763,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Constant start:616:56 end:616:57:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -11786,12 +11784,12 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: clk2
                         vpiFullName: sequence_expr_coverage.clk2
-                        vpiActual: Net name:clk2
+                        vpiActual: Variable name:clk2
                   vpiSequenceExpr RefObj name:b start:616:74 end:616:75:
                     vpiParent: ClockedSeq
                     vpiName: b
                     vpiFullName: sequence_expr_coverage.b
-                    vpiActual: Net name:b
+                    vpiActual: Variable name:b
         Assert start:619:27 end:619:83:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_combo_and_or start:619:3 end:619:18:
@@ -11807,7 +11805,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:619:59 end:619:81:
               vpiParent: PropertySpec
               vpiOpType: comp-or (92)
@@ -11820,12 +11818,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: sequence_expr_coverage.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     RefObj name:b start:619:66 end:619:67:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                 Operation start:619:73 end:619:80:
                   vpiParent: Operation
                   vpiOpType: comp-and (91)
@@ -11834,12 +11832,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
                     RefObj name:d start:619:79 end:619:80:
                       vpiParent: Operation
                       vpiName: d
                       vpiFullName: sequence_expr_coverage.d
-                      vpiActual: Net name:d
+                      vpiActual: Variable name:d
         Assert start:620:31 end:621:73:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_combo_throughout_within start:620:3 end:620:29:
@@ -11855,7 +11853,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:621:34 end:621:71:
               vpiParent: PropertySpec
               vpiOpType: throughout (74)
@@ -11864,7 +11862,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: sequence_expr_coverage.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 Operation start:621:48 end:621:70:
                   vpiParent: Operation
                   vpiOpType: within (75)
@@ -11873,7 +11871,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: sequence_expr_coverage.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
                     Operation start:621:58 end:621:69:
                       vpiParent: Operation
                       vpiOpType: binary cycle delay (71)
@@ -11882,7 +11880,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: c
                           vpiFullName: sequence_expr_coverage.c
-                          vpiActual: Net name:c
+                          vpiActual: Variable name:c
                         Range start:621:63 end:621:66:
                           vpiParent: Operation
                           vpiLeftRange Constant start:621:63 end:621:64:
@@ -11909,7 +11907,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: d
                           vpiFullName: sequence_expr_coverage.d
-                          vpiActual: Net name:d
+                          vpiActual: Variable name:d
         Assert start:622:27 end:623:74:
           vpiParent: Module name:sequence_expr_coverage
           vpiLabel Identifier name:ap_combo_fm_and start:622:3 end:622:18:
@@ -11925,7 +11923,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: sequence_expr_coverage.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiPropertyExpr Operation start:623:34 end:623:72:
               vpiParent: PropertySpec
               vpiOpType: comp-and (91)
@@ -11942,7 +11940,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: sequence_expr_coverage.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         Range start:623:51 end:623:54:
                           vpiParent: Operation
                           vpiLeftRange Constant start:623:51 end:623:52:
@@ -11969,7 +11967,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b
                           vpiFullName: sequence_expr_coverage.b
-                          vpiActual: Net name:b
+                          vpiActual: Variable name:b
                 Operation start:623:64 end:623:71:
                   vpiParent: Operation
                   vpiOpType: binary cycle delay (71)
@@ -11978,7 +11976,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: c
                       vpiFullName: sequence_expr_coverage.c
-                      vpiActual: Net name:c
+                      vpiActual: Variable name:c
                     Constant start:623:68 end:623:69:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -11993,7 +11991,88 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: d
                       vpiFullName: sequence_expr_coverage.d
-                      vpiActual: Net name:d
+                      vpiActual: Variable name:d
+      vpiVariable (9 items):
+        Variable name:clk start:20:16 end:20:19:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:20:3 end:20:8:
+            vpiParent: Variable name:clk
+            vpiFullName: sequence_expr_coverage.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: sequence_expr_coverage.clk
+          vpiScalar: true
+        Variable name:clk2 start:20:21 end:20:25:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:20:3 end:20:8:
+            vpiParent: Variable name:clk2
+            vpiFullName: sequence_expr_coverage.clk2
+            vpiActual: LogicTypespec
+          vpiName: clk2
+          vpiFullName: sequence_expr_coverage.clk2
+          vpiScalar: true
+        Variable name:a start:21:16 end:21:17:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:21:3 end:21:8:
+            vpiParent: Variable name:a
+            vpiFullName: sequence_expr_coverage.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: sequence_expr_coverage.a
+          vpiScalar: true
+        Variable name:b start:21:19 end:21:20:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:21:3 end:21:8:
+            vpiParent: Variable name:b
+            vpiFullName: sequence_expr_coverage.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: sequence_expr_coverage.b
+          vpiScalar: true
+        Variable name:c start:21:22 end:21:23:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:21:3 end:21:8:
+            vpiParent: Variable name:c
+            vpiFullName: sequence_expr_coverage.c
+            vpiActual: LogicTypespec
+          vpiName: c
+          vpiFullName: sequence_expr_coverage.c
+          vpiScalar: true
+        Variable name:d start:21:25 end:21:26:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:21:3 end:21:8:
+            vpiParent: Variable name:d
+            vpiFullName: sequence_expr_coverage.d
+            vpiActual: LogicTypespec
+          vpiName: d
+          vpiFullName: sequence_expr_coverage.d
+          vpiScalar: true
+        Variable name:e start:21:28 end:21:29:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:21:3 end:21:8:
+            vpiParent: Variable name:e
+            vpiFullName: sequence_expr_coverage.e
+            vpiActual: LogicTypespec
+          vpiName: e
+          vpiFullName: sequence_expr_coverage.e
+          vpiScalar: true
+        Variable name:data start:22:16 end:22:20:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:22:3 end:22:14:
+            vpiParent: Variable name:data
+            vpiFullName: sequence_expr_coverage.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: sequence_expr_coverage.data
+          vpiVector: true
+        Variable name:cnt start:23:16 end:23:19:
+          vpiParent: Module name:sequence_expr_coverage
+          vpiTypespec RefTypespec start:23:3 end:23:6:
+            vpiParent: Variable name:cnt
+            vpiFullName: sequence_expr_coverage.cnt
+            vpiActual: IntTypespec
+          vpiName: cnt
+          vpiFullName: sequence_expr_coverage.cnt
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:sequence_expr_coverage
@@ -12024,85 +12103,12 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: sequence_expr_coverage
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sequence_expr_coverage
         vpiName: work
         vpiFullName: sequence_expr_coverage.work
       vpiCell: sequence_expr_coverage
-      vpiNet (9 items):
-        Net name:clk start:20:16 end:20:19:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:20:3 end:20:8:
-            vpiParent: Net name:clk
-            vpiFullName: sequence_expr_coverage.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: sequence_expr_coverage.clk
-        Net name:clk2 start:20:21 end:20:25:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:20:3 end:20:8:
-            vpiParent: Net name:clk2
-            vpiFullName: sequence_expr_coverage.clk2
-            vpiActual: LogicTypespec
-          vpiName: clk2
-          vpiFullName: sequence_expr_coverage.clk2
-        Net name:a start:21:16 end:21:17:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:21:3 end:21:8:
-            vpiParent: Net name:a
-            vpiFullName: sequence_expr_coverage.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: sequence_expr_coverage.a
-        Net name:b start:21:19 end:21:20:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:21:3 end:21:8:
-            vpiParent: Net name:b
-            vpiFullName: sequence_expr_coverage.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: sequence_expr_coverage.b
-        Net name:c start:21:22 end:21:23:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:21:3 end:21:8:
-            vpiParent: Net name:c
-            vpiFullName: sequence_expr_coverage.c
-            vpiActual: LogicTypespec
-          vpiName: c
-          vpiFullName: sequence_expr_coverage.c
-        Net name:d start:21:25 end:21:26:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:21:3 end:21:8:
-            vpiParent: Net name:d
-            vpiFullName: sequence_expr_coverage.d
-            vpiActual: LogicTypespec
-          vpiName: d
-          vpiFullName: sequence_expr_coverage.d
-        Net name:e start:21:28 end:21:29:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:21:3 end:21:8:
-            vpiParent: Net name:e
-            vpiFullName: sequence_expr_coverage.e
-            vpiActual: LogicTypespec
-          vpiName: e
-          vpiFullName: sequence_expr_coverage.e
-        Net name:data start:22:16 end:22:20:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:22:3 end:22:14:
-            vpiParent: Net name:data
-            vpiFullName: sequence_expr_coverage.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: sequence_expr_coverage.data
-        Net name:cnt start:23:16 end:23:19:
-          vpiParent: Module name:sequence_expr_coverage
-          vpiTypespec RefTypespec start:23:3 end:23:6:
-            vpiParent: Net name:cnt
-            vpiFullName: sequence_expr_coverage.cnt
-            vpiActual: IntTypespec
-          vpiName: cnt
-          vpiFullName: sequence_expr_coverage.cnt
   vpiTypespec (4 items):
     ModuleTypespec name:sequence_expr_coverage:
       vpiParent: Design name:unnamed
@@ -12122,7 +12128,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
-[   NOTE] : 1
+[   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

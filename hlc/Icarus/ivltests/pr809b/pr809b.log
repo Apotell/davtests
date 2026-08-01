@@ -465,18 +465,14 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/pr809b.v:3:1: Compile module "main".
 [WRN:CP0323] $Source01/pr809b.v:3:1: Multiply defined typedef "target".
 [INF:CP0303] $Source01/pr809b.v:29:1: Compile module "target".
-[ERR:EL0535] $Source01/pr809b.v:7:14: Illegal implicit net "id:39, name:WA".
-[ERR:EL0535] $Source01/pr809b.v:7:22: Illegal implicit net "id:44, name:WB".
-[ERR:EL0535] $Source01/pr809b.v:8:14: Illegal implicit net "id:59, name:WA".
-[ERR:EL0535] $Source01/pr809b.v:8:22: Illegal implicit net "id:64, name:WB".
-[ERR:EL0535] $Source01/pr809b.v:11:47: Illegal implicit net "id:82, name:WA".
-[ERR:EL0535] $Source01/pr809b.v:11:60: Illegal implicit net "id:85, name:A".
-[ERR:EL0535] $Source01/pr809b.v:12:47: Illegal implicit net "id:95, name:WB".
-[ERR:EL0535] $Source01/pr809b.v:12:60: Illegal implicit net "id:98, name:B".
-[ERR:EL0535] $Source01/pr809b.v:14:20: Illegal implicit net "id:105, name:A".
-[ERR:EL0535] $Source01/pr809b.v:15:51: Illegal implicit net "id:118, name:A".
-[ERR:EL0535] $Source01/pr809b.v:19:20: Illegal implicit net "id:128, name:A".
-[ERR:EL0535] $Source01/pr809b.v:20:51: Illegal implicit net "id:141, name:A".
+[WRN:CP0350] $Source01/pr809b.v:11:47: Failed to bind "id:82, name:WA".
+[WRN:CP0350] $Source01/pr809b.v:11:60: Failed to bind "id:85, name:A".
+[WRN:CP0350] $Source01/pr809b.v:12:47: Failed to bind "id:95, name:WB".
+[WRN:CP0350] $Source01/pr809b.v:12:60: Failed to bind "id:98, name:B".
+[WRN:CP0350] $Source01/pr809b.v:14:20: Failed to bind "id:105, name:A".
+[WRN:CP0350] $Source01/pr809b.v:15:51: Failed to bind "id:118, name:A".
+[WRN:CP0350] $Source01/pr809b.v:19:20: Failed to bind "id:128, name:A".
+[WRN:CP0350] $Source01/pr809b.v:20:51: Failed to bind "id:141, name:A".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -486,7 +482,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr809b.v
       vpiPreprocFile: "$Output/lib/work/pr809b.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:main file:$Source01/pr809b.v start:3:1 end:27:10:
       vpiParent: Design name:unnamed
@@ -558,7 +553,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:target
             vpiName: target
       vpiDefName: main
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:main
         vpiName: work
@@ -1147,7 +1142,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: target
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:target
         vpiName: work
@@ -1177,9 +1172,10 @@ Design name:unnamed:
           vpiParent: Module name:target
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:31:21 end:31:22:
+          vpiLowConn RefObj name:A start:31:21 end:31:22:
             vpiParent: Port name:A
-            vpiFullName: target.A
+            vpiName: A
+            vpiFullName: target.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:31:6 end:31:20:
             vpiParent: Port name:A
@@ -1189,9 +1185,10 @@ Design name:unnamed:
           vpiParent: Module name:target
           vpiName: B
           vpiDirection: output (2)
-          vpiLowConn RefObj start:31:40 end:31:41:
+          vpiLowConn RefObj name:B start:31:40 end:31:41:
             vpiParent: Port name:B
-            vpiFullName: target.B
+            vpiName: B
+            vpiFullName: target.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:31:24 end:31:39:
             vpiParent: Port name:B
@@ -1231,8 +1228,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 12
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

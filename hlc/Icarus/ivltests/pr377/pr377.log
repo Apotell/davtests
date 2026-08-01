@@ -259,7 +259,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr377.v
       vpiPreprocFile: "$Output/lib/work/pr377.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:dummy file:$Source01/pr377.v start:1:1 end:5:10:
       vpiParent: Design name:unnamed
@@ -295,7 +294,7 @@ Design name:unnamed:
                 vpiValue: 1
           vpiVector: true
       vpiDefName: dummy
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dummy
         vpiName: work
@@ -310,12 +309,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: dummy.A
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:A start:1:16 end:1:17:
           vpiParent: Module name:dummy
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj name:A start:1:16 end:1:17:
+          vpiLowConn RefObj name:A start:2:15 end:2:16:
             vpiParent: Port name:A
             vpiName: A
             vpiFullName: dummy.A.A
@@ -357,6 +357,24 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
+      vpiVariable (2 items):
+        Variable name:A start:8:11 end:8:12:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:8:1 end:8:10:
+            vpiParent: Variable name:A
+            vpiFullName: test.A
+            vpiActual: LogicTypespec
+          vpiName: A
+          vpiFullName: test.A
+          vpiVector: true
+        Variable name:idx start:12:9 end:12:12:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:12:1 end:12:8:
+            vpiParent: Variable name:idx
+            vpiFullName: test.idx
+            vpiActual: IntegerTypespec
+          vpiName: idx
+          vpiFullName: test.idx
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -393,29 +411,12 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiSigned: true
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (2 items):
-        Net name:A start:8:11 end:8:12:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:8:1 end:8:10:
-            vpiParent: Net name:A
-            vpiFullName: test.A
-            vpiActual: LogicTypespec
-          vpiName: A
-          vpiFullName: test.A
-        Net name:idx start:12:9 end:12:12:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:12:1 end:12:8:
-            vpiParent: Net name:idx
-            vpiFullName: test.idx
-            vpiActual: IntegerTypespec
-          vpiName: idx
-          vpiFullName: test.idx
       vpiProcess (1 items):
         Initial start:13:1 end:18:4:
           vpiParent: Module name:test
@@ -434,7 +435,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: idx
                       vpiFullName: test.idx
-                      vpiActual: Net name:idx
+                      vpiActual: Variable name:idx
                     vpiRhs Constant start:14:15 end:14:16:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -453,7 +454,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: idx
                       vpiFullName: test.idx
-                      vpiActual: Net name:idx
+                      vpiActual: Variable name:idx
                     vpiRhs Operation start:14:40 end:14:45:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -462,7 +463,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: idx
                           vpiFullName: test.idx
-                          vpiActual: Net name:idx
+                          vpiActual: Variable name:idx
                         Constant start:14:44 end:14:45:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -481,7 +482,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: idx
                       vpiFullName: test.idx
-                      vpiActual: Net name:idx
+                      vpiActual: Variable name:idx
                     Constant start:14:27 end:14:30:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -500,12 +501,12 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: A
                       vpiFullName: test.A
-                      vpiActual: Net name:A
+                      vpiActual: Variable name:A
                     vpiRhs RefObj name:idx start:15:15 end:15:18:
                       vpiParent: Assignment
                       vpiName: idx
                       vpiFullName: test.idx
-                      vpiActual: Net name:idx
+                      vpiActual: Variable name:idx
                   vpiDelay Constant start:15:8 end:15:9:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -556,7 +557,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:A[1:0]
                   vpiName: A
                   vpiFullName: test.dummy.A[1:0].A
-                  vpiActual: Net name:A
+                  vpiActual: Variable name:A
                 vpiRange Range start:10:15 end:10:18:
                   vpiParent: PartSelect name:A[1:0]
                   vpiLeftRange Constant start:10:15 end:10:16:

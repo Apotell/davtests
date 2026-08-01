@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@
 // UHDM structure:
 //   SourceFile
 //     vpiIncludes (1 item): SourceFile name:"/dev/null"
-//   Module name:empty  — one empty module, no nets, no processes
+//   Module name:empty  -- one empty module, no nets, no processes
 //
 // The `include directive is recorded as a child SourceFile in the parent
 // SourceFile's vpiIncludes list.  The included file contributes no nodes
@@ -53,9 +53,9 @@ static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
   return (*d->getSourceFiles())[0];
 }
 
-// ---------------------------------------------------------------------------
-// Module — empty, unaffected by the included file
-// ---------------------------------------------------------------------------
+// ----
+// Module -- empty, unaffected by the included file
+// ----
 TEST_F(CompilerDirectivesInclude, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("empty", m_design->getAllModules()), nullptr)
       << "module 'empty' not found";
@@ -68,9 +68,9 @@ TEST_F(CompilerDirectivesInclude, ModuleIsEmpty) {
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // `include is recorded as a child SourceFile in vpiIncludes
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesInclude, OneIncludeRecorded) {
   const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);

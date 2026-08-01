@@ -527,13 +527,13 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/defparam.v:22:1: Compile module "NameA".
 [INF:CP0303] $Source01/defparam.v:32:1: Compile module "main".
 [WRN:CP0323] $Source01/defparam.v:32:1: Multiply defined typedef "NameA".
-[ERR:EL0535] $Source01/defparam.v:34:24: Illegal implicit net "id:54, name:ident0".
-[ERR:EL0535] $Source01/defparam.v:35:24: Illegal implicit net "id:62, name:ident1".
-[ERR:EL0535] $Source01/defparam.v:36:24: Illegal implicit net "id:70, name:ident0".
-[ERR:EL0535] $Source01/defparam.v:47:23: Illegal implicit net "id:100, name:value0".
-[ERR:EL0535] $Source01/defparam.v:53:23: Illegal implicit net "id:124, name:value1".
-[ERR:EL0535] $Source01/defparam.v:59:23: Illegal implicit net "id:148, name:value0".
-[ERR:EL0535] $Source01/defparam.v:65:23: Illegal implicit net "id:172, name:value1".
+[WRN:CP0350] $Source01/defparam.v:34:24: Failed to bind "id:54, name:ident0".
+[WRN:CP0350] $Source01/defparam.v:35:24: Failed to bind "id:62, name:ident1".
+[WRN:CP0350] $Source01/defparam.v:36:24: Failed to bind "id:70, name:ident0".
+[WRN:CP0350] $Source01/defparam.v:47:23: Failed to bind "id:100, name:value0".
+[WRN:CP0350] $Source01/defparam.v:53:23: Failed to bind "id:124, name:value1".
+[WRN:CP0350] $Source01/defparam.v:59:23: Failed to bind "id:148, name:value0".
+[WRN:CP0350] $Source01/defparam.v:65:23: Failed to bind "id:172, name:value1".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -543,7 +543,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: defparam.v
       vpiPreprocFile: "$Output/lib/work/defparam.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:NameA file:$Source01/defparam.v start:22:1 end:30:10:
       vpiParent: Design name:unnamed
@@ -659,7 +658,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: NameA
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:NameA
         vpiName: work
@@ -700,6 +699,16 @@ Design name:unnamed:
         vpiParent: Module name:main
         vpiName: main
       vpiFullName: main
+      vpiVariable (1 items):
+        Variable name:error start:38:5 end:38:10:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:38:1 end:38:4:
+            vpiParent: Variable name:error
+            vpiFullName: main.error
+            vpiActual: LogicTypespec
+          vpiName: error
+          vpiFullName: main.error
+          vpiScalar: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -714,21 +723,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:NameA
             vpiName: NameA
       vpiDefName: main
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:main
         vpiName: work
         vpiFullName: main.work
       vpiCell: main
-      vpiNet (1 items):
-        Net name:error start:38:5 end:38:10:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:38:1 end:38:4:
-            vpiParent: Net name:error
-            vpiFullName: main.error
-            vpiActual: LogicTypespec
-          vpiName: error
-          vpiFullName: main.error
       vpiProcess (1 items):
         Initial start:43:1 end:73:6:
           vpiParent: Module name:main
@@ -743,7 +743,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: error
                   vpiFullName: main.error
-                  vpiActual: Net name:error
+                  vpiActual: Variable name:error
                 vpiRhs Constant start:45:14 end:45:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -812,7 +812,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: main.error
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:49:18 end:49:19:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -897,7 +897,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: main.error
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:55:18 end:55:19:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -982,7 +982,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: main.error
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:61:18 end:61:19:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1067,7 +1067,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: main.error
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:67:18 end:67:19:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1116,7 +1116,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: error
                       vpiFullName: main.error
-                      vpiActual: Net name:error
+                      vpiActual: Variable name:error
                     Constant start:71:18 end:71:19:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1275,8 +1275,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

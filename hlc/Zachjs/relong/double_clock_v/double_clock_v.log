@@ -18,7 +18,7 @@ n<$Source01/relong/double_clock.v> u<353> t<Top_level_rule> c<1> l<1:1> el<41:10
     n<> u<5> t<Description> p<352> c<4> s<115> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<115> t<Description> p<352> c<114> s<351> l<3:1> el<16:10>
       n<> u<114> t<Module_declaration> p<115> c<39> l<3:1> el<16:10>
         n<> u<39> t<Module_ansi_header> p<114> c<6> s<112> l<3:1> el<6:3>
@@ -368,10 +368,7 @@ n<$Source01/relong/double_clock.v> u<353> t<Top_level_rule> c<1> l<1:1> el<41:10
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/double_clock.v:3:1: Compile module "Device".
 [INF:CP0303] $Source01/relong/double_clock.v:18:1: Compile module "SharedMemory".
-[ERR:EL0535] $Source01/relong/double_clock.v:9:10: Illegal implicit net "id:38, name:clock1".
-[ERR:EL0535] $Source01/relong/double_clock.v:10:10: Illegal implicit net "id:41, name:clock2".
-[ERR:EL0535] $Source01/relong/double_clock.v:12:10: Illegal implicit net "id:55, name:data1".
-[ERR:EL0535] $Source01/relong/double_clock.v:13:10: Illegal implicit net "id:66, name:data2".
+[ERR:LN0813] $Source01/relong/double_clock.v:1:1: Found 4 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -381,7 +378,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: double_clock.v
       vpiPreprocFile: "$Output/lib/work/relong/double_clock.v"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:double_clock.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: double_clock.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (2 items):
     Module name:Device file:$Source01/relong/double_clock.v start:3:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -389,6 +396,15 @@ Design name:unnamed:
         vpiParent: Module name:Device
         vpiName: Device
       vpiFullName: Device
+      vpiVariable (1 items):
+        Variable name:data start:5:23 end:5:27:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec start:5:5 end:5:22:
+            vpiParent: Variable name:data
+            vpiFullName: Device.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: Device.data
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:Device
@@ -430,7 +446,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Device.work
       vpiCell: Device
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clock start:4:16 end:4:21:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:4:5 end:4:15:
@@ -440,32 +456,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: Device.clock
           vpiNetType: wire (1)
-        Net name:clear start:4:23 end:4:28:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:4:23 end:4:23:
-            vpiParent: Net name:clear
-            vpiFullName: Device.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: Device.clear
-          vpiNetType: wire (1)
-        Net name:data start:5:23 end:5:27:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:5:5 end:5:22:
-            vpiParent: Net name:data
-            vpiFullName: Device.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: Device.data
-          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:clock start:4:16 end:4:21:
           vpiParent: Module name:Device
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:16 end:4:21:
+          vpiLowConn RefObj name:clock start:4:16 end:4:21:
             vpiParent: Port name:clock
-            vpiFullName: Device.clock
+            vpiName: clock
+            vpiFullName: Device.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:4:5 end:4:15:
             vpiParent: Port name:clock
@@ -475,22 +474,15 @@ Design name:unnamed:
           vpiParent: Module name:Device
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:4:23 end:4:28:
-            vpiParent: Port name:clear
-            vpiFullName: Device.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:4:23 end:4:23:
-            vpiParent: Port name:clear
-            vpiFullName: Device.clear
-            vpiActual: LogicTypespec
         Port name:data start:5:23 end:5:27:
           vpiParent: Module name:Device
           vpiName: data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:23 end:5:27:
+          vpiLowConn RefObj name:data start:5:23 end:5:27:
             vpiParent: Port name:data
-            vpiFullName: Device.data
-            vpiActual: Net name:data
+            vpiName: data
+            vpiFullName: Device.data.data
+            vpiActual: Variable name:data
           vpiTypespec RefTypespec start:5:5 end:5:22:
             vpiParent: Port name:data
             vpiFullName: Device.data
@@ -533,12 +525,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clear
                 vpiFullName: Device.memory.clear
-                vpiActual: Net name:clear
+                vpiActual: Port name:clear
               vpiHighConn RefObj name:clear start:11:16 end:11:21:
                 vpiParent: Port
                 vpiName: clear
                 vpiFullName: Device.memory.clear
-                vpiActual: Net name:clear
+                vpiActual: Port name:clear
             Port start:12:9 end:12:26:
               vpiParent: RefInstance name:memory
               vpiLowConn RefObj name:data1 start:12:10 end:12:15:
@@ -553,7 +545,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:data[1:0]
                   vpiName: data
                   vpiFullName: Device.memory.data[1:0].data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
                 vpiRange Range start:12:21 end:12:24:
                   vpiParent: PartSelect name:data[1:0]
                   vpiLeftRange Constant start:12:21 end:12:22:
@@ -590,7 +582,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:data[3:2]
                   vpiName: data
                   vpiFullName: Device.memory.data[3:2].data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
                 vpiRange Range start:13:21 end:13:24:
                   vpiParent: PartSelect name:data[3:2]
                   vpiLeftRange Constant start:13:21 end:13:22:
@@ -619,7 +611,7 @@ Design name:unnamed:
         vpiParent: Module name:SharedMemory
         vpiName: SharedMemory
       vpiFullName: SharedMemory
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:data1 start:20:22 end:20:27:
           vpiParent: Module name:SharedMemory
           vpiTypespec RefTypespec start:20:5 end:20:21:
@@ -628,7 +620,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data1
           vpiFullName: SharedMemory.data1
-          vpiNetType: none (12)
+        Variable name:memory start:23:15 end:23:21:
+          vpiParent: Module name:SharedMemory
+          vpiTypespec RefTypespec start:23:5 end:23:14:
+            vpiParent: Variable name:memory
+            vpiFullName: SharedMemory.memory
+            vpiActual: LogicTypespec
+          vpiName: memory
+          vpiFullName: SharedMemory.memory
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:SharedMemory
@@ -691,7 +691,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: SharedMemory.work
       vpiCell: SharedMemory
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:clock1 start:19:16 end:19:22:
           vpiParent: Module name:SharedMemory
           vpiTypespec RefTypespec start:19:5 end:19:15:
@@ -701,49 +701,15 @@ Design name:unnamed:
           vpiName: clock1
           vpiFullName: SharedMemory.clock1
           vpiNetType: wire (1)
-        Net name:clock2 start:19:24 end:19:30:
-          vpiParent: Module name:SharedMemory
-          vpiTypespec RefTypespec start:19:24 end:19:24:
-            vpiParent: Net name:clock2
-            vpiFullName: SharedMemory.clock2
-            vpiActual: LogicTypespec
-          vpiName: clock2
-          vpiFullName: SharedMemory.clock2
-          vpiNetType: wire (1)
-        Net name:clear start:19:32 end:19:37:
-          vpiParent: Module name:SharedMemory
-          vpiTypespec RefTypespec start:19:32 end:19:32:
-            vpiParent: Net name:clear
-            vpiFullName: SharedMemory.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: SharedMemory.clear
-          vpiNetType: wire (1)
-        Net name:data2 start:20:29 end:20:34:
-          vpiParent: Module name:SharedMemory
-          vpiTypespec RefTypespec start:20:29 end:20:29:
-            vpiParent: Net name:data2
-            vpiFullName: SharedMemory.data2
-            vpiActual: LogicTypespec
-          vpiName: data2
-          vpiFullName: SharedMemory.data2
-          vpiNetType: wire (1)
-        Net name:memory start:23:15 end:23:21:
-          vpiParent: Module name:SharedMemory
-          vpiTypespec RefTypespec start:23:5 end:23:14:
-            vpiParent: Net name:memory
-            vpiFullName: SharedMemory.memory
-            vpiActual: LogicTypespec
-          vpiName: memory
-          vpiFullName: SharedMemory.memory
       vpiPort (5 items):
         Port name:clock1 start:19:16 end:19:22:
           vpiParent: Module name:SharedMemory
           vpiName: clock1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:19:16 end:19:22:
+          vpiLowConn RefObj name:clock1 start:19:16 end:19:22:
             vpiParent: Port name:clock1
-            vpiFullName: SharedMemory.clock1
+            vpiName: clock1
+            vpiFullName: SharedMemory.clock1.clock1
             vpiActual: Net name:clock1
           vpiTypespec RefTypespec start:19:5 end:19:15:
             vpiParent: Port name:clock1
@@ -753,33 +719,18 @@ Design name:unnamed:
           vpiParent: Module name:SharedMemory
           vpiName: clock2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:19:24 end:19:30:
-            vpiParent: Port name:clock2
-            vpiFullName: SharedMemory.clock2
-            vpiActual: Net name:clock2
-          vpiTypespec RefTypespec start:19:24 end:19:24:
-            vpiParent: Port name:clock2
-            vpiFullName: SharedMemory.clock2
-            vpiActual: LogicTypespec
         Port name:clear start:19:32 end:19:37:
           vpiParent: Module name:SharedMemory
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:19:32 end:19:37:
-            vpiParent: Port name:clear
-            vpiFullName: SharedMemory.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:19:32 end:19:32:
-            vpiParent: Port name:clear
-            vpiFullName: SharedMemory.clear
-            vpiActual: LogicTypespec
         Port name:data1 start:20:22 end:20:27:
           vpiParent: Module name:SharedMemory
           vpiName: data1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:20:22 end:20:27:
+          vpiLowConn RefObj name:data1 start:20:22 end:20:27:
             vpiParent: Port name:data1
-            vpiFullName: SharedMemory.data1
+            vpiName: data1
+            vpiFullName: SharedMemory.data1.data1
             vpiActual: Variable name:data1
           vpiTypespec RefTypespec start:20:5 end:20:21:
             vpiParent: Port name:data1
@@ -789,14 +740,6 @@ Design name:unnamed:
           vpiParent: Module name:SharedMemory
           vpiName: data2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:20:29 end:20:34:
-            vpiParent: Port name:data2
-            vpiFullName: SharedMemory.data2
-            vpiActual: Net name:data2
-          vpiTypespec RefTypespec start:20:29 end:20:29:
-            vpiParent: Port name:data2
-            vpiFullName: SharedMemory.data2
-            vpiActual: LogicTypespec
       vpiProcess (3 items):
         Always start:26:5 end:31:8:
           vpiParent: Module name:SharedMemory
@@ -824,14 +767,14 @@ Design name:unnamed:
                     vpiParent: IfElse
                     vpiName: clear
                     vpiFullName: SharedMemory.clear
-                    vpiActual: Net name:clear
+                    vpiActual: Port name:clear
                   vpiStmt Assignment start:28:13 end:28:27:
                     vpiParent: IfElse
                     vpiLhs RefObj name:memory start:28:13 end:28:19:
                       vpiParent: Assignment
                       vpiName: memory
                       vpiFullName: SharedMemory.memory
-                      vpiActual: Net name:memory
+                      vpiActual: Variable name:memory
                     vpiRhs Constant start:28:23 end:28:27:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -848,7 +791,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: memory
                       vpiFullName: SharedMemory.memory
-                      vpiActual: Net name:memory
+                      vpiActual: Variable name:memory
                     vpiRhs Operation start:30:23 end:30:43:
                       vpiParent: Assignment
                       vpiOpType: concatenation (33)
@@ -865,7 +808,7 @@ Design name:unnamed:
                                 vpiParent: PartSelect name:memory[2:0]
                                 vpiName: memory
                                 vpiFullName: SharedMemory.memory[2:0].memory
-                                vpiActual: Net name:memory
+                                vpiActual: Variable name:memory
                               vpiRange Range start:30:32 end:30:35:
                                 vpiParent: PartSelect name:memory[2:0]
                                 vpiLeftRange Constant start:30:32 end:30:33:
@@ -927,7 +870,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:memory[1:0]
                   vpiName: memory
                   vpiFullName: SharedMemory.memory[1:0].memory
-                  vpiActual: Net name:memory
+                  vpiActual: Variable name:memory
                 vpiRange Range start:34:25 end:34:28:
                   vpiParent: PartSelect name:memory[1:0]
                   vpiLeftRange Constant start:34:25 end:34:26:
@@ -963,7 +906,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clock2
                   vpiFullName: SharedMemory.clock2
-                  vpiActual: Net name:clock2
+                  vpiActual: Port name:clock2
             vpiStmt Begin start:36:30 end:38:8:
               vpiParent: EventControl
               vpiFullName: SharedMemory
@@ -974,7 +917,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: data2
                     vpiFullName: SharedMemory.data2
-                    vpiActual: Net name:data2
+                    vpiActual: Port name:data2
                   vpiRhs PartSelect name:memory[3:2] start:37:18 end:37:29:
                     vpiParent: Assignment
                     vpiName: memory[3:2]
@@ -983,7 +926,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:memory[3:2]
                       vpiName: memory
                       vpiFullName: SharedMemory.memory[3:2].memory
-                      vpiActual: Net name:memory
+                      vpiActual: Variable name:memory
                     vpiRange Range start:37:25 end:37:28:
                       vpiParent: PartSelect name:memory[3:2]
                       vpiLeftRange Constant start:37:25 end:37:26:
@@ -1007,7 +950,9 @@ Design name:unnamed:
                         vpiDecompile: "2"
                         vpiValue: 2
           vpiAlwaysType: always (1)
-  vpiTypespec (4 items):
+  vpiTypespec (5 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:Device:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Device start:3:8 end:3:14:
@@ -1028,7 +973,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1044,25 +989,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/double_clock_v/mounts.json
 
 
-{'result': {'coverage': 95.75,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/double_clock.v': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/double_clock.v': {'post_len': 0,
                                                                  'pre_len': 494}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 494,
             'test_name': 'Zachjs/relong/double_clock_v'}}
 
 +----------------------------------------+----------+-----------+
 | INPUT                                  |   PRELEN |   POSTLEN |
 +========================================+==========+===========+
-| $Output/lib/work/relong/double_clock.v |      494 |        21 |
+| $Output/lib/work/relong/double_clock.v |      494 |         0 |
 +========================================+==========+===========+
-|                                        |      494 |        21 |
+|                                        |      494 |         0 |
 +----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.75
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1073,7 +1018,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/double_clock_v/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             159     159       0         0
+Others                             147     147       0         0
 ----------------------------------------------------------------
-                                   159     159       0         0
+                                   147     147       0         0
 ===================== END REDUCTION RESULT =====================

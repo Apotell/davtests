@@ -267,8 +267,8 @@ n<$Source01/escape4.v> u<252> t<Top_level_rule> c<1> l<20:1> el<55:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/escape4.v:20:1: Compile module "top".
 [INF:CP0303] $Source01/escape4.v:47:1: Compile module "bot".
-[ERR:EL0535] $Source01/escape4.v:31:35: Illegal implicit net "id:44, name:r".
-[ERR:EL0535] $Source01/escape4.v:38:15: Illegal implicit net "id:63, name:r".
+[WRN:CP0350] $Source01/escape4.v:31:35: Failed to bind "id:44, name:r".
+[WRN:CP0350] $Source01/escape4.v:38:15: Failed to bind "id:63, name:r".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -278,7 +278,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: escape4.v
       vpiPreprocFile: "$Output/lib/work/escape4.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:top file:$Source01/escape4.v start:20:1 end:45:10:
       vpiParent: Design name:unnamed
@@ -286,6 +285,16 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:bot.r start:22:8 end:22:19:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:22:4 end:22:7:
+            vpiParent: Variable name:bot.r
+            vpiFullName: top.bot.r
+            vpiActual: LogicTypespec
+          vpiName: bot.r
+          vpiFullName: top.bot.r
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -295,21 +304,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bot
             vpiName: bot
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (1 items):
-        Net name:bot.r start:22:8 end:22:19:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:22:4 end:22:7:
-            vpiParent: Net name:bot.r
-            vpiFullName: top.bot.r
-            vpiActual: LogicTypespec
-          vpiName: bot.r
-          vpiFullName: top.bot.r
       vpiProcess (1 items):
         Initial start:26:4 end:44:7:
           vpiParent: Module name:top
@@ -336,7 +336,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: bot.r
                   vpiFullName: top.bot.r
-                  vpiActual: Net name:bot.r
+                  vpiActual: Variable name:bot.r
                 vpiRhs Constant start:28:20 end:28:21:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -379,7 +379,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: bot.r
                     vpiFullName: top.bot.r
-                    vpiActual: Net name:bot.r
+                    vpiActual: Variable name:bot.r
               SysTaskCall name:$display start:31:7 end:31:38:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:31:7 end:31:15:
@@ -420,7 +420,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: bot.r
                       vpiFullName: top.bot.r
-                      vpiActual: Net name:bot.r
+                      vpiActual: Variable name:bot.r
                     Constant start:33:26 end:33:27:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -542,25 +542,26 @@ Design name:unnamed:
         vpiParent: Module name:bot
         vpiName: bot
       vpiFullName: bot
+      vpiVariable (1 items):
+        Variable name:r start:49:8 end:49:9:
+          vpiParent: Module name:bot
+          vpiTypespec RefTypespec start:49:4 end:49:7:
+            vpiParent: Variable name:r
+            vpiFullName: bot.r
+            vpiActual: LogicTypespec
+          vpiName: r
+          vpiFullName: bot.r
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:bot
       vpiDefName: bot
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bot
         vpiName: work
         vpiFullName: bot.work
       vpiCell: bot
-      vpiNet (1 items):
-        Net name:r start:49:8 end:49:9:
-          vpiParent: Module name:bot
-          vpiTypespec RefTypespec start:49:4 end:49:7:
-            vpiParent: Net name:r
-            vpiFullName: bot.r
-            vpiActual: LogicTypespec
-          vpiName: r
-          vpiFullName: bot.r
       vpiProcess (1 items):
         Initial start:51:4 end:53:7:
           vpiParent: Module name:bot
@@ -575,7 +576,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: r
                   vpiFullName: bot.r
-                  vpiActual: Net name:r
+                  vpiActual: Variable name:r
                 vpiRhs Constant start:52:11 end:52:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -607,8 +608,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

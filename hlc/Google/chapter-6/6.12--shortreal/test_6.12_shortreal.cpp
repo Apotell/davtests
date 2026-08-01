@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +19,13 @@
 //     shortreal a = 0.5;
 //   endmodule
 //
+// Per IEEE 1800-2023 6.8/6.12: 'shortreal' has no explicit net-type keyword
+// (wire, tri, etc.), so 'a' is a variable_declaration, not a net_declaration.
+//
 // Checked:
 //   - design has module top
-//   - module has exactly 1 net: 'a'
-//   - 'a' typespec → ShortRealTypespec (NOT RealTypespec — distinct 32-bit type)
+//   - module has exactly 1 variable: 'a'
+//   - 'a' typespec -> ShortRealTypespec (NOT RealTypespec -- distinct 32-bit type)
 //   - 'a' initial value: Constant vpiRealConst, decompile "0.5"
 //     (shortreal stores constant using same vpiRealConst as real)
 //   - top has no continuous assignments
@@ -44,6 +47,7 @@
 #include <hldb/real_typespec.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/short_real_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -58,61 +62,70 @@ TEST_F(Shortreal, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(Shortreal, OneNetExists) {
+TEST_F(Shortreal, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Shortreal, ANetExists) {
+TEST_F(Shortreal, AVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
+  ASSERT_NE(hldb::findByName<hldb::Variable>("a", top->getVariables()), nullptr) << "variable 'a' not found";
 }
 
-// ---------------------------------------------------------------------------
-// Typespec — net 'a' must resolve to ShortRealTypespec, NOT RealTypespec
-// ---------------------------------------------------------------------------
-TEST_F(Shortreal, ANetTypespecIsShortReal) {
+TEST_F(Shortreal, ANotInNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'shortreal' has no net-type keyword, so
+  // 'a' must not also be materialized as a Net.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("a", top->getNets()) == nullptr)
+      << "'shortreal a' must not appear in vpiNet";
+}
+
+// ----
+// Typespec -- variable 'a' must resolve to ShortRealTypespec, NOT RealTypespec
+// ----
+TEST_F(Shortreal, AVariableTypespecIsShortReal) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
 
   const hldb::RefTypespec *const rts = a->getTypespec();
-  ASSERT_NE(rts, nullptr) << "net 'a' has no typespec";
+  ASSERT_NE(rts, nullptr) << "variable 'a' has no typespec";
   EXPECT_NE(rts->getActual<hldb::ShortRealTypespec>(), nullptr)
-      << "net 'a' typespec should resolve to ShortRealTypespec (not RealTypespec)";
+      << "variable 'a' typespec should resolve to ShortRealTypespec (not RealTypespec)";
 }
 
-TEST_F(Shortreal, ANetTypespecIsNotPlainReal) {
+TEST_F(Shortreal, AVariableTypespecIsNotPlainReal) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
   EXPECT_EQ(rts->getActual<hldb::RealTypespec>(), nullptr) << "shortreal should NOT resolve to RealTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// Initial value — recorded as a real constant "0.5"
-// ---------------------------------------------------------------------------
-TEST_F(Shortreal, ANetInitialValueConstType) {
+// ----
+// Initial value -- recorded as a real constant "0.5"
+// ----
+TEST_F(Shortreal, AVariableInitialValueConstType) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
-  ASSERT_NE(init, nullptr) << "net 'a' has no initial value Constant";
+  ASSERT_NE(init, nullptr) << "variable 'a' has no initial value Constant";
   EXPECT_EQ(init->getConstType(), vpiRealConst);
 }
 
-TEST_F(Shortreal, ANetInitialValueIsHalf) {
+TEST_F(Shortreal, AVariableInitialValueIsHalf) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
@@ -131,15 +144,15 @@ TEST_F(Shortreal, NoProcesses) {
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Precision -- shortreal is a distinct 32-bit type vs real's 64-bit, but the
 // UHDM graph has no field for storage width; this can only be observed by
 // simulating an assignment that overflows shortreal precision.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Shortreal, StorageWidthNotObservableStatically) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);

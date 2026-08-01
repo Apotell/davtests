@@ -22,7 +22,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:pack file:$Source01/dut.sv start:2:1 end:40:11:
       vpiParent: Design name:unnamed
@@ -44,7 +43,7 @@ Design name:unnamed:
             vpiName: doorOpen
           vpiClassDefn: ClassDefn name:doorOpen
       vpiDefName: pack
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:pack
         vpiName: work
@@ -82,6 +81,7 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: open
               vpiFullName: pack::door::open
+              vpiScalar: true
             Variable name:lock start:8:16 end:8:20:
               vpiParent: ClassDefn name:door
               vpiTypespec RefTypespec start:8:5 end:8:10:
@@ -90,6 +90,7 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: lock
               vpiFullName: pack::door::lock
+              vpiScalar: true
             Variable name:clock start:8:21 end:8:26:
               vpiParent: ClassDefn name:door
               vpiTypespec RefTypespec start:8:5 end:8:10:
@@ -98,6 +99,7 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: clock
               vpiFullName: pack::door::clock
+              vpiScalar: true
           vpiParameter (3 items):
             Parameter name:OPENED start:9:15 end:9:21:
               vpiParent: ClassDefn name:door
@@ -364,23 +366,23 @@ Design name:unnamed:
         vpiParent: Module name:door_mod
         vpiName: door_mod
       vpiFullName: door_mod
-      vpiDefName: door_mod
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:door_mod
-        vpiName: work
-        vpiFullName: door_mod.work
-      vpiCell: door_mod
-      vpiNet (1 items):
-        Net name:open start:45:20 end:45:24:
+      vpiVariable (1 items):
+        Variable name:open start:45:20 end:45:24:
           vpiParent: Module name:door_mod
           vpiTypespec RefTypespec name:pack::doorOpen start:45:5 end:45:19:
-            vpiParent: Net name:open
+            vpiParent: Variable name:open
             vpiName: pack::doorOpen
             vpiFullName: door_mod.open.pack::doorOpen
             vpiActual: ClassTypespec name:doorOpen
           vpiName: open
           vpiFullName: door_mod.open
+      vpiDefName: door_mod
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:door_mod
+        vpiName: work
+        vpiFullName: door_mod.work
+      vpiCell: door_mod
       vpiProcess (1 items):
         Initial start:46:5 end:50:8:
           vpiParent: Module name:door_mod
@@ -395,7 +397,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: open
                   vpiFullName: door_mod.open
-                  vpiActual: Net name:open
+                  vpiActual: Variable name:open
                 vpiRhs MethodFuncCall name:new start:47:16 end:47:21:
                   vpiParent: Assignment
                   vpiName Identifier name:new:
@@ -410,7 +412,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:open.door_fsm()
                     vpiName: open
                     vpiFullName: door_mod.open
-                    vpiActual: Net name:open
+                    vpiActual: Variable name:open
                   MethodTaskCall name:door_fsm start:48:14 end:48:24:
                     vpiParent: HierPath name:open.door_fsm()
                     vpiName Identifier name:door_fsm start:48:14 end:48:22:
@@ -426,7 +428,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:open.f1()
                     vpiName: open
                     vpiFullName: door_mod.open
-                    vpiActual: Net name:open
+                    vpiActual: Variable name:open
                   MethodFuncCall name:f1 start:49:14 end:49:18:
                     vpiParent: HierPath name:open.f1()
                     vpiName Identifier name:f1 start:49:14 end:49:16:

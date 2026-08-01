@@ -13,8 +13,7 @@ COMMAND: -wd ../../../tests/Connection dut.sv -writepp -d inst -fileunit -d db -
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "ibex_csr".
-[ERR:EL0535] $Source01/dut.sv:6:7: Illegal implicit net "id:774, name:rd_disconn".
-[ERR:EL0535] $Source01/dut.sv:7:7: Illegal implicit net "id:779, name:rd_const_conn".
+[ERR:LN0813] $Source01/dut.sv:1:1: Found 3 orphan node(s).
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "ibex_csr".
@@ -26,7 +25,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2026,13 +2024,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:ibex_csr
             vpiName: ibex_csr
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:rd_impl_conn start:1:18 end:1:30:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:12 end:1:17:
@@ -2042,23 +2040,15 @@ Design name:unnamed:
           vpiName: rd_impl_conn
           vpiFullName: top.rd_impl_conn
           vpiNetType: wire (1)
-        Net name:rd_name_conn start:1:32 end:1:44:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:1:32 end:1:32:
-            vpiParent: Net name:rd_name_conn
-            vpiFullName: top.rd_name_conn
-            vpiActual: LogicTypespec
-          vpiName: rd_name_conn
-          vpiFullName: top.rd_name_conn
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:rd_impl_conn start:1:18 end:1:30:
           vpiParent: Module name:top
           vpiName: rd_impl_conn
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:18 end:1:30:
+          vpiLowConn RefObj name:rd_impl_conn start:1:18 end:1:30:
             vpiParent: Port name:rd_impl_conn
-            vpiFullName: top.rd_impl_conn
+            vpiName: rd_impl_conn
+            vpiFullName: top.rd_impl_conn.rd_impl_conn
             vpiActual: Net name:rd_impl_conn
           vpiTypespec RefTypespec start:1:12 end:1:17:
             vpiParent: Port name:rd_impl_conn
@@ -2068,14 +2058,6 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: rd_name_conn
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:32 end:1:44:
-            vpiParent: Port name:rd_name_conn
-            vpiFullName: top.rd_name_conn
-            vpiActual: Net name:rd_name_conn
-          vpiTypespec RefTypespec start:1:32 end:1:32:
-            vpiParent: Port name:rd_name_conn
-            vpiFullName: top.rd_name_conn
-            vpiActual: LogicTypespec
       vpiRefInstance (1 items):
         RefInstance name:u_mie_csr start:3:6 end:3:15:
           vpiParent: Module name:top
@@ -2099,12 +2081,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: rd_name_conn
                 vpiFullName: top.u_mie_csr.rd_name_conn
-                vpiActual: Net name:rd_name_conn
+                vpiActual: Port name:rd_name_conn
               vpiHighConn RefObj name:rd_name_conn start:5:20 end:5:32:
                 vpiParent: Port
                 vpiName: rd_name_conn
                 vpiFullName: top.u_mie_csr.rd_name_conn
-                vpiActual: Net name:rd_name_conn
+                vpiActual: Port name:rd_name_conn
             Port start:6:6 end:6:19:
               vpiParent: RefInstance name:u_mie_csr
               vpiLowConn RefObj name:rd_disconn start:6:7 end:6:17:
@@ -2142,18 +2124,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd_impl_conn
           vpiFullName: ibex_csr.rd_impl_conn
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:ibex_csr
       vpiDefName: ibex_csr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:ibex_csr
         vpiName: work
         vpiFullName: ibex_csr.work
       vpiCell: ibex_csr
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:rd_const_conn start:14:20 end:14:33:
           vpiParent: Module name:ibex_csr
           vpiTypespec RefTypespec start:14:8 end:14:19:
@@ -2163,32 +2144,15 @@ Design name:unnamed:
           vpiName: rd_const_conn
           vpiFullName: ibex_csr.rd_const_conn
           vpiNetType: wire (1)
-        Net name:rd_name_conn start:15:35 end:15:47:
-          vpiParent: Module name:ibex_csr
-          vpiTypespec RefTypespec start:15:35 end:15:35:
-            vpiParent: Net name:rd_name_conn
-            vpiFullName: ibex_csr.rd_name_conn
-            vpiActual: LogicTypespec
-          vpiName: rd_name_conn
-          vpiFullName: ibex_csr.rd_name_conn
-          vpiNetType: wire (1)
-        Net name:rd_disconn start:15:49 end:15:59:
-          vpiParent: Module name:ibex_csr
-          vpiTypespec RefTypespec start:15:49 end:15:49:
-            vpiParent: Net name:rd_disconn
-            vpiFullName: ibex_csr.rd_disconn
-            vpiActual: LogicTypespec
-          vpiName: rd_disconn
-          vpiFullName: ibex_csr.rd_disconn
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:rd_const_conn start:14:20 end:14:33:
           vpiParent: Module name:ibex_csr
           vpiName: rd_const_conn
           vpiDirection: input (1)
-          vpiLowConn RefObj start:14:20 end:14:33:
+          vpiLowConn RefObj name:rd_const_conn start:14:20 end:14:33:
             vpiParent: Port name:rd_const_conn
-            vpiFullName: ibex_csr.rd_const_conn
+            vpiName: rd_const_conn
+            vpiFullName: ibex_csr.rd_const_conn.rd_const_conn
             vpiActual: Net name:rd_const_conn
           vpiTypespec RefTypespec start:14:8 end:14:19:
             vpiParent: Port name:rd_const_conn
@@ -2198,9 +2162,10 @@ Design name:unnamed:
           vpiParent: Module name:ibex_csr
           vpiName: rd_impl_conn
           vpiDirection: output (2)
-          vpiLowConn RefObj start:15:21 end:15:33:
+          vpiLowConn RefObj name:rd_impl_conn start:15:21 end:15:33:
             vpiParent: Port name:rd_impl_conn
-            vpiFullName: ibex_csr.rd_impl_conn
+            vpiName: rd_impl_conn
+            vpiFullName: ibex_csr.rd_impl_conn.rd_impl_conn
             vpiActual: Variable name:rd_impl_conn
           vpiTypespec RefTypespec start:15:8 end:15:20:
             vpiParent: Port name:rd_impl_conn
@@ -2210,26 +2175,10 @@ Design name:unnamed:
           vpiParent: Module name:ibex_csr
           vpiName: rd_name_conn
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:35 end:15:47:
-            vpiParent: Port name:rd_name_conn
-            vpiFullName: ibex_csr.rd_name_conn
-            vpiActual: Net name:rd_name_conn
-          vpiTypespec RefTypespec start:15:35 end:15:35:
-            vpiParent: Port name:rd_name_conn
-            vpiFullName: ibex_csr.rd_name_conn
-            vpiActual: LogicTypespec
         Port name:rd_disconn start:15:49 end:15:59:
           vpiParent: Module name:ibex_csr
           vpiName: rd_disconn
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:49 end:15:59:
-            vpiParent: Port name:rd_disconn
-            vpiFullName: ibex_csr.rd_disconn
-            vpiActual: Net name:rd_disconn
-          vpiTypespec RefTypespec start:15:49 end:15:49:
-            vpiParent: Port name:rd_disconn
-            vpiFullName: ibex_csr.rd_disconn
-            vpiActual: LogicTypespec
   vpiTypespec (9 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2273,7 +2222,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
@@ -2318,7 +2267,7 @@ COMMAND: ${HLC_DIR}/regression/Connection/Connection/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             647     647       0         0
+Others                             635     635       0         0
 ----------------------------------------------------------------
-                                   647     647       0         0
+                                   635     635       0         0
 ===================== END REDUCTION RESULT =====================

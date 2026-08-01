@@ -1174,17 +1174,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_bind_public.v:30:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_bind_public.v:69:1: Compile module "testharness_ext".
 [INF:CP0303] $Source01/t_interface_bind_public.v:100:1: Compile module "SimpleTestHarness".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:43:8: Illegal implicit net "id:110, name:io_success".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:67:46: Illegal implicit net "id:190, name:trigger".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:118:8: Illegal implicit net "id:465, name:R0_addr".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:119:8: Illegal implicit net "id:468, name:R0_en".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:120:8: Illegal implicit net "id:471, name:R0_clk".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:121:8: Illegal implicit net "id:474, name:R0_data".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:122:8: Illegal implicit net "id:477, name:W0_addr".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:123:8: Illegal implicit net "id:480, name:W0_en".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:124:8: Illegal implicit net "id:483, name:W0_clk".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:125:8: Illegal implicit net "id:486, name:W0_data".
-[ERR:EL0535] $Source01/t_interface_bind_public.v:126:8: Illegal implicit net "id:489, name:W0_mask".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1194,7 +1183,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_bind_public.v
       vpiPreprocFile: "$Output/lib/work/t_interface_bind_public.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:hex2ram_if file:$Source01/t_interface_bind_public.v start:6:1 end:28:26:
       vpiParent: Design name:unnamed
@@ -1202,17 +1190,7 @@ Design name:unnamed:
         vpiParent: Interface name:hex2ram_if
         vpiName: hex2ram_if
       vpiFullName: hex2ram_if
-      vpiVariable (6 items):
-        Variable name:trigger start:8:14 end:8:21:
-          vpiParent: Interface name:hex2ram_if
-          vpiTypespec RefTypespec name:bit start:8:10 end:8:13:
-            vpiParent: Variable name:trigger
-            vpiName: bit
-            vpiFullName: hex2ram_if.trigger.bit
-            vpiActual: UnsupportedTypespec name:bit
-          vpiName: trigger
-          vpiFullName: hex2ram_if.trigger
-          vpiNetType: wire (1)
+      vpiVariable (5 items):
         Variable name:instance_path start:11:14 end:11:27:
           vpiParent: Interface name:hex2ram_if
           vpiTypespec RefTypespec name:string start:11:4 end:11:10:
@@ -1264,7 +1242,6 @@ Design name:unnamed:
             vpiFullName: hex2ram_if.has_testfile.bit
           vpiName: has_testfile
           vpiFullName: hex2ram_if.has_testfile
-          vpiNetType: none (12)
           vpiValue Operation start:13:31 end:13:74:
             vpiParent: Variable name:has_testfile
             vpiOpType: unary or (7)
@@ -1298,7 +1275,6 @@ Design name:unnamed:
             vpiFullName: hex2ram_if.armed.bit
           vpiName: armed
           vpiFullName: hex2ram_if.armed
-          vpiNetType: none (12)
           vpiValue Constant start:14:31 end:14:35:
             vpiParent: Variable name:armed
             vpiTypespec RefTypespec:
@@ -1317,7 +1293,6 @@ Design name:unnamed:
             vpiFullName: hex2ram_if.armed_trigger.bit
           vpiName: armed_trigger
           vpiFullName: hex2ram_if.armed_trigger
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         UnsupportedTypespec name:bit start:8:10 end:8:13:
           vpiParent: Interface name:hex2ram_if
@@ -1326,12 +1301,23 @@ Design name:unnamed:
             vpiName: bit
         BitTypespec:
           vpiParent: Interface name:hex2ram_if
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:hex2ram_if
         vpiName: work
         vpiFullName: hex2ram_if.work
       vpiCell: hex2ram_if
+      vpiNet (1 items):
+        Net name:trigger start:8:14 end:8:21:
+          vpiParent: Interface name:hex2ram_if
+          vpiTypespec RefTypespec name:bit start:8:10 end:8:13:
+            vpiParent: Net name:trigger
+            vpiName: bit
+            vpiFullName: hex2ram_if.trigger.bit
+            vpiActual: UnsupportedTypespec name:bit
+          vpiName: trigger
+          vpiFullName: hex2ram_if.trigger
+          vpiNetType: wire (1)
       vpiContAssign (1 items):
         ContAssign start:22:11 end:22:43:
           vpiParent: Interface name:hex2ram_if
@@ -1456,10 +1442,11 @@ Design name:unnamed:
           vpiParent: Interface name:hex2ram_if
           vpiName: trigger
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:14 end:8:21:
+          vpiLowConn RefObj name:trigger start:8:14 end:8:21:
             vpiParent: Port name:trigger
-            vpiFullName: hex2ram_if.trigger
-            vpiActual: Variable name:trigger
+            vpiName: trigger
+            vpiFullName: hex2ram_if.trigger.trigger
+            vpiActual: Net name:trigger
           vpiTypespec RefTypespec name:bit start:8:10 end:8:13:
             vpiParent: Port name:trigger
             vpiName: bit
@@ -1475,6 +1462,34 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:reset start:36:8 end:36:13:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:bit start:36:4 end:36:7:
+            vpiParent: Variable name:reset
+            vpiName: bit
+            vpiFullName: t.reset.bit
+            vpiActual: UnsupportedTypespec name:bit
+          vpiName: reset
+          vpiFullName: t.reset
+        Variable name:cyc start:46:14 end:46:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:46:4 end:46:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:46:18 end:46:19:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1492,13 +1507,13 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (2 items):
         Net name:clk start:35:10 end:35:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:35:10 end:35:10:
@@ -1507,15 +1522,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:reset start:36:8 end:36:13:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:bit start:36:4 end:36:7:
-            vpiParent: Net name:reset
-            vpiName: bit
-            vpiFullName: t.reset.bit
-            vpiActual: UnsupportedTypespec name:bit
-          vpiName: reset
-          vpiFullName: t.reset
+          vpiNetType: wire (1)
         Net name:success start:38:14 end:38:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:38:14 end:38:14:
@@ -1525,30 +1532,12 @@ Design name:unnamed:
           vpiName: success
           vpiFullName: t.success
           vpiNetType: wire (1)
-        Net name:cyc start:46:14 end:46:17:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:46:4 end:46:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:46:18 end:46:19:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
       vpiPort (1 items):
         Port name:clk start:32:4 end:32:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:32:4 end:32:7:
+          vpiLowConn RefObj name:clk start:35:10 end:35:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1582,7 +1571,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:49:13 end:49:20:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1591,7 +1580,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:49:19 end:49:20:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1612,7 +1601,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:50:15 end:50:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1636,7 +1625,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: reset
                           vpiFullName: t.reset
-                          vpiActual: Net name:reset
+                          vpiActual: Variable name:reset
                         vpiRhs Constant start:51:19 end:51:21:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -1657,7 +1646,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         Constant start:53:20 end:53:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -1681,7 +1670,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: reset
                             vpiFullName: t.reset
-                            vpiActual: Net name:reset
+                            vpiActual: Variable name:reset
                           vpiRhs Constant start:54:19 end:54:21:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -1702,7 +1691,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: cyc
                             vpiFullName: t.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                           Constant start:56:20 end:56:22:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -1726,7 +1715,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: reset
                               vpiFullName: t.reset
-                              vpiActual: Net name:reset
+                              vpiActual: Variable name:reset
                             vpiRhs Constant start:57:19 end:57:21:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -1747,7 +1736,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:59:21 end:59:23:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1812,12 +1801,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: reset
                 vpiFullName: t.testHarness.reset
-                vpiActual: Net name:reset
+                vpiActual: Variable name:reset
               vpiHighConn RefObj name:reset start:42:14 end:42:19:
                 vpiParent: Port
                 vpiName: reset
                 vpiFullName: t.testHarness.reset
-                vpiActual: Net name:reset
+                vpiActual: Variable name:reset
             Port start:43:7 end:43:27:
               vpiParent: RefInstance name:testHarness
               vpiLowConn RefObj name:io_success start:43:8 end:43:18:
@@ -1835,6 +1824,25 @@ Design name:unnamed:
         vpiParent: Module name:testharness_ext
         vpiName: testharness_ext
       vpiFullName: testharness_ext
+      vpiVariable (2 items):
+        Variable name:reg_R0_addr start:82:19 end:82:30:
+          vpiParent: Module name:testharness_ext
+          vpiTypespec RefTypespec start:82:4 end:82:14:
+            vpiParent: Variable name:reg_R0_addr
+            vpiFullName: testharness_ext.reg_R0_addr
+            vpiActual: LogicTypespec
+          vpiName: reg_R0_addr
+          vpiFullName: testharness_ext.reg_R0_addr
+          vpiVector: true
+        Variable name:ram start:84:19 end:84:22:
+          vpiParent: Module name:testharness_ext
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:ram
+            vpiFullName: testharness_ext.ram
+            vpiActual: ArrayTypespec
+          vpiName: ram
+          vpiFullName: testharness_ext.ram
+          vpiVector: true
       vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:testharness_ext
@@ -2102,13 +2110,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: testharness_ext
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:testharness_ext
         vpiName: work
         vpiFullName: testharness_ext.work
       vpiCell: testharness_ext
-      vpiNet (13 items):
+      vpiNet (11 items):
         Net name:W0_clk start:71:19 end:71:25:
           vpiParent: Module name:testharness_ext
           vpiTypespec RefTypespec start:71:4 end:71:9:
@@ -2190,14 +2198,6 @@ Design name:unnamed:
           vpiName: R0_data
           vpiFullName: testharness_ext.R0_data
           vpiNetType: wire (1)
-        Net name:reg_R0_addr start:82:19 end:82:30:
-          vpiParent: Module name:testharness_ext
-          vpiTypespec RefTypespec start:82:4 end:82:14:
-            vpiParent: Net name:reg_R0_addr
-            vpiFullName: testharness_ext.reg_R0_addr
-            vpiActual: LogicTypespec
-          vpiName: reg_R0_addr
-          vpiFullName: testharness_ext.reg_R0_addr
         Net name:R0_rdata_mask start:83:19 end:83:32:
           vpiParent: Module name:testharness_ext
           vpiTypespec RefTypespec start:83:9 end:83:16:
@@ -2207,14 +2207,6 @@ Design name:unnamed:
           vpiName: R0_rdata_mask
           vpiFullName: testharness_ext.R0_rdata_mask
           vpiNetType: wire (1)
-        Net name:ram start:84:19 end:84:22:
-          vpiParent: Module name:testharness_ext
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ram
-            vpiFullName: testharness_ext.ram
-            vpiActual: ArrayTypespec
-          vpiName: ram
-          vpiFullName: testharness_ext.ram
         Net name:W0_wdata_mask start:85:19 end:85:32:
           vpiParent: Module name:testharness_ext
           vpiTypespec RefTypespec start:85:9 end:85:16:
@@ -2229,9 +2221,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: W0_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:71:19 end:71:25:
+          vpiLowConn RefObj name:W0_clk start:71:19 end:71:25:
             vpiParent: Port name:W0_clk
-            vpiFullName: testharness_ext.W0_clk
+            vpiName: W0_clk
+            vpiFullName: testharness_ext.W0_clk.W0_clk
             vpiActual: Net name:W0_clk
           vpiTypespec RefTypespec start:71:4 end:71:9:
             vpiParent: Port name:W0_clk
@@ -2241,9 +2234,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: W0_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:72:19 end:72:26:
+          vpiLowConn RefObj name:W0_addr start:72:19 end:72:26:
             vpiParent: Port name:W0_addr
-            vpiFullName: testharness_ext.W0_addr
+            vpiName: W0_addr
+            vpiFullName: testharness_ext.W0_addr.W0_addr
             vpiActual: Net name:W0_addr
           vpiTypespec RefTypespec start:72:4 end:72:16:
             vpiParent: Port name:W0_addr
@@ -2253,9 +2247,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: W0_en
           vpiDirection: input (1)
-          vpiLowConn RefObj start:73:19 end:73:24:
+          vpiLowConn RefObj name:W0_en start:73:19 end:73:24:
             vpiParent: Port name:W0_en
-            vpiFullName: testharness_ext.W0_en
+            vpiName: W0_en
+            vpiFullName: testharness_ext.W0_en.W0_en
             vpiActual: Net name:W0_en
           vpiTypespec RefTypespec start:73:4 end:73:9:
             vpiParent: Port name:W0_en
@@ -2265,9 +2260,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: W0_data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:74:19 end:74:26:
+          vpiLowConn RefObj name:W0_data start:74:19 end:74:26:
             vpiParent: Port name:W0_data
-            vpiFullName: testharness_ext.W0_data
+            vpiName: W0_data
+            vpiFullName: testharness_ext.W0_data.W0_data
             vpiActual: Net name:W0_data
           vpiTypespec RefTypespec start:74:4 end:74:17:
             vpiParent: Port name:W0_data
@@ -2277,9 +2273,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: W0_mask
           vpiDirection: input (1)
-          vpiLowConn RefObj start:75:19 end:75:26:
+          vpiLowConn RefObj name:W0_mask start:75:19 end:75:26:
             vpiParent: Port name:W0_mask
-            vpiFullName: testharness_ext.W0_mask
+            vpiName: W0_mask
+            vpiFullName: testharness_ext.W0_mask.W0_mask
             vpiActual: Net name:W0_mask
           vpiTypespec RefTypespec start:75:4 end:75:15:
             vpiParent: Port name:W0_mask
@@ -2289,9 +2286,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: R0_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:76:19 end:76:25:
+          vpiLowConn RefObj name:R0_clk start:76:19 end:76:25:
             vpiParent: Port name:R0_clk
-            vpiFullName: testharness_ext.R0_clk
+            vpiName: R0_clk
+            vpiFullName: testharness_ext.R0_clk.R0_clk
             vpiActual: Net name:R0_clk
           vpiTypespec RefTypespec start:76:4 end:76:9:
             vpiParent: Port name:R0_clk
@@ -2301,9 +2299,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: R0_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:77:19 end:77:26:
+          vpiLowConn RefObj name:R0_addr start:77:19 end:77:26:
             vpiParent: Port name:R0_addr
-            vpiFullName: testharness_ext.R0_addr
+            vpiName: R0_addr
+            vpiFullName: testharness_ext.R0_addr.R0_addr
             vpiActual: Net name:R0_addr
           vpiTypespec RefTypespec start:77:4 end:77:16:
             vpiParent: Port name:R0_addr
@@ -2313,9 +2312,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: R0_en
           vpiDirection: input (1)
-          vpiLowConn RefObj start:78:19 end:78:24:
+          vpiLowConn RefObj name:R0_en start:78:19 end:78:24:
             vpiParent: Port name:R0_en
-            vpiFullName: testharness_ext.R0_en
+            vpiName: R0_en
+            vpiFullName: testharness_ext.R0_en.R0_en
             vpiActual: Net name:R0_en
           vpiTypespec RefTypespec start:78:4 end:78:9:
             vpiParent: Port name:R0_en
@@ -2325,9 +2325,10 @@ Design name:unnamed:
           vpiParent: Module name:testharness_ext
           vpiName: R0_data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:79:19 end:79:26:
+          vpiLowConn RefObj name:R0_data start:79:19 end:79:26:
             vpiParent: Port name:R0_data
-            vpiFullName: testharness_ext.R0_data
+            vpiName: R0_data
+            vpiFullName: testharness_ext.R0_data.R0_data
             vpiActual: Net name:R0_data
           vpiTypespec RefTypespec start:79:4 end:79:18:
             vpiParent: Port name:R0_data
@@ -2360,7 +2361,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: reg_R0_addr
                   vpiFullName: testharness_ext.reg_R0_addr
-                  vpiActual: Net name:reg_R0_addr
+                  vpiActual: Variable name:reg_R0_addr
                 vpiRhs RefObj name:R0_addr start:88:32 end:88:39:
                   vpiParent: Assignment
                   vpiName: R0_addr
@@ -2422,7 +2423,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:ram[W0_addr]
                           vpiName: ram
                           vpiFullName: testharness_ext.ram
-                          vpiActual: Net name:ram
+                          vpiActual: Variable name:ram
                         vpiIndex RefObj name:W0_addr start:92:29 end:92:36:
                           vpiParent: BitSelect name:ram[W0_addr]
                           vpiName: W0_addr
@@ -2463,12 +2464,12 @@ Design name:unnamed:
                   vpiParent: BitSelect name:ram[reg_R0_addr]
                   vpiName: ram
                   vpiFullName: testharness_ext.ram
-                  vpiActual: Net name:ram
+                  vpiActual: Variable name:ram
                 vpiIndex RefObj name:reg_R0_addr start:94:25 end:94:36:
                   vpiParent: BitSelect name:ram[reg_R0_addr]
                   vpiName: reg_R0_addr
                   vpiFullName: testharness_ext.reg_R0_addr
-                  vpiActual: Net name:reg_R0_addr
+                  vpiActual: Variable name:reg_R0_addr
               RefObj name:R0_rdata_mask start:94:40 end:94:53:
                 vpiParent: Operation
                 vpiName: R0_rdata_mask
@@ -2653,7 +2654,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:testharness_ext
             vpiName: testharness_ext
       vpiDefName: SimpleTestHarness
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:SimpleTestHarness
         vpiName: work
@@ -2773,9 +2774,10 @@ Design name:unnamed:
           vpiParent: Module name:SimpleTestHarness
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:102:11 end:102:14:
+          vpiLowConn RefObj name:clk start:102:11 end:102:14:
             vpiParent: Port name:clk
-            vpiFullName: SimpleTestHarness.clk
+            vpiName: clk
+            vpiFullName: SimpleTestHarness.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:102:4 end:102:9:
             vpiParent: Port name:clk
@@ -2785,9 +2787,10 @@ Design name:unnamed:
           vpiParent: Module name:SimpleTestHarness
           vpiName: reset
           vpiDirection: input (1)
-          vpiLowConn RefObj start:103:11 end:103:16:
+          vpiLowConn RefObj name:reset start:103:11 end:103:16:
             vpiParent: Port name:reset
-            vpiFullName: SimpleTestHarness.reset
+            vpiName: reset
+            vpiFullName: SimpleTestHarness.reset.reset
             vpiActual: Net name:reset
           vpiTypespec RefTypespec start:103:4 end:103:9:
             vpiParent: Port name:reset
@@ -2797,9 +2800,10 @@ Design name:unnamed:
           vpiParent: Module name:SimpleTestHarness
           vpiName: io_success
           vpiDirection: output (2)
-          vpiLowConn RefObj start:104:11 end:104:21:
+          vpiLowConn RefObj name:io_success start:104:11 end:104:21:
             vpiParent: Port name:io_success
-            vpiFullName: SimpleTestHarness.io_success
+            vpiName: io_success
+            vpiFullName: SimpleTestHarness.io_success.io_success
             vpiActual: Net name:io_success
           vpiTypespec RefTypespec start:104:4 end:104:10:
             vpiParent: Port name:io_success
@@ -2985,11 +2989,11 @@ Design name:unnamed:
                       vpiParent: HierPath name:t.reset
                       vpiName: reset
                       vpiFullName: i_hex2ram.reset
-                      vpiActual: Net name:reset
+                      vpiActual: Variable name:reset
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 11
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

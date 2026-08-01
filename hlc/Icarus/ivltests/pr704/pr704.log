@@ -278,7 +278,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr704.v
       vpiPreprocFile: "$Output/lib/work/pr704.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:foo file:$Source01/pr704.v start:3:1 end:28:10:
       vpiParent: Design name:unnamed
@@ -286,6 +285,25 @@ Design name:unnamed:
         vpiParent: Module name:foo
         vpiName: foo
       vpiFullName: foo
+      vpiVariable (2 items):
+        Variable name:filename start:5:20 end:5:28:
+          vpiParent: Module name:foo
+          vpiTypespec RefTypespec start:5:3 end:5:15:
+            vpiParent: Variable name:filename
+            vpiFullName: foo.filename
+            vpiActual: LogicTypespec
+          vpiName: filename
+          vpiFullName: foo.filename
+          vpiVector: true
+        Variable name:memory start:6:20 end:6:26:
+          vpiParent: Module name:foo
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:memory
+            vpiFullName: foo.memory
+            vpiActual: ArrayTypespec
+          vpiName: memory
+          vpiFullName: foo.memory
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:foo
@@ -383,29 +401,12 @@ Design name:unnamed:
             vpiFullName: foo
             vpiActual: LogicTypespec
       vpiDefName: foo
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo
         vpiName: work
         vpiFullName: foo.work
       vpiCell: foo
-      vpiNet (2 items):
-        Net name:filename start:5:20 end:5:28:
-          vpiParent: Module name:foo
-          vpiTypespec RefTypespec start:5:3 end:5:15:
-            vpiParent: Net name:filename
-            vpiFullName: foo.filename
-            vpiActual: LogicTypespec
-          vpiName: filename
-          vpiFullName: foo.filename
-        Net name:memory start:6:20 end:6:26:
-          vpiParent: Module name:foo
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:memory
-            vpiFullName: foo.memory
-            vpiActual: ArrayTypespec
-          vpiName: memory
-          vpiFullName: foo.memory
       vpiProcess (2 items):
         Initial start:8:3 end:8:43:
           vpiParent: Module name:foo
@@ -416,7 +417,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: filename
               vpiFullName: foo.filename
-              vpiActual: Net name:filename
+              vpiActual: Variable name:filename
             vpiRhs Constant start:8:22 end:8:42:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -453,7 +454,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: filename
                     vpiFullName: foo.filename
-                    vpiActual: Net name:filename
+                    vpiActual: Variable name:filename
               SysTaskCall name:$readmemb start:12:6 end:12:36:
                 vpiParent: Begin
                 vpiName Identifier name:$readmemb start:12:6 end:12:15:
@@ -464,12 +465,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$readmemb
                     vpiName: filename
                     vpiFullName: foo.filename
-                    vpiActual: Net name:filename
+                    vpiActual: Variable name:filename
                   RefObj name:memory start:12:26 end:12:32:
                     vpiParent: SysTaskCall name:$readmemb
                     vpiName: memory
                     vpiFullName: foo.memory
-                    vpiActual: Net name:memory
+                    vpiActual: Variable name:memory
                   Constant start:12:34 end:12:35:
                     vpiParent: SysTaskCall name:$readmemb
                     vpiTypespec RefTypespec:
@@ -494,7 +495,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:memory[1]
                         vpiName: memory
                         vpiFullName: foo.memory
-                        vpiActual: Net name:memory
+                        vpiActual: Variable name:memory
                       vpiIndex Constant start:14:17 end:14:18:
                         vpiParent: BitSelect name:memory[1]
                         vpiTypespec RefTypespec:
@@ -554,7 +555,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:memory[2]
                         vpiName: memory
                         vpiFullName: foo.memory
-                        vpiActual: Net name:memory
+                        vpiActual: Variable name:memory
                       vpiIndex Constant start:19:17 end:19:18:
                         vpiParent: BitSelect name:memory[2]
                         vpiTypespec RefTypespec:

@@ -484,18 +484,12 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/t_gen_for_overlap.v:15:32: Compile generate block "gblk".
 [INF:CP0303] $Source01/t_gen_for_overlap.v:35:1: Compile module "sub1".
 [INF:CP0303] $Source01/t_gen_for_overlap.v:43:1: Compile module "sub2".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:16:15: Illegal implicit net "id:39, name:IN".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:20:12: Illegal implicit net "id:48, name:IN".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:23:15: Illegal implicit net "id:60, name:IN".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:24:15: Illegal implicit net "id:71, name:FLAVOR".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:26:13: Illegal implicit net "id:85, name:gblk".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:26:23: Illegal implicit net "id:87, name:IN".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:27:13: Illegal implicit net "id:101, name:gblk".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:27:23: Illegal implicit net "id:103, name:IN".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:28:13: Illegal implicit net "id:117, name:gblk".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:28:23: Illegal implicit net "id:119, name:FLAVOR".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:29:13: Illegal implicit net "id:133, name:gblk".
-[ERR:EL0535] $Source01/t_gen_for_overlap.v:29:23: Illegal implicit net "id:135, name:FLAVOR".
+[WRN:CP0350] $Source01/t_gen_for_overlap.v:23:15: Failed to bind "id:60, name:IN".
+[WRN:CP0350] $Source01/t_gen_for_overlap.v:24:15: Failed to bind "id:71, name:FLAVOR".
+[WRN:CP0350] $Source01/t_gen_for_overlap.v:26:23: Failed to bind "id:87, name:IN".
+[WRN:CP0350] $Source01/t_gen_for_overlap.v:27:23: Failed to bind "id:103, name:IN".
+[WRN:CP0350] $Source01/t_gen_for_overlap.v:28:23: Failed to bind "id:119, name:FLAVOR".
+[WRN:CP0350] $Source01/t_gen_for_overlap.v:29:23: Failed to bind "id:135, name:FLAVOR".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -505,7 +499,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_gen_for_overlap.v
       vpiPreprocFile: "$Output/lib/work/t_gen_for_overlap.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_gen_for_overlap.v start:8:1 end:33:10:
       vpiParent: Design name:unnamed
@@ -513,6 +506,14 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:g start:14:11 end:14:12:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:g
+            vpiFullName: t.g
+          vpiName: g
+          vpiFullName: t.g
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -522,13 +523,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub1
             vpiName: sub1
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:12:10 end:12:10:
@@ -537,19 +538,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:g start:14:11 end:14:12:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:g
-            vpiFullName: t.g
-          vpiName: g
-          vpiFullName: t.g
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:10:4 end:10:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:10:4 end:10:7:
+          vpiLowConn RefObj name:clk start:12:10 end:12:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1111,7 +1106,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:sub1
       vpiDefName: sub1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub1
         vpiName: work
@@ -1205,7 +1200,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:sub2
       vpiDefName: sub2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub2
         vpiName: work
@@ -1238,8 +1233,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 12
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

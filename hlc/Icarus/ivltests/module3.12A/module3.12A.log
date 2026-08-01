@@ -465,7 +465,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/module3.12A.v:38:1: Compile module "mod4".
 [INF:CP0303] $Source01/module3.12A.v:45:1: Compile module "main".
 [WRN:CP0323] $Source01/module3.12A.v:45:1: Multiply defined typedef "mod4".
-[ERR:EL0535] $Source01/module3.12A.v:52:14: Illegal implicit net "id:114, name:ident1".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -475,7 +474,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: module3.12A.v
       vpiPreprocFile: "$Output/lib/work/module3.12A.v"
-      vpiDefNetType: none (12)
   vpiAllModules (5 items):
     Module name:mod1 file:$Source01/module3.12A.v start:24:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -484,7 +482,7 @@ Design name:unnamed:
         vpiName: mod1
       vpiFullName: mod1
       vpiDefName: mod1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mod1
         vpiName: work
@@ -497,7 +495,7 @@ Design name:unnamed:
         vpiName: mod2
       vpiFullName: mod2
       vpiDefName: mod2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mod2
         vpiName: work
@@ -513,7 +511,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:mod3
       vpiDefName: mod3
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mod3
         vpiName: work
@@ -528,6 +526,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: mod3.a
+          vpiNetType: wire (1)
         Net name:b start:34:7 end:34:8:
           vpiParent: Module name:mod3
           vpiTypespec RefTypespec start:34:7 end:34:7:
@@ -536,12 +535,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: mod3.b
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:32:14 end:32:15:
           vpiParent: Module name:mod3
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:32:14 end:32:15:
+          vpiLowConn RefObj name:a start:33:7 end:33:8:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: mod3.a.a
@@ -554,7 +554,7 @@ Design name:unnamed:
           vpiParent: Module name:mod3
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:32:16 end:32:17:
+          vpiLowConn RefObj name:b start:34:7 end:34:8:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: mod3.b.b
@@ -649,7 +649,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: mod4
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mod4
         vpiName: work
@@ -664,9 +664,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: ident1
           vpiFullName: mod4.ident1
+          vpiNetType: wire (1)
         Net name:out1 start:40:16 end:40:20:
           vpiParent: Module name:mod4
-          vpiTypespec RefTypespec start:40:8 end:40:14:
+          vpiTypespec RefTypespec start:42:6 end:42:12:
             vpiParent: Net name:out1
             vpiFullName: mod4.out1
             vpiActual: LogicTypespec
@@ -683,7 +684,7 @@ Design name:unnamed:
           vpiParent: Module name:mod4
           vpiName: ident1
           vpiDirection: input (1)
-          vpiLowConn RefObj name:ident1 start:38:14 end:38:20:
+          vpiLowConn RefObj name:ident1 start:39:16 end:39:22:
             vpiParent: Port name:ident1
             vpiName: ident1
             vpiFullName: mod4.ident1.ident1
@@ -696,7 +697,7 @@ Design name:unnamed:
           vpiParent: Module name:mod4
           vpiName: out1
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out1 start:38:21 end:38:25:
+          vpiLowConn RefObj name:out1 start:40:16 end:40:20:
             vpiParent: Port name:out1
             vpiName: out1
             vpiFullName: mod4.out1.out1
@@ -704,13 +705,40 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:40:8 end:40:14:
             vpiParent: Port name:out1
             vpiFullName: mod4.out1
-            vpiActual: LogicTypespec
     Module name:main file:$Source01/module3.12A.v start:45:1 end:74:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:main start:45:8 end:45:12:
         vpiParent: Module name:main
         vpiName: main
       vpiFullName: main
+      vpiVariable (3 items):
+        Variable name:val1 start:48:13 end:48:17:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:48:1 end:48:12:
+            vpiParent: Variable name:val1
+            vpiFullName: main.val1
+            vpiActual: LogicTypespec
+          vpiName: val1
+          vpiFullName: main.val1
+          vpiVector: true
+        Variable name:val2 start:48:18 end:48:22:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:48:1 end:48:12:
+            vpiParent: Variable name:val2
+            vpiFullName: main.val2
+            vpiActual: LogicTypespec
+          vpiName: val2
+          vpiFullName: main.val2
+          vpiVector: true
+        Variable name:error start:49:5 end:49:10:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:49:1 end:49:4:
+            vpiParent: Variable name:error
+            vpiFullName: main.error
+            vpiActual: LogicTypespec
+          vpiName: error
+          vpiFullName: main.error
+          vpiScalar: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -777,13 +805,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:mod4
             vpiName: mod4
       vpiDefName: main
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:main
         vpiName: work
         vpiFullName: main.work
       vpiCell: main
-      vpiNet (5 items):
+      vpiNet (2 items):
         Net name:out1 start:47:13 end:47:17:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:47:6 end:47:12:
@@ -802,30 +830,6 @@ Design name:unnamed:
           vpiName: out2
           vpiFullName: main.out2
           vpiNetType: wire (1)
-        Net name:val1 start:48:13 end:48:17:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:48:1 end:48:12:
-            vpiParent: Net name:val1
-            vpiFullName: main.val1
-            vpiActual: LogicTypespec
-          vpiName: val1
-          vpiFullName: main.val1
-        Net name:val2 start:48:18 end:48:22:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:48:1 end:48:12:
-            vpiParent: Net name:val2
-            vpiFullName: main.val2
-            vpiActual: LogicTypespec
-          vpiName: val2
-          vpiFullName: main.val2
-        Net name:error start:49:5 end:49:10:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:49:1 end:49:4:
-            vpiParent: Net name:error
-            vpiFullName: main.error
-            vpiActual: LogicTypespec
-          vpiName: error
-          vpiFullName: main.error
       vpiProcess (1 items):
         Initial start:54:1 end:71:5:
           vpiParent: Module name:main
@@ -840,7 +844,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: error
                   vpiFullName: main.error
-                  vpiActual: Net name:error
+                  vpiActual: Variable name:error
                 vpiRhs Constant start:56:13 end:56:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -858,7 +862,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: val1
                   vpiFullName: main.val1
-                  vpiActual: Net name:val1
+                  vpiActual: Variable name:val1
                 vpiRhs Constant start:57:12 end:57:24:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -917,7 +921,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: main.error
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:61:17 end:61:18:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -935,7 +939,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: val2
                   vpiFullName: main.val2
-                  vpiActual: Net name:val2
+                  vpiActual: Variable name:val2
                 vpiRhs Constant start:63:12 end:63:24:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -994,7 +998,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: main.error
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:67:17 end:67:18:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1015,7 +1019,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: error
                       vpiFullName: main.error
-                      vpiActual: Net name:error
+                      vpiActual: Variable name:error
                     Constant start:69:17 end:69:18:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1061,7 +1065,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: val1
                 vpiFullName: main.inst1.val1
-                vpiActual: Net name:val1
+                vpiActual: Variable name:val1
             Port start:51:18 end:51:22:
               vpiParent: RefInstance name:inst1
               vpiLowConn RefObj:
@@ -1091,7 +1095,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: val2
                 vpiFullName: main.inst2.val2
-                vpiActual: Net name:val2
+                vpiActual: Variable name:val2
             Port start:52:27 end:52:38:
               vpiParent: RefInstance name:inst2
               vpiLowConn RefObj name:out1 start:52:28 end:52:32:
@@ -1145,7 +1149,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

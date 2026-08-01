@@ -1416,9 +1416,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/common.v:37:1: Compile module "assert_X".
 [INF:CP0303] $Source01/common.v:49:1: Compile module "assert_comb".
 [INF:CP0303] $Source01/issue_00896/outreg.v:1:1: Compile module "dut".
+[ERR:LN0813] $Source01/issue_00896/outreg.v:1:1: Found 2 orphan node(s).
 [INF:CP0303] $Source01/issue_00896/testbench.v:3:1: Compile module "tb".
-[ERR:EL0535] $Source01/issue_00896/testbench.v:31:34: Illegal implicit net "id:530, name:wen".
-[ERR:EL0535] $Source01/issue_00896/testbench.v:37:34: Illegal implicit net "id:565, name:wen".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1428,12 +1427,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: common.v
       vpiPreprocFile: "$Output/lib/work/common.v"
-      vpiDefNetType: none (12)
     SourceFile name:outreg.v file:$Source01/issue_00896/outreg.v:
       vpiParent: Design name:unnamed
       vpiName: outreg.v
       vpiPreprocFile: "$Output/lib/work/issue_00896/outreg.v"
-      vpiDefNetType: none (12)
     SourceFile name:testbench.v file:$Source01/issue_00896/testbench.v:
       vpiParent: Design name:unnamed
       vpiName: testbench.v
@@ -1442,8 +1439,6 @@ Design name:unnamed:
         SourceFile name:../outreg.v file:$Source01/outreg.v start:1:1 end:1:23:
           vpiParent: SourceFile name:testbench.v
           vpiName: "../outreg.v"
-          vpiDefNetType: none (12)
-      vpiDefNetType: none (12)
   vpiAllModules (7 items):
     Module name:assert_dff file:$Source01/common.v start:1:1 end:11:10:
       vpiParent: Design name:unnamed
@@ -1455,7 +1450,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_dff
       vpiDefName: assert_dff
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_dff
         vpiName: work
@@ -1494,9 +1489,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:25 end:1:28:
+          vpiLowConn RefObj name:clk start:1:25 end:1:28:
             vpiParent: Port name:clk
-            vpiFullName: assert_dff.clk
+            vpiName: clk
+            vpiFullName: assert_dff.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:19 end:1:24:
             vpiParent: Port name:clk
@@ -1506,9 +1502,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: test
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:36 end:1:40:
+          vpiLowConn RefObj name:test start:1:36 end:1:40:
             vpiParent: Port name:test
-            vpiFullName: assert_dff.test
+            vpiName: test
+            vpiFullName: assert_dff.test.test
             vpiActual: Net name:test
           vpiTypespec RefTypespec start:1:30 end:1:35:
             vpiParent: Port name:test
@@ -1518,9 +1515,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: pat
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:48 end:1:51:
+          vpiLowConn RefObj name:pat start:1:48 end:1:51:
             vpiParent: Port name:pat
-            vpiFullName: assert_dff.pat
+            vpiName: pat
+            vpiFullName: assert_dff.pat.pat
             vpiActual: Net name:pat
           vpiTypespec RefTypespec start:1:42 end:1:47:
             vpiParent: Port name:pat
@@ -1613,7 +1611,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_tri
       vpiDefName: assert_tri
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_tri
         vpiName: work
@@ -1652,9 +1650,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: en
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:25 end:13:27:
+          vpiLowConn RefObj name:en start:13:25 end:13:27:
             vpiParent: Port name:en
-            vpiFullName: assert_tri.en
+            vpiName: en
+            vpiFullName: assert_tri.en.en
             vpiActual: Net name:en
           vpiTypespec RefTypespec start:13:19 end:13:24:
             vpiParent: Port name:en
@@ -1664,9 +1663,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:35 end:13:36:
+          vpiLowConn RefObj name:A start:13:35 end:13:36:
             vpiParent: Port name:A
-            vpiFullName: assert_tri.A
+            vpiName: A
+            vpiFullName: assert_tri.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:13:29 end:13:34:
             vpiParent: Port name:A
@@ -1676,9 +1676,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:44 end:13:45:
+          vpiLowConn RefObj name:B start:13:44 end:13:45:
             vpiParent: Port name:B
-            vpiFullName: assert_tri.B
+            vpiName: B
+            vpiFullName: assert_tri.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:13:38 end:13:43:
             vpiParent: Port name:B
@@ -1789,7 +1790,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_Z
       vpiDefName: assert_Z
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_Z
         vpiName: work
@@ -1819,9 +1820,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:25:23 end:25:26:
+          vpiLowConn RefObj name:clk start:25:23 end:25:26:
             vpiParent: Port name:clk
-            vpiFullName: assert_Z.clk
+            vpiName: clk
+            vpiFullName: assert_Z.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:25:17 end:25:22:
             vpiParent: Port name:clk
@@ -1831,9 +1833,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:25:34 end:25:35:
+          vpiLowConn RefObj name:A start:25:34 end:25:35:
             vpiParent: Port name:A
-            vpiFullName: assert_Z.A
+            vpiName: A
+            vpiFullName: assert_Z.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:25:28 end:25:33:
             vpiParent: Port name:A
@@ -1934,7 +1937,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_X
       vpiDefName: assert_X
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_X
         vpiName: work
@@ -1964,9 +1967,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_X
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:37:23 end:37:26:
+          vpiLowConn RefObj name:clk start:37:23 end:37:26:
             vpiParent: Port name:clk
-            vpiFullName: assert_X.clk
+            vpiName: clk
+            vpiFullName: assert_X.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:37:17 end:37:22:
             vpiParent: Port name:clk
@@ -1976,9 +1980,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_X
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:37:34 end:37:35:
+          vpiLowConn RefObj name:A start:37:34 end:37:35:
             vpiParent: Port name:A
-            vpiFullName: assert_X.A
+            vpiName: A
+            vpiFullName: assert_X.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:37:28 end:37:33:
             vpiParent: Port name:A
@@ -2082,7 +2087,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_comb
       vpiDefName: assert_comb
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_comb
         vpiName: work
@@ -2112,9 +2117,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:49:26 end:49:27:
+          vpiLowConn RefObj name:A start:49:26 end:49:27:
             vpiParent: Port name:A
-            vpiFullName: assert_comb.A
+            vpiName: A
+            vpiFullName: assert_comb.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:49:20 end:49:25:
             vpiParent: Port name:A
@@ -2124,9 +2130,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:49:35 end:49:36:
+          vpiLowConn RefObj name:B start:49:35 end:49:36:
             vpiParent: Port name:B
-            vpiFullName: assert_comb.B
+            vpiName: B
+            vpiFullName: assert_comb.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:49:29 end:49:34:
             vpiParent: Port name:B
@@ -2236,6 +2243,25 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (2 items):
+        Variable name:mem start:9:12 end:9:15:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: dut.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: dut.mem
+          vpiVector: true
+        Variable name:raddr_reg start:10:12 end:10:21:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:10:2 end:10:11:
+            vpiParent: Variable name:raddr_reg
+            vpiFullName: dut.raddr_reg
+            vpiActual: LogicTypespec
+          vpiName: raddr_reg
+          vpiFullName: dut.raddr_reg
+          vpiVector: true
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -2399,13 +2425,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (9 items):
+      vpiNet (5 items):
         Net name:fast_clk start:2:8 end:2:16:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec start:2:2 end:2:7:
@@ -2415,15 +2441,6 @@ Design name:unnamed:
           vpiName: fast_clk
           vpiFullName: dut.fast_clk
           vpiNetType: wire (1)
-        Net name:slow_clk start:2:18 end:2:26:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:2:18 end:2:18:
-            vpiParent: Net name:slow_clk
-            vpiFullName: dut.slow_clk
-            vpiActual: LogicTypespec
-          vpiName: slow_clk
-          vpiFullName: dut.slow_clk
-          vpiNetType: wire (1)
         Net name:waddr start:3:14 end:3:19:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec start:3:2 end:3:13:
@@ -2432,15 +2449,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: waddr
           vpiFullName: dut.waddr
-          vpiNetType: wire (1)
-        Net name:raddr start:3:21 end:3:26:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:3:21 end:3:21:
-            vpiParent: Net name:raddr
-            vpiFullName: dut.raddr
-            vpiActual: LogicTypespec
-          vpiName: raddr
-          vpiFullName: dut.raddr
           vpiNetType: wire (1)
         Net name:wdata start:4:14 end:4:19:
           vpiParent: Module name:dut
@@ -2469,30 +2477,15 @@ Design name:unnamed:
           vpiName: rdata
           vpiFullName: dut.rdata
           vpiNetType: wire (1)
-        Net name:mem start:9:12 end:9:15:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: dut.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: dut.mem
-        Net name:raddr_reg start:10:12 end:10:21:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:10:2 end:10:11:
-            vpiParent: Net name:raddr_reg
-            vpiFullName: dut.raddr_reg
-            vpiActual: LogicTypespec
-          vpiName: raddr_reg
-          vpiFullName: dut.raddr_reg
       vpiPort (7 items):
         Port name:fast_clk start:2:8 end:2:16:
           vpiParent: Module name:dut
           vpiName: fast_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:8 end:2:16:
+          vpiLowConn RefObj name:fast_clk start:2:8 end:2:16:
             vpiParent: Port name:fast_clk
-            vpiFullName: dut.fast_clk
+            vpiName: fast_clk
+            vpiFullName: dut.fast_clk.fast_clk
             vpiActual: Net name:fast_clk
           vpiTypespec RefTypespec start:2:2 end:2:7:
             vpiParent: Port name:fast_clk
@@ -2502,21 +2495,14 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: slow_clk
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:18 end:2:26:
-            vpiParent: Port name:slow_clk
-            vpiFullName: dut.slow_clk
-            vpiActual: Net name:slow_clk
-          vpiTypespec RefTypespec start:2:18 end:2:18:
-            vpiParent: Port name:slow_clk
-            vpiFullName: dut.slow_clk
-            vpiActual: LogicTypespec
         Port name:waddr start:3:14 end:3:19:
           vpiParent: Module name:dut
           vpiName: waddr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:14 end:3:19:
+          vpiLowConn RefObj name:waddr start:3:14 end:3:19:
             vpiParent: Port name:waddr
-            vpiFullName: dut.waddr
+            vpiName: waddr
+            vpiFullName: dut.waddr.waddr
             vpiActual: Net name:waddr
           vpiTypespec RefTypespec start:3:2 end:3:13:
             vpiParent: Port name:waddr
@@ -2526,21 +2512,14 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: raddr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:3:21 end:3:26:
-            vpiParent: Port name:raddr
-            vpiFullName: dut.raddr
-            vpiActual: Net name:raddr
-          vpiTypespec RefTypespec start:3:21 end:3:21:
-            vpiParent: Port name:raddr
-            vpiFullName: dut.raddr
-            vpiActual: LogicTypespec
         Port name:wdata start:4:14 end:4:19:
           vpiParent: Module name:dut
           vpiName: wdata
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:14 end:4:19:
+          vpiLowConn RefObj name:wdata start:4:14 end:4:19:
             vpiParent: Port name:wdata
-            vpiFullName: dut.wdata
+            vpiName: wdata
+            vpiFullName: dut.wdata.wdata
             vpiActual: Net name:wdata
           vpiTypespec RefTypespec start:4:2 end:4:13:
             vpiParent: Port name:wdata
@@ -2550,9 +2529,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: wen
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:8 end:5:11:
+          vpiLowConn RefObj name:wen start:5:8 end:5:11:
             vpiParent: Port name:wen
-            vpiFullName: dut.wen
+            vpiName: wen
+            vpiFullName: dut.wen.wen
             vpiActual: Net name:wen
           vpiTypespec RefTypespec start:5:2 end:5:7:
             vpiParent: Port name:wen
@@ -2562,9 +2542,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: rdata
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:15 end:6:20:
+          vpiLowConn RefObj name:rdata start:6:15 end:6:20:
             vpiParent: Port name:rdata
-            vpiFullName: dut.rdata
+            vpiName: rdata
+            vpiFullName: dut.rdata.rdata
             vpiActual: Net name:rdata
           vpiTypespec RefTypespec start:6:2 end:6:14:
             vpiParent: Port name:rdata
@@ -2605,7 +2586,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[waddr]
                         vpiName: mem
                         vpiFullName: dut.mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex RefObj name:waddr start:14:8 end:14:13:
                         vpiParent: BitSelect name:mem[waddr]
                         vpiName: waddr
@@ -2629,19 +2610,19 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: slow_clk
                   vpiFullName: dut.slow_clk
-                  vpiActual: Net name:slow_clk
+                  vpiActual: Port name:slow_clk
             vpiStmt Assignment start:18:3 end:18:21:
               vpiParent: EventControl
               vpiLhs RefObj name:raddr_reg start:18:3 end:18:12:
                 vpiParent: Assignment
                 vpiName: raddr_reg
                 vpiFullName: dut.raddr_reg
-                vpiActual: Net name:raddr_reg
+                vpiActual: Variable name:raddr_reg
               vpiRhs RefObj name:raddr start:18:16 end:18:21:
                 vpiParent: Assignment
                 vpiName: raddr
                 vpiFullName: dut.raddr
-                vpiActual: Net name:raddr
+                vpiActual: Port name:raddr
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:20:9 end:20:31:
@@ -2659,18 +2640,94 @@ Design name:unnamed:
               vpiParent: BitSelect name:mem[raddr_reg]
               vpiName: mem
               vpiFullName: dut.mem
-              vpiActual: Net name:mem
+              vpiActual: Variable name:mem
             vpiIndex RefObj name:raddr_reg start:20:21 end:20:30:
               vpiParent: BitSelect name:mem[raddr_reg]
               vpiName: raddr_reg
               vpiFullName: dut.raddr_reg
-              vpiActual: Net name:raddr_reg
+              vpiActual: Variable name:raddr_reg
     Module name:tb file:$Source01/issue_00896/testbench.v start:3:1 end:45:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tb start:3:8 end:3:10:
         vpiParent: Module name:tb
         vpiName: tb
       vpiFullName: tb
+      vpiVariable (5 items):
+        Variable name:fast_clk start:4:6 end:4:14:
+          vpiParent: Module name:tb
+          vpiTypespec RefTypespec start:4:2 end:4:5:
+            vpiParent: Variable name:fast_clk
+            vpiFullName: tb.fast_clk
+            vpiActual: LogicTypespec
+          vpiName: fast_clk
+          vpiFullName: tb.fast_clk
+          vpiScalar: true
+        Variable name:slow_clk start:4:16 end:4:24:
+          vpiParent: Module name:tb
+          vpiTypespec RefTypespec start:4:2 end:4:5:
+            vpiParent: Variable name:slow_clk
+            vpiFullName: tb.slow_clk
+            vpiActual: LogicTypespec
+          vpiName: slow_clk
+          vpiFullName: tb.slow_clk
+          vpiScalar: true
+        Variable name:wdata start:17:12 end:17:17:
+          vpiParent: Module name:tb
+          vpiTypespec RefTypespec start:17:2 end:17:11:
+            vpiParent: Variable name:wdata
+            vpiFullName: tb.wdata
+            vpiActual: LogicTypespec
+          vpiName: wdata
+          vpiFullName: tb.wdata
+          vpiVector: true
+          vpiValue Constant start:17:20 end:17:21:
+            vpiParent: Variable name:wdata
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: tb.wdata
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
+        Variable name:waddr start:20:12 end:20:17:
+          vpiParent: Module name:tb
+          vpiTypespec RefTypespec start:20:2 end:20:11:
+            vpiParent: Variable name:waddr
+            vpiFullName: tb.waddr
+            vpiActual: LogicTypespec
+          vpiName: waddr
+          vpiFullName: tb.waddr
+          vpiVector: true
+          vpiValue Constant start:20:20 end:20:21:
+            vpiParent: Variable name:waddr
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: tb.waddr
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:raddr start:23:12 end:23:17:
+          vpiParent: Module name:tb
+          vpiTypespec RefTypespec start:23:2 end:23:11:
+            vpiParent: Variable name:raddr
+            vpiFullName: tb.raddr
+            vpiActual: LogicTypespec
+          vpiName: raddr
+          vpiFullName: tb.raddr
+          vpiVector: true
+          vpiValue Constant start:23:20 end:23:21:
+            vpiParent: Variable name:raddr
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: tb.raddr
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:tb
@@ -2786,83 +2843,13 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:dut_syn
             vpiName: dut_syn
       vpiDefName: tb
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tb
         vpiName: work
         vpiFullName: tb.work
       vpiCell: tb
-      vpiNet (7 items):
-        Net name:fast_clk start:4:6 end:4:14:
-          vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:4:2 end:4:5:
-            vpiParent: Net name:fast_clk
-            vpiFullName: tb.fast_clk
-            vpiActual: LogicTypespec
-          vpiName: fast_clk
-          vpiFullName: tb.fast_clk
-        Net name:slow_clk start:4:16 end:4:24:
-          vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:4:2 end:4:5:
-            vpiParent: Net name:slow_clk
-            vpiFullName: tb.slow_clk
-            vpiActual: LogicTypespec
-          vpiName: slow_clk
-          vpiFullName: tb.slow_clk
-        Net name:wdata start:17:12 end:17:17:
-          vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:17:2 end:17:11:
-            vpiParent: Net name:wdata
-            vpiFullName: tb.wdata
-            vpiActual: LogicTypespec
-          vpiName: wdata
-          vpiFullName: tb.wdata
-          vpiValue Constant start:17:20 end:17:21:
-            vpiParent: Net name:wdata
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: tb.wdata
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
-        Net name:waddr start:20:12 end:20:17:
-          vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:20:2 end:20:11:
-            vpiParent: Net name:waddr
-            vpiFullName: tb.waddr
-            vpiActual: LogicTypespec
-          vpiName: waddr
-          vpiFullName: tb.waddr
-          vpiValue Constant start:20:20 end:20:21:
-            vpiParent: Net name:waddr
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: tb.waddr
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:raddr start:23:12 end:23:17:
-          vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:23:2 end:23:11:
-            vpiParent: Net name:raddr
-            vpiFullName: tb.raddr
-            vpiActual: LogicTypespec
-          vpiName: raddr
-          vpiFullName: tb.raddr
-          vpiValue Constant start:23:20 end:23:21:
-            vpiParent: Net name:raddr
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: tb.raddr
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
+      vpiNet (2 items):
         Net name:rdata start:27:13 end:27:18:
           vpiParent: Module name:tb
           vpiTypespec RefTypespec start:27:7 end:27:12:
@@ -2947,7 +2934,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: slow_clk
                         vpiFullName: tb.slow_clk
-                        vpiActual: Net name:slow_clk
+                        vpiActual: Variable name:slow_clk
               SysTaskCall name:$display start:10:3 end:10:19:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:10:3 end:10:11:
@@ -2980,7 +2967,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: fast_clk
                 vpiFullName: tb.fast_clk
-                vpiActual: Net name:fast_clk
+                vpiActual: Variable name:fast_clk
               vpiRhs Operation start:14:24 end:14:41:
                 vpiParent: Assignment
                 vpiOpType: case eq (16)
@@ -2989,7 +2976,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: fast_clk
                     vpiFullName: tb.fast_clk
-                    vpiActual: Net name:fast_clk
+                    vpiActual: Variable name:fast_clk
                   Constant start:14:37 end:14:41:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -3022,7 +3009,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: slow_clk
                 vpiFullName: tb.slow_clk
-                vpiActual: Net name:slow_clk
+                vpiActual: Variable name:slow_clk
               vpiRhs Operation start:15:25 end:15:42:
                 vpiParent: Assignment
                 vpiOpType: case eq (16)
@@ -3031,7 +3018,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: slow_clk
                     vpiFullName: tb.slow_clk
-                    vpiActual: Net name:slow_clk
+                    vpiActual: Variable name:slow_clk
                   Constant start:15:38 end:15:42:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -3065,14 +3052,14 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: fast_clk
                   vpiFullName: tb.fast_clk
-                  vpiActual: Net name:fast_clk
+                  vpiActual: Variable name:fast_clk
             vpiStmt Assignment start:18:29 end:18:71:
               vpiParent: EventControl
               vpiLhs RefObj name:wdata start:18:29 end:18:34:
                 vpiParent: Assignment
                 vpiName: wdata
                 vpiFullName: tb.wdata
-                vpiActual: Net name:wdata
+                vpiActual: Variable name:wdata
               vpiRhs Operation start:18:38 end:18:71:
                 vpiParent: Assignment
                 vpiOpType: concatenation (33)
@@ -3085,7 +3072,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:wdata[6:0]
                       vpiName: wdata
                       vpiFullName: tb.wdata[6:0].wdata
-                      vpiActual: Net name:wdata
+                      vpiActual: Variable name:wdata
                     vpiRange Range start:18:45 end:18:48:
                       vpiParent: PartSelect name:wdata[6:0]
                       vpiLeftRange Constant start:18:45 end:18:46:
@@ -3120,7 +3107,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:wdata[7]
                           vpiName: wdata
                           vpiFullName: tb.wdata
-                          vpiActual: Net name:wdata
+                          vpiActual: Variable name:wdata
                         vpiIndex Constant start:18:57 end:18:58:
                           vpiParent: BitSelect name:wdata[7]
                           vpiTypespec RefTypespec:
@@ -3139,7 +3126,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:wdata[2]
                           vpiName: wdata
                           vpiFullName: tb.wdata
-                          vpiActual: Net name:wdata
+                          vpiActual: Variable name:wdata
                         vpiIndex Constant start:18:68 end:18:69:
                           vpiParent: BitSelect name:wdata[2]
                           vpiTypespec RefTypespec:
@@ -3163,14 +3150,14 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: fast_clk
                   vpiFullName: tb.fast_clk
-                  vpiActual: Net name:fast_clk
+                  vpiActual: Variable name:fast_clk
             vpiStmt Assignment start:21:29 end:21:50:
               vpiParent: EventControl
               vpiLhs RefObj name:waddr start:21:29 end:21:34:
                 vpiParent: Assignment
                 vpiName: waddr
                 vpiFullName: tb.waddr
-                vpiActual: Net name:waddr
+                vpiActual: Variable name:waddr
               vpiRhs Operation start:21:38 end:21:50:
                 vpiParent: Assignment
                 vpiOpType: add (24)
@@ -3179,7 +3166,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: waddr
                     vpiFullName: tb.waddr
-                    vpiActual: Net name:waddr
+                    vpiActual: Variable name:waddr
                   Constant start:21:46 end:21:50:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -3203,14 +3190,14 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: slow_clk
                   vpiFullName: tb.slow_clk
-                  vpiActual: Net name:slow_clk
+                  vpiActual: Variable name:slow_clk
             vpiStmt Assignment start:24:29 end:24:50:
               vpiParent: EventControl
               vpiLhs RefObj name:raddr start:24:29 end:24:34:
                 vpiParent: Assignment
                 vpiName: raddr
                 vpiFullName: tb.raddr
-                vpiActual: Net name:raddr
+                vpiActual: Variable name:raddr
               vpiRhs Operation start:24:38 end:24:50:
                 vpiParent: Assignment
                 vpiOpType: add (24)
@@ -3219,7 +3206,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: raddr
                     vpiFullName: tb.raddr
-                    vpiActual: Net name:raddr
+                    vpiActual: Variable name:raddr
                   Constant start:24:46 end:24:50:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -3243,7 +3230,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: fast_clk
                   vpiFullName: tb.fast_clk
-                  vpiActual: Net name:fast_clk
+                  vpiActual: Variable name:fast_clk
             vpiStmt IfStmt start:41:3 end:44:6:
               vpiParent: EventControl
               vpiCondition Operation start:41:7 end:41:29:
@@ -3302,48 +3289,48 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: fast_clk
                 vpiFullName: tb.dut_i.fast_clk
-                vpiActual: Net name:fast_clk
+                vpiActual: Variable name:fast_clk
               vpiHighConn RefObj name:fast_clk start:30:13 end:30:21:
                 vpiParent: Port
                 vpiName: fast_clk
                 vpiFullName: tb.dut_i.fast_clk
-                vpiActual: Net name:fast_clk
+                vpiActual: Variable name:fast_clk
             Port start:30:24 end:30:43:
               vpiParent: RefInstance name:dut_i
               vpiLowConn RefObj name:slow_clk start:30:25 end:30:33:
                 vpiParent: Port
                 vpiName: slow_clk
                 vpiFullName: tb.dut_i.slow_clk
-                vpiActual: Net name:slow_clk
+                vpiActual: Variable name:slow_clk
               vpiHighConn RefObj name:slow_clk start:30:34 end:30:42:
                 vpiParent: Port
                 vpiName: slow_clk
                 vpiFullName: tb.dut_i.slow_clk
-                vpiActual: Net name:slow_clk
+                vpiActual: Variable name:slow_clk
             Port start:31:3 end:31:16:
               vpiParent: RefInstance name:dut_i
               vpiLowConn RefObj name:raddr start:31:4 end:31:9:
                 vpiParent: Port
                 vpiName: raddr
                 vpiFullName: tb.dut_i.raddr
-                vpiActual: Net name:raddr
+                vpiActual: Variable name:raddr
               vpiHighConn RefObj name:raddr start:31:10 end:31:15:
                 vpiParent: Port
                 vpiName: raddr
                 vpiFullName: tb.dut_i.raddr
-                vpiActual: Net name:raddr
+                vpiActual: Variable name:raddr
             Port start:31:18 end:31:31:
               vpiParent: RefInstance name:dut_i
               vpiLowConn RefObj name:waddr start:31:19 end:31:24:
                 vpiParent: Port
                 vpiName: waddr
                 vpiFullName: tb.dut_i.waddr
-                vpiActual: Net name:waddr
+                vpiActual: Variable name:waddr
               vpiHighConn RefObj name:waddr start:31:25 end:31:30:
                 vpiParent: Port
                 vpiName: waddr
                 vpiFullName: tb.dut_i.waddr
-                vpiActual: Net name:waddr
+                vpiActual: Variable name:waddr
             Port start:31:33 end:31:43:
               vpiParent: RefInstance name:dut_i
               vpiLowConn RefObj name:wen start:31:34 end:31:37:
@@ -3366,7 +3353,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: wdata
                 vpiFullName: tb.dut_i.wdata
-                vpiActual: Net name:wdata
+                vpiActual: Variable name:wdata
               vpiHighConn PartSelect name:wdata[3:0] start:32:10 end:32:20:
                 vpiParent: Port
                 vpiName: wdata[3:0]
@@ -3375,7 +3362,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:wdata[3:0]
                   vpiName: wdata
                   vpiFullName: tb.dut_i.wdata[3:0].wdata
-                  vpiActual: Net name:wdata
+                  vpiActual: Variable name:wdata
                 vpiRange Range start:32:16 end:32:19:
                   vpiParent: PartSelect name:wdata[3:0]
                   vpiLeftRange Constant start:32:16 end:32:17:
@@ -3425,48 +3412,48 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: fast_clk
                 vpiFullName: tb.dut_syn_i.fast_clk
-                vpiActual: Net name:fast_clk
+                vpiActual: Variable name:fast_clk
               vpiHighConn RefObj name:fast_clk start:36:13 end:36:21:
                 vpiParent: Port
                 vpiName: fast_clk
                 vpiFullName: tb.dut_syn_i.fast_clk
-                vpiActual: Net name:fast_clk
+                vpiActual: Variable name:fast_clk
             Port start:36:24 end:36:43:
               vpiParent: RefInstance name:dut_syn_i
               vpiLowConn RefObj name:slow_clk start:36:25 end:36:33:
                 vpiParent: Port
                 vpiName: slow_clk
                 vpiFullName: tb.dut_syn_i.slow_clk
-                vpiActual: Net name:slow_clk
+                vpiActual: Variable name:slow_clk
               vpiHighConn RefObj name:slow_clk start:36:34 end:36:42:
                 vpiParent: Port
                 vpiName: slow_clk
                 vpiFullName: tb.dut_syn_i.slow_clk
-                vpiActual: Net name:slow_clk
+                vpiActual: Variable name:slow_clk
             Port start:37:3 end:37:16:
               vpiParent: RefInstance name:dut_syn_i
               vpiLowConn RefObj name:raddr start:37:4 end:37:9:
                 vpiParent: Port
                 vpiName: raddr
                 vpiFullName: tb.dut_syn_i.raddr
-                vpiActual: Net name:raddr
+                vpiActual: Variable name:raddr
               vpiHighConn RefObj name:raddr start:37:10 end:37:15:
                 vpiParent: Port
                 vpiName: raddr
                 vpiFullName: tb.dut_syn_i.raddr
-                vpiActual: Net name:raddr
+                vpiActual: Variable name:raddr
             Port start:37:18 end:37:31:
               vpiParent: RefInstance name:dut_syn_i
               vpiLowConn RefObj name:waddr start:37:19 end:37:24:
                 vpiParent: Port
                 vpiName: waddr
                 vpiFullName: tb.dut_syn_i.waddr
-                vpiActual: Net name:waddr
+                vpiActual: Variable name:waddr
               vpiHighConn RefObj name:waddr start:37:25 end:37:30:
                 vpiParent: Port
                 vpiName: waddr
                 vpiFullName: tb.dut_syn_i.waddr
-                vpiActual: Net name:waddr
+                vpiActual: Variable name:waddr
             Port start:37:33 end:37:43:
               vpiParent: RefInstance name:dut_syn_i
               vpiLowConn RefObj name:wen start:37:34 end:37:37:
@@ -3489,7 +3476,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: wdata
                 vpiFullName: tb.dut_syn_i.wdata
-                vpiActual: Net name:wdata
+                vpiActual: Variable name:wdata
               vpiHighConn PartSelect name:wdata[3:0] start:38:10 end:38:20:
                 vpiParent: Port
                 vpiName: wdata[3:0]
@@ -3498,7 +3485,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:wdata[3:0]
                   vpiName: wdata
                   vpiFullName: tb.dut_syn_i.wdata[3:0].wdata
-                  vpiActual: Net name:wdata
+                  vpiActual: Variable name:wdata
                 vpiRange Range start:38:16 end:38:19:
                   vpiParent: PartSelect name:wdata[3:0]
                   vpiLeftRange Constant start:38:16 end:38:17:
@@ -3586,7 +3573,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -3637,7 +3624,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_00896/issue_00896/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             533     533       0         0
+Others                             525     525       0         0
 ----------------------------------------------------------------
-                                   533     533       0         0
+                                   525     525       0         0
 ===================== END REDUCTION RESULT =====================

@@ -18,7 +18,7 @@ n<$Source01/relong/gen_struct_tb.v> u<233> t<Top_level_rule> c<1> l<1:1> el<24:1
     n<> u<5> t<Description> p<232> c<4> s<231> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<231> t<Description> p<232> c<230> l<3:1> el<24:10>
       n<> u<230> t<Module_declaration> p<231> c<9> l<3:1> el<24:10>
         n<> u<9> t<Module_ansi_header> p<230> c<6> s<30> l<3:1> el<3:12>
@@ -247,7 +247,6 @@ n<$Source01/relong/gen_struct_tb.v> u<233> t<Top_level_rule> c<1> l<1:1> el<24:1
         n<> u<229> t<ENDMODULE> p<230> l<24:1> el<24:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/gen_struct_tb.v:3:1: Compile module "top".
-[ERR:EL0535] $Source01/relong/gen_struct_tb.v:10:10: Illegal implicit net "id:33, name:all".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -257,7 +256,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: gen_struct_tb.v
       vpiPreprocFile: "$Output/lib/work/relong/gen_struct_tb.v"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:gen_struct_tb.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: gen_struct_tb.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (1 items):
     Module name:top file:$Source01/relong/gen_struct_tb.v start:3:1 end:24:10:
       vpiParent: Design name:unnamed
@@ -265,6 +274,16 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:_a start:13:15 end:13:17:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:13:5 end:13:14:
+            vpiParent: Variable name:_a
+            vpiFullName: top._a
+            vpiActual: LogicTypespec
+          vpiName: "_a"
+          vpiFullName: top._a
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -356,7 +375,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:a start:5:16 end:5:17:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:10 end:5:15:
@@ -375,14 +394,6 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: top.result
           vpiNetType: wire (1)
-        Net name:_a start:13:15 end:13:17:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:13:5 end:13:14:
-            vpiParent: Net name:_a
-            vpiFullName: top._a
-            vpiActual: LogicTypespec
-          vpiName: "_a"
-          vpiFullName: top._a
       vpiProcess (1 items):
         Initial start:15:5 end:21:8:
           vpiParent: Module name:top
@@ -432,7 +443,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: "_a"
                       vpiFullName: top._a
-                      vpiActual: Net name:_a
+                      vpiActual: Variable name:_a
                     vpiRhs Constant start:17:19 end:17:20:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -451,7 +462,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: "_a"
                       vpiFullName: top._a
-                      vpiActual: Net name:_a
+                      vpiActual: Variable name:_a
                     vpiRhs Operation start:17:38 end:17:44:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -460,7 +471,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: "_a"
                           vpiFullName: top._a
-                          vpiActual: Net name:_a
+                          vpiActual: Variable name:_a
                         Constant start:17:43 end:17:44:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -479,7 +490,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: "_a"
                       vpiFullName: top._a
-                      vpiActual: Net name:_a
+                      vpiActual: Variable name:_a
                     Constant start:17:27 end:17:31:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -527,7 +538,7 @@ Design name:unnamed:
               vpiParent: PartSelect name:_a[3:0]
               vpiName: "_a"
               vpiFullName: top._a[3:0]._a
-              vpiActual: Net name:_a
+              vpiActual: Variable name:_a
             vpiRange Range start:14:19 end:14:22:
               vpiParent: PartSelect name:_a[3:0]
               vpiLeftRange Constant start:14:19 end:14:20:
@@ -584,6 +595,8 @@ Design name:unnamed:
                 vpiFullName: top.dut.result
                 vpiActual: Net name:result
   vpiTypespec (4 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:3:8 end:3:11:
@@ -595,12 +608,10 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    IntTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -616,25 +627,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/gen_struct_tb_v/mounts.json
 
 
-{'result': {'coverage': 91.83,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/gen_struct_tb.v': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/gen_struct_tb.v': {'post_len': 0,
                                                                   'pre_len': 257}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 257,
             'test_name': 'Zachjs/relong/gen_struct_tb_v'}}
 
 +-----------------------------------------+----------+-----------+
 | INPUT                                   |   PRELEN |   POSTLEN |
 +=========================================+==========+===========+
-| $Output/lib/work/relong/gen_struct_tb.v |      257 |        21 |
+| $Output/lib/work/relong/gen_struct_tb.v |      257 |         0 |
 +=========================================+==========+===========+
-|                                         |      257 |        21 |
+|                                         |      257 |         0 |
 +-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 91.83
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -645,7 +656,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/gen_struct_tb_v/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              84      84       0         0
+Others                              87      87       0         0
 ----------------------------------------------------------------
-                                    84      84       0         0
+                                    87      87       0         0
 ===================== END REDUCTION RESULT =====================

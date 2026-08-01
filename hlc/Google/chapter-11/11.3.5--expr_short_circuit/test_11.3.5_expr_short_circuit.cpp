@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,9 +44,12 @@
 // with no static AST field to query (see the skipped test below for why).
 //
 // Checked (static/structural corners, all confirmed against the AST dump):
-//   - module top has exactly 4 nets: a, b, c (each LogicTypespec, with
+//   - module top has exactly 4 variables: a, b, c (each LogicTypespec, with
 //     a getValue<Constant>() decl-assignment of "1", "1", "0" respectively)
-//     and d (LogicTypespec, no decl-assignment)
+//     and d (LogicTypespec, no decl-assignment). Per IEEE 1800-2023 Sec
+//     6.7/6.8: plain "logic" declarations with no net-type keyword, in a
+//     module with no port list, are Variables, not Nets; module has no
+//     nets (getNets() is null).
 //   - module has exactly 1 task/function: "fun" --
 //       * non-void function, vpiReturn -> IntTypespec
 //       * exactly 1 IODecl "a", direction input, typespec LogicTypespec
@@ -98,12 +101,12 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/return_stmt.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -117,20 +120,20 @@ class ExprShortCircuitTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / nets ----
 
 TEST_F(ExprShortCircuitTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ExprShortCircuitTest, ModuleHasFourLogicNetsWithExpectedInitialValues) {
+TEST_F(ExprShortCircuitTest, ModuleHasFourLogicVariablesWithExpectedInitialValues) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 4u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 4u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
-  const hldb::Net *const d = hldb::findByName<hldb::Net>("d", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
+  const hldb::Variable *const d = hldb::findByName<hldb::Variable>("d", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   ASSERT_NE(c, nullptr);
@@ -147,6 +150,12 @@ TEST_F(ExprShortCircuitTest, ModuleHasFourLogicNetsWithExpectedInitialValues) {
   EXPECT_EQ(b->getValue<hldb::Constant>()->getDecompile(), "1");
   EXPECT_EQ(c->getValue<hldb::Constant>()->getDecompile(), "0");
   EXPECT_EQ(d->getValue<hldb::Constant>(), nullptr) << "'d' has no decl-assignment";
+}
+
+TEST_F(ExprShortCircuitTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
 }
 
 // --- function fun(logic a): reachable side effect + faithful passthrough ---
@@ -195,7 +204,7 @@ TEST_F(ExprShortCircuitTest, FunctionFunBodyDisplaysFalseAssertThenReturnsItsArg
   EXPECT_NE(retVal->getActual<hldb::IODecl>(), nullptr);
 }
 
-// --- initial block: the short-circuit expression tree itself --------------
+// --- initial block: the short-circuit expression tree itself ----
 
 TEST_F(ExprShortCircuitTest, InitialBlockHasTwoStatements) {
   const hldb::Module *const top = getTop();
@@ -268,7 +277,7 @@ TEST_F(ExprShortCircuitTest, SecondStatementDisplaysExpectedDValue) {
   EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "d");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(ExprShortCircuitTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -284,7 +293,7 @@ TEST_F(ExprShortCircuitTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- the actual point of the file: runtime short-circuit behavior ---------
+// --- the actual point of the file: runtime short-circuit behavior ----
 
 TEST_F(ExprShortCircuitTest, FunMustNeverExecuteBecauseAAndBAreBothTrue) {
   GTEST_SKIP() << "IEEE 1800-2017 11.3.5: for 'a && (b || fun(c))' with a=1, "
@@ -307,9 +316,9 @@ TEST_F(ExprShortCircuitTest, FunMustNeverExecuteBecauseAAndBAreBothTrue) {
   // exercise a real, currently-failing check -- not silently pass.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const d = hldb::findByName<hldb::Net>("d", top->getNets());
+  const hldb::Variable *const d = hldb::findByName<hldb::Variable>("d", top->getVariables());
   ASSERT_NE(d, nullptr);
-  // Net::getValue<T>() only ever exposes a declaration-time initializer.
+  // Variable::getValue<T>() only ever exposes a declaration-time initializer.
   // 'd' has none (it is assigned inside the initial block, not at
   // declaration), so this is null today -- there is no field anywhere
   // that captures the value the "&&"/"||" expression actually produced.

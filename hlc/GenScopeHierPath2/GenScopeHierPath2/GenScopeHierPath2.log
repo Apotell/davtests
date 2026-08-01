@@ -344,14 +344,10 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/dut.sv:14:18: Compile generate block "blk4".
 [INF:CP0335] $Source01/dut.sv:8:30: Compile generate block "blk2".
 [INF:CP0335] $Source01/dut.sv:5:25: Compile generate block "blk1".
-[ERR:EL0535] $Source01/dut.sv:18:28: Illegal implicit net "id:101, name:blk1".
-[ERR:EL0535] $Source01/dut.sv:18:33: Illegal implicit net "id:102, name:w".
-[ERR:EL0535] $Source01/dut.sv:20:28: Illegal implicit net "id:111, name:blk2".
-[ERR:EL0535] $Source01/dut.sv:20:33: Illegal implicit net "id:112, name:x".
-[ERR:EL0535] $Source01/dut.sv:22:28: Illegal implicit net "id:121, name:blk3".
-[ERR:EL0535] $Source01/dut.sv:22:33: Illegal implicit net "id:122, name:y".
-[ERR:EL0535] $Source01/dut.sv:24:28: Illegal implicit net "id:129, name:blk4".
-[ERR:EL0535] $Source01/dut.sv:24:33: Illegal implicit net "id:130, name:z".
+[WRN:CP0350] $Source01/dut.sv:18:28: Failed to bind "id:101, name:blk1".
+[WRN:CP0350] $Source01/dut.sv:20:28: Failed to bind "id:111, name:blk2".
+[WRN:CP0350] $Source01/dut.sv:22:28: Failed to bind "id:121, name:blk3".
+[WRN:CP0350] $Source01/dut.sv:24:28: Failed to bind "id:129, name:blk4".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "mod".
 ====== HLDB =======
 Design name:unnamed:
@@ -361,7 +357,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:mod file:$Source01/dut.sv start:1:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -426,13 +421,13 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:mod
       vpiDefName: mod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mod
         vpiName: work
         vpiFullName: mod.work
       vpiCell: mod
-      vpiNet (1 items):
+      vpiNet (5 items):
         Net name:out start:2:24 end:2:27:
           vpiParent: Module name:mod
           vpiTypespec RefTypespec start:2:5 end:2:23:
@@ -442,14 +437,51 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: mod.out
           vpiNetType: wire (1)
+        Net name:y start:12:14 end:12:15:
+          vpiParent: Module name:mod
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:y
+            vpiFullName: mod.y
+            vpiActual: ArrayTypespec
+          vpiName: y
+          vpiFullName: mod.y
+          vpiNetType: wire (1)
+        Net name:z start:15:14 end:15:15:
+          vpiParent: Module name:mod
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:z
+            vpiFullName: mod.z
+            vpiActual: ArrayTypespec
+          vpiName: z
+          vpiFullName: mod.z
+          vpiNetType: wire (1)
+        Net name:x start:9:14 end:9:15:
+          vpiParent: Module name:mod
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:x
+            vpiFullName: mod.x
+            vpiActual: ArrayTypespec
+          vpiName: x
+          vpiFullName: mod.x
+          vpiNetType: wire (1)
+        Net name:w start:6:14 end:6:15:
+          vpiParent: Module name:mod
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:w
+            vpiFullName: mod.w
+            vpiActual: ArrayTypespec
+          vpiName: w
+          vpiFullName: mod.w
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:out start:2:24 end:2:27:
           vpiParent: Module name:mod
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:24 end:2:27:
+          vpiLowConn RefObj name:out start:2:24 end:2:27:
             vpiParent: Port name:out
-            vpiFullName: mod.out
+            vpiName: out
+            vpiFullName: mod.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:2:5 end:2:23:
             vpiParent: Port name:out
@@ -483,16 +515,6 @@ Design name:unnamed:
               vpiParent: Begin name:blk1
               vpiName: blk1
             vpiFullName: mod.blk1
-            vpiVariable (1 items):
-              Variable name:w start:6:14 end:6:15:
-                vpiParent: Begin name:blk1
-                vpiTypespec RefTypespec:
-                  vpiParent: Variable name:w
-                  vpiFullName: mod.blk1.w
-                  vpiActual: ArrayTypespec
-                vpiName: w
-                vpiFullName: mod.blk1.w
-                vpiNetType: wire (1)
             vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin name:blk1
@@ -550,16 +572,6 @@ Design name:unnamed:
                     vpiParent: Begin name:blk2
                     vpiName: blk2
                   vpiFullName: mod.blk2
-                  vpiVariable (1 items):
-                    Variable name:x start:9:14 end:9:15:
-                      vpiParent: Begin name:blk2
-                      vpiTypespec RefTypespec:
-                        vpiParent: Variable name:x
-                        vpiFullName: mod.blk2.x
-                        vpiActual: ArrayTypespec
-                      vpiName: x
-                      vpiFullName: mod.blk2.x
-                      vpiNetType: wire (1)
                   vpiTypespec (2 items):
                     LogicTypespec:
                       vpiParent: Begin name:blk2
@@ -617,16 +629,6 @@ Design name:unnamed:
                           vpiParent: Begin name:blk3
                           vpiName: blk3
                         vpiFullName: mod.blk3
-                        vpiVariable (1 items):
-                          Variable name:y start:12:14 end:12:15:
-                            vpiParent: Begin name:blk3
-                            vpiTypespec RefTypespec:
-                              vpiParent: Variable name:y
-                              vpiFullName: mod.blk3.y
-                              vpiActual: ArrayTypespec
-                            vpiName: y
-                            vpiFullName: mod.blk3.y
-                            vpiNetType: wire (1)
                         vpiTypespec (2 items):
                           LogicTypespec:
                             vpiParent: Begin name:blk3
@@ -659,16 +661,6 @@ Design name:unnamed:
                           vpiParent: Begin name:blk4
                           vpiName: blk4
                         vpiFullName: mod.blk4
-                        vpiVariable (1 items):
-                          Variable name:z start:15:14 end:15:15:
-                            vpiParent: Begin name:blk4
-                            vpiTypespec RefTypespec:
-                              vpiParent: Variable name:z
-                              vpiFullName: mod.blk4.z
-                              vpiActual: ArrayTypespec
-                            vpiName: z
-                            vpiFullName: mod.blk4.z
-                            vpiNetType: wire (1)
                         vpiTypespec (2 items):
                           LogicTypespec:
                             vpiParent: Begin name:blk4
@@ -746,6 +738,7 @@ Design name:unnamed:
                           vpiParent: HierPath name:blk1.w
                           vpiName: w
                           vpiFullName: mod.w
+                          vpiActual: Net name:w
           vpiElseStmt Begin:
             vpiParent: GenIfElse
             vpiFullName: mod
@@ -801,6 +794,7 @@ Design name:unnamed:
                                 vpiParent: HierPath name:blk2.x
                                 vpiName: x
                                 vpiFullName: mod.x
+                                vpiActual: Net name:x
                 vpiElseStmt Begin:
                   vpiParent: GenIfElse
                   vpiFullName: mod
@@ -856,6 +850,7 @@ Design name:unnamed:
                                       vpiParent: HierPath name:blk3.y
                                       vpiName: y
                                       vpiFullName: mod.y
+                                      vpiActual: Net name:y
                       vpiElseStmt Begin:
                         vpiParent: GenIfElse
                         vpiFullName: mod
@@ -886,6 +881,7 @@ Design name:unnamed:
                                       vpiParent: HierPath name:blk4.z
                                       vpiName: z
                                       vpiFullName: mod.z
+                                      vpiActual: Net name:z
   vpiTypespec (2 items):
     ModuleTypespec name:mod:
       vpiParent: Design name:unnamed
@@ -899,8 +895,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

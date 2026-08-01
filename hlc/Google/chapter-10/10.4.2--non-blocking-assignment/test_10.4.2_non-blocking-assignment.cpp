@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,15 +23,20 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 1 net: "a", RefTypespec ->
-//     LogicTypespec, no initializer
+//   - design has module top with exactly 1 variable: "a", RefTypespec ->
+//     LogicTypespec, no initializer. Per IEEE 1800-2023 Sec 6.7/6.8: "logic
+//     a;" has no net-type keyword and is not a port declaration, so it is a
+//     Variable, not a Net; module has no nets (getNets() is null).
 //   - Initial process: 1 Begin with 1 stmt (the source uses explicit
 //     'begin'/'end' around the single statement, so it IS wrapped in a
 //     Begin -- contrast with chapter-10/10.3--proc-assignment--bad.sv,
 //     whose single-statement initial has no begin/end in the source and is
 //     therefore NOT wrapped)
 //   - Stmt[0]: Assignment, getBlocking() == false (non-blocking '<='), lhs
-//     RefObj "a" resolving Net "a", rhs Constant "2"
+//     RefObj "a" resolving Variable "a", rhs Constant "2". Per IEEE
+//     1800-2023 Table 10-1, non-blocking procedural assignment to a
+//     variable is legal (the Table 10-1 net-target restriction tested in
+//     chapter-10/10.3--proc-assignment--bad.sv does not apply here).
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
 //   - compiler emits zero errors
 
@@ -50,9 +55,9 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -74,22 +79,28 @@ class NonBlockingAssignmentTest : public Test {
   }
 };
 
-// --- module / net -------------------------------------------------------------
+// --- module / net ----
 
 TEST_F(NonBlockingAssignmentTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(NonBlockingAssignmentTest, ModuleHasOneLogicNetWithNoInitializer) {
+TEST_F(NonBlockingAssignmentTest, ModuleHasOneLogicVariableWithNoInitializer) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 1u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
   EXPECT_EQ(a->getValue(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+TEST_F(NonBlockingAssignmentTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
+}
+
+// --- initial process ----
 
 TEST_F(NonBlockingAssignmentTest, InitialBeginHasOneStmt) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -107,13 +118,13 @@ TEST_F(NonBlockingAssignmentTest, FirstStmtIsNonBlockingAssignmentOfTwoToA) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "a");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "2");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(NonBlockingAssignmentTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

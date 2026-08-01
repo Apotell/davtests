@@ -195,6 +195,7 @@ n<$Source01/sva/basic01.sv> u<181> t<Top_level_rule> c<1> l<1:1> el<17:1>
         n<> u<177> t<ENDMODULE> p<178> l<16:1> el<16:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sva/basic01.sv:1:1: Compile module "top".
+[ERR:LN0813] $Source01/sva/basic01.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -204,7 +205,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: basic01.sv
       vpiPreprocFile: "$Output/lib/work/sva/basic01.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/sva/basic01.sv start:1:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -241,12 +241,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: read
                       vpiFullName: top.read
-                      vpiActual: Net name:read
+                      vpiActual: Variable name:read
                     RefObj name:write start:10:53 end:10:58:
                       vpiParent: Operation
                       vpiName: write
                       vpiFullName: top.write
-                      vpiActual: Net name:write
+                      vpiActual: Variable name:write
         Assert start:14:8 end:14:61:
           vpiParent: Module name:top
           vpiLabel Identifier name:a_wr start:14:2 end:14:6:
@@ -271,23 +271,81 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: write
                   vpiFullName: top.write
-                  vpiActual: Net name:write
+                  vpiActual: Variable name:write
                 RefObj name:ready start:14:53 end:14:58:
                   vpiParent: Operation
                   vpiName: ready
                   vpiFullName: top.ready
-                  vpiActual: Net name:ready
+                  vpiActual: Variable name:ready
+      vpiVariable (3 items):
+        Variable name:read start:2:8 end:2:12:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:2:2 end:2:7:
+            vpiParent: Variable name:read
+            vpiFullName: top.read
+            vpiActual: LogicTypespec
+          vpiName: read
+          vpiFullName: top.read
+          vpiScalar: true
+          vpiValue Constant start:2:15 end:2:16:
+            vpiParent: Variable name:read
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.read
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:write start:2:18 end:2:23:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:2:2 end:2:7:
+            vpiParent: Variable name:write
+            vpiFullName: top.write
+            vpiActual: LogicTypespec
+          vpiName: write
+          vpiFullName: top.write
+          vpiScalar: true
+          vpiValue Constant start:2:26 end:2:27:
+            vpiParent: Variable name:write
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.write
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:ready start:2:29 end:2:34:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:2:2 end:2:7:
+            vpiParent: Variable name:ready
+            vpiFullName: top.ready
+            vpiActual: LogicTypespec
+          vpiName: ready
+          vpiFullName: top.ready
+          vpiScalar: true
+          vpiValue Constant start:2:37 end:2:38:
+            vpiParent: Variable name:ready
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.ready
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:24:
@@ -297,77 +355,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: top.clock
           vpiNetType: wire (1)
-        Net name:ctrl start:1:32 end:1:36:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:1:32 end:1:32:
-            vpiParent: Net name:ctrl
-            vpiFullName: top.ctrl
-            vpiActual: LogicTypespec
-          vpiName: ctrl
-          vpiFullName: top.ctrl
-          vpiNetType: wire (1)
-        Net name:read start:2:8 end:2:12:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:2:2 end:2:7:
-            vpiParent: Net name:read
-            vpiFullName: top.read
-            vpiActual: LogicTypespec
-          vpiName: read
-          vpiFullName: top.read
-          vpiValue Constant start:2:15 end:2:16:
-            vpiParent: Net name:read
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top.read
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:write start:2:18 end:2:23:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:2:2 end:2:7:
-            vpiParent: Net name:write
-            vpiFullName: top.write
-            vpiActual: LogicTypespec
-          vpiName: write
-          vpiFullName: top.write
-          vpiValue Constant start:2:26 end:2:27:
-            vpiParent: Net name:write
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top.write
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:ready start:2:29 end:2:34:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:2:2 end:2:7:
-            vpiParent: Net name:ready
-            vpiFullName: top.ready
-            vpiActual: LogicTypespec
-          vpiName: ready
-          vpiFullName: top.ready
-          vpiValue Constant start:2:37 end:2:38:
-            vpiParent: Net name:ready
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top.ready
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
       vpiPort (2 items):
         Port name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:25 end:1:30:
+          vpiLowConn RefObj name:clock start:1:25 end:1:30:
             vpiParent: Port name:clock
-            vpiFullName: top.clock
+            vpiName: clock
+            vpiFullName: top.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:1:13 end:1:24:
             vpiParent: Port name:clock
@@ -377,14 +373,6 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: ctrl
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:32 end:1:36:
-            vpiParent: Port name:ctrl
-            vpiFullName: top.ctrl
-            vpiActual: Net name:ctrl
-          vpiTypespec RefTypespec start:1:32 end:1:32:
-            vpiParent: Port name:ctrl
-            vpiFullName: top.ctrl
-            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:4:2 end:8:5:
           vpiParent: Module name:top
@@ -409,7 +397,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: read
                     vpiFullName: top.read
-                    vpiActual: Net name:read
+                    vpiActual: Variable name:read
                   vpiRhs Operation start:5:11 end:5:16:
                     vpiParent: Assignment
                     vpiOpType: not (3)
@@ -418,31 +406,31 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: ctrl
                         vpiFullName: top.ctrl
-                        vpiActual: Net name:ctrl
+                        vpiActual: Port name:ctrl
                 Assignment start:6:3 end:6:16:
                   vpiParent: Begin
                   vpiLhs RefObj name:write start:6:3 end:6:8:
                     vpiParent: Assignment
                     vpiName: write
                     vpiFullName: top.write
-                    vpiActual: Net name:write
+                    vpiActual: Variable name:write
                   vpiRhs RefObj name:ctrl start:6:12 end:6:16:
                     vpiParent: Assignment
                     vpiName: ctrl
                     vpiFullName: top.ctrl
-                    vpiActual: Net name:ctrl
+                    vpiActual: Port name:ctrl
                 Assignment start:7:3 end:7:17:
                   vpiParent: Begin
                   vpiLhs RefObj name:ready start:7:3 end:7:8:
                     vpiParent: Assignment
                     vpiName: ready
                     vpiFullName: top.ready
-                    vpiActual: Net name:ready
+                    vpiActual: Variable name:ready
                   vpiRhs RefObj name:write start:7:12 end:7:17:
                     vpiParent: Assignment
                     vpiName: write
                     vpiFullName: top.write
-                    vpiActual: Net name:write
+                    vpiActual: Variable name:write
           vpiAlwaysType: always (1)
   vpiTypespec (2 items):
     ModuleTypespec name:top:
@@ -457,7 +445,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -504,10 +492,10 @@ Name                            Before   After   Added   Removed
 Constant                             3       5       2         0
 LogicTypespec                        1       2       1         0
 Operation                            7       4       0         3
-RefObj                              16      12       0         4
-RefTypespec                         10      12       2         0
+RefObj                              15      11       0         4
+RefTypespec                          8      10       2         0
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              25      25       0         0
 ----------------------------------------------------------------
-                                    63      61       5         7
+                                    59      57       5         7
 ===================== END REDUCTION RESULT =====================

@@ -417,18 +417,13 @@ n<$Source01/chip.sv> u<403> t<Top_level_rule> c<1> l<12:1> el<135:1>
   n<// chip> u<402> t<LINE_COMMENT> p<403> l<134:11> el<134:18>
 AST_DEBUG_END
 [INF:CP0303] $Source01/chip.sv:12:1: Compile module "chip".
-[ERR:EL0535] $Source01/chip.sv:14:22: Illegal implicit net "id:9, name:pinout".
-[ERR:EL0535] $Source01/chip.sv:54:49: Illegal implicit net "id:55, name:mp_pads".
-[ERR:EL0535] $Source01/chip.sv:69:36: Illegal implicit net "id:84, name:test_mode".
-[ERR:EL0535] $Source01/chip.sv:77:47: Illegal implicit net "id:91, name:adrdec".
-[ERR:EL0535] $Source01/chip.sv:86:9: Illegal implicit net "id:102, name:ID".
-[ERR:EL0535] $Source01/chip.sv:91:47: Illegal implicit net "id:105, name:master".
-[ERR:EL0535] $Source01/chip.sv:103:9: Illegal implicit net "id:122, name:ID".
-[ERR:EL0535] $Source01/chip.sv:108:47: Illegal implicit net "id:125, name:slave".
-[ERR:EL0535] $Source01/chip.sv:109:49: Illegal implicit net "id:130, name:mp_dig".
-[ERR:EL0535] $Source01/chip.sv:121:9: Illegal implicit net "id:147, name:ID".
-[ERR:EL0535] $Source01/chip.sv:126:47: Illegal implicit net "id:150, name:slave".
-[ERR:EL0535] $Source01/chip.sv:127:49: Illegal implicit net "id:155, name:mp_ana".
+[WRN:CP0350] $Source01/chip.sv:54:49: Failed to bind "id:55, name:mp_pads".
+[WRN:CP0350] $Source01/chip.sv:77:47: Failed to bind "id:91, name:adrdec".
+[WRN:CP0350] $Source01/chip.sv:91:47: Failed to bind "id:105, name:master".
+[WRN:CP0350] $Source01/chip.sv:108:47: Failed to bind "id:125, name:slave".
+[WRN:CP0350] $Source01/chip.sv:109:49: Failed to bind "id:130, name:mp_dig".
+[WRN:CP0350] $Source01/chip.sv:126:47: Failed to bind "id:150, name:slave".
+[WRN:CP0350] $Source01/chip.sv:127:49: Failed to bind "id:155, name:mp_ana".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -438,7 +433,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: chip.sv
       vpiPreprocFile: "$Output/lib/work/chip.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:chip file:$Source01/chip.sv start:12:1 end:134:10:
       vpiParent: Design name:unnamed
@@ -564,7 +558,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:ac
             vpiName: ac
       vpiDefName: chip
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:chip
         vpiName: work
@@ -603,9 +597,10 @@ Design name:unnamed:
           vpiParent: Module name:chip
           vpiName: pad
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:21:14 end:21:17:
+          vpiLowConn RefObj name:pad start:21:14 end:21:17:
             vpiParent: Port name:pad
-            vpiFullName: chip.pad
+            vpiName: pad
+            vpiFullName: chip.pad.pad
             vpiActual: Net name:pad
           vpiTypespec RefTypespec start:21:3 end:21:13:
             vpiParent: Port name:pad
@@ -615,9 +610,10 @@ Design name:unnamed:
           vpiParent: Module name:chip
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:25:16 end:25:19:
+          vpiLowConn RefObj name:clk start:25:16 end:25:19:
             vpiParent: Port name:clk
-            vpiFullName: chip.clk
+            vpiName: clk
+            vpiFullName: chip.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:25:3 end:25:15:
             vpiParent: Port name:clk
@@ -627,9 +623,10 @@ Design name:unnamed:
           vpiParent: Module name:chip
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:26:16 end:26:19:
+          vpiLowConn RefObj name:rst start:26:16 end:26:19:
             vpiParent: Port name:rst
-            vpiFullName: chip.rst
+            vpiName: rst
+            vpiFullName: chip.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:26:3 end:26:15:
             vpiParent: Port name:rst
@@ -1074,8 +1071,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 12
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

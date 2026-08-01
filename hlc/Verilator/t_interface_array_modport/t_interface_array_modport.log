@@ -209,8 +209,7 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_array_modport.v:6:1: Compile interface "foo_intf".
 [INF:CP0303] $Source01/t_interface_array_modport.v:12:1: Compile module "foo_mod".
 [INF:CP0303] $Source01/t_interface_array_modport.v:19:1: Compile module "t".
-[ERR:EL0535] $Source01/t_interface_array_modport.v:15:13: Illegal implicit net "id:31, name:m".
-[ERR:EL0535] $Source01/t_interface_array_modport.v:30:3: Illegal implicit net "id:85, name:foo".
+[ERR:LN0813] $Source01/t_interface_array_modport.v:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -220,7 +219,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_array_modport.v
       vpiPreprocFile: "$Output/lib/work/t_interface_array_modport.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:foo_intf file:$Source01/t_interface_array_modport.v start:6:1 end:10:13:
       vpiParent: Design name:unnamed
@@ -237,8 +235,7 @@ Design name:unnamed:
             vpiFullName: foo_intf.a.logic
           vpiName: a
           vpiFullName: foo_intf.a
-          vpiNetType: none (12)
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:foo_intf
         vpiName: work
@@ -266,22 +263,7 @@ Design name:unnamed:
         vpiParent: Module name:foo_mod
         vpiName: foo_mod
       vpiFullName: foo_mod
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:foo_intf::m start:15:4 end:15:14:
-          vpiParent: Module name:foo_mod
-          vpiPathElem (2 items):
-            RefObj name:foo_intf start:15:4 end:15:12:
-              vpiParent: UnsupportedTypespec name:foo_intf::m
-              vpiName: foo_intf
-              vpiFullName: foo_mod.foo_intf::m.foo_intf
-              vpiActual: Interface name:foo_intf
-            RefObj name:m start:15:13 end:15:14:
-              vpiParent: UnsupportedTypespec name:foo_intf::m
-              vpiName: m
-              vpiFullName: foo_mod.foo_intf::m.m
-          vpiName Identifier name:foo_intf::m:
-            vpiParent: UnsupportedTypespec name:foo_intf::m
-            vpiName: foo_intf::m
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:foo_mod
           vpiArrayType: static (1)
@@ -301,19 +283,17 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
-          vpiElemTypespec RefTypespec name:foo_intf::m start:15:4 end:15:14:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: foo_intf::m
-            vpiFullName: foo_mod.foo_intf::m
-            vpiActual: UnsupportedTypespec name:foo_intf::m
+            vpiFullName: foo_mod
       vpiDefName: foo_mod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo_mod
         vpiName: work
         vpiFullName: foo_mod.work
       vpiCell: foo_mod
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:foo start:14:13 end:14:16:
           vpiParent: Module name:foo_mod
           vpiTypespec RefTypespec name:foo_intf start:14:4 end:14:12:
@@ -324,23 +304,15 @@ Design name:unnamed:
           vpiName: foo
           vpiFullName: foo_mod.foo
           vpiNetType: wire (1)
-        Net name:bars start:15:15 end:15:19:
-          vpiParent: Module name:foo_mod
-          vpiTypespec RefTypespec start:15:4 end:15:14:
-            vpiParent: Net name:bars
-            vpiFullName: foo_mod.bars
-            vpiActual: ArrayTypespec
-          vpiName: bars
-          vpiFullName: foo_mod.bars
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:foo start:14:13 end:14:16:
           vpiParent: Module name:foo_mod
           vpiName: foo
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:14:13 end:14:16:
+          vpiLowConn RefObj name:foo start:14:13 end:14:16:
             vpiParent: Port name:foo
-            vpiFullName: foo_mod.foo
+            vpiName: foo
+            vpiFullName: foo_mod.foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec name:foo_intf start:14:4 end:14:12:
             vpiParent: Port name:foo
@@ -351,14 +323,6 @@ Design name:unnamed:
           vpiParent: Module name:foo_mod
           vpiName: bars
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:15 end:15:19:
-            vpiParent: Port name:bars
-            vpiFullName: foo_mod.bars
-            vpiActual: Net name:bars
-          vpiTypespec RefTypespec start:15:4 end:15:14:
-            vpiParent: Port name:bars
-            vpiFullName: foo_mod.bars
-            vpiActual: ArrayTypespec
     Module name:t file:$Source01/t_interface_array_modport.v start:19:1 end:40:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:19:8 end:19:9:
@@ -460,7 +424,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:foo_mod
             vpiName: foo_mod
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -584,7 +548,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -600,25 +564,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_array_modport/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 96.78,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_array_modport.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface_array_modport.v': {'post_len': 10,
                                                                        'pre_len': 311}},
-            'post_len': 0,
+            'post_len': 10,
             'pre_len': 311,
             'test_name': 'Verilator/t_interface_array_modport'}}
 
 +----------------------------------------------+----------+-----------+
 | INPUT                                        |   PRELEN |   POSTLEN |
 +==============================================+==========+===========+
-| $Output/lib/work/t_interface_array_modport.v |      311 |         0 |
+| $Output/lib/work/t_interface_array_modport.v |      311 |        10 |
 +==============================================+==========+===========+
-|                                              |      311 |         0 |
+|                                              |      311 |        10 |
 +----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 96.78
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -630,10 +594,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       1         1
 Operation                            3       2       0         1
-RefObj                              14      13       0         1
-RefTypespec                         19      19       1         1
+RefObj                              11      10       0         1
+RefTypespec                         17      17       1         1
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                              46      46       0         0
 ----------------------------------------------------------------
-                                    91      89       2         4
+                                    83      81       2         4
 ===================== END REDUCTION RESULT =====================

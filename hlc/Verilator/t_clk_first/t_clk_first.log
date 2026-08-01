@@ -1995,14 +1995,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_clk_first.v:148:1: Compile module "t_clk_flop".
 [INF:CP0303] $Source01/t_clk_first.v:166:1: Compile module "t_clk_two".
 [INF:CP0303] $Source01/t_clk_first.v:190:1: Compile module "t_clk_twob".
-[ERR:EL0535] $Source01/t_clk_first.v:137:34: Illegal implicit net "id:440, name:clk2".
-[ERR:EL0535] $Source01/t_clk_first.v:137:50: Illegal implicit net "id:443, name:a".
-[ERR:EL0535] $Source01/t_clk_first.v:138:9: Illegal implicit net "id:446, name:q".
-[ERR:EL0535] $Source01/t_clk_first.v:138:29: Illegal implicit net "id:449, name:q2".
-[ERR:EL0535] $Source01/t_clk_first.v:139:34: Illegal implicit net "id:459, name:clk2".
-[ERR:EL0535] $Source01/t_clk_first.v:139:50: Illegal implicit net "id:462, name:a".
-[ERR:EL0535] $Source01/t_clk_first.v:140:9: Illegal implicit net "id:465, name:q".
-[ERR:EL0535] $Source01/t_clk_first.v:140:33: Illegal implicit net "id:468, name:q2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -2012,7 +2004,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_clk_first.v
       vpiPreprocFile: "$Output/lib/work/t_clk_first.v"
-      vpiDefNetType: none (12)
   vpiAllModules (5 items):
     Module name:t file:$Source01/t_clk_first.v start:6:1 end:28:10:
       vpiParent: Design name:unnamed
@@ -2020,6 +2011,24 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:reset_l start:13:10 end:13:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:13:4 end:13:7:
+            vpiParent: Variable name:reset_l
+            vpiFullName: t.reset_l
+            vpiActual: LogicTypespec
+          vpiName: reset_l
+          vpiFullName: t.reset_l
+          vpiScalar: true
+        Variable name:cyc start:15:8 end:15:11:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:15:4 end:15:7:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -2029,13 +2038,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:t_clk
             vpiName: t_clk
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (2 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -2044,6 +2053,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
         Net name:fastclk start:12:10 end:12:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:12:10 end:12:10:
@@ -2052,28 +2062,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: fastclk
           vpiFullName: t.fastclk
-        Net name:reset_l start:13:10 end:13:17:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:4 end:13:7:
-            vpiParent: Net name:reset_l
-            vpiFullName: t.reset_l
-            vpiActual: LogicTypespec
-          vpiName: reset_l
-          vpiFullName: t.reset_l
-        Net name:cyc start:15:8 end:15:11:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:15:4 end:15:7:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -2086,7 +2081,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: fastclk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:fastclk start:8:9 end:8:16:
+          vpiLowConn RefObj name:fastclk start:12:10 end:12:17:
             vpiParent: Port name:fastclk
             vpiName: fastclk
             vpiFullName: t.fastclk.fastclk
@@ -2105,7 +2100,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: reset_l
               vpiFullName: t.reset_l
-              vpiActual: Net name:reset_l
+              vpiActual: Variable name:reset_l
             vpiRhs Constant start:16:22 end:16:23:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -2146,7 +2141,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:18:16 end:18:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2163,7 +2158,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: reset_l
                       vpiFullName: t.reset_l
-                      vpiActual: Net name:reset_l
+                      vpiActual: Variable name:reset_l
                     vpiRhs Constant start:18:30 end:18:34:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -2184,7 +2179,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         Constant start:19:21 end:19:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -2201,7 +2196,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: reset_l
                         vpiFullName: t.reset_l
-                        vpiActual: Net name:reset_l
+                        vpiActual: Variable name:reset_l
                       vpiRhs Constant start:19:35 end:19:39:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -2222,7 +2217,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: cyc
                             vpiFullName: t.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                           Constant start:20:21 end:20:23:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -2239,7 +2234,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: reset_l
                           vpiFullName: t.reset_l
-                          vpiActual: Net name:reset_l
+                          vpiActual: Variable name:reset_l
                         vpiRhs Constant start:20:36 end:20:40:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2291,18 +2286,91 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: reset_l
                 vpiFullName: t.t.reset_l
-                vpiActual: Net name:reset_l
+                vpiActual: Variable name:reset_l
               vpiHighConn RefObj name:reset_l start:27:18 end:27:25:
                 vpiParent: Port
                 vpiName: reset_l
                 vpiFullName: t.t.reset_l
-                vpiActual: Net name:reset_l
+                vpiActual: Variable name:reset_l
     Module name:t_clk file:$Source01/t_clk_first.v start:30:1 end:146:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t_clk start:30:8 end:30:13:
         vpiParent: Module name:t_clk
         vpiName: t_clk
       vpiFullName: t_clk
+      vpiVariable (8 items):
+        Variable name:_ranit start:42:11 end:42:17:
+          vpiParent: Module name:t_clk
+          vpiTypespec RefTypespec start:42:4 end:42:7:
+            vpiParent: Variable name:_ranit
+            vpiFullName: t_clk._ranit
+            vpiActual: LogicTypespec
+          vpiName: "_ranit"
+          vpiFullName: t_clk._ranit
+          vpiScalar: true
+        Variable name:clk_clocks start:44:14 end:44:24:
+          vpiParent: Module name:t_clk
+          vpiTypespec RefTypespec start:44:4 end:44:13:
+            vpiParent: Variable name:clk_clocks
+            vpiFullName: t_clk.clk_clocks
+            vpiActual: LogicTypespec
+          vpiName: clk_clocks
+          vpiFullName: t_clk.clk_clocks
+          vpiVector: true
+        Variable name:int_clocks start:50:14 end:50:24:
+          vpiParent: Module name:t_clk
+          vpiTypespec RefTypespec start:50:4 end:50:13:
+            vpiParent: Variable name:int_clocks
+            vpiFullName: t_clk.int_clocks
+            vpiActual: LogicTypespec
+          vpiName: int_clocks
+          vpiFullName: t_clk.int_clocks
+          vpiVector: true
+        Variable name:int_clocks_copy start:52:14 end:52:29:
+          vpiParent: Module name:t_clk
+          vpiTypespec RefTypespec start:52:4 end:52:13:
+            vpiParent: Variable name:int_clocks_copy
+            vpiFullName: t_clk.int_clocks_copy
+            vpiActual: LogicTypespec
+          vpiName: int_clocks_copy
+          vpiFullName: t_clk.int_clocks_copy
+          vpiVector: true
+        Variable name:internal_clk start:55:14 end:55:26:
+          vpiParent: Module name:t_clk
+          vpiTypespec RefTypespec start:55:4 end:55:7:
+            vpiParent: Variable name:internal_clk
+            vpiFullName: t_clk.internal_clk
+            vpiActual: LogicTypespec
+          vpiName: internal_clk
+          vpiFullName: t_clk.internal_clk
+          vpiScalar: true
+        Variable name:reset_int_ start:56:14 end:56:24:
+          vpiParent: Module name:t_clk
+          vpiTypespec RefTypespec start:56:4 end:56:7:
+            vpiParent: Variable name:reset_int_
+            vpiFullName: t_clk.reset_int_
+            vpiActual: LogicTypespec
+          vpiName: reset_int_
+          vpiFullName: t_clk.reset_int_
+          vpiScalar: true
+        Variable name:sig_rst start:81:14 end:81:21:
+          vpiParent: Module name:t_clk
+          vpiTypespec RefTypespec start:81:4 end:81:13:
+            vpiParent: Variable name:sig_rst
+            vpiFullName: t_clk.sig_rst
+            vpiActual: LogicTypespec
+          vpiName: sig_rst
+          vpiFullName: t_clk.sig_rst
+          vpiVector: true
+        Variable name:resetted start:116:14 end:116:22:
+          vpiParent: Module name:t_clk
+          vpiTypespec RefTypespec start:116:4 end:116:13:
+            vpiParent: Variable name:resetted
+            vpiFullName: t_clk.resetted
+            vpiActual: LogicTypespec
+          vpiName: resetted
+          vpiFullName: t_clk.resetted
+          vpiVector: true
       vpiTypespec (13 items):
         LogicTypespec:
           vpiParent: Module name:t_clk
@@ -2556,13 +2624,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:t_clk_two
             vpiName: t_clk_two
       vpiDefName: t_clk
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t_clk
         vpiName: work
         vpiFullName: t_clk.work
       vpiCell: t_clk
-      vpiNet (15 items):
+      vpiNet (7 items):
         Net name:clk start:35:10 end:35:13:
           vpiParent: Module name:t_clk
           vpiTypespec RefTypespec start:35:10 end:35:10:
@@ -2571,6 +2639,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t_clk.clk
+          vpiNetType: wire (1)
         Net name:fastclk start:36:10 end:36:17:
           vpiParent: Module name:t_clk
           vpiTypespec RefTypespec start:36:10 end:36:10:
@@ -2579,6 +2648,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: fastclk
           vpiFullName: t_clk.fastclk
+          vpiNetType: wire (1)
         Net name:reset_l start:37:10 end:37:17:
           vpiParent: Module name:t_clk
           vpiTypespec RefTypespec start:37:10 end:37:10:
@@ -2587,22 +2657,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset_l
           vpiFullName: t_clk.reset_l
-        Net name:_ranit start:42:11 end:42:17:
-          vpiParent: Module name:t_clk
-          vpiTypespec RefTypespec start:42:4 end:42:7:
-            vpiParent: Net name:_ranit
-            vpiFullName: t_clk._ranit
-            vpiActual: LogicTypespec
-          vpiName: "_ranit"
-          vpiFullName: t_clk._ranit
-        Net name:clk_clocks start:44:14 end:44:24:
-          vpiParent: Module name:t_clk
-          vpiTypespec RefTypespec start:44:4 end:44:13:
-            vpiParent: Net name:clk_clocks
-            vpiFullName: t_clk.clk_clocks
-            vpiActual: LogicTypespec
-          vpiName: clk_clocks
-          vpiFullName: t_clk.clk_clocks
+          vpiNetType: wire (1)
         Net name:clk_clocks_d1r start:45:15 end:45:29:
           vpiParent: Module name:t_clk
           vpiTypespec RefTypespec start:45:9 end:45:14:
@@ -2639,60 +2694,12 @@ Design name:unnamed:
           vpiName: clk_clocks_cp2_d1sr
           vpiFullName: t_clk.clk_clocks_cp2_d1sr
           vpiNetType: wire (1)
-        Net name:int_clocks start:50:14 end:50:24:
-          vpiParent: Module name:t_clk
-          vpiTypespec RefTypespec start:50:4 end:50:13:
-            vpiParent: Net name:int_clocks
-            vpiFullName: t_clk.int_clocks
-            vpiActual: LogicTypespec
-          vpiName: int_clocks
-          vpiFullName: t_clk.int_clocks
-        Net name:int_clocks_copy start:52:14 end:52:29:
-          vpiParent: Module name:t_clk
-          vpiTypespec RefTypespec start:52:4 end:52:13:
-            vpiParent: Net name:int_clocks_copy
-            vpiFullName: t_clk.int_clocks_copy
-            vpiActual: LogicTypespec
-          vpiName: int_clocks_copy
-          vpiFullName: t_clk.int_clocks_copy
-        Net name:internal_clk start:55:14 end:55:26:
-          vpiParent: Module name:t_clk
-          vpiTypespec RefTypespec start:55:4 end:55:7:
-            vpiParent: Net name:internal_clk
-            vpiFullName: t_clk.internal_clk
-            vpiActual: LogicTypespec
-          vpiName: internal_clk
-          vpiFullName: t_clk.internal_clk
-        Net name:reset_int_ start:56:14 end:56:24:
-          vpiParent: Module name:t_clk
-          vpiTypespec RefTypespec start:56:4 end:56:7:
-            vpiParent: Net name:reset_int_
-            vpiFullName: t_clk.reset_int_
-            vpiActual: LogicTypespec
-          vpiName: reset_int_
-          vpiFullName: t_clk.reset_int_
-        Net name:sig_rst start:81:14 end:81:21:
-          vpiParent: Module name:t_clk
-          vpiTypespec RefTypespec start:81:4 end:81:13:
-            vpiParent: Net name:sig_rst
-            vpiFullName: t_clk.sig_rst
-            vpiActual: LogicTypespec
-          vpiName: sig_rst
-          vpiFullName: t_clk.sig_rst
-        Net name:resetted start:116:14 end:116:22:
-          vpiParent: Module name:t_clk
-          vpiTypespec RefTypespec start:116:4 end:116:13:
-            vpiParent: Net name:resetted
-            vpiFullName: t_clk.resetted
-            vpiActual: LogicTypespec
-          vpiName: resetted
-          vpiFullName: t_clk.resetted
       vpiPort (3 items):
         Port name:clk start:32:4 end:32:7:
           vpiParent: Module name:t_clk
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:32:4 end:32:7:
+          vpiLowConn RefObj name:clk start:35:10 end:35:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t_clk.clk.clk
@@ -2705,7 +2712,7 @@ Design name:unnamed:
           vpiParent: Module name:t_clk
           vpiName: fastclk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:fastclk start:32:9 end:32:16:
+          vpiLowConn RefObj name:fastclk start:36:10 end:36:17:
             vpiParent: Port name:fastclk
             vpiName: fastclk
             vpiFullName: t_clk.fastclk.fastclk
@@ -2718,7 +2725,7 @@ Design name:unnamed:
           vpiParent: Module name:t_clk
           vpiName: reset_l
           vpiDirection: input (1)
-          vpiLowConn RefObj name:reset_l start:32:18 end:32:25:
+          vpiLowConn RefObj name:reset_l start:37:10 end:37:17:
             vpiParent: Port name:reset_l
             vpiName: reset_l
             vpiFullName: t_clk.reset_l.reset_l
@@ -2737,7 +2744,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: "_ranit"
               vpiFullName: t_clk._ranit
-              vpiActual: Net name:_ranit
+              vpiActual: Variable name:_ranit
             vpiRhs Constant start:42:34 end:42:35:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -2757,7 +2764,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: clk_clocks
               vpiFullName: t_clk.clk_clocks
-              vpiActual: Net name:clk_clocks
+              vpiActual: Variable name:clk_clocks
             vpiRhs Constant start:44:47 end:44:48:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -2777,7 +2784,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: int_clocks
               vpiFullName: t_clk.int_clocks
-              vpiActual: Net name:int_clocks
+              vpiActual: Variable name:int_clocks
             vpiRhs Constant start:50:47 end:50:48:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -2797,7 +2804,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: internal_clk
               vpiFullName: t_clk.internal_clk
-              vpiActual: Net name:internal_clk
+              vpiActual: Variable name:internal_clk
             vpiRhs Constant start:55:51 end:55:52:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -2849,7 +2856,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: clk_clocks
                           vpiFullName: t_clk.clk_clocks
-                          vpiActual: Net name:clk_clocks
+                          vpiActual: Variable name:clk_clocks
                         vpiRhs Constant start:64:17 end:64:18:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2866,7 +2873,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: int_clocks
                           vpiFullName: t_clk.int_clocks
-                          vpiActual: Net name:int_clocks
+                          vpiActual: Variable name:int_clocks
                         vpiRhs Constant start:65:17 end:65:18:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2883,7 +2890,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: internal_clk
                           vpiFullName: t_clk.internal_clk
-                          vpiActual: Net name:internal_clk
+                          vpiActual: Variable name:internal_clk
                         vpiRhs Constant start:66:19 end:66:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2900,7 +2907,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: reset_int_
                           vpiFullName: t_clk.reset_int_
-                          vpiActual: Net name:reset_int_
+                          vpiActual: Variable name:reset_int_
                         vpiRhs Constant start:67:17 end:67:18:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2921,7 +2928,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: internal_clk
                           vpiFullName: t_clk.internal_clk
-                          vpiActual: Net name:internal_clk
+                          vpiActual: Variable name:internal_clk
                         vpiRhs Operation start:70:19 end:70:32:
                           vpiParent: Assignment
                           vpiOpType: bitwise negation (4)
@@ -2930,7 +2937,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: internal_clk
                               vpiFullName: t_clk.internal_clk
-                              vpiActual: Net name:internal_clk
+                              vpiActual: Variable name:internal_clk
                       IfStmt start:71:3 end:77:6:
                         vpiParent: Begin
                         vpiCondition Operation start:71:7 end:71:14:
@@ -2941,7 +2948,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: "_ranit"
                               vpiFullName: t_clk._ranit
-                              vpiActual: Net name:_ranit
+                              vpiActual: Variable name:_ranit
                         vpiStmt Begin start:71:16 end:77:6:
                           vpiParent: IfStmt
                           vpiFullName: t_clk
@@ -2952,7 +2959,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: "_ranit"
                                 vpiFullName: t_clk._ranit
-                                vpiActual: Net name:_ranit
+                                vpiActual: Variable name:_ranit
                               vpiRhs Constant start:72:16 end:72:17:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -2969,7 +2976,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: reset_int_
                                 vpiFullName: t_clk.reset_int_
-                                vpiActual: Net name:reset_int_
+                                vpiActual: Variable name:reset_int_
                               vpiRhs Constant start:76:20 end:76:21:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -3032,7 +3039,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: sig_rst
                           vpiFullName: t_clk.sig_rst
-                          vpiActual: Net name:sig_rst
+                          vpiActual: Variable name:sig_rst
                         vpiRhs Constant start:87:14 end:87:15:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -3053,7 +3060,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: sig_rst
                           vpiFullName: t_clk.sig_rst
-                          vpiActual: Net name:sig_rst
+                          vpiActual: Variable name:sig_rst
                         vpiRhs Operation start:90:14 end:90:25:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -3062,7 +3069,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: sig_rst
                               vpiFullName: t_clk.sig_rst
-                              vpiActual: Net name:sig_rst
+                              vpiActual: Variable name:sig_rst
                             Constant start:90:24 end:90:25:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3112,7 +3119,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: clk_clocks
                           vpiFullName: t_clk.clk_clocks
-                          vpiActual: Net name:clk_clocks
+                          vpiActual: Variable name:clk_clocks
                         vpiRhs Constant start:99:17 end:99:18:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -3133,7 +3140,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: clk_clocks
                           vpiFullName: t_clk.clk_clocks
-                          vpiActual: Net name:clk_clocks
+                          vpiActual: Variable name:clk_clocks
                         vpiRhs Operation start:102:17 end:102:34:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -3142,7 +3149,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: clk_clocks
                               vpiFullName: t_clk.clk_clocks
-                              vpiActual: Net name:clk_clocks
+                              vpiActual: Variable name:clk_clocks
                             Constant start:102:30 end:102:34:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3163,7 +3170,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: clk_clocks
                               vpiFullName: t_clk.clk_clocks
-                              vpiActual: Net name:clk_clocks
+                              vpiActual: Variable name:clk_clocks
                             Constant start:103:21 end:103:22:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3188,7 +3195,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: sig_rst
                                     vpiFullName: t_clk.sig_rst
-                                    vpiActual: Net name:sig_rst
+                                    vpiActual: Variable name:sig_rst
                                   Constant start:104:22 end:104:23:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
@@ -3240,7 +3247,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: int_clocks
                                     vpiFullName: t_clk.int_clocks
-                                    vpiActual: Net name:int_clocks
+                                    vpiActual: Variable name:int_clocks
                                   Constant start:106:25 end:106:26:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
@@ -3266,7 +3273,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: int_clocks_copy
                                     vpiFullName: t_clk.int_clocks_copy
-                                    vpiActual: Net name:int_clocks_copy
+                                    vpiActual: Variable name:int_clocks_copy
                                   Constant start:107:30 end:107:31:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
@@ -3371,7 +3378,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: reset_int_
                       vpiFullName: t_clk.reset_int_
-                      vpiActual: Net name:reset_int_
+                      vpiActual: Variable name:reset_int_
             vpiStmt Begin start:117:49 end:127:7:
               vpiParent: EventControl
               vpiFullName: t_clk
@@ -3386,7 +3393,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: reset_int_
                         vpiFullName: t_clk.reset_int_
-                        vpiActual: Net name:reset_int_
+                        vpiActual: Variable name:reset_int_
                   vpiStmt Begin start:121:24 end:123:10:
                     vpiParent: IfElse
                     vpiFullName: t_clk
@@ -3397,7 +3404,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: resetted
                           vpiFullName: t_clk.resetted
-                          vpiActual: Net name:resetted
+                          vpiActual: Variable name:resetted
                         vpiRhs Constant start:122:15 end:122:16:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -3418,7 +3425,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: resetted
                           vpiFullName: t_clk.resetted
-                          vpiActual: Net name:resetted
+                          vpiActual: Variable name:resetted
                         vpiRhs Operation start:125:15 end:125:30:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -3427,7 +3434,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: resetted
                               vpiFullName: t_clk.resetted
-                              vpiActual: Net name:resetted
+                              vpiActual: Variable name:resetted
                             Constant start:125:26 end:125:30:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3447,7 +3454,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: int_clocks
               vpiFullName: t_clk.int_clocks
-              vpiActual: Net name:int_clocks
+              vpiActual: Variable name:int_clocks
             vpiStmt Begin start:129:26 end:131:7:
               vpiParent: EventControl
               vpiFullName: t_clk
@@ -3459,12 +3466,12 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: int_clocks_copy
                     vpiFullName: t_clk.int_clocks_copy
-                    vpiActual: Net name:int_clocks_copy
+                    vpiActual: Variable name:int_clocks_copy
                   vpiRhs RefObj name:int_clocks start:130:25 end:130:35:
                     vpiParent: Assignment
                     vpiName: int_clocks
                     vpiFullName: t_clk.int_clocks
-                    vpiActual: Net name:int_clocks
+                    vpiActual: Variable name:int_clocks
           vpiAlwaysType: always (1)
         Always start:133:4 end:135:7:
           vpiParent: Module name:t_clk
@@ -3478,7 +3485,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: internal_clk
                   vpiFullName: t_clk.internal_clk
-                  vpiActual: Net name:internal_clk
+                  vpiActual: Variable name:internal_clk
             vpiStmt Begin start:133:36 end:135:7:
               vpiParent: EventControl
               vpiFullName: t_clk
@@ -3489,7 +3496,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: int_clocks
                     vpiFullName: t_clk.int_clocks
-                    vpiActual: Net name:int_clocks
+                    vpiActual: Variable name:int_clocks
                   vpiRhs Operation start:134:21 end:134:38:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -3498,7 +3505,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: int_clocks
                         vpiFullName: t_clk.int_clocks
-                        vpiActual: Net name:int_clocks
+                        vpiActual: Variable name:int_clocks
                       Constant start:134:34 end:134:38:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -3553,7 +3560,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk_clocks
                 vpiFullName: t_clk.flopa.clk_clocks
-                vpiActual: Net name:clk_clocks
+                vpiActual: Variable name:clk_clocks
             Port start:138:8 end:138:26:
               vpiParent: RefInstance name:flopa
               vpiLowConn RefObj name:q start:138:9 end:138:10:
@@ -3618,7 +3625,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk_clocks
                 vpiFullName: t_clk.flopb.clk_clocks
-                vpiActual: Net name:clk_clocks
+                vpiActual: Variable name:clk_clocks
             Port start:140:8 end:140:30:
               vpiParent: RefInstance name:flopb
               vpiLowConn RefObj name:q start:140:9 end:140:10:
@@ -3680,6 +3687,25 @@ Design name:unnamed:
         vpiParent: Module name:t_clk_flop
         vpiName: t_clk_flop
       vpiFullName: t_clk_flop
+      vpiVariable (2 items):
+        Variable name:q start:158:25 end:158:26:
+          vpiParent: Module name:t_clk_flop
+          vpiTypespec RefTypespec start:160:4 end:160:21:
+            vpiParent: Variable name:q
+            vpiFullName: t_clk_flop.q
+            vpiActual: LogicTypespec
+          vpiName: q
+          vpiFullName: t_clk_flop.q
+          vpiVector: true
+        Variable name:q2 start:159:25 end:159:27:
+          vpiParent: Module name:t_clk_flop
+          vpiTypespec RefTypespec start:161:4 end:161:21:
+            vpiParent: Variable name:q2
+            vpiFullName: t_clk_flop.q2
+            vpiActual: LogicTypespec
+          vpiName: q2
+          vpiFullName: t_clk_flop.q2
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:WIDTH start:154:14 end:154:19:
           vpiParent: Module name:t_clk_flop
@@ -3886,29 +3912,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: t_clk_flop
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t_clk_flop
         vpiName: work
         vpiFullName: t_clk_flop.work
       vpiCell: t_clk_flop
-      vpiNet (5 items):
-        Net name:q start:158:25 end:158:26:
-          vpiParent: Module name:t_clk_flop
-          vpiTypespec RefTypespec start:158:11 end:158:24:
-            vpiParent: Net name:q
-            vpiFullName: t_clk_flop.q
-            vpiActual: LogicTypespec
-          vpiName: q
-          vpiFullName: t_clk_flop.q
-        Net name:q2 start:159:25 end:159:27:
-          vpiParent: Module name:t_clk_flop
-          vpiTypespec RefTypespec start:159:11 end:159:24:
-            vpiParent: Net name:q2
-            vpiFullName: t_clk_flop.q2
-            vpiActual: LogicTypespec
-          vpiName: q2
-          vpiFullName: t_clk_flop.q2
+      vpiNet (3 items):
         Net name:clk start:155:10 end:155:13:
           vpiParent: Module name:t_clk_flop
           vpiTypespec RefTypespec start:155:10 end:155:10:
@@ -3917,6 +3927,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t_clk_flop.clk
+          vpiNetType: wire (1)
         Net name:clk2 start:156:10 end:156:14:
           vpiParent: Module name:t_clk_flop
           vpiTypespec RefTypespec start:156:10 end:156:10:
@@ -3925,6 +3936,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk2
           vpiFullName: t_clk_flop.clk2
+          vpiNetType: wire (1)
         Net name:a start:157:25 end:157:26:
           vpiParent: Module name:t_clk_flop
           vpiTypespec RefTypespec start:157:10 end:157:23:
@@ -3933,38 +3945,37 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: t_clk_flop.a
+          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:q start:150:4 end:150:5:
           vpiParent: Module name:t_clk_flop
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj name:q start:150:4 end:150:5:
+          vpiLowConn RefObj name:q start:158:25 end:158:26:
             vpiParent: Port name:q
             vpiName: q
             vpiFullName: t_clk_flop.q.q
-            vpiActual: Net name:q
+            vpiActual: Variable name:q
           vpiTypespec RefTypespec start:158:11 end:158:24:
             vpiParent: Port name:q
             vpiFullName: t_clk_flop.q
-            vpiActual: LogicTypespec
         Port name:q2 start:150:7 end:150:9:
           vpiParent: Module name:t_clk_flop
           vpiName: q2
           vpiDirection: output (2)
-          vpiLowConn RefObj name:q2 start:150:7 end:150:9:
+          vpiLowConn RefObj name:q2 start:159:25 end:159:27:
             vpiParent: Port name:q2
             vpiName: q2
             vpiFullName: t_clk_flop.q2.q2
-            vpiActual: Net name:q2
+            vpiActual: Variable name:q2
           vpiTypespec RefTypespec start:159:11 end:159:24:
             vpiParent: Port name:q2
             vpiFullName: t_clk_flop.q2
-            vpiActual: LogicTypespec
         Port name:clk start:152:4 end:152:7:
           vpiParent: Module name:t_clk_flop
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:152:4 end:152:7:
+          vpiLowConn RefObj name:clk start:155:10 end:155:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t_clk_flop.clk.clk
@@ -3977,7 +3988,7 @@ Design name:unnamed:
           vpiParent: Module name:t_clk_flop
           vpiName: clk2
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk2 start:152:9 end:152:13:
+          vpiLowConn RefObj name:clk2 start:156:10 end:156:14:
             vpiParent: Port name:clk2
             vpiName: clk2
             vpiFullName: t_clk_flop.clk2.clk2
@@ -3990,7 +4001,7 @@ Design name:unnamed:
           vpiParent: Module name:t_clk_flop
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:152:15 end:152:16:
+          vpiLowConn RefObj name:a start:157:25 end:157:26:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: t_clk_flop.a.a
@@ -4019,7 +4030,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: q
                 vpiFullName: t_clk_flop.q
-                vpiActual: Net name:q
+                vpiActual: Variable name:q
               vpiRhs RefObj name:a start:162:30 end:162:31:
                 vpiParent: Assignment
                 vpiName: a
@@ -4045,7 +4056,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: q2
                 vpiFullName: t_clk_flop.q2
-                vpiActual: Net name:q2
+                vpiActual: Variable name:q2
               vpiRhs RefObj name:a start:163:32 end:163:33:
                 vpiParent: Assignment
                 vpiName: a
@@ -4058,6 +4069,25 @@ Design name:unnamed:
         vpiParent: Module name:t_clk_two
         vpiName: t_clk_two
       vpiFullName: t_clk_two
+      vpiVariable (2 items):
+        Variable name:clk2 start:173:8 end:173:12:
+          vpiParent: Module name:t_clk_two
+          vpiTypespec RefTypespec start:173:4 end:173:7:
+            vpiParent: Variable name:clk2
+            vpiFullName: t_clk_two.clk2
+            vpiActual: LogicTypespec
+          vpiName: clk2
+          vpiFullName: t_clk_two.clk2
+          vpiScalar: true
+        Variable name:count start:175:15 end:175:20:
+          vpiParent: Module name:t_clk_two
+          vpiTypespec RefTypespec start:175:4 end:175:14:
+            vpiParent: Variable name:count
+            vpiFullName: t_clk_two.count
+            vpiActual: LogicTypespec
+          vpiName: count
+          vpiFullName: t_clk_two.count
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t_clk_two
@@ -4093,13 +4123,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:t_clk_twob
             vpiName: t_clk_twob
       vpiDefName: t_clk_two
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t_clk_two
         vpiName: work
         vpiFullName: t_clk_two.work
       vpiCell: t_clk_two
-      vpiNet (5 items):
+      vpiNet (3 items):
         Net name:fastclk start:170:10 end:170:17:
           vpiParent: Module name:t_clk_two
           vpiTypespec RefTypespec start:170:10 end:170:10:
@@ -4108,6 +4138,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: fastclk
           vpiFullName: t_clk_two.fastclk
+          vpiNetType: wire (1)
         Net name:reset_l start:171:10 end:171:17:
           vpiParent: Module name:t_clk_two
           vpiTypespec RefTypespec start:171:10 end:171:10:
@@ -4116,22 +4147,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset_l
           vpiFullName: t_clk_two.reset_l
-        Net name:clk2 start:173:8 end:173:12:
-          vpiParent: Module name:t_clk_two
-          vpiTypespec RefTypespec start:173:4 end:173:7:
-            vpiParent: Net name:clk2
-            vpiFullName: t_clk_two.clk2
-            vpiActual: LogicTypespec
-          vpiName: clk2
-          vpiFullName: t_clk_two.clk2
-        Net name:count start:175:15 end:175:20:
-          vpiParent: Module name:t_clk_two
-          vpiTypespec RefTypespec start:175:4 end:175:14:
-            vpiParent: Net name:count
-            vpiFullName: t_clk_two.count
-            vpiActual: LogicTypespec
-          vpiName: count
-          vpiFullName: t_clk_two.count
+          vpiNetType: wire (1)
         Net name:reset_h start:179:9 end:179:16:
           vpiParent: Module name:t_clk_two
           vpiTypespec RefTypespec start:179:9 end:179:9:
@@ -4155,7 +4171,7 @@ Design name:unnamed:
           vpiParent: Module name:t_clk_two
           vpiName: fastclk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:fastclk start:168:4 end:168:11:
+          vpiLowConn RefObj name:fastclk start:170:10 end:170:17:
             vpiParent: Port name:fastclk
             vpiName: fastclk
             vpiFullName: t_clk_two.fastclk.fastclk
@@ -4168,7 +4184,7 @@ Design name:unnamed:
           vpiParent: Module name:t_clk_two
           vpiName: reset_l
           vpiDirection: input (1)
-          vpiLowConn RefObj name:reset_l start:168:13 end:168:20:
+          vpiLowConn RefObj name:reset_l start:171:10 end:171:17:
             vpiParent: Port name:reset_l
             vpiName: reset_l
             vpiFullName: t_clk_two.reset_l.reset_l
@@ -4208,7 +4224,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clk2
                       vpiFullName: t_clk_two.clk2
-                      vpiActual: Net name:clk2
+                      vpiActual: Variable name:clk2
                     vpiRhs Constant start:181:28 end:181:29:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -4225,7 +4241,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clk2
                       vpiFullName: t_clk_two.clk2
-                      vpiActual: Net name:clk2
+                      vpiActual: Variable name:clk2
                     vpiRhs Operation start:182:20 end:182:25:
                       vpiParent: Assignment
                       vpiOpType: bitwise negation (4)
@@ -4234,7 +4250,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: clk2
                           vpiFullName: t_clk_two.clk2
-                          vpiActual: Net name:clk2
+                          vpiActual: Variable name:clk2
           vpiAlwaysType: always (1)
         Always start:184:4 end:187:7:
           vpiParent: Module name:t_clk_two
@@ -4248,7 +4264,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk2
                   vpiFullName: t_clk_two.clk2
-                  vpiActual: Net name:clk2
+                  vpiActual: Variable name:clk2
             vpiStmt Begin start:184:28 end:187:7:
               vpiParent: EventControl
               vpiFullName: t_clk_two
@@ -4266,7 +4282,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: count
                       vpiFullName: t_clk_two.count
-                      vpiActual: Net name:count
+                      vpiActual: Variable name:count
                     vpiRhs Constant start:185:29 end:185:30:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -4283,7 +4299,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: count
                       vpiFullName: t_clk_two.count
-                      vpiActual: Net name:count
+                      vpiActual: Variable name:count
                     vpiRhs Operation start:186:21 end:186:30:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -4292,7 +4308,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: count
                           vpiFullName: t_clk_two.count
-                          vpiActual: Net name:count
+                          vpiActual: Variable name:count
                         Constant start:186:29 end:186:30:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4329,7 +4345,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:t_clk_twob
       vpiDefName: t_clk_twob
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t_clk_twob
         vpiName: work
@@ -4344,6 +4360,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: fastclk
           vpiFullName: t_clk_twob.fastclk
+          vpiNetType: wire (1)
         Net name:reset_l start:195:10 end:195:17:
           vpiParent: Module name:t_clk_twob
           vpiTypespec RefTypespec start:195:10 end:195:10:
@@ -4352,12 +4369,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset_l
           vpiFullName: t_clk_twob.reset_l
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:fastclk start:192:4 end:192:11:
           vpiParent: Module name:t_clk_twob
           vpiName: fastclk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:fastclk start:192:4 end:192:11:
+          vpiLowConn RefObj name:fastclk start:194:10 end:194:17:
             vpiParent: Port name:fastclk
             vpiName: fastclk
             vpiFullName: t_clk_twob.fastclk.fastclk
@@ -4370,7 +4388,7 @@ Design name:unnamed:
           vpiParent: Module name:t_clk_twob
           vpiName: reset_l
           vpiDirection: input (1)
-          vpiLowConn RefObj name:reset_l start:192:13 end:192:20:
+          vpiLowConn RefObj name:reset_l start:195:10 end:195:17:
             vpiParent: Port name:reset_l
             vpiName: reset_l
             vpiFullName: t_clk_twob.reset_l.reset_l
@@ -4444,7 +4462,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

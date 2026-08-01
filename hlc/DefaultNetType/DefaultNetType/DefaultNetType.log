@@ -56,7 +56,7 @@ n<$Source01/dut.sv> u<364> t<Top_level_rule> c<1> l<1:1> el<50:1>
     n<> u<43> t<Description> p<363> c<42> s<57> l<9:1> el<9:22>
       n<> u<42> t<Top_directives> p<43> c<41> l<9:1> el<9:22>
         n<> u<41> t<Default_nettype_directive> p<42> c<40> l<9:1> el<9:22>
-          n<none> u<40> t<SIMPLE_IDENTIFIER> p<41> l<9:18> el<9:22>
+          n<> u<40> t<NONE> p<41> l<9:18> el<9:22>
     n<> u<57> t<Description> p<363> c<56> s<140> l<11:1> el<12:10>
       n<> u<56> t<Module_declaration> p<57> c<54> l<11:1> el<12:10>
         n<> u<54> t<Module_ansi_header> p<56> c<44> s<55> l<11:1> el<11:20>
@@ -393,7 +393,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: wire (1)
+      vpiDirective (2 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:dut.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: dut.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "1"
+        GenericDirective start:9:1 end:9:22:
+          vpiParent: SourceFile name:dut.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:9:18 end:9:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: dut.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (4 items):
     Module name:ok file:$Source01/dut.sv start:3:1 end:7:10:
       vpiParent: Design name:unnamed
@@ -401,25 +421,26 @@ Design name:unnamed:
         vpiParent: Module name:ok
         vpiName: ok
       vpiFullName: ok
+      vpiVariable (1 items):
+        Variable name:a start:4:5 end:4:6:
+          vpiParent: Module name:ok
+          vpiTypespec RefTypespec start:4:1 end:4:4:
+            vpiParent: Variable name:a
+            vpiFullName: ok.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: ok.a
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:ok
       vpiDefName: ok
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:ok
         vpiName: work
         vpiFullName: ok.work
       vpiCell: ok
-      vpiNet (1 items):
-        Net name:a start:4:5 end:4:6:
-          vpiParent: Module name:ok
-          vpiTypespec RefTypespec start:4:1 end:4:4:
-            vpiParent: Net name:a
-            vpiFullName: ok.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: ok.a
       vpiContAssign (1 items):
         ContAssign start:5:8 end:5:11:
           vpiParent: Module name:ok
@@ -431,13 +452,22 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: a
             vpiFullName: ok.a
-            vpiActual: Net name:a
+            vpiActual: Variable name:a
     Module name:M1 file:$Source01/dut.sv start:11:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:M1 start:11:8 end:11:10:
         vpiParent: Module name:M1
         vpiName: M1
       vpiFullName: M1
+      vpiVariable (1 items):
+        Variable name:b start:11:17 end:11:18:
+          vpiParent: Module name:M1
+          vpiTypespec RefTypespec start:11:11 end:11:16:
+            vpiParent: Variable name:b
+            vpiFullName: M1.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: M1.b
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:M1
@@ -448,25 +478,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: M1.work
       vpiCell: M1
-      vpiNet (1 items):
-        Net name:b start:11:17 end:11:18:
-          vpiParent: Module name:M1
-          vpiTypespec RefTypespec start:11:11 end:11:16:
-            vpiParent: Net name:b
-            vpiFullName: M1.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: M1.b
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:b start:11:17 end:11:18:
           vpiParent: Module name:M1
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:11:17 end:11:18:
+          vpiLowConn RefObj name:b start:11:17 end:11:18:
             vpiParent: Port name:b
-            vpiFullName: M1.b
-            vpiActual: Net name:b
+            vpiName: b
+            vpiFullName: M1.b.b
+            vpiActual: Variable name:b
           vpiTypespec RefTypespec start:11:11 end:11:16:
             vpiParent: Port name:b
             vpiFullName: M1.b
@@ -477,6 +498,16 @@ Design name:unnamed:
         vpiParent: Module name:bad1
         vpiName: bad1
       vpiFullName: bad1
+      vpiVariable (1 items):
+        Variable name:a start:15:5 end:15:6:
+          vpiParent: Module name:bad1
+          vpiTypespec RefTypespec start:15:1 end:15:4:
+            vpiParent: Variable name:a
+            vpiFullName: bad1.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: bad1.a
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:bad1
@@ -574,15 +605,6 @@ Design name:unnamed:
             vpiParent: Function name:__truncate_to_2_bits
             vpiFullName: bad1.__truncate_to_2_bits
             vpiActual: LogicTypespec
-      vpiNet (1 items):
-        Net name:a start:15:5 end:15:6:
-          vpiParent: Module name:bad1
-          vpiTypespec RefTypespec start:15:1 end:15:4:
-            vpiParent: Net name:a
-            vpiFullName: bad1.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: bad1.a
       vpiContAssign (1 items):
         ContAssign start:16:8 end:16:11:
           vpiParent: Module name:bad1
@@ -594,13 +616,30 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: a
             vpiFullName: bad1.a
-            vpiActual: Net name:a
+            vpiActual: Variable name:a
     Module name:bad2 file:$Source01/dut.sv start:28:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bad2 start:28:8 end:28:12:
         vpiParent: Module name:bad2
         vpiName: bad2
       vpiFullName: bad2
+      vpiVariable (2 items):
+        Variable name:currentState start:30:22 end:30:34:
+          vpiParent: Module name:bad2
+          vpiTypespec RefTypespec start:30:1 end:30:21:
+            vpiParent: Variable name:currentState
+            vpiFullName: bad2.currentState
+            vpiActual: EnumTypespec
+          vpiName: currentState
+          vpiFullName: bad2.currentState
+        Variable name:nextState start:30:36 end:30:45:
+          vpiParent: Module name:bad2
+          vpiTypespec RefTypespec start:30:1 end:30:21:
+            vpiParent: Variable name:nextState
+            vpiFullName: bad2.nextState
+            vpiActual: EnumTypespec
+          vpiName: nextState
+          vpiFullName: bad2.nextState
       vpiTypespec (2 items):
         EnumTypespec start:30:1 end:30:21:
           vpiParent: Module name:bad2
@@ -632,23 +671,6 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: bad2.work
       vpiCell: bad2
-      vpiNet (2 items):
-        Net name:currentState start:30:22 end:30:34:
-          vpiParent: Module name:bad2
-          vpiTypespec RefTypespec start:30:1 end:30:21:
-            vpiParent: Net name:currentState
-            vpiFullName: bad2.currentState
-            vpiActual: EnumTypespec
-          vpiName: currentState
-          vpiFullName: bad2.currentState
-        Net name:nextState start:30:36 end:30:45:
-          vpiParent: Module name:bad2
-          vpiTypespec RefTypespec start:30:1 end:30:21:
-            vpiParent: Net name:nextState
-            vpiFullName: bad2.nextState
-            vpiActual: EnumTypespec
-          vpiName: nextState
-          vpiFullName: bad2.nextState
       vpiProcess (2 items):
         Always start:32:1 end:37:4:
           vpiParent: Module name:bad2
@@ -678,7 +700,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: currentState
                       vpiFullName: bad2.currentState
-                      vpiActual: Net name:currentState
+                      vpiActual: Variable name:currentState
                     vpiRhs RefObj name:S_A start:34:21 end:34:24:
                       vpiParent: Assignment
                       vpiName: S_A
@@ -694,12 +716,12 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: currentState
                       vpiFullName: bad2.currentState
-                      vpiActual: Net name:currentState
+                      vpiActual: Variable name:currentState
                     vpiRhs RefObj name:nextState start:36:21 end:36:30:
                       vpiParent: Assignment
                       vpiName: nextState
                       vpiFullName: bad2.nextState
-                      vpiActual: Net name:nextState
+                      vpiActual: Variable name:nextState
           vpiAlwaysType: ff (3)
         Always start:39:3 end:45:8:
           vpiParent: Module name:bad2
@@ -784,7 +806,9 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b
                 vpiFullName: bad2.m1.b
-  vpiTypespec (10 items):
+  vpiTypespec (11 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:ok:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ok start:3:8 end:3:10:
@@ -937,25 +961,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/DefaultNetType/DefaultNetType/mounts.json
 
 
-{'result': {'coverage': 94.15,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 37,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 633}},
-            'post_len': 37,
+            'post_len': 0,
             'pre_len': 633,
             'test_name': 'DefaultNetType/DefaultNetType'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      633 |        37 |
+| $Output/lib/work/dut.sv |      633 |         0 |
 +=========================+==========+===========+
-|                         |      633 |        37 |
+|                         |      633 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.15
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -966,7 +990,7 @@ COMMAND: ${HLC_DIR}/regression/DefaultNetType/DefaultNetType/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             142     142       0         0
+Others                             149     149       0         0
 ----------------------------------------------------------------
-                                   142     142       0         0
+                                   149     149       0         0
 ===================== END REDUCTION RESULT =====================

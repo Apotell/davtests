@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,7 @@
 //     end
 //   endmodule
 //
-// -- ss.16.6 rules under test --------------------------------------------------
+// -- ss.16.6 rules under test ----
 //
 // Clocked sequence expression (ss.16.6):
 //   * '@(event) sequence_expr' embeds a clocking event directly inside the
@@ -44,9 +44,9 @@
 //   * ClockedSeq carries:
 //       getClockingEvent(): the clocking event -- an Operation with the edge
 //                           type as opType.  Here opType is posedge (39) and
-//                           the single operand is RefObj("clk") -> Net("clk").
-//       getSequenceExpr(): the sequence body -- here RefObj("a") -> Net("a").
-//   * Both name bindings (clk to Net, a to Net) occur at compile time.
+//                           the single operand is RefObj("clk") -> Variable("clk").
+//       getSequenceExpr(): the sequence body -- here RefObj("a") -> Variable("a").
+//   * Both name bindings (clk to Variable, a to Variable) occur at compile time.
 //
 // Concurrent assert property without external clocking event (ss.16.14):
 //   * 'assert property(seq12)' has no '@(clk)' in the assertion itself because
@@ -54,19 +54,17 @@
 //   * Consequently, the PropertySpec has no clocking event node (getClockingEvent()
 //     returns null on the PropertySpec).
 //   * The property expression 'seq12' must resolve (vpiActual) to the
-//     SequenceDecl for seq12.  Surelog emits EL0535 ("Illegal implicit net")
-//     for 'seq12' -- the same compile-time name resolution bug confirmed in
-//     sequence4 through 11.
+//     SequenceDecl for seq12, not be treated as an implicit net.
 //
-// -- Expected HLDB tree (if compiler is correct) --------------------------------
+// -- Expected HLDB tree (if compiler is correct) ----
 //
 //   Module name:tb
 //   +-- getSequenceDecls() (1 item)
 //   |   +-- SequenceDecl name:"seq12"
 //   |         vpiExpr: ClockedSeq
 //   |           getClockingEvent(): Operation opType:posedge(39)
-//   |             operand[0]: RefObj name:"clk" -> Net name:"clk"
-//   |           getSequenceExpr(): RefObj name:"a" -> Net name:"a"
+//   |             operand[0]: RefObj name:"clk" -> Variable name:"clk"
+//   |           getSequenceExpr(): RefObj name:"a" -> Variable name:"a"
 //   +-- getConcurrentAssertions() (1 item)
 //       +-- Assert
 //             PropertySpec  (no clocking event -- clock is inside seq12)
@@ -83,7 +81,7 @@
 #include <hldb/concurrent_assertions.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/ref_obj.h>
@@ -99,9 +97,9 @@ class Sequence12Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("tb", d->getAllModules());
@@ -135,15 +133,14 @@ static const hldb::ClockedSeq *getClockedSeq(const hldb::Module *m) {
 // ===========================================================================
 
 // ss.16.6 + ss.16.14: the SV file is syntactically and semantically valid --
-// no errors expected.  If this test fails, Surelog emits EL0535 ("Illegal
-// implicit net") for 'seq12' in the assert property statement, meaning it
-// misidentifies the sequence name as an undeclared net instead of resolving
-// it to the SequenceDecl node.
+// no errors expected.  A compiler that fails to resolve the sequence name
+// 'seq12' to its SequenceDecl might misidentify it as an undeclared implicit
+// net instead, which would surface as a spurious error here.
 TEST_F(Sequence12Test, Compiler_NoErrors) {
   ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbError, 0) << "ss.16.14: assert property(seq12) must not produce errors -- "
-                                 "EL0535 'Illegal implicit net' means Surelog does not resolve "
-                                 "sequence names to SequenceDecl nodes";
+                                 "'seq12' must resolve to its SequenceDecl, not be treated as an "
+                                 "implicit net";
 }
 
 TEST_F(Sequence12Test, Compiler_NoSyntaxErrors) {
@@ -256,7 +253,7 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_ClockingEvent_OperandIsRefToClk) {
   EXPECT_EQ(clkRef->getName(), "clk") << "ss.16.6: clocking event operand must reference signal 'clk'";
 }
 
-// ss.16.6: RefObj for 'clk' in the clocking event must resolve to Net name:
+// ss.16.6: RefObj for 'clk' in the clocking event must resolve to Variable name:
 // 'clk' at compile time.
 TEST_F(Sequence12Test, Seq12_ClockedSeq_ClockingEvent_ClkResolvesToNet) {
   const hldb::Module *m = getTb(m_design);
@@ -270,9 +267,9 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_ClockingEvent_ClkResolvesToNet) {
 
   const hldb::RefObj *clkRef = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(clkRef, nullptr);
-  EXPECT_NE(clkRef->getActual<hldb::Net>(), nullptr)
+  EXPECT_NE(clkRef->getActual<hldb::Variable>(), nullptr)
       << "ss.16.6: RefObj for 'clk' in the clocking event must resolve to "
-         "Net name:'clk' at compile time";
+         "Variable name:'clk' at compile time";
 }
 
 // ===========================================================================
@@ -300,7 +297,7 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_SequenceExpr_IsRefToA) {
                                      "signal 'a'";
 }
 
-// ss.16.6: RefObj for 'a' in the sequence body must resolve to Net name:'a'
+// ss.16.6: RefObj for 'a' in the sequence body must resolve to Variable name:'a'
 // at compile time.
 TEST_F(Sequence12Test, Seq12_ClockedSeq_SequenceExpr_ResolvesToNet) {
   const hldb::Module *m = getTb(m_design);
@@ -309,8 +306,8 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_SequenceExpr_ResolvesToNet) {
   ASSERT_NE(cs, nullptr);
   const hldb::RefObj *aRef = cs->getSequenceExpr<hldb::RefObj>();
   ASSERT_NE(aRef, nullptr);
-  EXPECT_NE(aRef->getActual<hldb::Net>(), nullptr) << "ss.16.6: RefObj for 'a' in the ClockedSeq body must resolve to "
-                                                      "Net name:'a' at compile time";
+  EXPECT_NE(aRef->getActual<hldb::Variable>(), nullptr) << "ss.16.6: RefObj for 'a' in the ClockedSeq body must resolve to "
+                                                      "Variable name:'a' at compile time";
 }
 
 // ===========================================================================
@@ -364,9 +361,8 @@ TEST_F(Sequence12Test, Assert_PropertyExpr_ReferencesSeq12) {
 }
 
 // ss.16.14: the RefObj for 'seq12' in the concurrent assertion must resolve
-// (vpiActual) to the SequenceDecl node.  Surelog emits EL0535 for this
-// reference, treating 'seq12' as an implicit net instead of resolving it to
-// the SequenceDecl.  Same compile-time name resolution bug as sequence4-11.
+// (vpiActual) to the SequenceDecl node, not be treated as an implicit net --
+// the same compile-time resolution confirmed in sequence4-11.
 TEST_F(Sequence12Test, Assert_PropertyExpr_ResolvedToSeq12Decl) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -377,8 +373,8 @@ TEST_F(Sequence12Test, Assert_PropertyExpr_ResolvedToSeq12Decl) {
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr);
   EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "ss.16.14: 'seq12' in assert property must resolve to SequenceDecl -- "
-         "Surelog emits EL0535 treating it as an implicit net instead";
+      << "ss.16.14: 'seq12' in assert property must resolve to SequenceDecl, not be "
+         "treated as an implicit net";
 }
 
 }  // namespace hlc

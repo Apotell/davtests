@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@
 // form is '-8'd6' (unary minus applied to the whole sized constant).
 //
 // Surelog issues 2 syntax errors and the parse collapses: the module body is
-// never completed, producing 2 nameless stub modules — the same broken-parse
+// never completed, producing 2 nameless stub modules -- the same broken-parse
 // pattern seen in other illegal-syntax tests.
 //
 // UHDM:
@@ -35,6 +35,7 @@
 //   No module named "top"
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -50,18 +51,18 @@ class IntegersSignedIllegal : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // '8'd-6' is illegal: the module body cannot be parsed, so no named module
 // reaches UHDM.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSignedIllegal, NoModuleNamedTop) {
   EXPECT_EQ(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr)
-      << "'top' should not exist — syntax error broke the parse";
+      << "'top' should not exist -- syntax error broke the parse";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // The broken parse leaves 2 nameless stub module fragments in UHDM.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSignedIllegal, TwoStubModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "broken parse should produce exactly 2 nameless stub modules";
@@ -74,15 +75,25 @@ TEST_F(IntegersSignedIllegal, StubModulesHaveNoName) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Neither stub module contains nets — the variable declaration for 'a' was
+// ----
+// Neither stub module contains nets -- the variable declaration for 'a' was
 // parsed into the global scope, not into any module.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSignedIllegal, NoNetsInStubModules) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const m : *m_design->getAllModules()) {
     EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "stub module should have no nets";
   }
+}
+
+// ----
+// Per IEEE 1800-2023 Sec 5.7.1 / Annex A.8.7 (decimal_number grammar), the
+// unary minus must precede the entire sized literal (-8'd6); '8'd-6' is not
+// valid syntax and must be reported as a syntax error.
+// ----
+TEST_F(IntegersSignedIllegal, Compiler_ReportsSyntaxErrors) {
+  const ErrorContainer::Stats stats = m_compiler->getErrorStats();
+  EXPECT_GT(stats.nbSyntax, 0) << "'8'd-6' is illegal (IEEE 1800-2023 Sec 5.7.1) and must be a syntax error";
 }
 
 }  // namespace hlc

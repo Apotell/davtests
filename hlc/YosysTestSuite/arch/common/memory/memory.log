@@ -206,6 +206,7 @@ n<$Source01/memory.v> u<192> t<Top_level_rule> c<1> l<1:1> el<22:1>
         n<> u<188> t<ENDMODULE> p<189> l<21:1> el<21:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/memory.v:1:1: Compile module "top".
+[ERR:LN0813] $Source01/memory.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -215,7 +216,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: memory.v
       vpiPreprocFile: "$Output/lib/work/memory.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/memory.v start:1:1 end:21:10:
       vpiParent: Design name:unnamed
@@ -223,7 +223,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:q_a start:6:19 end:6:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:2 end:6:18:
@@ -232,7 +232,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q_a
           vpiFullName: top.q_a
-          vpiNetType: none (12)
+        Variable name:ram start:9:12 end:9:15:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:ram
+            vpiFullName: top.ram
+            vpiActual: ArrayTypespec
+          vpiName: ram
+          vpiFullName: top.ram
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -370,13 +378,13 @@ Design name:unnamed:
             vpiFullName: top
             vpiActual: LogicTypespec
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (5 items):
+      vpiNet (3 items):
         Net name:data_a start:3:14 end:3:20:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:3:2 end:3:13:
@@ -404,31 +412,15 @@ Design name:unnamed:
           vpiName: we_a
           vpiFullName: top.we_a
           vpiNetType: wire (1)
-        Net name:clk start:5:14 end:5:17:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:5:14 end:5:14:
-            vpiParent: Net name:clk
-            vpiFullName: top.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: top.clk
-          vpiNetType: wire (1)
-        Net name:ram start:9:12 end:9:15:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ram
-            vpiFullName: top.ram
-            vpiActual: ArrayTypespec
-          vpiName: ram
-          vpiFullName: top.ram
       vpiPort (5 items):
         Port name:data_a start:3:14 end:3:20:
           vpiParent: Module name:top
           vpiName: data_a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:14 end:3:20:
+          vpiLowConn RefObj name:data_a start:3:14 end:3:20:
             vpiParent: Port name:data_a
-            vpiFullName: top.data_a
+            vpiName: data_a
+            vpiFullName: top.data_a.data_a
             vpiActual: Net name:data_a
           vpiTypespec RefTypespec start:3:2 end:3:13:
             vpiParent: Port name:data_a
@@ -438,9 +430,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: addr_a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:14 end:4:20:
+          vpiLowConn RefObj name:addr_a start:4:14 end:4:20:
             vpiParent: Port name:addr_a
-            vpiFullName: top.addr_a
+            vpiName: addr_a
+            vpiFullName: top.addr_a.addr_a
             vpiActual: Net name:addr_a
           vpiTypespec RefTypespec start:4:2 end:4:13:
             vpiParent: Port name:addr_a
@@ -450,9 +443,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: we_a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:8 end:5:12:
+          vpiLowConn RefObj name:we_a start:5:8 end:5:12:
             vpiParent: Port name:we_a
-            vpiFullName: top.we_a
+            vpiName: we_a
+            vpiFullName: top.we_a.we_a
             vpiActual: Net name:we_a
           vpiTypespec RefTypespec start:5:2 end:5:7:
             vpiParent: Port name:we_a
@@ -462,21 +456,14 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:5:14 end:5:17:
-            vpiParent: Port name:clk
-            vpiFullName: top.clk
-            vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:5:14 end:5:14:
-            vpiParent: Port name:clk
-            vpiFullName: top.clk
-            vpiActual: LogicTypespec
         Port name:q_a start:6:19 end:6:22:
           vpiParent: Module name:top
           vpiName: q_a
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:19 end:6:22:
+          vpiLowConn RefObj name:q_a start:6:19 end:6:22:
             vpiParent: Port name:q_a
-            vpiFullName: top.q_a
+            vpiName: q_a
+            vpiFullName: top.q_a.q_a
             vpiActual: Variable name:q_a
           vpiTypespec RefTypespec start:6:2 end:6:18:
             vpiParent: Port name:q_a
@@ -495,7 +482,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: top.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Port name:clk
             vpiStmt Begin start:13:2 end:20:5:
               vpiParent: EventControl
               vpiFullName: top
@@ -521,7 +508,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:ram[addr_a]
                             vpiName: ram
                             vpiFullName: top.ram
-                            vpiActual: Net name:ram
+                            vpiActual: Variable name:ram
                           vpiIndex RefObj name:addr_a start:16:8 end:16:14:
                             vpiParent: BitSelect name:ram[addr_a]
                             vpiName: addr_a
@@ -559,7 +546,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:ram[addr_a]
                       vpiName: ram
                       vpiFullName: top.ram
-                      vpiActual: Net name:ram
+                      vpiActual: Variable name:ram
                     vpiIndex RefObj name:addr_a start:19:14 end:19:20:
                       vpiParent: BitSelect name:ram[addr_a]
                       vpiName: addr_a
@@ -579,7 +566,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -624,7 +611,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/arch/common/memory/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                    84      84       0         0
 ===================== END REDUCTION RESULT =====================

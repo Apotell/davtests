@@ -18,7 +18,7 @@ n<$Source01/relong/port_connections.sv> u<402> t<Top_level_rule> c<1> l<1:1> el<
     n<> u<5> t<Description> p<401> c<4> s<244> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<244> t<Description> p<401> c<243> s<296> l<3:1> el<25:10>
       n<> u<243> t<Module_declaration> p<244> c<36> l<3:1> el<25:10>
         n<> u<36> t<Module_ansi_header> p<243> c<6> s<58> l<3:1> el<6:3>
@@ -420,8 +420,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/relong/port_connections.sv:27:1: Compile module "Helper".
 [INF:CP0303] $Source01/relong/port_connections.sv:37:1: Compile module "Wrapper1".
 [INF:CP0303] $Source01/relong/port_connections.sv:49:1: Compile module "Wrapper2".
-[ERR:EL0535] $Source01/relong/port_connections.sv:20:39: Illegal implicit net "id:129, name:parity1".
-[ERR:EL0535] $Source01/relong/port_connections.sv:58:35: Illegal implicit net "id:215, name:parity".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -431,7 +429,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: port_connections.sv
       vpiPreprocFile: "$Output/lib/work/relong/port_connections.sv"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:port_connections.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: port_connections.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (4 items):
     Module name:Device file:$Source01/relong/port_connections.sv start:3:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -439,7 +447,15 @@ Design name:unnamed:
         vpiParent: Module name:Device
         vpiName: Device
       vpiFullName: Device
-      vpiVariable (1 items):
+      vpiVariable (3 items):
+        Variable name:data start:4:24 end:4:28:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec start:4:5 end:4:23:
+            vpiParent: Variable name:data
+            vpiFullName: Device.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: Device.data
         Variable name:parity start:5:18 end:5:24:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:5:5 end:5:17:
@@ -448,7 +464,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: parity
           vpiFullName: Device.parity
-          vpiNetType: none (12)
+        Variable name:partParity start:8:17 end:8:27:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec start:8:5 end:8:16:
+            vpiParent: Variable name:partParity
+            vpiFullName: Device.partParity
+            vpiActual: LogicTypespec
+          vpiName: partParity
+          vpiFullName: Device.partParity
+          vpiVector: true
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:Device
@@ -531,33 +555,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Device.work
       vpiCell: Device
-      vpiNet (2 items):
-        Net name:data start:4:24 end:4:28:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:4:5 end:4:23:
-            vpiParent: Net name:data
-            vpiFullName: Device.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: Device.data
-          vpiNetType: wire (1)
-        Net name:partParity start:8:17 end:8:27:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:8:5 end:8:16:
-            vpiParent: Net name:partParity
-            vpiFullName: Device.partParity
-            vpiActual: LogicTypespec
-          vpiName: partParity
-          vpiFullName: Device.partParity
       vpiPort (2 items):
         Port name:data start:4:24 end:4:28:
           vpiParent: Module name:Device
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:24 end:4:28:
+          vpiLowConn RefObj name:data start:4:24 end:4:28:
             vpiParent: Port name:data
-            vpiFullName: Device.data
-            vpiActual: Net name:data
+            vpiName: data
+            vpiFullName: Device.data.data
+            vpiActual: Variable name:data
           vpiTypespec RefTypespec start:4:5 end:4:23:
             vpiParent: Port name:data
             vpiFullName: Device.data
@@ -566,9 +573,10 @@ Design name:unnamed:
           vpiParent: Module name:Device
           vpiName: parity
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:18 end:5:24:
+          vpiLowConn RefObj name:parity start:5:18 end:5:24:
             vpiParent: Port name:parity
-            vpiFullName: Device.parity
+            vpiName: parity
+            vpiFullName: Device.parity.parity
             vpiActual: Variable name:parity
           vpiTypespec RefTypespec start:5:5 end:5:17:
             vpiParent: Port name:parity
@@ -590,7 +598,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: partParity
                 vpiFullName: Device.partParity
-                vpiActual: Net name:partParity
+                vpiActual: Variable name:partParity
       vpiRefInstance (4 items):
         RefInstance name:bottom start:12:12 end:12:18:
           vpiParent: Module name:Device
@@ -614,7 +622,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:data[7:0]
                   vpiName: data
                   vpiFullName: Device.bottom.data[7:0].data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
                 vpiRange Range start:12:24 end:12:27:
                   vpiParent: PartSelect name:data[7:0]
                   vpiLeftRange Constant start:12:24 end:12:25:
@@ -650,7 +658,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:partParity[0]
                   vpiName: partParity
                   vpiFullName: Device.bottom.partParity
-                  vpiActual: Net name:partParity
+                  vpiActual: Variable name:partParity
                 vpiIndex Constant start:12:41 end:12:42:
                   vpiParent: BitSelect name:partParity[0]
                   vpiTypespec RefTypespec:
@@ -685,7 +693,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:partParity[1]
                   vpiName: partParity
                   vpiFullName: Device.bottomMid.partParity
-                  vpiActual: Net name:partParity
+                  vpiActual: Variable name:partParity
                 vpiIndex Constant start:16:41 end:16:42:
                   vpiParent: BitSelect name:partParity[1]
                   vpiTypespec RefTypespec:
@@ -702,7 +710,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: Device.bottomMid.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
               vpiHighConn PartSelect name:data[15:8] start:16:52 end:16:62:
                 vpiParent: Port
                 vpiName: data[15:8]
@@ -711,7 +719,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:data[15:8]
                   vpiName: data
                   vpiFullName: Device.bottomMid.data[15:8].data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
                 vpiRange Range start:16:57 end:16:61:
                   vpiParent: PartSelect name:data[15:8]
                   vpiLeftRange Constant start:16:57 end:16:59:
@@ -749,7 +757,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: Device.topMid.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
               vpiHighConn PartSelect name:data[23:16] start:18:27 end:18:38:
                 vpiParent: Port
                 vpiName: data[23:16]
@@ -758,7 +766,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:data[23:16]
                   vpiName: data
                   vpiFullName: Device.topMid.data[23:16].data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
                 vpiRange Range start:18:32 end:18:37:
                   vpiParent: PartSelect name:data[23:16]
                   vpiLeftRange Constant start:18:32 end:18:34:
@@ -796,7 +804,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:partParity[2]
                   vpiName: partParity
                   vpiFullName: Device.topMid.partParity
-                  vpiActual: Net name:partParity
+                  vpiActual: Variable name:partParity
                 vpiIndex Constant start:18:60 end:18:61:
                   vpiParent: BitSelect name:partParity[2]
                   vpiTypespec RefTypespec:
@@ -822,7 +830,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: Device.top.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
               vpiHighConn PartSelect name:data[31:24] start:20:24 end:20:35:
                 vpiParent: Port
                 vpiName: data[31:24]
@@ -831,7 +839,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:data[31:24]
                   vpiName: data
                   vpiFullName: Device.top.data[31:24].data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
                 vpiRange Range start:20:29 end:20:34:
                   vpiParent: PartSelect name:data[31:24]
                   vpiLeftRange Constant start:20:29 end:20:31:
@@ -868,7 +876,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:partParity[3]
                   vpiName: partParity
                   vpiFullName: Device.top.partParity
-                  vpiActual: Net name:partParity
+                  vpiActual: Variable name:partParity
                 vpiIndex Constant start:20:58 end:20:59:
                   vpiParent: BitSelect name:partParity[3]
                   vpiTypespec RefTypespec:
@@ -885,7 +893,15 @@ Design name:unnamed:
         vpiParent: Module name:Helper
         vpiName: Helper
       vpiFullName: Helper
-      vpiVariable (1 items):
+      vpiVariable (2 items):
+        Variable name:data start:28:23 end:28:27:
+          vpiParent: Module name:Helper
+          vpiTypespec RefTypespec start:28:5 end:28:22:
+            vpiParent: Variable name:data
+            vpiFullName: Helper.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: Helper.data
         Variable name:parity start:29:18 end:29:24:
           vpiParent: Module name:Helper
           vpiTypespec RefTypespec start:29:5 end:29:17:
@@ -894,7 +910,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: parity
           vpiFullName: Helper.parity
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:Helper
@@ -931,25 +946,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Helper.work
       vpiCell: Helper
-      vpiNet (1 items):
-        Net name:data start:28:23 end:28:27:
-          vpiParent: Module name:Helper
-          vpiTypespec RefTypespec start:28:5 end:28:22:
-            vpiParent: Net name:data
-            vpiFullName: Helper.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: Helper.data
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:data start:28:23 end:28:27:
           vpiParent: Module name:Helper
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:28:23 end:28:27:
+          vpiLowConn RefObj name:data start:28:23 end:28:27:
             vpiParent: Port name:data
-            vpiFullName: Helper.data
-            vpiActual: Net name:data
+            vpiName: data
+            vpiFullName: Helper.data.data
+            vpiActual: Variable name:data
           vpiTypespec RefTypespec start:28:5 end:28:22:
             vpiParent: Port name:data
             vpiFullName: Helper.data
@@ -958,9 +964,10 @@ Design name:unnamed:
           vpiParent: Module name:Helper
           vpiName: parity
           vpiDirection: output (2)
-          vpiLowConn RefObj start:29:18 end:29:24:
+          vpiLowConn RefObj name:parity start:29:18 end:29:24:
             vpiParent: Port name:parity
-            vpiFullName: Helper.parity
+            vpiName: parity
+            vpiFullName: Helper.parity.parity
             vpiActual: Variable name:parity
           vpiTypespec RefTypespec start:29:5 end:29:17:
             vpiParent: Port name:parity
@@ -982,14 +989,22 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: data
                 vpiFullName: Helper.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
     Module name:Wrapper1 file:$Source01/relong/port_connections.sv start:37:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Wrapper1 start:37:8 end:37:16:
         vpiParent: Module name:Wrapper1
         vpiName: Wrapper1
       vpiFullName: Wrapper1
-      vpiVariable (1 items):
+      vpiVariable (2 items):
+        Variable name:data start:38:23 end:38:27:
+          vpiParent: Module name:Wrapper1
+          vpiTypespec RefTypespec start:38:5 end:38:22:
+            vpiParent: Variable name:data
+            vpiFullName: Wrapper1.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: Wrapper1.data
         Variable name:parity start:39:18 end:39:24:
           vpiParent: Module name:Wrapper1
           vpiTypespec RefTypespec start:39:5 end:39:17:
@@ -998,7 +1013,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: parity
           vpiFullName: Wrapper1.parity
-          vpiNetType: none (12)
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:Wrapper1
@@ -1040,25 +1054,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Wrapper1.work
       vpiCell: Wrapper1
-      vpiNet (1 items):
-        Net name:data start:38:23 end:38:27:
-          vpiParent: Module name:Wrapper1
-          vpiTypespec RefTypespec start:38:5 end:38:22:
-            vpiParent: Net name:data
-            vpiFullName: Wrapper1.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: Wrapper1.data
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:data start:38:23 end:38:27:
           vpiParent: Module name:Wrapper1
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:38:23 end:38:27:
+          vpiLowConn RefObj name:data start:38:23 end:38:27:
             vpiParent: Port name:data
-            vpiFullName: Wrapper1.data
-            vpiActual: Net name:data
+            vpiName: data
+            vpiFullName: Wrapper1.data.data
+            vpiActual: Variable name:data
           vpiTypespec RefTypespec start:38:5 end:38:22:
             vpiParent: Port name:data
             vpiFullName: Wrapper1.data
@@ -1067,9 +1072,10 @@ Design name:unnamed:
           vpiParent: Module name:Wrapper1
           vpiName: parity
           vpiDirection: output (2)
-          vpiLowConn RefObj start:39:18 end:39:24:
+          vpiLowConn RefObj name:parity start:39:18 end:39:24:
             vpiParent: Port name:parity
-            vpiFullName: Wrapper1.parity
+            vpiName: parity
+            vpiFullName: Wrapper1.parity.parity
             vpiActual: Variable name:parity
           vpiTypespec RefTypespec start:39:5 end:39:17:
             vpiParent: Port name:parity
@@ -1096,7 +1102,15 @@ Design name:unnamed:
         vpiParent: Module name:Wrapper2
         vpiName: Wrapper2
       vpiFullName: Wrapper2
-      vpiVariable (1 items):
+      vpiVariable (2 items):
+        Variable name:data start:50:23 end:50:27:
+          vpiParent: Module name:Wrapper2
+          vpiTypespec RefTypespec start:50:5 end:50:22:
+            vpiParent: Variable name:data
+            vpiFullName: Wrapper2.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: Wrapper2.data
         Variable name:parity1 start:51:18 end:51:25:
           vpiParent: Module name:Wrapper2
           vpiTypespec RefTypespec start:51:5 end:51:17:
@@ -1105,7 +1119,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: parity1
           vpiFullName: Wrapper2.parity1
-          vpiNetType: none (12)
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:Wrapper2
@@ -1147,25 +1160,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Wrapper2.work
       vpiCell: Wrapper2
-      vpiNet (1 items):
-        Net name:data start:50:23 end:50:27:
-          vpiParent: Module name:Wrapper2
-          vpiTypespec RefTypespec start:50:5 end:50:22:
-            vpiParent: Net name:data
-            vpiFullName: Wrapper2.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: Wrapper2.data
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:data start:50:23 end:50:27:
           vpiParent: Module name:Wrapper2
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:50:23 end:50:27:
+          vpiLowConn RefObj name:data start:50:23 end:50:27:
             vpiParent: Port name:data
-            vpiFullName: Wrapper2.data
-            vpiActual: Net name:data
+            vpiName: data
+            vpiFullName: Wrapper2.data.data
+            vpiActual: Variable name:data
           vpiTypespec RefTypespec start:50:5 end:50:22:
             vpiParent: Port name:data
             vpiFullName: Wrapper2.data
@@ -1174,9 +1178,10 @@ Design name:unnamed:
           vpiParent: Module name:Wrapper2
           vpiName: parity1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:51:18 end:51:25:
+          vpiLowConn RefObj name:parity1 start:51:18 end:51:25:
             vpiParent: Port name:parity1
-            vpiFullName: Wrapper2.parity1
+            vpiName: parity1
+            vpiFullName: Wrapper2.parity1.parity1
             vpiActual: Variable name:parity1
           vpiTypespec RefTypespec start:51:5 end:51:17:
             vpiParent: Port name:parity1
@@ -1198,7 +1203,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: Wrapper2.compilerSaveMe.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
             Port start:58:34 end:58:50:
               vpiParent: RefInstance name:compilerSaveMe
               vpiLowConn RefObj name:parity start:58:35 end:58:41:
@@ -1210,7 +1215,9 @@ Design name:unnamed:
                 vpiName: parity1
                 vpiFullName: Wrapper2.compilerSaveMe.parity1
                 vpiActual: Variable name:parity1
-  vpiTypespec (5 items):
+  vpiTypespec (6 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:Device:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Device start:3:8 end:3:14:
@@ -1241,7 +1248,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -1257,25 +1264,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/port_connections_sv/mounts.json
 
 
-{'result': {'coverage': 96.84,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/port_connections.sv': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/port_connections.sv': {'post_len': 0,
                                                                       'pre_len': 664}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 664,
             'test_name': 'Zachjs/relong/port_connections_sv'}}
 
 +---------------------------------------------+----------+-----------+
 | INPUT                                       |   PRELEN |   POSTLEN |
 +=============================================+==========+===========+
-| $Output/lib/work/relong/port_connections.sv |      664 |        21 |
+| $Output/lib/work/relong/port_connections.sv |      664 |         0 |
 +=============================================+==========+===========+
-|                                             |      664 |        21 |
+|                                             |      664 |         0 |
 +---------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.84
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1286,7 +1293,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/port_connections_sv/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             198     198       0         0
+Others                             202     202       0         0
 ----------------------------------------------------------------
-                                   198     198       0         0
+                                   202     202       0         0
 ===================== END REDUCTION RESULT =====================

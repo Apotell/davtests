@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -74,7 +74,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -105,22 +105,22 @@ class UnionsTaggedBasicTest : public Test {
 
   static const hldb::UnionTypespec *getUnUnionTypespec() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getNets() == nullptr) return nullptr;
-    const hldb::Net *const un = hldb::findByName<hldb::Net>("un", top->getNets());
+    if (top == nullptr || top->getVariables() == nullptr) return nullptr;
+    const hldb::Variable *const un = hldb::findByName<hldb::Variable>("un", top->getVariables());
     if (un == nullptr) return nullptr;
     return un->getTypespec<hldb::RefTypespec>()->getActual<hldb::UnionTypespec>();
   }
 };
 
-// --- module / net / union typespec -------------------------------------------
+// --- module / net / union typespec ----
 
 TEST_F(UnionsTaggedBasicTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
 TEST_F(UnionsTaggedBasicTest, ModuleHasOneNet) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(UnionsTaggedBasicTest, UnIsTaggedUntaggedPackedUnionWithTwoMembers) {
@@ -160,7 +160,7 @@ TEST_F(UnionsTaggedBasicTest, MemberValidIsFourBitBitTypespec) {
   EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnionsTaggedBasicTest, InitialBeginHasTwoStmts) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -178,7 +178,7 @@ TEST_F(UnionsTaggedBasicTest, FirstStmtAssignsWholeUnFromTenLiteral) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "un");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::TaggedPattern *const rhs = assign->getRhs<hldb::TaggedPattern>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "valid");
@@ -202,7 +202,7 @@ TEST_F(UnionsTaggedBasicTest, SecondStmtDisplaysUn) {
   EXPECT_EQ(arg->getName(), "un");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnionsTaggedBasicTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -236,7 +236,7 @@ TEST_F(UnionsTaggedBasicTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known compiler gap: tagged member is discarded during elaboration -----
+// --- known compiler gap: tagged member is discarded during elaboration ----
 
 TEST_F(UnionsTaggedBasicTest, AssignmentRhsShouldCaptureTaggedMemberButDoesNot) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -249,7 +249,7 @@ TEST_F(UnionsTaggedBasicTest, AssignmentRhsShouldCaptureTaggedMemberButDoesNot) 
   EXPECT_NE(tagged->getTag<hldb::Constant>(), nullptr);
 }
 
-// --- known gap: runtime union display requires simulation --------------------
+// --- known gap: runtime union display requires simulation ----
 
 TEST_F(UnionsTaggedBasicTest, RuntimeTaggedUnionDisplayRequiresSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates basic.sv; it does not run a simulator, so "

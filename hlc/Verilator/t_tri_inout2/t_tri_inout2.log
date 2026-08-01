@@ -665,10 +665,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_tri_inout2.v:59:1: Compile module "ChildA".
 [WRN:CP0323] $Source01/t_tri_inout2.v:59:1: Multiply defined typedef "ChildB".
 [INF:CP0303] $Source01/t_tri_inout2.v:73:1: Compile module "ChildB".
-[ERR:EL0535] $Source01/t_tri_inout2.v:22:21: Illegal implicit net "id:59, name:A".
-[ERR:EL0535] $Source01/t_tri_inout2.v:22:28: Illegal implicit net "id:62, name:B".
-[ERR:EL0535] $Source01/t_tri_inout2.v:22:44: Illegal implicit net "id:68, name:Y".
-[ERR:EL0535] $Source01/t_tri_inout2.v:22:50: Illegal implicit net "id:71, name:Yfix".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -678,7 +674,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_tri_inout2.v
       vpiPreprocFile: "$Output/lib/work/t_tri_inout2.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_tri_inout2.v start:6:1 end:57:10:
       vpiParent: Design name:unnamed
@@ -686,6 +681,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:in start:12:14 end:12:16:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:12:4 end:12:13:
+            vpiParent: Variable name:in
+            vpiFullName: t.in
+            vpiActual: LogicTypespec
+          vpiName: in
+          vpiFullName: t.in
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -721,13 +726,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:ChildA
             vpiName: ChildA
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (7 items):
+      vpiNet (6 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:10:10 end:10:10:
@@ -736,14 +741,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:in start:12:14 end:12:16:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:12:4 end:12:13:
-            vpiParent: Net name:in
-            vpiFullName: t.in
-            vpiActual: LogicTypespec
-          vpiName: in
-          vpiFullName: t.in
+          vpiNetType: wire (1)
         Net name:a start:15:9 end:15:10:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:9:
@@ -788,7 +786,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:in[0]
               vpiName: in
               vpiFullName: t.b.in
-              vpiActual: Net name:in
+              vpiActual: Variable name:in
             vpiIndex Constant start:16:16 end:16:17:
               vpiParent: BitSelect name:in[0]
               vpiTypespec RefTypespec:
@@ -816,7 +814,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:in[1]
               vpiName: in
               vpiFullName: t.en.in
-              vpiActual: Net name:in
+              vpiActual: Variable name:in
             vpiIndex Constant start:17:17 end:17:18:
               vpiParent: BitSelect name:in[1]
               vpiTypespec RefTypespec:
@@ -832,7 +830,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:10:10 end:10:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -851,7 +849,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: in
               vpiFullName: t.in
-              vpiActual: Net name:in
+              vpiActual: Variable name:in
             vpiRhs Constant start:24:15 end:24:16:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -885,7 +883,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: in
                     vpiFullName: t.in
-                    vpiActual: Net name:in
+                    vpiActual: Variable name:in
                   vpiRhs Operation start:30:13 end:30:19:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -894,7 +892,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: in
                         vpiFullName: t.in
-                        vpiActual: Net name:in
+                        vpiActual: Variable name:in
                       Constant start:30:18 end:30:19:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1155,7 +1153,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: in
                         vpiFullName: t.in
-                        vpiActual: Net name:in
+                        vpiActual: Variable name:in
                       Constant start:52:15 end:52:16:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1295,7 +1293,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:ChildB
             vpiName: ChildB
       vpiDefName: ChildA
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:ChildA
         vpiName: work
@@ -1366,9 +1364,10 @@ Design name:unnamed:
           vpiParent: Module name:ChildA
           vpiName: A
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:59:21 end:59:22:
+          vpiLowConn RefObj name:A start:59:21 end:59:22:
             vpiParent: Port name:A
-            vpiFullName: ChildA.A
+            vpiName: A
+            vpiFullName: ChildA.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:59:15 end:59:20:
             vpiParent: Port name:A
@@ -1378,9 +1377,10 @@ Design name:unnamed:
           vpiParent: Module name:ChildA
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:59:30 end:59:31:
+          vpiLowConn RefObj name:B start:59:30 end:59:31:
             vpiParent: Port name:B
-            vpiFullName: ChildA.B
+            vpiName: B
+            vpiFullName: ChildA.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:59:24 end:59:29:
             vpiParent: Port name:B
@@ -1390,9 +1390,10 @@ Design name:unnamed:
           vpiParent: Module name:ChildA
           vpiName: en
           vpiDirection: input (1)
-          vpiLowConn RefObj start:59:39 end:59:41:
+          vpiLowConn RefObj name:en start:59:39 end:59:41:
             vpiParent: Port name:en
-            vpiFullName: ChildA.en
+            vpiName: en
+            vpiFullName: ChildA.en.en
             vpiActual: Net name:en
           vpiTypespec RefTypespec start:59:33 end:59:38:
             vpiParent: Port name:en
@@ -1402,9 +1403,10 @@ Design name:unnamed:
           vpiParent: Module name:ChildA
           vpiName: Y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:59:50 end:59:51:
+          vpiLowConn RefObj name:Y start:59:50 end:59:51:
             vpiParent: Port name:Y
-            vpiFullName: ChildA.Y
+            vpiName: Y
+            vpiFullName: ChildA.Y.Y
             vpiActual: Net name:Y
           vpiTypespec RefTypespec start:59:43 end:59:49:
             vpiParent: Port name:Y
@@ -1414,9 +1416,10 @@ Design name:unnamed:
           vpiParent: Module name:ChildA
           vpiName: Yfix
           vpiDirection: output (2)
-          vpiLowConn RefObj start:59:60 end:59:64:
+          vpiLowConn RefObj name:Yfix start:59:60 end:59:64:
             vpiParent: Port name:Yfix
-            vpiFullName: ChildA.Yfix
+            vpiName: Yfix
+            vpiFullName: ChildA.Yfix.Yfix
             vpiActual: Net name:Yfix
           vpiTypespec RefTypespec start:59:53 end:59:59:
             vpiParent: Port name:Yfix
@@ -1531,7 +1534,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:ChildB
       vpiDefName: ChildB
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:ChildB
         vpiName: work
@@ -1561,9 +1564,10 @@ Design name:unnamed:
           vpiParent: Module name:ChildB
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:73:21 end:73:22:
+          vpiLowConn RefObj name:A start:73:21 end:73:22:
             vpiParent: Port name:A
-            vpiFullName: ChildB.A
+            vpiName: A
+            vpiFullName: ChildB.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:73:15 end:73:20:
             vpiParent: Port name:A
@@ -1573,9 +1577,10 @@ Design name:unnamed:
           vpiParent: Module name:ChildB
           vpiName: Y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:73:31 end:73:32:
+          vpiLowConn RefObj name:Y start:73:31 end:73:32:
             vpiParent: Port name:Y
-            vpiFullName: ChildB.Y
+            vpiName: Y
+            vpiFullName: ChildB.Y.Y
             vpiActual: Net name:Y
           vpiTypespec RefTypespec start:73:24 end:73:30:
             vpiParent: Port name:Y
@@ -1623,7 +1628,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

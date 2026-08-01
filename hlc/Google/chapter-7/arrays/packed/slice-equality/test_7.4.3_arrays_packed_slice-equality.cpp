@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,8 +28,8 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//   - both variables: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - Initial process: 1 Begin with 5 stmts (2 Assignment + 3 SysFuncCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, hexadecimal Constant
 //     rhs ("8'hf0" / "8'h0f")
@@ -65,7 +65,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/part_select.h>
 #include <hldb/range.h>
@@ -83,21 +83,21 @@ class PackedSliceEqualityTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(PackedSliceEqualityTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedSliceEqualityTest, ModuleHasTwoNets) {
+TEST_F(PackedSliceEqualityTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedSliceEqualityTest, InitialBeginHasFiveStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -184,7 +184,7 @@ TEST_F(PackedSliceEqualityTest, ThirdDisplayArgIsNotEqualOperationOnSlices) {
   EXPECT_EQ(any_cast<hldb::PartSelect>(op->getOperands()->at(1))->getName(), "arr_b[3:0]");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedSliceEqualityTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -206,7 +206,7 @@ TEST_F(PackedSliceEqualityTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime comparison results require simulation ---------------
+// --- known gap: runtime comparison results require simulation ----
 
 TEST_F(PackedSliceEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   // GTEST_SKIP() << "This harness only compiles/elaborates slice-equality.sv; it does not run a "

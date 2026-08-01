@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@
 //
 // SV source:
 //   `celldefine
-//   module cd();    // cell module — used for timing/backannotation
+//   module cd();    // cell module -- used for timing/backannotation
 //   endmodule
 //   `endcelldefine
 //
@@ -28,8 +28,8 @@
 //
 // UHDM structure:
 //   vpiAllModules (2 items):
-//     Module name:cd   — the celldefine-wrapped module
-//     Module name:ncd  — the plain module
+//     Module name:cd   -- the celldefine-wrapped module
+//     Module name:ncd  -- the plain module
 //
 // Note: `celldefine is a compiler hint for SDF timing tools; Surelog accepts
 // it without error but the cell-flag distinction is not surfaced in UHDM.
@@ -51,9 +51,9 @@ class CompilerDirectivesCelldefine : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Both modules present
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesCelldefine, TwoModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "design should contain exactly two modules (cd and ncd)";
@@ -69,9 +69,9 @@ TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleExists) {
       << "module 'ncd' (outside `celldefine) not found";
 }
 
-// ---------------------------------------------------------------------------
-// Both modules are empty — no nets, no processes
-// ---------------------------------------------------------------------------
+// ----
+// Both modules are empty -- no nets, no processes
+// ----
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoNets) {
   const hldb::Module *const m = hldb::findByName<hldb::Module>("cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);

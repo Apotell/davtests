@@ -582,20 +582,16 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_nest.v:15:1: Compile module "mod1".
 [INF:CP0303] $Source01/t_interface_nest.v:37:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_nest.v:37:1: Multiply defined typedef "mod1".
-[ERR:EL0535] $Source01/t_interface_nest.v:26:18: Illegal implicit net "id:66, name:i1".
-[ERR:EL0535] $Source01/t_interface_nest.v:26:21: Illegal implicit net "id:67, name:var1".
-[ERR:EL0535] $Source01/t_interface_nest.v:30:18: Illegal implicit net "id:94, name:i1".
-[ERR:EL0535] $Source01/t_interface_nest.v:30:21: Illegal implicit net "id:95, name:var1".
-[ERR:EL0535] $Source01/t_interface_nest.v:46:15: Illegal implicit net "id:133, name:i1".
-[ERR:EL0535] $Source01/t_interface_nest.v:46:18: Illegal implicit net "id:134, name:var1".
-[ERR:EL0535] $Source01/t_interface_nest.v:47:15: Illegal implicit net "id:141, name:var2".
-[ERR:EL0535] $Source01/t_interface_nest.v:48:15: Illegal implicit net "id:148, name:i1".
-[ERR:EL0535] $Source01/t_interface_nest.v:48:18: Illegal implicit net "id:149, name:var1".
-[ERR:EL0535] $Source01/t_interface_nest.v:49:15: Illegal implicit net "id:156, name:var2".
-[ERR:EL0535] $Source01/t_interface_nest.v:53:8: Illegal implicit net "id:165, name:modnum".
-[ERR:EL0535] $Source01/t_interface_nest.v:55:8: Illegal implicit net "id:171, name:foo".
-[ERR:EL0535] $Source01/t_interface_nest.v:60:8: Illegal implicit net "id:180, name:modnum".
-[ERR:EL0535] $Source01/t_interface_nest.v:62:8: Illegal implicit net "id:186, name:foo".
+[WRN:CP0350] $Source01/t_interface_nest.v:26:18: Failed to bind "id:66, name:i1".
+[WRN:CP0350] $Source01/t_interface_nest.v:26:21: Failed to bind "id:67, name:var1".
+[WRN:CP0350] $Source01/t_interface_nest.v:30:18: Failed to bind "id:94, name:i1".
+[WRN:CP0350] $Source01/t_interface_nest.v:30:21: Failed to bind "id:95, name:var1".
+[WRN:CP0350] $Source01/t_interface_nest.v:46:15: Failed to bind "id:133, name:i1".
+[WRN:CP0350] $Source01/t_interface_nest.v:46:18: Failed to bind "id:134, name:var1".
+[WRN:CP0350] $Source01/t_interface_nest.v:47:15: Failed to bind "id:141, name:var2".
+[WRN:CP0350] $Source01/t_interface_nest.v:48:15: Failed to bind "id:148, name:i1".
+[WRN:CP0350] $Source01/t_interface_nest.v:48:18: Failed to bind "id:149, name:var1".
+[WRN:CP0350] $Source01/t_interface_nest.v:49:15: Failed to bind "id:156, name:var2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -605,7 +601,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_nest.v
       vpiPreprocFile: "$Output/lib/work/t_interface_nest.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (2 items):
     Interface name:if1 file:$Source01/t_interface_nest.v start:6:1 end:8:13:
       vpiParent: Design name:unnamed
@@ -626,7 +621,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:if1
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:if1
         vpiName: work
@@ -651,7 +646,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:if2
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:if2
         vpiName: work
@@ -673,7 +668,6 @@ Design name:unnamed:
             vpiFullName: mod1.l1.logic
           vpiName: l1
           vpiFullName: mod1.l1
-          vpiNetType: none (12)
         Variable name:l2 start:22:14 end:22:16:
           vpiParent: Module name:mod1
           vpiTypespec RefTypespec name:logic start:22:4 end:22:9:
@@ -682,7 +676,6 @@ Design name:unnamed:
             vpiFullName: mod1.l2.logic
           vpiName: l2
           vpiFullName: mod1.l2
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:mod1
@@ -690,7 +683,7 @@ Design name:unnamed:
           vpiParent: Module name:mod1
           vpiSigned: true
       vpiDefName: mod1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mod1
         vpiName: work
@@ -730,9 +723,10 @@ Design name:unnamed:
           vpiParent: Module name:mod1
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:17:10 end:17:13:
+          vpiLowConn RefObj name:clk start:17:10 end:17:13:
             vpiParent: Port name:clk
-            vpiFullName: mod1.clk
+            vpiName: clk
+            vpiFullName: mod1.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:17:4 end:17:9:
             vpiParent: Port name:clk
@@ -742,9 +736,10 @@ Design name:unnamed:
           vpiParent: Module name:mod1
           vpiName: modnum
           vpiDirection: input (1)
-          vpiLowConn RefObj start:18:18 end:18:24:
+          vpiLowConn RefObj name:modnum start:18:18 end:18:24:
             vpiParent: Port name:modnum
-            vpiFullName: mod1.modnum
+            vpiName: modnum
+            vpiFullName: mod1.modnum.modnum
             vpiActual: Net name:modnum
           vpiTypespec RefTypespec start:18:4 end:18:17:
             vpiParent: Port name:modnum
@@ -754,9 +749,10 @@ Design name:unnamed:
           vpiParent: Module name:mod1
           vpiName: foo
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:19:8 end:19:11:
+          vpiLowConn RefObj name:foo start:19:8 end:19:11:
             vpiParent: Port name:foo
-            vpiFullName: mod1.foo
+            vpiName: foo
+            vpiFullName: mod1.foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec name:if2 start:19:4 end:19:7:
             vpiParent: Port name:foo
@@ -988,6 +984,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:65:12 end:65:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:65:4 end:65:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:65:18 end:65:19:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1005,13 +1020,13 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:41:10 end:41:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:41:10 end:41:10:
@@ -1020,30 +1035,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:65:12 end:65:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:65:4 end:65:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:65:18 end:65:19:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:39:4 end:39:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:39:4 end:39:7:
+          vpiLowConn RefObj name:clk start:41:10 end:41:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1076,7 +1074,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:67:14 end:67:19:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1085,7 +1083,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:67:18 end:67:19:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1106,7 +1104,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:68:16 end:68:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1402,8 +1400,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 14
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

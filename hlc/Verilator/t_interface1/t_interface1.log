@@ -335,10 +335,8 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface1.v:8:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface1.v:12:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface1.v:36:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_interface1.v:22:14: Illegal implicit net "id:47, name:isub".
-[ERR:EL0535] $Source01/t_interface1.v:23:7: Illegal implicit net "id:52, name:i_value".
-[ERR:EL0535] $Source01/t_interface1.v:28:10: Illegal implicit net "id:76, name:i_value".
-[ERR:EL0535] $Source01/t_interface1.v:29:12: Illegal implicit net "id:86, name:value".
+[WRN:CP0350] $Source01/t_interface1.v:28:10: Failed to bind "id:76, name:i_value".
+[WRN:CP0350] $Source01/t_interface1.v:29:12: Failed to bind "id:86, name:value".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -348,7 +346,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface1.v
       vpiPreprocFile: "$Output/lib/work/t_interface1.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:ifc file:$Source01/t_interface1.v start:8:1 end:10:13:
       vpiParent: Design name:unnamed
@@ -403,7 +400,7 @@ Design name:unnamed:
             vpiName: logic
             vpiFullName: ifc.logic
             vpiActual: UnsupportedTypespec name:logic
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
         vpiName: work
@@ -416,6 +413,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:18:12 end:18:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:18:4 end:18:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:18:16 end:18:17:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -428,13 +444,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:10 end:17:10:
@@ -443,30 +459,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:18:12 end:18:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:18:4 end:18:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:18:16 end:18:17:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:14:4 end:14:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:14:4 end:14:7:
+          vpiLowConn RefObj name:clk start:17:10 end:17:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -499,7 +498,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:26:14 end:26:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -508,7 +507,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:26:20 end:26:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -529,7 +528,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:27:16 end:27:18:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -725,7 +724,7 @@ Design name:unnamed:
             vpiFullName: sub.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -757,9 +756,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: isub
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:38:8 end:38:12:
+          vpiLowConn RefObj name:isub start:38:8 end:38:12:
             vpiParent: Port name:isub
-            vpiFullName: sub.isub
+            vpiName: isub
+            vpiFullName: sub.isub.isub
             vpiActual: Net name:isub
           vpiTypespec RefTypespec name:ifc start:38:4 end:38:7:
             vpiParent: Port name:isub
@@ -770,9 +770,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: i_value
           vpiDirection: input (1)
-          vpiLowConn RefObj start:39:22 end:39:29:
+          vpiLowConn RefObj name:i_value start:39:22 end:39:29:
             vpiParent: Port name:i_value
-            vpiFullName: sub.i_value
+            vpiName: i_value
+            vpiFullName: sub.i_value.i_value
             vpiActual: Net name:i_value
           vpiTypespec RefTypespec name:logic start:39:10 end:39:15:
             vpiParent: Port name:i_value
@@ -844,8 +845,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -846,7 +846,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: sdw_instmod1.v
       vpiPreprocFile: "$Output/lib/work/sdw_instmod1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:test_mod file:$Source01/sdw_instmod1.v start:29:1 end:45:10:
       vpiParent: Design name:unnamed
@@ -854,17 +853,27 @@ Design name:unnamed:
         vpiParent: Module name:test_mod
         vpiName: test_mod
       vpiFullName: test_mod
+      vpiVariable (1 items):
+        Variable name:out start:32:8 end:32:11:
+          vpiParent: Module name:test_mod
+          vpiTypespec RefTypespec start:34:1 end:34:4:
+            vpiParent: Variable name:out
+            vpiFullName: test_mod.out
+            vpiActual: LogicTypespec
+          vpiName: out
+          vpiFullName: test_mod.out
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:test_mod
       vpiDefName: test_mod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test_mod
         vpiName: work
         vpiFullName: test_mod.work
       vpiCell: test_mod
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:reset start:30:7 end:30:12:
           vpiParent: Module name:test_mod
           vpiTypespec RefTypespec start:30:7 end:30:7:
@@ -873,6 +882,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset
           vpiFullName: test_mod.reset
+          vpiNetType: wire (1)
         Net name:clka start:31:7 end:31:11:
           vpiParent: Module name:test_mod
           vpiTypespec RefTypespec start:31:7 end:31:7:
@@ -881,20 +891,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clka
           vpiFullName: test_mod.clka
-        Net name:out start:32:8 end:32:11:
-          vpiParent: Module name:test_mod
-          vpiTypespec RefTypespec start:32:8 end:32:8:
-            vpiParent: Net name:out
-            vpiFullName: test_mod.out
-            vpiActual: LogicTypespec
-          vpiName: out
-          vpiFullName: test_mod.out
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:reset start:29:18 end:29:23:
           vpiParent: Module name:test_mod
           vpiName: reset
           vpiDirection: input (1)
-          vpiLowConn RefObj name:reset start:29:18 end:29:23:
+          vpiLowConn RefObj name:reset start:30:7 end:30:12:
             vpiParent: Port name:reset
             vpiName: reset
             vpiFullName: test_mod.reset.reset
@@ -907,7 +910,7 @@ Design name:unnamed:
           vpiParent: Module name:test_mod
           vpiName: clka
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clka start:29:24 end:29:28:
+          vpiLowConn RefObj name:clka start:31:7 end:31:11:
             vpiParent: Port name:clka
             vpiName: clka
             vpiFullName: test_mod.clka.clka
@@ -920,15 +923,14 @@ Design name:unnamed:
           vpiParent: Module name:test_mod
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:29:29 end:29:32:
+          vpiLowConn RefObj name:out start:32:8 end:32:11:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: test_mod.out.out
-            vpiActual: Net name:out
+            vpiActual: Variable name:out
           vpiTypespec RefTypespec start:32:8 end:32:8:
             vpiParent: Port name:out
             vpiFullName: test_mod.out
-            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:36:1 end:43:6:
           vpiParent: Module name:test_mod
@@ -970,7 +972,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: out
                   vpiFullName: test_mod.out
-                  vpiActual: Net name:out
+                  vpiActual: Variable name:out
                 vpiRhs Constant start:38:12 end:38:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -992,7 +994,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: out
                       vpiFullName: test_mod.out
-                      vpiActual: Net name:out
+                      vpiActual: Variable name:out
                     vpiRhs Operation start:41:11 end:41:15:
                       vpiParent: Assignment
                       vpiOpType: bitwise negation (4)
@@ -1001,7 +1003,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: out
                           vpiFullName: test_mod.out
-                          vpiActual: Net name:out
+                          vpiActual: Variable name:out
                   SysTaskCall name:$display start:42:5 end:42:55:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:42:5 end:42:13:
@@ -1027,7 +1029,7 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$display
                         vpiName: out
                         vpiFullName: test_mod.out
-                        vpiActual: Net name:out
+                        vpiActual: Variable name:out
           vpiAlwaysType: always (1)
     Module name:main file:$Source01/sdw_instmod1.v start:47:1 end:115:10:
       vpiParent: Design name:unnamed
@@ -1035,6 +1037,34 @@ Design name:unnamed:
         vpiParent: Module name:main
         vpiName: main
       vpiFullName: main
+      vpiVariable (3 items):
+        Variable name:reset start:49:5 end:49:10:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:49:1 end:49:4:
+            vpiParent: Variable name:reset
+            vpiFullName: main.reset
+            vpiActual: LogicTypespec
+          vpiName: reset
+          vpiFullName: main.reset
+          vpiScalar: true
+        Variable name:clk_0 start:49:11 end:49:16:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:49:1 end:49:4:
+            vpiParent: Variable name:clk_0
+            vpiFullName: main.clk_0
+            vpiActual: LogicTypespec
+          vpiName: clk_0
+          vpiFullName: main.clk_0
+          vpiScalar: true
+        Variable name:clk_1 start:49:17 end:49:22:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:49:1 end:49:4:
+            vpiParent: Variable name:clk_1
+            vpiFullName: main.clk_1
+            vpiActual: LogicTypespec
+          vpiName: clk_1
+          vpiFullName: main.clk_1
+          vpiScalar: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -1049,37 +1079,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:test_mod
             vpiName: test_mod
       vpiDefName: main
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:main
         vpiName: work
         vpiFullName: main.work
       vpiCell: main
-      vpiNet (5 items):
-        Net name:reset start:49:5 end:49:10:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:49:1 end:49:4:
-            vpiParent: Net name:reset
-            vpiFullName: main.reset
-            vpiActual: LogicTypespec
-          vpiName: reset
-          vpiFullName: main.reset
-        Net name:clk_0 start:49:11 end:49:16:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:49:1 end:49:4:
-            vpiParent: Net name:clk_0
-            vpiFullName: main.clk_0
-            vpiActual: LogicTypespec
-          vpiName: clk_0
-          vpiFullName: main.clk_0
-        Net name:clk_1 start:49:17 end:49:22:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:49:1 end:49:4:
-            vpiParent: Net name:clk_1
-            vpiFullName: main.clk_1
-            vpiActual: LogicTypespec
-          vpiName: clk_1
-          vpiFullName: main.clk_1
+      vpiNet (2 items):
         Net name:out_0 start:50:6 end:50:11:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:50:6 end:50:6:
@@ -1112,7 +1118,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk_0
                   vpiFullName: main.clk_0
-                  vpiActual: Net name:clk_0
+                  vpiActual: Variable name:clk_0
                 vpiRhs Constant start:57:13 end:57:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1130,7 +1136,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk_1
                   vpiFullName: main.clk_1
-                  vpiActual: Net name:clk_1
+                  vpiActual: Variable name:clk_1
                 vpiRhs Constant start:58:13 end:58:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1150,7 +1156,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: reset
                     vpiFullName: main.reset
-                    vpiActual: Net name:reset
+                    vpiActual: Variable name:reset
                   vpiRhs Constant start:59:16 end:59:17:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1208,17 +1214,17 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: reset
                     vpiFullName: main.reset
-                    vpiActual: Net name:reset
+                    vpiActual: Variable name:reset
                   RefObj name:clk_0 start:61:70 end:61:75:
                     vpiParent: SysTaskCall name:$display
                     vpiName: clk_0
                     vpiFullName: main.clk_0
-                    vpiActual: Net name:clk_0
+                    vpiActual: Variable name:clk_0
                   RefObj name:clk_1 start:62:15 end:62:20:
                     vpiParent: SysTaskCall name:$display
                     vpiName: clk_1
                     vpiFullName: main.clk_1
-                    vpiActual: Net name:clk_1
+                    vpiActual: Variable name:clk_1
                   RefObj name:out_0 start:62:21 end:62:26:
                     vpiParent: SysTaskCall name:$display
                     vpiName: out_0
@@ -1300,7 +1306,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: reset
                   vpiFullName: main.reset
-                  vpiActual: Net name:reset
+                  vpiActual: Variable name:reset
                 vpiRhs Constant start:75:14 end:75:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1336,17 +1342,17 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: reset
                     vpiFullName: main.reset
-                    vpiActual: Net name:reset
+                    vpiActual: Variable name:reset
                   RefObj name:clk_0 start:76:70 end:76:75:
                     vpiParent: SysTaskCall name:$display
                     vpiName: clk_0
                     vpiFullName: main.clk_0
-                    vpiActual: Net name:clk_0
+                    vpiActual: Variable name:clk_0
                   RefObj name:clk_1 start:77:15 end:77:20:
                     vpiParent: SysTaskCall name:$display
                     vpiName: clk_1
                     vpiFullName: main.clk_1
-                    vpiActual: Net name:clk_1
+                    vpiActual: Variable name:clk_1
                   RefObj name:out_0 start:77:21 end:77:26:
                     vpiParent: SysTaskCall name:$display
                     vpiName: out_0
@@ -1376,7 +1382,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk_0
                   vpiFullName: main.clk_0
-                  vpiActual: Net name:clk_0
+                  vpiActual: Variable name:clk_0
                 vpiRhs Constant start:79:13 end:79:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1424,17 +1430,17 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: reset
                     vpiFullName: main.reset
-                    vpiActual: Net name:reset
+                    vpiActual: Variable name:reset
                   RefObj name:clk_0 start:81:70 end:81:75:
                     vpiParent: SysTaskCall name:$display
                     vpiName: clk_0
                     vpiFullName: main.clk_0
-                    vpiActual: Net name:clk_0
+                    vpiActual: Variable name:clk_0
                   RefObj name:clk_1 start:82:15 end:82:20:
                     vpiParent: SysTaskCall name:$display
                     vpiName: clk_1
                     vpiFullName: main.clk_1
-                    vpiActual: Net name:clk_1
+                    vpiActual: Variable name:clk_1
                   RefObj name:out_0 start:82:21 end:82:26:
                     vpiParent: SysTaskCall name:$display
                     vpiName: out_0
@@ -1520,7 +1526,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk_1
                   vpiFullName: main.clk_1
-                  vpiActual: Net name:clk_1
+                  vpiActual: Variable name:clk_1
                 vpiRhs Constant start:95:13 end:95:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1568,17 +1574,17 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: reset
                     vpiFullName: main.reset
-                    vpiActual: Net name:reset
+                    vpiActual: Variable name:reset
                   RefObj name:clk_0 start:97:70 end:97:75:
                     vpiParent: SysTaskCall name:$display
                     vpiName: clk_0
                     vpiFullName: main.clk_0
-                    vpiActual: Net name:clk_0
+                    vpiActual: Variable name:clk_0
                   RefObj name:clk_1 start:98:15 end:98:20:
                     vpiParent: SysTaskCall name:$display
                     vpiName: clk_1
                     vpiFullName: main.clk_1
-                    vpiActual: Net name:clk_1
+                    vpiActual: Variable name:clk_1
                   RefObj name:out_0 start:98:21 end:98:26:
                     vpiParent: SysTaskCall name:$display
                     vpiName: out_0
@@ -1701,7 +1707,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: reset
                 vpiFullName: main.module_1.reset
-                vpiActual: Net name:reset
+                vpiActual: Variable name:reset
             Port start:52:26 end:52:31:
               vpiParent: RefInstance name:module_1
               vpiLowConn RefObj:
@@ -1711,7 +1717,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk_0
                 vpiFullName: main.module_1.clk_0
-                vpiActual: Net name:clk_0
+                vpiActual: Variable name:clk_0
             Port start:52:32 end:52:37:
               vpiParent: RefInstance name:module_1
               vpiLowConn RefObj:
@@ -1740,7 +1746,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: reset
                 vpiFullName: main.module_2.reset
-                vpiActual: Net name:reset
+                vpiActual: Variable name:reset
             Port start:53:26 end:53:31:
               vpiParent: RefInstance name:module_2
               vpiLowConn RefObj:
@@ -1750,7 +1756,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk_1
                 vpiFullName: main.module_2.clk_1
-                vpiActual: Net name:clk_1
+                vpiActual: Variable name:clk_1
             Port start:53:32 end:53:37:
               vpiParent: RefInstance name:module_2
               vpiLowConn RefObj:

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +29,8 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//   - both variables: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - module has exactly 1 Parameter "c" (RefTypespec -> IntegerTypespec,
 //     signed) and exactly 1 ParamAssign: lhs RefObj "c" resolving the
 //     Parameter, rhs Constant "3" (vpiConstType=unsigned int)
@@ -72,7 +72,7 @@
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/range.h>
@@ -90,21 +90,21 @@ class PackedVariableSliceTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(PackedVariableSliceTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedVariableSliceTest, ModuleHasTwoNets) {
+TEST_F(PackedVariableSliceTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-// --- parameter c = 3 -----------------------------------------------------------
+// --- parameter c = 3 ----
 
 TEST_F(PackedVariableSliceTest, ModuleHasOneParameterNamedC) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -133,7 +133,7 @@ TEST_F(PackedVariableSliceTest, ParamAssignSetsCToThree) {
   EXPECT_EQ(rhs->getDecompile(), "3");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedVariableSliceTest, InitialBeginHasFiveStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -221,7 +221,7 @@ TEST_F(PackedVariableSliceTest, SecondDisplayAssertsBitPattern) {
   EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr_b");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedVariableSliceTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -243,7 +243,7 @@ TEST_F(PackedVariableSliceTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime value requires simulation -----------------------------
+// --- known gap: runtime value requires simulation ----
 
 TEST_F(PackedVariableSliceTest, RuntimeValueRequiresSimulation) {
   // GTEST_SKIP() << "This harness only compiles/elaborates variable-slice.sv; it does not run a "

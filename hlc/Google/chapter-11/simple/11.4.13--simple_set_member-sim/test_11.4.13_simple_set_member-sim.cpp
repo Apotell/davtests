@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,11 @@
 // Checked:
 //   - design has module top with exactly 2 nets: "a" [3:0] (input,
 //     RefTypespec -> LogicTypespec with Range), "b" (output, RefTypespec ->
-//     LogicTypespec with no range -- a plain scalar)
+//     LogicTypespec with no range -- a plain scalar). Per IEEE 1800-2023
+//     Sec 6.7/23.2.2.3: an input port always defaults to a net, and an
+//     output port with no explicit data type also defaults to a net, so
+//     both being nets (vpiNetType wire) here is correct; module has no
+//     variables (getVariables() is null)
 //   - module has exactly 1 continuous assignment: lhs RefObj "b", rhs
 //     Operation (vpiOpType=inside) with 2 operands: RefObj "a", and a
 //     nested Operation (vpiOpType=concatenation) holding the set
@@ -67,15 +71,31 @@ class SimpleSetMemberSimTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ---------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(SimpleSetMemberSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+
+TEST_F(SimpleSetMemberSimTest, ModuleHasTwoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  EXPECT_EQ(top->getNets()->size(), 2u);
+}
+
+TEST_F(SimpleSetMemberSimTest, ModuleHasNoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr) << "both ports default to nets per IEEE 1800-2023 "
+                                              "Sec 6.7/23.2.2.3, so the module should have no "
+                                              "variables";
+}
 
 TEST_F(SimpleSetMemberSimTest, NetAHasFourBitRange) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getNetType(), vpiWire);
   const hldb::LogicTypespec *const lt = a->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(lt, nullptr);
   ASSERT_NE(lt->getRanges(), nullptr);
@@ -89,12 +109,13 @@ TEST_F(SimpleSetMemberSimTest, NetBIsScalarLogic) {
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
+  EXPECT_EQ(b->getNetType(), vpiWire);
   const hldb::LogicTypespec *const lt = b->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(lt, nullptr);
   EXPECT_EQ(lt->getRanges(), nullptr);
 }
 
-// --- continuous assignment: inside operator ---------------------------------
+// --- continuous assignment: inside operator ----
 
 TEST_F(SimpleSetMemberSimTest, ContAssignIsAInsideTwoThreeFourFive) {
   const hldb::Module *const top = getTop();
@@ -121,7 +142,7 @@ TEST_F(SimpleSetMemberSimTest, ContAssignIsAInsideTwoThreeFourFive) {
   }
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(SimpleSetMemberSimTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

@@ -218,11 +218,9 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_mismodport_bad.v:6:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface_mismodport_bad.v:12:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_mismodport_bad.v:27:1: Compile module "counter_ansi".
-[ERR:EL0535] $Source01/t_interface_mismodport_bad.v:22:23: Illegal implicit net "id:44, name:isub".
-[ERR:EL0535] $Source01/t_interface_mismodport_bad.v:23:23: Illegal implicit net "id:49, name:i_value".
-[ERR:EL0535] $Source01/t_interface_mismodport_bad.v:29:8: Illegal implicit net "id:58, name:out_modport".
-[ERR:EL0535] $Source01/t_interface_mismodport_bad.v:34:12: Illegal implicit net "id:85, name:ok".
-[ERR:EL0535] $Source01/t_interface_mismodport_bad.v:35:12: Illegal implicit net "id:90, name:bad".
+[ERR:LN0813] $Source01/t_interface_mismodport_bad.v:1:1: Found 1 orphan node(s).
+[WRN:CP0350] $Source01/t_interface_mismodport_bad.v:34:12: Failed to bind "id:81, name:ok".
+[WRN:CP0350] $Source01/t_interface_mismodport_bad.v:35:12: Failed to bind "id:86, name:bad".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -232,7 +230,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_mismodport_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_mismodport_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:ifc file:$Source01/t_interface_mismodport_bad.v start:6:1 end:10:13:
       vpiParent: Design name:unnamed
@@ -261,7 +258,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:ifc
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
         vpiName: work
@@ -289,6 +286,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:18:12 end:18:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:18:4 end:18:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:18:16 end:18:17:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -301,13 +317,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:counter_ansi
             vpiName: counter_ansi
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:10 end:17:10:
@@ -316,30 +332,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:18:12 end:18:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:18:4 end:18:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:18:16 end:18:17:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:14:4 end:14:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:14:4 end:14:7:
+          vpiLowConn RefObj name:clk start:17:10 end:17:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -399,22 +398,7 @@ Design name:unnamed:
         vpiParent: Module name:counter_ansi
         vpiName: counter_ansi
       vpiFullName: counter_ansi
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:ifc::out_modport start:29:4 end:29:19:
-          vpiParent: Module name:counter_ansi
-          vpiPathElem (2 items):
-            RefObj name:ifc start:29:4 end:29:7:
-              vpiParent: UnsupportedTypespec name:ifc::out_modport
-              vpiName: ifc
-              vpiFullName: counter_ansi.ifc::out_modport.ifc
-              vpiActual: Interface name:ifc
-            RefObj name:out_modport start:29:8 end:29:19:
-              vpiParent: UnsupportedTypespec name:ifc::out_modport
-              vpiName: out_modport
-              vpiFullName: counter_ansi.ifc::out_modport.out_modport
-          vpiName Identifier name:ifc::out_modport:
-            vpiParent: UnsupportedTypespec name:ifc::out_modport
-            vpiName: ifc::out_modport
+      vpiTypespec (2 items):
         UnsupportedTypespec name:logic start:30:10 end:30:21:
           vpiParent: Module name:counter_ansi
           vpiName Identifier name:logic start:30:10 end:30:15:
@@ -452,22 +436,13 @@ Design name:unnamed:
             vpiFullName: counter_ansi.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: counter_ansi
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:counter_ansi
         vpiName: work
         vpiFullName: counter_ansi.work
       vpiCell: counter_ansi
-      vpiNet (2 items):
-        Net name:isub start:29:20 end:29:24:
-          vpiParent: Module name:counter_ansi
-          vpiTypespec RefTypespec start:29:4 end:29:19:
-            vpiParent: Net name:isub
-            vpiFullName: counter_ansi.isub
-            vpiActual: UnsupportedTypespec name:ifc::out_modport
-          vpiName: isub
-          vpiFullName: counter_ansi.isub
-          vpiNetType: wire (1)
+      vpiNet (1 items):
         Net name:i_value start:30:22 end:30:29:
           vpiParent: Module name:counter_ansi
           vpiTypespec RefTypespec name:logic start:30:10 end:30:15:
@@ -483,21 +458,14 @@ Design name:unnamed:
           vpiParent: Module name:counter_ansi
           vpiName: isub
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:29:20 end:29:24:
-            vpiParent: Port name:isub
-            vpiFullName: counter_ansi.isub
-            vpiActual: Net name:isub
-          vpiTypespec RefTypespec start:29:4 end:29:19:
-            vpiParent: Port name:isub
-            vpiFullName: counter_ansi.isub
-            vpiActual: UnsupportedTypespec name:ifc::out_modport
         Port name:i_value start:30:22 end:30:29:
           vpiParent: Module name:counter_ansi
           vpiName: i_value
           vpiDirection: input (1)
-          vpiLowConn RefObj start:30:22 end:30:29:
+          vpiLowConn RefObj name:i_value start:30:22 end:30:29:
             vpiParent: Port name:i_value
-            vpiFullName: counter_ansi.i_value
+            vpiName: i_value
+            vpiFullName: counter_ansi.i_value.i_value
             vpiActual: Net name:i_value
           vpiTypespec RefTypespec name:logic start:30:10 end:30:15:
             vpiParent: Port name:i_value
@@ -525,7 +493,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:isub.ok
                         vpiName: isub
                         vpiFullName: counter_ansi.isub
-                        vpiActual: Net name:isub
+                        vpiActual: Port name:isub
                       RefObj name:ok start:34:12 end:34:14:
                         vpiParent: HierPath name:isub.ok
                         vpiName: ok
@@ -547,7 +515,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:isub.bad
                         vpiName: isub
                         vpiFullName: counter_ansi.isub
-                        vpiActual: Net name:isub
+                        vpiActual: Port name:isub
                       RefObj name:bad start:35:12 end:35:15:
                         vpiParent: HierPath name:isub.bad
                         vpiName: bad
@@ -585,8 +553,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -601,25 +569,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_mismodport_bad/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 95.28,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_mismodport_bad.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface_mismodport_bad.v': {'post_len': 15,
                                                                         'pre_len': 318}},
-            'post_len': 0,
+            'post_len': 15,
             'pre_len': 318,
             'test_name': 'Verilator/t_interface_mismodport_bad'}}
 
 +-----------------------------------------------+----------+-----------+
 | INPUT                                         |   PRELEN |   POSTLEN |
 +===============================================+==========+===========+
-| $Output/lib/work/t_interface_mismodport_bad.v |      318 |         0 |
+| $Output/lib/work/t_interface_mismodport_bad.v |      318 |        15 |
 +===============================================+==========+===========+
-|                                               |      318 |         0 |
+|                                               |      318 |        15 |
 +-----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 95.28
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -630,7 +598,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_mismodport_bad/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              80      80       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                    80      80       0         0
 ===================== END REDUCTION RESULT =====================

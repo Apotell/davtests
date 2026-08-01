@@ -451,9 +451,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "m".
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "m".
 [WRN:CP0334] Colliding compilation unit name: "m".
-[ERR:EL0535] $Source01/dut.sv:18:19: Illegal implicit net "id:114, name:x".
-[ERR:EL0535] $Source01/dut.sv:19:19: Illegal implicit net "id:123, name:x".
-[ERR:EL0535] $Source01/dut.sv:20:21: Illegal implicit net "id:135, name:x".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "m".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "m".
 ====== HLDB =======
@@ -464,7 +461,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:m file:$Source01/dut.sv start:1:1 end:13:14:
       vpiParent: Design name:unnamed
@@ -593,12 +589,49 @@ Design name:unnamed:
                   vpiParent: SubroutineCall name:toggles
                   vpiName: c
                   vpiFullName: m.toggles.c
-                  vpiActual: Net name:c
+                  vpiActual: Variable name:c
                 RefObj name:d start:12:50 end:12:51:
                   vpiParent: SubroutineCall name:toggles
                   vpiName: d
                   vpiFullName: m.toggles.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
+      vpiVariable (4 items):
+        Variable name:a start:2:14 end:2:15:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:2:1 end:2:13:
+            vpiParent: Variable name:a
+            vpiFullName: m.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: m.a
+          vpiVector: true
+        Variable name:b start:2:17 end:2:18:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:2:1 end:2:13:
+            vpiParent: Variable name:b
+            vpiFullName: m.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: m.b
+          vpiVector: true
+        Variable name:c start:3:7 end:3:8:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:3:1 end:3:6:
+            vpiParent: Variable name:c
+            vpiFullName: m.c
+            vpiActual: LogicTypespec
+          vpiName: c
+          vpiFullName: m.c
+          vpiScalar: true
+        Variable name:d start:3:10 end:3:11:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:3:1 end:3:6:
+            vpiParent: Variable name:d
+            vpiFullName: m.d
+            vpiActual: LogicTypespec
+          vpiName: d
+          vpiFullName: m.d
+          vpiScalar: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:m
@@ -666,13 +699,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:m
       vpiDefName: m
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:m
         vpiName: work
         vpiFullName: m.work
       vpiCell: m
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:clock start:1:16 end:1:21:
           vpiParent: Module name:m
           vpiTypespec RefTypespec start:1:10 end:1:15:
@@ -682,46 +715,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: m.clock
           vpiNetType: wire (1)
-        Net name:a start:2:14 end:2:15:
-          vpiParent: Module name:m
-          vpiTypespec RefTypespec start:2:1 end:2:13:
-            vpiParent: Net name:a
-            vpiFullName: m.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: m.a
-        Net name:b start:2:17 end:2:18:
-          vpiParent: Module name:m
-          vpiTypespec RefTypespec start:2:1 end:2:13:
-            vpiParent: Net name:b
-            vpiFullName: m.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: m.b
-        Net name:c start:3:7 end:3:8:
-          vpiParent: Module name:m
-          vpiTypespec RefTypespec start:3:1 end:3:6:
-            vpiParent: Net name:c
-            vpiFullName: m.c
-            vpiActual: LogicTypespec
-          vpiName: c
-          vpiFullName: m.c
-        Net name:d start:3:10 end:3:11:
-          vpiParent: Module name:m
-          vpiTypespec RefTypespec start:3:1 end:3:6:
-            vpiParent: Net name:d
-            vpiFullName: m.d
-            vpiActual: LogicTypespec
-          vpiName: d
-          vpiFullName: m.d
       vpiPort (1 items):
         Port name:clock start:1:16 end:1:21:
           vpiParent: Module name:m
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:16 end:1:21:
+          vpiLowConn RefObj name:clock start:1:16 end:1:21:
             vpiParent: Port name:clock
-            vpiFullName: m.clock
+            vpiName: clock
+            vpiFullName: m.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:1:10 end:1:15:
             vpiParent: Port name:clock
@@ -752,7 +754,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: a
                       vpiFullName: m.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                 Operation start:8:24 end:8:32:
                   vpiParent: Operation
                   vpiTypespec RefTypespec name:bits start:8:24 end:8:28:
@@ -766,7 +768,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: b
                       vpiFullName: m.b
-                      vpiActual: Net name:b
+                      vpiActual: Variable name:b
           vpiAlwaysType: comb (2)
       vpiEndLabel Identifier name:m start:13:13 end:13:14:
         vpiParent: Module name:m
@@ -804,7 +806,17 @@ Design name:unnamed:
                   vpiParent: SubroutineCall name:p1
                   vpiName: a
                   vpiFullName: m.p1.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
+      vpiVariable (1 items):
+        Variable name:a start:17:7 end:17:8:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:17:1 end:17:6:
+            vpiParent: Variable name:a
+            vpiFullName: m.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: m.a
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:m
@@ -896,13 +908,13 @@ Design name:unnamed:
                 vpiFullName: m.s.x
                 vpiActual: LogicTypespec
       vpiDefName: m
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:m
         vpiName: work
         vpiFullName: m.work
       vpiCell: m
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clock start:16:16 end:16:21:
           vpiParent: Module name:m
           vpiTypespec RefTypespec start:16:10 end:16:15:
@@ -912,22 +924,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: m.clock
           vpiNetType: wire (1)
-        Net name:a start:17:7 end:17:8:
-          vpiParent: Module name:m
-          vpiTypespec RefTypespec start:17:1 end:17:6:
-            vpiParent: Net name:a
-            vpiFullName: m.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: m.a
       vpiPort (1 items):
         Port name:clock start:16:16 end:16:21:
           vpiParent: Module name:m
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:16:16 end:16:21:
+          vpiLowConn RefObj name:clock start:16:16 end:16:21:
             vpiParent: Port name:clock
-            vpiFullName: m.clock
+            vpiName: clock
+            vpiFullName: m.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:16:10 end:16:15:
             vpiParent: Port name:clock
@@ -955,7 +960,7 @@ Design name:unnamed:
                       vpiParent: SubroutineCall name:p1
                       vpiName: a
                       vpiFullName: m.p1.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
               ImmediateAssert start:23:5 end:23:19:
                 vpiParent: Begin
                 vpiLabel Identifier name:a2 start:23:1 end:23:3:
@@ -971,7 +976,7 @@ Design name:unnamed:
                       vpiParent: SubroutineCall name:p2
                       vpiName: a
                       vpiFullName: m.p2.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
               ImmediateAssert start:24:5 end:24:18:
                 vpiParent: Begin
                 vpiLabel Identifier name:a3 start:24:1 end:24:3:
@@ -987,7 +992,7 @@ Design name:unnamed:
                       vpiParent: SubroutineCall name:s
                       vpiName: a
                       vpiFullName: m.s.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
           vpiAlwaysType: comb (2)
       vpiEndLabel Identifier name:m start:27:13 end:27:14:
         vpiParent: Module name:m
@@ -1011,7 +1016,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@
 //   endmodule
 //   should_fail_because: bit selects not permitted on vectored vector nets
 //
-// HLC emits 4 PA0207 syntax errors — `vectored` not recognised in
+// HLC emits 4 PA0207 syntax errors -- `vectored` not recognised in
 // `logic` context, so the module body cannot be parsed.
 //
 // Checked:
@@ -55,7 +55,7 @@ class VectorVectoredInv : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module-level checks ------------------------------------------------
+// --- module-level checks ----
 
 TEST_F(VectorVectoredInv, NoModuleNamedTop) {
   // Parse failure: no properly named top module in the UHDM graph
@@ -73,7 +73,7 @@ TEST_F(VectorVectoredInv, DesignHasTwoUnnamedModuleStubs) {
 }
 
 TEST_F(VectorVectoredInv, NoNetsInAnyModule) {
-  // Neither module stub contains nets — `logic vectored [15:0] a` was not
+  // Neither module stub contains nets -- `logic vectored [15:0] a` was not
   // lowered to a Net because the module body parse failed
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const mod : *m_design->getAllModules()) {
@@ -97,7 +97,7 @@ TEST_F(VectorVectoredInv, NoProcessesInAnyModule) {
   }
 }
 
-// --- design-level typespec checks ----------------------------------------
+// --- design-level typespec checks ----
 
 TEST_F(VectorVectoredInv, DesignHasOneLogicTypespec) {
   // The `logic` keyword from `logic vectored [15:0] a = 0` was recognised and
@@ -181,7 +181,7 @@ TEST_F(VectorVectoredInv, ArrayTypespecRangeRightIs0) {
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
-// --- compiler diagnostics ----------------------------------------------
+// --- compiler diagnostics ----
 
 TEST_F(VectorVectoredInv, ExactlyFourSyntaxErrorsReported) {
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();

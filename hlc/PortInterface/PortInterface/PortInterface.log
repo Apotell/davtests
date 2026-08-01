@@ -133,8 +133,7 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/dut.sv:4:1: Compile interface "sim_sram_if".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "dut".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:15:15: Illegal implicit net "id:47, name:ss_if".
-[ERR:EL0535] $Source01/dut.sv:17:28: Illegal implicit net "id:55, name:start_addr".
+[WRN:CP0350] $Source01/dut.sv:17:28: Failed to bind "id:55, name:start_addr".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "dut".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "top".
 [WRN:PA0205] $Source01/dut.sv:4:1: No timescale set for "sim_sram_if".
@@ -146,7 +145,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:sim_sram_if file:$Source01/dut.sv start:4:1 end:6:13:
       vpiParent: Design name:unnamed
@@ -163,7 +161,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: start_addr
           vpiFullName: sim_sram_if.start_addr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:sim_sram_if
         vpiName: work
@@ -177,7 +175,7 @@ Design name:unnamed:
         vpiName: dut
       vpiFullName: dut
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -199,9 +197,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: ss_if
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:8:24 end:8:29:
+          vpiLowConn RefObj name:ss_if start:8:24 end:8:29:
             vpiParent: Port name:ss_if
-            vpiFullName: dut.ss_if
+            vpiName: ss_if
+            vpiFullName: dut.ss_if.ss_if
             vpiActual: Net name:ss_if
           vpiTypespec RefTypespec name:sim_sram_if start:8:12 end:8:23:
             vpiParent: Port name:ss_if
@@ -251,7 +250,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: o
           vpiFullName: top.o
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         ModuleTypespec name:dut start:15:4 end:15:7:
           vpiParent: Module name:top
@@ -259,7 +257,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:dut
             vpiName: dut
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -270,9 +268,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:12:23 end:12:24:
+          vpiLowConn RefObj name:o start:12:23 end:12:24:
             vpiParent: Port name:o
-            vpiFullName: top.o
+            vpiName: o
+            vpiFullName: top.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:12:12 end:12:22:
             vpiParent: Port name:o
@@ -356,8 +355,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

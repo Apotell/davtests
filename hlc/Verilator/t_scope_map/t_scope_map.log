@@ -690,21 +690,6 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/t_scope_map.v:7:1: Multiply defined typedef "foo".
 [INF:CP0303] $Source01/t_scope_map.v:30:1: Compile module "foo".
 [INF:CP0303] $Source01/t_scope_map.v:56:1: Compile module "bar".
-[ERR:EL0535] $Source01/t_scope_map.v:12:11: Illegal implicit net "id:24, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:13:11: Illegal implicit net "id:35, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:14:11: Illegal implicit net "id:46, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:15:11: Illegal implicit net "id:57, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:16:11: Illegal implicit net "id:68, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:17:11: Illegal implicit net "id:79, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:18:11: Illegal implicit net "id:90, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:19:11: Illegal implicit net "id:101, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:20:11: Illegal implicit net "id:112, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:21:11: Illegal implicit net "id:123, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:22:11: Illegal implicit net "id:134, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:23:11: Illegal implicit net "id:145, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:24:11: Illegal implicit net "id:156, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:25:11: Illegal implicit net "id:167, name:WIDTH".
-[ERR:EL0535] $Source01/t_scope_map.v:26:11: Illegal implicit net "id:178, name:WIDTH".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -714,7 +699,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_scope_map.v
       vpiPreprocFile: "$Output/lib/work/t_scope_map.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_scope_map.v start:7:1 end:28:10:
       vpiParent: Design name:unnamed
@@ -801,7 +785,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bar
             vpiName: bar
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -822,9 +806,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: CLK
           vpiDirection: input (1)
-          vpiLowConn RefObj start:9:15 end:9:18:
+          vpiLowConn RefObj name:CLK start:9:15 end:9:18:
             vpiParent: Port name:CLK
-            vpiFullName: t.CLK
+            vpiName: CLK
+            vpiFullName: t.CLK.CLK
             vpiActual: Net name:CLK
           vpiTypespec RefTypespec start:9:4 end:9:14:
             vpiParent: Port name:CLK
@@ -1317,6 +1302,33 @@ Design name:unnamed:
         vpiParent: Module name:foo
         vpiName: foo
       vpiFullName: foo
+      vpiVariable (3 items):
+        Variable name:initial_value start:38:48 end:38:61:
+          vpiParent: Module name:foo
+          vpiTypespec RefTypespec name:logic start:38:4 end:38:47:
+            vpiParent: Variable name:initial_value
+            vpiName: logic
+            vpiFullName: foo.initial_value.logic
+            vpiActual: ArrayTypespec
+          vpiName: initial_value
+          vpiFullName: foo.initial_value
+        Variable name:value_q start:39:28 end:39:35:
+          vpiParent: Module name:foo
+          vpiTypespec RefTypespec name:logic start:39:4 end:39:27:
+            vpiParent: Variable name:value_q
+            vpiName: logic
+            vpiFullName: foo.value_q.logic
+            vpiActual: ArrayTypespec
+          vpiName: value_q
+          vpiFullName: foo.value_q
+        Variable name:i start:40:12 end:40:13:
+          vpiParent: Module name:foo
+          vpiTypespec RefTypespec start:40:4 end:40:11:
+            vpiParent: Variable name:i
+            vpiFullName: foo.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: foo.i
       vpiParameter (1 items):
         Parameter name:WIDTH start:32:15 end:32:20:
           vpiParent: Module name:foo
@@ -1483,13 +1495,13 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiSigned: true
       vpiDefName: foo
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo
         vpiName: work
         vpiFullName: foo.work
       vpiCell: foo
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:CLK start:35:11 end:35:14:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec start:35:5 end:35:10:
@@ -1499,40 +1511,15 @@ Design name:unnamed:
           vpiName: CLK
           vpiFullName: foo.CLK
           vpiNetType: wire (1)
-        Net name:initial_value start:38:48 end:38:61:
-          vpiParent: Module name:foo
-          vpiTypespec RefTypespec name:logic start:38:4 end:38:47:
-            vpiParent: Net name:initial_value
-            vpiName: logic
-            vpiFullName: foo.initial_value.logic
-            vpiActual: ArrayTypespec
-          vpiName: initial_value
-          vpiFullName: foo.initial_value
-        Net name:value_q start:39:28 end:39:35:
-          vpiParent: Module name:foo
-          vpiTypespec RefTypespec name:logic start:39:4 end:39:27:
-            vpiParent: Net name:value_q
-            vpiName: logic
-            vpiFullName: foo.value_q.logic
-            vpiActual: ArrayTypespec
-          vpiName: value_q
-          vpiFullName: foo.value_q
-        Net name:i start:40:12 end:40:13:
-          vpiParent: Module name:foo
-          vpiTypespec RefTypespec start:40:4 end:40:11:
-            vpiParent: Net name:i
-            vpiFullName: foo.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: foo.i
       vpiPort (1 items):
         Port name:CLK start:35:11 end:35:14:
           vpiParent: Module name:foo
           vpiName: CLK
           vpiDirection: input (1)
-          vpiLowConn RefObj start:35:11 end:35:14:
+          vpiLowConn RefObj name:CLK start:35:11 end:35:14:
             vpiParent: Port name:CLK
-            vpiFullName: foo.CLK
+            vpiName: CLK
+            vpiFullName: foo.CLK.CLK
             vpiActual: Net name:CLK
           vpiTypespec RefTypespec start:35:5 end:35:10:
             vpiParent: Port name:CLK
@@ -1555,7 +1542,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: initial_value
                   vpiFullName: foo.initial_value
-                  vpiActual: Net name:initial_value
+                  vpiActual: Variable name:initial_value
                 vpiRhs Constant start:43:23 end:43:25:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1577,7 +1564,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: i
                       vpiFullName: foo.i
-                      vpiActual: Net name:i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:45:16 end:45:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1597,7 +1584,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i
                         vpiFullName: foo.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                 vpiCondition Operation start:45:19 end:45:32:
                   vpiParent: ForStmt
                   vpiOpType: less than (20)
@@ -1606,7 +1593,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: i
                       vpiFullName: foo.i
-                      vpiActual: Net name:i
+                      vpiActual: Variable name:i
                     Operation start:45:23 end:45:32:
                       vpiParent: Operation
                       vpiOpType: divide (12)
@@ -1637,7 +1624,7 @@ Design name:unnamed:
                       vpiParent: IndexedPartSelect name:initial_value[i*8+:8]
                       vpiName: initial_value
                       vpiFullName: foo.initial_value
-                      vpiActual: Net name:initial_value
+                      vpiActual: Variable name:initial_value
                     vpiIndexedPartSelectType: pos indexed (1)
                     vpiBaseExpr Operation start:46:24 end:46:29:
                       vpiParent: IndexedPartSelect name:initial_value[i*8+:8]
@@ -1647,7 +1634,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: i
                           vpiFullName: foo.initial_value[i*8+:8].i
-                          vpiActual: Net name:i
+                          vpiActual: Variable name:i
                         Constant start:46:28 end:46:29:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -1676,7 +1663,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:i[7:0]
                       vpiName: i
                       vpiFullName: foo.i[7:0].i
-                      vpiActual: Net name:i
+                      vpiActual: Variable name:i
                     vpiRange Range start:46:42 end:46:47:
                       vpiParent: PartSelect name:i[7:0]
                       vpiLeftRange Constant start:46:42 end:46:43:
@@ -1706,7 +1693,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: value_q
                   vpiFullName: foo.value_q
-                  vpiActual: Net name:value_q
+                  vpiActual: Variable name:value_q
                 vpiRhs PartSelect name:initial_value[WIDTH-1:0] start:48:17 end:48:47:
                   vpiParent: Assignment
                   vpiName: initial_value[WIDTH-1:0]
@@ -1715,7 +1702,7 @@ Design name:unnamed:
                     vpiParent: PartSelect name:initial_value[WIDTH-1:0]
                     vpiName: initial_value
                     vpiFullName: foo.initial_value[WIDTH-1:0].initial_value
-                    vpiActual: Net name:initial_value
+                    vpiActual: Variable name:initial_value
                   vpiRange Range start:48:32 end:48:45:
                     vpiParent: PartSelect name:initial_value[WIDTH-1:0]
                     vpiLeftRange Operation start:48:32 end:48:41:
@@ -1766,7 +1753,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: value_q
                 vpiFullName: foo.value_q
-                vpiActual: Net name:value_q
+                vpiActual: Variable name:value_q
               vpiRhs Operation start:52:17 end:52:25:
                 vpiParent: Assignment
                 vpiOpType: bitwise negation (4)
@@ -1775,7 +1762,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: value_q
                     vpiFullName: foo.value_q
-                    vpiActual: Net name:value_q
+                    vpiActual: Variable name:value_q
           vpiAlwaysType: always (1)
     Module name:bar file:$Source01/t_scope_map.v start:56:1 end:66:10:
       vpiParent: Design name:unnamed
@@ -1819,7 +1806,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:foo
             vpiName: foo
       vpiDefName: bar
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bar
         vpiName: work
@@ -1840,9 +1827,10 @@ Design name:unnamed:
           vpiParent: Module name:bar
           vpiName: CLK
           vpiDirection: input (1)
-          vpiLowConn RefObj start:61:11 end:61:14:
+          vpiLowConn RefObj name:CLK start:61:11 end:61:14:
             vpiParent: Port name:CLK
-            vpiFullName: bar.CLK
+            vpiName: CLK
+            vpiFullName: bar.CLK.CLK
             vpiActual: Net name:CLK
           vpiTypespec RefTypespec start:61:5 end:61:10:
             vpiParent: Port name:CLK
@@ -1902,7 +1890,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 15
+[  ERROR] : 0
 [WARNING] : 13
 [   NOTE] : 0
 ********************************************************************************

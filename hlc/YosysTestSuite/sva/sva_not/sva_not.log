@@ -335,7 +335,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: sva_not.sv
       vpiPreprocFile: "$Output/lib/work/sva_not.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/sva_not.sv start:1:1 end:34:10:
       vpiParent: Design name:unnamed
@@ -432,13 +431,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: top.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     RefObj name:ping start:31:15 end:31:19:
                       vpiParent: Operation
                       vpiName: ping
                       vpiFullName: top.ping
                       vpiActual: Net name:ping
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:pong start:6:13 end:6:17:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:2 end:6:12:
@@ -447,7 +446,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: pong
           vpiFullName: top.pong
-          vpiNetType: none (12)
+        Variable name:cnt start:8:12 end:8:15:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:8:2 end:8:11:
+            vpiParent: Variable name:cnt
+            vpiFullName: top.cnt
+            vpiActual: LogicTypespec
+          vpiName: cnt
+          vpiFullName: top.cnt
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:maxdelay start:9:21 end:9:29:
           vpiParent: Module name:top
@@ -535,13 +542,13 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiSigned: true
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:clk start:2:8 end:2:11:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:2:2 end:2:7:
@@ -578,22 +585,15 @@ Design name:unnamed:
           vpiName: cfg
           vpiFullName: top.cfg
           vpiNetType: wire (1)
-        Net name:cnt start:8:12 end:8:15:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:8:2 end:8:11:
-            vpiParent: Net name:cnt
-            vpiFullName: top.cnt
-            vpiActual: LogicTypespec
-          vpiName: cnt
-          vpiFullName: top.cnt
       vpiPort (5 items):
         Port name:clk start:2:8 end:2:11:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:8 end:2:11:
+          vpiLowConn RefObj name:clk start:2:8 end:2:11:
             vpiParent: Port name:clk
-            vpiFullName: top.clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:2:2 end:2:7:
             vpiParent: Port name:clk
@@ -603,9 +603,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: reset
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:8 end:3:13:
+          vpiLowConn RefObj name:reset start:3:8 end:3:13:
             vpiParent: Port name:reset
-            vpiFullName: top.reset
+            vpiName: reset
+            vpiFullName: top.reset.reset
             vpiActual: Net name:reset
           vpiTypespec RefTypespec start:3:2 end:3:7:
             vpiParent: Port name:reset
@@ -615,9 +616,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: ping
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:8 end:4:12:
+          vpiLowConn RefObj name:ping start:4:8 end:4:12:
             vpiParent: Port name:ping
-            vpiFullName: top.ping
+            vpiName: ping
+            vpiFullName: top.ping.ping
             vpiActual: Net name:ping
           vpiTypespec RefTypespec start:4:2 end:4:7:
             vpiParent: Port name:ping
@@ -627,9 +629,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: cfg
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:14 end:5:17:
+          vpiLowConn RefObj name:cfg start:5:14 end:5:17:
             vpiParent: Port name:cfg
-            vpiFullName: top.cfg
+            vpiName: cfg
+            vpiFullName: top.cfg.cfg
             vpiActual: Net name:cfg
           vpiTypespec RefTypespec start:5:2 end:5:13:
             vpiParent: Port name:cfg
@@ -639,9 +642,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: pong
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:13 end:6:17:
+          vpiLowConn RefObj name:pong start:6:13 end:6:17:
             vpiParent: Port name:pong
-            vpiFullName: top.pong
+            vpiName: pong
+            vpiFullName: top.pong.pong
             vpiActual: Variable name:pong
           vpiTypespec RefTypespec start:6:2 end:6:12:
             vpiParent: Port name:pong
@@ -682,7 +686,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: cnt
                           vpiFullName: top.cnt
-                          vpiActual: Net name:cnt
+                          vpiActual: Variable name:cnt
                         vpiRhs Constant start:13:11 end:13:12:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -720,7 +724,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: cnt
                           vpiFullName: top.cnt
-                          vpiActual: Net name:cnt
+                          vpiActual: Variable name:cnt
                         vpiRhs Operation start:16:11 end:16:21:
                           vpiParent: Assignment
                           vpiOpType: subtract (11)
@@ -729,7 +733,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cnt
                               vpiFullName: top.cnt
-                              vpiActual: Net name:cnt
+                              vpiActual: Variable name:cnt
                             Operation start:16:17 end:16:21:
                               vpiParent: Operation
                               vpiOpType: unary or (7)
@@ -738,7 +742,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: cnt
                                   vpiFullName: top.cnt
-                                  vpiActual: Net name:cnt
+                                  vpiActual: Variable name:cnt
                       Assignment start:17:4 end:17:20:
                         vpiParent: Begin
                         vpiLhs RefObj name:pong start:17:4 end:17:8:
@@ -754,7 +758,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cnt
                               vpiFullName: top.cnt
-                              vpiActual: Net name:cnt
+                              vpiActual: Variable name:cnt
                             Constant start:17:19 end:17:20:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -778,7 +782,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: cnt
                             vpiFullName: top.cnt
-                            vpiActual: Net name:cnt
+                            vpiActual: Variable name:cnt
                           vpiRhs Operation start:18:21 end:18:28:
                             vpiParent: Assignment
                             vpiOpType: add (24)

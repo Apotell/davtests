@@ -345,12 +345,10 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/relong/complex_interface.sv:1:1: Compile interface "CacheSetInterface".
 [INF:CP0303] $Source01/relong/complex_interface.sv:13:1: Compile module "CacheWithInterface".
 [INF:CP0303] $Source01/relong/complex_interface.sv:38:1: Compile module "CacheSet".
-[ERR:EL0535] $Source01/relong/complex_interface.sv:23:10: Illegal implicit net "id:110, name:request".
-[ERR:EL0535] $Source01/relong/complex_interface.sv:24:10: Illegal implicit net "id:113, name:response".
-[ERR:EL0535] $Source01/relong/complex_interface.sv:28:10: Illegal implicit net "id:120, name:data".
-[ERR:EL0535] $Source01/relong/complex_interface.sv:45:18: Illegal implicit net "id:164, name:response".
-[ERR:EL0535] $Source01/relong/complex_interface.sv:47:18: Illegal implicit net "id:171, name:response".
-[ERR:EL0535] $Source01/relong/complex_interface.sv:47:36: Illegal implicit net "id:174, name:request".
+[ERR:LN0813] $Source01/relong/complex_interface.sv:1:1: Found 3 orphan node(s).
+[WRN:CP0350] $Source01/relong/complex_interface.sv:45:18: Failed to bind "id:152, name:response".
+[WRN:CP0350] $Source01/relong/complex_interface.sv:47:18: Failed to bind "id:159, name:response".
+[WRN:CP0350] $Source01/relong/complex_interface.sv:47:36: Failed to bind "id:162, name:request".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -360,7 +358,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: complex_interface.sv
       vpiPreprocFile: "$Output/lib/work/relong/complex_interface.sv"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:CacheSetInterface file:$Source01/relong/complex_interface.sv start:1:1 end:11:13:
       vpiParent: Design name:unnamed
@@ -368,16 +365,7 @@ Design name:unnamed:
         vpiParent: Interface name:CacheSetInterface
         vpiName: CacheSetInterface
       vpiFullName: CacheSetInterface
-      vpiVariable (2 items):
-        Variable name:request start:2:23 end:2:30:
-          vpiParent: Interface name:CacheSetInterface
-          vpiTypespec RefTypespec start:2:5 end:2:22:
-            vpiParent: Variable name:request
-            vpiFullName: CacheSetInterface.request
-            vpiActual: LogicTypespec
-          vpiName: request
-          vpiFullName: CacheSetInterface.request
-          vpiNetType: wire (1)
+      vpiVariable (1 items):
         Variable name:response start:3:24 end:3:32:
           vpiParent: Interface name:CacheSetInterface
           vpiTypespec RefTypespec start:3:5 end:3:23:
@@ -386,7 +374,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: response
           vpiFullName: CacheSetInterface.response
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:CacheSetInterface
@@ -440,12 +427,22 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:CacheSetInterface
         vpiName: work
         vpiFullName: CacheSetInterface.work
       vpiCell: CacheSetInterface
+      vpiNet (1 items):
+        Net name:request start:2:23 end:2:30:
+          vpiParent: Interface name:CacheSetInterface
+          vpiTypespec RefTypespec start:2:5 end:2:22:
+            vpiParent: Net name:request
+            vpiFullName: CacheSetInterface.request
+            vpiActual: LogicTypespec
+          vpiName: request
+          vpiFullName: CacheSetInterface.request
+          vpiNetType: wire (1)
       vpiModport (1 items):
         Modport name:CacheSet start:6:13 end:6:21:
           vpiParent: Interface name:CacheSetInterface
@@ -473,10 +470,11 @@ Design name:unnamed:
           vpiParent: Interface name:CacheSetInterface
           vpiName: request
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:23 end:2:30:
+          vpiLowConn RefObj name:request start:2:23 end:2:30:
             vpiParent: Port name:request
-            vpiFullName: CacheSetInterface.request
-            vpiActual: Variable name:request
+            vpiName: request
+            vpiFullName: CacheSetInterface.request.request
+            vpiActual: Net name:request
           vpiTypespec RefTypespec start:2:5 end:2:22:
             vpiParent: Port name:request
             vpiFullName: CacheSetInterface.request
@@ -485,9 +483,10 @@ Design name:unnamed:
           vpiParent: Interface name:CacheSetInterface
           vpiName: response
           vpiDirection: output (2)
-          vpiLowConn RefObj start:3:24 end:3:32:
+          vpiLowConn RefObj name:response start:3:24 end:3:32:
             vpiParent: Port name:response
-            vpiFullName: CacheSetInterface.response
+            vpiName: response
+            vpiFullName: CacheSetInterface.response.response
             vpiActual: Variable name:response
           vpiTypespec RefTypespec start:3:5 end:3:23:
             vpiParent: Port name:response
@@ -500,7 +499,7 @@ Design name:unnamed:
         vpiParent: Module name:CacheWithInterface
         vpiName: CacheWithInterface
       vpiFullName: CacheWithInterface
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:dataOut start:15:24 end:15:31:
           vpiParent: Module name:CacheWithInterface
           vpiTypespec RefTypespec start:15:5 end:15:23:
@@ -509,7 +508,24 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dataOut
           vpiFullName: CacheWithInterface.dataOut
-          vpiNetType: none (12)
+        Variable name:myRequest start:19:17 end:19:26:
+          vpiParent: Module name:CacheWithInterface
+          vpiTypespec RefTypespec start:19:5 end:19:16:
+            vpiParent: Variable name:myRequest
+            vpiFullName: CacheWithInterface.myRequest
+            vpiActual: LogicTypespec
+          vpiName: myRequest
+          vpiFullName: CacheWithInterface.myRequest
+          vpiVector: true
+        Variable name:myResponse start:20:17 end:20:27:
+          vpiParent: Module name:CacheWithInterface
+          vpiTypespec RefTypespec start:20:5 end:20:16:
+            vpiParent: Variable name:myResponse
+            vpiFullName: CacheWithInterface.myResponse
+            vpiActual: LogicTypespec
+          vpiName: myResponse
+          vpiFullName: CacheWithInterface.myResponse
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:CacheWithInterface
@@ -623,13 +639,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:CacheSet
             vpiName: CacheSet
       vpiDefName: CacheWithInterface
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:CacheWithInterface
         vpiName: work
         vpiFullName: CacheWithInterface.work
       vpiCell: CacheWithInterface
-      vpiNet (5 items):
+      vpiNet (2 items):
         Net name:dataIn start:14:23 end:14:29:
           vpiParent: Module name:CacheWithInterface
           vpiTypespec RefTypespec start:14:5 end:14:22:
@@ -648,39 +664,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: CacheWithInterface.clock
           vpiNetType: wire (1)
-        Net name:clear start:16:24 end:16:29:
-          vpiParent: Module name:CacheWithInterface
-          vpiTypespec RefTypespec start:16:24 end:16:24:
-            vpiParent: Net name:clear
-            vpiFullName: CacheWithInterface.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: CacheWithInterface.clear
-          vpiNetType: wire (1)
-        Net name:myRequest start:19:17 end:19:26:
-          vpiParent: Module name:CacheWithInterface
-          vpiTypespec RefTypespec start:19:5 end:19:16:
-            vpiParent: Net name:myRequest
-            vpiFullName: CacheWithInterface.myRequest
-            vpiActual: LogicTypespec
-          vpiName: myRequest
-          vpiFullName: CacheWithInterface.myRequest
-        Net name:myResponse start:20:17 end:20:27:
-          vpiParent: Module name:CacheWithInterface
-          vpiTypespec RefTypespec start:20:5 end:20:16:
-            vpiParent: Net name:myResponse
-            vpiFullName: CacheWithInterface.myResponse
-            vpiActual: LogicTypespec
-          vpiName: myResponse
-          vpiFullName: CacheWithInterface.myResponse
       vpiPort (4 items):
         Port name:dataIn start:14:23 end:14:29:
           vpiParent: Module name:CacheWithInterface
           vpiName: dataIn
           vpiDirection: input (1)
-          vpiLowConn RefObj start:14:23 end:14:29:
+          vpiLowConn RefObj name:dataIn start:14:23 end:14:29:
             vpiParent: Port name:dataIn
-            vpiFullName: CacheWithInterface.dataIn
+            vpiName: dataIn
+            vpiFullName: CacheWithInterface.dataIn.dataIn
             vpiActual: Net name:dataIn
           vpiTypespec RefTypespec start:14:5 end:14:22:
             vpiParent: Port name:dataIn
@@ -690,9 +682,10 @@ Design name:unnamed:
           vpiParent: Module name:CacheWithInterface
           vpiName: dataOut
           vpiDirection: output (2)
-          vpiLowConn RefObj start:15:24 end:15:31:
+          vpiLowConn RefObj name:dataOut start:15:24 end:15:31:
             vpiParent: Port name:dataOut
-            vpiFullName: CacheWithInterface.dataOut
+            vpiName: dataOut
+            vpiFullName: CacheWithInterface.dataOut.dataOut
             vpiActual: Variable name:dataOut
           vpiTypespec RefTypespec start:15:5 end:15:23:
             vpiParent: Port name:dataOut
@@ -702,9 +695,10 @@ Design name:unnamed:
           vpiParent: Module name:CacheWithInterface
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:16:17 end:16:22:
+          vpiLowConn RefObj name:clock start:16:17 end:16:22:
             vpiParent: Port name:clock
-            vpiFullName: CacheWithInterface.clock
+            vpiName: clock
+            vpiFullName: CacheWithInterface.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:16:5 end:16:16:
             vpiParent: Port name:clock
@@ -714,14 +708,6 @@ Design name:unnamed:
           vpiParent: Module name:CacheWithInterface
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:16:24 end:16:29:
-            vpiParent: Port name:clear
-            vpiFullName: CacheWithInterface.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:16:24 end:16:24:
-            vpiParent: Port name:clear
-            vpiFullName: CacheWithInterface.clear
-            vpiActual: LogicTypespec
       vpiContAssign (2 items):
         ContAssign start:33:12 end:33:30:
           vpiParent: Module name:CacheWithInterface
@@ -729,7 +715,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: myRequest
             vpiFullName: CacheWithInterface.myRequest
-            vpiActual: Net name:myRequest
+            vpiActual: Variable name:myRequest
           vpiRhs RefObj name:dataIn start:33:24 end:33:30:
             vpiParent: ContAssign
             vpiName: dataIn
@@ -746,7 +732,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: myResponse
             vpiFullName: CacheWithInterface.myResponse
-            vpiActual: Net name:myResponse
+            vpiActual: Variable name:myResponse
       vpiRefInstance (2 items):
         RefInstance name:dataInterface start:22:23 end:22:36:
           vpiParent: Module name:CacheWithInterface
@@ -767,7 +753,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: myRequest
                 vpiFullName: CacheWithInterface.dataInterface.myRequest
-                vpiActual: Net name:myRequest
+                vpiActual: Variable name:myRequest
             Port start:24:9 end:24:30:
               vpiParent: RefInstance name:dataInterface
               vpiLowConn RefObj name:response start:24:10 end:24:18:
@@ -778,7 +764,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: myResponse
                 vpiFullName: CacheWithInterface.dataInterface.myResponse
-                vpiActual: Net name:myResponse
+                vpiActual: Variable name:myResponse
         RefInstance name:set start:27:14 end:27:17:
           vpiParent: Module name:CacheWithInterface
           vpiName: set
@@ -822,49 +808,24 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clear
                 vpiFullName: CacheWithInterface.set.clear
-                vpiActual: Net name:clear
+                vpiActual: Port name:clear
     Module name:CacheSet file:$Source01/relong/complex_interface.sv start:38:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:CacheSet start:38:8 end:38:16:
         vpiParent: Module name:CacheSet
         vpiName: CacheSet
       vpiFullName: CacheSet
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:CacheSetInterface::CacheSet start:39:5 end:39:31:
-          vpiParent: Module name:CacheSet
-          vpiPathElem (2 items):
-            RefObj name:CacheSetInterface start:39:5 end:39:22:
-              vpiParent: UnsupportedTypespec name:CacheSetInterface::CacheSet
-              vpiName: CacheSetInterface
-              vpiFullName: CacheSet.CacheSetInterface::CacheSet.CacheSetInterface
-              vpiActual: Interface name:CacheSetInterface
-            RefObj name:CacheSet start:39:23 end:39:31:
-              vpiParent: UnsupportedTypespec name:CacheSetInterface::CacheSet
-              vpiName: CacheSet
-              vpiFullName: CacheSet.CacheSetInterface::CacheSet.CacheSet
-              vpiActual: Module name:CacheSet
-          vpiName Identifier name:CacheSetInterface::CacheSet:
-            vpiParent: UnsupportedTypespec name:CacheSetInterface::CacheSet
-            vpiName: CacheSetInterface::CacheSet
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:CacheSet
       vpiDefName: CacheSet
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:CacheSet
         vpiName: work
         vpiFullName: CacheSet.work
       vpiCell: CacheSet
-      vpiNet (3 items):
-        Net name:data start:39:32 end:39:36:
-          vpiParent: Module name:CacheSet
-          vpiTypespec RefTypespec start:39:5 end:39:31:
-            vpiParent: Net name:data
-            vpiFullName: CacheSet.data
-            vpiActual: UnsupportedTypespec name:CacheSetInterface::CacheSet
-          vpiName: data
-          vpiFullName: CacheSet.data
-          vpiNetType: wire (1)
+      vpiNet (1 items):
         Net name:clock start:40:17 end:40:22:
           vpiParent: Module name:CacheSet
           vpiTypespec RefTypespec start:40:5 end:40:16:
@@ -874,35 +835,19 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: CacheSet.clock
           vpiNetType: wire (1)
-        Net name:clear start:40:24 end:40:29:
-          vpiParent: Module name:CacheSet
-          vpiTypespec RefTypespec start:40:24 end:40:24:
-            vpiParent: Net name:clear
-            vpiFullName: CacheSet.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: CacheSet.clear
-          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:data start:39:32 end:39:36:
           vpiParent: Module name:CacheSet
           vpiName: data
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:39:32 end:39:36:
-            vpiParent: Port name:data
-            vpiFullName: CacheSet.data
-            vpiActual: Net name:data
-          vpiTypespec RefTypespec start:39:5 end:39:31:
-            vpiParent: Port name:data
-            vpiFullName: CacheSet.data
-            vpiActual: UnsupportedTypespec name:CacheSetInterface::CacheSet
         Port name:clock start:40:17 end:40:22:
           vpiParent: Module name:CacheSet
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:40:17 end:40:22:
+          vpiLowConn RefObj name:clock start:40:17 end:40:22:
             vpiParent: Port name:clock
-            vpiFullName: CacheSet.clock
+            vpiName: clock
+            vpiFullName: CacheSet.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:40:5 end:40:16:
             vpiParent: Port name:clock
@@ -912,14 +857,6 @@ Design name:unnamed:
           vpiParent: Module name:CacheSet
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:40:24 end:40:29:
-            vpiParent: Port name:clear
-            vpiFullName: CacheSet.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:40:24 end:40:24:
-            vpiParent: Port name:clear
-            vpiFullName: CacheSet.clear
-            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:43:5 end:47:44:
           vpiParent: Module name:CacheSet
@@ -940,7 +877,7 @@ Design name:unnamed:
                 vpiParent: IfElse
                 vpiName: clear
                 vpiFullName: CacheSet.clear
-                vpiActual: Net name:clear
+                vpiActual: Port name:clear
               vpiStmt Assignment start:45:13 end:45:34:
                 vpiParent: IfElse
                 vpiLhs HierPath name:data.response start:45:13 end:45:26:
@@ -952,7 +889,7 @@ Design name:unnamed:
                       vpiParent: HierPath name:data.response
                       vpiName: data
                       vpiFullName: CacheSet.data
-                      vpiActual: Net name:data
+                      vpiActual: Port name:data
                     RefObj name:response start:45:18 end:45:26:
                       vpiParent: HierPath name:data.response
                       vpiName: response
@@ -978,7 +915,7 @@ Design name:unnamed:
                       vpiParent: HierPath name:data.response
                       vpiName: data
                       vpiFullName: CacheSet.data
-                      vpiActual: Net name:data
+                      vpiActual: Port name:data
                     RefObj name:response start:47:18 end:47:26:
                       vpiParent: HierPath name:data.response
                       vpiName: response
@@ -996,7 +933,7 @@ Design name:unnamed:
                           vpiParent: HierPath name:data.request
                           vpiName: data
                           vpiFullName: CacheSet.data
-                          vpiActual: Net name:data
+                          vpiActual: Port name:data
                         RefObj name:request start:47:36 end:47:43:
                           vpiParent: HierPath name:data.request
                           vpiName: request
@@ -1029,8 +966,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1045,25 +982,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/complex_interface_sv/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 96.08,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/complex_interface.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/relong/complex_interface.sv': {'post_len': 26,
                                                                        'pre_len': 664}},
-            'post_len': 0,
+            'post_len': 26,
             'pre_len': 664,
             'test_name': 'Zachjs/relong/complex_interface_sv'}}
 
 +----------------------------------------------+----------+-----------+
 | INPUT                                        |   PRELEN |   POSTLEN |
 +==============================================+==========+===========+
-| $Output/lib/work/relong/complex_interface.sv |      664 |         0 |
+| $Output/lib/work/relong/complex_interface.sv |      664 |        26 |
 +==============================================+==========+===========+
-|                                              |      664 |         0 |
+|                                              |      664 |        26 |
 +----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 96.08
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1074,7 +1011,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/complex_interface_sv/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             163     163       0         0
+Others                             147     147       0         0
 ----------------------------------------------------------------
-                                   163     163       0         0
+                                   147     147       0         0
 ===================== END REDUCTION RESULT =====================

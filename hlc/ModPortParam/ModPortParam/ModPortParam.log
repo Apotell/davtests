@@ -86,7 +86,7 @@ AST_DEBUG_END
 [ERR:CP0311] $Source01/dut.sv:4:9: Undefined net used in modport: "perfCounter".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "CSR_Unit".
 [INF:CP0303] $Source01/dut.sv:13:1: Compile module "Core".
-[ERR:EL0535] $Source01/dut.sv:9:26: Illegal implicit net "id:22, name:CSR".
+[ERR:LN0813] $Source01/dut.sv:1:1: Found 1 orphan node(s).
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "CSR_Unit".
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "Core".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "PerformanceCounterIF".
@@ -98,7 +98,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:PerformanceCounterIF file:$Source01/dut.sv start:1:1 end:6:13:
       vpiParent: Design name:unnamed
@@ -106,7 +105,7 @@ Design name:unnamed:
         vpiParent: Interface name:PerformanceCounterIF
         vpiName: PerformanceCounterIF
       vpiFullName: PerformanceCounterIF
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:PerformanceCounterIF
         vpiName: work
@@ -134,52 +133,18 @@ Design name:unnamed:
         vpiParent: Module name:CSR_Unit
         vpiName: CSR_Unit
       vpiFullName: CSR_Unit
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:PerformanceCounterIF::CSR start:9:5 end:9:29:
-          vpiParent: Module name:CSR_Unit
-          vpiPathElem (2 items):
-            RefObj name:PerformanceCounterIF start:9:5 end:9:25:
-              vpiParent: UnsupportedTypespec name:PerformanceCounterIF::CSR
-              vpiName: PerformanceCounterIF
-              vpiFullName: CSR_Unit.PerformanceCounterIF::CSR.PerformanceCounterIF
-              vpiActual: Interface name:PerformanceCounterIF
-            RefObj name:CSR start:9:26 end:9:29:
-              vpiParent: UnsupportedTypespec name:PerformanceCounterIF::CSR
-              vpiName: CSR
-              vpiFullName: CSR_Unit.PerformanceCounterIF::CSR.CSR
-          vpiName Identifier name:PerformanceCounterIF::CSR:
-            vpiParent: UnsupportedTypespec name:PerformanceCounterIF::CSR
-            vpiName: PerformanceCounterIF::CSR
       vpiDefName: CSR_Unit
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:CSR_Unit
         vpiName: work
         vpiFullName: CSR_Unit.work
       vpiCell: CSR_Unit
-      vpiNet (1 items):
-        Net name:perfCounter start:9:30 end:9:41:
-          vpiParent: Module name:CSR_Unit
-          vpiTypespec RefTypespec start:9:5 end:9:29:
-            vpiParent: Net name:perfCounter
-            vpiFullName: CSR_Unit.perfCounter
-            vpiActual: UnsupportedTypespec name:PerformanceCounterIF::CSR
-          vpiName: perfCounter
-          vpiFullName: CSR_Unit.perfCounter
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:perfCounter start:9:30 end:9:41:
           vpiParent: Module name:CSR_Unit
           vpiName: perfCounter
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:9:30 end:9:41:
-            vpiParent: Port name:perfCounter
-            vpiFullName: CSR_Unit.perfCounter
-            vpiActual: Net name:perfCounter
-          vpiTypespec RefTypespec start:9:5 end:9:29:
-            vpiParent: Port name:perfCounter
-            vpiFullName: CSR_Unit.perfCounter
-            vpiActual: UnsupportedTypespec name:PerformanceCounterIF::CSR
     Module name:Core file:$Source01/dut.sv start:13:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Core start:13:8 end:13:12:
@@ -193,7 +158,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:CSR_Unit
             vpiName: CSR_Unit
       vpiDefName: Core
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Core
         vpiName: work
@@ -265,25 +230,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/ModPortParam/ModPortParam/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 89.7,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 24,
                                                   'pre_len': 233}},
-            'post_len': 0,
+            'post_len': 24,
             'pre_len': 233,
             'test_name': 'ModPortParam/ModPortParam'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      233 |         0 |
+| $Output/lib/work/dut.sv |      233 |        24 |
 +=========================+==========+===========+
-|                         |      233 |         0 |
+|                         |      233 |        24 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 89.7
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -294,7 +259,7 @@ COMMAND: ${HLC_DIR}/regression/ModPortParam/ModPortParam/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    31      31       0         0
 ===================== END REDUCTION RESULT =====================

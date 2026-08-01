@@ -2213,11 +2213,6 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/generate.v:131:43: Compile generate block "outer".
 [INF:CP0335] $Source01/generate.v:133:46: Compile generate block "inner".
 [INF:CP0303] $Source01/generate.v:154:1: Compile module "gen_test6".
-[ERR:EL0535] $Source01/generate.v:145:38: Illegal implicit net "id:888, name:inner".
-[ERR:EL0535] $Source01/generate.v:145:55: Illegal implicit net "id:889, name:temp".
-[ERR:EL0535] $Source01/generate.v:149:14: Illegal implicit net "id:899, name:steps".
-[ERR:EL0535] $Source01/generate.v:149:27: Illegal implicit net "id:900, name:outer".
-[ERR:EL0535] $Source01/generate.v:149:36: Illegal implicit net "id:901, name:val".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -2227,7 +2222,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: generate.v
       vpiPreprocFile: "$Output/lib/work/generate.v"
-      vpiDefNetType: none (12)
   vpiAllModules (6 items):
     Module name:gen_test1 file:$Source01/generate.v start:2:1 end:39:10:
       vpiParent: Design name:unnamed
@@ -2235,6 +2229,29 @@ Design name:unnamed:
         vpiParent: Module name:gen_test1
         vpiName: gen_test1
       vpiFullName: gen_test1
+      vpiVariable (3 items):
+        Variable name:y start:6:18 end:6:19:
+          vpiParent: Module name:gen_test1
+          vpiTypespec RefTypespec start:6:8 end:6:17:
+            vpiParent: Variable name:y
+            vpiFullName: gen_test1.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: gen_test1.y
+        Variable name:i start:8:8 end:8:9:
+          vpiParent: Module name:gen_test1
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: gen_test1.i
+          vpiName: i
+          vpiFullName: gen_test1.i
+        Variable name:j start:8:11 end:8:12:
+          vpiParent: Module name:gen_test1
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:j
+            vpiFullName: gen_test1.j
+          vpiName: j
+          vpiFullName: gen_test1.j
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:gen_test1
@@ -2317,13 +2334,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: gen_test1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gen_test1
         vpiName: work
         vpiFullName: gen_test1.work
       vpiCell: gen_test1
-      vpiNet (7 items):
+      vpiNet (8 items):
         Net name:clk start:4:7 end:4:10:
           vpiParent: Module name:gen_test1
           vpiTypespec RefTypespec start:4:7 end:4:7:
@@ -2332,6 +2349,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: gen_test1.clk
+          vpiNetType: wire (1)
         Net name:a start:5:13 end:5:14:
           vpiParent: Module name:gen_test1
           vpiTypespec RefTypespec start:5:7 end:5:12:
@@ -2340,6 +2358,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: gen_test1.a
+          vpiNetType: wire (1)
         Net name:b start:5:16 end:5:17:
           vpiParent: Module name:gen_test1
           vpiTypespec RefTypespec start:5:7 end:5:12:
@@ -2348,29 +2367,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: gen_test1.b
-        Net name:y start:6:18 end:6:19:
-          vpiParent: Module name:gen_test1
-          vpiTypespec RefTypespec start:6:8 end:6:17:
-            vpiParent: Net name:y
-            vpiFullName: gen_test1.y
-            vpiActual: LogicTypespec
-          vpiName: y
-          vpiFullName: gen_test1.y
-          vpiNetType: reg (48)
-        Net name:i start:8:8 end:8:9:
-          vpiParent: Module name:gen_test1
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: gen_test1.i
-          vpiName: i
-          vpiFullName: gen_test1.i
-        Net name:j start:8:11 end:8:12:
-          vpiParent: Module name:gen_test1
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:j
-            vpiFullName: gen_test1.j
-          vpiName: j
-          vpiFullName: gen_test1.j
+          vpiNetType: wire (1)
         Net name:tmp1 start:9:13 end:9:17:
           vpiParent: Module name:gen_test1
           vpiTypespec RefTypespec start:9:6 end:9:12:
@@ -2380,12 +2377,48 @@ Design name:unnamed:
           vpiName: tmp1
           vpiFullName: gen_test1.tmp1
           vpiNetType: wire (1)
+        Net name:and_wire start:14:8 end:14:16:
+          vpiParent: Module name:gen_test1
+          vpiTypespec RefTypespec start:14:8 end:14:8:
+            vpiParent: Net name:and_wire
+            vpiFullName: gen_test1.and_wire
+            vpiActual: LogicTypespec
+          vpiName: and_wire
+          vpiFullName: gen_test1.and_wire
+          vpiNetType: wire (1)
+        Net name:or_wire start:14:18 end:14:25:
+          vpiParent: Module name:gen_test1
+          vpiTypespec RefTypespec start:14:8 end:14:8:
+            vpiParent: Net name:or_wire
+            vpiFullName: gen_test1.or_wire
+            vpiActual: LogicTypespec
+          vpiName: or_wire
+          vpiFullName: gen_test1.or_wire
+          vpiNetType: wire (1)
+        Net name:tmp2 start:27:14 end:27:18:
+          vpiParent: Module name:gen_test1
+          vpiTypespec RefTypespec start:27:8 end:27:13:
+            vpiParent: Net name:tmp2
+            vpiFullName: gen_test1.tmp2
+            vpiActual: LogicTypespec
+          vpiName: tmp2
+          vpiFullName: gen_test1.tmp2
+          vpiNetType: wire (1)
+        Net name:tmpbuf start:29:9 end:29:15:
+          vpiParent: Module name:gen_test1
+          vpiTypespec RefTypespec start:29:9 end:29:9:
+            vpiParent: Net name:tmpbuf
+            vpiFullName: gen_test1.tmpbuf
+            vpiActual: LogicTypespec
+          vpiName: tmpbuf
+          vpiFullName: gen_test1.tmpbuf
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:clk start:2:18 end:2:21:
           vpiParent: Module name:gen_test1
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:2:18 end:2:21:
+          vpiLowConn RefObj name:clk start:4:7 end:4:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: gen_test1.clk.clk
@@ -2398,7 +2431,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test1
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:2:23 end:2:24:
+          vpiLowConn RefObj name:a start:5:13 end:5:14:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: gen_test1.a.a
@@ -2411,7 +2444,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test1
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:2:26 end:2:27:
+          vpiLowConn RefObj name:b start:5:16 end:5:17:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: gen_test1.b.b
@@ -2424,11 +2457,11 @@ Design name:unnamed:
           vpiParent: Module name:gen_test1
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y start:2:29 end:2:30:
+          vpiLowConn RefObj name:y start:6:18 end:6:19:
             vpiParent: Port name:y
             vpiName: y
             vpiFullName: gen_test1.y.y
-            vpiActual: Net name:y
+            vpiActual: Variable name:y
           vpiTypespec RefTypespec start:6:8 end:6:17:
             vpiParent: Port name:y
             vpiFullName: gen_test1.y
@@ -2516,25 +2549,6 @@ Design name:unnamed:
                     vpiParent: Begin name:gen1
                     vpiName: gen1
                   vpiFullName: gen_test1.gen1
-                  vpiVariable (2 items):
-                    Variable name:and_wire start:14:8 end:14:16:
-                      vpiParent: Begin name:gen1
-                      vpiTypespec RefTypespec start:14:8 end:14:8:
-                        vpiParent: Variable name:and_wire
-                        vpiFullName: gen_test1.gen1.and_wire
-                        vpiActual: LogicTypespec
-                      vpiName: and_wire
-                      vpiFullName: gen_test1.gen1.and_wire
-                      vpiNetType: wire (1)
-                    Variable name:or_wire start:14:18 end:14:25:
-                      vpiParent: Begin name:gen1
-                      vpiTypespec RefTypespec start:14:8 end:14:8:
-                        vpiParent: Variable name:or_wire
-                        vpiFullName: gen_test1.gen1.or_wire
-                        vpiActual: LogicTypespec
-                      vpiName: or_wire
-                      vpiFullName: gen_test1.gen1.or_wire
-                      vpiNetType: wire (1)
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Begin name:gen1
@@ -2545,7 +2559,7 @@ Design name:unnamed:
                         vpiParent: ContAssign
                         vpiName: and_wire
                         vpiFullName: gen_test1.gen1.and_wire
-                        vpiActual: Variable name:and_wire
+                        vpiActual: Net name:and_wire
                       vpiRhs Operation start:15:21 end:15:32:
                         vpiParent: ContAssign
                         vpiOpType: bitwise and (28)
@@ -2584,7 +2598,7 @@ Design name:unnamed:
                         vpiParent: ContAssign
                         vpiName: or_wire
                         vpiFullName: gen_test1.gen1.or_wire
-                        vpiActual: Variable name:or_wire
+                        vpiActual: Net name:or_wire
                       vpiRhs Operation start:16:20 end:16:31:
                         vpiParent: ContAssign
                         vpiOpType: bitwise or (29)
@@ -2679,7 +2693,7 @@ Design name:unnamed:
                               vpiParent: ContAssign
                               vpiName: and_wire
                               vpiFullName: gen_test1.gen1.gen2true.and_wire
-                              vpiActual: Variable name:and_wire
+                              vpiActual: Net name:and_wire
                           ContAssign start:19:11 end:19:30:
                             vpiParent: Begin name:gen2true
                             vpiLhs BitSelect name:tmp1[i + 8] start:19:11 end:19:20:
@@ -2714,7 +2728,7 @@ Design name:unnamed:
                               vpiParent: ContAssign
                               vpiName: or_wire
                               vpiFullName: gen_test1.gen1.gen2true.or_wire
-                              vpiActual: Variable name:or_wire
+                              vpiActual: Net name:or_wire
                       vpiElseStmt Begin name:gen2false start:20:12 end:23:6:
                         vpiParent: GenIfElse
                         vpiName Identifier name:gen2false start:20:18 end:20:27:
@@ -2742,7 +2756,7 @@ Design name:unnamed:
                               vpiParent: ContAssign
                               vpiName: or_wire
                               vpiFullName: gen_test1.gen1.gen2false.or_wire
-                              vpiActual: Variable name:or_wire
+                              vpiActual: Net name:or_wire
                           ContAssign start:22:11 end:22:31:
                             vpiParent: Begin name:gen2false
                             vpiLhs BitSelect name:tmp1[i + 8] start:22:11 end:22:20:
@@ -2777,7 +2791,7 @@ Design name:unnamed:
                               vpiParent: ContAssign
                               vpiName: and_wire
                               vpiFullName: gen_test1.gen1.gen2false.and_wire
-                              vpiActual: Variable name:and_wire
+                              vpiActual: Net name:and_wire
               GenFor start:26:2 end:35:5:
                 vpiParent: Begin
                 vpiFullName: gen_test1
@@ -2853,16 +2867,6 @@ Design name:unnamed:
                     vpiParent: Begin name:gen3
                     vpiName: gen3
                   vpiFullName: gen_test1.gen3
-                  vpiVariable (1 items):
-                    Variable name:tmp2 start:27:14 end:27:18:
-                      vpiParent: Begin name:gen3
-                      vpiTypespec RefTypespec start:27:8 end:27:13:
-                        vpiParent: Variable name:tmp2
-                        vpiFullName: gen_test1.gen3.tmp2
-                        vpiActual: LogicTypespec
-                      vpiName: tmp2
-                      vpiFullName: gen_test1.gen3.tmp2
-                      vpiNetType: wire (1)
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Begin name:gen3
@@ -2966,16 +2970,6 @@ Design name:unnamed:
                           vpiParent: Begin name:gen4
                           vpiName: gen4
                         vpiFullName: gen_test1.gen3.gen4
-                        vpiVariable (1 items):
-                          Variable name:tmpbuf start:29:9 end:29:15:
-                            vpiParent: Begin name:gen4
-                            vpiTypespec RefTypespec start:29:9 end:29:9:
-                              vpiParent: Variable name:tmpbuf
-                              vpiFullName: gen_test1.gen3.gen4.tmpbuf
-                              vpiActual: LogicTypespec
-                            vpiName: tmpbuf
-                            vpiFullName: gen_test1.gen3.gen4.tmpbuf
-                            vpiNetType: wire (1)
                         vpiTypespec (1 items):
                           LogicTypespec:
                             vpiParent: Begin name:gen4
@@ -2986,7 +2980,7 @@ Design name:unnamed:
                               vpiParent: ContAssign
                               vpiName: tmpbuf
                               vpiFullName: gen_test1.gen3.gen4.tmpbuf
-                              vpiActual: Variable name:tmpbuf
+                              vpiActual: Net name:tmpbuf
                             vpiRhs BitSelect name:tmp1[i + 2 * j] start:30:20 end:30:31:
                               vpiParent: ContAssign
                               vpiName: tmp1[i + 2 * j]
@@ -3034,7 +3028,7 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:tmp2[j]
                                 vpiName: tmp2
                                 vpiFullName: gen_test1.gen3.gen4.tmp2
-                                vpiActual: Variable name:tmp2
+                                vpiActual: Net name:tmp2
                               vpiIndex RefObj name:j start:31:16 end:31:17:
                                 vpiParent: BitSelect name:tmp2[j]
                                 vpiName: j
@@ -3044,7 +3038,7 @@ Design name:unnamed:
                               vpiParent: ContAssign
                               vpiName: tmpbuf
                               vpiFullName: gen_test1.gen3.gen4.tmpbuf
-                              vpiActual: Variable name:tmpbuf
+                              vpiActual: Net name:tmpbuf
                     Always start:33:3 end:34:18:
                       vpiParent: Begin name:gen3
                       vpiStmt EventControl start:33:10 end:34:18:
@@ -3068,7 +3062,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:y[i]
                               vpiName: y
                               vpiFullName: gen_test1.gen3.y
-                              vpiActual: Net name:y
+                              vpiActual: Variable name:y
                             vpiIndex RefObj name:i start:34:6 end:34:7:
                               vpiParent: BitSelect name:y[i]
                               vpiName: i
@@ -3082,7 +3076,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: tmp2
                                 vpiFullName: gen_test1.gen3.tmp2
-                                vpiActual: Variable name:tmp2
+                                vpiActual: Net name:tmp2
                       vpiAlwaysType: always (1)
     Module name:gen_test2 file:$Source01/generate.v start:43:1 end:66:10:
       vpiParent: Design name:unnamed
@@ -3090,6 +3084,32 @@ Design name:unnamed:
         vpiParent: Module name:gen_test2
         vpiName: gen_test2
       vpiFullName: gen_test2
+      vpiVariable (3 items):
+        Variable name:y start:47:18 end:47:19:
+          vpiParent: Module name:gen_test2
+          vpiTypespec RefTypespec start:47:8 end:47:17:
+            vpiParent: Variable name:y
+            vpiFullName: gen_test2.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: gen_test2.y
+        Variable name:i start:49:9 end:49:10:
+          vpiParent: Module name:gen_test2
+          vpiTypespec RefTypespec start:49:1 end:49:8:
+            vpiParent: Variable name:i
+            vpiFullName: gen_test2.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: gen_test2.i
+        Variable name:carry start:50:11 end:50:16:
+          vpiParent: Module name:gen_test2
+          vpiTypespec RefTypespec start:50:1 end:50:10:
+            vpiParent: Variable name:carry
+            vpiFullName: gen_test2.carry
+            vpiActual: LogicTypespec
+          vpiName: carry
+          vpiFullName: gen_test2.carry
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:gen_test2
@@ -3175,13 +3195,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: gen_test2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gen_test2
         vpiName: work
         vpiFullName: gen_test2.work
       vpiCell: gen_test2
-      vpiNet (6 items):
+      vpiNet (3 items):
         Net name:clk start:45:7 end:45:10:
           vpiParent: Module name:gen_test2
           vpiTypespec RefTypespec start:45:7 end:45:7:
@@ -3190,6 +3210,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: gen_test2.clk
+          vpiNetType: wire (1)
         Net name:a start:46:13 end:46:14:
           vpiParent: Module name:gen_test2
           vpiTypespec RefTypespec start:46:7 end:46:12:
@@ -3198,6 +3219,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: gen_test2.a
+          vpiNetType: wire (1)
         Net name:b start:46:16 end:46:17:
           vpiParent: Module name:gen_test2
           vpiTypespec RefTypespec start:46:7 end:46:12:
@@ -3206,37 +3228,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: gen_test2.b
-        Net name:y start:47:18 end:47:19:
-          vpiParent: Module name:gen_test2
-          vpiTypespec RefTypespec start:47:8 end:47:17:
-            vpiParent: Net name:y
-            vpiFullName: gen_test2.y
-            vpiActual: LogicTypespec
-          vpiName: y
-          vpiFullName: gen_test2.y
-          vpiNetType: reg (48)
-        Net name:i start:49:9 end:49:10:
-          vpiParent: Module name:gen_test2
-          vpiTypespec RefTypespec start:49:1 end:49:8:
-            vpiParent: Net name:i
-            vpiFullName: gen_test2.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: gen_test2.i
-        Net name:carry start:50:11 end:50:16:
-          vpiParent: Module name:gen_test2
-          vpiTypespec RefTypespec start:50:1 end:50:10:
-            vpiParent: Net name:carry
-            vpiFullName: gen_test2.carry
-            vpiActual: LogicTypespec
-          vpiName: carry
-          vpiFullName: gen_test2.carry
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:clk start:43:18 end:43:21:
           vpiParent: Module name:gen_test2
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:43:18 end:43:21:
+          vpiLowConn RefObj name:clk start:45:7 end:45:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: gen_test2.clk.clk
@@ -3249,7 +3247,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test2
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:43:23 end:43:24:
+          vpiLowConn RefObj name:a start:46:13 end:46:14:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: gen_test2.a.a
@@ -3262,7 +3260,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test2
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:43:26 end:43:27:
+          vpiLowConn RefObj name:b start:46:16 end:46:17:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: gen_test2.b.b
@@ -3275,11 +3273,11 @@ Design name:unnamed:
           vpiParent: Module name:gen_test2
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y start:43:29 end:43:30:
+          vpiLowConn RefObj name:y start:47:18 end:47:19:
             vpiParent: Port name:y
             vpiName: y
             vpiFullName: gen_test2.y.y
-            vpiActual: Net name:y
+            vpiActual: Variable name:y
           vpiTypespec RefTypespec start:47:8 end:47:17:
             vpiParent: Port name:y
             vpiFullName: gen_test2.y
@@ -3313,7 +3311,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:carry[0]
                       vpiName: carry
                       vpiFullName: gen_test2.carry
-                      vpiActual: Net name:carry
+                      vpiActual: Variable name:carry
                     vpiIndex Constant start:53:8 end:53:9:
                       vpiParent: BitSelect name:carry[0]
                       vpiTypespec RefTypespec:
@@ -3345,7 +3343,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: i
                         vpiFullName: gen_test2.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       vpiRhs Constant start:54:11 end:54:12:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -3364,7 +3362,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: i
                         vpiFullName: gen_test2.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       vpiRhs Operation start:54:25 end:54:30:
                         vpiParent: Assignment
                         vpiOpType: add (24)
@@ -3373,7 +3371,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: i
                             vpiFullName: gen_test2.i
-                            vpiActual: Net name:i
+                            vpiActual: Variable name:i
                           Constant start:54:29 end:54:30:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -3392,7 +3390,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i
                         vpiFullName: gen_test2.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       Constant start:54:18 end:54:19:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -3427,7 +3425,7 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:a[i]
                                 vpiName: i
                                 vpiFullName: gen_test2.i
-                                vpiActual: Net name:i
+                                vpiActual: Variable name:i
                             BitSelect name:b[i] start:55:17 end:55:21:
                               vpiParent: Operation
                               vpiName: b[i]
@@ -3441,7 +3439,7 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:b[i]
                                 vpiName: i
                                 vpiFullName: gen_test2.i
-                                vpiActual: Net name:i
+                                vpiActual: Variable name:i
                             BitSelect name:carry[i] start:55:23 end:55:31:
                               vpiParent: Operation
                               vpiName: carry[i]
@@ -3450,12 +3448,12 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:carry[i]
                                 vpiName: carry
                                 vpiFullName: gen_test2.carry
-                                vpiActual: Net name:carry
+                                vpiActual: Variable name:carry
                               vpiIndex RefObj name:i start:55:29 end:55:30:
                                 vpiParent: BitSelect name:carry[i]
                                 vpiName: i
                                 vpiFullName: gen_test2.i
-                                vpiActual: Net name:i
+                                vpiActual: Variable name:i
                         vpiCaseItem (2 items):
                           CaseItem start:56:4 end:57:20:
                             vpiParent: CaseStmt
@@ -3501,7 +3499,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:carry[i + 1]
                                   vpiName: carry
                                   vpiFullName: gen_test2.carry
-                                  vpiActual: Net name:carry
+                                  vpiActual: Variable name:carry
                                 vpiIndex Operation start:57:11 end:57:14:
                                   vpiParent: BitSelect name:carry[i + 1]
                                   vpiOpType: add (24)
@@ -3510,7 +3508,7 @@ Design name:unnamed:
                                       vpiParent: Operation
                                       vpiName: i
                                       vpiFullName: gen_test2.carry[i + 1].i
-                                      vpiActual: Net name:i
+                                      vpiActual: Variable name:i
                                     Constant start:57:13 end:57:14:
                                       vpiParent: Operation
                                       vpiTypespec RefTypespec:
@@ -3544,7 +3542,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:carry[i + 1]
                                   vpiName: carry
                                   vpiFullName: gen_test2.carry
-                                  vpiActual: Net name:carry
+                                  vpiActual: Variable name:carry
                                 vpiIndex Operation start:59:11 end:59:14:
                                   vpiParent: BitSelect name:carry[i + 1]
                                   vpiOpType: add (24)
@@ -3553,7 +3551,7 @@ Design name:unnamed:
                                       vpiParent: Operation
                                       vpiName: i
                                       vpiFullName: gen_test2.carry[i + 1].i
-                                      vpiActual: Net name:i
+                                      vpiActual: Variable name:i
                                     Constant start:59:13 end:59:14:
                                       vpiParent: Operation
                                       vpiTypespec RefTypespec:
@@ -3585,12 +3583,12 @@ Design name:unnamed:
                             vpiParent: BitSelect name:y[i]
                             vpiName: y
                             vpiFullName: gen_test2.y
-                            vpiActual: Net name:y
+                            vpiActual: Variable name:y
                           vpiIndex RefObj name:i start:61:5 end:61:6:
                             vpiParent: BitSelect name:y[i]
                             vpiName: i
                             vpiFullName: gen_test2.i
-                            vpiActual: Net name:i
+                            vpiActual: Variable name:i
                         vpiRhs Operation start:61:10 end:61:32:
                           vpiParent: Assignment
                           vpiOpType: bitwise xor (30)
@@ -3612,7 +3610,7 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:a[i]
                                     vpiName: i
                                     vpiFullName: gen_test2.i
-                                    vpiActual: Net name:i
+                                    vpiActual: Variable name:i
                                 BitSelect name:b[i] start:61:17 end:61:21:
                                   vpiParent: Operation
                                   vpiName: b[i]
@@ -3626,7 +3624,7 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:b[i]
                                     vpiName: i
                                     vpiFullName: gen_test2.i
-                                    vpiActual: Net name:i
+                                    vpiActual: Variable name:i
                             BitSelect name:carry[i] start:61:24 end:61:32:
                               vpiParent: Operation
                               vpiName: carry[i]
@@ -3635,12 +3633,12 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:carry[i]
                                 vpiName: carry
                                 vpiFullName: gen_test2.carry
-                                vpiActual: Net name:carry
+                                vpiActual: Variable name:carry
                               vpiIndex RefObj name:i start:61:30 end:61:31:
                                 vpiParent: BitSelect name:carry[i]
                                 vpiName: i
                                 vpiFullName: gen_test2.i
-                                vpiActual: Net name:i
+                                vpiActual: Variable name:i
                 Assignment start:63:2 end:63:17:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -3652,7 +3650,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:y[8]
                       vpiName: y
                       vpiFullName: gen_test2.y
-                      vpiActual: Net name:y
+                      vpiActual: Variable name:y
                     vpiIndex Constant start:63:4 end:63:5:
                       vpiParent: BitSelect name:y[8]
                       vpiTypespec RefTypespec:
@@ -3671,7 +3669,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:carry[8]
                       vpiName: carry
                       vpiFullName: gen_test2.carry
-                      vpiActual: Net name:carry
+                      vpiActual: Variable name:carry
                     vpiIndex Constant start:63:15 end:63:16:
                       vpiParent: BitSelect name:carry[8]
                       vpiTypespec RefTypespec:
@@ -3689,6 +3687,14 @@ Design name:unnamed:
         vpiParent: Module name:gen_test3
         vpiName: gen_test3
       vpiFullName: gen_test3
+      vpiVariable (1 items):
+        Variable name:i start:76:8 end:76:9:
+          vpiParent: Module name:gen_test3
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: gen_test3.i
+          vpiName: i
+          vpiFullName: gen_test3.i
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:gen_test3
@@ -3745,13 +3751,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: gen_test3
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gen_test3
         vpiName: work
         vpiFullName: gen_test3.work
       vpiCell: gen_test3
-      vpiNet (6 items):
+      vpiNet (5 items):
         Net name:a start:72:13 end:72:14:
           vpiParent: Module name:gen_test3
           vpiTypespec RefTypespec start:72:7 end:72:12:
@@ -3760,6 +3766,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: gen_test3.a
+          vpiNetType: wire (1)
         Net name:b start:72:16 end:72:17:
           vpiParent: Module name:gen_test3
           vpiTypespec RefTypespec start:72:7 end:72:12:
@@ -3768,6 +3775,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: gen_test3.b
+          vpiNetType: wire (1)
         Net name:sel start:73:7 end:73:10:
           vpiParent: Module name:gen_test3
           vpiTypespec RefTypespec start:73:7 end:73:7:
@@ -3776,6 +3784,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sel
           vpiFullName: gen_test3.sel
+          vpiNetType: wire (1)
         Net name:y start:74:14 end:74:15:
           vpiParent: Module name:gen_test3
           vpiTypespec RefTypespec start:74:8 end:74:13:
@@ -3784,6 +3793,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: gen_test3.y
+          vpiNetType: wire (1)
         Net name:z start:74:17 end:74:18:
           vpiParent: Module name:gen_test3
           vpiTypespec RefTypespec start:74:8 end:74:13:
@@ -3792,19 +3802,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: z
           vpiFullName: gen_test3.z
-        Net name:i start:76:8 end:76:9:
-          vpiParent: Module name:gen_test3
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: gen_test3.i
-          vpiName: i
-          vpiFullName: gen_test3.i
+          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:a start:70:18 end:70:19:
           vpiParent: Module name:gen_test3
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:70:18 end:70:19:
+          vpiLowConn RefObj name:a start:72:13 end:72:14:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: gen_test3.a.a
@@ -3817,7 +3821,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test3
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:70:21 end:70:22:
+          vpiLowConn RefObj name:b start:72:16 end:72:17:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: gen_test3.b.b
@@ -3830,7 +3834,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test3
           vpiName: sel
           vpiDirection: input (1)
-          vpiLowConn RefObj name:sel start:70:24 end:70:27:
+          vpiLowConn RefObj name:sel start:73:7 end:73:10:
             vpiParent: Port name:sel
             vpiName: sel
             vpiFullName: gen_test3.sel.sel
@@ -3843,7 +3847,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test3
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y start:70:29 end:70:30:
+          vpiLowConn RefObj name:y start:74:14 end:74:15:
             vpiParent: Port name:y
             vpiName: y
             vpiFullName: gen_test3.y.y
@@ -3856,7 +3860,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test3
           vpiName: z
           vpiDirection: output (2)
-          vpiLowConn RefObj name:z start:70:32 end:70:33:
+          vpiLowConn RefObj name:z start:74:17 end:74:18:
             vpiParent: Port name:z
             vpiName: z
             vpiFullName: gen_test3.z.z
@@ -4455,6 +4459,14 @@ Design name:unnamed:
         vpiParent: Module name:gen_test4
         vpiName: gen_test4
       vpiFullName: gen_test4
+      vpiVariable (1 items):
+        Variable name:i start:102:8 end:102:9:
+          vpiParent: Module name:gen_test4
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: gen_test4.i
+          vpiName: i
+          vpiFullName: gen_test4.i
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:gen_test4
@@ -4509,7 +4521,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: gen_test4
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gen_test4
         vpiName: work
@@ -4524,6 +4536,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: gen_test4.a
+          vpiNetType: wire (1)
         Net name:b start:100:14 end:100:15:
           vpiParent: Module name:gen_test4
           vpiTypespec RefTypespec start:100:8 end:100:13:
@@ -4532,19 +4545,22 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: gen_test4.b
-        Net name:i start:102:8 end:102:9:
+          vpiNetType: wire (1)
+        Net name:temp start:106:8 end:106:12:
           vpiParent: Module name:gen_test4
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: gen_test4.i
-          vpiName: i
-          vpiFullName: gen_test4.i
+          vpiTypespec RefTypespec start:106:8 end:106:8:
+            vpiParent: Net name:temp
+            vpiFullName: gen_test4.temp
+            vpiActual: LogicTypespec
+          vpiName: temp
+          vpiFullName: gen_test4.temp
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:97:18 end:97:19:
           vpiParent: Module name:gen_test4
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:97:18 end:97:19:
+          vpiLowConn RefObj name:a start:99:13 end:99:14:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: gen_test4.a.a
@@ -4557,7 +4573,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test4
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj name:b start:97:21 end:97:22:
+          vpiLowConn RefObj name:b start:100:14 end:100:15:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: gen_test4.b.b
@@ -4645,16 +4661,6 @@ Design name:unnamed:
                 vpiParent: Begin name:foo
                 vpiName: foo
               vpiFullName: gen_test4.foo
-              vpiVariable (1 items):
-                Variable name:temp start:106:8 end:106:12:
-                  vpiParent: Begin name:foo
-                  vpiTypespec RefTypespec start:106:8 end:106:8:
-                    vpiParent: Variable name:temp
-                    vpiFullName: gen_test4.foo.temp
-                    vpiActual: LogicTypespec
-                  vpiName: temp
-                  vpiFullName: gen_test4.foo.temp
-                  vpiNetType: wire (1)
               vpiParameter (1 items):
                 Parameter name:PREV start:105:14 end:105:18:
                   vpiParent: Begin name:foo
@@ -4729,7 +4735,7 @@ Design name:unnamed:
                           vpiParent: ContAssign
                           vpiName: temp
                           vpiFullName: gen_test4.foo.temp
-                          vpiActual: Variable name:temp
+                          vpiActual: Net name:temp
                         vpiRhs BitSelect name:a[0] start:108:18 end:108:22:
                           vpiParent: ContAssign
                           vpiName: a[0]
@@ -4759,7 +4765,7 @@ Design name:unnamed:
                           vpiParent: ContAssign
                           vpiName: temp
                           vpiFullName: gen_test4.foo.temp
-                          vpiActual: Variable name:temp
+                          vpiActual: Net name:temp
                         vpiRhs Operation start:110:18 end:110:39:
                           vpiParent: ContAssign
                           vpiOpType: bitwise and (28)
@@ -4787,7 +4793,7 @@ Design name:unnamed:
                                   vpiParent: HierPath name:foo[PREV].temp
                                   vpiName: temp
                                   vpiFullName: gen_test4.foo.temp
-                                  vpiActual: Variable name:temp
+                                  vpiActual: Net name:temp
                             BitSelect name:a[i] start:110:35 end:110:39:
                               vpiParent: Operation
                               vpiName: a[i]
@@ -4822,13 +4828,35 @@ Design name:unnamed:
                     vpiParent: ContAssign
                     vpiName: temp
                     vpiFullName: gen_test4.foo.temp
-                    vpiActual: Variable name:temp
+                    vpiActual: Net name:temp
     Module name:gen_test5 file:$Source01/generate.v start:118:1 end:150:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:gen_test5 start:118:8 end:118:17:
         vpiParent: Module name:gen_test5
         vpiName: gen_test5
       vpiFullName: gen_test5
+      vpiVariable (3 items):
+        Variable name:step start:126:8 end:126:12:
+          vpiParent: Module name:gen_test5
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:step
+            vpiFullName: gen_test5.step
+          vpiName: step
+          vpiFullName: gen_test5.step
+        Variable name:i start:126:14 end:126:15:
+          vpiParent: Module name:gen_test5
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: gen_test5.i
+          vpiName: i
+          vpiFullName: gen_test5.i
+        Variable name:j start:126:17 end:126:18:
+          vpiParent: Module name:gen_test5
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:j
+            vpiFullName: gen_test5.j
+          vpiName: j
+          vpiFullName: gen_test5.j
       vpiParameter (2 items):
         Parameter name:WIDTH start:120:11 end:120:16:
           vpiParent: Module name:gen_test5
@@ -4920,13 +4948,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: gen_test5
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gen_test5
         vpiName: work
         vpiFullName: gen_test5.work
       vpiCell: gen_test5
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:input_bits start:123:19 end:123:29:
           vpiParent: Module name:gen_test5
           vpiTypespec RefTypespec start:123:7 end:123:18:
@@ -4935,6 +4963,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: input_bits
           vpiFullName: gen_test5.input_bits
+          vpiNetType: wire (1)
         Net name:out start:124:8 end:124:11:
           vpiParent: Module name:gen_test5
           vpiTypespec RefTypespec start:124:8 end:124:8:
@@ -4943,33 +4972,31 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: gen_test5.out
-        Net name:step start:126:8 end:126:12:
+          vpiNetType: wire (1)
+        Net name:temp start:134:10 end:134:14:
           vpiParent: Module name:gen_test5
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:step
-            vpiFullName: gen_test5.step
-          vpiName: step
-          vpiFullName: gen_test5.step
-        Net name:i start:126:14 end:126:15:
+          vpiTypespec RefTypespec start:134:10 end:134:10:
+            vpiParent: Net name:temp
+            vpiFullName: gen_test5.temp
+            vpiActual: LogicTypespec
+          vpiName: temp
+          vpiFullName: gen_test5.temp
+          vpiNetType: wire (1)
+        Net name:val start:144:9 end:144:12:
           vpiParent: Module name:gen_test5
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: gen_test5.i
-          vpiName: i
-          vpiFullName: gen_test5.i
-        Net name:j start:126:17 end:126:18:
-          vpiParent: Module name:gen_test5
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:j
-            vpiFullName: gen_test5.j
-          vpiName: j
-          vpiFullName: gen_test5.j
+          vpiTypespec RefTypespec start:144:9 end:144:9:
+            vpiParent: Net name:val
+            vpiFullName: gen_test5.val
+            vpiActual: LogicTypespec
+          vpiName: val
+          vpiFullName: gen_test5.val
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:input_bits start:118:18 end:118:28:
           vpiParent: Module name:gen_test5
           vpiName: input_bits
           vpiDirection: input (1)
-          vpiLowConn RefObj name:input_bits start:118:18 end:118:28:
+          vpiLowConn RefObj name:input_bits start:123:19 end:123:29:
             vpiParent: Port name:input_bits
             vpiName: input_bits
             vpiFullName: gen_test5.input_bits.input_bits
@@ -4982,7 +5009,7 @@ Design name:unnamed:
           vpiParent: Module name:gen_test5
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:118:30 end:118:33:
+          vpiLowConn RefObj name:out start:124:8 end:124:11:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: gen_test5.out.out
@@ -5039,6 +5066,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:steps[WIDTH].outer[0].val
                 vpiName: val
                 vpiFullName: gen_test5.val
+                vpiActual: Net name:val
       vpiGenStmt (1 items):
         GenRegion start:127:1 end:148:12:
           vpiParent: Module name:gen_test5
@@ -5248,16 +5276,6 @@ Design name:unnamed:
                       vpiParent: Begin name:outer
                       vpiName: outer
                     vpiFullName: gen_test5.steps.outer
-                    vpiVariable (1 items):
-                      Variable name:val start:144:9 end:144:12:
-                        vpiParent: Begin name:outer
-                        vpiTypespec RefTypespec start:144:9 end:144:9:
-                          vpiParent: Variable name:val
-                          vpiFullName: gen_test5.steps.outer.val
-                          vpiActual: LogicTypespec
-                        vpiName: val
-                        vpiFullName: gen_test5.steps.outer.val
-                        vpiNetType: wire (1)
                     vpiParameter (1 items):
                       Parameter name:LAST_START start:132:15 end:132:25:
                         vpiParent: Begin name:outer
@@ -5366,16 +5384,6 @@ Design name:unnamed:
                             vpiParent: Begin name:inner
                             vpiName: inner
                           vpiFullName: gen_test5.steps.outer.inner
-                          vpiVariable (1 items):
-                            Variable name:temp start:134:10 end:134:14:
-                              vpiParent: Begin name:inner
-                              vpiTypespec RefTypespec start:134:10 end:134:10:
-                                vpiParent: Variable name:temp
-                                vpiFullName: gen_test5.steps.outer.inner.temp
-                                vpiActual: LogicTypespec
-                              vpiName: temp
-                              vpiFullName: gen_test5.steps.outer.inner.temp
-                              vpiNetType: wire (1)
                           vpiTypespec (1 items):
                             LogicTypespec:
                               vpiParent: Begin name:inner
@@ -5411,7 +5419,7 @@ Design name:unnamed:
                                       vpiParent: ContAssign
                                       vpiName: temp
                                       vpiFullName: gen_test5.steps.outer.inner.temp
-                                      vpiActual: Variable name:temp
+                                      vpiActual: Net name:temp
                                     vpiRhs BitSelect name:input_bits[i] start:136:20 end:136:33:
                                       vpiParent: ContAssign
                                       vpiName: input_bits[i]
@@ -5461,7 +5469,7 @@ Design name:unnamed:
                                             vpiParent: ContAssign
                                             vpiName: temp
                                             vpiFullName: gen_test5.steps.outer.inner.temp
-                                            vpiActual: Variable name:temp
+                                            vpiActual: Net name:temp
                                           vpiRhs HierPath name:steps[PREV].outer[LAST_START].val start:138:20 end:138:53:
                                             vpiParent: ContAssign
                                             vpiName: steps[PREV].outer[LAST_START].val
@@ -5499,7 +5507,7 @@ Design name:unnamed:
                                                 vpiParent: HierPath name:steps[PREV].outer[LAST_START].val
                                                 vpiName: val
                                                 vpiFullName: gen_test5.steps.outer.inner.val
-                                                vpiActual: Variable name:val
+                                                vpiActual: Net name:val
                                     vpiElseStmt Begin:
                                       vpiParent: GenIfElse
                                       vpiFullName: gen_test5.steps.outer.inner
@@ -5510,7 +5518,7 @@ Design name:unnamed:
                                             vpiParent: ContAssign
                                             vpiName: temp
                                             vpiFullName: gen_test5.steps.outer.inner.temp
-                                            vpiActual: Variable name:temp
+                                            vpiActual: Net name:temp
                                           vpiRhs Operation start:141:9 end:142:46:
                                             vpiParent: ContAssign
                                             vpiOpType: bitwise and (28)
@@ -5580,7 +5588,7 @@ Design name:unnamed:
                                                     vpiParent: HierPath name:steps[step].outer[i].inner[j - 1].temp
                                                     vpiName: temp
                                                     vpiFullName: gen_test5.steps.outer.inner.temp
-                                                    vpiActual: Variable name:temp
+                                                    vpiActual: Net name:temp
                                               HierPath name:steps[PREV].outer[LAST_START + j].val start:142:9 end:142:46:
                                                 vpiParent: Operation
                                                 vpiName: steps[PREV].outer[LAST_START + j].val
@@ -5627,14 +5635,14 @@ Design name:unnamed:
                                                     vpiParent: HierPath name:steps[PREV].outer[LAST_START + j].val
                                                     vpiName: val
                                                     vpiFullName: gen_test5.steps.outer.inner.val
-                                                    vpiActual: Variable name:val
+                                                    vpiActual: Net name:val
                       ContAssign start:145:11 end:145:59:
                         vpiParent: Begin name:outer
                         vpiLhs RefObj name:val start:145:11 end:145:14:
                           vpiParent: ContAssign
                           vpiName: val
                           vpiFullName: gen_test5.steps.outer.val
-                          vpiActual: Variable name:val
+                          vpiActual: Net name:val
                         vpiRhs HierPath name:steps[step].outer[i].inner[CHUNK - 1].temp start:145:17 end:145:59:
                           vpiParent: ContAssign
                           vpiName: steps[step].outer[i].inner[CHUNK - 1].temp
@@ -5699,6 +5707,7 @@ Design name:unnamed:
                               vpiParent: HierPath name:steps[step].outer[i].inner[CHUNK - 1].temp
                               vpiName: temp
                               vpiFullName: gen_test5.steps.outer.temp
+                              vpiActual: Net name:temp
     Module name:gen_test6 file:$Source01/generate.v start:154:1 end:161:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:gen_test6 start:154:8 end:154:17:
@@ -5733,7 +5742,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: gen_test6
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gen_test6
         vpiName: work
@@ -5754,9 +5763,10 @@ Design name:unnamed:
           vpiParent: Module name:gen_test6
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:154:31 end:154:32:
+          vpiLowConn RefObj name:o start:154:31 end:154:32:
             vpiParent: Port name:o
-            vpiFullName: gen_test6.o
+            vpiName: o
+            vpiFullName: gen_test6.o.o
             vpiActual: Net name:o
           vpiTypespec RefTypespec start:154:18 end:154:30:
             vpiParent: Port name:o
@@ -5925,7 +5935,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
