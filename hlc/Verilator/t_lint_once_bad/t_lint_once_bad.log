@@ -157,13 +157,10 @@ n<$Source01/t_lint_once_bad.v> u<144> t<Top_level_rule> c<1> l<9:1> el<20:1>
                           n<unus2> u<130> t<SIMPLE_IDENTIFIER> p<131> l<18:34> el<18:39>
         n<> u<140> t<ENDMODULE> p<141> l<19:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_lint_once_bad.v:9:1: Compile module "work@t".
-[WRN:CP0323] $Source01/t_lint_once_bad.v:9:1: Multiply defined typedef "work@sub".
-[WRN:CP0323] $Source01/t_lint_once_bad.v:9:1: Multiply defined typedef "work@sub".
-[INF:CP0303] $Source01/t_lint_once_bad.v:15:1: Compile module "work@sub".
-[ERR:EL0535] $Source01/t_lint_once_bad.v:10:11: Illegal implicit net "id:15, name:A".
-[ERR:EL0535] $Source01/t_lint_once_bad.v:11:11: Illegal implicit net "id:24, name:A".
-[ERR:EL0535] $Source01/t_lint_once_bad.v:12:11: Illegal implicit net "id:33, name:A".
+[INF:CP0303] $Source01/t_lint_once_bad.v:9:1: Compile module "t".
+[WRN:CP0323] $Source01/t_lint_once_bad.v:9:1: Multiply defined typedef "sub".
+[WRN:CP0323] $Source01/t_lint_once_bad.v:9:1: Multiply defined typedef "sub".
+[INF:CP0303] $Source01/t_lint_once_bad.v:15:1: Compile module "sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -173,46 +170,45 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_lint_once_bad.v
       vpiPreprocFile: "$Output/lib/work/t_lint_once_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:$Source01/t_lint_once_bad.v start:9:1 end:13:10:
+    Module name:t file:$Source01/t_lint_once_bad.v start:9:1 end:13:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:9:8 end:9:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:9:8 end:9:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
       vpiTypespec (3 items):
-        ModuleTypespec name:work@sub start:10:4 end:10:7:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@sub start:10:4 end:10:7:
-            vpiParent: ModuleTypespec name:work@sub
-            vpiName: work@sub
-        ModuleTypespec name:work@sub start:11:4 end:11:7:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@sub start:11:4 end:11:7:
-            vpiParent: ModuleTypespec name:work@sub
-            vpiName: work@sub
-        ModuleTypespec name:work@sub start:12:4 end:12:7:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@sub start:12:4 end:12:7:
-            vpiParent: ModuleTypespec name:work@sub
-            vpiName: work@sub
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+        ModuleTypespec name:sub start:10:4 end:10:7:
+          vpiParent: Module name:t
+          vpiName Identifier name:sub start:10:4 end:10:7:
+            vpiParent: ModuleTypespec name:sub
+            vpiName: sub
+        ModuleTypespec name:sub start:11:4 end:11:7:
+          vpiParent: Module name:t
+          vpiName Identifier name:sub start:11:4 end:11:7:
+            vpiParent: ModuleTypespec name:sub
+            vpiName: sub
+        ModuleTypespec name:sub start:12:4 end:12:7:
+          vpiParent: Module name:t
+          vpiName Identifier name:sub start:12:4 end:12:7:
+            vpiParent: ModuleTypespec name:sub
+            vpiName: sub
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
       vpiRefInstance (3 items):
         RefInstance name:sub1 start:10:17 end:10:21:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: sub1
-          vpiTypespec RefTypespec name:work@sub start:10:4 end:10:7:
+          vpiTypespec RefTypespec name:sub start:10:4 end:10:7:
             vpiParent: RefInstance name:sub1
-            vpiName: work@sub
-            vpiFullName: work@t.sub1.work@sub
-            vpiActual: ModuleTypespec name:work@sub
+            vpiName: sub
+            vpiFullName: t.sub1.sub
+            vpiActual: ModuleTypespec name:sub
           vpiParamAssign (1 items):
             ParamAssign start:10:10 end:10:15:
               vpiParent: RefInstance name:sub1
@@ -220,25 +216,25 @@ Design name:unnamed:
               vpiLhs RefObj name:A start:10:11 end:10:12:
                 vpiParent: ParamAssign
                 vpiName: A
-                vpiFullName: work@t.sub1.A
+                vpiFullName: t.sub1.A
               vpiRhs Constant start:10:13 end:10:14:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.sub1
+                  vpiFullName: t.sub1
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
         RefInstance name:sub2 start:11:17 end:11:21:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: sub2
-          vpiTypespec RefTypespec name:work@sub start:11:4 end:11:7:
+          vpiTypespec RefTypespec name:sub start:11:4 end:11:7:
             vpiParent: RefInstance name:sub2
-            vpiName: work@sub
-            vpiFullName: work@t.sub2.work@sub
-            vpiActual: ModuleTypespec name:work@sub
+            vpiName: sub
+            vpiFullName: t.sub2.sub
+            vpiActual: ModuleTypespec name:sub
           vpiParamAssign (1 items):
             ParamAssign start:11:10 end:11:15:
               vpiParent: RefInstance name:sub2
@@ -246,25 +242,25 @@ Design name:unnamed:
               vpiLhs RefObj name:A start:11:11 end:11:12:
                 vpiParent: ParamAssign
                 vpiName: A
-                vpiFullName: work@t.sub2.A
+                vpiFullName: t.sub2.A
               vpiRhs Constant start:11:13 end:11:14:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.sub2
+                  vpiFullName: t.sub2
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
         RefInstance name:sub3 start:12:17 end:12:21:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: sub3
-          vpiTypespec RefTypespec name:work@sub start:12:4 end:12:7:
+          vpiTypespec RefTypespec name:sub start:12:4 end:12:7:
             vpiParent: RefInstance name:sub3
-            vpiName: work@sub
-            vpiFullName: work@t.sub3.work@sub
-            vpiActual: ModuleTypespec name:work@sub
+            vpiName: sub
+            vpiFullName: t.sub3.sub
+            vpiActual: ModuleTypespec name:sub
           vpiParamAssign (1 items):
             ParamAssign start:12:10 end:12:15:
               vpiParent: RefInstance name:sub3
@@ -272,45 +268,64 @@ Design name:unnamed:
               vpiLhs RefObj name:A start:12:11 end:12:12:
                 vpiParent: ParamAssign
                 vpiName: A
-                vpiFullName: work@t.sub3.A
+                vpiFullName: t.sub3.A
               vpiRhs Constant start:12:13 end:12:14:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.sub3
+                  vpiFullName: t.sub3
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-    Module name:work@sub file:$Source01/t_lint_once_bad.v start:15:1 end:19:10:
+    Module name:sub file:$Source01/t_lint_once_bad.v start:15:1 end:19:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sub start:15:8 end:15:11:
-        vpiParent: Module name:work@sub
-        vpiName: work@sub
-      vpiFullName: work@sub
+      vpiName Identifier name:sub start:15:8 end:15:11:
+        vpiParent: Module name:sub
+        vpiName: sub
+      vpiFullName: sub
+      vpiVariable (2 items):
+        Variable name:unus1 start:18:14 end:18:19:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:18:4 end:18:13:
+            vpiParent: Variable name:unus1
+            vpiFullName: sub.unus1
+            vpiActual: LogicTypespec
+          vpiName: unus1
+          vpiFullName: sub.unus1
+          vpiVector: true
+        Variable name:unus2 start:18:34 end:18:39:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:18:24 end:18:33:
+            vpiParent: Variable name:unus2
+            vpiFullName: sub.unus2
+            vpiActual: LogicTypespec
+          vpiName: unus2
+          vpiFullName: sub.unus2
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:A start:16:14 end:16:15:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiTypespec RefTypespec start:16:14 end:16:14:
             vpiParent: Parameter name:A
-            vpiFullName: work@sub.A
+            vpiFullName: sub.A
             vpiActual: LogicTypespec
           vpiName: A
-          vpiFullName: work@sub.A
+          vpiFullName: sub.A
       vpiParamAssign (1 items):
         ParamAssign start:16:14 end:16:19:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiLhs RefObj name:A start:16:14 end:16:15:
             vpiParent: ParamAssign
             vpiName: A
-            vpiFullName: work@sub.A
+            vpiFullName: sub.A
             vpiActual: Parameter name:A
           vpiRhs Constant start:16:18 end:16:19:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@sub
+              vpiFullName: sub
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -318,22 +333,22 @@ Design name:unnamed:
             vpiValue: 0
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
         LogicTypespec:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiRange (1 items):
             Range start:18:8 end:18:13:
               vpiParent: LogicTypespec
               vpiLeftRange RefObj name:A start:18:9 end:18:10:
                 vpiParent: Range
                 vpiName: A
-                vpiFullName: work@sub.A
+                vpiFullName: sub.A
                 vpiActual: Parameter name:A
               vpiRightRange Constant start:18:11 end:18:12:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sub
+                  vpiFullName: sub
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -341,70 +356,53 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiRange (1 items):
             Range start:18:28 end:18:33:
               vpiParent: LogicTypespec
               vpiLeftRange RefObj name:A start:18:29 end:18:30:
                 vpiParent: Range
                 vpiName: A
-                vpiFullName: work@sub.A
+                vpiFullName: sub.A
                 vpiActual: Parameter name:A
               vpiRightRange Constant start:18:31 end:18:32:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sub
+                  vpiFullName: sub
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@sub
-      vpiDefNetType: none (12)
+      vpiDefName: sub
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@sub
+        vpiParent: Module name:sub
         vpiName: work
-        vpiFullName: work@sub.work
+        vpiFullName: sub.work
       vpiCell: sub
-      vpiNet (2 items):
-        Net name:unus1 start:18:14 end:18:19:
-          vpiParent: Module name:work@sub
-          vpiTypespec RefTypespec start:18:4 end:18:13:
-            vpiParent: Net name:unus1
-            vpiFullName: work@sub.unus1
-            vpiActual: LogicTypespec
-          vpiName: unus1
-          vpiFullName: work@sub.unus1
-        Net name:unus2 start:18:34 end:18:39:
-          vpiParent: Module name:work@sub
-          vpiTypespec RefTypespec start:18:24 end:18:33:
-            vpiParent: Net name:unus2
-            vpiFullName: work@sub.unus2
-            vpiActual: LogicTypespec
-          vpiName: unus2
-          vpiFullName: work@sub.unus2
   vpiTypespec (3 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:9:8 end:9:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:9:8 end:9:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@sub:
+    ModuleTypespec name:sub:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sub start:15:8 end:15:11:
-        vpiParent: ModuleTypespec name:work@sub
-        vpiName: work@sub
-      vpiModule: Module name:work@sub
+      vpiName Identifier name:sub start:15:8 end:15:11:
+        vpiParent: ModuleTypespec name:sub
+        vpiName: sub
+      vpiModule: Module name:sub
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

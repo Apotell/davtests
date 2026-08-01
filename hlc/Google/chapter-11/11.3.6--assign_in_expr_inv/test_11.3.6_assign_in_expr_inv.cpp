@@ -42,7 +42,7 @@
 // following "initial begin" that the parser could no longer make sense of
 // once the chained assignment broke the grammar. Because the parse
 // aborted mid-module, the design ends up with two incomplete/duplicated
-// Module stubs (no name, no body) instead of the single "work@top" module
+// Module stubs (no name, no body) instead of the single "top" module
 // every other file in this chapter produces -- that malformed shape is a
 // direct, checkable side effect of the syntax error, not a separate bug.
 //
@@ -55,7 +55,7 @@
 //     ends up with 2 malformed vpiAllModules entries (both unnamed, empty
 //     body) and 3 typespecs (2 ModuleTypespec each pointing back to one of
 //     the malformed modules, plus 1 IntTypespec) -- confirming the parser
-//     did not recover a well-formed single "work@top" module the way
+//     did not recover a well-formed single "top" module the way
 //     11.3.6--assign_in_expr.sv and friends do
 //
 // Not checked:
@@ -104,8 +104,8 @@ TEST_F(AssignInExprInvTest, CompilerCorrectlyRejectsUnparenthesizedChainedAssign
 
 TEST_F(AssignInExprInvTest, FailedParseLeavesNoWellFormedTopModule) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
-  EXPECT_EQ(top, nullptr) << "the syntax error prevents a well-formed 'work@top' module from "
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  EXPECT_EQ(top, nullptr) << "the syntax error prevents a well-formed 'top' module from "
                              "being elaborated, unlike every clean file in this chapter";
 }
 

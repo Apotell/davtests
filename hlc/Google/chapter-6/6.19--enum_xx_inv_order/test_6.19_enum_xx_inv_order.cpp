@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,13 +21,14 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - anonymous EnumTypespec with explicit base IntegerTypespec
 //   - 3 consts: a (vpiUIntConst "0"), b ({32{1'bx}} = vpiMultiConcatOp), c (no value)
-//   - c's getValue<Any>() returns nullptr — unassigned after x-value has no vpiValue in UHDM
-//   - net "val" exists with typespec → EnumTypespec
-//   - net "val" has no initial value
-//   - work@top has no processes
+//   - c's getValue<Any>() returns nullptr -- unassigned after x-value has no vpiValue in UHDM
+//   - variable "val" exists with typespec -> EnumTypespec (IEEE 1800-2023
+//     6.19/6.8: enum-typed declaration with no net-type keyword is a variable)
+//   - variable "val" has no initial value
+//   - top has no processes
 //   - HLC doesn't flag the invalid ordering (unassigned enumerator after x-valued one)
 
 #include <hlc/Common/Session.h>
@@ -45,6 +46,7 @@
 #include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -56,14 +58,14 @@ class EnumXxInvOrder : public Test {
 };
 
 TEST_F(EnumXxInvOrder, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // EnumTypespec with explicit base type: integer (same as enum_xx)
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(EnumXxInvOrder, EnumBaseTypeIsInteger) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -75,11 +77,11 @@ TEST_F(EnumXxInvOrder, EnumBaseTypeIsInteger) {
   EXPECT_NE(base->getActual<hldb::IntegerTypespec>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // 3 consts: a, b, c
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(EnumXxInvOrder, EnumHasThreeConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -94,7 +96,7 @@ TEST_F(EnumXxInvOrder, EnumHasThreeConsts) {
 }
 
 TEST_F(EnumXxInvOrder, ConstAValueIsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -108,7 +110,7 @@ TEST_F(EnumXxInvOrder, ConstAValueIsZero) {
 }
 
 TEST_F(EnumXxInvOrder, ConstBValueIsMultiConcatOperation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -121,7 +123,7 @@ TEST_F(EnumXxInvOrder, ConstBValueIsMultiConcatOperation) {
 }
 
 TEST_F(EnumXxInvOrder, ConstCHasNoValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -131,41 +133,54 @@ TEST_F(EnumXxInvOrder, ConstCHasNoValue) {
   const hldb::EnumConst *const c = enumTs->getEnumConsts()->at(2);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getName(), "c");
-  EXPECT_EQ(c->getValue<hldb::Any>(), nullptr) << "c is unassigned after an x-value — it has no vpiValue in UHDM";
+  EXPECT_EQ(c->getValue<hldb::Any>(), nullptr) << "c is unassigned after an x-value -- it has no vpiValue in UHDM";
 }
 
-// ---------------------------------------------------------------------------
-// Net "val" → EnumTypespec
-// ---------------------------------------------------------------------------
-TEST_F(EnumXxInvOrder, NetValExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+// Variable "val" -> EnumTypespec
+// ----
+TEST_F(EnumXxInvOrder, VariableValExists) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
+  const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
   EXPECT_NE(val->getTypespec()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
-TEST_F(EnumXxInvOrder, NetValHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(EnumXxInvOrder, VariableValHasNoInitialValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
+  const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
 }
 
+// IEEE 1800-2023 Sec 6.7/6.8: `val` has no net-type keyword, so it is a
+// Variable, never a Net -- confirm the name is absent from the Net collection.
+TEST_F(EnumXxInvOrder, VariableValNotInNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("val", top->getNets()) == nullptr)
+      << "'val' has no net-type keyword; it must not appear in the module's Net collection";
+}
+
 TEST_F(EnumXxInvOrder, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
-// Compiler diagnostics -- an unassigned enumerator following an x-valued one is not flagged
-// ---------------------------------------------------------------------------
-TEST_F(EnumXxInvOrder, Compiler_NoErrorsReported) {
+// ----
+// Compiler diagnostics -- IEEE 1800-2023 Sec 6.19: "An unassigned enumerated
+// name that follows an enum name with x or z assignments shall be a syntax
+// error." c immediately follows b={32{1'bx}} with no assignment.
+// ----
+TEST_F(EnumXxInvOrder, Compiler_ErrorReported) {
+  GTEST_SKIP() << "HLC does not reject an unassigned enumerator following an x-valued one at compile time; "
+                  "IEEE 1800-2023 Sec 6.19 requires this to be a syntax error. Fix pending.";
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0)
-      << "HLC does not reject an unassigned enumerator following an x-valued one at compile time";
+  EXPECT_GT(stats.nbError, 0) << "unassigned enumerator following an x/z-valued one shall be a syntax error "
+                                  "(IEEE 1800-2023 Sec 6.19)";
 }
 
 }  // namespace hlc

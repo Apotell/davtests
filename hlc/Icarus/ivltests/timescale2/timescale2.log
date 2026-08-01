@@ -189,8 +189,8 @@ n<$Source01/timescale2.v> u<176> t<Top_level_rule> c<1> l<2:1> el<25:1>
         n<> u<171> t<ENDMODULE> p<172> l<24:1> el<24:10>
   n<// submodule> u<175> t<LINE_COMMENT> p<176> l<24:11> el<24:23>
 AST_DEBUG_END
-[INF:CP0303] $Source01/timescale2.v:3:1: Compile module "work@main".
-[INF:CP0303] $Source01/timescale2.v:10:1: Compile module "work@submodule".
+[INF:CP0303] $Source01/timescale2.v:3:1: Compile module "main".
+[INF:CP0303] $Source01/timescale2.v:10:1: Compile module "submodule".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -200,49 +200,58 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: timescale2.v
       vpiPreprocFile: "$Output/lib/work/timescale2.v"
-      vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -8
   vpiAllModules (2 items):
-    Module name:work@main file:$Source01/timescale2.v start:3:1 end:7:10:
+    Module name:main file:$Source01/timescale2.v start:3:1 end:7:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:3:8 end:3:12:
-        vpiParent: Module name:work@main
-        vpiName: work@main
-      vpiFullName: work@main
+      vpiName Identifier name:main start:3:8 end:3:12:
+        vpiParent: Module name:main
+        vpiName: main
+      vpiFullName: main
       vpiTypespec (1 items):
-        ModuleTypespec name:work@submodule start:5:4 end:5:13:
-          vpiParent: Module name:work@main
-          vpiName Identifier name:work@submodule start:5:4 end:5:13:
-            vpiParent: ModuleTypespec name:work@submodule
-            vpiName: work@submodule
-      vpiDefName: work@main
-      vpiDefNetType: none (12)
+        ModuleTypespec name:submodule start:5:4 end:5:13:
+          vpiParent: Module name:main
+          vpiName Identifier name:submodule start:5:4 end:5:13:
+            vpiParent: ModuleTypespec name:submodule
+            vpiName: submodule
+      vpiDefName: main
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@main
+        vpiParent: Module name:main
         vpiName: work
-        vpiFullName: work@main.work
+        vpiFullName: main.work
       vpiCell: main
       vpiRefInstance (1 items):
         RefInstance name:test start:5:14 end:5:18:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiName: test
-          vpiTypespec RefTypespec name:work@submodule start:5:4 end:5:13:
+          vpiTypespec RefTypespec name:submodule start:5:4 end:5:13:
             vpiParent: RefInstance name:test
-            vpiName: work@submodule
-            vpiFullName: work@main.test.work@submodule
-            vpiActual: ModuleTypespec name:work@submodule
-    Module name:work@submodule file:$Source01/timescale2.v start:10:1 end:24:10:
+            vpiName: submodule
+            vpiFullName: main.test.submodule
+            vpiActual: ModuleTypespec name:submodule
+    Module name:submodule file:$Source01/timescale2.v start:10:1 end:24:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@submodule start:10:8 end:10:17:
-        vpiParent: Module name:work@submodule
-        vpiName: work@submodule
-      vpiFullName: work@submodule
+      vpiName Identifier name:submodule start:10:8 end:10:17:
+        vpiParent: Module name:submodule
+        vpiName: submodule
+      vpiFullName: submodule
+      vpiVariable (1 items):
+        Variable name:val start:12:15 end:12:18:
+          vpiParent: Module name:submodule
+          vpiTypespec RefTypespec start:12:4 end:12:14:
+            vpiParent: Variable name:val
+            vpiFullName: submodule.val
+            vpiActual: LogicTypespec
+          vpiName: val
+          vpiFullName: submodule.val
+          vpiVector: true
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiRange (1 items):
             Range start:12:8 end:12:14:
               vpiParent: LogicTypespec
@@ -250,7 +259,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@submodule
+                  vpiFullName: submodule
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -260,37 +269,28 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@submodule
+                  vpiFullName: submodule
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@submodule
-      vpiDefNetType: none (12)
+      vpiDefName: submodule
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -9
       vpiTimeUnit: -8
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@submodule
+        vpiParent: Module name:submodule
         vpiName: work
-        vpiFullName: work@submodule.work
+        vpiFullName: submodule.work
       vpiCell: submodule
-      vpiNet (1 items):
-        Net name:val start:12:15 end:12:18:
-          vpiParent: Module name:work@submodule
-          vpiTypespec RefTypespec start:12:4 end:12:14:
-            vpiParent: Net name:val
-            vpiFullName: work@submodule.val
-            vpiActual: LogicTypespec
-          vpiName: val
-          vpiFullName: work@submodule.val
       vpiProcess (1 items):
         Initial start:13:4 end:21:7:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiStmt Begin start:13:12 end:21:7:
             vpiParent: Initial
-            vpiFullName: work@submodule
+            vpiFullName: submodule
             vpiStmt (4 items):
               DelayControl start:14:7 end:14:41:
                 vpiParent: Begin
@@ -304,7 +304,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@submodule
+                        vpiFullName: submodule
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 88
@@ -319,7 +319,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@submodule
+                    vpiFullName: submodule
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -331,8 +331,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:val start:15:7 end:15:10:
                   vpiParent: Assignment
                   vpiName: val
-                  vpiFullName: work@submodule.val
-                  vpiActual: Net name:val
+                  vpiFullName: submodule.val
+                  vpiActual: Variable name:val
                 vpiRhs SysTaskCall name:$time start:15:13 end:15:18:
                   vpiParent: Assignment
                   vpiName Identifier name:$time start:15:13 end:15:18:
@@ -347,13 +347,13 @@ Design name:unnamed:
                     RefObj name:val start:16:11 end:16:14:
                       vpiParent: Operation
                       vpiName: val
-                      vpiFullName: work@submodule.val
-                      vpiActual: Net name:val
+                      vpiFullName: submodule.val
+                      vpiActual: Variable name:val
                     Constant start:16:19 end:16:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@submodule
+                        vpiFullName: submodule
                         vpiActual: IntTypespec
                       vpiConstType: decimal (1)
                       vpiSize: 64
@@ -361,7 +361,7 @@ Design name:unnamed:
                       vpiValue: "1"
                 vpiStmt Begin start:16:26 end:19:10:
                   vpiParent: IfStmt
-                  vpiFullName: work@submodule
+                  vpiFullName: submodule
                   vpiStmt (2 items):
                     SysTaskCall name:$display start:17:3 end:17:56:
                       vpiParent: Begin
@@ -373,7 +373,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@submodule
+                            vpiFullName: submodule
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 288
@@ -382,8 +382,8 @@ Design name:unnamed:
                         RefObj name:val start:17:52 end:17:55:
                           vpiParent: SysTaskCall name:$display
                           vpiName: val
-                          vpiFullName: work@submodule.val
-                          vpiActual: Net name:val
+                          vpiFullName: submodule.val
+                          vpiActual: Variable name:val
                     SysTaskCall name:$finish start:18:3 end:18:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:18:3 end:18:10:
@@ -399,25 +399,25 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@submodule
+                      vpiFullName: submodule
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 48
                     vpiDecompile: "\"PASSED\""
                     vpiValue: PASSED
   vpiTypespec (4 items):
-    ModuleTypespec name:work@main:
+    ModuleTypespec name:main:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:3:8 end:3:12:
-        vpiParent: ModuleTypespec name:work@main
-        vpiName: work@main
-      vpiModule: Module name:work@main
-    ModuleTypespec name:work@submodule:
+      vpiName Identifier name:main start:3:8 end:3:12:
+        vpiParent: ModuleTypespec name:main
+        vpiName: main
+      vpiModule: Module name:main
+    ModuleTypespec name:submodule:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@submodule start:10:8 end:10:17:
-        vpiParent: ModuleTypespec name:work@submodule
-        vpiName: work@submodule
-      vpiModule: Module name:work@submodule
+      vpiName Identifier name:submodule start:10:8 end:10:17:
+        vpiParent: ModuleTypespec name:submodule
+        vpiName: submodule
+      vpiModule: Module name:submodule
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

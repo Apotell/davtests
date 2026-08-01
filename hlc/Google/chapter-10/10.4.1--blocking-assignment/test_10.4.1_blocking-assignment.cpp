@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,14 +26,19 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "a", "b", each
+//   - design has module top with exactly 2 variables: "a", "b", each
 //     RefTypespec -> LogicTypespec, each with its own initializer Constant
-//     ("3" for a, "2" for b)
+//     ("3" for a, "2" for b). Per IEEE 1800-2023 Sec 6.7/6.8: a plain
+//     "logic" declaration with no net-type keyword (wire/tri/etc.) is a
+//     variable, not a net -- there is no port list here, so there is no
+//     net-vs-variable default rule to apply either.
+//   - module has no nets (getNets() is null): "a"/"b" must not also appear
+//     in the Nets collection
 //   - Initial process: 1 Begin with 3 stmts (2 Assignment + 1 SysFuncCall)
-//   - Stmt[0]: blocking Assignment, lhs RefObj "a" resolving Net "a", rhs
-//     Constant "1"
-//   - Stmt[1]: blocking Assignment, lhs RefObj "b" resolving Net "b", rhs
-//     RefObj "a" resolving Net "a"
+//   - Stmt[0]: blocking Assignment, lhs RefObj "a" resolving Variable "a",
+//     rhs Constant "1"
+//   - Stmt[1]: blocking Assignment, lhs RefObj "b" resolving Variable "b",
+//     rhs RefObj "a" resolving Variable "a"
 //   - Stmt[2]: $display with 3 args (format ":assert: (%d == %d)" + RefObj
 //     "a" + RefObj "b")
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
@@ -62,11 +67,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -77,7 +82,7 @@ class BlockingAssignmentTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();
@@ -88,26 +93,34 @@ class BlockingAssignmentTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(BlockingAssignmentTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(BlockingAssignmentTest, ModuleHasTwoLogicNetsWithInitializers) {
+TEST_F(BlockingAssignmentTest, ModuleHasTwoLogicVariablesWithInitializers) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8: "logic a = 3;" / "logic b = 2;" have no
+  // net-type keyword and are not port declarations, so they are Variables.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>()->getDecompile(), "3");
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_NE(b->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>()->getDecompile(), "2");
 }
 
-// --- initial process ---------------------------------------------------------
+TEST_F(BlockingAssignmentTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
+}
+
+// --- initial process ----
 
 TEST_F(BlockingAssignmentTest, InitialBeginHasThreeStmts) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -136,7 +149,7 @@ TEST_F(BlockingAssignmentTest, SecondStmtAssignsAToB) {
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "a");
-  EXPECT_NE(rhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(rhs->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(BlockingAssignmentTest, ThirdStmtDisplaysAAndB) {
@@ -151,7 +164,7 @@ TEST_F(BlockingAssignmentTest, ThirdStmtDisplaysAAndB) {
   EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(2))->getName(), "b");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(BlockingAssignmentTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -172,7 +185,7 @@ TEST_F(BlockingAssignmentTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- known gap: runtime blocking-assignment values require simulation ------
+// --- known gap: runtime blocking-assignment values require simulation ----
 
 TEST_F(BlockingAssignmentTest, RuntimeBlockingAssignmentValuesRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates 10.4.1--blocking-assignment.sv; it does not "

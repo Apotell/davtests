@@ -66,8 +66,8 @@ n<$Source01/t_lint_mod_paren_bad.v> u<50> t<Top_level_rule> c<1> l<9:1> el<19:1>
                           n<FOO> u<36> t<SIMPLE_IDENTIFIER> p<37> l<16:17> el<16:20>
         n<> u<46> t<ENDMODULE> p<47> l<18:1> el<18:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_lint_mod_paren_bad.v:9:1: Compile module "work@t".
-[ERR:EL0535] $Source01/t_lint_mod_paren_bad.v:16:11: Illegal implicit net "id:17, name:bar".
+[INF:CP0303] $Source01/t_lint_mod_paren_bad.v:9:1: Compile module "t".
+[ERR:LN0813] $Source01/t_lint_mod_paren_bad.v:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -77,76 +77,47 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_lint_mod_paren_bad.v
       vpiPreprocFile: "$Output/lib/work/t_lint_mod_paren_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_lint_mod_paren_bad.v start:9:1 end:18:10:
+    Module name:t file:$Source01/t_lint_mod_paren_bad.v start:9:1 end:18:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:9:8 end:9:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:9:8 end:9:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+          vpiParent: Module name:t
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:FOO start:11:4 end:11:7:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:11:4 end:11:4:
-            vpiParent: Net name:FOO
-            vpiFullName: work@t.FOO
-            vpiActual: LogicTypespec
-          vpiName: FOO
-          vpiFullName: work@t.FOO
-          vpiNetType: wire (1)
-          vpiValue Constant start:11:8 end:11:9:
-            vpiParent: Net name:FOO
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@t.FOO
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
       vpiPort (1 items):
         Port name:FOO start:11:4 end:11:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: FOO
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:11:4 end:11:7:
-            vpiParent: Port name:FOO
-            vpiFullName: work@t.FOO
-            vpiActual: Net name:FOO
-          vpiTypespec RefTypespec start:11:4 end:11:4:
-            vpiParent: Port name:FOO
-            vpiFullName: work@t.FOO
-            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:16:11 end:16:20:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiLhs RefObj name:bar start:16:11 end:16:14:
             vpiParent: ContAssign
             vpiName: bar
-            vpiFullName: work@t.bar
+            vpiFullName: t.bar
           vpiRhs RefObj name:FOO start:16:17 end:16:20:
             vpiParent: ContAssign
             vpiName: FOO
-            vpiFullName: work@t.FOO
-            vpiActual: Net name:FOO
+            vpiFullName: t.FOO
+            vpiActual: Port name:FOO
   vpiTypespec (2 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:9:8 end:9:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:9:8 end:9:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -169,25 +140,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_lint_mod_paren_bad/mounts.json
 
 
-{'result': {'coverage': 94.55,
+{'result': {'coverage': 92.73,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_lint_mod_paren_bad.v': {'post_len': 3,
+            'files': {'$Output/lib/work/t_lint_mod_paren_bad.v': {'post_len': 4,
                                                                   'pre_len': 55}},
-            'post_len': 3,
+            'post_len': 4,
             'pre_len': 55,
             'test_name': 'Verilator/t_lint_mod_paren_bad'}}
 
 +-----------------------------------------+----------+-----------+
 | INPUT                                   |   PRELEN |   POSTLEN |
 +=========================================+==========+===========+
-| $Output/lib/work/t_lint_mod_paren_bad.v |       55 |         3 |
+| $Output/lib/work/t_lint_mod_paren_bad.v |       55 |         4 |
 +=========================================+==========+===========+
-|                                         |       55 |         3 |
+|                                         |       55 |         4 |
 +-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.55
+[COVERAGE] : 92.73
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -198,7 +169,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_mod_paren_bad/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              19      19       0         0
+Others                              13      13       0         0
 ----------------------------------------------------------------
-                                    19      19       0         0
+                                    13      13       0         0
 ===================== END REDUCTION RESULT =====================

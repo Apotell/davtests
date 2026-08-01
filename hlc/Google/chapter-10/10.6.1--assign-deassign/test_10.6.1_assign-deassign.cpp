@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,9 +31,20 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 5 nets: "clk", "q", "d",
-//     "clr", "set", each RefTypespec -> LogicTypespec
-//   - module has exactly 5 ports: clk/d/clr/set (input), q (output)
+//   - design has module top with exactly 4 nets: "clk", "d", "clr", "set",
+//     each RefTypespec -> LogicTypespec, and exactly 1 variable: "q"
+//     (RefTypespec -> LogicTypespec). Per IEEE 1800-2023 Sec 6.7/6.8 (port
+//     kind net-vs-variable rule): "clk"/"d"/"clr"/"set" are input ports, so
+//     they always default to net regardless of data type; "q" is an
+//     output port with an explicit data type ("logic q;"), so it defaults
+//     to variable, not net. This is also required for the body to be
+//     legal: 'assign q = 0;'/'assign q = 1;'/'deassign q;' are procedural
+//     continuous assignments (Sec 10.6), and 'q <= d;' is a non-blocking
+//     procedural assignment (Table 10-1) -- both assignment forms may only
+//     target a variable, never a net.
+//   - module has exactly 5 ports: clk/d/clr/set (input), each lowConn to
+//     the matching Net; "q" (output), lowConn to the Variable "q" (not a
+//     Net)
 //   - module has exactly 2 processes, both Always (vpiAlwaysType: always)
 //   - Process[0]: EventControl, condition Operation (event-or) of RefObj
 //     "clr"/"set"; stmt is an IfElse: condition RefObj "clr", stmt
@@ -76,6 +87,7 @@
 #include <hldb/port.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -86,24 +98,42 @@ class AssignDeassignTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets / ports -----------------------------------------------
+// --- module / nets / ports ----
 
 TEST_F(AssignDeassignTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(AssignDeassignTest, ModuleHasFiveLogicNets) {
+TEST_F(AssignDeassignTest, ModuleHasFourLogicNetsInputsOnly) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 5u);
-  const char *const names[5] = {"clk", "q", "d", "clr", "set"};
-  for (uint32_t i = 0; i < 5u; ++i) {
+  ASSERT_EQ(top->getNets()->size(), 4u);
+  const char *const names[4] = {"clk", "d", "clr", "set"};
+  for (uint32_t i = 0; i < 4u; ++i) {
     const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
     ASSERT_NE(net, nullptr) << "net " << names[i];
     EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
   }
+  EXPECT_EQ(hldb::findByName<hldb::Net>("q", top->getNets()), nullptr)
+      << "'q' is an output port with an explicit data type, so it must not appear in Nets";
+}
+
+TEST_F(AssignDeassignTest, ModuleHasOneLogicVariableQ) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8 (port kind net-vs-variable rule): an
+  // output port with an explicit data type ("output q; logic q;") defaults
+  // to variable. This is also required for legality: the procedural
+  // continuous assignments ('assign'/'deassign', Sec 10.6) and the
+  // non-blocking assignment ('q <= d;', Table 10-1) below may only target
+  // a variable.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  const hldb::Variable *const q = hldb::findByName<hldb::Variable>("q", top->getVariables());
+  ASSERT_NE(q, nullptr);
+  EXPECT_NE(q->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
 }
 
 TEST_F(AssignDeassignTest, ModuleHasFivePortsWithQAsOutput) {
@@ -114,15 +144,22 @@ TEST_F(AssignDeassignTest, ModuleHasFivePortsWithQAsOutput) {
   for (const hldb::Ports *const anyPort : *top->getPorts()) {
     const hldb::Port *const port = any_cast<hldb::Port>(anyPort);
     ASSERT_NE(port, nullptr);
+    const hldb::RefObj *const lowConn = port->getLowConn<hldb::RefObj>();
+    ASSERT_NE(lowConn, nullptr) << "port low_conn is a RefObj pointing at the net/variable, not the net/variable "
+                                    "itself; port "
+                                 << port->getName();
+    EXPECT_EQ(lowConn->getName(), port->getName());
     if (port->getName() == "q") {
       EXPECT_EQ(port->getDirection(), vpiOutput);
+      EXPECT_NE(lowConn->getActual<hldb::Variable>(), nullptr) << "'q' should resolve to the Variable, not a Net";
     } else {
       EXPECT_EQ(port->getDirection(), vpiInput) << "port " << port->getName();
+      EXPECT_NE(lowConn->getActual<hldb::Net>(), nullptr) << "port " << port->getName();
     }
   }
 }
 
-// --- process[0]: always @(clr or set) if/else-if/else assign/deassign ------
+// --- process[0]: always @(clr or set) if/else-if/else assign/deassign ----
 
 TEST_F(AssignDeassignTest, ModuleHasTwoAlwaysProcesses) {
   const hldb::Module *const top = getTop();
@@ -164,7 +201,12 @@ TEST_F(AssignDeassignTest, IfClrAssignsZeroToQ) {
   EXPECT_EQ(outer->getCondition<hldb::RefObj>()->getName(), "clr");
   const hldb::AssignStmt *const assignZero = outer->getStmt<hldb::AssignStmt>();
   ASSERT_NE(assignZero, nullptr) << "'assign q = 0;' should elaborate as an AssignStmt";
-  EXPECT_EQ(assignZero->getLhs<hldb::RefObj>()->getName(), "q");
+  const hldb::RefObj *const lhs = assignZero->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getName(), "q");
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr)
+      << "IEEE 1800-2023 Sec 10.6: a procedural continuous assignment ('assign') may only target a "
+         "variable, never a net";
   EXPECT_EQ(assignZero->getRhs<hldb::Constant>()->getDecompile(), "0");
 }
 
@@ -182,14 +224,23 @@ TEST_F(AssignDeassignTest, ElseIfSetAssignsOneToQElseDeassignsQ) {
   EXPECT_EQ(inner->getCondition<hldb::RefObj>()->getName(), "set");
   const hldb::AssignStmt *const assignOne = inner->getStmt<hldb::AssignStmt>();
   ASSERT_NE(assignOne, nullptr) << "'assign q = 1;' should elaborate as an AssignStmt";
-  EXPECT_EQ(assignOne->getLhs<hldb::RefObj>()->getName(), "q");
+  const hldb::RefObj *const assignOneLhs = assignOne->getLhs<hldb::RefObj>();
+  ASSERT_NE(assignOneLhs, nullptr);
+  EXPECT_EQ(assignOneLhs->getName(), "q");
+  EXPECT_NE(assignOneLhs->getActual<hldb::Variable>(), nullptr)
+      << "IEEE 1800-2023 Sec 10.6: a procedural continuous assignment ('assign') may only target a "
+         "variable, never a net";
   EXPECT_EQ(assignOne->getRhs<hldb::Constant>()->getDecompile(), "1");
   const hldb::Deassign *const deassignQ = inner->getElseStmt<hldb::Deassign>();
   ASSERT_NE(deassignQ, nullptr) << "'deassign q;' should elaborate as a Deassign";
-  EXPECT_EQ(deassignQ->getLhs<hldb::RefObj>()->getName(), "q");
+  const hldb::RefObj *const deassignLhs = deassignQ->getLhs<hldb::RefObj>();
+  ASSERT_NE(deassignLhs, nullptr);
+  EXPECT_EQ(deassignLhs->getName(), "q");
+  EXPECT_NE(deassignLhs->getActual<hldb::Variable>(), nullptr)
+      << "IEEE 1800-2023 Sec 10.6: 'deassign' may only target a variable, never a net";
 }
 
-// --- process[1]: always @(posedge clk) q <= d -------------------------------
+// --- process[1]: always @(posedge clk) q <= d ----
 
 TEST_F(AssignDeassignTest, SecondAlwaysIsNonBlockingQFromDOnPosedgeClk) {
   const hldb::Module *const top = getTop();
@@ -208,11 +259,18 @@ TEST_F(AssignDeassignTest, SecondAlwaysIsNonBlockingQFromDOnPosedgeClk) {
   const hldb::Assignment *const assign = ec->getStmt<hldb::Assignment>();
   ASSERT_NE(assign, nullptr);
   EXPECT_FALSE(assign->getBlocking());
-  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "q");
-  EXPECT_EQ(assign->getRhs<hldb::RefObj>()->getName(), "d");
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getName(), "q");
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr)
+      << "IEEE 1800-2023 Table 10-1: non-blocking assignment may only target a variable, never a net";
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getName(), "d");
+  EXPECT_NE(rhs->getActual<hldb::Net>(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssignDeassignTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

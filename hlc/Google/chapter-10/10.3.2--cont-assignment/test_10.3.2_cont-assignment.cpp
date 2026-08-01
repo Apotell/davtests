@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a", "b", "w", all
+//   - design has module top with exactly 3 nets: "a", "b", "w", all
 //     vpiNetType wire, each RefTypespec -> LogicTypespec
 //   - module has exactly 2 ports: "a" (input), "b" (input)
 //   - module has exactly 1 continuous assignment: lhs RefObj "w" resolving
@@ -59,10 +59,10 @@ class ContAssignmentTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets / ports -----------------------------------------------
+// --- module / nets / ports ----
 
 TEST_F(ContAssignmentTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -80,6 +80,14 @@ TEST_F(ContAssignmentTest, ModuleHasThreeNetsAllWire) {
   }
 }
 
+TEST_F(ContAssignmentTest, ModuleHasNoVariables) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8: "a", "b" are ports defaulting to net,
+  // "w" is an explicit "wire" -- none should be a Variable.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr);
+}
+
 TEST_F(ContAssignmentTest, NetWHasNoOwnInitializer) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
@@ -90,7 +98,7 @@ TEST_F(ContAssignmentTest, NetWHasNoOwnInitializer) {
          "should NOT populate Net::getValue()";
 }
 
-// --- continuous assignment -------------------------------------------------
+// --- continuous assignment ----
 
 TEST_F(ContAssignmentTest, HasOneContAssignWEqualsAAndB) {
   const hldb::Module *const top = getTop();
@@ -113,7 +121,7 @@ TEST_F(ContAssignmentTest, HasOneContAssignWEqualsAAndB) {
   EXPECT_EQ(ca->getDelay(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(ContAssignmentTest, DesignHasOneTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -124,7 +132,7 @@ TEST_F(ContAssignmentTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(ContAssignmentTest, CompilerReportsZeroErrors) {

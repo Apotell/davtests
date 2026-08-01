@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,11 +25,13 @@
 // `resetall resets all active compiler directives (timescale, celldefine,
 // default_nettype, etc.) to their defaults.  It produces no UHDM nodes.
 //
-// UHDM structure:
-//   Module name:work@ts  — empty, defNetType: none (12)
+// Per IEEE 1800-2023 Sec 22 (`resetall directive), one of the directives
+// reset is `default_nettype, whose default value is wire.  So after
+// `resetall, the active net type for subsequent implicit declarations is
+// wire (vpiWire), not none.
 //
-// Note: Surelog records defNetType as none (12) after `resetall, which is
-// Surelog's internal reset state for this property.
+// UHDM structure:
+//   Module name:ts  -- empty, defNetType: wire
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -48,14 +50,14 @@ class CompilerDirectivesResetall : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
+  return hldb::findByName<hldb::Module>("ts", d->getAllModules());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // `resetall is consumed without error; the module compiles cleanly.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesResetall, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@ts' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'ts' not found";
 }
 
 TEST_F(CompilerDirectivesResetall, ModuleIsEmpty) {
@@ -65,14 +67,11 @@ TEST_F(CompilerDirectivesResetall, ModuleIsEmpty) {
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
-// After `resetall, Surelog sets defNetType to none (12).
-// ---------------------------------------------------------------------------
-TEST_F(CompilerDirectivesResetall, ModuleDefNetTypeIsNone) {
+TEST_F(CompilerDirectivesResetall, ModuleDefNetTypeIsWire) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  // vpiNone = 12; `resetall yields none as Surelog's reset state.
-  EXPECT_EQ(m->getDefNetType(), 12);
+  // `resetall resets `default_nettype to its default value, wire.
+  EXPECT_EQ(m->getDefNetType(), vpiWire);
 }
 
 }  // namespace hlc

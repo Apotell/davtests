@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
 
 // Validates that a module-level sequence (seq2: a ##1 b ##2 c) and an inline
 // concurrent assert property with clocking event are captured in the HLDB graph.
-// Unlike sequence1, there is no separate property declaration — the clocking
+// Unlike sequence1, there is no separate property declaration -- the clocking
 // event is embedded directly in the assert property statement.
 
 #include <hlc/Common/Session.h>
@@ -42,14 +42,14 @@ class Sequence2 : public Test {
 };
 
 TEST_F(Sequence2, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("tb", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Sequence declaration
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence2, SequenceDeclaration) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
 
@@ -64,7 +64,7 @@ TEST_F(Sequence2, SequenceDeclaration) {
 }
 
 TEST_F(Sequence2, SequenceHasExpression) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
@@ -80,7 +80,7 @@ TEST_F(Sequence2, SequenceHasExpression) {
 }
 
 TEST_F(Sequence2, SequenceExprIsUnaryCycleDelay) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
@@ -99,7 +99,7 @@ TEST_F(Sequence2, SequenceExprIsUnaryCycleDelay) {
 }
 
 TEST_F(Sequence2, SequenceExprHasThreeOperands) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
@@ -119,22 +119,22 @@ TEST_F(Sequence2, SequenceExprHasThreeOperands) {
   EXPECT_EQ(expr->getOperands()->size(), 3u) << "expected 3 operands (delay constant, 'a', nested b##2c op)";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // No separate property declaration (clocking event is inline in the assert)
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence2, NoSeparatePropertyDecl) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const bool hasPropertyDecls = tb->getPropertyDecls() != nullptr && !tb->getPropertyDecls()->empty();
-  EXPECT_FALSE(hasPropertyDecls) << "tb should have no named property declaration — the assert property is inline";
+  EXPECT_FALSE(hasPropertyDecls) << "tb should have no named property declaration -- the assert property is inline";
 }
 
-// ---------------------------------------------------------------------------
-// Concurrent assertion — assert property(@(posedge clk) seq2)
-// ---------------------------------------------------------------------------
+// ----
+// Concurrent assertion -- assert property(@(posedge clk) seq2)
+// ----
 TEST_F(Sequence2, ConcurrentAssertion) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr) << "tb has no concurrent assertions";
   ASSERT_FALSE(tb->getConcurrentAssertions()->empty()) << "tb concurrent assertions list is empty";
@@ -150,7 +150,7 @@ TEST_F(Sequence2, ConcurrentAssertion) {
 }
 
 TEST_F(Sequence2, AssertHasInlineClockingEvent) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
@@ -170,7 +170,7 @@ TEST_F(Sequence2, AssertHasInlineClockingEvent) {
 }
 
 TEST_F(Sequence2, AssertPropertyExprReferencesSeq2) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +20,13 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 4 nets: "a"/"b"/"c" [1:0]
+//   - design has module top with exactly 4 nets: "a"/"b"/"c" [1:0]
 //     (input), "d" [5:0] (output), all vpiNetType wire, each RefTypespec ->
-//     LogicTypespec with its own Range
+//     LogicTypespec with its own Range. Per IEEE 1800-2023 Sec
+//     6.7/23.2.2.3: input ports always default to nets, and an output
+//     port with no explicit data type also defaults to a net, so all
+//     four being nets here is correct; module has no variables
+//     (getVariables() is null)
 //   - module has exactly 1 continuous assignment: lhs RefObj "d", rhs
 //     Operation (vpiOpType=stream-rl, the '{<<...}' right-to-left streaming
 //     operator) with 2 operands: Constant "2" (the slice size) and a
@@ -65,10 +69,10 @@ class SimpleUnpackStreamSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ---------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(SimpleUnpackStreamSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -86,6 +90,7 @@ TEST_F(SimpleUnpackStreamSimTest, ModuleHasFourNetsWithExpectedRanges) {
   for (const Expected &exp : expected) {
     const hldb::Net *const net = hldb::findByName<hldb::Net>(exp.name, top->getNets());
     ASSERT_NE(net, nullptr) << "net " << exp.name;
+    EXPECT_EQ(net->getNetType(), vpiWire) << "net " << exp.name;
     const hldb::LogicTypespec *const lt = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(lt, nullptr) << "net " << exp.name;
     ASSERT_NE(lt->getRanges(), nullptr);
@@ -94,7 +99,15 @@ TEST_F(SimpleUnpackStreamSimTest, ModuleHasFourNetsWithExpectedRanges) {
   }
 }
 
-// --- continuous assignment: right-to-left streaming operator ---------------
+TEST_F(SimpleUnpackStreamSimTest, ModuleHasNoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr) << "all four ports default to nets per IEEE "
+                                              "1800-2023 Sec 6.7/23.2.2.3, so the module should "
+                                              "have no variables";
+}
+
+// --- continuous assignment: right-to-left streaming operator ----
 
 TEST_F(SimpleUnpackStreamSimTest, ContAssignIsStreamRlOfAbcWithSliceSizeTwo) {
   const hldb::Module *const top = getTop();
@@ -120,7 +133,7 @@ TEST_F(SimpleUnpackStreamSimTest, ContAssignIsStreamRlOfAbcWithSliceSizeTwo) {
   EXPECT_EQ(any_cast<hldb::RefObj>(concat->getOperands()->at(2))->getName(), "c");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(SimpleUnpackStreamSimTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

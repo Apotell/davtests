@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,16 +18,16 @@
 // in UHDM.  In SV, an escaped identifier begins with '\' and ends at the
 // first whitespace; the backslash is NOT part of the identifier name.
 //
-//   SV source           → UHDM net name
-//   \busa+index         → "busa+index"
-//   \-clock             → "-clock"
-//   \***error-condition*** → "***error-condition***"
-//   \net1/\net2         → "net1/\net2"
-//   \{a,b}              → "{a,b}"
-//   \a*(b+c)            → "a*(b+c)"
+//   SV source           -> UHDM variable name
+//   \busa+index         -> "busa+index"
+//   \-clock             -> "-clock"
+//   \***error-condition*** -> "***error-condition***"
+//   \net1/\net2         -> "net1/\net2"
+//   \{a,b}              -> "{a,b}"
+//   \a*(b+c)            -> "a*(b+c)"
 //
-// UHDM: Module name:work@identifiers with 6 Net nodes, all LogicTypespec.
-// No syntax errors — escaped identifiers may contain any printable character.
+// UHDM: Module name:identifiers with 6 Variable nodes, all LogicTypespec.
+// No syntax errors -- escaped identifiers may contain any printable character.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -36,7 +36,7 @@
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -47,61 +47,64 @@ class EscapedIdentifiers : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@identifiers", d->getAllModules());
+  return hldb::findByName<hldb::Module>("identifiers", d->getAllModules());
 }
 
-static bool hasNet(const hldb::Module *m, std::string_view name) {
-  if (!m->getNets()) return false;
-  for (const hldb::Net *const n : *m->getNets())
-    if (n->getName() == name) return true;
-  return false;
+static bool hasVariable(const hldb::Module *m, std::string_view name) {
+  return hldb::findByName<hldb::Variable>(name, m->getVariables()) != nullptr;
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
-TEST_F(EscapedIdentifiers, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@identifiers' not found";
-}
+// ----
+TEST_F(EscapedIdentifiers, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'identifiers' not found"; }
 
-TEST_F(EscapedIdentifiers, SixNetsExist) {
+TEST_F(EscapedIdentifiers, SixVariablesExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 6u);
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 6u);
 }
 
-// ---------------------------------------------------------------------------
+// None of the 6 declarations use a net-type keyword (all bare `logic`), so
+// per IEEE 1800-2023 Sec 6.7/6.8 the module must have no nets.
+TEST_F(EscapedIdentifiers, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "bare 'logic' declarations must not appear as Nets";
+}
+
+// ----
 // Each escaped identifier stored without the leading backslash
-// ---------------------------------------------------------------------------
-TEST_F(EscapedIdentifiers, NetBusaPlusIndex) {
-  // \busa+index  →  "busa+index"
-  EXPECT_TRUE(hasNet(getTop(m_design), "busa+index")) << "net 'busa+index' not found";
+// ----
+TEST_F(EscapedIdentifiers, VariableBusaPlusIndex) {
+  // \busa+index  ->  "busa+index"
+  EXPECT_TRUE(hasVariable(getTop(m_design), "busa+index")) << "Variable 'busa+index' not found";
 }
 
-TEST_F(EscapedIdentifiers, NetMinusClock) {
-  // \-clock  →  "-clock"
-  EXPECT_TRUE(hasNet(getTop(m_design), "-clock")) << "net '-clock' not found";
+TEST_F(EscapedIdentifiers, VariableMinusClock) {
+  // \-clock  ->  "-clock"
+  EXPECT_TRUE(hasVariable(getTop(m_design), "-clock")) << "Variable '-clock' not found";
 }
 
-TEST_F(EscapedIdentifiers, NetErrorConditionWithStars) {
-  // \***error-condition***  →  "***error-condition***"
-  EXPECT_TRUE(hasNet(getTop(m_design), "***error-condition***")) << "net '***error-condition***' not found";
+TEST_F(EscapedIdentifiers, VariableErrorConditionWithStars) {
+  // \***error-condition***  ->  "***error-condition***"
+  EXPECT_TRUE(hasVariable(getTop(m_design), "***error-condition***")) << "Variable '***error-condition***' not found";
 }
 
-TEST_F(EscapedIdentifiers, NetNet1SlashNet2) {
-  // \net1/\net2  →  "net1/\net2"
-  EXPECT_TRUE(hasNet(getTop(m_design), "net1/\\net2")) << "net 'net1/\\net2' not found";
+TEST_F(EscapedIdentifiers, VariableVariable1SlashVariable2) {
+  // \net1/\net2  ->  "net1/\net2"
+  EXPECT_TRUE(hasVariable(getTop(m_design), "net1/\\net2")) << "Variable 'net1/\\net2' not found";
 }
 
-TEST_F(EscapedIdentifiers, NetCurlyAB) {
-  // \{a,b}  →  "{a,b}"
-  EXPECT_TRUE(hasNet(getTop(m_design), "{a,b}")) << "net '{a,b}' not found";
+TEST_F(EscapedIdentifiers, VariableCurlyAB) {
+  // \{a,b}  ->  "{a,b}"
+  EXPECT_TRUE(hasVariable(getTop(m_design), "{a,b}")) << "Variable '{a,b}' not found";
 }
 
-TEST_F(EscapedIdentifiers, NetAStarBPlusC) {
-  // \a*(b+c)  →  "a*(b+c)"
-  EXPECT_TRUE(hasNet(getTop(m_design), "a*(b+c)")) << "net 'a*(b+c)' not found";
+TEST_F(EscapedIdentifiers, VariableAStarBPlusC) {
+  // \a*(b+c)  ->  "a*(b+c)"
+  EXPECT_TRUE(hasVariable(getTop(m_design), "a*(b+c)")) << "Variable 'a*(b+c)' not found";
 }
 
 }  // namespace hlc

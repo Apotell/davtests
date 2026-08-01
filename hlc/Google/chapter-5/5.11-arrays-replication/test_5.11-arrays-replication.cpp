@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,17 +16,19 @@
 
 // Validates nested replication assignment-patterns in UHDM:
 //   int n[1:2][1:6] = '{2{'{3{4, 5}}}};
+// `n` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it is a
+// variable_declaration, not a net_declaration.
 //
 // Replication pattern encoding rule (verified from UHDM dump):
-//   '{N{v1, v2, ...}} → AssignPatternOp where operand[0] is the count N
+//   '{N{v1, v2, ...}} -> AssignPatternOp where operand[0] is the count N
 //                       and operand[1..k] are the replicated values.
 //
 // UHDM tree:
-//   Net n → outer ArrayTypespec[1:2] → inner ArrayTypespec[1:6] → IntTypespec
+//   Variable n -> outer ArrayTypespec[1:2] -> inner ArrayTypespec[1:6] -> IntTypespec
 //   Value = AssignPatternOp(75):
-//             [0] Constant "2"          ← outer replication count
+//             [0] Constant "2"          <- outer replication count
 //             [1] AssignPatternOp(75):
-//                   [0] Constant "3"    ← inner replication count
+//                   [0] Constant "3"    <- inner replication count
 //                   [1] Constant "4"
 //                   [2] Constant "5"
 
@@ -44,6 +46,7 @@
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -53,37 +56,51 @@ class ArraysReplication : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-static const hldb::Net *getNetN(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
-  if (!top || !top->getNets()) return nullptr;
-  for (const hldb::Net *const net : *top->getNets()) {
-    if (net->getName() == "n") return net;
+static const hldb::Variable *getVarN(const hldb::Design *design) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
+  if (!top || !top->getVariables()) return nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
+    if (v->getName() == "n") return v;
   }
   return nullptr;
 }
 
-// ---------------------------------------------------------------------------
-// Module and net
-// ---------------------------------------------------------------------------
+// ----
+// Module and variable
+// ----
 TEST_F(ArraysReplication, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(ArraysReplication, NetNExists) { ASSERT_NE(getNetN(m_design), nullptr) << "net 'n' not found in work@top"; }
+TEST_F(ArraysReplication, VariableNExists) {
+  ASSERT_NE(getVarN(m_design), nullptr) << "variable 'n' not found in top";
+}
 
-// ---------------------------------------------------------------------------
-// Typespec chain: ArrayTypespec[1:2] → ArrayTypespec[1:6] → IntTypespec
-// ---------------------------------------------------------------------------
+// `n` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it must not
+// also appear in the module's net collection.
+TEST_F(ArraysReplication, VariableNIsNotDuplicatedAsNet) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("n", top->getNets()), nullptr)
+        << "'n' has no net-type keyword and must not also appear as a Net";
+  }
+}
+
+// ----
+// Typespec chain: ArrayTypespec[1:2] -> ArrayTypespec[1:6] -> IntTypespec
+// ----
 TEST_F(ArraysReplication, NetNTypespecIsOuterArrayTypespec) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   ASSERT_NE(n->getTypespec(), nullptr);
   EXPECT_NE(any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual()), nullptr)
-      << "net 'n' typespec should resolve to an ArrayTypespec";
+      << "variable 'n' typespec should resolve to an ArrayTypespec";
 }
 
 TEST_F(ArraysReplication, OuterArrayRangeIsOneToTwo) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -99,7 +116,7 @@ TEST_F(ArraysReplication, OuterArrayRangeIsOneToTwo) {
 }
 
 TEST_F(ArraysReplication, OuterArrayElemTypespecIsArrayTypespec) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -109,7 +126,7 @@ TEST_F(ArraysReplication, OuterArrayElemTypespecIsArrayTypespec) {
 }
 
 TEST_F(ArraysReplication, InnerArrayRangeIsOneToSix) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -127,7 +144,7 @@ TEST_F(ArraysReplication, InnerArrayRangeIsOneToSix) {
 }
 
 TEST_F(ArraysReplication, InnerArrayElemTypespecIsIntTypespec) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -138,22 +155,22 @@ TEST_F(ArraysReplication, InnerArrayElemTypespecIsIntTypespec) {
       << "inner elem typespec should be IntTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// Outer pattern: '{2{...}} — count operand + sub-pattern operand
-// ---------------------------------------------------------------------------
+// ----
+// Outer pattern: '{2{...}} -- count operand + sub-pattern operand
+// ----
 TEST_F(ArraysReplication, InitializerIsAssignPatternWithTwoOperands) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();
-  ASSERT_NE(val, nullptr) << "net 'n' value is not an Operation";
+  ASSERT_NE(val, nullptr) << "variable 'n' value is not an Operation";
   EXPECT_EQ(val->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(val->getOperands(), nullptr);
   EXPECT_EQ(val->getOperands()->size(), 2u) << "outer '{2{...}} should have 2 operands: count + sub-pattern";
 }
 
 TEST_F(ArraysReplication, OuterReplicationCountIsTwo) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();
@@ -166,11 +183,11 @@ TEST_F(ArraysReplication, OuterReplicationCountIsTwo) {
   EXPECT_EQ(count->getDecompile(), "2");
 }
 
-// ---------------------------------------------------------------------------
-// Inner pattern: '{3{4, 5}} — count + two value operands
-// ---------------------------------------------------------------------------
+// ----
+// Inner pattern: '{3{4, 5}} -- count + two value operands
+// ----
 TEST_F(ArraysReplication, InnerPatternIsAssignPatternWithThreeOperands) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();
@@ -185,7 +202,7 @@ TEST_F(ArraysReplication, InnerPatternIsAssignPatternWithThreeOperands) {
 }
 
 TEST_F(ArraysReplication, InnerReplicationCountIsThree) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();
@@ -202,7 +219,7 @@ TEST_F(ArraysReplication, InnerReplicationCountIsThree) {
 }
 
 TEST_F(ArraysReplication, InnerPatternValuesAreFourAndFive) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();

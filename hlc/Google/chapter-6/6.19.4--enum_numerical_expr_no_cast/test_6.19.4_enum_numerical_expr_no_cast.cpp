@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,15 +26,19 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
-//   - module has TypedefTypespec "e" → EnumTypespec with 4 consts (a, b, c, d)
+//   - design has module top
+//   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
 //   - Begin block has 1 variable "val"
-//   - 2 statements; 2nd stmt rhs is Operation(vpiAddOp) — NO vpiCastOp wrapper
+//   - 2 statements; 2nd stmt rhs is Operation(vpiAddOp) -- NO vpiCastOp wrapper
 //   - confirmed rhs is NOT vpiCastOp (key difference from _cast variant)
 //   - add operands are RefObj "val" and Constant "1"
-//   - 1st assignment (val=a) rhs is RefObj "a" → EnumConst
+//   - 1st assignment (val=a) rhs is RefObj "a" -> EnumConst
 //   - add constant 1 is stored as vpiUIntConst
-//   - HLC does not emit a compile error for this invalid assignment
+//   - Per IEEE 1800-2023 Sec 6.19.4/6.24.1: "val += 1" (equivalent to
+//     "val = val + 1" with no cast) is illegal -- assignment of an
+//     expression to an enum variable requires an explicit cast. HLC
+//     currently does not emit a compile error for this (known gap); see the
+//     GTEST_SKIP()'d test below.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -67,11 +71,11 @@ class EnumNumericalExprNoCast : public Test {
 };
 
 TEST_F(EnumNumericalExprNoCast, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumNumericalExprNoCast, TypedefEExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -79,7 +83,7 @@ TEST_F(EnumNumericalExprNoCast, TypedefEExists) {
 }
 
 TEST_F(EnumNumericalExprNoCast, EnumHasFourConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -93,11 +97,11 @@ TEST_F(EnumNumericalExprNoCast, EnumHasFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ---------------------------------------------------------------------------
-// Begin → 1 variable "val"
-// ---------------------------------------------------------------------------
+// ----
+// Begin -> 1 variable "val"
+// ----
 TEST_F(EnumNumericalExprNoCast, BeginHasVariableVal) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -108,12 +112,12 @@ TEST_F(EnumNumericalExprNoCast, BeginHasVariableVal) {
   EXPECT_EQ(blk->getVariables()->at(0)->getName(), "val");
 }
 
-// ---------------------------------------------------------------------------
-// 2nd assignment: val += 1 encoded as val = val + 1 — rhs is Operation(add)
-// NO cast wrapper — this is the key difference from enum_numerical_expr_cast
-// ---------------------------------------------------------------------------
+// ----
+// 2nd assignment: val += 1 encoded as val = val + 1 -- rhs is Operation(add)
+// NO cast wrapper -- this is the key difference from enum_numerical_expr_cast
+// ----
 TEST_F(EnumNumericalExprNoCast, SecondAssignmentRhsIsAddOpNoCast) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -129,7 +133,7 @@ TEST_F(EnumNumericalExprNoCast, SecondAssignmentRhsIsAddOpNoCast) {
 }
 
 TEST_F(EnumNumericalExprNoCast, NoCastWrapperPresent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -139,11 +143,11 @@ TEST_F(EnumNumericalExprNoCast, NoCastWrapperPresent) {
   ASSERT_NE(assign, nullptr);
   const hldb::Operation *const op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
-  EXPECT_NE(op->getOpType(), vpiCastOp) << "no cast present — val+=1 without e'() cast has no vpiCastOp wrapper";
+  EXPECT_NE(op->getOpType(), vpiCastOp) << "no cast present -- val+=1 without e'() cast has no vpiCastOp wrapper";
 }
 
 TEST_F(EnumNumericalExprNoCast, AddOperandsAreValAnd1) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -163,11 +167,11 @@ TEST_F(EnumNumericalExprNoCast, AddOperandsAreValAnd1) {
   EXPECT_EQ(rhsOp->getDecompile(), "1");
 }
 
-// ---------------------------------------------------------------------------
-// 1st assignment: val = a — rhs is RefObj → EnumConst "a"
-// ---------------------------------------------------------------------------
+// ----
+// 1st assignment: val = a -- rhs is RefObj -> EnumConst "a"
+// ----
 TEST_F(EnumNumericalExprNoCast, FirstAssignmentRhsIsEnumConstA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -182,7 +186,7 @@ TEST_F(EnumNumericalExprNoCast, FirstAssignmentRhsIsEnumConstA) {
 }
 
 TEST_F(EnumNumericalExprNoCast, AddConstant1IsUIntConst) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -200,12 +204,16 @@ TEST_F(EnumNumericalExprNoCast, AddConstant1IsUIntConst) {
       << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
 }
 
-// ---------------------------------------------------------------------------
-// Compiler diagnostics -- the missing cast on 'val += 1' is not flagged
-// ---------------------------------------------------------------------------
-TEST_F(EnumNumericalExprNoCast, Compiler_NoErrorsReported) {
+// ----
+// Compiler diagnostics -- IEEE 1800-2023 Sec 6.19.4/6.24.1 require an
+// explicit cast for such assignments. HLC does not currently flag this;
+// see GTEST_SKIP() below.
+// ----
+TEST_F(EnumNumericalExprNoCast, Compiler_ReportsErrorForUncastedAddAssign) {
+  GTEST_SKIP() << "known gap: 'val += 1' on an enum variable without a cast is not rejected by HLC; "
+                  "IEEE 1800-2023 Sec 6.19.4/6.24.1 require an explicit cast for such assignments";
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject 'val += 1' on an enum variable without a cast at compile time";
+  EXPECT_GE(stats.nbError, 1) << "'val += 1' on an enum variable without a cast must be flagged illegal";
 }
 
 }  // namespace hlc

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,46 +14,46 @@
  limitations under the License.
 */
 
-// Spec-based validation of IEEE 1800-2017 §6.20.2 aggregate parameter.
+// Spec-based validation of IEEE 1800-2017 Sec 6.20.2 aggregate parameter.
 // SV: tests/Google/chapter-6/6.20.2--parameter_aggregate.sv
 //
 //   module top();
 //       parameter logic [31:0] p [3:0] = '{1, 2, 3, 4};
 //   endmodule
 //
-// ── §6.20.2 constructs under test ────────────────────────────────────────────
+// -- Sec 6.20.2 constructs under test ----
 //
 // A parameter with an explicit aggregate type:
-//   • `logic [31:0] p [3:0]` — static unpacked array of 4 elements, each a
+//   - `logic [31:0] p [3:0]` -- static unpacked array of 4 elements, each a
 //     32-bit logic vector. Surelog models this as ArrayTypespec whose
 //     element typespec is LogicTypespec with packed range [31:0].
-//   • `'{1, 2, 3, 4}` — assignment pattern literal (IEEE 1800-2017 §10.9.1).
+//   - `'{1, 2, 3, 4}` -- assignment pattern literal (IEEE 1800-2017 Sec 10.9.1).
 //     Surelog models this as an Operation with vpiOpType = vpiAssignmentPatternOp (75)
 //     and four Constant operands, one per element.
-//   • Each element literal is an unsized unsigned integer (vpiUIntConst = 9).
+//   - Each element literal is an unsized unsigned integer (vpiUIntConst = 9).
 //
-// ── UHDM tree (from log) ──────────────────────────────────────────────────
+// -- UHDM tree (from log) ----
 //
-//   Module name:work@top
-//   ├── vpiParameter (1 item)
-//   │   └── Parameter name:p
-//   │       └── vpiTypespec  RefTypespec → actual: ArrayTypespec
-//   │           ├── vpiArrayType: static (1)
-//   │           ├── vpiRange  Range [3:0]  (unpacked dimension)
-//   │           └── vpiElemTypespec  RefTypespec → actual: LogicTypespec
-//   │               └── vpiRange (1 item)  Range [31:0]  (packed dimension)
-//   └── vpiParamAssign (1 item)
-//       └── ParamAssign
-//           ├── vpiLhs  RefObj name:p → actual: Parameter name:p
-//           └── vpiRhs  Operation
-//               ├── vpiOpType: assign pattern (75)
-//               └── vpiOperand (4 items)
-//                   ├── Constant  vpiUIntConst(9)  value:"1"
-//                   ├── Constant  vpiUIntConst(9)  value:"2"
-//                   ├── Constant  vpiUIntConst(9)  value:"3"
-//                   └── Constant  vpiUIntConst(9)  value:"4"
+//   Module name:top
+//   |-- vpiParameter (1 item)
+//   |   `-- Parameter name:p
+//   |       `-- vpiTypespec  RefTypespec -> actual: ArrayTypespec
+//   |           |-- vpiArrayType: static (1)
+//   |           |-- vpiRange  Range [3:0]  (unpacked dimension)
+//   |           `-- vpiElemTypespec  RefTypespec -> actual: LogicTypespec
+//   |               `-- vpiRange (1 item)  Range [31:0]  (packed dimension)
+//   `-- vpiParamAssign (1 item)
+//       `-- ParamAssign
+//           |-- vpiLhs  RefObj name:p -> actual: Parameter name:p
+//           `-- vpiRhs  Operation
+//               |-- vpiOpType: assign pattern (75)
+//               `-- vpiOperand (4 items)
+//                   |-- Constant  vpiUIntConst(9)  value:"1"
+//                   |-- Constant  vpiUIntConst(9)  value:"2"
+//                   |-- Constant  vpiUIntConst(9)  value:"3"
+//                   `-- Constant  vpiUIntConst(9)  value:"4"
 //
-// ── VPI constants ─────────────────────────────────────────────────────────
+// -- VPI constants ----
 //   vpiAssignmentPatternOp = 75
 //   vpiStaticArray         =  1
 //   vpiUIntConst           =  9
@@ -85,12 +85,12 @@ class ParameterAggregateTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Parameter *getParam(const hldb::Design *d) {
@@ -143,10 +143,10 @@ TEST_F(ParameterAggregateTest, Parameter_Collection_HasOneEntry) {
 TEST_F(ParameterAggregateTest, Parameter_p_Exists) { EXPECT_NE(getParam(m_design), nullptr); }
 
 // ===========================================================================
-// ArrayTypespec — 'logic [31:0] p [3:0]'
+// ArrayTypespec -- 'logic [31:0] p [3:0]'
 // ===========================================================================
 
-// IEEE 1800-2017 §6.20.2: explicitly typed aggregate parameter resolves to
+// IEEE 1800-2017 Sec 6.20.2: explicitly typed aggregate parameter resolves to
 // an ArrayTypespec, not a LogicTypespec.
 TEST_F(ParameterAggregateTest, Parameter_p_TypespecIsArrayTypespec) {
   const hldb::Parameter *p = getParam(m_design);
@@ -157,7 +157,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_TypespecIsArrayTypespec) {
       << "parameter 'logic [31:0] p [3:0]' must have ArrayTypespec";
 }
 
-// '[3:0]' is a fixed-size unpacked dimension → static array.
+// '[3:0]' is a fixed-size unpacked dimension -> static array.
 TEST_F(ParameterAggregateTest, Parameter_p_ArrayType_IsStatic) {
   const hldb::ArrayTypespec *at = getArrayTypespec(m_design);
   ASSERT_NE(at, nullptr);
@@ -186,7 +186,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_ArrayRange_RightIs0) {
   EXPECT_EQ(std::string(right->getValue()), "0") << "unpacked dimension right bound must be 0";
 }
 
-// Element type is 'logic [31:0]' → LogicTypespec.
+// Element type is 'logic [31:0]' -> LogicTypespec.
 TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_IsLogicTypespec) {
   const hldb::ArrayTypespec *at = getArrayTypespec(m_design);
   ASSERT_NE(at, nullptr);
@@ -195,7 +195,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_IsLogicTypespec) {
       << "element typespec of 'logic [31:0] p [3:0]' must be LogicTypespec";
 }
 
-// §7.4.1: 'logic [31:0]' is a packed vector — explicit packed dimension makes
+// Sec 7.4.1: 'logic [31:0]' is a packed vector -- explicit packed dimension makes
 // the type a vector, not a scalar logic.
 TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_IsVector) {
   const hldb::LogicTypespec *lts = getElemLogicTypespec(m_design);
@@ -273,10 +273,10 @@ TEST_F(ParameterAggregateTest, ParamAssign_Lhs_ActualIsParameter) {
 }
 
 // ===========================================================================
-// ParamAssign RHS — assignment pattern '{1, 2, 3, 4}'
+// ParamAssign RHS -- assignment pattern '{1, 2, 3, 4}'
 // ===========================================================================
 
-// IEEE 1800-2017 §10.9.1: '{...}' is an assignment pattern expression.
+// IEEE 1800-2017 Sec 10.9.1: '{...}' is an assignment pattern expression.
 // Surelog models this as an Operation with vpiAssignmentPatternOp (75).
 TEST_F(ParameterAggregateTest, ParamAssign_Rhs_IsOperation) {
   const hldb::ParamAssign *pa = getParamAssign(m_design);
@@ -298,7 +298,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_OperandCount_IsFour) {
   EXPECT_EQ(op->getOperands()->size(), 4u) << "assignment pattern '{1,2,3,4}' must have 4 operands";
 }
 
-// Each element literal is an unsized unsigned integer (§5.7.1).
+// Each element literal is an unsized unsigned integer (Sec 5.7.1).
 TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_AreUnsignedIntConst) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
@@ -310,7 +310,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_AreUnsignedIntConst) 
   }
 }
 
-// §6.20.2: unsized decimal literals use the host integer width (64 bits).
+// Sec 6.20.2: unsized decimal literals use the host integer width (64 bits).
 TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_SizeIs64) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);

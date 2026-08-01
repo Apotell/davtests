@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,8 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
+#include <hlc/ErrorReporting/ErrorContainer.h>
+
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/identifier.h>
@@ -34,7 +36,7 @@ class PreProcMacroTest : public Test {
 
 // LRM 22.5.1: the module that exercises the macros must compile cleanly.
 TEST_F(PreProcMacroTest, TopModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile";
 }
 
@@ -169,6 +171,36 @@ TEST_F(PreProcMacroTest, AFlagMacroHasNoArguments) {
   ASSERT_NE(macro, nullptr);
   EXPECT_TRUE(macro->getArguments() == nullptr || macro->getArguments()->empty())
       << "A is a flag macro; getArguments() must be null or empty";
+}
+
+// ----
+// 2. Compiler directives generated via macro argument substitution
+//
+// MACRO_A's formal arguments check1/check2 default to the directive names
+// `ifdef`/`else` (or are passed `ifndef` at some call sites); inside the
+// macro body they appear as `` `check1 `` / `` `check2 `` immediately
+// followed by `` `endif ``. Per IEEE 1800-2023 Sec 22.5.1, "A formal
+// argument can be used in the macro text in the same manner as an
+// identifier" and "Any compiler directives appearing within the macro text
+// shall be ignored until the macro is used" -- i.e. `` `check1 `` must
+// first be replaced by the actual/default argument text (e.g. "ifdef"),
+// and only the resulting `` `ifdef `` is then processed as a real
+// directive. dut.sv's 8 calls to `MACRO_A should therefore compile
+// cleanly.
+// ----
+
+TEST_F(PreProcMacroTest, DirectiveGeneratedFromMacroArgumentCompilesCleanly) {
+  GTEST_SKIP() << "HLC's preprocessor looks up '`check1'/'`check2' as macro names directly (reporting "
+                  "[ERR:PP0102] Unknown macro \"check1\"/\"check2\") instead of first substituting the "
+                  "formal argument's actual/default text and then reinterpreting the result as a compiler "
+                  "directive, per IEEE 1800-2023 Sec 22.5.1 ('A formal argument can be used in the macro "
+                  "text in the same manner as an identifier' and 'compiler directives appearing within the "
+                  "macro text shall be ignored until the macro is used'). This currently cascades into 10 "
+                  "parser syntax errors across the 8 `MACRO_A(...) call sites in module top.";
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

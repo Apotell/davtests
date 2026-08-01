@@ -36,7 +36,7 @@
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
-//   Module name:work@top
+//   Module name:top
 //   +-- getParameters() (AnyCollection, 1 item)
 //   |   +-- [0] Parameter name:"p"  localParam: false
 //   +-- getParamAssigns() (ParamAssignCollection, 1 item)
@@ -78,7 +78,7 @@ class ParameterPortListTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
@@ -98,7 +98,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::strin
 // Module
 // ===========================================================================
 
-TEST_F(ParameterPortListTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(ParameterPortListTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
 // Parameter collection

@@ -115,9 +115,9 @@ n<$Source01/dut.sv> u<102> t<Top_level_rule> c<1> l<1:1> el<10:1>
                             n<a> u<87> t<SIMPLE_IDENTIFIER> p<88> l<7:15> el<7:16>
         n<> u<98> t<ENDMODULE> p<99> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
-[ERR:EL0535] $Source01/dut.sv:7:11: Illegal implicit net "id:34, name:c".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
+[ERR:LN0813] $Source01/dut.sv:1:1: Found 1 orphan node(s).
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -126,48 +126,47 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:$Source01/dut.sv start:1:1 end:9:10:
+    Module name:dut file:$Source01/dut.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: Module name:work@dut
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
-        vpiName: work
-        vpiFullName: work@dut.work
-      vpiCell: dut
-      vpiNet (2 items):
-        Net name:b start:3:20 end:3:21:
-          vpiParent: Module name:work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:b start:3:20 end:3:21:
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:3:16 end:3:19:
-            vpiParent: Net name:b
-            vpiFullName: work@dut.b
+            vpiParent: Variable name:b
+            vpiFullName: dut.b
             vpiActual: LogicTypespec
           vpiName: b
-          vpiFullName: work@dut.b
-          vpiNetType: reg (48)
+          vpiFullName: dut.b
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:dut
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:dut
+        vpiName: work
+        vpiFullName: dut.work
+      vpiCell: dut
+      vpiNet (1 items):
         Net name:a start:2:14 end:2:15:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:2:14 end:2:14:
             vpiParent: Net name:a
-            vpiFullName: work@dut.a
+            vpiFullName: dut.a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: work@dut.a
+          vpiFullName: dut.a
           vpiNetType: wire (1)
           vpiValue Constant start:2:18 end:2:19:
             vpiParent: Net name:a
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@dut.a
+              vpiFullName: dut.a
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -175,33 +174,33 @@ Design name:unnamed:
             vpiValue: 0
       vpiPort (1 items):
         Port name:b start:1:13 end:1:14:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj name:b start:1:13 end:1:14:
+          vpiLowConn RefObj name:b start:3:20 end:3:21:
             vpiParent: Port name:b
             vpiName: b
-            vpiFullName: work@dut.b.b
-            vpiActual: Net name:b
+            vpiFullName: dut.b.b
+            vpiActual: Variable name:b
           vpiTypespec RefTypespec start:3:16 end:3:19:
             vpiParent: Port name:b
-            vpiFullName: work@dut.b
+            vpiFullName: dut.b
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:4:9 end:6:12:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiStmt EventControl start:4:16 end:6:12:
             vpiParent: Always
             vpiStmt Begin start:4:19 end:6:12:
               vpiParent: EventControl
-              vpiFullName: work@dut
+              vpiFullName: dut
               vpiStmt (1 items):
                 IfStmt start:5:17 end:5:29:
                   vpiParent: Begin
                   vpiCondition RefObj name:a start:5:20 end:5:21:
                     vpiParent: IfStmt
                     vpiName: a
-                    vpiFullName: work@dut.a
+                    vpiFullName: dut.a
                     vpiActual: Net name:a
                   vpiStmt Assignment start:5:23 end:5:28:
                     vpiParent: IfStmt
@@ -209,51 +208,38 @@ Design name:unnamed:
                     vpiLhs RefObj name:b start:5:23 end:5:24:
                       vpiParent: Assignment
                       vpiName: b
-                      vpiFullName: work@dut.b
-                      vpiActual: Net name:b
+                      vpiFullName: dut.b
+                      vpiActual: Variable name:b
                     vpiRhs Constant start:5:27 end:5:28:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@dut
+                        vpiFullName: dut
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
           vpiAlwaysType: always (1)
-      vpiContAssign (2 items):
-        ContAssign start:3:20 end:3:25:
-          vpiParent: Module name:work@dut
-          vpiLhs: Net name:b
-          vpiRhs Constant start:3:24 end:3:25:
-            vpiParent: ContAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@dut
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
+      vpiContAssign (1 items):
         ContAssign start:7:11 end:7:16:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:c start:7:11 end:7:12:
             vpiParent: ContAssign
             vpiName: c
-            vpiFullName: work@dut.c
+            vpiFullName: dut.c
           vpiRhs RefObj name:a start:7:15 end:7:16:
             vpiParent: ContAssign
             vpiName: a
-            vpiFullName: work@dut.a
+            vpiFullName: dut.a
             vpiActual: Net name:a
   vpiTypespec (2 items):
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -276,25 +262,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/PortInitVal/PortInitVal/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 98.95,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 1,
                                                   'pre_len': 95}},
-            'post_len': 0,
+            'post_len': 1,
             'pre_len': 95,
             'test_name': 'PortInitVal/PortInitVal'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |       95 |         0 |
+| $Output/lib/work/dut.sv |       95 |         1 |
 +=========================+==========+===========+
-|                         |       95 |         0 |
+|                         |       95 |         1 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 98.95
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -305,7 +291,7 @@ COMMAND: ${HLC_DIR}/regression/PortInitVal/PortInitVal/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    33      33       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

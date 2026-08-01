@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +24,11 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
-//   - module has 1 TypedefTypespec "real_net" (alias→RealTypespec, resolutionFunc→RefObj→Function "real_sum")
+//   - design has module top
+//   - module has 1 TypedefTypespec "real_net" (alias->RealTypespec, resolutionFunc->RefObj->Function "real_sum")
 //   - module has 1 Function "real_sum": automatic, return=RealTypespec, 1 IODecl "driver" (input, ArrayTypespec)
 //   - function body: Begin with 2 stmts: blocking Assignment (real_sum=0.0, vpiRealConst), ForeachStmt
-//   - work@top has no nets, no continuous assignments
+//   - top has no nets, no continuous assignments
 //   - foreach body: real_sum += driver[i] is stored as a blocking Assignment
 //     with rhs Operation(add) of RefObj "real_sum" and BitSelect "driver[i]"
 //   - IODecl "driver" ArrayTypespec element typespec resolves to RealTypespec
@@ -64,21 +64,21 @@ class NettypeResolutionFn : public Test {
 };
 
 TEST_F(NettypeResolutionFn, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// TypedefTypespec "real_net" with alias → RealTypespec
-// ---------------------------------------------------------------------------
+// ----
+// TypedefTypespec "real_net" with alias -> RealTypespec
+// ----
 TEST_F(NettypeResolutionFn, ModuleHasOneTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 1u);
 }
 
 TEST_F(NettypeResolutionFn, NettypeIsTypedefTypespecNamedRealNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
@@ -87,7 +87,7 @@ TEST_F(NettypeResolutionFn, NettypeIsTypedefTypespecNamedRealNet) {
 }
 
 TEST_F(NettypeResolutionFn, NettypeAliasIsRealTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr);
@@ -97,11 +97,11 @@ TEST_F(NettypeResolutionFn, NettypeAliasIsRealTypespec) {
       << "nettype real real_net: base type alias is RealTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// TypedefTypespec has resolution function RefObj → Function "real_sum"
-// ---------------------------------------------------------------------------
+// ----
+// TypedefTypespec has resolution function RefObj -> Function "real_sum"
+// ----
 TEST_F(NettypeResolutionFn, NettypeHasResolutionFunction) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr);
@@ -111,7 +111,7 @@ TEST_F(NettypeResolutionFn, NettypeHasResolutionFunction) {
 }
 
 TEST_F(NettypeResolutionFn, ResolutionFunctionRefersToFunction) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr);
@@ -120,18 +120,18 @@ TEST_F(NettypeResolutionFn, ResolutionFunctionRefersToFunction) {
   EXPECT_NE(fnRef->getActual<hldb::Function>(), nullptr) << "RefObj vpiActual points to the Function node real_sum";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module contains exactly one task/function: Function "real_sum"
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(NettypeResolutionFn, ModuleHasOneTaskFunc) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
   EXPECT_EQ(top->getTaskFuncs()->size(), 1u);
 }
 
 TEST_F(NettypeResolutionFn, TaskFuncIsFunctionNamedRealSum) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
@@ -140,18 +140,18 @@ TEST_F(NettypeResolutionFn, TaskFuncIsFunctionNamedRealSum) {
 }
 
 TEST_F(NettypeResolutionFn, FunctionIsAutomatic) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
   EXPECT_TRUE(fn->getAutomatic()) << "automatic function keyword sets vpiAutomatic=true";
 }
 
-// ---------------------------------------------------------------------------
-// Function return type: RefTypespec → RealTypespec
-// ---------------------------------------------------------------------------
+// ----
+// Function return type: RefTypespec -> RealTypespec
+// ----
 TEST_F(NettypeResolutionFn, FunctionReturnTypeIsReal) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -160,11 +160,11 @@ TEST_F(NettypeResolutionFn, FunctionReturnTypeIsReal) {
   EXPECT_NE(ret->getActual<hldb::RealTypespec>(), nullptr) << "function real real_sum: return type is RealTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// Function parameter: IODecl "driver" (input, RefTypespec → ArrayTypespec)
-// ---------------------------------------------------------------------------
+// ----
+// Function parameter: IODecl "driver" (input, RefTypespec -> ArrayTypespec)
+// ----
 TEST_F(NettypeResolutionFn, FunctionHasOneIODecl) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -173,7 +173,7 @@ TEST_F(NettypeResolutionFn, FunctionHasOneIODecl) {
 }
 
 TEST_F(NettypeResolutionFn, IODeclNameIsDriver) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -183,7 +183,7 @@ TEST_F(NettypeResolutionFn, IODeclNameIsDriver) {
 }
 
 TEST_F(NettypeResolutionFn, IODeclIsInput) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -193,7 +193,7 @@ TEST_F(NettypeResolutionFn, IODeclIsInput) {
 }
 
 TEST_F(NettypeResolutionFn, IODeclTypespecIsArray) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -205,13 +205,13 @@ TEST_F(NettypeResolutionFn, IODeclTypespecIsArray) {
       << "real driver[] is an ArrayTypespec (dynamic array of real)";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Function body: Begin with 2 statements
 //   stmt[0]: Assignment real_sum = 0.0  (blocking)
 //   stmt[1]: ForeachStmt (driver[i] loop)
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(NettypeResolutionFn, FunctionBodyIsBeginWith2Statements) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -222,7 +222,7 @@ TEST_F(NettypeResolutionFn, FunctionBodyIsBeginWith2Statements) {
 }
 
 TEST_F(NettypeResolutionFn, FirstStmtIsBlockingAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -234,7 +234,7 @@ TEST_F(NettypeResolutionFn, FirstStmtIsBlockingAssignment) {
 }
 
 TEST_F(NettypeResolutionFn, FirstAssignmentRhsIsZeroPointZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -249,7 +249,7 @@ TEST_F(NettypeResolutionFn, FirstAssignmentRhsIsZeroPointZero) {
 }
 
 TEST_F(NettypeResolutionFn, SecondStmtIsForeachStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -259,26 +259,26 @@ TEST_F(NettypeResolutionFn, SecondStmtIsForeachStmt) {
   EXPECT_NE(loop, nullptr) << "foreach(driver[i]) is the second statement";
 }
 
-// --- structural completeness -----------------------------------------------
+// --- structural completeness ----
 
 TEST_F(NettypeResolutionFn, NoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "nettype declaration does not create a net instance in the module";
 }
 
 TEST_F(NettypeResolutionFn, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // foreach body: real_sum += driver[i] -> blocking Assignment, rhs = add(real_sum, driver[i])
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(NettypeResolutionFn, ForeachBodyIsCompoundAddAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -295,7 +295,7 @@ TEST_F(NettypeResolutionFn, ForeachBodyIsCompoundAddAssignment) {
 }
 
 TEST_F(NettypeResolutionFn, ForeachAssignmentRhsIsAddOfRealSumAndDriverIndex) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);
@@ -318,11 +318,11 @@ TEST_F(NettypeResolutionFn, ForeachAssignmentRhsIsAddOfRealSumAndDriverIndex) {
   EXPECT_EQ(rhsOp->getName(), "driver[i]");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // IODecl "driver" ArrayTypespec element type is RealTypespec
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(NettypeResolutionFn, IODeclArrayElementTypeIsReal) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fn, nullptr);

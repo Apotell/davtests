@@ -34,7 +34,7 @@ class MacroIvSvTest : public Test {
 
 // LRM 22.5.1: the module declared in macro_iv.sv must compile.
 TEST_F(MacroIvSvTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile";
 }
 

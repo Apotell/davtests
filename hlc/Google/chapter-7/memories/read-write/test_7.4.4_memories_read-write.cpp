@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,13 +26,17 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "mem"
-//   - net "mem": RefTypespec -> ArrayTypespec static(1), unpacked range
-//     [0:255], elem -> LogicTypespec with 1 packed Range [7:0]
+//   - design has module top with exactly 1 variable: "mem" (IEEE
+//     1800-2023 6.7/6.8: 'logic [7:0] mem [0:255]' has no net-type
+//     keyword, so it is a variable_declaration, not a net_declaration); it
+//     does not appear in getNets()
+//   - variable "mem": RefTypespec -> ArrayTypespec static(1), unpacked
+//     range [0:255], elem -> LogicTypespec with 1 packed Range [7:0]
 //   - Initial process: 1 Begin with 4 stmts (2 BitSelect Assignment + 2
 //     SysTaskCall)
 //   - Stmt[0]: blocking Assignment, lhs BitSelect "mem[5]" (prefix RefObj
-//     "mem" resolving Net "mem", Constant index "5"), rhs Constant "0"
+//     "mem" resolving Variable "mem", Constant index "5"), rhs Constant
+//     "0"
 //   - Stmt[1]: $display with 2 args (format ":assert: (%d == 0)" + BitSelect
 //     mem[5])
 //   - Stmt[2]: blocking Assignment, lhs BitSelect "mem[5]", rhs Constant "5"
@@ -70,12 +74,12 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -86,7 +90,7 @@ class MemoriesReadWriteTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();
@@ -97,21 +101,28 @@ class MemoriesReadWriteTest : public Test {
   }
 };
 
-// --- module / net --------------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(MemoriesReadWriteTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(MemoriesReadWriteTest, ModuleHasOneNet) {
+TEST_F(MemoriesReadWriteTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u)
+      << "6.7/6.8: 'logic [7:0] mem [0:255]' declared with no net-type keyword is a variable";
 }
 
-TEST_F(MemoriesReadWriteTest, NetMemIsArrayZeroToTwoFiveFiveOfLogicTypespec) {
+TEST_F(MemoriesReadWriteTest, ModuleHasNoNets) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const mem = hldb::findByName<hldb::Net>("mem", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in read-write.sv";
+}
+
+TEST_F(MemoriesReadWriteTest, VarMemIsArrayZeroToTwoFiveFiveOfLogicTypespec) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const mem = hldb::findByName<hldb::Variable>("mem", top->getVariables());
   ASSERT_NE(mem, nullptr);
   const hldb::ArrayTypespec *const at = mem->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -127,7 +138,7 @@ TEST_F(MemoriesReadWriteTest, NetMemIsArrayZeroToTwoFiveFiveOfLogicTypespec) {
   EXPECT_EQ(elem->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(MemoriesReadWriteTest, InitialBeginHasFourStmts) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -146,7 +157,7 @@ TEST_F(MemoriesReadWriteTest, FirstStmtAssignsZeroToMemFive) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "mem[5]");
   EXPECT_EQ(lhs->getPrefix<hldb::RefObj>()->getName(), "mem");
-  EXPECT_NE(lhs->getPrefix<hldb::RefObj>()->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr);
   EXPECT_EQ(lhs->getIndex<hldb::Constant>()->getDecompile(), "5");
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
@@ -201,7 +212,7 @@ TEST_F(MemoriesReadWriteTest, FourthStmtDisplaysMemFiveExpectingFive) {
   EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), "5");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(MemoriesReadWriteTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -212,7 +223,7 @@ TEST_F(MemoriesReadWriteTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(MemoriesReadWriteTest, DesignHasStringTypespec) {
@@ -235,7 +246,7 @@ TEST_F(MemoriesReadWriteTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime mem[5] value requires simulation --------------------
+// --- known gap: runtime mem[5] value requires simulation ----
 
 TEST_F(MemoriesReadWriteTest, RuntimeMemFiveValueRequiresSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates read-write.sv; it does not run a simulator, "

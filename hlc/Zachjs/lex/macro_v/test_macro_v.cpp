@@ -33,7 +33,7 @@ class MacroVTest : public Test {
 // macro.v defines a module 'top' that exercises various macro expansions.
 // It must compile cleanly (no preprocessing holes expected for this file).
 TEST_F(MacroVTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile cleanly from macro.v";
 }
 

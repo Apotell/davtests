@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,11 +22,11 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
-//   - module has exactly 1 net: 'v' (IntTypespec, no initial value)
-//   - 1 ContAssign: LHS RefObj "v" resolves to the net 'v'
-//   - ContAssign RHS is Constant "12" (vpiUIntConst — unsized integer)
-//   - work@top has no processes
+//   - design has module top
+//   - module has exactly 1 variable: 'v' (IntTypespec, no initial value)
+//   - 1 ContAssign: LHS RefObj "v" resolves to the variable 'v'
+//   - ContAssign RHS is Constant "12" (vpiUIntConst -- unsized integer)
+//   - top has no processes
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -38,9 +38,9 @@
 #include <hldb/design.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -52,43 +52,43 @@ class VariableAssignment : public Test {
 };
 
 TEST_F(VariableAssignment, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Net declaration — int v
-// ---------------------------------------------------------------------------
-TEST_F(VariableAssignment, NetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+// Variable declaration -- int v
+// ----
+TEST_F(VariableAssignment, VariableExists) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
+  ASSERT_NE(top->getVariables(), nullptr) << "module has no variables";
 
-  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
-  ASSERT_NE(v, nullptr) << "net 'v' not found in module";
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("v", top->getVariables());
+  ASSERT_NE(v, nullptr) << "variable 'v' not found in module";
 }
 
-TEST_F(VariableAssignment, NetHasTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(VariableAssignment, VariableHasTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
-  ASSERT_NE(v, nullptr) << "net 'v' not found";
-  EXPECT_NE(v->getTypespec(), nullptr) << "net 'v' has no typespec (expected IntTypespec)";
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("v", top->getVariables());
+  ASSERT_NE(v, nullptr) << "variable 'v' not found";
+  EXPECT_NE(v->getTypespec(), nullptr) << "variable 'v' has no typespec (expected IntTypespec)";
 }
 
-// ---------------------------------------------------------------------------
-// Continuous assignment — assign v = 12
-// ---------------------------------------------------------------------------
+// ----
+// Continuous assignment -- assign v = 12
+// ----
 TEST_F(VariableAssignment, ContAssignExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr) << "module has no continuous assignments";
   ASSERT_FALSE(top->getContAssigns()->empty()) << "continuous assignments list is empty";
 }
 
 TEST_F(VariableAssignment, ContAssignLhsReferencesV) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
@@ -101,7 +101,7 @@ TEST_F(VariableAssignment, ContAssignLhsReferencesV) {
 }
 
 TEST_F(VariableAssignment, ContAssignRhsIsConstant12) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
@@ -113,45 +113,46 @@ TEST_F(VariableAssignment, ContAssignRhsIsConstant12) {
   EXPECT_EQ(rhs->getDecompile(), "12") << "ContAssign RHS constant value is not '12'";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Additional structural checks
-// ---------------------------------------------------------------------------
-TEST_F(VariableAssignment, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+TEST_F(VariableAssignment, OneVariableExists) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly 1 net: 'v'";
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u) << "expected exactly 1 variable: 'v'";
 }
 
-TEST_F(VariableAssignment, NetVIsIntType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(VariableAssignment, VariableVIsIntType) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("v", top->getVariables());
   ASSERT_NE(v, nullptr);
   ASSERT_NE(v->getTypespec(), nullptr);
   EXPECT_NE(v->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "int keyword maps to IntTypespec";
 }
 
-TEST_F(VariableAssignment, NetVHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(VariableAssignment, VariableVHasNoInitialValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("v", top->getVariables());
   ASSERT_NE(v, nullptr);
   EXPECT_EQ(v->getValue<hldb::Any>(), nullptr)
-      << "int v; has no inline initializer — value comes from the assign statement";
+      << "int v; has no inline initializer -- value comes from the assign statement";
 }
 
-TEST_F(VariableAssignment, ContAssignLhsResolvesToNetV) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(VariableAssignment, ContAssignLhsResolvesToVariableV) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   const hldb::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr) << "ContAssign LHS RefObj 'v' should resolve to the net 'v'";
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr)
+      << "ContAssign LHS RefObj 'v' should resolve to the variable 'v'";
 }
 
 TEST_F(VariableAssignment, ContAssignRhsConstType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   const hldb::Constant *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::Constant>();
@@ -160,7 +161,7 @@ TEST_F(VariableAssignment, ContAssignRhsConstType) {
 }
 
 TEST_F(VariableAssignment, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
