@@ -14,21 +14,49 @@
  limitations under the License.
 */
 
-// Validates that two continuous assignments to the same variable are both
-// captured as ContAssign nodes (illegal in SV 6.5):
+// Tests for 6.5--variable_multiple_assignments.sv (tags: 6.5)
+//   :should_fail_because: it shall be an error to have multiple continuous assignments
 //   module top();
 //     int v;
 //     assign v = 12;
 //     assign v = 13;
 //   endmodule
 //
-// Checked:
-//   - design has module top
-//   - module has exactly 1 net: 'v' (int, no initial value)
-//   - 2 ContAssigns, both LHS RefObj "v": first RHS "12", second RHS "13"
+// What to check and why (IEEE 1800-2023 10.3.2, p.248-249, checked before
+// any test code was written):
+//   "Nets can be driven by multiple continuous assignments ... Variables
+//   can only be driven by ONE continuous assignment or by one primitive
+//   output or module output."
+//   "v" is declared "int" (a variable-type keyword, not in IEEE
+//   1800-2023 6.7's net_type list) and receives TWO continuous
+//   assignments -- legal for a net, illegal for a variable. This matches
+//   the file's own :should_fail_because: tag exactly.
+//
+//   A prior version of this test used hldb::Net/getNets() for "v" and
+//   had a Compiler_NoErrorsReported test asserting nbError == 0,
+//   documented as "HLC does not reject two continuous assignments...".
+//   Both encoded suspected/confirmed bugs as correct behavior. This
+//   version targets hldb::Variable for "v" (real bug if it resolves to
+//   Net instead), and asserts an error IS reported (real bug, currently
+//   failing).
+//
+// What is checked:
+//   - module top has zero Nets and exactly 1 Variable, "v" (int, no
+//     declaration-time initializer)
+//   - exactly 2 ContAssigns, both with LHS RefObj "v" resolving via
+//     getActual<hldb::Variable>() (not Net) to that same Variable;
+//     first RHS Constant "12", second RHS Constant "13"
+//   - both RHS constants have vpiConstType unsigned int (unsized integer
+//     literals)
 //   - top has no processes
-//   - HLC doesn't flag the multiple continuous assignments error
-//   - RHS constant types are vpiUIntConst (unsized integers)
+//   - THE POINT OF THIS FILE: the compiler should report at least one
+//     error for the two continuous assignments driving the same
+//     variable, per IEEE 1800-2023 10.3.2 quoted above -- a real,
+//     non-skipped, currently-failing assertion
+//
+// What is NOT checked and why:
+//   - none: every corner above is fully structural and checkable without
+//     simulation.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -39,121 +67,101 @@
 #include <hldb/constant.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
+#include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class VariableMultipleAssignments : public Test {
+class VariableMultipleAssignmentsTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.5--variable_multiple_assignments.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-TEST_F(VariableMultipleAssignments, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
-}
+// --- existence: module, and "v" as a Variable (not a Net) -----------------
 
-// ---------------------------------------------------------------------------
-// Net declaration — int v
-// ---------------------------------------------------------------------------
-TEST_F(VariableMultipleAssignments, NetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMultipleAssignmentsTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+
+TEST_F(VariableMultipleAssignmentsTest, ModuleHasNoNetsAndOneVariableV) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
-
-  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
-  ASSERT_NE(v, nullptr) << "net 'v' not found in module";
+  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
+      << "'int v' declares no net-type keyword anywhere in this file";
+  ASSERT_NE(top->getVariables(), nullptr)
+      << "'int v' should be a Variable; if this is null, hldb likely misclassified it as a Net";
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("v", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  EXPECT_NE(v->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+  EXPECT_EQ(v->getValue<hldb::Constant>(), nullptr) << "'int v;' has no inline initializer";
 }
 
-// ---------------------------------------------------------------------------
-// Two continuous assignments — assign v = 12; assign v = 13;
-// ---------------------------------------------------------------------------
-TEST_F(VariableMultipleAssignments, TwoContAssignsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr) << "module has no continuous assignments";
-  EXPECT_EQ(top->getContAssigns()->size(), 2u)
-      << "expected exactly 2 continuous assignments (assign v=12 and assign v=13)";
-}
+// --- shape: both continuous assignments target the same Variable ----------
 
-TEST_F(VariableMultipleAssignments, BothContAssignsTargetV) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMultipleAssignmentsTest, TwoContAssignsExist) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 2u);
+}
 
+TEST_F(VariableMultipleAssignmentsTest, BothContAssignsResolveToVariableVNotNet) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getContAssigns(), nullptr);
+  ASSERT_EQ(top->getContAssigns()->size(), 2u);
   for (const hldb::ContAssign *const ca : *top->getContAssigns()) {
     const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr) << "a ContAssign LHS is not a RefObj";
-    EXPECT_EQ(lhs->getName(), "v") << "a ContAssign LHS does not reference 'v'";
+    ASSERT_NE(lhs, nullptr);
+    EXPECT_EQ(lhs->getName(), "v");
+    EXPECT_EQ(lhs->getActual<hldb::Net>(), nullptr) << "'v' must not resolve to a Net";
+    EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr) << "'v' should resolve to the Variable";
   }
 }
 
-TEST_F(VariableMultipleAssignments, FirstContAssignRhsIsConstant12) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMultipleAssignmentsTest, FirstContAssignRhsIsConstantTwelve) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr);
-  ASSERT_GE(top->getContAssigns()->size(), 1u);
-
   const hldb::Constant *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr) << "first ContAssign RHS is not a Constant";
-  EXPECT_EQ(rhs->getDecompile(), "12") << "first ContAssign RHS value is not '12'";
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), "12");
+  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
 }
 
-TEST_F(VariableMultipleAssignments, SecondContAssignRhsIsConstant13) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMultipleAssignmentsTest, SecondContAssignRhsIsConstantThirteen) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr);
-  ASSERT_GE(top->getContAssigns()->size(), 2u);
-
   const hldb::Constant *const rhs = top->getContAssigns()->at(1)->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr) << "second ContAssign RHS is not a Constant";
-  EXPECT_EQ(rhs->getDecompile(), "13") << "second ContAssign RHS value is not '13'";
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), "13");
+  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
 }
 
-// ---------------------------------------------------------------------------
-// Structural completeness
-// ---------------------------------------------------------------------------
-TEST_F(VariableMultipleAssignments, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly 1 net: 'v'";
-}
+// --- absence: no procedural driver at all ----------------------------------
 
-TEST_F(VariableMultipleAssignments, NetVHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
-  ASSERT_NE(v, nullptr);
-  EXPECT_EQ(v->getValue<hldb::Any>(), nullptr) << "int v has no inline initializer";
-}
-
-TEST_F(VariableMultipleAssignments, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMultipleAssignmentsTest, NoProcesses) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-TEST_F(VariableMultipleAssignments, RhsConstantsAreUIntConst) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr);
-  ASSERT_EQ(top->getContAssigns()->size(), 2u);
-  EXPECT_EQ(top->getContAssigns()->at(0)->getRhs<hldb::Constant>()->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst (9)";
-  EXPECT_EQ(top->getContAssigns()->at(1)->getRhs<hldb::Constant>()->getConstType(), vpiUIntConst);
-}
+// --- the actual point of the file: two cont-assigns to a var is illegal ---
 
-// ---------------------------------------------------------------------------
-// Compiler diagnostics -- the multiple continuous assignments are not flagged
-// ---------------------------------------------------------------------------
-TEST_F(VariableMultipleAssignments, Compiler_NoErrorsReported) {
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject two continuous assignments driving the same net 'v'";
+TEST_F(VariableMultipleAssignmentsTest, CompilerShouldRejectTwoContinuousAssignmentsToOneVariableButDoesNot) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+      << "IEEE 1800-2023 10.3.2: 'variables can only be driven by one continuous assignment' -- "
+         "'v' has two here, matching this file's own :should_fail_because: tag -- HLC currently "
+         "accepts it with zero diagnostics";
 }
 
 }  // namespace hlc

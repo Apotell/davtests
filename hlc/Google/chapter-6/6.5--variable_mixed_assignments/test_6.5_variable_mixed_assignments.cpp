@@ -14,23 +14,60 @@
  limitations under the License.
 */
 
-// Validates the UHDM graph for a module that mixes continuous and procedural
-// assignments to the same variable (illegal in SV 6.5):
+// Tests for 6.5--variable_mixed_assignments.sv (tags: 6.5)
+//   :should_fail_because: mixing procedural and continuous assignments is illegal
 //   module top();
-//     wire clk = 0;  int v;
+//     wire clk = 0;
+//     int v;
 //     assign v = 12;
 //     always @(posedge clk) v <= ~v;
 //   endmodule
 //
-// Checked:
-//   - design has module top
-//   - module has exactly 2 nets: 'clk' (vpiWire, init vpiUIntConst "0") and 'v' (int, no init)
-//   - 1 ContAssign: LHS RefObj "v" resolves to net 'v', RHS Constant "12"
-//   - 1 Always process (vpiAlways): EventControl(@(posedge clk)) → Assignment v <= ~v
-//   - posedge operand RefObj "clk" resolves to the clk Net
-//   - Assignment is non-blocking (v <= ~v)
-//   - ~v operand is RefObj "v"
-//   - HLC doesn't flag the mixed continuous + procedural assignment error
+// What to check and why (IEEE 1800-2023 10.3.2, p.248-249, checked before
+// any test code was written):
+//   "Variables can only be driven by one continuous assignment or by one
+//   primitive output or module output. It shall be an error for a
+//   variable driven by a continuous assignment or output to have an
+//   initializer in the declaration OR ANY PROCEDURAL ASSIGNMENT."
+//   Here "v" (declared "int", a variable-type keyword -- IEEE 1800-2023
+//   6.7's net_type list never includes it) is driven by BOTH
+//   "assign v = 12;" (continuous) AND "v <= ~v;" inside the always block
+//   (procedural) -- exactly the combination the spec says "shall be an
+//   error." This matches the file's own :should_fail_because: tag
+//   precisely.
+//
+//   A prior version of this test (a) used hldb::Net/getNets() for "v",
+//   and (b) had a test named Compiler_NoErrorsReported asserting
+//   stats.nbError == 0, documented as "HLC does not reject mixing...".
+//   Both of those encoded suspected/confirmed bugs as if they were
+//   correct, passing behavior. This version instead: targets
+//   hldb::Variable for "v" (real bug if it still resolves to Net), and
+//   asserts errors ARE reported (real bug, currently failing, since HLC
+//   evidently does not catch this) -- matching the discipline of
+//   "generate the test case as it should be, not as it happens to pass."
+//
+// What is checked:
+//   - module top has exactly 1 Net, "clk" (wire is a real net-type
+//     keyword, IEEE 1800-2023 6.7 -- this classification is correct and
+//     unaffected by the bug being documented here), initial value "0"
+//   - module top has exactly 1 Variable, "v" (int -- must NOT resolve to
+//     a Net); "v" has no declaration-time initializer
+//   - exactly 1 ContAssign: LHS RefObj "v" resolves via
+//     getActual<hldb::Variable>() (not Net) to that Variable; RHS
+//     Constant "12"
+//   - exactly 1 Always process: EventControl(posedge clk) whose operand
+//     RefObj "clk" resolves to the clk Net; body is a non-blocking
+//     Assignment (v <= ~v) whose LHS RefObj "v" resolves via
+//     getActual<hldb::Variable>() to the same Variable, RHS is an
+//     Operation (vpiBitNegOp) over RefObj "v"
+//   - THE POINT OF THIS FILE: the compiler should report at least one
+//     error for the illegal continuous+procedural mix on "v", per IEEE
+//     1800-2023 10.3.2 quoted above -- this is a real, non-skipped,
+//     currently-failing assertion, not a passing "no errors" check
+//
+// What is NOT checked and why:
+//   - none: every corner above is fully structural and checkable without
+//     simulation.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -44,272 +81,130 @@
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/event_control.h>
+#include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/process_stmt.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class VariableMixedAssignments : public Test {
+class VariableMixedAssignmentsTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.5--variable_mixed_assignments.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-TEST_F(VariableMixedAssignments, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
-}
+// --- existence: module, clk as a real Net, v as a Variable -----------------
 
-// ---------------------------------------------------------------------------
-// Net declarations — wire clk = 0 and int v
-// ---------------------------------------------------------------------------
-TEST_F(VariableMixedAssignments, TwoNetsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
-  EXPECT_EQ(top->getNets()->size(), 2u) << "expected nets 'clk' and 'v'";
-}
+TEST_F(VariableMixedAssignmentsTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(VariableMixedAssignments, ClkNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMixedAssignmentsTest, ClkIsANetWireInitializedToZero) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("clk", top->getNets()), nullptr) << "net 'clk' not found";
-}
-
-TEST_F(VariableMixedAssignments, VNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("v", top->getNets()), nullptr) << "net 'v' not found";
-}
-
-TEST_F(VariableMixedAssignments, ClkNetIsWireType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
+  ASSERT_EQ(top->getNets()->size(), 1u) << "only 'clk' should be a Net; 'v' should be a Variable";
   const hldb::Net *const clk = hldb::findByName<hldb::Net>("clk", top->getNets());
   ASSERT_NE(clk, nullptr);
-  EXPECT_EQ(clk->getNetType(), vpiWire) << "expected clk to be a wire net";
+  EXPECT_EQ(clk->getNetType(), vpiWire) << "'wire' is a real IEEE 1800-2023 6.7 net-type keyword";
+  ASSERT_NE(clk->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(clk->getValue<hldb::Constant>()->getDecompile(), "0");
 }
 
-TEST_F(VariableMixedAssignments, ClkNetInitialValueIsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMixedAssignmentsTest, VIsAVariableNotANet) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const clk = hldb::findByName<hldb::Net>("clk", top->getNets());
-  ASSERT_NE(clk, nullptr);
-
-  const hldb::Constant *const init = clk->getValue<hldb::Constant>();
-  ASSERT_NE(init, nullptr) << "net 'clk' has no initial value Constant";
-  EXPECT_EQ(init->getDecompile(), "0") << "expected clk initial value '0'";
+  ASSERT_NE(top->getVariables(), nullptr)
+      << "'int v' should be a Variable; if this is null, hldb likely misclassified it as a Net";
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("v", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  EXPECT_NE(v->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+  EXPECT_EQ(v->getValue<hldb::Constant>(), nullptr) << "'int v;' has no inline initializer of its own";
 }
 
-// ---------------------------------------------------------------------------
-// Continuous assignment — assign v = 12
-// ---------------------------------------------------------------------------
-TEST_F(VariableMixedAssignments, ContAssignExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr) << "module has no continuous assignments";
-  EXPECT_EQ(top->getContAssigns()->size(), 1u);
-}
+// --- shape: continuous assignment to v ------------------------------------
 
-TEST_F(VariableMixedAssignments, ContAssignLhsIsV) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMixedAssignmentsTest, ContAssignLhsResolvesToVariableVNotNet) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
-
+  ASSERT_EQ(top->getContAssigns()->size(), 1u);
   const hldb::ContAssign *const ca = top->getContAssigns()->at(0);
   ASSERT_NE(ca, nullptr);
   const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr) << "ContAssign LHS is not a RefObj";
+  ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "v");
+  EXPECT_EQ(lhs->getActual<hldb::Net>(), nullptr) << "'v' must not resolve to a Net";
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr) << "'v' should resolve to the Variable";
 }
 
-TEST_F(VariableMixedAssignments, ContAssignRhsIsConstant12) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMixedAssignmentsTest, ContAssignRhsIsConstantTwelve) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr);
-
   const hldb::Constant *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr) << "ContAssign RHS is not a Constant";
+  ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "12");
 }
 
-// ---------------------------------------------------------------------------
-// Always block — always @(posedge clk) v <= ~v
-// ---------------------------------------------------------------------------
-TEST_F(VariableMixedAssignments, AlwaysProcessExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getProcesses(), nullptr) << "module has no processes";
-  EXPECT_EQ(top->getProcesses()->size(), 1u);
-}
+// --- shape: procedural assignment to the SAME v inside always -------------
 
-TEST_F(VariableMixedAssignments, AlwaysTypeIsAlways) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VariableMixedAssignmentsTest, AlwaysBlockIsPosedgeClkThenNonBlockingAssignToV) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
-
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr) << "process is not an Always";
+  ASSERT_EQ(top->getProcesses()->size(), 1u);
+  const hldb::Always *const always = any_cast<hldb::Always>(top->getProcesses()->at(0));
+  ASSERT_NE(always, nullptr);
   EXPECT_EQ(always->getAlwaysType(), vpiAlways);
-}
 
-TEST_F(VariableMixedAssignments, AlwaysStmtIsEventControl) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getProcesses(), nullptr);
-
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
-  EXPECT_NE(always->getStmt<hldb::EventControl>(), nullptr) << "always body is not an EventControl";
-}
-
-TEST_F(VariableMixedAssignments, EventControlConditionIsPosedge) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
-  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
-  ASSERT_NE(ec, nullptr);
-
-  const hldb::Operation *const cond = ec->getCondition<hldb::Operation>();
-  ASSERT_NE(cond, nullptr) << "EventControl condition is not an Operation";
-  EXPECT_EQ(cond->getOpType(), vpiPosedgeOp) << "expected posedge operation (vpiPosedgeOp=39)";
-}
-
-TEST_F(VariableMixedAssignments, EventControlConditionOperandIsClk) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
   const hldb::Operation *const cond = ec->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
+  EXPECT_EQ(cond->getOpType(), vpiPosedgeOp);
   ASSERT_NE(cond->getOperands(), nullptr);
   ASSERT_EQ(cond->getOperands()->size(), 1u);
+  const hldb::RefObj *const clkRef = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
+  ASSERT_NE(clkRef, nullptr);
+  EXPECT_EQ(clkRef->getName(), "clk");
+  EXPECT_NE(clkRef->getActual<hldb::Net>(), nullptr) << "'clk' operand should resolve to the real clk Net";
 
-  const hldb::RefObj *const operand = dynamic_cast<const hldb::RefObj *>((*cond->getOperands())[0]);
-  ASSERT_NE(operand, nullptr) << "posedge operand is not a RefObj";
-  EXPECT_EQ(operand->getName(), "clk");
-}
-
-TEST_F(VariableMixedAssignments, EventControlStmtIsAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
-  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
-  ASSERT_NE(ec, nullptr);
-  EXPECT_NE(ec->getStmt<hldb::Assignment>(), nullptr) << "EventControl body is not an Assignment";
-}
-
-TEST_F(VariableMixedAssignments, ProceduralAssignmentLhsIsV) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
-  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
-  ASSERT_NE(ec, nullptr);
   const hldb::Assignment *const assign = ec->getStmt<hldb::Assignment>();
   ASSERT_NE(assign, nullptr);
-
+  EXPECT_FALSE(assign->getBlocking()) << "'v <= ~v' is non-blocking";
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr) << "procedural assignment LHS is not a RefObj";
+  ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "v");
-}
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr)
+      << "the procedural assignment's LHS 'v' should resolve to the SAME Variable object the "
+         "continuous assignment above targets";
 
-TEST_F(VariableMixedAssignments, ProceduralAssignmentRhsIsBitwiseNeg) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
-  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
-  ASSERT_NE(ec, nullptr);
-  const hldb::Assignment *const assign = ec->getStmt<hldb::Assignment>();
-  ASSERT_NE(assign, nullptr);
-
-  const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(rhs, nullptr) << "procedural assignment RHS is not an Operation";
-  EXPECT_EQ(rhs->getOpType(), vpiBitNegOp) << "expected bitwise negation (vpiBitNegOp=4)";
-}
-
-TEST_F(VariableMixedAssignments, BitwiseNegOperandIsV) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
-  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
-  ASSERT_NE(ec, nullptr);
-  const hldb::Assignment *const assign = ec->getStmt<hldb::Assignment>();
-  ASSERT_NE(assign, nullptr);
   const hldb::Operation *const neg = assign->getRhs<hldb::Operation>();
   ASSERT_NE(neg, nullptr);
+  EXPECT_EQ(neg->getOpType(), vpiBitNegOp);
   ASSERT_NE(neg->getOperands(), nullptr);
   ASSERT_EQ(neg->getOperands()->size(), 1u);
-
-  const hldb::RefObj *const operand = dynamic_cast<const hldb::RefObj *>((*neg->getOperands())[0]);
-  ASSERT_NE(operand, nullptr) << "~v operand is not a RefObj";
-  EXPECT_EQ(operand->getName(), "v");
+  EXPECT_EQ(any_cast<hldb::RefObj>(neg->getOperands()->at(0))->getName(), "v");
 }
 
-// ---------------------------------------------------------------------------
-// Additional structural checks
-// ---------------------------------------------------------------------------
-TEST_F(VariableMixedAssignments, ProceduralAssignmentIsNonBlocking) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
-  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
-  ASSERT_NE(ec, nullptr);
-  const hldb::Assignment *const assign = ec->getStmt<hldb::Assignment>();
-  ASSERT_NE(assign, nullptr);
-  EXPECT_FALSE(assign->getBlocking()) << "v <= ~v is a non-blocking assignment (<=), getBlocking() must be false";
-}
+// --- the actual point of the file: this mix should be a compiler error ----
 
-TEST_F(VariableMixedAssignments, PosedgeClkResolvesToNetClk) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
-  ASSERT_NE(always, nullptr);
-  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
-  ASSERT_NE(ec, nullptr);
-  const hldb::Operation *const cond = ec->getCondition<hldb::Operation>();
-  ASSERT_NE(cond, nullptr);
-  ASSERT_NE(cond->getOperands(), nullptr);
-  const hldb::RefObj *const clkRef = dynamic_cast<const hldb::RefObj *>((*cond->getOperands())[0]);
-  ASSERT_NE(clkRef, nullptr);
-  EXPECT_NE(clkRef->getActual<hldb::Net>(), nullptr) << "posedge operand RefObj 'clk' should resolve to the clk Net";
-}
-
-TEST_F(VariableMixedAssignments, VNetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
-  ASSERT_NE(v, nullptr);
-  EXPECT_EQ(v->getValue<hldb::Any>(), nullptr) << "int v has no inline initializer";
-}
-
-TEST_F(VariableMixedAssignments, ContAssignLhsResolvesToNetV) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr);
-  const hldb::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr) << "ContAssign LHS RefObj 'v' should resolve to the net 'v'";
-}
-
-// ---------------------------------------------------------------------------
-// Compiler diagnostics -- the mixed continuous + procedural assignment is not flagged
-// ---------------------------------------------------------------------------
-TEST_F(VariableMixedAssignments, Compiler_NoErrorsReported) {
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject mixing a continuous and procedural assignment to 'v'";
+TEST_F(VariableMixedAssignmentsTest, CompilerShouldRejectMixedContinuousAndProceduralAssignmentButDoesNot) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+      << "IEEE 1800-2023 10.3.2: 'it shall be an error for a variable driven by a continuous "
+         "assignment ... to have ... any procedural assignment' -- 'v' has both here, matching "
+         "this file's own :should_fail_because: tag -- HLC currently accepts it with zero "
+         "diagnostics";
 }
 
 }  // namespace hlc
