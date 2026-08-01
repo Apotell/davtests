@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,14 +28,14 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//   - both variables: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - Initial process: 1 Begin with 5 stmts (3 Assignment + 2 SysFuncCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, hexadecimal Constant
 //     rhs ("8'hff" / "8'h00")
 //   - Stmt[2]: $display with 3 args (format + RefObj arr_a + RefObj arr_b)
 //   - Stmt[3]: arr_b[5] = arr_a[2] -- single-bit select assignment: lhs
-//     BitSelect "arr_b[5]" (prefix RefObj arr_b resolving the Net, index
+//     BitSelect "arr_b[5]" (prefix RefObj arr_b resolving the Variable, index
 //     Constant "5"), rhs BitSelect "arr_a[2]" (prefix RefObj arr_a, index
 //     Constant "2")
 //   - Stmt[4]: $display(":assert: ('%b' == '00100000')", arr_b)
@@ -63,7 +63,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -79,25 +79,25 @@ class PackedOnebitTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(PackedOnebitTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedOnebitTest, ModuleHasTwoNets) {
+TEST_F(PackedOnebitTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(PackedOnebitTest, NetArrAAndArrBAreBitTypespecRange7to0) {
+TEST_F(PackedOnebitTest, VariableArrAAndArrBAreBitTypespecRange7to0) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   ASSERT_NE(arrB, nullptr);
   const hldb::BitTypespec *const btA = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
@@ -105,7 +105,7 @@ TEST_F(PackedOnebitTest, NetArrAAndArrBAreBitTypespecRange7to0) {
   EXPECT_EQ(btA->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "7");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedOnebitTest, InitialBeginHasFiveStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -188,7 +188,7 @@ TEST_F(PackedOnebitTest, SecondDisplayAssertsBitPattern) {
   EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr_b");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedOnebitTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -217,7 +217,7 @@ TEST_F(PackedOnebitTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime value requires simulation -----------------------------
+// --- known gap: runtime value requires simulation ----
 
 TEST_F(PackedOnebitTest, RuntimeValueRequiresSimulation) {
   // GTEST_SKIP() << "This harness only compiles/elaborates onebit.sv; it does not run a simulator, so "

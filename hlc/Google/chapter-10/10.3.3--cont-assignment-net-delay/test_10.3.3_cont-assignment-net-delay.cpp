@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,29 +28,16 @@
 //     the delay in this file sits on the NET DECLARATION ("wire #10 w;"),
 //     not on the assign statement, so ContAssign::getDelay() correctly has
 //     nothing to report here
-//   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
+//   - net "w"'s own intrinsic delay ("#10" in "wire #10 w;") IS captured,
+//     via Net::getDelay() -> Constant "10" (hldb::Net has a dedicated
+//     m_delay/getDelay()/setDelay() field for exactly this purpose; see
+//     net.h). This mirrors how ContAssign::getDelay() captures a delay on
+//     the assignment statement itself (10.3.3--cont-assignment-delay.sv).
+//   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed) --
+//     the IntTypespec is reachable via the delay Constant's
+//     RefTypespec -> IntTypespec chain, not orphaned
 //   - compiler emits zero errors
 //   - no processes
-//
-// Known compiler gap: the net's own intrinsic delay ("#10" in
-// "wire #10 w;") is discarded during elaboration. Two independent pieces of
-// evidence:
-//   1. hldb::Net (net.h) has no delay-related field at all -- not
-//      getDelay(), not anything else -- unlike ContAssign, which does have
-//      getDelay() (see 10.3.3--cont-assignment-delay.sv, where an
-//      assignment-level "assign #10 w = ...;" delay IS captured that way).
-//   2. Despite that, the design-level typespec pool below still contains an
-//      IntTypespec (signed) -- the same kind of typespec used elsewhere for
-//      integer literal delays/constants -- even though nothing in the
-//      persisted tree (Net "w", the ContAssign, the Operation) references
-//      any Constant for "10". That IntTypespec is orphaned: the compiler
-//      evidently parses and type-checks the net's delay literal (that's
-//      the only explanation for the typespec's presence) and then drops
-//      the result instead of attaching it anywhere reachable. This is the
-//      same shape of bug as a compiler tagging something internally and
-//      then failing to link it back to where it belongs -- just with no
-//      existing getter to write a compiling "expected populated" assertion
-//      against, since Net has no delay field to check in the first place.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -59,6 +46,7 @@
 
 #include <hldb/Utils.h>
 #include <hldb/cont_assign.h>
+#include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
@@ -81,7 +69,7 @@ class ContAssignmentNetDelayTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets -----------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(ContAssignmentNetDelayTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -99,7 +87,15 @@ TEST_F(ContAssignmentNetDelayTest, ModuleHasThreeNetsAllWire) {
   }
 }
 
-// --- continuous assignment: no delay on the statement itself ---------------
+TEST_F(ContAssignmentNetDelayTest, ModuleHasNoVariables) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8: "a", "b" are ports defaulting to net,
+  // "w" is an explicit "wire" -- none should be a Variable.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr);
+}
+
+// --- continuous assignment: no delay on the statement itself ----
 
 TEST_F(ContAssignmentNetDelayTest, ContAssignHasNoDelayOfItsOwn) {
   const hldb::Module *const top = getTop();
@@ -118,19 +114,36 @@ TEST_F(ContAssignmentNetDelayTest, ContAssignHasNoDelayOfItsOwn) {
   EXPECT_EQ(op->getOpType(), vpiBitAndOp);
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- net "w" own intrinsic delay ("#10" on the declaration) ----
+
+TEST_F(ContAssignmentNetDelayTest, NetWHasOwnDelayOfTen) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const w = hldb::findByName<hldb::Net>("w", top->getNets());
+  ASSERT_NE(w, nullptr);
+  const hldb::Constant *const delay = w->getDelay<hldb::Constant>();
+  ASSERT_NE(delay, nullptr) << "'wire #10 w;' should capture its own delay on Net::getDelay()";
+  EXPECT_EQ(delay->getDecompile(), "10");
+  EXPECT_EQ(delay->getValue(), "10");
+}
+
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(ContAssignmentNetDelayTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
 }
 
-TEST_F(ContAssignmentNetDelayTest, DesignHasOrphanedSignedIntTypespecFromDiscardedNetDelay) {
-  // This IntTypespec has no reachable Constant referencing it anywhere in
-  // the persisted tree -- see the file-level comment above.
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
-  ASSERT_NE(it, nullptr);
+TEST_F(ContAssignmentNetDelayTest, DesignHasSignedIntTypespecReachableFromNetDelay) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const w = hldb::findByName<hldb::Net>("w", top->getNets());
+  ASSERT_NE(w, nullptr);
+  const hldb::Constant *const delay = w->getDelay<hldb::Constant>();
+  ASSERT_NE(delay, nullptr);
+  ASSERT_NE(delay->getTypespec(), nullptr);
+  const hldb::IntTypespec *const it = delay->getTypespec()->getActual<hldb::IntTypespec>();
+  ASSERT_NE(it, nullptr) << "IntTypespec should be reachable from the net delay Constant, not orphaned";
   EXPECT_TRUE(it->getSigned());
 }
 

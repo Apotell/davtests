@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +27,8 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 1 net "map"
-//   - net "map": ArrayTypespec vpiArrayType=associative(3), index typespec ->
+//   - design has module top with exactly 1 variable "map"
+//   - variable "map": ArrayTypespec vpiArrayType=associative(3), index typespec ->
 //     StringTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 5 stmts (3 Assignment + 2 SysFuncCall)
 //   - the 3 index assignments (map["hello"]=1, map["sad"]=2, map["world"]=3)
@@ -42,8 +42,8 @@
 //
 // Not checked:
 //   - RefObj "item" style unresolved actual() -- not applicable here since
-//     exists() takes an explicit argument and is not flagged as implicit net
-//     (confirmed directly below by NoImplicitNetErrorsUnlikeNoParensSizeDeleteNum)
+//     exists() takes an explicit argument and is not flagged as implicit variable
+//     (confirmed directly below by NoImplicitVariableErrorsUnlikeNoParensSizeDeleteNum)
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -65,7 +65,7 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
@@ -80,23 +80,23 @@ class AssociativeArrayExistsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / net -----------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(AssociativeArrayExistsTest, ModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(AssociativeArrayExistsTest, ModuleHasOneNet) {
+TEST_F(AssociativeArrayExistsTest, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(AssociativeArrayExistsTest, NetMapIsAssociativeArrayOfIntByString) {
+TEST_F(AssociativeArrayExistsTest, VariableMapIsAssociativeArrayOfIntByString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const map = hldb::findByName<hldb::Net>("map", top->getNets());
+  const hldb::Variable *const map = hldb::findByName<hldb::Variable>("map", top->getVariables());
   ASSERT_NE(map, nullptr);
   const hldb::ArrayTypespec *const at = map->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -107,7 +107,7 @@ TEST_F(AssociativeArrayExistsTest, NetMapIsAssociativeArrayOfIntByString) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(AssociativeArrayExistsTest, InitialBeginHasFiveStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -167,7 +167,7 @@ TEST_F(AssociativeArrayExistsTest, ThirdAssignmentSetsMapWorldToThree) {
   EXPECT_EQ(index->getValue(), "world");
 }
 
-// --- $display(":assert: (%d == 1)", map.exists("sad")) -----------------------
+// --- $display(":assert: (%d == 1)", map.exists("sad")) ----
 
 TEST_F(AssociativeArrayExistsTest, FirstDisplayFormatStringIsExistsAssertOne) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -199,7 +199,7 @@ TEST_F(AssociativeArrayExistsTest, FirstDisplaySecondArgIsMapExistsSad) {
   const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(mapRef, nullptr);
   EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "exists");
@@ -211,7 +211,7 @@ TEST_F(AssociativeArrayExistsTest, FirstDisplaySecondArgIsMapExistsSad) {
   EXPECT_EQ(arg->getValue(), "sad");
 }
 
-// --- $display(":assert: (%d == 0)", map.exists("happy")) ---------------------
+// --- $display(":assert: (%d == 0)", map.exists("happy")) ----
 
 TEST_F(AssociativeArrayExistsTest, SecondDisplayFormatStringIsExistsAssertZero) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -243,7 +243,7 @@ TEST_F(AssociativeArrayExistsTest, SecondDisplaySecondArgIsMapExistsHappy) {
   EXPECT_EQ(arg->getValue(), "happy");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssociativeArrayExistsTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -266,7 +266,7 @@ TEST_F(AssociativeArrayExistsTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(AssociativeArrayExistsTest, NoImplicitNetErrorsUnlikeNoParensSizeDeleteNum) {
+TEST_F(AssociativeArrayExistsTest, NoImplicitVariableErrorsUnlikeNoParensSizeDeleteNum) {
   // Confirms the "not applicable" note above: unlike map.size/map.delete/arr.num called
   // without parens elsewhere in this suite, map.exists(...) with an explicit argument never
   // triggers ELAB_ILLEGAL_IMPLICIT_NET, so there is no unresolved "item"-style RefObj here.

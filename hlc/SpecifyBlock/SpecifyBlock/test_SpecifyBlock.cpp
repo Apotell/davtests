@@ -14,20 +14,28 @@
  limitations under the License.
 */
 
-// Validates IEEE 1800-2017 Ch.30 specify block UHDM model produced by
+// Validates IEEE 1800-2023 Ch.30 specify block UHDM model produced by
 // Phase2ModelBuilder for the module in dut.sv.
 //
-// dut.sv covers:
-//   specparam tRise = 1                       -- SpecParam in stmts[0]
-//   pulsestyle_onevent / pulsestyle_ondetect  -- stubs, no UHDM output
-//   showcancelled / noshowcancelled           -- stubs, no UHDM output
-//   $setup(in1, posedge clk, tSetup)         -- Tchk in stmts[1]
-//   $hold(posedge clk, in1, tHold)           -- Tchk in stmts[2]
-//   $hold(negedge clk, in1, tHold)           -- Tchk in stmts[3]
-//   $hold(posedge clk, posedge in1, tHold)   -- Tchk in stmts[4]
+// dut.sv's specify block produces 61 stmts total:
+//   21 SpecParam       -- specparam declarations (including multi-name forms)
+//   11 ModPath         -- path_delay_expression declarations (a => zN), all
+//                         5 count forms (1/2/3/6/12-value) plus mintypmax and
+//                         specparam-reference variants
+//   4 PulseStyle       -- pulsestyle_onevent / pulsestyle_ondetect statements
+//   3 ShowCancelled    -- showcancelled / noshowcancelled statements
+//   22 Tchk            -- system_timing_check statements ($setup, $hold,
+//                         $recovery, $removal, $skew, $timeskew, $fullskew,
+//                         $setuphold, $recrem, $period, $width, $nochange,
+//                         plus notifier/condition/mintypmax edge-case forms)
+//
+// This test file exercises SpecParam (stmts[0]) and the first 4 Tchk objects
+// ($setup + 3x $hold) in detail; ModPath, PulseStyle, and ShowCancelled are
+// only checked via the aggregate stmt count above.
 //
 // getTchk(N) counts only Tchk objects so indices remain 0-3 regardless of
-// how many SpecParam objects precede them in stmts.
+// how many SpecParam/ModPath/PulseStyle/ShowCancelled objects precede them
+// in stmts.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -231,6 +239,12 @@ TEST_F(SpecifyBlockTest, Setup_RefTerm_Posedge) {
 //   reference_event          -> TchkRefTerm  (clk, posedge)
 //   Direct timing_check_event -> TchkDataTerm (in1, no edge)
 
+TEST_F(SpecifyBlockTest, Hold1_TchkType) {
+  const auto *tc = getTchk(1);
+  ASSERT_NE(tc, nullptr) << "Tchk[1] ($hold posedge clk) not found";
+  EXPECT_EQ(tc->getTchkType(), vpiHold);
+}
+
 TEST_F(SpecifyBlockTest, Hold1_RefTerm_Posedge) {
   const auto *tc = getTchk(1);
   ASSERT_NE(tc, nullptr) << "Tchk[1] ($hold posedge clk) not found";
@@ -259,6 +273,12 @@ TEST_F(SpecifyBlockTest, Hold1_DataTerm_NoEdge) {
 
 // --- Tchk[2]: $hold(negedge clk, in1, tHold) ---
 
+TEST_F(SpecifyBlockTest, Hold2_TchkType) {
+  const auto *tc = getTchk(2);
+  ASSERT_NE(tc, nullptr) << "Tchk[2] ($hold negedge clk) not found";
+  EXPECT_EQ(tc->getTchkType(), vpiHold);
+}
+
 TEST_F(SpecifyBlockTest, Hold2_RefTerm_Negedge) {
   const auto *tc = getTchk(2);
   ASSERT_NE(tc, nullptr) << "Tchk[2] ($hold negedge clk) not found";
@@ -276,6 +296,12 @@ TEST_F(SpecifyBlockTest, Hold2_DataTerm_NoEdge) {
 }
 
 // --- Tchk[3]: $hold(posedge clk, posedge in1, tHold) ---
+
+TEST_F(SpecifyBlockTest, Hold3_TchkType) {
+  const auto *tc = getTchk(3);
+  ASSERT_NE(tc, nullptr) << "Tchk[3] ($hold posedge in1) not found";
+  EXPECT_EQ(tc->getTchkType(), vpiHold);
+}
 
 TEST_F(SpecifyBlockTest, Hold3_RefTerm_Posedge) {
   const auto *tc = getTchk(3);

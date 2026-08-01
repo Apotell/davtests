@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,8 +36,10 @@
 // copy-pasted vpiSubOp left over from the "-=" file.
 //
 // Checked:
-//   - module top has exactly 3 nets, "a", "b", "c", all int
-//     (RefTypespec -> IntTypespec)
+//   - module top has exactly 3 variables, "a", "b", "c", all int
+//     (RefTypespec -> IntTypespec). Per IEEE 1800-2023 Sec 6.7/6.8: "int"
+//     has no net-type keyword and there is no port list, so all three are
+//     Variables, not Nets; module has no nets (getNets() is null).
 //   - the initial block is a Begin with exactly 3 statements:
 //       [0] blocking Assignment: lhs RefObj "c", rhs RefObj "a" --
 //           baseline snapshot before "a" is mutated
@@ -74,11 +76,11 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -98,24 +100,30 @@ class AssignmentInExpressionSimTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / nets ----
 
 TEST_F(AssignmentInExpressionSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(AssignmentInExpressionSimTest, ModuleHasThreeIntNets) {
+TEST_F(AssignmentInExpressionSimTest, ModuleHasThreeIntVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
   const char *const names[3] = {"a", "b", "c"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   }
 }
 
-// --- baseline snapshot + the nested compound assignment --------------------
+TEST_F(AssignmentInExpressionSimTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
+}
+
+// --- baseline snapshot + the nested compound assignment ----
 
 TEST_F(AssignmentInExpressionSimTest, InitialBlockHasThreeStatements) {
   const hldb::Begin *const blk = getInitialBody();
@@ -171,7 +179,7 @@ TEST_F(AssignmentInExpressionSimTest, DisplayAssertsBEqualsCPlusOne) {
   EXPECT_EQ(any_cast<hldb::Constant>(cPlusOne->getOperands()->at(1))->getDecompile(), "1");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssignmentInExpressionSimTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -187,7 +195,7 @@ TEST_F(AssignmentInExpressionSimTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- the actual point of the file: does "+=" really add at runtime -------
+// --- the actual point of the file: does "+=" really add at runtime ----
 
 TEST_F(AssignmentInExpressionSimTest, BEndsUpEqualToCPlusOne) {
   GTEST_SKIP() << "The source asserts b == c + 1 after 'c = a; b = (a += 1);' runs -- i.e. that "
@@ -199,12 +207,12 @@ TEST_F(AssignmentInExpressionSimTest, BEndsUpEqualToCPlusOne) {
   // exercise a real, currently-failing check -- not silently pass.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  // Net::getValue<T>() only ever exposes a declaration-time initializer;
-  // 'b' has none (it is assigned inside the initial block), so this is
-  // null today -- there is no field anywhere that captures what '+='
-  // actually produced at runtime.
+  // Variable::getValue<T>() only ever exposes a declaration-time
+  // initializer; 'b' has none (it is assigned inside the initial block), so
+  // this is null today -- there is no field anywhere that captures what
+  // '+=' actually produced at runtime.
   const hldb::Constant *const finalValue = b->getValue<hldb::Constant>();
   ASSERT_NE(finalValue, nullptr) << "no field captures b's post-assignment runtime value";
 }

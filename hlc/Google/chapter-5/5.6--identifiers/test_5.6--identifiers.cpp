@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,17 +15,17 @@
 */
 
 // Validates that all legal SV identifier forms are accepted and appear in UHDM:
-//   reg shiftreg_a;      — underscore in middle
-//   reg busa_index;      — underscore in middle
-//   reg error_condition; — underscore in middle
-//   reg merge_ab;        — underscore in middle
-//   reg _bus3;           — leading underscore
-//   reg n$657;           — dollar sign in identifier
-//   reg sensitive;       — lowercase
-//   reg Sensitive;       — uppercase start (case-distinct from 'sensitive')
+//   reg shiftreg_a;      -- underscore in middle
+//   reg busa_index;      -- underscore in middle
+//   reg error_condition; -- underscore in middle
+//   reg merge_ab;        -- underscore in middle
+//   reg _bus3;           -- leading underscore
+//   reg n$657;           -- dollar sign in identifier
+//   reg sensitive;       -- lowercase
+//   reg Sensitive;       -- uppercase start (case-distinct from 'sensitive')
 //
-// UHDM: Module name:identifiers with 8 Net nodes, all LogicTypespec.
-// Case sensitivity: 'sensitive' and 'Sensitive' are distinct nets.
+// UHDM: Module name:identifiers with 8 Variable nodes, all LogicTypespec.
+// Case sensitivity: 'sensitive' and 'Sensitive' are distinct variables.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -34,7 +34,7 @@
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -48,81 +48,88 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("identifiers", d->getAllModules());
 }
 
-static bool hasNet(const hldb::Module *m, std::string_view name) {
-  if (!m->getNets()) return false;
-  for (const hldb::Net *const n : *m->getNets())
-    if (n->getName() == name) return true;
-  return false;
+static bool hasVariable(const hldb::Module *m, std::string_view name) {
+  return hldb::findByName<hldb::Variable>(name, m->getVariables()) != nullptr;
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Identifiers, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'identifiers' not found"; }
 
-TEST_F(Identifiers, EightNetsExist) {
+TEST_F(Identifiers, EightVariablesExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 8u);
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 8u);
 }
 
-// ---------------------------------------------------------------------------
+// `reg` is a variable keyword, not a net-type keyword (IEEE 1800-2023 Sec
+// 6.7/6.8), so none of these 8 declarations should appear as Nets.
+TEST_F(Identifiers, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "'reg' declarations must not appear as Nets";
+}
+
+// ----
 // Standard identifiers with underscores
-// ---------------------------------------------------------------------------
-TEST_F(Identifiers, NetShiftregA) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "shiftreg_a")) << "net 'shiftreg_a' not found";
+// ----
+TEST_F(Identifiers, VariableShiftregA) {
+  EXPECT_TRUE(hasVariable(getTop(m_design), "shiftreg_a")) << "Variable 'shiftreg_a' not found";
 }
 
-TEST_F(Identifiers, NetBusaIndex) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "busa_index")) << "net 'busa_index' not found";
+TEST_F(Identifiers, VariableBusaIndex) {
+  EXPECT_TRUE(hasVariable(getTop(m_design), "busa_index")) << "Variable 'busa_index' not found";
 }
 
-TEST_F(Identifiers, NetErrorCondition) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "error_condition")) << "net 'error_condition' not found";
+TEST_F(Identifiers, VariableErrorCondition) {
+  EXPECT_TRUE(hasVariable(getTop(m_design), "error_condition")) << "Variable 'error_condition' not found";
 }
 
-TEST_F(Identifiers, NetMergeAb) { EXPECT_TRUE(hasNet(getTop(m_design), "merge_ab")) << "net 'merge_ab' not found"; }
+TEST_F(Identifiers, VariableMergeAb) {
+  EXPECT_TRUE(hasVariable(getTop(m_design), "merge_ab")) << "Variable 'merge_ab' not found";
+}
 
-// ---------------------------------------------------------------------------
+// ----
 // Leading-underscore identifier
-// ---------------------------------------------------------------------------
-TEST_F(Identifiers, NetBus3WithLeadingUnderscore) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "_bus3")) << "net '_bus3' (leading underscore) not found";
+// ----
+TEST_F(Identifiers, VariableBus3WithLeadingUnderscore) {
+  EXPECT_TRUE(hasVariable(getTop(m_design), "_bus3")) << "Variable '_bus3' (leading underscore) not found";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Dollar-sign identifier
-// ---------------------------------------------------------------------------
-TEST_F(Identifiers, NetN657WithDollarSign) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "n$657")) << "net 'n$657' (dollar sign) not found";
+// ----
+TEST_F(Identifiers, VariableN657WithDollarSign) {
+  EXPECT_TRUE(hasVariable(getTop(m_design), "n$657")) << "Variable 'n$657' (dollar sign) not found";
 }
 
-// ---------------------------------------------------------------------------
-// Case sensitivity: 'sensitive' and 'Sensitive' are distinct nets
-// ---------------------------------------------------------------------------
-TEST_F(Identifiers, NetSensitiveLowercase) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "sensitive")) << "net 'sensitive' (lowercase) not found";
+// ----
+// Case sensitivity: 'sensitive' and 'Sensitive' are distinct Variables
+// ----
+TEST_F(Identifiers, VariableSensitiveLowercase) {
+  EXPECT_TRUE(hasVariable(getTop(m_design), "sensitive")) << "Variable 'sensitive' (lowercase) not found";
 }
 
-TEST_F(Identifiers, NetSensitiveUppercase) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "Sensitive")) << "net 'Sensitive' (uppercase) not found";
+TEST_F(Identifiers, VariableSensitiveUppercase) {
+  EXPECT_TRUE(hasVariable(getTop(m_design), "Sensitive")) << "Variable 'Sensitive' (uppercase) not found";
 }
 
 TEST_F(Identifiers, SensitiveAndSensitiveAreDistinct) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
+  ASSERT_NE(m->getVariables(), nullptr);
 
-  const hldb::Net *lower = nullptr;
-  const hldb::Net *upper = nullptr;
-  for (const hldb::Net *const n : *m->getNets()) {
+  const hldb::Variable *lower = nullptr;
+  const hldb::Variable *upper = nullptr;
+  for (const hldb::Variable *const n : *m->getVariables()) {
     if (n->getName() == "sensitive") lower = n;
     if (n->getName() == "Sensitive") upper = n;
   }
   ASSERT_NE(lower, nullptr) << "'sensitive' not found";
   ASSERT_NE(upper, nullptr) << "'Sensitive' not found";
-  EXPECT_NE(lower, upper) << "'sensitive' and 'Sensitive' must be distinct nets";
+  EXPECT_NE(lower, upper) << "'sensitive' and 'Sensitive' must be distinct variables";
 }
 
 }  // namespace hlc

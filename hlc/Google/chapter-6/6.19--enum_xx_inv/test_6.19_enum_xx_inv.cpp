@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,8 +25,9 @@
 //   - anonymous EnumTypespec with explicit base BitTypespec (bit [1:0], 2-state)
 //   - 3 consts: a (vpiUIntConst "0"), b (vpiBinaryConst "2'bxx"), c (vpiUIntConst "1")
 //     (b is a direct Constant, NOT an Operation like {32{1'bx}} in enum_xx)
-//   - net "val" exists with typespec → EnumTypespec
-//   - net "val" has no initial value
+//   - variable "val" exists with typespec -> EnumTypespec (IEEE 1800-2023
+//     6.19/6.8: enum-typed declaration with no net-type keyword is a variable)
+//   - variable "val" has no initial value
 //   - top has no processes
 //   - HLC doesn't flag x values in 2-state enum as a semantic error
 
@@ -44,6 +45,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -58,9 +60,9 @@ TEST_F(EnumXxInv, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // EnumTypespec with explicit base type: bit [1:0] (2-state)
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(EnumXxInv, EnumBaseTypeIsBit) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -75,9 +77,9 @@ TEST_F(EnumXxInv, EnumBaseTypeIsBit) {
       << "enum bit[1:0] base type should resolve to BitTypespec (2-state)";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // 3 consts: a, b, c
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(EnumXxInv, EnumHasThreeConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -136,23 +138,32 @@ TEST_F(EnumXxInv, ConstCValueIsOne) {
   EXPECT_EQ(val->getDecompile(), "1");
 }
 
-// ---------------------------------------------------------------------------
-// Net "val" → EnumTypespec
-// ---------------------------------------------------------------------------
-TEST_F(EnumXxInv, NetValExists) {
+// ----
+// Variable "val" -> EnumTypespec
+// ----
+TEST_F(EnumXxInv, VariableValExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
+  const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
   EXPECT_NE(val->getTypespec()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
-TEST_F(EnumXxInv, NetValHasNoInitialValue) {
+TEST_F(EnumXxInv, VariableValHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
+  const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
+}
+
+// IEEE 1800-2023 Sec 6.7/6.8: `val` has no net-type keyword, so it is a
+// Variable, never a Net -- confirm the name is absent from the Net collection.
+TEST_F(EnumXxInv, VariableValNotInNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("val", top->getNets()) == nullptr)
+      << "'val' has no net-type keyword; it must not appear in the module's Net collection";
 }
 
 TEST_F(EnumXxInv, NoProcesses) {
@@ -161,12 +172,18 @@ TEST_F(EnumXxInv, NoProcesses) {
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
-// Compiler diagnostics -- x values on a 2-state (bit) enum base are not flagged
-// ---------------------------------------------------------------------------
-TEST_F(EnumXxInv, Compiler_NoErrorsReported) {
+// ----
+// Compiler diagnostics -- IEEE 1800-2023 Sec 6.19: "An enumerated name with x
+// or z assignments assigned to an enum with no explicit data type or an
+// explicit 2-state declaration shall be a syntax error." bit[1:0] is an
+// explicit 2-state base type, so 2'bxx is illegal here.
+// ----
+TEST_F(EnumXxInv, Compiler_ErrorReported) {
+  GTEST_SKIP() << "HLC does not reject x values on a 2-state bit-based enum at compile time; "
+                  "IEEE 1800-2023 Sec 6.19 requires this to be a syntax error. Fix pending.";
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject x values on a 2-state bit-based enum at compile time";
+  EXPECT_GT(stats.nbError, 0)
+      << "x/z assignment on an explicit 2-state enum base shall be a syntax error (IEEE 1800-2023 Sec 6.19)";
 }
 
 }  // namespace hlc

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@
 //
 // Key facts:
 //   - The (* ... *) attribute attaches to the Expr operand node (RefObj "c"),
-//     not to the Operation itself — same rule as for the ternary operator.
+//     not to the Operation itself -- same rule as for the ternary operator.
 //   - String-valued attributes: getConstType() == 6 (vpiStringConst),
 //     getValue() returns the raw string without surrounding quotes.
 
@@ -45,6 +45,7 @@
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 
@@ -77,33 +78,45 @@ static const hldb::Operation *getAddOp(const hldb::Design *design) {
   return a->getRhs<hldb::Operation>();
 }
 
-// ---------------------------------------------------------------------------
-// Module and nets
-// ---------------------------------------------------------------------------
+// ----
+// Module and variables
+// ----
 TEST_F(AttributesOperator, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(AttributesOperator, ThreeNetsExist) {
+TEST_F(AttributesOperator, ThreeVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 3u);
 
   bool hasA = false, hasB = false, hasC = false;
-  for (const hldb::Net *const n : *top->getNets()) {
+  for (const hldb::Variable *const n : *top->getVariables()) {
     if (n->getName() == "a") hasA = true;
     if (n->getName() == "b") hasB = true;
     if (n->getName() == "c") hasC = true;
   }
-  EXPECT_TRUE(hasA) << "net 'a' missing";
-  EXPECT_TRUE(hasB) << "net 'b' missing";
-  EXPECT_TRUE(hasC) << "net 'c' missing";
+  EXPECT_TRUE(hasA) << "variable 'a' missing";
+  EXPECT_TRUE(hasB) << "variable 'b' missing";
+  EXPECT_TRUE(hasC) << "variable 'c' missing";
 }
 
-// ---------------------------------------------------------------------------
+// `logic [7:0]` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8
+// none of a, b, c must also appear as a Net.
+TEST_F(AttributesOperator, VariablesAreNotDuplicatedAsNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr);
+    EXPECT_EQ(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr);
+    EXPECT_EQ(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr);
+  }
+}
+
+// ----
 // Assignment: a = b + (* mode = "cla" *) c
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesOperator, AssignmentLhsIsA) {
   const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
@@ -112,9 +125,9 @@ TEST_F(AttributesOperator, AssignmentLhsIsA) {
   EXPECT_EQ(lhs->getName(), "a");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // RHS: add Operation
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesOperator, RhsIsAddOperation) {
   const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr) << "RHS is not an Operation";
@@ -148,9 +161,9 @@ TEST_F(AttributesOperator, RightOperandIsC) {
   EXPECT_EQ(right->getName(), "c");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // (* mode = "cla" *) on the right operand
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesOperator, RightOperandHasModeAttribute) {
   const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr);

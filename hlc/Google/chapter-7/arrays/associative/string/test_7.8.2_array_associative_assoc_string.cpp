@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,8 @@
 //
 // Checked:
 //   - design has module top
-//   - module has exactly 1 net: 'arr' (assoc ArrayTypespec, idx=StringTypespec, elem=IntTypespec)
-//   - net has no initial value (plain declaration, no initializer)
+//   - module has exactly 1 variable: 'arr' (assoc ArrayTypespec, idx=StringTypespec, elem=IntTypespec)
+//   - variable has no initial value (plain declaration, no initializer)
 //   - top has no processes
 //   - top has no continuous assignments
 //
@@ -42,7 +42,7 @@
 #include <hldb/design.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 
@@ -54,35 +54,35 @@ class AssocString : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module ---------------------------------------------------------------
+// --- module ----
 
 TEST_F(AssocString, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-// --- net "arr" : int[string] ----------------------------------------------
+// --- variable "arr" : int[string] ----
 
-TEST_F(AssocString, ModuleHasOneNet) {
+TEST_F(AssocString, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(AssocString, NetNameIsArr) {
+TEST_F(AssocString, VariableNameIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
 }
 
-TEST_F(AssocString, NetHasAssociativeArrayTypespec) {
+TEST_F(AssocString, VariableHasAssociativeArrayTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
+  const hldb::Variable *const variable = top->getVariables()->at(0);
+  ASSERT_NE(variable, nullptr);
+  const hldb::RefTypespec *const rt = variable->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
   const hldb::ArrayTypespec *const at = rt->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -94,7 +94,7 @@ TEST_F(AssocString, AssocArrayKeyTypeIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getIndexTypespec(), nullptr);
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::StringTypespec>(), nullptr);
@@ -105,18 +105,18 @@ TEST_F(AssocString, AssocArrayValueTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(AssocString, NetHasNoInitialValue) {
-  // int arr[string] — plain declaration with no initializer
+TEST_F(AssocString, VariableHasNoInitialValue) {
+  // int arr[string] ? plain declaration with no initializer
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getValue<hldb::Any>(), nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->at(0)->getValue<hldb::Any>(), nullptr);
 }
 
 TEST_F(AssocString, NoProcesses) {

@@ -20,9 +20,10 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with 1 net ('a')
-//   - net 'a' RefTypespec vpiActual resolves to EventTypespec
-//   - net 'a' has no initial value
+//   - design has module top with 1 variable ('a') -- IEEE 1800-2023 6.8: an
+//     'event' declaration has no net-type keyword, so it is a variable, not a net
+//   - variable 'a' RefTypespec vpiActual resolves to EventTypespec
+//   - variable 'a' has no initial value
 //   - top has no processes
 //   - top has no continuous assignments
 
@@ -36,6 +37,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -49,27 +51,37 @@ TEST_F(EventType, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(EventType, OneNetExists) {
+TEST_F(EventType, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(EventType, ANetTypespecIsEvent) {
+TEST_F(EventType, ANotInNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'event' has no net-type keyword, so 'a'
+  // must not also be materialized as a Net.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("a", top->getNets()) == nullptr)
+      << "'event a' must not appear in vpiNet";
+}
+
+TEST_F(EventType, AVariableTypespecIsEvent) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::EventTypespec>(), nullptr) << "net 'a' typespec should resolve to EventTypespec";
+  EXPECT_NE(rts->getActual<hldb::EventTypespec>(), nullptr)
+      << "variable 'a' typespec should resolve to EventTypespec";
 }
 
-TEST_F(EventType, ANetHasNoInitialValue) {
+TEST_F(EventType, AVariableHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getValue<hldb::Any>(), nullptr);
 }

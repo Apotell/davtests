@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,7 @@
 //   getValue():   the digit string as written (e.g. "1001", "01x", "x", "z")
 //   getDecompile(): the full base-prefixed form (e.g. "4'b1001", "5'D3")
 //
-// Notable: uppercase base letter '5'D3' → constType decimal (1), decompile
+// Notable: uppercase base letter '5'D3' -> constType decimal (1), decompile
 // preserves the original capitalisation "5'D3".
 
 #include <hlc/Common/Session.h>
@@ -48,9 +48,9 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/process_stmt.h>
 #include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -79,21 +79,29 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t 
   return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module structure
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSized, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
-TEST_F(IntegersSized, FiveNetsExist) {
+TEST_F(IntegersSized, FiveVariablesExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 5u) << "expected 5 nets: a [3:0], b [4:0], c [2:0], d [11:0], e [15:0]";
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 5u) << "expected 5 variables: a [3:0], b [4:0], c [2:0], d [11:0], e [15:0]";
 }
 
-// ---------------------------------------------------------------------------
+// `logic` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 none of
+// a, b, c, d, e must appear in the module's net collection.
+TEST_F(IntegersSized, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "bare 'logic' declarations must not appear as Nets";
+}
+
+// ----
 // Initial block
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSized, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(IntegersSized, BeginHasFiveStatements) {
@@ -114,9 +122,9 @@ TEST_F(IntegersSized, AllAssignmentsAreBlocking) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// a = 4'b1001  — 4-bit binary constant
-// ---------------------------------------------------------------------------
+// ----
+// a = 4'b1001  -- 4-bit binary constant
+// ----
 TEST_F(IntegersSized, AssignmentA_ConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
@@ -142,9 +150,9 @@ TEST_F(IntegersSized, AssignmentA_getValue) {
   EXPECT_EQ(c->getValue(), "1001");
 }
 
-// ---------------------------------------------------------------------------
-// b = 5'D3  — 5-bit decimal, uppercase base letter 'D'
-// ---------------------------------------------------------------------------
+// ----
+// b = 5'D3  -- 5-bit decimal, uppercase base letter 'D'
+// ----
 TEST_F(IntegersSized, AssignmentB_ConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
@@ -172,9 +180,9 @@ TEST_F(IntegersSized, AssignmentB_getValue) {
   EXPECT_EQ(c->getValue(), "3");
 }
 
-// ---------------------------------------------------------------------------
-// c = 3'b01x  — 3-bit binary with unknown (X) LSB
-// ---------------------------------------------------------------------------
+// ----
+// c = 3'b01x  -- 3-bit binary with unknown (X) LSB
+// ----
 TEST_F(IntegersSized, AssignmentC_ConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
@@ -201,9 +209,9 @@ TEST_F(IntegersSized, AssignmentC_getValue) {
   EXPECT_EQ(c->getValue(), "01x");
 }
 
-// ---------------------------------------------------------------------------
-// d = 12'hx  — 12-bit all-unknown hexadecimal
-// ---------------------------------------------------------------------------
+// ----
+// d = 12'hx  -- 12-bit all-unknown hexadecimal
+// ----
 TEST_F(IntegersSized, AssignmentD_ConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
@@ -229,9 +237,9 @@ TEST_F(IntegersSized, AssignmentD_getValue) {
   EXPECT_EQ(c->getValue(), "x");
 }
 
-// ---------------------------------------------------------------------------
-// e = 16'hz  — 16-bit high-impedance hexadecimal
-// ---------------------------------------------------------------------------
+// ----
+// e = 16'hz  -- 16-bit high-impedance hexadecimal
+// ----
 TEST_F(IntegersSized, AssignmentE_ConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 4);
   ASSERT_NE(assign, nullptr);

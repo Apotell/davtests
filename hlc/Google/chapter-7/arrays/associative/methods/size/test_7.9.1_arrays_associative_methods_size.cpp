@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +29,8 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 1 net "arr"
-//   - net "arr": ArrayTypespec vpiArrayType=associative(3), index typespec ->
+//   - design has module top with exactly 1 variable "arr"
+//   - variable "arr": ArrayTypespec vpiArrayType=associative(3), index typespec ->
 //     IntTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 7 stmts (4 SysFuncCall + 3 Assignment)
 //   - all 4 $display calls: format string plus HierPath("arr.size") whose
@@ -49,13 +49,13 @@
 // Not checked:
 //   - RefObj "size" getActual() -- always null, this IS the compiler
 //     limitation being documented, not a gap in test coverage (see the
-//     skipped canary SizeRefObjShouldResolveOnceImplicitNetBugIsFixed below)
+//     skipped canary SizeRefObjShouldResolveOnceImplicitVariableBugIsFixed below)
 //
 // Compiler limitation (NOT a code error in size.sv):
 //   IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be called
 //   with or without parentheses. This HLC build never resolves the no-parens
 //   form and instead raises ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit
-//   net") for each of the 4 occurrences. size.sv is valid SystemVerilog; the
+//   variable") for each of the 4 occurrences. size.sv is valid SystemVerilog; the
 //   errors below are a known compiler/API limitation, not a defect in the
 //   test source.
 
@@ -80,7 +80,7 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
@@ -95,23 +95,23 @@ class AssociativeArraySizeTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / net -----------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(AssociativeArraySizeTest, ModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(AssociativeArraySizeTest, ModuleHasOneNet) {
+TEST_F(AssociativeArraySizeTest, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(AssociativeArraySizeTest, NetArrIsAssociativeArrayOfIntByInt) {
+TEST_F(AssociativeArraySizeTest, VariableArrIsAssociativeArrayOfIntByInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
+  const hldb::Variable *const arr = hldb::findByName<hldb::Variable>("arr", top->getVariables());
   ASSERT_NE(arr, nullptr);
   const hldb::ArrayTypespec *const at = arr->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -122,7 +122,7 @@ TEST_F(AssociativeArraySizeTest, NetArrIsAssociativeArrayOfIntByInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(AssociativeArraySizeTest, InitialBeginHasSevenStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -158,7 +158,7 @@ TEST_F(AssociativeArraySizeTest, FirstDisplayAssertsSizeEqualsZero) {
   const hldb::RefObj *const arrRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(arrRef, nullptr);
   EXPECT_EQ(arrRef->getName(), "arr");
-  EXPECT_NE(arrRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(arrRef->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
@@ -267,10 +267,10 @@ TEST_F(AssociativeArraySizeTest, FourthDisplayAssertsSizeEqualsThree) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
 }
 
-// --- known compiler limitation: skipped canary for a future fix -------------
+// --- known compiler limitation: skipped canary for a future fix ----
 
-TEST_F(AssociativeArraySizeTest, SizeRefObjShouldResolveOnceImplicitNetBugIsFixed) {
-  GTEST_SKIP() << "Known compiler limitation (EL0535 Illegal implicit net): HLC never resolves "
+TEST_F(AssociativeArraySizeTest, SizeRefObjShouldResolveOnceImplicitVariableBugIsFixed) {
+  GTEST_SKIP() << "Known compiler limitation (EL0535 Illegal implicit variable): HLC never resolves "
                   "the no-parens '.size' RefObj to a declared object. Re-enable this test once "
                   "that limitation is fixed.";
 
@@ -292,7 +292,7 @@ TEST_F(AssociativeArraySizeTest, SizeRefObjShouldResolveOnceImplicitNetBugIsFixe
   }
 }
 
-// --- design-level typespecs ----------------------------------------------------
+// --- design-level typespecs ----
 
 TEST_F(AssociativeArraySizeTest, DesignHasFiveTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -311,7 +311,7 @@ TEST_F(AssociativeArraySizeTest, DesignHasLogicTypespec) {
   EXPECT_NE(any_cast<hldb::LogicTypespec>(m_design->getTypespecs()->at(4)), nullptr);
 }
 
-// --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation --------
+// --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation ----
 
 TEST_F(AssociativeArraySizeTest, CompilerReportsExactlyFourErrorsNoFatalNoWarning) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
@@ -322,16 +322,16 @@ TEST_F(AssociativeArraySizeTest, CompilerReportsExactlyFourErrorsNoFatalNoWarnin
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(AssociativeArraySizeTest, ExactlyFourIllegalImplicitNetErrors) {
+TEST_F(AssociativeArraySizeTest, ExactlyFourIllegalImplicitVariableErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitNetErrors;
+  std::vector<Error> implicitVariableErrors;
   for (const Error &err : errors) {
     if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitNetErrors.push_back(err);
+      implicitVariableErrors.push_back(err);
     }
   }
-  ASSERT_TRUE(implicitNetErrors.empty());
+  ASSERT_TRUE(implicitVariableErrors.empty());
 }
 
 }  // namespace hlc

@@ -34,6 +34,7 @@
 #include <hldb/immediate_assert.h>
 #include <hldb/initial.h>
 #include <hldb/let_decl.h>
+#include <hldb/net.h>
 #include <hldb/property_decl.h>
 #include <hldb/restrict.h>
 #include <hldb/sequence_decl.h>
@@ -44,7 +45,7 @@
 namespace hlc {
 
 // ============================================================================
-// Test fixture — compiles tests/CheckerDeclarationAll/dut.sv once for all
+// Test fixture -- compiles tests/CheckerDeclarationAll/dut.sv once for all
 // test cases in this file.
 // ============================================================================
 class CheckerDeclTest : public Test {
@@ -66,10 +67,10 @@ class CheckerDeclTest : public Test {
 };
 
 // ============================================================================
-// Count — all 18 top-level checkers must be present in the design.
-// C1–C17 (file scope before module) + my_checker_global2 (file scope after module) = 18.
+// Count -- all 18 top-level checkers must be present in the design.
+// C1-C17 (file scope before module) + my_checker_global2 (file scope after module) = 18.
 // The nested "Inner" checker inside C12 is parented to C12, not to the design.
-// C1–C17 + my_checker_global2 = 18.
+// C1-C17 + my_checker_global2 = 18.
 // ============================================================================
 TEST_F(CheckerDeclTest, AllCheckersPresent) {
   ASSERT_NE(m_design->getCheckerDecls(), nullptr);
@@ -77,7 +78,7 @@ TEST_F(CheckerDeclTest, AllCheckersPresent) {
 }
 
 // ============================================================================
-// C1 — minimal checker: no port list, no body
+// C1 -- minimal checker: no port list, no body
 // ============================================================================
 TEST_F(CheckerDeclTest, C1_NoPortsNoBody_Exists) {
   const auto *c1 = findChecker("C1_NoPortsNoBody");
@@ -89,7 +90,7 @@ TEST_F(CheckerDeclTest, C1_NoPortsNoBody_Exists) {
 }
 
 // ============================================================================
-// C2 — all port formal-type variants
+// C2 -- all port formal-type variants
 // ============================================================================
 TEST_F(CheckerDeclTest, C2_PortCount) {
   const auto *c2 = findChecker("C2_PortFormalTypes");
@@ -119,7 +120,7 @@ TEST_F(CheckerDeclTest, C2_OutputPortDirection) {
 TEST_F(CheckerDeclTest, C2_OmittedDirectionDefaultsToInput) {
   const auto *c2 = findChecker("C2_PortFormalTypes");
   ASSERT_NE(c2, nullptr);
-  // no_dir_port has no direction keyword → must default to vpiInput
+  // no_dir_port has no direction keyword -> must default to vpiInput
   const auto *p = findPort(c2, "no_dir_port");
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getDirection(), vpiInput);
@@ -148,12 +149,12 @@ TEST_F(CheckerDeclTest, C2_DataTypedPortHasTypespec) {
   ASSERT_NE(c2, nullptr);
   const auto *clk = findPort(c2, "clk");
   ASSERT_NE(clk, nullptr);
-  // logic clk → typespec should be set
+  // logic clk -> typespec should be set
   EXPECT_NE(clk->getTypespec(), nullptr);
 }
 
 // ============================================================================
-// C3 — data declarations (plain + rand)
+// C3 -- data declarations (plain + rand)
 // ============================================================================
 TEST_F(CheckerDeclTest, C3_PortCount) {
   const auto *c3 = findChecker("C3_DataDecl");
@@ -179,8 +180,18 @@ TEST_F(CheckerDeclTest, C3_VariableNames) {
   EXPECT_NE(getByName<hldb::Variable>("byte_val", c3->getVariables()), nullptr);
 }
 
+// None of C3's declarations (state, r_state, counter, byte_val) use an
+// explicit net-type keyword -- per IEEE 1800-2023 Sec 6.7/6.8 they are all
+// Variables, never Nets, regardless of the `rand` qualifier or data type.
+TEST_F(CheckerDeclTest, C3_NoNetDuplicates) {
+  const auto *c3 = findChecker("C3_DataDecl");
+  ASSERT_NE(c3, nullptr);
+  EXPECT_TRUE(c3->getNets() == nullptr || c3->getNets()->empty())
+      << "checker C3_DataDecl declares no net-type keyword -- getNets() must be empty";
+}
+
 // ============================================================================
-// C4 — assertion_item_declaration: property, sequence, let + concurrent asserts
+// C4 -- assertion_item_declaration: property, sequence, let + concurrent asserts
 // ============================================================================
 TEST_F(CheckerDeclTest, C4_PortCount) {
   const auto *c4 = findChecker("C4_AssertionItemDecl");
@@ -216,7 +227,7 @@ TEST_F(CheckerDeclTest, C4_LetDecl) {
 TEST_F(CheckerDeclTest, C4_ConcurrentAssertions) {
   const auto *c4 = findChecker("C4_AssertionItemDecl");
   ASSERT_NE(c4, nullptr);
-  // assert property, assume property, cover property → 3 concurrent assertions
+  // assert property, assume property, cover property -> 3 concurrent assertions
   ASSERT_NE(c4->getConcurrentAssertions(), nullptr);
   EXPECT_EQ(c4->getConcurrentAssertions()->size(), 3u);
 }
@@ -237,7 +248,7 @@ TEST_F(CheckerDeclTest, C4_AssertLabel) {
 }
 
 // ============================================================================
-// C5 — restrict_property_statement + cover_sequence_statement
+// C5 -- restrict_property_statement + cover_sequence_statement
 // ============================================================================
 TEST_F(CheckerDeclTest, C5_PortCount) {
   const auto *c5 = findChecker("C5_RestrictCoverSeq");
@@ -256,13 +267,13 @@ TEST_F(CheckerDeclTest, C5_SequenceDecl) {
 TEST_F(CheckerDeclTest, C5_ConcurrentAssertions) {
   const auto *c5 = findChecker("C5_RestrictCoverSeq");
   ASSERT_NE(c5, nullptr);
-  // restrict property + cover sequence → 2 concurrent assertions
+  // restrict property + cover sequence -> 2 concurrent assertions
   ASSERT_NE(c5->getConcurrentAssertions(), nullptr);
   EXPECT_EQ(c5->getConcurrentAssertions()->size(), 2u);
 }
 
 // ============================================================================
-// C6 — function_declaration + continuous_assign
+// C6 -- function_declaration + continuous_assign
 // ============================================================================
 TEST_F(CheckerDeclTest, C6_PortCount) {
   const auto *c6 = findChecker("C6_FunctionDecl");
@@ -309,7 +320,7 @@ TEST_F(CheckerDeclTest, C6_ConcurrentAssertion) {
 }
 
 // ============================================================================
-// C7 — initial_construct, always_construct, final_construct
+// C7 -- initial_construct, always_construct, final_construct
 // ============================================================================
 TEST_F(CheckerDeclTest, C7_PortCount) {
   const auto *c7 = findChecker("C7_ProceduralItems");
@@ -328,7 +339,7 @@ TEST_F(CheckerDeclTest, C7_Variable) {
 TEST_F(CheckerDeclTest, C7_Processes) {
   const auto *c7 = findChecker("C7_ProceduralItems");
   ASSERT_NE(c7, nullptr);
-  // initial + always + final → 3 processes
+  // initial + always + final -> 3 processes
   ASSERT_NE(c7->getProcesses(), nullptr);
   EXPECT_EQ(c7->getProcesses()->size(), 3u);
 }
@@ -349,7 +360,7 @@ TEST_F(CheckerDeclTest, C7_ProcessTypes) {
 }
 
 // ============================================================================
-// C8 — clocking_declaration + default clocking + default disable iff
+// C8 -- clocking_declaration + default clocking + default disable iff
 // ============================================================================
 TEST_F(CheckerDeclTest, C8_PortCount) {
   const auto *c8 = findChecker("C8_ClockingDefault");
@@ -366,7 +377,7 @@ TEST_F(CheckerDeclTest, C8_ConcurrentAssertion) {
 }
 
 // ============================================================================
-// C9 — covergroup_declaration (covergroup handler is a no-op; variable remains)
+// C9 -- covergroup_declaration (covergroup handler is a no-op; variable remains)
 // ============================================================================
 TEST_F(CheckerDeclTest, C9_PortCount) {
   const auto *c9 = findChecker("C9_CovergroupDecl");
@@ -384,7 +395,7 @@ TEST_F(CheckerDeclTest, C9_CovergroupInstanceVariable) {
 }
 
 // ============================================================================
-// C10 — genvar_declaration + loop_generate_construct
+// C10 -- genvar_declaration + loop_generate_construct
 // ============================================================================
 TEST_F(CheckerDeclTest, C10_PortCount) {
   const auto *c10 = findChecker("C10_GenvarLoop");
@@ -396,13 +407,13 @@ TEST_F(CheckerDeclTest, C10_PortCount) {
 TEST_F(CheckerDeclTest, C10_GenvarVariable) {
   const auto *c10 = findChecker("C10_GenvarLoop");
   ASSERT_NE(c10, nullptr);
-  // genvar gi → Variable model auto-parented via getModelOnStack
+  // genvar gi -> Variable model auto-parented via getModelOnStack
   ASSERT_NE(c10->getVariables(), nullptr);
   EXPECT_NE(getByName<hldb::Variable>("gi", c10->getVariables()), nullptr);
 }
 
 // ============================================================================
-// C11 — conditional_generate_construct
+// C11 -- conditional_generate_construct
 // ============================================================================
 TEST_F(CheckerDeclTest, C11_PortCount) {
   const auto *c11 = findChecker("C11_ConditionalGen");
@@ -412,7 +423,7 @@ TEST_F(CheckerDeclTest, C11_PortCount) {
 }
 
 // ============================================================================
-// C12 — nested checker_declaration + checker_instantiation
+// C12 -- nested checker_declaration + checker_instantiation
 // ============================================================================
 TEST_F(CheckerDeclTest, C12_PortCount) {
   const auto *c12 = findChecker("C12_NestedChecker");
@@ -430,7 +441,7 @@ TEST_F(CheckerDeclTest, C12_InnerCheckerNotInDesign) {
 }
 
 // ============================================================================
-// C13 — deferred_immediate_assertion_item (#0 and final forms)
+// C13 -- deferred_immediate_assertion_item (#0 and final forms)
 // ============================================================================
 TEST_F(CheckerDeclTest, C13_PortCount) {
   const auto *c13 = findChecker("C13_DeferredImmediate");
@@ -442,13 +453,13 @@ TEST_F(CheckerDeclTest, C13_PortCount) {
 TEST_F(CheckerDeclTest, C13_DeferredAssertions) {
   const auto *c13 = findChecker("C13_DeferredImmediate");
   ASSERT_NE(c13, nullptr);
-  // assert #0 and assert final → ImmediateAssert × 2 → getAssertions()
+  // assert #0 and assert final -> ImmediateAssert x 2 -> getAssertions()
   ASSERT_NE(c13->getAssertions(), nullptr);
   EXPECT_EQ(c13->getAssertions()->size(), 2u);
 }
 
 // ============================================================================
-// C14 — empty semicolons in body + assertion
+// C14 -- empty semicolons in body + assertion
 // ============================================================================
 TEST_F(CheckerDeclTest, C14_PortCount) {
   const auto *c14 = findChecker("C14_EmptySemicolons");
@@ -465,7 +476,7 @@ TEST_F(CheckerDeclTest, C14_ConcurrentAssertion) {
 }
 
 // ============================================================================
-// C15 — attribute_instance on checker_or_generate_item
+// C15 -- attribute_instance on checker_or_generate_item
 // ============================================================================
 TEST_F(CheckerDeclTest, C15_PortCount) {
   const auto *c15 = findChecker("C15_AttributedItem");
@@ -489,7 +500,7 @@ TEST_F(CheckerDeclTest, C15_ConcurrentAssertion) {
 }
 
 // ============================================================================
-// C16 — empty body, single port
+// C16 -- empty body, single port
 // ============================================================================
 TEST_F(CheckerDeclTest, C16_SinglePort) {
   const auto *c16 = findChecker("C16_EmptyBody");
@@ -508,7 +519,7 @@ TEST_F(CheckerDeclTest, C16_EmptyBody) {
 }
 
 // ============================================================================
-// C2 — property_formal_type: all four formal types correctly stored
+// C2 -- property_formal_type: all four formal types correctly stored
 // ============================================================================
 TEST_F(CheckerDeclTest, C2_FormalType_Data) {
   const auto *c2 = findChecker("C2_PortFormalTypes");
@@ -543,7 +554,7 @@ TEST_F(CheckerDeclTest, C2_FormalType_Untyped) {
 }
 
 TEST_F(CheckerDeclTest, C2_FormalType_OmittedDirectionIsData) {
-  // "logic no_dir_port" has no direction keyword → direction defaults to vpiInput,
+  // "logic no_dir_port" has no direction keyword -> direction defaults to vpiInput,
   // formal type must be vpiFormalTypeData (data_type_or_implicit path).
   const auto *c2 = findChecker("C2_PortFormalTypes");
   ASSERT_NE(c2, nullptr);
@@ -553,12 +564,12 @@ TEST_F(CheckerDeclTest, C2_FormalType_OmittedDirectionIsData) {
 }
 
 // ============================================================================
-// C8 — default disable iff with plain expression (no dist)
+// C8 -- default disable iff with plain expression (no dist)
 // ============================================================================
 TEST_F(CheckerDeclTest, C8_DefaultDisableIff_PlainExpr) {
   const auto *c8 = findChecker("C8_ClockingDefault");
   ASSERT_NE(c8, nullptr);
-  // default disable iff rst; → plain Expr (RefObj for signal "rst")
+  // default disable iff rst; -> plain Expr (RefObj for signal "rst")
   ASSERT_NE(c8->getDefaultDisableIff(), nullptr);
   // Must be an Expr, not a Distribution
   EXPECT_TRUE(any_cast<hldb::Expr>(c8->getDefaultDisableIff()) != nullptr);
@@ -566,7 +577,7 @@ TEST_F(CheckerDeclTest, C8_DefaultDisableIff_PlainExpr) {
 }
 
 // ============================================================================
-// C17 — DEFAULT DISABLE IFF with dist clause
+// C17 -- DEFAULT DISABLE IFF with dist clause
 //        Tests dist_item / dist_list in checker body context.
 // ============================================================================
 TEST_F(CheckerDeclTest, C17_Exists) {
@@ -580,7 +591,7 @@ TEST_F(CheckerDeclTest, C17_DefaultDisableIff_Distribution) {
   const auto *c17 = findChecker("C17_DisableIffDist");
   ASSERT_NE(c17, nullptr);
   // default disable iff (mode dist {2'b01 := 80, 2'b10 := 20})
-  // → Distribution model stored as default_disable_iff
+  // -> Distribution model stored as default_disable_iff
   ASSERT_NE(c17->getDefaultDisableIff(), nullptr);
   const auto *dist = any_cast<hldb::Distribution>(c17->getDefaultDisableIff());
   ASSERT_NE(dist, nullptr) << "expected Distribution model for dist clause";
@@ -622,6 +633,32 @@ TEST_F(CheckerDeclTest, C17_ConcurrentAssertion) {
   ASSERT_NE(c17, nullptr);
   ASSERT_NE(c17->getConcurrentAssertions(), nullptr);
   EXPECT_EQ(c17->getConcurrentAssertions()->size(), 1u);
+}
+
+// ============================================================================
+// my_checker_global2 -- file-scope checker after the module, with untyped
+// (direction-omitted) property/sequence formal ports and a "global clocking"
+// declaration (IEEE 1800-2023 Sec 17.3 / Sec 14.4). It is only implicitly
+// exercised by AllCheckersPresent above (which just checks the total count);
+// this dedicated test verifies its global clocking block is actually modeled.
+// ============================================================================
+TEST_F(CheckerDeclTest, GlobalClockingChecker_Exists) {
+  const auto *gc = findChecker("my_checker_global2");
+  ASSERT_NE(gc, nullptr);
+}
+
+TEST_F(CheckerDeclTest, GlobalClockingChecker_HasGlobalClocking) {
+  const auto *gc = findChecker("my_checker_global2");
+  ASSERT_NE(gc, nullptr);
+  EXPECT_NE(gc->getGlobalClocking(), nullptr) << "global clocking block not modeled on my_checker_global2";
+}
+
+TEST_F(CheckerDeclTest, GlobalClockingChecker_ConcurrentAssertions) {
+  const auto *gc = findChecker("my_checker_global2");
+  ASSERT_NE(gc, nullptr);
+  // assert property (p) + cover property (s) -> 2 concurrent assertions
+  ASSERT_NE(gc->getConcurrentAssertions(), nullptr);
+  EXPECT_EQ(gc->getConcurrentAssertions()->size(), 2u);
 }
 }  // namespace hlc
 

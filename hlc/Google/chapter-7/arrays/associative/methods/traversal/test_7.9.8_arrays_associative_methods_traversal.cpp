@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,19 +27,19 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 3 nets: "map" (associative
+//   - design has module top with exactly 3 variables: "map" (associative
 //     array), "ix" (byte), "rc" (int)
 //   - module has exactly 2 typespecs: ByteTypespec (signed) and ArrayTypespec
-//   - net "map": ArrayTypespec vpiArrayType=associative(3), index typespec ->
+//   - variable "map": ArrayTypespec vpiArrayType=associative(3), index typespec ->
 //     ByteTypespec, elem typespec -> StringTypespec
-//   - net "ix": ByteTypespec; net "rc": IntTypespec
+//   - variable "ix": ByteTypespec; variable "rc": IntTypespec
 //   - Initial process: 1 Begin with 3 stmts (2 Assignment + 1 SysFuncCall)
 //   - map[1000]="a": BitSelect lhs with unsigned int Constant index (typespec
 //     IntTypespec, decompile/value "1000") and string Constant rhs
 //     (typespec StringTypespec, value "a") -- exercises an out-of-byte-range
 //     literal (1000 > 255) used as a byte-indexed associative array key
 //   - rc = map.first(ix): rhs HierPath "map.first(ix)" whose 2nd path elem is
-//     a MethodFuncCall "first" with 1 argument RefObj "ix" resolving to Net
+//     a MethodFuncCall "first" with 1 argument RefObj "ix" resolving to Variable
 //     ix
 //   - $display call and its RefObj("rc")/RefObj("ix") arguments
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec, IntTypespec
@@ -69,7 +69,7 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
@@ -84,17 +84,17 @@ class AssociativeArrayTraversalTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(AssociativeArrayTraversalTest, ModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(AssociativeArrayTraversalTest, ModuleHasThreeNets) {
+TEST_F(AssociativeArrayTraversalTest, ModuleHasThreeVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 3u);
 }
 
 TEST_F(AssociativeArrayTraversalTest, ModuleHasTwoTypespecs) {
@@ -106,10 +106,10 @@ TEST_F(AssociativeArrayTraversalTest, ModuleHasTwoTypespecs) {
   EXPECT_NE(any_cast<hldb::ArrayTypespec>(top->getTypespecs()->at(1)), nullptr);
 }
 
-TEST_F(AssociativeArrayTraversalTest, NetMapIsAssociativeArrayOfStringByByte) {
+TEST_F(AssociativeArrayTraversalTest, VariableMapIsAssociativeArrayOfStringByByte) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const map = hldb::findByName<hldb::Net>("map", top->getNets());
+  const hldb::Variable *const map = hldb::findByName<hldb::Variable>("map", top->getVariables());
   ASSERT_NE(map, nullptr);
   const hldb::ArrayTypespec *const at = map->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -120,23 +120,23 @@ TEST_F(AssociativeArrayTraversalTest, NetMapIsAssociativeArrayOfStringByByte) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(AssociativeArrayTraversalTest, NetIxIsByteTypespec) {
+TEST_F(AssociativeArrayTraversalTest, VariableIxIsByteTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const ix = hldb::findByName<hldb::Net>("ix", top->getNets());
+  const hldb::Variable *const ix = hldb::findByName<hldb::Variable>("ix", top->getVariables());
   ASSERT_NE(ix, nullptr);
   EXPECT_NE(ix->getTypespec<hldb::RefTypespec>()->getActual<hldb::ByteTypespec>(), nullptr);
 }
 
-TEST_F(AssociativeArrayTraversalTest, NetRcIsIntTypespec) {
+TEST_F(AssociativeArrayTraversalTest, VariableRcIsIntTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const rc = hldb::findByName<hldb::Net>("rc", top->getNets());
+  const hldb::Variable *const rc = hldb::findByName<hldb::Variable>("rc", top->getVariables());
   ASSERT_NE(rc, nullptr);
   EXPECT_NE(rc->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(AssociativeArrayTraversalTest, InitialBeginHasThreeStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -151,7 +151,7 @@ TEST_F(AssociativeArrayTraversalTest, InitialBeginHasThreeStmts) {
   EXPECT_EQ(begin->getStmts()->size(), 3u);
 }
 
-// --- map[1000]="a" ------------------------------------------------------------
+// --- map[1000]="a" ----
 
 TEST_F(AssociativeArrayTraversalTest, FirstAssignmentSetsMap1000ToA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -168,7 +168,7 @@ TEST_F(AssociativeArrayTraversalTest, FirstAssignmentSetsMap1000ToA) {
   const hldb::RefObj *const prefix = lhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr);
   EXPECT_EQ(prefix->getName(), "map");
-  EXPECT_NE(prefix->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(prefix->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const index = lhs->getIndex<hldb::Constant>();
   ASSERT_NE(index, nullptr);
   EXPECT_EQ(index->getConstType(), vpiUIntConst);
@@ -183,7 +183,7 @@ TEST_F(AssociativeArrayTraversalTest, FirstAssignmentSetsMap1000ToA) {
   EXPECT_NE(rhs->getTypespec<hldb::RefTypespec>()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-// --- rc = map.first(ix) --------------------------------------------------------
+// --- rc = map.first(ix) ----
 
 TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -197,7 +197,7 @@ TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "rc");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view("map.first(ix)"));
@@ -206,7 +206,7 @@ TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
   const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
   ASSERT_NE(mapRef, nullptr);
   EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "first");
@@ -215,7 +215,7 @@ TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "ix");
-  EXPECT_NE(arg->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
 }
 
 // --- $display(":assert: ( ('%0d' == '1') and ('%b' == '11101000') )", rc, ix) -
@@ -236,14 +236,14 @@ TEST_F(AssociativeArrayTraversalTest, DisplayAssertsRcAndIxFormatted) {
   const hldb::RefObj *const rcRef = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(rcRef, nullptr);
   EXPECT_EQ(rcRef->getName(), "rc");
-  EXPECT_NE(rcRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(rcRef->getActual<hldb::Variable>(), nullptr);
   const hldb::RefObj *const ixRef = any_cast<hldb::RefObj>(disp->getArguments()->at(2));
   ASSERT_NE(ixRef, nullptr);
   EXPECT_EQ(ixRef->getName(), "ix");
-  EXPECT_NE(ixRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(ixRef->getActual<hldb::Variable>(), nullptr);
 }
 
-// --- known gap: runtime values require simulation -----------------------------
+// --- known gap: runtime values require simulation ----
 
 TEST_F(AssociativeArrayTraversalTest, RuntimeValuesOfRcAndIxRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates traversal.sv; it does not run a simulator, "
@@ -262,7 +262,7 @@ TEST_F(AssociativeArrayTraversalTest, RuntimeValuesOfRcAndIxRequireSimulation) {
       << "expected rc == 1 and ix == 8'b11101000 (1000 truncated to a byte) after first()";
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssociativeArrayTraversalTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

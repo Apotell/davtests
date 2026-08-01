@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,9 +59,9 @@ TEST_F(ImplicitPort, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Nets — a, b (from ports) and c (internal wire) are all formally declared
-// ---------------------------------------------------------------------------
+// ----
+// Nets -- a, b (from ports) and c (internal wire) are all formally declared
+// ----
 TEST_F(ImplicitPort, ThreeNetsExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -85,7 +85,7 @@ TEST_F(ImplicitPort, CNetExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr)
-      << "net 'c' not found — it is a formally declared internal wire";
+      << "net 'c' not found -- it is a formally declared internal wire";
 }
 
 TEST_F(ImplicitPort, ANetTypeIsWire) {
@@ -128,9 +128,9 @@ TEST_F(ImplicitPort, BNetHasNoInitialValue) {
   EXPECT_EQ(b->getValue<hldb::Any>(), nullptr) << "port 'b' has no initializer";
 }
 
-// ---------------------------------------------------------------------------
-// Ports — only a and b; c is an internal wire, not a port
-// ---------------------------------------------------------------------------
+// ----
+// Ports -- only a and b; c is an internal wire, not a port
+// ----
 TEST_F(ImplicitPort, TwoPortsExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -159,7 +159,7 @@ TEST_F(ImplicitPort, CIsNotAPort) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Port>("c", top->getPorts()), nullptr)
-      << "'c' should not appear in vpiPort — it is an internal wire only";
+      << "'c' should not appear in vpiPort -- it is an internal wire only";
 }
 
 TEST_F(ImplicitPort, PortALowConnResolvesToNetA) {
@@ -186,9 +186,9 @@ TEST_F(ImplicitPort, PortBLowConnResolvesToNetB) {
   EXPECT_EQ(net->getName(), "b");
 }
 
-// ---------------------------------------------------------------------------
-// Continuous assignment — assign c = a | b
-// ---------------------------------------------------------------------------
+// ----
+// Continuous assignment -- assign c = a | b
+// ----
 TEST_F(ImplicitPort, ContAssignExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -204,7 +204,7 @@ TEST_F(ImplicitPort, ContAssignLhsIsCWithActual) {
   const hldb::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "c");
-  EXPECT_NE(lhs->getActual(), nullptr) << "'c' is formally declared — LHS RefObj should have a vpiActual";
+  EXPECT_NE(lhs->getActual(), nullptr) << "'c' is formally declared -- LHS RefObj should have a vpiActual";
 }
 
 TEST_F(ImplicitPort, ContAssignRhsIsBitOr) {
@@ -241,7 +241,7 @@ TEST_F(ImplicitPort, CNetHasNoInitialValue) {
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue<hldb::Any>(), nullptr)
-      << "internal wire 'c' has no initializer — only gets a value from the assign";
+      << "internal wire 'c' has no initializer -- only gets a value from the assign";
 }
 
 TEST_F(ImplicitPort, NoProcesses) {

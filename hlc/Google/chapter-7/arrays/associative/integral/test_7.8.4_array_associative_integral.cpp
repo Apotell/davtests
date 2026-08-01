@@ -21,8 +21,8 @@
 //
 // Checked:
 //   - design has module top
-//   - module has exactly 1 net: 'arr' (associative ArrayTypespec, idx=IntegerTypespec, elem=IntTypespec)
-//   - index type is IntegerTypespec (4-state `integer` keyword) — NOT IntTypespec (2-state `int`)
+//   - module has exactly 1 variable: 'arr' (associative ArrayTypespec, idx=IntegerTypespec, elem=IntTypespec)
+//   - index type is IntegerTypespec (4-state `integer` keyword) ? NOT IntTypespec (2-state `int`)
 //   - top has no processes
 //   - top has no continuous assignments
 //
@@ -42,7 +42,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
 
 namespace hlc {
@@ -58,26 +58,26 @@ TEST_F(Integral, ModuleExists) {
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(Integral, ModuleHasOneNet) {
+TEST_F(Integral, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Integral, NetNameIsArr) {
+TEST_F(Integral, VariableNameIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
 }
 
-TEST_F(Integral, NetHasAssociativeArrayTypespec) {
+TEST_F(Integral, VariableHasAssociativeArrayTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
+  const hldb::Variable *const variable = top->getVariables()->at(0);
+  ASSERT_NE(variable, nullptr);
+  const hldb::RefTypespec *const rt = variable->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
   const hldb::ArrayTypespec *const at = rt->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -90,18 +90,18 @@ TEST_F(Integral, AssocArrayKeyTypeIsInteger) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getIndexTypespec(), nullptr);
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntegerTypespec>(), nullptr);
 }
 
 TEST_F(Integral, AssocArrayKeyTypeIsNotInt) {
-  // Confirm it is NOT IntTypespec — `integer` and `int` are different types
+  // Confirm it is NOT IntTypespec ? `integer` and `int` are different types
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getIndexTypespec(), nullptr);
   EXPECT_EQ(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -111,7 +111,7 @@ TEST_F(Integral, AssocArrayValueTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);

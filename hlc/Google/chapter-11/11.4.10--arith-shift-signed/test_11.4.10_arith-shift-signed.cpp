@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,8 +41,11 @@
 //     range [7:0], vpiVector true, and critically vpiSigned true --
 //     contrasting with the unsigned sibling file, whose LogicTypespec has
 //     no vpiSigned flag set
-//   - module top has exactly 3 nets, "a", "b", "c", each resolving
-//     to that same signed [7:0] LogicTypespec
+//   - module top has exactly 3 variables, "a", "b", "c", each resolving
+//     to that same signed [7:0] LogicTypespec. Per IEEE 1800-2023 Sec
+//     6.7/6.8: "logic" has no net-type keyword and there is no port list,
+//     so all three are Variables, not Nets; module has no nets
+//     (getNets() is null).
 //   - the initial block is a Begin with exactly 5 statements:
 //       [0] blocking Assignment: lhs RefObj "a", rhs an Operation
 //           (vpiMinusOp, 1 operand: Constant "120") -- i.e. "-120" is a
@@ -82,11 +85,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -106,7 +109,7 @@ class ArithShiftSignedTest : public Test {
   }
 };
 
-// --- module-level typespec: signed 8-bit vector ---------------------------
+// --- module-level typespec: signed 8-bit vector ----
 
 TEST_F(ArithShiftSignedTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -125,19 +128,25 @@ TEST_F(ArithShiftSignedTest, ModuleHasOneSignedEightBitLogicTypespec) {
   EXPECT_EQ(lt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-TEST_F(ArithShiftSignedTest, ModuleHasThreeNetsAllSharingTheSignedTypespec) {
+TEST_F(ArithShiftSignedTest, ModuleHasThreeVariablesAllSharingTheSignedTypespec) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
   const char *const names[3] = {"a", "b", "c"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    const hldb::LogicTypespec *const lt = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    const hldb::LogicTypespec *const lt = var->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(lt, nullptr);
     EXPECT_TRUE(lt->getSigned());
   }
+}
+
+TEST_F(ArithShiftSignedTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
 }
 
 // --- the point of the file: unary-minus literal + signed arithmetic shifts -
@@ -211,7 +220,7 @@ TEST_F(ArithShiftSignedTest, LastTwoStatementsAssertShiftResults) {
   EXPECT_EQ(any_cast<hldb::RefObj>(dispC->getArguments()->at(1))->getName(), "c");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(ArithShiftSignedTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -227,7 +236,7 @@ TEST_F(ArithShiftSignedTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- the actual point of the file: signed arithmetic shift semantics -----
+// --- the actual point of the file: signed arithmetic shift semantics ----
 
 TEST_F(ArithShiftSignedTest, BEqualsSixtyFourAndCEqualsNegativeFifteen) {
   GTEST_SKIP() << "The source asserts b == 64 (a << 3 wrapping within 8 signed bits) and c == "
@@ -241,13 +250,13 @@ TEST_F(ArithShiftSignedTest, BEqualsSixtyFourAndCEqualsNegativeFifteen) {
   ASSERT_NE(top, nullptr);
   const char *const names[2] = {"b", "c"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    // Net::getValue<T>() only ever exposes a declaration-time initializer;
-    // neither b nor c has one (both are assigned inside the initial
-    // block), so this is null today -- there is no field anywhere that
-    // captures the sign-extended shift result at runtime.
-    ASSERT_NE(net->getValue<hldb::Constant>(), nullptr) << names[i] << "'s runtime value is not "
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    // Variable::getValue<T>() only ever exposes a declaration-time
+    // initializer; neither b nor c has one (both are assigned inside the
+    // initial block), so this is null today -- there is no field anywhere
+    // that captures the sign-extended shift result at runtime.
+    ASSERT_NE(var->getValue<hldb::Constant>(), nullptr) << names[i] << "'s runtime value is not "
                                                              "captured anywhere in the object model";
   }
 }

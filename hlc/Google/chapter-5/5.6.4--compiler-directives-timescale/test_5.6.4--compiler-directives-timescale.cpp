@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,8 +23,8 @@
 //   endmodule
 //
 // UHDM encodes time values as powers-of-10 exponents (SI notation):
-//   1 ns = 10^-9  → vpiTimeUnit      = -9
-//   1 ps = 10^-12 → vpiTimePrecision = -12
+//   1 ns = 10^-9  -> vpiTimeUnit      = -9
+//   1 ps = 10^-12 -> vpiTimePrecision = -12
 //
 // Both the SourceFile and the Module receive the same timescale values.
 
@@ -54,9 +54,9 @@ static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
   return (*d->getSourceFiles())[0];
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesTimescale, ModuleExists) {
   ASSERT_NE(getTop(m_design), nullptr) << "module 'ts' not found";
 }
@@ -68,12 +68,12 @@ TEST_F(CompilerDirectivesTimescale, ModuleIsEmpty) {
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
-// Module timescale — `timescale 1 ns / 1 ps
+// ----
+// Module timescale -- `timescale 1 ns / 1 ps
 // Time values are stored as powers-of-10 exponents:
-//   1 ns → -9   (10^-9 seconds)
-//   1 ps → -12  (10^-12 seconds)
-// ---------------------------------------------------------------------------
+//   1 ns -> -9   (10^-9 seconds)
+//   1 ps -> -12  (10^-12 seconds)
+// ----
 TEST_F(CompilerDirectivesTimescale, ModuleTimeUnitIsNanosecond) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
@@ -86,9 +86,9 @@ TEST_F(CompilerDirectivesTimescale, ModuleTimePrecisionIsPicosecond) {
   EXPECT_EQ(m->getTimePrecision(), -12) << "time precision should be -12 (1 ps = 10^-12 s)";
 }
 
-// ---------------------------------------------------------------------------
-// SourceFile timescale — same values propagated to the file scope
-// ---------------------------------------------------------------------------
+// ----
+// SourceFile timescale -- same values propagated to the file scope
+// ----
 TEST_F(CompilerDirectivesTimescale, SourceFileTimeUnitIsNanosecond) {
   const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);

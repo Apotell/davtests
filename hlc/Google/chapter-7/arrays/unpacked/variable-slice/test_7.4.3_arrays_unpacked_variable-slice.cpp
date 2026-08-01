@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,10 +30,13 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> ArrayTypespec static(1) range [7:0], elem
-//     -> BitTypespec -- the SAME (shared) BitTypespec instance for both
-//     nets
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//     (IEEE 1800-2023 6.7/6.8: 'bit arr_a/arr_b [7:0]' has no net-type
+//     keyword, so it is a variable_declaration, not a net_declaration);
+//     neither appears in getNets()
+//   - both variables: RefTypespec -> ArrayTypespec static(1) range [7:0],
+//     elem -> BitTypespec -- the SAME (shared) BitTypespec instance for
+//     both variables
 //   - module has exactly 1 Parameter "c" (RefTypespec -> IntegerTypespec,
 //     signed) and exactly 1 ParamAssign: lhs RefObj "c" resolving the
 //     Parameter, rhs Constant "3" (vpiConstType=unsigned int)
@@ -83,7 +86,6 @@
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
@@ -92,6 +94,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -102,32 +105,39 @@ class UnpackedVariableSliceTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(UnpackedVariableSliceTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedVariableSliceTest, ModuleHasTwoNets) {
+TEST_F(UnpackedVariableSliceTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u)
+      << "6.7/6.8: 'bit arr_a/arr_b [7:0]' declared with no net-type keyword are variables";
 }
 
-TEST_F(UnpackedVariableSliceTest, BothNetsAreArraysOfSharedBitTypespecRangeSevenToZero) {
+TEST_F(UnpackedVariableSliceTest, ModuleHasNoNets) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in variable-slice.sv";
+}
+
+TEST_F(UnpackedVariableSliceTest, BothVarsAreArraysOfSharedBitTypespecRangeSevenToZero) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   ASSERT_NE(arrB, nullptr);
   const hldb::ArrayTypespec *const atA = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   const hldb::ArrayTypespec *const atB = arrB->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(atA, nullptr);
   ASSERT_NE(atB, nullptr);
-  EXPECT_NE(atA, atB) << "each net should get its own distinct ArrayTypespec instance";
+  EXPECT_NE(atA, atB) << "each variable should get its own distinct ArrayTypespec instance";
   EXPECT_EQ(atA->getRange()->getLeftExpr<hldb::Constant>()->getDecompile(), "7");
   EXPECT_EQ(atA->getRange()->getRightExpr<hldb::Constant>()->getDecompile(), "0");
   const hldb::BitTypespec *const elemA = atA->getElemTypespec()->getActual<hldb::BitTypespec>();
@@ -137,7 +147,7 @@ TEST_F(UnpackedVariableSliceTest, BothNetsAreArraysOfSharedBitTypespecRangeSeven
   EXPECT_EQ(elemA, elemB) << "the element BitTypespec should be shared between arr_a and arr_b";
 }
 
-// --- parameter c = 3 -----------------------------------------------------------
+// --- parameter c = 3 ----
 
 TEST_F(UnpackedVariableSliceTest, ModuleHasOneParameterNamedC) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -166,7 +176,7 @@ TEST_F(UnpackedVariableSliceTest, ParamAssignSetsCToThree) {
   EXPECT_EQ(rhs->getDecompile(), "3");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedVariableSliceTest, InitialBeginHasSixStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -253,7 +263,7 @@ TEST_F(UnpackedVariableSliceTest, SixthStmtDisplaysArrBBitsAfterVariableSliceWri
   }
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedVariableSliceTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -287,7 +297,7 @@ TEST_F(UnpackedVariableSliceTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime bit pattern requires simulation ----------------------
+// --- known gap: runtime bit pattern requires simulation ----
 
 TEST_F(UnpackedVariableSliceTest, RuntimeArrBBitPatternRequiresSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates variable-slice.sv; it does not run a "

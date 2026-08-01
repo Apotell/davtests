@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,16 +20,18 @@
 //     string b = "TEST";
 //     int c = a.compare(b);
 //   endmodule
+// Per IEEE 1800-2023 6.8/6.16: none of 'string' or 'int' has an explicit
+// net-type keyword, so 'a', 'b', and 'c' are all variable_declarations.
 //
 // Checked:
-//   - design has module top with 3 nets (a: string, b: string, c: int)
-//   - net 'a' initial value is "Test" (vpiStringConst); net 'b' is "TEST"
-//   - net 'c' typespec resolves to IntTypespec
-//   - net 'c' has a non-null initial value (vpiValue is set)
-//   - net 'c' initial value is a HierPath named "a.compare(b)"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
+//   - design has module top with 3 variables (a: string, b: string, c: int)
+//   - variable 'a' initial value is "Test" (vpiStringConst); variable 'b' is "TEST"
+//   - variable 'c' typespec resolves to IntTypespec
+//   - variable 'c' has a non-null initial value (vpiValue is set)
+//   - variable 'c' initial value is a HierPath named "a.compare(b)"
+//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
 //   - HierPath element[1] is FuncCall "compare" with 1 argument
-//   - compare() argument is RefObj "b" resolving to Net 'b' (not a Constant)
+//   - compare() argument is RefObj "b" resolving to Variable 'b' (not a Constant)
 //   - 'c' does NOT get a pre-evaluated constant value -- HLDB stores the
 //     unevaluated HierPath expression only; runtime comparison result not known
 //   - the actual numeric result of a.compare(b) -- kept as a real assertion
@@ -45,11 +47,13 @@
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -64,28 +68,36 @@ TEST_F(StringCompare, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Net declarations — string 'a', string 'b', int 'c'
-// ---------------------------------------------------------------------------
-TEST_F(StringCompare, ThreeNetsExist) {
+// ----
+// Variable declarations -- string 'a', string 'b', int 'c'
+// ----
+TEST_F(StringCompare, ThreeVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 3u);
 }
 
-TEST_F(StringCompare, ANetTypespecIsString) {
+TEST_F(StringCompare, NoNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, neither 'string' nor 'int' has a
+  // net-type keyword, so none of 'a', 'b', 'c' should be materialized as Nets.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
+}
+
+TEST_F(StringCompare, AVariableTypespecIsString) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringCompare, ANetInitialValueIsTest) {
+TEST_F(StringCompare, AVariableInitialValueIsTest) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
@@ -93,18 +105,18 @@ TEST_F(StringCompare, ANetInitialValueIsTest) {
   EXPECT_EQ(init->getDecompile(), "\"Test\"");
 }
 
-TEST_F(StringCompare, BNetTypespecIsString) {
+TEST_F(StringCompare, BVariableTypespecIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_NE(b->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringCompare, BNetInitialValueIsTEST) {
+TEST_F(StringCompare, BVariableInitialValueIsTEST) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::Constant *const init = b->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
@@ -112,48 +124,48 @@ TEST_F(StringCompare, BNetInitialValueIsTEST) {
   EXPECT_EQ(init->getDecompile(), "\"TEST\"");
 }
 
-TEST_F(StringCompare, CNetTypespecIsInt) {
+TEST_F(StringCompare, CVariableTypespecIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   EXPECT_NE(c->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// HierPath — c's initial value is the method call a.compare(b)
-// ---------------------------------------------------------------------------
-TEST_F(StringCompare, CNetHasValue) {
+// ----
+// HierPath -- c's initial value is the method call a.compare(b)
+// ----
+TEST_F(StringCompare, CVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  EXPECT_NE(c->getValue(), nullptr) << "net 'c' should have a vpiValue set from int c = a.compare(b)";
+  EXPECT_NE(c->getValue(), nullptr) << "variable 'c' should have a vpiValue set from int c = a.compare(b)";
 }
 
-TEST_F(StringCompare, CNetValueIsNotPreEvaluatedConstant) {
+TEST_F(StringCompare, CVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue<hldb::Constant>(), nullptr)
       << "HLC does not pre-evaluate a.compare(b) to a constant; c holds only the HierPath expression";
 }
 
-TEST_F(StringCompare, CNetValueIsHierPath) {
+TEST_F(StringCompare, CVariableValueIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "net 'c' initial value is not a HierPath";
+  ASSERT_NE(hp, nullptr) << "variable 'c' initial value is not a HierPath";
   EXPECT_EQ(hp->getName(), "a.compare(b)");
 }
 
 TEST_F(StringCompare, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
@@ -163,13 +175,13 @@ TEST_F(StringCompare, HierPathReceiverIsA) {
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
-  EXPECT_NE(receiver->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(StringCompare, HierPathMethodIsCompare) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
@@ -183,7 +195,7 @@ TEST_F(StringCompare, HierPathMethodIsCompare) {
 TEST_F(StringCompare, CompareArgumentIsRefObjB) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
@@ -195,22 +207,25 @@ TEST_F(StringCompare, CompareArgumentIsRefObjB) {
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "compare() argument is not a RefObj";
   EXPECT_EQ(arg->getName(), "b");
-  EXPECT_NE(arg->getActual<hldb::Net>(), nullptr) << "compare() argument should resolve to Net b";
+  EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr) << "compare() argument should resolve to Variable b";
 }
 
-// ---------------------------------------------------------------------------
-// a.compare(b) runtime result
-// ---------------------------------------------------------------------------
+// ----
+// a.compare(b) runtime result -- known gap: HLC never sets
+// Design::m_elaborated (no caller invokes setElaborated(true) anywhere in
+// src/), so a guard on getElaborated() is permanently-false dead code. Use
+// GTEST_SKIP() explicitly instead.
+// ----
 TEST_F(StringCompare, CompareResultIsPreEvaluated) {
+  GTEST_SKIP() << "known gap: HLC does not perform compile-time evaluation of string methods; "
+                  "\"Test\".compare(\"TEST\") should evaluate to a nonzero Constant once elaboration is implemented";
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   const hldb::Constant *const value = c->getValue<hldb::Constant>();
-  if (m_design->getElaborated()) {
-    ASSERT_NE(value, nullptr) << "net 'c' should hold a pre-evaluated Constant";
-    EXPECT_NE(value->getDecompile(), "0") << "\"Test\".compare(\"TEST\") should evaluate to a nonzero result";
-  }
+  ASSERT_NE(value, nullptr) << "variable 'c' should hold a pre-evaluated Constant";
+  EXPECT_NE(value->getDecompile(), "0") << "\"Test\".compare(\"TEST\") should evaluate to a nonzero result";
 }
 
 }  // namespace hlc

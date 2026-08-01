@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,16 +23,19 @@
 //
 // Checked:
 //   - design has module top
-//   - module has exactly 1 net: 'a' (RealTypespec, vpiRealConst "0.5")
+//   - module has exactly 1 variable: 'a' (RealTypespec, vpiRealConst "0.5")
 //   - 1 Always process (vpiAlways type), stmt = EventControl
 //   - EventControl condition = vpiPosedgeOp on RefObj "a"
-//   - posedge operand resolves to the real Net 'a'
+//   - posedge operand resolves to the real variable 'a'
 //   - EventControl body is a SysTaskCall "$display"
 //   - top has no continuous assignments
 //
 // Also checked:
-//   - HLC does not report a compiler error for the illegal posedge on real
-//     (it is only rejected at simulation time, per :should_fail_because:)
+//   - Per IEEE 1800-2023 Sec 6.12: "Real numbers and real variables are ...
+//     prohibited in the following cases: Edge event controls (posedge,
+//     negedge, edge) applied to real variables (see 9.4.2)." HLC currently
+//     does not report a compile-time error for this (known gap) -- see the
+//     GTEST_SKIP()'d test below.
 //   - $display argument value ("posedge")
 
 #include <hlc/Common/Session.h>
@@ -52,6 +55,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -62,34 +66,41 @@ class RealEdge : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(RealEdge, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
-}
+TEST_F(RealEdge, ModuleExists) { ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr); }
 
-// ---------------------------------------------------------------------------
-// Net — real a = 0.5
-// ---------------------------------------------------------------------------
-TEST_F(RealEdge, OneNetExists) {
+// ----
+// Variable -- real a = 0.5
+// ----
+TEST_F(RealEdge, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(RealEdge, ANetTypespecIsReal) {
+TEST_F(RealEdge, ANotInNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'real' has no net-type keyword, so 'a'
+  // must not also be materialized as a Net.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("a", top->getNets()) == nullptr)
+      << "'real a' must not appear in vpiNet";
+}
+
+TEST_F(RealEdge, AVariableTypespecIsReal) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "net 'a' typespec should resolve to RealTypespec";
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "variable 'a' typespec should resolve to RealTypespec";
 }
 
-TEST_F(RealEdge, ANetInitialValueIsHalf) {
+TEST_F(RealEdge, AVariableInitialValueIsHalf) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
@@ -97,9 +108,9 @@ TEST_F(RealEdge, ANetInitialValueIsHalf) {
   EXPECT_EQ(init->getDecompile(), "0.5");
 }
 
-// ---------------------------------------------------------------------------
-// Always process — always @(posedge a)
-// ---------------------------------------------------------------------------
+// ----
+// Always process -- always @(posedge a)
+// ----
 TEST_F(RealEdge, AlwaysProcessExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -124,9 +135,9 @@ TEST_F(RealEdge, AlwaysStmtIsEventControl) {
   EXPECT_NE(always->getStmt<hldb::EventControl>(), nullptr) << "always body should be an EventControl";
 }
 
-// ---------------------------------------------------------------------------
-// EventControl condition — posedge on real net 'a' (illegal but parsed)
-// ---------------------------------------------------------------------------
+// ----
+// EventControl condition -- posedge on real variable 'a' (illegal but parsed)
+// ----
 TEST_F(RealEdge, EventControlConditionIsPosedge) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -157,7 +168,7 @@ TEST_F(RealEdge, EventControlConditionOperandIsA) {
   EXPECT_EQ(operand->getName(), "a");
 }
 
-TEST_F(RealEdge, EventControlConditionOperandIsRealNet) {
+TEST_F(RealEdge, EventControlConditionOperandIsRealVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
@@ -169,16 +180,16 @@ TEST_F(RealEdge, EventControlConditionOperandIsRealNet) {
   const hldb::RefObj *const operand = any_cast<hldb::RefObj>((*cond->getOperands())[0]);
   ASSERT_NE(operand, nullptr);
 
-  const hldb::Net *const net = operand->getActual<hldb::Net>();
-  ASSERT_NE(net, nullptr);
-  const hldb::RefTypespec *const rts = net->getTypespec();
+  const hldb::Variable *const var = operand->getActual<hldb::Variable>();
+  ASSERT_NE(var, nullptr);
+  const hldb::RefTypespec *const rts = var->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "posedge operand should resolve to the real net 'a'";
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "posedge operand should resolve to the real variable 'a'";
 }
 
-// ---------------------------------------------------------------------------
-// EventControl body — $display("posedge")
-// ---------------------------------------------------------------------------
+// ----
+// EventControl body -- $display("posedge")
+// ----
 TEST_F(RealEdge, EventControlStmtIsDisplayCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -215,12 +226,16 @@ TEST_F(RealEdge, NoContAssigns) {
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-// ---------------------------------------------------------------------------
-// Compiler diagnostics -- the illegal posedge on real is not flagged
-// ---------------------------------------------------------------------------
-TEST_F(RealEdge, Compiler_NoErrorsReported) {
+// ----
+// Compiler diagnostics -- IEEE 1800-2023 Sec 6.12 / 9.4.2 prohibit edge
+// event controls applied to real variables. HLC does not currently flag
+// this; see GTEST_SKIP() below.
+// ----
+TEST_F(RealEdge, Compiler_ReportsErrorForIllegalPosedgeOnReal) {
+  GTEST_SKIP() << "known gap: 'posedge a' on a real variable is not rejected by HLC; "
+                  "IEEE 1800-2023 Sec 6.12/9.4.2 prohibit edge event controls on real variables";
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject 'posedge a' on a real net at compile time";
+  EXPECT_GE(stats.nbError, 1) << "'posedge a' on a real variable must be flagged illegal per Sec 6.12/9.4.2";
 }
 
 }  // namespace hlc

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,12 +26,12 @@
 //
 // Checked:
 //   - design has module top
-//   - module has TypedefTypespec "e" → EnumTypespec with 4 consts (a, b, c, d)
+//   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
 //   - Begin block has 1 variable "val"
 //   - 2 statements; 2nd stmt rhs is Operation(vpiCastOp)
-//   - cast operation typespec is RefTypespec → TypedefTypespec "e"
+//   - cast operation typespec is RefTypespec -> TypedefTypespec "e"
 //   - cast operand is Operation(vpiAddOp) with operands RefObj "val" and Constant "1"
-//   - 1st assignment (val=a) rhs is RefObj "a" → EnumConst
+//   - 1st assignment (val=a) rhs is RefObj "a" -> EnumConst
 //   - add inner constant 1 is stored as vpiUIntConst
 
 #include <hlc/Common/Session.h>
@@ -90,9 +90,9 @@ TEST_F(EnumNumericalExprCast, EnumHasFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ---------------------------------------------------------------------------
-// Begin → 1 variable "val"
-// ---------------------------------------------------------------------------
+// ----
+// Begin -> 1 variable "val"
+// ----
 TEST_F(EnumNumericalExprCast, BeginHasVariableVal) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -105,9 +105,9 @@ TEST_F(EnumNumericalExprCast, BeginHasVariableVal) {
   EXPECT_EQ(blk->getVariables()->at(0)->getName(), "val");
 }
 
-// ---------------------------------------------------------------------------
-// 2nd assignment: val = e'(val+1) — rhs is Operation(cast)
-// ---------------------------------------------------------------------------
+// ----
+// 2nd assignment: val = e'(val+1) -- rhs is Operation(cast)
+// ----
 TEST_F(EnumNumericalExprCast, SecondAssignmentRhsIsCastOp) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -167,9 +167,9 @@ TEST_F(EnumNumericalExprCast, CastOperandIsAddOp) {
   EXPECT_EQ(rhsOp->getDecompile(), "1");
 }
 
-// ---------------------------------------------------------------------------
-// 1st assignment: val = a — rhs is RefObj → EnumConst "a"
-// ---------------------------------------------------------------------------
+// ----
+// 1st assignment: val = a -- rhs is RefObj -> EnumConst "a"
+// ----
 TEST_F(EnumNumericalExprCast, FirstAssignmentRhsIsEnumConstA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

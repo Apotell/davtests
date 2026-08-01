@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,14 +30,14 @@
 //
 // Checked:
 //   - design has module top
-//   - module has exactly 2 nets: 'words' and 'w' (both assoc ArrayTypespec, idx=int, elem=string)
+//   - module has exactly 2 variables: 'words' and 'w' (both assoc ArrayTypespec, idx=int, elem=string)
 //   - 1 Initial process; Begin with 8 stmts
 //   - stmts[0-2]: words[0]="hello", words[1]="happy", words[2]="world" (blocking BitSelect)
-//   - stmt[3]: $display(4 args) — format includes hello/happy/world
+//   - stmt[3]: $display(4 args) ? format includes hello/happy/world
 //   - stmt[4]: whole-array copy w=words (blocking, lhs=RefObj "w", rhs=RefObj "words")
 //   - stmt[5]: w[1]="sad" (BitSelect assignment)
-//   - stmt[6]: $display(4 args) — format shows words unchanged
-//   - stmt[7]: $display(4 args) — format shows w with "sad"; w[0] BitSelect verified
+//   - stmt[6]: $display(4 args) ? format shows words unchanged
+//   - stmt[7]: $display(4 args) ? format shows w with "sad"; w[0] BitSelect verified
 //   - top has no continuous assignments
 //
 // Also checked:
@@ -61,7 +61,7 @@
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
@@ -75,53 +75,53 @@ class Assignment : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module and nets -------------------------------------------------------
+// --- module and variables ----
 
 TEST_F(Assignment, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(Assignment, ModuleHasTwoNets) {
+TEST_F(Assignment, ModuleHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(Assignment, NetsAreWordsAndW) {
+TEST_F(Assignment, VariablesAreWordsAndW) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getName(), "words");
-  EXPECT_EQ(top->getNets()->at(1)->getName(), "w");
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->at(0)->getName(), "words");
+  EXPECT_EQ(top->getVariables()->at(1)->getName(), "w");
 }
 
-TEST_F(Assignment, WordsNetIsAssocStringArray) {
+TEST_F(Assignment, WordsVariableIsAssocStringArray) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::ArrayTypespec *const at = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  const hldb::Variable *const variable = top->getVariables()->at(0);
+  ASSERT_NE(variable, nullptr);
+  const hldb::ArrayTypespec *const at = variable->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 3);  // associative = 3
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(Assignment, WNetIsAssocStringArray) {
+TEST_F(Assignment, WVariableIsAssocStringArray) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const net = top->getNets()->at(1);
-  ASSERT_NE(net, nullptr);
-  const hldb::ArrayTypespec *const at = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  const hldb::Variable *const variable = top->getVariables()->at(1);
+  ASSERT_NE(variable, nullptr);
+  const hldb::ArrayTypespec *const at = variable->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 3);
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-// --- initial process (8 statements) ---------------------------------------
+// --- initial process (8 statements) ----
 
 TEST_F(Assignment, InitialBodyIsBeginWith8Stmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -187,7 +187,7 @@ TEST_F(Assignment, FourthStmtIsDisplayWordsHHW) {
 }
 
 TEST_F(Assignment, FifthStmtIsWholeArrayCopyWEqualsWords) {
-  // w = words  — whole-array copy: lhs is RefObj "w", rhs is RefObj "words"
+  // w = words  ? whole-array copy: lhs is RefObj "w", rhs is RefObj "words"
   // (no BitSelect on either side)
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -275,7 +275,7 @@ TEST_F(Assignment, EighthStmtDisplayHasW1AndW2BitSelects) {
   EXPECT_EQ(w2->getIndex<hldb::Constant>()->getDecompile(), "2");
 }
 
-// --- structural completeness -----------------------------------------------
+// --- structural completeness ----
 
 TEST_F(Assignment, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());

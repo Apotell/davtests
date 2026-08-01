@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +29,11 @@
 // the sibling 11.4.2--unary_op_inc.sv file).
 //
 // Checked:
-//   - module top has exactly 1 net, "a", int (RefTypespec ->
-//     IntTypespec), with a declaration-time getValue<Constant>() of "12"
+//   - module top has exactly 1 variable, "a", int (RefTypespec ->
+//     IntTypespec), with a declaration-time getValue<Constant>() of "12".
+//     Per IEEE 1800-2023 Sec 6.7/6.8: "int" has no net-type keyword and
+//     there is no port list, so "a" is a Variable, not a Net; module has
+//     no nets (getNets() is null).
 //   - module getTypespecs() is null/absent: "int" carries no separate
 //     packed-range typespec the way "reg [N:0]" does elsewhere in this
 //     chapter (contrast with 11.4.1--assignment-sim.sv and
@@ -62,11 +65,11 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -79,20 +82,26 @@ class UnaryOpDecTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / net --------------------------------------------------------
+// --- module / net ----
 
 TEST_F(UnaryOpDecTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(UnaryOpDecTest, NetAIsIntInitializedToTwelve) {
+TEST_F(UnaryOpDecTest, VariableAIsIntInitializedToTwelve) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 1u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   ASSERT_NE(a->getValue<hldb::Constant>(), nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>()->getDecompile(), "12");
+}
+
+TEST_F(UnaryOpDecTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
 }
 
 TEST_F(UnaryOpDecTest, ModuleHasNoPackedRangeTypespec) {
@@ -133,7 +142,7 @@ TEST_F(UnaryOpDecTest, StatementIsPostDecrementOfA) {
   EXPECT_EQ(any_cast<hldb::RefObj>(postDec->getOperands()->at(0))->getName(), "a");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnaryOpDecTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,8 +30,8 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 1 net "map"
-//   - net "map": ArrayTypespec vpiArrayType=associative(3), index typespec ->
+//   - design has module top with exactly 1 variable "map"
+//   - variable "map": ArrayTypespec vpiArrayType=associative(3), index typespec ->
 //     StringTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 8 stmts (3 Assignment + 3 SysFuncCall +
 //     2 bare method-call statements for map.delete("sad") and map.delete)
@@ -51,7 +51,7 @@
 //   - actual post-delete map.size() runtime result -- simulation-only
 //
 // Skipped (documents a fix, not a gap):
-//   - SizeAndDeleteRefObjsShouldResolveOnceImplicitNetBugIsFixed: GTEST_SKIP
+//   - SizeAndDeleteRefObjsShouldResolveOnceImplicitVariableBugIsFixed: GTEST_SKIP
 //     canary asserting the "size"/"delete" RefObjs SHOULD resolve to a
 //     declared object once the compiler stops raising
 //     ELAB_ILLEGAL_IMPLICIT_NET for the no-parens forms; re-enable when fixed
@@ -63,7 +63,7 @@
 //   IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be called
 //   with or without parentheses, and 7.9.2 permits ".delete" (no arguments)
 //   with or without parentheses. This HLC build resolves neither construct
-//   and instead raises ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit net")
+//   and instead raises ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit variable")
 //   for "size" (3 occurrences) and the no-parens "delete" (1 occurrence).
 //   delete.sv is valid SystemVerilog; the 4 errors below are a known
 //   compiler/API limitation, not a defect in the test source.
@@ -89,7 +89,7 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
@@ -104,23 +104,23 @@ class AssociativeArrayDeleteTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / net -----------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(AssociativeArrayDeleteTest, ModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(AssociativeArrayDeleteTest, ModuleHasOneNet) {
+TEST_F(AssociativeArrayDeleteTest, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(AssociativeArrayDeleteTest, NetMapIsAssociativeArrayOfIntByString) {
+TEST_F(AssociativeArrayDeleteTest, VariableMapIsAssociativeArrayOfIntByString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const map = hldb::findByName<hldb::Net>("map", top->getNets());
+  const hldb::Variable *const map = hldb::findByName<hldb::Variable>("map", top->getVariables());
   ASSERT_NE(map, nullptr);
   const hldb::ArrayTypespec *const at = map->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -131,7 +131,7 @@ TEST_F(AssociativeArrayDeleteTest, NetMapIsAssociativeArrayOfIntByString) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(AssociativeArrayDeleteTest, ModuleHasOneInitialProcess) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -152,7 +152,7 @@ TEST_F(AssociativeArrayDeleteTest, InitialBeginHasEightStmts) {
   EXPECT_EQ(begin->getStmts()->size(), 8u);
 }
 
-// --- map["hello"]=1, map["sad"]=2, map["world"]=3 ----------------------------
+// --- map["hello"]=1, map["sad"]=2, map["world"]=3 ----
 
 TEST_F(AssociativeArrayDeleteTest, FirstAssignmentSetsMapHelloToOne) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -169,7 +169,7 @@ TEST_F(AssociativeArrayDeleteTest, FirstAssignmentSetsMapHelloToOne) {
   const hldb::RefObj *const prefix = lhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr);
   EXPECT_EQ(prefix->getName(), "map");
-  EXPECT_NE(prefix->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(prefix->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const index = lhs->getIndex<hldb::Constant>();
   ASSERT_NE(index, nullptr);
   EXPECT_EQ(index->getConstType(), vpiStringConst);
@@ -215,7 +215,7 @@ TEST_F(AssociativeArrayDeleteTest, ThirdAssignmentSetsMapWorldToThree) {
   EXPECT_EQ(rhs->getDecompile(), "3");
 }
 
-// --- $display(":assert: (%d == 3)", map.size) --------------------------------
+// --- $display(":assert: (%d == 3)", map.size) ----
 
 TEST_F(AssociativeArrayDeleteTest, FirstDisplayAssertsSizeEqualsThree) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -238,14 +238,14 @@ TEST_F(AssociativeArrayDeleteTest, FirstDisplayAssertsSizeEqualsThree) {
   const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
   ASSERT_NE(mapRef, nullptr);
   EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
   EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
 }
 
-// --- map.delete("sad") --------------------------------------------------------
+// --- map.delete("sad") ----
 
 TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsHierPathWithMethodFuncCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -260,7 +260,7 @@ TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsHierPathWithMethodFuncCal
   const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(mapRef, nullptr);
   EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "delete");
@@ -272,7 +272,7 @@ TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsHierPathWithMethodFuncCal
   EXPECT_EQ(arg->getValue(), "sad");
 }
 
-// --- $display(":assert: (%d == 2)", map.size) --------------------------------
+// --- $display(":assert: (%d == 2)", map.size) ----
 
 TEST_F(AssociativeArrayDeleteTest, SecondDisplayAssertsSizeEqualsTwo) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -289,7 +289,7 @@ TEST_F(AssociativeArrayDeleteTest, SecondDisplayAssertsSizeEqualsTwo) {
   EXPECT_EQ(size->getName(), "map.size");
 }
 
-// --- map.delete (no parens) ---------------------------------------------------
+// --- map.delete (no parens) ----
 
 TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsHierPathWithUnresolvedRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -304,7 +304,7 @@ TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsHierPathWithUnresolvedRe
   const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(mapRef, nullptr);
   EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const deleteRef = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(deleteRef, nullptr)
       << "map.delete without parens should still parse as HierPath pathElem RefObj, not MethodFuncCall";
@@ -312,7 +312,7 @@ TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsHierPathWithUnresolvedRe
   EXPECT_EQ(deleteRef->getTaskFunc(), nullptr);
 }
 
-// --- $display(":assert: (%d == 0)", map.size) --------------------------------
+// --- $display(":assert: (%d == 0)", map.size) ----
 
 TEST_F(AssociativeArrayDeleteTest, ThirdDisplayAssertsSizeEqualsZero) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -329,7 +329,7 @@ TEST_F(AssociativeArrayDeleteTest, ThirdDisplayAssertsSizeEqualsZero) {
   EXPECT_EQ(size->getName(), "map.size");
 }
 
-// --- design-level typespecs ----------------------------------------------------
+// --- design-level typespecs ----
 
 TEST_F(AssociativeArrayDeleteTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -350,7 +350,7 @@ TEST_F(AssociativeArrayDeleteTest, DesignHasSignedIntTypespec) {
   EXPECT_TRUE(it->getSigned());
 }
 
-// --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation --------
+// --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation ----
 
 TEST_F(AssociativeArrayDeleteTest, CompilerReportsExactlyFourErrorsNoFatalNoWarning) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
@@ -361,10 +361,10 @@ TEST_F(AssociativeArrayDeleteTest, CompilerReportsExactlyFourErrorsNoFatalNoWarn
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- known compiler limitation: skipped canary for a future fix -------------
+// --- known compiler limitation: skipped canary for a future fix ----
 
-TEST_F(AssociativeArrayDeleteTest, SizeAndDeleteRefObjsShouldResolveOnceImplicitNetBugIsFixed) {
-  GTEST_SKIP() << "Known compiler limitation (EL0535 Illegal implicit net): HLC never resolves "
+TEST_F(AssociativeArrayDeleteTest, SizeAndDeleteRefObjsShouldResolveOnceImplicitVariableBugIsFixed) {
+  GTEST_SKIP() << "Known compiler limitation (EL0535 Illegal implicit variable): HLC never resolves "
                   "the no-parens '.size' RefObj or the no-parens '.delete' RefObj to a declared "
                   "object. Re-enable this test once that limitation is fixed.";
 
@@ -415,16 +415,16 @@ TEST_F(AssociativeArrayDeleteTest, DeleteRuntimeEffectOnMapSizeRequiresSimulatio
   EXPECT_EQ(fmt2->getValue(), ":assert: (%d == 0)");
 }
 
-TEST_F(AssociativeArrayDeleteTest, ExactlyFourIllegalImplicitNetErrors) {
+TEST_F(AssociativeArrayDeleteTest, ExactlyFourIllegalImplicitVariableErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitNetErrors;
+  std::vector<Error> implicitVariableErrors;
   for (const Error &err : errors) {
     if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitNetErrors.push_back(err);
+      implicitVariableErrors.push_back(err);
     }
   }
-  ASSERT_TRUE(implicitNetErrors.empty());
+  ASSERT_TRUE(implicitVariableErrors.empty());
 }
 
 }  // namespace hlc

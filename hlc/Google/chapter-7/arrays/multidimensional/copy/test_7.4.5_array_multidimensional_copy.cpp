@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,19 +27,19 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: ArrayTypespec vpiArrayType=static(1), range [1:10], elem ->
-//     BitTypespec with 2 packed ranges [3:0][7:0] (vector=true) -- each net
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//   - both variables: ArrayTypespec vpiArrayType=static(1), range [1:10], elem ->
+//     BitTypespec with 2 packed ranges [3:0][7:0] (vector=true) -- each variable
 //     gets its own distinct BitTypespec/ArrayTypespec pair (4 typespecs total
 //     on the module, not 2, even though the packed/unpacked dims are
 //     textually identical for arr_a and arr_b)
 //   - Initial process: 1 Begin with 4 stmts (2 Assignment + 2 SysFuncCall)
 //   - Stmt[0]: arr_a[1] = 32'hdeadbeef -- BitSelect lhs "arr_a[1]" (prefix
-//     RefObj "arr_a" resolves to the Net, index Constant "1"), Constant rhs
+//     RefObj "arr_a" resolves to the Variable, index Constant "1"), Constant rhs
 //     (vpiConstType=hexadecimal(5), size=32, decompile "32'hdeadbeef",
 //     value "deadbeef") -- a whole-packed-word write, not a bit/byte select
 //   - Stmt[1]/Stmt[3]: $display with 2 args; 2nd arg is a BitSelect
-//     "arr_a[1]"/"arr_b[2]" resolving its prefix RefObj to the Net
+//     "arr_a[1]"/"arr_b[2]" resolving its prefix RefObj to the Variable
 //   - Stmt[2]: arr_b[2] = arr_a[1] -- whole-word copy between two
 //     multidimensional-array elements: BitSelect lhs "arr_b[2]" and
 //     BitSelect rhs "arr_a[1]" (rhs is a BitSelect too, not a plain RefObj,
@@ -70,7 +70,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -86,18 +86,18 @@ class MultiDimCopyTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(MultiDimCopyTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(MultiDimCopyTest, ModuleHasTwoNets) {
+TEST_F(MultiDimCopyTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(MultiDimCopyTest, ModuleHasFourTypespecs) {
@@ -107,10 +107,10 @@ TEST_F(MultiDimCopyTest, ModuleHasFourTypespecs) {
   EXPECT_EQ(top->getTypespecs()->size(), 4u);
 }
 
-TEST_F(MultiDimCopyTest, NetArrAIsStaticArrayOfPackedByteWords) {
+TEST_F(MultiDimCopyTest, VariableArrAIsStaticArrayOfPackedByteWords) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   const hldb::ArrayTypespec *const at = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -126,10 +126,10 @@ TEST_F(MultiDimCopyTest, NetArrAIsStaticArrayOfPackedByteWords) {
   EXPECT_EQ(bt->getRanges()->at(1)->getLeftExpr<hldb::Constant>()->getDecompile(), "7");
 }
 
-TEST_F(MultiDimCopyTest, NetArrBIsStaticArrayOfPackedByteWords) {
+TEST_F(MultiDimCopyTest, VariableArrBIsStaticArrayOfPackedByteWords) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrB, nullptr);
   const hldb::ArrayTypespec *const at = arrB->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -144,8 +144,8 @@ TEST_F(MultiDimCopyTest, ArrAAndArrBHaveDistinctTypespecInstances) {
   // BitTypespec/ArrayTypespec pair -- not a shared/deduplicated typespec.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   ASSERT_NE(arrB, nullptr);
   const hldb::ArrayTypespec *const atA = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -155,7 +155,7 @@ TEST_F(MultiDimCopyTest, ArrAAndArrBHaveDistinctTypespecInstances) {
   EXPECT_NE(atA, atB);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(MultiDimCopyTest, InitialBeginHasFourStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -170,7 +170,7 @@ TEST_F(MultiDimCopyTest, InitialBeginHasFourStmts) {
   EXPECT_EQ(begin->getStmts()->size(), 4u);
 }
 
-// --- Stmt[0]: arr_a[1] = 32'hdeadbeef ------------------------------------------
+// --- Stmt[0]: arr_a[1] = 32'hdeadbeef ----
 
 TEST_F(MultiDimCopyTest, FirstAssignmentSetsArrAOneToDeadbeef) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -186,7 +186,7 @@ TEST_F(MultiDimCopyTest, FirstAssignmentSetsArrAOneToDeadbeef) {
   const hldb::RefObj *const prefix = lhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr);
   EXPECT_EQ(prefix->getName(), "arr_a");
-  EXPECT_NE(prefix->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(prefix->getActual<hldb::Variable>(), nullptr);
   EXPECT_EQ(lhs->getIndex<hldb::Constant>()->getDecompile(), "1");
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
@@ -196,7 +196,7 @@ TEST_F(MultiDimCopyTest, FirstAssignmentSetsArrAOneToDeadbeef) {
   EXPECT_EQ(rhs->getValue(), "deadbeef");
 }
 
-// --- Stmt[1]: first $display ---------------------------------------------------
+// --- Stmt[1]: first $display ----
 
 TEST_F(MultiDimCopyTest, FirstDisplayAssertsArrAOneIsDeadbeef) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -217,7 +217,7 @@ TEST_F(MultiDimCopyTest, FirstDisplayAssertsArrAOneIsDeadbeef) {
   EXPECT_EQ(arg->getPrefix<hldb::RefObj>()->getName(), "arr_a");
 }
 
-// --- Stmt[2]: arr_b[2] = arr_a[1] (whole-word copy) ----------------------------
+// --- Stmt[2]: arr_b[2] = arr_a[1] (whole-word copy) ----
 
 TEST_F(MultiDimCopyTest, SecondAssignmentCopiesArrAOneIntoArrBTwo) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -238,11 +238,11 @@ TEST_F(MultiDimCopyTest, SecondAssignmentCopiesArrAOneIntoArrBTwo) {
   const hldb::RefObj *const rhsPrefix = rhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(rhsPrefix, nullptr);
   EXPECT_EQ(rhsPrefix->getName(), "arr_a");
-  EXPECT_NE(rhsPrefix->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(rhsPrefix->getActual<hldb::Variable>(), nullptr);
   EXPECT_EQ(rhs->getIndex<hldb::Constant>()->getDecompile(), "1");
 }
 
-// --- Stmt[3]: second $display --------------------------------------------------
+// --- Stmt[3]: second $display ----
 
 TEST_F(MultiDimCopyTest, SecondDisplayAssertsArrBTwoIsDeadbeef) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -259,7 +259,7 @@ TEST_F(MultiDimCopyTest, SecondDisplayAssertsArrBTwoIsDeadbeef) {
   EXPECT_EQ(arg->getName(), "arr_b[2]");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(MultiDimCopyTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -293,7 +293,7 @@ TEST_F(MultiDimCopyTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime values require simulation -----------------------------
+// --- known gap: runtime values require simulation ----
 
 TEST_F(MultiDimCopyTest, RuntimeValuesRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates copy.sv; it does not run a simulator, so "

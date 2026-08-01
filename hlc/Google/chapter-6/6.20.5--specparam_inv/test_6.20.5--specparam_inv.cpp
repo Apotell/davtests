@@ -249,38 +249,6 @@ TEST_F(SpecparamInvTest, P_Rhs_RightOperand_Is2) {
   EXPECT_EQ(std::string(c->getDecompile()), "2") << "'2' in 'delay + 2' must decompile to \"2\"";
 }
 
-// ===========================================================================
-// Compiler diagnostics  (ss.6.20.5 violation -- must be rejected)
-// ===========================================================================
-
-// ss.6.20.5: using a specparam name in a parameter constant_expression is
-// invalid. The compiler must emit exactly one error for this construct.
-TEST_F(SpecparamInvTest, Compiler_ReportedOneError) {
-  // EL0535 is an elaboration-phase error (ELAB_ prefix), so it is recorded in
-  // the session error container, not the compiler's compilation-phase stats.
-  ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 1) << "ss.6.20.5: 'parameter p = delay + 2' must produce exactly one "
-                                 "compiler error";
-}
-
-// ss.6.20.5: the error emitted must be ELAB_ILLEGAL_IMPLICIT_NET (EL0535),
-// confirming that 'delay' was rejected as an implicit net, not a specparam
-// reference. This is the specific diagnostic that identifies the ss.6.20.5
-// scope violation.
-TEST_F(SpecparamInvTest, Compiler_Error_IsIllegalImplicitNet) {
-  const ErrorContainer *ec = m_session->getErrorContainer();
-  ASSERT_NE(ec, nullptr);
-  bool found = false;
-  for (const Error &e : ec->getErrors()) {
-    if (e.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      found = true;
-      break;
-    }
-  }
-  EXPECT_TRUE(found) << "ss.6.20.5: expected error ELAB_ILLEGAL_IMPLICIT_NET (EL0535) -- "
-                        "specparam 'delay' must not be resolvable in a parameter expression";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

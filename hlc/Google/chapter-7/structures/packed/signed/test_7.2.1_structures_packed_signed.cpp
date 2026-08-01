@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -79,7 +79,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -109,22 +109,22 @@ class PackedStructSignedTest : public Test {
 
   static const hldb::StructTypespec *getP1StructTypespec() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getNets() == nullptr) return nullptr;
-    const hldb::Net *const p1 = hldb::findByName<hldb::Net>("p1", top->getNets());
+    if (top == nullptr || top->getVariables() == nullptr) return nullptr;
+    const hldb::Variable *const p1 = hldb::findByName<hldb::Variable>("p1", top->getVariables());
     if (p1 == nullptr) return nullptr;
     return p1->getTypespec<hldb::RefTypespec>()->getActual<hldb::StructTypespec>();
   }
 };
 
-// --- module / net / struct typespec ------------------------------------------
+// --- module / net / struct typespec ----
 
 TEST_F(PackedStructSignedTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
 TEST_F(PackedStructSignedTest, ModuleHasOneNet) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(PackedStructSignedTest, P1IsPackedStructWithTwoMembers) {
@@ -155,7 +155,7 @@ TEST_F(PackedStructSignedTest, MembersLoAndHiAreFourBitBitTypespecs) {
   }
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedStructSignedTest, InitialBeginHasThreeStmts) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -173,7 +173,7 @@ TEST_F(PackedStructSignedTest, FirstStmtAssignsDecimalTwoHundredToP1) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "p1");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "8'd200");
@@ -210,7 +210,7 @@ TEST_F(PackedStructSignedTest, ThirdStmtDisplaysP1AsSignedDecimal) {
   EXPECT_EQ(arg->getName(), "p1");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedStructSignedTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

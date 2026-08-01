@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,11 +35,14 @@
 // targeting the same net, not one merged/duplicated node).
 //
 // Checked:
-//   - module top has exactly 2 nets, "a" and "b", both [3:0]
+//   - module top has exactly 2 variables, "a" and "b", both [3:0]
 //     LogicTypespec ("reg" maps to LogicTypespec, matching the analogous
-//     finding elsewhere in this codebase), each declared on its own line
-//     and therefore each with its own distinct module-level LogicTypespec
-//     (module getTypespecs() has exactly 2 items, not 1 shared one)
+//     finding elsewhere in this codebase). Per IEEE 1800-2023 Sec 6.7/6.8:
+//     "reg" has no net-type keyword and there is no port list, so both are
+//     Variables, not Nets; module has no nets (getNets() is null). Each is
+//     declared on its own line and therefore each has its own distinct
+//     module-level LogicTypespec (module getTypespecs() has exactly 2
+//     items, not 1 shared one)
 //   - the initial block is a Begin with exactly 5 statements:
 //       [0] blocking Assignment: lhs RefObj "a", rhs Constant "4'd12"
 //           (decimal, size 4, value "12")
@@ -78,11 +81,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -101,26 +104,32 @@ class AssignmentSimTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / nets ----
 
 TEST_F(AssignmentSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(AssignmentSimTest, ModuleHasTwoFourBitLogicNets) {
+TEST_F(AssignmentSimTest, ModuleHasTwoFourBitLogicVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
   const char *const names[2] = {"a", "b"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    const hldb::LogicTypespec *const lt = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    const hldb::LogicTypespec *const lt = var->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(lt, nullptr);
     ASSERT_NE(lt->getRanges(), nullptr);
     ASSERT_EQ(lt->getRanges()->size(), 1u);
     EXPECT_EQ(lt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "3");
     EXPECT_EQ(lt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
   }
+}
+
+TEST_F(AssignmentSimTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
 }
 
 TEST_F(AssignmentSimTest, ModuleHasTwoDistinctLogicTypespecsOnePerDecl) {
@@ -183,7 +192,7 @@ TEST_F(AssignmentSimTest, FourthStatementReassignsAFromB) {
   const hldb::RefObj *const bRef = aEqB->getRhs<hldb::RefObj>();
   ASSERT_NE(bRef, nullptr) << "rhs should be a plain variable reference now, not a Constant";
   EXPECT_EQ(bRef->getName(), "b");
-  EXPECT_NE(bRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(bRef->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(AssignmentSimTest, FifthStatementDisplaysFiveEqualsA) {
@@ -198,7 +207,7 @@ TEST_F(AssignmentSimTest, FifthStatementDisplaysFiveEqualsA) {
   EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "a");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssignmentSimTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -214,7 +223,7 @@ TEST_F(AssignmentSimTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- the actual point of the file: does the runtime value round-trip -----
+// --- the actual point of the file: does the runtime value round-trip ----
 
 TEST_F(AssignmentSimTest, AEndsUpTwelveThenFive) {
   GTEST_SKIP() << "The source asserts a == 12 right after 'a = 4'd12;' and a == 5 right after "
@@ -226,12 +235,13 @@ TEST_F(AssignmentSimTest, AEndsUpTwelveThenFive) {
   // exercise a real, currently-failing check -- not silently pass.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
-  // Net::getValue<T>() only ever exposes a declaration-time initializer.
-  // 'a' has none (it is assigned inside the initial block, not at
-  // declaration), so this is null today -- there is no field anywhere
-  // that captures what a blocking assignment actually produced at runtime.
+  // Variable::getValue<T>() only ever exposes a declaration-time
+  // initializer. 'a' has none (it is assigned inside the initial block,
+  // not at declaration), so this is null today -- there is no field
+  // anywhere that captures what a blocking assignment actually produced at
+  // runtime.
   const hldb::Constant *const finalValue = a->getValue<hldb::Constant>();
   ASSERT_NE(finalValue, nullptr) << "no field captures a's post-assignment runtime value";
   EXPECT_EQ(finalValue->getDecompile(), "4'd5");

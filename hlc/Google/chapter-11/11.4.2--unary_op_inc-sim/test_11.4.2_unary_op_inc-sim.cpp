@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,8 +26,11 @@
 // reads back as 13 (12 plus 1).
 //
 // Checked:
-//   - module top has exactly 1 net, "a", int (RefTypespec ->
-//     IntTypespec), with a declaration-time getValue<Constant>() of "12"
+//   - module top has exactly 1 variable, "a", int (RefTypespec ->
+//     IntTypespec), with a declaration-time getValue<Constant>() of "12".
+//     Per IEEE 1800-2023 Sec 6.7/6.8: "int" has no net-type keyword and
+//     there is no port list, so "a" is a Variable, not a Net; module has
+//     no nets (getNets() is null).
 //   - module getTypespecs() is null/absent, same as the non-sim sibling
 //   - the initial block is a Begin with exactly 2 statements:
 //       [0] an Operation with vpiOpType vpiPostIncOp and exactly 1
@@ -58,12 +61,12 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -82,23 +85,29 @@ class UnaryOpIncSimTest : public Test {
   }
 };
 
-// --- module / net --------------------------------------------------------
+// --- module / net ----
 
 TEST_F(UnaryOpIncSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(UnaryOpIncSimTest, NetAIsIntInitializedToTwelve) {
+TEST_F(UnaryOpIncSimTest, VariableAIsIntInitializedToTwelve) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 1u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   ASSERT_NE(a->getValue<hldb::Constant>(), nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>()->getDecompile(), "12");
 }
 
-// --- the increment, plus its assertion ------------------------------------
+TEST_F(UnaryOpIncSimTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
+}
+
+// --- the increment, plus its assertion ----
 
 TEST_F(UnaryOpIncSimTest, InitialBlockHasTwoStatements) {
   const hldb::Begin *const blk = getInitialBody();
@@ -130,7 +139,7 @@ TEST_F(UnaryOpIncSimTest, SecondStatementDisplaysThirteenEqualsA) {
   EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "a");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnaryOpIncSimTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -151,17 +160,17 @@ TEST_F(UnaryOpIncSimTest, CompilerReportsZeroErrors) {
 TEST_F(UnaryOpIncSimTest, AEndsUpEqualToThirteen) {
   GTEST_SKIP() << "The source asserts a == 13 after 'a++;' runs, given a's declaration-time "
                   "value of 12. HLC is a static compiler/elaborator with no post-execution "
-                  "value for a Net. Genuine simulation-only gap, not a shortcut.";
+                  "value for a Variable. Genuine simulation-only gap, not a shortcut.";
   // If the GTEST_SKIP() above is ever removed, this must still compile and
   // exercise a real, currently-failing check -- not silently pass.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
-  // Net::getValue<T>() is non-null here because 'a' has a declaration-time
-  // initializer ("int a = 12;") -- but that is the pre-increment value,
-  // not the value after "a++;" runs. Asserting it equals the post-
-  // increment expected value therefore fails today.
+  // Variable::getValue<T>() is non-null here because 'a' has a
+  // declaration-time initializer ("int a = 12;") -- but that is the
+  // pre-increment value, not the value after "a++;" runs. Asserting it
+  // equals the post-increment expected value therefore fails today.
   const hldb::Constant *const declaredValue = a->getValue<hldb::Constant>();
   ASSERT_NE(declaredValue, nullptr);
   EXPECT_EQ(declaredValue->getDecompile(), "13") << "getValue() reflects the pre-increment "

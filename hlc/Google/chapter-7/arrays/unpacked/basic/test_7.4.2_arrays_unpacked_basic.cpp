@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,15 +22,17 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 3 nets: "_bit", "_logic",
-//     "_reg"
-//   - all 3 nets: RefTypespec -> ArrayTypespec static(1), range [7:0]
+//   - design has module top with exactly 3 variables: "_bit", "_logic",
+//     "_reg" (IEEE 1800-2023 6.7/6.8: a declaration with a data type and no
+//     net-type keyword is a variable_declaration, never a net_declaration)
+//   - none of the three appear in getNets() (no cross-collection duplicate)
+//   - all 3 variables: RefTypespec -> ArrayTypespec static(1), range [7:0]
 //     (unpacked dimension)
-//   - net "_bit": ArrayTypespec elem -> BitTypespec
-//   - net "_logic": ArrayTypespec elem -> LogicTypespec
-//   - net "_reg": ArrayTypespec elem -> LogicTypespec -- "reg" maps to the
-//     SAME LogicTypespec instance as "_logic"'s element type (reg is not a
-//     distinct typespec kind), matching the analogous finding in
+//   - variable "_bit": ArrayTypespec elem -> BitTypespec
+//   - variable "_logic": ArrayTypespec elem -> LogicTypespec
+//   - variable "_reg": ArrayTypespec elem -> LogicTypespec -- "reg" maps to
+//     the SAME LogicTypespec instance as "_logic"'s element type (reg is not
+//     a distinct typespec kind), matching the analogous finding in
 //     chapter-7/arrays/packed/basic
 //   - module has exactly 5 typespecs: 1 BitTypespec + 1 ArrayTypespec (for
 //     "_bit") + 1 LogicTypespec (shared by "_logic" and "_reg") + 2
@@ -63,6 +65,7 @@
 #include <hldb/net.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -73,18 +76,25 @@ class UnpackedBasicTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(UnpackedBasicTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedBasicTest, ModuleHasThreeNets) {
+TEST_F(UnpackedBasicTest, ModuleHasThreeVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 3u)
+      << "6.7/6.8: 'bit'/'logic'/'reg' declared with no net-type keyword are variables";
+}
+
+TEST_F(UnpackedBasicTest, ModuleHasNoNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in basic.sv";
 }
 
 TEST_F(UnpackedBasicTest, ModuleHasFiveTypespecs) {
@@ -97,7 +107,7 @@ TEST_F(UnpackedBasicTest, ModuleHasFiveTypespecs) {
 TEST_F(UnpackedBasicTest, BitNetIsArrayOfBitTypespecRangeSevenToZero) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const bit = hldb::findByName<hldb::Net>("_bit", top->getNets());
+  const hldb::Variable *const bit = hldb::findByName<hldb::Variable>("_bit", top->getVariables());
   ASSERT_NE(bit, nullptr);
   const hldb::ArrayTypespec *const at = bit->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -111,7 +121,7 @@ TEST_F(UnpackedBasicTest, BitNetIsArrayOfBitTypespecRangeSevenToZero) {
 TEST_F(UnpackedBasicTest, LogicNetIsArrayOfLogicTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const logic = hldb::findByName<hldb::Net>("_logic", top->getNets());
+  const hldb::Variable *const logic = hldb::findByName<hldb::Variable>("_logic", top->getVariables());
   ASSERT_NE(logic, nullptr);
   const hldb::ArrayTypespec *const at = logic->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -121,8 +131,8 @@ TEST_F(UnpackedBasicTest, LogicNetIsArrayOfLogicTypespec) {
 TEST_F(UnpackedBasicTest, RegNetMapsToSameLogicTypespecAsLogicNet) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const logic = hldb::findByName<hldb::Net>("_logic", top->getNets());
-  const hldb::Net *const reg = hldb::findByName<hldb::Net>("_reg", top->getNets());
+  const hldb::Variable *const logic = hldb::findByName<hldb::Variable>("_logic", top->getVariables());
+  const hldb::Variable *const reg = hldb::findByName<hldb::Variable>("_reg", top->getVariables());
   ASSERT_NE(logic, nullptr);
   ASSERT_NE(reg, nullptr);
   const hldb::ArrayTypespec *const atLogic = logic->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -138,7 +148,7 @@ TEST_F(UnpackedBasicTest, RegNetMapsToSameLogicTypespecAsLogicNet) {
                                    "distinct typespec";
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedBasicTest, DesignHasTwoTypespecs) {
   // No StringTypespec: basic.sv has no initial block / $display.

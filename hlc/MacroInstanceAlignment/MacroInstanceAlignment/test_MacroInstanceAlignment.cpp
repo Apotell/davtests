@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@
 #include <hldb/identifier.h>
 #include <hldb/module.h>
 #include <hldb/preproc_macro_definition.h>
+#include <hldb/preproc_macro_instance.h>
 #include <hldb/source_file.h>
 
 namespace hlc {
@@ -174,6 +175,40 @@ TEST_F(MacroInstanceAlignmentTest, UvmInfoMacroArgCount) {
   ASSERT_NE(macro, nullptr);
   ASSERT_NE(macro->getArguments(), nullptr) << "uvm_info is function-like; getArguments() must not be null";
   EXPECT_EQ(macro->getArguments()->size(), 3u) << "uvm_info must have exactly 3 formal arguments: ID, MSG, VERBOSITY";
+}
+
+// ----
+// The file exercises `ADD(...)` call sites whose actual arguments are
+// wrapped across many lines with interleaved comments (xyz0-xyz12); this
+// section checks that at least the simplest of those instances (xyz0, whose
+// 4 actual arguments are unbroken numeric literals with no embedded
+// comments) is recorded with the right actual-argument count.
+// ----
+
+TEST_F(MacroInstanceAlignmentTest, SourceFileHasMacroInstances) {
+  ASSERT_NE(m_design->getSourceFiles(), nullptr);
+  const hldb::SourceFile *const sf = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
+  ASSERT_NE(sf, nullptr);
+  ASSERT_NE(sf->getPreprocMacroInstances(), nullptr) << "dut.sv invokes `ADD, `ASSERT, etc. -- instances expected";
+  EXPECT_FALSE(sf->getPreprocMacroInstances()->empty());
+}
+
+TEST_F(MacroInstanceAlignmentTest, FirstAddInstanceHasFourActualArguments) {
+  ASSERT_NE(m_design->getSourceFiles(), nullptr);
+  const hldb::SourceFile *const sf = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
+  ASSERT_NE(sf, nullptr);
+  ASSERT_NE(sf->getPreprocMacroInstances(), nullptr);
+  const hldb::PreprocMacroInstance *first = nullptr;
+  for (const hldb::PreprocMacroInstance *const mi : *sf->getPreprocMacroInstances()) {
+    if (mi != nullptr && mi->getName() == "ADD") {
+      first = mi;
+      break;
+    }
+  }
+  ASSERT_NE(first, nullptr) << "no 'ADD' macro instance found (expected xyz0's `ADD(1000000, 500000, "
+                                "2000000000, 100000)`)";
+  ASSERT_NE(first->getArguments(), nullptr) << "ADD(a,b,c,d) call must have 4 actual arguments";
+  EXPECT_EQ(first->getArguments()->size(), 4u);
 }
 
 }  // namespace hlc

@@ -15,6 +15,7 @@
 */
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -53,6 +54,15 @@ TEST_F(PreprocIncBadTest, IncludedFileRecorded) {
   ASSERT_NE(sf->getIncludes(), nullptr);
   const hldb::SourceFile *const inc = hldb::findByName<hldb::SourceFile>("t_preproc_inc_inc_bad.vh", sf->getIncludes());
   EXPECT_NE(inc, nullptr) << "t_preproc_inc_inc_bad.vh must be recorded as an include";
+}
+
+// The intentional syntax error inside t_preproc_inc_inc_bad.vh (an
+// unterminated module body) must still be diagnosed, even though it does
+// not prevent module 't' or module 'xx' from being recorded.
+TEST_F(PreprocIncBadTest, SyntaxErrorInIncludedFileIsReported) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_GE(stats.nbSyntax, 1) << "the intentional syntax error in t_preproc_inc_inc_bad.vh must be diagnosed";
 }
 
 }  // namespace hlc

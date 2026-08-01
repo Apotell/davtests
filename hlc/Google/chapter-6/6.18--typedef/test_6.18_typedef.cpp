@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,14 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with 1 net ('a')
-//   - net 'a' RefTypespec name is "logic_t"
-//   - net 'a' RefTypespec vpiActual resolves to LogicTypespec
+//   - design has module top with 1 variable ('a') -- IEEE 1800-2023 6.8: a
+//     typedef'd type with no net-type keyword declares a variable, not a net
+//   - variable 'a' RefTypespec name is "logic_t"
+//   - variable 'a' RefTypespec vpiActual resolves to TypedefTypespec "logic_t"
+//     (not directly to LogicTypespec -- one level of typedef indirection)
 //   - module owns a TypedefTypespec named "logic_t"
 //   - TypedefTypespec alias RefTypespec vpiActual resolves to LogicTypespec
-//   - net 'a' has no initial value
+//   - variable 'a' has no initial value
 //   - top has no processes
 
 #include <hlc/Common/Session.h>
@@ -41,6 +43,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/scope.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -54,37 +57,47 @@ TEST_F(Typedef, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(Typedef, OneNetExists) {
+TEST_F(Typedef, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-// ---------------------------------------------------------------------------
-// Net 'a' — typespec is a RefTypespec named "logic_t" → LogicTypespec
-// ---------------------------------------------------------------------------
-TEST_F(Typedef, ANetTypespecNameIsLogicT) {
+// ----
+// Variable 'a' -- typespec is a RefTypespec named "logic_t" -> TypedefTypespec
+// ----
+TEST_F(Typedef, ANotInNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'logic_t' (a typedef of 'logic') has no
+  // net-type keyword, so 'a' must not also be materialized as a Net.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("a", top->getNets()) == nullptr)
+      << "'logic_t a' must not appear in vpiNet";
+}
+
+TEST_F(Typedef, AVariableTypespecNameIsLogicT) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
   EXPECT_EQ(rts->getName(), "logic_t");
 }
 
-TEST_F(Typedef, ANetTypespecActualIsLogic) {
+TEST_F(Typedef, AVariableTypespecActualIsLogic) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr) << "net 'a' resolves to TypedefTypespec";
+  EXPECT_NE(a->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr)
+      << "variable 'a' resolves to TypedefTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// Module typespec collection — contains TypedefTypespec named "logic_t"
-// ---------------------------------------------------------------------------
+// ----
+// Module typespec collection -- contains TypedefTypespec named "logic_t"
+// ----
 TEST_F(Typedef, ModuleHasTypedefTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -104,10 +117,10 @@ TEST_F(Typedef, TypedefAliasResolvesToLogic) {
       << "typedef logic_t alias should resolve to LogicTypespec";
 }
 
-TEST_F(Typedef, ANetHasNoInitialValue) {
+TEST_F(Typedef, AVariableHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getValue<hldb::Any>(), nullptr);
 }

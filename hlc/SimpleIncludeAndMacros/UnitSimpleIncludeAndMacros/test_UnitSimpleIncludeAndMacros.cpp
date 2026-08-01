@@ -15,6 +15,7 @@
 */
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -31,6 +32,20 @@ class UnitSimpleIncludeAndMacrosTest : public Test {
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "UnitSimpleIncludeAndMacros.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
+
+// Same sources as SimpleIncludeAndMacros (see that test file for the full
+// rationale): mode.vh's illegal macro invocations (missing/extra arguments,
+// missing parentheses) and top.v's recursive BOTTOM/TOP/BOTTOM1 macro chain
+// must be diagnosed per IEEE 1800-2023 Sec 22.5.1, and mode.vh's illegal
+// top-level macro expansions produce bare statements outside any module.
+TEST_F(UnitSimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_GE(stats.nbSyntax, 1) << "illegal top-level macro expansions in mode.vh must produce syntax errors";
+  EXPECT_GE(stats.nbError, 1)
+      << "illegal macro argument counts, missing parentheses, and the "
+         "recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as errors";
+}
 
 // LRM 22.5.1: all FAKELIB_* modules from lib.v must compile (same sources
 // as SimpleIncludeAndMacros, different .hlc driver).

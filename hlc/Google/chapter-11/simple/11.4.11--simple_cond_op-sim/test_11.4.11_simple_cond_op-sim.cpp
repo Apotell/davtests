@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,12 @@
 //
 // Checked:
 //   - design has module top with exactly 2 nets: "a" (input), "b"
-//     (output), both vpiNetType wire, each RefTypespec -> LogicTypespec
+//     (output), both vpiNetType wire, each RefTypespec -> LogicTypespec.
+//     Per IEEE 1800-2023 Sec 6.7/23.2.2.3: an input port always defaults
+//     to a net, and an output port with no explicit data type also
+//     defaults to a net (only an output with an *explicit* data type
+//     defaults to a variable) -- so both "a" and "b" being nets here is
+//     correct; module has no variables (getVariables() is null)
 //   - module has exactly 1 continuous assignment: lhs RefObj "b", rhs
 //     Operation (vpiOpType=condition) with 3 operands: RefObj "a", Constant
 //     "0", Constant "1"
@@ -65,7 +70,7 @@ class SimpleCondOpSimTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets / ports -----------------------------------------------
+// --- module / nets / ports ----
 
 TEST_F(SimpleCondOpSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -83,6 +88,15 @@ TEST_F(SimpleCondOpSimTest, ModuleHasTwoNetsAllWire) {
   }
 }
 
+TEST_F(SimpleCondOpSimTest, ModuleHasNoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr) << "'a' (input) and 'b' (output, no explicit data "
+                                              "type) both default to nets per IEEE 1800-2023 "
+                                              "Sec 6.7/23.2.2.3, so the module should have no "
+                                              "variables";
+}
+
 TEST_F(SimpleCondOpSimTest, ModuleHasInputAAndOutputB) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
@@ -96,7 +110,7 @@ TEST_F(SimpleCondOpSimTest, ModuleHasInputAAndOutputB) {
   EXPECT_EQ(b->getDirection(), vpiOutput);
 }
 
-// --- continuous assignment: conditional operator ----------------------------
+// --- continuous assignment: conditional operator ----
 
 TEST_F(SimpleCondOpSimTest, ContAssignIsConditionalOperator) {
   const hldb::Module *const top = getTop();
@@ -118,7 +132,7 @@ TEST_F(SimpleCondOpSimTest, ContAssignIsConditionalOperator) {
   EXPECT_EQ(any_cast<hldb::Constant>(op->getOperands()->at(2))->getDecompile(), "1");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(SimpleCondOpSimTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
