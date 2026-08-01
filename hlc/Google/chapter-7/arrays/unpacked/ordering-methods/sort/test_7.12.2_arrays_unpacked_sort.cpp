@@ -113,7 +113,7 @@ TEST_F(UnpackedSortTest, VarIaIsDynamicArrayOfInt) {
   ASSERT_NE(ia, nullptr);
   const hldb::ArrayTypespec *const at = ia->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 2);  // dynamic = 2
+  EXPECT_EQ(at->getArrayType(), vpiDynamicArray);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
