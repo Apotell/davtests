@@ -25,16 +25,23 @@
 // Per IEEE 1800-2017 11.5.2, "mem[123]" indexes into the *unpacked*
 // dimension of a statically-sized array, distinct from the packed
 // bit-select corners exercised in the 11.5.1 files: here the indexed
-// object ("mem") is itself an ArrayTypespec net, not a plain vector net.
+// object ("mem") is itself an ArrayTypespec variable, not a plain vector
+// variable.
+//
+// IEEE 1800-2023 6.7/6.8: "logic [7:0] mem [0:1023]" and "logic [7:0] a"
+// have no net-type keyword (wire/tri/.../nettype), so per the standard
+// they are variable_declarations, not net_declarations. Both must be
+// modeled as hldb::Variable, found via Module::getVariables(), not as
+// hldb::Net / Module::getNets().
 //
 // Checked:
-//   - module top has exactly 2 nets: "mem" (ArrayTypespec, vpiArrayType ==
-//     vpiStaticArray, unpacked range [0:1023], elem typespec LogicTypespec
+//   - module top has exactly 2 variables: "mem" (ArrayTypespec, vpiArrayType
+//     == vpiStaticArray, unpacked range [0:1023], elem typespec LogicTypespec
 //     [7:0]) and "a" (LogicTypespec, vector [7:0]), neither decl-assigned
 //   - module has exactly 1 process: an Initial whose Begin has exactly 1
 //     statement: a blocking Assignment
-//   - the Assignment: lhs RefObj "a" resolving to Net "a"; rhs BitSelect
-//     "mem[123]" whose vpiPrefix RefObj "mem" resolves to Net "mem" and
+//   - the Assignment: lhs RefObj "a" resolving to Variable "a"; rhs BitSelect
+//     "mem[123]" whose vpiPrefix RefObj "mem" resolves to Variable "mem" and
 //     whose vpiIndex is Constant "123" -- indexing a static array uses the
 //     same BitSelect node as indexing a packed bit-vector
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
@@ -61,10 +68,10 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -78,18 +85,18 @@ class ArrayAddressingTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ----------------------------------------------------------
+// --- module / variables -------------------------------------------------------
 
 TEST_F(ArrayAddressingTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ArrayAddressingTest, ModuleHasStaticArrayMemAndScalarNetANeitherDeclAssigned) {
+TEST_F(ArrayAddressingTest, ModuleHasStaticArrayMemAndScalarVariableANeitherDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
 
-  const hldb::Net *const mem = hldb::findByName<hldb::Net>("mem", top->getNets());
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const mem = hldb::findByName<hldb::Variable>("mem", top->getVariables());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(mem, nullptr);
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(mem->getValue<hldb::Constant>(), nullptr);
@@ -149,7 +156,7 @@ TEST_F(ArrayAddressingTest, AssignmentRhsIsBitSelectMemOfOneTwentyThree) {
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getName(), "mem[123]");
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "mem");
-  EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr);
   ASSERT_NE(sel->getIndex<hldb::Constant>(), nullptr);
   EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), "123");
 }

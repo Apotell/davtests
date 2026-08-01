@@ -32,9 +32,15 @@
 // this is the direct multi-dimensional generalization of the single-
 // dimension "array_addressing.sv" sibling.
 //
+// IEEE 1800-2023 6.7/6.8: "logic [7:0] mem [0:1023][0:3]" and
+// "logic [7:0] a" have no net-type keyword (wire/tri/.../nettype), so per
+// the standard they are variable_declarations, not net_declarations. Both
+// must be modeled as hldb::Variable, found via Module::getVariables(), not
+// as hldb::Net / Module::getNets().
+//
 // Checked:
-//   - module top has exactly 2 nets: "mem" (ArrayTypespec, vpiArrayType ==
-//     vpiStaticArray, outer range [0:1023], whose getElemTypespec()
+//   - module top has exactly 2 variables: "mem" (ArrayTypespec, vpiArrayType
+//     == vpiStaticArray, outer range [0:1023], whose getElemTypespec()
 //     resolves to a *second*, inner ArrayTypespec (also vpiStaticArray,
 //     range [0:3]) whose own getElemTypespec() resolves to LogicTypespec
 //     [7:0] -- i.e. multi-dim unpacked arrays are nested ArrayTypespec
@@ -45,8 +51,8 @@
 //   - the Assignment: lhs RefObj "a"; rhs BitSelect "mem[123][2]" whose
 //     vpiIndex is Constant "2" and whose vpiPrefix is itself a BitSelect
 //     "mem[123]" (name "mem[123]", not a RefObj) -- and *that* inner
-//     BitSelect's own vpiPrefix RefObj "mem" resolves to Net "mem" and its
-//     vpiIndex is Constant "123"
+//     BitSelect's own vpiPrefix RefObj "mem" resolves to Variable "mem" and
+//     its vpiIndex is Constant "123"
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
 //   - compiler emits zero errors
 //
@@ -71,10 +77,10 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,17 +94,17 @@ class MultiDimArrayAddressingTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ----------------------------------------------------------
+// --- module / variables -------------------------------------------------------
 
 TEST_F(MultiDimArrayAddressingTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
 TEST_F(MultiDimArrayAddressingTest, MemIsTwoNestedStaticArrayTypespecsEndingInLogicElem) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
 
-  const hldb::Net *const mem = hldb::findByName<hldb::Net>("mem", top->getNets());
+  const hldb::Variable *const mem = hldb::findByName<hldb::Variable>("mem", top->getVariables());
   ASSERT_NE(mem, nullptr);
   EXPECT_EQ(mem->getValue<hldb::Constant>(), nullptr);
 
@@ -161,7 +167,7 @@ TEST_F(MultiDimArrayAddressingTest, AssignmentRhsIsNestedBitSelectMem123Then2) {
   ASSERT_NE(inner, nullptr) << "the outer BitSelect's prefix should be another BitSelect ('mem[123]'), not a RefObj";
   EXPECT_EQ(inner->getName(), "mem[123]");
   EXPECT_EQ(inner->getPrefix<hldb::RefObj>()->getName(), "mem");
-  EXPECT_NE(inner->getPrefix<hldb::RefObj>()->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(inner->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr);
   ASSERT_NE(inner->getIndex<hldb::Constant>(), nullptr);
   EXPECT_EQ(inner->getIndex<hldb::Constant>()->getDecompile(), "123");
 }

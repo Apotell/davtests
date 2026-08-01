@@ -22,17 +22,29 @@
 //     $display(":assert: (-8 == %d)", a);
 //   end
 //
-// Per IEEE 1800-2017 11.7: 4'b1000 reinterpreted as signed is -8 (the
+// Per IEEE 1800-2023 11.7: 4'b1000 reinterpreted as signed is -8 (the
 // 4-bit two's-complement value 1000b), and assigning that into a signed
-// 8-bit net sign-extends it to -8. This is the runtime-verification
+// 8-bit variable sign-extends it to -8. This is the runtime-verification
 // sibling of signed_func.sv, adding the $display assertion.
 //
+// Per IEEE 1800-2023 20.8 ("Bit-vector system functions"), $signed is a
+// system *function*: it returns a value with no side effect and (unlike
+// $cast) has no task form. Used as the rhs of an assignment its return
+// value is consumed, so it must be modeled as a hldb::SysFuncCall, not a
+// hldb::SysTaskCall (reserved for system tasks such as $display that are
+// invoked for their side effect, not their value).
+//
+// IEEE 1800-2023 6.7/6.8: "logic signed [7:0] a" has no net-type keyword
+// (wire/tri/.../nettype), so per the standard it is a variable_declaration,
+// not a net_declaration. It must be modeled as hldb::Variable, found via
+// Module::getVariables(), not as hldb::Net / Module::getNets().
+//
 // Checked:
-//   - module top has exactly 1 net: "a" (LogicTypespec, vpiSigned == true,
-//     vector [7:0]), not decl-assigned
+//   - module top has exactly 1 variable: "a" (LogicTypespec, vpiSigned ==
+//     true, vector [7:0]), not decl-assigned
 //   - module has exactly 1 process: an Initial whose Begin has exactly 2
 //     statements: a blocking Assignment followed by a SysTaskCall
-//   - the Assignment: lhs RefObj "a"; rhs SysTaskCall "$signed" with 1
+//   - the Assignment: lhs RefObj "a"; rhs SysFuncCall "$signed" with 1
 //     argument: Constant "4'b1000" (vpiConstType == binary)
 //   - the SysTaskCall "$display" has 2 arguments: Constant string
 //     ":assert: (-8 == %d)" and RefObj "a"
@@ -42,11 +54,11 @@
 //
 // Not checked (GTEST_SKIP, with a real reason, not just "no time"):
 //   - Whether "a" actually equals -8 at runtime. HLC is a compiler/
-//     elaborator, not a simulator: Net::getValue<T>() only ever exposes a
-//     declaration-time initializer, and "a" is only assigned inside the
-//     initial block, never at declaration -- there is no field capturing
-//     the post-assignment value the ":assert:" tag is asking a simulator
-//     to check.
+//     elaborator, not a simulator: Variable::getValue<T>() only ever
+//     exposes a declaration-time initializer, and "a" is only assigned
+//     inside the initial block, never at declaration -- there is no field
+//     capturing the post-assignment value the ":assert:" tag is asking a
+//     simulator to check.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -63,10 +75,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/sys_func_call.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -80,17 +93,17 @@ class SignedFuncSimTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ----------------------------------------------------------
+// --- module / variables ------------------------------------------------------
 
 TEST_F(SignedFuncSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(SignedFuncSimTest, ModuleHasOneSignedVectorNetNotDeclAssigned) {
+TEST_F(SignedFuncSimTest, ModuleHasOneSignedVectorVariableNotDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr);
 
@@ -125,7 +138,7 @@ TEST_F(SignedFuncSimTest, FirstStatementAssignsSignedCallOfFourBitBinaryLiteral)
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "a");
 
-  const hldb::SysTaskCall *const call = assign->getRhs<hldb::SysTaskCall>();
+  const hldb::SysFuncCall *const call = assign->getRhs<hldb::SysFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "$signed");
   ASSERT_NE(call->getArguments(), nullptr);
@@ -171,17 +184,17 @@ TEST_F(SignedFuncSimTest, CompilerReportsZeroErrors) {
 // --- the actual point of the file: runtime value ----------------------------
 
 TEST_F(SignedFuncSimTest, AEqualsNegativeEightAtRuntime) {
-  GTEST_SKIP() << "IEEE 1800-2017 11.7: $signed(4'b1000) reinterprets the "
+  GTEST_SKIP() << "IEEE 1800-2023 11.7: $signed(4'b1000) reinterprets the "
                   "4-bit pattern 1000b as signed, giving -8, which sign-"
-                  "extends into the signed 8-bit net 'a'. HLC is a static "
-                  "compiler/elaborator: Net::getValue<T>() only ever "
-                  "exposes a declaration-time initializer, and 'a' is only "
-                  "assigned inside the initial block, never at declaration "
-                  "-- there is no field capturing its post-assignment "
-                  "runtime value.";
+                  "extends into the signed 8-bit variable 'a'. HLC is a "
+                  "static compiler/elaborator: Variable::getValue<T>() "
+                  "only ever exposes a declaration-time initializer, and "
+                  "'a' is only assigned inside the initial block, never at "
+                  "declaration -- there is no field capturing its post-"
+                  "assignment runtime value.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const aValue = a->getValue<hldb::Constant>();
   ASSERT_NE(aValue, nullptr) << "no field captures a's post-assignment runtime value";

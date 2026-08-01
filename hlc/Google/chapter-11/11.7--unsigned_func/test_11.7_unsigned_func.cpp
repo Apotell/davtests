@@ -30,13 +30,26 @@
 // $unsigned(). This is the direct counterpart of signed_func.sv, whose
 // argument (a plain literal) needed no such operator wrapper.
 //
+// Per IEEE 1800-2023 20.8 ("Bit-vector system functions"), $signed and
+// $unsigned are system *functions*: they take an argument and return a
+// value with no side effect, and (unlike $cast) have no task form. A call
+// used as the rhs of an assignment consumes that return value, so it must
+// be modeled as a hldb::SysFuncCall, not a hldb::SysTaskCall (the latter is
+// reserved for system tasks such as $display that are invoked for their
+// side effect, not their value).
+//
+// "logic [7:0] a;" has no explicit net-type keyword (wire/tri/.../nettype),
+// so per IEEE 1800-2023 6.7/6.8 (net_declaration requires a net_type; a bare
+// data_type_or_implicit declaration is a variable) "a" is a hldb::Variable,
+// not a hldb::Net.
+//
 // Checked:
-//   - module top has exactly 1 net: "a" (LogicTypespec, vector [7:0],
+//   - module top has exactly 1 variable: "a" (LogicTypespec, vector [7:0],
 //     *not* signed), not decl-assigned
 //   - module-level typespecs (1): just that one (unsigned) LogicTypespec
 //   - module has exactly 1 process: an Initial whose Begin has exactly 1
 //     statement: a blocking Assignment
-//   - the Assignment: lhs RefObj "a"; rhs SysTaskCall "$unsigned" with
+//   - the Assignment: lhs RefObj "a"; rhs SysFuncCall "$unsigned" with
 //     exactly 1 argument: an Operation (vpiMinusOp) with exactly 1 operand:
 //     Constant "4" (vpiConstType == unsigned int, decompile "4") -- the
 //     unary minus is a real operator node wrapping the positive literal,
@@ -66,11 +79,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/sys_task_call.h>
+#include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -84,17 +97,17 @@ class UnsignedFuncTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ----------------------------------------------------------
+// --- module / variables ------------------------------------------------------
 
 TEST_F(UnsignedFuncTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(UnsignedFuncTest, ModuleHasOneUnsignedVectorNetNotDeclAssigned) {
+TEST_F(UnsignedFuncTest, ModuleHasOneUnsignedVectorVariableNotDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr);
 
@@ -143,7 +156,7 @@ TEST_F(UnsignedFuncTest, AssignmentRhsIsUnsignedCallOfUnaryMinusFourOperation) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
 
-  const hldb::SysTaskCall *const call = assign->getRhs<hldb::SysTaskCall>();
+  const hldb::SysFuncCall *const call = assign->getRhs<hldb::SysFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "$unsigned");
   ASSERT_NE(call->getArguments(), nullptr);

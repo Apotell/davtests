@@ -29,10 +29,16 @@
 // nested-BitSelect shape ("mem[123][2]" -> prefix BitSelect "mem[123]" ->
 // prefix RefObj "mem") appears as both an lvalue and an rvalue.
 //
+// IEEE 1800-2023 6.7/6.8: "logic [7:0] mem [0:1023][0:3]" and
+// "logic [7:0] a" have no net-type keyword (wire/tri/.../nettype), so per
+// the standard they are variable_declarations, not net_declarations. Both
+// must be modeled as hldb::Variable, found via Module::getVariables(), not
+// as hldb::Net / Module::getNets().
+//
 // Checked:
-//   - module top has exactly 2 nets: "mem" (nested ArrayTypespec pair, both
-//     vpiArrayType == vpiStaticArray, outer range [0:1023] / inner range
-//     [0:3], innermost elem typespec LogicTypespec [7:0]) and "a"
+//   - module top has exactly 2 variables: "mem" (nested ArrayTypespec pair,
+//     both vpiArrayType == vpiStaticArray, outer range [0:1023] / inner
+//     range [0:3], innermost elem typespec LogicTypespec [7:0]) and "a"
 //     (LogicTypespec, vector [7:0]), neither decl-assigned
 //   - module has exactly 1 process: an Initial whose Begin has exactly 3
 //     statements, in source order:
@@ -49,8 +55,8 @@
 //
 // Not checked (GTEST_SKIP, with a real reason, not just "no time"):
 //   - Whether "a" actually equals 125 at runtime. HLC is a compiler/
-//     elaborator, not a simulator: Net::getValue<T>() only ever exposes a
-//     declaration-time initializer, and neither "mem" nor "a" is
+//     elaborator, not a simulator: Variable::getValue<T>() only ever exposes
+//     a declaration-time initializer, and neither "mem" nor "a" is
 //     decl-assigned -- there is no field anywhere that captures the
 //     write-then-read value the ":assert:" tag is asking a simulator to
 //     check.
@@ -71,10 +77,10 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,18 +94,18 @@ class MultiDimArrayAddressingSimTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ----------------------------------------------------------
+// --- module / variables -------------------------------------------------------
 
 TEST_F(MultiDimArrayAddressingSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(MultiDimArrayAddressingSimTest, ModuleHasTwoNetsNeitherDeclAssigned) {
+TEST_F(MultiDimArrayAddressingSimTest, ModuleHasTwoVariablesNeitherDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
 
-  const hldb::Net *const mem = hldb::findByName<hldb::Net>("mem", top->getNets());
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const mem = hldb::findByName<hldb::Variable>("mem", top->getVariables());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(mem, nullptr);
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(mem->getValue<hldb::Constant>(), nullptr);
@@ -204,13 +210,13 @@ TEST_F(MultiDimArrayAddressingSimTest, CompilerReportsZeroErrors) {
 TEST_F(MultiDimArrayAddressingSimTest, AEqualsOneTwentyFiveAtRuntime) {
   GTEST_SKIP() << "The source writes 125 into mem[123][2] then reads it back "
                   "into 'a', asserting a == 125. HLC is a static compiler/"
-                  "elaborator: Net::getValue<T>() only ever exposes a "
+                  "elaborator: Variable::getValue<T>() only ever exposes a "
                   "declaration-time initializer, and 'a' is only assigned "
                   "inside the initial block, never at declaration -- there "
                   "is no field capturing its post-assignment runtime value.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const aValue = a->getValue<hldb::Constant>();
   ASSERT_NE(aValue, nullptr) << "no field captures a's post-assignment runtime value";

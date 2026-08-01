@@ -26,13 +26,17 @@
 //   end
 //
 // This is the runtime-verification sibling of tagged_union_member_access.sv,
-// trimmed to a single union net "a" (unlike the two-net "a, b" pair in the
-// non-sim siblings) plus the plain int "b" the value is read into. Only the
-// *valid* access is exercised here (reading ".Valid" right after tagging
-// "a" Valid) -- the deliberately invalid case lives in the "_inv" sibling.
+// trimmed to a single union variable "a" (unlike the two-variable "a, b"
+// pair in the non-sim siblings) plus the plain int "b" the value is read
+// into. Only the *valid* access is exercised here (reading ".Valid" right
+// after tagging "a" Valid) -- the deliberately invalid case lives in the
+// "_inv" sibling.
+//
+// Neither "u_int a;" nor "int b;" carries an explicit net-type keyword, so
+// per IEEE 1800-2023 6.7/6.8 both are hldb::Variable, not hldb::Net.
 //
 // Checked:
-//   - module top has exactly 2 nets: "a" ("u_int", via RefTypespec ->
+//   - module top has exactly 2 variables: "a" ("u_int", via RefTypespec ->
 //     TypedefTypespec -> UnionTypespec) and "b" (plain IntTypespec),
 //     neither decl-assigned
 //   - module has exactly 1 process: an Initial whose Begin has exactly 3
@@ -41,7 +45,7 @@
 //          "Valid" whose getTag<Constant>() decompiles to "42"
 //       2) blocking Assignment: lhs RefObj "b"; rhs HierPath name "a.Valid"
 //          whose getPathElems() has exactly 2 items: RefObj "a" (resolving
-//          to Net "a") and RefObj "Valid" (resolving to the union's
+//          to Variable "a") and RefObj "Valid" (resolving to the union's
 //          TypespecMember "Valid", not a variable)
 //       3) SysTaskCall "$display" with 2 arguments: Constant string
 //          ":assert: (42 == %d)" and RefObj "b"
@@ -51,11 +55,11 @@
 //
 // Not checked (GTEST_SKIP, with a real reason, not just "no time"):
 //   - Whether "b" actually equals 42 at runtime. HLC is a compiler/
-//     elaborator, not a simulator: Net::getValue<T>() only ever exposes a
-//     declaration-time initializer, and "b" is only assigned inside the
-//     initial block, never at declaration -- there is no field capturing
-//     the post-assignment value the ":assert:" tag is asking a simulator
-//     to check.
+//     elaborator, not a simulator: Variable::getValue<T>() only ever
+//     exposes a declaration-time initializer, and "b" is only assigned
+//     inside the initial block, never at declaration -- there is no field
+//     capturing the post-assignment value the ":assert:" tag is asking a
+//     simulator to check.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -72,13 +76,13 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/tagged_pattern.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/typespec_member.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -92,18 +96,18 @@ class TaggedUnionMemberAccessSimTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ----------------------------------------------------------
+// --- module / variables ------------------------------------------------------
 
 TEST_F(TaggedUnionMemberAccessSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(TaggedUnionMemberAccessSimTest, ModuleHasTwoNetsNeitherDeclAssigned) {
+TEST_F(TaggedUnionMemberAccessSimTest, ModuleHasTwoVariablesNeitherDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr);
@@ -205,13 +209,13 @@ TEST_F(TaggedUnionMemberAccessSimTest, CompilerReportsZeroErrors) {
 TEST_F(TaggedUnionMemberAccessSimTest, BEqualsFortyTwoAtRuntime) {
   GTEST_SKIP() << "The source tags 'a' Valid(42), reads 'a.Valid' into 'b', "
                   "and asserts b == 42. HLC is a static compiler/"
-                  "elaborator: Net::getValue<T>() only ever exposes a "
+                  "elaborator: Variable::getValue<T>() only ever exposes a "
                   "declaration-time initializer, and 'b' is only assigned "
                   "inside the initial block, never at declaration -- there "
                   "is no field capturing its post-assignment runtime value.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::Constant *const bValue = b->getValue<hldb::Constant>();
   ASSERT_NE(bValue, nullptr) << "no field captures b's post-assignment runtime value";

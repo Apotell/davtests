@@ -31,20 +31,24 @@
 // this is the *valid* access; see the "_inv" sibling for the invalid one).
 // Per IEEE 1800-2017 11.9, member access on a tagged union compiles to a
 // HierPath, exactly the same node kind used for any other "x.y" hierarchical
-// reference -- the trailing path element resolves not to a Net but to the
-// union type's own TypespecMember.
+// reference -- the trailing path element resolves not to a declared Net or
+// Variable but to the union type's own TypespecMember.
+//
+// Neither "u_int a, b;" nor "int c;" carries an explicit net-type keyword,
+// so per IEEE 1800-2023 6.7/6.8 all three are hldb::Variable, not hldb::Net.
 //
 // Checked:
 //   - everything tagged_union.sv checks for the UnionTypespec/TypedefTypespec
 //     shape and the first two statements holds identically here
-//   - module has exactly 3 nets: "a", "b" (both "u_int") and "c" (plain
+//   - module has exactly 3 variables: "a", "b" (both "u_int") and "c" (plain
 //     IntTypespec), none decl-assigned
 //   - the initial block's Begin has exactly 3 statements; the third is a
 //     blocking Assignment: lhs RefObj "c"; rhs HierPath name "b.Valid"
 //     whose getPathElems() has exactly 2 items: RefObj "b" (resolving via
-//     getActual<Net>() to Net "b") and RefObj "Valid" (resolving via
-//     getActual<TypespecMember>() to the union's own "Valid" member, NOT
-//     to any variable)
+//     getActual<Variable>() to Variable "b") and RefObj "Valid" (resolving
+//     via getActual<TypespecMember>() to the union's own "Valid" member --
+//     not a Net/Variable/data object -- since "Valid" is a member name of
+//     the type, not a declared object)
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
 //   - compiler emits zero errors
 //
@@ -67,13 +71,13 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/tagged_pattern.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/typespec_member.h>
 #include <hldb/union_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -87,19 +91,19 @@ class TaggedUnionMemberAccessTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ----------------------------------------------------------
+// --- module / variables ------------------------------------------------------
 
 TEST_F(TaggedUnionMemberAccessTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(TaggedUnionMemberAccessTest, ModuleHasThreeNetsNoneDeclAssigned) {
+TEST_F(TaggedUnionMemberAccessTest, ModuleHasThreeVariablesNoneDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   ASSERT_NE(c, nullptr);
@@ -170,7 +174,7 @@ TEST_F(TaggedUnionMemberAccessTest, ThirdStatementReadsBDotValidAsHierPathToType
   const hldb::RefObj *const base = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "b");
-  EXPECT_NE(base->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(base->getActual<hldb::Variable>(), nullptr);
 
   const hldb::RefObj *const member = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(member, nullptr);

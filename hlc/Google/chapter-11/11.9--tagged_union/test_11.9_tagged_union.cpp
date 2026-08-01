@@ -48,9 +48,11 @@
 //     is non-null) -- and a TypedefTypespec "u_int" whose
 //     getTypedefAlias()->getActual<UnionTypespec>() resolves back to that
 //     same union
-//   - module has exactly 2 nets: "a" and "b", both typed via a RefTypespec
-//     named "u_int" whose getActual<TypedefTypespec>() resolves to the
-//     "u_int" TypedefTypespec above, neither decl-assigned
+//   - "u_int a, b;" has no explicit net-type keyword, so per IEEE 1800-2023
+//     6.7/6.8 "a" and "b" are hldb::Variable, not hldb::Net
+//   - module has exactly 2 variables: "a" and "b", both typed via a
+//     RefTypespec named "u_int" whose getActual<TypedefTypespec>() resolves
+//     to the "u_int" TypedefTypespec above, neither decl-assigned
 //   - module has exactly 1 process: an Initial whose Begin has exactly 2
 //     statements:
 //       1) blocking Assignment: lhs RefObj "a"; rhs TaggedPattern name
@@ -79,7 +81,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/tagged_pattern.h>
@@ -87,6 +88,7 @@
 #include <hldb/typespec.h>
 #include <hldb/typespec_member.h>
 #include <hldb/union_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -152,16 +154,16 @@ TEST_F(TaggedUnionTest, TypedefUIntAliasesTheUnion) {
   EXPECT_EQ(typedefTs->getTypedefAlias()->getActual<hldb::UnionTypespec>(), getUnion());
 }
 
-// --- nets ---------------------------------------------------------------
+// --- variables ---------------------------------------------------------------
 
-TEST_F(TaggedUnionTest, ModuleHasTwoUIntNetsNeitherDeclAssigned) {
+TEST_F(TaggedUnionTest, ModuleHasTwoUIntVariablesNeitherDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr);
