@@ -180,10 +180,8 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/dut.sv:4:25: Compile generate block "A".
 [INF:CP0335] $Source01/dut.sv:7:33: Compile generate block "B".
 [INF:CP0335] $Source01/dut.sv:12:33: Compile generate block "C".
-[ERR:EL0535] $Source01/dut.sv:16:36: Illegal implicit net "id:68, name:B".
-[ERR:EL0535] $Source01/dut.sv:16:38: Illegal implicit net "id:69, name:y".
-[ERR:EL0535] $Source01/dut.sv:16:50: Illegal implicit net "id:75, name:C".
-[ERR:EL0535] $Source01/dut.sv:16:52: Illegal implicit net "id:76, name:z".
+[WRN:CP0350] $Source01/dut.sv:16:36: Failed to bind "id:68, name:B".
+[WRN:CP0350] $Source01/dut.sv:16:50: Failed to bind "id:75, name:C".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "gen_test9".
 ====== HLDB =======
 Design name:unnamed:
@@ -193,7 +191,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:gen_test9 file:$Source01/dut.sv start:1:1 end:19:10:
       vpiParent: Design name:unnamed
@@ -229,13 +226,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: gen_test9
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gen_test9
         vpiName: work
         vpiFullName: gen_test9.work
       vpiCell: gen_test9
-      vpiNet (1 items):
+      vpiNet (4 items):
         Net name:w start:2:20 end:2:21:
           vpiParent: Module name:gen_test9
           vpiTypespec RefTypespec start:2:14 end:2:19:
@@ -255,6 +252,53 @@ Design name:unnamed:
             vpiSize: 2
             vpiDecompile: "2'b11"
             vpiValue: "11"
+        Net name:x start:5:36 end:5:37:
+          vpiParent: Module name:gen_test9
+          vpiTypespec RefTypespec start:5:30 end:5:35:
+            vpiParent: Net name:x
+            vpiFullName: gen_test9.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: gen_test9.x
+          vpiNetType: wire (1)
+        Net name:y start:8:44 end:8:45:
+          vpiParent: Module name:gen_test9
+          vpiTypespec RefTypespec start:8:38 end:8:43:
+            vpiParent: Net name:y
+            vpiFullName: gen_test9.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: gen_test9.y
+          vpiNetType: wire (1)
+          vpiValue Constant start:8:48 end:8:53:
+            vpiParent: Net name:y
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: gen_test9.y
+              vpiActual: LogicTypespec
+            vpiConstType: binary (3)
+            vpiSize: 2
+            vpiDecompile: "2'b00"
+            vpiValue: "00"
+        Net name:z start:13:44 end:13:45:
+          vpiParent: Module name:gen_test9
+          vpiTypespec RefTypespec start:13:38 end:13:43:
+            vpiParent: Net name:z
+            vpiFullName: gen_test9.z
+            vpiActual: LogicTypespec
+          vpiName: z
+          vpiFullName: gen_test9.z
+          vpiNetType: wire (1)
+          vpiValue Constant start:13:48 end:13:53:
+            vpiParent: Net name:z
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: gen_test9.z
+              vpiActual: LogicTypespec
+            vpiConstType: binary (3)
+            vpiSize: 2
+            vpiDecompile: "2'b01"
+            vpiValue: "01"
       vpiGenStmt (1 items):
         GenRegion start:3:9 end:18:20:
           vpiParent: Module name:gen_test9
@@ -265,16 +309,6 @@ Design name:unnamed:
               vpiParent: Begin name:A
               vpiName: A
             vpiFullName: gen_test9.A
-            vpiVariable (1 items):
-              Variable name:x start:5:36 end:5:37:
-                vpiParent: Begin name:A
-                vpiTypespec RefTypespec start:5:30 end:5:35:
-                  vpiParent: Variable name:x
-                  vpiFullName: gen_test9.A.x
-                  vpiActual: LogicTypespec
-                vpiName: x
-                vpiFullName: gen_test9.A.x
-                vpiNetType: wire (1)
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin name:A
@@ -312,26 +346,6 @@ Design name:unnamed:
                     vpiParent: Begin name:B
                     vpiName: B
                   vpiFullName: gen_test9.A.B
-                  vpiVariable (1 items):
-                    Variable name:y start:8:44 end:8:45:
-                      vpiParent: Begin name:B
-                      vpiTypespec RefTypespec start:8:38 end:8:43:
-                        vpiParent: Variable name:y
-                        vpiFullName: gen_test9.A.B.y
-                        vpiActual: LogicTypespec
-                      vpiName: y
-                      vpiFullName: gen_test9.A.B.y
-                      vpiNetType: wire (1)
-                      vpiValue Constant start:8:48 end:8:53:
-                        vpiParent: Variable name:y
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: gen_test9.A.B.y
-                          vpiActual: LogicTypespec
-                        vpiConstType: binary (3)
-                        vpiSize: 2
-                        vpiDecompile: "2'b00"
-                        vpiValue: "00"
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Begin name:B
@@ -368,26 +382,6 @@ Design name:unnamed:
                     vpiParent: Begin name:C
                     vpiName: C
                   vpiFullName: gen_test9.A.C
-                  vpiVariable (1 items):
-                    Variable name:z start:13:44 end:13:45:
-                      vpiParent: Begin name:C
-                      vpiTypespec RefTypespec start:13:38 end:13:43:
-                        vpiParent: Variable name:z
-                        vpiFullName: gen_test9.A.C.z
-                        vpiActual: LogicTypespec
-                      vpiName: z
-                      vpiFullName: gen_test9.A.C.z
-                      vpiNetType: wire (1)
-                      vpiValue Constant start:13:48 end:13:53:
-                        vpiParent: Variable name:z
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: gen_test9.A.C.z
-                          vpiActual: LogicTypespec
-                        vpiConstType: binary (3)
-                        vpiSize: 2
-                        vpiDecompile: "2'b01"
-                        vpiValue: "01"
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Begin name:C
@@ -421,7 +415,7 @@ Design name:unnamed:
                   vpiParent: ContAssign
                   vpiName: x
                   vpiFullName: gen_test9.A.x
-                  vpiActual: Variable name:x
+                  vpiActual: Net name:x
                 vpiRhs Operation start:16:36 end:16:53:
                   vpiParent: ContAssign
                   vpiOpType: bitwise xor (30)
@@ -443,6 +437,7 @@ Design name:unnamed:
                               vpiParent: HierPath name:B.y
                               vpiName: y
                               vpiFullName: gen_test9.A.y
+                              vpiActual: Net name:y
                         Constant start:16:42 end:16:47:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -466,6 +461,7 @@ Design name:unnamed:
                           vpiParent: HierPath name:C.z
                           vpiName: z
                           vpiFullName: gen_test9.A.z
+                          vpiActual: Net name:z
   vpiTypespec (3 items):
     ModuleTypespec name:gen_test9:
       vpiParent: Design name:unnamed
@@ -481,8 +477,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

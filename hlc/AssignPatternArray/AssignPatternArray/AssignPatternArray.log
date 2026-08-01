@@ -348,13 +348,6 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:6:1: Compile package "pkg".
 [INF:CP0303] $Source01/dut.sv:41:1: Compile module "foo".
 [INF:CP0303] $Source01/dut.sv:46:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:30:8: Illegal implicit net "id:136, name:phase".
-[ERR:EL0535] $Source01/dut.sv:31:8: Illegal implicit net "id:138, name:cfg".
-[ERR:EL0535] $Source01/dut.sv:31:18: Illegal implicit net "id:139, name:en".
-[ERR:EL0535] $Source01/dut.sv:34:8: Illegal implicit net "id:146, name:phase".
-[ERR:EL0535] $Source01/dut.sv:35:8: Illegal implicit net "id:148, name:cfg".
-[ERR:EL0535] $Source01/dut.sv:35:18: Illegal implicit net "id:149, name:en".
-[ERR:EL0535] $Source01/dut.sv:48:8: Illegal implicit net "id:178, name:DATA_REG".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "ctrl_pkg".
 [WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "pkg".
 [WRN:PA0205] $Source01/dut.sv:41:1: No timescale set for "foo".
@@ -367,7 +360,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
     Package name:ctrl_pkg file:$Source01/dut.sv start:1:1 end:4:11:
       vpiParent: Design name:unnamed
@@ -428,7 +420,7 @@ Design name:unnamed:
             vpiDecompile: "64"
             vpiValue: 64
       vpiDefName: ctrl_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:ctrl_pkg
         vpiName: work
@@ -857,7 +849,7 @@ Design name:unnamed:
             vpiFullName: pkg::data_region_attr_t
             vpiActual: TypedefTypespec name:data_region_attr_t
       vpiDefName: pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:pkg
         vpiName: work
@@ -877,7 +869,7 @@ Design name:unnamed:
             vpiParent: ImportTypespec name:pkg
             vpiName: pkg
       vpiDefName: foo
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo
         vpiName: work
@@ -899,9 +891,10 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiName: DATA_REG
           vpiDirection: input (1)
-          vpiLowConn RefObj start:44:28 end:44:36:
+          vpiLowConn RefObj name:DATA_REG start:44:28 end:44:36:
             vpiParent: Port name:DATA_REG
-            vpiFullName: foo.DATA_REG
+            vpiName: DATA_REG
+            vpiFullName: foo.DATA_REG.DATA_REG
             vpiActual: Net name:DATA_REG
           vpiTypespec RefTypespec name:data_region_attr_t start:44:9 end:44:27:
             vpiParent: Port name:DATA_REG
@@ -926,7 +919,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:foo
             vpiName: foo
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -974,7 +967,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
+[  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************

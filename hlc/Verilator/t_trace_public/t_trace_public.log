@@ -738,9 +738,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_trace_public.v:32:1: Compile module "glbl".
 [INF:CP0303] $Source01/t_trace_public.v:45:1: Compile module "neg".
 [INF:CP0303] $Source01/t_trace_public.v:60:1: Compile module "little".
-[ERR:EL0535] $Source01/t_trace_public.v:11:14: Illegal implicit net "id:31, name:clk".
-[ERR:EL0535] $Source01/t_trace_public.v:12:20: Illegal implicit net "id:38, name:clk".
-[ERR:EL0535] $Source01/t_trace_public.v:28:20: Illegal implicit net "id:136, name:GSR".
+[WRN:CP0350] $Source01/t_trace_public.v:28:20: Failed to bind "id:136, name:GSR".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -750,7 +748,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_trace_public.v
       vpiPreprocFile: "$Output/lib/work/t_trace_public.v"
-      vpiDefNetType: none (12)
   vpiAllModules (4 items):
     Module name:t file:$Source01/t_trace_public.v start:6:1 end:30:10:
       vpiParent: Design name:unnamed
@@ -758,7 +755,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:RESET start:8:17 end:8:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:8:5 end:8:15:
@@ -767,7 +764,32 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: RESET
           vpiFullName: t.RESET
-          vpiNetType: none (12)
+        Variable name:vec start:16:16 end:16:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:vec
+            vpiFullName: t.vec
+            vpiActual: ArrayTypespec
+          vpiName: vec
+          vpiFullName: t.vec
+        Variable name:val start:18:16 end:18:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:18:4 end:18:11:
+            vpiParent: Variable name:val
+            vpiFullName: t.val
+            vpiActual: IntegerTypespec
+          vpiName: val
+          vpiFullName: t.val
+          vpiValue Constant start:18:22 end:18:23:
+            vpiParent: Variable name:val
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.val
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -858,13 +880,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:CLK start:7:17 end:7:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:7:5 end:7:16:
@@ -874,40 +896,15 @@ Design name:unnamed:
           vpiName: CLK
           vpiFullName: t.CLK
           vpiNetType: wire (1)
-        Net name:vec start:16:16 end:16:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:vec
-            vpiFullName: t.vec
-            vpiActual: ArrayTypespec
-          vpiName: vec
-          vpiFullName: t.vec
-        Net name:val start:18:16 end:18:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:18:4 end:18:11:
-            vpiParent: Net name:val
-            vpiFullName: t.val
-            vpiActual: IntegerTypespec
-          vpiName: val
-          vpiFullName: t.val
-          vpiValue Constant start:18:22 end:18:23:
-            vpiParent: Net name:val
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.val
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
       vpiPort (2 items):
         Port name:CLK start:7:17 end:7:20:
           vpiParent: Module name:t
           vpiName: CLK
           vpiDirection: input (1)
-          vpiLowConn RefObj start:7:17 end:7:20:
+          vpiLowConn RefObj name:CLK start:7:17 end:7:20:
             vpiParent: Port name:CLK
-            vpiFullName: t.CLK
+            vpiName: CLK
+            vpiFullName: t.CLK.CLK
             vpiActual: Net name:CLK
           vpiTypespec RefTypespec start:7:5 end:7:16:
             vpiParent: Port name:CLK
@@ -917,9 +914,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: RESET
           vpiDirection: output (2)
-          vpiLowConn RefObj start:8:17 end:8:22:
+          vpiLowConn RefObj name:RESET start:8:17 end:8:22:
             vpiParent: Port name:RESET
-            vpiFullName: t.RESET
+            vpiName: RESET
+            vpiFullName: t.RESET.RESET
             vpiActual: Variable name:RESET
           vpiTypespec RefTypespec start:8:5 end:8:15:
             vpiParent: Port name:RESET
@@ -956,7 +954,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: val
                       vpiFullName: t.val
-                      vpiActual: Net name:val
+                      vpiActual: Variable name:val
                     vpiRhs Constant start:20:24 end:20:25:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -973,7 +971,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: val
                       vpiFullName: t.val
-                      vpiActual: Net name:val
+                      vpiActual: Variable name:val
                     vpiRhs Operation start:21:18 end:21:25:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -982,7 +980,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: val
                           vpiFullName: t.val
-                          vpiActual: Net name:val
+                          vpiActual: Variable name:val
                         Constant start:21:24 end:21:25:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -1003,7 +1001,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:vec[3]
                       vpiName: vec
                       vpiFullName: t.vec
-                      vpiActual: Net name:vec
+                      vpiActual: Variable name:vec
                     vpiIndex Constant start:22:11 end:22:12:
                       vpiParent: BitSelect name:vec[3]
                       vpiTypespec RefTypespec:
@@ -1022,7 +1020,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:val[1:0]
                       vpiName: val
                       vpiFullName: t.val[1:0].val
-                      vpiActual: Net name:val
+                      vpiActual: Variable name:val
                     vpiRange Range start:22:21 end:22:24:
                       vpiParent: PartSelect name:val[1:0]
                       vpiLeftRange Constant start:22:21 end:22:22:
@@ -1055,7 +1053,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:vec[4]
                       vpiName: vec
                       vpiFullName: t.vec
-                      vpiActual: Net name:vec
+                      vpiActual: Variable name:vec
                     vpiIndex Constant start:23:11 end:23:12:
                       vpiParent: BitSelect name:vec[4]
                       vpiTypespec RefTypespec:
@@ -1074,7 +1072,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:val[3:2]
                       vpiName: val
                       vpiFullName: t.val[3:2].val
-                      vpiActual: Net name:val
+                      vpiActual: Variable name:val
                     vpiRange Range start:23:21 end:23:24:
                       vpiParent: PartSelect name:val[3:2]
                       vpiLeftRange Constant start:23:21 end:23:22:
@@ -1208,31 +1206,60 @@ Design name:unnamed:
         vpiParent: Module name:glbl
         vpiName: glbl
       vpiFullName: glbl
+      vpiVariable (1 items):
+        Variable name:GSR start:41:8 end:41:11:
+          vpiParent: Module name:glbl
+          vpiTypespec RefTypespec start:41:4 end:41:7:
+            vpiParent: Variable name:GSR
+            vpiFullName: glbl.GSR
+            vpiActual: LogicTypespec
+          vpiName: GSR
+          vpiFullName: glbl.GSR
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:glbl
       vpiDefName: glbl
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:glbl
         vpiName: work
         vpiFullName: glbl.work
       vpiCell: glbl
-      vpiNet (1 items):
-        Net name:GSR start:41:8 end:41:11:
-          vpiParent: Module name:glbl
-          vpiTypespec RefTypespec start:41:4 end:41:7:
-            vpiParent: Net name:GSR
-            vpiFullName: glbl.GSR
-            vpiActual: LogicTypespec
-          vpiName: GSR
-          vpiFullName: glbl.GSR
     Module name:neg file:$Source01/t_trace_public.v start:45:1 end:58:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:neg start:45:8 end:45:11:
         vpiParent: Module name:neg
         vpiName: neg
       vpiFullName: neg
+      vpiVariable (3 items):
+        Variable name:i8 start:49:15 end:49:17:
+          vpiParent: Module name:neg
+          vpiTypespec RefTypespec start:49:4 end:49:14:
+            vpiParent: Variable name:i8
+            vpiFullName: neg.i8
+            vpiActual: LogicTypespec
+          vpiName: i8
+          vpiFullName: neg.i8
+          vpiVector: true
+        Variable name:i48 start:50:17 end:50:20:
+          vpiParent: Module name:neg
+          vpiTypespec RefTypespec start:50:4 end:50:16:
+            vpiParent: Variable name:i48
+            vpiFullName: neg.i48
+            vpiActual: LogicTypespec
+          vpiName: i48
+          vpiFullName: neg.i48
+          vpiVector: true
+        Variable name:i128 start:51:17 end:51:21:
+          vpiParent: Module name:neg
+          vpiTypespec RefTypespec start:51:4 end:51:16:
+            vpiParent: Variable name:i128
+            vpiFullName: neg.i128
+            vpiActual: LogicTypespec
+          vpiName: i128
+          vpiFullName: neg.i128
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:neg
@@ -1333,13 +1360,13 @@ Design name:unnamed:
                     vpiValue: 64
           vpiVector: true
       vpiDefName: neg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:neg
         vpiName: work
         vpiFullName: neg.work
       vpiCell: neg
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:clk start:46:10 end:46:13:
           vpiParent: Module name:neg
           vpiTypespec RefTypespec start:46:4 end:46:9:
@@ -1349,38 +1376,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: neg.clk
           vpiNetType: wire (1)
-        Net name:i8 start:49:15 end:49:17:
-          vpiParent: Module name:neg
-          vpiTypespec RefTypespec start:49:4 end:49:14:
-            vpiParent: Net name:i8
-            vpiFullName: neg.i8
-            vpiActual: LogicTypespec
-          vpiName: i8
-          vpiFullName: neg.i8
-        Net name:i48 start:50:17 end:50:20:
-          vpiParent: Module name:neg
-          vpiTypespec RefTypespec start:50:4 end:50:16:
-            vpiParent: Net name:i48
-            vpiFullName: neg.i48
-            vpiActual: LogicTypespec
-          vpiName: i48
-          vpiFullName: neg.i48
-        Net name:i128 start:51:17 end:51:21:
-          vpiParent: Module name:neg
-          vpiTypespec RefTypespec start:51:4 end:51:16:
-            vpiParent: Net name:i128
-            vpiFullName: neg.i128
-            vpiActual: LogicTypespec
-          vpiName: i128
-          vpiFullName: neg.i128
       vpiPort (1 items):
         Port name:clk start:46:10 end:46:13:
           vpiParent: Module name:neg
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:46:10 end:46:13:
+          vpiLowConn RefObj name:clk start:46:10 end:46:13:
             vpiParent: Port name:clk
-            vpiFullName: neg.clk
+            vpiName: clk
+            vpiFullName: neg.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:46:4 end:46:9:
             vpiParent: Port name:clk
@@ -1396,7 +1400,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: i8
               vpiFullName: neg.i8
-              vpiActual: Net name:i8
+              vpiActual: Variable name:i8
             vpiRhs Constant start:49:32 end:49:34:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1416,7 +1420,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: i48
               vpiFullName: neg.i48
-              vpiActual: Net name:i48
+              vpiActual: Variable name:i48
             vpiRhs Constant start:50:36 end:50:38:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1436,7 +1440,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: i128
               vpiFullName: neg.i128
-              vpiActual: Net name:i128
+              vpiActual: Variable name:i128
             vpiRhs Constant start:51:38 end:51:40:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1470,7 +1474,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: i8
                     vpiFullName: neg.i8
-                    vpiActual: Net name:i8
+                    vpiActual: Variable name:i8
                   vpiRhs Operation start:54:13 end:54:16:
                     vpiParent: Assignment
                     vpiOpType: bitwise negation (4)
@@ -1479,14 +1483,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i8
                         vpiFullName: neg.i8
-                        vpiActual: Net name:i8
+                        vpiActual: Variable name:i8
                 Assignment start:55:7 end:55:18:
                   vpiParent: Begin
                   vpiLhs RefObj name:i48 start:55:7 end:55:10:
                     vpiParent: Assignment
                     vpiName: i48
                     vpiFullName: neg.i48
-                    vpiActual: Net name:i48
+                    vpiActual: Variable name:i48
                   vpiRhs Operation start:55:14 end:55:18:
                     vpiParent: Assignment
                     vpiOpType: bitwise negation (4)
@@ -1495,14 +1499,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i48
                         vpiFullName: neg.i48
-                        vpiActual: Net name:i48
+                        vpiActual: Variable name:i48
                 Assignment start:56:7 end:56:20:
                   vpiParent: Begin
                   vpiLhs RefObj name:i128 start:56:7 end:56:11:
                     vpiParent: Assignment
                     vpiName: i128
                     vpiFullName: neg.i128
-                    vpiActual: Net name:i128
+                    vpiActual: Variable name:i128
                   vpiRhs Operation start:56:15 end:56:20:
                     vpiParent: Assignment
                     vpiOpType: bitwise negation (4)
@@ -1511,7 +1515,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i128
                         vpiFullName: neg.i128
-                        vpiActual: Net name:i128
+                        vpiActual: Variable name:i128
           vpiAlwaysType: always (1)
     Module name:little file:$Source01/t_trace_public.v start:60:1 end:75:10:
       vpiParent: Design name:unnamed
@@ -1519,6 +1523,34 @@ Design name:unnamed:
         vpiParent: Module name:little
         vpiName: little
       vpiFullName: little
+      vpiVariable (3 items):
+        Variable name:i8 start:65:14 end:65:16:
+          vpiParent: Module name:little
+          vpiTypespec RefTypespec start:65:4 end:65:13:
+            vpiParent: Variable name:i8
+            vpiFullName: little.i8
+            vpiActual: LogicTypespec
+          vpiName: i8
+          vpiFullName: little.i8
+          vpiVector: true
+        Variable name:i48 start:66:15 end:66:18:
+          vpiParent: Module name:little
+          vpiTypespec RefTypespec start:66:4 end:66:14:
+            vpiParent: Variable name:i48
+            vpiFullName: little.i48
+            vpiActual: LogicTypespec
+          vpiName: i48
+          vpiFullName: little.i48
+          vpiVector: true
+        Variable name:i128 start:67:17 end:67:21:
+          vpiParent: Module name:little
+          vpiTypespec RefTypespec start:67:4 end:67:16:
+            vpiParent: Variable name:i128
+            vpiFullName: little.i128
+            vpiActual: LogicTypespec
+          vpiName: i128
+          vpiFullName: little.i128
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:little
@@ -1603,13 +1635,13 @@ Design name:unnamed:
                 vpiValue: 190
           vpiVector: true
       vpiDefName: little
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:little
         vpiName: work
         vpiFullName: little.work
       vpiCell: little
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:clk start:61:10 end:61:13:
           vpiParent: Module name:little
           vpiTypespec RefTypespec start:61:4 end:61:9:
@@ -1619,38 +1651,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: little.clk
           vpiNetType: wire (1)
-        Net name:i8 start:65:14 end:65:16:
-          vpiParent: Module name:little
-          vpiTypespec RefTypespec start:65:4 end:65:13:
-            vpiParent: Net name:i8
-            vpiFullName: little.i8
-            vpiActual: LogicTypespec
-          vpiName: i8
-          vpiFullName: little.i8
-        Net name:i48 start:66:15 end:66:18:
-          vpiParent: Module name:little
-          vpiTypespec RefTypespec start:66:4 end:66:14:
-            vpiParent: Net name:i48
-            vpiFullName: little.i48
-            vpiActual: LogicTypespec
-          vpiName: i48
-          vpiFullName: little.i48
-        Net name:i128 start:67:17 end:67:21:
-          vpiParent: Module name:little
-          vpiTypespec RefTypespec start:67:4 end:67:16:
-            vpiParent: Net name:i128
-            vpiFullName: little.i128
-            vpiActual: LogicTypespec
-          vpiName: i128
-          vpiFullName: little.i128
       vpiPort (1 items):
         Port name:clk start:61:10 end:61:13:
           vpiParent: Module name:little
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:61:10 end:61:13:
+          vpiLowConn RefObj name:clk start:61:10 end:61:13:
             vpiParent: Port name:clk
-            vpiFullName: little.clk
+            vpiName: clk
+            vpiFullName: little.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:61:4 end:61:9:
             vpiParent: Port name:clk
@@ -1666,7 +1675,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: i8
               vpiFullName: little.i8
-              vpiActual: Net name:i8
+              vpiActual: Variable name:i8
             vpiRhs Constant start:65:31 end:65:33:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1686,7 +1695,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: i48
               vpiFullName: little.i48
-              vpiActual: Net name:i48
+              vpiActual: Variable name:i48
             vpiRhs Constant start:66:34 end:66:36:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1706,7 +1715,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: i128
               vpiFullName: little.i128
-              vpiActual: Net name:i128
+              vpiActual: Variable name:i128
             vpiRhs Constant start:67:38 end:67:40:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1740,7 +1749,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: i8
                     vpiFullName: little.i8
-                    vpiActual: Net name:i8
+                    vpiActual: Variable name:i8
                   vpiRhs Operation start:71:13 end:71:16:
                     vpiParent: Assignment
                     vpiOpType: bitwise negation (4)
@@ -1749,14 +1758,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i8
                         vpiFullName: little.i8
-                        vpiActual: Net name:i8
+                        vpiActual: Variable name:i8
                 Assignment start:72:7 end:72:18:
                   vpiParent: Begin
                   vpiLhs RefObj name:i48 start:72:7 end:72:10:
                     vpiParent: Assignment
                     vpiName: i48
                     vpiFullName: little.i48
-                    vpiActual: Net name:i48
+                    vpiActual: Variable name:i48
                   vpiRhs Operation start:72:14 end:72:18:
                     vpiParent: Assignment
                     vpiOpType: bitwise negation (4)
@@ -1765,14 +1774,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i48
                         vpiFullName: little.i48
-                        vpiActual: Net name:i48
+                        vpiActual: Variable name:i48
                 Assignment start:73:7 end:73:20:
                   vpiParent: Begin
                   vpiLhs RefObj name:i128 start:73:7 end:73:11:
                     vpiParent: Assignment
                     vpiName: i128
                     vpiFullName: little.i128
-                    vpiActual: Net name:i128
+                    vpiActual: Variable name:i128
                   vpiRhs Operation start:73:15 end:73:20:
                     vpiParent: Assignment
                     vpiOpType: bitwise negation (4)
@@ -1781,7 +1790,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i128
                         vpiFullName: little.i128
-                        vpiActual: Net name:i128
+                        vpiActual: Variable name:i128
           vpiAlwaysType: always (1)
   vpiTypespec (5 items):
     ModuleTypespec name:t:
@@ -1814,8 +1823,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

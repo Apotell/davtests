@@ -345,12 +345,6 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/t_clk_scope_bad.v:6:1: Multiply defined typedef "flop".
 [WRN:CP0323] $Source01/t_clk_scope_bad.v:6:1: Multiply defined typedef "flop".
 [INF:CP0303] $Source01/t_clk_scope_bad.v:26:1: Compile module "flop".
-[ERR:EL0535] $Source01/t_clk_scope_bad.v:20:25: Illegal implicit net "id:72, name:d".
-[ERR:EL0535] $Source01/t_clk_scope_bad.v:20:38: Illegal implicit net "id:79, name:q".
-[ERR:EL0535] $Source01/t_clk_scope_bad.v:21:29: Illegal implicit net "id:93, name:d".
-[ERR:EL0535] $Source01/t_clk_scope_bad.v:21:38: Illegal implicit net "id:100, name:q".
-[ERR:EL0535] $Source01/t_clk_scope_bad.v:22:25: Illegal implicit net "id:114, name:d".
-[ERR:EL0535] $Source01/t_clk_scope_bad.v:22:38: Illegal implicit net "id:121, name:q".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -360,7 +354,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_clk_scope_bad.v
       vpiPreprocFile: "$Output/lib/work/t_clk_scope_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_clk_scope_bad.v start:6:1 end:24:10:
       vpiParent: Design name:unnamed
@@ -368,6 +361,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:r_in start:17:16 end:17:20:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:17:4 end:17:15:
+            vpiParent: Variable name:r_in
+            vpiName: logic
+            vpiFullName: t.r_in.logic
+            vpiActual: ArrayTypespec
+          vpiName: r_in
+          vpiFullName: t.r_in
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -475,21 +478,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:flop
             vpiName: flop
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
-        Net name:out start:15:17 end:15:20:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:15:11 end:15:16:
-            vpiParent: Net name:out
-            vpiFullName: t.out
-            vpiActual: LogicTypespec
-          vpiName: out
-          vpiFullName: t.out
+      vpiNet (3 items):
         Net name:clk start:13:10 end:13:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:10 end:13:10:
@@ -498,6 +493,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
         Net name:in start:14:16 end:14:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:10 end:14:15:
@@ -506,21 +502,22 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: t.in
-        Net name:r_in start:17:16 end:17:20:
+          vpiNetType: wire (1)
+        Net name:out start:15:17 end:15:20:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:17:4 end:17:15:
-            vpiParent: Net name:r_in
-            vpiName: logic
-            vpiFullName: t.r_in.logic
-            vpiActual: ArrayTypespec
-          vpiName: r_in
-          vpiFullName: t.r_in
+          vpiTypespec RefTypespec start:15:11 end:15:16:
+            vpiParent: Net name:out
+            vpiFullName: t.out
+            vpiActual: LogicTypespec
+          vpiName: out
+          vpiFullName: t.out
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:out start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:8:4 end:8:7:
+          vpiLowConn RefObj name:out start:15:17 end:15:20:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: t.out.out
@@ -533,7 +530,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:10:4 end:10:7:
+          vpiLowConn RefObj name:clk start:13:10 end:13:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -546,7 +543,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: in
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in start:10:9 end:10:11:
+          vpiLowConn RefObj name:in start:14:16 end:14:18:
             vpiParent: Port name:in
             vpiName: in
             vpiFullName: t.in.in
@@ -575,7 +572,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: r_in
                 vpiFullName: t.r_in
-                vpiActual: Net name:r_in
+                vpiActual: Variable name:r_in
               vpiRhs RefObj name:in start:18:38 end:18:40:
                 vpiParent: Assignment
                 vpiName: in
@@ -618,7 +615,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:r_in[0]
                   vpiName: r_in
                   vpiFullName: t.p0.r_in
-                  vpiActual: Net name:r_in
+                  vpiActual: Variable name:r_in
                 vpiIndex Constant start:20:32 end:20:33:
                   vpiParent: BitSelect name:r_in[0]
                   vpiTypespec RefTypespec:
@@ -678,7 +675,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:r_in[1]
                   vpiName: r_in
                   vpiFullName: t.p2.r_in
-                  vpiActual: Net name:r_in
+                  vpiActual: Variable name:r_in
                 vpiIndex Constant start:21:23 end:21:24:
                   vpiParent: BitSelect name:r_in[1]
                   vpiTypespec RefTypespec:
@@ -760,7 +757,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:r_in[2]
                   vpiName: r_in
                   vpiFullName: t.p1.r_in
-                  vpiActual: Net name:r_in
+                  vpiActual: Variable name:r_in
                 vpiIndex Constant start:22:32 end:22:33:
                   vpiParent: BitSelect name:r_in[2]
                   vpiTypespec RefTypespec:
@@ -812,7 +809,6 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
           vpiName: q
           vpiFullName: flop.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:flop
@@ -822,7 +818,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
       vpiDefName: flop
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:flop
         vpiName: work
@@ -852,9 +848,10 @@ Design name:unnamed:
           vpiParent: Module name:flop
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:28:11 end:28:12:
+          vpiLowConn RefObj name:d start:28:11 end:28:12:
             vpiParent: Port name:d
-            vpiFullName: flop.d
+            vpiName: d
+            vpiFullName: flop.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:28:4 end:28:9:
             vpiParent: Port name:d
@@ -864,9 +861,10 @@ Design name:unnamed:
           vpiParent: Module name:flop
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:29:11 end:29:14:
+          vpiLowConn RefObj name:clk start:29:11 end:29:14:
             vpiParent: Port name:clk
-            vpiFullName: flop.clk
+            vpiName: clk
+            vpiFullName: flop.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:29:4 end:29:9:
             vpiParent: Port name:clk
@@ -876,9 +874,10 @@ Design name:unnamed:
           vpiParent: Module name:flop
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:30:17 end:30:18:
+          vpiLowConn RefObj name:q start:30:17 end:30:18:
             vpiParent: Port name:q
-            vpiFullName: flop.q
+            vpiName: q
+            vpiFullName: flop.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec name:logic start:30:11 end:30:16:
             vpiParent: Port name:q
@@ -935,7 +934,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

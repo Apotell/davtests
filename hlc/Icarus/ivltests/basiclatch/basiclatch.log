@@ -543,11 +543,6 @@ n<$Source01/basiclatch.v> u<528> t<Top_level_rule> c<1> l<22:1> el<81:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/basiclatch.v:22:1: Compile module "basiclatch".
 [INF:CP0303] $Source01/basiclatch.v:33:1: Compile module "tbench".
-[ERR:EL0535] $Source01/basiclatch.v:37:25: Illegal implicit net "id:53, name:q".
-[ERR:EL0535] $Source01/basiclatch.v:44:8: Illegal implicit net "id:76, name:q".
-[ERR:EL0535] $Source01/basiclatch.v:54:8: Illegal implicit net "id:112, name:q".
-[ERR:EL0535] $Source01/basiclatch.v:62:8: Illegal implicit net "id:139, name:q".
-[ERR:EL0535] $Source01/basiclatch.v:72:8: Illegal implicit net "id:175, name:q".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -557,7 +552,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: basiclatch.v
       vpiPreprocFile: "$Output/lib/work/basiclatch.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:basiclatch file:$Source01/basiclatch.v start:22:1 end:31:10:
       vpiParent: Design name:unnamed
@@ -565,17 +559,27 @@ Design name:unnamed:
         vpiParent: Module name:basiclatch
         vpiName: basiclatch
       vpiFullName: basiclatch
+      vpiVariable (1 items):
+        Variable name:q start:24:8 end:24:9:
+          vpiParent: Module name:basiclatch
+          vpiTypespec RefTypespec start:25:1 end:25:4:
+            vpiParent: Variable name:q
+            vpiFullName: basiclatch.q
+            vpiActual: LogicTypespec
+          vpiName: q
+          vpiFullName: basiclatch.q
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:basiclatch
       vpiDefName: basiclatch
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:basiclatch
         vpiName: work
         vpiFullName: basiclatch.work
       vpiCell: basiclatch
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clk start:23:7 end:23:10:
           vpiParent: Module name:basiclatch
           vpiTypespec RefTypespec start:23:7 end:23:7:
@@ -584,6 +588,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: basiclatch.clk
+          vpiNetType: wire (1)
         Net name:d start:23:12 end:23:13:
           vpiParent: Module name:basiclatch
           vpiTypespec RefTypespec start:23:7 end:23:7:
@@ -592,20 +597,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d
           vpiFullName: basiclatch.d
-        Net name:q start:24:8 end:24:9:
-          vpiParent: Module name:basiclatch
-          vpiTypespec RefTypespec start:24:8 end:24:8:
-            vpiParent: Net name:q
-            vpiFullName: basiclatch.q
-            vpiActual: LogicTypespec
-          vpiName: q
-          vpiFullName: basiclatch.q
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:clk start:22:21 end:22:24:
           vpiParent: Module name:basiclatch
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:22:21 end:22:24:
+          vpiLowConn RefObj name:clk start:23:7 end:23:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: basiclatch.clk.clk
@@ -618,7 +616,7 @@ Design name:unnamed:
           vpiParent: Module name:basiclatch
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj name:d start:22:26 end:22:27:
+          vpiLowConn RefObj name:d start:23:12 end:23:13:
             vpiParent: Port name:d
             vpiName: d
             vpiFullName: basiclatch.d.d
@@ -631,15 +629,14 @@ Design name:unnamed:
           vpiParent: Module name:basiclatch
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj name:q start:22:29 end:22:30:
+          vpiLowConn RefObj name:q start:24:8 end:24:9:
             vpiParent: Port name:q
             vpiName: q
             vpiFullName: basiclatch.q.q
-            vpiActual: Net name:q
+            vpiActual: Variable name:q
           vpiTypespec RefTypespec start:24:8 end:24:8:
             vpiParent: Port name:q
             vpiFullName: basiclatch.q
-            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:27:1 end:29:11:
           vpiParent: Module name:basiclatch
@@ -677,7 +674,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: q
                   vpiFullName: basiclatch.q
-                  vpiActual: Net name:q
+                  vpiActual: Variable name:q
                 vpiRhs RefObj name:d start:29:9 end:29:10:
                   vpiParent: Assignment
                   vpiName: d
@@ -690,6 +687,25 @@ Design name:unnamed:
         vpiParent: Module name:tbench
         vpiName: tbench
       vpiFullName: tbench
+      vpiVariable (2 items):
+        Variable name:clk start:35:5 end:35:8:
+          vpiParent: Module name:tbench
+          vpiTypespec RefTypespec start:35:1 end:35:4:
+            vpiParent: Variable name:clk
+            vpiFullName: tbench.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: tbench.clk
+          vpiScalar: true
+        Variable name:d start:35:10 end:35:11:
+          vpiParent: Module name:tbench
+          vpiTypespec RefTypespec start:35:1 end:35:4:
+            vpiParent: Variable name:d
+            vpiFullName: tbench.d
+            vpiActual: LogicTypespec
+          vpiName: d
+          vpiFullName: tbench.d
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:tbench
@@ -699,29 +715,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:basiclatch
             vpiName: basiclatch
       vpiDefName: tbench
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tbench
         vpiName: work
         vpiFullName: tbench.work
       vpiCell: tbench
-      vpiNet (2 items):
-        Net name:clk start:35:5 end:35:8:
-          vpiParent: Module name:tbench
-          vpiTypespec RefTypespec start:35:1 end:35:4:
-            vpiParent: Net name:clk
-            vpiFullName: tbench.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: tbench.clk
-        Net name:d start:35:10 end:35:11:
-          vpiParent: Module name:tbench
-          vpiTypespec RefTypespec start:35:1 end:35:4:
-            vpiParent: Net name:d
-            vpiFullName: tbench.d
-            vpiActual: LogicTypespec
-          vpiName: d
-          vpiFullName: tbench.d
       vpiProcess (1 items):
         Initial start:39:1 end:79:6:
           vpiParent: Module name:tbench
@@ -736,7 +735,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk
                   vpiFullName: tbench.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
                 vpiRhs Constant start:41:11 end:41:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -754,7 +753,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d
                   vpiFullName: tbench.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
                 vpiRhs Constant start:42:9 end:42:10:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -841,7 +840,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk
                   vpiFullName: tbench.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
                 vpiRhs Constant start:50:11 end:50:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -871,7 +870,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d
                   vpiFullName: tbench.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
                 vpiRhs Constant start:52:9 end:52:10:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -948,7 +947,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: clk
                     vpiFullName: tbench.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
                   vpiRhs Constant start:60:11 end:60:12:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1035,7 +1034,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: clk
                     vpiFullName: tbench.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
                   vpiRhs Constant start:68:11 end:68:12:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1075,7 +1074,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d
                   vpiFullName: tbench.d
-                  vpiActual: Net name:d
+                  vpiActual: Variable name:d
                 vpiRhs Constant start:70:9 end:70:10:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1178,7 +1177,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: tbench.u_reg.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
             Port start:37:23 end:37:24:
               vpiParent: RefInstance name:u_reg
               vpiLowConn RefObj:
@@ -1188,7 +1187,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: d
                 vpiFullName: tbench.u_reg.d
-                vpiActual: Net name:d
+                vpiActual: Variable name:d
             Port start:37:25 end:37:26:
               vpiParent: RefInstance name:u_reg
               vpiLowConn RefObj:
@@ -1219,7 +1218,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

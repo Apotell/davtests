@@ -596,14 +596,11 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_parameter_access.v:8:1: Compile interface "test_if".
 [INF:CP0303] $Source01/t_interface_parameter_access.v:30:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_parameter_access.v:55:1: Compile module "testmod".
-[ERR:EL0535] $Source01/t_interface_parameter_access.v:36:16: Illegal implicit net "id:59, name:FOO".
-[ERR:EL0535] $Source01/t_interface_parameter_access.v:39:10: Illegal implicit net "id:67, name:intf".
-[ERR:EL0535] $Source01/t_interface_parameter_access.v:40:24: Illegal implicit net "id:70, name:intf_no_mp".
-[ERR:EL0535] $Source01/t_interface_parameter_access.v:43:43: Illegal implicit net "id:77, name:FOO".
-[ERR:EL0535] $Source01/t_interface_parameter_access.v:58:12: Illegal implicit net "id:110, name:mp".
-[ERR:EL0535] $Source01/t_interface_parameter_access.v:62:30: Illegal implicit net "id:126, name:FOO".
-[ERR:EL0535] $Source01/t_interface_parameter_access.v:74:16: Illegal implicit net "id:176, name:FOO".
-[ERR:EL0535] $Source01/t_interface_parameter_access.v:75:51: Illegal implicit net "id:187, name:FOO".
+[ERR:LN0813] $Source01/t_interface_parameter_access.v:1:1: Found 1 orphan node(s).
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "id:77, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "id:122, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "id:172, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "id:183, name:FOO".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -613,7 +610,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_parameter_access.v
       vpiPreprocFile: "$Output/lib/work/t_interface_parameter_access.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:test_if file:$Source01/t_interface_parameter_access.v start:8:1 end:23:13:
       vpiParent: Design name:unnamed
@@ -630,7 +626,6 @@ Design name:unnamed:
             vpiFullName: test_if.data.logic
           vpiName: data
           vpiFullName: test_if.data
-          vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:FOO start:8:39 end:8:42:
           vpiParent: Interface name:test_if
@@ -662,7 +657,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:test_if
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:test_if
         vpiName: work
@@ -754,7 +749,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:testmod
             vpiName: testmod
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -769,12 +764,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:32:4 end:32:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:32:4 end:32:7:
+          vpiLowConn RefObj name:clk start:34:10 end:34:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -960,7 +956,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:intf.FOO
                 vpiName: intf
                 vpiFullName: testmod.intf
-                vpiActual: Net name:intf
+                vpiActual: Port name:intf
               RefObj name:FOO start:62:30 end:62:33:
                 vpiParent: HierPath name:intf.FOO
                 vpiName: FOO
@@ -987,32 +983,17 @@ Design name:unnamed:
                 vpiName: FOO
                 vpiFullName: testmod.FOO
                 vpiActual: Parameter name:FOO
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:testmod
-        UnsupportedTypespec name:test_if::mp start:58:4 end:58:14:
-          vpiParent: Module name:testmod
-          vpiPathElem (2 items):
-            RefObj name:test_if start:58:4 end:58:11:
-              vpiParent: UnsupportedTypespec name:test_if::mp
-              vpiName: test_if
-              vpiFullName: testmod.test_if::mp.test_if
-              vpiActual: Interface name:test_if
-            RefObj name:mp start:58:12 end:58:14:
-              vpiParent: UnsupportedTypespec name:test_if::mp
-              vpiName: mp
-              vpiFullName: testmod.test_if::mp.mp
-          vpiName Identifier name:test_if::mp:
-            vpiParent: UnsupportedTypespec name:test_if::mp
-            vpiName: test_if::mp
       vpiDefName: testmod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:testmod
         vpiName: work
         vpiFullName: testmod.work
       vpiCell: testmod
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clk start:57:10 end:57:13:
           vpiParent: Module name:testmod
           vpiTypespec RefTypespec start:57:4 end:57:9:
@@ -1021,15 +1002,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: testmod.clk
-          vpiNetType: wire (1)
-        Net name:intf start:58:15 end:58:19:
-          vpiParent: Module name:testmod
-          vpiTypespec RefTypespec start:58:4 end:58:14:
-            vpiParent: Net name:intf
-            vpiFullName: testmod.intf
-            vpiActual: UnsupportedTypespec name:test_if::mp
-          vpiName: intf
-          vpiFullName: testmod.intf
           vpiNetType: wire (1)
         Net name:intf_no_mp start:59:12 end:59:22:
           vpiParent: Module name:testmod
@@ -1046,9 +1018,10 @@ Design name:unnamed:
           vpiParent: Module name:testmod
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:57:10 end:57:13:
+          vpiLowConn RefObj name:clk start:57:10 end:57:13:
             vpiParent: Port name:clk
-            vpiFullName: testmod.clk
+            vpiName: clk
+            vpiFullName: testmod.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:57:4 end:57:9:
             vpiParent: Port name:clk
@@ -1058,21 +1031,14 @@ Design name:unnamed:
           vpiParent: Module name:testmod
           vpiName: intf
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:58:15 end:58:19:
-            vpiParent: Port name:intf
-            vpiFullName: testmod.intf
-            vpiActual: Net name:intf
-          vpiTypespec RefTypespec start:58:4 end:58:14:
-            vpiParent: Port name:intf
-            vpiFullName: testmod.intf
-            vpiActual: UnsupportedTypespec name:test_if::mp
         Port name:intf_no_mp start:59:12 end:59:22:
           vpiParent: Module name:testmod
           vpiName: intf_no_mp
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:59:12 end:59:22:
+          vpiLowConn RefObj name:intf_no_mp start:59:12 end:59:22:
             vpiParent: Port name:intf_no_mp
-            vpiFullName: testmod.intf_no_mp
+            vpiName: intf_no_mp
+            vpiFullName: testmod.intf_no_mp.intf_no_mp
             vpiActual: Net name:intf_no_mp
           vpiTypespec RefTypespec name:test_if start:59:4 end:59:11:
             vpiParent: Port name:intf_no_mp
@@ -1214,7 +1180,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:intf.FOO
                             vpiName: intf
                             vpiFullName: testmod.intf
-                            vpiActual: Net name:intf
+                            vpiActual: Port name:intf
                           RefObj name:FOO start:74:16 end:74:19:
                             vpiParent: HierPath name:intf.FOO
                             vpiName: FOO
@@ -1258,7 +1224,7 @@ Design name:unnamed:
                                 vpiParent: HierPath name:intf.FOO
                                 vpiName: intf
                                 vpiFullName: testmod.intf
-                                vpiActual: Net name:intf
+                                vpiActual: Port name:intf
                               RefObj name:FOO start:75:51 end:75:54:
                                 vpiParent: HierPath name:intf.FOO
                                 vpiName: FOO
@@ -1420,8 +1386,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1436,25 +1402,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/mounts.json
 
 
-{'result': {'coverage': 99.45,
+{'result': {'coverage': 98.54,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 6,
+            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 16,
                                                                           'pre_len': 1094}},
-            'post_len': 6,
+            'post_len': 16,
             'pre_len': 1094,
             'test_name': 'Verilator/t_interface_parameter_access'}}
 
 +-------------------------------------------------+----------+-----------+
 | INPUT                                           |   PRELEN |   POSTLEN |
 +=================================================+==========+===========+
-| $Output/lib/work/t_interface_parameter_access.v |     1094 |         6 |
+| $Output/lib/work/t_interface_parameter_access.v |     1094 |        16 |
 +=================================================+==========+===========+
-|                                                 |     1094 |         6 |
+|                                                 |     1094 |        16 |
 +-------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.45
+[COVERAGE] : 98.54
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1465,7 +1431,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             200     200       0         0
+Others                             192     192       0         0
 ----------------------------------------------------------------
-                                   200     200       0         0
+                                   192     192       0         0
 ===================== END REDUCTION RESULT =====================

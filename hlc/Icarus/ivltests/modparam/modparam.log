@@ -1818,7 +1818,7 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/modparam.v:44:1: Multiply defined typedef "reg32".
 [WRN:CP0323] $Source01/modparam.v:44:1: Multiply defined typedef "reg32".
 [INF:CP0303] $Source01/modparam.v:112:1: Compile module "top".
-[ERR:EL0535] $Source01/modparam.v:127:25: Illegal implicit net "id:567, name:reg0".
+[WRN:CP0350] $Source01/modparam.v:127:25: Failed to bind "id:567, name:reg0".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1828,7 +1828,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: modparam.v
       vpiPreprocFile: "$Output/lib/work/modparam.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:reg32 file:$Source01/modparam.v start:24:1 end:42:10:
       vpiParent: Design name:unnamed
@@ -1836,6 +1835,16 @@ Design name:unnamed:
         vpiParent: Module name:reg32
         vpiName: reg32
       vpiFullName: reg32
+      vpiVariable (1 items):
+        Variable name:store start:34:17 end:34:22:
+          vpiParent: Module name:reg32
+          vpiTypespec RefTypespec start:34:1 end:34:16:
+            vpiParent: Variable name:store
+            vpiFullName: reg32.store
+            vpiActual: LogicTypespec
+          vpiName: store
+          vpiFullName: reg32.store
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:WIDTH start:26:11 end:26:16:
           vpiParent: Module name:reg32
@@ -1972,21 +1981,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: reg32
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:reg32
         vpiName: work
         vpiFullName: reg32.work
       vpiCell: reg32
-      vpiNet (5 items):
-        Net name:clk start:29:10 end:29:13:
-          vpiParent: Module name:reg32
-          vpiTypespec RefTypespec start:29:10 end:29:10:
-            vpiParent: Net name:clk
-            vpiFullName: reg32.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: reg32.clk
+      vpiNet (4 items):
         Net name:we start:28:10 end:28:12:
           vpiParent: Module name:reg32
           vpiTypespec RefTypespec start:28:10 end:28:10:
@@ -1995,6 +1996,16 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: we
           vpiFullName: reg32.we
+          vpiNetType: wire (1)
+        Net name:clk start:29:10 end:29:13:
+          vpiParent: Module name:reg32
+          vpiTypespec RefTypespec start:29:10 end:29:10:
+            vpiParent: Net name:clk
+            vpiFullName: reg32.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: reg32.clk
+          vpiNetType: wire (1)
         Net name:din start:30:20 end:30:23:
           vpiParent: Module name:reg32
           vpiTypespec RefTypespec start:30:7 end:30:18:
@@ -2003,6 +2014,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: din
           vpiFullName: reg32.din
+          vpiNetType: wire (1)
         Net name:dout start:32:21 end:32:25:
           vpiParent: Module name:reg32
           vpiTypespec RefTypespec start:32:8 end:32:19:
@@ -2011,20 +2023,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dout
           vpiFullName: reg32.dout
-        Net name:store start:34:17 end:34:22:
-          vpiParent: Module name:reg32
-          vpiTypespec RefTypespec start:34:1 end:34:16:
-            vpiParent: Net name:store
-            vpiFullName: reg32.store
-            vpiActual: LogicTypespec
-          vpiName: store
-          vpiFullName: reg32.store
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:clk start:24:15 end:24:18:
           vpiParent: Module name:reg32
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:24:15 end:24:18:
+          vpiLowConn RefObj name:clk start:29:10 end:29:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: reg32.clk.clk
@@ -2037,7 +2042,7 @@ Design name:unnamed:
           vpiParent: Module name:reg32
           vpiName: we
           vpiDirection: input (1)
-          vpiLowConn RefObj name:we start:24:19 end:24:21:
+          vpiLowConn RefObj name:we start:28:10 end:28:12:
             vpiParent: Port name:we
             vpiName: we
             vpiFullName: reg32.we.we
@@ -2050,7 +2055,7 @@ Design name:unnamed:
           vpiParent: Module name:reg32
           vpiName: din
           vpiDirection: input (1)
-          vpiLowConn RefObj name:din start:24:23 end:24:26:
+          vpiLowConn RefObj name:din start:30:20 end:30:23:
             vpiParent: Port name:din
             vpiName: din
             vpiFullName: reg32.din.din
@@ -2063,7 +2068,7 @@ Design name:unnamed:
           vpiParent: Module name:reg32
           vpiName: dout
           vpiDirection: output (2)
-          vpiLowConn RefObj name:dout start:24:28 end:24:32:
+          vpiLowConn RefObj name:dout start:32:21 end:32:25:
             vpiParent: Port name:dout
             vpiName: dout
             vpiFullName: reg32.dout.dout
@@ -2099,7 +2104,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: store
                   vpiFullName: reg32.store
-                  vpiActual: Net name:store
+                  vpiActual: Variable name:store
                 vpiRhs RefObj name:din start:38:14 end:38:17:
                   vpiParent: Assignment
                   vpiName: din
@@ -2118,13 +2123,59 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: store
             vpiFullName: reg32.store
-            vpiActual: Net name:store
+            vpiActual: Variable name:store
     Module name:memory file:$Source01/modparam.v start:44:1 end:110:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:memory start:44:8 end:44:14:
         vpiParent: Module name:memory
         vpiName: memory
       vpiFullName: memory
+      vpiVariable (5 items):
+        Variable name:dout start:53:21 end:53:25:
+          vpiParent: Module name:memory
+          vpiTypespec RefTypespec start:54:1 end:54:19:
+            vpiParent: Variable name:dout
+            vpiFullName: memory.dout
+            vpiActual: LogicTypespec
+          vpiName: dout
+          vpiFullName: memory.dout
+          vpiVector: true
+        Variable name:we0 start:57:9 end:57:12:
+          vpiParent: Module name:memory
+          vpiTypespec RefTypespec start:57:1 end:57:4:
+            vpiParent: Variable name:we0
+            vpiFullName: memory.we0
+            vpiActual: LogicTypespec
+          vpiName: we0
+          vpiFullName: memory.we0
+          vpiScalar: true
+        Variable name:we1 start:57:13 end:57:16:
+          vpiParent: Module name:memory
+          vpiTypespec RefTypespec start:57:1 end:57:4:
+            vpiParent: Variable name:we1
+            vpiFullName: memory.we1
+            vpiActual: LogicTypespec
+          vpiName: we1
+          vpiFullName: memory.we1
+          vpiScalar: true
+        Variable name:we2 start:57:17 end:57:20:
+          vpiParent: Module name:memory
+          vpiTypespec RefTypespec start:57:1 end:57:4:
+            vpiParent: Variable name:we2
+            vpiFullName: memory.we2
+            vpiActual: LogicTypespec
+          vpiName: we2
+          vpiFullName: memory.we2
+          vpiScalar: true
+        Variable name:we3 start:57:21 end:57:24:
+          vpiParent: Module name:memory
+          vpiTypespec RefTypespec start:57:1 end:57:4:
+            vpiParent: Variable name:we3
+            vpiFullName: memory.we3
+            vpiActual: LogicTypespec
+          vpiName: we3
+          vpiFullName: memory.we3
+          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:WIDTH start:46:11 end:46:16:
           vpiParent: Module name:memory
@@ -2342,13 +2393,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:reg32
             vpiName: reg32
       vpiDefName: memory
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memory
         vpiName: work
         vpiFullName: memory.work
       vpiCell: memory
-      vpiNet (13 items):
+      vpiNet (8 items):
         Net name:clk start:48:10 end:48:13:
           vpiParent: Module name:memory
           vpiTypespec RefTypespec start:48:10 end:48:10:
@@ -2357,6 +2408,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memory.clk
+          vpiNetType: wire (1)
         Net name:we start:49:10 end:49:12:
           vpiParent: Module name:memory
           vpiTypespec RefTypespec start:49:10 end:49:10:
@@ -2365,6 +2417,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: we
           vpiFullName: memory.we
+          vpiNetType: wire (1)
         Net name:addr start:50:14 end:50:18:
           vpiParent: Module name:memory
           vpiTypespec RefTypespec start:50:7 end:50:12:
@@ -2373,6 +2426,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: addr
           vpiFullName: memory.addr
+          vpiNetType: wire (1)
         Net name:din start:51:20 end:51:23:
           vpiParent: Module name:memory
           vpiTypespec RefTypespec start:51:7 end:51:18:
@@ -2381,14 +2435,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: din
           vpiFullName: memory.din
-        Net name:dout start:53:21 end:53:25:
-          vpiParent: Module name:memory
-          vpiTypespec RefTypespec start:53:8 end:53:19:
-            vpiParent: Net name:dout
-            vpiFullName: memory.dout
-            vpiActual: LogicTypespec
-          vpiName: dout
-          vpiFullName: memory.dout
+          vpiNetType: wire (1)
         Net name:dout0 start:56:21 end:56:26:
           vpiParent: Module name:memory
           vpiTypespec RefTypespec start:56:9 end:56:20:
@@ -2425,44 +2472,12 @@ Design name:unnamed:
           vpiName: dout3
           vpiFullName: memory.dout3
           vpiNetType: wire (1)
-        Net name:we0 start:57:9 end:57:12:
-          vpiParent: Module name:memory
-          vpiTypespec RefTypespec start:57:1 end:57:4:
-            vpiParent: Net name:we0
-            vpiFullName: memory.we0
-            vpiActual: LogicTypespec
-          vpiName: we0
-          vpiFullName: memory.we0
-        Net name:we1 start:57:13 end:57:16:
-          vpiParent: Module name:memory
-          vpiTypespec RefTypespec start:57:1 end:57:4:
-            vpiParent: Net name:we1
-            vpiFullName: memory.we1
-            vpiActual: LogicTypespec
-          vpiName: we1
-          vpiFullName: memory.we1
-        Net name:we2 start:57:17 end:57:20:
-          vpiParent: Module name:memory
-          vpiTypespec RefTypespec start:57:1 end:57:4:
-            vpiParent: Net name:we2
-            vpiFullName: memory.we2
-            vpiActual: LogicTypespec
-          vpiName: we2
-          vpiFullName: memory.we2
-        Net name:we3 start:57:21 end:57:24:
-          vpiParent: Module name:memory
-          vpiTypespec RefTypespec start:57:1 end:57:4:
-            vpiParent: Net name:we3
-            vpiFullName: memory.we3
-            vpiActual: LogicTypespec
-          vpiName: we3
-          vpiFullName: memory.we3
       vpiPort (5 items):
         Port name:clk start:44:15 end:44:18:
           vpiParent: Module name:memory
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:44:15 end:44:18:
+          vpiLowConn RefObj name:clk start:48:10 end:48:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memory.clk.clk
@@ -2475,7 +2490,7 @@ Design name:unnamed:
           vpiParent: Module name:memory
           vpiName: we
           vpiDirection: input (1)
-          vpiLowConn RefObj name:we start:44:20 end:44:22:
+          vpiLowConn RefObj name:we start:49:10 end:49:12:
             vpiParent: Port name:we
             vpiName: we
             vpiFullName: memory.we.we
@@ -2488,7 +2503,7 @@ Design name:unnamed:
           vpiParent: Module name:memory
           vpiName: addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:addr start:44:24 end:44:28:
+          vpiLowConn RefObj name:addr start:50:14 end:50:18:
             vpiParent: Port name:addr
             vpiName: addr
             vpiFullName: memory.addr.addr
@@ -2501,7 +2516,7 @@ Design name:unnamed:
           vpiParent: Module name:memory
           vpiName: din
           vpiDirection: input (1)
-          vpiLowConn RefObj name:din start:44:30 end:44:33:
+          vpiLowConn RefObj name:din start:51:20 end:51:23:
             vpiParent: Port name:din
             vpiName: din
             vpiFullName: memory.din.din
@@ -2514,15 +2529,14 @@ Design name:unnamed:
           vpiParent: Module name:memory
           vpiName: dout
           vpiDirection: output (2)
-          vpiLowConn RefObj name:dout start:44:36 end:44:40:
+          vpiLowConn RefObj name:dout start:53:21 end:53:25:
             vpiParent: Port name:dout
             vpiName: dout
             vpiFullName: memory.dout.dout
-            vpiActual: Net name:dout
+            vpiActual: Variable name:dout
           vpiTypespec RefTypespec start:53:8 end:53:19:
             vpiParent: Port name:dout
             vpiFullName: memory.dout
-            vpiActual: LogicTypespec
       vpiProcess (2 items):
         Always start:71:1 end:97:11:
           vpiParent: Module name:memory
@@ -2575,7 +2589,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we0
                           vpiFullName: memory.we0
-                          vpiActual: Net name:we0
+                          vpiActual: Variable name:we0
                         vpiRhs RefObj name:we start:74:22 end:74:24:
                           vpiParent: Assignment
                           vpiName: we
@@ -2588,7 +2602,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we1
                           vpiFullName: memory.we1
-                          vpiActual: Net name:we1
+                          vpiActual: Variable name:we1
                         vpiRhs Constant start:75:22 end:75:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2606,7 +2620,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we2
                           vpiFullName: memory.we2
-                          vpiActual: Net name:we2
+                          vpiActual: Variable name:we2
                         vpiRhs Constant start:76:22 end:76:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2624,7 +2638,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we3
                           vpiFullName: memory.we3
-                          vpiActual: Net name:we3
+                          vpiActual: Variable name:we3
                         vpiRhs Constant start:77:22 end:77:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2659,7 +2673,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we0
                           vpiFullName: memory.we0
-                          vpiActual: Net name:we0
+                          vpiActual: Variable name:we0
                         vpiRhs Constant start:80:22 end:80:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2677,7 +2691,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we1
                           vpiFullName: memory.we1
-                          vpiActual: Net name:we1
+                          vpiActual: Variable name:we1
                         vpiRhs RefObj name:we start:81:22 end:81:24:
                           vpiParent: Assignment
                           vpiName: we
@@ -2690,7 +2704,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we2
                           vpiFullName: memory.we2
-                          vpiActual: Net name:we2
+                          vpiActual: Variable name:we2
                         vpiRhs Constant start:82:22 end:82:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2708,7 +2722,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we3
                           vpiFullName: memory.we3
-                          vpiActual: Net name:we3
+                          vpiActual: Variable name:we3
                         vpiRhs Constant start:83:22 end:83:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2743,7 +2757,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we0
                           vpiFullName: memory.we0
-                          vpiActual: Net name:we0
+                          vpiActual: Variable name:we0
                         vpiRhs Constant start:86:22 end:86:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2761,7 +2775,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we1
                           vpiFullName: memory.we1
-                          vpiActual: Net name:we1
+                          vpiActual: Variable name:we1
                         vpiRhs Constant start:87:22 end:87:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2779,7 +2793,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we2
                           vpiFullName: memory.we2
-                          vpiActual: Net name:we2
+                          vpiActual: Variable name:we2
                         vpiRhs RefObj name:we start:88:22 end:88:24:
                           vpiParent: Assignment
                           vpiName: we
@@ -2792,7 +2806,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we3
                           vpiFullName: memory.we3
-                          vpiActual: Net name:we3
+                          vpiActual: Variable name:we3
                         vpiRhs Constant start:89:22 end:89:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2827,7 +2841,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we0
                           vpiFullName: memory.we0
-                          vpiActual: Net name:we0
+                          vpiActual: Variable name:we0
                         vpiRhs Constant start:92:22 end:92:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2845,7 +2859,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we1
                           vpiFullName: memory.we1
-                          vpiActual: Net name:we1
+                          vpiActual: Variable name:we1
                         vpiRhs Constant start:93:22 end:93:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2863,7 +2877,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we2
                           vpiFullName: memory.we2
-                          vpiActual: Net name:we2
+                          vpiActual: Variable name:we2
                         vpiRhs Constant start:94:22 end:94:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2881,7 +2895,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: we3
                           vpiFullName: memory.we3
-                          vpiActual: Net name:we3
+                          vpiActual: Variable name:we3
                         vpiRhs RefObj name:we start:95:22 end:95:24:
                           vpiParent: Assignment
                           vpiName: we
@@ -2962,7 +2976,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: dout
                       vpiFullName: memory.dout
-                      vpiActual: Net name:dout
+                      vpiActual: Variable name:dout
                     vpiRhs RefObj name:dout0 start:104:21 end:104:26:
                       vpiParent: Assignment
                       vpiName: dout0
@@ -2988,7 +3002,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: dout
                       vpiFullName: memory.dout
-                      vpiActual: Net name:dout
+                      vpiActual: Variable name:dout
                     vpiRhs RefObj name:dout1 start:105:21 end:105:26:
                       vpiParent: Assignment
                       vpiName: dout1
@@ -3014,7 +3028,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: dout
                       vpiFullName: memory.dout
-                      vpiActual: Net name:dout
+                      vpiActual: Variable name:dout
                     vpiRhs RefObj name:dout2 start:106:21 end:106:26:
                       vpiParent: Assignment
                       vpiName: dout2
@@ -3040,7 +3054,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: dout
                       vpiFullName: memory.dout
-                      vpiActual: Net name:dout
+                      vpiActual: Variable name:dout
                     vpiRhs RefObj name:dout3 start:107:21 end:107:26:
                       vpiParent: Assignment
                       vpiName: dout3
@@ -3088,7 +3102,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: we0
                 vpiFullName: memory.reg0.we0
-                vpiActual: Net name:we0
+                vpiActual: Variable name:we0
             Port start:59:41 end:59:61:
               vpiParent: RefInstance name:reg0
               vpiLowConn RefObj name:din start:59:42 end:59:45:
@@ -3142,7 +3156,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dout
                 vpiFullName: memory.reg0.dout
-                vpiActual: Net name:dout
+                vpiActual: Variable name:dout
               vpiHighConn PartSelect name:dout0[WIDTH-1:0] start:60:28 end:60:44:
                 vpiParent: Port
                 vpiName: dout0[WIDTH-1:0]
@@ -3223,7 +3237,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: we1
                 vpiFullName: memory.reg1.we1
-                vpiActual: Net name:we1
+                vpiActual: Variable name:we1
             Port start:61:41 end:61:61:
               vpiParent: RefInstance name:reg1
               vpiLowConn RefObj name:din start:61:42 end:61:45:
@@ -3277,7 +3291,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dout
                 vpiFullName: memory.reg1.dout
-                vpiActual: Net name:dout
+                vpiActual: Variable name:dout
               vpiHighConn PartSelect name:dout1[WIDTH-1:0] start:62:28 end:62:44:
                 vpiParent: Port
                 vpiName: dout1[WIDTH-1:0]
@@ -3358,7 +3372,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: we2
                 vpiFullName: memory.reg2.we2
-                vpiActual: Net name:we2
+                vpiActual: Variable name:we2
             Port start:63:41 end:63:61:
               vpiParent: RefInstance name:reg2
               vpiLowConn RefObj name:din start:63:42 end:63:45:
@@ -3412,7 +3426,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dout
                 vpiFullName: memory.reg2.dout
-                vpiActual: Net name:dout
+                vpiActual: Variable name:dout
               vpiHighConn PartSelect name:dout2[WIDTH-1:0] start:64:28 end:64:44:
                 vpiParent: Port
                 vpiName: dout2[WIDTH-1:0]
@@ -3493,7 +3507,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: we3
                 vpiFullName: memory.reg3.we3
-                vpiActual: Net name:we3
+                vpiActual: Variable name:we3
             Port start:65:41 end:65:61:
               vpiParent: RefInstance name:reg3
               vpiLowConn RefObj name:din start:65:42 end:65:45:
@@ -3547,7 +3561,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dout
                 vpiFullName: memory.reg3.dout
-                vpiActual: Net name:dout
+                vpiActual: Variable name:dout
               vpiHighConn PartSelect name:dout3[WIDTH-1:0] start:66:28 end:66:44:
                 vpiParent: Port
                 vpiName: dout3[WIDTH-1:0]
@@ -3594,6 +3608,52 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiVariable (5 items):
+        Variable name:clk start:115:9 end:115:12:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:115:1 end:115:4:
+            vpiParent: Variable name:clk
+            vpiFullName: top.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: top.clk
+          vpiScalar: true
+        Variable name:we start:116:9 end:116:11:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:116:1 end:116:4:
+            vpiParent: Variable name:we
+            vpiFullName: top.we
+            vpiActual: LogicTypespec
+          vpiName: we
+          vpiFullName: top.we
+          vpiScalar: true
+        Variable name:addr start:117:15 end:117:19:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:117:1 end:117:13:
+            vpiParent: Variable name:addr
+            vpiFullName: top.addr
+            vpiActual: LogicTypespec
+          vpiName: addr
+          vpiFullName: top.addr
+          vpiVector: true
+        Variable name:din start:118:21 end:118:24:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:118:1 end:118:18:
+            vpiParent: Variable name:din
+            vpiFullName: top.din
+            vpiActual: LogicTypespec
+          vpiName: din
+          vpiFullName: top.din
+          vpiVector: true
+        Variable name:error start:119:7 end:119:12:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:119:1 end:119:4:
+            vpiParent: Variable name:error
+            vpiFullName: top.error
+            vpiActual: LogicTypespec
+          vpiName: error
+          vpiFullName: top.error
+          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:WIDTH start:114:11 end:114:16:
           vpiParent: Module name:top
@@ -3726,53 +3786,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:memory
             vpiName: memory
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (6 items):
-        Net name:clk start:115:9 end:115:12:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:115:1 end:115:4:
-            vpiParent: Net name:clk
-            vpiFullName: top.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: top.clk
-        Net name:we start:116:9 end:116:11:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:116:1 end:116:4:
-            vpiParent: Net name:we
-            vpiFullName: top.we
-            vpiActual: LogicTypespec
-          vpiName: we
-          vpiFullName: top.we
-        Net name:addr start:117:15 end:117:19:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:117:1 end:117:13:
-            vpiParent: Net name:addr
-            vpiFullName: top.addr
-            vpiActual: LogicTypespec
-          vpiName: addr
-          vpiFullName: top.addr
-        Net name:din start:118:21 end:118:24:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:118:1 end:118:18:
-            vpiParent: Net name:din
-            vpiFullName: top.din
-            vpiActual: LogicTypespec
-          vpiName: din
-          vpiFullName: top.din
-        Net name:error start:119:7 end:119:12:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:119:1 end:119:4:
-            vpiParent: Net name:error
-            vpiFullName: top.error
-            vpiActual: LogicTypespec
-          vpiName: error
-          vpiFullName: top.error
+      vpiNet (1 items):
         Net name:dout start:120:21 end:120:25:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:120:7 end:120:18:
@@ -3847,7 +3867,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk
                   vpiFullName: top.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
                 vpiRhs Constant start:129:11 end:129:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3865,7 +3885,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: error
                   vpiFullName: top.error
-                  vpiActual: Net name:error
+                  vpiActual: Variable name:error
                 vpiRhs Constant start:130:12 end:130:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3895,7 +3915,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: we
                   vpiFullName: top.we
-                  vpiActual: Net name:we
+                  vpiActual: Variable name:we
                 vpiRhs Constant start:132:10 end:132:11:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3913,7 +3933,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: addr
                   vpiFullName: top.addr
-                  vpiActual: Net name:addr
+                  vpiActual: Variable name:addr
                 vpiRhs Constant start:133:12 end:133:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3931,7 +3951,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: din
                   vpiFullName: top.din
-                  vpiActual: Net name:din
+                  vpiActual: Variable name:din
                 vpiRhs Constant start:134:11 end:134:19:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3961,7 +3981,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: addr
                   vpiFullName: top.addr
-                  vpiActual: Net name:addr
+                  vpiActual: Variable name:addr
                 vpiRhs Constant start:136:12 end:136:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3979,7 +3999,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: din
                   vpiFullName: top.din
-                  vpiActual: Net name:din
+                  vpiActual: Variable name:din
                 vpiRhs Constant start:137:11 end:137:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -4009,7 +4029,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: addr
                   vpiFullName: top.addr
-                  vpiActual: Net name:addr
+                  vpiActual: Variable name:addr
                 vpiRhs Constant start:139:12 end:139:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -4027,7 +4047,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: din
                   vpiFullName: top.din
-                  vpiActual: Net name:din
+                  vpiActual: Variable name:din
                 vpiRhs Constant start:140:11 end:140:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -4057,7 +4077,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: addr
                   vpiFullName: top.addr
-                  vpiActual: Net name:addr
+                  vpiActual: Variable name:addr
                 vpiRhs Constant start:142:12 end:142:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -4075,7 +4095,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: din
                   vpiFullName: top.din
-                  vpiActual: Net name:din
+                  vpiActual: Variable name:din
                 vpiRhs Constant start:143:11 end:143:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -4105,7 +4125,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: we
                   vpiFullName: top.we
-                  vpiActual: Net name:we
+                  vpiActual: Variable name:we
                 vpiRhs Constant start:145:10 end:145:11:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -4123,7 +4143,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: addr
                   vpiFullName: top.addr
-                  vpiActual: Net name:addr
+                  vpiActual: Variable name:addr
                 vpiRhs Constant start:146:12 end:146:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -4251,7 +4271,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: top.error
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:151:18 end:151:19:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -4272,7 +4292,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: error
                       vpiFullName: top.error
-                      vpiActual: Net name:error
+                      vpiActual: Variable name:error
                     Constant start:153:17 end:153:18:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -4315,7 +4335,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: clk
                 vpiFullName: top.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
               vpiRhs Operation start:158:19 end:158:23:
                 vpiParent: Assignment
                 vpiOpType: bitwise negation (4)
@@ -4324,7 +4344,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clk
                     vpiFullName: top.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
             vpiDelay Constant start:158:10 end:158:11:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -4355,7 +4375,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: top.mem.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
             Port start:122:18 end:122:20:
               vpiParent: RefInstance name:mem
               vpiLowConn RefObj:
@@ -4365,7 +4385,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: we
                 vpiFullName: top.mem.we
-                vpiActual: Net name:we
+                vpiActual: Variable name:we
             Port start:122:22 end:122:26:
               vpiParent: RefInstance name:mem
               vpiLowConn RefObj:
@@ -4375,7 +4395,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: addr
                 vpiFullName: top.mem.addr
-                vpiActual: Net name:addr
+                vpiActual: Variable name:addr
             Port start:122:28 end:122:31:
               vpiParent: RefInstance name:mem
               vpiLowConn RefObj:
@@ -4385,7 +4405,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: din
                 vpiFullName: top.mem.din
-                vpiActual: Net name:din
+                vpiActual: Variable name:din
             Port start:122:34 end:122:38:
               vpiParent: RefInstance name:mem
               vpiLowConn RefObj:
@@ -4427,8 +4447,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

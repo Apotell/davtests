@@ -349,13 +349,11 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface1_modport.v:8:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface1_modport.v:14:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface1_modport.v:39:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_interface1_modport.v:24:14: Illegal implicit net "id:44, name:isub".
-[ERR:EL0535] $Source01/t_interface1_modport.v:25:7: Illegal implicit net "id:49, name:i_value".
-[ERR:EL0535] $Source01/t_interface1_modport.v:30:12: Illegal implicit net "id:73, name:value".
-[ERR:EL0535] $Source01/t_interface1_modport.v:31:8: Illegal implicit net "id:83, name:hidden_from_isub".
-[ERR:EL0535] $Source01/t_interface1_modport.v:32:12: Illegal implicit net "id:90, name:hidden_from_isub".
-[ERR:EL0535] $Source01/t_interface1_modport.v:48:8: Illegal implicit net "id:111, name:out_modport".
-[ERR:EL0535] $Source01/t_interface1_modport.v:54:12: Illegal implicit net "id:128, name:value".
+[ERR:LN0813] $Source01/t_interface1_modport.v:1:1: Found 1 orphan node(s).
+[WRN:CP0350] $Source01/t_interface1_modport.v:30:12: Failed to bind "id:73, name:value".
+[WRN:CP0350] $Source01/t_interface1_modport.v:31:8: Failed to bind "id:83, name:hidden_from_isub".
+[WRN:CP0350] $Source01/t_interface1_modport.v:32:12: Failed to bind "id:90, name:hidden_from_isub".
+[WRN:CP0350] $Source01/t_interface1_modport.v:54:12: Failed to bind "id:124, name:value".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -365,7 +363,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface1_modport.v
       vpiPreprocFile: "$Output/lib/work/t_interface1_modport.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:ifc file:$Source01/t_interface1_modport.v start:8:1 end:12:13:
       vpiParent: Design name:unnamed
@@ -394,7 +391,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:ifc
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
         vpiName: work
@@ -422,6 +419,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:20:12 end:20:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:20:4 end:20:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:20:16 end:20:17:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -434,13 +450,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:19:10 end:19:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:10 end:19:10:
@@ -449,30 +465,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:20:12 end:20:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:20:4 end:20:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:20:16 end:20:17:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:16:4 end:16:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:16:4 end:16:7:
+          vpiLowConn RefObj name:clk start:19:10 end:19:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -505,7 +504,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:28:14 end:28:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -514,7 +513,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:28:20 end:28:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -535,7 +534,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:29:16 end:29:18:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -720,42 +719,18 @@ Design name:unnamed:
         vpiParent: Module name:sub
         vpiName: sub
       vpiFullName: sub
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:ifc::out_modport start:48:4 end:48:19:
-          vpiParent: Module name:sub
-          vpiPathElem (2 items):
-            RefObj name:ifc start:48:4 end:48:7:
-              vpiParent: UnsupportedTypespec name:ifc::out_modport
-              vpiName: ifc
-              vpiFullName: sub.ifc::out_modport.ifc
-              vpiActual: Interface name:ifc
-            RefObj name:out_modport start:48:8 end:48:19:
-              vpiParent: UnsupportedTypespec name:ifc::out_modport
-              vpiName: out_modport
-              vpiFullName: sub.ifc::out_modport.out_modport
-          vpiName Identifier name:ifc::out_modport:
-            vpiParent: UnsupportedTypespec name:ifc::out_modport
-            vpiName: ifc::out_modport
+      vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Module name:sub
           vpiSigned: true
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
         vpiFullName: sub.work
       vpiCell: sub
-      vpiNet (2 items):
-        Net name:isub start:48:20 end:48:24:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:48:4 end:48:19:
-            vpiParent: Net name:isub
-            vpiFullName: sub.isub
-            vpiActual: UnsupportedTypespec name:ifc::out_modport
-          vpiName: isub
-          vpiFullName: sub.isub
-          vpiNetType: wire (1)
+      vpiNet (1 items):
         Net name:i_value start:49:18 end:49:25:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:49:4 end:49:17:
@@ -770,21 +745,14 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: isub
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:48:20 end:48:24:
-            vpiParent: Port name:isub
-            vpiFullName: sub.isub
-            vpiActual: Net name:isub
-          vpiTypespec RefTypespec start:48:4 end:48:19:
-            vpiParent: Port name:isub
-            vpiFullName: sub.isub
-            vpiActual: UnsupportedTypespec name:ifc::out_modport
         Port name:i_value start:49:18 end:49:25:
           vpiParent: Module name:sub
           vpiName: i_value
           vpiDirection: input (1)
-          vpiLowConn RefObj start:49:18 end:49:25:
+          vpiLowConn RefObj name:i_value start:49:18 end:49:25:
             vpiParent: Port name:i_value
-            vpiFullName: sub.i_value
+            vpiName: i_value
+            vpiFullName: sub.i_value.i_value
             vpiActual: Net name:i_value
           vpiTypespec RefTypespec start:49:4 end:49:17:
             vpiParent: Port name:i_value
@@ -811,7 +779,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:isub.value
                         vpiName: isub
                         vpiFullName: sub.isub
-                        vpiActual: Net name:isub
+                        vpiActual: Port name:isub
                       RefObj name:value start:54:12 end:54:17:
                         vpiParent: HierPath name:isub.value
                         vpiName: value
@@ -849,8 +817,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -865,25 +833,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface1_modport/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 96.98,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface1_modport.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface1_modport.v': {'post_len': 15,
                                                                   'pre_len': 497}},
-            'post_len': 0,
+            'post_len': 15,
             'pre_len': 497,
             'test_name': 'Verilator/t_interface1_modport'}}
 
 +-----------------------------------------+----------+-----------+
 | INPUT                                   |   PRELEN |   POSTLEN |
 +=========================================+==========+===========+
-| $Output/lib/work/t_interface1_modport.v |      497 |         0 |
+| $Output/lib/work/t_interface1_modport.v |      497 |        15 |
 +=========================================+==========+===========+
-|                                         |      497 |         0 |
+|                                         |      497 |        15 |
 +-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 96.98
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -895,10 +863,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       2         2
 Operation                            5       3       0         2
-RefObj                              24      22       0         2
-RefTypespec                         20      20       2         2
+RefObj                              21      19       0         2
+RefTypespec                         18      18       2         2
 ----------------------------------------------------------------
-Others                              65      65       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                   122     118       4         8
+                                   114     110       4         8
 ===================== END REDUCTION RESULT =====================

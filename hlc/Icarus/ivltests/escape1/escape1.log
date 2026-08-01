@@ -457,12 +457,12 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/escape1.v:35:1: Compile module "$I178".
 [WRN:CP0323] $Source01/escape1.v:35:1: Multiply defined typedef "test".
 [WRN:CP0323] $Source01/escape1.v:35:1: Multiply defined typedef "test".
-[ERR:EL0535] $Source01/escape1.v:37:24: Illegal implicit net "id:49, name:init".
-[ERR:EL0535] $Source01/escape1.v:38:24: Illegal implicit net "id:57, name:init".
-[ERR:EL0535] $Source01/escape1.v:39:24: Illegal implicit net "id:65, name:init".
-[ERR:EL0535] $Source01/escape1.v:52:23: Illegal implicit net "id:99, name:rcv".
-[ERR:EL0535] $Source01/escape1.v:57:23: Illegal implicit net "id:119, name:rcv".
-[ERR:EL0535] $Source01/escape1.v:62:23: Illegal implicit net "id:139, name:rcv".
+[WRN:CP0350] $Source01/escape1.v:37:24: Failed to bind "id:49, name:init".
+[WRN:CP0350] $Source01/escape1.v:38:24: Failed to bind "id:57, name:init".
+[WRN:CP0350] $Source01/escape1.v:39:24: Failed to bind "id:65, name:init".
+[WRN:CP0350] $Source01/escape1.v:52:23: Failed to bind "id:99, name:rcv".
+[WRN:CP0350] $Source01/escape1.v:57:23: Failed to bind "id:119, name:rcv".
+[WRN:CP0350] $Source01/escape1.v:62:23: Failed to bind "id:139, name:rcv".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -472,7 +472,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: escape1.v
       vpiPreprocFile: "$Output/lib/work/escape1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:test file:$Source01/escape1.v start:21:1 end:33:10:
       vpiParent: Design name:unnamed
@@ -480,6 +479,16 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
+      vpiVariable (1 items):
+        Variable name:rcv start:24:12 end:24:15:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:24:1 end:24:11:
+            vpiParent: Variable name:rcv
+            vpiFullName: test.rcv
+            vpiActual: LogicTypespec
+          vpiName: rcv
+          vpiFullName: test.rcv
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:init start:23:11 end:23:15:
           vpiParent: Module name:test
@@ -537,21 +546,12 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (1 items):
-        Net name:rcv start:24:12 end:24:15:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:24:1 end:24:11:
-            vpiParent: Net name:rcv
-            vpiFullName: test.rcv
-            vpiActual: LogicTypespec
-          vpiName: rcv
-          vpiFullName: test.rcv
       vpiProcess (1 items):
         Initial start:26:1 end:31:6:
           vpiParent: Module name:test
@@ -578,7 +578,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: rcv
                   vpiFullName: test.rcv
-                  vpiActual: Net name:rcv
+                  vpiActual: Variable name:rcv
                 vpiRhs RefObj name:init start:29:17 end:29:21:
                   vpiParent: Assignment
                   vpiName: init
@@ -604,13 +604,23 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: rcv
                     vpiFullName: test.rcv
-                    vpiActual: Net name:rcv
+                    vpiActual: Variable name:rcv
     Module name:$I178 file:$Source01/escape1.v start:35:1 end:71:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:$I178 start:35:8 end:35:19:
         vpiParent: Module name:$I178
         vpiName: "$I178"
       vpiFullName: "$I178"
+      vpiVariable (1 items):
+        Variable name:error start:46:5 end:46:10:
+          vpiParent: Module name:$I178
+          vpiTypespec RefTypespec start:46:1 end:46:4:
+            vpiParent: Variable name:error
+            vpiFullName: "$I178.error"
+            vpiActual: LogicTypespec
+          vpiName: error
+          vpiFullName: "$I178.error"
+          vpiScalar: true
       vpiTypespec (4 items):
         ModuleTypespec name:test start:42:1 end:42:5:
           vpiParent: Module name:$I178
@@ -630,21 +640,12 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:$I178
       vpiDefName: "$I178"
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:$I178
         vpiName: work
         vpiFullName: "$I178.work"
       vpiCell: "$I178"
-      vpiNet (1 items):
-        Net name:error start:46:5 end:46:10:
-          vpiParent: Module name:$I178
-          vpiTypespec RefTypespec start:46:1 end:46:4:
-            vpiParent: Net name:error
-            vpiFullName: "$I178.error"
-            vpiActual: LogicTypespec
-          vpiName: error
-          vpiFullName: "$I178.error"
       vpiProcess (1 items):
         Initial start:48:1 end:69:6:
           vpiParent: Module name:$I178
@@ -659,7 +660,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: error
                   vpiFullName: "$I178.error"
-                  vpiActual: Net name:error
+                  vpiActual: Variable name:error
                 vpiRhs Constant start:50:14 end:50:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -744,7 +745,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: "$I178.error"
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:55:15 end:55:16:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -817,7 +818,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: "$I178.error"
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:60:15 end:60:16:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -890,7 +891,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: error
                         vpiFullName: "$I178.error"
-                        vpiActual: Net name:error
+                        vpiActual: Variable name:error
                       vpiRhs Constant start:65:15 end:65:16:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -911,7 +912,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: error
                       vpiFullName: "$I178.error"
-                      vpiActual: Net name:error
+                      vpiActual: Variable name:error
                     Constant start:67:19 end:67:20:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1080,8 +1081,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

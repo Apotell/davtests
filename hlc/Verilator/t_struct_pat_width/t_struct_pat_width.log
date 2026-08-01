@@ -372,8 +372,6 @@ n<$Source01/t_struct_pat_width.v> u<358> t<Top_level_rule> c<1> l<6:1> el<39:1>
         n<> u<354> t<ENDMODULE> p<355> l<38:1> el<38:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_struct_pat_width.v:6:1: Compile module "t".
-[ERR:EL0535] $Source01/t_struct_pat_width.v:19:7: Illegal implicit net "id:70, name:_foo".
-[ERR:EL0535] $Source01/t_struct_pat_width.v:20:7: Illegal implicit net "id:80, name:_bar".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -383,7 +381,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_struct_pat_width.v
       vpiPreprocFile: "$Output/lib/work/t_struct_pat_width.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_struct_pat_width.v start:6:1 end:38:10:
       vpiParent: Design name:unnamed
@@ -391,6 +388,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:meh start:13:16 end:13:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:13:4 end:13:15:
+            vpiParent: Variable name:meh
+            vpiName: logic
+            vpiFullName: t.meh.logic
+            vpiActual: ArrayTypespec
+          vpiName: meh
+          vpiFullName: t.meh
+        Variable name:param start:14:13 end:14:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:struct_t start:14:4 end:14:12:
+            vpiParent: Variable name:param
+            vpiName: struct_t
+            vpiFullName: t.param.struct_t
+            vpiActual: TypedefTypespec name:struct_t
+          vpiName: param
+          vpiFullName: t.param
       vpiParameter (1 items):
         Parameter name:twentyone start:15:23 end:15:32:
           vpiParent: Module name:t
@@ -563,13 +579,13 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clk start:7:10 end:7:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:7:10 end:7:10:
@@ -578,30 +594,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:meh start:13:16 end:13:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:13:4 end:13:15:
-            vpiParent: Net name:meh
-            vpiName: logic
-            vpiFullName: t.meh.logic
-            vpiActual: ArrayTypespec
-          vpiName: meh
-          vpiFullName: t.meh
-        Net name:param start:14:13 end:14:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:struct_t start:14:4 end:14:12:
-            vpiParent: Net name:param
-            vpiName: struct_t
-            vpiFullName: t.param.struct_t
-            vpiActual: TypedefTypespec name:struct_t
-          vpiName: param
-          vpiFullName: t.param
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:6:11 end:6:14:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:6:11 end:6:14:
+          vpiLowConn RefObj name:clk start:7:10 end:7:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -643,7 +642,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:param._foo
                             vpiName: param
                             vpiFullName: t.param
-                            vpiActual: Net name:param
+                            vpiActual: Variable name:param
                           RefObj name:_foo start:29:17 end:29:21:
                             vpiParent: HierPath name:param._foo
                             vpiName: "_foo"
@@ -679,7 +678,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:param._bar
                             vpiName: param
                             vpiFullName: t.param
-                            vpiActual: Net name:param
+                            vpiActual: Variable name:param
                           RefObj name:_bar start:30:17 end:30:21:
                             vpiParent: HierPath name:param._bar
                             vpiName: "_bar"
@@ -710,7 +709,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: param
                         vpiFullName: t.param
-                        vpiActual: Net name:param
+                        vpiActual: Variable name:param
                       Constant start:31:20 end:31:29:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -736,7 +735,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: meh
                         vpiFullName: t.meh
-                        vpiActual: Net name:meh
+                        vpiActual: Variable name:meh
                       Constant start:32:18 end:32:19:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -781,7 +780,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: param
             vpiFullName: t.param
-            vpiActual: Net name:param
+            vpiActual: Variable name:param
           vpiRhs Operation start:18:19 end:21:5:
             vpiParent: ContAssign
             vpiOpType: assign pattern (87)
@@ -870,7 +869,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: meh
             vpiFullName: t.meh
-            vpiActual: Net name:meh
+            vpiActual: Variable name:meh
           vpiRhs Operation start:22:17 end:22:34:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -921,7 +920,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

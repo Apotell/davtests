@@ -192,10 +192,8 @@ n<$Source01/adrdec.sv> u<178> t<Top_level_rule> c<1> l<8:1> el<42:1>
   n<// adrdec> u<177> t<LINE_COMMENT> p<178> l<41:11> el<41:20>
 AST_DEBUG_END
 [INF:CP0303] $Source01/adrdec.sv:8:1: Compile module "adrdec".
-[ERR:EL0535] $Source01/adrdec.sv:17:3: Illegal implicit net "id:17, name:genbus_if".
-[ERR:EL0535] $Source01/adrdec.sv:30:22: Illegal implicit net "id:55, name:s_adr".
-[ERR:EL0535] $Source01/adrdec.sv:31:22: Illegal implicit net "id:80, name:s_adr".
-[ERR:EL0535] $Source01/adrdec.sv:34:12: Illegal implicit net "id:88, name:s_sel".
+[ERR:LN0813] $Source01/adrdec.sv:1:1: Found 1 orphan node(s).
+[WRN:CP0350] $Source01/adrdec.sv:34:12: Failed to bind "id:84, name:s_sel".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -205,7 +203,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: adrdec.sv
       vpiPreprocFile: "$Output/lib/work/adrdec.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:adrdec file:$Source01/adrdec.sv start:8:1 end:41:10:
       vpiParent: Design name:unnamed
@@ -240,54 +237,21 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:adrdec
-        UnsupportedTypespec name:genbus_if::adrdec start:17:3 end:17:19:
-          vpiParent: Module name:adrdec
-          vpiPathElem (2 items):
-            RefObj name:genbus_if start:17:3 end:17:12:
-              vpiParent: UnsupportedTypespec name:genbus_if::adrdec
-              vpiName: genbus_if
-              vpiFullName: adrdec.genbus_if::adrdec.genbus_if
-            RefObj name:adrdec start:17:13 end:17:19:
-              vpiParent: UnsupportedTypespec name:genbus_if::adrdec
-              vpiName: adrdec
-              vpiFullName: adrdec.genbus_if::adrdec.adrdec
-              vpiActual: Module name:adrdec
-          vpiName Identifier name:genbus_if::adrdec:
-            vpiParent: UnsupportedTypespec name:genbus_if::adrdec
-            vpiName: genbus_if::adrdec
       vpiDefName: adrdec
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:adrdec
         vpiName: work
         vpiFullName: adrdec.work
       vpiCell: adrdec
-      vpiNet (1 items):
-        Net name:dbus start:17:20 end:17:24:
-          vpiParent: Module name:adrdec
-          vpiTypespec RefTypespec start:17:3 end:17:19:
-            vpiParent: Net name:dbus
-            vpiFullName: adrdec.dbus
-            vpiActual: UnsupportedTypespec name:genbus_if::adrdec
-          vpiName: dbus
-          vpiFullName: adrdec.dbus
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:dbus start:17:20 end:17:24:
           vpiParent: Module name:adrdec
           vpiName: dbus
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:17:20 end:17:24:
-            vpiParent: Port name:dbus
-            vpiFullName: adrdec.dbus
-            vpiActual: Net name:dbus
-          vpiTypespec RefTypespec start:17:3 end:17:19:
-            vpiParent: Port name:dbus
-            vpiFullName: adrdec.dbus
-            vpiActual: UnsupportedTypespec name:genbus_if::adrdec
       vpiProcess (1 items):
         Always start:27:3 end:39:8:
           vpiParent: Module name:adrdec
@@ -303,6 +267,7 @@ Design name:unnamed:
                   vpiActual: ArrayTypespec
                 vpiName: sel
                 vpiFullName: adrdec.sel
+                vpiScalar: true
             vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -366,7 +331,7 @@ Design name:unnamed:
                           vpiParent: HierPath name:dbus.s_adr[1][7:4]
                           vpiName: dbus
                           vpiFullName: adrdec.dbus
-                          vpiActual: Net name:dbus
+                          vpiActual: Port name:dbus
                         PartSelect name:s_adr[1][7:4] start:30:17 end:30:35:
                           vpiParent: HierPath name:dbus.s_adr[1][7:4]
                           vpiName: s_adr[1][7:4]
@@ -456,7 +421,7 @@ Design name:unnamed:
                           vpiParent: HierPath name:dbus.s_adr[2][7:4]
                           vpiName: dbus
                           vpiFullName: adrdec.dbus
-                          vpiActual: Net name:dbus
+                          vpiActual: Port name:dbus
                         PartSelect name:s_adr[2][7:4] start:31:17 end:31:35:
                           vpiParent: HierPath name:dbus.s_adr[2][7:4]
                           vpiName: s_adr[2][7:4]
@@ -523,7 +488,7 @@ Design name:unnamed:
                       vpiParent: HierPath name:dbus.s_sel
                       vpiName: dbus
                       vpiFullName: adrdec.dbus
-                      vpiActual: Net name:dbus
+                      vpiActual: Port name:dbus
                     RefObj name:s_sel start:34:12 end:34:17:
                       vpiParent: HierPath name:dbus.s_sel
                       vpiName: s_sel
@@ -549,8 +514,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -565,25 +530,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/adrdec/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 92.23,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/adrdec.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/adrdec.sv': {'post_len': 16,
                                                      'pre_len': 206}},
-            'post_len': 0,
+            'post_len': 16,
             'pre_len': 206,
             'test_name': 'Verilator/t_sv_cpu_code/adrdec'}}
 
 +----------------------------+----------+-----------+
 | INPUT                      |   PRELEN |   POSTLEN |
 +============================+==========+===========+
-| $Output/lib/work/adrdec.sv |      206 |         0 |
+| $Output/lib/work/adrdec.sv |      206 |        16 |
 +============================+==========+===========+
-|                            |      206 |         0 |
+|                            |      206 |        16 |
 +----------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 92.23
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -594,7 +559,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/adrdec/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              81      81       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    81      81       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

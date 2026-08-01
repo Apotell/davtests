@@ -18,7 +18,7 @@ n<$Source01/relong/inline_concat.sv> u<298> t<Top_level_rule> c<1> l<1:1> el<31:
     n<> u<5> t<Description> p<297> c<4> s<199> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<199> t<Description> p<297> c<198> s<296> l<3:1> el<19:10>
       n<> u<198> t<Module_declaration> p<199> c<51> l<3:1> el<19:10>
         n<> u<51> t<Module_ansi_header> p<198> c<6> s<75> l<3:1> el<6:3>
@@ -314,8 +314,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/relong/inline_concat.sv:3:1: Compile module "Device".
 [WRN:CP0323] $Source01/relong/inline_concat.sv:3:1: Multiply defined typedef "OrParts".
 [INF:CP0303] $Source01/relong/inline_concat.sv:21:1: Compile module "OrParts".
-[ERR:EL0535] $Source01/relong/inline_concat.sv:10:22: Illegal implicit net "id:59, name:data".
-[ERR:EL0535] $Source01/relong/inline_concat.sv:14:22: Illegal implicit net "id:84, name:data".
+[ERR:LN0813] $Source01/relong/inline_concat.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -325,7 +324,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: inline_concat.sv
       vpiPreprocFile: "$Output/lib/work/relong/inline_concat.sv"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:inline_concat.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: inline_concat.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (2 items):
     Module name:Device file:$Source01/relong/inline_concat.sv start:3:1 end:19:10:
       vpiParent: Design name:unnamed
@@ -333,7 +342,15 @@ Design name:unnamed:
         vpiParent: Module name:Device
         vpiName: Device
       vpiFullName: Device
-      vpiVariable (1 items):
+      vpiVariable (5 items):
+        Variable name:a start:4:23 end:4:24:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec start:4:5 end:4:22:
+            vpiParent: Variable name:a
+            vpiFullName: Device.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: Device.a
         Variable name:result start:5:24 end:5:30:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:5:5 end:5:23:
@@ -342,7 +359,33 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: Device.result
-          vpiNetType: none (12)
+        Variable name:result1 start:8:17 end:8:24:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec start:8:5 end:8:16:
+            vpiParent: Variable name:result1
+            vpiFullName: Device.result1
+            vpiActual: LogicTypespec
+          vpiName: result1
+          vpiFullName: Device.result1
+          vpiVector: true
+        Variable name:result2 start:8:26 end:8:33:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec start:8:5 end:8:16:
+            vpiParent: Variable name:result2
+            vpiFullName: Device.result2
+            vpiActual: LogicTypespec
+          vpiName: result2
+          vpiFullName: Device.result2
+          vpiVector: true
+        Variable name:bothInputs start:12:18 end:12:28:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec start:12:5 end:12:17:
+            vpiParent: Variable name:bothInputs
+            vpiFullName: Device.bothInputs
+            vpiActual: LogicTypespec
+          vpiName: bothInputs
+          vpiFullName: Device.bothInputs
+          vpiVector: true
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:Device
@@ -467,58 +510,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Device.work
       vpiCell: Device
-      vpiNet (5 items):
-        Net name:a start:4:23 end:4:24:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:4:5 end:4:22:
-            vpiParent: Net name:a
-            vpiFullName: Device.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: Device.a
-          vpiNetType: wire (1)
-        Net name:b start:4:26 end:4:27:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:4:26 end:4:26:
-            vpiParent: Net name:b
-            vpiFullName: Device.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: Device.b
-          vpiNetType: wire (1)
-        Net name:result1 start:8:17 end:8:24:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:8:5 end:8:16:
-            vpiParent: Net name:result1
-            vpiFullName: Device.result1
-            vpiActual: LogicTypespec
-          vpiName: result1
-          vpiFullName: Device.result1
-        Net name:result2 start:8:26 end:8:33:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:8:5 end:8:16:
-            vpiParent: Net name:result2
-            vpiFullName: Device.result2
-            vpiActual: LogicTypespec
-          vpiName: result2
-          vpiFullName: Device.result2
-        Net name:bothInputs start:12:18 end:12:28:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:12:5 end:12:17:
-            vpiParent: Net name:bothInputs
-            vpiFullName: Device.bothInputs
-            vpiActual: LogicTypespec
-          vpiName: bothInputs
-          vpiFullName: Device.bothInputs
       vpiPort (3 items):
         Port name:a start:4:23 end:4:24:
           vpiParent: Module name:Device
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:23 end:4:24:
+          vpiLowConn RefObj name:a start:4:23 end:4:24:
             vpiParent: Port name:a
-            vpiFullName: Device.a
-            vpiActual: Net name:a
+            vpiName: a
+            vpiFullName: Device.a.a
+            vpiActual: Variable name:a
           vpiTypespec RefTypespec start:4:5 end:4:22:
             vpiParent: Port name:a
             vpiFullName: Device.a
@@ -527,21 +528,14 @@ Design name:unnamed:
           vpiParent: Module name:Device
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:4:26 end:4:27:
-            vpiParent: Port name:b
-            vpiFullName: Device.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:4:26 end:4:26:
-            vpiParent: Port name:b
-            vpiFullName: Device.b
-            vpiActual: LogicTypespec
         Port name:result start:5:24 end:5:30:
           vpiParent: Module name:Device
           vpiName: result
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:24 end:5:30:
+          vpiLowConn RefObj name:result start:5:24 end:5:30:
             vpiParent: Port name:result
-            vpiFullName: Device.result
+            vpiName: result
+            vpiFullName: Device.result.result
             vpiActual: Variable name:result
           vpiTypespec RefTypespec start:5:5 end:5:23:
             vpiParent: Port name:result
@@ -554,7 +548,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: bothInputs
             vpiFullName: Device.bothInputs
-            vpiActual: Net name:bothInputs
+            vpiActual: Variable name:bothInputs
           vpiRhs Operation start:13:25 end:13:31:
             vpiParent: ContAssign
             vpiOpType: concatenation (33)
@@ -563,12 +557,12 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: Device.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               RefObj name:b start:13:29 end:13:30:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: Device.b
-                vpiActual: Net name:b
+                vpiActual: Port name:b
         ContAssign start:17:12 end:17:38:
           vpiParent: Module name:Device
           vpiLhs RefObj name:result start:17:12 end:17:18:
@@ -584,12 +578,12 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: result1
                 vpiFullName: Device.result1
-                vpiActual: Net name:result1
+                vpiActual: Variable name:result1
               RefObj name:result2 start:17:31 end:17:38:
                 vpiParent: Operation
                 vpiName: result2
                 vpiFullName: Device.result2
-                vpiActual: Net name:result2
+                vpiActual: Variable name:result2
       vpiRefInstance (2 items):
         RefInstance name:helper1 start:10:13 end:10:20:
           vpiParent: Module name:Device
@@ -614,12 +608,12 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: Device.helper1.a
-                    vpiActual: Net name:a
+                    vpiActual: Variable name:a
                   RefObj name:b start:10:31 end:10:32:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: Device.helper1.b
-                    vpiActual: Net name:b
+                    vpiActual: Port name:b
             Port start:10:36 end:10:52:
               vpiParent: RefInstance name:helper1
               vpiLowConn RefObj name:result start:10:37 end:10:43:
@@ -631,7 +625,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: result1
                 vpiFullName: Device.helper1.result1
-                vpiActual: Net name:result1
+                vpiActual: Variable name:result1
         RefInstance name:helper2 start:14:13 end:14:20:
           vpiParent: Module name:Device
           vpiName: helper2
@@ -651,7 +645,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: bothInputs
                 vpiFullName: Device.helper2.bothInputs
-                vpiActual: Net name:bothInputs
+                vpiActual: Variable name:bothInputs
             Port start:14:40 end:14:56:
               vpiParent: RefInstance name:helper2
               vpiLowConn RefObj name:result start:14:41 end:14:47:
@@ -663,14 +657,22 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: result2
                 vpiFullName: Device.helper2.result2
-                vpiActual: Net name:result2
+                vpiActual: Variable name:result2
     Module name:OrParts file:$Source01/relong/inline_concat.sv start:21:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:OrParts start:21:8 end:21:15:
         vpiParent: Module name:OrParts
         vpiName: OrParts
       vpiFullName: OrParts
-      vpiVariable (1 items):
+      vpiVariable (2 items):
+        Variable name:data start:22:24 end:22:28:
+          vpiParent: Module name:OrParts
+          vpiTypespec RefTypespec start:22:5 end:22:23:
+            vpiParent: Variable name:data
+            vpiFullName: OrParts.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: OrParts.data
         Variable name:result start:23:24 end:23:30:
           vpiParent: Module name:OrParts
           vpiTypespec RefTypespec start:23:5 end:23:23:
@@ -679,7 +681,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: OrParts.result
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:OrParts
@@ -740,25 +741,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: OrParts.work
       vpiCell: OrParts
-      vpiNet (1 items):
-        Net name:data start:22:24 end:22:28:
-          vpiParent: Module name:OrParts
-          vpiTypespec RefTypespec start:22:5 end:22:23:
-            vpiParent: Net name:data
-            vpiFullName: OrParts.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: OrParts.data
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:data start:22:24 end:22:28:
           vpiParent: Module name:OrParts
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:22:24 end:22:28:
+          vpiLowConn RefObj name:data start:22:24 end:22:28:
             vpiParent: Port name:data
-            vpiFullName: OrParts.data
-            vpiActual: Net name:data
+            vpiName: data
+            vpiFullName: OrParts.data.data
+            vpiActual: Variable name:data
           vpiTypespec RefTypespec start:22:5 end:22:23:
             vpiParent: Port name:data
             vpiFullName: OrParts.data
@@ -767,9 +759,10 @@ Design name:unnamed:
           vpiParent: Module name:OrParts
           vpiName: result
           vpiDirection: output (2)
-          vpiLowConn RefObj start:23:24 end:23:30:
+          vpiLowConn RefObj name:result start:23:24 end:23:30:
             vpiParent: Port name:result
-            vpiFullName: OrParts.result
+            vpiName: result
+            vpiFullName: OrParts.result.result
             vpiActual: Variable name:result
           vpiTypespec RefTypespec start:23:5 end:23:23:
             vpiParent: Port name:result
@@ -802,7 +795,7 @@ Design name:unnamed:
                         vpiParent: PartSelect name:data[15:8]
                         vpiName: data
                         vpiFullName: OrParts.data[15:8].data
-                        vpiActual: Net name:data
+                        vpiActual: Variable name:data
                       vpiRange Range start:27:23 end:27:27:
                         vpiParent: PartSelect name:data[15:8]
                         vpiLeftRange Constant start:27:23 end:27:25:
@@ -833,7 +826,7 @@ Design name:unnamed:
                         vpiParent: PartSelect name:data[7:0]
                         vpiName: data
                         vpiFullName: OrParts.data[7:0].data
-                        vpiActual: Net name:data
+                        vpiActual: Variable name:data
                       vpiRange Range start:27:36 end:27:39:
                         vpiParent: PartSelect name:data[7:0]
                         vpiLeftRange Constant start:27:36 end:27:37:
@@ -857,7 +850,9 @@ Design name:unnamed:
                           vpiDecompile: "0"
                           vpiValue: 0
           vpiAlwaysType: comb (2)
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:Device:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Device start:3:8 end:3:14:
@@ -876,7 +871,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -892,25 +887,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/inline_concat_sv/mounts.json
 
 
-{'result': {'coverage': 95.19,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/inline_concat.sv': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/inline_concat.sv': {'post_len': 0,
                                                                    'pre_len': 437}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 437,
             'test_name': 'Zachjs/relong/inline_concat_sv'}}
 
 +------------------------------------------+----------+-----------+
 | INPUT                                    |   PRELEN |   POSTLEN |
 +==========================================+==========+===========+
-| $Output/lib/work/relong/inline_concat.sv |      437 |        21 |
+| $Output/lib/work/relong/inline_concat.sv |      437 |         0 |
 +==========================================+==========+===========+
-|                                          |      437 |        21 |
+|                                          |      437 |         0 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.19
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

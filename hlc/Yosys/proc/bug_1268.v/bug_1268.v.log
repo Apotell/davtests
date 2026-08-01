@@ -266,6 +266,7 @@ n<$Source01/proc/bug_1268.v> u<251> t<Top_level_rule> c<1> l<1:1> el<24:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/proc/bug_1268.v:1:1: Compile module "gold".
 [INF:CP0303] $Source01/proc/bug_1268.v:13:1: Compile module "gate".
+[ERR:LN0813] $Source01/proc/bug_1268.v:1:1: Found 4 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -275,7 +276,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: bug_1268.v
       vpiPreprocFile: "$Output/lib/work/proc/bug_1268.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:gold file:$Source01/proc/bug_1268.v start:1:1 end:11:10:
       vpiParent: Design name:unnamed
@@ -292,18 +292,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dout
           vpiFullName: gold.dout
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:gold
       vpiDefName: gold
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gold
         vpiName: work
         vpiFullName: gold.work
       vpiCell: gold
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clock start:1:20 end:1:25:
           vpiParent: Module name:gold
           vpiTypespec RefTypespec start:1:14 end:1:19:
@@ -313,32 +312,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: gold.clock
           vpiNetType: wire (1)
-        Net name:ctrl start:1:27 end:1:31:
-          vpiParent: Module name:gold
-          vpiTypespec RefTypespec start:1:27 end:1:27:
-            vpiParent: Net name:ctrl
-            vpiFullName: gold.ctrl
-            vpiActual: LogicTypespec
-          vpiName: ctrl
-          vpiFullName: gold.ctrl
-          vpiNetType: wire (1)
-        Net name:din start:1:33 end:1:36:
-          vpiParent: Module name:gold
-          vpiTypespec RefTypespec start:1:33 end:1:33:
-            vpiParent: Net name:din
-            vpiFullName: gold.din
-            vpiActual: LogicTypespec
-          vpiName: din
-          vpiFullName: gold.din
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:clock start:1:20 end:1:25:
           vpiParent: Module name:gold
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:20 end:1:25:
+          vpiLowConn RefObj name:clock start:1:20 end:1:25:
             vpiParent: Port name:clock
-            vpiFullName: gold.clock
+            vpiName: clock
+            vpiFullName: gold.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:1:14 end:1:19:
             vpiParent: Port name:clock
@@ -348,33 +330,18 @@ Design name:unnamed:
           vpiParent: Module name:gold
           vpiName: ctrl
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:27 end:1:31:
-            vpiParent: Port name:ctrl
-            vpiFullName: gold.ctrl
-            vpiActual: Net name:ctrl
-          vpiTypespec RefTypespec start:1:27 end:1:27:
-            vpiParent: Port name:ctrl
-            vpiFullName: gold.ctrl
-            vpiActual: LogicTypespec
         Port name:din start:1:33 end:1:36:
           vpiParent: Module name:gold
           vpiName: din
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:33 end:1:36:
-            vpiParent: Port name:din
-            vpiFullName: gold.din
-            vpiActual: Net name:din
-          vpiTypespec RefTypespec start:1:33 end:1:33:
-            vpiParent: Port name:din
-            vpiFullName: gold.din
-            vpiActual: LogicTypespec
         Port name:dout start:1:49 end:1:53:
           vpiParent: Module name:gold
           vpiName: dout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:49 end:1:53:
+          vpiLowConn RefObj name:dout start:1:49 end:1:53:
             vpiParent: Port name:dout
-            vpiFullName: gold.dout
+            vpiName: dout
+            vpiFullName: gold.dout.dout
             vpiActual: Variable name:dout
           vpiTypespec RefTypespec start:1:38 end:1:48:
             vpiParent: Port name:dout
@@ -462,7 +429,7 @@ Design name:unnamed:
                           vpiParent: IfStmt
                           vpiName: ctrl
                           vpiFullName: gold.ctrl
-                          vpiActual: Net name:ctrl
+                          vpiActual: Port name:ctrl
                         vpiStmt Assignment start:8:5 end:8:16:
                           vpiParent: IfStmt
                           vpiLhs RefObj name:dout start:8:5 end:8:9:
@@ -474,7 +441,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: din
                             vpiFullName: gold.din
-                            vpiActual: Net name:din
+                            vpiActual: Port name:din
           vpiAlwaysType: always (1)
     Module name:gate file:$Source01/proc/bug_1268.v start:13:1 end:23:10:
       vpiParent: Design name:unnamed
@@ -491,18 +458,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dout
           vpiFullName: gate.dout
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:gate
       vpiDefName: gate
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gate
         vpiName: work
         vpiFullName: gate.work
       vpiCell: gate
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clock start:13:20 end:13:25:
           vpiParent: Module name:gate
           vpiTypespec RefTypespec start:13:14 end:13:19:
@@ -512,32 +478,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: gate.clock
           vpiNetType: wire (1)
-        Net name:ctrl start:13:27 end:13:31:
-          vpiParent: Module name:gate
-          vpiTypespec RefTypespec start:13:27 end:13:27:
-            vpiParent: Net name:ctrl
-            vpiFullName: gate.ctrl
-            vpiActual: LogicTypespec
-          vpiName: ctrl
-          vpiFullName: gate.ctrl
-          vpiNetType: wire (1)
-        Net name:din start:13:33 end:13:36:
-          vpiParent: Module name:gate
-          vpiTypespec RefTypespec start:13:33 end:13:33:
-            vpiParent: Net name:din
-            vpiFullName: gate.din
-            vpiActual: LogicTypespec
-          vpiName: din
-          vpiFullName: gate.din
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:clock start:13:20 end:13:25:
           vpiParent: Module name:gate
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:20 end:13:25:
+          vpiLowConn RefObj name:clock start:13:20 end:13:25:
             vpiParent: Port name:clock
-            vpiFullName: gate.clock
+            vpiName: clock
+            vpiFullName: gate.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:13:14 end:13:19:
             vpiParent: Port name:clock
@@ -547,33 +496,18 @@ Design name:unnamed:
           vpiParent: Module name:gate
           vpiName: ctrl
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:13:27 end:13:31:
-            vpiParent: Port name:ctrl
-            vpiFullName: gate.ctrl
-            vpiActual: Net name:ctrl
-          vpiTypespec RefTypespec start:13:27 end:13:27:
-            vpiParent: Port name:ctrl
-            vpiFullName: gate.ctrl
-            vpiActual: LogicTypespec
         Port name:din start:13:33 end:13:36:
           vpiParent: Module name:gate
           vpiName: din
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:13:33 end:13:36:
-            vpiParent: Port name:din
-            vpiFullName: gate.din
-            vpiActual: Net name:din
-          vpiTypespec RefTypespec start:13:33 end:13:33:
-            vpiParent: Port name:din
-            vpiFullName: gate.din
-            vpiActual: LogicTypespec
         Port name:dout start:13:49 end:13:53:
           vpiParent: Module name:gate
           vpiName: dout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:13:49 end:13:53:
+          vpiLowConn RefObj name:dout start:13:49 end:13:53:
             vpiParent: Port name:dout
-            vpiFullName: gate.dout
+            vpiName: dout
+            vpiFullName: gate.dout.dout
             vpiActual: Variable name:dout
           vpiTypespec RefTypespec start:13:38 end:13:48:
             vpiParent: Port name:dout
@@ -661,7 +595,7 @@ Design name:unnamed:
                     vpiParent: IfStmt
                     vpiName: ctrl
                     vpiFullName: gate.ctrl
-                    vpiActual: Net name:ctrl
+                    vpiActual: Port name:ctrl
                   vpiStmt Assignment start:21:4 end:21:15:
                     vpiParent: IfStmt
                     vpiLhs RefObj name:dout start:21:4 end:21:8:
@@ -673,7 +607,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: din
                       vpiFullName: gate.din
-                      vpiActual: Net name:din
+                      vpiActual: Port name:din
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:gold:
@@ -694,7 +628,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -739,7 +673,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/proc/bug_1268.v/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             105     105       0         0
+Others                              89      89       0         0
 ----------------------------------------------------------------
-                                   105     105       0         0
+                                    89      89       0         0
 ===================== END REDUCTION RESULT =====================

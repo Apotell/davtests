@@ -715,9 +715,6 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/top.sv:22:1: Compile interface "pins_if".
 [INF:CP0303] $Source01/top.sv:34:1: Compile module "top2".
 [INF:CP0335] $Source01/top.sv:38:48: Compile generate block "each_pin".
-[ERR:EL0535] $Source01/top.sv:29:24: Illegal implicit net "id:876, name:pins_oe".
-[ERR:EL0535] $Source01/top.sv:39:24: Illegal implicit net "id:939, name:pins_oe".
-[ERR:EL0535] $Source01/top.sv:39:37: Illegal implicit net "id:942, name:pins_o".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.sv:16:1: No timescale set for "top".
 [WRN:PA0205] $Source01/top.sv:34:1: No timescale set for "top2".
@@ -731,7 +728,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.sv
       vpiPreprocFile: "$Output/lib/work/top.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2729,6 +2725,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: xyz_o
           vpiFullName: abc_if.xyz_o
+          vpiVector: true
         Variable name:clk_i start:4:26 end:4:31:
           vpiParent: Interface name:abc_if
           vpiTypespec RefTypespec start:4:3 end:4:25:
@@ -2737,6 +2734,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk_i
           vpiFullName: abc_if.clk_i
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:NO_Input start:1:24 end:1:32:
           vpiParent: Interface name:abc_if
@@ -2835,7 +2833,7 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:abc_if
         vpiName: work
@@ -2930,16 +2928,7 @@ Design name:unnamed:
         vpiParent: Interface name:pins_if
         vpiName: pins_if
       vpiFullName: pins_if
-      vpiVariable (2 items):
-        Variable name:pins start:23:21 end:23:25:
-          vpiParent: Interface name:pins_if
-          vpiTypespec RefTypespec start:23:3 end:23:20:
-            vpiParent: Variable name:pins
-            vpiFullName: pins_if.pins
-            vpiActual: LogicTypespec
-          vpiName: pins
-          vpiFullName: pins_if.pins
-          vpiNetType: wire (1)
+      vpiVariable (1 items):
         Variable name:pins_o start:25:21 end:25:27:
           vpiParent: Interface name:pins_if
           vpiTypespec RefTypespec start:25:3 end:25:20:
@@ -2948,6 +2937,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: pins_o
           vpiFullName: pins_if.pins_o
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:Width start:22:36 end:22:41:
           vpiParent: Interface name:pins_if
@@ -3046,21 +3036,32 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:pins_if
         vpiName: work
         vpiFullName: pins_if.work
       vpiCell: pins_if
+      vpiNet (1 items):
+        Net name:pins start:23:21 end:23:25:
+          vpiParent: Interface name:pins_if
+          vpiTypespec RefTypespec start:23:3 end:23:20:
+            vpiParent: Net name:pins
+            vpiFullName: pins_if.pins
+            vpiActual: LogicTypespec
+          vpiName: pins
+          vpiFullName: pins_if.pins
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:pins start:23:21 end:23:25:
           vpiParent: Interface name:pins_if
           vpiName: pins
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:23:21 end:23:25:
+          vpiLowConn RefObj name:pins start:23:21 end:23:25:
             vpiParent: Port name:pins
-            vpiFullName: pins_if.pins
-            vpiActual: Variable name:pins
+            vpiName: pins
+            vpiFullName: pins_if.pins.pins
+            vpiActual: Net name:pins
           vpiTypespec RefTypespec start:23:3 end:23:20:
             vpiParent: Port name:pins
             vpiFullName: pins_if.pins
@@ -3184,7 +3185,7 @@ Design name:unnamed:
         vpiName: top
       vpiFullName: top
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -3269,7 +3270,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: top2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top2
         vpiName: work
@@ -3290,9 +3291,10 @@ Design name:unnamed:
           vpiParent: Module name:top2
           vpiName: pins
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:34:61 end:34:65:
+          vpiLowConn RefObj name:pins start:34:61 end:34:65:
             vpiParent: Port name:pins
-            vpiFullName: top2.pins
+            vpiName: pins
+            vpiFullName: top2.pins.pins
             vpiActual: Net name:pins
           vpiTypespec RefTypespec start:34:43 end:34:60:
             vpiParent: Port name:pins
@@ -3502,7 +3504,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************

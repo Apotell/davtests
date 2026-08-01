@@ -243,11 +243,6 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/t_param_type2.v:6:1: Compile package "tt_pkg".
 [INF:CP0303] $Source01/t_param_type2.v:10:1: Compile module "t".
 [INF:CP0303] $Source01/t_param_type2.v:31:1: Compile module "tt_buf".
-[ERR:EL0535] $Source01/t_param_type2.v:25:18: Illegal implicit net "id:67, name:test_t".
-[ERR:EL0535] $Source01/t_param_type2.v:25:14: Illegal implicit net "id:69, name:T_t".
-[ERR:EL0535] $Source01/t_param_type2.v:27:8: Illegal implicit net "id:72, name:i".
-[ERR:EL0535] $Source01/t_param_type2.v:27:15: Illegal implicit net "id:75, name:o".
-[ERR:EL0535] $Source01/t_param_type2.v:33:26: Illegal implicit net "id:92, name:logic".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -257,7 +252,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_type2.v
       vpiPreprocFile: "$Output/lib/work/t_param_type2.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:tt_pkg file:$Source01/t_param_type2.v start:6:1 end:8:11:
       vpiParent: Design name:unnamed
@@ -339,7 +333,7 @@ Design name:unnamed:
             vpiFullName: tt_pkg::test_t
             vpiActual: EnumTypespec
       vpiDefName: tt_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:tt_pkg
         vpiName: work
@@ -352,6 +346,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:a start:19:11 end:19:12:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:test_t start:19:4 end:19:10:
+            vpiParent: Variable name:a
+            vpiName: test_t
+            vpiFullName: t.a.test_t
+            vpiActual: TypedefTypespec name:test_t
+          vpiName: a
+          vpiFullName: t.a
+        Variable name:b start:20:11 end:20:12:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:test_t start:20:4 end:20:10:
+            vpiParent: Variable name:b
+            vpiName: test_t
+            vpiFullName: t.b.test_t
+            vpiActual: TypedefTypespec name:test_t
+          vpiName: b
+          vpiFullName: t.b
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -390,13 +403,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:tt_buf
             vpiName: tt_buf
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:ob start:15:17 end:15:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:11 end:15:16:
@@ -405,30 +418,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: ob
           vpiFullName: t.ob
-        Net name:a start:19:11 end:19:12:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:test_t start:19:4 end:19:10:
-            vpiParent: Net name:a
-            vpiName: test_t
-            vpiFullName: t.a.test_t
-            vpiActual: TypedefTypespec name:test_t
-          vpiName: a
-          vpiFullName: t.a
-        Net name:b start:20:11 end:20:12:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:test_t start:20:4 end:20:10:
-            vpiParent: Net name:b
-            vpiName: test_t
-            vpiFullName: t.b.test_t
-            vpiActual: TypedefTypespec name:test_t
-          vpiName: b
-          vpiFullName: t.b
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:ob start:12:4 end:12:6:
           vpiParent: Module name:t
           vpiName: ob
           vpiDirection: output (2)
-          vpiLowConn RefObj name:ob start:12:4 end:12:6:
+          vpiLowConn RefObj name:ob start:15:17 end:15:19:
             vpiParent: Port name:ob
             vpiName: ob
             vpiFullName: t.ob.ob
@@ -444,7 +440,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: a
             vpiFullName: t.a
-            vpiActual: Net name:a
+            vpiActual: Variable name:a
           vpiRhs RefObj name:L0 start:22:15 end:22:17:
             vpiParent: ContAssign
             vpiName: L0
@@ -461,7 +457,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: b
             vpiFullName: t.b
-            vpiActual: Net name:b
+            vpiActual: Variable name:b
       vpiRefInstance (1 items):
         RefInstance name:u_test start:26:4 end:26:10:
           vpiParent: Module name:t
@@ -494,7 +490,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: a
                 vpiFullName: t.u_test.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
             Port start:27:14 end:27:19:
               vpiParent: RefInstance name:u_test
               vpiLowConn RefObj name:o start:27:15 end:27:16:
@@ -505,7 +501,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b
                 vpiFullName: t.u_test.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
     Module name:tt_buf file:$Source01/t_param_type2.v start:31:1 end:40:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tt_buf start:31:8 end:31:14:
@@ -522,7 +518,6 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:T_t
           vpiName: o
           vpiFullName: tt_buf.o
-          vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:T_t start:33:20 end:33:23:
           vpiParent: Module name:tt_buf
@@ -588,7 +583,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:T_t
             vpiName: T_t
       vpiDefName: tt_buf
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tt_buf
         vpiName: work
@@ -610,9 +605,10 @@ Design name:unnamed:
           vpiParent: Module name:tt_buf
           vpiName: i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:36:16 end:36:17:
+          vpiLowConn RefObj name:i start:36:16 end:36:17:
             vpiParent: Port name:i
-            vpiFullName: tt_buf.i
+            vpiName: i
+            vpiFullName: tt_buf.i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec name:T_t start:36:12 end:36:15:
             vpiParent: Port name:i
@@ -623,9 +619,10 @@ Design name:unnamed:
           vpiParent: Module name:tt_buf
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:37:16 end:37:17:
+          vpiLowConn RefObj name:o start:37:16 end:37:17:
             vpiParent: Port name:o
-            vpiFullName: tt_buf.o
+            vpiName: o
+            vpiFullName: tt_buf.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec name:T_t start:37:12 end:37:15:
             vpiParent: Port name:o
@@ -664,7 +661,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

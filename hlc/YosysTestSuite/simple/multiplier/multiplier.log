@@ -1710,10 +1710,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/multiplier.v:109:1: Compile module "RippleCarryAdder".
 [INF:CP0335] $Source01/multiplier.v:123:8: Compile generate block "addbit".
 [INF:CP0303] $Source01/multiplier.v:130:1: Compile module "FullAdder".
-[ERR:EL0535] $Source01/multiplier.v:65:52: Illegal implicit net "id:424, name:S".
-[ERR:EL0535] $Source01/multiplier.v:65:60: Illegal implicit net "id:429, name:Cin".
-[ERR:EL0535] $Source01/multiplier.v:101:23: Illegal implicit net "id:667, name:S".
-[ERR:EL0535] $Source01/multiplier.v:101:31: Illegal implicit net "id:672, name:Cin".
+[ERR:LN0813] $Source01/multiplier.v:1:1: Found 3 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -2077,7 +2074,6 @@ Design name:unnamed:
               vpiPMIBody Identifier name:(((i+1)-1)*((i+1)+2*M)/2) start:22:24 end:22:49:
                 vpiParent: PreprocMacroInstance name:calc_pp_lsb
                 vpiName: "(((i+1)-1)*((i+1)+2*M)/2)"
-      vpiDefNetType: none (12)
   vpiAllModules (4 items):
     Module name:Multiplier_flat file:$Source01/multiplier.v start:10:1 end:75:10:
       vpiParent: Design name:unnamed
@@ -2085,6 +2081,14 @@ Design name:unnamed:
         vpiParent: Module name:Multiplier_flat
         vpiName: Multiplier_flat
       vpiFullName: Multiplier_flat
+      vpiVariable (1 items):
+        Variable name:i start:45:8 end:45:9:
+          vpiParent: Module name:Multiplier_flat
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: Multiplier_flat.i
+          vpiName: i
+          vpiFullName: Multiplier_flat.i
       vpiParameter (2 items):
         Parameter name:M start:10:36 end:10:37:
           vpiParent: Module name:Multiplier_flat
@@ -2366,13 +2370,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:Multiplier_flat
       vpiDefName: Multiplier_flat
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Multiplier_flat
         vpiName: work
         vpiFullName: Multiplier_flat.work
       vpiCell: Multiplier_flat
-      vpiNet (5 items):
+      vpiNet (8 items):
         Net name:A start:11:15 end:11:16:
           vpiParent: Module name:Multiplier_flat
           vpiTypespec RefTypespec start:11:1 end:11:14:
@@ -2409,21 +2413,51 @@ Design name:unnamed:
           vpiName: PP
           vpiFullName: Multiplier_flat.PP
           vpiNetType: wire (1)
-        Net name:i start:45:8 end:45:9:
+        Net name:gA start:49:20 end:49:22:
           vpiParent: Module name:Multiplier_flat
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: Multiplier_flat.i
-          vpiName: i
-          vpiFullName: Multiplier_flat.i
+          vpiTypespec RefTypespec start:49:10 end:49:19:
+            vpiParent: Net name:gA
+            vpiFullName: Multiplier_flat.gA
+            vpiActual: LogicTypespec
+          vpiName: gA
+          vpiFullName: Multiplier_flat.gA
+          vpiNetType: wire (1)
+        Net name:gB start:49:23 end:49:25:
+          vpiParent: Module name:Multiplier_flat
+          vpiTypespec RefTypespec start:49:10 end:49:19:
+            vpiParent: Net name:gB
+            vpiFullName: Multiplier_flat.gB
+            vpiActual: LogicTypespec
+          vpiName: gB
+          vpiFullName: Multiplier_flat.gB
+          vpiNetType: wire (1)
+        Net name:gS start:49:26 end:49:28:
+          vpiParent: Module name:Multiplier_flat
+          vpiTypespec RefTypespec start:49:10 end:49:19:
+            vpiParent: Net name:gS
+            vpiFullName: Multiplier_flat.gS
+            vpiActual: LogicTypespec
+          vpiName: gS
+          vpiFullName: Multiplier_flat.gS
+          vpiNetType: wire (1)
+        Net name:Cout start:50:10 end:50:14:
+          vpiParent: Module name:Multiplier_flat
+          vpiTypespec RefTypespec start:50:10 end:50:10:
+            vpiParent: Net name:Cout
+            vpiFullName: Multiplier_flat.Cout
+            vpiActual: LogicTypespec
+          vpiName: Cout
+          vpiFullName: Multiplier_flat.Cout
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:A start:11:15 end:11:16:
           vpiParent: Module name:Multiplier_flat
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:11:15 end:11:16:
+          vpiLowConn RefObj name:A start:11:15 end:11:16:
             vpiParent: Port name:A
-            vpiFullName: Multiplier_flat.A
+            vpiName: A
+            vpiFullName: Multiplier_flat.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:11:1 end:11:14:
             vpiParent: Port name:A
@@ -2433,9 +2467,10 @@ Design name:unnamed:
           vpiParent: Module name:Multiplier_flat
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:12:15 end:12:16:
+          vpiLowConn RefObj name:B start:12:15 end:12:16:
             vpiParent: Port name:B
-            vpiFullName: Multiplier_flat.B
+            vpiName: B
+            vpiFullName: Multiplier_flat.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:12:1 end:12:14:
             vpiParent: Port name:B
@@ -2445,9 +2480,10 @@ Design name:unnamed:
           vpiParent: Module name:Multiplier_flat
           vpiName: P
           vpiDirection: output (2)
-          vpiLowConn RefObj start:13:18 end:13:19:
+          vpiLowConn RefObj name:P start:13:18 end:13:19:
             vpiParent: Port name:P
-            vpiFullName: Multiplier_flat.P
+            vpiName: P
+            vpiFullName: Multiplier_flat.P.P
             vpiActual: Net name:P
           vpiTypespec RefTypespec start:13:1 end:13:17:
             vpiParent: Port name:P
@@ -2789,43 +2825,6 @@ Design name:unnamed:
                 vpiParent: Begin name:addPartialProduct
                 vpiName: addPartialProduct
               vpiFullName: Multiplier_flat.addPartialProduct
-              vpiVariable (4 items):
-                Variable name:gA start:49:20 end:49:22:
-                  vpiParent: Begin name:addPartialProduct
-                  vpiTypespec RefTypespec start:49:10 end:49:19:
-                    vpiParent: Variable name:gA
-                    vpiFullName: Multiplier_flat.addPartialProduct.gA
-                    vpiActual: LogicTypespec
-                  vpiName: gA
-                  vpiFullName: Multiplier_flat.addPartialProduct.gA
-                  vpiNetType: wire (1)
-                Variable name:gB start:49:23 end:49:25:
-                  vpiParent: Begin name:addPartialProduct
-                  vpiTypespec RefTypespec start:49:10 end:49:19:
-                    vpiParent: Variable name:gB
-                    vpiFullName: Multiplier_flat.addPartialProduct.gB
-                    vpiActual: LogicTypespec
-                  vpiName: gB
-                  vpiFullName: Multiplier_flat.addPartialProduct.gB
-                  vpiNetType: wire (1)
-                Variable name:gS start:49:26 end:49:28:
-                  vpiParent: Begin name:addPartialProduct
-                  vpiTypespec RefTypespec start:49:10 end:49:19:
-                    vpiParent: Variable name:gS
-                    vpiFullName: Multiplier_flat.addPartialProduct.gS
-                    vpiActual: LogicTypespec
-                  vpiName: gS
-                  vpiFullName: Multiplier_flat.addPartialProduct.gS
-                  vpiNetType: wire (1)
-                Variable name:Cout start:50:10 end:50:14:
-                  vpiParent: Begin name:addPartialProduct
-                  vpiTypespec RefTypespec start:50:10 end:50:10:
-                    vpiParent: Variable name:Cout
-                    vpiFullName: Multiplier_flat.addPartialProduct.Cout
-                    vpiActual: LogicTypespec
-                  vpiName: Cout
-                  vpiFullName: Multiplier_flat.addPartialProduct.Cout
-                  vpiNetType: wire (1)
               vpiTypespec (4 items):
                 LogicTypespec:
                   vpiParent: Begin name:addPartialProduct
@@ -2887,7 +2886,7 @@ Design name:unnamed:
                     vpiParent: ContAssign
                     vpiName: gA
                     vpiFullName: Multiplier_flat.addPartialProduct.gA
-                    vpiActual: Variable name:gA
+                    vpiActual: Net name:gA
                   vpiRhs Operation start:51:17 end:51:46:
                     vpiParent: ContAssign
                     vpiOpType: concatenation (33)
@@ -2957,7 +2956,7 @@ Design name:unnamed:
                     vpiParent: ContAssign
                     vpiName: gB
                     vpiFullName: Multiplier_flat.addPartialProduct.gB
-                    vpiActual: Variable name:gB
+                    vpiActual: Net name:gB
                   vpiRhs IndexedPartSelect name:PP[i-1*i+2*M/2+:M+i] start:53:17 end:53:38:
                     vpiParent: ContAssign
                     vpiName: PP[i-1*i+2*M/2+:M+i]
@@ -3188,12 +3187,12 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: Cout
                         vpiFullName: Multiplier_flat.addPartialProduct.Cout
-                        vpiActual: Variable name:Cout
+                        vpiActual: Net name:Cout
                       RefObj name:gS start:54:44 end:54:46:
                         vpiParent: Operation
                         vpiName: gS
                         vpiFullName: Multiplier_flat.addPartialProduct.gS
-                        vpiActual: Variable name:gS
+                        vpiActual: Net name:gS
                 RefInstance name:adder start:65:28 end:65:33:
                   vpiParent: Begin name:addPartialProduct
                   vpiName: adder
@@ -3231,7 +3230,7 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: gA
                         vpiFullName: Multiplier_flat.addPartialProduct.adder.gA
-                        vpiActual: Variable name:gA
+                        vpiActual: Net name:gA
                     Port start:65:43 end:65:49:
                       vpiParent: RefInstance name:adder
                       vpiLowConn RefObj name:B start:65:44 end:65:45:
@@ -3243,7 +3242,7 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: gB
                         vpiFullName: Multiplier_flat.addPartialProduct.adder.gB
-                        vpiActual: Variable name:gB
+                        vpiActual: Net name:gB
                     Port start:65:51 end:65:57:
                       vpiParent: RefInstance name:adder
                       vpiLowConn RefObj name:S start:65:52 end:65:53:
@@ -3254,7 +3253,7 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: gS
                         vpiFullName: Multiplier_flat.addPartialProduct.adder.gS
-                        vpiActual: Variable name:gS
+                        vpiActual: Net name:gS
                     Port start:65:59 end:65:70:
                       vpiParent: RefInstance name:adder
                       vpiLowConn RefObj name:Cin start:65:60 end:65:63:
@@ -3277,18 +3276,26 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: Cout
                         vpiFullName: Multiplier_flat.addPartialProduct.adder.Cout
-                        vpiActual: Variable name:Cout
+                        vpiActual: Net name:Cout
                       vpiHighConn RefObj name:Cout start:65:78 end:65:82:
                         vpiParent: Port
                         vpiName: Cout
                         vpiFullName: Multiplier_flat.addPartialProduct.adder.Cout
-                        vpiActual: Variable name:Cout
+                        vpiActual: Net name:Cout
     Module name:Multiplier_2D file:$Source01/multiplier.v start:77:1 end:107:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Multiplier_2D start:77:8 end:77:21:
         vpiParent: Module name:Multiplier_2D
         vpiName: Multiplier_2D
       vpiFullName: Multiplier_2D
+      vpiVariable (1 items):
+        Variable name:i start:90:8 end:90:9:
+          vpiParent: Module name:Multiplier_2D
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: Multiplier_2D.i
+          vpiName: i
+          vpiFullName: Multiplier_2D.i
       vpiParameter (2 items):
         Parameter name:M start:77:34 end:77:35:
           vpiParent: Module name:Multiplier_2D
@@ -3543,13 +3550,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:Multiplier_2D
       vpiDefName: Multiplier_2D
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Multiplier_2D
         vpiName: work
         vpiFullName: Multiplier_2D.work
       vpiCell: Multiplier_2D
-      vpiNet (5 items):
+      vpiNet (8 items):
         Net name:A start:78:15 end:78:16:
           vpiParent: Module name:Multiplier_2D
           vpiTypespec RefTypespec start:78:1 end:78:14:
@@ -3586,21 +3593,51 @@ Design name:unnamed:
           vpiName: PP
           vpiFullName: Multiplier_2D.PP
           vpiNetType: wire (1)
-        Net name:i start:90:8 end:90:9:
+        Net name:gA start:94:20 end:94:22:
           vpiParent: Module name:Multiplier_2D
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: Multiplier_2D.i
-          vpiName: i
-          vpiFullName: Multiplier_2D.i
+          vpiTypespec RefTypespec start:94:10 end:94:19:
+            vpiParent: Net name:gA
+            vpiFullName: Multiplier_2D.gA
+            vpiActual: LogicTypespec
+          vpiName: gA
+          vpiFullName: Multiplier_2D.gA
+          vpiNetType: wire (1)
+        Net name:gB start:94:23 end:94:25:
+          vpiParent: Module name:Multiplier_2D
+          vpiTypespec RefTypespec start:94:10 end:94:19:
+            vpiParent: Net name:gB
+            vpiFullName: Multiplier_2D.gB
+            vpiActual: LogicTypespec
+          vpiName: gB
+          vpiFullName: Multiplier_2D.gB
+          vpiNetType: wire (1)
+        Net name:gS start:94:26 end:94:28:
+          vpiParent: Module name:Multiplier_2D
+          vpiTypespec RefTypespec start:94:10 end:94:19:
+            vpiParent: Net name:gS
+            vpiFullName: Multiplier_2D.gS
+            vpiActual: LogicTypespec
+          vpiName: gS
+          vpiFullName: Multiplier_2D.gS
+          vpiNetType: wire (1)
+        Net name:Cout start:94:35 end:94:39:
+          vpiParent: Module name:Multiplier_2D
+          vpiTypespec RefTypespec start:94:35 end:94:35:
+            vpiParent: Net name:Cout
+            vpiFullName: Multiplier_2D.Cout
+            vpiActual: LogicTypespec
+          vpiName: Cout
+          vpiFullName: Multiplier_2D.Cout
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:A start:78:15 end:78:16:
           vpiParent: Module name:Multiplier_2D
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:78:15 end:78:16:
+          vpiLowConn RefObj name:A start:78:15 end:78:16:
             vpiParent: Port name:A
-            vpiFullName: Multiplier_2D.A
+            vpiName: A
+            vpiFullName: Multiplier_2D.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:78:1 end:78:14:
             vpiParent: Port name:A
@@ -3610,9 +3647,10 @@ Design name:unnamed:
           vpiParent: Module name:Multiplier_2D
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:79:15 end:79:16:
+          vpiLowConn RefObj name:B start:79:15 end:79:16:
             vpiParent: Port name:B
-            vpiFullName: Multiplier_2D.B
+            vpiName: B
+            vpiFullName: Multiplier_2D.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:79:1 end:79:14:
             vpiParent: Port name:B
@@ -3622,9 +3660,10 @@ Design name:unnamed:
           vpiParent: Module name:Multiplier_2D
           vpiName: P
           vpiDirection: output (2)
-          vpiLowConn RefObj start:80:18 end:80:19:
+          vpiLowConn RefObj name:P start:80:18 end:80:19:
             vpiParent: Port name:P
-            vpiFullName: Multiplier_2D.P
+            vpiName: P
+            vpiFullName: Multiplier_2D.P.P
             vpiActual: Net name:P
           vpiTypespec RefTypespec start:80:1 end:80:17:
             vpiParent: Port name:P
@@ -3833,43 +3872,6 @@ Design name:unnamed:
                 vpiParent: Begin name:addPartialProduct
                 vpiName: addPartialProduct
               vpiFullName: Multiplier_2D.addPartialProduct
-              vpiVariable (4 items):
-                Variable name:gA start:94:20 end:94:22:
-                  vpiParent: Begin name:addPartialProduct
-                  vpiTypespec RefTypespec start:94:10 end:94:19:
-                    vpiParent: Variable name:gA
-                    vpiFullName: Multiplier_2D.addPartialProduct.gA
-                    vpiActual: LogicTypespec
-                  vpiName: gA
-                  vpiFullName: Multiplier_2D.addPartialProduct.gA
-                  vpiNetType: wire (1)
-                Variable name:gB start:94:23 end:94:25:
-                  vpiParent: Begin name:addPartialProduct
-                  vpiTypespec RefTypespec start:94:10 end:94:19:
-                    vpiParent: Variable name:gB
-                    vpiFullName: Multiplier_2D.addPartialProduct.gB
-                    vpiActual: LogicTypespec
-                  vpiName: gB
-                  vpiFullName: Multiplier_2D.addPartialProduct.gB
-                  vpiNetType: wire (1)
-                Variable name:gS start:94:26 end:94:28:
-                  vpiParent: Begin name:addPartialProduct
-                  vpiTypespec RefTypespec start:94:10 end:94:19:
-                    vpiParent: Variable name:gS
-                    vpiFullName: Multiplier_2D.addPartialProduct.gS
-                    vpiActual: LogicTypespec
-                  vpiName: gS
-                  vpiFullName: Multiplier_2D.addPartialProduct.gS
-                  vpiNetType: wire (1)
-                Variable name:Cout start:94:35 end:94:39:
-                  vpiParent: Begin name:addPartialProduct
-                  vpiTypespec RefTypespec start:94:35 end:94:35:
-                    vpiParent: Variable name:Cout
-                    vpiFullName: Multiplier_2D.addPartialProduct.Cout
-                    vpiActual: LogicTypespec
-                  vpiName: Cout
-                  vpiFullName: Multiplier_2D.addPartialProduct.Cout
-                  vpiNetType: wire (1)
               vpiTypespec (4 items):
                 LogicTypespec:
                   vpiParent: Begin name:addPartialProduct
@@ -3931,7 +3933,7 @@ Design name:unnamed:
                     vpiParent: ContAssign
                     vpiName: gA
                     vpiFullName: Multiplier_2D.addPartialProduct.gA
-                    vpiActual: Variable name:gA
+                    vpiActual: Net name:gA
                   vpiRhs Operation start:95:17 end:95:46:
                     vpiParent: ContAssign
                     vpiOpType: concatenation (33)
@@ -4001,7 +4003,7 @@ Design name:unnamed:
                     vpiParent: ContAssign
                     vpiName: gB
                     vpiFullName: Multiplier_2D.addPartialProduct.gB
-                    vpiActual: Variable name:gB
+                    vpiActual: Net name:gB
                   vpiRhs PartSelect name:PP[i - 1][M+i-1:0] start:96:17 end:96:33:
                     vpiParent: ContAssign
                     vpiName: PP[i - 1][M+i-1:0]
@@ -4130,12 +4132,12 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: Cout
                         vpiFullName: Multiplier_2D.addPartialProduct.Cout
-                        vpiActual: Variable name:Cout
+                        vpiActual: Net name:Cout
                       RefObj name:gS start:99:43 end:99:45:
                         vpiParent: Operation
                         vpiName: gS
                         vpiFullName: Multiplier_2D.addPartialProduct.gS
-                        vpiActual: Variable name:gS
+                        vpiActual: Net name:gS
                 RefInstance name:adder start:100:28 end:100:33:
                   vpiParent: Begin name:addPartialProduct
                   vpiName: adder
@@ -4173,7 +4175,7 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: gA
                         vpiFullName: Multiplier_2D.addPartialProduct.adder.gA
-                        vpiActual: Variable name:gA
+                        vpiActual: Net name:gA
                     Port start:101:14 end:101:20:
                       vpiParent: RefInstance name:adder
                       vpiLowConn RefObj name:B start:101:15 end:101:16:
@@ -4185,7 +4187,7 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: gB
                         vpiFullName: Multiplier_2D.addPartialProduct.adder.gB
-                        vpiActual: Variable name:gB
+                        vpiActual: Net name:gB
                     Port start:101:22 end:101:28:
                       vpiParent: RefInstance name:adder
                       vpiLowConn RefObj name:S start:101:23 end:101:24:
@@ -4196,7 +4198,7 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: gS
                         vpiFullName: Multiplier_2D.addPartialProduct.adder.gS
-                        vpiActual: Variable name:gS
+                        vpiActual: Net name:gS
                     Port start:101:30 end:101:40:
                       vpiParent: RefInstance name:adder
                       vpiLowConn RefObj name:Cin start:101:31 end:101:34:
@@ -4219,18 +4221,26 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: Cout
                         vpiFullName: Multiplier_2D.addPartialProduct.adder.Cout
-                        vpiActual: Variable name:Cout
+                        vpiActual: Net name:Cout
                       vpiHighConn RefObj name:Cout start:101:48 end:101:52:
                         vpiParent: Port
                         vpiName: Cout
                         vpiFullName: Multiplier_2D.addPartialProduct.adder.Cout
-                        vpiActual: Variable name:Cout
+                        vpiActual: Net name:Cout
     Module name:RippleCarryAdder file:$Source01/multiplier.v start:109:1 end:128:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:RippleCarryAdder start:109:8 end:109:24:
         vpiParent: Module name:RippleCarryAdder
         vpiName: RippleCarryAdder
       vpiFullName: RippleCarryAdder
+      vpiVariable (1 items):
+        Variable name:i start:120:8 end:120:9:
+          vpiParent: Module name:RippleCarryAdder
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: RippleCarryAdder.i
+          vpiName: i
+          vpiFullName: RippleCarryAdder.i
       vpiParameter (1 items):
         Parameter name:N start:109:36 end:109:37:
           vpiParent: Module name:RippleCarryAdder
@@ -4388,13 +4398,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: RippleCarryAdder
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:RippleCarryAdder
         vpiName: work
         vpiFullName: RippleCarryAdder.work
       vpiCell: RippleCarryAdder
-      vpiNet (7 items):
+      vpiNet (6 items):
         Net name:A start:111:15 end:111:16:
           vpiParent: Module name:RippleCarryAdder
           vpiTypespec RefTypespec start:111:7 end:111:14:
@@ -4403,6 +4413,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: RippleCarryAdder.A
+          vpiNetType: wire (1)
         Net name:B start:112:15 end:112:16:
           vpiParent: Module name:RippleCarryAdder
           vpiTypespec RefTypespec start:112:7 end:112:14:
@@ -4411,6 +4422,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: B
           vpiFullName: RippleCarryAdder.B
+          vpiNetType: wire (1)
         Net name:Cin start:113:7 end:113:10:
           vpiParent: Module name:RippleCarryAdder
           vpiTypespec RefTypespec start:113:7 end:113:7:
@@ -4419,6 +4431,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Cin
           vpiFullName: RippleCarryAdder.Cin
+          vpiNetType: wire (1)
         Net name:S start:114:16 end:114:17:
           vpiParent: Module name:RippleCarryAdder
           vpiTypespec RefTypespec start:114:8 end:114:15:
@@ -4427,6 +4440,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: S
           vpiFullName: RippleCarryAdder.S
+          vpiNetType: wire (1)
         Net name:Cout start:115:8 end:115:12:
           vpiParent: Module name:RippleCarryAdder
           vpiTypespec RefTypespec start:115:8 end:115:8:
@@ -4435,6 +4449,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Cout
           vpiFullName: RippleCarryAdder.Cout
+          vpiNetType: wire (1)
         Net name:CC start:116:12 end:116:14:
           vpiParent: Module name:RippleCarryAdder
           vpiTypespec RefTypespec start:116:6 end:116:11:
@@ -4444,19 +4459,12 @@ Design name:unnamed:
           vpiName: CC
           vpiFullName: RippleCarryAdder.CC
           vpiNetType: wire (1)
-        Net name:i start:120:8 end:120:9:
-          vpiParent: Module name:RippleCarryAdder
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: RippleCarryAdder.i
-          vpiName: i
-          vpiFullName: RippleCarryAdder.i
       vpiPort (5 items):
         Port name:A start:109:43 end:109:44:
           vpiParent: Module name:RippleCarryAdder
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj name:A start:109:43 end:109:44:
+          vpiLowConn RefObj name:A start:111:15 end:111:16:
             vpiParent: Port name:A
             vpiName: A
             vpiFullName: RippleCarryAdder.A.A
@@ -4469,7 +4477,7 @@ Design name:unnamed:
           vpiParent: Module name:RippleCarryAdder
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj name:B start:109:45 end:109:46:
+          vpiLowConn RefObj name:B start:112:15 end:112:16:
             vpiParent: Port name:B
             vpiName: B
             vpiFullName: RippleCarryAdder.B.B
@@ -4482,7 +4490,7 @@ Design name:unnamed:
           vpiParent: Module name:RippleCarryAdder
           vpiName: Cin
           vpiDirection: input (1)
-          vpiLowConn RefObj name:Cin start:109:47 end:109:50:
+          vpiLowConn RefObj name:Cin start:113:7 end:113:10:
             vpiParent: Port name:Cin
             vpiName: Cin
             vpiFullName: RippleCarryAdder.Cin.Cin
@@ -4495,7 +4503,7 @@ Design name:unnamed:
           vpiParent: Module name:RippleCarryAdder
           vpiName: S
           vpiDirection: output (2)
-          vpiLowConn RefObj name:S start:109:51 end:109:52:
+          vpiLowConn RefObj name:S start:114:16 end:114:17:
             vpiParent: Port name:S
             vpiName: S
             vpiFullName: RippleCarryAdder.S.S
@@ -4508,7 +4516,7 @@ Design name:unnamed:
           vpiParent: Module name:RippleCarryAdder
           vpiName: Cout
           vpiDirection: output (2)
-          vpiLowConn RefObj name:Cout start:109:53 end:109:57:
+          vpiLowConn RefObj name:Cout start:115:8 end:115:12:
             vpiParent: Port name:Cout
             vpiName: Cout
             vpiFullName: RippleCarryAdder.Cout.Cout
@@ -4774,13 +4782,13 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:FullAdder
       vpiDefName: FullAdder
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:FullAdder
         vpiName: work
         vpiFullName: FullAdder.work
       vpiCell: FullAdder
-      vpiNet (5 items):
+      vpiNet (2 items):
         Net name:A start:130:24 end:130:25:
           vpiParent: Module name:FullAdder
           vpiTypespec RefTypespec start:130:18 end:130:23:
@@ -4789,24 +4797,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: FullAdder.A
-          vpiNetType: wire (1)
-        Net name:B start:130:26 end:130:27:
-          vpiParent: Module name:FullAdder
-          vpiTypespec RefTypespec start:130:26 end:130:26:
-            vpiParent: Net name:B
-            vpiFullName: FullAdder.B
-            vpiActual: LogicTypespec
-          vpiName: B
-          vpiFullName: FullAdder.B
-          vpiNetType: wire (1)
-        Net name:Cin start:130:28 end:130:31:
-          vpiParent: Module name:FullAdder
-          vpiTypespec RefTypespec start:130:28 end:130:28:
-            vpiParent: Net name:Cin
-            vpiFullName: FullAdder.Cin
-            vpiActual: LogicTypespec
-          vpiName: Cin
-          vpiFullName: FullAdder.Cin
           vpiNetType: wire (1)
         Net name:S start:130:45 end:130:46:
           vpiParent: Module name:FullAdder
@@ -4817,23 +4807,15 @@ Design name:unnamed:
           vpiName: S
           vpiFullName: FullAdder.S
           vpiNetType: wire (1)
-        Net name:Cout start:130:47 end:130:51:
-          vpiParent: Module name:FullAdder
-          vpiTypespec RefTypespec start:130:47 end:130:47:
-            vpiParent: Net name:Cout
-            vpiFullName: FullAdder.Cout
-            vpiActual: LogicTypespec
-          vpiName: Cout
-          vpiFullName: FullAdder.Cout
-          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:A start:130:24 end:130:25:
           vpiParent: Module name:FullAdder
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:130:24 end:130:25:
+          vpiLowConn RefObj name:A start:130:24 end:130:25:
             vpiParent: Port name:A
-            vpiFullName: FullAdder.A
+            vpiName: A
+            vpiFullName: FullAdder.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:130:18 end:130:23:
             vpiParent: Port name:A
@@ -4843,33 +4825,18 @@ Design name:unnamed:
           vpiParent: Module name:FullAdder
           vpiName: B
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:130:26 end:130:27:
-            vpiParent: Port name:B
-            vpiFullName: FullAdder.B
-            vpiActual: Net name:B
-          vpiTypespec RefTypespec start:130:26 end:130:26:
-            vpiParent: Port name:B
-            vpiFullName: FullAdder.B
-            vpiActual: LogicTypespec
         Port name:Cin start:130:28 end:130:31:
           vpiParent: Module name:FullAdder
           vpiName: Cin
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:130:28 end:130:31:
-            vpiParent: Port name:Cin
-            vpiFullName: FullAdder.Cin
-            vpiActual: Net name:Cin
-          vpiTypespec RefTypespec start:130:28 end:130:28:
-            vpiParent: Port name:Cin
-            vpiFullName: FullAdder.Cin
-            vpiActual: LogicTypespec
         Port name:S start:130:45 end:130:46:
           vpiParent: Module name:FullAdder
           vpiName: S
           vpiDirection: output (2)
-          vpiLowConn RefObj start:130:45 end:130:46:
+          vpiLowConn RefObj name:S start:130:45 end:130:46:
             vpiParent: Port name:S
-            vpiFullName: FullAdder.S
+            vpiName: S
+            vpiFullName: FullAdder.S.S
             vpiActual: Net name:S
           vpiTypespec RefTypespec start:130:33 end:130:44:
             vpiParent: Port name:S
@@ -4879,14 +4846,6 @@ Design name:unnamed:
           vpiParent: Module name:FullAdder
           vpiName: Cout
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:130:47 end:130:51:
-            vpiParent: Port name:Cout
-            vpiFullName: FullAdder.Cout
-            vpiActual: Net name:Cout
-          vpiTypespec RefTypespec start:130:47 end:130:47:
-            vpiParent: Port name:Cout
-            vpiFullName: FullAdder.Cout
-            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:131:8 end:131:26:
           vpiParent: Module name:FullAdder
@@ -4898,7 +4857,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: Cout
                 vpiFullName: FullAdder.Cout
-                vpiActual: Net name:Cout
+                vpiActual: Port name:Cout
               RefObj name:S start:131:14 end:131:15:
                 vpiParent: Operation
                 vpiName: S
@@ -4921,12 +4880,12 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: B
                     vpiFullName: FullAdder.B
-                    vpiActual: Net name:B
+                    vpiActual: Port name:B
               RefObj name:Cin start:131:23 end:131:26:
                 vpiParent: Operation
                 vpiName: Cin
                 vpiFullName: FullAdder.Cin
-                vpiActual: Net name:Cin
+                vpiActual: Port name:Cin
   vpiTypespec (5 items):
     ModuleTypespec name:Multiplier_flat:
       vpiParent: Design name:unnamed
@@ -4958,7 +4917,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -5004,10 +4963,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            78      66      20        32
 Operation                           97      56       0        41
-RefObj                             165     137       0        28
-RefTypespec                        133     120      19        32
+RefObj                             162     134       0        28
+RefTypespec                        127     114      19        32
 ----------------------------------------------------------------
-Others                             307     307       0         0
+Others                             304     304       0         0
 ----------------------------------------------------------------
-                                   780     686      39       133
+                                   768     674      39       133
 ===================== END REDUCTION RESULT =====================

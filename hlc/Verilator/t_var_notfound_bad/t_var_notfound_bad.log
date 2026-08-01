@@ -263,9 +263,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_var_notfound_bad.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_var_notfound_bad.v:27:1: Compile module "sub".
 [INF:CP0303] $Source01/t_var_notfound_bad.v:32:1: Compile module "subsub".
-[ERR:EL0535] $Source01/t_var_notfound_bad.v:17:7: Illegal implicit net "id:36, name:nf".
-[ERR:EL0535] $Source01/t_var_notfound_bad.v:18:11: Illegal implicit net "id:43, name:subsubz".
-[ERR:EL0535] $Source01/t_var_notfound_bad.v:18:19: Illegal implicit net "id:44, name:inss".
+[WRN:CP0350] $Source01/t_var_notfound_bad.v:18:11: Failed to bind "id:43, name:subsubz".
+[WRN:CP0350] $Source01/t_var_notfound_bad.v:18:19: Failed to bind "id:44, name:inss".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -275,7 +274,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_var_notfound_bad.v
       vpiPreprocFile: "$Output/lib/work/t_var_notfound_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_var_notfound_bad.v start:6:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -283,6 +281,23 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:i start:8:12 end:8:13:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:8:4 end:8:11:
+            vpiParent: Variable name:i
+            vpiFullName: t.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: t.i
+        Variable name:a_var start:9:12 end:9:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:9:4 end:9:11:
+            vpiParent: Variable name:a_var
+            vpiFullName: t.a_var
+            vpiActual: IntegerTypespec
+          vpiName: a_var
+          vpiFullName: t.a_var
       vpiTypespec (2 items):
         IntegerTypespec:
           vpiParent: Module name:t
@@ -293,7 +308,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -329,23 +344,6 @@ Design name:unnamed:
             vpiParent: Function name:notfunc
             vpiFullName: t.notfunc
             vpiActual: IntTypespec
-      vpiNet (2 items):
-        Net name:i start:8:12 end:8:13:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:8:4 end:8:11:
-            vpiParent: Net name:i
-            vpiFullName: t.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: t.i
-        Net name:a_var start:9:12 end:9:17:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:9:4 end:9:11:
-            vpiParent: Net name:a_var
-            vpiFullName: t.a_var
-            vpiActual: IntegerTypespec
-          vpiName: a_var
-          vpiFullName: t.a_var
       vpiProcess (1 items):
         Initial start:16:4 end:24:7:
           vpiParent: Module name:t
@@ -408,7 +406,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i
                   vpiFullName: t.i
-                  vpiActual: Net name:i
+                  vpiActual: Variable name:i
                 vpiRhs SubroutineCall name:nofunc start:19:11 end:19:19:
                   vpiParent: Assignment
                   vpiName Identifier name:nofunc start:19:11 end:19:17:
@@ -421,7 +419,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i
                   vpiFullName: t.i
-                  vpiActual: Net name:i
+                  vpiActual: Variable name:i
                 vpiRhs HierPath name:sub.nofuncs() start:20:11 end:20:23:
                   vpiParent: Assignment
                   vpiName: sub.nofuncs()
@@ -474,7 +472,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:subsub
             vpiName: subsub
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -519,26 +517,26 @@ Design name:unnamed:
         vpiParent: Module name:subsub
         vpiName: subsub
       vpiFullName: subsub
+      vpiVariable (1 items):
+        Variable name:inss start:33:12 end:33:16:
+          vpiParent: Module name:subsub
+          vpiTypespec RefTypespec start:33:4 end:33:11:
+            vpiParent: Variable name:inss
+            vpiFullName: subsub.inss
+            vpiActual: IntegerTypespec
+          vpiName: inss
+          vpiFullName: subsub.inss
       vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Module name:subsub
           vpiSigned: true
       vpiDefName: subsub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:subsub
         vpiName: work
         vpiFullName: subsub.work
       vpiCell: subsub
-      vpiNet (1 items):
-        Net name:inss start:33:12 end:33:16:
-          vpiParent: Module name:subsub
-          vpiTypespec RefTypespec start:33:4 end:33:11:
-            vpiParent: Net name:inss
-            vpiFullName: subsub.inss
-            vpiActual: IntegerTypespec
-          vpiName: inss
-          vpiFullName: subsub.inss
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -564,8 +562,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

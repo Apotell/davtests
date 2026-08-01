@@ -153,12 +153,10 @@ n<$Source01/dut.sv> u<138> t<Top_level_rule> c<1> l<2:1> el<24:22>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:2:1: Compile package "my_package".
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "my_module".
-[ERR:EL0535] $Source01/dut.sv:10:5: Illegal implicit net "id:25, name:a".
-[ERR:EL0535] $Source01/dut.sv:11:5: Illegal implicit net "id:29, name:b".
-[ERR:EL0535] $Source01/dut.sv:21:24: Illegal implicit net "id:67, name:my_parameter".
-[ERR:EL0535] $Source01/dut.sv:21:37: Illegal implicit net "id:68, name:a".
-[ERR:EL0535] $Source01/dut.sv:22:24: Illegal implicit net "id:74, name:my_parameter".
-[ERR:EL0535] $Source01/dut.sv:22:37: Illegal implicit net "id:75, name:b".
+[WRN:CP0350] $Source01/dut.sv:21:24: Failed to bind "id:67, name:my_parameter".
+[WRN:CP0350] $Source01/dut.sv:21:37: Failed to bind "id:68, name:a".
+[WRN:CP0350] $Source01/dut.sv:22:24: Failed to bind "id:74, name:my_parameter".
+[WRN:CP0350] $Source01/dut.sv:22:37: Failed to bind "id:75, name:b".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "my_package".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "my_module".
 ====== HLDB =======
@@ -169,7 +167,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:my_package file:$Source01/dut.sv start:2:1 end:14:24:
       vpiParent: Design name:unnamed
@@ -264,7 +261,7 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Package name:my_package
       vpiDefName: my_package
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:my_package
         vpiName: work
@@ -290,7 +287,6 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:my_package::my_struct
           vpiName: x
           vpiFullName: my_module.x
-          vpiNetType: none (12)
         Variable name:y start:18:34 end:18:35:
           vpiParent: Module name:my_module
           vpiTypespec RefTypespec name:my_struct start:18:24 end:18:33:
@@ -300,7 +296,6 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:my_package::my_struct
           vpiName: y
           vpiFullName: my_module.y
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         UnsupportedTypespec name:my_package::my_struct start:17:12 end:17:33:
           vpiParent: Module name:my_module
@@ -335,7 +330,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:my_package::my_struct
             vpiName: my_package::my_struct
       vpiDefName: my_module
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:my_module
         vpiName: work
@@ -346,9 +341,10 @@ Design name:unnamed:
           vpiParent: Module name:my_module
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj start:17:34 end:17:35:
+          vpiLowConn RefObj name:x start:17:34 end:17:35:
             vpiParent: Port name:x
-            vpiFullName: my_module.x
+            vpiName: x
+            vpiFullName: my_module.x.x
             vpiActual: Variable name:x
           vpiTypespec RefTypespec name:my_struct start:17:24 end:17:33:
             vpiParent: Port name:x
@@ -359,9 +355,10 @@ Design name:unnamed:
           vpiParent: Module name:my_module
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:18:34 end:18:35:
+          vpiLowConn RefObj name:y start:18:34 end:18:35:
             vpiParent: Port name:y
-            vpiFullName: my_module.y
+            vpiName: y
+            vpiFullName: my_module.y.y
             vpiActual: Variable name:y
           vpiTypespec RefTypespec name:my_struct start:18:24 end:18:33:
             vpiParent: Port name:y
@@ -434,8 +431,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

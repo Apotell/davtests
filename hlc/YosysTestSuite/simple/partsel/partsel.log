@@ -1908,6 +1908,7 @@ n<$Source01/partsel.v> u<1893> t<Top_level_rule> c<1> l<1:1> el<63:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/partsel.v:1:1: Compile module "partsel_test001".
 [INF:CP0303] $Source01/partsel.v:7:1: Compile module "partsel_test002".
+[ERR:LN0813] $Source01/partsel.v:1:1: Found 28 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1917,7 +1918,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: partsel.v
       vpiPreprocFile: "$Output/lib/work/partsel.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:partsel_test001 file:$Source01/partsel.v start:1:1 end:5:10:
       vpiParent: Design name:unnamed
@@ -2033,13 +2033,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: partsel_test001
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:partsel_test001
         vpiName: work
         vpiFullName: partsel_test001.work
       vpiCell: partsel_test001
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:idx start:1:36 end:1:39:
           vpiParent: Module name:partsel_test001
           vpiTypespec RefTypespec start:1:24 end:1:35:
@@ -2066,15 +2066,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: slice_up
           vpiFullName: partsel_test001.slice_up
-          vpiNetType: wire (1)
-        Net name:slice_down start:1:83 end:1:93:
-          vpiParent: Module name:partsel_test001
-          vpiTypespec RefTypespec start:1:83 end:1:83:
-            vpiParent: Net name:slice_down
-            vpiFullName: partsel_test001.slice_down
-            vpiActual: LogicTypespec
-          vpiName: slice_down
-          vpiFullName: partsel_test001.slice_down
           vpiNetType: wire (1)
         Net name:offset start:2:12 end:2:18:
           vpiParent: Module name:partsel_test001
@@ -2109,9 +2100,10 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test001
           vpiName: idx
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:36 end:1:39:
+          vpiLowConn RefObj name:idx start:1:36 end:1:39:
             vpiParent: Port name:idx
-            vpiFullName: partsel_test001.idx
+            vpiName: idx
+            vpiFullName: partsel_test001.idx.idx
             vpiActual: Net name:idx
           vpiTypespec RefTypespec start:1:24 end:1:35:
             vpiParent: Port name:idx
@@ -2121,9 +2113,10 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test001
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:54 end:1:58:
+          vpiLowConn RefObj name:data start:1:54 end:1:58:
             vpiParent: Port name:data
-            vpiFullName: partsel_test001.data
+            vpiName: data
+            vpiFullName: partsel_test001.data.data
             vpiActual: Net name:data
           vpiTypespec RefTypespec start:1:41 end:1:53:
             vpiParent: Port name:data
@@ -2133,9 +2126,10 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test001
           vpiName: slice_up
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:73 end:1:81:
+          vpiLowConn RefObj name:slice_up start:1:73 end:1:81:
             vpiParent: Port name:slice_up
-            vpiFullName: partsel_test001.slice_up
+            vpiName: slice_up
+            vpiFullName: partsel_test001.slice_up.slice_up
             vpiActual: Net name:slice_up
           vpiTypespec RefTypespec start:1:60 end:1:72:
             vpiParent: Port name:slice_up
@@ -2145,14 +2139,6 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test001
           vpiName: slice_down
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:83 end:1:93:
-            vpiParent: Port name:slice_down
-            vpiFullName: partsel_test001.slice_down
-            vpiActual: Net name:slice_down
-          vpiTypespec RefTypespec start:1:83 end:1:83:
-            vpiParent: Port name:slice_down
-            vpiFullName: partsel_test001.slice_down
-            vpiActual: LogicTypespec
       vpiContAssign (2 items):
         ContAssign start:3:8 end:3:36:
           vpiParent: Module name:partsel_test001
@@ -2192,7 +2178,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: slice_down
             vpiFullName: partsel_test001.slice_down
-            vpiActual: Net name:slice_down
+            vpiActual: Port name:slice_down
           vpiRhs IndexedPartSelect name:data[offset+3-:4] start:4:21 end:4:42:
             vpiParent: ContAssign
             vpiName: data[offset+3-:4]
@@ -2247,7 +2233,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: r1
           vpiFullName: partsel_test002.r1
-          vpiNetType: none (12)
         Variable name:r2 start:23:19 end:23:21:
           vpiParent: Module name:partsel_test002
           vpiTypespec RefTypespec start:23:2 end:23:18:
@@ -2256,7 +2241,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: r2
           vpiFullName: partsel_test002.r2
-          vpiNetType: none (12)
       vpiTypespec (16 items):
         LogicTypespec:
           vpiParent: Module name:partsel_test002
@@ -2651,13 +2635,13 @@ Design name:unnamed:
                 vpiValue: 7
           vpiVector: true
       vpiDefName: partsel_test002
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:partsel_test002
         vpiName: work
         vpiFullName: partsel_test002.work
       vpiCell: partsel_test002
-      vpiNet (41 items):
+      vpiNet (14 items):
         Net name:clk start:8:8 end:8:11:
           vpiParent: Module name:partsel_test002
           vpiTypespec RefTypespec start:8:2 end:8:7:
@@ -2666,15 +2650,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: partsel_test002.clk
-          vpiNetType: wire (1)
-        Net name:rst start:8:13 end:8:16:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:8:13 end:8:13:
-            vpiParent: Net name:rst
-            vpiFullName: partsel_test002.rst
-            vpiActual: LogicTypespec
-          vpiName: rst
-          vpiFullName: partsel_test002.rst
           vpiNetType: wire (1)
         Net name:a start:9:14 end:9:15:
           vpiParent: Module name:partsel_test002
@@ -2712,24 +2687,6 @@ Design name:unnamed:
           vpiName: x1
           vpiFullName: partsel_test002.x1
           vpiNetType: wire (1)
-        Net name:x2 start:12:19 end:12:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:12:19 end:12:19:
-            vpiParent: Net name:x2
-            vpiFullName: partsel_test002.x2
-            vpiActual: LogicTypespec
-          vpiName: x2
-          vpiFullName: partsel_test002.x2
-          vpiNetType: wire (1)
-        Net name:x3 start:12:23 end:12:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:12:23 end:12:23:
-            vpiParent: Net name:x3
-            vpiFullName: partsel_test002.x3
-            vpiActual: LogicTypespec
-          vpiName: x3
-          vpiFullName: partsel_test002.x3
-          vpiNetType: wire (1)
         Net name:x4 start:13:15 end:13:17:
           vpiParent: Module name:partsel_test002
           vpiTypespec RefTypespec start:13:2 end:13:14:
@@ -2738,24 +2695,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x4
           vpiFullName: partsel_test002.x4
-          vpiNetType: wire (1)
-        Net name:x5 start:13:19 end:13:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:13:19 end:13:19:
-            vpiParent: Net name:x5
-            vpiFullName: partsel_test002.x5
-            vpiActual: LogicTypespec
-          vpiName: x5
-          vpiFullName: partsel_test002.x5
-          vpiNetType: wire (1)
-        Net name:x6 start:13:23 end:13:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:13:23 end:13:23:
-            vpiParent: Net name:x6
-            vpiFullName: partsel_test002.x6
-            vpiActual: LogicTypespec
-          vpiName: x6
-          vpiFullName: partsel_test002.x6
           vpiNetType: wire (1)
         Net name:y1 start:14:15 end:14:17:
           vpiParent: Module name:partsel_test002
@@ -2766,24 +2705,6 @@ Design name:unnamed:
           vpiName: y1
           vpiFullName: partsel_test002.y1
           vpiNetType: wire (1)
-        Net name:y2 start:14:19 end:14:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:14:19 end:14:19:
-            vpiParent: Net name:y2
-            vpiFullName: partsel_test002.y2
-            vpiActual: LogicTypespec
-          vpiName: y2
-          vpiFullName: partsel_test002.y2
-          vpiNetType: wire (1)
-        Net name:y3 start:14:23 end:14:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:14:23 end:14:23:
-            vpiParent: Net name:y3
-            vpiFullName: partsel_test002.y3
-            vpiActual: LogicTypespec
-          vpiName: y3
-          vpiFullName: partsel_test002.y3
-          vpiNetType: wire (1)
         Net name:y4 start:15:15 end:15:17:
           vpiParent: Module name:partsel_test002
           vpiTypespec RefTypespec start:15:2 end:15:14:
@@ -2792,24 +2713,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y4
           vpiFullName: partsel_test002.y4
-          vpiNetType: wire (1)
-        Net name:y5 start:15:19 end:15:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:15:19 end:15:19:
-            vpiParent: Net name:y5
-            vpiFullName: partsel_test002.y5
-            vpiActual: LogicTypespec
-          vpiName: y5
-          vpiFullName: partsel_test002.y5
-          vpiNetType: wire (1)
-        Net name:y6 start:15:23 end:15:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:15:23 end:15:23:
-            vpiParent: Net name:y6
-            vpiFullName: partsel_test002.y6
-            vpiActual: LogicTypespec
-          vpiName: y6
-          vpiFullName: partsel_test002.y6
           vpiNetType: wire (1)
         Net name:z1 start:16:15 end:16:17:
           vpiParent: Module name:partsel_test002
@@ -2820,24 +2723,6 @@ Design name:unnamed:
           vpiName: z1
           vpiFullName: partsel_test002.z1
           vpiNetType: wire (1)
-        Net name:z2 start:16:19 end:16:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:16:19 end:16:19:
-            vpiParent: Net name:z2
-            vpiFullName: partsel_test002.z2
-            vpiActual: LogicTypespec
-          vpiName: z2
-          vpiFullName: partsel_test002.z2
-          vpiNetType: wire (1)
-        Net name:z3 start:16:23 end:16:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:16:23 end:16:23:
-            vpiParent: Net name:z3
-            vpiFullName: partsel_test002.z3
-            vpiActual: LogicTypespec
-          vpiName: z3
-          vpiFullName: partsel_test002.z3
-          vpiNetType: wire (1)
         Net name:z4 start:17:15 end:17:17:
           vpiParent: Module name:partsel_test002
           vpiTypespec RefTypespec start:17:2 end:17:14:
@@ -2846,24 +2731,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: z4
           vpiFullName: partsel_test002.z4
-          vpiNetType: wire (1)
-        Net name:z5 start:17:19 end:17:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:17:19 end:17:19:
-            vpiParent: Net name:z5
-            vpiFullName: partsel_test002.z5
-            vpiActual: LogicTypespec
-          vpiName: z5
-          vpiFullName: partsel_test002.z5
-          vpiNetType: wire (1)
-        Net name:z6 start:17:23 end:17:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:17:23 end:17:23:
-            vpiParent: Net name:z6
-            vpiFullName: partsel_test002.z6
-            vpiActual: LogicTypespec
-          vpiName: z6
-          vpiFullName: partsel_test002.z6
           vpiNetType: wire (1)
         Net name:w1 start:18:15 end:18:17:
           vpiParent: Module name:partsel_test002
@@ -2874,24 +2741,6 @@ Design name:unnamed:
           vpiName: w1
           vpiFullName: partsel_test002.w1
           vpiNetType: wire (1)
-        Net name:w2 start:18:19 end:18:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:18:19 end:18:19:
-            vpiParent: Net name:w2
-            vpiFullName: partsel_test002.w2
-            vpiActual: LogicTypespec
-          vpiName: w2
-          vpiFullName: partsel_test002.w2
-          vpiNetType: wire (1)
-        Net name:w3 start:18:23 end:18:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:18:23 end:18:23:
-            vpiParent: Net name:w3
-            vpiFullName: partsel_test002.w3
-            vpiActual: LogicTypespec
-          vpiName: w3
-          vpiFullName: partsel_test002.w3
-          vpiNetType: wire (1)
         Net name:w4 start:19:15 end:19:17:
           vpiParent: Module name:partsel_test002
           vpiTypespec RefTypespec start:19:2 end:19:14:
@@ -2900,24 +2749,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: w4
           vpiFullName: partsel_test002.w4
-          vpiNetType: wire (1)
-        Net name:w5 start:19:19 end:19:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:19:19 end:19:19:
-            vpiParent: Net name:w5
-            vpiFullName: partsel_test002.w5
-            vpiActual: LogicTypespec
-          vpiName: w5
-          vpiFullName: partsel_test002.w5
-          vpiNetType: wire (1)
-        Net name:w6 start:19:23 end:19:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:19:23 end:19:23:
-            vpiParent: Net name:w6
-            vpiFullName: partsel_test002.w6
-            vpiActual: LogicTypespec
-          vpiName: w6
-          vpiFullName: partsel_test002.w6
           vpiNetType: wire (1)
         Net name:p1 start:20:15 end:20:17:
           vpiParent: Module name:partsel_test002
@@ -2928,51 +2759,6 @@ Design name:unnamed:
           vpiName: p1
           vpiFullName: partsel_test002.p1
           vpiNetType: wire (1)
-        Net name:p2 start:20:19 end:20:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:20:19 end:20:19:
-            vpiParent: Net name:p2
-            vpiFullName: partsel_test002.p2
-            vpiActual: LogicTypespec
-          vpiName: p2
-          vpiFullName: partsel_test002.p2
-          vpiNetType: wire (1)
-        Net name:p3 start:20:23 end:20:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:20:23 end:20:23:
-            vpiParent: Net name:p3
-            vpiFullName: partsel_test002.p3
-            vpiActual: LogicTypespec
-          vpiName: p3
-          vpiFullName: partsel_test002.p3
-          vpiNetType: wire (1)
-        Net name:p4 start:20:27 end:20:29:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:20:27 end:20:27:
-            vpiParent: Net name:p4
-            vpiFullName: partsel_test002.p4
-            vpiActual: LogicTypespec
-          vpiName: p4
-          vpiFullName: partsel_test002.p4
-          vpiNetType: wire (1)
-        Net name:p5 start:20:31 end:20:33:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:20:31 end:20:31:
-            vpiParent: Net name:p5
-            vpiFullName: partsel_test002.p5
-            vpiActual: LogicTypespec
-          vpiName: p5
-          vpiFullName: partsel_test002.p5
-          vpiNetType: wire (1)
-        Net name:p6 start:20:35 end:20:37:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:20:35 end:20:35:
-            vpiParent: Net name:p6
-            vpiFullName: partsel_test002.p6
-            vpiActual: LogicTypespec
-          vpiName: p6
-          vpiFullName: partsel_test002.p6
-          vpiNetType: wire (1)
         Net name:q1 start:21:15 end:21:17:
           vpiParent: Module name:partsel_test002
           vpiTypespec RefTypespec start:21:2 end:21:14:
@@ -2982,59 +2768,15 @@ Design name:unnamed:
           vpiName: q1
           vpiFullName: partsel_test002.q1
           vpiNetType: wire (1)
-        Net name:q2 start:21:19 end:21:21:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:21:19 end:21:19:
-            vpiParent: Net name:q2
-            vpiFullName: partsel_test002.q2
-            vpiActual: LogicTypespec
-          vpiName: q2
-          vpiFullName: partsel_test002.q2
-          vpiNetType: wire (1)
-        Net name:q3 start:21:23 end:21:25:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:21:23 end:21:23:
-            vpiParent: Net name:q3
-            vpiFullName: partsel_test002.q3
-            vpiActual: LogicTypespec
-          vpiName: q3
-          vpiFullName: partsel_test002.q3
-          vpiNetType: wire (1)
-        Net name:q4 start:21:27 end:21:29:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:21:27 end:21:27:
-            vpiParent: Net name:q4
-            vpiFullName: partsel_test002.q4
-            vpiActual: LogicTypespec
-          vpiName: q4
-          vpiFullName: partsel_test002.q4
-          vpiNetType: wire (1)
-        Net name:q5 start:21:31 end:21:33:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:21:31 end:21:31:
-            vpiParent: Net name:q5
-            vpiFullName: partsel_test002.q5
-            vpiActual: LogicTypespec
-          vpiName: q5
-          vpiFullName: partsel_test002.q5
-          vpiNetType: wire (1)
-        Net name:q6 start:21:35 end:21:37:
-          vpiParent: Module name:partsel_test002
-          vpiTypespec RefTypespec start:21:35 end:21:35:
-            vpiParent: Net name:q6
-            vpiFullName: partsel_test002.q6
-            vpiActual: LogicTypespec
-          vpiName: q6
-          vpiFullName: partsel_test002.q6
-          vpiNetType: wire (1)
       vpiPort (43 items):
         Port name:clk start:8:8 end:8:11:
           vpiParent: Module name:partsel_test002
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:8 end:8:11:
+          vpiLowConn RefObj name:clk start:8:8 end:8:11:
             vpiParent: Port name:clk
-            vpiFullName: partsel_test002.clk
+            vpiName: clk
+            vpiFullName: partsel_test002.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:8:2 end:8:7:
             vpiParent: Port name:clk
@@ -3044,21 +2786,14 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: rst
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:8:13 end:8:16:
-            vpiParent: Port name:rst
-            vpiFullName: partsel_test002.rst
-            vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:8:13 end:8:13:
-            vpiParent: Port name:rst
-            vpiFullName: partsel_test002.rst
-            vpiActual: LogicTypespec
         Port name:a start:9:14 end:9:15:
           vpiParent: Module name:partsel_test002
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:9:14 end:9:15:
+          vpiLowConn RefObj name:a start:9:14 end:9:15:
             vpiParent: Port name:a
-            vpiFullName: partsel_test002.a
+            vpiName: a
+            vpiFullName: partsel_test002.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:9:2 end:9:13:
             vpiParent: Port name:a
@@ -3068,9 +2803,10 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:10:14 end:10:15:
+          vpiLowConn RefObj name:b start:10:14 end:10:15:
             vpiParent: Port name:b
-            vpiFullName: partsel_test002.b
+            vpiName: b
+            vpiFullName: partsel_test002.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:10:2 end:10:13:
             vpiParent: Port name:b
@@ -3080,9 +2816,10 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: s
           vpiDirection: input (1)
-          vpiLowConn RefObj start:11:14 end:11:15:
+          vpiLowConn RefObj name:s start:11:14 end:11:15:
             vpiParent: Port name:s
-            vpiFullName: partsel_test002.s
+            vpiName: s
+            vpiFullName: partsel_test002.s.s
             vpiActual: Net name:s
           vpiTypespec RefTypespec start:11:2 end:11:13:
             vpiParent: Port name:s
@@ -3092,9 +2829,10 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: x1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:12:15 end:12:17:
+          vpiLowConn RefObj name:x1 start:12:15 end:12:17:
             vpiParent: Port name:x1
-            vpiFullName: partsel_test002.x1
+            vpiName: x1
+            vpiFullName: partsel_test002.x1.x1
             vpiActual: Net name:x1
           vpiTypespec RefTypespec start:12:2 end:12:14:
             vpiParent: Port name:x1
@@ -3104,33 +2842,18 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: x2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:12:19 end:12:21:
-            vpiParent: Port name:x2
-            vpiFullName: partsel_test002.x2
-            vpiActual: Net name:x2
-          vpiTypespec RefTypespec start:12:19 end:12:19:
-            vpiParent: Port name:x2
-            vpiFullName: partsel_test002.x2
-            vpiActual: LogicTypespec
         Port name:x3 start:12:23 end:12:25:
           vpiParent: Module name:partsel_test002
           vpiName: x3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:12:23 end:12:25:
-            vpiParent: Port name:x3
-            vpiFullName: partsel_test002.x3
-            vpiActual: Net name:x3
-          vpiTypespec RefTypespec start:12:23 end:12:23:
-            vpiParent: Port name:x3
-            vpiFullName: partsel_test002.x3
-            vpiActual: LogicTypespec
         Port name:x4 start:13:15 end:13:17:
           vpiParent: Module name:partsel_test002
           vpiName: x4
           vpiDirection: output (2)
-          vpiLowConn RefObj start:13:15 end:13:17:
+          vpiLowConn RefObj name:x4 start:13:15 end:13:17:
             vpiParent: Port name:x4
-            vpiFullName: partsel_test002.x4
+            vpiName: x4
+            vpiFullName: partsel_test002.x4.x4
             vpiActual: Net name:x4
           vpiTypespec RefTypespec start:13:2 end:13:14:
             vpiParent: Port name:x4
@@ -3140,33 +2863,18 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: x5
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:13:19 end:13:21:
-            vpiParent: Port name:x5
-            vpiFullName: partsel_test002.x5
-            vpiActual: Net name:x5
-          vpiTypespec RefTypespec start:13:19 end:13:19:
-            vpiParent: Port name:x5
-            vpiFullName: partsel_test002.x5
-            vpiActual: LogicTypespec
         Port name:x6 start:13:23 end:13:25:
           vpiParent: Module name:partsel_test002
           vpiName: x6
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:13:23 end:13:25:
-            vpiParent: Port name:x6
-            vpiFullName: partsel_test002.x6
-            vpiActual: Net name:x6
-          vpiTypespec RefTypespec start:13:23 end:13:23:
-            vpiParent: Port name:x6
-            vpiFullName: partsel_test002.x6
-            vpiActual: LogicTypespec
         Port name:y1 start:14:15 end:14:17:
           vpiParent: Module name:partsel_test002
           vpiName: y1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:14:15 end:14:17:
+          vpiLowConn RefObj name:y1 start:14:15 end:14:17:
             vpiParent: Port name:y1
-            vpiFullName: partsel_test002.y1
+            vpiName: y1
+            vpiFullName: partsel_test002.y1.y1
             vpiActual: Net name:y1
           vpiTypespec RefTypespec start:14:2 end:14:14:
             vpiParent: Port name:y1
@@ -3176,33 +2884,18 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: y2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:14:19 end:14:21:
-            vpiParent: Port name:y2
-            vpiFullName: partsel_test002.y2
-            vpiActual: Net name:y2
-          vpiTypespec RefTypespec start:14:19 end:14:19:
-            vpiParent: Port name:y2
-            vpiFullName: partsel_test002.y2
-            vpiActual: LogicTypespec
         Port name:y3 start:14:23 end:14:25:
           vpiParent: Module name:partsel_test002
           vpiName: y3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:14:23 end:14:25:
-            vpiParent: Port name:y3
-            vpiFullName: partsel_test002.y3
-            vpiActual: Net name:y3
-          vpiTypespec RefTypespec start:14:23 end:14:23:
-            vpiParent: Port name:y3
-            vpiFullName: partsel_test002.y3
-            vpiActual: LogicTypespec
         Port name:y4 start:15:15 end:15:17:
           vpiParent: Module name:partsel_test002
           vpiName: y4
           vpiDirection: output (2)
-          vpiLowConn RefObj start:15:15 end:15:17:
+          vpiLowConn RefObj name:y4 start:15:15 end:15:17:
             vpiParent: Port name:y4
-            vpiFullName: partsel_test002.y4
+            vpiName: y4
+            vpiFullName: partsel_test002.y4.y4
             vpiActual: Net name:y4
           vpiTypespec RefTypespec start:15:2 end:15:14:
             vpiParent: Port name:y4
@@ -3212,33 +2905,18 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: y5
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:19 end:15:21:
-            vpiParent: Port name:y5
-            vpiFullName: partsel_test002.y5
-            vpiActual: Net name:y5
-          vpiTypespec RefTypespec start:15:19 end:15:19:
-            vpiParent: Port name:y5
-            vpiFullName: partsel_test002.y5
-            vpiActual: LogicTypespec
         Port name:y6 start:15:23 end:15:25:
           vpiParent: Module name:partsel_test002
           vpiName: y6
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:23 end:15:25:
-            vpiParent: Port name:y6
-            vpiFullName: partsel_test002.y6
-            vpiActual: Net name:y6
-          vpiTypespec RefTypespec start:15:23 end:15:23:
-            vpiParent: Port name:y6
-            vpiFullName: partsel_test002.y6
-            vpiActual: LogicTypespec
         Port name:z1 start:16:15 end:16:17:
           vpiParent: Module name:partsel_test002
           vpiName: z1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:16:15 end:16:17:
+          vpiLowConn RefObj name:z1 start:16:15 end:16:17:
             vpiParent: Port name:z1
-            vpiFullName: partsel_test002.z1
+            vpiName: z1
+            vpiFullName: partsel_test002.z1.z1
             vpiActual: Net name:z1
           vpiTypespec RefTypespec start:16:2 end:16:14:
             vpiParent: Port name:z1
@@ -3248,33 +2926,18 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: z2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:16:19 end:16:21:
-            vpiParent: Port name:z2
-            vpiFullName: partsel_test002.z2
-            vpiActual: Net name:z2
-          vpiTypespec RefTypespec start:16:19 end:16:19:
-            vpiParent: Port name:z2
-            vpiFullName: partsel_test002.z2
-            vpiActual: LogicTypespec
         Port name:z3 start:16:23 end:16:25:
           vpiParent: Module name:partsel_test002
           vpiName: z3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:16:23 end:16:25:
-            vpiParent: Port name:z3
-            vpiFullName: partsel_test002.z3
-            vpiActual: Net name:z3
-          vpiTypespec RefTypespec start:16:23 end:16:23:
-            vpiParent: Port name:z3
-            vpiFullName: partsel_test002.z3
-            vpiActual: LogicTypespec
         Port name:z4 start:17:15 end:17:17:
           vpiParent: Module name:partsel_test002
           vpiName: z4
           vpiDirection: output (2)
-          vpiLowConn RefObj start:17:15 end:17:17:
+          vpiLowConn RefObj name:z4 start:17:15 end:17:17:
             vpiParent: Port name:z4
-            vpiFullName: partsel_test002.z4
+            vpiName: z4
+            vpiFullName: partsel_test002.z4.z4
             vpiActual: Net name:z4
           vpiTypespec RefTypespec start:17:2 end:17:14:
             vpiParent: Port name:z4
@@ -3284,33 +2947,18 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: z5
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:17:19 end:17:21:
-            vpiParent: Port name:z5
-            vpiFullName: partsel_test002.z5
-            vpiActual: Net name:z5
-          vpiTypespec RefTypespec start:17:19 end:17:19:
-            vpiParent: Port name:z5
-            vpiFullName: partsel_test002.z5
-            vpiActual: LogicTypespec
         Port name:z6 start:17:23 end:17:25:
           vpiParent: Module name:partsel_test002
           vpiName: z6
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:17:23 end:17:25:
-            vpiParent: Port name:z6
-            vpiFullName: partsel_test002.z6
-            vpiActual: Net name:z6
-          vpiTypespec RefTypespec start:17:23 end:17:23:
-            vpiParent: Port name:z6
-            vpiFullName: partsel_test002.z6
-            vpiActual: LogicTypespec
         Port name:w1 start:18:15 end:18:17:
           vpiParent: Module name:partsel_test002
           vpiName: w1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:18:15 end:18:17:
+          vpiLowConn RefObj name:w1 start:18:15 end:18:17:
             vpiParent: Port name:w1
-            vpiFullName: partsel_test002.w1
+            vpiName: w1
+            vpiFullName: partsel_test002.w1.w1
             vpiActual: Net name:w1
           vpiTypespec RefTypespec start:18:2 end:18:14:
             vpiParent: Port name:w1
@@ -3320,33 +2968,18 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: w2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:18:19 end:18:21:
-            vpiParent: Port name:w2
-            vpiFullName: partsel_test002.w2
-            vpiActual: Net name:w2
-          vpiTypespec RefTypespec start:18:19 end:18:19:
-            vpiParent: Port name:w2
-            vpiFullName: partsel_test002.w2
-            vpiActual: LogicTypespec
         Port name:w3 start:18:23 end:18:25:
           vpiParent: Module name:partsel_test002
           vpiName: w3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:18:23 end:18:25:
-            vpiParent: Port name:w3
-            vpiFullName: partsel_test002.w3
-            vpiActual: Net name:w3
-          vpiTypespec RefTypespec start:18:23 end:18:23:
-            vpiParent: Port name:w3
-            vpiFullName: partsel_test002.w3
-            vpiActual: LogicTypespec
         Port name:w4 start:19:15 end:19:17:
           vpiParent: Module name:partsel_test002
           vpiName: w4
           vpiDirection: output (2)
-          vpiLowConn RefObj start:19:15 end:19:17:
+          vpiLowConn RefObj name:w4 start:19:15 end:19:17:
             vpiParent: Port name:w4
-            vpiFullName: partsel_test002.w4
+            vpiName: w4
+            vpiFullName: partsel_test002.w4.w4
             vpiActual: Net name:w4
           vpiTypespec RefTypespec start:19:2 end:19:14:
             vpiParent: Port name:w4
@@ -3356,33 +2989,18 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: w5
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:19:19 end:19:21:
-            vpiParent: Port name:w5
-            vpiFullName: partsel_test002.w5
-            vpiActual: Net name:w5
-          vpiTypespec RefTypespec start:19:19 end:19:19:
-            vpiParent: Port name:w5
-            vpiFullName: partsel_test002.w5
-            vpiActual: LogicTypespec
         Port name:w6 start:19:23 end:19:25:
           vpiParent: Module name:partsel_test002
           vpiName: w6
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:19:23 end:19:25:
-            vpiParent: Port name:w6
-            vpiFullName: partsel_test002.w6
-            vpiActual: Net name:w6
-          vpiTypespec RefTypespec start:19:23 end:19:23:
-            vpiParent: Port name:w6
-            vpiFullName: partsel_test002.w6
-            vpiActual: LogicTypespec
         Port name:p1 start:20:15 end:20:17:
           vpiParent: Module name:partsel_test002
           vpiName: p1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:20:15 end:20:17:
+          vpiLowConn RefObj name:p1 start:20:15 end:20:17:
             vpiParent: Port name:p1
-            vpiFullName: partsel_test002.p1
+            vpiName: p1
+            vpiFullName: partsel_test002.p1.p1
             vpiActual: Net name:p1
           vpiTypespec RefTypespec start:20:2 end:20:14:
             vpiParent: Port name:p1
@@ -3392,69 +3010,30 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: p2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:20:19 end:20:21:
-            vpiParent: Port name:p2
-            vpiFullName: partsel_test002.p2
-            vpiActual: Net name:p2
-          vpiTypespec RefTypespec start:20:19 end:20:19:
-            vpiParent: Port name:p2
-            vpiFullName: partsel_test002.p2
-            vpiActual: LogicTypespec
         Port name:p3 start:20:23 end:20:25:
           vpiParent: Module name:partsel_test002
           vpiName: p3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:20:23 end:20:25:
-            vpiParent: Port name:p3
-            vpiFullName: partsel_test002.p3
-            vpiActual: Net name:p3
-          vpiTypespec RefTypespec start:20:23 end:20:23:
-            vpiParent: Port name:p3
-            vpiFullName: partsel_test002.p3
-            vpiActual: LogicTypespec
         Port name:p4 start:20:27 end:20:29:
           vpiParent: Module name:partsel_test002
           vpiName: p4
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:20:27 end:20:29:
-            vpiParent: Port name:p4
-            vpiFullName: partsel_test002.p4
-            vpiActual: Net name:p4
-          vpiTypespec RefTypespec start:20:27 end:20:27:
-            vpiParent: Port name:p4
-            vpiFullName: partsel_test002.p4
-            vpiActual: LogicTypespec
         Port name:p5 start:20:31 end:20:33:
           vpiParent: Module name:partsel_test002
           vpiName: p5
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:20:31 end:20:33:
-            vpiParent: Port name:p5
-            vpiFullName: partsel_test002.p5
-            vpiActual: Net name:p5
-          vpiTypespec RefTypespec start:20:31 end:20:31:
-            vpiParent: Port name:p5
-            vpiFullName: partsel_test002.p5
-            vpiActual: LogicTypespec
         Port name:p6 start:20:35 end:20:37:
           vpiParent: Module name:partsel_test002
           vpiName: p6
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:20:35 end:20:37:
-            vpiParent: Port name:p6
-            vpiFullName: partsel_test002.p6
-            vpiActual: Net name:p6
-          vpiTypespec RefTypespec start:20:35 end:20:35:
-            vpiParent: Port name:p6
-            vpiFullName: partsel_test002.p6
-            vpiActual: LogicTypespec
         Port name:q1 start:21:15 end:21:17:
           vpiParent: Module name:partsel_test002
           vpiName: q1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:21:15 end:21:17:
+          vpiLowConn RefObj name:q1 start:21:15 end:21:17:
             vpiParent: Port name:q1
-            vpiFullName: partsel_test002.q1
+            vpiName: q1
+            vpiFullName: partsel_test002.q1.q1
             vpiActual: Net name:q1
           vpiTypespec RefTypespec start:21:2 end:21:14:
             vpiParent: Port name:q1
@@ -3464,69 +3043,30 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: q2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:21:19 end:21:21:
-            vpiParent: Port name:q2
-            vpiFullName: partsel_test002.q2
-            vpiActual: Net name:q2
-          vpiTypespec RefTypespec start:21:19 end:21:19:
-            vpiParent: Port name:q2
-            vpiFullName: partsel_test002.q2
-            vpiActual: LogicTypespec
         Port name:q3 start:21:23 end:21:25:
           vpiParent: Module name:partsel_test002
           vpiName: q3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:21:23 end:21:25:
-            vpiParent: Port name:q3
-            vpiFullName: partsel_test002.q3
-            vpiActual: Net name:q3
-          vpiTypespec RefTypespec start:21:23 end:21:23:
-            vpiParent: Port name:q3
-            vpiFullName: partsel_test002.q3
-            vpiActual: LogicTypespec
         Port name:q4 start:21:27 end:21:29:
           vpiParent: Module name:partsel_test002
           vpiName: q4
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:21:27 end:21:29:
-            vpiParent: Port name:q4
-            vpiFullName: partsel_test002.q4
-            vpiActual: Net name:q4
-          vpiTypespec RefTypespec start:21:27 end:21:27:
-            vpiParent: Port name:q4
-            vpiFullName: partsel_test002.q4
-            vpiActual: LogicTypespec
         Port name:q5 start:21:31 end:21:33:
           vpiParent: Module name:partsel_test002
           vpiName: q5
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:21:31 end:21:33:
-            vpiParent: Port name:q5
-            vpiFullName: partsel_test002.q5
-            vpiActual: Net name:q5
-          vpiTypespec RefTypespec start:21:31 end:21:31:
-            vpiParent: Port name:q5
-            vpiFullName: partsel_test002.q5
-            vpiActual: LogicTypespec
         Port name:q6 start:21:35 end:21:37:
           vpiParent: Module name:partsel_test002
           vpiName: q6
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:21:35 end:21:37:
-            vpiParent: Port name:q6
-            vpiFullName: partsel_test002.q6
-            vpiActual: Net name:q6
-          vpiTypespec RefTypespec start:21:35 end:21:35:
-            vpiParent: Port name:q6
-            vpiFullName: partsel_test002.q6
-            vpiActual: LogicTypespec
         Port name:r1 start:22:19 end:22:21:
           vpiParent: Module name:partsel_test002
           vpiName: r1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:22:19 end:22:21:
+          vpiLowConn RefObj name:r1 start:22:19 end:22:21:
             vpiParent: Port name:r1
-            vpiFullName: partsel_test002.r1
+            vpiName: r1
+            vpiFullName: partsel_test002.r1.r1
             vpiActual: Variable name:r1
           vpiTypespec RefTypespec start:22:2 end:22:18:
             vpiParent: Port name:r1
@@ -3536,9 +3076,10 @@ Design name:unnamed:
           vpiParent: Module name:partsel_test002
           vpiName: r2
           vpiDirection: output (2)
-          vpiLowConn RefObj start:23:19 end:23:21:
+          vpiLowConn RefObj name:r2 start:23:19 end:23:21:
             vpiParent: Port name:r2
-            vpiFullName: partsel_test002.r2
+            vpiName: r2
+            vpiFullName: partsel_test002.r2.r2
             vpiActual: Variable name:r2
           vpiTypespec RefTypespec start:23:2 end:23:18:
             vpiParent: Port name:r2
@@ -3568,7 +3109,7 @@ Design name:unnamed:
                     vpiParent: IfElse
                     vpiName: rst
                     vpiFullName: partsel_test002.rst
-                    vpiActual: Net name:rst
+                    vpiActual: Port name:rst
                   vpiStmt Begin start:38:11 end:40:5:
                     vpiParent: IfElse
                     vpiFullName: partsel_test002
@@ -4173,7 +3714,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: x2
             vpiFullName: partsel_test002.x2
-            vpiActual: Net name:x2
+            vpiActual: Port name:x2
           vpiRhs Operation start:26:21 end:26:26:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -4194,7 +3735,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: x3
             vpiFullName: partsel_test002.x3
-            vpiActual: Net name:x3
+            vpiActual: Port name:x3
           vpiRhs RefObj name:b start:26:33 end:26:34:
             vpiParent: ContAssign
             vpiName: b
@@ -4218,7 +3759,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: x5
             vpiFullName: partsel_test002.x5
-            vpiActual: Net name:x5
+            vpiActual: Port name:x5
           vpiRhs Operation start:27:21 end:27:26:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -4239,7 +3780,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: x6
             vpiFullName: partsel_test002.x6
-            vpiActual: Net name:x6
+            vpiActual: Port name:x6
           vpiRhs RefObj name:b start:27:33 end:27:34:
             vpiParent: ContAssign
             vpiName: b
@@ -4288,7 +3829,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: y2
             vpiFullName: partsel_test002.y2
-            vpiActual: Net name:y2
+            vpiActual: Port name:y2
           vpiRhs Operation start:28:29 end:28:50:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -4359,7 +3900,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: y3
             vpiFullName: partsel_test002.y3
-            vpiActual: Net name:y3
+            vpiActual: Port name:y3
           vpiRhs IndexedPartSelect name:b[4+:3] start:28:57 end:28:66:
             vpiParent: ContAssign
             vpiName: b[4+:3]
@@ -4433,7 +3974,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: y5
             vpiFullName: partsel_test002.y5
-            vpiActual: Net name:y5
+            vpiActual: Port name:y5
           vpiRhs Operation start:29:29 end:29:50:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -4504,7 +4045,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: y6
             vpiFullName: partsel_test002.y6
-            vpiActual: Net name:y6
+            vpiActual: Port name:y6
           vpiRhs IndexedPartSelect name:b[4+:3] start:29:57 end:29:66:
             vpiParent: ContAssign
             vpiName: b[4+:3]
@@ -4578,7 +4119,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: z2
             vpiFullName: partsel_test002.z2
-            vpiActual: Net name:z2
+            vpiActual: Port name:z2
           vpiRhs Operation start:30:29 end:30:50:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -4649,7 +4190,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: z3
             vpiFullName: partsel_test002.z3
-            vpiActual: Net name:z3
+            vpiActual: Port name:z3
           vpiRhs IndexedPartSelect name:b[4-:3] start:30:57 end:30:66:
             vpiParent: ContAssign
             vpiName: b[4-:3]
@@ -4723,7 +4264,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: z5
             vpiFullName: partsel_test002.z5
-            vpiActual: Net name:z5
+            vpiActual: Port name:z5
           vpiRhs Operation start:31:29 end:31:50:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -4794,7 +4335,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: z6
             vpiFullName: partsel_test002.z6
-            vpiActual: Net name:z6
+            vpiActual: Port name:z6
           vpiRhs IndexedPartSelect name:b[4-:3] start:31:57 end:31:66:
             vpiParent: ContAssign
             vpiName: b[4-:3]
@@ -4869,7 +4410,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: w2
             vpiFullName: partsel_test002.w2
-            vpiActual: Net name:w2
+            vpiActual: Port name:w2
           vpiRhs Operation start:32:26 end:32:41:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -4942,7 +4483,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: w3
             vpiFullName: partsel_test002.w3
-            vpiActual: Net name:w3
+            vpiActual: Port name:w3
           vpiRhs PartSelect name:b[3:6] start:32:48 end:32:54:
             vpiParent: ContAssign
             vpiName: b[3:6]
@@ -5018,7 +4559,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: w5
             vpiFullName: partsel_test002.w5
-            vpiActual: Net name:w5
+            vpiActual: Port name:w5
           vpiRhs Operation start:33:26 end:33:41:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -5091,7 +4632,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: w6
             vpiFullName: partsel_test002.w6
-            vpiActual: Net name:w6
+            vpiActual: Port name:w6
           vpiRhs PartSelect name:b[3:6] start:33:48 end:33:54:
             vpiParent: ContAssign
             vpiName: b[3:6]
@@ -5150,7 +4691,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: p2
             vpiFullName: partsel_test002.p2
-            vpiActual: Net name:p2
+            vpiActual: Port name:p2
           vpiRhs BitSelect name:b[s] start:34:24 end:34:28:
             vpiParent: ContAssign
             vpiName: b[s]
@@ -5171,7 +4712,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: p3
             vpiFullName: partsel_test002.p3
-            vpiActual: Net name:p3
+            vpiActual: Port name:p3
           vpiRhs IndexedPartSelect name:a[s+2+:2] start:34:35 end:34:46:
             vpiParent: ContAssign
             vpiName: a[s+2+:2]
@@ -5217,7 +4758,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: p4
             vpiFullName: partsel_test002.p4
-            vpiActual: Net name:p4
+            vpiActual: Port name:p4
           vpiRhs IndexedPartSelect name:b[s+2+:2] start:34:53 end:34:64:
             vpiParent: ContAssign
             vpiName: b[s+2+:2]
@@ -5263,7 +4804,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: p5
             vpiFullName: partsel_test002.p5
-            vpiActual: Net name:p5
+            vpiActual: Port name:p5
           vpiRhs IndexedPartSelect name:a[s+2-:2] start:34:71 end:34:82:
             vpiParent: ContAssign
             vpiName: a[s+2-:2]
@@ -5309,7 +4850,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: p6
             vpiFullName: partsel_test002.p6
-            vpiActual: Net name:p6
+            vpiActual: Port name:p6
           vpiRhs IndexedPartSelect name:b[s+2-:2] start:34:89 end:34:100:
             vpiParent: ContAssign
             vpiName: b[s+2-:2]
@@ -5376,7 +4917,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: q2
             vpiFullName: partsel_test002.q2
-            vpiActual: Net name:q2
+            vpiActual: Port name:q2
           vpiRhs BitSelect name:b[s] start:35:24 end:35:28:
             vpiParent: ContAssign
             vpiName: b[s]
@@ -5397,7 +4938,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: q3
             vpiFullName: partsel_test002.q3
-            vpiActual: Net name:q3
+            vpiActual: Port name:q3
           vpiRhs IndexedPartSelect name:a[s+2+:2] start:35:35 end:35:46:
             vpiParent: ContAssign
             vpiName: a[s+2+:2]
@@ -5443,7 +4984,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: q4
             vpiFullName: partsel_test002.q4
-            vpiActual: Net name:q4
+            vpiActual: Port name:q4
           vpiRhs IndexedPartSelect name:b[s+2+:2] start:35:53 end:35:64:
             vpiParent: ContAssign
             vpiName: b[s+2+:2]
@@ -5489,7 +5030,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: q5
             vpiFullName: partsel_test002.q5
-            vpiActual: Net name:q5
+            vpiActual: Port name:q5
           vpiRhs IndexedPartSelect name:a[s+2-:2] start:35:71 end:35:82:
             vpiParent: ContAssign
             vpiName: a[s+2-:2]
@@ -5535,7 +5076,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: q6
             vpiFullName: partsel_test002.q6
-            vpiActual: Net name:q6
+            vpiActual: Port name:q6
           vpiRhs IndexedPartSelect name:b[s+2-:2] start:35:89 end:35:100:
             vpiParent: ContAssign
             vpiName: b[s+2-:2]
@@ -5596,7 +5137,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -5641,7 +5182,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/partsel/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             841     841       0         0
+Others                             729     729       0         0
 ----------------------------------------------------------------
-                                   841     841       0         0
+                                   729     729       0         0
 ===================== END REDUCTION RESULT =====================

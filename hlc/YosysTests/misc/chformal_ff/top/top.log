@@ -907,14 +907,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:51:1: Compile module "nlatsr".
 [INF:CP0303] $Source01/top.v:69:1: Compile module "dlatchsr".
 [INF:CP0303] $Source01/top.v:85:1: Compile module "top".
-[ERR:EL0535] $Source01/top.v:97:10: Illegal implicit net "id:352, name:d".
-[ERR:EL0535] $Source01/top.v:98:10: Illegal implicit net "id:355, name:q".
-[ERR:EL0535] $Source01/top.v:105:10: Illegal implicit net "id:371, name:d".
-[ERR:EL0535] $Source01/top.v:106:10: Illegal implicit net "id:374, name:q".
-[ERR:EL0535] $Source01/top.v:112:10: Illegal implicit net "id:387, name:d".
-[ERR:EL0535] $Source01/top.v:113:10: Illegal implicit net "id:390, name:q".
-[ERR:EL0535] $Source01/top.v:119:10: Illegal implicit net "id:403, name:d".
-[ERR:EL0535] $Source01/top.v:120:10: Illegal implicit net "id:406, name:q".
+[ERR:LN0813] $Source01/top.v:1:1: Found 13 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -924,7 +917,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
   vpiAllModules (6 items):
     Module name:alat file:$Source01/top.v start:1:1 end:15:10:
       vpiParent: Design name:unnamed
@@ -941,20 +933,19 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: alat.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:alat
         BitTypespec:
           vpiParent: Module name:alat
       vpiDefName: alat
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:alat
         vpiName: work
         vpiFullName: alat.work
       vpiCell: alat
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:d start:2:13 end:2:14:
           vpiParent: Module name:alat
           vpiTypespec RefTypespec start:2:7 end:2:12:
@@ -964,32 +955,15 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: alat.d
           vpiNetType: wire (1)
-        Net name:en start:2:16 end:2:18:
-          vpiParent: Module name:alat
-          vpiTypespec RefTypespec start:2:16 end:2:16:
-            vpiParent: Net name:en
-            vpiFullName: alat.en
-            vpiActual: LogicTypespec
-          vpiName: en
-          vpiFullName: alat.en
-          vpiNetType: wire (1)
-        Net name:clr start:2:20 end:2:23:
-          vpiParent: Module name:alat
-          vpiTypespec RefTypespec start:2:20 end:2:20:
-            vpiParent: Net name:clr
-            vpiFullName: alat.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: alat.clr
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:d start:2:13 end:2:14:
           vpiParent: Module name:alat
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:13 end:2:14:
+          vpiLowConn RefObj name:d start:2:13 end:2:14:
             vpiParent: Port name:d
-            vpiFullName: alat.d
+            vpiName: d
+            vpiFullName: alat.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:2:7 end:2:12:
             vpiParent: Port name:d
@@ -999,33 +973,18 @@ Design name:unnamed:
           vpiParent: Module name:alat
           vpiName: en
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:16 end:2:18:
-            vpiParent: Port name:en
-            vpiFullName: alat.en
-            vpiActual: Net name:en
-          vpiTypespec RefTypespec start:2:16 end:2:16:
-            vpiParent: Port name:en
-            vpiFullName: alat.en
-            vpiActual: LogicTypespec
         Port name:clr start:2:20 end:2:23:
           vpiParent: Module name:alat
           vpiName: clr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:20 end:2:23:
-            vpiParent: Port name:clr
-            vpiFullName: alat.clr
-            vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:2:20 end:2:20:
-            vpiParent: Port name:clr
-            vpiFullName: alat.clr
-            vpiActual: LogicTypespec
         Port name:q start:2:36 end:2:37:
           vpiParent: Module name:alat
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:36 end:2:37:
+          vpiLowConn RefObj name:q start:2:36 end:2:37:
             vpiParent: Port name:q
-            vpiFullName: alat.q
+            vpiName: q
+            vpiFullName: alat.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:2:25 end:2:35:
             vpiParent: Port name:q
@@ -1066,7 +1025,7 @@ Design name:unnamed:
                 vpiParent: IfElse
                 vpiName: clr
                 vpiFullName: alat.clr
-                vpiActual: Net name:clr
+                vpiActual: Port name:clr
               vpiStmt Assignment start:9:4 end:9:13:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:9:4 end:9:5:
@@ -1090,7 +1049,7 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName: en
                   vpiFullName: alat.en
-                  vpiActual: Net name:en
+                  vpiActual: Port name:en
                 vpiStmt Assignment start:14:13 end:14:19:
                   vpiParent: IfStmt
                   vpiLhs RefObj name:q start:14:13 end:14:14:
@@ -1119,20 +1078,19 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: alatn.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:alatn
         BitTypespec:
           vpiParent: Module name:alatn
       vpiDefName: alatn
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:alatn
         vpiName: work
         vpiFullName: alatn.work
       vpiCell: alatn
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:d start:18:13 end:18:14:
           vpiParent: Module name:alatn
           vpiTypespec RefTypespec start:18:7 end:18:12:
@@ -1142,32 +1100,15 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: alatn.d
           vpiNetType: wire (1)
-        Net name:en start:18:16 end:18:18:
-          vpiParent: Module name:alatn
-          vpiTypespec RefTypespec start:18:16 end:18:16:
-            vpiParent: Net name:en
-            vpiFullName: alatn.en
-            vpiActual: LogicTypespec
-          vpiName: en
-          vpiFullName: alatn.en
-          vpiNetType: wire (1)
-        Net name:clr start:18:20 end:18:23:
-          vpiParent: Module name:alatn
-          vpiTypespec RefTypespec start:18:20 end:18:20:
-            vpiParent: Net name:clr
-            vpiFullName: alatn.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: alatn.clr
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:d start:18:13 end:18:14:
           vpiParent: Module name:alatn
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:18:13 end:18:14:
+          vpiLowConn RefObj name:d start:18:13 end:18:14:
             vpiParent: Port name:d
-            vpiFullName: alatn.d
+            vpiName: d
+            vpiFullName: alatn.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:18:7 end:18:12:
             vpiParent: Port name:d
@@ -1177,33 +1118,18 @@ Design name:unnamed:
           vpiParent: Module name:alatn
           vpiName: en
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:18:16 end:18:18:
-            vpiParent: Port name:en
-            vpiFullName: alatn.en
-            vpiActual: Net name:en
-          vpiTypespec RefTypespec start:18:16 end:18:16:
-            vpiParent: Port name:en
-            vpiFullName: alatn.en
-            vpiActual: LogicTypespec
         Port name:clr start:18:20 end:18:23:
           vpiParent: Module name:alatn
           vpiName: clr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:18:20 end:18:23:
-            vpiParent: Port name:clr
-            vpiFullName: alatn.clr
-            vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:18:20 end:18:20:
-            vpiParent: Port name:clr
-            vpiFullName: alatn.clr
-            vpiActual: LogicTypespec
         Port name:q start:18:36 end:18:37:
           vpiParent: Module name:alatn
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:18:36 end:18:37:
+          vpiLowConn RefObj name:q start:18:36 end:18:37:
             vpiParent: Port name:q
-            vpiFullName: alatn.q
+            vpiName: q
+            vpiFullName: alatn.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:18:25 end:18:35:
             vpiParent: Port name:q
@@ -1248,7 +1174,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clr
                     vpiFullName: alatn.clr
-                    vpiActual: Net name:clr
+                    vpiActual: Port name:clr
               vpiStmt Assignment start:25:4 end:25:13:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:25:4 end:25:5:
@@ -1276,7 +1202,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: en
                       vpiFullName: alatn.en
-                      vpiActual: Net name:en
+                      vpiActual: Port name:en
                 vpiStmt Assignment start:30:13 end:30:19:
                   vpiParent: IfStmt
                   vpiLhs RefObj name:q start:30:13 end:30:14:
@@ -1305,20 +1231,19 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: latsr.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:latsr
         BitTypespec:
           vpiParent: Module name:latsr
       vpiDefName: latsr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:latsr
         vpiName: work
         vpiFullName: latsr.work
       vpiCell: latsr
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:d start:34:13 end:34:14:
           vpiParent: Module name:latsr
           vpiTypespec RefTypespec start:34:7 end:34:12:
@@ -1328,41 +1253,15 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: latsr.d
           vpiNetType: wire (1)
-        Net name:en start:34:16 end:34:18:
-          vpiParent: Module name:latsr
-          vpiTypespec RefTypespec start:34:16 end:34:16:
-            vpiParent: Net name:en
-            vpiFullName: latsr.en
-            vpiActual: LogicTypespec
-          vpiName: en
-          vpiFullName: latsr.en
-          vpiNetType: wire (1)
-        Net name:pre start:34:20 end:34:23:
-          vpiParent: Module name:latsr
-          vpiTypespec RefTypespec start:34:20 end:34:20:
-            vpiParent: Net name:pre
-            vpiFullName: latsr.pre
-            vpiActual: LogicTypespec
-          vpiName: pre
-          vpiFullName: latsr.pre
-          vpiNetType: wire (1)
-        Net name:clr start:34:25 end:34:28:
-          vpiParent: Module name:latsr
-          vpiTypespec RefTypespec start:34:25 end:34:25:
-            vpiParent: Net name:clr
-            vpiFullName: latsr.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: latsr.clr
-          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:d start:34:13 end:34:14:
           vpiParent: Module name:latsr
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:34:13 end:34:14:
+          vpiLowConn RefObj name:d start:34:13 end:34:14:
             vpiParent: Port name:d
-            vpiFullName: latsr.d
+            vpiName: d
+            vpiFullName: latsr.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:34:7 end:34:12:
             vpiParent: Port name:d
@@ -1372,45 +1271,22 @@ Design name:unnamed:
           vpiParent: Module name:latsr
           vpiName: en
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:34:16 end:34:18:
-            vpiParent: Port name:en
-            vpiFullName: latsr.en
-            vpiActual: Net name:en
-          vpiTypespec RefTypespec start:34:16 end:34:16:
-            vpiParent: Port name:en
-            vpiFullName: latsr.en
-            vpiActual: LogicTypespec
         Port name:pre start:34:20 end:34:23:
           vpiParent: Module name:latsr
           vpiName: pre
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:34:20 end:34:23:
-            vpiParent: Port name:pre
-            vpiFullName: latsr.pre
-            vpiActual: Net name:pre
-          vpiTypespec RefTypespec start:34:20 end:34:20:
-            vpiParent: Port name:pre
-            vpiFullName: latsr.pre
-            vpiActual: LogicTypespec
         Port name:clr start:34:25 end:34:28:
           vpiParent: Module name:latsr
           vpiName: clr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:34:25 end:34:28:
-            vpiParent: Port name:clr
-            vpiFullName: latsr.clr
-            vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:34:25 end:34:25:
-            vpiParent: Port name:clr
-            vpiFullName: latsr.clr
-            vpiActual: LogicTypespec
         Port name:q start:34:41 end:34:42:
           vpiParent: Module name:latsr
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:34:41 end:34:42:
+          vpiLowConn RefObj name:q start:34:41 end:34:42:
             vpiParent: Port name:q
-            vpiFullName: latsr.q
+            vpiName: q
+            vpiFullName: latsr.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:34:30 end:34:40:
             vpiParent: Port name:q
@@ -1451,7 +1327,7 @@ Design name:unnamed:
                 vpiParent: IfElse
                 vpiName: clr
                 vpiFullName: latsr.clr
-                vpiActual: Net name:clr
+                vpiActual: Port name:clr
               vpiStmt Assignment start:41:4 end:41:13:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:41:4 end:41:5:
@@ -1475,7 +1351,7 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiName: pre
                   vpiFullName: latsr.pre
-                  vpiActual: Net name:pre
+                  vpiActual: Port name:pre
                 vpiStmt Assignment start:46:4 end:46:13:
                   vpiParent: IfElse
                   vpiLhs RefObj name:q start:46:4 end:46:5:
@@ -1499,7 +1375,7 @@ Design name:unnamed:
                     vpiParent: IfStmt
                     vpiName: en
                     vpiFullName: latsr.en
-                    vpiActual: Net name:en
+                    vpiActual: Port name:en
                   vpiStmt Assignment start:48:13 end:48:19:
                     vpiParent: IfStmt
                     vpiLhs RefObj name:q start:48:13 end:48:14:
@@ -1528,20 +1404,19 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: nlatsr.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:nlatsr
         BitTypespec:
           vpiParent: Module name:nlatsr
       vpiDefName: nlatsr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:nlatsr
         vpiName: work
         vpiFullName: nlatsr.work
       vpiCell: nlatsr
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:d start:52:13 end:52:14:
           vpiParent: Module name:nlatsr
           vpiTypespec RefTypespec start:52:7 end:52:12:
@@ -1551,41 +1426,15 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: nlatsr.d
           vpiNetType: wire (1)
-        Net name:en start:52:16 end:52:18:
-          vpiParent: Module name:nlatsr
-          vpiTypespec RefTypespec start:52:16 end:52:16:
-            vpiParent: Net name:en
-            vpiFullName: nlatsr.en
-            vpiActual: LogicTypespec
-          vpiName: en
-          vpiFullName: nlatsr.en
-          vpiNetType: wire (1)
-        Net name:pre start:52:20 end:52:23:
-          vpiParent: Module name:nlatsr
-          vpiTypespec RefTypespec start:52:20 end:52:20:
-            vpiParent: Net name:pre
-            vpiFullName: nlatsr.pre
-            vpiActual: LogicTypespec
-          vpiName: pre
-          vpiFullName: nlatsr.pre
-          vpiNetType: wire (1)
-        Net name:clr start:52:25 end:52:28:
-          vpiParent: Module name:nlatsr
-          vpiTypespec RefTypespec start:52:25 end:52:25:
-            vpiParent: Net name:clr
-            vpiFullName: nlatsr.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: nlatsr.clr
-          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:d start:52:13 end:52:14:
           vpiParent: Module name:nlatsr
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:52:13 end:52:14:
+          vpiLowConn RefObj name:d start:52:13 end:52:14:
             vpiParent: Port name:d
-            vpiFullName: nlatsr.d
+            vpiName: d
+            vpiFullName: nlatsr.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:52:7 end:52:12:
             vpiParent: Port name:d
@@ -1595,45 +1444,22 @@ Design name:unnamed:
           vpiParent: Module name:nlatsr
           vpiName: en
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:52:16 end:52:18:
-            vpiParent: Port name:en
-            vpiFullName: nlatsr.en
-            vpiActual: Net name:en
-          vpiTypespec RefTypespec start:52:16 end:52:16:
-            vpiParent: Port name:en
-            vpiFullName: nlatsr.en
-            vpiActual: LogicTypespec
         Port name:pre start:52:20 end:52:23:
           vpiParent: Module name:nlatsr
           vpiName: pre
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:52:20 end:52:23:
-            vpiParent: Port name:pre
-            vpiFullName: nlatsr.pre
-            vpiActual: Net name:pre
-          vpiTypespec RefTypespec start:52:20 end:52:20:
-            vpiParent: Port name:pre
-            vpiFullName: nlatsr.pre
-            vpiActual: LogicTypespec
         Port name:clr start:52:25 end:52:28:
           vpiParent: Module name:nlatsr
           vpiName: clr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:52:25 end:52:28:
-            vpiParent: Port name:clr
-            vpiFullName: nlatsr.clr
-            vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:52:25 end:52:25:
-            vpiParent: Port name:clr
-            vpiFullName: nlatsr.clr
-            vpiActual: LogicTypespec
         Port name:q start:52:41 end:52:42:
           vpiParent: Module name:nlatsr
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:52:41 end:52:42:
+          vpiLowConn RefObj name:q start:52:41 end:52:42:
             vpiParent: Port name:q
-            vpiFullName: nlatsr.q
+            vpiName: q
+            vpiFullName: nlatsr.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:52:30 end:52:40:
             vpiParent: Port name:q
@@ -1678,7 +1504,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clr
                     vpiFullName: nlatsr.clr
-                    vpiActual: Net name:clr
+                    vpiActual: Port name:clr
               vpiStmt Assignment start:59:4 end:59:13:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:59:4 end:59:5:
@@ -1706,7 +1532,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: pre
                       vpiFullName: nlatsr.pre
-                      vpiActual: Net name:pre
+                      vpiActual: Port name:pre
                 vpiStmt Assignment start:64:4 end:64:13:
                   vpiParent: IfElse
                   vpiLhs RefObj name:q start:64:4 end:64:5:
@@ -1734,7 +1560,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: en
                         vpiFullName: nlatsr.en
-                        vpiActual: Net name:en
+                        vpiActual: Port name:en
                   vpiStmt Assignment start:66:13 end:66:19:
                     vpiParent: IfStmt
                     vpiLhs RefObj name:q start:66:13 end:66:14:
@@ -1754,17 +1580,26 @@ Design name:unnamed:
         vpiParent: Module name:dlatchsr
         vpiName: dlatchsr
       vpiFullName: dlatchsr
+      vpiVariable (1 items):
+        Variable name:Q start:73:16 end:73:17:
+          vpiParent: Module name:dlatchsr
+          vpiTypespec RefTypespec start:73:12 end:73:15:
+            vpiParent: Variable name:Q
+            vpiFullName: dlatchsr.Q
+            vpiActual: LogicTypespec
+          vpiName: Q
+          vpiFullName: dlatchsr.Q
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dlatchsr
       vpiDefName: dlatchsr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dlatchsr
         vpiName: work
         vpiFullName: dlatchsr.work
       vpiCell: dlatchsr
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:EN start:71:11 end:71:13:
           vpiParent: Module name:dlatchsr
           vpiTypespec RefTypespec start:71:11 end:71:11:
@@ -1773,6 +1608,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: EN
           vpiFullName: dlatchsr.EN
+          vpiNetType: wire (1)
         Net name:SET start:72:11 end:72:14:
           vpiParent: Module name:dlatchsr
           vpiTypespec RefTypespec start:72:11 end:72:11:
@@ -1781,6 +1617,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: SET
           vpiFullName: dlatchsr.SET
+          vpiNetType: wire (1)
         Net name:CLR start:72:16 end:72:19:
           vpiParent: Module name:dlatchsr
           vpiTypespec RefTypespec start:72:11 end:72:11:
@@ -1789,6 +1626,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: CLR
           vpiFullName: dlatchsr.CLR
+          vpiNetType: wire (1)
         Net name:D start:72:21 end:72:22:
           vpiParent: Module name:dlatchsr
           vpiTypespec RefTypespec start:72:11 end:72:11:
@@ -1797,21 +1635,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: D
           vpiFullName: dlatchsr.D
-        Net name:Q start:73:16 end:73:17:
-          vpiParent: Module name:dlatchsr
-          vpiTypespec RefTypespec start:73:12 end:73:15:
-            vpiParent: Net name:Q
-            vpiFullName: dlatchsr.Q
-            vpiActual: LogicTypespec
-          vpiName: Q
-          vpiFullName: dlatchsr.Q
-          vpiNetType: reg (48)
+          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:EN start:69:18 end:69:20:
           vpiParent: Module name:dlatchsr
           vpiName: EN
           vpiDirection: input (1)
-          vpiLowConn RefObj name:EN start:69:18 end:69:20:
+          vpiLowConn RefObj name:EN start:71:11 end:71:13:
             vpiParent: Port name:EN
             vpiName: EN
             vpiFullName: dlatchsr.EN.EN
@@ -1824,7 +1654,7 @@ Design name:unnamed:
           vpiParent: Module name:dlatchsr
           vpiName: SET
           vpiDirection: input (1)
-          vpiLowConn RefObj name:SET start:69:22 end:69:25:
+          vpiLowConn RefObj name:SET start:72:11 end:72:14:
             vpiParent: Port name:SET
             vpiName: SET
             vpiFullName: dlatchsr.SET.SET
@@ -1837,7 +1667,7 @@ Design name:unnamed:
           vpiParent: Module name:dlatchsr
           vpiName: CLR
           vpiDirection: input (1)
-          vpiLowConn RefObj name:CLR start:69:27 end:69:30:
+          vpiLowConn RefObj name:CLR start:72:16 end:72:19:
             vpiParent: Port name:CLR
             vpiName: CLR
             vpiFullName: dlatchsr.CLR.CLR
@@ -1850,7 +1680,7 @@ Design name:unnamed:
           vpiParent: Module name:dlatchsr
           vpiName: D
           vpiDirection: input (1)
-          vpiLowConn RefObj name:D start:69:32 end:69:33:
+          vpiLowConn RefObj name:D start:72:21 end:72:22:
             vpiParent: Port name:D
             vpiName: D
             vpiFullName: dlatchsr.D.D
@@ -1863,11 +1693,11 @@ Design name:unnamed:
           vpiParent: Module name:dlatchsr
           vpiName: Q
           vpiDirection: output (2)
-          vpiLowConn RefObj name:Q start:69:35 end:69:36:
+          vpiLowConn RefObj name:Q start:73:16 end:73:17:
             vpiParent: Port name:Q
             vpiName: Q
             vpiFullName: dlatchsr.Q.Q
-            vpiActual: Net name:Q
+            vpiActual: Variable name:Q
           vpiTypespec RefTypespec start:73:12 end:73:15:
             vpiParent: Port name:Q
             vpiFullName: dlatchsr.Q
@@ -1891,7 +1721,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: Q
                   vpiFullName: dlatchsr.Q
-                  vpiActual: Net name:Q
+                  vpiActual: Variable name:Q
                 vpiRhs Constant start:77:17 end:77:18:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1916,7 +1746,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: Q
                     vpiFullName: dlatchsr.Q
-                    vpiActual: Net name:Q
+                    vpiActual: Variable name:Q
                   vpiRhs Constant start:79:17 end:79:18:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1941,7 +1771,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: Q
                       vpiFullName: dlatchsr.Q
-                      vpiActual: Net name:Q
+                      vpiActual: Variable name:Q
                     vpiRhs RefObj name:D start:81:17 end:81:18:
                       vpiParent: Assignment
                       vpiName: D
@@ -1978,13 +1808,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:alatn
             vpiName: alatn
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (8 items):
+      vpiNet (5 items):
         Net name:en start:86:7 end:86:9:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:86:1 end:86:6:
@@ -2030,41 +1860,15 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: top.b
           vpiNetType: wire (1)
-        Net name:b1 start:90:10 end:90:12:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:90:10 end:90:10:
-            vpiParent: Net name:b1
-            vpiFullName: top.b1
-            vpiActual: LogicTypespec
-          vpiName: b1
-          vpiFullName: top.b1
-          vpiNetType: wire (1)
-        Net name:b2 start:90:13 end:90:15:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:90:13 end:90:13:
-            vpiParent: Net name:b2
-            vpiFullName: top.b2
-            vpiActual: LogicTypespec
-          vpiName: b2
-          vpiFullName: top.b2
-          vpiNetType: wire (1)
-        Net name:b3 start:90:16 end:90:18:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:90:16 end:90:16:
-            vpiParent: Net name:b3
-            vpiFullName: top.b3
-            vpiActual: LogicTypespec
-          vpiName: b3
-          vpiFullName: top.b3
-          vpiNetType: wire (1)
       vpiPort (8 items):
         Port name:en start:86:7 end:86:9:
           vpiParent: Module name:top
           vpiName: en
           vpiDirection: input (1)
-          vpiLowConn RefObj start:86:7 end:86:9:
+          vpiLowConn RefObj name:en start:86:7 end:86:9:
             vpiParent: Port name:en
-            vpiFullName: top.en
+            vpiName: en
+            vpiFullName: top.en.en
             vpiActual: Net name:en
           vpiTypespec RefTypespec start:86:1 end:86:6:
             vpiParent: Port name:en
@@ -2074,9 +1878,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: clr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:87:7 end:87:10:
+          vpiLowConn RefObj name:clr start:87:7 end:87:10:
             vpiParent: Port name:clr
-            vpiFullName: top.clr
+            vpiName: clr
+            vpiFullName: top.clr.clr
             vpiActual: Net name:clr
           vpiTypespec RefTypespec start:87:1 end:87:6:
             vpiParent: Port name:clr
@@ -2086,9 +1891,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: pre
           vpiDirection: input (1)
-          vpiLowConn RefObj start:88:7 end:88:10:
+          vpiLowConn RefObj name:pre start:88:7 end:88:10:
             vpiParent: Port name:pre
-            vpiFullName: top.pre
+            vpiName: pre
+            vpiFullName: top.pre.pre
             vpiActual: Net name:pre
           vpiTypespec RefTypespec start:88:1 end:88:6:
             vpiParent: Port name:pre
@@ -2098,9 +1904,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:89:7 end:89:8:
+          vpiLowConn RefObj name:a start:89:7 end:89:8:
             vpiParent: Port name:a
-            vpiFullName: top.a
+            vpiName: a
+            vpiFullName: top.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:89:1 end:89:6:
             vpiParent: Port name:a
@@ -2110,9 +1917,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj start:90:8 end:90:9:
+          vpiLowConn RefObj name:b start:90:8 end:90:9:
             vpiParent: Port name:b
-            vpiFullName: top.b
+            vpiName: b
+            vpiFullName: top.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:90:1 end:90:7:
             vpiParent: Port name:b
@@ -2122,38 +1930,14 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: b1
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:90:10 end:90:12:
-            vpiParent: Port name:b1
-            vpiFullName: top.b1
-            vpiActual: Net name:b1
-          vpiTypespec RefTypespec start:90:10 end:90:10:
-            vpiParent: Port name:b1
-            vpiFullName: top.b1
-            vpiActual: LogicTypespec
         Port name:b2 start:90:13 end:90:15:
           vpiParent: Module name:top
           vpiName: b2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:90:13 end:90:15:
-            vpiParent: Port name:b2
-            vpiFullName: top.b2
-            vpiActual: Net name:b2
-          vpiTypespec RefTypespec start:90:13 end:90:13:
-            vpiParent: Port name:b2
-            vpiFullName: top.b2
-            vpiActual: LogicTypespec
         Port name:b3 start:90:16 end:90:18:
           vpiParent: Module name:top
           vpiName: b3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:90:16 end:90:18:
-            vpiParent: Port name:b3
-            vpiFullName: top.b3
-            vpiActual: Net name:b3
-          vpiTypespec RefTypespec start:90:16 end:90:16:
-            vpiParent: Port name:b3
-            vpiFullName: top.b3
-            vpiActual: LogicTypespec
       vpiRefInstance (4 items):
         RefInstance name:u_latsr start:93:7 end:93:14:
           vpiParent: Module name:top
@@ -2288,7 +2072,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b1
                 vpiFullName: top.u_nlatsr.b1
-                vpiActual: Net name:b1
+                vpiActual: Port name:b1
         RefInstance name:u_alat start:109:6 end:109:12:
           vpiParent: Module name:top
           vpiName: u_alat
@@ -2343,7 +2127,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b2
                 vpiFullName: top.u_alat.b2
-                vpiActual: Net name:b2
+                vpiActual: Port name:b2
         RefInstance name:u_alatn start:116:7 end:116:14:
           vpiParent: Module name:top
           vpiName: u_alatn
@@ -2398,7 +2182,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b3
                 vpiFullName: top.u_alatn.b3
-                vpiActual: Net name:b3
+                vpiActual: Port name:b3
   vpiTypespec (7 items):
     ModuleTypespec name:alat:
       vpiParent: Design name:unnamed
@@ -2442,7 +2226,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -2487,7 +2271,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/misc/chformal_ff/top/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             380     380       0         0
+Others                             328     328       0         0
 ----------------------------------------------------------------
-                                   380     380       0         0
+                                   328     328       0         0
 ===================== END REDUCTION RESULT =====================

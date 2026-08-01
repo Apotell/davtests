@@ -584,12 +584,6 @@ n<$Source01/t_inst_signed.v> u<569> t<Top_level_rule> c<1> l<6:1> el<66:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_signed.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_signed.v:45:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_inst_signed.v:21:7: Illegal implicit net "id:50, name:sgn".
-[ERR:EL0535] $Source01/t_inst_signed.v:21:23: Illegal implicit net "id:53, name:unsgn".
-[ERR:EL0535] $Source01/t_inst_signed.v:22:7: Illegal implicit net "id:58, name:iss".
-[ERR:EL0535] $Source01/t_inst_signed.v:22:20: Illegal implicit net "id:63, name:isu".
-[ERR:EL0535] $Source01/t_inst_signed.v:23:7: Illegal implicit net "id:68, name:ius".
-[ERR:EL0535] $Source01/t_inst_signed.v:23:20: Illegal implicit net "id:73, name:iuu".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -599,7 +593,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_inst_signed.v
       vpiPreprocFile: "$Output/lib/work/t_inst_signed.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_inst_signed.v start:6:1 end:43:10:
       vpiParent: Design name:unnamed
@@ -607,6 +600,15 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:13:12 end:13:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:13:4 end:13:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -671,13 +673,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -686,14 +688,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:13:12 end:13:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:4 end:13:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
+          vpiNetType: wire (1)
         Net name:sgn_wide start:15:22 end:15:30:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:21:
@@ -717,7 +712,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -736,7 +731,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:13:29 end:13:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -972,7 +967,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:37:14 end:37:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -981,7 +976,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:37:20 end:37:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1002,7 +997,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:38:16 end:38:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1308,7 +1303,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -1383,9 +1378,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:46:12 end:46:15:
+          vpiLowConn RefObj name:clk start:46:12 end:46:15:
             vpiParent: Port name:clk
-            vpiFullName: sub.clk
+            vpiName: clk
+            vpiFullName: sub.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:46:6 end:46:11:
             vpiParent: Port name:clk
@@ -1395,9 +1391,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: sgn
           vpiDirection: output (2)
-          vpiLowConn RefObj start:47:31 end:47:34:
+          vpiLowConn RefObj name:sgn start:47:31 end:47:34:
             vpiParent: Port name:sgn
-            vpiFullName: sub.sgn
+            vpiName: sgn
+            vpiFullName: sub.sgn.sgn
             vpiActual: Net name:sgn
           vpiTypespec RefTypespec start:47:6 end:47:30:
             vpiParent: Port name:sgn
@@ -1407,9 +1404,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: unsgn
           vpiDirection: output (2)
-          vpiLowConn RefObj start:48:24 end:48:29:
+          vpiLowConn RefObj name:unsgn start:48:24 end:48:29:
             vpiParent: Port name:unsgn
-            vpiFullName: sub.unsgn
+            vpiName: unsgn
+            vpiFullName: sub.unsgn.unsgn
             vpiActual: Net name:unsgn
           vpiTypespec RefTypespec start:48:6 end:48:23:
             vpiParent: Port name:unsgn
@@ -1419,9 +1417,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: iss
           vpiDirection: input (1)
-          vpiLowConn RefObj start:49:25 end:49:28:
+          vpiLowConn RefObj name:iss start:49:25 end:49:28:
             vpiParent: Port name:iss
-            vpiFullName: sub.iss
+            vpiName: iss
+            vpiFullName: sub.iss.iss
             vpiActual: Net name:iss
           vpiTypespec RefTypespec start:49:6 end:49:24:
             vpiParent: Port name:iss
@@ -1431,9 +1430,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: isu
           vpiDirection: input (1)
-          vpiLowConn RefObj start:50:25 end:50:28:
+          vpiLowConn RefObj name:isu start:50:25 end:50:28:
             vpiParent: Port name:isu
-            vpiFullName: sub.isu
+            vpiName: isu
+            vpiFullName: sub.isu.isu
             vpiActual: Net name:isu
           vpiTypespec RefTypespec start:50:6 end:50:24:
             vpiParent: Port name:isu
@@ -1443,9 +1443,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: ius
           vpiDirection: input (1)
-          vpiLowConn RefObj start:51:18 end:51:21:
+          vpiLowConn RefObj name:ius start:51:18 end:51:21:
             vpiParent: Port name:ius
-            vpiFullName: sub.ius
+            vpiName: ius
+            vpiFullName: sub.ius.ius
             vpiActual: Net name:ius
           vpiTypespec RefTypespec start:51:6 end:51:17:
             vpiParent: Port name:ius
@@ -1455,9 +1456,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: iuu
           vpiDirection: input (1)
-          vpiLowConn RefObj start:52:18 end:52:21:
+          vpiLowConn RefObj name:iuu start:52:18 end:52:21:
             vpiParent: Port name:iuu
-            vpiFullName: sub.iuu
+            vpiName: iuu
+            vpiFullName: sub.iuu.iuu
             vpiActual: Net name:iuu
           vpiTypespec RefTypespec start:52:6 end:52:17:
             vpiParent: Port name:iuu
@@ -1541,7 +1543,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

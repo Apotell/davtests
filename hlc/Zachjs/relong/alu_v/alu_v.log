@@ -18,7 +18,7 @@ n<$Source01/relong/alu.v> u<716> t<Top_level_rule> c<1> l<1:1> el<73:10>
     n<> u<5> t<Description> p<715> c<4> s<714> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<714> t<Description> p<715> c<713> l<3:1> el<73:10>
       n<> u<713> t<Module_declaration> p<714> c<67> l<3:1> el<73:10>
         n<> u<67> t<Module_ansi_header> p<713> c<6> s<68> l<3:1> el<7:3>
@@ -730,6 +730,7 @@ n<$Source01/relong/alu.v> u<716> t<Top_level_rule> c<1> l<1:1> el<73:10>
         n<> u<712> t<ENDMODULE> p<713> l<73:1> el<73:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/alu.v:3:1: Compile module "ALU".
+[ERR:LN0813] $Source01/relong/alu.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -739,7 +740,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: alu.v
       vpiPreprocFile: "$Output/lib/work/relong/alu.v"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:alu.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: alu.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (1 items):
     Module name:ALU file:$Source01/relong/alu.v start:3:1 end:73:10:
       vpiParent: Design name:unnamed
@@ -747,7 +758,7 @@ Design name:unnamed:
         vpiParent: Module name:ALU
         vpiName: ALU
       vpiFullName: ALU
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:result start:6:23 end:6:29:
           vpiParent: Module name:ALU
           vpiTypespec RefTypespec start:6:5 end:6:22:
@@ -756,7 +767,24 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: ALU.result
-          vpiNetType: none (12)
+        Variable name:result2 start:36:16 end:36:23:
+          vpiParent: Module name:ALU
+          vpiTypespec RefTypespec start:36:5 end:36:15:
+            vpiParent: Variable name:result2
+            vpiFullName: ALU.result2
+            vpiActual: LogicTypespec
+          vpiName: result2
+          vpiFullName: ALU.result2
+          vpiVector: true
+        Variable name:__temp start:37:16 end:37:22:
+          vpiParent: Module name:ALU
+          vpiTypespec RefTypespec start:37:5 end:37:15:
+            vpiParent: Variable name:__temp
+            vpiFullName: ALU.__temp
+            vpiActual: LogicTypespec
+          vpiName: "__temp"
+          vpiFullName: ALU.__temp
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:ALU
@@ -897,7 +925,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: ALU.work
       vpiCell: ALU
-      vpiNet (5 items):
+      vpiNet (2 items):
         Net name:operation start:4:22 end:4:31:
           vpiParent: Module name:ALU
           vpiTypespec RefTypespec start:4:5 end:4:21:
@@ -916,39 +944,15 @@ Design name:unnamed:
           vpiName: left
           vpiFullName: ALU.left
           vpiNetType: wire (1)
-        Net name:right start:5:29 end:5:34:
-          vpiParent: Module name:ALU
-          vpiTypespec RefTypespec start:5:29 end:5:29:
-            vpiParent: Net name:right
-            vpiFullName: ALU.right
-            vpiActual: LogicTypespec
-          vpiName: right
-          vpiFullName: ALU.right
-          vpiNetType: wire (1)
-        Net name:result2 start:36:16 end:36:23:
-          vpiParent: Module name:ALU
-          vpiTypespec RefTypespec start:36:5 end:36:15:
-            vpiParent: Net name:result2
-            vpiFullName: ALU.result2
-            vpiActual: LogicTypespec
-          vpiName: result2
-          vpiFullName: ALU.result2
-        Net name:__temp start:37:16 end:37:22:
-          vpiParent: Module name:ALU
-          vpiTypespec RefTypespec start:37:5 end:37:15:
-            vpiParent: Net name:__temp
-            vpiFullName: ALU.__temp
-            vpiActual: LogicTypespec
-          vpiName: "__temp"
-          vpiFullName: ALU.__temp
       vpiPort (4 items):
         Port name:operation start:4:22 end:4:31:
           vpiParent: Module name:ALU
           vpiName: operation
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:22 end:4:31:
+          vpiLowConn RefObj name:operation start:4:22 end:4:31:
             vpiParent: Port name:operation
-            vpiFullName: ALU.operation
+            vpiName: operation
+            vpiFullName: ALU.operation.operation
             vpiActual: Net name:operation
           vpiTypespec RefTypespec start:4:5 end:4:21:
             vpiParent: Port name:operation
@@ -958,9 +962,10 @@ Design name:unnamed:
           vpiParent: Module name:ALU
           vpiName: left
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:23 end:5:27:
+          vpiLowConn RefObj name:left start:5:23 end:5:27:
             vpiParent: Port name:left
-            vpiFullName: ALU.left
+            vpiName: left
+            vpiFullName: ALU.left.left
             vpiActual: Net name:left
           vpiTypespec RefTypespec start:5:5 end:5:22:
             vpiParent: Port name:left
@@ -970,21 +975,14 @@ Design name:unnamed:
           vpiParent: Module name:ALU
           vpiName: right
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:5:29 end:5:34:
-            vpiParent: Port name:right
-            vpiFullName: ALU.right
-            vpiActual: Net name:right
-          vpiTypespec RefTypespec start:5:29 end:5:29:
-            vpiParent: Port name:right
-            vpiFullName: ALU.right
-            vpiActual: LogicTypespec
         Port name:result start:6:23 end:6:29:
           vpiParent: Module name:ALU
           vpiName: result
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:23 end:6:29:
+          vpiLowConn RefObj name:result start:6:23 end:6:29:
             vpiParent: Port name:result
-            vpiFullName: ALU.result
+            vpiName: result
+            vpiFullName: ALU.result.result
             vpiActual: Variable name:result
           vpiTypespec RefTypespec start:6:5 end:6:22:
             vpiParent: Port name:result
@@ -1068,7 +1066,7 @@ Design name:unnamed:
                                     vpiParent: PartSelect name:right[4:0]
                                     vpiName: right
                                     vpiFullName: ALU.right[4:0].right
-                                    vpiActual: Net name:right
+                                    vpiActual: Port name:right
                                   vpiRange Range start:18:40 end:18:43:
                                     vpiParent: PartSelect name:right[4:0]
                                     vpiLeftRange Constant start:18:40 end:18:41:
@@ -1139,7 +1137,7 @@ Design name:unnamed:
                                     vpiParent: PartSelect name:right[4:0]
                                     vpiName: right
                                     vpiFullName: ALU.right[4:0].right
-                                    vpiActual: Net name:right
+                                    vpiActual: Port name:right
                                   vpiRange Range start:22:50 end:22:53:
                                     vpiParent: PartSelect name:right[4:0]
                                     vpiLeftRange Constant start:22:50 end:22:51:
@@ -1212,7 +1210,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$signed
                                       vpiName: right
                                       vpiFullName: ALU.right
-                                      vpiActual: Net name:right
+                                      vpiActual: Port name:right
                     CaseItem start:28:13 end:31:16:
                       vpiParent: CaseStmt
                       vpiExpr (1 items):
@@ -1251,7 +1249,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: right
                                   vpiFullName: ALU.right
-                                  vpiActual: Net name:right
+                                  vpiActual: Port name:right
           vpiAlwaysType: always (1)
         Always start:39:5 end:71:8:
           vpiParent: Module name:ALU
@@ -1268,7 +1266,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: result2
                     vpiFullName: ALU.result2
-                    vpiActual: Net name:result2
+                    vpiActual: Variable name:result2
                   vpiRhs Constant start:40:19 end:40:24:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1286,7 +1284,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: "__temp"
                     vpiFullName: ALU.__temp
-                    vpiActual: Net name:__temp
+                    vpiActual: Variable name:__temp
                   vpiRhs Constant start:41:18 end:41:23:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1330,7 +1328,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: result2
                               vpiFullName: ALU.result2
-                              vpiActual: Net name:result2
+                              vpiActual: Variable name:result2
                             vpiRhs Operation start:46:27 end:46:45:
                               vpiParent: Assignment
                               vpiOpType: logical shift right (23)
@@ -1348,7 +1346,7 @@ Design name:unnamed:
                                     vpiParent: PartSelect name:right[4:0]
                                     vpiName: right
                                     vpiFullName: ALU.right[4:0].right
-                                    vpiActual: Net name:right
+                                    vpiActual: Port name:right
                                   vpiRange Range start:46:41 end:46:44:
                                     vpiParent: PartSelect name:right[4:0]
                                     vpiLeftRange Constant start:46:41 end:46:42:
@@ -1395,7 +1393,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: "__temp"
                               vpiFullName: ALU.__temp
-                              vpiActual: Net name:__temp
+                              vpiActual: Variable name:__temp
                             vpiRhs Operation start:54:26 end:54:86:
                               vpiParent: Assignment
                               vpiOpType: bitwise and (28)
@@ -1481,7 +1479,7 @@ Design name:unnamed:
                                                     vpiParent: PartSelect name:right[4:0]
                                                     vpiName: right
                                                     vpiFullName: ALU.right[4:0].right
-                                                    vpiActual: Net name:right
+                                                    vpiActual: Port name:right
                                                   vpiRange Range start:54:71 end:54:74:
                                                     vpiParent: PartSelect name:right[4:0]
                                                     vpiLeftRange Constant start:54:71 end:54:72:
@@ -1521,7 +1519,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: result2
                               vpiFullName: ALU.result2
-                              vpiActual: Net name:result2
+                              vpiActual: Variable name:result2
                             vpiRhs Operation start:55:27 end:55:56:
                               vpiParent: Assignment
                               vpiOpType: bitwise or (29)
@@ -1530,7 +1528,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: "__temp"
                                   vpiFullName: ALU.__temp
-                                  vpiActual: Net name:__temp
+                                  vpiActual: Variable name:__temp
                                 Operation start:55:37 end:55:55:
                                   vpiParent: Operation
                                   vpiOpType: logical shift right (23)
@@ -1548,7 +1546,7 @@ Design name:unnamed:
                                         vpiParent: PartSelect name:right[4:0]
                                         vpiName: right
                                         vpiFullName: ALU.right[4:0].right
-                                        vpiActual: Net name:right
+                                        vpiActual: Port name:right
                                       vpiRange Range start:55:51 end:55:54:
                                         vpiParent: PartSelect name:right[4:0]
                                         vpiLeftRange Constant start:55:51 end:55:52:
@@ -1622,7 +1620,7 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:right[31]
                                     vpiName: right
                                     vpiFullName: ALU.right
-                                    vpiActual: Net name:right
+                                    vpiActual: Port name:right
                                   vpiIndex Constant start:59:39 end:59:41:
                                     vpiParent: BitSelect name:right[31]
                                     vpiTypespec RefTypespec:
@@ -1654,7 +1652,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: result2
                                     vpiFullName: ALU.result2
-                                    vpiActual: Net name:result2
+                                    vpiActual: Variable name:result2
                                   vpiRhs Operation start:60:38 end:60:50:
                                     vpiParent: Assignment
                                     vpiOpType: less than (20)
@@ -1668,7 +1666,7 @@ Design name:unnamed:
                                         vpiParent: Operation
                                         vpiName: right
                                         vpiFullName: ALU.right
-                                        vpiActual: Net name:right
+                                        vpiActual: Port name:right
                               CaseItem start:61:21 end:61:44:
                                 vpiParent: CaseStmt
                                 vpiExpr (1 items):
@@ -1689,7 +1687,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: result2
                                     vpiFullName: ALU.result2
-                                    vpiActual: Net name:result2
+                                    vpiActual: Variable name:result2
                                   vpiRhs Constant start:61:38 end:61:43:
                                     vpiParent: Assignment
                                     vpiTypespec RefTypespec:
@@ -1720,7 +1718,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: result2
                                     vpiFullName: ALU.result2
-                                    vpiActual: Net name:result2
+                                    vpiActual: Variable name:result2
                                   vpiRhs Constant start:62:38 end:62:43:
                                     vpiParent: Assignment
                                     vpiTypespec RefTypespec:
@@ -1751,7 +1749,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: result2
                                     vpiFullName: ALU.result2
-                                    vpiActual: Net name:result2
+                                    vpiActual: Variable name:result2
                                   vpiRhs Operation start:63:38 end:63:52:
                                     vpiParent: Assignment
                                     vpiOpType: greater than (18)
@@ -1773,7 +1771,7 @@ Design name:unnamed:
                                             vpiParent: Operation
                                             vpiName: right
                                             vpiFullName: ALU.right
-                                            vpiActual: Net name:right
+                                            vpiActual: Port name:right
                     CaseItem start:66:13 end:69:16:
                       vpiParent: CaseStmt
                       vpiExpr (1 items):
@@ -1798,7 +1796,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: result2
                               vpiFullName: ALU.result2
-                              vpiActual: Net name:result2
+                              vpiActual: Variable name:result2
                             vpiRhs Operation start:68:27 end:68:39:
                               vpiParent: Assignment
                               vpiOpType: less than (20)
@@ -1812,9 +1810,11 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: right
                                   vpiFullName: ALU.right
-                                  vpiActual: Net name:right
+                                  vpiActual: Port name:right
           vpiAlwaysType: always (1)
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:ALU:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ALU start:3:8 end:3:11:
@@ -1829,7 +1829,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1845,25 +1845,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/alu_v/mounts.json
 
 
-{'result': {'coverage': 97.47,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/alu.v': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/alu.v': {'post_len': 0,
                                                         'pre_len': 831}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 831,
             'test_name': 'Zachjs/relong/alu_v'}}
 
 +-------------------------------+----------+-----------+
 | INPUT                         |   PRELEN |   POSTLEN |
 +===============================+==========+===========+
-| $Output/lib/work/relong/alu.v |      831 |        21 |
+| $Output/lib/work/relong/alu.v |      831 |         0 |
 +===============================+==========+===========+
-|                               |      831 |        21 |
+|                               |      831 |         0 |
 +-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.47
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

@@ -303,7 +303,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: initval.v
       vpiPreprocFile: "$Output/lib/work/sat/initval.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:test file:$Source01/sat/initval.v start:1:1 end:15:10:
       vpiParent: Design name:unnamed
@@ -337,7 +336,7 @@ Design name:unnamed:
                         vpiParent: PartSelect name:last_bar[3:2]
                         vpiName: last_bar
                         vpiFullName: test.last_bar[3:2].last_bar
-                        vpiActual: Net name:last_bar
+                        vpiActual: Variable name:last_bar
                       vpiRange Range start:14:37 end:14:40:
                         vpiParent: PartSelect name:last_bar[3:2]
                         vpiLeftRange Constant start:14:37 end:14:38:
@@ -391,6 +390,45 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "0"
                           vpiValue: 0
+      vpiVariable (2 items):
+        Variable name:foo start:2:13 end:2:16:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:2:3 end:2:12:
+            vpiParent: Variable name:foo
+            vpiFullName: test.foo
+            vpiActual: LogicTypespec
+          vpiName: foo
+          vpiFullName: test.foo
+          vpiVector: true
+          vpiValue Constant start:2:19 end:2:20:
+            vpiParent: Variable name:foo
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test.foo
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:last_bar start:3:13 end:3:21:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:3:3 end:3:12:
+            vpiParent: Variable name:last_bar
+            vpiFullName: test.last_bar
+            vpiActual: LogicTypespec
+          vpiName: last_bar
+          vpiFullName: test.last_bar
+          vpiVector: true
+          vpiValue Constant start:3:24 end:3:25:
+            vpiParent: Variable name:last_bar
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test.last_bar
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -499,13 +537,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:clk start:1:19 end:1:22:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:1:13 end:1:18:
@@ -533,42 +571,15 @@ Design name:unnamed:
           vpiName: foo
           vpiFullName: test.foo
           vpiNetType: wire (1)
-          vpiValue Constant start:2:19 end:2:20:
-            vpiParent: Net name:foo
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: test.foo
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:last_bar start:3:13 end:3:21:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:3:3 end:3:12:
-            vpiParent: Net name:last_bar
-            vpiFullName: test.last_bar
-            vpiActual: LogicTypespec
-          vpiName: last_bar
-          vpiFullName: test.last_bar
-          vpiValue Constant start:3:24 end:3:25:
-            vpiParent: Net name:last_bar
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: test.last_bar
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
       vpiPort (3 items):
         Port name:clk start:1:19 end:1:22:
           vpiParent: Module name:test
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:19 end:1:22:
+          vpiLowConn RefObj name:clk start:1:19 end:1:22:
             vpiParent: Port name:clk
-            vpiFullName: test.clk
+            vpiName: clk
+            vpiFullName: test.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:13 end:1:18:
             vpiParent: Port name:clk
@@ -578,9 +589,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: bar
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:36 end:1:39:
+          vpiLowConn RefObj name:bar start:1:36 end:1:39:
             vpiParent: Port name:bar
-            vpiFullName: test.bar
+            vpiName: bar
+            vpiFullName: test.bar.bar
             vpiActual: Net name:bar
           vpiTypespec RefTypespec start:1:24 end:1:35:
             vpiParent: Port name:bar
@@ -590,9 +602,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: foo
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:54 end:1:57:
+          vpiLowConn RefObj name:foo start:1:54 end:1:57:
             vpiParent: Port name:foo
-            vpiFullName: test.foo
+            vpiName: foo
+            vpiFullName: test.foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec start:1:41 end:1:53:
             vpiParent: Port name:foo
@@ -765,7 +778,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: last_bar
                 vpiFullName: test.last_bar
-                vpiActual: Net name:last_bar
+                vpiActual: Variable name:last_bar
               vpiRhs RefObj name:bar start:12:17 end:12:20:
                 vpiParent: Assignment
                 vpiName: bar
@@ -801,25 +814,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Yosys/sat/initval.v/mounts.json
 
 
-{'result': {'coverage': 98.88,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/sat/initval.v': {'post_len': 3,
+            'files': {'$Output/lib/work/sat/initval.v': {'post_len': 0,
                                                          'pre_len': 268}},
-            'post_len': 3,
+            'post_len': 0,
             'pre_len': 268,
             'test_name': 'Yosys/sat/initval.v'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/sat/initval.v |      268 |         3 |
+| $Output/lib/work/sat/initval.v |      268 |         0 |
 +================================+==========+===========+
-|                                |      268 |         3 |
+|                                |      268 |         0 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.88
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -830,7 +843,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/sat/initval.v/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             116     116       0         0
+Others                             118     118       0         0
 ----------------------------------------------------------------
-                                   116     116       0         0
+                                   118     118       0         0
 ===================== END REDUCTION RESULT =====================

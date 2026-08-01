@@ -507,9 +507,6 @@ n<$Source01/t_array_query.v> u<492> t<Top_level_rule> c<1> l<11:1> el<68:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_array_query.v:11:1: Compile module "t".
 [INF:CP0303] $Source01/t_array_query.v:29:1: Compile module "array_test".
-[ERR:EL0535] $Source01/t_array_query.v:62:17: Illegal implicit net "id:134, name:r_t".
-[ERR:EL0535] $Source01/t_array_query.v:62:35: Illegal implicit net "id:141, name:r_t".
-[ERR:EL0535] $Source01/t_array_query.v:62:52: Illegal implicit net "id:149, name:r_t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -519,7 +516,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_array_query.v
       vpiPreprocFile: "$Output/lib/work/t_array_query.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_array_query.v start:11:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -527,6 +523,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:c start:19:10 end:19:11:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:19:4 end:19:7:
+            vpiParent: Variable name:c
+            vpiFullName: t.c
+            vpiActual: LogicTypespec
+          vpiName: c
+          vpiFullName: t.c
+          vpiScalar: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -538,13 +544,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:array_test
             vpiName: array_test
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:clk start:15:10 end:15:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:10 end:15:10:
@@ -553,6 +559,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
         Net name:a start:17:10 end:17:11:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:10 end:17:10:
@@ -586,20 +593,12 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-        Net name:c start:19:10 end:19:11:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:19:4 end:19:7:
-            vpiParent: Net name:c
-            vpiFullName: t.c
-            vpiActual: LogicTypespec
-          vpiName: c
-          vpiFullName: t.c
       vpiPort (1 items):
         Port name:clk start:13:4 end:13:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:13:4 end:13:7:
+          vpiLowConn RefObj name:clk start:15:10 end:15:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -636,6 +635,40 @@ Design name:unnamed:
         vpiParent: Module name:array_test
         vpiName: array_test
       vpiFullName: array_test
+      vpiVariable (4 items):
+        Variable name:a start:43:14 end:43:15:
+          vpiParent: Module name:array_test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:a
+            vpiFullName: array_test.a
+            vpiActual: ArrayTypespec
+          vpiName: a
+          vpiFullName: array_test.a
+          vpiVector: true
+        Variable name:l start:48:14 end:48:15:
+          vpiParent: Module name:array_test
+          vpiTypespec RefTypespec start:48:4 end:48:11:
+            vpiParent: Variable name:l
+            vpiFullName: array_test.l
+            vpiActual: IntegerTypespec
+          vpiName: l
+          vpiFullName: array_test.l
+        Variable name:r start:49:14 end:49:15:
+          vpiParent: Module name:array_test
+          vpiTypespec RefTypespec start:49:4 end:49:11:
+            vpiParent: Variable name:r
+            vpiFullName: array_test.r
+            vpiActual: IntegerTypespec
+          vpiName: r
+          vpiFullName: array_test.r
+        Variable name:s start:50:14 end:50:15:
+          vpiParent: Module name:array_test
+          vpiTypespec RefTypespec start:50:4 end:50:11:
+            vpiParent: Variable name:s
+            vpiFullName: array_test.s
+            vpiActual: IntegerTypespec
+          vpiName: s
+          vpiFullName: array_test.s
       vpiParameter (2 items):
         Parameter name:LEFT start:32:6 end:32:10:
           vpiParent: Module name:array_test
@@ -775,13 +808,13 @@ Design name:unnamed:
           vpiParent: Module name:array_test
           vpiSigned: true
       vpiDefName: array_test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:array_test
         vpiName: work
         vpiFullName: array_test.work
       vpiCell: array_test
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:clk start:40:10 end:40:13:
           vpiParent: Module name:array_test
           vpiTypespec RefTypespec start:40:10 end:40:10:
@@ -790,44 +823,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: array_test.clk
-        Net name:a start:43:14 end:43:15:
-          vpiParent: Module name:array_test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:a
-            vpiFullName: array_test.a
-            vpiActual: ArrayTypespec
-          vpiName: a
-          vpiFullName: array_test.a
-        Net name:l start:48:14 end:48:15:
-          vpiParent: Module name:array_test
-          vpiTypespec RefTypespec start:48:4 end:48:11:
-            vpiParent: Net name:l
-            vpiFullName: array_test.l
-            vpiActual: IntegerTypespec
-          vpiName: l
-          vpiFullName: array_test.l
-        Net name:r start:49:14 end:49:15:
-          vpiParent: Module name:array_test
-          vpiTypespec RefTypespec start:49:4 end:49:11:
-            vpiParent: Net name:r
-            vpiFullName: array_test.r
-            vpiActual: IntegerTypespec
-          vpiName: r
-          vpiFullName: array_test.r
-        Net name:s start:50:14 end:50:15:
-          vpiParent: Module name:array_test
-          vpiTypespec RefTypespec start:50:4 end:50:11:
-            vpiParent: Net name:s
-            vpiFullName: array_test.s
-            vpiActual: IntegerTypespec
-          vpiName: s
-          vpiFullName: array_test.s
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:37:4 end:37:7:
           vpiParent: Module name:array_test
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:37:4 end:37:7:
+          vpiLowConn RefObj name:clk start:40:10 end:40:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: array_test.clk.clk
@@ -861,7 +863,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: l
                     vpiFullName: array_test.l
-                    vpiActual: Net name:l
+                    vpiActual: Variable name:l
                   vpiRhs SysFuncCall name:$left start:53:11 end:53:20:
                     vpiParent: Assignment
                     vpiName Identifier name:$left start:53:11 end:53:16:
@@ -872,7 +874,7 @@ Design name:unnamed:
                         vpiParent: SysFuncCall name:$left
                         vpiName: a
                         vpiFullName: array_test.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                 Assignment start:54:7 end:54:21:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -880,7 +882,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: r
                     vpiFullName: array_test.r
-                    vpiActual: Net name:r
+                    vpiActual: Variable name:r
                   vpiRhs SysFuncCall name:$right start:54:11 end:54:21:
                     vpiParent: Assignment
                     vpiName Identifier name:$right start:54:11 end:54:17:
@@ -891,7 +893,7 @@ Design name:unnamed:
                         vpiParent: SysFuncCall name:$right
                         vpiName: a
                         vpiFullName: array_test.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                 Assignment start:55:7 end:55:20:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -899,7 +901,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: s
                     vpiFullName: array_test.s
-                    vpiActual: Net name:s
+                    vpiActual: Variable name:s
                   vpiRhs SysFuncCall name:$size start:55:11 end:55:20:
                     vpiParent: Assignment
                     vpiName Identifier name:$size start:55:11 end:55:16:
@@ -910,7 +912,7 @@ Design name:unnamed:
                         vpiParent: SysFuncCall name:$size
                         vpiName: a
                         vpiFullName: array_test.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                 IfStmt start:61:7 end:61:75:
                   vpiParent: Begin
                   vpiCondition Operation start:61:11 end:61:67:
@@ -929,7 +931,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: l
                                 vpiFullName: array_test.l
-                                vpiActual: Net name:l
+                                vpiActual: Variable name:l
                               RefObj name:LEFT start:61:17 end:61:21:
                                 vpiParent: Operation
                                 vpiName: LEFT
@@ -943,7 +945,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: r
                                 vpiFullName: array_test.r
-                                vpiActual: Net name:r
+                                vpiActual: Variable name:r
                               RefObj name:RIGHT start:61:32 end:61:37:
                                 vpiParent: Operation
                                 vpiName: RIGHT
@@ -957,7 +959,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: s
                             vpiFullName: array_test.s
-                            vpiActual: Net name:s
+                            vpiActual: Variable name:s
                           Operation start:61:49 end:61:65:
                             vpiParent: Operation
                             vpiOpType: add (24)
@@ -1150,7 +1152,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

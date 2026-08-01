@@ -245,10 +245,9 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/t_crazy_sel.v:18:65: Compile generate block "foo_loop".
 [INF:CP0303] $Source01/t_crazy_sel.v:36:1: Compile module "foo".
 [INF:CP0303] $Source01/t_crazy_sel.v:40:1: Compile module "bar".
-[ERR:EL0535] $Source01/t_crazy_sel.v:26:33: Illegal implicit net "id:62, name:THE_LP".
-[ERR:EL0535] $Source01/t_crazy_sel.v:26:15: Illegal implicit net "id:66, name:foo_loop".
-[ERR:EL0535] $Source01/t_crazy_sel.v:26:41: Illegal implicit net "id:67, name:foo_inst".
-[ERR:EL0535] $Source01/t_crazy_sel.v:26:50: Illegal implicit net "id:68, name:y".
+[WRN:CP0350] $Source01/t_crazy_sel.v:26:33: Failed to bind "id:62, name:THE_LP".
+[WRN:CP0350] $Source01/t_crazy_sel.v:26:41: Failed to bind "id:67, name:foo_inst".
+[WRN:CP0350] $Source01/t_crazy_sel.v:26:50: Failed to bind "id:68, name:y".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -258,7 +257,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_crazy_sel.v
       vpiPreprocFile: "$Output/lib/work/t_crazy_sel.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:foo_intf file:$Source01/t_crazy_sel.v start:7:1 end:9:13:
       vpiParent: Design name:unnamed
@@ -275,8 +273,7 @@ Design name:unnamed:
             vpiFullName: foo_intf.a.logic
           vpiName: a
           vpiFullName: foo_intf.a
-          vpiNetType: none (12)
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:foo_intf
         vpiName: work
@@ -289,6 +286,23 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:the_genvar start:16:11 end:16:21:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:the_genvar
+            vpiFullName: t.the_genvar
+          vpiName: the_genvar
+          vpiFullName: t.the_genvar
+        Variable name:x start:25:10 end:25:11:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:25:4 end:25:9:
+            vpiParent: Variable name:x
+            vpiName: logic
+            vpiFullName: t.x.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: x
+          vpiFullName: t.x
       vpiTypespec (2 items):
         ModuleTypespec name:bar start:23:4 end:23:7:
           vpiParent: Module name:t
@@ -301,29 +315,12 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
-        Net name:the_genvar start:16:11 end:16:21:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:the_genvar
-            vpiFullName: t.the_genvar
-          vpiName: the_genvar
-          vpiFullName: t.the_genvar
-        Net name:x start:25:10 end:25:11:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:25:4 end:25:9:
-            vpiParent: Net name:x
-            vpiName: logic
-            vpiFullName: t.x.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: x
-          vpiFullName: t.x
       vpiProcess (1 items):
         Initial start:30:4 end:33:7:
           vpiParent: Module name:t
@@ -359,7 +356,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: x
             vpiFullName: t.x
-            vpiActual: Net name:x
+            vpiActual: Variable name:x
           vpiRhs HierPath name:foo_loop[bar_inst.THE_LP].foo_inst.y start:26:15 end:26:51:
             vpiParent: ContAssign
             vpiName: foo_loop[bar_inst.THE_LP].foo_inst.y
@@ -486,6 +483,16 @@ Design name:unnamed:
         vpiParent: Module name:foo
         vpiName: foo
       vpiFullName: foo
+      vpiVariable (1 items):
+        Variable name:y start:37:10 end:37:11:
+          vpiParent: Module name:foo
+          vpiTypespec RefTypespec name:logic start:37:4 end:37:9:
+            vpiParent: Variable name:y
+            vpiName: logic
+            vpiFullName: foo.y.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: y
+          vpiFullName: foo.y
       vpiTypespec (1 items):
         UnsupportedTypespec name:logic start:37:4 end:37:9:
           vpiParent: Module name:foo
@@ -493,22 +500,12 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
       vpiDefName: foo
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo
         vpiName: work
         vpiFullName: foo.work
       vpiCell: foo
-      vpiNet (1 items):
-        Net name:y start:37:10 end:37:11:
-          vpiParent: Module name:foo
-          vpiTypespec RefTypespec name:logic start:37:4 end:37:9:
-            vpiParent: Net name:y
-            vpiName: logic
-            vpiFullName: foo.y.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: y
-          vpiFullName: foo.y
     Module name:bar file:$Source01/t_crazy_sel.v start:40:1 end:42:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:40:8 end:40:11:
@@ -547,7 +544,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:bar
       vpiDefName: bar
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bar
         vpiName: work
@@ -618,8 +615,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

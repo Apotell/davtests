@@ -1406,18 +1406,13 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface.v:70:1: Compile interface "handshake".
 [INF:CP0303] $Source01/t_interface.v:109:1: Compile module "source".
 [INF:CP0303] $Source01/t_interface.v:141:1: Compile module "drain".
-[ERR:EL0535] $Source01/t_interface.v:46:8: Illegal implicit net "id:108, name:RW".
-[ERR:EL0535] $Source01/t_interface.v:47:8: Illegal implicit net "id:113, name:RP".
-[ERR:EL0535] $Source01/t_interface.v:57:8: Illegal implicit net "id:134, name:RW".
-[ERR:EL0535] $Source01/t_interface.v:58:8: Illegal implicit net "id:139, name:RP".
-[ERR:EL0535] $Source01/t_interface.v:117:14: Illegal implicit net "id:297, name:src".
-[ERR:EL0535] $Source01/t_interface.v:132:39: Illegal implicit net "id:386, name:req".
-[ERR:EL0535] $Source01/t_interface.v:132:49: Illegal implicit net "id:389, name:grt".
-[ERR:EL0535] $Source01/t_interface.v:135:15: Illegal implicit net "id:398, name:req".
-[ERR:EL0535] $Source01/t_interface.v:149:14: Illegal implicit net "id:472, name:drn".
-[ERR:EL0535] $Source01/t_interface.v:164:39: Illegal implicit net "id:561, name:req".
-[ERR:EL0535] $Source01/t_interface.v:164:49: Illegal implicit net "id:564, name:grt".
-[ERR:EL0535] $Source01/t_interface.v:167:15: Illegal implicit net "id:573, name:grt".
+[ERR:LN0813] $Source01/t_interface.v:1:1: Found 2 orphan node(s).
+[WRN:CP0350] $Source01/t_interface.v:132:39: Failed to bind "id:382, name:req".
+[WRN:CP0350] $Source01/t_interface.v:132:49: Failed to bind "id:385, name:grt".
+[WRN:CP0350] $Source01/t_interface.v:135:15: Failed to bind "id:394, name:req".
+[WRN:CP0350] $Source01/t_interface.v:164:39: Failed to bind "id:553, name:req".
+[WRN:CP0350] $Source01/t_interface.v:164:49: Failed to bind "id:556, name:grt".
+[WRN:CP0350] $Source01/t_interface.v:167:15: Failed to bind "id:565, name:grt".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1427,7 +1422,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface.v
       vpiPreprocFile: "$Output/lib/work/t_interface.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:handshake file:$Source01/t_interface.v start:70:1 end:105:25:
       vpiParent: Design name:unnamed
@@ -1435,27 +1429,7 @@ Design name:unnamed:
         vpiParent: Interface name:handshake
         vpiName: handshake
       vpiFullName: handshake
-      vpiVariable (6 items):
-        Variable name:clk start:73:16 end:73:19:
-          vpiParent: Interface name:handshake
-          vpiTypespec RefTypespec name:logic start:73:10 end:73:15:
-            vpiParent: Variable name:clk
-            vpiName: logic
-            vpiFullName: handshake.clk.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: clk
-          vpiFullName: handshake.clk
-          vpiNetType: wire (1)
-        Variable name:rst start:74:16 end:74:19:
-          vpiParent: Interface name:handshake
-          vpiTypespec RefTypespec name:logic start:74:10 end:74:15:
-            vpiParent: Variable name:rst
-            vpiName: logic
-            vpiFullName: handshake.rst.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: rst
-          vpiFullName: handshake.rst
-          vpiNetType: wire (1)
+      vpiVariable (4 items):
         Variable name:req start:78:10 end:78:13:
           vpiParent: Interface name:handshake
           vpiTypespec RefTypespec name:logic start:78:4 end:78:9:
@@ -1464,7 +1438,6 @@ Design name:unnamed:
             vpiFullName: handshake.req.logic
           vpiName: req
           vpiFullName: handshake.req
-          vpiNetType: none (12)
         Variable name:grt start:79:10 end:79:13:
           vpiParent: Interface name:handshake
           vpiTypespec RefTypespec name:logic start:79:4 end:79:9:
@@ -1473,7 +1446,6 @@ Design name:unnamed:
             vpiFullName: handshake.grt.logic
           vpiName: grt
           vpiFullName: handshake.grt
-          vpiNetType: none (12)
         Variable name:inc start:80:10 end:80:13:
           vpiParent: Interface name:handshake
           vpiTypespec RefTypespec name:logic start:80:4 end:80:9:
@@ -1482,7 +1454,6 @@ Design name:unnamed:
             vpiFullName: handshake.inc.logic
           vpiName: inc
           vpiFullName: handshake.inc
-          vpiNetType: none (12)
         Variable name:cnt start:83:12 end:83:15:
           vpiParent: Interface name:handshake
           vpiTypespec RefTypespec start:83:4 end:83:11:
@@ -1534,12 +1505,33 @@ Design name:unnamed:
           vpiSigned: true
         BitTypespec:
           vpiParent: Interface name:handshake
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:handshake
         vpiName: work
         vpiFullName: handshake.work
       vpiCell: handshake
+      vpiNet (2 items):
+        Net name:clk start:73:16 end:73:19:
+          vpiParent: Interface name:handshake
+          vpiTypespec RefTypespec name:logic start:73:10 end:73:15:
+            vpiParent: Net name:clk
+            vpiName: logic
+            vpiFullName: handshake.clk.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: clk
+          vpiFullName: handshake.clk
+          vpiNetType: wire (1)
+        Net name:rst start:74:16 end:74:19:
+          vpiParent: Interface name:handshake
+          vpiTypespec RefTypespec name:logic start:74:10 end:74:15:
+            vpiParent: Net name:rst
+            vpiName: logic
+            vpiFullName: handshake.rst.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: rst
+          vpiFullName: handshake.rst
+          vpiNetType: wire (1)
       vpiModport (2 items):
         Modport name:src start:86:12 end:86:15:
           vpiParent: Interface name:handshake
@@ -1697,10 +1689,11 @@ Design name:unnamed:
           vpiParent: Interface name:handshake
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:73:16 end:73:19:
+          vpiLowConn RefObj name:clk start:73:16 end:73:19:
             vpiParent: Port name:clk
-            vpiFullName: handshake.clk
-            vpiActual: Variable name:clk
+            vpiName: clk
+            vpiFullName: handshake.clk.clk
+            vpiActual: Net name:clk
           vpiTypespec RefTypespec name:logic start:73:10 end:73:15:
             vpiParent: Port name:clk
             vpiName: logic
@@ -1710,10 +1703,11 @@ Design name:unnamed:
           vpiParent: Interface name:handshake
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:74:16 end:74:19:
+          vpiLowConn RefObj name:rst start:74:16 end:74:19:
             vpiParent: Port name:rst
-            vpiFullName: handshake.rst
-            vpiActual: Variable name:rst
+            vpiName: rst
+            vpiFullName: handshake.rst.rst
+            vpiActual: Net name:rst
           vpiTypespec RefTypespec name:logic start:74:10 end:74:15:
             vpiParent: Port name:rst
             vpiName: logic
@@ -1729,7 +1723,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
-      vpiVariable (1 items):
+      vpiVariable (5 items):
         Variable name:rst start:13:12 end:13:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec name:logic start:13:4 end:13:9:
@@ -1738,7 +1732,6 @@ Design name:unnamed:
             vpiFullName: t.rst.logic
           vpiName: rst
           vpiFullName: t.rst
-          vpiNetType: none (12)
           vpiValue Constant start:13:18 end:13:22:
             vpiParent: Variable name:rst
             vpiTypespec RefTypespec:
@@ -1749,6 +1742,48 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b1"
             vpiValue: "1"
+        Variable name:rst_cnt start:14:12 end:14:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:14:11:
+            vpiParent: Variable name:rst_cnt
+            vpiFullName: t.rst_cnt
+            vpiActual: IntegerTypespec
+          vpiName: rst_cnt
+          vpiFullName: t.rst_cnt
+          vpiValue Constant start:14:22 end:14:23:
+            vpiParent: Variable name:rst_cnt
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.rst_cnt
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:cnt start:24:8 end:24:11:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:24:4 end:24:7:
+            vpiParent: Variable name:cnt
+            vpiFullName: t.cnt
+            vpiActual: IntTypespec
+          vpiName: cnt
+          vpiFullName: t.cnt
+        Variable name:cnt_src start:25:8 end:25:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:25:4 end:25:7:
+            vpiParent: Variable name:cnt_src
+            vpiFullName: t.cnt_src
+            vpiActual: IntTypespec
+          vpiName: cnt_src
+          vpiFullName: t.cnt_src
+        Variable name:cnt_drn start:26:8 end:26:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:26:4 end:26:7:
+            vpiParent: Variable name:cnt_drn
+            vpiFullName: t.cnt_drn
+            vpiActual: IntTypespec
+          vpiName: cnt_drn
+          vpiFullName: t.cnt_drn
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1768,13 +1803,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:drain
             vpiName: drain
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -1783,54 +1818,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:rst_cnt start:14:12 end:14:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:14:4 end:14:11:
-            vpiParent: Net name:rst_cnt
-            vpiFullName: t.rst_cnt
-            vpiActual: IntegerTypespec
-          vpiName: rst_cnt
-          vpiFullName: t.rst_cnt
-          vpiValue Constant start:14:22 end:14:23:
-            vpiParent: Net name:rst_cnt
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.rst_cnt
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:cnt start:24:8 end:24:11:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:24:4 end:24:7:
-            vpiParent: Net name:cnt
-            vpiFullName: t.cnt
-            vpiActual: IntTypespec
-          vpiName: cnt
-          vpiFullName: t.cnt
-        Net name:cnt_src start:25:8 end:25:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:25:4 end:25:7:
-            vpiParent: Net name:cnt_src
-            vpiFullName: t.cnt_src
-            vpiActual: IntTypespec
-          vpiName: cnt_src
-          vpiFullName: t.cnt_src
-        Net name:cnt_drn start:26:8 end:26:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:26:4 end:26:7:
-            vpiParent: Net name:cnt_drn
-            vpiFullName: t.cnt_drn
-            vpiActual: IntTypespec
-          vpiName: cnt_drn
-          vpiFullName: t.cnt_drn
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1863,7 +1857,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: rst_cnt
                     vpiFullName: t.rst_cnt
-                    vpiActual: Net name:rst_cnt
+                    vpiActual: Variable name:rst_cnt
                   vpiRhs Operation start:19:18 end:19:29:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1872,7 +1866,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: rst_cnt
                         vpiFullName: t.rst_cnt
-                        vpiActual: Net name:rst_cnt
+                        vpiActual: Variable name:rst_cnt
                       Constant start:19:28 end:19:29:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1898,7 +1892,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: rst_cnt
                         vpiFullName: t.rst_cnt
-                        vpiActual: Net name:rst_cnt
+                        vpiActual: Variable name:rst_cnt
                       Constant start:20:29 end:20:30:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1933,7 +1927,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: cnt
                     vpiFullName: t.cnt
-                    vpiActual: Net name:cnt
+                    vpiActual: Variable name:cnt
                   Operation start:33:15 end:33:19:
                     vpiParent: Operation
                     vpiOpType: multiply (25)
@@ -1991,7 +1985,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: cnt
             vpiFullName: t.cnt
-            vpiActual: Net name:cnt
+            vpiActual: Variable name:cnt
           vpiRhs Operation start:29:17 end:29:44:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -2004,12 +1998,12 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: cnt_src
                     vpiFullName: t.cnt_src
-                    vpiActual: Net name:cnt_src
+                    vpiActual: Variable name:cnt_src
                   RefObj name:cnt_drn start:29:27 end:29:34:
                     vpiParent: Operation
                     vpiName: cnt_drn
                     vpiFullName: t.cnt_drn
-                    vpiActual: Net name:cnt_drn
+                    vpiActual: Variable name:cnt_drn
               HierPath name:inf.cnt start:29:37 end:29:44:
                 vpiParent: Operation
                 vpiName: inf.cnt
@@ -2024,7 +2018,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:inf.cnt
                     vpiName: cnt
                     vpiFullName: t.cnt
-                    vpiActual: Net name:cnt
+                    vpiActual: Variable name:cnt
       vpiRefInstance (3 items):
         RefInstance name:inf start:39:14 end:39:17:
           vpiParent: Module name:t
@@ -2145,12 +2139,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: cnt
                 vpiFullName: t.source.cnt
-                vpiActual: Net name:cnt
+                vpiActual: Variable name:cnt
               vpiHighConn RefObj name:cnt_src start:52:14 end:52:21:
                 vpiParent: Port
                 vpiName: cnt_src
                 vpiFullName: t.source.cnt_src
-                vpiActual: Net name:cnt_src
+                vpiActual: Variable name:cnt_src
         RefInstance name:drain start:59:6 end:59:11:
           vpiParent: Module name:t
           vpiName: drain
@@ -2237,12 +2231,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: cnt
                 vpiFullName: t.drain.cnt
-                vpiActual: Net name:cnt
+                vpiActual: Variable name:cnt
               vpiHighConn RefObj name:cnt_drn start:63:14 end:63:21:
                 vpiParent: Port
                 vpiName: cnt_drn
                 vpiFullName: t.drain.cnt_drn
-                vpiActual: Net name:cnt_drn
+                vpiActual: Variable name:cnt_drn
       vpiEndLabel Identifier name:t start:66:13 end:66:14:
         vpiParent: Module name:t
         vpiName: t
@@ -2252,7 +2246,7 @@ Design name:unnamed:
         vpiParent: Module name:source
         vpiName: source
       vpiFullName: source
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:cnt start:118:19 end:118:22:
           vpiParent: Module name:source
           vpiTypespec RefTypespec start:118:4 end:118:18:
@@ -2261,7 +2255,15 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
           vpiName: cnt
           vpiFullName: source.cnt
-          vpiNetType: none (12)
+        Variable name:rnd start:122:19 end:122:22:
+          vpiParent: Module name:source
+          vpiTypespec RefTypespec name:logic start:122:4 end:122:18:
+            vpiParent: Variable name:rnd
+            vpiName: logic
+            vpiFullName: source.rnd.logic
+            vpiActual: ArrayTypespec
+          vpiName: rnd
+          vpiFullName: source.rnd
       vpiParameter (3 items):
         Parameter name:RW start:111:27 end:111:29:
           vpiParent: Module name:source
@@ -2341,7 +2343,7 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "'1"
             vpiValue: "1"
-      vpiTypespec (11 items):
+      vpiTypespec (10 items):
         UnsupportedTypespec name:bit start:112:14 end:112:26:
           vpiParent: Module name:source
           vpiName Identifier name:bit start:112:14 end:112:17:
@@ -2444,21 +2446,6 @@ Design name:unnamed:
           vpiName Identifier name:logic start:116:10 end:116:15:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
-        UnsupportedTypespec name:handshake::src start:117:4 end:117:17:
-          vpiParent: Module name:source
-          vpiPathElem (2 items):
-            RefObj name:handshake start:117:4 end:117:13:
-              vpiParent: UnsupportedTypespec name:handshake::src
-              vpiName: handshake
-              vpiFullName: source.handshake::src.handshake
-              vpiActual: Interface name:handshake
-            RefObj name:src start:117:14 end:117:17:
-              vpiParent: UnsupportedTypespec name:handshake::src
-              vpiName: src
-              vpiFullName: source.handshake::src.src
-          vpiName Identifier name:handshake::src:
-            vpiParent: UnsupportedTypespec name:handshake::src
-            vpiName: handshake::src
         IntegerTypespec:
           vpiParent: Module name:source
           vpiSigned: true
@@ -2508,13 +2495,13 @@ Design name:unnamed:
             vpiFullName: source.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: source
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:source
         vpiName: work
         vpiFullName: source.work
       vpiCell: source
-      vpiNet (4 items):
+      vpiNet (2 items):
         Net name:clk start:115:19 end:115:22:
           vpiParent: Module name:source
           vpiTypespec RefTypespec name:logic start:115:10 end:115:15:
@@ -2535,32 +2522,15 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: source.rst
           vpiNetType: wire (1)
-        Net name:inf start:117:19 end:117:22:
-          vpiParent: Module name:source
-          vpiTypespec RefTypespec start:117:4 end:117:17:
-            vpiParent: Net name:inf
-            vpiFullName: source.inf
-            vpiActual: UnsupportedTypespec name:handshake::src
-          vpiName: inf
-          vpiFullName: source.inf
-          vpiNetType: wire (1)
-        Net name:rnd start:122:19 end:122:22:
-          vpiParent: Module name:source
-          vpiTypespec RefTypespec name:logic start:122:4 end:122:18:
-            vpiParent: Net name:rnd
-            vpiName: logic
-            vpiFullName: source.rnd.logic
-            vpiActual: ArrayTypespec
-          vpiName: rnd
-          vpiFullName: source.rnd
       vpiPort (4 items):
         Port name:clk start:115:19 end:115:22:
           vpiParent: Module name:source
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:115:19 end:115:22:
+          vpiLowConn RefObj name:clk start:115:19 end:115:22:
             vpiParent: Port name:clk
-            vpiFullName: source.clk
+            vpiName: clk
+            vpiFullName: source.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec name:logic start:115:10 end:115:15:
             vpiParent: Port name:clk
@@ -2571,9 +2541,10 @@ Design name:unnamed:
           vpiParent: Module name:source
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:116:19 end:116:22:
+          vpiLowConn RefObj name:rst start:116:19 end:116:22:
             vpiParent: Port name:rst
-            vpiFullName: source.rst
+            vpiName: rst
+            vpiFullName: source.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec name:logic start:116:10 end:116:15:
             vpiParent: Port name:rst
@@ -2584,21 +2555,14 @@ Design name:unnamed:
           vpiParent: Module name:source
           vpiName: inf
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:117:19 end:117:22:
-            vpiParent: Port name:inf
-            vpiFullName: source.inf
-            vpiActual: Net name:inf
-          vpiTypespec RefTypespec start:117:4 end:117:17:
-            vpiParent: Port name:inf
-            vpiFullName: source.inf
-            vpiActual: UnsupportedTypespec name:handshake::src
         Port name:cnt start:118:19 end:118:22:
           vpiParent: Module name:source
           vpiName: cnt
           vpiDirection: output (2)
-          vpiLowConn RefObj start:118:19 end:118:22:
+          vpiLowConn RefObj name:cnt start:118:19 end:118:22:
             vpiParent: Port name:cnt
-            vpiFullName: source.cnt
+            vpiName: cnt
+            vpiFullName: source.cnt.cnt
             vpiActual: Variable name:cnt
           vpiTypespec RefTypespec start:118:4 end:118:18:
             vpiParent: Port name:cnt
@@ -2644,7 +2608,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: rnd
                   vpiFullName: source.rnd
-                  vpiActual: Net name:rnd
+                  vpiActual: Variable name:rnd
                 vpiRhs RefObj name:RR start:126:20 end:126:22:
                   vpiParent: Assignment
                   vpiName: RR
@@ -2656,7 +2620,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: rnd
                   vpiFullName: source.rnd
-                  vpiActual: Net name:rnd
+                  vpiActual: Variable name:rnd
                 vpiRhs Operation start:127:20 end:127:63:
                   vpiParent: Assignment
                   vpiOpType: bitwise xor (30)
@@ -2673,7 +2637,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:rnd[0]
                             vpiName: rnd
                             vpiFullName: source.rnd
-                            vpiActual: Net name:rnd
+                            vpiActual: Variable name:rnd
                           vpiIndex Constant start:127:25 end:127:26:
                             vpiParent: BitSelect name:rnd[0]
                             vpiTypespec RefTypespec:
@@ -2692,7 +2656,7 @@ Design name:unnamed:
                             vpiParent: PartSelect name:rnd[RW-1:1]
                             vpiName: rnd
                             vpiFullName: source.rnd[RW-1:1].rnd
-                            vpiActual: Net name:rnd
+                            vpiActual: Variable name:rnd
                           vpiRange Range start:127:33 end:127:39:
                             vpiParent: PartSelect name:rnd[RW-1:1]
                             vpiLeftRange Operation start:127:33 end:127:37:
@@ -2749,7 +2713,7 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:rnd[0]
                                     vpiName: rnd
                                     vpiFullName: source.rnd
-                                    vpiActual: Net name:rnd
+                                    vpiActual: Variable name:rnd
                                   vpiIndex Constant start:127:53 end:127:54:
                                     vpiParent: BitSelect name:rnd[0]
                                     vpiTypespec RefTypespec:
@@ -2859,7 +2823,7 @@ Design name:unnamed:
                                   vpiParent: HierPath name:inf.req
                                   vpiName: inf
                                   vpiFullName: source.inf
-                                  vpiActual: Net name:inf
+                                  vpiActual: Port name:inf
                                 RefObj name:req start:132:39 end:132:42:
                                   vpiParent: HierPath name:inf.req
                                   vpiName: req
@@ -2873,7 +2837,7 @@ Design name:unnamed:
                                   vpiParent: HierPath name:inf.grt
                                   vpiName: inf
                                   vpiFullName: source.inf
-                                  vpiActual: Net name:inf
+                                  vpiActual: Port name:inf
                                 RefObj name:grt start:132:49 end:132:52:
                                   vpiParent: HierPath name:inf.grt
                                   vpiName: grt
@@ -2891,7 +2855,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:inf.req
                 vpiName: inf
                 vpiFullName: source.inf
-                vpiActual: Net name:inf
+                vpiActual: Port name:inf
               RefObj name:req start:135:15 end:135:18:
                 vpiParent: HierPath name:inf.req
                 vpiName: req
@@ -2904,7 +2868,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:rnd[0]
               vpiName: rnd
               vpiFullName: source.rnd
-              vpiActual: Net name:rnd
+              vpiActual: Variable name:rnd
             vpiIndex Constant start:135:25 end:135:26:
               vpiParent: BitSelect name:rnd[0]
               vpiTypespec RefTypespec:
@@ -2924,7 +2888,7 @@ Design name:unnamed:
         vpiParent: Module name:drain
         vpiName: drain
       vpiFullName: drain
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:cnt start:150:19 end:150:22:
           vpiParent: Module name:drain
           vpiTypespec RefTypespec start:150:4 end:150:18:
@@ -2933,7 +2897,15 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
           vpiName: cnt
           vpiFullName: drain.cnt
-          vpiNetType: none (12)
+        Variable name:rnd start:154:19 end:154:22:
+          vpiParent: Module name:drain
+          vpiTypespec RefTypespec name:logic start:154:4 end:154:18:
+            vpiParent: Variable name:rnd
+            vpiName: logic
+            vpiFullName: drain.rnd.logic
+            vpiActual: ArrayTypespec
+          vpiName: rnd
+          vpiFullName: drain.rnd
       vpiParameter (3 items):
         Parameter name:RW start:143:27 end:143:29:
           vpiParent: Module name:drain
@@ -3013,7 +2985,7 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "'1"
             vpiValue: "1"
-      vpiTypespec (11 items):
+      vpiTypespec (10 items):
         UnsupportedTypespec name:bit start:144:14 end:144:26:
           vpiParent: Module name:drain
           vpiName Identifier name:bit start:144:14 end:144:17:
@@ -3116,21 +3088,6 @@ Design name:unnamed:
           vpiName Identifier name:logic start:148:10 end:148:15:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
-        UnsupportedTypespec name:handshake::drn start:149:4 end:149:17:
-          vpiParent: Module name:drain
-          vpiPathElem (2 items):
-            RefObj name:handshake start:149:4 end:149:13:
-              vpiParent: UnsupportedTypespec name:handshake::drn
-              vpiName: handshake
-              vpiFullName: drain.handshake::drn.handshake
-              vpiActual: Interface name:handshake
-            RefObj name:drn start:149:14 end:149:17:
-              vpiParent: UnsupportedTypespec name:handshake::drn
-              vpiName: drn
-              vpiFullName: drain.handshake::drn.drn
-          vpiName Identifier name:handshake::drn:
-            vpiParent: UnsupportedTypespec name:handshake::drn
-            vpiName: handshake::drn
         IntegerTypespec:
           vpiParent: Module name:drain
           vpiSigned: true
@@ -3180,13 +3137,13 @@ Design name:unnamed:
             vpiFullName: drain.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: drain
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:drain
         vpiName: work
         vpiFullName: drain.work
       vpiCell: drain
-      vpiNet (4 items):
+      vpiNet (2 items):
         Net name:clk start:147:19 end:147:22:
           vpiParent: Module name:drain
           vpiTypespec RefTypespec name:logic start:147:10 end:147:15:
@@ -3207,32 +3164,15 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: drain.rst
           vpiNetType: wire (1)
-        Net name:inf start:149:19 end:149:22:
-          vpiParent: Module name:drain
-          vpiTypespec RefTypespec start:149:4 end:149:17:
-            vpiParent: Net name:inf
-            vpiFullName: drain.inf
-            vpiActual: UnsupportedTypespec name:handshake::drn
-          vpiName: inf
-          vpiFullName: drain.inf
-          vpiNetType: wire (1)
-        Net name:rnd start:154:19 end:154:22:
-          vpiParent: Module name:drain
-          vpiTypespec RefTypespec name:logic start:154:4 end:154:18:
-            vpiParent: Net name:rnd
-            vpiName: logic
-            vpiFullName: drain.rnd.logic
-            vpiActual: ArrayTypespec
-          vpiName: rnd
-          vpiFullName: drain.rnd
       vpiPort (4 items):
         Port name:clk start:147:19 end:147:22:
           vpiParent: Module name:drain
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:147:19 end:147:22:
+          vpiLowConn RefObj name:clk start:147:19 end:147:22:
             vpiParent: Port name:clk
-            vpiFullName: drain.clk
+            vpiName: clk
+            vpiFullName: drain.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec name:logic start:147:10 end:147:15:
             vpiParent: Port name:clk
@@ -3243,9 +3183,10 @@ Design name:unnamed:
           vpiParent: Module name:drain
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:148:19 end:148:22:
+          vpiLowConn RefObj name:rst start:148:19 end:148:22:
             vpiParent: Port name:rst
-            vpiFullName: drain.rst
+            vpiName: rst
+            vpiFullName: drain.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec name:logic start:148:10 end:148:15:
             vpiParent: Port name:rst
@@ -3256,21 +3197,14 @@ Design name:unnamed:
           vpiParent: Module name:drain
           vpiName: inf
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:149:19 end:149:22:
-            vpiParent: Port name:inf
-            vpiFullName: drain.inf
-            vpiActual: Net name:inf
-          vpiTypespec RefTypespec start:149:4 end:149:17:
-            vpiParent: Port name:inf
-            vpiFullName: drain.inf
-            vpiActual: UnsupportedTypespec name:handshake::drn
         Port name:cnt start:150:19 end:150:22:
           vpiParent: Module name:drain
           vpiName: cnt
           vpiDirection: output (2)
-          vpiLowConn RefObj start:150:19 end:150:22:
+          vpiLowConn RefObj name:cnt start:150:19 end:150:22:
             vpiParent: Port name:cnt
-            vpiFullName: drain.cnt
+            vpiName: cnt
+            vpiFullName: drain.cnt.cnt
             vpiActual: Variable name:cnt
           vpiTypespec RefTypespec start:150:4 end:150:18:
             vpiParent: Port name:cnt
@@ -3316,7 +3250,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: rnd
                   vpiFullName: drain.rnd
-                  vpiActual: Net name:rnd
+                  vpiActual: Variable name:rnd
                 vpiRhs RefObj name:RR start:158:20 end:158:22:
                   vpiParent: Assignment
                   vpiName: RR
@@ -3328,7 +3262,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: rnd
                   vpiFullName: drain.rnd
-                  vpiActual: Net name:rnd
+                  vpiActual: Variable name:rnd
                 vpiRhs Operation start:159:20 end:159:63:
                   vpiParent: Assignment
                   vpiOpType: bitwise xor (30)
@@ -3345,7 +3279,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:rnd[0]
                             vpiName: rnd
                             vpiFullName: drain.rnd
-                            vpiActual: Net name:rnd
+                            vpiActual: Variable name:rnd
                           vpiIndex Constant start:159:25 end:159:26:
                             vpiParent: BitSelect name:rnd[0]
                             vpiTypespec RefTypespec:
@@ -3364,7 +3298,7 @@ Design name:unnamed:
                             vpiParent: PartSelect name:rnd[RW-1:1]
                             vpiName: rnd
                             vpiFullName: drain.rnd[RW-1:1].rnd
-                            vpiActual: Net name:rnd
+                            vpiActual: Variable name:rnd
                           vpiRange Range start:159:33 end:159:39:
                             vpiParent: PartSelect name:rnd[RW-1:1]
                             vpiLeftRange Operation start:159:33 end:159:37:
@@ -3421,7 +3355,7 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:rnd[0]
                                     vpiName: rnd
                                     vpiFullName: drain.rnd
-                                    vpiActual: Net name:rnd
+                                    vpiActual: Variable name:rnd
                                   vpiIndex Constant start:159:53 end:159:54:
                                     vpiParent: BitSelect name:rnd[0]
                                     vpiTypespec RefTypespec:
@@ -3531,7 +3465,7 @@ Design name:unnamed:
                                   vpiParent: HierPath name:inf.req
                                   vpiName: inf
                                   vpiFullName: drain.inf
-                                  vpiActual: Net name:inf
+                                  vpiActual: Port name:inf
                                 RefObj name:req start:164:39 end:164:42:
                                   vpiParent: HierPath name:inf.req
                                   vpiName: req
@@ -3545,7 +3479,7 @@ Design name:unnamed:
                                   vpiParent: HierPath name:inf.grt
                                   vpiName: inf
                                   vpiFullName: drain.inf
-                                  vpiActual: Net name:inf
+                                  vpiActual: Port name:inf
                                 RefObj name:grt start:164:49 end:164:52:
                                   vpiParent: HierPath name:inf.grt
                                   vpiName: grt
@@ -3563,7 +3497,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:inf.grt
                 vpiName: inf
                 vpiFullName: drain.inf
-                vpiActual: Net name:inf
+                vpiActual: Port name:inf
               RefObj name:grt start:167:15 end:167:18:
                 vpiParent: HierPath name:inf.grt
                 vpiName: grt
@@ -3576,7 +3510,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:rnd[0]
               vpiName: rnd
               vpiFullName: drain.rnd
-              vpiActual: Net name:rnd
+              vpiActual: Variable name:rnd
             vpiIndex Constant start:167:25 end:167:26:
               vpiParent: BitSelect name:rnd[0]
               vpiTypespec RefTypespec:
@@ -3627,8 +3561,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 12
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3643,25 +3577,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 98.56,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface.v': {'post_len': 26,
                                                          'pre_len': 1810}},
-            'post_len': 0,
+            'post_len': 26,
             'pre_len': 1810,
             'test_name': 'Verilator/t_interface'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/t_interface.v |     1810 |         0 |
+| $Output/lib/work/t_interface.v |     1810 |        26 |
 +================================+==========+===========+
-|                                |     1810 |         0 |
+|                                |     1810 |        26 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 98.56
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3673,10 +3607,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            46      45      11        12
 Operation                           50      39       0        11
-RefObj                             128     118       0        10
-RefTypespec                         99      98      11        12
+RefObj                             122     112       0        10
+RefTypespec                         95      94      11        12
 ----------------------------------------------------------------
-Others                             210     210       0         0
+Others                             204     204       0         0
 ----------------------------------------------------------------
-                                   533     510      22        45
+                                   517     494      22        45
 ===================== END REDUCTION RESULT =====================

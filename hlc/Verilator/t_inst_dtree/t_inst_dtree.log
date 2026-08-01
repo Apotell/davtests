@@ -532,12 +532,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_dtree.v:22:1: Compile module "bmod".
 [INF:CP0303] $Source01/t_inst_dtree.v:34:1: Compile module "cmod".
 [INF:CP0303] $Source01/t_inst_dtree.v:47:1: Compile module "dmod".
-[ERR:EL0535] $Source01/t_inst_dtree.v:16:23: Illegal implicit net "id:29, name:n".
-[ERR:EL0535] $Source01/t_inst_dtree.v:17:23: Illegal implicit net "id:40, name:n".
-[ERR:EL0535] $Source01/t_inst_dtree.v:18:23: Illegal implicit net "id:51, name:n".
-[ERR:EL0535] $Source01/t_inst_dtree.v:19:23: Illegal implicit net "id:62, name:n".
-[ERR:EL0535] $Source01/t_inst_dtree.v:63:7: Illegal implicit net "id:206, name:csub".
-[ERR:EL0535] $Source01/t_inst_dtree.v:63:12: Illegal implicit net "id:207, name:clocal".
+[WRN:CP0350] $Source01/t_inst_dtree.v:63:7: Failed to bind "id:206, name:csub".
+[WRN:CP0350] $Source01/t_inst_dtree.v:63:12: Failed to bind "id:207, name:clocal".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -547,7 +543,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_inst_dtree.v
       vpiPreprocFile: "$Output/lib/work/t_inst_dtree.v"
-      vpiDefNetType: none (12)
   vpiAllModules (4 items):
     Module name:t file:$Source01/t_inst_dtree.v start:6:1 end:20:10:
       vpiParent: Design name:unnamed
@@ -579,7 +574,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bmod
             vpiName: bmod
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -594,12 +589,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:10:10 end:10:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -778,7 +774,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:cmod
             vpiName: cmod
       vpiDefName: bmod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bmod
         vpiName: work
@@ -808,9 +804,10 @@ Design name:unnamed:
           vpiParent: Module name:bmod
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:23:11 end:23:14:
+          vpiLowConn RefObj name:clk start:23:11 end:23:14:
             vpiParent: Port name:clk
-            vpiFullName: bmod.clk
+            vpiName: clk
+            vpiFullName: bmod.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:23:4 end:23:9:
             vpiParent: Port name:clk
@@ -820,9 +817,10 @@ Design name:unnamed:
           vpiParent: Module name:bmod
           vpiName: n
           vpiDirection: input (1)
-          vpiLowConn RefObj start:24:17 end:24:18:
+          vpiLowConn RefObj name:n start:24:17 end:24:18:
             vpiParent: Port name:n
-            vpiFullName: bmod.n
+            vpiName: n
+            vpiFullName: bmod.n.n
             vpiActual: Net name:n
           vpiTypespec RefTypespec start:24:4 end:24:16:
             vpiParent: Port name:n
@@ -858,6 +856,16 @@ Design name:unnamed:
         vpiParent: Module name:cmod
         vpiName: cmod
       vpiFullName: cmod
+      vpiVariable (1 items):
+        Variable name:clocal start:41:15 end:41:21:
+          vpiParent: Module name:cmod
+          vpiTypespec RefTypespec start:41:4 end:41:14:
+            vpiParent: Variable name:clocal
+            vpiFullName: cmod.clocal
+            vpiActual: LogicTypespec
+          vpiName: clocal
+          vpiFullName: cmod.clocal
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:cmod
@@ -919,13 +927,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:dmod
             vpiName: dmod
       vpiDefName: cmod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:cmod
         vpiName: work
         vpiFullName: cmod.work
       vpiCell: cmod
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clk start:35:12 end:35:15:
           vpiParent: Module name:cmod
           vpiTypespec RefTypespec start:35:4 end:35:9:
@@ -944,22 +952,15 @@ Design name:unnamed:
           vpiName: n
           vpiFullName: cmod.n
           vpiNetType: wire (1)
-        Net name:clocal start:41:15 end:41:21:
-          vpiParent: Module name:cmod
-          vpiTypespec RefTypespec start:41:4 end:41:14:
-            vpiParent: Net name:clocal
-            vpiFullName: cmod.clocal
-            vpiActual: LogicTypespec
-          vpiName: clocal
-          vpiFullName: cmod.clocal
       vpiPort (2 items):
         Port name:clk start:35:12 end:35:15:
           vpiParent: Module name:cmod
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:35:12 end:35:15:
+          vpiLowConn RefObj name:clk start:35:12 end:35:15:
             vpiParent: Port name:clk
-            vpiFullName: cmod.clk
+            vpiName: clk
+            vpiFullName: cmod.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:35:4 end:35:9:
             vpiParent: Port name:clk
@@ -969,9 +970,10 @@ Design name:unnamed:
           vpiParent: Module name:cmod
           vpiName: n
           vpiDirection: input (1)
-          vpiLowConn RefObj start:35:30 end:35:31:
+          vpiLowConn RefObj name:n start:35:30 end:35:31:
             vpiParent: Port name:n
-            vpiFullName: cmod.n
+            vpiName: n
+            vpiFullName: cmod.n.n
             vpiActual: Net name:n
           vpiTypespec RefTypespec start:35:17 end:35:29:
             vpiParent: Port name:n
@@ -997,7 +999,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: clocal
                 vpiFullName: cmod.clocal
-                vpiActual: Net name:clocal
+                vpiActual: Variable name:clocal
               vpiRhs RefObj name:n start:42:37 end:42:38:
                 vpiParent: Assignment
                 vpiName: n
@@ -1034,6 +1036,24 @@ Design name:unnamed:
         vpiParent: Module name:dmod
         vpiName: dmod
       vpiFullName: dmod
+      vpiVariable (2 items):
+        Variable name:dlocal start:53:15 end:53:21:
+          vpiParent: Module name:dmod
+          vpiTypespec RefTypespec start:53:4 end:53:14:
+            vpiParent: Variable name:dlocal
+            vpiFullName: dmod.dlocal
+            vpiActual: LogicTypespec
+          vpiName: dlocal
+          vpiFullName: dmod.dlocal
+          vpiVector: true
+        Variable name:cyc start:56:10 end:56:13:
+          vpiParent: Module name:dmod
+          vpiTypespec RefTypespec start:56:4 end:56:7:
+            vpiParent: Variable name:cyc
+            vpiFullName: dmod.cyc
+            vpiActual: IntTypespec
+          vpiName: cyc
+          vpiFullName: dmod.cyc
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:dmod
@@ -1090,13 +1110,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: dmod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dmod
         vpiName: work
         vpiFullName: dmod.work
       vpiCell: dmod
-      vpiNet (4 items):
+      vpiNet (2 items):
         Net name:clk start:47:20 end:47:23:
           vpiParent: Module name:dmod
           vpiTypespec RefTypespec start:47:14 end:47:19:
@@ -1115,30 +1135,15 @@ Design name:unnamed:
           vpiName: n
           vpiFullName: dmod.n
           vpiNetType: wire (1)
-        Net name:dlocal start:53:15 end:53:21:
-          vpiParent: Module name:dmod
-          vpiTypespec RefTypespec start:53:4 end:53:14:
-            vpiParent: Net name:dlocal
-            vpiFullName: dmod.dlocal
-            vpiActual: LogicTypespec
-          vpiName: dlocal
-          vpiFullName: dmod.dlocal
-        Net name:cyc start:56:10 end:56:13:
-          vpiParent: Module name:dmod
-          vpiTypespec RefTypespec start:56:4 end:56:7:
-            vpiParent: Net name:cyc
-            vpiFullName: dmod.cyc
-            vpiActual: IntTypespec
-          vpiName: cyc
-          vpiFullName: dmod.cyc
       vpiPort (2 items):
         Port name:clk start:47:20 end:47:23:
           vpiParent: Module name:dmod
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:47:20 end:47:23:
+          vpiLowConn RefObj name:clk start:47:20 end:47:23:
             vpiParent: Port name:clk
-            vpiFullName: dmod.clk
+            vpiName: clk
+            vpiFullName: dmod.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:47:14 end:47:19:
             vpiParent: Port name:clk
@@ -1148,9 +1153,10 @@ Design name:unnamed:
           vpiParent: Module name:dmod
           vpiName: n
           vpiDirection: input (1)
-          vpiLowConn RefObj start:47:38 end:47:39:
+          vpiLowConn RefObj name:n start:47:38 end:47:39:
             vpiParent: Port name:n
-            vpiFullName: dmod.n
+            vpiName: n
+            vpiFullName: dmod.n.n
             vpiActual: Net name:n
           vpiTypespec RefTypespec start:47:25 end:47:37:
             vpiParent: Port name:n
@@ -1176,7 +1182,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: dlocal
                 vpiFullName: dmod.dlocal
-                vpiActual: Net name:dlocal
+                vpiActual: Variable name:dlocal
               vpiRhs RefObj name:n start:54:37 end:54:38:
                 vpiParent: Assignment
                 vpiName: n
@@ -1206,7 +1212,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: dmod.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:58:14 end:58:19:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1215,7 +1221,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: dmod.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:58:18 end:58:19:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1254,7 +1260,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: dmod.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:61:15 end:61:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1308,7 +1314,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: dlocal
                               vpiFullName: dmod.dlocal
-                              vpiActual: Net name:dlocal
+                              vpiActual: Variable name:dlocal
                             RefObj name:n start:64:18 end:64:19:
                               vpiParent: Operation
                               vpiName: n
@@ -1329,7 +1335,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: dmod.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:66:16 end:66:18:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1399,8 +1405,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

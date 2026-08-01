@@ -225,6 +225,7 @@ n<$Source01/read_two_mux.v> u<211> t<Top_level_rule> c<1> l<5:1> el<17:1>
         n<> u<207> t<ENDMODULE> p<208> l<16:1> el<16:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/read_two_mux.v:5:1: Compile module "top".
+[ERR:LN0813] $Source01/read_two_mux.v:1:1: Found 3 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -234,7 +235,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: read_two_mux.v
       vpiPreprocFile: "$Output/lib/work/read_two_mux.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/read_two_mux.v start:5:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -242,7 +242,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:rdata start:5:86 end:5:91:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:69 end:5:85:
@@ -251,7 +251,24 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rdata
           vpiFullName: top.rdata
-          vpiNetType: none (12)
+        Variable name:bram start:7:11 end:7:15:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:bram
+            vpiFullName: top.bram
+            vpiActual: ArrayTypespec
+          vpiName: bram
+          vpiFullName: top.bram
+          vpiVector: true
+        Variable name:dummy start:8:16 end:8:21:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:8:12 end:8:15:
+            vpiParent: Variable name:dummy
+            vpiFullName: top.dummy
+            vpiActual: LogicTypespec
+          vpiName: dummy
+          vpiFullName: top.dummy
+          vpiScalar: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -367,13 +384,13 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: keep
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (8 items):
+      vpiNet (3 items):
         Net name:clk start:5:18 end:5:21:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:12 end:5:17:
@@ -392,24 +409,6 @@ Design name:unnamed:
           vpiName: we
           vpiFullName: top.we
           vpiNetType: wire (1)
-        Net name:re start:5:33 end:5:35:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:5:33 end:5:33:
-            vpiParent: Net name:re
-            vpiFullName: top.re
-            vpiActual: LogicTypespec
-          vpiName: re
-          vpiFullName: top.re
-          vpiNetType: wire (1)
-        Net name:reset start:5:37 end:5:42:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:5:37 end:5:37:
-            vpiParent: Net name:reset
-            vpiFullName: top.reset
-            vpiActual: LogicTypespec
-          vpiName: reset
-          vpiFullName: top.reset
-          vpiNetType: wire (1)
         Net name:addr start:5:56 end:5:60:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:44 end:5:55:
@@ -419,39 +418,15 @@ Design name:unnamed:
           vpiName: addr
           vpiFullName: top.addr
           vpiNetType: wire (1)
-        Net name:wdata start:5:62 end:5:67:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:5:62 end:5:62:
-            vpiParent: Net name:wdata
-            vpiFullName: top.wdata
-            vpiActual: LogicTypespec
-          vpiName: wdata
-          vpiFullName: top.wdata
-          vpiNetType: wire (1)
-        Net name:bram start:7:11 end:7:15:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:bram
-            vpiFullName: top.bram
-            vpiActual: ArrayTypespec
-          vpiName: bram
-          vpiFullName: top.bram
-        Net name:dummy start:8:16 end:8:21:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:8:12 end:8:15:
-            vpiParent: Net name:dummy
-            vpiFullName: top.dummy
-            vpiActual: LogicTypespec
-          vpiName: dummy
-          vpiFullName: top.dummy
       vpiPort (7 items):
         Port name:clk start:5:18 end:5:21:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:18 end:5:21:
+          vpiLowConn RefObj name:clk start:5:18 end:5:21:
             vpiParent: Port name:clk
-            vpiFullName: top.clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:5:12 end:5:17:
             vpiParent: Port name:clk
@@ -461,9 +436,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: we
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:29 end:5:31:
+          vpiLowConn RefObj name:we start:5:29 end:5:31:
             vpiParent: Port name:we
-            vpiFullName: top.we
+            vpiName: we
+            vpiFullName: top.we.we
             vpiActual: Net name:we
           vpiTypespec RefTypespec start:5:23 end:5:28:
             vpiParent: Port name:we
@@ -473,33 +449,18 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: re
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:5:33 end:5:35:
-            vpiParent: Port name:re
-            vpiFullName: top.re
-            vpiActual: Net name:re
-          vpiTypespec RefTypespec start:5:33 end:5:33:
-            vpiParent: Port name:re
-            vpiFullName: top.re
-            vpiActual: LogicTypespec
         Port name:reset start:5:37 end:5:42:
           vpiParent: Module name:top
           vpiName: reset
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:5:37 end:5:42:
-            vpiParent: Port name:reset
-            vpiFullName: top.reset
-            vpiActual: Net name:reset
-          vpiTypespec RefTypespec start:5:37 end:5:37:
-            vpiParent: Port name:reset
-            vpiFullName: top.reset
-            vpiActual: LogicTypespec
         Port name:addr start:5:56 end:5:60:
           vpiParent: Module name:top
           vpiName: addr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:56 end:5:60:
+          vpiLowConn RefObj name:addr start:5:56 end:5:60:
             vpiParent: Port name:addr
-            vpiFullName: top.addr
+            vpiName: addr
+            vpiFullName: top.addr.addr
             vpiActual: Net name:addr
           vpiTypespec RefTypespec start:5:44 end:5:55:
             vpiParent: Port name:addr
@@ -509,21 +470,14 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: wdata
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:5:62 end:5:67:
-            vpiParent: Port name:wdata
-            vpiFullName: top.wdata
-            vpiActual: Net name:wdata
-          vpiTypespec RefTypespec start:5:62 end:5:62:
-            vpiParent: Port name:wdata
-            vpiFullName: top.wdata
-            vpiActual: LogicTypespec
         Port name:rdata start:5:86 end:5:91:
           vpiParent: Module name:top
           vpiName: rdata
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:86 end:5:91:
+          vpiLowConn RefObj name:rdata start:5:86 end:5:91:
             vpiParent: Port name:rdata
-            vpiFullName: top.rdata
+            vpiName: rdata
+            vpiFullName: top.rdata.rdata
             vpiActual: Variable name:rdata
           vpiTypespec RefTypespec start:5:69 end:5:85:
             vpiParent: Port name:rdata
@@ -562,7 +516,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: re
                         vpiFullName: top.re
-                        vpiActual: Net name:re
+                        vpiActual: Port name:re
                       Operation start:11:17 end:11:42:
                         vpiParent: Operation
                         vpiOpType: condition (32)
@@ -571,7 +525,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: reset
                             vpiFullName: top.reset
-                            vpiActual: Net name:reset
+                            vpiActual: Port name:reset
                           Constant start:11:25 end:11:29:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -590,7 +544,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:bram[addr]
                               vpiName: bram
                               vpiFullName: top.bram
-                              vpiActual: Net name:bram
+                              vpiActual: Variable name:bram
                             vpiIndex RefObj name:addr start:11:37 end:11:41:
                               vpiParent: BitSelect name:bram[addr]
                               vpiName: addr
@@ -618,7 +572,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:bram[addr]
                         vpiName: bram
                         vpiFullName: top.bram
-                        vpiActual: Net name:bram
+                        vpiActual: Variable name:bram
                       vpiIndex RefObj name:addr start:13:8 end:13:12:
                         vpiParent: BitSelect name:bram[addr]
                         vpiName: addr
@@ -628,7 +582,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: wdata
                       vpiFullName: top.wdata
-                      vpiActual: Net name:wdata
+                      vpiActual: Port name:wdata
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:top:
@@ -645,7 +599,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -690,7 +644,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/memories/read_two_mux/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              99      99       0         0
+Others                              87      87       0         0
 ----------------------------------------------------------------
-                                    99      99       0         0
+                                    87      87       0         0
 ===================== END REDUCTION RESULT =====================

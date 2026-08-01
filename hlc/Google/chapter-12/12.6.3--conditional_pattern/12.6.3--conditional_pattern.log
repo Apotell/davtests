@@ -204,7 +204,6 @@ n<$Source01/12.6.3--conditional_pattern.sv> u<190> t<Top_level_rule> c<1> l<15:1
         n<> u<186> t<ENDMODULE> p<187> l<36:1> el<36:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/12.6.3--conditional_pattern.sv:15:1: Compile module "case_tb".
-[ERR:EL0535] $Source01/12.6.3--conditional_pattern.sv:34:36: Illegal implicit net "id:81, name:a".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -214,7 +213,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: "12.6.3--conditional_pattern.sv"
       vpiPreprocFile: "$Output/lib/work/12.6.3--conditional_pattern.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:case_tb file:$Source01/12.6.3--conditional_pattern.sv start:15:1 end:36:10:
       vpiParent: Design name:unnamed
@@ -222,6 +220,25 @@ Design name:unnamed:
         vpiParent: Module name:case_tb
         vpiName: case_tb
       vpiFullName: case_tb
+      vpiVariable (2 items):
+        Variable name:tmp start:29:4 end:29:7:
+          vpiParent: Module name:case_tb
+          vpiTypespec RefTypespec name:u start:29:2 end:29:3:
+            vpiParent: Variable name:tmp
+            vpiName: u
+            vpiFullName: case_tb.tmp.u
+            vpiActual: TypedefTypespec name:u
+          vpiName: tmp
+          vpiFullName: case_tb.tmp
+        Variable name:val start:31:12 end:31:15:
+          vpiParent: Module name:case_tb
+          vpiTypespec RefTypespec start:31:2 end:31:11:
+            vpiParent: Variable name:val
+            vpiFullName: case_tb.val
+            vpiActual: BitTypespec
+          vpiName: val
+          vpiFullName: case_tb.val
+          vpiVector: true
       vpiTypespec (9 items):
         BitTypespec:
           vpiParent: Module name:case_tb
@@ -413,30 +430,12 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: case_tb
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:case_tb
         vpiName: work
         vpiFullName: case_tb.work
       vpiCell: case_tb
-      vpiNet (2 items):
-        Net name:tmp start:29:4 end:29:7:
-          vpiParent: Module name:case_tb
-          vpiTypespec RefTypespec name:u start:29:2 end:29:3:
-            vpiParent: Net name:tmp
-            vpiName: u
-            vpiFullName: case_tb.tmp.u
-            vpiActual: TypedefTypespec name:u
-          vpiName: tmp
-          vpiFullName: case_tb.tmp
-        Net name:val start:31:12 end:31:15:
-          vpiParent: Module name:case_tb
-          vpiTypespec RefTypespec start:31:2 end:31:11:
-            vpiParent: Net name:val
-            vpiFullName: case_tb.val
-            vpiActual: BitTypespec
-          vpiName: val
-          vpiFullName: case_tb.val
       vpiProcess (1 items):
         Initial start:33:2 end:35:5:
           vpiParent: Module name:case_tb
@@ -451,7 +450,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: val
                   vpiFullName: case_tb.val
-                  vpiActual: Net name:val
+                  vpiActual: Variable name:val
                 vpiRhs Operation start:34:17 end:34:60:
                   vpiParent: Assignment
                   vpiOpType: matches (99)
@@ -460,7 +459,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: tmp
                       vpiFullName: case_tb.tmp
-                      vpiActual: Net name:tmp
+                      vpiActual: Variable name:tmp
                     TaggedPattern name:a start:34:29 end:34:52:
                       vpiParent: Operation
                       vpiName: a
@@ -519,7 +518,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

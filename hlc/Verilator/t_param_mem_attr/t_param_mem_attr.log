@@ -281,9 +281,6 @@ n<$Source01/t_param_mem_attr.v> u<266> t<Top_level_rule> c<1> l<18:1> el<42:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_param_mem_attr.v:18:1: Compile module "t".
 [INF:CP0303] $Source01/t_param_mem_attr.v:34:1: Compile module "memory".
-[ERR:EL0535] $Source01/t_param_mem_attr.v:26:14: Illegal implicit net "id:41, name:words".
-[ERR:EL0535] $Source01/t_param_mem_attr.v:28:27: Illegal implicit net "id:56, name:mem".
-[ERR:EL0535] $Source01/t_param_mem_attr.v:29:27: Illegal implicit net "id:73, name:mem".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -293,7 +290,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_mem_attr.v
       vpiPreprocFile: "$Output/lib/work/t_param_mem_attr.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_param_mem_attr.v start:18:1 end:30:10:
       vpiParent: Design name:unnamed
@@ -362,7 +358,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:memory
             vpiName: memory
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -377,6 +373,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
         Net name:ctrl start:23:16 end:23:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:23:9 end:23:15:
@@ -400,7 +397,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:20:4 end:20:7:
+          vpiLowConn RefObj name:clk start:22:10 end:22:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -552,6 +549,16 @@ Design name:unnamed:
         vpiParent: Module name:memory
         vpiName: memory
       vpiFullName: memory
+      vpiVariable (1 items):
+        Variable name:mem start:39:20 end:39:23:
+          vpiParent: Module name:memory
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: memory.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: memory.mem
+          vpiVector: true
       vpiParameter (2 items):
         Parameter name:words start:37:14 end:37:19:
           vpiParent: Module name:memory
@@ -681,13 +688,13 @@ Design name:unnamed:
             vpiFullName: memory
             vpiActual: LogicTypespec
       vpiDefName: memory
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memory
         vpiName: work
         vpiFullName: memory.work
       vpiCell: memory
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:35:10 end:35:13:
           vpiParent: Module name:memory
           vpiTypespec RefTypespec start:35:10 end:35:10:
@@ -696,20 +703,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memory.clk
-        Net name:mem start:39:20 end:39:23:
-          vpiParent: Module name:memory
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: memory.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: memory.mem
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:34:16 end:34:19:
           vpiParent: Module name:memory
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:34:16 end:34:19:
+          vpiLowConn RefObj name:clk start:35:10 end:35:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memory.clk.clk
@@ -737,7 +737,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

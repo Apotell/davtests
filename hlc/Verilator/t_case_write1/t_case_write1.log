@@ -498,7 +498,6 @@ Design name:unnamed:
         SourceFile name:verilated.v file:$Source01/verilated.v start:6:1 end:6:23:
           vpiParent: SourceFile name:t_case_write1.v
           vpiName: verilated.v
-          vpiDefNetType: none (12)
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:STRINGIFY start:8:1 end:8:27:
           vpiParent: SourceFile name:t_case_write1.v
@@ -547,7 +546,6 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"`TEST_OBJ_DIR\" start:8:22 end:8:37":
             vpiParent: PreprocMacroInstance name:STRINGIFY
             vpiName: "\"`TEST_OBJ_DIR\""
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_case_write1.v start:10:1 end:47:10:
       vpiParent: Design name:unnamed
@@ -555,6 +553,40 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (4 items):
+        Variable name:crc start:17:15 end:17:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:17:4 end:17:14:
+            vpiParent: Variable name:crc
+            vpiFullName: t.crc
+            vpiActual: LogicTypespec
+          vpiName: crc
+          vpiFullName: t.crc
+          vpiVector: true
+        Variable name:fd start:18:12 end:18:14:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:18:4 end:18:11:
+            vpiParent: Variable name:fd
+            vpiFullName: t.fd
+            vpiActual: IntegerTypespec
+          vpiName: fd
+          vpiFullName: t.fd
+        Variable name:fdtmp start:19:12 end:19:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:19:4 end:19:11:
+            vpiParent: Variable name:fdtmp
+            vpiFullName: t.fdtmp
+            vpiActual: IntegerTypespec
+          vpiName: fdtmp
+          vpiFullName: t.fdtmp
+        Variable name:cyc start:23:12 end:23:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:23:4 end:23:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -593,13 +625,13 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:t_case_write1_tasks
             vpiName: t_case_write1_tasks
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:clk start:15:10 end:15:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:10 end:15:10:
@@ -608,44 +640,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:crc start:17:15 end:17:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:17:4 end:17:14:
-            vpiParent: Net name:crc
-            vpiFullName: t.crc
-            vpiActual: LogicTypespec
-          vpiName: crc
-          vpiFullName: t.crc
-        Net name:fd start:18:12 end:18:14:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:18:4 end:18:11:
-            vpiParent: Net name:fd
-            vpiFullName: t.fd
-            vpiActual: IntegerTypespec
-          vpiName: fd
-          vpiFullName: t.fd
-        Net name:fdtmp start:19:12 end:19:17:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:19:4 end:19:11:
-            vpiParent: Net name:fdtmp
-            vpiFullName: t.fdtmp
-            vpiActual: IntegerTypespec
-          vpiName: fdtmp
-          vpiFullName: t.fdtmp
-        Net name:cyc start:23:12 end:23:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:23:4 end:23:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:12:4 end:12:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:12:4 end:12:7:
+          vpiLowConn RefObj name:clk start:15:10 end:15:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -664,7 +665,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:23:29 end:23:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -702,7 +703,7 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$fwrite
                       vpiName: fd
                       vpiFullName: t.fd
-                      vpiActual: Net name:fd
+                      vpiActual: Variable name:fd
                     Constant start:26:19 end:26:34:
                       vpiParent: SysFuncCall name:$fwrite
                       vpiTypespec RefTypespec:
@@ -717,12 +718,12 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$fwrite
                       vpiName: cyc
                       vpiFullName: t.cyc
-                      vpiActual: Net name:cyc
+                      vpiActual: Variable name:cyc
                     RefObj name:crc start:26:41 end:26:44:
                       vpiParent: SysFuncCall name:$fwrite
                       vpiName: crc
                       vpiFullName: t.crc
-                      vpiActual: Net name:crc
+                      vpiActual: Variable name:crc
                 HierPath name:tasks.big_case(fd, crc[31:0]) start:27:7 end:27:35:
                   vpiParent: Begin
                   vpiName: tasks.big_case(fd, crc[31:0])
@@ -743,7 +744,7 @@ Design name:unnamed:
                           vpiParent: SubroutineCall name:big_case
                           vpiName: fd
                           vpiFullName: t.tasks.big_case(fd, crc[31:0]).big_case.fd
-                          vpiActual: Net name:fd
+                          vpiActual: Variable name:fd
                         PartSelect name:crc[31:0] start:27:26 end:27:35:
                           vpiParent: SubroutineCall name:big_case
                           vpiName: crc[31:0]
@@ -752,7 +753,7 @@ Design name:unnamed:
                             vpiParent: PartSelect name:crc[31:0]
                             vpiName: crc
                             vpiFullName: t.tasks.big_case(fd, crc[31:0]).big_case.crc[31:0].crc
-                            vpiActual: Net name:crc
+                            vpiActual: Variable name:crc
                           vpiRange Range start:27:30 end:27:34:
                             vpiParent: PartSelect name:crc[31:0]
                             vpiLeftRange Constant start:27:30 end:27:32:
@@ -785,7 +786,7 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$fwrite
                       vpiName: fd
                       vpiFullName: t.fd
-                      vpiActual: Net name:fd
+                      vpiActual: Variable name:fd
                     Constant start:28:19 end:28:23:
                       vpiParent: SysFuncCall name:$fwrite
                       vpiTypespec RefTypespec:
@@ -820,7 +821,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:33:14 end:33:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -829,7 +830,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:33:20 end:33:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -846,7 +847,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: crc
                     vpiFullName: t.crc
-                    vpiActual: Net name:crc
+                    vpiActual: Variable name:crc
                   vpiRhs Operation start:34:14 end:34:48:
                     vpiParent: Assignment
                     vpiOpType: concatenation (33)
@@ -859,7 +860,7 @@ Design name:unnamed:
                           vpiParent: PartSelect name:crc[62:0]
                           vpiName: crc
                           vpiFullName: t.crc[62:0].crc
-                          vpiActual: Net name:crc
+                          vpiActual: Variable name:crc
                         vpiRange Range start:34:19 end:34:23:
                           vpiParent: PartSelect name:crc[62:0]
                           vpiLeftRange Constant start:34:19 end:34:21:
@@ -898,7 +899,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:crc[63]
                                   vpiName: crc
                                   vpiFullName: t.crc
-                                  vpiActual: Net name:crc
+                                  vpiActual: Variable name:crc
                                 vpiIndex Constant start:34:30 end:34:32:
                                   vpiParent: BitSelect name:crc[63]
                                   vpiTypespec RefTypespec:
@@ -917,7 +918,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:crc[2]
                                   vpiName: crc
                                   vpiFullName: t.crc
-                                  vpiActual: Net name:crc
+                                  vpiActual: Variable name:crc
                                 vpiIndex Constant start:34:38 end:34:39:
                                   vpiParent: BitSelect name:crc[2]
                                   vpiTypespec RefTypespec:
@@ -936,7 +937,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:crc[0]
                               vpiName: crc
                               vpiFullName: t.crc
-                              vpiActual: Net name:crc
+                              vpiActual: Variable name:crc
                             vpiIndex Constant start:34:45 end:34:46:
                               vpiParent: BitSelect name:crc[0]
                               vpiTypespec RefTypespec:
@@ -957,7 +958,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:35:16 end:35:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -978,7 +979,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: crc
                           vpiFullName: t.crc
-                          vpiActual: Net name:crc
+                          vpiActual: Variable name:crc
                         vpiRhs Constant start:36:17 end:36:38:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -1046,7 +1047,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: fdtmp
                           vpiFullName: t.fdtmp
-                          vpiActual: Net name:fdtmp
+                          vpiActual: Variable name:fdtmp
                         vpiRhs SysFuncCall name:$fopen start:38:18 end:38:87:
                           vpiParent: Assignment
                           vpiName Identifier name:$fopen start:38:18 end:38:24:
@@ -1093,12 +1094,12 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: fd
                           vpiFullName: t.fd
-                          vpiActual: Net name:fd
+                          vpiActual: Variable name:fd
                         vpiRhs RefObj name:fdtmp start:39:16 end:39:21:
                           vpiParent: Assignment
                           vpiName: fdtmp
                           vpiFullName: t.fdtmp
-                          vpiActual: Net name:fdtmp
+                          vpiActual: Variable name:fdtmp
                 IfStmt start:41:7 end:44:10:
                   vpiParent: Begin
                   vpiCondition Operation start:41:11 end:41:18:
@@ -1109,7 +1110,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:41:16 end:41:18:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:

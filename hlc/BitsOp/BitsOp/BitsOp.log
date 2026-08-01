@@ -15,12 +15,9 @@ COMMAND: -wd ../../../tests/BitsOp -fileunit -writepp -d db -sv dut.sv -nobuilti
 [INF:CP0301] $Source01/dut.sv:65:1: Compile package "flash_ctrl_pkg".
 [INF:CP0303] $Source01/dut.sv:75:1: Compile module "dut".
 [INF:CP0303] $Source01/dut.sv:104:1: Compile module "dmi_jtag".
-[ERR:EL0535] $Source01/dut.sv:86:59: Illegal implicit net "id:436, name:tl_h2d_t".
-[ERR:EL0535] $Source01/dut.sv:88:23: Illegal implicit net "id:450, name:a_source".
-[ERR:EL0535] $Source01/dut.sv:89:23: Illegal implicit net "id:466, name:a_size".
-[ERR:EL0535] $Source01/dut.sv:119:9: Illegal implicit net "id:575, name:shift_dr".
-[ERR:EL0535] $Source01/dut.sv:120:11: Illegal implicit net "id:577, name:dmi_access".
-[ERR:EL0535] $Source01/dut.sv:121:17: Illegal implicit net "id:580, name:dmi_tdi".
+[WRN:CP0350] $Source01/dut.sv:86:59: Failed to bind "id:436, name:tl_h2d_t".
+[WRN:CP0350] $Source01/dut.sv:88:23: Failed to bind "id:450, name:a_source".
+[WRN:CP0350] $Source01/dut.sv:89:23: Failed to bind "id:466, name:a_size".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top_pkg".
 [WRN:PA0205] $Source01/dut.sv:22:1: No timescale set for "tlul_pkg".
 [WRN:PA0205] $Source01/dut.sv:48:1: No timescale set for "hmac_pkg".
@@ -35,7 +32,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (4 items):
     Package name:top_pkg file:$Source01/dut.sv start:1:1 end:20:13:
       vpiParent: Design name:unnamed
@@ -520,7 +516,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Package name:top_pkg
       vpiDefName: top_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:top_pkg
         vpiName: work
@@ -912,7 +908,7 @@ Design name:unnamed:
             vpiFullName: tlul_pkg::tl_h2d_t
             vpiActual: StructTypespec
       vpiDefName: tlul_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:tlul_pkg
         vpiName: work
@@ -1158,7 +1154,7 @@ Design name:unnamed:
             vpiFullName: hmac_pkg::sha_word_t
             vpiActual: LogicTypespec
       vpiDefName: hmac_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:hmac_pkg
         vpiName: work
@@ -1255,7 +1251,7 @@ Design name:unnamed:
             vpiFullName: flash_ctrl_pkg::sha_word_t
             vpiActual: LogicTypespec
       vpiDefName: flash_ctrl_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:flash_ctrl_pkg
         vpiName: work
@@ -1268,7 +1264,25 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
-      vpiVariable (1 items):
+      vpiVariable (3 items):
+        Variable name:err_source start:88:38 end:88:48:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:88:3 end:88:37:
+            vpiParent: Variable name:err_source
+            vpiFullName: dut.err_source
+            vpiActual: LogicTypespec
+          vpiName: err_source
+          vpiFullName: dut.err_source
+          vpiVector: true
+        Variable name:err_size start:89:38 end:89:46:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:89:3 end:89:35:
+            vpiParent: Variable name:err_size
+            vpiFullName: dut.err_size
+            vpiActual: LogicTypespec
+          vpiName: err_size
+          vpiFullName: dut.err_size
+          vpiVector: true
         Variable name:b start:98:10 end:98:11:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec name:MyBits start:98:3 end:98:9:
@@ -1278,7 +1292,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:MyBits
           vpiName: b
           vpiFullName: dut.b
-          vpiNetType: none (12)
       vpiParameter (6 items):
         Parameter name:WordByte start:78:18 end:78:26:
           vpiParent: Module name:dut
@@ -1718,13 +1731,13 @@ Design name:unnamed:
             vpiFullName: dut.MyBits
             vpiActual: BitTypespec
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:tl_h_i start:75:39 end:75:45:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec name:tl_h2d_t start:75:30 end:75:38:
@@ -1735,30 +1748,15 @@ Design name:unnamed:
           vpiName: tl_h_i
           vpiFullName: dut.tl_h_i
           vpiNetType: wire (1)
-        Net name:err_source start:88:38 end:88:48:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:88:3 end:88:37:
-            vpiParent: Net name:err_source
-            vpiFullName: dut.err_source
-            vpiActual: LogicTypespec
-          vpiName: err_source
-          vpiFullName: dut.err_source
-        Net name:err_size start:89:38 end:89:46:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:89:3 end:89:35:
-            vpiParent: Net name:err_size
-            vpiFullName: dut.err_size
-            vpiActual: LogicTypespec
-          vpiName: err_size
-          vpiFullName: dut.err_size
       vpiPort (1 items):
         Port name:tl_h_i start:75:39 end:75:45:
           vpiParent: Module name:dut
           vpiName: tl_h_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:75:39 end:75:45:
+          vpiLowConn RefObj name:tl_h_i start:75:39 end:75:45:
             vpiParent: Port name:tl_h_i
-            vpiFullName: dut.tl_h_i
+            vpiName: tl_h_i
+            vpiFullName: dut.tl_h_i.tl_h_i
             vpiActual: Net name:tl_h_i
           vpiTypespec RefTypespec name:tl_h2d_t start:75:30 end:75:38:
             vpiParent: Port name:tl_h_i
@@ -1771,6 +1769,34 @@ Design name:unnamed:
         vpiParent: Module name:dmi_jtag
         vpiName: dmi_jtag
       vpiFullName: dmi_jtag
+      vpiVariable (3 items):
+        Variable name:dr_d start:112:28 end:112:32:
+          vpiParent: Module name:dmi_jtag
+          vpiTypespec RefTypespec start:112:3 end:112:27:
+            vpiParent: Variable name:dr_d
+            vpiFullName: dmi_jtag.dr_d
+            vpiActual: LogicTypespec
+          vpiName: dr_d
+          vpiFullName: dmi_jtag.dr_d
+          vpiVector: true
+        Variable name:dr_q start:112:34 end:112:38:
+          vpiParent: Module name:dmi_jtag
+          vpiTypespec RefTypespec start:112:3 end:112:27:
+            vpiParent: Variable name:dr_q
+            vpiFullName: dmi_jtag.dr_q
+            vpiActual: LogicTypespec
+          vpiName: dr_q
+          vpiFullName: dmi_jtag.dr_q
+          vpiVector: true
+        Variable name:dmi start:114:10 end:114:13:
+          vpiParent: Module name:dmi_jtag
+          vpiTypespec RefTypespec name:dmi_t start:114:3 end:114:8:
+            vpiParent: Variable name:dmi
+            vpiName: dmi_t
+            vpiFullName: dmi_jtag.dmi.dmi_t
+            vpiActual: TypedefTypespec name:dmi_t
+          vpiName: dmi
+          vpiFullName: dmi_jtag.dmi
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:dmi_jtag
@@ -1926,38 +1952,12 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: dmi_jtag
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dmi_jtag
         vpiName: work
         vpiFullName: dmi_jtag.work
       vpiCell: dmi_jtag
-      vpiNet (3 items):
-        Net name:dr_d start:112:28 end:112:32:
-          vpiParent: Module name:dmi_jtag
-          vpiTypespec RefTypespec start:112:3 end:112:27:
-            vpiParent: Net name:dr_d
-            vpiFullName: dmi_jtag.dr_d
-            vpiActual: LogicTypespec
-          vpiName: dr_d
-          vpiFullName: dmi_jtag.dr_d
-        Net name:dr_q start:112:34 end:112:38:
-          vpiParent: Module name:dmi_jtag
-          vpiTypespec RefTypespec start:112:3 end:112:27:
-            vpiParent: Net name:dr_q
-            vpiFullName: dmi_jtag.dr_q
-            vpiActual: LogicTypespec
-          vpiName: dr_q
-          vpiFullName: dmi_jtag.dr_q
-        Net name:dmi start:114:10 end:114:13:
-          vpiParent: Module name:dmi_jtag
-          vpiTypespec RefTypespec name:dmi_t start:114:3 end:114:8:
-            vpiParent: Net name:dmi
-            vpiName: dmi_t
-            vpiFullName: dmi_jtag.dmi.dmi_t
-            vpiActual: TypedefTypespec name:dmi_t
-          vpiName: dmi
-          vpiFullName: dmi_jtag.dmi
       vpiProcess (1 items):
         Always start:117:3 end:125:6:
           vpiParent: Module name:dmi_jtag
@@ -1995,7 +1995,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: dr_d
                               vpiFullName: dmi_jtag.p_shift.dr_d
-                              vpiActual: Net name:dr_d
+                              vpiActual: Variable name:dr_d
                             vpiRhs Operation start:121:16 end:121:48:
                               vpiParent: Assignment
                               vpiOpType: concatenation (33)
@@ -2012,7 +2012,7 @@ Design name:unnamed:
                                     vpiParent: PartSelect name:dr_q[$bits(dr_q)-1:1]
                                     vpiName: dr_q
                                     vpiFullName: dmi_jtag.p_shift.dr_q[$bits(dr_q)-1:1].dr_q
-                                    vpiActual: Net name:dr_q
+                                    vpiActual: Variable name:dr_q
                                   vpiRange Range start:121:31 end:121:46:
                                     vpiParent: PartSelect name:dr_q[$bits(dr_q)-1:1]
                                     vpiLeftRange Operation start:121:31 end:121:44:
@@ -2029,7 +2029,7 @@ Design name:unnamed:
                                               vpiParent: SysFuncCall name:$bits
                                               vpiName: dr_q
                                               vpiFullName: dmi_jtag.p_shift.dr_q[$bits(dr_q)-1:1].dr_q
-                                              vpiActual: Net name:dr_q
+                                              vpiActual: Variable name:dr_q
                                         Constant start:121:43 end:121:44:
                                           vpiParent: Operation
                                           vpiTypespec RefTypespec:
@@ -2058,7 +2058,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: dmi
             vpiFullName: dmi_jtag.dmi
-            vpiActual: Net name:dmi
+            vpiActual: Variable name:dmi
           vpiRhs Operation start:115:25 end:115:37:
             vpiParent: ContAssign
             vpiTypespec RefTypespec name:dmi_t start:115:25 end:115:30:
@@ -2072,7 +2072,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: dr_q
                 vpiFullName: dmi_jtag.dr_q
-                vpiActual: Net name:dr_q
+                vpiActual: Variable name:dr_q
       vpiEndLabel Identifier name:dmi_jtag start:127:13 end:127:21:
         vpiParent: Module name:dmi_jtag
         vpiName: dmi_jtag
@@ -2097,8 +2097,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 6
+[  ERROR] : 0
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -474,9 +474,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_func_const2_bad.v:17:1: Compile module "c9".
 [INF:CP0303] $Source01/t_func_const2_bad.v:25:1: Compile module "b8".
 [INF:CP0303] $Source01/t_func_const2_bad.v:35:1: Compile module "t".
-[ERR:EL0535] $Source01/t_func_const2_bad.v:30:7: Illegal implicit net "id:145, name:B".
-[ERR:EL0535] $Source01/t_func_const2_bad.v:42:10: Illegal implicit net "id:192, name:A".
-[ERR:EL0535] $Source01/t_func_const2_bad.v:43:10: Illegal implicit net "id:201, name:A".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -486,7 +483,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_func_const2_bad.v
       vpiPreprocFile: "$Output/lib/work/t_func_const2_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:c9 file:$Source01/t_func_const2_bad.v start:17:1 end:23:10:
       vpiParent: Design name:unnamed
@@ -593,7 +589,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:c9
       vpiDefName: c9
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:c9
         vpiName: work
@@ -605,6 +601,16 @@ Design name:unnamed:
         vpiParent: Module name:b8
         vpiName: b8
       vpiFullName: b8
+      vpiVariable (1 items):
+        Variable name:c9 start:31:4 end:31:6:
+          vpiParent: Module name:b8
+          vpiTypespec RefTypespec name:c9 start:28:4 end:30:13:
+            vpiParent: Variable name:c9
+            vpiName: c9
+            vpiFullName: b8.c9.c9
+            vpiActual: ModuleTypespec name:c9
+          vpiName: c9
+          vpiFullName: b8.c9
       vpiParameter (1 items):
         Parameter name:A start:26:16 end:26:17:
           vpiParent: Module name:b8
@@ -636,29 +642,19 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:b8
       vpiDefName: b8
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:b8
         vpiName: work
         vpiFullName: b8.work
       vpiCell: b8
-      vpiNet (1 items):
-        Net name:c9 start:31:4 end:31:6:
-          vpiParent: Module name:b8
-          vpiTypespec RefTypespec name:c9 start:28:4 end:30:13:
-            vpiParent: Net name:c9
-            vpiName: c9
-            vpiFullName: b8.c9.c9
-            vpiActual: ModuleTypespec name:c9
-          vpiName: c9
-          vpiFullName: b8.c9
     Module name:t file:$Source01/t_func_const2_bad.v start:35:1 end:50:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:35:8 end:35:9:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:b8 start:41:7 end:41:9:
           vpiParent: Module name:t
           vpiTypespec RefTypespec name:b8 start:41:4 end:41:6:
@@ -668,7 +664,24 @@ Design name:unnamed:
             vpiActual: ModuleTypespec name:b8
           vpiName: b8
           vpiFullName: t.b8
-          vpiNetType: none (12)
+        Variable name:b8_a6 start:42:17 end:42:22:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:b8 start:42:4 end:42:16:
+            vpiParent: Variable name:b8_a6
+            vpiName: b8
+            vpiFullName: t.b8_a6.b8
+            vpiActual: ModuleTypespec name:b8
+          vpiName: b8_a6
+          vpiFullName: t.b8_a6
+        Variable name:b8_a7 start:43:17 end:43:22:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:b8 start:43:4 end:43:16:
+            vpiParent: Variable name:b8_a7
+            vpiName: b8
+            vpiFullName: t.b8_a7.b8
+            vpiActual: ModuleTypespec name:b8
+          vpiName: b8_a7
+          vpiFullName: t.b8_a7
       vpiParameter (2 items):
         Parameter name:P6 start:37:15 end:37:17:
           vpiParent: Module name:t
@@ -788,31 +801,12 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
-        Net name:b8_a6 start:42:17 end:42:22:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:b8 start:42:4 end:42:16:
-            vpiParent: Net name:b8_a6
-            vpiName: b8
-            vpiFullName: t.b8_a6.b8
-            vpiActual: ModuleTypespec name:b8
-          vpiName: b8_a6
-          vpiFullName: t.b8_a6
-        Net name:b8_a7 start:43:17 end:43:22:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:b8 start:43:4 end:43:16:
-            vpiParent: Net name:b8_a7
-            vpiName: b8
-            vpiFullName: t.b8_a7.b8
-            vpiActual: ModuleTypespec name:b8
-          vpiName: b8_a7
-          vpiFullName: t.b8_a7
       vpiProcess (1 items):
         Initial start:45:4 end:49:7:
           vpiParent: Module name:t
@@ -1178,7 +1172,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

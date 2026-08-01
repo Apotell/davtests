@@ -619,7 +619,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:40:1: Compile module "top".
 [INF:CP0304] $Source01/top.v:47:1: Compile interface "mem_if".
 [INF:CP0303] $Source01/top.v:57:1: Compile module "memory_ctrl1".
-[ERR:EL0535] $Source01/top.v:57:42: Illegal implicit net "id:215, name:system".
+[ERR:LN0813] $Source01/top.v:1:1: Found 1 orphan node(s).
 [WRN:PA0205] $Source01/top.v:3:1: No timescale set for "tb_operators".
 [WRN:PA0205] $Source01/top.v:40:1: No timescale set for "top".
 [WRN:PA0205] $Source01/top.v:57:1: No timescale set for "memory_ctrl1".
@@ -632,7 +632,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
   vpiAllClasses (1 items):
     ClassDefn name:DD2 file:$Source01/top.v start:54:1 end:55:9:
       vpiParent: Design name:unnamed
@@ -654,25 +653,25 @@ Design name:unnamed:
         vpiParent: Interface name:mem_if
         vpiName: mem_if
       vpiFullName: mem_if
-      vpiVariable (1 items):
-        Variable name:clk start:47:30 end:47:33:
-          vpiParent: Interface name:mem_if
-          vpiTypespec RefTypespec start:47:19 end:47:29:
-            vpiParent: Variable name:clk
-            vpiFullName: mem_if.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: mem_if.clk
-          vpiNetType: wire (1)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:mem_if
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:mem_if
         vpiName: work
         vpiFullName: mem_if.work
       vpiCell: mem_if
+      vpiNet (1 items):
+        Net name:clk start:47:30 end:47:33:
+          vpiParent: Interface name:mem_if
+          vpiTypespec RefTypespec start:47:19 end:47:29:
+            vpiParent: Net name:clk
+            vpiFullName: mem_if.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: mem_if.clk
+          vpiNetType: wire (1)
       vpiModport (2 items):
         Modport name:system start:49:12 end:49:18:
           vpiParent: Interface name:mem_if
@@ -707,10 +706,11 @@ Design name:unnamed:
           vpiParent: Interface name:mem_if
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:47:30 end:47:33:
+          vpiLowConn RefObj name:clk start:47:30 end:47:33:
             vpiParent: Port name:clk
-            vpiFullName: mem_if.clk
-            vpiActual: Variable name:clk
+            vpiName: clk
+            vpiFullName: mem_if.clk.clk
+            vpiActual: Net name:clk
           vpiTypespec RefTypespec start:47:19 end:47:29:
             vpiParent: Port name:clk
             vpiFullName: mem_if.clk
@@ -776,7 +776,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: tb_operators
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tb_operators
         vpiName: work
@@ -1287,11 +1287,21 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:o start:42:5 end:42:6:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:42:1 end:42:4:
+            vpiParent: Variable name:o
+            vpiFullName: top.o
+            vpiActual: LogicTypespec
+          vpiName: o
+          vpiFullName: top.o
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -1321,9 +1331,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:40:19 end:40:20:
+          vpiLowConn RefObj name:i start:40:19 end:40:20:
             vpiParent: Port name:i
-            vpiFullName: top.i
+            vpiName: i
+            vpiFullName: top.i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec start:40:13 end:40:18:
             vpiParent: Port name:i
@@ -1333,9 +1344,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:40:29 end:40:30:
+          vpiLowConn RefObj name:o start:40:29 end:40:30:
             vpiParent: Port name:o
-            vpiFullName: top.o
+            vpiName: o
+            vpiFullName: top.o.o
             vpiActual: Net name:o
           vpiTypespec RefTypespec start:40:22 end:40:28:
             vpiParent: Port name:o
@@ -1360,7 +1372,7 @@ Design name:unnamed:
         vpiParent: Module name:memory_ctrl1
         vpiName: memory_ctrl1
       vpiFullName: memory_ctrl1
-      vpiVariable (2 items):
+      vpiVariable (3 items):
         Variable name:toto1 start:59:5 end:59:10:
           vpiParent: Module name:memory_ctrl1
           vpiTypespec RefTypespec name:DD1 start:59:1 end:59:4:
@@ -1369,7 +1381,6 @@ Design name:unnamed:
             vpiFullName: memory_ctrl1.toto1.DD1
           vpiName: toto1
           vpiFullName: memory_ctrl1.toto1
-          vpiNetType: none (12)
         Variable name:toto2 start:61:5 end:61:10:
           vpiParent: Module name:memory_ctrl1
           vpiTypespec RefTypespec name:DD2 start:61:1 end:61:4:
@@ -1379,33 +1390,26 @@ Design name:unnamed:
             vpiActual: ClassTypespec name:DD2
           vpiName: toto2
           vpiFullName: memory_ctrl1.toto2
-          vpiNetType: none (12)
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:mem_if::system start:57:35 end:57:48:
+        Variable name:o1 start:65:5 end:65:7:
           vpiParent: Module name:memory_ctrl1
-          vpiPathElem (2 items):
-            RefObj name:mem_if start:57:35 end:57:41:
-              vpiParent: UnsupportedTypespec name:mem_if::system
-              vpiName: mem_if
-              vpiFullName: memory_ctrl1.mem_if::system.mem_if
-              vpiActual: Interface name:mem_if
-            RefObj name:system start:57:42 end:57:48:
-              vpiParent: UnsupportedTypespec name:mem_if::system
-              vpiName: system
-              vpiFullName: memory_ctrl1.mem_if::system.system
-          vpiName Identifier name:mem_if::system:
-            vpiParent: UnsupportedTypespec name:mem_if::system
-            vpiName: mem_if::system
+          vpiTypespec RefTypespec start:65:1 end:65:4:
+            vpiParent: Variable name:o1
+            vpiFullName: memory_ctrl1.o1
+            vpiActual: LogicTypespec
+          vpiName: o1
+          vpiFullName: memory_ctrl1.o1
+          vpiScalar: true
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:memory_ctrl1
       vpiDefName: memory_ctrl1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memory_ctrl1
         vpiName: work
         vpiFullName: memory_ctrl1.work
       vpiCell: memory_ctrl1
-      vpiNet (4 items):
+      vpiNet (2 items):
         Net name:sif1 start:57:29 end:57:33:
           vpiParent: Module name:memory_ctrl1
           vpiTypespec RefTypespec name:mem_if start:57:22 end:57:28:
@@ -1416,15 +1420,6 @@ Design name:unnamed:
           vpiName: sif1
           vpiFullName: memory_ctrl1.sif1
           vpiNetType: wire (1)
-        Net name:sif2 start:57:49 end:57:53:
-          vpiParent: Module name:memory_ctrl1
-          vpiTypespec RefTypespec start:57:35 end:57:48:
-            vpiParent: Net name:sif2
-            vpiFullName: memory_ctrl1.sif2
-            vpiActual: UnsupportedTypespec name:mem_if::system
-          vpiName: sif2
-          vpiFullName: memory_ctrl1.sif2
-          vpiNetType: wire (1)
         Net name:i1 start:63:6 end:63:8:
           vpiParent: Module name:memory_ctrl1
           vpiTypespec RefTypespec start:63:6 end:63:6:
@@ -1434,22 +1429,15 @@ Design name:unnamed:
           vpiName: i1
           vpiFullName: memory_ctrl1.i1
           vpiNetType: wire (1)
-        Net name:o1 start:65:5 end:65:7:
-          vpiParent: Module name:memory_ctrl1
-          vpiTypespec RefTypespec start:65:1 end:65:4:
-            vpiParent: Net name:o1
-            vpiFullName: memory_ctrl1.o1
-            vpiActual: LogicTypespec
-          vpiName: o1
-          vpiFullName: memory_ctrl1.o1
       vpiPort (2 items):
         Port name:sif1 start:57:29 end:57:33:
           vpiParent: Module name:memory_ctrl1
           vpiName: sif1
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:57:29 end:57:33:
+          vpiLowConn RefObj name:sif1 start:57:29 end:57:33:
             vpiParent: Port name:sif1
-            vpiFullName: memory_ctrl1.sif1
+            vpiName: sif1
+            vpiFullName: memory_ctrl1.sif1.sif1
             vpiActual: Net name:sif1
           vpiTypespec RefTypespec name:mem_if start:57:22 end:57:28:
             vpiParent: Port name:sif1
@@ -1460,14 +1448,6 @@ Design name:unnamed:
           vpiParent: Module name:memory_ctrl1
           vpiName: sif2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:57:49 end:57:53:
-            vpiParent: Port name:sif2
-            vpiFullName: memory_ctrl1.sif2
-            vpiActual: Net name:sif2
-          vpiTypespec RefTypespec start:57:35 end:57:48:
-            vpiParent: Port name:sif2
-            vpiFullName: memory_ctrl1.sif2
-            vpiActual: UnsupportedTypespec name:mem_if::system
   vpiTypespec (8 items):
     ModuleTypespec name:tb_operators:
       vpiParent: Design name:unnamed
@@ -1525,25 +1505,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UnitTest/UnitTest/mounts.json
 
 
-{'result': {'coverage': 99.78,
+{'result': {'coverage': 98.44,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.v': {'post_len': 2,
+            'files': {'$Output/lib/work/top.v': {'post_len': 14,
                                                  'pre_len': 895}},
-            'post_len': 2,
+            'post_len': 14,
             'pre_len': 895,
             'test_name': 'UnitTest/UnitTest'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/top.v |      895 |         2 |
+| $Output/lib/work/top.v |      895 |        14 |
 +========================+==========+===========+
-|                        |      895 |         2 |
+|                        |      895 |        14 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.78
+[COVERAGE] : 98.44
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1555,9 +1535,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      16       2         6
 Operation                           16      12       0         4
-RefTypespec                         38      34       2         6
+RefTypespec                         37      33       2         6
 ----------------------------------------------------------------
-Others                             135     135       0         0
+Others                             130     130       0         0
 ----------------------------------------------------------------
-                                   209     197       4        16
+                                   203     191       4        16
 ===================== END REDUCTION RESULT =====================

@@ -478,6 +478,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/adffs.v:12:1: Compile module "adffn".
 [INF:CP0303] $Source01/adffs.v:23:1: Compile module "dffs".
 [INF:CP0303] $Source01/adffs.v:34:1: Compile module "ndffnr".
+[ERR:LN0813] $Source01/adffs.v:1:1: Found 10 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -487,7 +488,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: adffs.v
       vpiPreprocFile: "$Output/lib/work/adffs.v"
-      vpiDefNetType: none (12)
   vpiAllModules (4 items):
     Module name:adff file:$Source01/adffs.v start:1:1 end:10:10:
       vpiParent: Design name:unnamed
@@ -504,20 +504,19 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: adff.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:adff
         BitTypespec:
           vpiParent: Module name:adff
       vpiDefName: adff
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:adff
         vpiName: work
         vpiFullName: adff.work
       vpiCell: adff
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:d start:1:20 end:1:21:
           vpiParent: Module name:adff
           vpiTypespec RefTypespec start:1:14 end:1:19:
@@ -527,32 +526,15 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: adff.d
           vpiNetType: wire (1)
-        Net name:clk start:1:23 end:1:26:
-          vpiParent: Module name:adff
-          vpiTypespec RefTypespec start:1:23 end:1:23:
-            vpiParent: Net name:clk
-            vpiFullName: adff.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: adff.clk
-          vpiNetType: wire (1)
-        Net name:clr start:1:28 end:1:31:
-          vpiParent: Module name:adff
-          vpiTypespec RefTypespec start:1:28 end:1:28:
-            vpiParent: Net name:clr
-            vpiFullName: adff.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: adff.clr
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:d start:1:20 end:1:21:
           vpiParent: Module name:adff
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:20 end:1:21:
+          vpiLowConn RefObj name:d start:1:20 end:1:21:
             vpiParent: Port name:d
-            vpiFullName: adff.d
+            vpiName: d
+            vpiFullName: adff.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:1:14 end:1:19:
             vpiParent: Port name:d
@@ -562,33 +544,18 @@ Design name:unnamed:
           vpiParent: Module name:adff
           vpiName: clk
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:23 end:1:26:
-            vpiParent: Port name:clk
-            vpiFullName: adff.clk
-            vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:1:23 end:1:23:
-            vpiParent: Port name:clk
-            vpiFullName: adff.clk
-            vpiActual: LogicTypespec
         Port name:clr start:1:28 end:1:31:
           vpiParent: Module name:adff
           vpiName: clr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:28 end:1:31:
-            vpiParent: Port name:clr
-            vpiFullName: adff.clr
-            vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:1:28 end:1:28:
-            vpiParent: Port name:clr
-            vpiFullName: adff.clr
-            vpiActual: LogicTypespec
         Port name:q start:1:44 end:1:45:
           vpiParent: Module name:adff
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:44 end:1:45:
+          vpiLowConn RefObj name:q start:1:44 end:1:45:
             vpiParent: Port name:q
-            vpiFullName: adff.q
+            vpiName: q
+            vpiFullName: adff.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:1:33 end:1:43:
             vpiParent: Port name:q
@@ -635,7 +602,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: clk
                       vpiFullName: adff.clk
-                      vpiActual: Net name:clk
+                      vpiActual: Port name:clk
                 Operation start:5:27 end:5:38:
                   vpiParent: Operation
                   vpiOpType: posedge (39)
@@ -644,14 +611,14 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: clr
                       vpiFullName: adff.clr
-                      vpiActual: Net name:clr
+                      vpiActual: Port name:clr
             vpiStmt IfElse start:6:7 end:9:16:
               vpiParent: EventControl
               vpiCondition RefObj name:clr start:6:12 end:6:15:
                 vpiParent: IfElse
                 vpiName: clr
                 vpiFullName: adff.clr
-                vpiActual: Net name:clr
+                vpiActual: Port name:clr
               vpiStmt Assignment start:7:9 end:7:18:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:7:9 end:7:10:
@@ -697,20 +664,19 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: adffn.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:adffn
         BitTypespec:
           vpiParent: Module name:adffn
       vpiDefName: adffn
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:adffn
         vpiName: work
         vpiFullName: adffn.work
       vpiCell: adffn
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:d start:12:21 end:12:22:
           vpiParent: Module name:adffn
           vpiTypespec RefTypespec start:12:15 end:12:20:
@@ -720,32 +686,15 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: adffn.d
           vpiNetType: wire (1)
-        Net name:clk start:12:24 end:12:27:
-          vpiParent: Module name:adffn
-          vpiTypespec RefTypespec start:12:24 end:12:24:
-            vpiParent: Net name:clk
-            vpiFullName: adffn.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: adffn.clk
-          vpiNetType: wire (1)
-        Net name:clr start:12:29 end:12:32:
-          vpiParent: Module name:adffn
-          vpiTypespec RefTypespec start:12:29 end:12:29:
-            vpiParent: Net name:clr
-            vpiFullName: adffn.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: adffn.clr
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:d start:12:21 end:12:22:
           vpiParent: Module name:adffn
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:12:21 end:12:22:
+          vpiLowConn RefObj name:d start:12:21 end:12:22:
             vpiParent: Port name:d
-            vpiFullName: adffn.d
+            vpiName: d
+            vpiFullName: adffn.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:12:15 end:12:20:
             vpiParent: Port name:d
@@ -755,33 +704,18 @@ Design name:unnamed:
           vpiParent: Module name:adffn
           vpiName: clk
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:12:24 end:12:27:
-            vpiParent: Port name:clk
-            vpiFullName: adffn.clk
-            vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:12:24 end:12:24:
-            vpiParent: Port name:clk
-            vpiFullName: adffn.clk
-            vpiActual: LogicTypespec
         Port name:clr start:12:29 end:12:32:
           vpiParent: Module name:adffn
           vpiName: clr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:12:29 end:12:32:
-            vpiParent: Port name:clr
-            vpiFullName: adffn.clr
-            vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:12:29 end:12:29:
-            vpiParent: Port name:clr
-            vpiFullName: adffn.clr
-            vpiActual: LogicTypespec
         Port name:q start:12:45 end:12:46:
           vpiParent: Module name:adffn
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:12:45 end:12:46:
+          vpiLowConn RefObj name:q start:12:45 end:12:46:
             vpiParent: Port name:q
-            vpiFullName: adffn.q
+            vpiName: q
+            vpiFullName: adffn.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:12:34 end:12:44:
             vpiParent: Port name:q
@@ -828,7 +762,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: clk
                       vpiFullName: adffn.clk
-                      vpiActual: Net name:clk
+                      vpiActual: Port name:clk
                 Operation start:16:27 end:16:38:
                   vpiParent: Operation
                   vpiOpType: negedge (40)
@@ -837,7 +771,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: clr
                       vpiFullName: adffn.clr
-                      vpiActual: Net name:clr
+                      vpiActual: Port name:clr
             vpiStmt IfElse start:17:5 end:20:16:
               vpiParent: EventControl
               vpiCondition Operation start:17:10 end:17:14:
@@ -848,7 +782,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clr
                     vpiFullName: adffn.clr
-                    vpiActual: Net name:clr
+                    vpiActual: Port name:clr
               vpiStmt Assignment start:18:6 end:18:15:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:18:6 end:18:7:
@@ -894,20 +828,19 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: dffs.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dffs
         BitTypespec:
           vpiParent: Module name:dffs
       vpiDefName: dffs
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dffs
         vpiName: work
         vpiFullName: dffs.work
       vpiCell: dffs
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:d start:23:20 end:23:21:
           vpiParent: Module name:dffs
           vpiTypespec RefTypespec start:23:14 end:23:19:
@@ -917,41 +850,15 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: dffs.d
           vpiNetType: wire (1)
-        Net name:clk start:23:23 end:23:26:
-          vpiParent: Module name:dffs
-          vpiTypespec RefTypespec start:23:23 end:23:23:
-            vpiParent: Net name:clk
-            vpiFullName: dffs.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: dffs.clk
-          vpiNetType: wire (1)
-        Net name:pre start:23:28 end:23:31:
-          vpiParent: Module name:dffs
-          vpiTypespec RefTypespec start:23:28 end:23:28:
-            vpiParent: Net name:pre
-            vpiFullName: dffs.pre
-            vpiActual: LogicTypespec
-          vpiName: pre
-          vpiFullName: dffs.pre
-          vpiNetType: wire (1)
-        Net name:clr start:23:33 end:23:36:
-          vpiParent: Module name:dffs
-          vpiTypespec RefTypespec start:23:33 end:23:33:
-            vpiParent: Net name:clr
-            vpiFullName: dffs.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: dffs.clr
-          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:d start:23:20 end:23:21:
           vpiParent: Module name:dffs
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:23:20 end:23:21:
+          vpiLowConn RefObj name:d start:23:20 end:23:21:
             vpiParent: Port name:d
-            vpiFullName: dffs.d
+            vpiName: d
+            vpiFullName: dffs.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:23:14 end:23:19:
             vpiParent: Port name:d
@@ -961,45 +868,22 @@ Design name:unnamed:
           vpiParent: Module name:dffs
           vpiName: clk
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:23:23 end:23:26:
-            vpiParent: Port name:clk
-            vpiFullName: dffs.clk
-            vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:23:23 end:23:23:
-            vpiParent: Port name:clk
-            vpiFullName: dffs.clk
-            vpiActual: LogicTypespec
         Port name:pre start:23:28 end:23:31:
           vpiParent: Module name:dffs
           vpiName: pre
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:23:28 end:23:31:
-            vpiParent: Port name:pre
-            vpiFullName: dffs.pre
-            vpiActual: Net name:pre
-          vpiTypespec RefTypespec start:23:28 end:23:28:
-            vpiParent: Port name:pre
-            vpiFullName: dffs.pre
-            vpiActual: LogicTypespec
         Port name:clr start:23:33 end:23:36:
           vpiParent: Module name:dffs
           vpiName: clr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:23:33 end:23:36:
-            vpiParent: Port name:clr
-            vpiFullName: dffs.clr
-            vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:23:33 end:23:33:
-            vpiParent: Port name:clr
-            vpiFullName: dffs.clr
-            vpiActual: LogicTypespec
         Port name:q start:23:49 end:23:50:
           vpiParent: Module name:dffs
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:23:49 end:23:50:
+          vpiLowConn RefObj name:q start:23:49 end:23:50:
             vpiParent: Port name:q
-            vpiFullName: dffs.q
+            vpiName: q
+            vpiFullName: dffs.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:23:38 end:23:48:
             vpiParent: Port name:q
@@ -1042,14 +926,14 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: dffs.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Port name:clk
             vpiStmt IfElse start:28:7 end:31:16:
               vpiParent: EventControl
               vpiCondition RefObj name:pre start:28:12 end:28:15:
                 vpiParent: IfElse
                 vpiName: pre
                 vpiFullName: dffs.pre
-                vpiActual: Net name:pre
+                vpiActual: Port name:pre
               vpiStmt Assignment start:29:9 end:29:18:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:29:9 end:29:10:
@@ -1095,20 +979,19 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: ndffnr.q
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:ndffnr
         BitTypespec:
           vpiParent: Module name:ndffnr
       vpiDefName: ndffnr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:ndffnr
         vpiName: work
         vpiFullName: ndffnr.work
       vpiCell: ndffnr
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:d start:34:22 end:34:23:
           vpiParent: Module name:ndffnr
           vpiTypespec RefTypespec start:34:16 end:34:21:
@@ -1118,41 +1001,15 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: ndffnr.d
           vpiNetType: wire (1)
-        Net name:clk start:34:25 end:34:28:
-          vpiParent: Module name:ndffnr
-          vpiTypespec RefTypespec start:34:25 end:34:25:
-            vpiParent: Net name:clk
-            vpiFullName: ndffnr.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: ndffnr.clk
-          vpiNetType: wire (1)
-        Net name:pre start:34:30 end:34:33:
-          vpiParent: Module name:ndffnr
-          vpiTypespec RefTypespec start:34:30 end:34:30:
-            vpiParent: Net name:pre
-            vpiFullName: ndffnr.pre
-            vpiActual: LogicTypespec
-          vpiName: pre
-          vpiFullName: ndffnr.pre
-          vpiNetType: wire (1)
-        Net name:clr start:34:35 end:34:38:
-          vpiParent: Module name:ndffnr
-          vpiTypespec RefTypespec start:34:35 end:34:35:
-            vpiParent: Net name:clr
-            vpiFullName: ndffnr.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: ndffnr.clr
-          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:d start:34:22 end:34:23:
           vpiParent: Module name:ndffnr
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:34:22 end:34:23:
+          vpiLowConn RefObj name:d start:34:22 end:34:23:
             vpiParent: Port name:d
-            vpiFullName: ndffnr.d
+            vpiName: d
+            vpiFullName: ndffnr.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:34:16 end:34:21:
             vpiParent: Port name:d
@@ -1162,45 +1019,22 @@ Design name:unnamed:
           vpiParent: Module name:ndffnr
           vpiName: clk
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:34:25 end:34:28:
-            vpiParent: Port name:clk
-            vpiFullName: ndffnr.clk
-            vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:34:25 end:34:25:
-            vpiParent: Port name:clk
-            vpiFullName: ndffnr.clk
-            vpiActual: LogicTypespec
         Port name:pre start:34:30 end:34:33:
           vpiParent: Module name:ndffnr
           vpiName: pre
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:34:30 end:34:33:
-            vpiParent: Port name:pre
-            vpiFullName: ndffnr.pre
-            vpiActual: Net name:pre
-          vpiTypespec RefTypespec start:34:30 end:34:30:
-            vpiParent: Port name:pre
-            vpiFullName: ndffnr.pre
-            vpiActual: LogicTypespec
         Port name:clr start:34:35 end:34:38:
           vpiParent: Module name:ndffnr
           vpiName: clr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:34:35 end:34:38:
-            vpiParent: Port name:clr
-            vpiFullName: ndffnr.clr
-            vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:34:35 end:34:35:
-            vpiParent: Port name:clr
-            vpiFullName: ndffnr.clr
-            vpiActual: LogicTypespec
         Port name:q start:34:51 end:34:52:
           vpiParent: Module name:ndffnr
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:34:51 end:34:52:
+          vpiLowConn RefObj name:q start:34:51 end:34:52:
             vpiParent: Port name:q
-            vpiFullName: ndffnr.q
+            vpiName: q
+            vpiFullName: ndffnr.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:34:40 end:34:50:
             vpiParent: Port name:q
@@ -1243,7 +1077,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: ndffnr.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Port name:clk
             vpiStmt IfElse start:39:7 end:42:16:
               vpiParent: EventControl
               vpiCondition Operation start:39:12 end:39:16:
@@ -1254,7 +1088,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clr
                     vpiFullName: ndffnr.clr
-                    vpiActual: Net name:clr
+                    vpiActual: Port name:clr
               vpiStmt Assignment start:40:9 end:40:18:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:40:9 end:40:10:
@@ -1316,7 +1150,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1361,7 +1195,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/arch/common/adffs/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             205     205       0         0
+Others                             165     165       0         0
 ----------------------------------------------------------------
-                                   205     205       0         0
+                                   165     165       0         0
 ===================== END REDUCTION RESULT =====================

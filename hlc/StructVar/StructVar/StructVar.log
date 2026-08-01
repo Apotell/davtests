@@ -14,7 +14,6 @@ COMMAND: -wd ../../../tests/StructVar -fileunit -writepp -d db dut.sv -nobuiltin
 [INF:CP0303] $Source01/dut.sv:47:1: Compile module "prim_generic_ram_1".
 [INF:CP0335] $Source01/dut.sv:59:41: Compile generate block "g_pmp_csrs".
 [INF:CP0303] $Source01/dut.sv:69:1: Compile module "test".
-[ERR:EL0535] $Source01/dut.sv:61:10: Illegal implicit net "id:275, name:pmp_addr_we".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut1".
 [WRN:PA0205] $Source01/dut.sv:34:1: No timescale set for "dut2".
 [WRN:PA0205] $Source01/dut.sv:47:1: No timescale set for "prim_generic_ram_1".
@@ -27,7 +26,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (4 items):
     Module name:dut1 file:$Source01/dut.sv start:1:1 end:31:10:
       vpiParent: Design name:unnamed
@@ -35,7 +33,7 @@ Design name:unnamed:
         vpiParent: Module name:dut1
         vpiName: dut1
       vpiFullName: dut1
-      vpiVariable (2 items):
+      vpiVariable (5 items):
         Variable name:mem1 start:9:9 end:9:13:
           vpiParent: Module name:dut1
           vpiTypespec RefTypespec name:mem_s start:9:3 end:9:8:
@@ -45,7 +43,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:mem_s
           vpiName: mem1
           vpiFullName: dut1.mem1
-          vpiNetType: none (12)
         Variable name:mem2 start:11:9 end:11:13:
           vpiParent: Module name:dut1
           vpiTypespec RefTypespec:
@@ -54,7 +51,33 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: mem2
           vpiFullName: dut1.mem2
-          vpiNetType: none (12)
+        Variable name:csr_pmp_addr start:26:16 end:26:28:
+          vpiParent: Module name:dut1
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:csr_pmp_addr
+            vpiFullName: dut1.csr_pmp_addr
+            vpiActual: ArrayTypespec
+          vpiName: csr_pmp_addr
+          vpiFullName: dut1.csr_pmp_addr
+          vpiVector: true
+        Variable name:pmp_req_err start:27:16 end:27:27:
+          vpiParent: Module name:dut1
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:pmp_req_err
+            vpiFullName: dut1.pmp_req_err
+            vpiActual: ArrayTypespec
+          vpiName: pmp_req_err
+          vpiFullName: dut1.pmp_req_err
+          vpiScalar: true
+        Variable name:pmp_req_err1 start:28:16 end:28:28:
+          vpiParent: Module name:dut1
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:pmp_req_err1
+            vpiFullName: dut1.pmp_req_err1
+            vpiActual: ArrayTypespec
+          vpiName: pmp_req_err1
+          vpiFullName: dut1.pmp_req_err1
+          vpiScalar: true
       vpiTypespec (19 items):
         BitTypespec:
           vpiParent: Module name:dut1
@@ -445,13 +468,13 @@ Design name:unnamed:
             vpiFullName: dut1
             vpiActual: LogicTypespec
       vpiDefName: dut1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut1
         vpiName: work
         vpiFullName: dut1.work
       vpiCell: dut1
-      vpiNet (6 items):
+      vpiNet (3 items):
         Net name:intf1 start:19:13 end:19:18:
           vpiParent: Module name:dut1
           vpiTypespec RefTypespec name:intf start:19:8 end:19:12:
@@ -480,36 +503,40 @@ Design name:unnamed:
           vpiName: intf3
           vpiFullName: dut1.intf3
           vpiNetType: wire (1)
-        Net name:csr_pmp_addr start:26:16 end:26:28:
-          vpiParent: Module name:dut1
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:csr_pmp_addr
-            vpiFullName: dut1.csr_pmp_addr
-            vpiActual: ArrayTypespec
-          vpiName: csr_pmp_addr
-          vpiFullName: dut1.csr_pmp_addr
-        Net name:pmp_req_err start:27:16 end:27:27:
-          vpiParent: Module name:dut1
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:pmp_req_err
-            vpiFullName: dut1.pmp_req_err
-            vpiActual: ArrayTypespec
-          vpiName: pmp_req_err
-          vpiFullName: dut1.pmp_req_err
-        Net name:pmp_req_err1 start:28:16 end:28:28:
-          vpiParent: Module name:dut1
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:pmp_req_err1
-            vpiFullName: dut1.pmp_req_err1
-            vpiActual: ArrayTypespec
-          vpiName: pmp_req_err1
-          vpiFullName: dut1.pmp_req_err1
     Module name:dut2 file:$Source01/dut.sv start:34:1 end:44:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut2 start:34:8 end:34:12:
         vpiParent: Module name:dut2
         vpiName: dut2
       vpiFullName: dut2
+      vpiVariable (3 items):
+        Variable name:mem start:41:9 end:41:12:
+          vpiParent: Module name:dut2
+          vpiTypespec RefTypespec name:mem_s start:41:3 end:41:8:
+            vpiParent: Variable name:mem
+            vpiName: mem_s
+            vpiFullName: dut2.mem.mem_s
+            vpiActual: TypedefTypespec name:mem_s
+          vpiName: mem
+          vpiFullName: dut2.mem
+        Variable name:memArr start:42:9 end:42:15:
+          vpiParent: Module name:dut2
+          vpiTypespec RefTypespec name:mem_s start:42:3 end:42:8:
+            vpiParent: Variable name:memArr
+            vpiName: mem_s
+            vpiFullName: dut2.memArr.mem_s
+            vpiActual: ArrayTypespec
+          vpiName: memArr
+          vpiFullName: dut2.memArr
+        Variable name:memMulti start:43:9 end:43:17:
+          vpiParent: Module name:dut2
+          vpiTypespec RefTypespec name:mem_s start:43:3 end:43:8:
+            vpiParent: Variable name:memMulti
+            vpiName: mem_s
+            vpiFullName: dut2.memMulti.mem_s
+            vpiActual: ArrayTypespec
+          vpiName: memMulti
+          vpiFullName: dut2.memMulti
       vpiTypespec (7 items):
         BitTypespec:
           vpiParent: Module name:dut2
@@ -662,46 +689,28 @@ Design name:unnamed:
             vpiFullName: dut2.mem_s
             vpiActual: TypedefTypespec name:mem_s
       vpiDefName: dut2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut2
         vpiName: work
         vpiFullName: dut2.work
       vpiCell: dut2
-      vpiNet (3 items):
-        Net name:mem start:41:9 end:41:12:
-          vpiParent: Module name:dut2
-          vpiTypespec RefTypespec name:mem_s start:41:3 end:41:8:
-            vpiParent: Net name:mem
-            vpiName: mem_s
-            vpiFullName: dut2.mem.mem_s
-            vpiActual: TypedefTypespec name:mem_s
-          vpiName: mem
-          vpiFullName: dut2.mem
-        Net name:memArr start:42:9 end:42:15:
-          vpiParent: Module name:dut2
-          vpiTypespec RefTypespec name:mem_s start:42:3 end:42:8:
-            vpiParent: Net name:memArr
-            vpiName: mem_s
-            vpiFullName: dut2.memArr.mem_s
-            vpiActual: ArrayTypespec
-          vpiName: memArr
-          vpiFullName: dut2.memArr
-        Net name:memMulti start:43:9 end:43:17:
-          vpiParent: Module name:dut2
-          vpiTypespec RefTypespec name:mem_s start:43:3 end:43:8:
-            vpiParent: Net name:memMulti
-            vpiName: mem_s
-            vpiFullName: dut2.memMulti.mem_s
-            vpiActual: ArrayTypespec
-          vpiName: memMulti
-          vpiFullName: dut2.memMulti
     Module name:prim_generic_ram_1 file:$Source01/dut.sv start:47:1 end:66:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_generic_ram_1 start:47:8 end:47:26:
         vpiParent: Module name:prim_generic_ram_1
         vpiName: prim_generic_ram_1
       vpiFullName: prim_generic_ram_1
+      vpiVariable (1 items):
+        Variable name:pmp_cfg start:57:17 end:57:24:
+          vpiParent: Module name:prim_generic_ram_1
+          vpiTypespec RefTypespec name:pmp_cfg_t start:57:3 end:57:12:
+            vpiParent: Variable name:pmp_cfg
+            vpiName: pmp_cfg_t
+            vpiFullName: prim_generic_ram_1.pmp_cfg.pmp_cfg_t
+            vpiActual: ArrayTypespec
+          vpiName: pmp_cfg
+          vpiFullName: prim_generic_ram_1.pmp_cfg
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:prim_generic_ram_1
@@ -815,22 +824,12 @@ Design name:unnamed:
             vpiFullName: prim_generic_ram_1.pmp_cfg_t
             vpiActual: TypedefTypespec name:pmp_cfg_t
       vpiDefName: prim_generic_ram_1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:prim_generic_ram_1
         vpiName: work
         vpiFullName: prim_generic_ram_1.work
       vpiCell: prim_generic_ram_1
-      vpiNet (1 items):
-        Net name:pmp_cfg start:57:17 end:57:24:
-          vpiParent: Module name:prim_generic_ram_1
-          vpiTypespec RefTypespec name:pmp_cfg_t start:57:3 end:57:12:
-            vpiParent: Net name:pmp_cfg
-            vpiName: pmp_cfg_t
-            vpiFullName: prim_generic_ram_1.pmp_cfg.pmp_cfg_t
-            vpiActual: ArrayTypespec
-          vpiName: pmp_cfg
-          vpiFullName: prim_generic_ram_1.pmp_cfg
       vpiGenStmt (1 items):
         GenFor start:59:2 end:64:5:
           vpiParent: Module name:prim_generic_ram_1
@@ -917,7 +916,7 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:pmp_cfg[i]
                                 vpiName: pmp_cfg
                                 vpiFullName: prim_generic_ram_1.g_pmp_csrs.pmp_cfg[i].lock.pmp_cfg
-                                vpiActual: Net name:pmp_cfg
+                                vpiActual: Variable name:pmp_cfg
                               vpiIndex RefObj name:i start:61:33 end:61:34:
                                 vpiParent: BitSelect name:pmp_cfg[i]
                                 vpiName: i
@@ -945,7 +944,7 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:pmp_cfg[i + 1]
                                 vpiName: pmp_cfg
                                 vpiFullName: prim_generic_ram_1.g_pmp_csrs.pmp_cfg[i + 1].mode.pmp_cfg
-                                vpiActual: Net name:pmp_cfg
+                                vpiActual: Variable name:pmp_cfg
                               vpiIndex Operation start:62:12 end:62:15:
                                 vpiParent: BitSelect name:pmp_cfg[i + 1]
                                 vpiOpType: add (24)
@@ -998,7 +997,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:prim_generic_ram_1
             vpiName: prim_generic_ram_1
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
@@ -1076,7 +1075,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************

@@ -120,7 +120,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
 [INF:CP0335] $Source01/dut.sv:4:42: Compile generate block "gen_modules".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "ibex_counter".
-[ERR:EL0535] $Source01/dut.sv:5:40: Illegal implicit net "id:40, name:b".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "ibex_counter".
 ====== HLDB =======
@@ -131,7 +130,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:dut file:$Source01/dut.sv start:1:1 end:10:10:
       vpiParent: Design name:unnamed
@@ -139,6 +137,16 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:a start:2:16 end:2:17:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:2:4 end:2:15:
+            vpiParent: Variable name:a
+            vpiFullName: dut.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: dut.a
+          vpiVector: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -167,21 +175,12 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (1 items):
-        Net name:a start:2:16 end:2:17:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:2:4 end:2:15:
-            vpiParent: Net name:a
-            vpiFullName: dut.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: dut.a
       vpiGenStmt (1 items):
         GenFor start:4:4 end:8:7:
           vpiParent: Module name:dut
@@ -270,7 +269,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:a[i]
                         vpiName: a
                         vpiFullName: dut.gen_modules.module_in_genscope.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                       vpiIndex RefObj name:i start:5:44 end:5:45:
                         vpiParent: BitSelect name:a[i]
                         vpiName: i
@@ -286,7 +285,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:ibex_counter
       vpiDefName: ibex_counter
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:ibex_counter
         vpiName: work
@@ -307,9 +306,10 @@ Design name:unnamed:
           vpiParent: Module name:ibex_counter
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:12:33 end:12:34:
+          vpiLowConn RefObj name:b start:12:33 end:12:34:
             vpiParent: Port name:b
-            vpiFullName: ibex_counter.b
+            vpiName: b
+            vpiFullName: ibex_counter.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:12:21 end:12:32:
             vpiParent: Port name:b
@@ -334,7 +334,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

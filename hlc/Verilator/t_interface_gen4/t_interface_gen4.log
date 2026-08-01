@@ -491,14 +491,10 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/t_interface_gen4.v:8:1: Multiply defined typedef "sub".
 [INF:CP0303] $Source01/t_interface_gen4.v:39:1: Compile module "sub".
 [INF:CP0304] $Source01/t_interface_gen4.v:52:1: Compile interface "ifc".
-[ERR:EL0535] $Source01/t_interface_gen4.v:19:18: Illegal implicit net "id:48, name:isub".
-[ERR:EL0535] $Source01/t_interface_gen4.v:20:4: Illegal implicit net "id:53, name:i_value".
-[ERR:EL0535] $Source01/t_interface_gen4.v:21:18: Illegal implicit net "id:64, name:isub".
-[ERR:EL0535] $Source01/t_interface_gen4.v:22:4: Illegal implicit net "id:69, name:i_value".
-[ERR:EL0535] $Source01/t_interface_gen4.v:27:13: Illegal implicit net "id:93, name:MODE".
-[ERR:EL0535] $Source01/t_interface_gen4.v:28:13: Illegal implicit net "id:103, name:MODE".
-[ERR:EL0535] $Source01/t_interface_gen4.v:31:13: Illegal implicit net "id:120, name:i".
-[ERR:EL0535] $Source01/t_interface_gen4.v:32:13: Illegal implicit net "id:130, name:i".
+[WRN:CP0350] $Source01/t_interface_gen4.v:27:13: Failed to bind "id:93, name:MODE".
+[WRN:CP0350] $Source01/t_interface_gen4.v:28:13: Failed to bind "id:103, name:MODE".
+[WRN:CP0350] $Source01/t_interface_gen4.v:31:13: Failed to bind "id:120, name:i".
+[WRN:CP0350] $Source01/t_interface_gen4.v:32:13: Failed to bind "id:130, name:i".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -508,7 +504,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_gen4.v
       vpiPreprocFile: "$Output/lib/work/t_interface_gen4.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:ifc file:$Source01/t_interface_gen4.v start:52:1 end:58:13:
       vpiParent: Design name:unnamed
@@ -558,7 +553,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:ifc
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
         vpiName: work
@@ -571,6 +566,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:14:12 end:14:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:14:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:14:16 end:14:17:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -588,13 +602,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:13:10 end:13:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:10 end:13:10:
@@ -603,30 +617,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:14:12 end:14:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:14:4 end:14:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:14:16 end:14:17:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:10:4 end:10:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:10:4 end:10:7:
+          vpiLowConn RefObj name:clk start:13:10 end:13:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -659,7 +656,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:25:14 end:25:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -668,7 +665,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:25:20 end:25:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -689,7 +686,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:26:16 end:26:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -784,7 +781,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:30:16 end:30:18:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1072,7 +1069,7 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiSigned: true
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -1103,9 +1100,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: isub
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:42:9 end:42:13:
+          vpiLowConn RefObj name:isub start:42:9 end:42:13:
             vpiParent: Port name:isub
-            vpiFullName: sub.isub
+            vpiName: isub
+            vpiFullName: sub.isub.isub
             vpiActual: Net name:isub
           vpiTypespec RefTypespec name:ifc start:42:5 end:42:8:
             vpiParent: Port name:isub
@@ -1116,9 +1114,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: i_value
           vpiDirection: input (1)
-          vpiLowConn RefObj start:43:19 end:43:26:
+          vpiLowConn RefObj name:i_value start:43:19 end:43:26:
             vpiParent: Port name:i_value
-            vpiFullName: sub.i_value
+            vpiName: i_value
+            vpiFullName: sub.i_value.i_value
             vpiActual: Net name:i_value
           vpiTypespec RefTypespec start:43:5 end:43:18:
             vpiParent: Port name:i_value
@@ -1181,8 +1180,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

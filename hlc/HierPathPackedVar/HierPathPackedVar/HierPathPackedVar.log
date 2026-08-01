@@ -271,9 +271,7 @@ n<$Source01/dut.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<27:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "std_cache_pkg".
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "axi_adapter_arbiter".
-[ERR:EL0535] $Source01/dut.sv:22:18: Illegal implicit net "id:124, name:i".
-[ERR:EL0535] $Source01/dut.sv:22:21: Illegal implicit net "id:128, name:req".
-[ERR:EL0535] $Source01/dut.sv:23:21: Illegal implicit net "id:135, name:SERVING".
+[WRN:CP0350] $Source01/dut.sv:22:21: Failed to bind "id:128, name:req".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "std_cache_pkg".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "axi_adapter_arbiter".
 ====== HLDB =======
@@ -284,7 +282,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:std_cache_pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
@@ -536,7 +533,7 @@ Design name:unnamed:
             vpiFullName: std_cache_pkg::bypass_req_t
             vpiActual: StructTypespec
       vpiDefName: std_cache_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:std_cache_pkg
         vpiName: work
@@ -549,6 +546,16 @@ Design name:unnamed:
         vpiParent: Module name:axi_adapter_arbiter
         vpiName: axi_adapter_arbiter
       vpiFullName: axi_adapter_arbiter
+      vpiVariable (1 items):
+        Variable name:state_d start:20:9 end:20:16:
+          vpiParent: Module name:axi_adapter_arbiter
+          vpiTypespec RefTypespec start:20:5 end:20:8:
+            vpiParent: Variable name:state_d
+            vpiFullName: axi_adapter_arbiter.state_d
+            vpiActual: LogicTypespec
+          vpiName: state_d
+          vpiFullName: axi_adapter_arbiter.state_d
+          vpiScalar: true
       vpiParameter (2 items):
         Parameter name:NR_PORTS start:17:15 end:17:23:
           vpiParent: Module name:axi_adapter_arbiter
@@ -652,13 +659,13 @@ Design name:unnamed:
             vpiActual: TypeParameter name:req_t
         TypeParameter name:req_t:
       vpiDefName: axi_adapter_arbiter
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:axi_adapter_arbiter
         vpiName: work
         vpiFullName: axi_adapter_arbiter.work
       vpiCell: axi_adapter_arbiter
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:req_i start:19:34 end:19:39:
           vpiParent: Module name:axi_adapter_arbiter
           vpiTypespec RefTypespec name:req_t start:19:13 end:19:18:
@@ -669,22 +676,15 @@ Design name:unnamed:
           vpiName: req_i
           vpiFullName: axi_adapter_arbiter.req_i
           vpiNetType: wire (1)
-        Net name:state_d start:20:9 end:20:16:
-          vpiParent: Module name:axi_adapter_arbiter
-          vpiTypespec RefTypespec start:20:5 end:20:8:
-            vpiParent: Net name:state_d
-            vpiFullName: axi_adapter_arbiter.state_d
-            vpiActual: LogicTypespec
-          vpiName: state_d
-          vpiFullName: axi_adapter_arbiter.state_d
       vpiPort (1 items):
         Port name:req_i start:19:34 end:19:39:
           vpiParent: Module name:axi_adapter_arbiter
           vpiName: req_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:19:34 end:19:39:
+          vpiLowConn RefObj name:req_i start:19:34 end:19:39:
             vpiParent: Port name:req_i
-            vpiFullName: axi_adapter_arbiter.req_i
+            vpiName: req_i
+            vpiFullName: axi_adapter_arbiter.req_i.req_i
             vpiActual: Net name:req_i
           vpiTypespec RefTypespec name:req_t start:19:13 end:19:18:
             vpiParent: Port name:req_i
@@ -750,7 +750,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: state_d
                         vpiFullName: axi_adapter_arbiter.state_d
-                        vpiActual: Net name:state_d
+                        vpiActual: Variable name:state_d
                       vpiRhs RefObj name:SERVING start:23:21 end:23:28:
                         vpiParent: Assignment
                         vpiName: SERVING
@@ -769,8 +769,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

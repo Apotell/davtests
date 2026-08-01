@@ -507,8 +507,8 @@ n<$Source01/ldelay1.v> u<493> t<Top_level_rule> c<1> l<24:1> el<68:1>
         n<> u<489> t<ENDMODULE> p<490> l<66:1> el<66:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/ldelay1.v:24:1: Compile module "test".
-[ERR:EL0535] $Source01/ldelay1.v:44:5: Illegal implicit net "id:62, name:error".
-[ERR:EL0535] $Source01/ldelay1.v:63:10: Illegal implicit net "id:204, name:error".
+[WRN:CP0350] $Source01/ldelay1.v:44:5: Failed to bind "id:62, name:error".
+[WRN:CP0350] $Source01/ldelay1.v:63:10: Failed to bind "id:204, name:error".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -518,7 +518,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: ldelay1.v
       vpiPreprocFile: "$Output/lib/work/ldelay1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:test file:$Source01/ldelay1.v start:24:1 end:66:10:
       vpiParent: Design name:unnamed
@@ -526,11 +525,30 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
+      vpiVariable (2 items):
+        Variable name:a start:27:9 end:27:10:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:27:4 end:27:7:
+            vpiParent: Variable name:a
+            vpiFullName: test.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: test.a
+          vpiScalar: true
+        Variable name:b start:27:12 end:27:13:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:27:4 end:27:7:
+            vpiParent: Variable name:b
+            vpiFullName: test.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: test.b
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:test
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
@@ -572,6 +590,7 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: error
                 vpiFullName: test.ok.error
+                vpiScalar: true
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -649,7 +668,7 @@ Design name:unnamed:
                               vpiName: qq
                               vpiFullName: test.ok.qq
                               vpiActual: IODecl name:qq
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:q start:26:9 end:26:10:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:26:9 end:26:9:
@@ -659,22 +678,6 @@ Design name:unnamed:
           vpiName: q
           vpiFullName: test.q
           vpiNetType: wire (1)
-        Net name:a start:27:9 end:27:10:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:27:4 end:27:7:
-            vpiParent: Net name:a
-            vpiFullName: test.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: test.a
-        Net name:b start:27:12 end:27:13:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:27:4 end:27:7:
-            vpiParent: Net name:b
-            vpiFullName: test.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: test.b
       vpiProcess (1 items):
         Initial start:42:4 end:65:9:
           vpiParent: Module name:test
@@ -723,7 +726,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: test.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:46:7 end:46:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -740,7 +743,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b
                   vpiFullName: test.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
                 vpiRhs Constant start:47:7 end:47:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -815,7 +818,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: test.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:50:7 end:50:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -890,7 +893,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: test.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:53:7 end:53:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -936,7 +939,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: test.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:55:7 end:55:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1222,7 +1225,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: a
                 vpiFullName: test.work@and.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
             PrimTerm start:28:18 end:28:19:
               vpiParent: Gate
               vpiDirection: input (1)
@@ -1231,7 +1234,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: b
                 vpiFullName: test.work@and.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -1247,8 +1250,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

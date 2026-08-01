@@ -289,7 +289,7 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/t_interface_star.v:6:1: Multiply defined typedef "counter_ansi".
 [INF:CP0304] $Source01/t_interface_star.v:30:1: Compile interface "counter_io".
 [INF:CP0303] $Source01/t_interface_star.v:34:1: Compile module "counter_ansi".
-[ERR:EL0535] $Source01/t_interface_star.v:23:14: Illegal implicit net "id:65, name:value".
+[WRN:CP0350] $Source01/t_interface_star.v:23:14: Failed to bind "id:65, name:value".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -299,7 +299,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_star.v
       vpiPreprocFile: "$Output/lib/work/t_interface_star.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:counter_io file:$Source01/t_interface_star.v start:30:1 end:32:13:
       vpiParent: Design name:unnamed
@@ -320,7 +319,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:counter_io
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:counter_io
         vpiName: work
@@ -333,6 +332,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:12:12 end:12:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:12:4 end:12:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:12:16 end:12:17:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -350,13 +368,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:counter_ansi
             vpiName: counter_ansi
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -365,30 +383,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:12:12 end:12:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:12:4 end:12:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:12:16 end:12:17:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -421,7 +422,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:21:14 end:21:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -430,7 +431,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:21:20 end:21:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -451,7 +452,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:22:16 end:22:18:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -586,7 +587,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:counter_ansi
       vpiDefName: counter_ansi
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:counter_ansi
         vpiName: work
@@ -617,9 +618,10 @@ Design name:unnamed:
           vpiParent: Module name:counter_ansi
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:36:10 end:36:13:
+          vpiLowConn RefObj name:clk start:36:10 end:36:13:
             vpiParent: Port name:clk
-            vpiFullName: counter_ansi.clk
+            vpiName: clk
+            vpiFullName: counter_ansi.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:36:4 end:36:9:
             vpiParent: Port name:clk
@@ -629,9 +631,10 @@ Design name:unnamed:
           vpiParent: Module name:counter_ansi
           vpiName: c_data
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:37:15 end:37:21:
+          vpiLowConn RefObj name:c_data start:37:15 end:37:21:
             vpiParent: Port name:c_data
-            vpiFullName: counter_ansi.c_data
+            vpiName: c_data
+            vpiFullName: counter_ansi.c_data.c_data
             vpiActual: Net name:c_data
           vpiTypespec RefTypespec name:counter_io start:37:4 end:37:14:
             vpiParent: Port name:c_data
@@ -714,8 +717,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

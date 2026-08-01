@@ -591,8 +591,8 @@ n<$Source01/ldelay3.v> u<576> t<Top_level_rule> c<1> l<24:1> el<79:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/ldelay3.v:26:1: Compile module "test".
 [INF:CP0303] $Source01/ldelay3.v:73:1: Compile module "gate".
-[ERR:EL0535] $Source01/ldelay3.v:46:5: Illegal implicit net "id:67, name:error".
-[ERR:EL0535] $Source01/ldelay3.v:65:10: Illegal implicit net "id:209, name:error".
+[WRN:CP0350] $Source01/ldelay3.v:46:5: Failed to bind "id:67, name:error".
+[WRN:CP0350] $Source01/ldelay3.v:65:10: Failed to bind "id:209, name:error".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -602,7 +602,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: ldelay3.v
       vpiPreprocFile: "$Output/lib/work/ldelay3.v"
-      vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -12
   vpiAllModules (2 items):
@@ -612,6 +611,25 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
+      vpiVariable (2 items):
+        Variable name:a start:29:9 end:29:10:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:29:4 end:29:7:
+            vpiParent: Variable name:a
+            vpiFullName: test.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: test.a
+          vpiScalar: true
+        Variable name:b start:29:12 end:29:13:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:29:4 end:29:7:
+            vpiParent: Variable name:b
+            vpiFullName: test.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: test.b
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -621,7 +639,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:gate
             vpiName: gate
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -10
       vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
@@ -665,6 +683,7 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: error
                 vpiFullName: test.ok.error
+                vpiScalar: true
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -742,7 +761,7 @@ Design name:unnamed:
                               vpiName: qq
                               vpiFullName: test.ok.qq
                               vpiActual: IODecl name:qq
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:q start:28:9 end:28:10:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:28:9 end:28:9:
@@ -752,22 +771,6 @@ Design name:unnamed:
           vpiName: q
           vpiFullName: test.q
           vpiNetType: wire (1)
-        Net name:a start:29:9 end:29:10:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:29:4 end:29:7:
-            vpiParent: Net name:a
-            vpiFullName: test.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: test.a
-        Net name:b start:29:12 end:29:13:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:29:4 end:29:7:
-            vpiParent: Net name:b
-            vpiFullName: test.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: test.b
       vpiProcess (1 items):
         Initial start:44:4 end:67:9:
           vpiParent: Module name:test
@@ -816,7 +819,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: test.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:48:7 end:48:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -833,7 +836,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b
                   vpiFullName: test.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
                 vpiRhs Constant start:49:7 end:49:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -908,7 +911,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: test.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:52:7 end:52:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -983,7 +986,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: test.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:55:7 end:55:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1029,7 +1032,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: test.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:57:7 end:57:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1308,7 +1311,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: a
                 vpiFullName: test.gg.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
             Port start:30:19 end:30:20:
               vpiParent: RefInstance name:gg
               vpiLowConn RefObj:
@@ -1318,7 +1321,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b
                 vpiFullName: test.gg.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
     Module name:gate file:$Source01/ldelay3.v start:73:1 end:78:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:gate start:73:8 end:73:12:
@@ -1329,7 +1332,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:gate
       vpiDefName: gate
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -12
       vpiLibrary RefObj name:work:
@@ -1346,6 +1349,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: gate.q
+          vpiNetType: wire (1)
         Net name:a start:75:11 end:75:12:
           vpiParent: Module name:gate
           vpiTypespec RefTypespec start:75:11 end:75:11:
@@ -1354,6 +1358,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: gate.a
+          vpiNetType: wire (1)
         Net name:b start:75:14 end:75:15:
           vpiParent: Module name:gate
           vpiTypespec RefTypespec start:75:11 end:75:11:
@@ -1362,12 +1367,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: gate.b
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:q start:73:13 end:73:14:
           vpiParent: Module name:gate
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj name:q start:73:13 end:73:14:
+          vpiLowConn RefObj name:q start:74:11 end:74:12:
             vpiParent: Port name:q
             vpiName: q
             vpiFullName: gate.q.q
@@ -1380,7 +1386,7 @@ Design name:unnamed:
           vpiParent: Module name:gate
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:73:16 end:73:17:
+          vpiLowConn RefObj name:a start:75:11 end:75:12:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: gate.a.a
@@ -1393,7 +1399,7 @@ Design name:unnamed:
           vpiParent: Module name:gate
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:73:19 end:73:20:
+          vpiLowConn RefObj name:b start:75:14 end:75:15:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: gate.b.b
@@ -1469,8 +1475,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

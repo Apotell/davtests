@@ -114,9 +114,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "ForNarrowRequest".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "InitializedBlockRAM".
 [INF:CP0335] $Source01/dut.sv:11:20: Compile generate block "body".
-[ERR:EL0535] $Source01/dut.sv:17:15: Illegal implicit net "id:39, name:body".
-[ERR:EL0535] $Source01/dut.sv:17:20: Illegal implicit net "id:40, name:ram".
-[ERR:EL0535] $Source01/dut.sv:17:24: Illegal implicit net "id:41, name:array".
+[WRN:CP0350] $Source01/dut.sv:17:15: Failed to bind "id:39, name:body".
+[WRN:CP0350] $Source01/dut.sv:17:20: Failed to bind "id:40, name:ram".
+[WRN:CP0350] $Source01/dut.sv:17:24: Failed to bind "id:41, name:array".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "ForNarrowRequest".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "InitializedBlockRAM".
 ====== HLDB =======
@@ -127,7 +127,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:ForNarrowRequest file:$Source01/dut.sv start:1:1 end:5:10:
       vpiParent: Design name:unnamed
@@ -135,6 +134,15 @@ Design name:unnamed:
         vpiParent: Module name:ForNarrowRequest
         vpiName: ForNarrowRequest
       vpiFullName: ForNarrowRequest
+      vpiVariable (1 items):
+        Variable name:array start:3:7 end:3:12:
+          vpiParent: Module name:ForNarrowRequest
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:array
+            vpiFullName: ForNarrowRequest.array
+            vpiActual: ArrayTypespec
+          vpiName: array
+          vpiFullName: ForNarrowRequest.array
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:ForNarrowRequest
@@ -160,21 +168,12 @@ Design name:unnamed:
             vpiFullName: ForNarrowRequest
             vpiActual: IntTypespec
       vpiDefName: ForNarrowRequest
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:ForNarrowRequest
         vpiName: work
         vpiFullName: ForNarrowRequest.work
       vpiCell: ForNarrowRequest
-      vpiNet (1 items):
-        Net name:array start:3:7 end:3:12:
-          vpiParent: Module name:ForNarrowRequest
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:array
-            vpiFullName: ForNarrowRequest.array
-            vpiActual: ArrayTypespec
-          vpiName: array
-          vpiFullName: ForNarrowRequest.array
     Module name:InitializedBlockRAM file:$Source01/dut.sv start:8:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:InitializedBlockRAM start:8:8 end:8:27:
@@ -182,7 +181,7 @@ Design name:unnamed:
         vpiName: InitializedBlockRAM
       vpiFullName: InitializedBlockRAM
       vpiDefName: InitializedBlockRAM
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:InitializedBlockRAM
         vpiName: work
@@ -282,8 +281,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -236,7 +236,6 @@ n<$Source01/t_param_local.v> u<221> t<Top_level_rule> c<1> l<6:1> el<29:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_param_local.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_param_local.v:18:1: Compile module "Test".
-[ERR:EL0535] $Source01/t_param_local.v:14:12: Illegal implicit net "id:41, name:C".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -246,7 +245,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_local.v
       vpiPreprocFile: "$Output/lib/work/t_param_local.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_param_local.v start:6:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -313,7 +311,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:Test
             vpiName: Test
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -328,6 +326,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: t.a
+          vpiNetType: wire (1)
         Net name:y start:12:17 end:12:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:12:11 end:12:16:
@@ -336,12 +335,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: t.y
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:8:4 end:8:5:
           vpiParent: Module name:t
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:8:4 end:8:5:
+          vpiLowConn RefObj name:a start:11:16 end:11:17:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: t.a.a
@@ -354,7 +354,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y start:8:7 end:8:8:
+          vpiLowConn RefObj name:y start:12:17 end:12:18:
             vpiParent: Port name:y
             vpiName: y
             vpiFullName: t.y.y
@@ -411,7 +411,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: Test.y
-          vpiNetType: none (12)
       vpiParameter (2 items):
         Parameter name:C start:19:5 end:19:6:
           vpiParent: Module name:Test
@@ -544,7 +543,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: Test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Test
         vpiName: work
@@ -565,9 +564,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:21:19 end:21:20:
+          vpiLowConn RefObj name:a start:21:19 end:21:20:
             vpiParent: Port name:a
-            vpiFullName: Test.a
+            vpiName: a
+            vpiFullName: Test.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:21:5 end:21:18:
             vpiParent: Port name:a
@@ -577,9 +577,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:22:24 end:22:25:
+          vpiLowConn RefObj name:y start:22:24 end:22:25:
             vpiParent: Port name:y
-            vpiFullName: Test.y
+            vpiName: y
+            vpiFullName: Test.y.y
             vpiActual: Variable name:y
           vpiTypespec RefTypespec start:22:5 end:22:23:
             vpiParent: Port name:y
@@ -660,7 +661,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

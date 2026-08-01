@@ -509,7 +509,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2498,7 +2497,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:out start:5:37 end:5:40:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:5 end:5:36:
@@ -2507,7 +2506,24 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: top.out
-          vpiNetType: none (12)
+        Variable name:counter start:8:18 end:8:25:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:8:5 end:8:17:
+            vpiParent: Variable name:counter
+            vpiFullName: top.counter
+            vpiActual: LogicTypespec
+          vpiName: counter
+          vpiFullName: top.counter
+          vpiVector: true
+        Variable name:counter_upd start:9:30 end:9:41:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:9:5 end:9:29:
+            vpiParent: Variable name:counter_upd
+            vpiFullName: top.counter_upd
+            vpiActual: LogicTypespec
+          vpiName: counter_upd
+          vpiFullName: top.counter_upd
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:CounterWidth start:2:19 end:2:31:
           vpiParent: Module name:top
@@ -2635,13 +2651,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clk start:4:17 end:4:20:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:5 end:4:16:
@@ -2651,30 +2667,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: top.clk
           vpiNetType: wire (1)
-        Net name:counter start:8:18 end:8:25:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:8:5 end:8:17:
-            vpiParent: Net name:counter
-            vpiFullName: top.counter
-            vpiActual: LogicTypespec
-          vpiName: counter
-          vpiFullName: top.counter
-        Net name:counter_upd start:9:30 end:9:41:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:9:5 end:9:29:
-            vpiParent: Net name:counter_upd
-            vpiFullName: top.counter_upd
-            vpiActual: LogicTypespec
-          vpiName: counter_upd
-          vpiFullName: top.counter_upd
       vpiPort (2 items):
         Port name:clk start:4:17 end:4:20:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:17 end:4:20:
+          vpiLowConn RefObj name:clk start:4:17 end:4:20:
             vpiParent: Port name:clk
-            vpiFullName: top.clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:4:5 end:4:16:
             vpiParent: Port name:clk
@@ -2684,9 +2685,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:37 end:5:40:
+          vpiLowConn RefObj name:out start:5:37 end:5:40:
             vpiParent: Port name:out
-            vpiFullName: top.out
+            vpiName: out
+            vpiFullName: top.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:5:5 end:5:36:
             vpiParent: Port name:out
@@ -2702,7 +2704,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: counter
               vpiFullName: top.counter
-              vpiActual: Net name:counter
+              vpiActual: Variable name:counter
             vpiRhs Constant start:12:19 end:12:20:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -2740,7 +2742,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: counter_upd
                     vpiFullName: top.counter_upd
-                    vpiActual: Net name:counter_upd
+                    vpiActual: Variable name:counter_upd
                   vpiRhs Operation start:14:23 end:14:80:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -2753,7 +2755,7 @@ Design name:unnamed:
                           vpiParent: PartSelect name:counter[CounterWidth-1:0]
                           vpiName: counter
                           vpiFullName: top.counter[CounterWidth-1:0].counter
-                          vpiActual: Net name:counter
+                          vpiActual: Variable name:counter
                         vpiRange Range start:14:31 end:14:47:
                           vpiParent: PartSelect name:counter[CounterWidth-1:0]
                           vpiLeftRange Operation start:14:31 end:14:45:
@@ -2849,7 +2851,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: counter_upd
             vpiFullName: top.counter_upd
-            vpiActual: Net name:counter_upd
+            vpiActual: Variable name:counter_upd
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed

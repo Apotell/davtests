@@ -92,7 +92,6 @@ n<$Source01/t_var_ref_bad1.v> u<69> t<Top_level_rule> c<1> l<9:1> el<18:10>
                   n<bad_sub_ref> u<60> t<SIMPLE_IDENTIFIER> p<61> l<17:21> el<17:32>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_var_ref_bad1.v:9:1: Compile module "t".
-[ERR:EL0535] $Source01/t_var_ref_bad1.v:13:8: Illegal implicit net "id:16, name:bad_sub_ref".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -102,7 +101,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_var_ref_bad1.v
       vpiPreprocFile: "$Output/lib/work/t_var_ref_bad1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_var_ref_bad1.v start:9:1 end:15:10:
       vpiParent: Design name:unnamed
@@ -110,6 +108,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:bad_parent start:11:8 end:11:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:bit start:11:4 end:11:7:
+            vpiParent: Variable name:bad_parent
+            vpiName: bit
+            vpiFullName: t.bad_parent.bit
+            vpiActual: UnsupportedTypespec name:bit
+          vpiName: bad_parent
+          vpiFullName: t.bad_parent
       vpiTypespec (2 items):
         UnsupportedTypespec name:bit start:11:4 end:11:7:
           vpiParent: Module name:t
@@ -122,22 +130,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:bad_parent start:11:8 end:11:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:bit start:11:4 end:11:7:
-            vpiParent: Net name:bad_parent
-            vpiName: bit
-            vpiFullName: t.bad_parent.bit
-            vpiActual: UnsupportedTypespec name:bit
-          vpiName: bad_parent
-          vpiFullName: t.bad_parent
       vpiRefInstance (1 items):
         RefInstance name:sub start:12:8 end:12:11:
           vpiParent: Module name:t
@@ -158,13 +156,13 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: bad_parent
                 vpiFullName: t.sub.bad_parent
-                vpiActual: Net name:bad_parent
+                vpiActual: Variable name:bad_parent
     Module file:$Source01/t_var_ref_bad1.v start:17:1 end:17:1:
       vpiParent: Design name:unnamed
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
     Module file:$Source01/t_var_ref_bad1.v start:17:1 end:17:7:
       vpiParent: Design name:unnamed
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -183,7 +181,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

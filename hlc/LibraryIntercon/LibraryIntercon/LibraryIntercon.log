@@ -40,9 +40,6 @@ LIB: logicLib
 [INF:CP0303] $Source01/top.sv:1:1: Compile module "top".
 [WRN:CP0334] Colliding compilation unit name: "cmp".
 [WRN:CP0334] Colliding compilation unit name: "driver".
-[ERR:EL0535] $Source01/top.sv:5:25: Illegal implicit net "id:1203, name:aBus".
-[ERR:EL0535] $Source01/top.sv:7:19: Illegal implicit net "id:1219, name:aBus".
-[ERR:EL0535] $Source01/top.sv:7:24: Illegal implicit net "id:1222, name:rst".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/nets.pkg:1:1: No timescale set for "NetsPkg".
 [WRN:PA0205] $Source01/cmp.sv:2:1: No timescale set for "cmp".
@@ -55,32 +52,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: nets.pkg
       vpiPreprocFile: "$Output/lib/work/nets.pkg"
-      vpiDefNetType: none (12)
     SourceFile name:cmp.svr file:$Source01/cmp.svr:
       vpiParent: Design name:unnamed
       vpiName: cmp.svr
       vpiPreprocFile: "$Output/lib/realLib/cmp.svr"
-      vpiDefNetType: none (12)
     SourceFile name:driver.svr file:$Source01/driver.svr:
       vpiParent: Design name:unnamed
       vpiName: driver.svr
       vpiPreprocFile: "$Output/lib/realLib/driver.svr"
-      vpiDefNetType: none (12)
     SourceFile name:cmp.sv file:$Source01/cmp.sv:
       vpiParent: Design name:unnamed
       vpiName: cmp.sv
       vpiPreprocFile: "$Output/lib/logicLib/cmp.sv"
-      vpiDefNetType: none (12)
     SourceFile name:driver.sv file:$Source01/driver.sv:
       vpiParent: Design name:unnamed
       vpiName: driver.sv
       vpiPreprocFile: "$Output/lib/logicLib/driver.sv"
-      vpiDefNetType: none (12)
     SourceFile name:top.sv file:$Source01/top.sv:
       vpiParent: Design name:unnamed
       vpiName: top.sv
       vpiPreprocFile: "$Output/lib/logicLib/top.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1650,8 +1641,9 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:realNet
             vpiFullName: NetsPkg::realNet
             vpiActual: RealTypespec
+          vpiIsNettype: true
       vpiDefName: NetsPkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:NetsPkg
         vpiName: work
@@ -2095,7 +2087,7 @@ Design name:unnamed:
         vpiParent: Module name:cmp
         vpiName: cmp
       vpiFullName: cmp
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:out start:17:2 end:17:5:
           vpiParent: Module name:cmp
           vpiTypespec RefTypespec name:logic start:16:1 end:16:6:
@@ -2105,7 +2097,24 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
           vpiName: out
           vpiFullName: cmp.out
-          vpiNetType: none (12)
+        Variable name:updatePeriod start:20:2 end:20:14:
+          vpiParent: Module name:cmp
+          vpiTypespec RefTypespec start:19:1 end:19:5:
+            vpiParent: Variable name:updatePeriod
+            vpiFullName: cmp.updatePeriod
+            vpiActual: RealTypespec
+          vpiName: updatePeriod
+          vpiFullName: cmp.updatePeriod
+          vpiValue Constant start:20:17 end:20:22:
+            vpiParent: Variable name:updatePeriod
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: cmp.updatePeriod
+              vpiActual: RealTypespec
+            vpiConstType: real (2)
+            vpiSize: 64
+            vpiDecompile: "100.0"
+            vpiValue: 100
       vpiParameter (1 items):
         Parameter name:hyst start:9:2 end:9:6:
           vpiParent: Module name:cmp
@@ -2183,7 +2192,7 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:cmp
       vpiDefName: cmp
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
       vpiLibrary RefObj name:realLib:
@@ -2191,7 +2200,7 @@ Design name:unnamed:
         vpiName: realLib
         vpiFullName: cmp.realLib
       vpiCell: cmp
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:inA start:12:16 end:12:19:
           vpiParent: Module name:cmp
           vpiTypespec RefTypespec name:realNet start:12:2 end:12:9:
@@ -2212,32 +2221,15 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: cmp.rst
           vpiNetType: wire (1)
-        Net name:updatePeriod start:20:2 end:20:14:
-          vpiParent: Module name:cmp
-          vpiTypespec RefTypespec start:19:1 end:19:5:
-            vpiParent: Net name:updatePeriod
-            vpiFullName: cmp.updatePeriod
-            vpiActual: RealTypespec
-          vpiName: updatePeriod
-          vpiFullName: cmp.updatePeriod
-          vpiValue Constant start:20:17 end:20:22:
-            vpiParent: Net name:updatePeriod
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: cmp.updatePeriod
-              vpiActual: RealTypespec
-            vpiConstType: real (2)
-            vpiSize: 64
-            vpiDecompile: "100.0"
-            vpiValue: 100
       vpiPort (3 items):
         Port name:inA start:12:16 end:12:19:
           vpiParent: Module name:cmp
           vpiName: inA
           vpiDirection: input (1)
-          vpiLowConn RefObj start:12:16 end:12:19:
+          vpiLowConn RefObj name:inA start:12:16 end:12:19:
             vpiParent: Port name:inA
-            vpiFullName: cmp.inA
+            vpiName: inA
+            vpiFullName: cmp.inA.inA
             vpiActual: Net name:inA
           vpiTypespec RefTypespec name:realNet start:12:2 end:12:9:
             vpiParent: Port name:inA
@@ -2248,9 +2240,10 @@ Design name:unnamed:
           vpiParent: Module name:cmp
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:14:2 end:14:5:
+          vpiLowConn RefObj name:rst start:14:2 end:14:5:
             vpiParent: Port name:rst
-            vpiFullName: cmp.rst
+            vpiName: rst
+            vpiFullName: cmp.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec name:logic start:13:8 end:13:13:
             vpiParent: Port name:rst
@@ -2261,9 +2254,10 @@ Design name:unnamed:
           vpiParent: Module name:cmp
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:17:2 end:17:5:
+          vpiLowConn RefObj name:out start:17:2 end:17:5:
             vpiParent: Port name:out
-            vpiFullName: cmp.out
+            vpiName: out
+            vpiFullName: cmp.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec name:logic start:16:1 end:16:6:
             vpiParent: Port name:out
@@ -2461,7 +2455,7 @@ Design name:unnamed:
               vpiParent: DelayControl
               vpiName: updatePeriod
               vpiFullName: cmp.updatePeriod
-              vpiActual: Net name:updatePeriod
+              vpiActual: Variable name:updatePeriod
           vpiAlwaysType: always (1)
       vpiEndLabel Identifier name:cmp start:36:4 end:36:7:
         vpiParent: Module name:cmp
@@ -2472,7 +2466,7 @@ Design name:unnamed:
         vpiParent: Module name:driver
         vpiName: driver
       vpiFullName: driver
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:out start:5:30 end:5:33:
           vpiParent: Module name:driver
           vpiTypespec RefTypespec name:realNet start:5:16 end:5:23:
@@ -2482,7 +2476,14 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: out
           vpiFullName: driver.out
-          vpiNetType: none (12)
+        Variable name:outR start:7:6 end:7:10:
+          vpiParent: Module name:driver
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:outR
+            vpiFullName: driver.outR
+            vpiActual: ArrayTypespec
+          vpiName: outR
+          vpiFullName: driver.outR
       vpiParameter (2 items):
         Parameter name:delay start:3:17 end:3:22:
           vpiParent: Module name:driver
@@ -2602,7 +2603,7 @@ Design name:unnamed:
             vpiFullName: driver
             vpiActual: RealTypespec
       vpiDefName: driver
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
       vpiLibrary RefObj name:realLib:
@@ -2610,23 +2611,15 @@ Design name:unnamed:
         vpiName: realLib
         vpiFullName: driver.realLib
       vpiCell: driver
-      vpiNet (1 items):
-        Net name:outR start:7:6 end:7:10:
-          vpiParent: Module name:driver
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:outR
-            vpiFullName: driver.outR
-            vpiActual: ArrayTypespec
-          vpiName: outR
-          vpiFullName: driver.outR
       vpiPort (1 items):
         Port name:out start:5:30 end:5:33:
           vpiParent: Module name:driver
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:30 end:5:33:
+          vpiLowConn RefObj name:out start:5:30 end:5:33:
             vpiParent: Port name:out
-            vpiFullName: driver.out
+            vpiName: out
+            vpiFullName: driver.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec name:realNet start:5:16 end:5:23:
             vpiParent: Port name:out
@@ -2651,7 +2644,7 @@ Design name:unnamed:
                     vpiParent: BitSelect name:outR[0]
                     vpiName: outR
                     vpiFullName: driver.outR
-                    vpiActual: Net name:outR
+                    vpiActual: Variable name:outR
                   vpiIndex Constant start:12:8 end:12:9:
                     vpiParent: BitSelect name:outR[0]
                     vpiTypespec RefTypespec:
@@ -2683,7 +2676,7 @@ Design name:unnamed:
                     vpiParent: BitSelect name:outR[1]
                     vpiName: outR
                     vpiFullName: driver.outR
-                    vpiActual: Net name:outR
+                    vpiActual: Variable name:outR
                   vpiIndex Constant start:13:8 end:13:9:
                     vpiParent: BitSelect name:outR[1]
                     vpiTypespec RefTypespec:
@@ -2771,7 +2764,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:outR[0]
                             vpiName: outR
                             vpiFullName: driver.outR
-                            vpiActual: Net name:outR
+                            vpiActual: Variable name:outR
                           vpiIndex Constant start:16:19 end:16:20:
                             vpiParent: BitSelect name:outR[0]
                             vpiTypespec RefTypespec:
@@ -2794,7 +2787,7 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:outR[0]
                                 vpiName: outR
                                 vpiFullName: driver.outR
-                                vpiActual: Net name:outR
+                                vpiActual: Variable name:outR
                               vpiIndex Constant start:16:19 end:16:20:
                                 vpiParent: BitSelect name:outR[0]
                                 vpiTypespec RefTypespec:
@@ -2831,7 +2824,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:outR[1]
                           vpiName: outR
                           vpiFullName: driver.outR
-                          vpiActual: Net name:outR
+                          vpiActual: Variable name:outR
                         vpiIndex Constant start:17:12 end:17:13:
                           vpiParent: BitSelect name:outR[1]
                           vpiTypespec RefTypespec:
@@ -2854,7 +2847,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:outR[1]
                               vpiName: outR
                               vpiFullName: driver.outR
-                              vpiActual: Net name:outR
+                              vpiActual: Variable name:outR
                             vpiIndex Constant start:17:12 end:17:13:
                               vpiParent: BitSelect name:outR[1]
                               vpiTypespec RefTypespec:
@@ -2887,7 +2880,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: outR
             vpiFullName: driver.outR
-            vpiActual: Net name:outR
+            vpiActual: Variable name:outR
       vpiEndLabel Identifier name:driver start:21:13 end:21:19:
         vpiParent: Module name:driver
         vpiName: driver
@@ -2906,7 +2899,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: cmp.out
-          vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:hyst start:2:29 end:2:33:
           vpiParent: Module name:cmp
@@ -2966,7 +2958,7 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:cmp
       vpiDefName: cmp
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:logicLib:
         vpiParent: Module name:cmp
         vpiName: logicLib
@@ -2996,9 +2988,10 @@ Design name:unnamed:
           vpiParent: Module name:cmp
           vpiName: inA
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:25 end:4:28:
+          vpiLowConn RefObj name:inA start:4:25 end:4:28:
             vpiParent: Port name:inA
-            vpiFullName: cmp.inA
+            vpiName: inA
+            vpiFullName: cmp.inA.inA
             vpiActual: Net name:inA
           vpiTypespec RefTypespec start:4:2 end:4:24:
             vpiParent: Port name:inA
@@ -3008,9 +3001,10 @@ Design name:unnamed:
           vpiParent: Module name:cmp
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:13 end:5:16:
+          vpiLowConn RefObj name:rst start:5:13 end:5:16:
             vpiParent: Port name:rst
-            vpiFullName: cmp.rst
+            vpiName: rst
+            vpiFullName: cmp.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:5:1 end:5:12:
             vpiParent: Port name:rst
@@ -3020,9 +3014,10 @@ Design name:unnamed:
           vpiParent: Module name:cmp
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:8:2 end:8:5:
+          vpiLowConn RefObj name:out start:8:2 end:8:5:
             vpiParent: Port name:out
-            vpiFullName: cmp.out
+            vpiName: out
+            vpiFullName: cmp.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:6:1 end:7:6:
             vpiParent: Port name:out
@@ -3190,7 +3185,7 @@ Design name:unnamed:
         vpiParent: Module name:driver
         vpiName: driver
       vpiFullName: driver
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:out start:13:8 end:13:11:
           vpiParent: Module name:driver
           vpiTypespec RefTypespec start:10:1 end:13:7:
@@ -3199,7 +3194,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: driver.out
-          vpiNetType: none (12)
+        Variable name:outvar start:16:8 end:16:14:
+          vpiParent: Module name:driver
+          vpiTypespec RefTypespec start:15:1 end:16:7:
+            vpiParent: Variable name:outvar
+            vpiFullName: driver.outvar
+            vpiActual: LogicTypespec
+          vpiName: outvar
+          vpiFullName: driver.outvar
+          vpiVector: true
       vpiParameter (2 items):
         Parameter name:delay start:6:2 end:6:7:
           vpiParent: Module name:driver
@@ -3306,7 +3309,7 @@ Design name:unnamed:
                 vpiValue: 1
           vpiVector: true
       vpiDefName: driver
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
       vpiLibrary RefObj name:logicLib:
@@ -3314,23 +3317,15 @@ Design name:unnamed:
         vpiName: logicLib
         vpiFullName: driver.logicLib
       vpiCell: driver
-      vpiNet (1 items):
-        Net name:outvar start:16:8 end:16:14:
-          vpiParent: Module name:driver
-          vpiTypespec RefTypespec start:15:1 end:16:7:
-            vpiParent: Net name:outvar
-            vpiFullName: driver.outvar
-            vpiActual: LogicTypespec
-          vpiName: outvar
-          vpiFullName: driver.outvar
       vpiPort (1 items):
         Port name:out start:13:8 end:13:11:
           vpiParent: Module name:driver
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:13:8 end:13:11:
+          vpiLowConn RefObj name:out start:13:8 end:13:11:
             vpiParent: Port name:out
-            vpiFullName: driver.out
+            vpiName: out
+            vpiFullName: driver.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:10:1 end:13:7:
             vpiParent: Port name:out
@@ -3353,7 +3348,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: outvar
                   vpiFullName: driver.outvar
-                  vpiActual: Net name:outvar
+                  vpiActual: Variable name:outvar
                 vpiRhs Constant start:21:10 end:21:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3424,7 +3419,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: outvar
                         vpiFullName: driver.outvar
-                        vpiActual: Net name:outvar
+                        vpiActual: Variable name:outvar
                   vpiDelay RefObj name:delay start:26:1 end:26:7:
                     vpiParent: DelayControl
                     vpiName: delay
@@ -3442,7 +3437,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: outvar
             vpiFullName: driver.outvar
-            vpiActual: Net name:outvar
+            vpiActual: Variable name:outvar
       vpiEndLabel Identifier name:driver start:29:4 end:29:10:
         vpiParent: Module name:driver
         vpiName: driver
@@ -3452,6 +3447,16 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:dBus start:3:13 end:3:17:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:3:1 end:3:12:
+            vpiParent: Variable name:dBus
+            vpiFullName: top.dBus
+            vpiActual: LogicTypespec
+          vpiName: dBus
+          vpiFullName: top.dBus
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -3588,29 +3593,22 @@ Design name:unnamed:
             vpiFullName: top.cmp
             vpiActual: ModuleTypespec name:cmp
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:logicLib:
         vpiParent: Module name:top
         vpiName: logicLib
         vpiFullName: top.logicLib
       vpiCell: top
-      vpiNet (2 items):
-        Net start:2:26 end:2:30:
+      vpiNet (1 items):
+        Net name:aBus start:2:26 end:2:30:
           vpiParent: Module name:top
           vpiTypespec RefTypespec:
-            vpiParent: Net
-            vpiFullName: top
+            vpiParent: Net name:aBus
+            vpiFullName: top.aBus
             vpiActual: LogicTypespec
-          vpiFullName: top
-          vpiNetType: net (36)
-        Net name:dBus start:3:13 end:3:17:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:3:1 end:3:12:
-            vpiParent: Net name:dBus
-            vpiFullName: top.dBus
-            vpiActual: LogicTypespec
-          vpiName: dBus
-          vpiFullName: top.dBus
+          vpiName: aBus
+          vpiFullName: top.aBus
+          vpiNetType: <<invalid>> (16)
       vpiRefInstance (2 items):
         RefInstance name:driverArray start:5:8 end:5:19:
           vpiParent: Module name:top
@@ -3630,6 +3628,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: aBus
                 vpiFullName: top.driverArray.aBus
+                vpiActual: Net name:aBus
         RefInstance name:cmpArray start:7:5 end:7:13:
           vpiParent: Module name:top
           vpiName: cmpArray
@@ -3648,6 +3647,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: aBus
                 vpiFullName: top.cmpArray.aBus
+                vpiActual: Net name:aBus
             Port start:7:24 end:7:27:
               vpiParent: RefInstance name:cmpArray
               vpiLowConn RefObj:
@@ -3666,7 +3666,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dBus
                 vpiFullName: top.cmpArray.dBus
-                vpiActual: Net name:dBus
+                vpiActual: Variable name:dBus
       vpiEndLabel Identifier name:top start:9:13 end:9:16:
         vpiParent: Module name:top
         vpiName: top
@@ -3808,7 +3808,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************

@@ -219,12 +219,9 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_lint_modport_dir_bad.v:6:1: Compile interface "dummy_if".
 [INF:CP0303] $Source01/t_lint_modport_dir_bad.v:16:1: Compile module "sub".
 [INF:CP0303] $Source01/t_lint_modport_dir_bad.v:30:1: Compile module "t".
-[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:21:13: Illegal implicit net "id:43, name:master".
-[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:22:13: Illegal implicit net "id:52, name:slave".
-[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:25:20: Illegal implicit net "id:61, name:signal".
-[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:26:32: Illegal implicit net "id:67, name:signal".
-[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:45:8: Illegal implicit net "id:95, name:dummy_in".
-[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:46:8: Illegal implicit net "id:98, name:dummy_out".
+[ERR:LN0813] $Source01/t_lint_modport_dir_bad.v:1:1: Found 2 orphan node(s).
+[WRN:CP0350] $Source01/t_lint_modport_dir_bad.v:25:20: Failed to bind "id:53, name:signal".
+[WRN:CP0350] $Source01/t_lint_modport_dir_bad.v:26:32: Failed to bind "id:59, name:signal".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -234,7 +231,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_lint_modport_dir_bad.v
       vpiPreprocFile: "$Output/lib/work/t_lint_modport_dir_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:dummy_if file:$Source01/t_lint_modport_dir_bad.v start:6:1 end:14:23:
       vpiParent: Design name:unnamed
@@ -258,7 +254,7 @@ Design name:unnamed:
           vpiName Identifier name:logic start:7:4 end:7:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:dummy_if
         vpiName: work
@@ -303,47 +299,17 @@ Design name:unnamed:
         vpiParent: Module name:sub
         vpiName: sub
       vpiFullName: sub
-      vpiTypespec (3 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:sub
-        UnsupportedTypespec name:dummy_if::master start:21:4 end:21:19:
-          vpiParent: Module name:sub
-          vpiPathElem (2 items):
-            RefObj name:dummy_if start:21:4 end:21:12:
-              vpiParent: UnsupportedTypespec name:dummy_if::master
-              vpiName: dummy_if
-              vpiFullName: sub.dummy_if::master.dummy_if
-              vpiActual: Interface name:dummy_if
-            RefObj name:master start:21:13 end:21:19:
-              vpiParent: UnsupportedTypespec name:dummy_if::master
-              vpiName: master
-              vpiFullName: sub.dummy_if::master.master
-          vpiName Identifier name:dummy_if::master:
-            vpiParent: UnsupportedTypespec name:dummy_if::master
-            vpiName: dummy_if::master
-        UnsupportedTypespec name:dummy_if::slave start:22:4 end:22:18:
-          vpiParent: Module name:sub
-          vpiPathElem (2 items):
-            RefObj name:dummy_if start:22:4 end:22:12:
-              vpiParent: UnsupportedTypespec name:dummy_if::slave
-              vpiName: dummy_if
-              vpiFullName: sub.dummy_if::slave.dummy_if
-              vpiActual: Interface name:dummy_if
-            RefObj name:slave start:22:13 end:22:18:
-              vpiParent: UnsupportedTypespec name:dummy_if::slave
-              vpiName: slave
-              vpiFullName: sub.dummy_if::slave.slave
-          vpiName Identifier name:dummy_if::slave:
-            vpiParent: UnsupportedTypespec name:dummy_if::slave
-            vpiName: dummy_if::slave
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
         vpiFullName: sub.work
       vpiCell: sub
-      vpiNet (4 items):
+      vpiNet (2 items):
         Net name:signal_i start:18:16 end:18:24:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:18:4 end:18:14:
@@ -362,32 +328,15 @@ Design name:unnamed:
           vpiName: signal_o
           vpiFullName: sub.signal_o
           vpiNetType: wire (1)
-        Net name:dummy_in start:21:20 end:21:28:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:21:4 end:21:19:
-            vpiParent: Net name:dummy_in
-            vpiFullName: sub.dummy_in
-            vpiActual: UnsupportedTypespec name:dummy_if::master
-          vpiName: dummy_in
-          vpiFullName: sub.dummy_in
-          vpiNetType: wire (1)
-        Net name:dummy_out start:22:19 end:22:28:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:22:4 end:22:18:
-            vpiParent: Net name:dummy_out
-            vpiFullName: sub.dummy_out
-            vpiActual: UnsupportedTypespec name:dummy_if::slave
-          vpiName: dummy_out
-          vpiFullName: sub.dummy_out
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:signal_i start:18:16 end:18:24:
           vpiParent: Module name:sub
           vpiName: signal_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:18:16 end:18:24:
+          vpiLowConn RefObj name:signal_i start:18:16 end:18:24:
             vpiParent: Port name:signal_i
-            vpiFullName: sub.signal_i
+            vpiName: signal_i
+            vpiFullName: sub.signal_i.signal_i
             vpiActual: Net name:signal_i
           vpiTypespec RefTypespec start:18:4 end:18:14:
             vpiParent: Port name:signal_i
@@ -397,9 +346,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: signal_o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:19:16 end:19:24:
+          vpiLowConn RefObj name:signal_o start:19:16 end:19:24:
             vpiParent: Port name:signal_o
-            vpiFullName: sub.signal_o
+            vpiName: signal_o
+            vpiFullName: sub.signal_o.signal_o
             vpiActual: Net name:signal_o
           vpiTypespec RefTypespec start:19:4 end:19:15:
             vpiParent: Port name:signal_o
@@ -409,26 +359,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: dummy_in
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:21:20 end:21:28:
-            vpiParent: Port name:dummy_in
-            vpiFullName: sub.dummy_in
-            vpiActual: Net name:dummy_in
-          vpiTypespec RefTypespec start:21:4 end:21:19:
-            vpiParent: Port name:dummy_in
-            vpiFullName: sub.dummy_in
-            vpiActual: UnsupportedTypespec name:dummy_if::master
         Port name:dummy_out start:22:19 end:22:28:
           vpiParent: Module name:sub
           vpiName: dummy_out
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:22:19 end:22:28:
-            vpiParent: Port name:dummy_out
-            vpiFullName: sub.dummy_out
-            vpiActual: Net name:dummy_out
-          vpiTypespec RefTypespec start:22:4 end:22:18:
-            vpiParent: Port name:dummy_out
-            vpiFullName: sub.dummy_out
-            vpiActual: UnsupportedTypespec name:dummy_if::slave
       vpiContAssign (2 items):
         ContAssign start:25:11 end:25:37:
           vpiParent: Module name:sub
@@ -441,7 +375,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:dummy_in.signal
                 vpiName: dummy_in
                 vpiFullName: sub.dummy_in
-                vpiActual: Net name:dummy_in
+                vpiActual: Port name:dummy_in
               RefObj name:signal start:25:20 end:25:26:
                 vpiParent: HierPath name:dummy_in.signal
                 vpiName: signal
@@ -467,7 +401,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:dummy_out.signal
                 vpiName: dummy_out
                 vpiFullName: sub.dummy_out
-                vpiActual: Net name:dummy_out
+                vpiActual: Port name:dummy_out
               RefObj name:signal start:26:32 end:26:38:
                 vpiParent: HierPath name:dummy_out.signal
                 vpiName: signal
@@ -487,21 +421,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
       vpiNet (2 items):
-        Net name:signal_o start:37:11 end:37:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:37:11 end:37:11:
-            vpiParent: Net name:signal_o
-            vpiFullName: t.signal_o
-            vpiActual: LogicTypespec
-          vpiName: signal_o
-          vpiFullName: t.signal_o
         Net name:signal_i start:36:10 end:36:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:36:10 end:36:10:
@@ -510,12 +436,22 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: signal_i
           vpiFullName: t.signal_i
+          vpiNetType: wire (1)
+        Net name:signal_o start:37:11 end:37:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:37:11 end:37:11:
+            vpiParent: Net name:signal_o
+            vpiFullName: t.signal_o
+            vpiActual: LogicTypespec
+          vpiName: signal_o
+          vpiFullName: t.signal_o
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:signal_o start:32:4 end:32:12:
           vpiParent: Module name:t
           vpiName: signal_o
           vpiDirection: output (2)
-          vpiLowConn RefObj name:signal_o start:32:4 end:32:12:
+          vpiLowConn RefObj name:signal_o start:37:11 end:37:19:
             vpiParent: Port name:signal_o
             vpiName: signal_o
             vpiFullName: t.signal_o.signal_o
@@ -528,7 +464,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: signal_i
           vpiDirection: input (1)
-          vpiLowConn RefObj name:signal_i start:34:4 end:34:12:
+          vpiLowConn RefObj name:signal_i start:36:10 end:36:18:
             vpiParent: Port name:signal_i
             vpiName: signal_i
             vpiFullName: t.signal_i.signal_i
@@ -623,8 +559,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -639,25 +575,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_lint_modport_dir_bad/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 93.92,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_lint_modport_dir_bad.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_lint_modport_dir_bad.v': {'post_len': 29,
                                                                     'pre_len': 477}},
-            'post_len': 0,
+            'post_len': 29,
             'pre_len': 477,
             'test_name': 'Verilator/t_lint_modport_dir_bad'}}
 
 +-------------------------------------------+----------+-----------+
 | INPUT                                     |   PRELEN |   POSTLEN |
 +===========================================+==========+===========+
-| $Output/lib/work/t_lint_modport_dir_bad.v |      477 |         0 |
+| $Output/lib/work/t_lint_modport_dir_bad.v |      477 |        29 |
 +===========================================+==========+===========+
-|                                           |      477 |         0 |
+|                                           |      477 |        29 |
 +-------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 93.92
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -668,7 +604,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_modport_dir_bad/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                              82      82       0         0
 ----------------------------------------------------------------
-                                    98      98       0         0
+                                    82      82       0         0
 ===================== END REDUCTION RESULT =====================

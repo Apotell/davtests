@@ -252,18 +252,14 @@ n<$Source01/dut.sv> u<238> t<Top_level_rule> c<1> l<1:1> el<26:1>
         n<> u<234> t<ENDMODULE> p<235> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:3:26: Illegal implicit net "id:20, name:clk".
-[ERR:EL0535] $Source01/dut.sv:18:12: Illegal implicit net "id:109, name:a".
-[ERR:EL0535] $Source01/dut.sv:18:15: Illegal implicit net "id:110, name:b".
-[ERR:EL0535] $Source01/dut.sv:20:22: Illegal implicit net "id:111, name:a".
-[ERR:EL0535] $Source01/dut.sv:21:20: Illegal implicit net "id:125, name:a".
-[ERR:EL0535] $Source01/dut.sv:21:22: Illegal implicit net "id:126, name:a2".
-[ERR:EL0535] $Source01/dut.sv:21:36: Illegal implicit net "id:128, name:b".
-[ERR:EL0535] $Source01/dut.sv:21:38: Illegal implicit net "id:129, name:b2".
-[ERR:EL0535] $Source01/dut.sv:22:20: Illegal implicit net "id:134, name:a".
-[ERR:EL0535] $Source01/dut.sv:22:22: Illegal implicit net "id:135, name:a1".
-[ERR:EL0535] $Source01/dut.sv:22:36: Illegal implicit net "id:137, name:b".
-[ERR:EL0535] $Source01/dut.sv:22:38: Illegal implicit net "id:138, name:b4".
+[WRN:CP0350] $Source01/dut.sv:21:20: Failed to bind "id:125, name:a".
+[WRN:CP0350] $Source01/dut.sv:21:22: Failed to bind "id:126, name:a2".
+[WRN:CP0350] $Source01/dut.sv:21:36: Failed to bind "id:128, name:b".
+[WRN:CP0350] $Source01/dut.sv:21:38: Failed to bind "id:129, name:b2".
+[WRN:CP0350] $Source01/dut.sv:22:20: Failed to bind "id:134, name:a".
+[WRN:CP0350] $Source01/dut.sv:22:22: Failed to bind "id:135, name:a1".
+[WRN:CP0350] $Source01/dut.sv:22:36: Failed to bind "id:137, name:b".
+[WRN:CP0350] $Source01/dut.sv:22:38: Failed to bind "id:138, name:b4".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -273,7 +269,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/dut.sv start:1:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -313,7 +308,7 @@ Design name:unnamed:
                 vpiParent: CoverPoint name:a
                 vpiName: v_a
                 vpiFullName: top.cg.a.v_a
-                vpiActual: Net name:v_a
+                vpiActual: Variable name:v_a
               vpiStmt (4 items):
                 CoverBin name:a1 start:6:3 end:6:23:
                   vpiParent: CoverPoint name:a
@@ -457,7 +452,7 @@ Design name:unnamed:
                 vpiParent: CoverPoint name:b
                 vpiName: v_b
                 vpiFullName: top.cg.b.v_b
-                vpiActual: Net name:v_b
+                vpiActual: Variable name:v_b
               vpiStmt (4 items):
                 CoverBin name:b1 start:13:3 end:13:16:
                   vpiParent: CoverPoint name:b
@@ -707,6 +702,25 @@ Design name:unnamed:
                             vpiParent: HierPath name:b.b4
                             vpiName: b4
                             vpiFullName: top.cg.c.c3.b4
+      vpiVariable (2 items):
+        Variable name:v_a start:2:12 end:2:15:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:2:2 end:2:11:
+            vpiParent: Variable name:v_a
+            vpiFullName: top.v_a
+            vpiActual: BitTypespec
+          vpiName: v_a
+          vpiFullName: top.v_a
+          vpiVector: true
+        Variable name:v_b start:2:17 end:2:20:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:2:2 end:2:11:
+            vpiParent: Variable name:v_b
+            vpiFullName: top.v_b
+            vpiActual: BitTypespec
+          vpiName: v_b
+          vpiFullName: top.v_b
+          vpiVector: true
       vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:top
@@ -737,29 +751,12 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:top
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (2 items):
-        Net name:v_a start:2:12 end:2:15:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:2:2 end:2:11:
-            vpiParent: Net name:v_a
-            vpiFullName: top.v_a
-            vpiActual: BitTypespec
-          vpiName: v_a
-          vpiFullName: top.v_a
-        Net name:v_b start:2:17 end:2:20:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:2:2 end:2:11:
-            vpiParent: Net name:v_b
-            vpiFullName: top.v_b
-            vpiActual: BitTypespec
-          vpiName: v_b
-          vpiFullName: top.v_b
   vpiTypespec (2 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -773,8 +770,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 12
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

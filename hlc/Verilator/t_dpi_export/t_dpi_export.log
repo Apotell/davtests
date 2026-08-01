@@ -1233,8 +1233,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_dpi_export.v:15:1: Compile module "t".
 [WRN:CP0323] $Source01/t_dpi_export.v:15:1: Multiply defined typedef "sub".
 [INF:CP0303] $Source01/t_dpi_export.v:83:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_dpi_export.v:17:12: Illegal implicit net "id:15, name:inst".
-[ERR:EL0535] $Source01/t_dpi_export.v:18:12: Illegal implicit net "id:24, name:inst".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1244,7 +1242,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_dpi_export.v
       vpiPreprocFile: "$Output/lib/work/t_dpi_export.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_dpi_export.v start:15:1 end:81:10:
       vpiParent: Design name:unnamed
@@ -1252,6 +1249,15 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:lineno start:68:8 end:68:14:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:68:4 end:68:7:
+            vpiParent: Variable name:lineno
+            vpiFullName: t.lineno
+            vpiActual: IntTypespec
+          vpiName: lineno
+          vpiFullName: t.lineno
       vpiTypespec (2 items):
         ModuleTypespec name:sub start:17:4 end:17:7:
           vpiParent: Module name:t
@@ -1264,7 +1270,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -2561,15 +2567,6 @@ Design name:unnamed:
             vpiName: dpix_t_time
           vpiFullName: t.dpix_t_time
           vpiDPICStr: <<invalid>> (1)
-      vpiNet (1 items):
-        Net name:lineno start:68:8 end:68:14:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:68:4 end:68:7:
-            vpiParent: Net name:lineno
-            vpiFullName: t.lineno
-            vpiActual: IntTypespec
-          vpiName: lineno
-          vpiFullName: t.lineno
       vpiProcess (1 items):
         Initial start:70:4 end:79:7:
           vpiParent: Module name:t
@@ -2584,7 +2581,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: lineno
                   vpiFullName: t.lineno
-                  vpiActual: Net name:lineno
+                  vpiActual: Variable name:lineno
                 vpiRhs FuncCall name:dpix_run_tests start:71:16 end:71:32:
                   vpiParent: Assignment
                   vpiName Identifier name:dpix_run_tests start:71:16 end:71:30:
@@ -2601,7 +2598,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: lineno
                       vpiFullName: t.lineno
-                      vpiActual: Net name:lineno
+                      vpiActual: Variable name:lineno
                     Operation start:72:21 end:72:23:
                       vpiParent: Operation
                       vpiOpType: minus (1)
@@ -2645,7 +2642,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiName: lineno
                           vpiFullName: t.lineno
-                          vpiActual: Net name:lineno
+                          vpiActual: Variable name:lineno
                     SysTaskCall name:$stop start:74:10 end:74:15:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:74:10 end:74:15:
@@ -2730,7 +2727,7 @@ Design name:unnamed:
         vpiName: sub
       vpiFullName: sub
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -2805,9 +2802,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: inst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:83:23 end:83:27:
+          vpiLowConn RefObj name:inst start:83:23 end:83:27:
             vpiParent: Port name:inst
-            vpiFullName: sub.inst
+            vpiName: inst
+            vpiFullName: sub.inst.inst
             vpiActual: Net name:inst
           vpiTypespec RefTypespec start:83:13 end:83:22:
             vpiParent: Port name:inst
@@ -2844,7 +2842,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

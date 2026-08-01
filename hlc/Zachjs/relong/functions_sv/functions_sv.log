@@ -18,7 +18,7 @@ n<$Source01/relong/functions.sv> u<625> t<Top_level_rule> c<1> l<1:1> el<80:10>
     n<> u<5> t<Description> p<624> c<4> s<16> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<16> t<Description> p<624> c<15> s<50> l<3:1> el<3:33>
       n<> u<15> t<Package_item> p<16> c<14> l<3:1> el<3:33>
         n<> u<14> t<Package_or_generate_item_declaration> p<15> c<13> l<3:1> el<3:33>
@@ -639,12 +639,7 @@ n<$Source01/relong/functions.sv> u<625> t<Top_level_rule> c<1> l<1:1> el<80:10>
         n<> u<621> t<ENDMODULE> p<622> l<80:1> el<80:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/functions.sv:10:1: Compile module "Example".
-[ERR:EL0535] $Source01/relong/functions.sv:27:13: Illegal implicit net "id:95, name:FOO".
-[ERR:EL0535] $Source01/relong/functions.sv:27:25: Illegal implicit net "id:97, name:BAR".
-[ERR:EL0535] $Source01/relong/functions.sv:28:13: Illegal implicit net "id:99, name:BAR".
-[ERR:EL0535] $Source01/relong/functions.sv:28:25: Illegal implicit net "id:101, name:FOO".
-[ERR:EL0535] $Source01/relong/functions.sv:36:22: Illegal implicit net "id:111, name:FOO".
-[ERR:EL0535] $Source01/relong/functions.sv:65:37: Illegal implicit net "id:210, name:FOO".
+[ERR:LN0813] $Source01/relong/functions.sv:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -654,7 +649,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: functions.sv
       vpiPreprocFile: "$Output/lib/work/relong/functions.sv"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:functions.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: functions.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (1 items):
     Module name:Example file:$Source01/relong/functions.sv start:10:1 end:80:10:
       vpiParent: Design name:unnamed
@@ -662,7 +667,23 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (5 items):
+      vpiVariable (8 items):
+        Variable name:clock start:11:17 end:11:22:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:11:5 end:11:16:
+            vpiParent: Variable name:clock
+            vpiFullName: Example.clock
+            vpiActual: LogicTypespec
+          vpiName: clock
+          vpiFullName: Example.clock
+        Variable name:dataIn start:12:23 end:12:29:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:12:5 end:12:22:
+            vpiParent: Variable name:dataIn
+            vpiFullName: Example.dataIn
+            vpiActual: LogicTypespec
+          vpiName: dataIn
+          vpiFullName: Example.dataIn
         Variable name:check1 start:13:18 end:13:24:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:13:5 end:13:17:
@@ -671,7 +692,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: check1
           vpiFullName: Example.check1
-          vpiNetType: none (12)
         Variable name:checkData start:14:25 end:14:34:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:14:5 end:14:24:
@@ -680,7 +700,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: checkData
           vpiFullName: Example.checkData
-          vpiNetType: none (12)
         Variable name:state start:32:13 end:32:18:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec name:State_t start:32:5 end:32:12:
@@ -690,7 +709,15 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:State_t
           vpiName: state
           vpiFullName: Example.state
-          vpiNetType: none (12)
+        Variable name:magicToken start:40:18 end:40:28:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:40:5 end:40:17:
+            vpiParent: Variable name:magicToken
+            vpiFullName: Example.magicToken
+            vpiActual: LogicTypespec
+          vpiName: magicToken
+          vpiFullName: Example.magicToken
+          vpiVector: true
         Variable name:myStruct start:61:16 end:61:24:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec name:MyStruct_t start:61:5 end:61:15:
@@ -700,7 +727,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:MyStruct_t
           vpiName: myStruct
           vpiFullName: Example.myStruct
-          vpiNetType: none (12)
         Variable name:myStruct2 start:70:16 end:70:25:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec name:MyStruct_t start:70:5 end:70:15:
@@ -710,7 +736,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:MyStruct_t
           vpiName: myStruct2
           vpiFullName: Example.myStruct2
-          vpiNetType: none (12)
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:Example
@@ -905,6 +930,7 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: fullData
                 vpiFullName: Example.packStruct.fullData
+                vpiVector: true
               Variable name:nextState start:48:17 end:48:26:
                 vpiParent: Begin
                 vpiTypespec RefTypespec name:State_t start:48:9 end:48:16:
@@ -1003,7 +1029,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: magicToken
                       vpiFullName: Example.packStruct.magicToken
-                      vpiActual: Net name:magicToken
+                      vpiActual: Variable name:magicToken
               Assignment start:54:9 end:54:37:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1111,60 +1137,16 @@ Design name:unnamed:
             vpiParent: Function name:doCheck
             vpiFullName: Example.doCheck
             vpiActual: LogicTypespec
-      vpiNet (5 items):
-        Net name:clock start:11:17 end:11:22:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:11:5 end:11:16:
-            vpiParent: Net name:clock
-            vpiFullName: Example.clock
-            vpiActual: LogicTypespec
-          vpiName: clock
-          vpiFullName: Example.clock
-          vpiNetType: wire (1)
-        Net name:clear start:11:24 end:11:29:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:11:24 end:11:24:
-            vpiParent: Net name:clear
-            vpiFullName: Example.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: Example.clear
-          vpiNetType: wire (1)
-        Net name:dataIn start:12:23 end:12:29:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:12:5 end:12:22:
-            vpiParent: Net name:dataIn
-            vpiFullName: Example.dataIn
-            vpiActual: LogicTypespec
-          vpiName: dataIn
-          vpiFullName: Example.dataIn
-          vpiNetType: wire (1)
-        Net name:check2 start:13:26 end:13:32:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:13:26 end:13:26:
-            vpiParent: Net name:check2
-            vpiFullName: Example.check2
-            vpiActual: LogicTypespec
-          vpiName: check2
-          vpiFullName: Example.check2
-          vpiNetType: wire (1)
-        Net name:magicToken start:40:18 end:40:28:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:40:5 end:40:17:
-            vpiParent: Net name:magicToken
-            vpiFullName: Example.magicToken
-            vpiActual: LogicTypespec
-          vpiName: magicToken
-          vpiFullName: Example.magicToken
       vpiPort (6 items):
         Port name:clock start:11:17 end:11:22:
           vpiParent: Module name:Example
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:11:17 end:11:22:
+          vpiLowConn RefObj name:clock start:11:17 end:11:22:
             vpiParent: Port name:clock
-            vpiFullName: Example.clock
-            vpiActual: Net name:clock
+            vpiName: clock
+            vpiFullName: Example.clock.clock
+            vpiActual: Variable name:clock
           vpiTypespec RefTypespec start:11:5 end:11:16:
             vpiParent: Port name:clock
             vpiFullName: Example.clock
@@ -1173,22 +1155,15 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:11:24 end:11:29:
-            vpiParent: Port name:clear
-            vpiFullName: Example.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:11:24 end:11:24:
-            vpiParent: Port name:clear
-            vpiFullName: Example.clear
-            vpiActual: LogicTypespec
         Port name:dataIn start:12:23 end:12:29:
           vpiParent: Module name:Example
           vpiName: dataIn
           vpiDirection: input (1)
-          vpiLowConn RefObj start:12:23 end:12:29:
+          vpiLowConn RefObj name:dataIn start:12:23 end:12:29:
             vpiParent: Port name:dataIn
-            vpiFullName: Example.dataIn
-            vpiActual: Net name:dataIn
+            vpiName: dataIn
+            vpiFullName: Example.dataIn.dataIn
+            vpiActual: Variable name:dataIn
           vpiTypespec RefTypespec start:12:5 end:12:22:
             vpiParent: Port name:dataIn
             vpiFullName: Example.dataIn
@@ -1197,9 +1172,10 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: check1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:13:18 end:13:24:
+          vpiLowConn RefObj name:check1 start:13:18 end:13:24:
             vpiParent: Port name:check1
-            vpiFullName: Example.check1
+            vpiName: check1
+            vpiFullName: Example.check1.check1
             vpiActual: Variable name:check1
           vpiTypespec RefTypespec start:13:5 end:13:17:
             vpiParent: Port name:check1
@@ -1209,21 +1185,14 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: check2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:13:26 end:13:32:
-            vpiParent: Port name:check2
-            vpiFullName: Example.check2
-            vpiActual: Net name:check2
-          vpiTypespec RefTypespec start:13:26 end:13:26:
-            vpiParent: Port name:check2
-            vpiFullName: Example.check2
-            vpiActual: LogicTypespec
         Port name:checkData start:14:25 end:14:34:
           vpiParent: Module name:Example
           vpiName: checkData
           vpiDirection: output (2)
-          vpiLowConn RefObj start:14:25 end:14:34:
+          vpiLowConn RefObj name:checkData start:14:25 end:14:34:
             vpiParent: Port name:checkData
-            vpiFullName: Example.checkData
+            vpiName: checkData
+            vpiFullName: Example.checkData.checkData
             vpiActual: Variable name:checkData
           vpiTypespec RefTypespec start:14:5 end:14:24:
             vpiParent: Port name:checkData
@@ -1242,14 +1211,14 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clock
                   vpiFullName: Example.clock
-                  vpiActual: Net name:clock
+                  vpiActual: Variable name:clock
             vpiStmt IfElse start:35:9 end:38:39:
               vpiParent: EventControl
               vpiCondition RefObj name:clear start:35:12 end:35:17:
                 vpiParent: IfElse
                 vpiName: clear
                 vpiFullName: Example.clear
-                vpiActual: Net name:clear
+                vpiActual: Port name:clear
               vpiStmt Assignment start:36:13 end:36:25:
                 vpiParent: IfElse
                 vpiLhs RefObj name:state start:36:13 end:36:18:
@@ -1322,7 +1291,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: dataIn
                           vpiFullName: Example.dataIn
-                          vpiActual: Net name:dataIn
+                          vpiActual: Variable name:dataIn
               Assignment start:73:9 end:73:36:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1330,7 +1299,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: check2
                   vpiFullName: Example.check2
-                  vpiActual: Net name:check2
+                  vpiActual: Port name:check2
                 vpiRhs FuncCall name:doCheck start:73:18 end:73:36:
                   vpiParent: Assignment
                   vpiName Identifier name:doCheck start:73:18 end:73:25:
@@ -1351,7 +1320,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: magicToken
             vpiFullName: Example.magicToken
-            vpiActual: Net name:magicToken
+            vpiActual: Variable name:magicToken
           vpiRhs Constant start:41:25 end:41:33:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -1385,7 +1354,7 @@ Design name:unnamed:
                 vpiParent: FuncCall name:packStruct
                 vpiName: dataIn
                 vpiFullName: Example.dataIn
-                vpiActual: Net name:dataIn
+                vpiActual: Variable name:dataIn
         ContAssign start:68:12 end:68:38:
           vpiParent: Module name:Example
           vpiLhs RefObj name:check1 start:68:12 end:68:18:
@@ -1447,6 +1416,8 @@ Design name:unnamed:
                     vpiFullName: Example.data
                     vpiActual: TypespecMember name:data
   vpiTypespec (8 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     EnumTypespec start:3:9 end:3:24:
       vpiParent: Design name:unnamed
       vpiEnumConst (2 items):
@@ -1530,12 +1501,10 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:Example
         vpiName: Example
       vpiModule: Module name:Example
-    IntTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1551,25 +1520,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/functions_sv/mounts.json
 
 
-{'result': {'coverage': 98.07,
+{'result': {'coverage': 99.91,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/functions.sv': {'post_len': 22,
+            'files': {'$Output/lib/work/relong/functions.sv': {'post_len': 1,
                                                                'pre_len': 1142}},
-            'post_len': 22,
+            'post_len': 1,
             'pre_len': 1142,
             'test_name': 'Zachjs/relong/functions_sv'}}
 
 +--------------------------------------+----------+-----------+
 | INPUT                                |   PRELEN |   POSTLEN |
 +======================================+==========+===========+
-| $Output/lib/work/relong/functions.sv |     1142 |        22 |
+| $Output/lib/work/relong/functions.sv |     1142 |         1 |
 +======================================+==========+===========+
-|                                      |     1142 |        22 |
+|                                      |     1142 |         1 |
 +--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.07
+[COVERAGE] : 99.91
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1580,7 +1549,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/functions_sv/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             219     219       0         0
+Others                             214     214       0         0
 ----------------------------------------------------------------
-                                   219     219       0         0
+                                   214     214       0         0
 ===================== END REDUCTION RESULT =====================

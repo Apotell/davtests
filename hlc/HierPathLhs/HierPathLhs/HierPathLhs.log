@@ -163,10 +163,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "alert_handler_reg_wrap".
 [INF:CP0335] $Source01/dut.sv:2:42: Compile generate block "gen_alert_cause".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:3:12: Illegal implicit net "id:26, name:hw2reg".
-[ERR:EL0535] $Source01/dut.sv:3:19: Illegal implicit net "id:30, name:alert_cause".
-[ERR:EL0535] $Source01/dut.sv:3:34: Illegal implicit net "id:31, name:d".
-[ERR:EL0535] $Source01/dut.sv:15:18: Illegal implicit net "id:77, name:x".
+[WRN:CP0350] $Source01/dut.sv:3:12: Failed to bind "id:26, name:hw2reg".
+[WRN:CP0350] $Source01/dut.sv:3:34: Failed to bind "id:31, name:d".
+[WRN:CP0350] $Source01/dut.sv:15:18: Failed to bind "id:77, name:x".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "alert_handler_reg_wrap".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "top".
 ====== HLDB =======
@@ -177,7 +176,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:alert_handler_reg_wrap file:$Source01/dut.sv start:1:1 end:5:10:
       vpiParent: Design name:unnamed
@@ -186,7 +184,7 @@ Design name:unnamed:
         vpiName: alert_handler_reg_wrap
       vpiFullName: alert_handler_reg_wrap
       vpiDefName: alert_handler_reg_wrap
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:alert_handler_reg_wrap
         vpiName: work
@@ -298,6 +296,16 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:a start:13:23 end:13:24:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec name:struct_t start:13:3 end:13:22:
+            vpiParent: Variable name:a
+            vpiName: struct_t
+            vpiFullName: top.a.struct_t
+            vpiActual: ArrayTypespec
+          vpiName: a
+          vpiFullName: top.a
       vpiTypespec (4 items):
         StructTypespec start:9:11 end:11:4:
           vpiParent: Module name:top
@@ -381,22 +389,12 @@ Design name:unnamed:
             vpiFullName: top.struct_t
             vpiActual: TypedefTypespec name:struct_t
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (1 items):
-        Net name:a start:13:23 end:13:24:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec name:struct_t start:13:3 end:13:22:
-            vpiParent: Net name:a
-            vpiName: struct_t
-            vpiFullName: top.a.struct_t
-            vpiActual: ArrayTypespec
-          vpiName: a
-          vpiFullName: top.a
       vpiContAssign (1 items):
         ContAssign start:15:10 end:15:26:
           vpiParent: Module name:top
@@ -421,7 +419,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:a[0]
                       vpiName: a
                       vpiFullName: top.a[0][0].x[0].a[0][0].x.a[0][0].a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     vpiIndex Constant start:15:12 end:15:13:
                       vpiParent: BitSelect name:a[0]
                       vpiTypespec RefTypespec:
@@ -485,8 +483,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -481,8 +481,8 @@ n<$Source01/dut.sv> u<203> t<Top_level_rule> c<1> l<1:1> el<20:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "top_pkg".
 [INF:CP0303] $Source01/dut.sv:11:2: Compile module "dut".
-[ERR:EL0535] $Source01/dut.sv:16:27: Illegal implicit net "id:836, name:PMP_CFG_W".
-[ERR:EL0535] $Source01/dut.sv:17:34: Illegal implicit net "id:845, name:OPCODE_LOAD".
+[WRN:CP0350] $Source01/dut.sv:16:27: Failed to bind "id:836, name:PMP_CFG_W".
+[WRN:CP0350] $Source01/dut.sv:17:34: Failed to bind "id:845, name:OPCODE_LOAD".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top_pkg".
 [WRN:PA0205] $Source01/dut.sv:11:2: No timescale set for "dut".
@@ -494,7 +494,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2155,7 +2154,7 @@ Design name:unnamed:
             vpiFullName: top_pkg::opcode_e
             vpiActual: EnumTypespec
       vpiDefName: top_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:top_pkg
         vpiName: work
@@ -2596,6 +2595,16 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:b start:13:17 end:13:18:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:15:4 end:15:13:
+            vpiParent: Variable name:b
+            vpiFullName: dut.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: dut.b
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -2702,36 +2711,28 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:a start:12:16 end:12:17:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:12:10 end:12:15:
+          vpiTypespec RefTypespec start:14:9 end:14:14:
             vpiParent: Net name:a
             vpiFullName: dut.a
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: dut.a
           vpiNetType: wire (1)
-        Net name:b start:13:17 end:13:18:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:13:11 end:13:16:
-            vpiParent: Net name:b
-            vpiFullName: dut.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: dut.b
       vpiPort (2 items):
         Port name:a start:11:14 end:11:15:
           vpiParent: Module name:dut
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:11:14 end:11:15:
+          vpiLowConn RefObj name:a start:12:16 end:12:17:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: dut.a.a
@@ -2739,20 +2740,18 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:12:10 end:12:15:
             vpiParent: Port name:a
             vpiFullName: dut.a
-            vpiActual: LogicTypespec
         Port name:b start:11:17 end:11:18:
           vpiParent: Module name:dut
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj name:b start:11:17 end:11:18:
+          vpiLowConn RefObj name:b start:13:17 end:13:18:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: dut.b.b
-            vpiActual: Net name:b
+            vpiActual: Variable name:b
           vpiTypespec RefTypespec start:13:11 end:13:16:
             vpiParent: Port name:b
             vpiFullName: dut.b
-            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:16:11 end:17:46:
           vpiParent: Module name:dut
@@ -2760,7 +2759,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: b
             vpiFullName: dut.b
-            vpiActual: Net name:b
+            vpiActual: Variable name:b
           vpiRhs Operation start:16:15 end:17:46:
             vpiParent: ContAssign
             vpiOpType: bitwise or (29)
@@ -2871,8 +2870,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -596,20 +596,6 @@ n<$Source01/top.v> u<582> t<Top_level_rule> c<1> l<1:1> el<85:1>
         n<> u<578> t<ENDMODULE> p<579> l<84:1> el<84:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:1:1: Compile module "top".
-[ERR:EL0535] $Source01/top.v:27:10: Illegal implicit net "id:136, name:SIZE".
-[ERR:EL0535] $Source01/top.v:28:10: Illegal implicit net "id:141, name:WIDTH".
-[ERR:EL0535] $Source01/top.v:52:29: Illegal implicit net "id:203, name:dout0_valid".
-[ERR:EL0535] $Source01/top.v:53:29: Illegal implicit net "id:206, name:dout0_ready".
-[ERR:EL0535] $Source01/top.v:54:29: Illegal implicit net "id:209, name:dout0_data".
-[ERR:EL0535] $Source01/top.v:65:14: Illegal implicit net "id:235, name:ctrl_valid".
-[ERR:EL0535] $Source01/top.v:66:14: Illegal implicit net "id:242, name:ctrl_ready".
-[ERR:EL0535] $Source01/top.v:67:14: Illegal implicit net "id:249, name:ctrl_data".
-[ERR:EL0535] $Source01/top.v:69:14: Illegal implicit net "id:252, name:din0_valid".
-[ERR:EL0535] $Source01/top.v:70:14: Illegal implicit net "id:255, name:din0_ready".
-[ERR:EL0535] $Source01/top.v:71:14: Illegal implicit net "id:258, name:din0_data".
-[ERR:EL0535] $Source01/top.v:73:14: Illegal implicit net "id:261, name:din1_valid".
-[ERR:EL0535] $Source01/top.v:74:14: Illegal implicit net "id:264, name:din1_ready".
-[ERR:EL0535] $Source01/top.v:75:14: Illegal implicit net "id:267, name:din1_data".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -619,7 +605,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/top.v start:1:1 end:84:10:
       vpiParent: Design name:unnamed
@@ -828,7 +813,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:mux
             vpiName: mux
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -993,9 +978,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:11 end:2:14:
+          vpiLowConn RefObj name:clk start:2:11 end:2:14:
             vpiParent: Port name:clk
-            vpiFullName: top.clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:2:5 end:2:10:
             vpiParent: Port name:clk
@@ -1005,9 +991,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:11 end:3:14:
+          vpiLowConn RefObj name:rst start:3:11 end:3:14:
             vpiParent: Port name:rst
-            vpiFullName: top.rst
+            vpiName: rst
+            vpiFullName: top.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:3:5 end:3:10:
             vpiParent: Port name:rst
@@ -1017,9 +1004,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: din_ready
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:18 end:5:27:
+          vpiLowConn RefObj name:din_ready start:5:18 end:5:27:
             vpiParent: Port name:din_ready
-            vpiFullName: top.din_ready
+            vpiName: din_ready
+            vpiFullName: top.din_ready.din_ready
             vpiActual: Net name:din_ready
           vpiTypespec RefTypespec start:5:5 end:5:16:
             vpiParent: Port name:din_ready
@@ -1029,9 +1017,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: din_valid
           vpiDirection: input (1)
-          vpiLowConn RefObj start:6:17 end:6:26:
+          vpiLowConn RefObj name:din_valid start:6:17 end:6:26:
             vpiParent: Port name:din_valid
-            vpiFullName: top.din_valid
+            vpiName: din_valid
+            vpiFullName: top.din_valid.din_valid
             vpiActual: Net name:din_valid
           vpiTypespec RefTypespec start:6:5 end:6:16:
             vpiParent: Port name:din_valid
@@ -1041,9 +1030,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: din_data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:7:23 end:7:31:
+          vpiLowConn RefObj name:din_data start:7:23 end:7:31:
             vpiParent: Port name:din_data
-            vpiFullName: top.din_data
+            vpiName: din_data
+            vpiFullName: top.din_data.din_data
             vpiActual: Net name:din_data
           vpiTypespec RefTypespec start:7:5 end:7:22:
             vpiParent: Port name:din_data
@@ -1053,9 +1043,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: dout_ready
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:25 end:8:35:
+          vpiLowConn RefObj name:dout_ready start:8:25 end:8:35:
             vpiParent: Port name:dout_ready
-            vpiFullName: top.dout_ready
+            vpiName: dout_ready
+            vpiFullName: top.dout_ready.dout_ready
             vpiActual: Net name:dout_ready
           vpiTypespec RefTypespec start:8:5 end:8:16:
             vpiParent: Port name:dout_ready
@@ -1065,9 +1056,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: dout_valid
           vpiDirection: output (2)
-          vpiLowConn RefObj start:9:26 end:9:36:
+          vpiLowConn RefObj name:dout_valid start:9:26 end:9:36:
             vpiParent: Port name:dout_valid
-            vpiFullName: top.dout_valid
+            vpiName: dout_valid
+            vpiFullName: top.dout_valid.dout_valid
             vpiActual: Net name:dout_valid
           vpiTypespec RefTypespec start:9:5 end:9:16:
             vpiParent: Port name:dout_valid
@@ -1077,9 +1069,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: dout_data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:10:24 end:10:33:
+          vpiLowConn RefObj name:dout_data start:10:24 end:10:33:
             vpiParent: Port name:dout_data
-            vpiFullName: top.dout_data
+            vpiName: dout_data
+            vpiFullName: top.dout_data.dout_data
             vpiActual: Net name:dout_data
           vpiTypespec RefTypespec start:10:5 end:10:23:
             vpiParent: Port name:dout_data
@@ -1641,7 +1634,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 14
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

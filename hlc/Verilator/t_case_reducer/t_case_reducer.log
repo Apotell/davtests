@@ -5847,8 +5847,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_case_reducer.v:67:1: Compile module "Test".
 [WRN:CP0323] $Source01/t_case_reducer.v:67:1: Multiply defined typedef "clz".
 [INF:CP0303] $Source01/t_case_reducer.v:207:1: Compile module "clz".
-[ERR:EL0535] $Source01/t_case_reducer.v:83:8: Illegal implicit net "id:2360, name:data_i".
-[ERR:EL0535] $Source01/t_case_reducer.v:89:7: Illegal implicit net "id:2370, name:data_i".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -12002,7 +12000,6 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:8'b0000_0010, 8'b0000_0011 start:100:23 end:100:49":
             vpiParent: PreprocMacroInstance name:def_0000_001x
             vpiName: "8'b0000_0010, 8'b0000_0011"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_case_reducer.v start:6:1 end:65:10:
       vpiParent: Design name:unnamed
@@ -12010,6 +12007,43 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:cyc start:12:13 end:12:16:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:12:4 end:12:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:12:17 end:12:18:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:crc start:13:16 end:13:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:13:4 end:13:14:
+            vpiParent: Variable name:crc
+            vpiFullName: t.crc
+            vpiActual: LogicTypespec
+          vpiName: crc
+          vpiFullName: t.crc
+          vpiVector: true
+        Variable name:sum start:14:16 end:14:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:14:14:
+            vpiParent: Variable name:sum
+            vpiFullName: t.sum
+            vpiActual: LogicTypespec
+          vpiName: sum
+          vpiFullName: t.sum
+          vpiVector: true
       vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -12178,13 +12212,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (8 items):
+      vpiNet (5 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:10:10 end:10:10:
@@ -12193,40 +12227,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:12:13 end:12:16:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:12:4 end:12:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:12:17 end:12:18:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:crc start:13:16 end:13:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:4 end:13:14:
-            vpiParent: Net name:crc
-            vpiFullName: t.crc
-            vpiActual: LogicTypespec
-          vpiName: crc
-          vpiFullName: t.crc
-        Net name:sum start:14:16 end:14:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:14:4 end:14:14:
-            vpiParent: Net name:sum
-            vpiFullName: t.sum
-            vpiActual: LogicTypespec
-          vpiName: sum
-          vpiFullName: t.sum
+          vpiNetType: wire (1)
         Net name:operand_a start:17:16 end:17:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:14:
@@ -12244,7 +12245,7 @@ Design name:unnamed:
               vpiParent: PartSelect name:crc[7:0]
               vpiName: crc
               vpiFullName: t.operand_a.crc[7:0].crc
-              vpiActual: Net name:crc
+              vpiActual: Variable name:crc
             vpiRange Range start:17:32 end:17:35:
               vpiParent: PartSelect name:crc[7:0]
               vpiLeftRange Constant start:17:32 end:17:33:
@@ -12284,7 +12285,7 @@ Design name:unnamed:
               vpiParent: PartSelect name:crc[15:8]
               vpiName: crc
               vpiFullName: t.operand_b.crc[15:8].crc
-              vpiActual: Net name:crc
+              vpiActual: Variable name:crc
             vpiRange Range start:18:32 end:18:36:
               vpiParent: PartSelect name:crc[15:8]
               vpiLeftRange Constant start:18:32 end:18:34:
@@ -12349,7 +12350,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:10:10 end:10:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -12382,7 +12383,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:41:14 end:41:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -12391,7 +12392,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:41:20 end:41:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -12408,7 +12409,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: crc
                     vpiFullName: t.crc
-                    vpiActual: Net name:crc
+                    vpiActual: Variable name:crc
                   vpiRhs Operation start:42:14 end:42:48:
                     vpiParent: Assignment
                     vpiOpType: concatenation (33)
@@ -12421,7 +12422,7 @@ Design name:unnamed:
                           vpiParent: PartSelect name:crc[62:0]
                           vpiName: crc
                           vpiFullName: t.crc[62:0].crc
-                          vpiActual: Net name:crc
+                          vpiActual: Variable name:crc
                         vpiRange Range start:42:19 end:42:23:
                           vpiParent: PartSelect name:crc[62:0]
                           vpiLeftRange Constant start:42:19 end:42:21:
@@ -12460,7 +12461,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:crc[63]
                                   vpiName: crc
                                   vpiFullName: t.crc
-                                  vpiActual: Net name:crc
+                                  vpiActual: Variable name:crc
                                 vpiIndex Constant start:42:30 end:42:32:
                                   vpiParent: BitSelect name:crc[63]
                                   vpiTypespec RefTypespec:
@@ -12479,7 +12480,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:crc[2]
                                   vpiName: crc
                                   vpiFullName: t.crc
-                                  vpiActual: Net name:crc
+                                  vpiActual: Variable name:crc
                                 vpiIndex Constant start:42:38 end:42:39:
                                   vpiParent: BitSelect name:crc[2]
                                   vpiTypespec RefTypespec:
@@ -12498,7 +12499,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:crc[0]
                               vpiName: crc
                               vpiFullName: t.crc
-                              vpiActual: Net name:crc
+                              vpiActual: Variable name:crc
                             vpiIndex Constant start:42:45 end:42:46:
                               vpiParent: BitSelect name:crc[0]
                               vpiTypespec RefTypespec:
@@ -12515,7 +12516,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: sum
                     vpiFullName: t.sum
-                    vpiActual: Net name:sum
+                    vpiActual: Variable name:sum
                   vpiRhs Operation start:43:14 end:43:56:
                     vpiParent: Assignment
                     vpiOpType: bitwise xor (30)
@@ -12537,7 +12538,7 @@ Design name:unnamed:
                               vpiParent: PartSelect name:sum[62:0]
                               vpiName: sum
                               vpiFullName: t.sum[62:0].sum
-                              vpiActual: Net name:sum
+                              vpiActual: Variable name:sum
                             vpiRange Range start:43:28 end:43:32:
                               vpiParent: PartSelect name:sum[62:0]
                               vpiLeftRange Constant start:43:28 end:43:30:
@@ -12576,7 +12577,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:sum[63]
                                       vpiName: sum
                                       vpiFullName: t.sum
-                                      vpiActual: Net name:sum
+                                      vpiActual: Variable name:sum
                                     vpiIndex Constant start:43:38 end:43:40:
                                       vpiParent: BitSelect name:sum[63]
                                       vpiTypespec RefTypespec:
@@ -12595,7 +12596,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:sum[2]
                                       vpiName: sum
                                       vpiFullName: t.sum
-                                      vpiActual: Net name:sum
+                                      vpiActual: Variable name:sum
                                     vpiIndex Constant start:43:46 end:43:47:
                                       vpiParent: BitSelect name:sum[2]
                                       vpiTypespec RefTypespec:
@@ -12614,7 +12615,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:sum[0]
                                   vpiName: sum
                                   vpiFullName: t.sum
-                                  vpiActual: Net name:sum
+                                  vpiActual: Variable name:sum
                                 vpiIndex Constant start:43:53 end:43:54:
                                   vpiParent: BitSelect name:sum[0]
                                   vpiTypespec RefTypespec:
@@ -12635,7 +12636,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:44:16 end:44:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -12656,7 +12657,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: crc
                           vpiFullName: t.crc
-                          vpiActual: Net name:crc
+                          vpiActual: Variable name:crc
                         vpiRhs Constant start:46:10 end:46:31:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -12673,7 +12674,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: sum
                           vpiFullName: t.sum
-                          vpiActual: Net name:sum
+                          vpiActual: Variable name:sum
                         vpiRhs Constant start:47:10 end:47:15:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -12694,7 +12695,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         Constant start:49:20 end:49:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -12715,7 +12716,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: sum
                             vpiFullName: t.sum
-                            vpiActual: Net name:sum
+                            vpiActual: Variable name:sum
                           vpiRhs Constant start:50:10 end:50:15:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -12736,7 +12737,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: cyc
                             vpiFullName: t.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                           Constant start:52:20 end:52:22:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -12760,7 +12761,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:54:21 end:54:23:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -12800,17 +12801,17 @@ Design name:unnamed:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName: cyc
                                   vpiFullName: t.cyc
-                                  vpiActual: Net name:cyc
+                                  vpiActual: Variable name:cyc
                                 RefObj name:crc start:55:55 end:55:58:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName: crc
                                   vpiFullName: t.crc
-                                  vpiActual: Net name:crc
+                                  vpiActual: Variable name:crc
                                 RefObj name:sum start:55:60 end:55:63:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName: sum
                                   vpiFullName: t.sum
-                                  vpiActual: Net name:sum
+                                  vpiActual: Variable name:sum
                             IfStmt start:56:3 end:56:43:
                               vpiParent: Begin
                               vpiCondition Operation start:56:7 end:56:35:
@@ -12821,7 +12822,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: crc
                                     vpiFullName: t.crc
-                                    vpiActual: Net name:crc
+                                    vpiActual: Variable name:crc
                                   Constant start:56:15 end:56:35:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
@@ -12847,7 +12848,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: sum
                                     vpiFullName: t.sum
-                                    vpiActual: Net name:sum
+                                    vpiActual: Variable name:sum
                                   Constant start:58:22 end:58:42:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
@@ -13171,7 +13172,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:clz
             vpiName: clz
       vpiDefName: Test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Test
         vpiName: work
@@ -13237,9 +13238,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:70:21 end:70:24:
+          vpiLowConn RefObj name:clk start:70:21 end:70:24:
             vpiParent: Port name:clk
-            vpiFullName: Test.clk
+            vpiName: clk
+            vpiFullName: Test.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:70:4 end:70:14:
             vpiParent: Port name:clk
@@ -13249,9 +13251,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: operand_a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:71:22 end:71:31:
+          vpiLowConn RefObj name:operand_a start:71:22 end:71:31:
             vpiParent: Port name:operand_a
-            vpiFullName: Test.operand_a
+            vpiName: operand_a
+            vpiFullName: Test.operand_a.operand_a
             vpiActual: Net name:operand_a
           vpiTypespec RefTypespec start:71:4 end:71:20:
             vpiParent: Port name:operand_a
@@ -13261,9 +13264,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: operand_b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:72:22 end:72:31:
+          vpiLowConn RefObj name:operand_b start:72:22 end:72:31:
             vpiParent: Port name:operand_b
-            vpiFullName: Test.operand_b
+            vpiName: operand_b
+            vpiFullName: Test.operand_b.operand_b
             vpiActual: Net name:operand_b
           vpiTypespec RefTypespec start:72:4 end:72:20:
             vpiParent: Port name:operand_b
@@ -13273,9 +13277,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:74:22 end:74:25:
+          vpiLowConn RefObj name:out start:74:22 end:74:25:
             vpiParent: Port name:out
-            vpiFullName: Test.out
+            vpiName: out
+            vpiFullName: Test.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:74:4 end:74:21:
             vpiParent: Port name:out
@@ -13374,6 +13379,43 @@ Design name:unnamed:
         vpiParent: Module name:clz
         vpiName: clz
       vpiFullName: clz
+      vpiVariable (4 items):
+        Variable name:clz_byte0 start:216:14 end:216:23:
+          vpiParent: Module name:clz
+          vpiTypespec RefTypespec start:216:3 end:216:12:
+            vpiParent: Variable name:clz_byte0
+            vpiFullName: clz.clz_byte0
+            vpiActual: LogicTypespec
+          vpiName: clz_byte0
+          vpiFullName: clz.clz_byte0
+          vpiVector: true
+        Variable name:clz_byte1 start:217:14 end:217:23:
+          vpiParent: Module name:clz
+          vpiTypespec RefTypespec start:217:3 end:217:12:
+            vpiParent: Variable name:clz_byte1
+            vpiFullName: clz.clz_byte1
+            vpiActual: LogicTypespec
+          vpiName: clz_byte1
+          vpiFullName: clz.clz_byte1
+          vpiVector: true
+        Variable name:clz_byte2 start:218:14 end:218:23:
+          vpiParent: Module name:clz
+          vpiTypespec RefTypespec start:218:3 end:218:12:
+            vpiParent: Variable name:clz_byte2
+            vpiFullName: clz.clz_byte2
+            vpiActual: LogicTypespec
+          vpiName: clz_byte2
+          vpiFullName: clz.clz_byte2
+          vpiVector: true
+        Variable name:clz_byte3 start:219:14 end:219:23:
+          vpiParent: Module name:clz
+          vpiTypespec RefTypespec start:219:3 end:219:12:
+            vpiParent: Variable name:clz_byte3
+            vpiFullName: clz.clz_byte3
+            vpiActual: LogicTypespec
+          vpiName: clz_byte3
+          vpiFullName: clz.clz_byte3
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:clz
@@ -13532,13 +13574,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: clz
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:clz
         vpiName: work
         vpiFullName: clz.work
       vpiCell: clz
-      vpiNet (6 items):
+      vpiNet (2 items):
         Net name:data_i start:208:20 end:208:26:
           vpiParent: Module name:clz
           vpiTypespec RefTypespec start:208:3 end:208:19:
@@ -13557,46 +13599,15 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: clz.out
           vpiNetType: wire (1)
-        Net name:clz_byte0 start:216:14 end:216:23:
-          vpiParent: Module name:clz
-          vpiTypespec RefTypespec start:216:3 end:216:12:
-            vpiParent: Net name:clz_byte0
-            vpiFullName: clz.clz_byte0
-            vpiActual: LogicTypespec
-          vpiName: clz_byte0
-          vpiFullName: clz.clz_byte0
-        Net name:clz_byte1 start:217:14 end:217:23:
-          vpiParent: Module name:clz
-          vpiTypespec RefTypespec start:217:3 end:217:12:
-            vpiParent: Net name:clz_byte1
-            vpiFullName: clz.clz_byte1
-            vpiActual: LogicTypespec
-          vpiName: clz_byte1
-          vpiFullName: clz.clz_byte1
-        Net name:clz_byte2 start:218:14 end:218:23:
-          vpiParent: Module name:clz
-          vpiTypespec RefTypespec start:218:3 end:218:12:
-            vpiParent: Net name:clz_byte2
-            vpiFullName: clz.clz_byte2
-            vpiActual: LogicTypespec
-          vpiName: clz_byte2
-          vpiFullName: clz.clz_byte2
-        Net name:clz_byte3 start:219:14 end:219:23:
-          vpiParent: Module name:clz
-          vpiTypespec RefTypespec start:219:3 end:219:12:
-            vpiParent: Net name:clz_byte3
-            vpiFullName: clz.clz_byte3
-            vpiActual: LogicTypespec
-          vpiName: clz_byte3
-          vpiFullName: clz.clz_byte3
       vpiPort (2 items):
         Port name:data_i start:208:20 end:208:26:
           vpiParent: Module name:clz
           vpiName: data_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:208:20 end:208:26:
+          vpiLowConn RefObj name:data_i start:208:20 end:208:26:
             vpiParent: Port name:data_i
-            vpiFullName: clz.data_i
+            vpiName: data_i
+            vpiFullName: clz.data_i.data_i
             vpiActual: Net name:data_i
           vpiTypespec RefTypespec start:208:3 end:208:19:
             vpiParent: Port name:data_i
@@ -13606,9 +13617,10 @@ Design name:unnamed:
           vpiParent: Module name:clz
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:209:21 end:209:24:
+          vpiLowConn RefObj name:out start:209:21 end:209:24:
             vpiParent: Port name:out
-            vpiFullName: clz.out
+            vpiName: out
+            vpiFullName: clz.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:209:3 end:209:20:
             vpiParent: Port name:out
@@ -14918,7 +14930,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:223:36 end:223:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -15579,7 +15591,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:224:36 end:224:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -15920,7 +15932,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:225:36 end:225:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -16101,7 +16113,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:226:36 end:226:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -16202,7 +16214,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:227:36 end:227:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -16263,7 +16275,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:228:36 end:228:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -16304,7 +16316,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:229:36 end:229:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -16335,7 +16347,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:230:36 end:230:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -16366,7 +16378,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:231:36 end:231:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -16386,7 +16398,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte0
                       vpiFullName: clz.clz_byte0
-                      vpiActual: Net name:clz_byte0
+                      vpiActual: Variable name:clz_byte0
                     vpiRhs Constant start:232:36 end:232:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -17701,7 +17713,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:237:36 end:237:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -18362,7 +18374,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:238:36 end:238:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -18703,7 +18715,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:239:36 end:239:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -18884,7 +18896,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:240:36 end:240:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -18985,7 +18997,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:241:36 end:241:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -19046,7 +19058,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:242:36 end:242:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -19087,7 +19099,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:243:36 end:243:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -19118,7 +19130,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:244:36 end:244:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -19149,7 +19161,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:245:36 end:245:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -19169,7 +19181,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte1
                       vpiFullName: clz.clz_byte1
-                      vpiActual: Net name:clz_byte1
+                      vpiActual: Variable name:clz_byte1
                     vpiRhs Constant start:246:36 end:246:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -20484,7 +20496,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:251:36 end:251:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21145,7 +21157,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:252:36 end:252:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21486,7 +21498,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:253:36 end:253:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21667,7 +21679,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:254:36 end:254:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21768,7 +21780,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:255:36 end:255:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21829,7 +21841,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:256:36 end:256:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21870,7 +21882,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:257:36 end:257:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21901,7 +21913,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:258:36 end:258:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21932,7 +21944,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:259:36 end:259:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -21952,7 +21964,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte2
                       vpiFullName: clz.clz_byte2
-                      vpiActual: Net name:clz_byte2
+                      vpiActual: Variable name:clz_byte2
                     vpiRhs Constant start:260:36 end:260:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -23267,7 +23279,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:264:36 end:264:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -23928,7 +23940,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:265:36 end:265:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24269,7 +24281,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:266:36 end:266:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24450,7 +24462,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:267:36 end:267:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24551,7 +24563,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:268:36 end:268:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24612,7 +24624,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:269:36 end:269:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24653,7 +24665,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:270:36 end:270:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24684,7 +24696,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:271:36 end:271:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24715,7 +24727,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:272:36 end:272:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24735,7 +24747,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: clz_byte3
                       vpiFullName: clz.clz_byte3
-                      vpiActual: Net name:clz_byte3
+                      vpiActual: Variable name:clz_byte3
                     vpiRhs Constant start:273:36 end:273:42:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24773,7 +24785,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: clz_byte1
                 vpiFullName: clz.clz_byte1
-                vpiActual: Net name:clz_byte1
+                vpiActual: Variable name:clz_byte1
   vpiTypespec (8 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -24807,7 +24819,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

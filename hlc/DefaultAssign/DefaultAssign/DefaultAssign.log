@@ -169,7 +169,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:foo file:$Source01/dut.sv start:1:1 end:2:10:
       vpiParent: Design name:unnamed
@@ -205,7 +204,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: foo
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo
         vpiName: work
@@ -226,9 +225,10 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:31 end:1:35:
+          vpiLowConn RefObj name:data start:1:31 end:1:35:
             vpiParent: Port name:data
-            vpiFullName: foo.data
+            vpiName: data
+            vpiFullName: foo.data.data
             vpiActual: Net name:data
           vpiTypespec RefTypespec start:1:12 end:1:30:
             vpiParent: Port name:data
@@ -240,6 +240,16 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:data start:6:14 end:6:18:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:6:1 end:6:13:
+            vpiParent: Variable name:data
+            vpiFullName: dut.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: dut.data
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:data start:8:24 end:8:28:
           vpiParent: Module name:dut
@@ -336,21 +346,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:foo
             vpiName: foo
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (1 items):
-        Net name:data start:6:14 end:6:18:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:6:1 end:6:13:
-            vpiParent: Net name:data
-            vpiFullName: dut.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: dut.data
       vpiContAssign (1 items):
         ContAssign start:10:8 end:10:30:
           vpiParent: Module name:dut
@@ -358,7 +359,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: data
             vpiFullName: dut.data
-            vpiActual: Net name:data
+            vpiActual: Variable name:data
           vpiRhs Operation start:10:15 end:10:30:
             vpiParent: ContAssign
             vpiOpType: assign pattern (87)
@@ -395,7 +396,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: dut.f.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
               vpiHighConn Operation start:12:13 end:12:28:
                 vpiParent: Port
                 vpiOpType: assign pattern (87)

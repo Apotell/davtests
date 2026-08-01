@@ -277,11 +277,10 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_real_param.v:11:1: Compile module "t".
 [INF:CP0335] $Source01/t_real_param.v:14:44: Compile generate block "gen_m".
 [INF:CP0335] $Source01/t_real_param.v:15:43: Compile generate block "gen_r".
-[ERR:EL0535] $Source01/t_real_param.v:18:31: Illegal implicit net "id:77, name:foo_inst".
-[ERR:EL0535] $Source01/t_real_param.v:18:40: Illegal implicit net "id:78, name:bar".
-[ERR:EL0535] $Source01/t_real_param.v:20:37: Illegal implicit net "id:86, name:foo_inst".
-[ERR:EL0535] $Source01/t_real_param.v:20:46: Illegal implicit net "id:87, name:bar".
-[ERR:EL0535] $Source01/t_real_param.v:25:20: Illegal implicit net "id:95, name:bar".
+[WRN:CP0350] $Source01/t_real_param.v:18:31: Failed to bind "id:77, name:foo_inst".
+[WRN:CP0350] $Source01/t_real_param.v:18:40: Failed to bind "id:78, name:bar".
+[WRN:CP0350] $Source01/t_real_param.v:20:37: Failed to bind "id:86, name:foo_inst".
+[WRN:CP0350] $Source01/t_real_param.v:20:46: Failed to bind "id:87, name:bar".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -291,7 +290,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_real_param.v
       vpiPreprocFile: "$Output/lib/work/t_real_param.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:foo file:$Source01/t_real_param.v start:6:1 end:9:10:
       vpiParent: Design name:unnamed
@@ -327,7 +325,7 @@ Design name:unnamed:
             vpiDecompile: "2.0"
             vpiValue: 2
       vpiDefName: foo
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo
         vpiName: work
@@ -339,28 +337,28 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:m start:12:11 end:12:12:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:m
+            vpiFullName: t.m
+          vpiName: m
+          vpiFullName: t.m
+        Variable name:r start:12:14 end:12:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:r
+            vpiFullName: t.r
+          vpiName: r
+          vpiFullName: t.r
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
-        Net name:m start:12:11 end:12:12:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:m
-            vpiFullName: t.m
-          vpiName: m
-          vpiFullName: t.m
-        Net name:r start:12:14 end:12:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:r
-            vpiFullName: t.r
-          vpiName: r
-          vpiFullName: t.r
       vpiProcess (1 items):
         Initial start:30:4 end:33:7:
           vpiParent: Module name:t
@@ -698,8 +696,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

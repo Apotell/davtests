@@ -885,8 +885,6 @@ n<$Source01/t_func_paramed.v> u<870> t<Top_level_rule> c<1> l<6:1> el<80:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_func_paramed.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_func_paramed.v:53:1: Compile module "extractor".
-[ERR:EL0535] $Source01/t_func_paramed.v:19:12: Illegal implicit net "id:57, name:out".
-[ERR:EL0535] $Source01/t_func_paramed.v:21:12: Illegal implicit net "id:60, name:in".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -896,7 +894,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_func_paramed.v
       vpiPreprocFile: "$Output/lib/work/t_func_paramed.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_func_paramed.v start:6:1 end:51:10:
       vpiParent: Design name:unnamed
@@ -904,6 +901,33 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:in_a start:13:15 end:13:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:13:4 end:13:14:
+            vpiParent: Variable name:in_a
+            vpiFullName: t.in_a
+            vpiActual: LogicTypespec
+          vpiName: in_a
+          vpiFullName: t.in_a
+          vpiVector: true
+        Variable name:sel start:14:15 end:14:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:14:14:
+            vpiParent: Variable name:sel
+            vpiFullName: t.sel
+            vpiActual: LogicTypespec
+          vpiName: sel
+          vpiFullName: t.sel
+          vpiVector: true
+        Variable name:cyc start:24:12 end:24:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:24:4 end:24:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -994,13 +1018,13 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (5 items):
+      vpiNet (2 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -1009,22 +1033,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:in_a start:13:15 end:13:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:4 end:13:14:
-            vpiParent: Net name:in_a
-            vpiFullName: t.in_a
-            vpiActual: LogicTypespec
-          vpiName: in_a
-          vpiFullName: t.in_a
-        Net name:sel start:14:15 end:14:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:14:4 end:14:14:
-            vpiParent: Net name:sel
-            vpiFullName: t.sel
-            vpiActual: LogicTypespec
-          vpiName: sel
-          vpiFullName: t.sel
+          vpiNetType: wire (1)
         Net name:out_x start:15:15 end:15:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:14:
@@ -1034,20 +1043,12 @@ Design name:unnamed:
           vpiName: out_x
           vpiFullName: t.out_x
           vpiNetType: wire (1)
-        Net name:cyc start:24:12 end:24:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:24:4 end:24:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1066,7 +1067,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:24:29 end:24:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1104,7 +1105,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:26:16 end:26:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1125,7 +1126,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Operation start:27:10 end:27:17:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -1134,7 +1135,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:27:16 end:27:17:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1155,7 +1156,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:29:12 end:29:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1176,7 +1177,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: in_a
                                 vpiFullName: t.in_a
-                                vpiActual: Net name:in_a
+                                vpiActual: Variable name:in_a
                               vpiRhs Constant start:30:14 end:30:33:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -1193,7 +1194,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: sel
                                 vpiFullName: t.sel
-                                vpiActual: Net name:sel
+                                vpiActual: Variable name:sel
                               vpiRhs Constant start:31:13 end:31:18:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -1214,7 +1215,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:33:12 end:33:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1235,7 +1236,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: sel
                                 vpiFullName: t.sel
-                                vpiActual: Net name:sel
+                                vpiActual: Variable name:sel
                               vpiRhs Constant start:34:13 end:34:18:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -1282,7 +1283,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:37:12 end:37:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1303,7 +1304,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: sel
                                 vpiFullName: t.sel
-                                vpiActual: Net name:sel
+                                vpiActual: Variable name:sel
                               vpiRhs Constant start:38:13 end:38:18:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -1350,7 +1351,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:41:12 end:41:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1371,7 +1372,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: sel
                                 vpiFullName: t.sel
-                                vpiActual: Net name:sel
+                                vpiActual: Variable name:sel
                               vpiRhs Constant start:42:13 end:42:18:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -1418,7 +1419,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:45:12 end:45:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1511,19 +1512,19 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: in_a
                 vpiFullName: t.extractor.in_a
-                vpiActual: Net name:in_a
+                vpiActual: Variable name:in_a
             Port start:22:11 end:22:21:
               vpiParent: RefInstance name:extractor
               vpiLowConn RefObj name:sel start:22:12 end:22:15:
                 vpiParent: Port
                 vpiName: sel
                 vpiFullName: t.extractor.sel
-                vpiActual: Net name:sel
+                vpiActual: Variable name:sel
               vpiHighConn RefObj name:sel start:22:17 end:22:20:
                 vpiParent: Port
                 vpiName: sel
                 vpiFullName: t.extractor.sel
-                vpiActual: Net name:sel
+                vpiActual: Variable name:sel
     Module name:extractor file:$Source01/t_func_paramed.v start:53:1 end:79:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:extractor start:53:8 end:53:17:
@@ -1726,7 +1727,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: extractor
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:extractor
         vpiName: work
@@ -2038,9 +2039,18 @@ Design name:unnamed:
             vpiFullName: extractor.selector
             vpiActual: LogicTypespec
       vpiNet (3 items):
+        Net name:in start:62:35 end:62:37:
+          vpiParent: Module name:extractor
+          vpiTypespec RefTypespec start:62:10 end:62:34:
+            vpiParent: Net name:in
+            vpiFullName: extractor.in
+            vpiActual: LogicTypespec
+          vpiName: in
+          vpiFullName: extractor.in
+          vpiNetType: wire (1)
         Net name:out start:63:35 end:63:38:
           vpiParent: Module name:extractor
-          vpiTypespec RefTypespec start:63:11 end:63:26:
+          vpiTypespec RefTypespec start:66:9 end:66:24:
             vpiParent: Net name:out
             vpiFullName: extractor.out
             vpiActual: LogicTypespec
@@ -2064,14 +2074,6 @@ Design name:unnamed:
                 vpiName: sel
                 vpiFullName: extractor.out.sel
                 vpiActual: Net name:sel
-        Net name:in start:62:35 end:62:37:
-          vpiParent: Module name:extractor
-          vpiTypespec RefTypespec start:62:10 end:62:34:
-            vpiParent: Net name:in
-            vpiFullName: extractor.in
-            vpiActual: LogicTypespec
-          vpiName: in
-          vpiFullName: extractor.in
         Net name:sel start:64:21 end:64:24:
           vpiParent: Module name:extractor
           vpiTypespec RefTypespec start:64:10 end:64:16:
@@ -2080,12 +2082,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sel
           vpiFullName: extractor.sel
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:out start:55:4 end:55:7:
           vpiParent: Module name:extractor
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:55:4 end:55:7:
+          vpiLowConn RefObj name:out start:63:35 end:63:38:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: extractor.out.out
@@ -2093,12 +2096,11 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:63:11 end:63:26:
             vpiParent: Port name:out
             vpiFullName: extractor.out
-            vpiActual: LogicTypespec
         Port name:in start:57:4 end:57:6:
           vpiParent: Module name:extractor
           vpiName: in
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in start:57:4 end:57:6:
+          vpiLowConn RefObj name:in start:62:35 end:62:37:
             vpiParent: Port name:in
             vpiName: in
             vpiFullName: extractor.in.in
@@ -2111,7 +2113,7 @@ Design name:unnamed:
           vpiParent: Module name:extractor
           vpiName: sel
           vpiDirection: input (1)
-          vpiLowConn RefObj name:sel start:57:8 end:57:11:
+          vpiLowConn RefObj name:sel start:64:21 end:64:24:
             vpiParent: Port name:sel
             vpiName: sel
             vpiFullName: extractor.sel.sel
@@ -2143,7 +2145,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

@@ -309,7 +309,6 @@ n<$Source01/t_langext_2.v> u<294> t<Top_level_rule> c<1> l<14:1> el<56:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_langext_2.v:14:1: Compile module "t".
 [INF:CP0303] $Source01/t_langext_2.v:33:1: Compile module "test".
-[ERR:EL0535] $Source01/t_langext_2.v:29:9: Illegal implicit net "id:37, name:in".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -319,7 +318,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_langext_2.v
       vpiPreprocFile: "$Output/lib/work/t_langext_2.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_langext_2.v start:14:1 end:31:10:
       vpiParent: Design name:unnamed
@@ -327,6 +325,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:res start:20:15 end:20:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:20:4 end:20:13:
+            vpiParent: Variable name:res
+            vpiFullName: t.res
+            vpiActual: LogicTypespec
+          vpiName: res
+          vpiFullName: t.res
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -364,13 +372,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:test
             vpiName: test
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:18:10 end:18:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:10 end:18:10:
@@ -379,20 +387,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:res start:20:15 end:20:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:20:4 end:20:13:
-            vpiParent: Net name:res
-            vpiFullName: t.res
-            vpiActual: LogicTypespec
-          vpiName: res
-          vpiFullName: t.res
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:16:4 end:16:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:16:4 end:16:7:
+          vpiLowConn RefObj name:clk start:18:10 end:18:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -417,12 +418,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: res
                 vpiFullName: t.test_i.res
-                vpiActual: Net name:res
+                vpiActual: Variable name:res
               vpiHighConn RefObj name:res start:26:16 end:26:19:
                 vpiParent: Port
                 vpiName: res
                 vpiFullName: t.test_i.res
-                vpiActual: Net name:res
+                vpiActual: Variable name:res
             Port start:28:8 end:28:20:
               vpiParent: RefInstance name:test_i
               vpiLowConn RefObj name:clk start:28:9 end:28:12:
@@ -487,7 +488,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:test
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
@@ -502,6 +503,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: res
           vpiFullName: test.res
+          vpiNetType: wire (1)
         Net name:clk start:40:12 end:40:15:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:40:12 end:40:12:
@@ -510,6 +512,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: test.clk
+          vpiNetType: wire (1)
         Net name:in start:41:12 end:41:14:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:41:12 end:41:12:
@@ -518,12 +521,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: test.in
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:res start:34:7 end:34:10:
           vpiParent: Module name:test
           vpiName: res
           vpiDirection: output (2)
-          vpiLowConn RefObj name:res start:34:7 end:34:10:
+          vpiLowConn RefObj name:res start:39:18 end:39:21:
             vpiParent: Port name:res
             vpiName: res
             vpiFullName: test.res.res
@@ -536,7 +540,7 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:36:7 end:36:10:
+          vpiLowConn RefObj name:clk start:40:12 end:40:15:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: test.clk.clk
@@ -549,7 +553,7 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: in
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in start:37:7 end:37:9:
+          vpiLowConn RefObj name:in start:41:12 end:41:14:
             vpiParent: Port name:in
             vpiName: in
             vpiFullName: test.in.in
@@ -796,7 +800,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

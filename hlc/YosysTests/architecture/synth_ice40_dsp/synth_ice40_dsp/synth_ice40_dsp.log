@@ -1462,8 +1462,10 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/common.v:37:1: Compile module "assert_comb".
 [INF:CP0303] $Source01/synth_ice40_dsp/mul_16_16_keepABP_.v:1:1: Compile module "mul_16_16_keepABP_".
 [INF:CP0303] $Source01/synth_ice40_dsp/mul_16_16_keepABP_.v:25:1: Compile module "__test".
+[ERR:LN0813] $Source01/synth_ice40_dsp/mul_16_16_keepABP_.v:1:1: Found 3 orphan node(s).
 [INF:CP0303] $Source01/synth_ice40_dsp/mul_32_32_keepB_.v:1:1: Compile module "mul_32_32_keepB_".
 [INF:CP0303] $Source01/synth_ice40_dsp/mul_32_32_keepB_.v:25:1: Compile module "__test".
+[ERR:LN0813] $Source01/synth_ice40_dsp/mul_32_32_keepB_.v:1:1: Found 3 orphan node(s).
 [WRN:CP0334] Colliding compilation unit name: "__test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -1474,17 +1476,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: common.v
       vpiPreprocFile: "$Output/lib/work/common.v"
-      vpiDefNetType: none (12)
     SourceFile name:mul_16_16_keepABP_.v file:$Source01/synth_ice40_dsp/mul_16_16_keepABP_.v:
       vpiParent: Design name:unnamed
       vpiName: mul_16_16_keepABP_.v
       vpiPreprocFile: "$Output/lib/work/synth_ice40_dsp/mul_16_16_keepABP_.v"
-      vpiDefNetType: none (12)
     SourceFile name:mul_32_32_keepB_.v file:$Source01/synth_ice40_dsp/mul_32_32_keepB_.v:
       vpiParent: Design name:unnamed
       vpiName: mul_32_32_keepB_.v
       vpiPreprocFile: "$Output/lib/work/synth_ice40_dsp/mul_32_32_keepB_.v"
-      vpiDefNetType: none (12)
   vpiAllModules (8 items):
     Module name:assert_dff file:$Source01/common.v start:1:1 end:11:10:
       vpiParent: Design name:unnamed
@@ -1496,7 +1495,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_dff
       vpiDefName: assert_dff
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_dff
         vpiName: work
@@ -1535,9 +1534,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:25 end:1:28:
+          vpiLowConn RefObj name:clk start:1:25 end:1:28:
             vpiParent: Port name:clk
-            vpiFullName: assert_dff.clk
+            vpiName: clk
+            vpiFullName: assert_dff.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:19 end:1:24:
             vpiParent: Port name:clk
@@ -1547,9 +1547,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: test
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:36 end:1:40:
+          vpiLowConn RefObj name:test start:1:36 end:1:40:
             vpiParent: Port name:test
-            vpiFullName: assert_dff.test
+            vpiName: test
+            vpiFullName: assert_dff.test.test
             vpiActual: Net name:test
           vpiTypespec RefTypespec start:1:30 end:1:35:
             vpiParent: Port name:test
@@ -1559,9 +1560,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: pat
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:48 end:1:51:
+          vpiLowConn RefObj name:pat start:1:48 end:1:51:
             vpiParent: Port name:pat
-            vpiFullName: assert_dff.pat
+            vpiName: pat
+            vpiFullName: assert_dff.pat.pat
             vpiActual: Net name:pat
           vpiTypespec RefTypespec start:1:42 end:1:47:
             vpiParent: Port name:pat
@@ -1654,7 +1656,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_tri
       vpiDefName: assert_tri
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_tri
         vpiName: work
@@ -1693,9 +1695,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: en
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:25 end:13:27:
+          vpiLowConn RefObj name:en start:13:25 end:13:27:
             vpiParent: Port name:en
-            vpiFullName: assert_tri.en
+            vpiName: en
+            vpiFullName: assert_tri.en.en
             vpiActual: Net name:en
           vpiTypespec RefTypespec start:13:19 end:13:24:
             vpiParent: Port name:en
@@ -1705,9 +1708,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:35 end:13:36:
+          vpiLowConn RefObj name:A start:13:35 end:13:36:
             vpiParent: Port name:A
-            vpiFullName: assert_tri.A
+            vpiName: A
+            vpiFullName: assert_tri.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:13:29 end:13:34:
             vpiParent: Port name:A
@@ -1717,9 +1721,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:44 end:13:45:
+          vpiLowConn RefObj name:B start:13:44 end:13:45:
             vpiParent: Port name:B
-            vpiFullName: assert_tri.B
+            vpiName: B
+            vpiFullName: assert_tri.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:13:38 end:13:43:
             vpiParent: Port name:B
@@ -1842,7 +1847,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_Z
       vpiDefName: assert_Z
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_Z
         vpiName: work
@@ -1872,9 +1877,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:25:23 end:25:26:
+          vpiLowConn RefObj name:clk start:25:23 end:25:26:
             vpiParent: Port name:clk
-            vpiFullName: assert_Z.clk
+            vpiName: clk
+            vpiFullName: assert_Z.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:25:17 end:25:22:
             vpiParent: Port name:clk
@@ -1884,9 +1890,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:25:34 end:25:35:
+          vpiLowConn RefObj name:A start:25:34 end:25:35:
             vpiParent: Port name:A
-            vpiFullName: assert_Z.A
+            vpiName: A
+            vpiFullName: assert_Z.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:25:28 end:25:33:
             vpiParent: Port name:A
@@ -1999,7 +2006,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_comb
       vpiDefName: assert_comb
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_comb
         vpiName: work
@@ -2029,9 +2036,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:37:26 end:37:27:
+          vpiLowConn RefObj name:A start:37:26 end:37:27:
             vpiParent: Port name:A
-            vpiFullName: assert_comb.A
+            vpiName: A
+            vpiFullName: assert_comb.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:37:20 end:37:25:
             vpiParent: Port name:A
@@ -2041,9 +2049,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:37:35 end:37:36:
+          vpiLowConn RefObj name:B start:37:35 end:37:36:
             vpiParent: Port name:B
-            vpiFullName: assert_comb.B
+            vpiName: B
+            vpiFullName: assert_comb.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:37:29 end:37:34:
             vpiParent: Port name:B
@@ -2153,7 +2162,7 @@ Design name:unnamed:
         vpiParent: Module name:mul_16_16_keepABP_
         vpiName: mul_16_16_keepABP_
       vpiFullName: mul_16_16_keepABP_
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:P start:2:174 end:2:175:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiTypespec RefTypespec start:2:151 end:2:173:
@@ -2162,7 +2171,24 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: P
           vpiFullName: mul_16_16_keepABP_.P
-          vpiNetType: none (12)
+        Variable name:Ar start:3:25 end:3:27:
+          vpiParent: Module name:mul_16_16_keepABP_
+          vpiTypespec RefTypespec start:3:12 end:3:24:
+            vpiParent: Variable name:Ar
+            vpiFullName: mul_16_16_keepABP_.Ar
+            vpiActual: LogicTypespec
+          vpiName: Ar
+          vpiFullName: mul_16_16_keepABP_.Ar
+          vpiVector: true
+        Variable name:Br start:4:25 end:4:27:
+          vpiParent: Module name:mul_16_16_keepABP_
+          vpiTypespec RefTypespec start:4:12 end:4:24:
+            vpiParent: Variable name:Br
+            vpiFullName: mul_16_16_keepABP_.Br
+            vpiActual: LogicTypespec
+          vpiName: Br
+          vpiFullName: mul_16_16_keepABP_.Br
+          vpiVector: true
       vpiParameter (5 items):
         Parameter name:AW start:2:39 end:2:41:
           vpiParent: Module name:mul_16_16_keepABP_
@@ -2488,13 +2514,13 @@ Design name:unnamed:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiName: keep
       vpiDefName: mul_16_16_keepABP_
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mul_16_16_keepABP_
         vpiName: work
         vpiFullName: mul_16_16_keepABP_.work
       vpiCell: mul_16_16_keepABP_
-      vpiNet (8 items):
+      vpiNet (3 items):
         Net name:clk start:2:84 end:2:87:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiTypespec RefTypespec start:2:78 end:2:83:
@@ -2503,33 +2529,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: mul_16_16_keepABP_.clk
-          vpiNetType: wire (1)
-        Net name:CEA start:2:89 end:2:92:
-          vpiParent: Module name:mul_16_16_keepABP_
-          vpiTypespec RefTypespec start:2:89 end:2:89:
-            vpiParent: Net name:CEA
-            vpiFullName: mul_16_16_keepABP_.CEA
-            vpiActual: LogicTypespec
-          vpiName: CEA
-          vpiFullName: mul_16_16_keepABP_.CEA
-          vpiNetType: wire (1)
-        Net name:CEB start:2:94 end:2:97:
-          vpiParent: Module name:mul_16_16_keepABP_
-          vpiTypespec RefTypespec start:2:94 end:2:94:
-            vpiParent: Net name:CEB
-            vpiFullName: mul_16_16_keepABP_.CEB
-            vpiActual: LogicTypespec
-          vpiName: CEB
-          vpiFullName: mul_16_16_keepABP_.CEB
-          vpiNetType: wire (1)
-        Net name:CEP start:2:99 end:2:102:
-          vpiParent: Module name:mul_16_16_keepABP_
-          vpiTypespec RefTypespec start:2:99 end:2:99:
-            vpiParent: Net name:CEP
-            vpiFullName: mul_16_16_keepABP_.CEP
-            vpiActual: LogicTypespec
-          vpiName: CEP
-          vpiFullName: mul_16_16_keepABP_.CEP
           vpiNetType: wire (1)
         Net name:A start:2:119 end:2:120:
           vpiParent: Module name:mul_16_16_keepABP_
@@ -2549,30 +2548,15 @@ Design name:unnamed:
           vpiName: B
           vpiFullName: mul_16_16_keepABP_.B
           vpiNetType: wire (1)
-        Net name:Ar start:3:25 end:3:27:
-          vpiParent: Module name:mul_16_16_keepABP_
-          vpiTypespec RefTypespec start:3:12 end:3:24:
-            vpiParent: Net name:Ar
-            vpiFullName: mul_16_16_keepABP_.Ar
-            vpiActual: LogicTypespec
-          vpiName: Ar
-          vpiFullName: mul_16_16_keepABP_.Ar
-        Net name:Br start:4:25 end:4:27:
-          vpiParent: Module name:mul_16_16_keepABP_
-          vpiTypespec RefTypespec start:4:12 end:4:24:
-            vpiParent: Net name:Br
-            vpiFullName: mul_16_16_keepABP_.Br
-            vpiActual: LogicTypespec
-          vpiName: Br
-          vpiFullName: mul_16_16_keepABP_.Br
       vpiPort (7 items):
         Port name:clk start:2:84 end:2:87:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:84 end:2:87:
+          vpiLowConn RefObj name:clk start:2:84 end:2:87:
             vpiParent: Port name:clk
-            vpiFullName: mul_16_16_keepABP_.clk
+            vpiName: clk
+            vpiFullName: mul_16_16_keepABP_.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:2:78 end:2:83:
             vpiParent: Port name:clk
@@ -2582,45 +2566,22 @@ Design name:unnamed:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiName: CEA
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:89 end:2:92:
-            vpiParent: Port name:CEA
-            vpiFullName: mul_16_16_keepABP_.CEA
-            vpiActual: Net name:CEA
-          vpiTypespec RefTypespec start:2:89 end:2:89:
-            vpiParent: Port name:CEA
-            vpiFullName: mul_16_16_keepABP_.CEA
-            vpiActual: LogicTypespec
         Port name:CEB start:2:94 end:2:97:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiName: CEB
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:94 end:2:97:
-            vpiParent: Port name:CEB
-            vpiFullName: mul_16_16_keepABP_.CEB
-            vpiActual: Net name:CEB
-          vpiTypespec RefTypespec start:2:94 end:2:94:
-            vpiParent: Port name:CEB
-            vpiFullName: mul_16_16_keepABP_.CEB
-            vpiActual: LogicTypespec
         Port name:CEP start:2:99 end:2:102:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiName: CEP
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:99 end:2:102:
-            vpiParent: Port name:CEP
-            vpiFullName: mul_16_16_keepABP_.CEP
-            vpiActual: Net name:CEP
-          vpiTypespec RefTypespec start:2:99 end:2:99:
-            vpiParent: Port name:CEP
-            vpiFullName: mul_16_16_keepABP_.CEP
-            vpiActual: LogicTypespec
         Port name:A start:2:119 end:2:120:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:119 end:2:120:
+          vpiLowConn RefObj name:A start:2:119 end:2:120:
             vpiParent: Port name:A
-            vpiFullName: mul_16_16_keepABP_.A
+            vpiName: A
+            vpiFullName: mul_16_16_keepABP_.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:2:104 end:2:118:
             vpiParent: Port name:A
@@ -2630,9 +2591,10 @@ Design name:unnamed:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:137 end:2:138:
+          vpiLowConn RefObj name:B start:2:137 end:2:138:
             vpiParent: Port name:B
-            vpiFullName: mul_16_16_keepABP_.B
+            vpiName: B
+            vpiFullName: mul_16_16_keepABP_.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:2:122 end:2:136:
             vpiParent: Port name:B
@@ -2642,9 +2604,10 @@ Design name:unnamed:
           vpiParent: Module name:mul_16_16_keepABP_
           vpiName: P
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:174 end:2:175:
+          vpiLowConn RefObj name:P start:2:174 end:2:175:
             vpiParent: Port name:P
-            vpiFullName: mul_16_16_keepABP_.P
+            vpiName: P
+            vpiFullName: mul_16_16_keepABP_.P.P
             vpiActual: Variable name:P
           vpiTypespec RefTypespec start:2:151 end:2:173:
             vpiParent: Port name:P
@@ -2704,7 +2667,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: Ar
                               vpiFullName: mul_16_16_keepABP_.Ar
-                              vpiActual: Net name:Ar
+                              vpiActual: Variable name:Ar
                             vpiRhs RefObj name:A start:7:44 end:7:45:
                               vpiParent: Assignment
                               vpiName: A
@@ -2725,7 +2688,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: Ar
                             vpiFullName: mul_16_16_keepABP_.Ar
-                            vpiActual: Net name:Ar
+                            vpiActual: Variable name:Ar
                           vpiRhs RefObj name:A start:10:25 end:10:26:
                             vpiParent: Assignment
                             vpiName: A
@@ -2774,7 +2737,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: Br
                               vpiFullName: mul_16_16_keepABP_.Br
-                              vpiActual: Net name:Br
+                              vpiActual: Variable name:Br
                             vpiRhs RefObj name:B start:12:44 end:12:45:
                               vpiParent: Assignment
                               vpiName: B
@@ -2795,7 +2758,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: Br
                             vpiFullName: mul_16_16_keepABP_.Br
-                            vpiActual: Net name:Br
+                            vpiActual: Variable name:Br
                           vpiRhs RefObj name:B start:15:25 end:15:26:
                             vpiParent: Assignment
                             vpiName: B
@@ -2853,12 +2816,12 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: Ar
                                   vpiFullName: mul_16_16_keepABP_.Ar
-                                  vpiActual: Net name:Ar
+                                  vpiActual: Variable name:Ar
                                 RefObj name:Br start:17:48 end:17:50:
                                   vpiParent: Operation
                                   vpiName: Br
                                   vpiFullName: mul_16_16_keepABP_.Br
-                                  vpiActual: Net name:Br
+                                  vpiActual: Variable name:Br
                       vpiAlwaysType: always (1)
                 vpiElseStmt Begin:
                   vpiParent: GenIfElse
@@ -2883,12 +2846,12 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: Ar
                                 vpiFullName: mul_16_16_keepABP_.Ar
-                                vpiActual: Net name:Ar
+                                vpiActual: Variable name:Ar
                               RefObj name:Br start:20:29 end:20:31:
                                 vpiParent: Operation
                                 vpiName: Br
                                 vpiFullName: mul_16_16_keepABP_.Br
-                                vpiActual: Net name:Br
+                                vpiActual: Variable name:Br
                       vpiAlwaysType: always (1)
     Module name:__test file:$Source01/synth_ice40_dsp/mul_16_16_keepABP_.v start:25:1 end:27:10:
       vpiParent: Design name:unnamed
@@ -2924,7 +2887,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: "__test"
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:__test
         vpiName: work
@@ -2956,7 +2919,7 @@ Design name:unnamed:
         vpiParent: Module name:mul_32_32_keepB_
         vpiName: mul_32_32_keepB_
       vpiFullName: mul_32_32_keepB_
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:P start:2:161 end:2:162:
           vpiParent: Module name:mul_32_32_keepB_
           vpiTypespec RefTypespec start:2:138 end:2:160:
@@ -2965,7 +2928,24 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: P
           vpiFullName: mul_32_32_keepB_.P
-          vpiNetType: none (12)
+        Variable name:Ar start:3:14 end:3:16:
+          vpiParent: Module name:mul_32_32_keepB_
+          vpiTypespec RefTypespec start:3:1 end:3:13:
+            vpiParent: Variable name:Ar
+            vpiFullName: mul_32_32_keepB_.Ar
+            vpiActual: LogicTypespec
+          vpiName: Ar
+          vpiFullName: mul_32_32_keepB_.Ar
+          vpiVector: true
+        Variable name:Br start:4:25 end:4:27:
+          vpiParent: Module name:mul_32_32_keepB_
+          vpiTypespec RefTypespec start:4:12 end:4:24:
+            vpiParent: Variable name:Br
+            vpiFullName: mul_32_32_keepB_.Br
+            vpiActual: LogicTypespec
+          vpiName: Br
+          vpiFullName: mul_32_32_keepB_.Br
+          vpiVector: true
       vpiParameter (5 items):
         Parameter name:AW start:2:37 end:2:39:
           vpiParent: Module name:mul_32_32_keepB_
@@ -3288,13 +3268,13 @@ Design name:unnamed:
           vpiParent: Module name:mul_32_32_keepB_
           vpiName: keep
       vpiDefName: mul_32_32_keepB_
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mul_32_32_keepB_
         vpiName: work
         vpiFullName: mul_32_32_keepB_.work
       vpiCell: mul_32_32_keepB_
-      vpiNet (8 items):
+      vpiNet (3 items):
         Net name:clk start:2:82 end:2:85:
           vpiParent: Module name:mul_32_32_keepB_
           vpiTypespec RefTypespec start:2:76 end:2:81:
@@ -3303,33 +3283,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: mul_32_32_keepB_.clk
-          vpiNetType: wire (1)
-        Net name:CEA start:2:87 end:2:90:
-          vpiParent: Module name:mul_32_32_keepB_
-          vpiTypespec RefTypespec start:2:87 end:2:87:
-            vpiParent: Net name:CEA
-            vpiFullName: mul_32_32_keepB_.CEA
-            vpiActual: LogicTypespec
-          vpiName: CEA
-          vpiFullName: mul_32_32_keepB_.CEA
-          vpiNetType: wire (1)
-        Net name:CEB start:2:92 end:2:95:
-          vpiParent: Module name:mul_32_32_keepB_
-          vpiTypespec RefTypespec start:2:92 end:2:92:
-            vpiParent: Net name:CEB
-            vpiFullName: mul_32_32_keepB_.CEB
-            vpiActual: LogicTypespec
-          vpiName: CEB
-          vpiFullName: mul_32_32_keepB_.CEB
-          vpiNetType: wire (1)
-        Net name:CEP start:2:97 end:2:100:
-          vpiParent: Module name:mul_32_32_keepB_
-          vpiTypespec RefTypespec start:2:97 end:2:97:
-            vpiParent: Net name:CEP
-            vpiFullName: mul_32_32_keepB_.CEP
-            vpiActual: LogicTypespec
-          vpiName: CEP
-          vpiFullName: mul_32_32_keepB_.CEP
           vpiNetType: wire (1)
         Net name:A start:2:117 end:2:118:
           vpiParent: Module name:mul_32_32_keepB_
@@ -3349,30 +3302,15 @@ Design name:unnamed:
           vpiName: B
           vpiFullName: mul_32_32_keepB_.B
           vpiNetType: wire (1)
-        Net name:Ar start:3:14 end:3:16:
-          vpiParent: Module name:mul_32_32_keepB_
-          vpiTypespec RefTypespec start:3:1 end:3:13:
-            vpiParent: Net name:Ar
-            vpiFullName: mul_32_32_keepB_.Ar
-            vpiActual: LogicTypespec
-          vpiName: Ar
-          vpiFullName: mul_32_32_keepB_.Ar
-        Net name:Br start:4:25 end:4:27:
-          vpiParent: Module name:mul_32_32_keepB_
-          vpiTypespec RefTypespec start:4:12 end:4:24:
-            vpiParent: Net name:Br
-            vpiFullName: mul_32_32_keepB_.Br
-            vpiActual: LogicTypespec
-          vpiName: Br
-          vpiFullName: mul_32_32_keepB_.Br
       vpiPort (7 items):
         Port name:clk start:2:82 end:2:85:
           vpiParent: Module name:mul_32_32_keepB_
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:82 end:2:85:
+          vpiLowConn RefObj name:clk start:2:82 end:2:85:
             vpiParent: Port name:clk
-            vpiFullName: mul_32_32_keepB_.clk
+            vpiName: clk
+            vpiFullName: mul_32_32_keepB_.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:2:76 end:2:81:
             vpiParent: Port name:clk
@@ -3382,45 +3320,22 @@ Design name:unnamed:
           vpiParent: Module name:mul_32_32_keepB_
           vpiName: CEA
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:87 end:2:90:
-            vpiParent: Port name:CEA
-            vpiFullName: mul_32_32_keepB_.CEA
-            vpiActual: Net name:CEA
-          vpiTypespec RefTypespec start:2:87 end:2:87:
-            vpiParent: Port name:CEA
-            vpiFullName: mul_32_32_keepB_.CEA
-            vpiActual: LogicTypespec
         Port name:CEB start:2:92 end:2:95:
           vpiParent: Module name:mul_32_32_keepB_
           vpiName: CEB
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:92 end:2:95:
-            vpiParent: Port name:CEB
-            vpiFullName: mul_32_32_keepB_.CEB
-            vpiActual: Net name:CEB
-          vpiTypespec RefTypespec start:2:92 end:2:92:
-            vpiParent: Port name:CEB
-            vpiFullName: mul_32_32_keepB_.CEB
-            vpiActual: LogicTypespec
         Port name:CEP start:2:97 end:2:100:
           vpiParent: Module name:mul_32_32_keepB_
           vpiName: CEP
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:97 end:2:100:
-            vpiParent: Port name:CEP
-            vpiFullName: mul_32_32_keepB_.CEP
-            vpiActual: Net name:CEP
-          vpiTypespec RefTypespec start:2:97 end:2:97:
-            vpiParent: Port name:CEP
-            vpiFullName: mul_32_32_keepB_.CEP
-            vpiActual: LogicTypespec
         Port name:A start:2:117 end:2:118:
           vpiParent: Module name:mul_32_32_keepB_
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:117 end:2:118:
+          vpiLowConn RefObj name:A start:2:117 end:2:118:
             vpiParent: Port name:A
-            vpiFullName: mul_32_32_keepB_.A
+            vpiName: A
+            vpiFullName: mul_32_32_keepB_.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:2:102 end:2:116:
             vpiParent: Port name:A
@@ -3430,9 +3345,10 @@ Design name:unnamed:
           vpiParent: Module name:mul_32_32_keepB_
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:135 end:2:136:
+          vpiLowConn RefObj name:B start:2:135 end:2:136:
             vpiParent: Port name:B
-            vpiFullName: mul_32_32_keepB_.B
+            vpiName: B
+            vpiFullName: mul_32_32_keepB_.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:2:120 end:2:134:
             vpiParent: Port name:B
@@ -3442,9 +3358,10 @@ Design name:unnamed:
           vpiParent: Module name:mul_32_32_keepB_
           vpiName: P
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:161 end:2:162:
+          vpiLowConn RefObj name:P start:2:161 end:2:162:
             vpiParent: Port name:P
-            vpiFullName: mul_32_32_keepB_.P
+            vpiName: P
+            vpiFullName: mul_32_32_keepB_.P.P
             vpiActual: Variable name:P
           vpiTypespec RefTypespec start:2:138 end:2:160:
             vpiParent: Port name:P
@@ -3500,7 +3417,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: Ar
                               vpiFullName: mul_32_32_keepB_.Ar
-                              vpiActual: Net name:Ar
+                              vpiActual: Variable name:Ar
                             vpiRhs RefObj name:A start:7:44 end:7:45:
                               vpiParent: Assignment
                               vpiName: A
@@ -3521,7 +3438,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: Ar
                             vpiFullName: mul_32_32_keepB_.Ar
-                            vpiActual: Net name:Ar
+                            vpiActual: Variable name:Ar
                           vpiRhs RefObj name:A start:10:25 end:10:26:
                             vpiParent: Assignment
                             vpiName: A
@@ -3570,7 +3487,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: Br
                               vpiFullName: mul_32_32_keepB_.Br
-                              vpiActual: Net name:Br
+                              vpiActual: Variable name:Br
                             vpiRhs RefObj name:B start:12:44 end:12:45:
                               vpiParent: Assignment
                               vpiName: B
@@ -3591,7 +3508,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: Br
                             vpiFullName: mul_32_32_keepB_.Br
-                            vpiActual: Net name:Br
+                            vpiActual: Variable name:Br
                           vpiRhs RefObj name:B start:15:25 end:15:26:
                             vpiParent: Assignment
                             vpiName: B
@@ -3649,12 +3566,12 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: Ar
                                   vpiFullName: mul_32_32_keepB_.Ar
-                                  vpiActual: Net name:Ar
+                                  vpiActual: Variable name:Ar
                                 RefObj name:Br start:17:48 end:17:50:
                                   vpiParent: Operation
                                   vpiName: Br
                                   vpiFullName: mul_32_32_keepB_.Br
-                                  vpiActual: Net name:Br
+                                  vpiActual: Variable name:Br
                       vpiAlwaysType: always (1)
                 vpiElseStmt Begin:
                   vpiParent: GenIfElse
@@ -3679,12 +3596,12 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: Ar
                                 vpiFullName: mul_32_32_keepB_.Ar
-                                vpiActual: Net name:Ar
+                                vpiActual: Variable name:Ar
                               RefObj name:Br start:20:29 end:20:31:
                                 vpiParent: Operation
                                 vpiName: Br
                                 vpiFullName: mul_32_32_keepB_.Br
-                                vpiActual: Net name:Br
+                                vpiActual: Variable name:Br
                       vpiAlwaysType: always (1)
     Module name:__test file:$Source01/synth_ice40_dsp/mul_32_32_keepB_.v start:25:1 end:27:10:
       vpiParent: Design name:unnamed
@@ -3720,7 +3637,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: "__test"
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:__test
         vpiName: work
@@ -3805,7 +3722,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -3857,10 +3774,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            56      56      10        10
 Operation                           29      17       0        12
-RefObj                             109      97       0        12
-RefTypespec                        120     120      10        10
+RefObj                             103      91       0        12
+RefTypespec                        108     108      10        10
 ----------------------------------------------------------------
-Others                             261     261       0         0
+Others                             255     255       0         0
 ----------------------------------------------------------------
-                                   575     551      20        44
+                                   551     527      20        44
 ===================== END REDUCTION RESULT =====================

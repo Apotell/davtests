@@ -223,7 +223,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: asserts.v
       vpiPreprocFile: "$Output/lib/work/sat/asserts.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:test file:$Source01/sat/asserts.v start:2:1 end:14:10:
       vpiParent: Design name:unnamed
@@ -255,6 +254,16 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
+      vpiVariable (1 items):
+        Variable name:state start:3:11 end:3:16:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:3:1 end:3:10:
+            vpiParent: Variable name:state
+            vpiFullName: test.state
+            vpiActual: LogicTypespec
+          vpiName: state
+          vpiFullName: test.state
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -287,13 +296,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:test
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:clk start:2:19 end:2:22:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:2:13 end:2:18:
@@ -321,22 +330,15 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: test.y
           vpiNetType: wire (1)
-        Net name:state start:3:11 end:3:16:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:3:1 end:3:10:
-            vpiParent: Net name:state
-            vpiFullName: test.state
-            vpiActual: LogicTypespec
-          vpiName: state
-          vpiFullName: test.state
       vpiPort (3 items):
         Port name:clk start:2:19 end:2:22:
           vpiParent: Module name:test
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:19 end:2:22:
+          vpiLowConn RefObj name:clk start:2:19 end:2:22:
             vpiParent: Port name:clk
-            vpiFullName: test.clk
+            vpiName: clk
+            vpiFullName: test.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:2:13 end:2:18:
             vpiParent: Port name:clk
@@ -346,9 +348,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:30 end:2:33:
+          vpiLowConn RefObj name:rst start:2:30 end:2:33:
             vpiParent: Port name:rst
-            vpiFullName: test.rst
+            vpiName: rst
+            vpiFullName: test.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:2:24 end:2:29:
             vpiParent: Port name:rst
@@ -358,9 +361,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:42 end:2:43:
+          vpiLowConn RefObj name:y start:2:42 end:2:43:
             vpiParent: Port name:y
-            vpiFullName: test.y
+            vpiName: y
+            vpiFullName: test.y.y
             vpiActual: Net name:y
           vpiTypespec RefTypespec start:2:35 end:2:41:
             vpiParent: Port name:y
@@ -403,7 +407,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: state
                             vpiFullName: test.state
-                            vpiActual: Net name:state
+                            vpiActual: Variable name:state
                           Constant start:5:25 end:5:26:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -424,7 +428,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: state
                           vpiFullName: test.state
-                          vpiActual: Net name:state
+                          vpiActual: Variable name:state
                         vpiRhs Constant start:6:18 end:6:19:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -449,7 +453,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: state
                               vpiFullName: test.state
-                              vpiActual: Net name:state
+                              vpiActual: Variable name:state
                             Constant start:8:24 end:8:25:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -466,7 +470,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: state
                           vpiFullName: test.state
-                          vpiActual: Net name:state
+                          vpiActual: Variable name:state
                         vpiRhs Operation start:9:18 end:9:27:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -475,7 +479,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: state
                               vpiFullName: test.state
-                              vpiActual: Net name:state
+                              vpiActual: Variable name:state
                             Constant start:9:26 end:9:27:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -503,7 +507,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:state[2]
               vpiName: state
               vpiFullName: test.state
-              vpiActual: Net name:state
+              vpiActual: Variable name:state
             vpiIndex Constant start:12:18 end:12:19:
               vpiParent: BitSelect name:state[2]
               vpiTypespec RefTypespec:

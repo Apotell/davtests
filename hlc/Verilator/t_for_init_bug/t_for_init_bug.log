@@ -328,7 +328,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_for_init_bug.v
       vpiPreprocFile: "$Output/lib/work/t_for_init_bug.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_for_init_bug.v start:6:1 end:33:10:
       vpiParent: Design name:unnamed
@@ -336,6 +335,31 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:i start:16:12 end:16:13:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:16:4 end:16:11:
+            vpiParent: Variable name:i
+            vpiFullName: t.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: t.i
+        Variable name:j start:16:14 end:16:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:16:4 end:16:11:
+            vpiParent: Variable name:j
+            vpiFullName: t.j
+            vpiActual: IntegerTypespec
+          vpiName: j
+          vpiFullName: t.j
+        Variable name:priority_mask start:18:25 end:18:38:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:18:11 end:18:24:
+            vpiParent: Variable name:priority_mask
+            vpiFullName: t.priority_mask
+            vpiActual: LogicTypespec
+          vpiName: priority_mask
+          vpiFullName: t.priority_mask
       vpiParameter (1 items):
         Parameter name:ARW start:13:14 end:13:17:
           vpiParent: Module name:t
@@ -440,22 +464,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
-        Net name:priority_mask start:18:25 end:18:38:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:18:11 end:18:24:
-            vpiParent: Net name:priority_mask
-            vpiFullName: t.priority_mask
-            vpiActual: LogicTypespec
-          vpiName: priority_mask
-          vpiFullName: t.priority_mask
-          vpiNetType: reg (48)
+      vpiNet (1 items):
         Net name:muxed_requests start:20:20 end:20:34:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:20:10 end:20:19:
@@ -464,32 +479,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: muxed_requests
           vpiFullName: t.muxed_requests
-        Net name:i start:16:12 end:16:13:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:16:4 end:16:11:
-            vpiParent: Net name:i
-            vpiFullName: t.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: t.i
-        Net name:j start:16:14 end:16:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:16:4 end:16:11:
-            vpiParent: Net name:j
-            vpiFullName: t.j
-            vpiActual: IntegerTypespec
-          vpiName: j
-          vpiFullName: t.j
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:priority_mask start:8:4 end:8:17:
           vpiParent: Module name:t
           vpiName: priority_mask
           vpiDirection: output (2)
-          vpiLowConn RefObj name:priority_mask start:8:4 end:8:17:
+          vpiLowConn RefObj name:priority_mask start:18:25 end:18:38:
             vpiParent: Port name:priority_mask
             vpiName: priority_mask
             vpiFullName: t.priority_mask.priority_mask
-            vpiActual: Net name:priority_mask
+            vpiActual: Variable name:priority_mask
           vpiTypespec RefTypespec start:18:11 end:18:24:
             vpiParent: Port name:priority_mask
             vpiFullName: t.priority_mask
@@ -498,7 +498,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: muxed_requests
           vpiDirection: input (1)
-          vpiLowConn RefObj name:muxed_requests start:10:4 end:10:18:
+          vpiLowConn RefObj name:muxed_requests start:20:20 end:20:34:
             vpiParent: Port name:muxed_requests
             vpiName: muxed_requests
             vpiFullName: t.muxed_requests.muxed_requests
@@ -530,7 +530,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: i
                         vpiFullName: t.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       vpiRhs Operation start:23:14 end:23:19:
                         vpiParent: Assignment
                         vpiOpType: subtract (11)
@@ -558,7 +558,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: i
                         vpiFullName: t.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       vpiRhs Operation start:23:26 end:23:29:
                         vpiParent: Assignment
                         vpiOpType: subtract (11)
@@ -567,7 +567,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: i
                             vpiFullName: t.i
-                            vpiActual: Net name:i
+                            vpiActual: Variable name:i
                           Constant start:23:28 end:23:29:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -586,7 +586,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i
                         vpiFullName: t.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       Constant start:23:22 end:23:23:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -615,12 +615,12 @@ Design name:unnamed:
                             vpiParent: BitSelect name:priority_mask[i]
                             vpiName: priority_mask
                             vpiFullName: t.priority_mask
-                            vpiActual: Net name:priority_mask
+                            vpiActual: Variable name:priority_mask
                           vpiIndex RefObj name:i start:24:17 end:24:18:
                             vpiParent: BitSelect name:priority_mask[i]
                             vpiName: i
                             vpiFullName: t.i
-                            vpiActual: Net name:i
+                            vpiActual: Variable name:i
                         vpiRhs Constant start:24:20 end:24:24:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -642,12 +642,12 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: j
                               vpiFullName: t.j
-                              vpiActual: Net name:j
+                              vpiActual: Variable name:j
                             vpiRhs RefObj name:j start:26:10 end:26:11:
                               vpiParent: Assignment
                               vpiName: j
                               vpiFullName: t.j
-                              vpiActual: Net name:j
+                              vpiActual: Variable name:j
                         vpiForIncStmt (1 items):
                           Assignment start:26:17 end:26:22:
                             vpiParent: ForStmt
@@ -656,7 +656,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: j
                               vpiFullName: t.j
-                              vpiActual: Net name:j
+                              vpiActual: Variable name:j
                             vpiRhs Operation start:26:19 end:26:22:
                               vpiParent: Assignment
                               vpiOpType: subtract (11)
@@ -665,7 +665,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: j
                                   vpiFullName: t.j
-                                  vpiActual: Net name:j
+                                  vpiActual: Variable name:j
                                 Constant start:26:21 end:26:22:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -684,7 +684,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: j
                               vpiFullName: t.j
-                              vpiActual: Net name:j
+                              vpiActual: Variable name:j
                             Constant start:26:15 end:26:16:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -706,12 +706,12 @@ Design name:unnamed:
                               vpiParent: BitSelect name:priority_mask[i]
                               vpiName: priority_mask
                               vpiFullName: t.priority_mask
-                              vpiActual: Net name:priority_mask
+                              vpiActual: Variable name:priority_mask
                             vpiIndex RefObj name:i start:27:19 end:27:20:
                               vpiParent: BitSelect name:priority_mask[i]
                               vpiName: i
                               vpiFullName: t.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                           vpiRhs Operation start:27:22 end:27:58:
                             vpiParent: Assignment
                             vpiOpType: bitwise or (29)
@@ -724,12 +724,12 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:priority_mask[j]
                                   vpiName: priority_mask
                                   vpiFullName: t.priority_mask
-                                  vpiActual: Net name:priority_mask
+                                  vpiActual: Variable name:priority_mask
                                 vpiIndex RefObj name:j start:27:36 end:27:37:
                                   vpiParent: BitSelect name:priority_mask[j]
                                   vpiName: j
                                   vpiFullName: t.j
-                                  vpiActual: Net name:j
+                                  vpiActual: Variable name:j
                               BitSelect name:muxed_requests[j] start:27:41 end:27:58:
                                 vpiParent: Operation
                                 vpiName: muxed_requests[j]
@@ -743,7 +743,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:muxed_requests[j]
                                   vpiName: j
                                   vpiFullName: t.j
-                                  vpiActual: Net name:j
+                                  vpiActual: Variable name:j
                 Assignment start:30:7 end:30:28:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -755,7 +755,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:priority_mask[0]
                       vpiName: priority_mask
                       vpiFullName: t.priority_mask
-                      vpiActual: Net name:priority_mask
+                      vpiActual: Variable name:priority_mask
                     vpiIndex Constant start:30:21 end:30:22:
                       vpiParent: BitSelect name:priority_mask[0]
                       vpiTypespec RefTypespec:

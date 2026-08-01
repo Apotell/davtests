@@ -341,7 +341,6 @@ n<$Source01/attrib03_parameter.v> u<326> t<Top_level_rule> c<1> l<1:1> el<29:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/attrib03_parameter.v:1:1: Compile module "bar".
 [INF:CP0303] $Source01/attrib03_parameter.v:20:1: Compile module "foo".
-[ERR:EL0535] $Source01/attrib03_parameter.v:26:11: Illegal implicit net "id:134, name:WIDTH".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -351,7 +350,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: attrib03_parameter.v
       vpiPreprocFile: "$Output/lib/work/attrib03_parameter.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:bar file:$Source01/attrib03_parameter.v start:1:1 end:18:10:
       vpiParent: Design name:unnamed
@@ -359,6 +357,15 @@ Design name:unnamed:
         vpiParent: Module name:bar
         vpiName: bar
       vpiFullName: bar
+      vpiVariable (1 items):
+        Variable name:out start:12:27 end:12:30:
+          vpiParent: Module name:bar
+          vpiTypespec RefTypespec start:12:10 end:12:26:
+            vpiParent: Variable name:out
+            vpiFullName: bar.out
+            vpiActual: LogicTypespec
+          vpiName: out
+          vpiFullName: bar.out
       vpiParameter (2 items):
         Parameter name:WIDTH start:4:13 end:4:18:
           vpiParent: Module name:bar
@@ -503,13 +510,13 @@ Design name:unnamed:
             vpiDecompile: "55"
             vpiValue: 55
       vpiDefName: bar
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bar
         vpiName: work
         vpiFullName: bar.work
       vpiCell: bar
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:clk start:9:15 end:9:18:
           vpiParent: Module name:bar
           vpiTypespec RefTypespec start:9:10 end:9:14:
@@ -537,21 +544,12 @@ Design name:unnamed:
           vpiName: inp
           vpiFullName: bar.inp
           vpiNetType: wire (1)
-        Net name:out start:12:27 end:12:30:
-          vpiParent: Module name:bar
-          vpiTypespec RefTypespec start:12:10 end:12:26:
-            vpiParent: Net name:out
-            vpiFullName: bar.out
-            vpiActual: LogicTypespec
-          vpiName: out
-          vpiFullName: bar.out
-          vpiNetType: reg (48)
       vpiPort (4 items):
         Port name:clk start:1:12 end:1:15:
           vpiParent: Module name:bar
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:1:12 end:1:15:
+          vpiLowConn RefObj name:clk start:9:15 end:9:18:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: bar.clk.clk
@@ -564,7 +562,7 @@ Design name:unnamed:
           vpiParent: Module name:bar
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj name:rst start:1:17 end:1:20:
+          vpiLowConn RefObj name:rst start:10:15 end:10:18:
             vpiParent: Port name:rst
             vpiName: rst
             vpiFullName: bar.rst.rst
@@ -577,7 +575,7 @@ Design name:unnamed:
           vpiParent: Module name:bar
           vpiName: inp
           vpiDirection: input (1)
-          vpiLowConn RefObj name:inp start:1:22 end:1:25:
+          vpiLowConn RefObj name:inp start:11:27 end:11:30:
             vpiParent: Port name:inp
             vpiName: inp
             vpiFullName: bar.inp.inp
@@ -590,11 +588,11 @@ Design name:unnamed:
           vpiParent: Module name:bar
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:1:27 end:1:30:
+          vpiLowConn RefObj name:out start:12:27 end:12:30:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: bar.out.out
-            vpiActual: Net name:out
+            vpiActual: Variable name:out
           vpiTypespec RefTypespec start:12:10 end:12:26:
             vpiParent: Port name:out
             vpiFullName: bar.out
@@ -626,7 +624,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: out
                   vpiFullName: bar.out
-                  vpiActual: Net name:out
+                  vpiActual: Variable name:out
                 vpiRhs Constant start:15:21 end:15:22:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -643,7 +641,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: out
                   vpiFullName: bar.out
-                  vpiActual: Net name:out
+                  vpiActual: Variable name:out
                 vpiRhs Operation start:16:21 end:16:36:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -726,7 +724,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bar
             vpiName: bar
       vpiDefName: foo
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo
         vpiName: work
@@ -774,7 +772,7 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:20:12 end:20:15:
+          vpiLowConn RefObj name:clk start:21:15 end:21:18:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: foo.clk.clk
@@ -787,7 +785,7 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj name:rst start:20:17 end:20:20:
+          vpiLowConn RefObj name:rst start:22:15 end:22:18:
             vpiParent: Port name:rst
             vpiName: rst
             vpiFullName: foo.rst.rst
@@ -800,7 +798,7 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiName: inp
           vpiDirection: input (1)
-          vpiLowConn RefObj name:inp start:20:22 end:20:25:
+          vpiLowConn RefObj name:inp start:23:21 end:23:24:
             vpiParent: Port name:inp
             vpiName: inp
             vpiFullName: foo.inp.inp
@@ -813,7 +811,7 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:20:27 end:20:30:
+          vpiLowConn RefObj name:out start:24:21 end:24:24:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: foo.out.out
@@ -909,7 +907,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

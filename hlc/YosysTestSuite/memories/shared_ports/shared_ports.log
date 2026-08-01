@@ -309,6 +309,7 @@ n<$Source01/shared_ports.v> u<295> t<Top_level_rule> c<1> l<4:1> el<26:1>
         n<> u<291> t<ENDMODULE> p<292> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/shared_ports.v:4:1: Compile module "test".
+[ERR:LN0813] $Source01/shared_ports.v:1:1: Found 4 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -318,7 +319,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: shared_ports.v
       vpiPreprocFile: "$Output/lib/work/shared_ports.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:test file:$Source01/shared_ports.v start:4:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -326,7 +326,7 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:rd_data start:10:20 end:10:27:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:10:2 end:10:19:
@@ -335,7 +335,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd_data
           vpiFullName: test.rd_data
-          vpiNetType: none (12)
+        Variable name:mem start:13:12 end:13:15:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: test.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: test.mem
+          vpiVector: true
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -499,13 +507,13 @@ Design name:unnamed:
             vpiFullName: test
             vpiActual: LogicTypespec
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (10 items):
+      vpiNet (5 items):
         Net name:clk start:5:8 end:5:11:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:5:2 end:5:7:
@@ -524,24 +532,6 @@ Design name:unnamed:
           vpiName: wr_en1
           vpiFullName: test.wr_en1
           vpiNetType: wire (1)
-        Net name:wr_en2 start:6:16 end:6:22:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:6:16 end:6:16:
-            vpiParent: Net name:wr_en2
-            vpiFullName: test.wr_en2
-            vpiActual: LogicTypespec
-          vpiName: wr_en2
-          vpiFullName: test.wr_en2
-          vpiNetType: wire (1)
-        Net name:wr_en3 start:6:24 end:6:30:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:6:24 end:6:24:
-            vpiParent: Net name:wr_en3
-            vpiFullName: test.wr_en3
-            vpiActual: LogicTypespec
-          vpiName: wr_en3
-          vpiFullName: test.wr_en3
-          vpiNetType: wire (1)
         Net name:wr_addr1 start:7:14 end:7:22:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:7:2 end:7:13:
@@ -550,24 +540,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wr_addr1
           vpiFullName: test.wr_addr1
-          vpiNetType: wire (1)
-        Net name:wr_addr2 start:7:24 end:7:32:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:7:24 end:7:24:
-            vpiParent: Net name:wr_addr2
-            vpiFullName: test.wr_addr2
-            vpiActual: LogicTypespec
-          vpiName: wr_addr2
-          vpiFullName: test.wr_addr2
-          vpiNetType: wire (1)
-        Net name:wr_addr3 start:7:34 end:7:42:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:7:34 end:7:34:
-            vpiParent: Net name:wr_addr3
-            vpiFullName: test.wr_addr3
-            vpiActual: LogicTypespec
-          vpiName: wr_addr3
-          vpiFullName: test.wr_addr3
           vpiNetType: wire (1)
         Net name:wr_data start:8:15 end:8:22:
           vpiParent: Module name:test
@@ -587,22 +559,15 @@ Design name:unnamed:
           vpiName: rd_addr
           vpiFullName: test.rd_addr
           vpiNetType: wire (1)
-        Net name:mem start:13:12 end:13:15:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: test.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: test.mem
       vpiPort (10 items):
         Port name:clk start:5:8 end:5:11:
           vpiParent: Module name:test
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:8 end:5:11:
+          vpiLowConn RefObj name:clk start:5:8 end:5:11:
             vpiParent: Port name:clk
-            vpiFullName: test.clk
+            vpiName: clk
+            vpiFullName: test.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:5:2 end:5:7:
             vpiParent: Port name:clk
@@ -612,9 +577,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: wr_en1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:6:8 end:6:14:
+          vpiLowConn RefObj name:wr_en1 start:6:8 end:6:14:
             vpiParent: Port name:wr_en1
-            vpiFullName: test.wr_en1
+            vpiName: wr_en1
+            vpiFullName: test.wr_en1.wr_en1
             vpiActual: Net name:wr_en1
           vpiTypespec RefTypespec start:6:2 end:6:7:
             vpiParent: Port name:wr_en1
@@ -624,33 +590,18 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: wr_en2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:6:16 end:6:22:
-            vpiParent: Port name:wr_en2
-            vpiFullName: test.wr_en2
-            vpiActual: Net name:wr_en2
-          vpiTypespec RefTypespec start:6:16 end:6:16:
-            vpiParent: Port name:wr_en2
-            vpiFullName: test.wr_en2
-            vpiActual: LogicTypespec
         Port name:wr_en3 start:6:24 end:6:30:
           vpiParent: Module name:test
           vpiName: wr_en3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:6:24 end:6:30:
-            vpiParent: Port name:wr_en3
-            vpiFullName: test.wr_en3
-            vpiActual: Net name:wr_en3
-          vpiTypespec RefTypespec start:6:24 end:6:24:
-            vpiParent: Port name:wr_en3
-            vpiFullName: test.wr_en3
-            vpiActual: LogicTypespec
         Port name:wr_addr1 start:7:14 end:7:22:
           vpiParent: Module name:test
           vpiName: wr_addr1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:7:14 end:7:22:
+          vpiLowConn RefObj name:wr_addr1 start:7:14 end:7:22:
             vpiParent: Port name:wr_addr1
-            vpiFullName: test.wr_addr1
+            vpiName: wr_addr1
+            vpiFullName: test.wr_addr1.wr_addr1
             vpiActual: Net name:wr_addr1
           vpiTypespec RefTypespec start:7:2 end:7:13:
             vpiParent: Port name:wr_addr1
@@ -660,33 +611,18 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: wr_addr2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:7:24 end:7:32:
-            vpiParent: Port name:wr_addr2
-            vpiFullName: test.wr_addr2
-            vpiActual: Net name:wr_addr2
-          vpiTypespec RefTypespec start:7:24 end:7:24:
-            vpiParent: Port name:wr_addr2
-            vpiFullName: test.wr_addr2
-            vpiActual: LogicTypespec
         Port name:wr_addr3 start:7:34 end:7:42:
           vpiParent: Module name:test
           vpiName: wr_addr3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:7:34 end:7:42:
-            vpiParent: Port name:wr_addr3
-            vpiFullName: test.wr_addr3
-            vpiActual: Net name:wr_addr3
-          vpiTypespec RefTypespec start:7:34 end:7:34:
-            vpiParent: Port name:wr_addr3
-            vpiFullName: test.wr_addr3
-            vpiActual: LogicTypespec
         Port name:wr_data start:8:15 end:8:22:
           vpiParent: Module name:test
           vpiName: wr_data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:15 end:8:22:
+          vpiLowConn RefObj name:wr_data start:8:15 end:8:22:
             vpiParent: Port name:wr_data
-            vpiFullName: test.wr_data
+            vpiName: wr_data
+            vpiFullName: test.wr_data.wr_data
             vpiActual: Net name:wr_data
           vpiTypespec RefTypespec start:8:2 end:8:14:
             vpiParent: Port name:wr_data
@@ -696,9 +632,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: rd_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:9:14 end:9:21:
+          vpiLowConn RefObj name:rd_addr start:9:14 end:9:21:
             vpiParent: Port name:rd_addr
-            vpiFullName: test.rd_addr
+            vpiName: rd_addr
+            vpiFullName: test.rd_addr.rd_addr
             vpiActual: Net name:rd_addr
           vpiTypespec RefTypespec start:9:2 end:9:13:
             vpiParent: Port name:rd_addr
@@ -708,9 +645,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: rd_data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:10:20 end:10:27:
+          vpiLowConn RefObj name:rd_data start:10:20 end:10:27:
             vpiParent: Port name:rd_data
-            vpiFullName: test.rd_data
+            vpiName: rd_data
+            vpiFullName: test.rd_data.rd_data
             vpiActual: Variable name:rd_data
           vpiTypespec RefTypespec start:10:2 end:10:19:
             vpiParent: Port name:rd_data
@@ -755,7 +693,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:mem[wr_addr1]
                           vpiName: mem
                           vpiFullName: test.mem[wr_addr1][15:0].mem
-                          vpiActual: Net name:mem
+                          vpiActual: Variable name:mem
                         vpiIndex RefObj name:wr_addr1 start:17:7 end:17:15:
                           vpiParent: BitSelect name:mem[wr_addr1]
                           vpiName: wr_addr1
@@ -794,7 +732,7 @@ Design name:unnamed:
                       vpiParent: IfElse
                       vpiName: wr_en2
                       vpiFullName: test.wr_en2
-                      vpiActual: Net name:wr_en2
+                      vpiActual: Port name:wr_en2
                     vpiStmt Assignment start:19:3 end:19:33:
                       vpiParent: IfElse
                       vpiLhs PartSelect name:mem[wr_addr2][23:8] start:19:3 end:19:22:
@@ -809,12 +747,12 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem[wr_addr2]
                             vpiName: mem
                             vpiFullName: test.mem[wr_addr2][23:8].mem
-                            vpiActual: Net name:mem
+                            vpiActual: Variable name:mem
                           vpiIndex RefObj name:wr_addr2 start:19:7 end:19:15:
                             vpiParent: BitSelect name:mem[wr_addr2]
                             vpiName: wr_addr2
                             vpiFullName: test.mem[wr_addr2][23:8].wr_addr2
-                            vpiActual: Net name:wr_addr2
+                            vpiActual: Port name:wr_addr2
                         vpiRange Range start:19:17 end:19:21:
                           vpiParent: PartSelect name:mem[wr_addr2][23:8]
                           vpiLeftRange Constant start:19:17 end:19:19:
@@ -848,7 +786,7 @@ Design name:unnamed:
                         vpiParent: IfStmt
                         vpiName: wr_en3
                         vpiFullName: test.wr_en3
-                        vpiActual: Net name:wr_en3
+                        vpiActual: Port name:wr_en3
                       vpiStmt Assignment start:21:3 end:21:34:
                         vpiParent: IfStmt
                         vpiLhs PartSelect name:mem[wr_addr3][31:16] start:21:3 end:21:23:
@@ -863,12 +801,12 @@ Design name:unnamed:
                               vpiParent: BitSelect name:mem[wr_addr3]
                               vpiName: mem
                               vpiFullName: test.mem[wr_addr3][31:16].mem
-                              vpiActual: Net name:mem
+                              vpiActual: Variable name:mem
                             vpiIndex RefObj name:wr_addr3 start:21:7 end:21:15:
                               vpiParent: BitSelect name:mem[wr_addr3]
                               vpiName: wr_addr3
                               vpiFullName: test.mem[wr_addr3][31:16].wr_addr3
-                              vpiActual: Net name:wr_addr3
+                              vpiActual: Port name:wr_addr3
                           vpiRange Range start:21:17 end:21:22:
                             vpiParent: PartSelect name:mem[wr_addr3][31:16]
                             vpiLeftRange Constant start:21:17 end:21:19:
@@ -911,7 +849,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:mem[rd_addr]
                       vpiName: mem
                       vpiFullName: test.mem
-                      vpiActual: Net name:mem
+                      vpiActual: Variable name:mem
                     vpiIndex RefObj name:rd_addr start:22:17 end:22:24:
                       vpiParent: BitSelect name:mem[rd_addr]
                       vpiName: rd_addr
@@ -931,7 +869,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -976,7 +914,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/memories/shared_ports/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             147     147       0         0
+Others                             131     131       0         0
 ----------------------------------------------------------------
-                                   147     147       0         0
+                                   131     131       0         0
 ===================== END REDUCTION RESULT =====================

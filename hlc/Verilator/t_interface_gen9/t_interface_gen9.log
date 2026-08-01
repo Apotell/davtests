@@ -191,7 +191,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_gen9.v:8:1: Compile module "t1".
 [INF:CP0303] $Source01/t_interface_gen9.v:14:1: Compile module "t".
 [INF:CP0335] $Source01/t_interface_gen9.v:20:66: Compile generate block "TestIf".
-[ERR:EL0535] $Source01/t_interface_gen9.v:23:17: Illegal implicit net "id:64, name:foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -201,7 +200,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_gen9.v
       vpiPreprocFile: "$Output/lib/work/t_interface_gen9.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t1 file:$Source01/t_interface_gen9.v start:8:1 end:12:10:
       vpiParent: Design name:unnamed
@@ -216,7 +214,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
       vpiDefName: t1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t1
         vpiName: work
@@ -238,9 +236,10 @@ Design name:unnamed:
           vpiParent: Module name:t1
           vpiName: foo
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:23 end:8:26:
+          vpiLowConn RefObj name:foo start:8:23 end:8:26:
             vpiParent: Port name:foo
-            vpiFullName: t1.foo
+            vpiName: foo
+            vpiFullName: t1.foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec name:logic start:8:17 end:8:22:
             vpiParent: Port name:foo
@@ -281,6 +280,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:my_foo start:16:16 end:16:22:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:16:4 end:16:15:
+            vpiParent: Variable name:my_foo
+            vpiName: logic
+            vpiFullName: t.my_foo.logic
+            vpiActual: ArrayTypespec
+          vpiName: my_foo
+          vpiFullName: t.my_foo
       vpiTypespec (2 items):
         UnsupportedTypespec name:logic start:16:4 end:16:15:
           vpiParent: Module name:t
@@ -319,22 +328,12 @@ Design name:unnamed:
             vpiFullName: t.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:my_foo start:16:16 end:16:22:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:16:4 end:16:15:
-            vpiParent: Net name:my_foo
-            vpiName: logic
-            vpiFullName: t.my_foo.logic
-            vpiActual: ArrayTypespec
-          vpiName: my_foo
-          vpiFullName: t.my_foo
       vpiProcess (1 items):
         Initial start:28:4 end:31:7:
           vpiParent: Module name:t
@@ -466,7 +465,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:my_foo[the_genvar]
                               vpiName: my_foo
                               vpiFullName: t.TestIf.t.my_foo
-                              vpiActual: Net name:my_foo
+                              vpiActual: Variable name:my_foo
                             vpiIndex RefObj name:the_genvar start:23:28 end:23:38:
                               vpiParent: BitSelect name:my_foo[the_genvar]
                               vpiName: the_genvar
@@ -493,7 +492,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

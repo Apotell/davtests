@@ -354,13 +354,10 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_modport_export.v:31:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_modport_export.v:45:1: Compile module "testmod_callee".
 [INF:CP0303] $Source01/t_interface_modport_export.v:58:1: Compile module "testmod_caller".
-[ERR:EL0535] $Source01/t_interface_modport_export.v:39:44: Illegal implicit net "id:49, name:mp_e".
-[ERR:EL0535] $Source01/t_interface_modport_export.v:39:38: Illegal implicit net "id:51, name:ie".
-[ERR:EL0535] $Source01/t_interface_modport_export.v:41:16: Illegal implicit net "id:61, name:mp_i".
-[ERR:EL0535] $Source01/t_interface_modport_export.v:41:10: Illegal implicit net "id:63, name:ii".
-[ERR:EL0535] $Source01/t_interface_modport_export.v:47:12: Illegal implicit net "id:72, name:mp_e".
-[ERR:EL0535] $Source01/t_interface_modport_export.v:61:12: Illegal implicit net "id:107, name:mp_i".
-[ERR:EL0535] $Source01/t_interface_modport_export.v:65:10: Illegal implicit net "id:120, name:data".
+[ERR:LN0813] $Source01/t_interface_modport_export.v:1:1: Found 2 orphan node(s).
+[WRN:CP0350] $Source01/t_interface_modport_export.v:39:44: Failed to bind "id:49, name:mp_e".
+[WRN:CP0350] $Source01/t_interface_modport_export.v:41:16: Failed to bind "id:61, name:mp_i".
+[WRN:CP0350] $Source01/t_interface_modport_export.v:65:10: Failed to bind "id:112, name:data".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -370,7 +367,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_modport_export.v
       vpiPreprocFile: "$Output/lib/work/t_interface_modport_export.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:test_if file:$Source01/t_interface_modport_export.v start:8:1 end:28:13:
       vpiParent: Design name:unnamed
@@ -387,7 +383,6 @@ Design name:unnamed:
             vpiFullName: test_if.data.logic
           vpiName: data
           vpiFullName: test_if.data
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec start:11:20 end:11:20:
           vpiParent: Interface name:test_if
@@ -396,7 +391,7 @@ Design name:unnamed:
           vpiName Identifier name:logic start:11:34 end:11:39:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:test_if
         vpiName: work
@@ -473,7 +468,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:testmod_caller
             vpiName: testmod_caller
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -488,12 +483,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:33:4 end:33:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:33:4 end:33:7:
+          vpiLowConn RefObj name:clk start:35:10 end:35:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -587,24 +583,8 @@ Design name:unnamed:
         vpiParent: Module name:testmod_callee
         vpiName: testmod_callee
       vpiFullName: testmod_callee
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:test_if::mp_e start:47:4 end:47:16:
-          vpiParent: Module name:testmod_callee
-          vpiPathElem (2 items):
-            RefObj name:test_if start:47:4 end:47:11:
-              vpiParent: UnsupportedTypespec name:test_if::mp_e
-              vpiName: test_if
-              vpiFullName: testmod_callee.test_if::mp_e.test_if
-              vpiActual: Interface name:test_if
-            RefObj name:mp_e start:47:12 end:47:16:
-              vpiParent: UnsupportedTypespec name:test_if::mp_e
-              vpiName: mp_e
-              vpiFullName: testmod_callee.test_if::mp_e.mp_e
-          vpiName Identifier name:test_if::mp_e:
-            vpiParent: UnsupportedTypespec name:test_if::mp_e
-            vpiName: test_if::mp_e
       vpiDefName: testmod_callee
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:testmod_callee
         vpiName: work
@@ -634,7 +614,7 @@ Design name:unnamed:
             vpiParent: Function name:myfunc
             vpiName: ie
             vpiFullName: testmod_callee.myfunc.ie
-            vpiActual: Net name:ie
+            vpiActual: Port name:ie
           vpiIODecl (1 items):
             IODecl name:val start:50:52 end:50:55:
               vpiParent: Function name:myfunc
@@ -683,61 +663,28 @@ Design name:unnamed:
             vpiParent: Function name:myfunc
             vpiFullName: testmod_callee.myfunc
             vpiActual: UnsupportedTypespec name:logic
-      vpiNet (1 items):
-        Net name:ie start:47:18 end:47:20:
-          vpiParent: Module name:testmod_callee
-          vpiTypespec RefTypespec start:47:4 end:47:16:
-            vpiParent: Net name:ie
-            vpiFullName: testmod_callee.ie
-            vpiActual: UnsupportedTypespec name:test_if::mp_e
-          vpiName: ie
-          vpiFullName: testmod_callee.ie
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:ie start:47:18 end:47:20:
           vpiParent: Module name:testmod_callee
           vpiName: ie
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:47:18 end:47:20:
-            vpiParent: Port name:ie
-            vpiFullName: testmod_callee.ie
-            vpiActual: Net name:ie
-          vpiTypespec RefTypespec start:47:4 end:47:16:
-            vpiParent: Port name:ie
-            vpiFullName: testmod_callee.ie
-            vpiActual: UnsupportedTypespec name:test_if::mp_e
     Module name:testmod_caller file:$Source01/t_interface_modport_export.v start:58:1 end:74:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testmod_caller start:58:8 end:58:22:
         vpiParent: Module name:testmod_caller
         vpiName: testmod_caller
       vpiFullName: testmod_caller
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:testmod_caller
-        UnsupportedTypespec name:test_if::mp_i start:61:4 end:61:16:
-          vpiParent: Module name:testmod_caller
-          vpiPathElem (2 items):
-            RefObj name:test_if start:61:4 end:61:11:
-              vpiParent: UnsupportedTypespec name:test_if::mp_i
-              vpiName: test_if
-              vpiFullName: testmod_caller.test_if::mp_i.test_if
-              vpiActual: Interface name:test_if
-            RefObj name:mp_i start:61:12 end:61:16:
-              vpiParent: UnsupportedTypespec name:test_if::mp_i
-              vpiName: mp_i
-              vpiFullName: testmod_caller.test_if::mp_i.mp_i
-          vpiName Identifier name:test_if::mp_i:
-            vpiParent: UnsupportedTypespec name:test_if::mp_i
-            vpiName: test_if::mp_i
       vpiDefName: testmod_caller
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:testmod_caller
         vpiName: work
         vpiFullName: testmod_caller.work
       vpiCell: testmod_caller
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:60:10 end:60:13:
           vpiParent: Module name:testmod_caller
           vpiTypespec RefTypespec start:60:4 end:60:9:
@@ -747,23 +694,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: testmod_caller.clk
           vpiNetType: wire (1)
-        Net name:ii start:61:18 end:61:20:
-          vpiParent: Module name:testmod_caller
-          vpiTypespec RefTypespec start:61:4 end:61:16:
-            vpiParent: Net name:ii
-            vpiFullName: testmod_caller.ii
-            vpiActual: UnsupportedTypespec name:test_if::mp_i
-          vpiName: ii
-          vpiFullName: testmod_caller.ii
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:clk start:60:10 end:60:13:
           vpiParent: Module name:testmod_caller
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:60:10 end:60:13:
+          vpiLowConn RefObj name:clk start:60:10 end:60:13:
             vpiParent: Port name:clk
-            vpiFullName: testmod_caller.clk
+            vpiName: clk
+            vpiFullName: testmod_caller.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:60:4 end:60:9:
             vpiParent: Port name:clk
@@ -773,14 +712,6 @@ Design name:unnamed:
           vpiParent: Module name:testmod_caller
           vpiName: ii
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:61:18 end:61:20:
-            vpiParent: Port name:ii
-            vpiFullName: testmod_caller.ii
-            vpiActual: Net name:ii
-          vpiTypespec RefTypespec start:61:4 end:61:16:
-            vpiParent: Port name:ii
-            vpiFullName: testmod_caller.ii
-            vpiActual: UnsupportedTypespec name:test_if::mp_i
       vpiProcess (1 items):
         Always start:64:4 end:73:7:
           vpiParent: Module name:testmod_caller
@@ -814,7 +745,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:ii.data
                         vpiName: ii
                         vpiFullName: testmod_caller.ii
-                        vpiActual: Net name:ii
+                        vpiActual: Port name:ii
                       RefObj name:data start:65:10 end:65:14:
                         vpiParent: HierPath name:ii.data
                         vpiName: data
@@ -840,7 +771,7 @@ Design name:unnamed:
                         vpiParent: "HierPath name:ii.myfunc(1'b0)"
                         vpiName: ii
                         vpiFullName: testmod_caller.ii
-                        vpiActual: Net name:ii
+                        vpiActual: Port name:ii
                       SubroutineCall name:myfunc start:66:14 end:66:27:
                         vpiParent: "HierPath name:ii.myfunc(1'b0)"
                         vpiName Identifier name:myfunc start:66:14 end:66:20:
@@ -922,8 +853,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -938,25 +869,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_modport_export/mounts.json
 
 
-{'result': {'coverage': 98.17,
+{'result': {'coverage': 94.52,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_modport_export.v': {'post_len': 12,
+            'files': {'$Output/lib/work/t_interface_modport_export.v': {'post_len': 36,
                                                                         'pre_len': 657}},
-            'post_len': 12,
+            'post_len': 36,
             'pre_len': 657,
             'test_name': 'Verilator/t_interface_modport_export'}}
 
 +-----------------------------------------------+----------+-----------+
 | INPUT                                         |   PRELEN |   POSTLEN |
 +===============================================+==========+===========+
-| $Output/lib/work/t_interface_modport_export.v |      657 |        12 |
+| $Output/lib/work/t_interface_modport_export.v |      657 |        36 |
 +===============================================+==========+===========+
-|                                               |      657 |        12 |
+|                                               |      657 |        36 |
 +-----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.17
+[COVERAGE] : 94.52
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -967,7 +898,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_export/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             141     141       0         0
+Others                             125     125       0         0
 ----------------------------------------------------------------
-                                   141     141       0         0
+                                   125     125       0         0
 ===================== END REDUCTION RESULT =====================

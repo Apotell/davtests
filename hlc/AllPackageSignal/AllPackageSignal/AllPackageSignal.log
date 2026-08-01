@@ -357,8 +357,8 @@ n<$Source01/dut.sv> u<342> t<Top_level_rule> c<1> l<16:1> el<36:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:16:1: Compile package "pkg_b".
 [INF:CP0301] $Source01/dut.sv:21:1: Compile package "pkg_a".
-[ERR:EL0535] $Source01/dut.sv:7:42: Illegal implicit net "id:127, name:ParameterIntEqual4".
-[ERR:EL0535] $Source01/dut.sv:7:65: Illegal implicit net "id:212, name:ParameterIntEqual4".
+[WRN:CP0350] $Source01/dut.sv:7:42: Failed to bind "id:127, name:ParameterIntEqual4".
+[WRN:CP0350] $Source01/dut.sv:7:65: Failed to bind "id:212, name:ParameterIntEqual4".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "pkg_b".
 [WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "pkg_a".
 ====== HLDB =======
@@ -640,7 +640,6 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\n  function automatic bit assert_static_in_package_ThisNameDoesNotMatter3(); \n    bit unused_bit [(($bits(ParameterIntInPkgA) == $bits(pkg_b::ParameterIntEqual4)) ? 1 : -1)];                     \n    unused_bit = '{default: 1'b0};                            \n    return unused_bit[0];                                     \n  endfunction start:5:63 end:10:14":
             vpiParent: PreprocMacroInstance name:ASSERT_STATIC_IN_PACKAGE
             vpiName: "\n  function automatic bit assert_static_in_package_ThisNameDoesNotMatter3(); \n    bit unused_bit [(($bits(ParameterIntInPkgA) == $bits(pkg_b::ParameterIntEqual4)) ? 1 : -1)];                     \n    unused_bit = '{default: 1'b0};                            \n    return unused_bit[0];                                     \n  endfunction"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
     Package name:pkg_b file:$Source01/dut.sv start:16:1 end:18:19:
       vpiParent: Design name:unnamed
@@ -676,7 +675,7 @@ Design name:unnamed:
             vpiDecompile: "4"
             vpiValue: 4
       vpiDefName: pkg_b
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:pkg_b
         vpiName: work
@@ -719,7 +718,7 @@ Design name:unnamed:
             vpiDecompile: "4"
             vpiValue: 4
       vpiDefName: pkg_a
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:pkg_a
         vpiName: work
@@ -746,6 +745,7 @@ Design name:unnamed:
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
                 vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
+                vpiScalar: true
             vpiTypespec (2 items):
               BitTypespec:
                 vpiParent: Begin
@@ -899,6 +899,7 @@ Design name:unnamed:
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
                 vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
+                vpiScalar: true
             vpiTypespec (2 items):
               BitTypespec:
                 vpiParent: Begin
@@ -1042,6 +1043,7 @@ Design name:unnamed:
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
                 vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
+                vpiScalar: true
             vpiTypespec (2 items):
               BitTypespec:
                 vpiParent: Begin
@@ -1186,8 +1188,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

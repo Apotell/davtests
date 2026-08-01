@@ -172,7 +172,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_func_v.v:8:1: Compile module "t".
 [INF:CP0303] $Source01/t_func_v.v:16:1: Compile module "level1".
 [INF:CP0303] $Source01/t_func_v.v:29:1: Compile module "level2".
-[ERR:EL0535] $Source01/t_func_v.v:23:11: Illegal implicit net "id:49, name:mem".
+[WRN:CP0350] $Source01/t_func_v.v:23:11: Failed to bind "id:49, name:mem".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -182,7 +182,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_func_v.v
       vpiPreprocFile: "$Output/lib/work/t_func_v.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_func_v.v start:8:1 end:14:10:
       vpiParent: Design name:unnamed
@@ -197,7 +196,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:level1
             vpiName: level1
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -254,7 +253,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:level2
             vpiName: level2
       vpiDefName: level1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:level1
         vpiName: work
@@ -376,6 +375,16 @@ Design name:unnamed:
         vpiParent: Module name:level2
         vpiName: level2
       vpiFullName: level2
+      vpiVariable (1 items):
+        Variable name:mem start:33:16 end:33:19:
+          vpiParent: Module name:level2
+          vpiTypespec RefTypespec name:logic start:33:4 end:33:15:
+            vpiParent: Variable name:mem
+            vpiName: logic
+            vpiFullName: level2.mem.logic
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: level2.mem
       vpiTypespec (2 items):
         UnsupportedTypespec name:logic start:33:4 end:33:15:
           vpiParent: Module name:level2
@@ -414,22 +423,12 @@ Design name:unnamed:
             vpiFullName: level2.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: level2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:level2
         vpiName: work
         vpiFullName: level2.work
       vpiCell: level2
-      vpiNet (1 items):
-        Net name:mem start:33:16 end:33:19:
-          vpiParent: Module name:level2
-          vpiTypespec RefTypespec name:logic start:33:4 end:33:15:
-            vpiParent: Net name:mem
-            vpiName: logic
-            vpiFullName: level2.mem.logic
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: level2.mem
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -459,8 +458,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
