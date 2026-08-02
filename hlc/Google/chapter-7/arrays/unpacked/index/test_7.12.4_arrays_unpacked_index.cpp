@@ -143,7 +143,7 @@ TEST_F(UnpackedIndexTest, VarArrIsDynamicArrayOfSignedInt) {
   ASSERT_NE(arr, nullptr);
   const hldb::ArrayTypespec *const at = arr->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 2);  // dynamic = 2
+  EXPECT_EQ(at->getArrayType(), vpiDynamicArray);
   const hldb::IntTypespec *const elem = at->getElemTypespec()->getActual<hldb::IntTypespec>();
   ASSERT_NE(elem, nullptr);
   EXPECT_TRUE(elem->getSigned());

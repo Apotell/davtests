@@ -126,7 +126,7 @@ TEST_F(OpDeleteTest, ArrayTypespecIsDynamic) {
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 2);  // dynamic = 2
+  EXPECT_EQ(at->getArrayType(), vpiDynamicArray);
 }
 
 TEST_F(OpDeleteTest, ArrayTypespecElemIsBitTypespec) {

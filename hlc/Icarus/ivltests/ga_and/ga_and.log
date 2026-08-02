@@ -438,6 +438,7 @@ n<$Source01/ga_and.v> u<424> t<Top_level_rule> c<1> l<23:1> el<59:1>
   n<// main> u<423> t<LINE_COMMENT> p<424> l<58:11> el<58:18>
 AST_DEBUG_END
 [INF:CP0303] $Source01/ga_and.v:23:1: Compile module "main".
+[ERR:LN0813] $Source01/ga_and.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -500,7 +501,7 @@ Design name:unnamed:
           vpiName: error
           vpiFullName: main.error
           vpiScalar: true
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:main
         LogicTypespec:
@@ -555,6 +556,34 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        ArrayTypespec:
+          vpiParent: Module name:main
+          vpiArrayType: static (1)
+          vpiRange Range start:33:9 end:33:15:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:33:10 end:33:12:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: main
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "15"
+              vpiValue: 15
+            vpiRightRange Constant start:33:13 end:33:14:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: main
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: main
       vpiDefName: main
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -973,29 +1002,6 @@ Design name:unnamed:
         GateArray:
           vpiParent: Module name:main
           vpiFullName: main
-          vpiRange (1 items):
-            Range start:33:9 end:33:15:
-              vpiParent: GateArray
-              vpiLeftRange Constant start:33:10 end:33:12:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: main
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "15"
-                vpiValue: 15
-              vpiRightRange Constant start:33:13 end:33:14:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: main
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
           vpiGate: Gate name:foo
   vpiTypespec (4 items):
     ModuleTypespec name:main:
@@ -1014,7 +1020,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1059,7 +1065,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/ga_and/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             132     132       0         0
+Others                             134     134       0         0
 ----------------------------------------------------------------
-                                   132     132       0         0
+                                   134     134       0         0
 ===================== END REDUCTION RESULT =====================

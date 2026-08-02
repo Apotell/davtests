@@ -259,11 +259,29 @@ Design name:unnamed:
                   vpiName: a
                   vpiFullName: block_tb.a
                   vpiActual: Variable name:a
-                vpiRhs RefObj name:b start:23:32 end:23:33:
+                vpiRhs RepeatControl start:23:7 end:23:31:
                   vpiParent: Assignment
-                  vpiName: b
-                  vpiFullName: block_tb.b
-                  vpiActual: Variable name:b
+                  vpiDelay RefObj name:i start:23:14 end:23:15:
+                    vpiParent: RepeatControl
+                    vpiName: i
+                    vpiFullName: block_tb.i
+                    vpiActual: Variable name:i
+                  vpiEventControl EventControl start:23:17 end:23:31:
+                    vpiParent: RepeatControl
+                    vpiCondition Operation start:23:19 end:23:30:
+                      vpiParent: EventControl
+                      vpiOpType: posedge (39)
+                      vpiOperand (1 items):
+                        RefObj name:clk start:23:27 end:23:30:
+                          vpiParent: Operation
+                          vpiName: clk
+                          vpiFullName: block_tb.clk
+                          vpiActual: Net name:clk
+                    vpiStmt RefObj name:b start:23:32 end:23:33:
+                      vpiParent: EventControl
+                      vpiName: b
+                      vpiFullName: block_tb.b
+                      vpiActual: Variable name:b
   vpiTypespec (2 items):
     ModuleTypespec name:block_tb:
       vpiParent: Design name:unnamed
@@ -322,10 +340,10 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.4.5--event_nonblocking_assignm
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             4       4       1         1
-Operation                            1       0       0         1
+Operation                            2       1       0         1
 RefTypespec                          8       8       1         1
 ----------------------------------------------------------------
-Others                              18      18       0         0
+Others                              22      22       0         0
 ----------------------------------------------------------------
-                                    31      30       2         3
+                                    36      35       2         3
 ===================== END REDUCTION RESULT =====================
