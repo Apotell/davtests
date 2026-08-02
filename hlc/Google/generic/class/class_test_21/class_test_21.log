@@ -273,29 +273,57 @@ Design name:unnamed:
         vpiParent: ClassDefn name:Foo
         vpiName: Foo
       vpiFullName: Foo
-      vpiTypespec (1 items):
-        "ClassTypespec name::: #(type =x, type =y, type =z) #(type =x, type =y, type =z) start:20:19 end:20:40":
+      vpiTypespec (2 items):
+        ClassTypespec name:::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z) start:20:19 end:20:40:
           vpiParent: ClassDefn name:Foo
           vpiPathElem (2 items):
             RefTypespec start:20:19 end:20:26:
-              vpiParent: "ClassTypespec name::: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
-              vpiFullName: "Foo:::: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
+              vpiParent: ClassTypespec name:::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)
+              vpiFullName: Foo::::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)
             RefTypespec start:20:28 end:20:31:
-              vpiParent: "ClassTypespec name::: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
-              vpiFullName: "Foo:::: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
-          "vpiName Identifier name::: #(type =x, type =y, type =z) #(type =x, type =y, type =z)":
-            vpiParent: "ClassTypespec name::: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
-            vpiName: ":: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
+              vpiParent: ClassTypespec name:::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)
+              vpiFullName: Foo::::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)
+              vpiActual: UnsupportedTypespec name:Bar #(type =x, type =y, type =z)
+          vpiName Identifier name:::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z):
+            vpiParent: ClassTypespec name:::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)
+            vpiName: "::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
+        UnsupportedTypespec name:Bar #(type =x, type =y, type =z) start:20:28 end:20:40:
+          vpiParent: ClassDefn name:Foo
+          vpiName Identifier name:Bar #(type =x, type =y, type =z):
+            vpiParent: UnsupportedTypespec name:Bar #(type =x, type =y, type =z)
+            vpiName: Bar #(type =x, type =y, type =z)
+          vpiParamAssign (3 items):
+            ParamAssign start:20:34 end:20:35:
+              vpiParent: UnsupportedTypespec name:Bar #(type =x, type =y, type =z)
+              vpiRhs RefObj name:x start:20:34 end:20:35:
+                vpiParent: ParamAssign
+                vpiName: x
+                vpiFullName: Foo::Bar #(type =x, type =y, type =z)::x
+                vpiActual: Parameter name:x
+            ParamAssign start:20:36 end:20:37:
+              vpiParent: UnsupportedTypespec name:Bar #(type =x, type =y, type =z)
+              vpiRhs RefObj name:y start:20:36 end:20:37:
+                vpiParent: ParamAssign
+                vpiName: y
+                vpiFullName: Foo::Bar #(type =x, type =y, type =z)::y
+                vpiActual: Parameter name:y
+            ParamAssign start:20:38 end:20:39:
+              vpiParent: UnsupportedTypespec name:Bar #(type =x, type =y, type =z)
+              vpiRhs RefObj name:z start:20:38 end:20:39:
+                vpiParent: ParamAssign
+                vpiName: z
+                vpiFullName: Foo::Bar #(type =x, type =y, type =z)::z
+                vpiActual: Parameter name:z
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:20:11 end:20:18:
         vpiParent: ClassDefn name:Foo
         vpiClassTypespec (1 items):
-          "RefTypespec name::: #(type =x, type =y, type =z) #(type =x, type =y, type =z) start:20:19 end:20:40":
+          RefTypespec name:::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z) start:20:19 end:20:40:
             vpiParent: Extends
-            vpiName: ":: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
-            vpiFullName: "Foo:::: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
-            vpiActual: "ClassTypespec name::: #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
+            vpiName: "::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)"
+            vpiFullName: Foo::::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)
+            vpiActual: ClassTypespec name:::Bar #(type =x, type =y, type =z) #(type =x, type =y, type =z)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:Foo
         vpiName: work
@@ -458,7 +486,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_21/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    64      64       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

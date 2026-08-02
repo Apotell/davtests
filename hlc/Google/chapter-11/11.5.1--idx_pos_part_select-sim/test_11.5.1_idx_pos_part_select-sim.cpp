@@ -1,0 +1,202 @@
+/*
+ Copyright 2020 Apotell
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+
+// Tests for 11.5.1--idx_pos_part_select-sim.sv (tags: 11.5.1)
+//   logic [15:0] a = 16'h1234;
+//   logic [7:0] b;
+//
+//   initial begin
+//     b = a[0+:8];
+//     $display(":assert: (0x34 == 0x%x)", b);
+//   end
+//
+// Per IEEE 1800-2017 11.5.1: a[0+:8] selects the low 8 bits of
+// a = 16'h1234, growing upward from base 0, i.e. bits [7:0] = 8'h34.
+//
+// Checked:
+//   - module top has exactly 2 variables: "a" (LogicTypespec, vector
+//     [15:0], decl-assigned Constant "16'h1234") and "b" (LogicTypespec,
+//     vector [7:0], not decl-assigned). Per IEEE 1800-2023 Sec 6.7/6.8:
+//     "logic" with no net-type keyword is a variable, not a net, even
+//     though it is only ever driven here by a procedural assignment.
+//   - module has exactly 1 process: an Initial whose Begin has exactly 2
+//     statements: a blocking Assignment followed by a SysTaskCall
+//   - the Assignment: lhs RefObj "b"; rhs IndexedPartSelect "a[0+:8]"
+//     whose vpiPrefix RefObj "a" resolves to Variable "a",
+//     vpiIndexedPartSelectType == vpiPosIndexed, vpiBaseExpr Constant "0",
+//     vpiWidthExpr Constant "8"
+//   - the SysTaskCall "$display" has 2 arguments: Constant string
+//     ":assert: (0x34 == 0x%x)" and RefObj "b"
+//   - design-level typespecs (4): ModuleTypespec, IntTypespec (signed, for
+//     the module's own bit-ranges), IntTypespec (plain, for the
+//     part-select base/width constants), StringTypespec
+//   - compiler emits zero errors
+//
+// Not checked (GTEST_SKIP, with a real reason, not just "no time"):
+//   - Whether b actually equals 8'h34 at runtime. HLC is a compiler/
+//     elaborator, not a simulator: Variable::getValue<T>() only ever
+//     exposes a declaration-time initializer, and "b" is only ever
+//     assigned inside the initial block, never at declaration -- so there
+//     is no field capturing the post-assignment value the ":assert:" tag
+//     is asking a simulator to check.
+
+#include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
+
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/indexed_part_select.h>
+#include <hldb/initial.h>
+#include <hldb/int_typespec.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/module_typespec.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
+#include <hldb/vpi_user.h>
+
+namespace hlc {
+
+class IdxPosPartSelectSimTest : public Test {
+ public:
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "11.5.1--idx_pos_part_select-sim.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+};
+
+// --- module / nets ----------------------------------------------------------
+
+TEST_F(IdxPosPartSelectSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+
+TEST_F(IdxPosPartSelectSimTest, ModuleHasTwoVariablesOnlyADeclAssigned) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
+
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  ASSERT_NE(a, nullptr);
+  ASSERT_NE(b, nullptr);
+  ASSERT_NE(a->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(a->getValue<hldb::Constant>()->getDecompile(), "16'h1234");
+  EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr) << "'b' has no decl-assignment";
+}
+
+// --- initial block: procedural positive indexed part-select -----------------
+
+TEST_F(IdxPosPartSelectSimTest, InitialBlockHasTwoStatements) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getProcesses(), nullptr);
+  ASSERT_EQ(top->getProcesses()->size(), 1u);
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  ASSERT_NE(blk->getStmts(), nullptr);
+  ASSERT_EQ(blk->getStmts()->size(), 2u);
+}
+
+TEST_F(IdxPosPartSelectSimTest, AssignmentRhsIsPosIndexedZeroPlusEight) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
+  ASSERT_NE(assign, nullptr);
+  EXPECT_TRUE(assign->getBlocking());
+  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "b");
+
+  const hldb::IndexedPartSelect *const sel = assign->getRhs<hldb::IndexedPartSelect>();
+  ASSERT_NE(sel, nullptr);
+  EXPECT_EQ(sel->getName(), "a[0+:8]");
+  EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "a");
+  EXPECT_EQ(sel->getIndexedPartSelectType(), vpiPosIndexed);
+  ASSERT_NE(sel->getBaseExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(sel->getBaseExpr<hldb::Constant>()->getDecompile(), "0");
+  ASSERT_NE(sel->getWidthExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(sel->getWidthExpr<hldb::Constant>()->getDecompile(), "8");
+}
+
+TEST_F(IdxPosPartSelectSimTest, SecondStatementDisplaysExpectedBValue) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(1));
+  ASSERT_NE(disp, nullptr);
+  EXPECT_EQ(disp->getName(), "$display");
+  ASSERT_NE(disp->getArguments(), nullptr);
+  ASSERT_EQ(disp->getArguments()->size(), 2u);
+  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (0x34 == 0x%x)");
+  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "b");
+}
+
+// --- design-level typespecs / compiler diagnostics --------------------------
+
+TEST_F(IdxPosPartSelectSimTest, DesignHasFourTypespecs) {
+  ASSERT_NE(m_design->getTypespecs(), nullptr);
+  EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
+}
+
+TEST_F(IdxPosPartSelectSimTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
+  EXPECT_EQ(stats.nbWarning, 0);
+}
+
+// --- the actual point of the file: runtime part-select value ---------------
+
+TEST_F(IdxPosPartSelectSimTest, BEqualsHex34AtRuntime) {
+  GTEST_SKIP() << "IEEE 1800-2017 11.5.1: a = 16'h1234, so a[0+:8] == 8'h34, "
+                  "per the ':assert:' tag authored into the source. HLC is a "
+                  "static compiler/elaborator: Variable::getValue<T>() only "
+                  "ever exposes a declaration-time initializer, and 'b' is "
+                  "only assigned inside the initial block, never at "
+                  "declaration -- there is no field capturing its "
+                  "post-assignment runtime value.";
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  ASSERT_NE(b, nullptr);
+  const hldb::Constant *const bValue = b->getValue<hldb::Constant>();
+  ASSERT_NE(bValue, nullptr) << "no field captures b's post-assignment runtime value";
+  EXPECT_EQ(bValue->getDecompile(), "8'h34");
+}
+
+}  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

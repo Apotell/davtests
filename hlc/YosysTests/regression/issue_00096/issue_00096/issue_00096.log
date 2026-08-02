@@ -913,10 +913,10 @@ Design name:unnamed:
                               vpiSize: 240
                               vpiDecompile: "\"ERROR: ASSERTION FAILED in %m:\""
                               vpiValue: "ERROR: ASSERTION FAILED in %m:"
-                            SysTaskCall name:$time start:7:55 end:7:60:
+                            SysFuncCall name:$time start:7:55 end:7:60:
                               vpiParent: SysTaskCall name:$display
                               vpiName Identifier name:$time start:7:55 end:7:60:
-                                vpiParent: SysTaskCall name:$time
+                                vpiParent: SysFuncCall name:$time
                                 vpiName: "$time"
                         SysTaskCall name:$stop start:8:13 end:8:18:
                           vpiParent: Begin
@@ -1072,10 +1072,10 @@ Design name:unnamed:
                             vpiSize: 240
                             vpiDecompile: "\"ERROR: ASSERTION FAILED in %m:\""
                             vpiValue: "ERROR: ASSERTION FAILED in %m:"
-                          SysTaskCall name:$time start:19:55 end:19:60:
+                          SysFuncCall name:$time start:19:55 end:19:60:
                             vpiParent: SysTaskCall name:$display
                             vpiName Identifier name:$time start:19:55 end:19:60:
-                              vpiParent: SysTaskCall name:$time
+                              vpiParent: SysFuncCall name:$time
                               vpiName: "$time"
                           Constant start:19:61 end:19:64:
                             vpiParent: SysTaskCall name:$display
@@ -1234,10 +1234,10 @@ Design name:unnamed:
                             vpiSize: 240
                             vpiDecompile: "\"ERROR: ASSERTION FAILED in %m:\""
                             vpiValue: "ERROR: ASSERTION FAILED in %m:"
-                          SysTaskCall name:$time start:31:55 end:31:60:
+                          SysFuncCall name:$time start:31:55 end:31:60:
                             vpiParent: SysTaskCall name:$display
                             vpiName Identifier name:$time start:31:55 end:31:60:
-                              vpiParent: SysTaskCall name:$time
+                              vpiParent: SysFuncCall name:$time
                               vpiName: "$time"
                           Constant start:31:61 end:31:64:
                             vpiParent: SysTaskCall name:$display
@@ -1384,10 +1384,10 @@ Design name:unnamed:
                             vpiSize: 240
                             vpiDecompile: "\"ERROR: ASSERTION FAILED in %m:\""
                             vpiValue: "ERROR: ASSERTION FAILED in %m:"
-                          SysTaskCall name:$time start:43:55 end:43:60:
+                          SysFuncCall name:$time start:43:55 end:43:60:
                             vpiParent: SysTaskCall name:$display
                             vpiName Identifier name:$time start:43:55 end:43:60:
-                              vpiParent: SysTaskCall name:$time
+                              vpiParent: SysFuncCall name:$time
                               vpiName: "$time"
                           Constant start:43:61 end:43:64:
                             vpiParent: SysTaskCall name:$display
@@ -1529,10 +1529,10 @@ Design name:unnamed:
                             vpiSize: 240
                             vpiDecompile: "\"ERROR: ASSERTION FAILED in %m:\""
                             vpiValue: "ERROR: ASSERTION FAILED in %m:"
-                          SysTaskCall name:$time start:55:55 end:55:60:
+                          SysFuncCall name:$time start:55:55 end:55:60:
                             vpiParent: SysTaskCall name:$display
                             vpiName Identifier name:$time start:55:55 end:55:60:
-                              vpiParent: SysTaskCall name:$time
+                              vpiParent: SysFuncCall name:$time
                               vpiName: "$time"
                           Constant start:55:61 end:55:64:
                             vpiParent: SysTaskCall name:$display
@@ -1752,6 +1752,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b
                 vpiFullName: testbench.uut.b
+                vpiActual: Variable name:b
               vpiHighConn RefObj name:clk start:19:13 end:19:16:
                 vpiParent: Port
                 vpiName: clk
@@ -1810,6 +1811,24 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:testbench
         vpiName: testbench
       vpiModule: Module name:testbench
+  vpiVariable (2 items):
+    Variable name:b start:2:1 end:2:8:
+      vpiParent: Design name:unnamed
+      vpiTypespec RefTypespec start:1:15 end:1:22:
+        vpiParent: Variable name:b
+        vpiFullName: b
+        vpiActual: IntegerTypespec
+      vpiName: b
+      vpiFullName: b
+    Variable name:c start:2:13 end:2:14:
+      vpiParent: Design name:unnamed
+      vpiTypespec RefTypespec start:2:9 end:2:12:
+        vpiParent: Variable name:c
+        vpiFullName: c
+        vpiActual: LogicTypespec
+      vpiName: c
+      vpiFullName: c
+      vpiScalar: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
@@ -1829,16 +1848,16 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00096/issue_00096/mounts.json
 
 
-{'result': {'coverage': 97.08,
+{'result': {'coverage': 97.46,
             'error_count': 0,
             'file_count': 3,
             'files': {'$Output/lib/work/common.v': {'post_len': 0,
                                                     'pre_len': 812},
                       '$Output/lib/work/issue_00096/testbench.v': {'post_len': 0,
                                                                    'pre_len': 143},
-                      '$Output/lib/work/issue_00096/top.v': {'post_len': 31,
+                      '$Output/lib/work/issue_00096/top.v': {'post_len': 27,
                                                              'pre_len': 108}},
-            'post_len': 31,
+            'post_len': 27,
             'pre_len': 1063,
             'test_name': 'YosysTests/regression/issue_00096/issue_00096'}}
 
@@ -1846,14 +1865,14 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00096/issue_0
 | INPUT                                    |   PRELEN |   POSTLEN |
 +==========================================+==========+===========+
 | $Output/lib/work/common.v                |      812 |         0 |
-| $Output/lib/work/issue_00096/top.v       |      108 |        31 |
+| $Output/lib/work/issue_00096/top.v       |      108 |        27 |
 | $Output/lib/work/issue_00096/testbench.v |      143 |         0 |
 +==========================================+==========+===========+
-|                                          |     1063 |        31 |
+|                                          |     1063 |        27 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.08
+[COVERAGE] : 97.46
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1864,7 +1883,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_00096/issue_00096/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             263     263       0         0
+Others                             267     267       0         0
 ----------------------------------------------------------------
-                                   263     263       0         0
+                                   267     267       0         0
 ===================== END REDUCTION RESULT =====================
