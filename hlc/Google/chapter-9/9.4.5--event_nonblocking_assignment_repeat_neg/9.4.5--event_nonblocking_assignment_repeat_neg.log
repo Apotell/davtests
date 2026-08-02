@@ -220,11 +220,38 @@ Design name:unnamed:
                   vpiName: a
                   vpiFullName: block_tb.a
                   vpiActual: Variable name:a
-                vpiRhs RefObj name:b start:21:33 end:21:34:
+                vpiRhs RepeatControl start:21:7 end:21:32:
                   vpiParent: Assignment
-                  vpiName: b
-                  vpiFullName: block_tb.b
-                  vpiActual: Variable name:b
+                  vpiDelay Operation start:21:14 end:21:16:
+                    vpiParent: RepeatControl
+                    vpiOpType: minus (1)
+                    vpiOperand (1 items):
+                      Constant start:21:15 end:21:16:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: block_tb
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "3"
+                        vpiValue: 3
+                  vpiEventControl EventControl start:21:18 end:21:32:
+                    vpiParent: RepeatControl
+                    vpiCondition Operation start:21:20 end:21:31:
+                      vpiParent: EventControl
+                      vpiOpType: posedge (39)
+                      vpiOperand (1 items):
+                        RefObj name:clk start:21:28 end:21:31:
+                          vpiParent: Operation
+                          vpiName: clk
+                          vpiFullName: block_tb.clk
+                          vpiActual: Net name:clk
+                    vpiStmt RefObj name:b start:21:33 end:21:34:
+                      vpiParent: EventControl
+                      vpiName: b
+                      vpiFullName: block_tb.b
+                      vpiActual: Variable name:b
   vpiTypespec (2 items):
     ModuleTypespec name:block_tb:
       vpiParent: Design name:unnamed
@@ -282,8 +309,11 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.4.5--event_nonblocking_assignm
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             4       4       1         1
+Operation                            2       1       0         1
+RefTypespec                          7       7       1         1
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              20      20       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    33      32       2         3
 ===================== END REDUCTION RESULT =====================

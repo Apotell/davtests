@@ -170,6 +170,7 @@ n<$Source01/dut.sv> u<156> t<Top_level_rule> c<1> l<1:1> el<11:1>
   n<// top> u<155> t<LINE_COMMENT> p<156> l<9:11> el<9:17>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
+[ERR:LN0813] $Source01/dut.sv:1:1: Found 1 orphan node(s).
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -247,6 +248,8 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:top
           vpiArrayType: dynamic (2)
+          vpiRange Range start:2:17 end:2:19:
+            vpiParent: ArrayTypespec
           vpiElemTypespec RefTypespec start:2:4 end:2:7:
             vpiParent: ArrayTypespec
             vpiFullName: top
@@ -276,17 +279,18 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: top
+        ArrayTypespec:
+          vpiParent: Module name:top
+          vpiArrayType: dynamic (2)
+          vpiRange Range start:3:17 end:3:19:
+            vpiParent: ArrayTypespec
           vpiElemTypespec RefTypespec start:3:4 end:3:7:
             vpiParent: ArrayTypespec
             vpiFullName: top
             vpiActual: IntTypespec
-        ArrayTypespec:
-          vpiParent: Module name:top
-          vpiArrayType: dynamic (2)
-          vpiElemTypespec RefTypespec:
-            vpiParent: ArrayTypespec
-            vpiFullName: top
-            vpiActual: ArrayTypespec
         ArrayTypespec:
           vpiParent: Module name:top
           vpiArrayType: static (1)
@@ -319,6 +323,8 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:top
           vpiArrayType: dynamic (2)
+          vpiRange Range start:4:22 end:4:24:
+            vpiParent: ArrayTypespec
           vpiElemTypespec RefTypespec start:4:4 end:4:7:
             vpiParent: ArrayTypespec
             vpiFullName: top
@@ -354,6 +360,15 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
         ArrayTypespec:
           vpiParent: Module name:top
+          vpiArrayType: dynamic (2)
+          vpiRange Range start:5:22 end:5:24:
+            vpiParent: ArrayTypespec
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: top
+            vpiActual: ArrayTypespec
+        ArrayTypespec:
+          vpiParent: Module name:top
           vpiArrayType: static (1)
           vpiRange Range start:5:24 end:5:29:
             vpiParent: ArrayTypespec
@@ -383,13 +398,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
         ArrayTypespec:
           vpiParent: Module name:top
-          vpiArrayType: dynamic (2)
-          vpiElemTypespec RefTypespec:
-            vpiParent: ArrayTypespec
-            vpiFullName: top
-            vpiActual: ArrayTypespec
-        ArrayTypespec:
-          vpiParent: Module name:top
           vpiArrayType: associative (3)
           vpiIndexTypespec RefTypespec:
             vpiParent: ArrayTypespec
@@ -417,6 +425,10 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiLeftRange Constant start:8:15 end:8:16:
               vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: top
+                vpiActual: StringTypespec
               vpiConstType: unbounded (11)
               vpiDecompile: "$"
               vpiValue: "$"
@@ -446,7 +458,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -491,7 +503,7 @@ COMMAND: ${HLC_DIR}/regression/DynArrayKind/DynArrayKind/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              69      69       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    69      69       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

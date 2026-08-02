@@ -117,7 +117,7 @@ TEST_F(UnpackedXorTest, VarBIsDynamicArrayOfSignedByte) {
   ASSERT_NE(b, nullptr);
   const hldb::ArrayTypespec *const at = b->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 2);  // dynamic = 2
+  EXPECT_EQ(at->getArrayType(), vpiDynamicArray);
   const hldb::ByteTypespec *const elem = at->getElemTypespec()->getActual<hldb::ByteTypespec>();
   ASSERT_NE(elem, nullptr);
   EXPECT_TRUE(elem->getSigned());

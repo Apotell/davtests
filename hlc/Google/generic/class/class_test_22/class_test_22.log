@@ -62,29 +62,58 @@ Design name:unnamed:
         vpiParent: ClassDefn name:Foo
         vpiName: Foo
       vpiFullName: Foo
-      vpiTypespec (1 items):
-        "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y) start:6:19 end:6:48":
+      vpiTypespec (2 items):
+        ClassTypespec name:::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y) start:6:19 end:6:48:
           vpiParent: ClassDefn name:Foo
           vpiPathElem (2 items):
             RefTypespec start:6:19 end:6:26:
-              vpiParent: "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
-              vpiFullName: "Foo:::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+              vpiParent: ClassTypespec name:::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)
+              vpiFullName: Foo::::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)
             RefTypespec start:6:28 end:6:31:
-              vpiParent: "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
-              vpiFullName: "Foo:::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
-          "vpiName Identifier name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)":
-            vpiParent: "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
-            vpiName: ":: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+              vpiParent: ClassTypespec name:::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)
+              vpiFullName: Foo::::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)
+              vpiActual: UnsupportedTypespec name:Bar #(type v1=x, type v2=y)
+          vpiName Identifier name:::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y):
+            vpiParent: ClassTypespec name:::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)
+            vpiName: "::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+        UnsupportedTypespec name:Bar #(type v1=x, type v2=y) start:6:28 end:6:48:
+          vpiParent: ClassDefn name:Foo
+          vpiName Identifier name:Bar #(type v1=x, type v2=y):
+            vpiParent: UnsupportedTypespec name:Bar #(type v1=x, type v2=y)
+            vpiName: Bar #(type v1=x, type v2=y)
+          vpiParamAssign (2 items):
+            ParamAssign start:6:34 end:6:40:
+              vpiParent: UnsupportedTypespec name:Bar #(type v1=x, type v2=y)
+              vpiConnByName: true
+              vpiLhs RefObj name:v1 start:6:35 end:6:37:
+                vpiParent: ParamAssign
+                vpiName: v1
+                vpiFullName: Foo::Bar #(type v1=x, type v2=y)::v1
+              vpiRhs RefObj name:x start:6:38 end:6:39:
+                vpiParent: ParamAssign
+                vpiName: x
+                vpiFullName: Foo::Bar #(type v1=x, type v2=y)::x
+            ParamAssign start:6:41 end:6:47:
+              vpiParent: UnsupportedTypespec name:Bar #(type v1=x, type v2=y)
+              vpiConnByName: true
+              vpiLhs RefObj name:v2 start:6:42 end:6:44:
+                vpiParent: ParamAssign
+                vpiName: v2
+                vpiFullName: Foo::Bar #(type v1=x, type v2=y)::v2
+              vpiRhs RefObj name:y start:6:45 end:6:46:
+                vpiParent: ParamAssign
+                vpiName: y
+                vpiFullName: Foo::Bar #(type v1=x, type v2=y)::y
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:6:11 end:6:18:
         vpiParent: ClassDefn name:Foo
         vpiClassTypespec (1 items):
-          "RefTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y) start:6:19 end:6:48":
+          RefTypespec name:::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y) start:6:19 end:6:48:
             vpiParent: Extends
-            vpiName: ":: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
-            vpiFullName: "Foo:::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
-            vpiActual: "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+            vpiName: "::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+            vpiFullName: Foo::::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)
+            vpiActual: ClassTypespec name:::Bar #(type v1=x, type v2=y) #(type v1=x, type v2=y)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:Foo
         vpiName: work
@@ -145,7 +174,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_22/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              13      13       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    13      13       0         0
+                                    21      21       0         0
 ===================== END REDUCTION RESULT =====================
