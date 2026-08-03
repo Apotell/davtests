@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +14,8 @@
  limitations under the License.
 */
 
-// Validates the UHDM graph for a module with an INVALID enum assignment
-// (should_fail_because: enum enforces strict type checking rules):
+// Tests for 6.19.3--enum_type_checking_inv.sv (tags: 6.19.3)
+//   :should_fail_because: enum enforces strict type checking rules
 //   module top();
 //     typedef enum {a, b, c, d} e;
 //     initial begin
@@ -24,16 +24,32 @@
 //     end
 //   endmodule
 //
-// Checked:
-//   - design has module top
-//   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
+// What to check and why (IEEE 1800-2023 6.19.3 "Type checking", p.122,
+// checked before any test code was written):
+//   "Enumerated types are strongly typed; thus, a variable of type enum
+//   cannot be directly assigned a value that lies outside the
+//   enumeration set unless an explicit cast is used..." with the spec's
+//   own worked example: "Colors c; c = green; // OK ... c = 1; // ...
+//   invalid ... because of the strict typing rules enforced by
+//   enumerated types." "val = 1;" here is exactly this: assigning a bare
+//   integer literal to an enum-typed variable with no cast, matching the
+//   file's own :should_fail_because: tag precisely.
+//
+// What is checked:
+//   - module top has TypedefTypespec "e" -> EnumTypespec with 4 consts
+//     (a, b, c, d)
 //   - Begin block has 1 Variable "val"
-//   - assignment rhs is Constant "1" (vpiUIntConst) -- NOT RefObj -> EnumConst
-//   - assignment rhs is confirmed NOT a RefObj (no enum resolution happened)
-//   - Per IEEE 1800-2023 Sec 6.19.3: "assignment of arbitrary expressions to
-//     an enumerated variable requires an explicit cast" -- 'val = 1' with no
-//     cast is illegal SystemVerilog. HLC currently does not emit a compile
-//     error for this (known gap); see the GTEST_SKIP()'d test below.
+//   - assignment rhs is Constant "1" (vpiUIntConst) -- NOT RefObj ->
+//     EnumConst (no enum resolution happened, confirming this is a bare
+//     literal, not a cast enum value)
+//   - THE POINT OF THIS FILE: the compiler should report at least one
+//     error for "val = 1;" assigning a bare integer to an enum variable
+//     without a cast, per IEEE 1800-2023 6.19.3 quoted above -- a real,
+//     non-skipped, currently-failing assertion
+//
+// What is NOT checked and why:
+//   - none: every corner above is fully structural and checkable without
+//     simulation.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -58,20 +74,20 @@
 
 namespace hlc {
 
-class EnumTypeCheckingInv : public Test {
+class EnumTypeCheckingInvTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19.3--enum_type_checking_inv.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(EnumTypeCheckingInv, ModuleExists) {
+TEST_F(EnumTypeCheckingInvTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Module typespec -- same typedef enum {a,b,c,d} as the valid variant
-// ----
-TEST_F(EnumTypeCheckingInv, TypedefEExists) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypeCheckingInvTest, TypedefEExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -79,7 +95,7 @@ TEST_F(EnumTypeCheckingInv, TypedefEExists) {
   EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
-TEST_F(EnumTypeCheckingInv, EnumHasFourConsts) {
+TEST_F(EnumTypeCheckingInvTest, EnumHasFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -94,10 +110,10 @@ TEST_F(EnumTypeCheckingInv, EnumHasFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable "val" in begin block
-// ----
-TEST_F(EnumTypeCheckingInv, BeginHasVariableVal) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypeCheckingInvTest, BeginHasVariableVal) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -109,10 +125,10 @@ TEST_F(EnumTypeCheckingInv, BeginHasVariableVal) {
   EXPECT_EQ(blk->getVariables()->at(0)->getName(), "val");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Assignment: val = 1 -- rhs is Constant "1" (not RefObj -> EnumConst)
-// ----
-TEST_F(EnumTypeCheckingInv, AssignmentRhsIsIntegerConstant) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypeCheckingInvTest, AssignmentRhsIsIntegerConstant) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -135,16 +151,17 @@ TEST_F(EnumTypeCheckingInv, AssignmentRhsIsIntegerConstant) {
   EXPECT_EQ(assign->getRhs<hldb::RefObj>(), nullptr) << "rhs is an integer literal, not a RefObj -> EnumConst";
 }
 
-// ----
-// Compiler diagnostics -- IEEE 1800-2023 Sec 6.19.3 requires an explicit
-// cast to assign an arbitrary expression to an enum variable. HLC does not
-// currently flag this; see GTEST_SKIP() below.
-// ----
-TEST_F(EnumTypeCheckingInv, Compiler_ReportsErrorForUncastedIntAssignment) {
-  GTEST_SKIP() << "known gap: 'val = 1' (uncast int assigned to enum variable) is not rejected by HLC; "
-                  "IEEE 1800-2023 Sec 6.19.3 requires an explicit cast for such assignments";
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbError, 1) << "'val = 1' assigned to an enum variable without a cast must be flagged illegal";
+// ---------------------------------------------------------------------------
+// The actual point of the file: assigning a bare int to an enum var is illegal
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypeCheckingInvTest, CompilerShouldRejectUncastIntAssignmentButDoesNot) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+      << "IEEE 1800-2023 6.19.3: 'a variable of type enum cannot be directly assigned a value "
+         "that lies outside the enumeration set unless an explicit cast is used' -- 'val = 1;' "
+         "does exactly this, matching this file's own :should_fail_because: tag -- HLC currently "
+         "accepts it with zero diagnostics";
 }
 
 }  // namespace hlc

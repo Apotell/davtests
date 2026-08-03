@@ -20,9 +20,19 @@
 //     int b = a.atooct();
 //   endmodule
 //
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations", p.105):
+// the identifiers declared in this file (string/int/byte/real -- see the
+// module body above) are all 6.8 data_type keywords (string, integer_atom_type,
+// non_integer_type), never IEEE 1800-2023 6.7 net_type keywords, so they must
+// be Variables, not Nets, regardless of module-level scope. A prior version of
+// this test used hldb::Net/getNets() throughout -- the same net/variable
+// misclassification bug found and fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14,
+// and 6.16--string this session. This version targets hldb::Variable instead,
+// and adds a CompilerReportsZeroErrors check (previously absent) since this
+// file has no :should_fail_because: tag and is fully legal.
+//
 // Checked:
-//   - design has module top with 2 variables (a: string, b: int) -- IEEE 1800-2023
-//     6.8: declarations with no net-type keyword are variables, not nets
+//   - design has module top with 2 variables (a: string, b: int)
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "777" (vpiStringConst)
 //   - variable 'b' typespec resolves to IntTypespec
 //   - variable 'b' has a non-null initial value (vpiValue is set)
@@ -33,6 +43,7 @@
 //     the unevaluated HierPath expression only
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -42,43 +53,33 @@
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
-#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class StringAtooct : public Test {
+class StringAtooctTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.9--string_atooct.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(StringAtooct, ModuleExists) {
+TEST_F(StringAtooctTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(StringAtooct, TwoVariablesExist) {
+TEST_F(StringAtooctTest, TwoVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(StringAtooct, NoNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, neither 'string' nor 'int' has a
-  // net-type keyword, so neither 'a' nor 'b' should be materialized as Nets.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
-}
-
-TEST_F(StringAtooct, AVariableTypespecIsString) {
+TEST_F(StringAtooctTest, AVariableTypespecIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -86,7 +87,7 @@ TEST_F(StringAtooct, AVariableTypespecIsString) {
   EXPECT_NE(a->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringAtooct, AVariableInitialValueIs777) {
+TEST_F(StringAtooctTest, AVariableInitialValueIs777) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -97,7 +98,7 @@ TEST_F(StringAtooct, AVariableInitialValueIs777) {
   EXPECT_EQ(init->getDecompile(), "\"777\"");
 }
 
-TEST_F(StringAtooct, BVariableTypespecIsInt) {
+TEST_F(StringAtooctTest, BVariableTypespecIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -105,7 +106,7 @@ TEST_F(StringAtooct, BVariableTypespecIsInt) {
   EXPECT_NE(b->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(StringAtooct, BVariableHasValue) {
+TEST_F(StringAtooctTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -113,7 +114,7 @@ TEST_F(StringAtooct, BVariableHasValue) {
   EXPECT_NE(b->getValue(), nullptr) << "variable 'b' should have a vpiValue set from int b = a.atooct()";
 }
 
-TEST_F(StringAtooct, BVariableValueIsNotPreEvaluatedConstant) {
+TEST_F(StringAtooctTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -122,7 +123,7 @@ TEST_F(StringAtooct, BVariableValueIsNotPreEvaluatedConstant) {
       << "HLC does not pre-evaluate a.atooct() to a constant; b holds only the HierPath expression";
 }
 
-TEST_F(StringAtooct, BVariableValueIsHierPath) {
+TEST_F(StringAtooctTest, BVariableValueIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -132,7 +133,7 @@ TEST_F(StringAtooct, BVariableValueIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.atooct");
 }
 
-TEST_F(StringAtooct, HierPathReceiverIsA) {
+TEST_F(StringAtooctTest, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -147,7 +148,7 @@ TEST_F(StringAtooct, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringAtooct, HierPathMethodIsAtooct) {
+TEST_F(StringAtooctTest, HierPathMethodIsAtooct) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -159,6 +160,14 @@ TEST_F(StringAtooct, HierPathMethodIsAtooct) {
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "atooct");
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "atooct() takes no arguments";
+}
+
+TEST_F(StringAtooctTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

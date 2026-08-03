@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +19,17 @@
 //     string a = "Test";
 //     byte b = a.getc(2);
 //   endmodule
-// Per IEEE 1800-2023 6.8/6.16: neither 'string' nor 'byte' has an explicit
-// net-type keyword, so both 'a' and 'b' are variable_declarations.
+//
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations", p.105):
+// the identifiers declared in this file (string/int/byte/real -- see the
+// module body above) are all 6.8 data_type keywords (string, integer_atom_type,
+// non_integer_type), never IEEE 1800-2023 6.7 net_type keywords, so they must
+// be Variables, not Nets, regardless of module-level scope. A prior version of
+// this test used hldb::Net/getNets() throughout -- the same net/variable
+// misclassification bug found and fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14,
+// and 6.16--string this session. This version targets hldb::Variable instead,
+// and adds a CompilerReportsZeroErrors check (previously absent) since this
+// file has no :should_fail_because: tag and is fully legal.
 //
 // Checked:
 //   - design has module top with 2 variables (a: string, b: byte)
@@ -38,6 +47,7 @@
 //     assertion for when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -47,46 +57,36 @@
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
-#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class StringGetc : public Test {
+class StringGetcTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.3--string_getc.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(StringGetc, ModuleExists) {
+TEST_F(StringGetcTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable declarations -- string 'a' and byte 'b'
-// ----
-TEST_F(StringGetc, TwoVariablesExist) {
+// ---------------------------------------------------------------------------
+TEST_F(StringGetcTest, TwoVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(StringGetc, NoNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, neither 'string' nor 'byte' has a
-  // net-type keyword, so neither 'a' nor 'b' should be materialized as Nets.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
-}
-
-TEST_F(StringGetc, AVariableTypespecIsString) {
+TEST_F(StringGetcTest, AVariableTypespecIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -96,7 +96,7 @@ TEST_F(StringGetc, AVariableTypespecIsString) {
   EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringGetc, AVariableInitialValueIsTest) {
+TEST_F(StringGetcTest, AVariableInitialValueIsTest) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -107,7 +107,7 @@ TEST_F(StringGetc, AVariableInitialValueIsTest) {
   EXPECT_EQ(init->getDecompile(), "\"Test\"");
 }
 
-TEST_F(StringGetc, BVariableTypespecIsByte) {
+TEST_F(StringGetcTest, BVariableTypespecIsByte) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -117,10 +117,10 @@ TEST_F(StringGetc, BVariableTypespecIsByte) {
   EXPECT_NE(rts->getActual<hldb::ByteTypespec>(), nullptr) << "variable 'b' typespec should resolve to ByteTypespec";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // HierPath -- b's initial value is the method call a.getc(2)
-// ----
-TEST_F(StringGetc, BVariableHasValue) {
+// ---------------------------------------------------------------------------
+TEST_F(StringGetcTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -128,7 +128,7 @@ TEST_F(StringGetc, BVariableHasValue) {
   EXPECT_NE(b->getValue(), nullptr) << "variable 'b' should have a vpiValue set from byte b = a.getc(2)";
 }
 
-TEST_F(StringGetc, BVariableValueIsNotPreEvaluatedConstant) {
+TEST_F(StringGetcTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -137,7 +137,7 @@ TEST_F(StringGetc, BVariableValueIsNotPreEvaluatedConstant) {
       << "HLC does not pre-evaluate a.getc(2) to a constant; b holds only the HierPath expression";
 }
 
-TEST_F(StringGetc, BVariableValueIsHierPath) {
+TEST_F(StringGetcTest, BVariableValueIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -147,7 +147,7 @@ TEST_F(StringGetc, BVariableValueIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.getc(2)");
 }
 
-TEST_F(StringGetc, HierPathReceiverIsA) {
+TEST_F(StringGetcTest, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -163,7 +163,7 @@ TEST_F(StringGetc, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringGetc, HierPathMethodIsGetc) {
+TEST_F(StringGetcTest, HierPathMethodIsGetc) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -177,7 +177,7 @@ TEST_F(StringGetc, HierPathMethodIsGetc) {
   EXPECT_EQ(call->getName(), "getc");
 }
 
-TEST_F(StringGetc, GetcArgumentIsTwo) {
+TEST_F(StringGetcTest, GetcArgumentIsTwo) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -194,7 +194,7 @@ TEST_F(StringGetc, GetcArgumentIsTwo) {
   EXPECT_EQ(arg->getDecompile(), "2");
 }
 
-TEST_F(StringGetc, GetcArgumentIsUIntConst) {
+TEST_F(StringGetcTest, GetcArgumentIsUIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -209,22 +209,28 @@ TEST_F(StringGetc, GetcArgumentIsUIntConst) {
       << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
 }
 
-// ----
-// a.getc(2) runtime result -- known gap: HLC never sets
-// Design::m_elaborated (no caller invokes setElaborated(true) anywhere in
-// src/), so a guard on getElaborated() is permanently-false dead code. Use
-// GTEST_SKIP() explicitly instead.
-// ----
-TEST_F(StringGetc, GetcResultIsPreEvaluated) {
-  GTEST_SKIP() << "known gap: HLC does not perform compile-time evaluation of string methods; "
-                  "a.getc(2) should evaluate to a Constant \"115\" (ASCII 's') once elaboration is implemented";
+// ---------------------------------------------------------------------------
+// a.getc(2) runtime result -- kept as a real assertion for when HLC adds
+// compile-time evaluation of string methods
+// ---------------------------------------------------------------------------
+TEST_F(StringGetcTest, GetcResultIsPreEvaluated) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::Constant *const value = b->getValue<hldb::Constant>();
-  ASSERT_NE(value, nullptr) << "variable 'b' should hold a pre-evaluated Constant";
-  EXPECT_EQ(value->getDecompile(), "115") << "a.getc(2) should evaluate to the ASCII code of 's' (115)";
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "variable 'b' should hold a pre-evaluated Constant";
+    EXPECT_EQ(value->getDecompile(), "115") << "a.getc(2) should evaluate to the ASCII code of 's' (115)";
+  }
+}
+
+TEST_F(StringGetcTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

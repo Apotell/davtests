@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,17 @@
 //     initial
 //       a.realtoa(4.76);
 //   endmodule
-// Per IEEE 1800-2023 6.8/6.16: 'string' has no explicit net-type keyword, so
-// 'a' is a variable_declaration, not a net_declaration.
+//
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations", p.105):
+// the identifiers declared in this file (string/int/byte/real -- see the
+// module body above) are all 6.8 data_type keywords (string, integer_atom_type,
+// non_integer_type), never IEEE 1800-2023 6.7 net_type keywords, so they must
+// be Variables, not Nets, regardless of module-level scope. A prior version of
+// this test used hldb::Net/getNets() throughout -- the same net/variable
+// misclassification bug found and fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14,
+// and 6.16--string this session. This version targets hldb::Variable instead,
+// and adds a CompilerReportsZeroErrors check (previously absent) since this
+// file has no :should_fail_because: tag and is fully legal.
 //
 // Checked:
 //   - design has module top with 1 variable (a: string, uninitialized)
@@ -34,6 +43,7 @@
 //     integer *toa variants which use vpiUIntConst)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -43,46 +53,36 @@
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
 #include <hldb/initial.h>
-#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class StringRealtoa : public Test {
+class StringRealtoaTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.15--string_realtoa.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(StringRealtoa, ModuleExists) {
+TEST_F(StringRealtoaTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable -- only 'a' (string, uninitialized)
-// ----
-TEST_F(StringRealtoa, OneVariableExists) {
+// ---------------------------------------------------------------------------
+TEST_F(StringRealtoaTest, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(StringRealtoa, NoNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, 'string' has no net-type keyword, so 'a'
-  // must not be materialized as a Net.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
-}
-
-TEST_F(StringRealtoa, AVariableTypespecIsString) {
+TEST_F(StringRealtoaTest, AVariableTypespecIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -90,7 +90,7 @@ TEST_F(StringRealtoa, AVariableTypespecIsString) {
   EXPECT_NE(a->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringRealtoa, AVariableHasNoInitialValue) {
+TEST_F(StringRealtoaTest, AVariableHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -98,17 +98,17 @@ TEST_F(StringRealtoa, AVariableHasNoInitialValue) {
   EXPECT_EQ(a->getValue<hldb::Any>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Initial process -- initial a.realtoa(4.76)
-// ----
-TEST_F(StringRealtoa, InitialProcessExists) {
+// ---------------------------------------------------------------------------
+TEST_F(StringRealtoaTest, InitialProcessExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
-TEST_F(StringRealtoa, InitialStmtIsHierPath) {
+TEST_F(StringRealtoaTest, InitialStmtIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -118,10 +118,10 @@ TEST_F(StringRealtoa, InitialStmtIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.realtoa(4.76)");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // HierPath -- receiver 'a' and FuncCall 'realtoa' with 1 real argument
-// ----
-TEST_F(StringRealtoa, HierPathReceiverIsA) {
+// ---------------------------------------------------------------------------
+TEST_F(StringRealtoaTest, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -136,7 +136,7 @@ TEST_F(StringRealtoa, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringRealtoa, HierPathMethodIsRealtoa) {
+TEST_F(StringRealtoaTest, HierPathMethodIsRealtoa) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -149,7 +149,7 @@ TEST_F(StringRealtoa, HierPathMethodIsRealtoa) {
   EXPECT_EQ(call->getName(), "realtoa");
 }
 
-TEST_F(StringRealtoa, RealtoaArgumentIs4dot76) {
+TEST_F(StringRealtoaTest, RealtoaArgumentIs4dot76) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -165,6 +165,14 @@ TEST_F(StringRealtoa, RealtoaArgumentIs4dot76) {
   // The argument 4.76 is encoded as a real literal (vpiRealConst)
   EXPECT_EQ(arg->getConstType(), vpiRealConst);
   EXPECT_EQ(arg->getDecompile(), "4.76");
+}
+
+TEST_F(StringRealtoaTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

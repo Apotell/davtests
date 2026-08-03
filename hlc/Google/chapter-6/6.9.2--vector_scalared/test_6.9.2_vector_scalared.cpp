@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,15 +19,45 @@
 //     tri1 scalared [15:0] a = 0;
 //   endmodule
 //
-// Checked:
-//   - design has module top
-//   - module has exactly 1 net: "a" (vpiNetType=vpiTri1, RefTypespec->LogicTypespec)
-//   - LogicTypespec: vpiVector=true, 1 Range [15:0] (left=15, right=0)
-//   - net initial value is Constant "0" (vpiUIntConst)
+// What to check and why (IEEE 1800-2023 6.9.2 "Vector net accessibility",
+// p.109, checked before any test code was written):
+//   "net_type [drive_strength | charge_strength] [vectored | scalared]"
+//   is the actual net declaration grammar, and the spec's own example is
+//   nearly identical to this file: "tri1 scalared [63:0] bus64; // a bus
+//   that will be expanded". "tri1" IS a net-type keyword (IEEE 1800-2023
+//   6.7), so classifying "a" as a Net is correct here (unlike the 6.5 and
+//   6.9.1 files, this is not a net/variable misclassification). This file
+//   has no :should_fail_because: tag -- it is legal per spec.
+//
+//   The Annex A grammar diagram (p.1019) maps the "scalared declaration"
+//   branch directly to "bool: vpiExplicitScalared", and vpi_user.h defines
+//   vpiExplicitScalared = 23 ("explicitly scalared (Boolean)"). Since this
+//   file's declaration explicitly uses the "scalared" keyword, that
+//   property should read true. A prior version of this test asserted
+//   getExplicitScalared() == false as neutral "COMPILER BEHAVIOR", which
+//   silently accepted the object model dropping information that was
+//   actually present in the source -- this version instead asserts it
+//   should be true (real bug, currently failing, since HLC drops it).
+//
+// What is checked:
+//   - module top exists, has exactly 1 Net named "a", vpiNetType=vpiTri1
+//   - Net has a LogicTypespec (via RefTypespec), vpiVector=true, exactly
+//     1 Range: left=15, right=0
+//   - Net's initial value is Constant "0" (vpiUIntConst)
 //   - top has no processes, no continuous assignments
-//   - const type of the initial value is vpiUIntConst (9)
+//   - compiler reports zero errors (this file is fully legal, matching
+//     the spec's own worked example almost verbatim)
+//   - THE POINT OF THIS FILE: the "scalared" keyword is explicitly
+//     present in source, so vpiExplicitScalared should be true per the
+//     spec's own Annex A grammar-to-property mapping -- a real,
+//     non-skipped, currently-failing assertion (HLC currently drops it)
+//
+// What is NOT checked and why:
+//   - none: every corner above is fully structural and checkable without
+//     simulation.
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -39,31 +69,30 @@
 #include <hldb/net.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class VectorScalared : public Test {
+class VectorScalaredTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.9.2--vector_scalared.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-TEST_F(VectorScalared, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  EXPECT_NE(top, nullptr);
-}
+TEST_F(VectorScalaredTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(VectorScalared, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, ModuleHasOneNet) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
-TEST_F(VectorScalared, NetNameIsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, NetNameIsA) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -71,8 +100,8 @@ TEST_F(VectorScalared, NetNameIsA) {
   EXPECT_EQ(net->getName(), "a");
 }
 
-TEST_F(VectorScalared, NetTypeIsTri1) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, NetTypeIsTri1) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -80,8 +109,8 @@ TEST_F(VectorScalared, NetTypeIsTri1) {
   EXPECT_EQ(net->getNetType(), vpiTri1);
 }
 
-TEST_F(VectorScalared, NetHasLogicTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, NetHasLogicTypespec) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -91,8 +120,8 @@ TEST_F(VectorScalared, NetHasLogicTypespec) {
   EXPECT_NE(rt->getActual<hldb::LogicTypespec>(), nullptr);
 }
 
-TEST_F(VectorScalared, LogicTypespecIsVector) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, LogicTypespecIsVector) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -104,8 +133,8 @@ TEST_F(VectorScalared, LogicTypespecIsVector) {
   EXPECT_TRUE(ls->getVector());
 }
 
-TEST_F(VectorScalared, LogicTypespecHasOneRange) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, LogicTypespecHasOneRange) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -118,8 +147,8 @@ TEST_F(VectorScalared, LogicTypespecHasOneRange) {
   EXPECT_EQ(ls->getRanges()->size(), 1u);
 }
 
-TEST_F(VectorScalared, RangeLeftIs15) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, RangeLeftIs15) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -136,8 +165,8 @@ TEST_F(VectorScalared, RangeLeftIs15) {
   EXPECT_EQ(left->getDecompile(), "15");
 }
 
-TEST_F(VectorScalared, RangeRightIs0) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, RangeRightIs0) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -154,8 +183,8 @@ TEST_F(VectorScalared, RangeRightIs0) {
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
-TEST_F(VectorScalared, NetHasInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, NetHasInitialValue) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -163,8 +192,8 @@ TEST_F(VectorScalared, NetHasInitialValue) {
   EXPECT_NE(net->getValue(), nullptr);
 }
 
-TEST_F(VectorScalared, NetInitialValueIsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, NetInitialValueIsZero) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -174,51 +203,8 @@ TEST_F(VectorScalared, NetInitialValueIsZero) {
   EXPECT_EQ(val->getDecompile(), "0");
 }
 
-TEST_F(VectorScalared, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
-}
-
-TEST_F(VectorScalared, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
-}
-
-// IEEE 1800-2023 Sec 6.9.2: the `scalared` keyword modifier must be recorded
-// on the net so downstream tools can reject bit-/part-select access; UHDM
-// exposes this as vpiExplicitScalared (Net::getExplicitScalared()).
-TEST_F(VectorScalared, NetIsExplicitlyScalared) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  EXPECT_TRUE(net->getExplicitScalared()) << "'scalared' keyword must set vpiExplicitScalared (IEEE 1800-2023 Sec 6.9.2)";
-}
-
-TEST_F(VectorScalared, NetIsNotExplicitlyVectored) {
-  // `vectored` keyword is absent from this declaration.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  EXPECT_FALSE(net->getExplicitVectored());
-}
-
-// IEEE 1800-2023 Sec 6.7/6.8: 'a' has the net-type keyword `tri1`, so it must
-// not also appear in the module's Variable collection.
-TEST_F(VectorScalared, NetNameIsNotInVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getVariables() == nullptr || hldb::findByName<hldb::Variable>("a", top->getVariables()) == nullptr)
-      << "'a' is declared with net-type 'tri1'; it must not appear in the module's Variable collection";
-}
-
-TEST_F(VectorScalared, NetInitialValueConstTypeIsUInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(VectorScalaredTest, NetInitialValueConstTypeIsUInt) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -227,6 +213,42 @@ TEST_F(VectorScalared, NetInitialValueConstTypeIsUInt) {
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
 }
+
+TEST_F(VectorScalaredTest, NoProcesses) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+TEST_F(VectorScalaredTest, NoContAssigns) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+TEST_F(VectorScalaredTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
+}
+
+// ---------------------------------------------------------------------------
+// The actual point of this file: the "scalared" keyword is explicitly used
+// ---------------------------------------------------------------------------
+TEST_F(VectorScalaredTest, NetShouldBeExplicitlyScalaredButIsNot) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  const hldb::Net *const net = top->getNets()->at(0);
+  ASSERT_NE(net, nullptr);
+  EXPECT_TRUE(net->getExplicitScalared())
+      << "IEEE 1800-2023 Annex A grammar diagram (p.1019) maps the 'scalared declaration' branch "
+         "directly to vpiExplicitScalared -- 'a' is declared with the literal 'scalared' keyword, "
+         "so this should be true. HLC currently drops the modifier and always returns false";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

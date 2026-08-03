@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,29 +14,48 @@
  limitations under the License.
 */
 
-// Validates the UHDM graph for a module using a bitstream cast:
+// Tests for 6.24.3--bitstream_cast.sv (tags: 6.24.3)
 //   module top();
 //     struct packed {logic [7:0] a; logic [7:0] b; logic [15:0] c;} s;
 //     integer a = integer'(s);
 //   endmodule
 //
-// ss.6.7 + ss.6.8: neither 's' (a packed struct type) nor 'a' (the 'integer'
-// keyword) has an explicit net-type keyword (wire/tri/etc.), so per the
-// standard both are variable_declarations, not net_declarations. They must
-// be modeled as Variables, found via Module::getVariables(), not as Nets.
+// What to check and why (IEEE 1800-2023 6.24.3 "Bit-stream casting",
+// p.144, and 6.8 "Variable declarations", p.105, checked before any
+// test code was written):
+//   6.8's data_type grammar lists both "struct_union [packed [signing]]
+//   {struct_union_member ...}" and "integer_atom_type" ("integer" among
+//   them) as variable-declaring alternatives -- neither ever appears in
+//   IEEE 1800-2023 6.7's net_type list. "struct packed {...} s;" and
+//   "integer a = integer'(s);" declared directly in a module body must
+//   therefore both be Variables, not Nets, regardless of module-level
+//   scope. This file has no :should_fail_because: tag -- it is legal
+//   per spec (bit-stream casting a packed struct to an integral type is
+//   exactly what 6.24.3 describes).
 //
-// Checked:
-//   - design has module top
-//   - module has exactly 2 variables: 's' (packed StructTypespec) and 'a' (IntegerTypespec)
-//   - struct 's' is packed, has 3 members (a, b, c), all with LogicTypespec
-//   - 's' has no initial value
-//   - 'a' vpiValue = vpiCastOp Operation; cast typespec -> IntegerTypespec
-//   - cast operand = RefObj "s" -> Variable 's'
-//   - top has no continuous assignments
-//   - top has no processes
-//   - struct member bit widths: a, b -> [7:0]; c -> [15:0]
+//   A prior version of this test used hldb::Net/getNets() for both "s"
+//   and "a" -- the same net/variable misclassification bug found and
+//   fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14, 6.16, 6.17, 6.18, 6.19,
+//   6.23, and 6.24.1/6.24.2 this session. This version targets
+//   hldb::Variable for both "s" and "a" instead.
+//
+// What is checked:
+//   - module top has no Nets and exactly 2 Variables: "s" (packed
+//     StructTypespec) and "a" (IntegerTypespec)
+//   - struct "s" is packed, has 3 members (a, b, c), all with
+//     LogicTypespec; member bit widths: a, b -> [7:0]; c -> [15:0]
+//   - "s" has no initial value
+//   - "a" vpiValue = Operation(vpiCastOp); cast typespec -> IntegerTypespec
+//   - cast operand = RefObj "s" -> Variable
+//   - top has no continuous assignments, no processes
+//   - compiler reports zero errors (this file is fully legal per 6.24.3)
+//
+// What is NOT checked and why:
+//   - none: every corner above is fully structural and checkable without
+//     simulation.
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -57,30 +76,45 @@
 
 namespace hlc {
 
-class BitstreamCast : public Test {
+class BitstreamCastTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.24.3--bitstream_cast.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-TEST_F(BitstreamCast, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
-}
+TEST_F(BitstreamCastTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-// ----
+// ---------------------------------------------------------------------------
 // No processes -- both declarations are module-level Variables
-// ----
-TEST_F(BitstreamCast, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(BitstreamCastTest, NoProcesses) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-// ----
+// ---------------------------------------------------------------------------
+// Module has no Nets and exactly 2 Variables: "s" (struct), "a" (integer)
+// ---------------------------------------------------------------------------
+TEST_F(BitstreamCastTest, ModuleHasNoNetsAndTwoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
+      << "neither 'struct packed {...} s' nor 'integer a' declares a net-type keyword "
+         "(IEEE 1800-2023 6.7) anywhere in this file";
+  ASSERT_NE(top->getVariables(), nullptr)
+      << "'s' and 'a' should be Variables; if this is null, hldb likely misclassified them as Nets";
+  EXPECT_EQ(top->getVariables()->size(), 2u) << "expected variables 's' (struct) and 'a' (integer)";
+}
+
+// ---------------------------------------------------------------------------
 // Variable "s" -> StructTypespec (packed, 3 members: a, b, c)
-// ----
-TEST_F(BitstreamCast, VariableSIsPackedStruct) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(BitstreamCastTest, SIsPackedStruct) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
@@ -89,8 +123,8 @@ TEST_F(BitstreamCast, VariableSIsPackedStruct) {
   EXPECT_TRUE(structTs->getPacked());
 }
 
-TEST_F(BitstreamCast, StructHasThreeMembers) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(BitstreamCastTest, StructHasThreeMembers) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
@@ -103,8 +137,8 @@ TEST_F(BitstreamCast, StructHasThreeMembers) {
   EXPECT_EQ(structTs->getMembers()->at(2)->getName(), "c");
 }
 
-TEST_F(BitstreamCast, StructMembersHaveLogicTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(BitstreamCastTest, StructMembersHaveLogicTypespec) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
@@ -116,11 +150,11 @@ TEST_F(BitstreamCast, StructMembersHaveLogicTypespec) {
   }
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable "a" -> IntegerTypespec (integer keyword -- distinct from IntTypespec/int)
-// ----
-TEST_F(BitstreamCast, VariableAIsIntegerType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(BitstreamCastTest, AIsIntegerType) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -128,11 +162,11 @@ TEST_F(BitstreamCast, VariableAIsIntegerType) {
       << "integer keyword maps to IntegerTypespec (not IntTypespec which is for int)";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable "a" vpiValue = Operation(vpiCastOp=67) -- integer'(s)
-// ----
-TEST_F(BitstreamCast, VariableAValueIsCastOperation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(BitstreamCastTest, AValueIsCastOperation) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -141,8 +175,8 @@ TEST_F(BitstreamCast, VariableAValueIsCastOperation) {
   EXPECT_EQ(castOp->getOpType(), vpiCastOp);
 }
 
-TEST_F(BitstreamCast, CastTypespecIsIntegerTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(BitstreamCastTest, CastTypespecIsIntegerTypespec) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -153,8 +187,8 @@ TEST_F(BitstreamCast, CastTypespecIsIntegerTypespec) {
   EXPECT_NE(rts->getActual<hldb::IntegerTypespec>(), nullptr) << "integer'(...) cast target type is IntegerTypespec";
 }
 
-TEST_F(BitstreamCast, CastOperandIsRefToVariableS) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(BitstreamCastTest, CastOperandIsRefToVariableS) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -168,36 +202,29 @@ TEST_F(BitstreamCast, CastOperandIsRefToVariableS) {
   EXPECT_NE(s->getActual<hldb::Variable>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Structural completeness
-// ----
-TEST_F(BitstreamCast, TwoVariablesExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getVariables(), nullptr);
-  EXPECT_EQ(top->getVariables()->size(), 2u) << "expected variables 's' (struct) and 'a' (integer)";
-}
-
-TEST_F(BitstreamCast, VariableSHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(BitstreamCastTest, SHasNoInitialValue) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
   EXPECT_EQ(s->getValue<hldb::Any>(), nullptr) << "struct 's' is declared without an initializer";
 }
 
-TEST_F(BitstreamCast, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(BitstreamCastTest, NoContAssigns) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "integer a = integer'(s) stores the cast as vpiValue, not a ContAssign";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Struct member bit widths: a, b -> [7:0], c -> [15:0]
-// ----
-TEST_F(BitstreamCast, MembersAAndBAreEightBitsWide) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(BitstreamCastTest, MembersAAndBAreEightBitsWide) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
@@ -219,8 +246,8 @@ TEST_F(BitstreamCast, MembersAAndBAreEightBitsWide) {
   }
 }
 
-TEST_F(BitstreamCast, MemberCIsSixteenBitsWide) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(BitstreamCastTest, MemberCIsSixteenBitsWide) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
@@ -238,6 +265,14 @@ TEST_F(BitstreamCast, MemberCIsSixteenBitsWide) {
   const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
+}
+
+TEST_F(BitstreamCastTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

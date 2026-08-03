@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,13 @@
 //     end
 //   endmodule
 //
+// What to check and why (IEEE 1800-2023 6.19.4 "Enumerated types in
+// numerical expressions", p.122): "C = Colors'(C+1); // C is converted to
+// an integer, then added to one, then converted back to a Colors type"
+// -- "val = e'(val+1);" here is exactly this legal explicit-cast
+// pattern (contrast with the illegal, uncast
+// 6.19.4--enum_numerical_expr_no_cast.sv). No :should_fail_because: tag.
+//
 // Checked:
 //   - design has module top
 //   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
@@ -35,6 +42,7 @@
 //   - add inner constant 1 is stored as vpiUIntConst
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -57,17 +65,17 @@
 
 namespace hlc {
 
-class EnumNumericalExprCast : public Test {
+class EnumNumericalExprCastTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19.4--enum_numerical_expr_cast.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(EnumNumericalExprCast, ModuleExists) {
+TEST_F(EnumNumericalExprCastTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(EnumNumericalExprCast, TypedefEExists) {
+TEST_F(EnumNumericalExprCastTest, TypedefEExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -75,7 +83,7 @@ TEST_F(EnumNumericalExprCast, TypedefEExists) {
   EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
-TEST_F(EnumNumericalExprCast, EnumHasFourConsts) {
+TEST_F(EnumNumericalExprCastTest, EnumHasFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -90,10 +98,10 @@ TEST_F(EnumNumericalExprCast, EnumHasFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Begin -> 1 variable "val"
-// ----
-TEST_F(EnumNumericalExprCast, BeginHasVariableVal) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumericalExprCastTest, BeginHasVariableVal) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -105,10 +113,10 @@ TEST_F(EnumNumericalExprCast, BeginHasVariableVal) {
   EXPECT_EQ(blk->getVariables()->at(0)->getName(), "val");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // 2nd assignment: val = e'(val+1) -- rhs is Operation(cast)
-// ----
-TEST_F(EnumNumericalExprCast, SecondAssignmentRhsIsCastOp) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumericalExprCastTest, SecondAssignmentRhsIsCastOp) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -124,7 +132,7 @@ TEST_F(EnumNumericalExprCast, SecondAssignmentRhsIsCastOp) {
   EXPECT_EQ(castOp->getOpType(), vpiCastOp);
 }
 
-TEST_F(EnumNumericalExprCast, CastOpTypespecIsTypedefE) {
+TEST_F(EnumNumericalExprCastTest, CastOpTypespecIsTypedefE) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -141,7 +149,7 @@ TEST_F(EnumNumericalExprCast, CastOpTypespecIsTypedefE) {
   EXPECT_NE(rts->getActual<hldb::TypedefTypespec>(), nullptr);
 }
 
-TEST_F(EnumNumericalExprCast, CastOperandIsAddOp) {
+TEST_F(EnumNumericalExprCastTest, CastOperandIsAddOp) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -167,10 +175,10 @@ TEST_F(EnumNumericalExprCast, CastOperandIsAddOp) {
   EXPECT_EQ(rhsOp->getDecompile(), "1");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // 1st assignment: val = a -- rhs is RefObj -> EnumConst "a"
-// ----
-TEST_F(EnumNumericalExprCast, FirstAssignmentRhsIsEnumConstA) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumericalExprCastTest, FirstAssignmentRhsIsEnumConstA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -185,7 +193,7 @@ TEST_F(EnumNumericalExprCast, FirstAssignmentRhsIsEnumConstA) {
   EXPECT_NE(rhs->getActual<hldb::EnumConst>(), nullptr);
 }
 
-TEST_F(EnumNumericalExprCast, CastAddConstant1IsUIntConst) {
+TEST_F(EnumNumericalExprCastTest, CastAddConstant1IsUIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -205,6 +213,14 @@ TEST_F(EnumNumericalExprCast, CastAddConstant1IsUIntConst) {
   ASSERT_NE(rhsOp, nullptr);
   EXPECT_EQ(rhsOp->getConstType(), vpiUIntConst)
       << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+}
+
+TEST_F(EnumNumericalExprCastTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

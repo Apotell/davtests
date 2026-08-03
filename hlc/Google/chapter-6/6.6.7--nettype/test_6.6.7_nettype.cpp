@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,43 @@
 //     nettype real real_net;
 //   endmodule
 //
-// Checked:
-//   - design has module top
-//   - module has 1 TypedefTypespec "real_net" (alias->RealTypespec, no resolution function)
-//   - top has no nets, no processes, no task/functions
+// What to check and why (IEEE 1800-2023 6.6.7 "User-defined nettypes",
+// p.97-98, checked before any test code was written):
+//   "A user-defined nettype allows users to describe more general
+//   abstract values for a wire ... This nettype is similar to a typedef
+//   (see 6.18) in some ways, but shall only be used in declaring a net.
+//   It provides a name for a particular data type and optionally an
+//   associated resolution function." "A real or shortreal type" is
+//   explicitly listed as a valid nettype base data type, so this
+//   declaration is fully legal with no expected errors.
+//
+//   hldb has no dedicated "user-defined nettype" class -- it reuses
+//   TypedefTypespec (which carries both a getTypedefAlias() base type
+//   and a getResolutionFunc() slot), matching the spec's own "similar to
+//   a typedef" description. This is NOT a misclassification: unlike the
+//   6.5-series net/variable bug, there is no net or variable *instance*
+//   here at all -- "nettype real real_net;" only introduces a new named
+//   type, it does not declare a net (spec: "shall only be used in
+//   declaring a net" -- i.e. by something else, later, which this file
+//   does not do).
+//
+// What is checked:
+//   - module top exists, has exactly 1 typespec: TypedefTypespec named
+//     "real_net"
+//   - its alias (getTypedefAlias()) resolves to RealTypespec (from
+//     "real")
+//   - its resolution function (getResolutionFunc()) is null (no 'with'
+//     clause present)
+//   - top has no Nets (the nettype declaration itself does not
+//     instantiate a net), no processes, no task/functions
+//   - compiler reports zero errors (this file is fully legal per 6.6.7)
+//
+// What is NOT checked and why:
+//   - none: every corner above is fully structural and checkable without
+//     simulation.
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -37,28 +68,29 @@
 
 namespace hlc {
 
-class Nettype : public Test {
+class NettypeTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.6.7--nettype.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-TEST_F(Nettype, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
-}
+TEST_F(NettypeTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-// ----
+// ---------------------------------------------------------------------------
 // Module has exactly one typespec: TypedefTypespec "real_net"
-// ----
-TEST_F(Nettype, ModuleHasOneTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(NettypeTest, ModuleHasOneTypespec) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 1u);
 }
 
-TEST_F(Nettype, NettypeIsTypedefTypespecNamedRealNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(NettypeTest, NettypeIsTypedefTypespecNamedRealNet) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
@@ -66,52 +98,62 @@ TEST_F(Nettype, NettypeIsTypedefTypespecNamedRealNet) {
   EXPECT_EQ(td->getName(), "real_net");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // TypedefTypespec alias: RefTypespec -> RealTypespec
-// ----
-TEST_F(Nettype, NettypeAliasIsRealTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(NettypeTest, NettypeAliasIsRealTypespec) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr);
   const hldb::RefTypespec *const alias = td->getTypedefAlias();
   ASSERT_NE(alias, nullptr);
   EXPECT_NE(alias->getActual<hldb::RealTypespec>(), nullptr)
-      << "nettype real real_net: alias base type is RealTypespec";
+      << "nettype real real_net: alias base type is RealTypespec, a spec-listed valid nettype "
+         "base type (IEEE 1800-2023 6.6.7 item c)";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // No resolution function -- this nettype has no 'with' clause
-// ----
-TEST_F(Nettype, NettypeHasNoResolutionFunction) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(NettypeTest, NettypeHasNoResolutionFunction) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr);
   EXPECT_EQ(td->getResolutionFunc(), nullptr) << "nettype without 'with' clause has no resolution function";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // No nets or processes -- nettype declaration does not instantiate a net
-// ----
-TEST_F(Nettype, NoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(NettypeTest, NoNets) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
-      << "nettype declaration does not create a net instance in the module";
+      << "IEEE 1800-2023 6.6.7: the nettype declaration only names a type; it 'shall only be "
+         "used in declaring a net' elsewhere, which this file does not do";
 }
 
-TEST_F(Nettype, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(NettypeTest, NoProcesses) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-TEST_F(Nettype, NoTaskFunctions) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(NettypeTest, NoTaskFunctions) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getTaskFuncs() == nullptr || top->getTaskFuncs()->empty())
       << "nettype without resolution function has no task/function declarations";
+}
+
+TEST_F(NettypeTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

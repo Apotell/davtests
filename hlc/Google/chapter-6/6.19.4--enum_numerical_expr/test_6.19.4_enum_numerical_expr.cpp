@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +25,13 @@
 //     end
 //   endmodule
 //
+// What to check and why (IEEE 1800-2023 6.19.4 "Enumerated types in
+// numerical expressions", p.122): "An enum variable or identifier used
+// as part of an expression is automatically cast to the base type of
+// the enum declaration" -- "i = val * 4;" here uses the enum variable
+// "val" directly in a numerical expression with no cast required for
+// this direction (enum-to-int is automatic); no :should_fail_because: tag.
+//
 // Checked:
 //   - design has module top
 //   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
@@ -35,6 +42,7 @@
 //   - multiply Operation carries no static result typespec
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -58,17 +66,17 @@
 
 namespace hlc {
 
-class EnumNumericalExpr : public Test {
+class EnumNumericalExprTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19.4--enum_numerical_expr.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(EnumNumericalExpr, ModuleExists) {
+TEST_F(EnumNumericalExprTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(EnumNumericalExpr, TypedefEWithFourConsts) {
+TEST_F(EnumNumericalExprTest, TypedefEWithFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -83,10 +91,10 @@ TEST_F(EnumNumericalExpr, TypedefEWithFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Begin block -- 2 variables: i (IntegerTypespec) and val (TypedefTypespec)
-// ----
-TEST_F(EnumNumericalExpr, BeginHasTwoVariables) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumericalExprTest, BeginHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -97,7 +105,7 @@ TEST_F(EnumNumericalExpr, BeginHasTwoVariables) {
   EXPECT_EQ(blk->getVariables()->size(), 2u);
 }
 
-TEST_F(EnumNumericalExpr, IVariableIsIntegerType) {
+TEST_F(EnumNumericalExprTest, IVariableIsIntegerType) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -110,7 +118,7 @@ TEST_F(EnumNumericalExpr, IVariableIsIntegerType) {
   EXPECT_NE(i->getTypespec()->getActual<hldb::IntegerTypespec>(), nullptr);
 }
 
-TEST_F(EnumNumericalExpr, ValVariableIsTypedefType) {
+TEST_F(EnumNumericalExprTest, ValVariableIsTypedefType) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -123,10 +131,10 @@ TEST_F(EnumNumericalExpr, ValVariableIsTypedefType) {
   EXPECT_NE(val->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Statements -- 2 assignments
-// ----
-TEST_F(EnumNumericalExpr, TwoStatements) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumericalExprTest, TwoStatements) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -137,7 +145,7 @@ TEST_F(EnumNumericalExpr, TwoStatements) {
   EXPECT_EQ(blk->getStmts()->size(), 2u);
 }
 
-TEST_F(EnumNumericalExpr, FirstAssignmentValEqualsA) {
+TEST_F(EnumNumericalExprTest, FirstAssignmentValEqualsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -153,10 +161,10 @@ TEST_F(EnumNumericalExpr, FirstAssignmentValEqualsA) {
   EXPECT_NE(rhs->getActual<hldb::EnumConst>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // 2nd assignment: i = val * 4 -- rhs is Operation(multiply, val, 4)
-// ----
-TEST_F(EnumNumericalExpr, SecondAssignmentRhsIsMultiplyOp) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumericalExprTest, SecondAssignmentRhsIsMultiplyOp) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -171,7 +179,7 @@ TEST_F(EnumNumericalExpr, SecondAssignmentRhsIsMultiplyOp) {
   EXPECT_EQ(op->getOpType(), vpiMultOp);
 }
 
-TEST_F(EnumNumericalExpr, MultiplyOperandsAreValAnd4) {
+TEST_F(EnumNumericalExprTest, MultiplyOperandsAreValAnd4) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -192,7 +200,7 @@ TEST_F(EnumNumericalExpr, MultiplyOperandsAreValAnd4) {
   EXPECT_EQ(rhsOp->getDecompile(), "4");
 }
 
-TEST_F(EnumNumericalExpr, MultiplyConstant4IsUIntConst) {
+TEST_F(EnumNumericalExprTest, MultiplyConstant4IsUIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -211,7 +219,7 @@ TEST_F(EnumNumericalExpr, MultiplyConstant4IsUIntConst) {
       << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
 }
 
-TEST_F(EnumNumericalExpr, MultiplyOpHasNoStaticResultTypespec) {
+TEST_F(EnumNumericalExprTest, MultiplyOpHasNoStaticResultTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -223,6 +231,14 @@ TEST_F(EnumNumericalExpr, MultiplyOpHasNoStaticResultTypespec) {
   const hldb::Operation *const op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getTypespec(), nullptr) << "plain multiply Operation (no cast) carries no result typespec";
+}
+
+TEST_F(EnumNumericalExprTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

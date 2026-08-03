@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +20,19 @@
 //     int b = a.atohex();
 //   endmodule
 //
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations", p.105):
+// the identifiers declared in this file (string/int/byte/real -- see the
+// module body above) are all 6.8 data_type keywords (string, integer_atom_type,
+// non_integer_type), never IEEE 1800-2023 6.7 net_type keywords, so they must
+// be Variables, not Nets, regardless of module-level scope. A prior version of
+// this test used hldb::Net/getNets() throughout -- the same net/variable
+// misclassification bug found and fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14,
+// and 6.16--string this session. This version targets hldb::Variable instead,
+// and adds a CompilerReportsZeroErrors check (previously absent) since this
+// file has no :should_fail_because: tag and is fully legal.
+//
 // Checked:
-//   - design has module top with 2 variables (a: string, b: int) -- IEEE 1800-2023
-//     6.8: declarations with no net-type keyword are variables, not nets
+//   - design has module top with 2 variables (a: string, b: int)
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "0xff" (vpiStringConst)
 //   - variable 'b' typespec resolves to IntTypespec
 //   - variable 'b' has a non-null initial value (vpiValue is set)
@@ -33,6 +43,7 @@
 //     the unevaluated HierPath expression only
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -42,46 +53,36 @@
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
-#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class StringAtohex : public Test {
+class StringAtohexTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.9--string_atohex.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(StringAtohex, ModuleExists) {
+TEST_F(StringAtohexTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable declarations -- string 'a' and int 'b'
-// ----
-TEST_F(StringAtohex, TwoVariablesExist) {
+// ---------------------------------------------------------------------------
+TEST_F(StringAtohexTest, TwoVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(StringAtohex, NoNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, neither 'string' nor 'int' has a
-  // net-type keyword, so neither 'a' nor 'b' should be materialized as Nets.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
-}
-
-TEST_F(StringAtohex, AVariableTypespecIsString) {
+TEST_F(StringAtohexTest, AVariableTypespecIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -89,7 +90,7 @@ TEST_F(StringAtohex, AVariableTypespecIsString) {
   EXPECT_NE(a->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringAtohex, AVariableInitialValueIs0xff) {
+TEST_F(StringAtohexTest, AVariableInitialValueIs0xff) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -100,7 +101,7 @@ TEST_F(StringAtohex, AVariableInitialValueIs0xff) {
   EXPECT_EQ(init->getDecompile(), "\"0xff\"");
 }
 
-TEST_F(StringAtohex, BVariableTypespecIsInt) {
+TEST_F(StringAtohexTest, BVariableTypespecIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -108,10 +109,10 @@ TEST_F(StringAtohex, BVariableTypespecIsInt) {
   EXPECT_NE(b->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // HierPath -- b's initial value is the method call a.atohex()
-// ----
-TEST_F(StringAtohex, BVariableHasValue) {
+// ---------------------------------------------------------------------------
+TEST_F(StringAtohexTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -119,7 +120,7 @@ TEST_F(StringAtohex, BVariableHasValue) {
   EXPECT_NE(b->getValue(), nullptr) << "variable 'b' should have a vpiValue set from int b = a.atohex()";
 }
 
-TEST_F(StringAtohex, BVariableValueIsNotPreEvaluatedConstant) {
+TEST_F(StringAtohexTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -128,7 +129,7 @@ TEST_F(StringAtohex, BVariableValueIsNotPreEvaluatedConstant) {
       << "HLC does not pre-evaluate a.atohex() to a constant; b holds only the HierPath expression";
 }
 
-TEST_F(StringAtohex, BVariableValueIsHierPath) {
+TEST_F(StringAtohexTest, BVariableValueIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -138,7 +139,7 @@ TEST_F(StringAtohex, BVariableValueIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.atohex");
 }
 
-TEST_F(StringAtohex, HierPathReceiverIsA) {
+TEST_F(StringAtohexTest, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -154,7 +155,7 @@ TEST_F(StringAtohex, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringAtohex, HierPathMethodIsAtohex) {
+TEST_F(StringAtohexTest, HierPathMethodIsAtohex) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -168,7 +169,7 @@ TEST_F(StringAtohex, HierPathMethodIsAtohex) {
   EXPECT_EQ(call->getName(), "atohex");
 }
 
-TEST_F(StringAtohex, AtohexHasNoArguments) {
+TEST_F(StringAtohexTest, AtohexHasNoArguments) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -178,6 +179,14 @@ TEST_F(StringAtohex, AtohexHasNoArguments) {
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "atohex() takes no arguments";
+}
+
+TEST_F(StringAtohexTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

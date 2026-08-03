@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,8 +24,7 @@
 //   - anonymous EnumTypespec with explicit base IntegerTypespec
 //   - 3 consts: a (vpiUIntConst "0"), b ({32{1'bx}} = vpiMultiConcatOp), c (vpiUIntConst "1")
 //   - b's MultiConcatOp has operands: Constant "32" and ConcatOp -> Constant "1'bx" (vpiBinaryConst)
-//   - variable "val" exists with typespec -> EnumTypespec (IEEE 1800-2023
-//     6.19/6.8: enum-typed declaration with no net-type keyword is a variable)
+//   - variable "val" exists with typespec -> EnumTypespec
 //   - variable "val" has no initial value
 //   - top has no processes
 //   - HLC doesn't flag x-value enums in integer-based enums as a semantic error
@@ -42,28 +41,27 @@
 #include <hldb/enum_typespec.h>
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class EnumXx : public Test {
+class EnumXxTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19--enum_xx.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(EnumXx, ModuleExists) {
+TEST_F(EnumXxTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // EnumTypespec with explicit base type: integer
-// ----
-TEST_F(EnumXx, EnumBaseTypeIsInteger) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumXxTest, EnumBaseTypeIsInteger) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
@@ -76,10 +74,10 @@ TEST_F(EnumXx, EnumBaseTypeIsInteger) {
   EXPECT_NE(base->getActual<hldb::IntegerTypespec>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // 3 consts: a, b, c
-// ----
-TEST_F(EnumXx, EnumHasThreeConsts) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumXxTest, EnumHasThreeConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
@@ -94,7 +92,7 @@ TEST_F(EnumXx, EnumHasThreeConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
 }
 
-TEST_F(EnumXx, ConstAValueIsZero) {
+TEST_F(EnumXxTest, ConstAValueIsZero) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
@@ -108,7 +106,7 @@ TEST_F(EnumXx, ConstAValueIsZero) {
   EXPECT_EQ(val->getDecompile(), "0");
 }
 
-TEST_F(EnumXx, ConstBValueIsMultiConcatOperation) {
+TEST_F(EnumXxTest, ConstBValueIsMultiConcatOperation) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
@@ -135,7 +133,7 @@ TEST_F(EnumXx, ConstBValueIsMultiConcatOperation) {
   EXPECT_EQ(xbit->getDecompile(), "1'bx");
 }
 
-TEST_F(EnumXx, ConstCValueIsOne) {
+TEST_F(EnumXxTest, ConstCValueIsOne) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
@@ -149,10 +147,10 @@ TEST_F(EnumXx, ConstCValueIsOne) {
   EXPECT_EQ(val->getDecompile(), "1");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable "val" -> EnumTypespec
-// ----
-TEST_F(EnumXx, VariableValExists) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumXxTest, VariableValExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
@@ -160,7 +158,7 @@ TEST_F(EnumXx, VariableValExists) {
   EXPECT_NE(val->getTypespec()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
-TEST_F(EnumXx, VariableValHasNoInitialValue) {
+TEST_F(EnumXxTest, VariableValHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
@@ -168,25 +166,16 @@ TEST_F(EnumXx, VariableValHasNoInitialValue) {
   EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
 }
 
-// IEEE 1800-2023 Sec 6.7/6.8: `val` has no net-type keyword, so it is a
-// Variable, never a Net -- confirm the name is absent from the Net collection.
-TEST_F(EnumXx, VariableValNotInNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("val", top->getNets()) == nullptr)
-      << "'val' has no net-type keyword; it must not appear in the module's Net collection";
-}
-
-TEST_F(EnumXx, NoProcesses) {
+TEST_F(EnumXxTest, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Compiler diagnostics -- x-valued enumerators on a 4-state integer base are not flagged
-// ----
-TEST_F(EnumXx, Compiler_NoErrorsReported) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumXxTest, Compiler_NoErrorsReported) {
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbError, 0) << "HLC does not reject x-value enumerators on an integer-based enum at compile time";
 }

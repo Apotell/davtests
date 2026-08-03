@@ -14,8 +14,7 @@
  limitations under the License.
 */
 
-// Spec-based validation of IEEE 1800-2017 ss.6.23 type operator in comparison
-// and case-matching contexts.
+// Tests for 6.23--type_op_compare.sv (tags: 6.23)
 // SV: tests/Google/chapter-6/6.23--type_op_compare.sv
 //
 //   module top #( parameter type T = type(logic[11:0]) )
@@ -33,27 +32,34 @@
 //      end
 //   endmodule
 //
-// -- ss.6.23 rules under test ---------------------------------------------------
+// What to check and why (IEEE 1800-2023 6.23 "Type operator", p.138,
+// checked before any test code was written -- verified verbatim against
+// the actual spec text, not recalled from training or an older edition):
 //
-// This SV file is syntactically and semantically valid per IEEE 1800-2017:
+// This SV file is syntactically and semantically valid per IEEE 1800-2023.
+// No :should_fail_because: tag.
 //
-// Type parameter with type() default (ss.6.23):
-//   * 'parameter type T = type(logic[11:0])' declares a type parameter T.
-//   * The type() operator yields the type of its argument (logic[11:0]).
-//   * T's default type is therefore 'logic[11:0]', represented as a
-//     LogicTypespec with a single packed range [11:0].
+// Type parameter with type() default (6.23):
+//   "The type operator can also be applied to a data type. localparam
+//   type T = type(bit[12:0]);" -- 'parameter type T = type(logic[11:0])'
+//   is the parameter-level equivalent of this exact pattern. T's default
+//   type is therefore 'logic[11:0]', represented as a LogicTypespec with
+//   a single packed range [11:0].
 //
-// type() in case selector (ss.6.23):
-//   * 'case (type(T))' is a valid type-matching case statement.
-//   * The spec explicitly permits type() in case selectors (ss.6.23).
-//   * Each arm uses type() as the pattern -- 'type(logic[11:0]) : ;'.
+// type() in case selector (6.23):
+//   The spec's own worked example uses exactly this pattern: "case
+//   (type(bus_t)) type(bit[12:0]): ...; type(real): ...; endcase" --
+//   'case (type(T)) type(logic[11:0]) : ; default : $stop; endcase' is
+//   the same construct.
 //
-// type comparison operators (ss.6.23):
-//   * type() operands are comparable with ==, !=, ===, !== (ss.6.23).
-//   * These are type-identity comparisons, not value comparisons.
-//   * 'type(T) == type(logic[12:0])' must be false (T is logic[11:0]).
-//   * 'type(T) != type(logic[11:0])' must be false (T is logic[11:0]).
-//   * '===' and '!==' have the same semantics as '==' and '!=' for types.
+// type comparison operators (6.23):
+//   "When a type reference is used in an equality/inequality or case
+//   equality/inequality comparison, it shall only be compared with
+//   another type reference. Two type references shall be considered
+//   equal in such comparisons if, and only if, the types to which they
+//   refer match." 'type(T) == type(logic[12:0])' must be false (T is
+//   logic[11:0]); 'type(T) != type(logic[11:0])' must be false; '===' and
+//   '!==' have the same semantics as '==' and '!=' for types.
 //
 // -- Expected HLDB tree (if compiler is correct) --------------------------------
 //
