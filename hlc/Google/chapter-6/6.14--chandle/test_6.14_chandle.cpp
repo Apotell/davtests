@@ -91,18 +91,17 @@ TEST_F(Chandle, AVariableHasTypespec) {
   EXPECT_NE(a->getTypespec(), nullptr) << "variable 'a' should have a RefTypespec node";
 }
 
-TEST_F(Chandle, AVariableTypespecActualIsNull) {
+TEST_F(Chandle, AVariableTypespecActualIsNotNull) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getActual(), nullptr) << "chandle variable typespec vpiActual is unresolved in this HLDB version";
+  ASSERT_NE(rts->getActual(), nullptr) << "chandle variable typespec vpiActual is unresolved";
 }
 
 TEST_F(Chandle, AVariableTypespecNameIsChandle) {
-  GTEST_SKIP() << "Compiler doesn't support ChandleTypespec resolution yet";
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());

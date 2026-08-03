@@ -92,18 +92,18 @@ TEST_F(Realtime, AVariableHasTypespec) {
   EXPECT_NE(a->getTypespec(), nullptr) << "variable 'a' should have a RefTypespec node";
 }
 
-TEST_F(Realtime, AVariableTypespecActualIsNull) {
+TEST_F(Realtime, AVariableTypespecActualIsNotNull) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getActual(), nullptr) << "realtime variable typespec vpiActual is unset (unlike 'real')";
+  ASSERT_NE(rts->getActual(), nullptr) << "realtime variable typespec vpiActual is unset";
+  EXPECT_EQ(rts->getActual()->getAnyType(), hldb::AnyType::RealTypespec);
 }
 
 TEST_F(Realtime, AVariableTypespecNameIsRealtime) {
-  GTEST_SKIP() << "Compiler doesn't support TimeTypesoec yet";
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -111,7 +111,7 @@ TEST_F(Realtime, AVariableTypespecNameIsRealtime) {
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
   EXPECT_NE(rts->getActual(), nullptr) << "RefTypespec actual is nullptr";
-  EXPECT_NE(rts->getActual<hldb::TimeTypespec>(), nullptr);
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr);
 }
 
 // ----
