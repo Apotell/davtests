@@ -14,6 +14,7 @@ COMMAND: -wd ../../../tests/OneNetInterf -fileunit -writepp -d db -sv dut.v tb.v
 [INF:CP0303] $Source01/dut.v:2:1: Compile module "dut".
 [INF:CP0304] $Source01/dut.v:7:1: Compile interface "ConnectTB".
 [INF:CP0303] $Source01/dut.v:10:1: Compile module "middle".
+[WRN:CP0310] $Source01/dut.v:10:26: Port "conn" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/dut.v:14:1: Compile module "SUB".
 [INF:CP0306] $Source01/tb.v:1:9: Compile program "TESTBENCH".
 [WRN:CP0314] $Source01/tb.v:1:9: Using programs is discouraged "TESTBENCH", programs are obsoleted by UVM.
@@ -54,6 +55,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: con_o
           vpiFullName: ConnectTB.con_o
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:ConnectTB
@@ -73,6 +75,7 @@ Design name:unnamed:
           vpiName: con_i
           vpiFullName: ConnectTB.con_i
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:con_i start:7:33 end:7:38:
           vpiParent: Interface name:ConnectTB
@@ -116,6 +119,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: drive
           vpiFullName: TESTBENCH.drive
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Program name:TESTBENCH
@@ -135,6 +139,7 @@ Design name:unnamed:
           vpiName: observe
           vpiFullName: TESTBENCH.observe
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiProcess (1 items):
         Initial start:2:3 end:11:6:
           vpiParent: Program name:TESTBENCH
@@ -442,6 +447,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut.o
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -450,6 +456,7 @@ Design name:unnamed:
           vpiName Identifier name:middle start:4:3 end:4:9:
             vpiParent: ModuleTypespec name:middle
             vpiName: middle
+          vpiModule: Module name:middle
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -467,6 +474,7 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: dut.i
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:2:24 end:2:25:
           vpiParent: Module name:dut
@@ -557,6 +565,7 @@ Design name:unnamed:
           vpiName Identifier name:SUB start:11:3 end:11:6:
             vpiParent: ModuleTypespec name:SUB
             vpiName: SUB
+          vpiModule: Module name:SUB
       vpiDefName: middle
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -657,6 +666,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: SUB.out
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:SUB
@@ -677,6 +687,7 @@ Design name:unnamed:
           vpiName: inp
           vpiFullName: SUB.inp
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:inp start:14:24 end:14:27:
           vpiParent: Module name:SUB
@@ -748,6 +759,7 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: tb.i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:15:10 end:15:11:
           vpiParent: Module name:tb
           vpiTypespec RefTypespec start:15:8 end:15:8:
@@ -757,6 +769,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: tb.o
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiRefInstance (3 items):
         RefInstance name:conntb start:16:13 end:16:19:
           vpiParent: Module name:tb
@@ -903,7 +916,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 9
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

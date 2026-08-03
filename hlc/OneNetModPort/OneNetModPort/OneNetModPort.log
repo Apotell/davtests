@@ -14,26 +14,25 @@ COMMAND: -wd ../../../tests/OneNetModPort -fileunit -writepp -d db -sv dut.v tb.
 [INF:CP0303] $Source01/dut.v:2:1: Compile module "dut".
 [INF:CP0304] $Source01/dut.v:9:1: Compile interface "ConnectTB".
 [INF:CP0303] $Source01/dut.v:22:1: Compile module "middle".
+[WRN:CP0310] $Source01/dut.v:22:30: Port "intf" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/dut.v:26:1: Compile module "SUB".
-[ERR:LN0813] $Source01/dut.v:1:1: Found 1 orphan node(s).
 [INF:CP0306] $Source01/tb.v:1:9: Compile program "TESTBENCH".
 [WRN:CP0314] $Source01/tb.v:1:9: Using programs is discouraged "TESTBENCH", programs are obsoleted by UVM.
 [INF:CP0303] $Source01/tb.v:15:1: Compile module "TOP".
-[ERR:LN0813] $Source01/tb.v:1:1: Found 1 orphan node(s).
 [WRN:CP0350] $Source01/dut.v:3:17: Failed to bind "id:38, name:drive".
 [WRN:CP0350] $Source01/dut.v:4:21: Failed to bind "id:44, name:observe".
-[WRN:CP0350] $Source01/dut.v:23:22: Failed to bind "id:84, name:drive".
-[WRN:CP0350] $Source01/dut.v:23:40: Failed to bind "id:89, name:observe".
-[WRN:CP0350] $Source01/tb.v:5:51: Failed to bind "id:136, name:drive".
-[WRN:CP0350] $Source01/tb.v:5:63: Failed to bind "id:139, name:observe".
-[WRN:CP0350] $Source01/tb.v:6:10: Failed to bind "id:144, name:drive".
-[WRN:CP0350] $Source01/tb.v:7:20: Failed to bind "id:155, name:drive".
-[WRN:CP0350] $Source01/tb.v:7:34: Failed to bind "id:158, name:observe".
-[WRN:CP0350] $Source01/tb.v:8:15: Failed to bind "id:180, name:drive".
-[WRN:CP0350] $Source01/tb.v:9:20: Failed to bind "id:191, name:drive".
-[WRN:CP0350] $Source01/tb.v:9:34: Failed to bind "id:194, name:observe".
-[WRN:CP0350] $Source01/tb.v:17:19: Failed to bind "id:224, name:drive".
-[WRN:CP0350] $Source01/tb.v:17:33: Failed to bind "id:229, name:observe".
+[WRN:CP0350] $Source01/dut.v:23:22: Failed to bind "id:86, name:drive".
+[WRN:CP0350] $Source01/dut.v:23:40: Failed to bind "id:91, name:observe".
+[WRN:CP0350] $Source01/tb.v:5:51: Failed to bind "id:140, name:drive".
+[WRN:CP0350] $Source01/tb.v:5:63: Failed to bind "id:143, name:observe".
+[WRN:CP0350] $Source01/tb.v:6:10: Failed to bind "id:148, name:drive".
+[WRN:CP0350] $Source01/tb.v:7:20: Failed to bind "id:159, name:drive".
+[WRN:CP0350] $Source01/tb.v:7:34: Failed to bind "id:162, name:observe".
+[WRN:CP0350] $Source01/tb.v:8:15: Failed to bind "id:184, name:drive".
+[WRN:CP0350] $Source01/tb.v:9:20: Failed to bind "id:195, name:drive".
+[WRN:CP0350] $Source01/tb.v:9:34: Failed to bind "id:198, name:observe".
+[WRN:CP0350] $Source01/tb.v:17:19: Failed to bind "id:228, name:drive".
+[WRN:CP0350] $Source01/tb.v:17:33: Failed to bind "id:233, name:observe".
 [WRN:PA0205] $Source01/dut.v:2:1: No timescale set for "dut".
 [WRN:PA0205] $Source01/dut.v:22:1: No timescale set for "middle".
 [WRN:PA0205] $Source01/dut.v:26:1: No timescale set for "SUB".
@@ -132,6 +131,22 @@ Design name:unnamed:
         vpiParent: Program name:TESTBENCH
         vpiName: TESTBENCH
       vpiFullName: TESTBENCH
+      vpiTypespec (1 items):
+        UnsupportedTypespec name:ConnectTB::tb start:1:21 end:1:33:
+          vpiParent: Program name:TESTBENCH
+          vpiPathElem (2 items):
+            RefObj name:ConnectTB start:1:21 end:1:30:
+              vpiParent: UnsupportedTypespec name:ConnectTB::tb
+              vpiName: ConnectTB
+              vpiFullName: TESTBENCH.ConnectTB::tb.ConnectTB
+              vpiActual: Interface name:ConnectTB
+            RefObj name:tb start:1:31 end:1:33:
+              vpiParent: UnsupportedTypespec name:ConnectTB::tb
+              vpiName: tb
+              vpiFullName: TESTBENCH.ConnectTB::tb.tb
+          vpiName Identifier name:ConnectTB::tb:
+            vpiParent: UnsupportedTypespec name:ConnectTB::tb
+            vpiName: ConnectTB::tb
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Program name:TESTBENCH
@@ -479,6 +494,15 @@ Design name:unnamed:
           vpiParent: Program name:TESTBENCH
           vpiName: intf
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:intf start:1:34 end:1:38:
+            vpiParent: Port name:intf
+            vpiName: intf
+            vpiFullName: TESTBENCH.intf.intf
+            vpiActual: Port name:intf
+          vpiTypespec RefTypespec start:1:21 end:1:33:
+            vpiParent: Port name:intf
+            vpiFullName: TESTBENCH.intf
+            vpiActual: UnsupportedTypespec name:ConnectTB::tb
   vpiAllModules (4 items):
     Module name:dut file:$Source01/dut.v start:2:1 end:7:10:
       vpiParent: Design name:unnamed
@@ -495,6 +519,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut.o
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -503,6 +528,7 @@ Design name:unnamed:
           vpiName Identifier name:middle start:6:3 end:6:9:
             vpiParent: ModuleTypespec name:middle
             vpiName: middle
+          vpiModule: Module name:middle
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -520,6 +546,7 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: dut.i
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:2:24 end:2:25:
           vpiParent: Module name:dut
@@ -624,12 +651,29 @@ Design name:unnamed:
         vpiParent: Module name:middle
         vpiName: middle
       vpiFullName: middle
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:ConnectTB::dut start:22:16 end:22:29:
+          vpiParent: Module name:middle
+          vpiPathElem (2 items):
+            RefObj name:ConnectTB start:22:16 end:22:25:
+              vpiParent: UnsupportedTypespec name:ConnectTB::dut
+              vpiName: ConnectTB
+              vpiFullName: middle.ConnectTB::dut.ConnectTB
+              vpiActual: Interface name:ConnectTB
+            RefObj name:dut start:22:26 end:22:29:
+              vpiParent: UnsupportedTypespec name:ConnectTB::dut
+              vpiName: dut
+              vpiFullName: middle.ConnectTB::dut.dut
+              vpiActual: Module name:dut
+          vpiName Identifier name:ConnectTB::dut:
+            vpiParent: UnsupportedTypespec name:ConnectTB::dut
+            vpiName: ConnectTB::dut
         ModuleTypespec name:SUB start:23:3 end:23:6:
           vpiParent: Module name:middle
           vpiName Identifier name:SUB start:23:3 end:23:6:
             vpiParent: ModuleTypespec name:SUB
             vpiName: SUB
+          vpiModule: Module name:SUB
       vpiDefName: middle
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -642,6 +686,15 @@ Design name:unnamed:
           vpiParent: Module name:middle
           vpiName: intf
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:intf start:22:30 end:22:34:
+            vpiParent: Port name:intf
+            vpiName: intf
+            vpiFullName: middle.intf.intf
+            vpiActual: Port name:intf
+          vpiTypespec RefTypespec start:22:16 end:22:29:
+            vpiParent: Port name:intf
+            vpiFullName: middle.intf
+            vpiActual: UnsupportedTypespec name:ConnectTB::dut
       vpiRefInstance (1 items):
         RefInstance name:sub1 start:23:7 end:23:11:
           vpiParent: Module name:middle
@@ -707,6 +760,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: SUB.out
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:SUB
@@ -727,6 +781,7 @@ Design name:unnamed:
           vpiName: inp
           vpiFullName: SUB.inp
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:inp start:26:24 end:26:27:
           vpiParent: Module name:SUB
@@ -906,8 +961,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 21
+[  ERROR] : 0
+[WARNING] : 22
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -922,28 +977,26 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/OneNetModPort/OneNetModPort/mounts.json
 
 
-{'result': {'coverage': 97.39,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 2,
-            'files': {'$Output/lib/work/dut.v': {'post_len': 13,
-                                                 'pre_len': 441},
-                      '$Output/lib/work/tb.v': {'post_len': 12,
-                                                'pre_len': 517}},
-            'post_len': 25,
+            'files': {'$Output/lib/work/dut.v': {'post_len': 0, 'pre_len': 441},
+                      '$Output/lib/work/tb.v': {'post_len': 0, 'pre_len': 517}},
+            'post_len': 0,
             'pre_len': 958,
             'test_name': 'OneNetModPort/OneNetModPort'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/dut.v |      441 |        13 |
-| $Output/lib/work/tb.v  |      517 |        12 |
+| $Output/lib/work/dut.v |      441 |         0 |
+| $Output/lib/work/tb.v  |      517 |         0 |
 +========================+==========+===========+
-|                        |      958 |        25 |
+|                        |      958 |         0 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.39
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -954,7 +1007,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetModPort/OneNetModPort/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             214     214       0         0
+Others                             226     226       0         0
 ----------------------------------------------------------------
-                                   214     214       0         0
+                                   226     226       0         0
 ===================== END REDUCTION RESULT =====================

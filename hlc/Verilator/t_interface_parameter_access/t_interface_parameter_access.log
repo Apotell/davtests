@@ -123,7 +123,7 @@ n<$Source01/t_interface_parameter_access.v> u<580> t<Top_level_rule> c<1> l<8:1>
     n<> u<264> t<Description> p<579> c<263> s<578> l<30:1> el<52:10>
       n<> u<263> t<Module_declaration> p<264> c<119> l<30:1> el<52:10>
         n<> u<119> t<Module_nonansi_header> p<263> c<107> s<126> l<30:1> el<33:6>
-          n<module> u<107> t<Module_keyword> p<119> s<108> l<30:1> el<30:7>
+          n<module> u<107> t<MODULE> p<119> s<108> l<30:1> el<30:7>
           n<t> u<108> t<SIMPLE_IDENTIFIER> p<119> s<109> l<30:8> el<30:9>
           n<> u<109> t<Package_import_declaration_list> p<119> s<110> l<30:10> el<30:10>
           n</*AUTOARG*/> u<110> t<BLOCK_COMMENT> p<119> s<111> l<30:10> el<33:5>
@@ -281,7 +281,7 @@ n<$Source01/t_interface_parameter_access.v> u<580> t<Top_level_rule> c<1> l<8:1>
     n<> u<578> t<Description> p<579> c<577> l<55:1> el<89:10>
       n<> u<577> t<Module_declaration> p<578> c<289> l<55:1> el<89:10>
         n<> u<289> t<Module_ansi_header> p<577> c<265> s<307> l<55:1> el<60:6>
-          n<module> u<265> t<Module_keyword> p<289> s<266> l<55:1> el<55:7>
+          n<module> u<265> t<MODULE> p<289> s<266> l<55:1> el<55:7>
           n<testmod> u<266> t<SIMPLE_IDENTIFIER> p<289> s<267> l<55:8> el<55:15>
           n<> u<267> t<Package_import_declaration_list> p<289> s<288> l<56:3> el<56:3>
           n<> u<288> t<Port_declaration_list> p<289> c<273> l<56:3> el<60:5>
@@ -596,11 +596,10 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_parameter_access.v:8:1: Compile interface "test_if".
 [INF:CP0303] $Source01/t_interface_parameter_access.v:30:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_parameter_access.v:55:1: Compile module "testmod".
-[ERR:LN0813] $Source01/t_interface_parameter_access.v:1:1: Found 1 orphan node(s).
 [WRN:CP0350] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "id:77, name:FOO".
-[WRN:CP0350] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "id:122, name:FOO".
-[WRN:CP0350] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "id:172, name:FOO".
-[WRN:CP0350] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "id:183, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "id:124, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "id:174, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "id:185, name:FOO".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -748,6 +747,7 @@ Design name:unnamed:
           vpiName Identifier name:testmod start:38:4 end:38:11:
             vpiParent: ModuleTypespec name:testmod
             vpiName: testmod
+          vpiModule: Module name:testmod
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -765,6 +765,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:32:4 end:32:7:
           vpiParent: Module name:t
@@ -850,6 +851,7 @@ Design name:unnamed:
             ParamAssign start:36:15 end:36:33:
               vpiParent: RefInstance name:the_interface
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:FOO start:36:16 end:36:19:
                 vpiParent: ParamAssign
                 vpiName: FOO
@@ -983,9 +985,24 @@ Design name:unnamed:
                 vpiName: FOO
                 vpiFullName: testmod.FOO
                 vpiActual: Parameter name:FOO
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:testmod
+        UnsupportedTypespec name:test_if::mp start:58:4 end:58:14:
+          vpiParent: Module name:testmod
+          vpiPathElem (2 items):
+            RefObj name:test_if start:58:4 end:58:11:
+              vpiParent: UnsupportedTypespec name:test_if::mp
+              vpiName: test_if
+              vpiFullName: testmod.test_if::mp.test_if
+              vpiActual: Interface name:test_if
+            RefObj name:mp start:58:12 end:58:14:
+              vpiParent: UnsupportedTypespec name:test_if::mp
+              vpiName: mp
+              vpiFullName: testmod.test_if::mp.mp
+          vpiName Identifier name:test_if::mp:
+            vpiParent: UnsupportedTypespec name:test_if::mp
+            vpiName: test_if::mp
       vpiDefName: testmod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1003,6 +1020,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: testmod.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:intf_no_mp start:59:12 end:59:22:
           vpiParent: Module name:testmod
           vpiTypespec RefTypespec name:test_if start:59:4 end:59:11:
@@ -1030,11 +1048,20 @@ Design name:unnamed:
         Port name:intf start:58:15 end:58:19:
           vpiParent: Module name:testmod
           vpiName: intf
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:intf start:58:15 end:58:19:
+            vpiParent: Port name:intf
+            vpiName: intf
+            vpiFullName: testmod.intf.intf
+            vpiActual: Port name:intf
+          vpiTypespec RefTypespec start:58:4 end:58:14:
+            vpiParent: Port name:intf
+            vpiFullName: testmod.intf
+            vpiActual: UnsupportedTypespec name:test_if::mp
         Port name:intf_no_mp start:59:12 end:59:22:
           vpiParent: Module name:testmod
           vpiName: intf_no_mp
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
           vpiLowConn RefObj name:intf_no_mp start:59:12 end:59:22:
             vpiParent: Port name:intf_no_mp
             vpiName: intf_no_mp
@@ -1386,7 +1413,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
@@ -1402,25 +1429,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/mounts.json
 
 
-{'result': {'coverage': 98.54,
+{'result': {'coverage': 99.45,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 16,
+            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 6,
                                                                           'pre_len': 1094}},
-            'post_len': 16,
+            'post_len': 6,
             'pre_len': 1094,
             'test_name': 'Verilator/t_interface_parameter_access'}}
 
 +-------------------------------------------------+----------+-----------+
 | INPUT                                           |   PRELEN |   POSTLEN |
 +=================================================+==========+===========+
-| $Output/lib/work/t_interface_parameter_access.v |     1094 |        16 |
+| $Output/lib/work/t_interface_parameter_access.v |     1094 |         6 |
 +=================================================+==========+===========+
-|                                                 |     1094 |        16 |
+|                                                 |     1094 |         6 |
 +-------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.54
+[COVERAGE] : 99.45
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1431,7 +1458,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             192     192       0         0
+Others                             198     198       0         0
 ----------------------------------------------------------------
-                                   192     192       0         0
+                                   198     198       0         0
 ===================== END REDUCTION RESULT =====================

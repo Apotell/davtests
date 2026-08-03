@@ -18,7 +18,7 @@ n<$Source01/sva/basic00.sv> u<135> t<Top_level_rule> c<1> l<1:1> el<13:1>
     n<> u<133> t<Description> p<134> c<132> l<1:1> el<12:10>
       n<> u<132> t<Module_declaration> p<133> c<30> l<1:1> el<12:10>
         n<> u<30> t<Module_ansi_header> p<132> c<2> s<69> l<1:1> el<1:66>
-          n<module> u<2> t<Module_keyword> p<30> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<30> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<30> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<30> s<29> l<1:12> el<1:12>
           n<> u<29> t<Port_declaration_list> p<30> c<10> l<1:12> el<1:65>
@@ -149,7 +149,6 @@ n<$Source01/sva/basic00.sv> u<135> t<Top_level_rule> c<1> l<1:1> el<13:1>
         n<> u<131> t<ENDMODULE> p<132> l<12:1> el<12:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sva/basic00.sv:1:1: Compile module "top".
-[ERR:LN0813] $Source01/sva/basic00.sv:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -182,7 +181,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: reset
                   vpiFullName: top.reset
-                  vpiActual: Port name:reset
+                  vpiActual: Net name:reset
             vpiClockingEvent Operation start:9:35 end:9:46:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
@@ -200,7 +199,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: antecedent
                   vpiFullName: top.antecedent
-                  vpiActual: Port name:antecedent
+                  vpiActual: Net name:antecedent
                 RefObj name:consequent start:9:83 end:9:93:
                   vpiParent: Operation
                   vpiName: consequent
@@ -242,6 +241,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: consequent
           vpiFullName: top.consequent
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -252,7 +252,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (1 items):
+      vpiNet (3 items):
         Net name:clk start:1:19 end:1:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:18:
@@ -262,6 +262,27 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: top.clk
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:reset start:1:24 end:1:29:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:reset
+            vpiFullName: top.reset
+            vpiActual: LogicTypespec
+          vpiName: reset
+          vpiFullName: top.reset
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:antecedent start:1:31 end:1:41:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:antecedent
+            vpiFullName: top.antecedent
+            vpiActual: LogicTypespec
+          vpiName: antecedent
+          vpiFullName: top.antecedent
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:clk start:1:19 end:1:22:
           vpiParent: Module name:top
@@ -279,11 +300,29 @@ Design name:unnamed:
         Port name:reset start:1:24 end:1:29:
           vpiParent: Module name:top
           vpiName: reset
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:reset start:1:24 end:1:29:
+            vpiParent: Port name:reset
+            vpiName: reset
+            vpiFullName: top.reset.reset
+            vpiActual: Net name:reset
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:reset
+            vpiFullName: top.reset
+            vpiActual: LogicTypespec
         Port name:antecedent start:1:31 end:1:41:
           vpiParent: Module name:top
           vpiName: antecedent
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:antecedent start:1:31 end:1:41:
+            vpiParent: Port name:antecedent
+            vpiName: antecedent
+            vpiFullName: top.antecedent.antecedent
+            vpiActual: Net name:antecedent
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:antecedent
+            vpiFullName: top.antecedent
+            vpiActual: LogicTypespec
         Port name:consequent start:1:54 end:1:64:
           vpiParent: Module name:top
           vpiName: consequent
@@ -326,7 +365,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: reset
                     vpiFullName: top.reset
-                    vpiActual: Port name:reset
+                    vpiActual: Net name:reset
                   Constant start:3:25 end:3:26:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -341,7 +380,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: antecedent
                     vpiFullName: top.antecedent
-                    vpiActual: Port name:antecedent
+                    vpiActual: Net name:antecedent
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:top:
@@ -358,7 +397,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -403,7 +442,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/sva/basic00.sv/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                    58      58       0         0
 ===================== END REDUCTION RESULT =====================

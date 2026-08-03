@@ -22,7 +22,7 @@ n<$Source01/t_init_concat.v> u<851> t<Top_level_rule> c<1> l<6:1> el<87:1>
     n<> u<637> t<Description> p<849> c<636> s<848> l<6:1> el<57:10>
       n<> u<636> t<Module_declaration> p<637> c<18> l<6:1> el<57:10>
         n<> u<18> t<Module_nonansi_header> p<636> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -654,7 +654,7 @@ n<$Source01/t_init_concat.v> u<851> t<Top_level_rule> c<1> l<6:1> el<87:1>
     n<> u<848> t<Description> p<849> c<847> l<59:1> el<86:10>
       n<> u<847> t<Module_declaration> p<848> c<722> l<59:1> el<86:10>
         n<> u<722> t<Module_ansi_header> p<847> c<638> s<771> l<59:1> el<66:5>
-          n<module> u<638> t<Module_keyword> p<722> s<639> l<59:1> el<59:7>
+          n<module> u<638> t<MODULE> p<722> s<639> l<59:1> el<59:7>
           n<regfile> u<639> t<SIMPLE_IDENTIFIER> p<722> s<640> l<59:8> el<59:15>
           n<> u<640> t<Package_import_declaration_list> p<722> s<721> l<59:16> el<59:16>
           n<> u<721> t<Port_declaration_list> p<722> c<656> l<59:16> el<66:4>
@@ -866,6 +866,8 @@ n<$Source01/t_init_concat.v> u<851> t<Top_level_rule> c<1> l<6:1> el<87:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_init_concat.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_init_concat.v:59:1: Compile module "regfile".
+[NTE:CP0309] $Source01/t_init_concat.v:63:27: Implicit port type (wire) for "rd_guards".
+[NTE:CP0309] $Source01/t_init_concat.v:64:27: Implicit port type (wire) for "rd_guardsok".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1024,6 +1026,7 @@ Design name:unnamed:
           vpiName Identifier name:regfile start:20:4 end:20:11:
             vpiParent: ModuleTypespec name:regfile
             vpiName: regfile
+          vpiModule: Module name:regfile
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1041,6 +1044,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rd_data start:16:16 end:16:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:9 end:16:15:
@@ -1050,6 +1054,7 @@ Design name:unnamed:
           vpiName: rd_data
           vpiFullName: t.rd_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:rd_guards start:17:16 end:17:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:14:
@@ -1059,6 +1064,7 @@ Design name:unnamed:
           vpiName: rd_guards
           vpiFullName: t.rd_guards
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:rd_guardsok start:18:16 end:18:27:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:9 end:18:14:
@@ -1068,6 +1074,7 @@ Design name:unnamed:
           vpiName: rd_guardsok
           vpiFullName: t.rd_guardsok
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1723,6 +1730,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd_data
           vpiFullName: regfile.rd_data
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:regfile
@@ -1849,6 +1857,7 @@ Design name:unnamed:
           vpiName: wr_data
           vpiFullName: regfile.wr_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:wr_en start:61:27 end:61:32:
           vpiParent: Module name:regfile
           vpiTypespec RefTypespec start:61:3 end:61:8:
@@ -1858,6 +1867,7 @@ Design name:unnamed:
           vpiName: wr_en
           vpiFullName: regfile.wr_en
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rd_guards start:63:27 end:63:36:
           vpiParent: Module name:regfile
           vpiTypespec RefTypespec start:63:3 end:63:15:
@@ -1867,6 +1877,7 @@ Design name:unnamed:
           vpiName: rd_guards
           vpiFullName: regfile.rd_guards
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:rd_guardsok start:64:27 end:64:38:
           vpiParent: Module name:regfile
           vpiTypespec RefTypespec start:64:3 end:64:15:
@@ -1876,6 +1887,7 @@ Design name:unnamed:
           vpiName: rd_guardsok
           vpiFullName: regfile.rd_guardsok
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:clk start:65:27 end:65:30:
           vpiParent: Module name:regfile
           vpiTypespec RefTypespec start:65:3 end:65:8:
@@ -1885,6 +1897,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: regfile.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (6 items):
         Port name:wr_data start:60:27 end:60:34:
           vpiParent: Module name:regfile
@@ -2145,7 +2158,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

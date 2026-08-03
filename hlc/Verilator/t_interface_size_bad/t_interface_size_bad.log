@@ -39,7 +39,7 @@ n<$Source01/t_interface_size_bad.v> u<157> t<Top_level_rule> c<1> l<6:1> el<22:1
     n<> u<130> t<Description> p<156> c<129> s<155> l<10:1> el<18:10>
       n<> u<129> t<Module_declaration> p<130> c<28> l<10:1> el<18:10>
         n<> u<28> t<Module_nonansi_header> p<129> c<23> s<45> l<10:1> el<10:24>
-          n<module> u<23> t<Module_keyword> p<28> s<24> l<10:1> el<10:7>
+          n<module> u<23> t<MODULE> p<28> s<24> l<10:1> el<10:7>
           n<t> u<24> t<SIMPLE_IDENTIFIER> p<28> s<25> l<10:8> el<10:9>
           n<> u<25> t<Package_import_declaration_list> p<28> s<26> l<10:10> el<10:10>
           n</*AUTOARG*/> u<26> t<BLOCK_COMMENT> p<28> s<27> l<10:10> el<10:23>
@@ -147,7 +147,7 @@ n<$Source01/t_interface_size_bad.v> u<157> t<Top_level_rule> c<1> l<6:1> el<22:1
     n<> u<155> t<Description> p<156> c<154> l<20:1> el<21:10>
       n<> u<154> t<Module_declaration> p<155> c<152> l<20:1> el<21:10>
         n<> u<152> t<Module_ansi_header> p<154> c<131> s<153> l<20:1> el<20:32>
-          n<module> u<131> t<Module_keyword> p<152> s<132> l<20:1> el<20:7>
+          n<module> u<131> t<MODULE> p<152> s<132> l<20:1> el<20:7>
           n<baz> u<132> t<SIMPLE_IDENTIFIER> p<152> s<133> l<20:8> el<20:11>
           n<> u<133> t<Package_import_declaration_list> p<152> s<151> l<20:11> el<20:11>
           n<> u<151> t<Port_declaration_list> p<152> c<150> l<20:11> el<20:31>
@@ -174,6 +174,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_size_bad.v:10:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_size_bad.v:10:1: Multiply defined typedef "baz".
 [INF:CP0303] $Source01/t_interface_size_bad.v:20:1: Compile module "baz".
+[WRN:CP0310] $Source01/t_interface_size_bad.v:20:21: Port "foo" definition missing its direction (input, output, inout).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -317,11 +318,13 @@ Design name:unnamed:
           vpiName Identifier name:baz start:15:4 end:15:7:
             vpiParent: ModuleTypespec name:baz
             vpiName: baz
+          vpiModule: Module name:baz
         ModuleTypespec name:baz start:16:4 end:16:7:
           vpiParent: Module name:t
           vpiName Identifier name:baz start:16:4 end:16:7:
             vpiParent: ModuleTypespec name:baz
             vpiName: baz
+          vpiModule: Module name:baz
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -482,7 +485,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

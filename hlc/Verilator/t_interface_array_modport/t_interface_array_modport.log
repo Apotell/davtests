@@ -48,7 +48,7 @@ n<$Source01/t_interface_array_modport.v> u<193> t<Top_level_rule> c<1> l<6:1> el
     n<> u<58> t<Description> p<192> c<57> s<191> l<12:1> el<17:10>
       n<> u<57> t<Module_declaration> p<58> c<55> l<12:1> el<17:10>
         n<> u<55> t<Module_ansi_header> p<57> c<32> s<56> l<12:1> el<16:6>
-          n<module> u<32> t<Module_keyword> p<55> s<33> l<12:1> el<12:7>
+          n<module> u<32> t<MODULE> p<55> s<33> l<12:1> el<12:7>
           n<foo_mod> u<33> t<SIMPLE_IDENTIFIER> p<55> s<34> l<12:8> el<12:15>
           n<> u<34> t<Package_import_declaration_list> p<55> s<54> l<13:3> el<13:3>
           n<> u<54> t<Port_declaration_list> p<55> c<41> l<13:3> el<16:5>
@@ -75,7 +75,7 @@ n<$Source01/t_interface_array_modport.v> u<193> t<Top_level_rule> c<1> l<6:1> el
     n<> u<191> t<Description> p<192> c<190> l<19:1> el<40:10>
       n<> u<190> t<Module_declaration> p<191> c<64> l<19:1> el<40:10>
         n<> u<64> t<Module_nonansi_header> p<190> c<59> s<81> l<19:1> el<19:24>
-          n<module> u<59> t<Module_keyword> p<64> s<60> l<19:1> el<19:7>
+          n<module> u<59> t<MODULE> p<64> s<60> l<19:1> el<19:7>
           n<t> u<60> t<SIMPLE_IDENTIFIER> p<64> s<61> l<19:8> el<19:9>
           n<> u<61> t<Package_import_declaration_list> p<64> s<62> l<19:10> el<19:10>
           n</*AUTOARG*/> u<62> t<BLOCK_COMMENT> p<64> s<63> l<19:10> el<19:23>
@@ -208,8 +208,9 @@ n<$Source01/t_interface_array_modport.v> u<193> t<Top_level_rule> c<1> l<6:1> el
 AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_array_modport.v:6:1: Compile interface "foo_intf".
 [INF:CP0303] $Source01/t_interface_array_modport.v:12:1: Compile module "foo_mod".
+[WRN:CP0310] $Source01/t_interface_array_modport.v:14:13: Port "foo" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/t_interface_array_modport.v:15:15: Port "bars" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_interface_array_modport.v:19:1: Compile module "t".
-[ERR:LN0813] $Source01/t_interface_array_modport.v:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -263,7 +264,22 @@ Design name:unnamed:
         vpiParent: Module name:foo_mod
         vpiName: foo_mod
       vpiFullName: foo_mod
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:foo_intf::m start:15:4 end:15:14:
+          vpiParent: Module name:foo_mod
+          vpiPathElem (2 items):
+            RefObj name:foo_intf start:15:4 end:15:12:
+              vpiParent: UnsupportedTypespec name:foo_intf::m
+              vpiName: foo_intf
+              vpiFullName: foo_mod.foo_intf::m.foo_intf
+              vpiActual: Interface name:foo_intf
+            RefObj name:m start:15:13 end:15:14:
+              vpiParent: UnsupportedTypespec name:foo_intf::m
+              vpiName: m
+              vpiFullName: foo_mod.foo_intf::m.m
+          vpiName Identifier name:foo_intf::m:
+            vpiParent: UnsupportedTypespec name:foo_intf::m
+            vpiName: foo_intf::m
         ArrayTypespec:
           vpiParent: Module name:foo_mod
           vpiArrayType: static (1)
@@ -283,9 +299,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec name:foo_intf::m start:15:4 end:15:14:
             vpiParent: ArrayTypespec
-            vpiFullName: foo_mod
+            vpiName: foo_intf::m
+            vpiFullName: foo_mod.foo_intf::m
+            vpiActual: UnsupportedTypespec name:foo_intf::m
       vpiDefName: foo_mod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -323,6 +341,15 @@ Design name:unnamed:
           vpiParent: Module name:foo_mod
           vpiName: bars
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:bars start:15:15 end:15:19:
+            vpiParent: Port name:bars
+            vpiName: bars
+            vpiFullName: foo_mod.bars.bars
+            vpiActual: Port name:bars
+          vpiTypespec RefTypespec start:15:4 end:15:14:
+            vpiParent: Port name:bars
+            vpiFullName: foo_mod.bars
+            vpiActual: ArrayTypespec
     Module name:t file:$Source01/t_interface_array_modport.v start:19:1 end:40:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:19:8 end:19:9:
@@ -423,6 +450,7 @@ Design name:unnamed:
           vpiName Identifier name:foo_mod start:27:4 end:27:11:
             vpiParent: ModuleTypespec name:foo_mod
             vpiName: foo_mod
+          vpiModule: Module name:foo_mod
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -548,8 +576,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -564,25 +592,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_array_modport/mounts.json
 
 
-{'result': {'coverage': 96.78,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_array_modport.v': {'post_len': 10,
+            'files': {'$Output/lib/work/t_interface_array_modport.v': {'post_len': 0,
                                                                        'pre_len': 311}},
-            'post_len': 10,
+            'post_len': 0,
             'pre_len': 311,
             'test_name': 'Verilator/t_interface_array_modport'}}
 
 +----------------------------------------------+----------+-----------+
 | INPUT                                        |   PRELEN |   POSTLEN |
 +==============================================+==========+===========+
-| $Output/lib/work/t_interface_array_modport.v |      311 |        10 |
+| $Output/lib/work/t_interface_array_modport.v |      311 |         0 |
 +==============================================+==========+===========+
-|                                              |      311 |        10 |
+|                                              |      311 |         0 |
 +----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.78
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -594,10 +622,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       1         1
 Operation                            3       2       0         1
-RefObj                              11      10       0         1
-RefTypespec                         17      17       1         1
+RefObj                              14      13       0         1
+RefTypespec                         18      18       1         1
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    83      81       2         4
+                                    89      87       2         4
 ===================== END REDUCTION RESULT =====================

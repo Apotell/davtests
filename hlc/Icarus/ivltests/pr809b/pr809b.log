@@ -18,7 +18,7 @@ n<$Source01/pr809b.v> u<449> t<Top_level_rule> c<1> l<3:1> el<36:1>
     n<> u<353> t<Description> p<447> c<352> s<354> l<3:1> el<27:10>
       n<> u<352> t<Module_declaration> p<353> c<5> l<3:1> el<27:10>
         n<> u<5> t<Module_ansi_header> p<352> c<2> s<28> l<3:1> el<3:13>
-          n<module> u<2> t<Module_keyword> p<5> s<3> l<3:1> el<3:7>
+          n<module> u<2> t<MODULE> p<5> s<3> l<3:1> el<3:7>
           n<main> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<3:8> el<3:12>
           n<> u<4> t<Package_import_declaration_list> p<5> l<3:12> el<3:12>
         n<> u<28> t<Non_port_module_item> p<352> c<27> s<51> l<4:4> el<4:22>
@@ -371,7 +371,7 @@ n<$Source01/pr809b.v> u<449> t<Top_level_rule> c<1> l<3:1> el<36:1>
     n<> u<446> t<Description> p<447> c<445> l<29:1> el<35:10>
       n<> u<445> t<Module_declaration> p<446> c<428> l<29:1> el<35:10>
         n<> u<428> t<Module_ansi_header> p<445> c<355> s<443> l<29:1> el<31:43>
-          n<module> u<355> t<Module_keyword> p<428> s<356> l<29:1> el<29:7>
+          n<module> u<355> t<MODULE> p<428> s<356> l<29:1> el<29:7>
           n<target> u<356> t<SIMPLE_IDENTIFIER> p<428> s<357> l<29:8> el<29:14>
           n<> u<357> t<Package_import_declaration_list> p<428> s<382> l<30:4> el<30:4>
           n<> u<382> t<Parameter_port_list> p<428> c<369> s<427> l<30:4> el<30:41>
@@ -465,6 +465,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/pr809b.v:3:1: Compile module "main".
 [WRN:CP0323] $Source01/pr809b.v:3:1: Multiply defined typedef "target".
 [INF:CP0303] $Source01/pr809b.v:29:1: Compile module "target".
+[NTE:CP0309] $Source01/pr809b.v:31:40: Implicit port type (wire) for "B".
 [WRN:CP0350] $Source01/pr809b.v:11:47: Failed to bind "id:82, name:WA".
 [WRN:CP0350] $Source01/pr809b.v:11:60: Failed to bind "id:85, name:A".
 [WRN:CP0350] $Source01/pr809b.v:12:47: Failed to bind "id:95, name:WB".
@@ -547,11 +548,13 @@ Design name:unnamed:
           vpiName Identifier name:target start:7:4 end:7:10:
             vpiParent: ModuleTypespec name:target
             vpiName: target
+          vpiModule: Module name:target
         ModuleTypespec name:target start:8:4 end:8:10:
           vpiParent: Module name:main
           vpiName Identifier name:target start:8:4 end:8:10:
             vpiParent: ModuleTypespec name:target
             vpiName: target
+          vpiModule: Module name:target
       vpiDefName: main
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -569,6 +572,7 @@ Design name:unnamed:
           vpiName: a2
           vpiFullName: main.a2
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:b2 start:4:19 end:4:21:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:4:9 end:4:14:
@@ -578,6 +582,7 @@ Design name:unnamed:
           vpiName: b2
           vpiFullName: main.b2
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:a3 start:5:15 end:5:17:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:5:9 end:5:14:
@@ -587,6 +592,7 @@ Design name:unnamed:
           vpiName: a3
           vpiFullName: main.a3
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:b3 start:5:19 end:5:21:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:5:9 end:5:14:
@@ -596,6 +602,7 @@ Design name:unnamed:
           vpiName: b3
           vpiFullName: main.b3
           vpiNetType: wire (1)
+          vpiVector: true
       vpiProcess (1 items):
         Initial start:10:4 end:25:7:
           vpiParent: Module name:main
@@ -894,6 +901,7 @@ Design name:unnamed:
             ParamAssign start:7:13 end:7:19:
               vpiParent: RefInstance name:u1
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:WA start:7:14 end:7:16:
                 vpiParent: ParamAssign
                 vpiName: WA
@@ -911,6 +919,7 @@ Design name:unnamed:
             ParamAssign start:7:21 end:7:27:
               vpiParent: RefInstance name:u1
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:WB start:7:22 end:7:24:
                 vpiParent: ParamAssign
                 vpiName: WB
@@ -958,6 +967,7 @@ Design name:unnamed:
             ParamAssign start:8:13 end:8:19:
               vpiParent: RefInstance name:u2
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:WA start:8:14 end:8:16:
                 vpiParent: ParamAssign
                 vpiName: WA
@@ -975,6 +985,7 @@ Design name:unnamed:
             ParamAssign start:8:21 end:8:27:
               vpiParent: RefInstance name:u2
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:WB start:8:22 end:8:24:
                 vpiParent: ParamAssign
                 vpiName: WB
@@ -1158,6 +1169,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: target.A
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:B start:31:40 end:31:41:
           vpiParent: Module name:target
           vpiTypespec RefTypespec start:31:24 end:31:39:
@@ -1167,6 +1179,7 @@ Design name:unnamed:
           vpiName: B
           vpiFullName: target.B
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:A start:31:21 end:31:22:
           vpiParent: Module name:target
@@ -1230,7 +1243,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 9
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

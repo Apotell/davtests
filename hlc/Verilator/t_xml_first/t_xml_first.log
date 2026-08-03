@@ -22,7 +22,7 @@ n<$Source01/t_xml_first.v> u<335> t<Top_level_rule> c<1> l<6:1> el<54:1>
     n<> u<194> t<Description> p<334> c<193> s<271> l<6:1> el<31:10>
       n<> u<193> t<Module_declaration> p<194> c<31> l<6:1> el<31:10>
         n<> u<31> t<Module_nonansi_header> p<193> c<6> s<38> l<6:1> el<11:6>
-          n<module> u<6> t<Module_keyword> p<31> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<31> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<31> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<31> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<31> s<10> l<6:10> el<11:5>
@@ -211,7 +211,7 @@ n<$Source01/t_xml_first.v> u<335> t<Top_level_rule> c<1> l<6:1> el<54:1>
     n<> u<271> t<Description> p<334> c<270> s<333> l<33:1> el<42:10>
       n<> u<270> t<Module_declaration> p<271> c<239> l<33:1> el<42:10>
         n<> u<239> t<Module_ansi_header> p<270> c<195> s<268> l<33:1> el<38:6>
-          n<module> u<195> t<Module_keyword> p<239> s<196> l<33:1> el<33:7>
+          n<module> u<195> t<MODULE> p<239> s<196> l<33:1> el<33:7>
           n<mod1> u<196> t<SIMPLE_IDENTIFIER> p<239> s<197> l<33:8> el<33:12>
           n<> u<197> t<Package_import_declaration_list> p<239> s<238> l<34:3> el<34:3>
           n<> u<238> t<Port_declaration_list> p<239> c<203> l<34:3> el<38:5>
@@ -288,7 +288,7 @@ n<$Source01/t_xml_first.v> u<335> t<Top_level_rule> c<1> l<6:1> el<54:1>
     n<> u<333> t<Description> p<334> c<332> l<44:1> el<53:10>
       n<> u<332> t<Module_declaration> p<333> c<315> l<44:1> el<53:10>
         n<> u<315> t<Module_ansi_header> p<332> c<272> s<330> l<44:1> el<49:6>
-          n<module> u<272> t<Module_keyword> p<315> s<273> l<44:1> el<44:7>
+          n<module> u<272> t<MODULE> p<315> s<273> l<44:1> el<44:7>
           n<mod2> u<273> t<SIMPLE_IDENTIFIER> p<315> s<274> l<44:8> el<44:12>
           n<> u<274> t<Package_import_declaration_list> p<315> s<314> l<45:3> el<45:3>
           n<> u<314> t<Port_declaration_list> p<315> c<280> l<45:3> el<49:5>
@@ -351,6 +351,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_xml_first.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_xml_first.v:33:1: Compile module "mod1".
 [INF:CP0303] $Source01/t_xml_first.v:44:1: Compile module "mod2".
+[NTE:CP0309] $Source01/t_xml_first.v:48:22: Implicit port type (wire) for "q".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -473,11 +474,13 @@ Design name:unnamed:
           vpiName Identifier name:mod1 start:18:4 end:18:8:
             vpiParent: ModuleTypespec name:mod1
             vpiName: mod1
+          vpiModule: Module name:mod1
         ModuleTypespec name:mod2 start:24:4 end:24:8:
           vpiParent: Module name:t
           vpiName Identifier name:mod2 start:24:4 end:24:8:
             vpiParent: ModuleTypespec name:mod2
             vpiName: mod2
+          vpiModule: Module name:mod2
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -495,6 +498,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d start:13:16 end:13:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:10 end:13:15:
@@ -504,6 +508,7 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: t.d
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:q start:14:22 end:14:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:11 end:14:21:
@@ -513,6 +518,7 @@ Design name:unnamed:
           vpiName: q
           vpiFullName: t.q
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:q start:8:4 end:8:5:
           vpiParent: Module name:t
@@ -794,6 +800,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: mod1.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d start:36:16 end:36:17:
           vpiParent: Module name:mod1
           vpiTypespec RefTypespec start:36:4 end:36:15:
@@ -803,6 +810,7 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: mod1.d
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:clk start:35:10 end:35:13:
           vpiParent: Module name:mod1
@@ -949,6 +957,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: mod2.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d start:47:16 end:47:17:
           vpiParent: Module name:mod2
           vpiTypespec RefTypespec start:47:4 end:47:15:
@@ -958,6 +967,7 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: mod2.d
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:q start:48:22 end:48:23:
           vpiParent: Module name:mod2
           vpiTypespec RefTypespec start:48:4 end:48:21:
@@ -967,6 +977,7 @@ Design name:unnamed:
           vpiName: q
           vpiFullName: mod2.q
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:clk start:46:10 end:46:13:
           vpiParent: Module name:mod2
@@ -1047,7 +1058,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

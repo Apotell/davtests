@@ -22,8 +22,8 @@ n<$Source01/dut.sv> u<157> t<Top_level_rule> c<1> l<1:1> el<22:33>
             n<> u<24> t<Type_declaration> p<25> c<22> l<1:1> el<1:59>
               n<> u<22> t<Data_type> p<24> c<3> s<23> l<1:9> el<1:39>
                 n<> u<3> t<Struct_union> p<22> c<2> s<4> l<1:9> el<1:15>
-                  n<> u<2> t<Struct_keyword> p<3> l<1:9> el<1:15>
-                n<> u<4> t<Packed_keyword> p<22> s<21> l<1:16> el<1:22>
+                  n<> u<2> t<STRUCT> p<3> l<1:9> el<1:15>
+                n<> u<4> t<PACKED> p<22> s<21> l<1:16> el<1:22>
                 n<> u<21> t<Struct_union_member> p<22> c<17> l<1:24> el<1:38>
                   n<> u<17> t<Data_type_or_void> p<21> c<16> s<20> l<1:24> el<1:35>
                     n<> u<16> t<Data_type> p<17> c<5> l<1:24> el<1:35>
@@ -45,7 +45,7 @@ n<$Source01/dut.sv> u<157> t<Top_level_rule> c<1> l<1:1> el<22:33>
     n<> u<155> t<Description> p<156> c<154> l<3:1> el<22:33>
       n<> u<154> t<Module_declaration> p<155> c<72> l<3:1> el<22:33>
         n<> u<72> t<Module_ansi_header> p<154> c<29> s<73> l<3:1> el<8:3>
-          n<module> u<29> t<Module_keyword> p<72> s<30> l<3:1> el<3:7>
+          n<module> u<29> t<MODULE> p<72> s<30> l<3:1> el<3:7>
           n<unsized_single_bit_1> u<30> t<SIMPLE_IDENTIFIER> p<72> s<31> l<3:8> el<3:28>
           n<> u<31> t<Package_import_declaration_list> p<72> s<71> l<3:29> el<3:29>
           n<> u<71> t<Port_declaration_list> p<72> c<48> l<3:29> el<8:2>
@@ -171,6 +171,9 @@ n<$Source01/dut.sv> u<157> t<Top_level_rule> c<1> l<1:1> el<22:33>
         n<unsized_single_bit_1> u<152> t<SIMPLE_IDENTIFIER> p<154> l<22:13> el<22:33>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:3:1: Compile module "unsized_single_bit_1".
+[NTE:CP0309] $Source01/dut.sv:4:23: Implicit port type (wire) for "out1".
+[NTE:CP0309] $Source01/dut.sv:5:17: Implicit port type (wire) for "out2".
+[NTE:CP0309] $Source01/dut.sv:7:17: Implicit port type (wire) for "out4".
 [WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "unsized_single_bit_1".
 ====== HLDB =======
 Design name:unnamed:
@@ -245,6 +248,7 @@ Design name:unnamed:
           vpiName: out1
           vpiFullName: unsized_single_bit_1.out1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:out2 start:5:17 end:5:21:
           vpiParent: Module name:unsized_single_bit_1
           vpiTypespec RefTypespec start:5:5 end:5:16:
@@ -254,6 +258,7 @@ Design name:unnamed:
           vpiName: out2
           vpiFullName: unsized_single_bit_1.out2
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:out4 start:7:17 end:7:21:
           vpiParent: Module name:unsized_single_bit_1
           vpiTypespec RefTypespec start:7:5 end:7:16:
@@ -263,6 +268,7 @@ Design name:unnamed:
           vpiName: out4
           vpiFullName: unsized_single_bit_1.out4
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:out1 start:4:23 end:4:27:
           vpiParent: Module name:unsized_single_bit_1
@@ -478,7 +484,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

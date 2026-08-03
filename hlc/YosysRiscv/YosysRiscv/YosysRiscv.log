@@ -14,21 +14,31 @@ COMMAND: -wd ../../../tests/YosysRiscv +incdir+. -writepp -fileunit shifter64.v 
 [INF:PA0201] Parsing source file "$Source01/shifter64.v".
 [INF:PA0201] Parsing source file "$Source01/smartbextdep.v".
 [INF:CP0303] $Source01/shifter64.v:22:1: Compile module "shifter64".
+[NTE:CP0309] $Source01/shifter64.v:24:16: Implicit port type (wire) for "X".
 [INF:CP0303] $Source01/shifter64.v:76:1: Compile module "shifter64_datapath".
-[ERR:LN0813] $Source01/shifter64.v:1:1: Found 2 orphan node(s).
+[NTE:CP0309] $Source01/shifter64.v:78:16: Implicit port type (wire) for "X".
 [INF:CP0303] $Source01/smartbextdep.v:18:1: Compile module "smartbextdep".
 [INF:CP0303] $Source01/smartbextdep.v:51:1: Compile module "smartbextdep_direct".
+[NTE:CP0309] $Source01/smartbextdep.v:55:16: Implicit port type (wire) for "dout_result".
 [INF:CP0303] $Source01/smartbextdep.v:97:1: Compile module "smartbextdep_lrotcz".
+[NTE:CP0309] $Source01/smartbextdep.v:102:17: Implicit port type (wire) for "dout".
 [INF:CP0303] $Source01/smartbextdep.v:108:1: Compile module "smartbextdep_decoder".
+[NTE:CP0309] $Source01/smartbextdep.v:112:16: Implicit port type (wire) for "s1".
+[NTE:CP0309] $Source01/smartbextdep.v:112:20: Implicit port type (wire) for "s2".
+[NTE:CP0309] $Source01/smartbextdep.v:112:24: Implicit port type (wire) for "s4".
+[NTE:CP0309] $Source01/smartbextdep.v:112:28: Implicit port type (wire) for "s8".
+[NTE:CP0309] $Source01/smartbextdep.v:112:32: Implicit port type (wire) for "s16".
 [INF:CP0335] $Source01/smartbextdep.v:123:40: Compile generate block "stage1".
 [INF:CP0335] $Source01/smartbextdep.v:130:40: Compile generate block "stage2".
 [INF:CP0335] $Source01/smartbextdep.v:137:40: Compile generate block "stage4".
 [INF:CP0335] $Source01/smartbextdep.v:144:41: Compile generate block "stage8".
 [INF:CP0335] $Source01/smartbextdep.v:151:41: Compile generate block "stage16".
 [INF:CP0303] $Source01/smartbextdep.v:160:1: Compile module "smartbextdep_bfly_fwd".
+[NTE:CP0309] $Source01/smartbextdep.v:163:16: Implicit port type (wire) for "dout".
 [INF:CP0303] $Source01/smartbextdep.v:194:1: Compile module "smartbextdep_bfly_bwd".
+[NTE:CP0309] $Source01/smartbextdep.v:197:16: Implicit port type (wire) for "dout".
 [INF:CP0303] $Source01/smartbextdep.v:228:1: Compile module "smartbextdep_pps32".
-[ERR:LN0813] $Source01/smartbextdep.v:1:1: Found 12 orphan node(s).
+[NTE:CP0309] $Source01/smartbextdep.v:230:18: Implicit port type (wire) for "dout".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/shifter64.v:22:1: No timescale set for "shifter64".
 [WRN:PA0205] $Source01/shifter64.v:76:1: No timescale set for "shifter64_datapath".
@@ -3295,8 +3305,6 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:shifter64
-        LogicTypespec:
-          vpiParent: Module name:shifter64
           vpiRange (1 items):
             Range start:24:9 end:24:15:
               vpiParent: LogicTypespec
@@ -3347,6 +3355,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:shifter64
         LogicTypespec:
           vpiParent: Module name:shifter64
           vpiRange (1 items):
@@ -3404,6 +3414,7 @@ Design name:unnamed:
           vpiName Identifier name:shifter64_datapath start:67:2 end:67:20:
             vpiParent: ModuleTypespec name:shifter64_datapath
             vpiName: shifter64_datapath
+          vpiModule: Module name:shifter64_datapath
       vpiDefName: shifter64
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -3411,7 +3422,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: shifter64.work
       vpiCell: shifter64
-      vpiNet (9 items):
+      vpiNet (10 items):
         Net name:A start:23:15 end:23:16:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:23:2 end:23:14:
@@ -3421,6 +3432,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: shifter64.A
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:X start:24:16 end:24:17:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:24:2 end:24:15:
@@ -3430,6 +3442,7 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: shifter64.X
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:shamt start:25:14 end:25:19:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:25:2 end:25:13:
@@ -3439,6 +3452,7 @@ Design name:unnamed:
           vpiName: shamt
           vpiFullName: shifter64.shamt
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:insn30 start:26:8 end:26:14:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:26:2 end:26:7:
@@ -3448,6 +3462,7 @@ Design name:unnamed:
           vpiName: insn30
           vpiFullName: shifter64.insn30
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:insn29 start:27:8 end:27:14:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:27:2 end:27:7:
@@ -3457,6 +3472,7 @@ Design name:unnamed:
           vpiName: insn29
           vpiFullName: shifter64.insn29
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:insn26 start:28:8 end:28:14:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:28:2 end:28:7:
@@ -3466,6 +3482,7 @@ Design name:unnamed:
           vpiName: insn26
           vpiFullName: shifter64.insn26
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:insn14 start:29:8 end:29:14:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:29:2 end:29:7:
@@ -3475,6 +3492,7 @@ Design name:unnamed:
           vpiName: insn14
           vpiFullName: shifter64.insn14
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:insn3 start:30:8 end:30:13:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:30:2 end:30:7:
@@ -3484,6 +3502,17 @@ Design name:unnamed:
           vpiName: insn3
           vpiFullName: shifter64.insn3
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:B start:23:18 end:23:19:
+          vpiParent: Module name:shifter64
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:B
+            vpiFullName: shifter64.B
+            vpiActual: LogicTypespec
+          vpiName: B
+          vpiFullName: shifter64.B
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:wmode start:35:7 end:35:12:
           vpiParent: Module name:shifter64
           vpiTypespec RefTypespec start:35:7 end:35:7:
@@ -3493,6 +3522,7 @@ Design name:unnamed:
           vpiName: wmode
           vpiFullName: shifter64.wmode
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue RefObj name:insn3 start:35:15 end:35:20:
             vpiParent: Net name:wmode
             vpiName: insn3
@@ -3515,7 +3545,16 @@ Design name:unnamed:
         Port name:B start:23:18 end:23:19:
           vpiParent: Module name:shifter64
           vpiName: B
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:B start:23:18 end:23:19:
+            vpiParent: Port name:B
+            vpiName: B
+            vpiFullName: shifter64.B.B
+            vpiActual: Net name:B
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:B
+            vpiFullName: shifter64.B
+            vpiActual: LogicTypespec
         Port name:X start:24:16 end:24:17:
           vpiParent: Module name:shifter64
           vpiName: X
@@ -3641,7 +3680,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: B
                     vpiFullName: shifter64.B
-                    vpiActual: Port name:B
+                    vpiActual: Net name:B
                 IfStmt start:44:3 end:45:14:
                   vpiParent: Begin
                   vpiCondition Operation start:44:7 end:44:23:
@@ -3988,7 +4027,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: B
                 vpiFullName: shifter64.datapath.B
-                vpiActual: Port name:B
+                vpiActual: Net name:B
               vpiHighConn RefObj name:bb start:69:11 end:69:13:
                 vpiParent: Port
                 vpiName: bb
@@ -4084,8 +4123,6 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:shifter64_datapath
-        LogicTypespec:
-          vpiParent: Module name:shifter64_datapath
           vpiRange (1 items):
             Range start:78:9 end:78:15:
               vpiParent: LogicTypespec
@@ -4138,6 +4175,8 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:shifter64_datapath
+        LogicTypespec:
+          vpiParent: Module name:shifter64_datapath
           vpiRange (1 items):
             Range start:82:6 end:82:13:
               vpiParent: LogicTypespec
@@ -4169,7 +4208,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: shifter64_datapath.work
       vpiCell: shifter64_datapath
-      vpiNet (12 items):
+      vpiNet (13 items):
         Net name:A start:77:15 end:77:16:
           vpiParent: Module name:shifter64_datapath
           vpiTypespec RefTypespec start:77:2 end:77:14:
@@ -4179,6 +4218,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: shifter64_datapath.A
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:X start:78:16 end:78:17:
           vpiParent: Module name:shifter64_datapath
           vpiTypespec RefTypespec start:78:2 end:78:15:
@@ -4188,6 +4228,7 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: shifter64_datapath.X
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:shamt start:79:14 end:79:19:
           vpiParent: Module name:shifter64_datapath
           vpiTypespec RefTypespec start:79:2 end:79:13:
@@ -4197,6 +4238,7 @@ Design name:unnamed:
           vpiName: shamt
           vpiFullName: shifter64_datapath.shamt
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:wmode start:80:8 end:80:13:
           vpiParent: Module name:shifter64_datapath
           vpiTypespec RefTypespec start:80:2 end:80:7:
@@ -4206,6 +4248,17 @@ Design name:unnamed:
           vpiName: wmode
           vpiFullName: shifter64_datapath.wmode
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:B start:77:18 end:77:19:
+          vpiParent: Module name:shifter64_datapath
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:B
+            vpiFullName: shifter64_datapath.B
+            vpiActual: LogicTypespec
+          vpiName: B
+          vpiFullName: shifter64_datapath.B
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:shamt_5_0 start:84:7 end:84:16:
           vpiParent: Module name:shifter64_datapath
           vpiTypespec RefTypespec start:84:7 end:84:7:
@@ -4215,6 +4268,7 @@ Design name:unnamed:
           vpiName: shamt_5_0
           vpiFullName: shifter64_datapath.shamt_5_0
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:84:19 end:84:39:
             vpiParent: Net name:shamt_5_0
             vpiOpType: condition (32)
@@ -4262,6 +4316,7 @@ Design name:unnamed:
           vpiName: shamt_5_1
           vpiFullName: shifter64_datapath.shamt_5_1
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:85:19 end:85:39:
             vpiParent: Net name:shamt_5_1
             vpiOpType: condition (32)
@@ -4309,6 +4364,7 @@ Design name:unnamed:
           vpiName: shamt_5_2
           vpiFullName: shifter64_datapath.shamt_5_2
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:86:19 end:86:39:
             vpiParent: Net name:shamt_5_2
             vpiOpType: condition (32)
@@ -4356,6 +4412,7 @@ Design name:unnamed:
           vpiName: shamt_5_3
           vpiFullName: shifter64_datapath.shamt_5_3
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:87:19 end:87:39:
             vpiParent: Net name:shamt_5_3
             vpiOpType: condition (32)
@@ -4403,6 +4460,7 @@ Design name:unnamed:
           vpiName: shamt_6_0
           vpiFullName: shifter64_datapath.shamt_6_0
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:89:19 end:89:47:
             vpiParent: Net name:shamt_6_0
             vpiOpType: condition (32)
@@ -4459,6 +4517,7 @@ Design name:unnamed:
           vpiName: shamt_6_1
           vpiFullName: shifter64_datapath.shamt_6_1
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:90:19 end:90:47:
             vpiParent: Net name:shamt_6_1
             vpiOpType: condition (32)
@@ -4519,6 +4578,7 @@ Design name:unnamed:
           vpiName: shamt_6_2
           vpiFullName: shifter64_datapath.shamt_6_2
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:91:19 end:91:47:
             vpiParent: Net name:shamt_6_2
             vpiOpType: condition (32)
@@ -4579,6 +4639,7 @@ Design name:unnamed:
           vpiName: shamt_6_3
           vpiFullName: shifter64_datapath.shamt_6_3
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:92:19 end:92:47:
             vpiParent: Net name:shamt_6_3
             vpiOpType: condition (32)
@@ -4643,7 +4704,16 @@ Design name:unnamed:
         Port name:B start:77:18 end:77:19:
           vpiParent: Module name:shifter64_datapath
           vpiName: B
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:B start:77:18 end:77:19:
+            vpiParent: Port name:B
+            vpiName: B
+            vpiFullName: shifter64_datapath.B.B
+            vpiActual: Net name:B
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:B
+            vpiFullName: shifter64_datapath.B
+            vpiActual: LogicTypespec
         Port name:X start:78:16 end:78:17:
           vpiParent: Module name:shifter64_datapath
           vpiName: X
@@ -4708,7 +4778,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: B
                         vpiFullName: shifter64_datapath.B
-                        vpiActual: Port name:B
+                        vpiActual: Net name:B
                       RefObj name:A start:95:13 end:95:14:
                         vpiParent: Operation
                         vpiName: A
@@ -5820,6 +5890,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd
           vpiFullName: smartbextdep.rd
+          vpiVector: true
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:smartbextdep
@@ -5984,6 +6055,7 @@ Design name:unnamed:
           vpiName Identifier name:smartbextdep_direct start:34:2 end:34:21:
             vpiParent: ModuleTypespec name:smartbextdep_direct
             vpiName: smartbextdep_direct
+          vpiModule: Module name:smartbextdep_direct
       vpiDefName: smartbextdep
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -6001,6 +6073,7 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: smartbextdep.clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:bdep start:20:8 end:20:12:
           vpiParent: Module name:smartbextdep
           vpiTypespec RefTypespec start:20:2 end:20:7:
@@ -6010,6 +6083,7 @@ Design name:unnamed:
           vpiName: bdep
           vpiFullName: smartbextdep.bdep
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rs1 start:21:15 end:21:18:
           vpiParent: Module name:smartbextdep
           vpiTypespec RefTypespec start:21:2 end:21:14:
@@ -6019,6 +6093,7 @@ Design name:unnamed:
           vpiName: rs1
           vpiFullName: smartbextdep.rs1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:rs2 start:22:15 end:22:18:
           vpiParent: Module name:smartbextdep
           vpiTypespec RefTypespec start:22:2 end:22:14:
@@ -6028,6 +6103,7 @@ Design name:unnamed:
           vpiName: rs2
           vpiFullName: smartbextdep.rs2
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:din_mode start:25:14 end:25:22:
           vpiParent: Module name:smartbextdep
           vpiTypespec RefTypespec start:25:14 end:25:14:
@@ -6037,6 +6113,7 @@ Design name:unnamed:
           vpiName: din_mode
           vpiFullName: smartbextdep.din_mode
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:din_value start:26:14 end:26:23:
           vpiParent: Module name:smartbextdep
           vpiTypespec RefTypespec start:26:7 end:26:13:
@@ -6046,6 +6123,7 @@ Design name:unnamed:
           vpiName: din_value
           vpiFullName: smartbextdep.din_value
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:din_mask start:27:14 end:27:22:
           vpiParent: Module name:smartbextdep
           vpiTypespec RefTypespec start:27:7 end:27:13:
@@ -6055,6 +6133,7 @@ Design name:unnamed:
           vpiName: din_mask
           vpiFullName: smartbextdep.din_mask
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout_result start:28:14 end:28:25:
           vpiParent: Module name:smartbextdep
           vpiTypespec RefTypespec start:28:7 end:28:13:
@@ -6064,6 +6143,7 @@ Design name:unnamed:
           vpiName: dout_result
           vpiFullName: smartbextdep.dout_result
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (5 items):
         Port name:clock start:19:8 end:19:13:
           vpiParent: Module name:smartbextdep
@@ -6400,6 +6480,7 @@ Design name:unnamed:
           vpiName Identifier name:smartbextdep_decoder start:60:2 end:60:22:
             vpiParent: ModuleTypespec name:smartbextdep_decoder
             vpiName: smartbextdep_decoder
+          vpiModule: Module name:smartbextdep_decoder
         LogicTypespec:
           vpiParent: Module name:smartbextdep_direct
           vpiRange (1 items):
@@ -6457,11 +6538,13 @@ Design name:unnamed:
           vpiName Identifier name:smartbextdep_bfly_fwd start:72:2 end:72:23:
             vpiParent: ModuleTypespec name:smartbextdep_bfly_fwd
             vpiName: smartbextdep_bfly_fwd
+          vpiModule: Module name:smartbextdep_bfly_fwd
         ModuleTypespec name:smartbextdep_bfly_bwd start:82:2 end:82:23:
           vpiParent: Module name:smartbextdep_direct
           vpiName Identifier name:smartbextdep_bfly_bwd start:82:2 end:82:23:
             vpiParent: ModuleTypespec name:smartbextdep_bfly_bwd
             vpiName: smartbextdep_bfly_bwd
+          vpiModule: Module name:smartbextdep_bfly_bwd
       vpiDefName: smartbextdep_direct
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -6479,6 +6562,7 @@ Design name:unnamed:
           vpiName: din_mode
           vpiFullName: smartbextdep_direct.din_mode
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:din_value start:53:16 end:53:25:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:53:2 end:53:15:
@@ -6488,6 +6572,7 @@ Design name:unnamed:
           vpiName: din_value
           vpiFullName: smartbextdep_direct.din_value
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:din_mask start:54:16 end:54:24:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:54:2 end:54:15:
@@ -6497,6 +6582,7 @@ Design name:unnamed:
           vpiName: din_mask
           vpiFullName: smartbextdep_direct.din_mask
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout_result start:55:16 end:55:27:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:55:2 end:55:15:
@@ -6506,6 +6592,7 @@ Design name:unnamed:
           vpiName: dout_result
           vpiFullName: smartbextdep_direct.dout_result
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:decoder_s1 start:57:14 end:57:24:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:57:7 end:57:13:
@@ -6515,6 +6602,7 @@ Design name:unnamed:
           vpiName: decoder_s1
           vpiFullName: smartbextdep_direct.decoder_s1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:decoder_s2 start:57:26 end:57:36:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:57:7 end:57:13:
@@ -6524,6 +6612,7 @@ Design name:unnamed:
           vpiName: decoder_s2
           vpiFullName: smartbextdep_direct.decoder_s2
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:decoder_s4 start:57:38 end:57:48:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:57:7 end:57:13:
@@ -6533,6 +6622,7 @@ Design name:unnamed:
           vpiName: decoder_s4
           vpiFullName: smartbextdep_direct.decoder_s4
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:decoder_s8 start:58:14 end:58:24:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:58:7 end:58:13:
@@ -6542,6 +6632,7 @@ Design name:unnamed:
           vpiName: decoder_s8
           vpiFullName: smartbextdep_direct.decoder_s8
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:decoder_s16 start:58:26 end:58:37:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:58:7 end:58:13:
@@ -6551,6 +6642,7 @@ Design name:unnamed:
           vpiName: decoder_s16
           vpiFullName: smartbextdep_direct.decoder_s16
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:decoder_s32 start:58:39 end:58:50:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:58:7 end:58:13:
@@ -6560,6 +6652,7 @@ Design name:unnamed:
           vpiName: decoder_s32
           vpiFullName: smartbextdep_direct.decoder_s32
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:result_fwd start:69:14 end:69:24:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:69:7 end:69:13:
@@ -6569,6 +6662,7 @@ Design name:unnamed:
           vpiName: result_fwd
           vpiFullName: smartbextdep_direct.result_fwd
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:result_bwd start:70:14 end:70:24:
           vpiParent: Module name:smartbextdep_direct
           vpiTypespec RefTypespec start:70:7 end:70:13:
@@ -6578,6 +6672,7 @@ Design name:unnamed:
           vpiName: result_bwd
           vpiFullName: smartbextdep_direct.result_bwd
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:din_mode start:52:16 end:52:24:
           vpiParent: Module name:smartbextdep_direct
@@ -7155,6 +7250,7 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: smartbextdep_lrotcz.din
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout start:102:17 end:102:21:
           vpiParent: Module name:smartbextdep_lrotcz
           vpiTypespec RefTypespec start:102:2 end:102:16:
@@ -7164,6 +7260,7 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: smartbextdep_lrotcz.dout
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:mask start:104:17 end:104:21:
           vpiParent: Module name:smartbextdep_lrotcz
           vpiTypespec RefTypespec start:104:7 end:104:16:
@@ -7173,6 +7270,7 @@ Design name:unnamed:
           vpiName: mask
           vpiFullName: smartbextdep_lrotcz.mask
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:104:24 end:104:33:
             vpiParent: Net name:mask
             vpiOpType: multi-concatenation (34)
@@ -7417,6 +7515,7 @@ Design name:unnamed:
           vpiName Identifier name:smartbextdep_pps32 start:116:2 end:116:20:
             vpiParent: ModuleTypespec name:smartbextdep_pps32
             vpiName: smartbextdep_pps32
+          vpiModule: Module name:smartbextdep_pps32
       vpiDefName: smartbextdep_decoder
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -7424,7 +7523,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: smartbextdep_decoder.work
       vpiCell: smartbextdep_decoder
-      vpiNet (5 items):
+      vpiNet (9 items):
         Net name:clock start:109:16 end:109:21:
           vpiParent: Module name:smartbextdep_decoder
           vpiTypespec RefTypespec start:109:2 end:109:7:
@@ -7434,6 +7533,7 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: smartbextdep_decoder.clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:enable start:110:16 end:110:22:
           vpiParent: Module name:smartbextdep_decoder
           vpiTypespec RefTypespec start:110:2 end:110:7:
@@ -7443,6 +7543,7 @@ Design name:unnamed:
           vpiName: enable
           vpiFullName: smartbextdep_decoder.enable
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:mask start:111:16 end:111:20:
           vpiParent: Module name:smartbextdep_decoder
           vpiTypespec RefTypespec start:111:2 end:111:15:
@@ -7452,6 +7553,7 @@ Design name:unnamed:
           vpiName: mask
           vpiFullName: smartbextdep_decoder.mask
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:s1 start:112:16 end:112:18:
           vpiParent: Module name:smartbextdep_decoder
           vpiTypespec RefTypespec start:112:2 end:112:15:
@@ -7461,6 +7563,47 @@ Design name:unnamed:
           vpiName: s1
           vpiFullName: smartbextdep_decoder.s1
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s2 start:112:20 end:112:22:
+          vpiParent: Module name:smartbextdep_decoder
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s2
+            vpiFullName: smartbextdep_decoder.s2
+            vpiActual: LogicTypespec
+          vpiName: s2
+          vpiFullName: smartbextdep_decoder.s2
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s4 start:112:24 end:112:26:
+          vpiParent: Module name:smartbextdep_decoder
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s4
+            vpiFullName: smartbextdep_decoder.s4
+            vpiActual: LogicTypespec
+          vpiName: s4
+          vpiFullName: smartbextdep_decoder.s4
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s8 start:112:28 end:112:30:
+          vpiParent: Module name:smartbextdep_decoder
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s8
+            vpiFullName: smartbextdep_decoder.s8
+            vpiActual: LogicTypespec
+          vpiName: s8
+          vpiFullName: smartbextdep_decoder.s8
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s16 start:112:32 end:112:35:
+          vpiParent: Module name:smartbextdep_decoder
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s16
+            vpiFullName: smartbextdep_decoder.s16
+            vpiActual: LogicTypespec
+          vpiName: s16
+          vpiFullName: smartbextdep_decoder.s16
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:ppsdata start:114:18 end:114:25:
           vpiParent: Module name:smartbextdep_decoder
           vpiTypespec RefTypespec start:114:7 end:114:17:
@@ -7470,6 +7613,7 @@ Design name:unnamed:
           vpiName: ppsdata
           vpiFullName: smartbextdep_decoder.ppsdata
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (8 items):
         Port name:clock start:109:16 end:109:21:
           vpiParent: Module name:smartbextdep_decoder
@@ -7526,19 +7670,55 @@ Design name:unnamed:
         Port name:s2 start:112:20 end:112:22:
           vpiParent: Module name:smartbextdep_decoder
           vpiName: s2
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:s2 start:112:20 end:112:22:
+            vpiParent: Port name:s2
+            vpiName: s2
+            vpiFullName: smartbextdep_decoder.s2.s2
+            vpiActual: Net name:s2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s2
+            vpiFullName: smartbextdep_decoder.s2
+            vpiActual: LogicTypespec
         Port name:s4 start:112:24 end:112:26:
           vpiParent: Module name:smartbextdep_decoder
           vpiName: s4
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:s4 start:112:24 end:112:26:
+            vpiParent: Port name:s4
+            vpiName: s4
+            vpiFullName: smartbextdep_decoder.s4.s4
+            vpiActual: Net name:s4
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s4
+            vpiFullName: smartbextdep_decoder.s4
+            vpiActual: LogicTypespec
         Port name:s8 start:112:28 end:112:30:
           vpiParent: Module name:smartbextdep_decoder
           vpiName: s8
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:s8 start:112:28 end:112:30:
+            vpiParent: Port name:s8
+            vpiName: s8
+            vpiFullName: smartbextdep_decoder.s8.s8
+            vpiActual: Net name:s8
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s8
+            vpiFullName: smartbextdep_decoder.s8
+            vpiActual: LogicTypespec
         Port name:s16 start:112:32 end:112:35:
           vpiParent: Module name:smartbextdep_decoder
           vpiName: s16
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:s16 start:112:32 end:112:35:
+            vpiParent: Port name:s16
+            vpiName: s16
+            vpiFullName: smartbextdep_decoder.s16.s16
+            vpiActual: Net name:s16
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s16
+            vpiFullName: smartbextdep_decoder.s16
+            vpiActual: LogicTypespec
       vpiRefInstance (1 items):
         RefInstance name:pps_core start:116:21 end:116:29:
           vpiParent: Module name:smartbextdep_decoder
@@ -7674,6 +7854,7 @@ Design name:unnamed:
                       vpiName Identifier name:smartbextdep_lrotcz start:124:4 end:124:23:
                         vpiParent: ModuleTypespec name:smartbextdep_lrotcz
                         vpiName: smartbextdep_lrotcz
+                      vpiModule: Module name:smartbextdep_lrotcz
                   vpiStmt (1 items):
                     RefInstance name:lrotc_zero start:124:40 end:124:50:
                       vpiParent: Begin name:stage1
@@ -7687,6 +7868,7 @@ Design name:unnamed:
                         ParamAssign start:124:26 end:124:31:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:N start:124:27 end:124:28:
                             vpiParent: ParamAssign
                             vpiName: N
@@ -7704,6 +7886,7 @@ Design name:unnamed:
                         ParamAssign start:124:33 end:124:38:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:M start:124:34 end:124:35:
                             vpiParent: ParamAssign
                             vpiName: M
@@ -7921,6 +8104,7 @@ Design name:unnamed:
                       vpiName Identifier name:smartbextdep_lrotcz start:131:4 end:131:23:
                         vpiParent: ModuleTypespec name:smartbextdep_lrotcz
                         vpiName: smartbextdep_lrotcz
+                      vpiModule: Module name:smartbextdep_lrotcz
                   vpiStmt (1 items):
                     RefInstance name:lrotc_zero start:131:40 end:131:50:
                       vpiParent: Begin name:stage2
@@ -7934,6 +8118,7 @@ Design name:unnamed:
                         ParamAssign start:131:26 end:131:31:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:N start:131:27 end:131:28:
                             vpiParent: ParamAssign
                             vpiName: N
@@ -7951,6 +8136,7 @@ Design name:unnamed:
                         ParamAssign start:131:33 end:131:38:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:M start:131:34 end:131:35:
                             vpiParent: ParamAssign
                             vpiName: M
@@ -8067,7 +8253,7 @@ Design name:unnamed:
                               vpiParent: IndexedPartSelect name:s2[2*i+:2]
                               vpiName: s2
                               vpiFullName: smartbextdep_decoder.stage2.lrotc_zero.s2
-                              vpiActual: Port name:s2
+                              vpiActual: Net name:s2
                             vpiIndexedPartSelectType: pos indexed (1)
                             vpiBaseExpr Operation start:133:14 end:133:17:
                               vpiParent: IndexedPartSelect name:s2[2*i+:2]
@@ -8193,6 +8379,7 @@ Design name:unnamed:
                       vpiName Identifier name:smartbextdep_lrotcz start:138:4 end:138:23:
                         vpiParent: ModuleTypespec name:smartbextdep_lrotcz
                         vpiName: smartbextdep_lrotcz
+                      vpiModule: Module name:smartbextdep_lrotcz
                   vpiStmt (1 items):
                     RefInstance name:lrotc_zero start:138:40 end:138:50:
                       vpiParent: Begin name:stage4
@@ -8206,6 +8393,7 @@ Design name:unnamed:
                         ParamAssign start:138:26 end:138:31:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:N start:138:27 end:138:28:
                             vpiParent: ParamAssign
                             vpiName: N
@@ -8223,6 +8411,7 @@ Design name:unnamed:
                         ParamAssign start:138:33 end:138:38:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:M start:138:34 end:138:35:
                             vpiParent: ParamAssign
                             vpiName: M
@@ -8339,7 +8528,7 @@ Design name:unnamed:
                               vpiParent: IndexedPartSelect name:s4[4*i+:4]
                               vpiName: s4
                               vpiFullName: smartbextdep_decoder.stage4.lrotc_zero.s4
-                              vpiActual: Port name:s4
+                              vpiActual: Net name:s4
                             vpiIndexedPartSelectType: pos indexed (1)
                             vpiBaseExpr Operation start:140:14 end:140:17:
                               vpiParent: IndexedPartSelect name:s4[4*i+:4]
@@ -8465,6 +8654,7 @@ Design name:unnamed:
                       vpiName Identifier name:smartbextdep_lrotcz start:145:4 end:145:23:
                         vpiParent: ModuleTypespec name:smartbextdep_lrotcz
                         vpiName: smartbextdep_lrotcz
+                      vpiModule: Module name:smartbextdep_lrotcz
                   vpiStmt (1 items):
                     RefInstance name:lrotc_zero start:145:40 end:145:50:
                       vpiParent: Begin name:stage8
@@ -8478,6 +8668,7 @@ Design name:unnamed:
                         ParamAssign start:145:26 end:145:31:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:N start:145:27 end:145:28:
                             vpiParent: ParamAssign
                             vpiName: N
@@ -8495,6 +8686,7 @@ Design name:unnamed:
                         ParamAssign start:145:33 end:145:38:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:M start:145:34 end:145:35:
                             vpiParent: ParamAssign
                             vpiName: M
@@ -8611,7 +8803,7 @@ Design name:unnamed:
                               vpiParent: IndexedPartSelect name:s8[8*i+:8]
                               vpiName: s8
                               vpiFullName: smartbextdep_decoder.stage8.lrotc_zero.s8
-                              vpiActual: Port name:s8
+                              vpiActual: Net name:s8
                             vpiIndexedPartSelectType: pos indexed (1)
                             vpiBaseExpr Operation start:147:14 end:147:17:
                               vpiParent: IndexedPartSelect name:s8[8*i+:8]
@@ -8737,6 +8929,7 @@ Design name:unnamed:
                       vpiName Identifier name:smartbextdep_lrotcz start:152:4 end:152:23:
                         vpiParent: ModuleTypespec name:smartbextdep_lrotcz
                         vpiName: smartbextdep_lrotcz
+                      vpiModule: Module name:smartbextdep_lrotcz
                   vpiStmt (1 items):
                     RefInstance name:lrotc_zero start:152:41 end:152:51:
                       vpiParent: Begin name:stage16
@@ -8750,6 +8943,7 @@ Design name:unnamed:
                         ParamAssign start:152:26 end:152:31:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:N start:152:27 end:152:28:
                             vpiParent: ParamAssign
                             vpiName: N
@@ -8767,6 +8961,7 @@ Design name:unnamed:
                         ParamAssign start:152:33 end:152:39:
                           vpiParent: RefInstance name:lrotc_zero
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:M start:152:34 end:152:35:
                             vpiParent: ParamAssign
                             vpiName: M
@@ -8883,7 +9078,7 @@ Design name:unnamed:
                               vpiParent: IndexedPartSelect name:s16[16*i+:16]
                               vpiName: s16
                               vpiFullName: smartbextdep_decoder.stage16.lrotc_zero.s16
-                              vpiActual: Port name:s16
+                              vpiActual: Net name:s16
                             vpiIndexedPartSelectType: pos indexed (1)
                             vpiBaseExpr Operation start:154:15 end:154:19:
                               vpiParent: IndexedPartSelect name:s16[16*i+:16]
@@ -8946,7 +9141,7 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
           vpiName: i
           vpiFullName: smartbextdep_bfly_fwd.i
-      vpiTypespec (6 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiRange (1 items):
@@ -8999,8 +9194,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:smartbextdep_bfly_fwd
         LogicTypespec:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiRange (1 items):
@@ -9063,7 +9256,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: smartbextdep_bfly_fwd.work
       vpiCell: smartbextdep_bfly_fwd
-      vpiNet (3 items):
+      vpiNet (7 items):
         Net name:din start:161:16 end:161:19:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiTypespec RefTypespec start:161:2 end:161:15:
@@ -9073,6 +9266,7 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: smartbextdep_bfly_fwd.din
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:s1 start:162:16 end:162:18:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiTypespec RefTypespec start:162:2 end:162:15:
@@ -9082,6 +9276,7 @@ Design name:unnamed:
           vpiName: s1
           vpiFullName: smartbextdep_bfly_fwd.s1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout start:163:16 end:163:20:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiTypespec RefTypespec start:163:2 end:163:15:
@@ -9091,6 +9286,47 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: smartbextdep_bfly_fwd.dout
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s2 start:162:20 end:162:22:
+          vpiParent: Module name:smartbextdep_bfly_fwd
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s2
+            vpiFullName: smartbextdep_bfly_fwd.s2
+            vpiActual: LogicTypespec
+          vpiName: s2
+          vpiFullName: smartbextdep_bfly_fwd.s2
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s4 start:162:24 end:162:26:
+          vpiParent: Module name:smartbextdep_bfly_fwd
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s4
+            vpiFullName: smartbextdep_bfly_fwd.s4
+            vpiActual: LogicTypespec
+          vpiName: s4
+          vpiFullName: smartbextdep_bfly_fwd.s4
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s8 start:162:28 end:162:30:
+          vpiParent: Module name:smartbextdep_bfly_fwd
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s8
+            vpiFullName: smartbextdep_bfly_fwd.s8
+            vpiActual: LogicTypespec
+          vpiName: s8
+          vpiFullName: smartbextdep_bfly_fwd.s8
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s16 start:162:32 end:162:35:
+          vpiParent: Module name:smartbextdep_bfly_fwd
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s16
+            vpiFullName: smartbextdep_bfly_fwd.s16
+            vpiActual: LogicTypespec
+          vpiName: s16
+          vpiFullName: smartbextdep_bfly_fwd.s16
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (7 items):
         Port name:din start:161:16 end:161:19:
           vpiParent: Module name:smartbextdep_bfly_fwd
@@ -9121,19 +9357,55 @@ Design name:unnamed:
         Port name:s2 start:162:20 end:162:22:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiName: s2
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:s2 start:162:20 end:162:22:
+            vpiParent: Port name:s2
+            vpiName: s2
+            vpiFullName: smartbextdep_bfly_fwd.s2.s2
+            vpiActual: Net name:s2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s2
+            vpiFullName: smartbextdep_bfly_fwd.s2
+            vpiActual: LogicTypespec
         Port name:s4 start:162:24 end:162:26:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiName: s4
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:s4 start:162:24 end:162:26:
+            vpiParent: Port name:s4
+            vpiName: s4
+            vpiFullName: smartbextdep_bfly_fwd.s4.s4
+            vpiActual: Net name:s4
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s4
+            vpiFullName: smartbextdep_bfly_fwd.s4
+            vpiActual: LogicTypespec
         Port name:s8 start:162:28 end:162:30:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiName: s8
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:s8 start:162:28 end:162:30:
+            vpiParent: Port name:s8
+            vpiName: s8
+            vpiFullName: smartbextdep_bfly_fwd.s8.s8
+            vpiActual: Net name:s8
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s8
+            vpiFullName: smartbextdep_bfly_fwd.s8
+            vpiActual: LogicTypespec
         Port name:s16 start:162:32 end:162:35:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiName: s16
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:s16 start:162:32 end:162:35:
+            vpiParent: Port name:s16
+            vpiName: s16
+            vpiFullName: smartbextdep_bfly_fwd.s16.s16
+            vpiActual: Net name:s16
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s16
+            vpiFullName: smartbextdep_bfly_fwd.s16
+            vpiActual: LogicTypespec
         Port name:dout start:163:16 end:163:20:
           vpiParent: Module name:smartbextdep_bfly_fwd
           vpiName: dout
@@ -9248,7 +9520,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:s16[i]
                         vpiName: s16
                         vpiFullName: smartbextdep_bfly_fwd.s16
-                        vpiActual: Port name:s16
+                        vpiActual: Net name:s16
                       vpiIndex RefObj name:i start:173:12 end:173:13:
                         vpiParent: BitSelect name:s16[i]
                         vpiName: i
@@ -9828,7 +10100,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:s8[i]
                         vpiName: s8
                         vpiFullName: smartbextdep_bfly_fwd.s8
-                        vpiActual: Port name:s8
+                        vpiActual: Net name:s8
                       vpiIndex RefObj name:i start:177:11 end:177:12:
                         vpiParent: BitSelect name:s8[i]
                         vpiName: i
@@ -10408,7 +10680,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:s4[i]
                         vpiName: s4
                         vpiFullName: smartbextdep_bfly_fwd.s4
-                        vpiActual: Port name:s4
+                        vpiActual: Net name:s4
                       vpiIndex RefObj name:i start:181:11 end:181:12:
                         vpiParent: BitSelect name:s4[i]
                         vpiName: i
@@ -10988,7 +11260,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:s2[i]
                         vpiName: s2
                         vpiFullName: smartbextdep_bfly_fwd.s2
-                        vpiActual: Port name:s2
+                        vpiActual: Net name:s2
                       vpiIndex RefObj name:i start:185:11 end:185:12:
                         vpiParent: BitSelect name:s2[i]
                         vpiName: i
@@ -12115,7 +12387,7 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
           vpiName: i
           vpiFullName: smartbextdep_bfly_bwd.i
-      vpiTypespec (6 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiRange (1 items):
@@ -12168,8 +12440,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:smartbextdep_bfly_bwd
         LogicTypespec:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiRange (1 items):
@@ -12232,7 +12502,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: smartbextdep_bfly_bwd.work
       vpiCell: smartbextdep_bfly_bwd
-      vpiNet (3 items):
+      vpiNet (7 items):
         Net name:din start:195:16 end:195:19:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiTypespec RefTypespec start:195:2 end:195:15:
@@ -12242,6 +12512,7 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: smartbextdep_bfly_bwd.din
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:s1 start:196:16 end:196:18:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiTypespec RefTypespec start:196:2 end:196:15:
@@ -12251,6 +12522,7 @@ Design name:unnamed:
           vpiName: s1
           vpiFullName: smartbextdep_bfly_bwd.s1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout start:197:16 end:197:20:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiTypespec RefTypespec start:197:2 end:197:15:
@@ -12260,6 +12532,47 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: smartbextdep_bfly_bwd.dout
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s2 start:196:20 end:196:22:
+          vpiParent: Module name:smartbextdep_bfly_bwd
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s2
+            vpiFullName: smartbextdep_bfly_bwd.s2
+            vpiActual: LogicTypespec
+          vpiName: s2
+          vpiFullName: smartbextdep_bfly_bwd.s2
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s4 start:196:24 end:196:26:
+          vpiParent: Module name:smartbextdep_bfly_bwd
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s4
+            vpiFullName: smartbextdep_bfly_bwd.s4
+            vpiActual: LogicTypespec
+          vpiName: s4
+          vpiFullName: smartbextdep_bfly_bwd.s4
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s8 start:196:28 end:196:30:
+          vpiParent: Module name:smartbextdep_bfly_bwd
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s8
+            vpiFullName: smartbextdep_bfly_bwd.s8
+            vpiActual: LogicTypespec
+          vpiName: s8
+          vpiFullName: smartbextdep_bfly_bwd.s8
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:s16 start:196:32 end:196:35:
+          vpiParent: Module name:smartbextdep_bfly_bwd
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:s16
+            vpiFullName: smartbextdep_bfly_bwd.s16
+            vpiActual: LogicTypespec
+          vpiName: s16
+          vpiFullName: smartbextdep_bfly_bwd.s16
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (7 items):
         Port name:din start:195:16 end:195:19:
           vpiParent: Module name:smartbextdep_bfly_bwd
@@ -12290,19 +12603,55 @@ Design name:unnamed:
         Port name:s2 start:196:20 end:196:22:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiName: s2
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:s2 start:196:20 end:196:22:
+            vpiParent: Port name:s2
+            vpiName: s2
+            vpiFullName: smartbextdep_bfly_bwd.s2.s2
+            vpiActual: Net name:s2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s2
+            vpiFullName: smartbextdep_bfly_bwd.s2
+            vpiActual: LogicTypespec
         Port name:s4 start:196:24 end:196:26:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiName: s4
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:s4 start:196:24 end:196:26:
+            vpiParent: Port name:s4
+            vpiName: s4
+            vpiFullName: smartbextdep_bfly_bwd.s4.s4
+            vpiActual: Net name:s4
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s4
+            vpiFullName: smartbextdep_bfly_bwd.s4
+            vpiActual: LogicTypespec
         Port name:s8 start:196:28 end:196:30:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiName: s8
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:s8 start:196:28 end:196:30:
+            vpiParent: Port name:s8
+            vpiName: s8
+            vpiFullName: smartbextdep_bfly_bwd.s8.s8
+            vpiActual: Net name:s8
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s8
+            vpiFullName: smartbextdep_bfly_bwd.s8
+            vpiActual: LogicTypespec
         Port name:s16 start:196:32 end:196:35:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiName: s16
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:s16 start:196:32 end:196:35:
+            vpiParent: Port name:s16
+            vpiName: s16
+            vpiFullName: smartbextdep_bfly_bwd.s16.s16
+            vpiActual: Net name:s16
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:s16
+            vpiFullName: smartbextdep_bfly_bwd.s16
+            vpiActual: LogicTypespec
         Port name:dout start:197:16 end:197:20:
           vpiParent: Module name:smartbextdep_bfly_bwd
           vpiName: dout
@@ -12997,7 +13346,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:s2[i]
                         vpiName: s2
                         vpiFullName: smartbextdep_bfly_bwd.s2
-                        vpiActual: Port name:s2
+                        vpiActual: Net name:s2
                       vpiIndex RefObj name:i start:211:11 end:211:12:
                         vpiParent: BitSelect name:s2[i]
                         vpiName: i
@@ -13577,7 +13926,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:s4[i]
                         vpiName: s4
                         vpiFullName: smartbextdep_bfly_bwd.s4
-                        vpiActual: Port name:s4
+                        vpiActual: Net name:s4
                       vpiIndex RefObj name:i start:215:11 end:215:12:
                         vpiParent: BitSelect name:s4[i]
                         vpiName: i
@@ -14157,7 +14506,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:s8[i]
                         vpiName: s8
                         vpiFullName: smartbextdep_bfly_bwd.s8
-                        vpiActual: Port name:s8
+                        vpiActual: Net name:s8
                       vpiIndex RefObj name:i start:219:11 end:219:12:
                         vpiParent: BitSelect name:s8[i]
                         vpiName: i
@@ -14737,7 +15086,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:s16[i]
                         vpiName: s16
                         vpiFullName: smartbextdep_bfly_bwd.s16
-                        vpiActual: Port name:s16
+                        vpiActual: Net name:s16
                       vpiIndex RefObj name:i start:223:12 end:223:13:
                         vpiParent: BitSelect name:s16[i]
                         vpiName: i
@@ -18527,6 +18876,7 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: smartbextdep_pps32.din
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout start:230:18 end:230:22:
           vpiParent: Module name:smartbextdep_pps32
           vpiTypespec RefTypespec start:230:3 end:230:17:
@@ -18536,6 +18886,7 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: smartbextdep_pps32.dout
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:e0s0 start:249:15 end:249:19:
           vpiParent: Module name:smartbextdep_pps32
           vpiTypespec RefTypespec start:249:8 end:249:14:
@@ -18545,6 +18896,7 @@ Design name:unnamed:
           vpiName: e0s0
           vpiFullName: smartbextdep_pps32.e0s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:249:22 end:249:42:
             vpiParent: Net name:e0s0
             vpiOpType: concatenation (33)
@@ -18598,6 +18950,7 @@ Design name:unnamed:
           vpiName: e1s0
           vpiFullName: smartbextdep_pps32.e1s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:250:22 end:250:42:
             vpiParent: Net name:e1s0
             vpiOpType: concatenation (33)
@@ -18651,6 +19004,7 @@ Design name:unnamed:
           vpiName: e2s0
           vpiFullName: smartbextdep_pps32.e2s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:251:22 end:251:42:
             vpiParent: Net name:e2s0
             vpiOpType: concatenation (33)
@@ -18704,6 +19058,7 @@ Design name:unnamed:
           vpiName: e3s0
           vpiFullName: smartbextdep_pps32.e3s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:252:22 end:252:42:
             vpiParent: Net name:e3s0
             vpiOpType: concatenation (33)
@@ -18757,6 +19112,7 @@ Design name:unnamed:
           vpiName: e4s0
           vpiFullName: smartbextdep_pps32.e4s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:253:22 end:253:42:
             vpiParent: Net name:e4s0
             vpiOpType: concatenation (33)
@@ -18810,6 +19166,7 @@ Design name:unnamed:
           vpiName: e5s0
           vpiFullName: smartbextdep_pps32.e5s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:254:22 end:254:42:
             vpiParent: Net name:e5s0
             vpiOpType: concatenation (33)
@@ -18863,6 +19220,7 @@ Design name:unnamed:
           vpiName: e6s0
           vpiFullName: smartbextdep_pps32.e6s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:255:22 end:255:42:
             vpiParent: Net name:e6s0
             vpiOpType: concatenation (33)
@@ -18916,6 +19274,7 @@ Design name:unnamed:
           vpiName: e7s0
           vpiFullName: smartbextdep_pps32.e7s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:256:22 end:256:42:
             vpiParent: Net name:e7s0
             vpiOpType: concatenation (33)
@@ -18969,6 +19328,7 @@ Design name:unnamed:
           vpiName: e8s0
           vpiFullName: smartbextdep_pps32.e8s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:257:22 end:257:42:
             vpiParent: Net name:e8s0
             vpiOpType: concatenation (33)
@@ -19022,6 +19382,7 @@ Design name:unnamed:
           vpiName: e9s0
           vpiFullName: smartbextdep_pps32.e9s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:258:22 end:258:42:
             vpiParent: Net name:e9s0
             vpiOpType: concatenation (33)
@@ -19075,6 +19436,7 @@ Design name:unnamed:
           vpiName: e10s0
           vpiFullName: smartbextdep_pps32.e10s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:259:23 end:259:44:
             vpiParent: Net name:e10s0
             vpiOpType: concatenation (33)
@@ -19128,6 +19490,7 @@ Design name:unnamed:
           vpiName: e11s0
           vpiFullName: smartbextdep_pps32.e11s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:260:23 end:260:44:
             vpiParent: Net name:e11s0
             vpiOpType: concatenation (33)
@@ -19181,6 +19544,7 @@ Design name:unnamed:
           vpiName: e12s0
           vpiFullName: smartbextdep_pps32.e12s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:261:23 end:261:44:
             vpiParent: Net name:e12s0
             vpiOpType: concatenation (33)
@@ -19234,6 +19598,7 @@ Design name:unnamed:
           vpiName: e13s0
           vpiFullName: smartbextdep_pps32.e13s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:262:23 end:262:44:
             vpiParent: Net name:e13s0
             vpiOpType: concatenation (33)
@@ -19287,6 +19652,7 @@ Design name:unnamed:
           vpiName: e14s0
           vpiFullName: smartbextdep_pps32.e14s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:263:23 end:263:44:
             vpiParent: Net name:e14s0
             vpiOpType: concatenation (33)
@@ -19340,6 +19706,7 @@ Design name:unnamed:
           vpiName: e15s0
           vpiFullName: smartbextdep_pps32.e15s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:264:23 end:264:44:
             vpiParent: Net name:e15s0
             vpiOpType: concatenation (33)
@@ -19393,6 +19760,7 @@ Design name:unnamed:
           vpiName: e16s0
           vpiFullName: smartbextdep_pps32.e16s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:265:23 end:265:44:
             vpiParent: Net name:e16s0
             vpiOpType: concatenation (33)
@@ -19446,6 +19814,7 @@ Design name:unnamed:
           vpiName: e17s0
           vpiFullName: smartbextdep_pps32.e17s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:266:23 end:266:44:
             vpiParent: Net name:e17s0
             vpiOpType: concatenation (33)
@@ -19499,6 +19868,7 @@ Design name:unnamed:
           vpiName: e18s0
           vpiFullName: smartbextdep_pps32.e18s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:267:23 end:267:44:
             vpiParent: Net name:e18s0
             vpiOpType: concatenation (33)
@@ -19552,6 +19922,7 @@ Design name:unnamed:
           vpiName: e19s0
           vpiFullName: smartbextdep_pps32.e19s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:268:23 end:268:44:
             vpiParent: Net name:e19s0
             vpiOpType: concatenation (33)
@@ -19605,6 +19976,7 @@ Design name:unnamed:
           vpiName: e20s0
           vpiFullName: smartbextdep_pps32.e20s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:269:23 end:269:44:
             vpiParent: Net name:e20s0
             vpiOpType: concatenation (33)
@@ -19658,6 +20030,7 @@ Design name:unnamed:
           vpiName: e21s0
           vpiFullName: smartbextdep_pps32.e21s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:270:23 end:270:44:
             vpiParent: Net name:e21s0
             vpiOpType: concatenation (33)
@@ -19711,6 +20084,7 @@ Design name:unnamed:
           vpiName: e22s0
           vpiFullName: smartbextdep_pps32.e22s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:271:23 end:271:44:
             vpiParent: Net name:e22s0
             vpiOpType: concatenation (33)
@@ -19764,6 +20138,7 @@ Design name:unnamed:
           vpiName: e23s0
           vpiFullName: smartbextdep_pps32.e23s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:272:23 end:272:44:
             vpiParent: Net name:e23s0
             vpiOpType: concatenation (33)
@@ -19817,6 +20192,7 @@ Design name:unnamed:
           vpiName: e24s0
           vpiFullName: smartbextdep_pps32.e24s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:273:23 end:273:44:
             vpiParent: Net name:e24s0
             vpiOpType: concatenation (33)
@@ -19870,6 +20246,7 @@ Design name:unnamed:
           vpiName: e25s0
           vpiFullName: smartbextdep_pps32.e25s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:274:23 end:274:44:
             vpiParent: Net name:e25s0
             vpiOpType: concatenation (33)
@@ -19923,6 +20300,7 @@ Design name:unnamed:
           vpiName: e26s0
           vpiFullName: smartbextdep_pps32.e26s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:275:23 end:275:44:
             vpiParent: Net name:e26s0
             vpiOpType: concatenation (33)
@@ -19976,6 +20354,7 @@ Design name:unnamed:
           vpiName: e27s0
           vpiFullName: smartbextdep_pps32.e27s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:276:23 end:276:44:
             vpiParent: Net name:e27s0
             vpiOpType: concatenation (33)
@@ -20029,6 +20408,7 @@ Design name:unnamed:
           vpiName: e28s0
           vpiFullName: smartbextdep_pps32.e28s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:277:23 end:277:44:
             vpiParent: Net name:e28s0
             vpiOpType: concatenation (33)
@@ -20082,6 +20462,7 @@ Design name:unnamed:
           vpiName: e29s0
           vpiFullName: smartbextdep_pps32.e29s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:278:23 end:278:44:
             vpiParent: Net name:e29s0
             vpiOpType: concatenation (33)
@@ -20135,6 +20516,7 @@ Design name:unnamed:
           vpiName: e30s0
           vpiFullName: smartbextdep_pps32.e30s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:279:23 end:279:44:
             vpiParent: Net name:e30s0
             vpiOpType: concatenation (33)
@@ -20188,6 +20570,7 @@ Design name:unnamed:
           vpiName: e31s0
           vpiFullName: smartbextdep_pps32.e31s0
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:280:23 end:280:44:
             vpiParent: Net name:e31s0
             vpiOpType: concatenation (33)
@@ -20241,6 +20624,7 @@ Design name:unnamed:
           vpiName: e1s1
           vpiFullName: smartbextdep_pps32.e1s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:282:22 end:282:48:
             vpiParent: Net name:e1s1
             vpiName Identifier name:carry_save_add start:282:22 end:282:36:
@@ -20267,6 +20651,7 @@ Design name:unnamed:
           vpiName: e3s1
           vpiFullName: smartbextdep_pps32.e3s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:283:22 end:283:48:
             vpiParent: Net name:e3s1
             vpiName Identifier name:carry_save_add start:283:22 end:283:36:
@@ -20293,6 +20678,7 @@ Design name:unnamed:
           vpiName: e5s1
           vpiFullName: smartbextdep_pps32.e5s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:284:22 end:284:48:
             vpiParent: Net name:e5s1
             vpiName Identifier name:carry_save_add start:284:22 end:284:36:
@@ -20319,6 +20705,7 @@ Design name:unnamed:
           vpiName: e7s1
           vpiFullName: smartbextdep_pps32.e7s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:285:22 end:285:48:
             vpiParent: Net name:e7s1
             vpiName Identifier name:carry_save_add start:285:22 end:285:36:
@@ -20345,6 +20732,7 @@ Design name:unnamed:
           vpiName: e9s1
           vpiFullName: smartbextdep_pps32.e9s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:286:22 end:286:48:
             vpiParent: Net name:e9s1
             vpiName Identifier name:carry_save_add start:286:22 end:286:36:
@@ -20371,6 +20759,7 @@ Design name:unnamed:
           vpiName: e11s1
           vpiFullName: smartbextdep_pps32.e11s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:287:23 end:287:51:
             vpiParent: Net name:e11s1
             vpiName Identifier name:carry_save_add start:287:23 end:287:37:
@@ -20397,6 +20786,7 @@ Design name:unnamed:
           vpiName: e13s1
           vpiFullName: smartbextdep_pps32.e13s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:288:23 end:288:51:
             vpiParent: Net name:e13s1
             vpiName Identifier name:carry_save_add start:288:23 end:288:37:
@@ -20423,6 +20813,7 @@ Design name:unnamed:
           vpiName: e15s1
           vpiFullName: smartbextdep_pps32.e15s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:289:23 end:289:51:
             vpiParent: Net name:e15s1
             vpiName Identifier name:carry_save_add start:289:23 end:289:37:
@@ -20449,6 +20840,7 @@ Design name:unnamed:
           vpiName: e17s1
           vpiFullName: smartbextdep_pps32.e17s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:290:23 end:290:51:
             vpiParent: Net name:e17s1
             vpiName Identifier name:carry_save_add start:290:23 end:290:37:
@@ -20475,6 +20867,7 @@ Design name:unnamed:
           vpiName: e19s1
           vpiFullName: smartbextdep_pps32.e19s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:291:23 end:291:51:
             vpiParent: Net name:e19s1
             vpiName Identifier name:carry_save_add start:291:23 end:291:37:
@@ -20501,6 +20894,7 @@ Design name:unnamed:
           vpiName: e21s1
           vpiFullName: smartbextdep_pps32.e21s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:292:23 end:292:51:
             vpiParent: Net name:e21s1
             vpiName Identifier name:carry_save_add start:292:23 end:292:37:
@@ -20527,6 +20921,7 @@ Design name:unnamed:
           vpiName: e23s1
           vpiFullName: smartbextdep_pps32.e23s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:293:23 end:293:51:
             vpiParent: Net name:e23s1
             vpiName Identifier name:carry_save_add start:293:23 end:293:37:
@@ -20553,6 +20948,7 @@ Design name:unnamed:
           vpiName: e25s1
           vpiFullName: smartbextdep_pps32.e25s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:294:23 end:294:51:
             vpiParent: Net name:e25s1
             vpiName Identifier name:carry_save_add start:294:23 end:294:37:
@@ -20579,6 +20975,7 @@ Design name:unnamed:
           vpiName: e27s1
           vpiFullName: smartbextdep_pps32.e27s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:295:23 end:295:51:
             vpiParent: Net name:e27s1
             vpiName Identifier name:carry_save_add start:295:23 end:295:37:
@@ -20605,6 +21002,7 @@ Design name:unnamed:
           vpiName: e29s1
           vpiFullName: smartbextdep_pps32.e29s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:296:23 end:296:51:
             vpiParent: Net name:e29s1
             vpiName Identifier name:carry_save_add start:296:23 end:296:37:
@@ -20631,6 +21029,7 @@ Design name:unnamed:
           vpiName: e31s1
           vpiFullName: smartbextdep_pps32.e31s1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:297:23 end:297:51:
             vpiParent: Net name:e31s1
             vpiName Identifier name:carry_save_add start:297:23 end:297:37:
@@ -20657,6 +21056,7 @@ Design name:unnamed:
           vpiName: e3s2
           vpiFullName: smartbextdep_pps32.e3s2
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:298:22 end:298:48:
             vpiParent: Net name:e3s2
             vpiName Identifier name:carry_save_add start:298:22 end:298:36:
@@ -20683,6 +21083,7 @@ Design name:unnamed:
           vpiName: e7s2
           vpiFullName: smartbextdep_pps32.e7s2
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:299:22 end:299:48:
             vpiParent: Net name:e7s2
             vpiName Identifier name:carry_save_add start:299:22 end:299:36:
@@ -20709,6 +21110,7 @@ Design name:unnamed:
           vpiName: e11s2
           vpiFullName: smartbextdep_pps32.e11s2
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:300:23 end:300:50:
             vpiParent: Net name:e11s2
             vpiName Identifier name:carry_save_add start:300:23 end:300:37:
@@ -20735,6 +21137,7 @@ Design name:unnamed:
           vpiName: e15s2
           vpiFullName: smartbextdep_pps32.e15s2
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:301:23 end:301:51:
             vpiParent: Net name:e15s2
             vpiName Identifier name:carry_save_add start:301:23 end:301:37:
@@ -20761,6 +21164,7 @@ Design name:unnamed:
           vpiName: e19s2
           vpiFullName: smartbextdep_pps32.e19s2
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:302:23 end:302:51:
             vpiParent: Net name:e19s2
             vpiName Identifier name:carry_save_add start:302:23 end:302:37:
@@ -20787,6 +21191,7 @@ Design name:unnamed:
           vpiName: e23s2
           vpiFullName: smartbextdep_pps32.e23s2
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:303:23 end:303:51:
             vpiParent: Net name:e23s2
             vpiName Identifier name:carry_save_add start:303:23 end:303:37:
@@ -20813,6 +21218,7 @@ Design name:unnamed:
           vpiName: e27s2
           vpiFullName: smartbextdep_pps32.e27s2
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:304:23 end:304:51:
             vpiParent: Net name:e27s2
             vpiName Identifier name:carry_save_add start:304:23 end:304:37:
@@ -20839,6 +21245,7 @@ Design name:unnamed:
           vpiName: e31s2
           vpiFullName: smartbextdep_pps32.e31s2
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:305:23 end:305:51:
             vpiParent: Net name:e31s2
             vpiName Identifier name:carry_save_add start:305:23 end:305:37:
@@ -20865,6 +21272,7 @@ Design name:unnamed:
           vpiName: e7s3
           vpiFullName: smartbextdep_pps32.e7s3
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:306:22 end:306:48:
             vpiParent: Net name:e7s3
             vpiName Identifier name:carry_save_add start:306:22 end:306:36:
@@ -20891,6 +21299,7 @@ Design name:unnamed:
           vpiName: e15s3
           vpiFullName: smartbextdep_pps32.e15s3
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:307:23 end:307:51:
             vpiParent: Net name:e15s3
             vpiName Identifier name:carry_save_add start:307:23 end:307:37:
@@ -20917,6 +21326,7 @@ Design name:unnamed:
           vpiName: e23s3
           vpiFullName: smartbextdep_pps32.e23s3
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:308:23 end:308:51:
             vpiParent: Net name:e23s3
             vpiName Identifier name:carry_save_add start:308:23 end:308:37:
@@ -20943,6 +21353,7 @@ Design name:unnamed:
           vpiName: e31s3
           vpiFullName: smartbextdep_pps32.e31s3
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:309:23 end:309:51:
             vpiParent: Net name:e31s3
             vpiName Identifier name:carry_save_add start:309:23 end:309:37:
@@ -20969,6 +21380,7 @@ Design name:unnamed:
           vpiName: e15s4
           vpiFullName: smartbextdep_pps32.e15s4
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:310:23 end:310:50:
             vpiParent: Net name:e15s4
             vpiName Identifier name:carry_save_add start:310:23 end:310:37:
@@ -20995,6 +21407,7 @@ Design name:unnamed:
           vpiName: e31s4
           vpiFullName: smartbextdep_pps32.e31s4
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:311:23 end:311:51:
             vpiParent: Net name:e31s4
             vpiName Identifier name:carry_save_add start:311:23 end:311:37:
@@ -21021,6 +21434,7 @@ Design name:unnamed:
           vpiName: e31s5
           vpiFullName: smartbextdep_pps32.e31s5
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:312:23 end:312:51:
             vpiParent: Net name:e31s5
             vpiName Identifier name:carry_save_add start:312:23 end:312:37:
@@ -21047,6 +21461,7 @@ Design name:unnamed:
           vpiName: e23s6
           vpiFullName: smartbextdep_pps32.e23s6
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:314:23 end:314:51:
             vpiParent: Net name:e23s6
             vpiName Identifier name:carry_save_add start:314:23 end:314:37:
@@ -21073,6 +21488,7 @@ Design name:unnamed:
           vpiName: e11s7
           vpiFullName: smartbextdep_pps32.e11s7
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:315:23 end:315:50:
             vpiParent: Net name:e11s7
             vpiName Identifier name:carry_save_add start:315:23 end:315:37:
@@ -21099,6 +21515,7 @@ Design name:unnamed:
           vpiName: e19s7
           vpiFullName: smartbextdep_pps32.e19s7
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:316:23 end:316:51:
             vpiParent: Net name:e19s7
             vpiName Identifier name:carry_save_add start:316:23 end:316:37:
@@ -21125,6 +21542,7 @@ Design name:unnamed:
           vpiName: e27s7
           vpiFullName: smartbextdep_pps32.e27s7
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:317:23 end:317:51:
             vpiParent: Net name:e27s7
             vpiName Identifier name:carry_save_add start:317:23 end:317:37:
@@ -21151,6 +21569,7 @@ Design name:unnamed:
           vpiName: e5s8
           vpiFullName: smartbextdep_pps32.e5s8
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:318:22 end:318:48:
             vpiParent: Net name:e5s8
             vpiName Identifier name:carry_save_add start:318:22 end:318:36:
@@ -21177,6 +21596,7 @@ Design name:unnamed:
           vpiName: e9s8
           vpiFullName: smartbextdep_pps32.e9s8
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:319:22 end:319:48:
             vpiParent: Net name:e9s8
             vpiName Identifier name:carry_save_add start:319:22 end:319:36:
@@ -21203,6 +21623,7 @@ Design name:unnamed:
           vpiName: e13s8
           vpiFullName: smartbextdep_pps32.e13s8
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:320:23 end:320:51:
             vpiParent: Net name:e13s8
             vpiName Identifier name:carry_save_add start:320:23 end:320:37:
@@ -21229,6 +21650,7 @@ Design name:unnamed:
           vpiName: e17s8
           vpiFullName: smartbextdep_pps32.e17s8
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:321:23 end:321:51:
             vpiParent: Net name:e17s8
             vpiName Identifier name:carry_save_add start:321:23 end:321:37:
@@ -21255,6 +21677,7 @@ Design name:unnamed:
           vpiName: e21s8
           vpiFullName: smartbextdep_pps32.e21s8
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:322:23 end:322:51:
             vpiParent: Net name:e21s8
             vpiName Identifier name:carry_save_add start:322:23 end:322:37:
@@ -21281,6 +21704,7 @@ Design name:unnamed:
           vpiName: e25s8
           vpiFullName: smartbextdep_pps32.e25s8
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:323:23 end:323:51:
             vpiParent: Net name:e25s8
             vpiName Identifier name:carry_save_add start:323:23 end:323:37:
@@ -21307,6 +21731,7 @@ Design name:unnamed:
           vpiName: e29s8
           vpiFullName: smartbextdep_pps32.e29s8
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:324:23 end:324:51:
             vpiParent: Net name:e29s8
             vpiName Identifier name:carry_save_add start:324:23 end:324:37:
@@ -21333,6 +21758,7 @@ Design name:unnamed:
           vpiName: e2s9
           vpiFullName: smartbextdep_pps32.e2s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:325:22 end:325:48:
             vpiParent: Net name:e2s9
             vpiName Identifier name:carry_save_add start:325:22 end:325:36:
@@ -21359,6 +21785,7 @@ Design name:unnamed:
           vpiName: e4s9
           vpiFullName: smartbextdep_pps32.e4s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:326:22 end:326:48:
             vpiParent: Net name:e4s9
             vpiName Identifier name:carry_save_add start:326:22 end:326:36:
@@ -21385,6 +21812,7 @@ Design name:unnamed:
           vpiName: e6s9
           vpiFullName: smartbextdep_pps32.e6s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:327:22 end:327:48:
             vpiParent: Net name:e6s9
             vpiName Identifier name:carry_save_add start:327:22 end:327:36:
@@ -21411,6 +21839,7 @@ Design name:unnamed:
           vpiName: e8s9
           vpiFullName: smartbextdep_pps32.e8s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:328:22 end:328:48:
             vpiParent: Net name:e8s9
             vpiName Identifier name:carry_save_add start:328:22 end:328:36:
@@ -21437,6 +21866,7 @@ Design name:unnamed:
           vpiName: e10s9
           vpiFullName: smartbextdep_pps32.e10s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:329:23 end:329:50:
             vpiParent: Net name:e10s9
             vpiName Identifier name:carry_save_add start:329:23 end:329:37:
@@ -21463,6 +21893,7 @@ Design name:unnamed:
           vpiName: e12s9
           vpiFullName: smartbextdep_pps32.e12s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:330:23 end:330:51:
             vpiParent: Net name:e12s9
             vpiName Identifier name:carry_save_add start:330:23 end:330:37:
@@ -21489,6 +21920,7 @@ Design name:unnamed:
           vpiName: e14s9
           vpiFullName: smartbextdep_pps32.e14s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:331:23 end:331:51:
             vpiParent: Net name:e14s9
             vpiName Identifier name:carry_save_add start:331:23 end:331:37:
@@ -21515,6 +21947,7 @@ Design name:unnamed:
           vpiName: e16s9
           vpiFullName: smartbextdep_pps32.e16s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:332:23 end:332:51:
             vpiParent: Net name:e16s9
             vpiName Identifier name:carry_save_add start:332:23 end:332:37:
@@ -21541,6 +21974,7 @@ Design name:unnamed:
           vpiName: e18s9
           vpiFullName: smartbextdep_pps32.e18s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:333:23 end:333:51:
             vpiParent: Net name:e18s9
             vpiName Identifier name:carry_save_add start:333:23 end:333:37:
@@ -21567,6 +22001,7 @@ Design name:unnamed:
           vpiName: e20s9
           vpiFullName: smartbextdep_pps32.e20s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:334:23 end:334:51:
             vpiParent: Net name:e20s9
             vpiName Identifier name:carry_save_add start:334:23 end:334:37:
@@ -21593,6 +22028,7 @@ Design name:unnamed:
           vpiName: e22s9
           vpiFullName: smartbextdep_pps32.e22s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:335:23 end:335:51:
             vpiParent: Net name:e22s9
             vpiName Identifier name:carry_save_add start:335:23 end:335:37:
@@ -21619,6 +22055,7 @@ Design name:unnamed:
           vpiName: e24s9
           vpiFullName: smartbextdep_pps32.e24s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:336:23 end:336:51:
             vpiParent: Net name:e24s9
             vpiName Identifier name:carry_save_add start:336:23 end:336:37:
@@ -21645,6 +22082,7 @@ Design name:unnamed:
           vpiName: e26s9
           vpiFullName: smartbextdep_pps32.e26s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:337:23 end:337:51:
             vpiParent: Net name:e26s9
             vpiName Identifier name:carry_save_add start:337:23 end:337:37:
@@ -21671,6 +22109,7 @@ Design name:unnamed:
           vpiName: e28s9
           vpiFullName: smartbextdep_pps32.e28s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:338:23 end:338:51:
             vpiParent: Net name:e28s9
             vpiName Identifier name:carry_save_add start:338:23 end:338:37:
@@ -21697,6 +22136,7 @@ Design name:unnamed:
           vpiName: e30s9
           vpiFullName: smartbextdep_pps32.e30s9
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue FuncCall name:carry_save_add start:339:23 end:339:51:
             vpiParent: Net name:e30s9
             vpiName Identifier name:carry_save_add start:339:23 end:339:37:
@@ -23237,9 +23677,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 10
-[   NOTE] : 0
+[   NOTE] : 12
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -23286,10 +23726,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                           928     780     150       298
 Operation                          500     347       0       153
-RefObj                             707     703       0         4
-RefTypespec                       1316    1167     149       298
+RefObj                             721     717       0         4
+RefTypespec                       1344    1195     149       298
 ----------------------------------------------------------------
-Others                            2005    2005       0         0
+Others                            2017    2017       0         0
 ----------------------------------------------------------------
-                                  5456    5002     299       753
+                                  5510    5056     299       753
 ===================== END REDUCTION RESULT =====================

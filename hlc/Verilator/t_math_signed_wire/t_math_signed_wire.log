@@ -23,7 +23,7 @@ n<$Source01/t_math_signed_wire.v> u<442> t<Top_level_rule> c<1> l<7:1> el<54:1>
     n<> u<189> t<Description> p<441> c<188> s<314> l<7:1> el<30:10>
       n<> u<188> t<Module_declaration> p<189> c<19> l<7:1> el<30:10>
         n<> u<19> t<Module_nonansi_header> p<188> c<7> s<26> l<7:1> el<10:6>
-          n<module> u<7> t<Module_keyword> p<19> s<8> l<7:1> el<7:7>
+          n<module> u<7> t<MODULE> p<19> s<8> l<7:1> el<7:7>
           n<t> u<8> t<SIMPLE_IDENTIFIER> p<19> s<9> l<7:8> el<7:9>
           n<> u<9> t<Package_import_declaration_list> p<19> s<10> l<7:10> el<7:10>
           n</*AUTOARG*/> u<10> t<BLOCK_COMMENT> p<19> s<11> l<7:10> el<10:5>
@@ -206,7 +206,7 @@ n<$Source01/t_math_signed_wire.v> u<442> t<Top_level_rule> c<1> l<7:1> el<54:1>
     n<> u<314> t<Description> p<441> c<313> s<440> l<32:1> el<41:10>
       n<> u<313> t<Module_declaration> p<314> c<210> l<32:1> el<41:10>
         n<> u<210> t<Module_ansi_header> p<313> c<190> s<231> l<32:1> el<32:32>
-          n<module> u<190> t<Module_keyword> p<210> s<191> l<32:1> el<32:7>
+          n<module> u<190> t<MODULE> p<210> s<191> l<32:1> el<32:7>
           n<Test1> u<191> t<SIMPLE_IDENTIFIER> p<210> s<192> l<32:8> el<32:13>
           n<> u<192> t<Package_import_declaration_list> p<210> s<209> l<32:14> el<32:14>
           n<> u<209> t<Port_declaration_list> p<210> c<208> l<32:14> el<32:31>
@@ -331,7 +331,7 @@ n<$Source01/t_math_signed_wire.v> u<442> t<Top_level_rule> c<1> l<7:1> el<54:1>
     n<> u<440> t<Description> p<441> c<439> l<44:1> el<53:10>
       n<> u<439> t<Module_declaration> p<440> c<335> l<44:1> el<53:10>
         n<> u<335> t<Module_ansi_header> p<439> c<315> s<357> l<44:1> el<44:32>
-          n<module> u<315> t<Module_keyword> p<335> s<316> l<44:1> el<44:7>
+          n<module> u<315> t<MODULE> p<335> s<316> l<44:1> el<44:7>
           n<Test2> u<316> t<SIMPLE_IDENTIFIER> p<335> s<317> l<44:8> el<44:13>
           n<> u<317> t<Package_import_declaration_list> p<335> s<334> l<44:14> el<44:14>
           n<> u<334> t<Port_declaration_list> p<335> c<333> l<44:14> el<44:31>
@@ -457,7 +457,9 @@ n<$Source01/t_math_signed_wire.v> u<442> t<Top_level_rule> c<1> l<7:1> el<54:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_math_signed_wire.v:7:1: Compile module "t".
 [INF:CP0303] $Source01/t_math_signed_wire.v:32:1: Compile module "Test1".
+[NTE:CP0309] $Source01/t_math_signed_wire.v:32:28: Implicit port type (wire) for "au".
 [INF:CP0303] $Source01/t_math_signed_wire.v:44:1: Compile module "Test2".
+[NTE:CP0309] $Source01/t_math_signed_wire.v:44:28: Implicit port type (wire) for "as".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -534,11 +536,13 @@ Design name:unnamed:
           vpiName Identifier name:Test1 start:16:4 end:16:9:
             vpiParent: ModuleTypespec name:Test1
             vpiName: Test1
+          vpiModule: Module name:Test1
         ModuleTypespec name:Test2 start:17:4 end:17:9:
           vpiParent: Module name:t
           vpiName Identifier name:Test2 start:17:4 end:17:9:
             vpiParent: ModuleTypespec name:Test2
             vpiName: Test2
+          vpiModule: Module name:Test2
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -556,6 +560,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:au start:13:15 end:13:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:9 end:13:14:
@@ -565,6 +570,7 @@ Design name:unnamed:
           vpiName: au
           vpiFullName: t.au
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:as start:14:15 end:14:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:9 end:14:14:
@@ -574,6 +580,7 @@ Design name:unnamed:
           vpiName: as
           vpiFullName: t.as
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:9:4 end:9:7:
           vpiParent: Module name:t
@@ -797,6 +804,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
       vpiDefName: Test1
       vpiDefNetType: wire (1)
@@ -815,6 +823,7 @@ Design name:unnamed:
           vpiName: au
           vpiFullName: Test1.au
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:b start:33:17 end:33:18:
           vpiParent: Module name:Test1
           vpiTypespec RefTypespec start:33:9 end:33:14:
@@ -824,6 +833,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: Test1.b
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:c start:34:23 end:34:24:
           vpiParent: Module name:Test1
           vpiTypespec RefTypespec start:34:9 end:34:21:
@@ -833,6 +843,7 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: Test1.c
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:au start:32:28 end:32:30:
           vpiParent: Module name:Test1
@@ -965,6 +976,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:Test2
@@ -991,6 +1003,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
       vpiDefName: Test2
       vpiDefNetType: wire (1)
@@ -1009,6 +1022,7 @@ Design name:unnamed:
           vpiName: as
           vpiFullName: Test2.as
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:b start:45:23 end:45:24:
           vpiParent: Module name:Test2
           vpiTypespec RefTypespec start:45:9 end:45:21:
@@ -1018,6 +1032,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: Test2.b
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:c start:46:23 end:46:24:
           vpiParent: Module name:Test2
           vpiTypespec RefTypespec start:46:9 end:46:21:
@@ -1027,6 +1042,7 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: Test2.c
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:as start:44:28 end:44:30:
           vpiParent: Module name:Test2
@@ -1132,7 +1148,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

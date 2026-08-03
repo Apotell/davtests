@@ -22,7 +22,7 @@ n<$Source01/t_inst_comma.v> u<898> t<Top_level_rule> c<1> l<6:1> el<67:1>
     n<> u<775> t<Description> p<897> c<774> s<896> l<6:1> el<53:10>
       n<> u<774> t<Module_declaration> p<775> c<18> l<6:1> el<53:10>
         n<> u<18> t<Module_nonansi_header> p<774> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -792,7 +792,7 @@ n<$Source01/t_inst_comma.v> u<898> t<Top_level_rule> c<1> l<6:1> el<67:1>
     n<> u<896> t<Description> p<897> c<895> l<61:1> el<66:10>
       n<> u<895> t<Module_declaration> p<896> c<818> l<61:1> el<66:10>
         n<> u<818> t<Module_ansi_header> p<895> c<776> s<819> l<61:1> el<61:69>
-          n<module> u<776> t<Module_keyword> p<818> s<777> l<61:1> el<61:7>
+          n<module> u<776> t<MODULE> p<818> s<777> l<61:1> el<61:7>
           n<sub> u<777> t<SIMPLE_IDENTIFIER> p<818> s<778> l<61:8> el<61:11>
           n<> u<778> t<Package_import_declaration_list> p<818> s<817> l<61:12> el<61:12>
           n<> u<817> t<Port_declaration_list> p<818> c<794> l<61:12> el<61:68>
@@ -913,6 +913,7 @@ n<$Source01/t_inst_comma.v> u<898> t<Top_level_rule> c<1> l<6:1> el<67:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_comma.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_comma.v:61:1: Compile module "sub".
+[NTE:CP0309] $Source01/t_inst_comma.v:61:61: Implicit port type (wire) for "bitout".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1101,6 +1102,7 @@ Design name:unnamed:
           vpiName Identifier name:sub start:19:4 end:19:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1118,6 +1120,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:bitout start:15:17 end:15:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:16:
@@ -1127,6 +1130,7 @@ Design name:unnamed:
           vpiName: bitout
           vpiFullName: t.bitout
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1534,6 +1538,7 @@ Design name:unnamed:
           vpiParamAssign (1 items):
             ParamAssign start:19:10 end:19:11:
               vpiParent: RefInstance name:sub0
+              vpiOverridden: true
               vpiRhs Constant start:19:10 end:19:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -2276,6 +2281,7 @@ Design name:unnamed:
           vpiName: allbits
           vpiFullName: sub.allbits
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:onebit start:61:46 end:61:52:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:61:34 end:61:45:
@@ -2285,6 +2291,7 @@ Design name:unnamed:
           vpiName: onebit
           vpiFullName: sub.onebit
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:bitout start:61:61 end:61:67:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:61:54 end:61:60:
@@ -2294,6 +2301,7 @@ Design name:unnamed:
           vpiName: bitout
           vpiFullName: sub.bitout
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:allbits start:61:25 end:61:32:
           vpiParent: Module name:sub
@@ -2418,7 +2426,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

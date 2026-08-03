@@ -71,7 +71,7 @@ n<$Source01/t_interface_nest.v> u<564> t<Top_level_rule> c<1> l<6:1> el<75:1>
     n<> u<279> t<Description> p<563> c<278> s<562> l<15:1> el<35:10>
       n<> u<278> t<Module_declaration> p<279> c<81> l<15:1> el<35:10>
         n<> u<81> t<Module_ansi_header> p<278> c<55> s<93> l<15:1> el<20:6>
-          n<module> u<55> t<Module_keyword> p<81> s<56> l<15:1> el<15:7>
+          n<module> u<55> t<MODULE> p<81> s<56> l<15:1> el<15:7>
           n<mod1> u<56> t<SIMPLE_IDENTIFIER> p<81> s<57> l<15:8> el<15:12>
           n<> u<57> t<Package_import_declaration_list> p<81> s<80> l<16:3> el<16:3>
           n<> u<80> t<Port_declaration_list> p<81> c<63> l<16:3> el<20:5>
@@ -296,7 +296,7 @@ n<$Source01/t_interface_nest.v> u<564> t<Top_level_rule> c<1> l<6:1> el<75:1>
     n<> u<562> t<Description> p<563> c<561> l<37:1> el<74:10>
       n<> u<561> t<Module_declaration> p<562> c<292> l<37:1> el<74:10>
         n<> u<292> t<Module_nonansi_header> p<561> c<280> s<299> l<37:1> el<40:6>
-          n<module> u<280> t<Module_keyword> p<292> s<281> l<37:1> el<37:7>
+          n<module> u<280> t<MODULE> p<292> s<281> l<37:1> el<37:7>
           n<t> u<281> t<SIMPLE_IDENTIFIER> p<292> s<282> l<37:8> el<37:9>
           n<> u<282> t<Package_import_declaration_list> p<292> s<283> l<37:10> el<37:10>
           n</*AUTOARG*/> u<283> t<BLOCK_COMMENT> p<292> s<284> l<37:10> el<40:5>
@@ -582,6 +582,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_nest.v:15:1: Compile module "mod1".
 [INF:CP0303] $Source01/t_interface_nest.v:37:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_nest.v:37:1: Multiply defined typedef "mod1".
+[ERR:LN0814] Found 3 weak node(s).
 [WRN:CP0350] $Source01/t_interface_nest.v:26:18: Failed to bind "id:66, name:i1".
 [WRN:CP0350] $Source01/t_interface_nest.v:26:21: Failed to bind "id:67, name:var1".
 [WRN:CP0350] $Source01/t_interface_nest.v:30:18: Failed to bind "id:94, name:i1".
@@ -699,6 +700,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: mod1.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:modnum start:18:18 end:18:24:
           vpiParent: Module name:mod1
           vpiTypespec RefTypespec start:18:4 end:18:17:
@@ -748,7 +750,7 @@ Design name:unnamed:
         Port name:foo start:19:8 end:19:11:
           vpiParent: Module name:mod1
           vpiName: foo
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
           vpiLowConn RefObj name:foo start:19:8 end:19:11:
             vpiParent: Port name:foo
             vpiName: foo
@@ -1011,11 +1013,13 @@ Design name:unnamed:
           vpiName Identifier name:mod1 start:51:4 end:51:8:
             vpiParent: ModuleTypespec name:mod1
             vpiName: mod1
+          vpiModule: Module name:mod1
         ModuleTypespec name:mod1 start:58:4 end:58:8:
           vpiParent: Module name:t
           vpiName Identifier name:mod1 start:58:4 end:58:8:
             vpiParent: ModuleTypespec name:mod1
             vpiName: mod1
+          vpiModule: Module name:mod1
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -1036,6 +1040,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:39:4 end:39:7:
           vpiParent: Module name:t
@@ -1400,7 +1405,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************

@@ -22,7 +22,7 @@ n<$Source01/t_tri_inout2.v> u<648> t<Top_level_rule> c<1> l<6:1> el<76:1>
     n<> u<484> t<Description> p<647> c<483> s<611> l<6:1> el<57:10>
       n<> u<483> t<Module_declaration> p<484> c<18> l<6:1> el<57:10>
         n<> u<18> t<Module_nonansi_header> p<483> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -501,7 +501,7 @@ n<$Source01/t_tri_inout2.v> u<648> t<Top_level_rule> c<1> l<6:1> el<76:1>
     n<> u<611> t<Description> p<647> c<610> s<646> l<59:1> el<71:10>
       n<> u<610> t<Module_declaration> p<611> c<519> l<59:1> el<71:10>
         n<> u<519> t<Module_ansi_header> p<610> c<485> s<520> l<59:1> el<59:66>
-          n<module> u<485> t<Module_keyword> p<519> s<486> l<59:1> el<59:7>
+          n<module> u<485> t<MODULE> p<519> s<486> l<59:1> el<59:7>
           n<ChildA> u<486> t<SIMPLE_IDENTIFIER> p<519> s<487> l<59:8> el<59:14>
           n<> u<487> t<Package_import_declaration_list> p<519> s<518> l<59:14> el<59:14>
           n<> u<518> t<Port_declaration_list> p<519> c<493> l<59:14> el<59:65>
@@ -628,7 +628,7 @@ n<$Source01/t_tri_inout2.v> u<648> t<Top_level_rule> c<1> l<6:1> el<76:1>
     n<> u<646> t<Description> p<647> c<645> l<73:1> el<75:10>
       n<> u<645> t<Module_declaration> p<646> c<628> l<73:1> el<75:10>
         n<> u<628> t<Module_ansi_header> p<645> c<612> s<643> l<73:1> el<73:34>
-          n<module> u<612> t<Module_keyword> p<628> s<613> l<73:1> el<73:7>
+          n<module> u<612> t<MODULE> p<628> s<613> l<73:1> el<73:7>
           n<ChildB> u<613> t<SIMPLE_IDENTIFIER> p<628> s<614> l<73:8> el<73:14>
           n<> u<614> t<Package_import_declaration_list> p<628> s<627> l<73:14> el<73:14>
           n<> u<627> t<Port_declaration_list> p<628> c<620> l<73:14> el<73:33>
@@ -663,8 +663,12 @@ n<$Source01/t_tri_inout2.v> u<648> t<Top_level_rule> c<1> l<6:1> el<76:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_tri_inout2.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_tri_inout2.v:59:1: Compile module "ChildA".
+[NTE:CP0309] $Source01/t_tri_inout2.v:59:21: Implicit port type (wire) for "A".
+[NTE:CP0309] $Source01/t_tri_inout2.v:59:50: Implicit port type (wire) for "Y".
+[NTE:CP0309] $Source01/t_tri_inout2.v:59:60: Implicit port type (wire) for "Yfix".
 [WRN:CP0323] $Source01/t_tri_inout2.v:59:1: Multiply defined typedef "ChildB".
 [INF:CP0303] $Source01/t_tri_inout2.v:73:1: Compile module "ChildB".
+[NTE:CP0309] $Source01/t_tri_inout2.v:73:31: Implicit port type (wire) for "Y".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -725,6 +729,7 @@ Design name:unnamed:
           vpiName Identifier name:ChildA start:22:4 end:22:10:
             vpiParent: ModuleTypespec name:ChildA
             vpiName: ChildA
+          vpiModule: Module name:ChildA
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -742,6 +747,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:a start:15:9 end:15:10:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:9:
@@ -751,6 +757,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: t.a
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:15:11 end:15:12:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:9:
@@ -760,6 +767,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: t.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y_fixed start:15:13 end:15:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:9:
@@ -769,6 +777,7 @@ Design name:unnamed:
           vpiName: y_fixed
           vpiFullName: t.y_fixed
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:16:9 end:16:10:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:9 end:16:9:
@@ -778,6 +787,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: t.b
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue BitSelect name:in[0] start:16:13 end:16:18:
             vpiParent: Net name:b
             vpiName: in[0]
@@ -806,6 +816,7 @@ Design name:unnamed:
           vpiName: en
           vpiFullName: t.en
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue BitSelect name:in[1] start:17:14 end:17:19:
             vpiParent: Net name:en
             vpiName: in[1]
@@ -1287,11 +1298,13 @@ Design name:unnamed:
           vpiName Identifier name:ChildB start:64:4 end:64:10:
             vpiParent: ModuleTypespec name:ChildB
             vpiName: ChildB
+          vpiModule: Module name:ChildB
         ModuleTypespec name:ChildB start:68:4 end:68:10:
           vpiParent: Module name:ChildA
           vpiName Identifier name:ChildB start:68:4 end:68:10:
             vpiParent: ModuleTypespec name:ChildB
             vpiName: ChildB
+          vpiModule: Module name:ChildB
       vpiDefName: ChildA
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1309,6 +1322,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: ChildA.A
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:B start:59:30 end:59:31:
           vpiParent: Module name:ChildA
           vpiTypespec RefTypespec start:59:24 end:59:29:
@@ -1318,6 +1332,7 @@ Design name:unnamed:
           vpiName: B
           vpiFullName: ChildA.B
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:en start:59:39 end:59:41:
           vpiParent: Module name:ChildA
           vpiTypespec RefTypespec start:59:33 end:59:38:
@@ -1327,6 +1342,7 @@ Design name:unnamed:
           vpiName: en
           vpiFullName: ChildA.en
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:Y start:59:50 end:59:51:
           vpiParent: Module name:ChildA
           vpiTypespec RefTypespec start:59:43 end:59:49:
@@ -1336,6 +1352,7 @@ Design name:unnamed:
           vpiName: Y
           vpiFullName: ChildA.Y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:Yfix start:59:60 end:59:64:
           vpiParent: Module name:ChildA
           vpiTypespec RefTypespec start:59:53 end:59:59:
@@ -1345,6 +1362,7 @@ Design name:unnamed:
           vpiName: Yfix
           vpiFullName: ChildA.Yfix
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:a_in start:62:9 end:62:13:
           vpiParent: Module name:ChildA
           vpiTypespec RefTypespec start:62:9 end:62:9:
@@ -1354,6 +1372,7 @@ Design name:unnamed:
           vpiName: a_in
           vpiFullName: ChildA.a_in
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue RefObj name:A start:62:16 end:62:17:
             vpiParent: Net name:a_in
             vpiName: A
@@ -1550,6 +1569,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: ChildB.A
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:Y start:73:31 end:73:32:
           vpiParent: Module name:ChildB
           vpiTypespec RefTypespec start:73:24 end:73:30:
@@ -1559,6 +1579,7 @@ Design name:unnamed:
           vpiName: Y
           vpiFullName: ChildB.Y
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:A start:73:21 end:73:22:
           vpiParent: Module name:ChildB
@@ -1630,7 +1651,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 4
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

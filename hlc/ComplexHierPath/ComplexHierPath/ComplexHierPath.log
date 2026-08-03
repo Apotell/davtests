@@ -22,7 +22,7 @@ n<$Source01/dut.sv> u<220> t<Top_level_rule> c<1> l<1:1> el<21:10>
     n<> u<218> t<Description> p<219> c<217> l<2:1> el<21:10>
       n<> u<217> t<Module_declaration> p<218> c<17> l<2:1> el<21:10>
         n<> u<17> t<Module_ansi_header> p<217> c<6> s<194> l<2:1> el<2:39>
-          n<module> u<6> t<Module_keyword> p<17> s<7> l<2:1> el<2:7>
+          n<module> u<6> t<MODULE> p<17> s<7> l<2:1> el<2:7>
           n<genblk_dive_top> u<7> t<SIMPLE_IDENTIFIER> p<17> s<8> l<2:8> el<2:23>
           n<> u<8> t<Package_import_declaration_list> p<17> s<16> l<2:23> el<2:23>
           n<> u<16> t<Port_declaration_list> p<17> c<15> l<2:23> el<2:38>
@@ -234,20 +234,21 @@ n<$Source01/dut.sv> u<220> t<Top_level_rule> c<1> l<1:1> el<21:10>
         n<> u<216> t<ENDMODULE> p<217> l<21:1> el<21:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:2:1: Compile module "genblk_dive_top".
+[NTE:CP0309] $Source01/dut.sv:2:36: Implicit port type (wire) for "x".
 [INF:CP0335] $Source01/dut.sv:4:32: Compile generate block "Z".
 [INF:CP0335] $Source01/dut.sv:5:40: Compile generate block "A".
 [INF:CP0335] $Source01/dut.sv:7:48: Compile generate block "B".
 [INF:CP0335] $Source01/dut.sv:9:56: Compile generate block "C".
-[WRN:CP0350] $Source01/dut.sv:12:58: Failed to bind "id:57, name:A".
-[WRN:CP0350] $Source01/dut.sv:12:60: Failed to bind "id:58, name:B".
-[WRN:CP0350] $Source01/dut.sv:12:62: Failed to bind "id:59, name:C".
-[WRN:CP0350] $Source01/dut.sv:14:56: Failed to bind "id:68, name:B".
-[WRN:CP0350] $Source01/dut.sv:14:58: Failed to bind "id:69, name:C".
-[WRN:CP0350] $Source01/dut.sv:16:40: Failed to bind "id:72, name:B".
-[WRN:CP0350] $Source01/dut.sv:16:42: Failed to bind "id:74, name:C".
-[WRN:CP0350] $Source01/dut.sv:16:48: Failed to bind "id:77, name:B".
-[WRN:CP0350] $Source01/dut.sv:20:20: Failed to bind "id:82, name:Z".
-[WRN:CP0350] $Source01/dut.sv:20:22: Failed to bind "id:83, name:A".
+[WRN:CP0350] $Source01/dut.sv:12:58: Failed to bind "id:55, name:A".
+[WRN:CP0350] $Source01/dut.sv:12:60: Failed to bind "id:56, name:B".
+[WRN:CP0350] $Source01/dut.sv:12:62: Failed to bind "id:57, name:C".
+[WRN:CP0350] $Source01/dut.sv:14:56: Failed to bind "id:66, name:B".
+[WRN:CP0350] $Source01/dut.sv:14:58: Failed to bind "id:67, name:C".
+[WRN:CP0350] $Source01/dut.sv:16:40: Failed to bind "id:70, name:B".
+[WRN:CP0350] $Source01/dut.sv:16:42: Failed to bind "id:72, name:C".
+[WRN:CP0350] $Source01/dut.sv:16:48: Failed to bind "id:75, name:B".
+[WRN:CP0350] $Source01/dut.sv:20:20: Failed to bind "id:80, name:Z".
+[WRN:CP0350] $Source01/dut.sv:20:22: Failed to bind "id:81, name:A".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "genblk_dive_top".
 ====== HLDB =======
 Design name:unnamed:
@@ -275,15 +276,6 @@ Design name:unnamed:
         vpiParent: Module name:genblk_dive_top
         vpiName: genblk_dive_top
       vpiFullName: genblk_dive_top
-      vpiVariable (1 items):
-        Variable name:x start:2:36 end:2:37:
-          vpiParent: Module name:genblk_dive_top
-          vpiTypespec RefTypespec start:2:24 end:2:35:
-            vpiParent: Variable name:x
-            vpiFullName: genblk_dive_top.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: genblk_dive_top.x
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:genblk_dive_top
@@ -295,15 +287,16 @@ Design name:unnamed:
         vpiFullName: genblk_dive_top.work
       vpiCell: genblk_dive_top
       vpiNet (2 items):
-        Net name:x start:6:38 end:6:39:
+        Net name:x start:2:36 end:2:37:
           vpiParent: Module name:genblk_dive_top
-          vpiTypespec RefTypespec start:6:38 end:6:38:
+          vpiTypespec RefTypespec start:2:24 end:2:35:
             vpiParent: Net name:x
             vpiFullName: genblk_dive_top.x
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: genblk_dive_top.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:z start:12:54 end:12:55:
           vpiParent: Module name:genblk_dive_top
           vpiTypespec RefTypespec start:12:54 end:12:54:
@@ -313,6 +306,7 @@ Design name:unnamed:
           vpiName: z
           vpiFullName: genblk_dive_top.z
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue HierPath name:A.B.C.x start:12:58 end:12:65:
             vpiParent: Net name:z
             vpiName: A.B.C.x
@@ -344,7 +338,7 @@ Design name:unnamed:
             vpiParent: Port name:x
             vpiName: x
             vpiFullName: genblk_dive_top.x.x
-            vpiActual: Variable name:x
+            vpiActual: Net name:x
           vpiTypespec RefTypespec start:2:24 end:2:35:
             vpiParent: Port name:x
             vpiFullName: genblk_dive_top.x
@@ -582,7 +576,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 11
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -596,25 +590,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/ComplexHierPath/ComplexHierPath/mounts.json
 
 
-{'result': {'coverage': 99.27,
+{'result': {'coverage': 98.9,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 2,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 3,
                                                   'pre_len': 273}},
-            'post_len': 2,
+            'post_len': 3,
             'pre_len': 273,
             'test_name': 'ComplexHierPath/ComplexHierPath'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      273 |         2 |
+| $Output/lib/work/dut.sv |      273 |         3 |
 +=========================+==========+===========+
-|                         |      273 |         2 |
+|                         |      273 |         3 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.27
+[COVERAGE] : 98.9
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -625,7 +619,7 @@ COMMAND: ${HLC_DIR}/regression/ComplexHierPath/ComplexHierPath/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              78      78       0         0
 ----------------------------------------------------------------
-                                    80      80       0         0
+                                    78      78       0         0
 ===================== END REDUCTION RESULT =====================

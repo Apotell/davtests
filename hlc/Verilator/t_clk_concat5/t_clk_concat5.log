@@ -29,7 +29,7 @@ n<$Source01/t_clk_concat5.v> u<637> t<Top_level_rule> c<1> l<7:1> el<105:1>
     n<> u<209> t<Description> p<636> c<208> s<261> l<7:1> el<30:10>
       n<> u<208> t<Module_declaration> p<209> c<27> l<7:1> el<30:10>
         n<> u<27> t<Module_ansi_header> p<208> c<7> s<49> l<7:1> el<9:9>
-          n<module> u<7> t<Module_keyword> p<27> s<8> l<7:1> el<7:7>
+          n<module> u<7> t<MODULE> p<27> s<8> l<7:1> el<7:7>
           n<some_module> u<8> t<SIMPLE_IDENTIFIER> p<27> s<9> l<7:8> el<7:19>
           n<> u<9> t<Package_import_declaration_list> p<27> s<26> l<7:20> el<7:20>
           n<> u<26> t<Port_declaration_list> p<27> c<25> l<7:20> el<9:8>
@@ -232,7 +232,7 @@ n<$Source01/t_clk_concat5.v> u<637> t<Top_level_rule> c<1> l<7:1> el<105:1>
     n<> u<261> t<Description> p<636> c<260> s<483> l<34:1> el<45:10>
       n<> u<260> t<Module_declaration> p<261> c<242> l<34:1> el<45:10>
         n<> u<242> t<Module_ansi_header> p<260> c<210> s<258> l<34:1> el<38:6>
-          n<module> u<210> t<Module_keyword> p<242> s<211> l<34:1> el<34:7>
+          n<module> u<210> t<MODULE> p<242> s<211> l<34:1> el<34:7>
           n<t1> u<211> t<SIMPLE_IDENTIFIER> p<242> s<212> l<34:8> el<34:10>
           n<> u<212> t<Package_import_declaration_list> p<242> s<241> l<34:10> el<34:10>
           n<> u<241> t<Port_declaration_list> p<242> c<228> l<34:10> el<38:5>
@@ -284,7 +284,7 @@ n<$Source01/t_clk_concat5.v> u<637> t<Top_level_rule> c<1> l<7:1> el<105:1>
     n<> u<483> t<Description> p<636> c<482> s<635> l<47:1> el<72:10>
       n<> u<482> t<Module_declaration> p<483> c<306> l<47:1> el<72:10>
         n<> u<306> t<Module_ansi_header> p<482> c<262> s<328> l<47:1> el<53:6>
-          n<module> u<262> t<Module_keyword> p<306> s<263> l<47:1> el<47:7>
+          n<module> u<262> t<MODULE> p<306> s<263> l<47:1> el<47:7>
           n<t2> u<263> t<SIMPLE_IDENTIFIER> p<306> s<264> l<47:8> el<47:10>
           n<> u<264> t<Package_import_declaration_list> p<306> s<305> l<47:10> el<47:10>
           n<> u<305> t<Port_declaration_list> p<306> c<280> l<47:10> el<53:5>
@@ -506,7 +506,7 @@ n<$Source01/t_clk_concat5.v> u<637> t<Top_level_rule> c<1> l<7:1> el<105:1>
     n<> u<635> t<Description> p<636> c<634> l<74:1> el<104:10>
       n<> u<634> t<Module_declaration> p<635> c<523> l<74:1> el<104:10>
         n<> u<523> t<Module_ansi_header> p<634> c<484> s<525> l<74:1> el<82:5>
-          n<module> u<484> t<Module_keyword> p<523> s<485> l<74:1> el<74:7>
+          n<module> u<484> t<MODULE> p<523> s<485> l<74:1> el<74:7>
           n<t> u<485> t<SIMPLE_IDENTIFIER> p<523> s<486> l<74:8> el<74:9>
           n<> u<486> t<Package_import_declaration_list> p<523> s<487> l<74:9> el<74:9>
           n</*AUTOARG*/> u<487> t<BLOCK_COMMENT> p<523> s<488> l<74:9> el<82:4>
@@ -660,7 +660,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_clk_concat5.v:34:1: Compile module "t1".
 [INF:CP0303] $Source01/t_clk_concat5.v:47:1: Compile module "t2".
 [INF:CP0303] $Source01/t_clk_concat5.v:74:1: Compile module "t".
-[ERR:LN0813] $Source01/t_clk_concat5.v:1:1: Found 1 orphan node(s).
+[WRN:CP0310] $Source01/t_clk_concat5.v:77:3: Port "clk" definition missing its direction (input, output, inout).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -819,6 +819,7 @@ Design name:unnamed:
           vpiName: i_clks
           vpiFullName: some_module.i_clks
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:i_clks start:8:19 end:8:25:
           vpiParent: Module name:some_module
@@ -1043,6 +1044,7 @@ Design name:unnamed:
           vpiName Identifier name:some_module start:40:4 end:40:15:
             vpiParent: ModuleTypespec name:some_module
             vpiName: some_module
+          vpiModule: Module name:some_module
       vpiDefName: t1
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1060,6 +1062,7 @@ Design name:unnamed:
           vpiName: i_clks
           vpiFullName: t1.i_clks
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:i_clk0 start:36:16 end:36:22:
           vpiParent: Module name:t1
           vpiTypespec RefTypespec start:36:4 end:36:9:
@@ -1069,6 +1072,7 @@ Design name:unnamed:
           vpiName: i_clk0
           vpiFullName: t1.i_clk0
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:i_clk1 start:37:16 end:37:22:
           vpiParent: Module name:t1
           vpiTypespec RefTypespec start:37:4 end:37:9:
@@ -1078,6 +1082,7 @@ Design name:unnamed:
           vpiName: i_clk1
           vpiFullName: t1.i_clk1
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:i_clks start:35:16 end:35:22:
           vpiParent: Module name:t1
@@ -1234,6 +1239,7 @@ Design name:unnamed:
           vpiName Identifier name:t1 start:66:4 end:66:6:
             vpiParent: ModuleTypespec name:t1
             vpiName: t1
+          vpiModule: Module name:t1
       vpiDefName: t2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1251,6 +1257,7 @@ Design name:unnamed:
           vpiName: i_clks
           vpiFullName: t2.i_clks
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:i_clk0 start:49:16 end:49:22:
           vpiParent: Module name:t2
           vpiTypespec RefTypespec start:49:4 end:49:9:
@@ -1260,6 +1267,7 @@ Design name:unnamed:
           vpiName: i_clk0
           vpiFullName: t2.i_clk0
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:i_clk1 start:50:16 end:50:22:
           vpiParent: Module name:t2
           vpiTypespec RefTypespec start:50:4 end:50:9:
@@ -1269,6 +1277,7 @@ Design name:unnamed:
           vpiName: i_clk1
           vpiFullName: t2.i_clk1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:i_clk2 start:51:16 end:51:22:
           vpiParent: Module name:t2
           vpiTypespec RefTypespec start:51:4 end:51:9:
@@ -1278,6 +1287,7 @@ Design name:unnamed:
           vpiName: i_clk2
           vpiFullName: t2.i_clk2
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:i_data start:52:16 end:52:22:
           vpiParent: Module name:t2
           vpiTypespec RefTypespec start:52:4 end:52:9:
@@ -1287,6 +1297,7 @@ Design name:unnamed:
           vpiName: i_data
           vpiFullName: t2.i_data
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:i_clks start:48:16 end:48:22:
           vpiParent: Module name:t2
@@ -1597,6 +1608,7 @@ Design name:unnamed:
           vpiName Identifier name:t2 start:90:4 end:90:6:
             vpiParent: ModuleTypespec name:t2
             vpiName: t2
+          vpiModule: Module name:t2
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1614,6 +1626,7 @@ Design name:unnamed:
           vpiName: clk0
           vpiFullName: t.clk0
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:clk1 start:79:9 end:79:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:79:3 end:79:8:
@@ -1623,6 +1636,7 @@ Design name:unnamed:
           vpiName: clk1
           vpiFullName: t.clk1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:clk2 start:80:9 end:80:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:80:3 end:80:8:
@@ -1632,6 +1646,7 @@ Design name:unnamed:
           vpiName: clk2
           vpiFullName: t.clk2
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:data_in start:81:9 end:81:16:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:81:3 end:81:8:
@@ -1641,11 +1656,20 @@ Design name:unnamed:
           vpiName: data_in
           vpiFullName: t.data_in
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:clk start:77:3 end:77:6:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:clk start:77:3 end:77:6:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: t.clk.clk
+            vpiActual: Port name:clk
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clk
+            vpiFullName: t.clk
         Port name:clk0 start:78:9 end:78:13:
           vpiParent: Module name:t
           vpiName: clk0
@@ -1830,8 +1854,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1875,7 +1899,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_clk_concat5/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             281     281       0         0
+Others                             283     283       0         0
 ----------------------------------------------------------------
-                                   281     281       0         0
+                                   283     283       0         0
 ===================== END REDUCTION RESULT =====================

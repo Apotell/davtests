@@ -24,7 +24,7 @@ n<$Source01/macc.v> u<938> t<Top_level_rule> c<1> l<7:1> el<85:1>
     n<> u<394> t<Description> p<937> c<393> s<395> l<7:1> el<41:10>
       n<> u<393> t<Module_declaration> p<394> c<100> l<7:1> el<41:10>
         n<> u<100> t<Module_ansi_header> p<393> c<8> s<101> l<7:1> el<11:3>
-          n<module> u<8> t<Module_keyword> p<100> s<9> l<7:1> el<7:7>
+          n<module> u<8> t<MODULE> p<100> s<9> l<7:1> el<7:7>
           n<macc> u<9> t<SIMPLE_IDENTIFIER> p<100> s<10> l<7:8> el<7:12>
           n<> u<10> t<Package_import_declaration_list> p<100> s<31> l<7:13> el<7:13>
           n<> u<31> t<Parameter_port_list> p<100> c<30> s<99> l<7:13> el<7:52>
@@ -412,7 +412,7 @@ n<$Source01/macc.v> u<938> t<Top_level_rule> c<1> l<7:1> el<85:1>
     n<> u<936> t<Description> p<937> c<935> l<44:1> el<84:10>
       n<> u<935> t<Module_declaration> p<936> c<496> l<44:1> el<84:10>
         n<> u<496> t<Module_ansi_header> p<935> c<396> s<497> l<44:1> el<51:3>
-          n<module> u<396> t<Module_keyword> p<496> s<397> l<44:1> el<44:7>
+          n<module> u<396> t<MODULE> p<496> s<397> l<44:1> el<44:7>
           n<macc2> u<397> t<SIMPLE_IDENTIFIER> p<496> s<398> l<44:8> el<44:13>
           n<> u<398> t<Package_import_declaration_list> p<496> s<419> l<44:14> el<44:14>
           n<> u<419> t<Parameter_port_list> p<496> c<418> s<495> l<44:14> el<44:53>
@@ -952,8 +952,10 @@ n<$Source01/macc.v> u<938> t<Top_level_rule> c<1> l<7:1> el<85:1>
         n<> u<934> t<ENDMODULE> p<935> l<84:1> el<84:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/macc.v:7:1: Compile module "macc".
+[NTE:CP0309] $Source01/macc.v:10:30: Implicit port type (wire) for "accum_out".
 [INF:CP0303] $Source01/macc.v:44:1: Compile module "macc2".
-[ERR:LN0813] $Source01/macc.v:1:1: Found 4 orphan node(s).
+[NTE:CP0309] $Source01/macc.v:49:30: Implicit port type (wire) for "accum_out".
+[NTE:CP0309] $Source01/macc.v:50:9: Implicit port type (wire) for "overflow".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1114,6 +1116,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:macc
@@ -1149,6 +1152,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:macc
@@ -1279,7 +1283,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: macc.work
       vpiCell: macc
-      vpiNet (3 items):
+      vpiNet (6 items):
         Net name:clk start:8:8 end:8:11:
           vpiParent: Module name:macc
           vpiTypespec RefTypespec start:8:2 end:8:7:
@@ -1289,6 +1293,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: macc.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:a start:9:28 end:9:29:
           vpiParent: Module name:macc
           vpiTypespec RefTypespec start:9:2 end:9:27:
@@ -1298,6 +1303,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: macc.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:accum_out start:10:30 end:10:39:
           vpiParent: Module name:macc
           vpiTypespec RefTypespec start:10:2 end:10:29:
@@ -1307,6 +1313,37 @@ Design name:unnamed:
           vpiName: accum_out
           vpiFullName: macc.accum_out
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:ce start:8:13 end:8:15:
+          vpiParent: Module name:macc
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:ce
+            vpiFullName: macc.ce
+            vpiActual: LogicTypespec
+          vpiName: ce
+          vpiFullName: macc.ce
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:sload start:8:17 end:8:22:
+          vpiParent: Module name:macc
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:sload
+            vpiFullName: macc.sload
+            vpiActual: LogicTypespec
+          vpiName: sload
+          vpiFullName: macc.sload
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:b start:9:31 end:9:32:
+          vpiParent: Module name:macc
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: macc.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: macc.b
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (6 items):
         Port name:clk start:8:8 end:8:11:
           vpiParent: Module name:macc
@@ -1324,11 +1361,29 @@ Design name:unnamed:
         Port name:ce start:8:13 end:8:15:
           vpiParent: Module name:macc
           vpiName: ce
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:ce start:8:13 end:8:15:
+            vpiParent: Port name:ce
+            vpiName: ce
+            vpiFullName: macc.ce.ce
+            vpiActual: Net name:ce
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:ce
+            vpiFullName: macc.ce
+            vpiActual: LogicTypespec
         Port name:sload start:8:17 end:8:22:
           vpiParent: Module name:macc
           vpiName: sload
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:sload start:8:17 end:8:22:
+            vpiParent: Port name:sload
+            vpiName: sload
+            vpiFullName: macc.sload.sload
+            vpiActual: Net name:sload
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:sload
+            vpiFullName: macc.sload
+            vpiActual: LogicTypespec
         Port name:a start:9:28 end:9:29:
           vpiParent: Module name:macc
           vpiName: a
@@ -1345,7 +1400,16 @@ Design name:unnamed:
         Port name:b start:9:31 end:9:32:
           vpiParent: Module name:macc
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:9:31 end:9:32:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: macc.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: macc.b
+            vpiActual: LogicTypespec
         Port name:accum_out start:10:30 end:10:39:
           vpiParent: Module name:macc
           vpiName: accum_out
@@ -1424,7 +1488,7 @@ Design name:unnamed:
                 vpiParent: IfStmt
                 vpiName: ce
                 vpiFullName: macc.ce
-                vpiActual: Port name:ce
+                vpiActual: Net name:ce
               vpiStmt Begin start:29:2 end:36:5:
                 vpiParent: IfStmt
                 vpiFullName: macc
@@ -1452,7 +1516,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: b
                       vpiFullName: macc.b
-                      vpiActual: Port name:b
+                      vpiActual: Net name:b
                   Assignment start:32:3 end:32:28:
                     vpiParent: Begin
                     vpiLhs RefObj name:mult_reg start:32:3 end:32:11:
@@ -1485,7 +1549,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: sload
                       vpiFullName: macc.sload
-                      vpiActual: Port name:sload
+                      vpiActual: Net name:sload
                   Assignment start:35:3 end:35:37:
                     vpiParent: Begin
                     vpiLhs RefObj name:adder_out start:35:3 end:35:12:
@@ -1700,6 +1764,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:macc2
@@ -1735,6 +1800,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:macc2
@@ -1851,7 +1917,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: macc2.work
       vpiCell: macc2
-      vpiNet (6 items):
+      vpiNet (7 items):
         Net name:clk start:45:8 end:45:11:
           vpiParent: Module name:macc2
           vpiTypespec RefTypespec start:45:2 end:45:7:
@@ -1861,6 +1927,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: macc2.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:ce start:46:8 end:46:10:
           vpiParent: Module name:macc2
           vpiTypespec RefTypespec start:46:2 end:46:7:
@@ -1870,6 +1937,7 @@ Design name:unnamed:
           vpiName: ce
           vpiFullName: macc2.ce
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:47:8 end:47:11:
           vpiParent: Module name:macc2
           vpiTypespec RefTypespec start:47:2 end:47:7:
@@ -1879,6 +1947,7 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: macc2.rst
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:a start:48:28 end:48:29:
           vpiParent: Module name:macc2
           vpiTypespec RefTypespec start:48:2 end:48:27:
@@ -1888,6 +1957,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: macc2.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:accum_out start:49:30 end:49:39:
           vpiParent: Module name:macc2
           vpiTypespec RefTypespec start:49:2 end:49:29:
@@ -1897,6 +1967,7 @@ Design name:unnamed:
           vpiName: accum_out
           vpiFullName: macc2.accum_out
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:overflow start:50:9 end:50:17:
           vpiParent: Module name:macc2
           vpiTypespec RefTypespec start:50:2 end:50:8:
@@ -1906,6 +1977,17 @@ Design name:unnamed:
           vpiName: overflow
           vpiFullName: macc2.overflow
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:b start:48:31 end:48:32:
+          vpiParent: Module name:macc2
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: macc2.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: macc2.b
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (7 items):
         Port name:clk start:45:8 end:45:11:
           vpiParent: Module name:macc2
@@ -1962,7 +2044,16 @@ Design name:unnamed:
         Port name:b start:48:31 end:48:32:
           vpiParent: Module name:macc2
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:48:31 end:48:32:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: macc2.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: macc2.b
+            vpiActual: LogicTypespec
         Port name:accum_out start:49:30 end:49:39:
           vpiParent: Module name:macc2
           vpiName: accum_out
@@ -2034,7 +2125,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: b
                         vpiFullName: macc2.b
-                        vpiActual: Port name:b
+                        vpiActual: Net name:b
                     Assignment start:62:3 end:62:18:
                       vpiParent: Begin
                       vpiLhs RefObj name:a_reg2 start:62:3 end:62:9:
@@ -2393,9 +2484,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -2439,10 +2530,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            40      36      12        16
 Operation                           25       7       0        18
-RefObj                              78      64       0        14
-RefTypespec                         75      71      12        16
+RefObj                              82      68       0        14
+RefTypespec                         83      79      12        16
 ----------------------------------------------------------------
-Others                             115     115       0         0
+Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   333     293      24        64
+                                   349     309      24        64
 ===================== END REDUCTION RESULT =====================

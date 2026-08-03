@@ -27,8 +27,8 @@ n<$Source01/t_struct_anon.v> u<212> t<Top_level_rule> c<1> l<7:1> el<26:1>
             n<> u<48> t<Variable_declaration> p<49> c<44> l<7:1> el<10:11>
               n<> u<44> t<Data_type> p<48> c<8> s<47> l<7:1> el<10:2>
                 n<> u<8> t<Struct_union> p<44> c<7> s<9> l<7:1> el<7:7>
-                  n<> u<7> t<Struct_keyword> p<8> l<7:1> el<7:7>
-                n<> u<9> t<Packed_keyword> p<44> s<26> l<7:8> el<7:14>
+                  n<> u<7> t<STRUCT> p<8> l<7:1> el<7:7>
+                n<> u<9> t<PACKED> p<44> s<26> l<7:8> el<7:14>
                 n<> u<26> t<Struct_union_member> p<44> c<22> s<43> l<8:5> el<8:23>
                   n<> u<22> t<Data_type_or_void> p<26> c<21> s<25> l<8:5> el<8:17>
                     n<logic> u<21> t<Data_type> p<22> c<10> l<8:5> el<8:17>
@@ -73,8 +73,8 @@ n<$Source01/t_struct_anon.v> u<212> t<Top_level_rule> c<1> l<7:1> el<26:1>
             n<> u<94> t<Variable_declaration> p<95> c<90> l<12:1> el<15:11>
               n<> u<90> t<Data_type> p<94> c<54> s<93> l<12:1> el<15:2>
                 n<> u<54> t<Struct_union> p<90> c<53> s<55> l<12:1> el<12:7>
-                  n<> u<53> t<Struct_keyword> p<54> l<12:1> el<12:7>
-                n<> u<55> t<Packed_keyword> p<90> s<72> l<12:8> el<12:14>
+                  n<> u<53> t<STRUCT> p<54> l<12:1> el<12:7>
+                n<> u<55> t<PACKED> p<90> s<72> l<12:8> el<12:14>
                 n<> u<72> t<Struct_union_member> p<90> c<68> s<89> l<13:5> el<13:23>
                   n<> u<68> t<Data_type_or_void> p<72> c<67> s<71> l<13:5> el<13:17>
                     n<logic> u<67> t<Data_type> p<68> c<56> l<13:5> el<13:17>
@@ -115,7 +115,7 @@ n<$Source01/t_struct_anon.v> u<212> t<Top_level_rule> c<1> l<7:1> el<26:1>
     n<> u<210> t<Description> p<211> c<209> l<17:1> el<25:10>
       n<> u<209> t<Module_declaration> p<210> c<135> l<17:1> el<25:10>
         n<> u<135> t<Module_ansi_header> p<209> c<99> s<153> l<17:1> el<20:3>
-          n<module> u<99> t<Module_keyword> p<135> s<100> l<17:1> el<17:7>
+          n<module> u<99> t<MODULE> p<135> s<100> l<17:1> el<17:7>
           n<t> u<100> t<SIMPLE_IDENTIFIER> p<135> s<101> l<17:8> el<17:9>
           n<> u<101> t<Package_import_declaration_list> p<135> s<134> l<17:10> el<17:10>
           n<> u<134> t<Port_declaration_list> p<135> c<117> l<17:10> el<20:2>
@@ -226,6 +226,8 @@ n<$Source01/t_struct_anon.v> u<212> t<Top_level_rule> c<1> l<7:1> el<26:1>
         n<> u<208> t<ENDMODULE> p<209> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_struct_anon.v:17:1: Compile module "t".
+[NTE:CP0309] $Source01/t_struct_anon.v:18:20: Implicit port type (wire) for "s1".
+[NTE:CP0309] $Source01/t_struct_anon.v:19:20: Implicit port type (wire) for "s2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -312,6 +314,7 @@ Design name:unnamed:
           vpiName: s1
           vpiFullName: t.s1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:s2 start:19:20 end:19:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:5 end:19:18:
@@ -321,6 +324,7 @@ Design name:unnamed:
           vpiName: s2
           vpiFullName: t.s2
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:s1 start:18:20 end:18:22:
           vpiParent: Module name:t
@@ -631,7 +635,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

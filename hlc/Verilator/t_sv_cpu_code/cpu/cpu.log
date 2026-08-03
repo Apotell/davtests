@@ -22,7 +22,7 @@ n<$Source01/cpu.sv> u<1653> t<Top_level_rule> c<1> l<8:1> el<232:1>
     n<> u<1650> t<Description> p<1651> c<1649> l<8:1> el<231:10>
       n<> u<1649> t<Module_declaration> p<1650> c<55> l<8:1> el<231:10>
         n<> u<55> t<Module_ansi_header> p<1649> c<6> s<56> l<8:1> el<28:4>
-          n<module> u<6> t<Module_keyword> p<55> s<7> l<8:1> el<8:7>
+          n<module> u<6> t<MODULE> p<55> s<7> l<8:1> el<8:7>
           n<cpu> u<7> t<SIMPLE_IDENTIFIER> p<55> s<8> l<8:8> el<8:11>
           n<> u<8> t<Package_import_declaration_list> p<55> s<22> l<9:2> el<9:2>
           n<> u<22> t<Parameter_port_list> p<55> c<21> s<23> l<9:2> el<11:17>
@@ -1667,7 +1667,7 @@ n<$Source01/cpu.sv> u<1653> t<Top_level_rule> c<1> l<8:1> el<232:1>
   n<// cpu> u<1652> t<LINE_COMMENT> p<1653> l<231:11> el<231:17>
 AST_DEBUG_END
 [INF:CP0303] $Source01/cpu.sv:8:1: Compile module "cpu".
-[ERR:LN0813] $Source01/cpu.sv:1:1: Found 1 orphan node(s).
+[WRN:CP0310] $Source01/cpu.sv:18:22: Port "dbus" definition missing its direction (input, output, inout).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1855,9 +1855,23 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (12 items):
+      vpiTypespec (13 items):
         LogicTypespec:
           vpiParent: Module name:cpu
+        UnsupportedTypespec name:genbus_if::master start:18:3 end:18:19:
+          vpiParent: Module name:cpu
+          vpiPathElem (2 items):
+            RefObj name:genbus_if start:18:3 end:18:12:
+              vpiParent: UnsupportedTypespec name:genbus_if::master
+              vpiName: genbus_if
+              vpiFullName: cpu.genbus_if::master.genbus_if
+            RefObj name:master start:18:13 end:18:19:
+              vpiParent: UnsupportedTypespec name:genbus_if::master
+              vpiName: master
+              vpiFullName: cpu.genbus_if::master.master
+          vpiName Identifier name:genbus_if::master:
+            vpiParent: UnsupportedTypespec name:genbus_if::master
+            vpiName: genbus_if::master
         LogicTypespec:
           vpiParent: Module name:cpu
           vpiRange (1 items):
@@ -2164,6 +2178,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: cpu.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:27:21 end:27:24:
           vpiParent: Module name:cpu
           vpiTypespec RefTypespec start:27:3 end:27:14:
@@ -2173,11 +2188,21 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: cpu.rst
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:dbus start:18:22 end:18:26:
           vpiParent: Module name:cpu
           vpiName: dbus
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:dbus start:18:22 end:18:26:
+            vpiParent: Port name:dbus
+            vpiName: dbus
+            vpiFullName: cpu.dbus.dbus
+            vpiActual: Port name:dbus
+          vpiTypespec RefTypespec start:18:3 end:18:19:
+            vpiParent: Port name:dbus
+            vpiFullName: cpu.dbus
+            vpiActual: UnsupportedTypespec name:genbus_if::master
         Port name:clk start:26:21 end:26:24:
           vpiParent: Module name:cpu
           vpiName: clk
@@ -2570,7 +2595,7 @@ Design name:unnamed:
                           vpiActual: Net name:rst
                         vpiStmt Assignment start:104:13 end:104:32:
                           vpiParent: IfElse
-                          vpiLhs PartSelect name:rf[i][7:0] start:104:13 end:104:23:
+                          vpiLhs PartSelect name:rf[i][7:0] start:104:15 end:104:23:
                             vpiParent: Assignment
                             vpiName: rf[i][7:0]
                             vpiFullName: cpu.RegFile.rf[i][7:0]
@@ -3563,7 +3588,7 @@ Design name:unnamed:
               BitTypespec:
                 vpiParent: Begin name:Conntect
             vpiStmt (2 items):
-              "HierPath name:dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}) start:205:7 end:215:64":
+              "HierPath name:dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}) start:205:7 end:216:12":
                 vpiParent: Begin name:Conntect
                 vpiName: "dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
                 vpiFullName: "cpu.Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
@@ -3938,7 +3963,7 @@ Design name:unnamed:
                   vpiName: busproperty
                   vpiFullName: cpu.PreAdrDecode.busproperty
                   vpiActual: Variable name:busproperty
-                vpiRhs HierPath name:dbus.mPreAdrDecode(0, idec_mem_adr) start:227:21 end:227:56:
+                vpiRhs HierPath name:dbus.mPreAdrDecode(0, idec_mem_adr) start:227:21 end:227:58:
                   vpiParent: Assignment
                   vpiName: dbus.mPreAdrDecode(0, idec_mem_adr)
                   vpiFullName: cpu.PreAdrDecode.dbus.mPreAdrDecode(0, idec_mem_adr)
@@ -3985,8 +4010,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -4001,25 +4026,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/cpu/mounts.json
 
 
-{'result': {'coverage': 99.22,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/cpu.sv': {'post_len': 16,
+            'files': {'$Output/lib/work/cpu.sv': {'post_len': 0,
                                                   'pre_len': 2049}},
-            'post_len': 16,
+            'post_len': 0,
             'pre_len': 2049,
             'test_name': 'Verilator/t_sv_cpu_code/cpu'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/cpu.sv |     2049 |        16 |
+| $Output/lib/work/cpu.sv |     2049 |         0 |
 +=========================+==========+===========+
-|                         |     2049 |        16 |
+|                         |     2049 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.22
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -4030,7 +4055,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/cpu/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             531     531       0         0
+Others                             537     537       0         0
 ----------------------------------------------------------------
-                                   531     531       0         0
+                                   537     537       0         0
 ===================== END REDUCTION RESULT =====================

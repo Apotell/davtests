@@ -89,7 +89,7 @@ n<$Source01/t_interface_top_bad.v> u<112> t<Top_level_rule> c<1> l<6:1> el<22:1>
     n<> u<110> t<Description> p<111> c<109> l<13:1> el<21:10>
       n<> u<109> t<Module_declaration> p<110> c<91> l<13:1> el<21:10>
         n<> u<91> t<Module_ansi_header> p<109> c<73> s<107> l<13:1> el<17:6>
-          n<module> u<73> t<Module_keyword> p<91> s<74> l<13:1> el<13:7>
+          n<module> u<73> t<MODULE> p<91> s<74> l<13:1> el<13:7>
           n<t> u<74> t<SIMPLE_IDENTIFIER> p<91> s<75> l<13:8> el<13:9>
           n<> u<75> t<Package_import_declaration_list> p<91> s<76> l<14:3> el<14:3>
           n<// Inputs> u<76> t<LINE_COMMENT> p<91> s<90> l<14:4> el<14:13>
@@ -127,7 +127,6 @@ n<$Source01/t_interface_top_bad.v> u<112> t<Top_level_rule> c<1> l<6:1> el<22:1>
 AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_top_bad.v:6:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface_top_bad.v:13:1: Compile module "t".
-[ERR:LN0813] $Source01/t_interface_top_bad.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -274,9 +273,24 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+        UnsupportedTypespec name:ifc::counter_mp start:16:4 end:16:18:
+          vpiParent: Module name:t
+          vpiPathElem (2 items):
+            RefObj name:ifc start:16:4 end:16:7:
+              vpiParent: UnsupportedTypespec name:ifc::counter_mp
+              vpiName: ifc
+              vpiFullName: t.ifc::counter_mp.ifc
+              vpiActual: Interface name:ifc
+            RefObj name:counter_mp start:16:8 end:16:18:
+              vpiParent: UnsupportedTypespec name:ifc::counter_mp
+              vpiName: counter_mp
+              vpiFullName: t.ifc::counter_mp.counter_mp
+          vpiName Identifier name:ifc::counter_mp:
+            vpiParent: UnsupportedTypespec name:ifc::counter_mp
+            vpiName: ifc::counter_mp
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -297,6 +311,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:15:10 end:15:13:
           vpiParent: Module name:t
@@ -314,7 +329,16 @@ Design name:unnamed:
         Port name:c_data start:16:19 end:16:25:
           vpiParent: Module name:t
           vpiName: c_data
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:c_data start:16:19 end:16:25:
+            vpiParent: Port name:c_data
+            vpiName: c_data
+            vpiFullName: t.c_data.c_data
+            vpiActual: Port name:c_data
+          vpiTypespec RefTypespec start:16:4 end:16:18:
+            vpiParent: Port name:c_data
+            vpiFullName: t.c_data
+            vpiActual: UnsupportedTypespec name:ifc::counter_mp
   vpiTypespec (3 items):
     InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
@@ -334,7 +358,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -350,25 +374,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_top_bad/mounts.json
 
 
-{'result': {'coverage': 93.58,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_top_bad.v': {'post_len': 14,
+            'files': {'$Output/lib/work/t_interface_top_bad.v': {'post_len': 0,
                                                                  'pre_len': 218}},
-            'post_len': 14,
+            'post_len': 0,
             'pre_len': 218,
             'test_name': 'Verilator/t_interface_top_bad'}}
 
 +----------------------------------------+----------+-----------+
 | INPUT                                  |   PRELEN |   POSTLEN |
 +========================================+==========+===========+
-| $Output/lib/work/t_interface_top_bad.v |      218 |        14 |
+| $Output/lib/work/t_interface_top_bad.v |      218 |         0 |
 +========================================+==========+===========+
-|                                        |      218 |        14 |
+|                                        |      218 |         0 |
 +----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 93.58
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -379,7 +403,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_top_bad/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              56      56       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                    56      56       0         0
 ===================== END REDUCTION RESULT =====================

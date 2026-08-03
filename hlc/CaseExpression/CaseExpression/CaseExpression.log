@@ -20,7 +20,7 @@ n<$Source01/dut.sv> u<784> t<Top_level_rule> c<1> l<3:1> el<60:1>
     n<> u<782> t<Description> p<783> c<781> l<3:1> el<59:10>
       n<> u<781> t<Module_declaration> p<782> c<52> l<3:1> el<59:10>
         n<> u<52> t<Module_ansi_header> p<781> c<4> s<68> l<3:1> el<6:3>
-          n<module> u<4> t<Module_keyword> p<52> s<5> l<3:1> el<3:7>
+          n<module> u<4> t<MODULE> p<52> s<5> l<3:1> el<3:7>
           n<case_expr_non_const_top> u<5> t<SIMPLE_IDENTIFIER> p<52> s<6> l<3:8> el<3:31>
           n<> u<6> t<Package_import_declaration_list> p<52> s<7> l<3:31> el<3:31>
           n<// expected to output all 1s> u<7> t<LINE_COMMENT> p<52> s<51> l<4:2> el<4:30>
@@ -798,7 +798,13 @@ n<$Source01/dut.sv> u<784> t<Top_level_rule> c<1> l<3:1> el<60:1>
         n<> u<780> t<ENDMODULE> p<781> l<59:1> el<59:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:3:1: Compile module "case_expr_non_const_top".
-[ERR:LN0813] $Source01/dut.sv:1:1: Found 7 orphan node(s).
+[NTE:CP0309] $Source01/dut.sv:5:19: Implicit port type (wire) for "b".
+[NTE:CP0309] $Source01/dut.sv:5:22: Implicit port type (wire) for "c".
+[NTE:CP0309] $Source01/dut.sv:5:25: Implicit port type (wire) for "d".
+[NTE:CP0309] $Source01/dut.sv:5:28: Implicit port type (wire) for "e".
+[NTE:CP0309] $Source01/dut.sv:5:31: Implicit port type (wire) for "f".
+[NTE:CP0309] $Source01/dut.sv:5:34: Implicit port type (wire) for "g".
+[NTE:CP0309] $Source01/dut.sv:5:37: Implicit port type (wire) for "h".
 [WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "case_expr_non_const_top".
 ====== HLDB =======
 Design name:unnamed:
@@ -815,7 +821,7 @@ Design name:unnamed:
         vpiParent: Module name:case_expr_non_const_top
         vpiName: case_expr_non_const_top
       vpiFullName: case_expr_non_const_top
-      vpiVariable (10 items):
+      vpiVariable (17 items):
         Variable name:a start:5:16 end:5:17:
           vpiParent: Module name:case_expr_non_const_top
           vpiTypespec RefTypespec start:5:5 end:5:15:
@@ -824,6 +830,70 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: case_expr_non_const_top.a
+          vpiScalar: true
+        Variable name:b start:5:19 end:5:20:
+          vpiParent: Module name:case_expr_non_const_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:b
+            vpiFullName: case_expr_non_const_top.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: case_expr_non_const_top.b
+          vpiScalar: true
+        Variable name:c start:5:22 end:5:23:
+          vpiParent: Module name:case_expr_non_const_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:c
+            vpiFullName: case_expr_non_const_top.c
+            vpiActual: LogicTypespec
+          vpiName: c
+          vpiFullName: case_expr_non_const_top.c
+          vpiScalar: true
+        Variable name:d start:5:25 end:5:26:
+          vpiParent: Module name:case_expr_non_const_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:d
+            vpiFullName: case_expr_non_const_top.d
+            vpiActual: LogicTypespec
+          vpiName: d
+          vpiFullName: case_expr_non_const_top.d
+          vpiScalar: true
+        Variable name:e start:5:28 end:5:29:
+          vpiParent: Module name:case_expr_non_const_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:e
+            vpiFullName: case_expr_non_const_top.e
+            vpiActual: LogicTypespec
+          vpiName: e
+          vpiFullName: case_expr_non_const_top.e
+          vpiScalar: true
+        Variable name:f start:5:31 end:5:32:
+          vpiParent: Module name:case_expr_non_const_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:f
+            vpiFullName: case_expr_non_const_top.f
+            vpiActual: LogicTypespec
+          vpiName: f
+          vpiFullName: case_expr_non_const_top.f
+          vpiScalar: true
+        Variable name:g start:5:34 end:5:35:
+          vpiParent: Module name:case_expr_non_const_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:g
+            vpiFullName: case_expr_non_const_top.g
+            vpiActual: LogicTypespec
+          vpiName: g
+          vpiFullName: case_expr_non_const_top.g
+          vpiScalar: true
+        Variable name:h start:5:37 end:5:38:
+          vpiParent: Module name:case_expr_non_const_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:h
+            vpiFullName: case_expr_non_const_top.h
+            vpiActual: LogicTypespec
+          vpiName: h
+          vpiFullName: case_expr_non_const_top.h
+          vpiScalar: true
         Variable name:x_1b0 start:7:9 end:7:14:
           vpiParent: Module name:case_expr_non_const_top
           vpiTypespec RefTypespec start:7:5 end:7:8:
@@ -1159,31 +1229,94 @@ Design name:unnamed:
         Port name:b start:5:19 end:5:20:
           vpiParent: Module name:case_expr_non_const_top
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:b start:5:19 end:5:20:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: case_expr_non_const_top.b.b
+            vpiActual: Variable name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: case_expr_non_const_top.b
+            vpiActual: LogicTypespec
         Port name:c start:5:22 end:5:23:
           vpiParent: Module name:case_expr_non_const_top
           vpiName: c
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:c start:5:22 end:5:23:
+            vpiParent: Port name:c
+            vpiName: c
+            vpiFullName: case_expr_non_const_top.c.c
+            vpiActual: Variable name:c
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:c
+            vpiFullName: case_expr_non_const_top.c
+            vpiActual: LogicTypespec
         Port name:d start:5:25 end:5:26:
           vpiParent: Module name:case_expr_non_const_top
           vpiName: d
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:d start:5:25 end:5:26:
+            vpiParent: Port name:d
+            vpiName: d
+            vpiFullName: case_expr_non_const_top.d.d
+            vpiActual: Variable name:d
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:d
+            vpiFullName: case_expr_non_const_top.d
+            vpiActual: LogicTypespec
         Port name:e start:5:28 end:5:29:
           vpiParent: Module name:case_expr_non_const_top
           vpiName: e
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:e start:5:28 end:5:29:
+            vpiParent: Port name:e
+            vpiName: e
+            vpiFullName: case_expr_non_const_top.e.e
+            vpiActual: Variable name:e
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:e
+            vpiFullName: case_expr_non_const_top.e
+            vpiActual: LogicTypespec
         Port name:f start:5:31 end:5:32:
           vpiParent: Module name:case_expr_non_const_top
           vpiName: f
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:f start:5:31 end:5:32:
+            vpiParent: Port name:f
+            vpiName: f
+            vpiFullName: case_expr_non_const_top.f.f
+            vpiActual: Variable name:f
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:f
+            vpiFullName: case_expr_non_const_top.f
+            vpiActual: LogicTypespec
         Port name:g start:5:34 end:5:35:
           vpiParent: Module name:case_expr_non_const_top
           vpiName: g
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:g start:5:34 end:5:35:
+            vpiParent: Port name:g
+            vpiName: g
+            vpiFullName: case_expr_non_const_top.g.g
+            vpiActual: Variable name:g
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:g
+            vpiFullName: case_expr_non_const_top.g
+            vpiActual: LogicTypespec
         Port name:h start:5:37 end:5:38:
           vpiParent: Module name:case_expr_non_const_top
           vpiName: h
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:h start:5:37 end:5:38:
+            vpiParent: Port name:h
+            vpiName: h
+            vpiFullName: case_expr_non_const_top.h.h
+            vpiActual: Variable name:h
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:h
+            vpiFullName: case_expr_non_const_top.h
+            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Initial start:17:5 end:58:8:
           vpiParent: Module name:case_expr_non_const_top
@@ -1270,7 +1403,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: b
                         vpiFullName: case_expr_non_const_top.b
-                        vpiActual: Port name:b
+                        vpiActual: Variable name:b
                       vpiRhs Constant start:23:26 end:23:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1296,7 +1429,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: b
                         vpiFullName: case_expr_non_const_top.b
-                        vpiActual: Port name:b
+                        vpiActual: Variable name:b
                       vpiRhs Constant start:24:26 end:24:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1331,7 +1464,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: c
                         vpiFullName: case_expr_non_const_top.c
-                        vpiActual: Port name:c
+                        vpiActual: Variable name:c
                       vpiRhs Constant start:27:26 end:27:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1357,7 +1490,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: c
                         vpiFullName: case_expr_non_const_top.c
-                        vpiActual: Port name:c
+                        vpiActual: Variable name:c
                       vpiRhs Constant start:28:26 end:28:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1392,7 +1525,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: d
                         vpiFullName: case_expr_non_const_top.d
-                        vpiActual: Port name:d
+                        vpiActual: Variable name:d
                       vpiRhs Constant start:31:26 end:31:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1418,7 +1551,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: d
                         vpiFullName: case_expr_non_const_top.d
-                        vpiActual: Port name:d
+                        vpiActual: Variable name:d
                       vpiRhs Constant start:32:26 end:32:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1438,7 +1571,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: d
                         vpiFullName: case_expr_non_const_top.d
-                        vpiActual: Port name:d
+                        vpiActual: Variable name:d
                       vpiRhs Constant start:33:26 end:33:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1473,7 +1606,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: e
                         vpiFullName: case_expr_non_const_top.e
-                        vpiActual: Port name:e
+                        vpiActual: Variable name:e
                       vpiRhs Constant start:36:26 end:36:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1499,7 +1632,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: e
                         vpiFullName: case_expr_non_const_top.e
-                        vpiActual: Port name:e
+                        vpiActual: Variable name:e
                       vpiRhs Constant start:37:26 end:37:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1519,7 +1652,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: e
                         vpiFullName: case_expr_non_const_top.e
-                        vpiActual: Port name:e
+                        vpiActual: Variable name:e
                       vpiRhs Constant start:38:26 end:38:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1554,7 +1687,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: f
                         vpiFullName: case_expr_non_const_top.f
-                        vpiActual: Port name:f
+                        vpiActual: Variable name:f
                       vpiRhs Constant start:41:26 end:41:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1580,7 +1713,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: f
                         vpiFullName: case_expr_non_const_top.f
-                        vpiActual: Port name:f
+                        vpiActual: Variable name:f
                       vpiRhs Constant start:42:26 end:42:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1600,7 +1733,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: f
                         vpiFullName: case_expr_non_const_top.f
-                        vpiActual: Port name:f
+                        vpiActual: Variable name:f
                       vpiRhs Constant start:43:26 end:43:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1635,7 +1768,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: g
                         vpiFullName: case_expr_non_const_top.g
-                        vpiActual: Port name:g
+                        vpiActual: Variable name:g
                       vpiRhs Constant start:46:26 end:46:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1661,7 +1794,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: g
                         vpiFullName: case_expr_non_const_top.g
-                        vpiActual: Port name:g
+                        vpiActual: Variable name:g
                       vpiRhs Constant start:47:26 end:47:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1687,7 +1820,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: g
                         vpiFullName: case_expr_non_const_top.g
-                        vpiActual: Port name:g
+                        vpiActual: Variable name:g
                       vpiRhs Constant start:48:26 end:48:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1707,7 +1840,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: g
                         vpiFullName: case_expr_non_const_top.g
-                        vpiActual: Port name:g
+                        vpiActual: Variable name:g
                       vpiRhs Constant start:49:26 end:49:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1742,7 +1875,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: h
                         vpiFullName: case_expr_non_const_top.h
-                        vpiActual: Port name:h
+                        vpiActual: Variable name:h
                       vpiRhs Constant start:52:26 end:52:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1768,7 +1901,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: h
                         vpiFullName: case_expr_non_const_top.h
-                        vpiActual: Port name:h
+                        vpiActual: Variable name:h
                       vpiRhs Constant start:53:26 end:53:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1794,7 +1927,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: h
                         vpiFullName: case_expr_non_const_top.h
-                        vpiActual: Port name:h
+                        vpiActual: Variable name:h
                       vpiRhs Constant start:54:26 end:54:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1820,7 +1953,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: h
                         vpiFullName: case_expr_non_const_top.h
-                        vpiActual: Port name:h
+                        vpiActual: Variable name:h
                       vpiRhs Constant start:55:26 end:55:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1840,7 +1973,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: h
                         vpiFullName: case_expr_non_const_top.h
-                        vpiActual: Port name:h
+                        vpiActual: Variable name:h
                       vpiRhs Constant start:56:26 end:56:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1866,9 +1999,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 7
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1910,9 +2043,9 @@ COMMAND: ${HLC_DIR}/regression/CaseExpression/CaseExpression/design.hldb ${HLC_D
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-RefObj                              52      34       0        18
+RefObj                              59      41       0        18
 ----------------------------------------------------------------
-Others                             194     194       0         0
+Others                             215     215       0         0
 ----------------------------------------------------------------
-                                   246     228       0        18
+                                   274     256       0        18
 ===================== END REDUCTION RESULT =====================

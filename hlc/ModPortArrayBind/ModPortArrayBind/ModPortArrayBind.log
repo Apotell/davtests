@@ -51,7 +51,7 @@ n<$Source01/dut.sv> u<158> t<Top_level_rule> c<1> l<2:1> el<30:1>
     n<> u<156> t<Description> p<157> c<155> l<12:1> el<29:10>
       n<> u<155> t<Module_declaration> p<156> c<76> l<12:1> el<29:10>
         n<> u<76> t<Module_ansi_header> p<155> c<35> s<83> l<12:1> el<16:3>
-          n<module> u<35> t<Module_keyword> p<76> s<36> l<12:1> el<12:7>
+          n<module> u<35> t<MODULE> p<76> s<36> l<12:1> el<12:7>
           n<r5p_bus_dec> u<36> t<SIMPLE_IDENTIFIER> p<76> s<37> l<12:8> el<12:19>
           n<> u<37> t<Package_import_declaration_list> p<76> s<51> l<12:20> el<12:20>
           n<> u<51> t<Parameter_port_list> p<76> c<50> s<75> l<12:20> el<14:2>
@@ -173,9 +173,9 @@ n<$Source01/dut.sv> u<158> t<Top_level_rule> c<1> l<2:1> el<30:1>
 AST_DEBUG_END
 [INF:CP0304] $Source01/dut.sv:2:1: Compile interface "r5p_bus_if".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "r5p_bus_dec".
+[WRN:CP0310] $Source01/dut.sv:15:18: Port "m" definition missing its direction (input, output, inout).
 [INF:CP0335] $Source01/dut.sv:21:29: Compile generate block "gen_loop".
-[ERR:LN0813] $Source01/dut.sv:1:1: Found 2 orphan node(s).
-[WRN:CP0350] $Source01/dut.sv:23:15: Failed to bind "id:66, name:vld".
+[WRN:CP0350] $Source01/dut.sv:23:15: Failed to bind "id:68, name:vld".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "r5p_bus_dec".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "r5p_bus_if".
 ====== HLDB =======
@@ -272,7 +272,22 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:r5p_bus_if::man start:15:3 end:15:17:
+          vpiParent: Module name:r5p_bus_dec
+          vpiPathElem (2 items):
+            RefObj name:r5p_bus_if start:15:3 end:15:13:
+              vpiParent: UnsupportedTypespec name:r5p_bus_if::man
+              vpiName: r5p_bus_if
+              vpiFullName: r5p_bus_dec.r5p_bus_if::man.r5p_bus_if
+              vpiActual: Interface name:r5p_bus_if
+            RefObj name:man start:15:14 end:15:17:
+              vpiParent: UnsupportedTypespec name:r5p_bus_if::man
+              vpiName: man
+              vpiFullName: r5p_bus_dec.r5p_bus_if::man.man
+          vpiName Identifier name:r5p_bus_if::man:
+            vpiParent: UnsupportedTypespec name:r5p_bus_if::man
+            vpiName: r5p_bus_if::man
         ArrayTypespec:
           vpiParent: Module name:r5p_bus_dec
           vpiArrayType: static (1)
@@ -307,9 +322,11 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec name:r5p_bus_if::man start:15:3 end:15:17:
             vpiParent: ArrayTypespec
-            vpiFullName: r5p_bus_dec
+            vpiName: r5p_bus_if::man
+            vpiFullName: r5p_bus_dec.r5p_bus_if::man
+            vpiActual: UnsupportedTypespec name:r5p_bus_if::man
       vpiDefName: r5p_bus_dec
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -322,6 +339,15 @@ Design name:unnamed:
           vpiParent: Module name:r5p_bus_dec
           vpiName: m
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:m start:15:18 end:15:19:
+            vpiParent: Port name:m
+            vpiName: m
+            vpiFullName: r5p_bus_dec.m.m
+            vpiActual: Port name:m
+          vpiTypespec RefTypespec start:15:3 end:15:17:
+            vpiParent: Port name:m
+            vpiFullName: r5p_bus_dec.m
+            vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:20:1 end:26:12:
           vpiParent: Module name:r5p_bus_dec
@@ -468,8 +494,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -484,25 +510,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/ModPortArrayBind/ModPortArrayBind/mounts.json
 
 
-{'result': {'coverage': 95.05,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 14,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 283}},
-            'post_len': 14,
+            'post_len': 0,
             'pre_len': 283,
             'test_name': 'ModPortArrayBind/ModPortArrayBind'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      283 |        14 |
+| $Output/lib/work/dut.sv |      283 |         0 |
 +=========================+==========+===========+
-|                         |      283 |        14 |
+|                         |      283 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.05
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -514,10 +540,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       1         1
 Operation                            4       3       0         1
-RefObj                              12      11       0         1
-RefTypespec                         11      11       1         1
+RefObj                              15      14       0         1
+RefTypespec                         12      12       1         1
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    69      67       2         4
+                                    75      73       2         4
 ===================== END REDUCTION RESULT =====================

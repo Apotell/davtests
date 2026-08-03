@@ -24,7 +24,7 @@ n<$Source01/shregmap.v> u<351> t<Top_level_rule> c<1> l<1:1> el<48:10>
     n<> u<236> t<Description> p<350> c<235> s<238> l<1:1> el<13:10>
       n<> u<235> t<Module_declaration> p<236> c<33> l<1:1> el<13:10>
         n<> u<33> t<Module_ansi_header> p<235> c<2> s<49> l<1:1> el<1:59>
-          n<module> u<2> t<Module_keyword> p<33> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<33> s<3> l<1:1> el<1:7>
           n<shregmap_static_test> u<3> t<SIMPLE_IDENTIFIER> p<33> s<4> l<1:8> el<1:28>
           n<> u<4> t<Package_import_declaration_list> p<33> s<32> l<1:28> el<1:28>
           n<> u<32> t<Port_declaration_list> p<33> c<10> l<1:28> el<1:58>
@@ -371,7 +371,7 @@ n<$Source01/shregmap.v> u<351> t<Top_level_rule> c<1> l<1:1> el<48:10>
                         n<INIT> u<339> t<SIMPLE_IDENTIFIER> p<340> l<18:21> el<18:25>
 AST_DEBUG_END
 [INF:CP0303] $Source01/shregmap.v:1:1: Compile module "shregmap_static_test".
-[ERR:LN0813] $Source01/shregmap.v:1:1: Found 1 orphan node(s).
+[NTE:CP0309] $Source01/shregmap.v:1:56: Implicit port type (wire) for "q".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -536,7 +536,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: shregmap_static_test.work
       vpiCell: shregmap_static_test
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:i start:1:35 end:1:36:
           vpiParent: Module name:shregmap_static_test
           vpiTypespec RefTypespec start:1:29 end:1:34:
@@ -546,6 +546,7 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: shregmap_static_test.i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:q start:1:56 end:1:57:
           vpiParent: Module name:shregmap_static_test
           vpiTypespec RefTypespec start:1:43 end:1:55:
@@ -555,6 +556,17 @@ Design name:unnamed:
           vpiName: q
           vpiFullName: shregmap_static_test.q
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:clk start:1:38 end:1:41:
+          vpiParent: Module name:shregmap_static_test
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clk
+            vpiFullName: shregmap_static_test.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: shregmap_static_test.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:i start:1:35 end:1:36:
           vpiParent: Module name:shregmap_static_test
@@ -572,7 +584,16 @@ Design name:unnamed:
         Port name:clk start:1:38 end:1:41:
           vpiParent: Module name:shregmap_static_test
           vpiName: clk
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:1:38 end:1:41:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: shregmap_static_test.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clk
+            vpiFullName: shregmap_static_test.clk
+            vpiActual: LogicTypespec
         Port name:q start:1:56 end:1:57:
           vpiParent: Module name:shregmap_static_test
           vpiName: q
@@ -599,7 +620,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: shregmap_static_test.clk
-                  vpiActual: Port name:clk
+                  vpiActual: Net name:clk
             vpiStmt Begin start:6:23 end:10:4:
               vpiParent: EventControl
               vpiFullName: shregmap_static_test
@@ -934,9 +955,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -980,9 +1001,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            21      20       0         1
 Operation                            8       7       0         1
-RefTypespec                         31      30       0         1
+RefTypespec                         33      32       0         1
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                   132     129       0         3
+                                   136     133       0         3
 ===================== END REDUCTION RESULT =====================

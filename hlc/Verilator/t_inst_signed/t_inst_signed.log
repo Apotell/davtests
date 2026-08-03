@@ -22,7 +22,7 @@ n<$Source01/t_inst_signed.v> u<569> t<Top_level_rule> c<1> l<6:1> el<66:1>
     n<> u<401> t<Description> p<568> c<400> s<567> l<6:1> el<43:10>
       n<> u<400> t<Module_declaration> p<401> c<18> l<6:1> el<43:10>
         n<> u<18> t<Module_nonansi_header> p<400> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -418,7 +418,7 @@ n<$Source01/t_inst_signed.v> u<569> t<Top_level_rule> c<1> l<6:1> el<66:1>
     n<> u<567> t<Description> p<568> c<566> l<45:1> el<65:10>
       n<> u<566> t<Module_declaration> p<567> c<513> l<45:1> el<65:10>
         n<> u<513> t<Module_ansi_header> p<566> c<402> s<528> l<45:1> el<52:23>
-          n<module> u<402> t<Module_keyword> p<513> s<403> l<45:1> el<45:7>
+          n<module> u<402> t<MODULE> p<513> s<403> l<45:1> el<45:7>
           n<sub> u<403> t<SIMPLE_IDENTIFIER> p<513> s<404> l<45:8> el<45:11>
           n<> u<404> t<Package_import_declaration_list> p<513> s<512> l<45:12> el<45:12>
           n<> u<512> t<Port_declaration_list> p<513> c<410> l<45:12> el<52:22>
@@ -584,6 +584,8 @@ n<$Source01/t_inst_signed.v> u<569> t<Top_level_rule> c<1> l<6:1> el<66:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_signed.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_signed.v:45:1: Compile module "sub".
+[NTE:CP0309] $Source01/t_inst_signed.v:47:31: Implicit port type (wire) for "sgn".
+[NTE:CP0309] $Source01/t_inst_signed.v:48:24: Implicit port type (wire) for "unsgn".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -640,6 +642,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:t
@@ -672,6 +675,7 @@ Design name:unnamed:
           vpiName Identifier name:sub start:20:4 end:20:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -689,6 +693,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:sgn_wide start:15:22 end:15:30:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:21:
@@ -698,6 +703,7 @@ Design name:unnamed:
           vpiName: sgn_wide
           vpiFullName: t.sgn_wide
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:unsgn_wide start:16:21 end:16:31:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:9 end:16:14:
@@ -707,6 +713,7 @@ Design name:unnamed:
           vpiName: unsgn_wide
           vpiFullName: t.unsgn_wide
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1171,6 +1178,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:sub
@@ -1223,6 +1231,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:sub
@@ -1249,6 +1258,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:sub
@@ -1319,6 +1329,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: sub.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:sgn start:47:31 end:47:34:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:47:6 end:47:30:
@@ -1328,6 +1339,7 @@ Design name:unnamed:
           vpiName: sgn
           vpiFullName: sub.sgn
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:unsgn start:48:24 end:48:29:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:48:6 end:48:23:
@@ -1337,6 +1349,7 @@ Design name:unnamed:
           vpiName: unsgn
           vpiFullName: sub.unsgn
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:iss start:49:25 end:49:28:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:49:6 end:49:24:
@@ -1346,6 +1359,7 @@ Design name:unnamed:
           vpiName: iss
           vpiFullName: sub.iss
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:isu start:50:25 end:50:28:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:50:6 end:50:24:
@@ -1355,6 +1369,7 @@ Design name:unnamed:
           vpiName: isu
           vpiFullName: sub.isu
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:ius start:51:18 end:51:21:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:51:6 end:51:17:
@@ -1364,6 +1379,7 @@ Design name:unnamed:
           vpiName: ius
           vpiFullName: sub.ius
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:iuu start:52:18 end:52:21:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:52:6 end:52:17:
@@ -1373,6 +1389,7 @@ Design name:unnamed:
           vpiName: iuu
           vpiFullName: sub.iuu
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (7 items):
         Port name:clk start:46:12 end:46:15:
           vpiParent: Module name:sub
@@ -1545,7 +1562,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

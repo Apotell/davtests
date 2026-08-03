@@ -18,7 +18,7 @@ n<$Source01/extnets.sv> u<215> t<Top_level_rule> c<1> l<1:1> el<23:1>
     n<> u<103> t<Description> p<214> c<102> s<162> l<1:1> el<7:10>
       n<> u<102> t<Module_declaration> p<103> c<18> l<1:1> el<7:10>
         n<> u<18> t<Module_ansi_header> p<102> c<2> s<27> l<1:1> el<1:31>
-          n<module> u<2> t<Module_keyword> p<18> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<18> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<18> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<18> s<17> l<1:11> el<1:11>
           n<> u<17> t<Port_declaration_list> p<18> c<10> l<1:11> el<1:30>
@@ -120,7 +120,7 @@ n<$Source01/extnets.sv> u<215> t<Top_level_rule> c<1> l<1:1> el<23:1>
     n<> u<162> t<Description> p<214> c<161> s<213> l<9:1> el<17:10>
       n<> u<161> t<Module_declaration> p<162> c<107> l<9:1> el<17:10>
         n<> u<107> t<Module_ansi_header> p<161> c<104> s<120> l<9:1> el<9:10>
-          n<module> u<104> t<Module_keyword> p<107> s<105> l<9:1> el<9:7>
+          n<module> u<104> t<MODULE> p<107> s<105> l<9:1> el<9:7>
           n<A> u<105> t<SIMPLE_IDENTIFIER> p<107> s<106> l<9:8> el<9:9>
           n<> u<106> t<Package_import_declaration_list> p<107> l<9:9> el<9:9>
         n<> u<120> t<Non_port_module_item> p<161> c<119> s<138> l<10:2> el<10:12>
@@ -179,7 +179,7 @@ n<$Source01/extnets.sv> u<215> t<Top_level_rule> c<1> l<1:1> el<23:1>
     n<> u<213> t<Description> p<214> c<212> l<19:1> el<22:10>
       n<> u<212> t<Module_declaration> p<213> c<166> l<19:1> el<22:10>
         n<> u<166> t<Module_ansi_header> p<212> c<163> s<181> l<19:1> el<19:10>
-          n<module> u<163> t<Module_keyword> p<166> s<164> l<19:1> el<19:7>
+          n<module> u<163> t<MODULE> p<166> s<164> l<19:1> el<19:7>
           n<B> u<164> t<SIMPLE_IDENTIFIER> p<166> s<165> l<19:8> el<19:9>
           n<> u<165> t<Package_import_declaration_list> p<166> l<19:9> el<19:9>
         n<> u<181> t<Non_port_module_item> p<212> c<180> s<210> l<20:2> el<20:15>
@@ -229,6 +229,7 @@ n<$Source01/extnets.sv> u<215> t<Top_level_rule> c<1> l<1:1> el<23:1>
         n<> u<211> t<ENDMODULE> p<212> l<22:1> el<22:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/extnets.sv:1:1: Compile module "top".
+[NTE:CP0309] $Source01/extnets.sv:1:28: Implicit port type (wire) for "o".
 [INF:CP0303] $Source01/extnets.sv:9:1: Compile module "A".
 [INF:CP0303] $Source01/extnets.sv:19:1: Compile module "B".
 [INF:CM0029] Using global timescale: "1ns/1ns".
@@ -255,11 +256,13 @@ Design name:unnamed:
           vpiName Identifier name:A start:2:2 end:2:3:
             vpiParent: ModuleTypespec name:A
             vpiName: A
+          vpiModule: Module name:A
         ModuleTypespec name:B start:3:2 end:3:3:
           vpiParent: Module name:top
           vpiName Identifier name:B start:3:2 end:3:3:
             vpiParent: ModuleTypespec name:B
             vpiName: B
+          vpiModule: Module name:B
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -277,6 +280,7 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: top.i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:1:28 end:1:29:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:21 end:1:27:
@@ -286,6 +290,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: top.o
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:1:18 end:1:19:
           vpiParent: Module name:top
@@ -423,6 +428,7 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: A.i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:10:10 end:10:11:
           vpiParent: Module name:A
           vpiTypespec RefTypespec start:10:7 end:10:7:
@@ -432,6 +438,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: A.y
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiContAssign (2 items):
         ContAssign start:14:9 end:14:17:
           vpiParent: Module name:A
@@ -511,6 +518,7 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: B.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:20:10 end:20:11:
           vpiParent: Module name:B
           vpiTypespec RefTypespec start:20:7 end:20:7:
@@ -520,6 +528,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: B.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:20:13 end:20:14:
           vpiParent: Module name:B
           vpiTypespec RefTypespec start:20:7 end:20:7:
@@ -529,6 +538,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: B.o
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiContAssign (2 items):
         ContAssign start:21:9 end:21:14:
           vpiParent: Module name:B
@@ -588,7 +598,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

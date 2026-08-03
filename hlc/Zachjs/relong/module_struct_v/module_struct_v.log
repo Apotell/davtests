@@ -26,7 +26,7 @@ n<$Source01/relong/module_struct.v> u<270> t<Top_level_rule> c<1> l<1:1> el<37:1
     n<> u<211> t<Description> p<269> c<210> s<268> l<9:1> el<28:10>
       n<> u<210> t<Module_declaration> p<211> c<53> l<9:1> el<28:10>
         n<> u<53> t<Module_ansi_header> p<210> c<10> s<75> l<9:1> el<12:3>
-          n<module> u<10> t<Module_keyword> p<53> s<11> l<9:1> el<9:7>
+          n<module> u<10> t<MODULE> p<53> s<11> l<9:1> el<9:7>
           n<Example> u<11> t<SIMPLE_IDENTIFIER> p<53> s<12> l<9:8> el<9:15>
           n<> u<12> t<Package_import_declaration_list> p<53> s<52> l<9:15> el<9:15>
           n<> u<52> t<Port_declaration_list> p<53> c<29> l<9:15> el<12:2>
@@ -228,7 +228,7 @@ n<$Source01/relong/module_struct.v> u<270> t<Top_level_rule> c<1> l<1:1> el<37:1
     n<> u<268> t<Description> p<269> c<267> l<30:1> el<37:10>
       n<> u<267> t<Module_declaration> p<268> c<250> l<30:1> el<37:10>
         n<> u<250> t<Module_ansi_header> p<267> c<212> s<265> l<30:1> el<33:3>
-          n<module> u<212> t<Module_keyword> p<250> s<213> l<30:1> el<30:7>
+          n<module> u<212> t<MODULE> p<250> s<213> l<30:1> el<30:7>
           n<SubModule> u<213> t<SIMPLE_IDENTIFIER> p<250> s<214> l<30:8> el<30:17>
           n<> u<214> t<Package_import_declaration_list> p<250> s<249> l<30:17> el<30:17>
           n<> u<249> t<Port_declaration_list> p<250> c<231> l<30:17> el<33:2>
@@ -284,8 +284,9 @@ n<$Source01/relong/module_struct.v> u<270> t<Top_level_rule> c<1> l<1:1> el<37:1
         n<> u<266> t<ENDMODULE> p<267> l<37:1> el<37:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/module_struct.v:9:1: Compile module "Example".
+[NTE:CP0309] $Source01/relong/module_struct.v:11:23: Implicit port type (wire) for "result".
 [INF:CP0303] $Source01/relong/module_struct.v:30:1: Compile module "SubModule".
-[ERR:LN0813] $Source01/relong/module_struct.v:1:1: Found 1 orphan node(s).
+[NTE:CP0309] $Source01/relong/module_struct.v:32:21: Implicit port type (wire) for "out".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -313,15 +314,7 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (2 items):
-        Variable name:result start:11:23 end:11:29:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:11:5 end:11:22:
-            vpiParent: Variable name:result
-            vpiFullName: Example.result
-            vpiActual: LogicTypespec
-          vpiName: result
-          vpiFullName: Example.result
+      vpiVariable (1 items):
         Variable name:s start:14:14 end:14:15:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:14:4 end:14:13:
@@ -331,7 +324,7 @@ Design name:unnamed:
           vpiName: s
           vpiFullName: Example.s
           vpiVector: true
-      vpiTypespec (6 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:Example
           vpiRange (1 items):
@@ -358,8 +351,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:Example
         LogicTypespec:
           vpiParent: Module name:Example
           vpiRange (1 items):
@@ -443,6 +434,7 @@ Design name:unnamed:
           vpiName Identifier name:SubModule start:19:3 end:19:12:
             vpiParent: ModuleTypespec name:SubModule
             vpiName: SubModule
+          vpiModule: Module name:SubModule
       vpiDefName: Example
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -450,7 +442,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (2 items):
+      vpiNet (4 items):
         Net name:a start:10:22 end:10:23:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:10:5 end:10:21:
@@ -460,6 +452,27 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: Example.a
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:result start:11:23 end:11:29:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:11:5 end:11:22:
+            vpiParent: Net name:result
+            vpiFullName: Example.result
+            vpiActual: LogicTypespec
+          vpiName: result
+          vpiFullName: Example.result
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:b start:10:25 end:10:26:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: Example.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: Example.b
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:__s_out start:17:14 end:17:21:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:17:8 end:17:13:
@@ -469,6 +482,7 @@ Design name:unnamed:
           vpiName: "__s_out"
           vpiFullName: Example.__s_out
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:a start:10:22 end:10:23:
           vpiParent: Module name:Example
@@ -486,7 +500,16 @@ Design name:unnamed:
         Port name:b start:10:25 end:10:26:
           vpiParent: Module name:Example
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:10:25 end:10:26:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: Example.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: Example.b
+            vpiActual: LogicTypespec
         Port name:result start:11:23 end:11:29:
           vpiParent: Module name:Example
           vpiName: result
@@ -495,7 +518,7 @@ Design name:unnamed:
             vpiParent: Port name:result
             vpiName: result
             vpiFullName: Example.result.result
-            vpiActual: Variable name:result
+            vpiActual: Net name:result
           vpiTypespec RefTypespec start:11:5 end:11:22:
             vpiParent: Port name:result
             vpiFullName: Example.result
@@ -591,7 +614,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: b
                     vpiFullName: Example.b
-                    vpiActual: Port name:b
+                    vpiActual: Net name:b
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:15:11 end:15:21:
@@ -600,7 +623,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: result
             vpiFullName: Example.result
-            vpiActual: Variable name:result
+            vpiActual: Net name:result
           vpiRhs RefObj name:s start:15:20 end:15:21:
             vpiParent: ContAssign
             vpiName: s
@@ -644,15 +667,6 @@ Design name:unnamed:
         vpiParent: Module name:SubModule
         vpiName: SubModule
       vpiFullName: SubModule
-      vpiVariable (1 items):
-        Variable name:out start:32:21 end:32:24:
-          vpiParent: Module name:SubModule
-          vpiTypespec RefTypespec start:32:3 end:32:20:
-            vpiParent: Variable name:out
-            vpiFullName: SubModule.out
-            vpiActual: LogicTypespec
-          vpiName: out
-          vpiFullName: SubModule.out
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:SubModule
@@ -713,7 +727,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: SubModule.work
       vpiCell: SubModule
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:in start:31:20 end:31:22:
           vpiParent: Module name:SubModule
           vpiTypespec RefTypespec start:31:3 end:31:19:
@@ -723,6 +737,17 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: SubModule.in
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:out start:32:21 end:32:24:
+          vpiParent: Module name:SubModule
+          vpiTypespec RefTypespec start:32:3 end:32:20:
+            vpiParent: Net name:out
+            vpiFullName: SubModule.out
+            vpiActual: LogicTypespec
+          vpiName: out
+          vpiFullName: SubModule.out
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:in start:31:20 end:31:22:
           vpiParent: Module name:SubModule
@@ -745,7 +770,7 @@ Design name:unnamed:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: SubModule.out.out
-            vpiActual: Variable name:out
+            vpiActual: Net name:out
           vpiTypespec RefTypespec start:32:3 end:32:20:
             vpiParent: Port name:out
             vpiFullName: SubModule.out
@@ -757,7 +782,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: out
             vpiFullName: SubModule.out
-            vpiActual: Variable name:out
+            vpiActual: Net name:out
           vpiRhs RefObj name:in start:35:16 end:35:18:
             vpiParent: ContAssign
             vpiName: in
@@ -784,9 +809,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -829,7 +854,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/module_struct_v/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             118     118       0         0
+Others                             121     121       0         0
 ----------------------------------------------------------------
-                                   118     118       0         0
+                                   121     121       0         0
 ===================== END REDUCTION RESULT =====================

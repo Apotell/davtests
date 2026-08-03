@@ -22,7 +22,7 @@ n<$Source01/ac_dig.sv> u<794> t<Top_level_rule> c<1> l<8:1> el<144:1>
     n<> u<791> t<Description> p<792> c<790> l<8:1> el<143:10>
       n<> u<790> t<Module_declaration> p<791> c<69> l<8:1> el<143:10>
         n<> u<69> t<Module_ansi_header> p<790> c<6> s<70> l<8:1> el<31:4>
-          n<module> u<6> t<Module_keyword> p<69> s<7> l<8:1> el<8:7>
+          n<module> u<6> t<MODULE> p<69> s<7> l<8:1> el<8:7>
           n<ac_dig> u<7> t<SIMPLE_IDENTIFIER> p<69> s<8> l<8:8> el<8:14>
           n<> u<8> t<Package_import_declaration_list> p<69> s<21> l<9:2> el<9:2>
           n<> u<21> t<Parameter_port_list> p<69> c<20> s<22> l<9:2> el<10:15>
@@ -221,8 +221,8 @@ n<$Source01/ac_dig.sv> u<794> t<Top_level_rule> c<1> l<8:1> el<144:1>
                     n<> u<228> t<Variable_declaration> p<229> c<224> l<47:3> el<51:13>
                       n<> u<224> t<Data_type> p<228> c<198> s<227> l<47:3> el<51:4>
                         n<> u<198> t<Struct_union> p<224> c<197> s<199> l<47:3> el<47:9>
-                          n<> u<197> t<Struct_keyword> p<198> l<47:3> el<47:9>
-                        n<> u<199> t<Packed_keyword> p<224> s<216> l<47:10> el<47:16>
+                          n<> u<197> t<STRUCT> p<198> l<47:3> el<47:9>
+                        n<> u<199> t<PACKED> p<224> s<216> l<47:10> el<47:16>
                         n<> u<216> t<Struct_union_member> p<224> c<212> s<223> l<49:5> el<49:26>
                           n<> u<212> t<Data_type_or_void> p<216> c<211> s<215> l<49:5> el<49:16>
                             n<> u<211> t<Data_type> p<212> c<200> l<49:5> el<49:16>
@@ -259,8 +259,8 @@ n<$Source01/ac_dig.sv> u<794> t<Top_level_rule> c<1> l<8:1> el<144:1>
                     n<> u<266> t<Variable_declaration> p<267> c<262> l<53:3> el<57:12>
                       n<> u<262> t<Data_type> p<266> c<236> s<265> l<53:3> el<57:4>
                         n<> u<236> t<Struct_union> p<262> c<235> s<237> l<53:3> el<53:9>
-                          n<> u<235> t<Struct_keyword> p<236> l<53:3> el<53:9>
-                        n<> u<237> t<Packed_keyword> p<262> s<254> l<53:10> el<53:16>
+                          n<> u<235> t<STRUCT> p<236> l<53:3> el<53:9>
+                        n<> u<237> t<PACKED> p<262> s<254> l<53:10> el<53:16>
                         n<> u<254> t<Struct_union_member> p<262> c<250> s<261> l<55:5> el<55:26>
                           n<> u<250> t<Data_type_or_void> p<254> c<249> s<253> l<55:5> el<55:16>
                             n<> u<249> t<Data_type> p<250> c<238> l<55:5> el<55:16>
@@ -808,7 +808,7 @@ n<$Source01/ac_dig.sv> u<794> t<Top_level_rule> c<1> l<8:1> el<144:1>
   n<// ac_dig> u<793> t<LINE_COMMENT> p<794> l<143:11> el<143:20>
 AST_DEBUG_END
 [INF:CP0303] $Source01/ac_dig.sv:8:1: Compile module "ac_dig".
-[ERR:LN0813] $Source01/ac_dig.sv:1:1: Found 1 orphan node(s).
+[WRN:CP0310] $Source01/ac_dig.sv:17:19: Port "dbus" definition missing its direction (input, output, inout).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -834,6 +834,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: acenable
           vpiFullName: ac_dig.acenable
+          vpiScalar: true
         Variable name:sdata start:38:16 end:38:21:
           vpiParent: Module name:ac_dig
           vpiTypespec RefTypespec start:38:3 end:38:15:
@@ -940,9 +941,23 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (11 items):
+      vpiTypespec (12 items):
         LogicTypespec:
           vpiParent: Module name:ac_dig
+        UnsupportedTypespec name:genbus_if::slave start:17:3 end:17:18:
+          vpiParent: Module name:ac_dig
+          vpiPathElem (2 items):
+            RefObj name:genbus_if start:17:3 end:17:12:
+              vpiParent: UnsupportedTypespec name:genbus_if::slave
+              vpiName: genbus_if
+              vpiFullName: ac_dig.genbus_if::slave.genbus_if
+            RefObj name:slave start:17:13 end:17:18:
+              vpiParent: UnsupportedTypespec name:genbus_if::slave
+              vpiName: slave
+              vpiFullName: ac_dig.genbus_if::slave.slave
+          vpiName Identifier name:genbus_if::slave:
+            vpiParent: UnsupportedTypespec name:genbus_if::slave
+            vpiName: genbus_if::slave
         LogicTypespec:
           vpiParent: Module name:ac_dig
           vpiRange (1 items):
@@ -1204,6 +1219,7 @@ Design name:unnamed:
           vpiName: acout
           vpiFullName: ac_dig.acout
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:clk start:29:22 end:29:25:
           vpiParent: Module name:ac_dig
           vpiTypespec RefTypespec start:29:3 end:29:15:
@@ -1213,6 +1229,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: ac_dig.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:30:22 end:30:25:
           vpiParent: Module name:ac_dig
           vpiTypespec RefTypespec start:30:3 end:30:15:
@@ -1222,11 +1239,21 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: ac_dig.rst
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:dbus start:17:19 end:17:23:
           vpiParent: Module name:ac_dig
           vpiName: dbus
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:dbus start:17:19 end:17:23:
+            vpiParent: Port name:dbus
+            vpiName: dbus
+            vpiFullName: ac_dig.dbus.dbus
+            vpiActual: Port name:dbus
+          vpiTypespec RefTypespec start:17:3 end:17:18:
+            vpiParent: Port name:dbus
+            vpiFullName: ac_dig.dbus
+            vpiActual: UnsupportedTypespec name:genbus_if::slave
         Port name:acenable start:21:22 end:21:30:
           vpiParent: Module name:ac_dig
           vpiName: acenable
@@ -1286,7 +1313,7 @@ Design name:unnamed:
             vpiParent: Always
             vpiFullName: ac_dig
             vpiStmt (1 items):
-              HierPath name:dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re) start:81:7 end:81:113:
+              HierPath name:dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re) start:81:7 end:81:115:
                 vpiParent: Begin
                 vpiName: dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re)
                 vpiFullName: ac_dig.dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re)
@@ -1961,8 +1988,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1977,25 +2004,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/mounts.json
 
 
-{'result': {'coverage': 98.43,
+{'result': {'coverage': 99.9,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/ac_dig.sv': {'post_len': 16,
+            'files': {'$Output/lib/work/ac_dig.sv': {'post_len': 1,
                                                      'pre_len': 1019}},
-            'post_len': 16,
+            'post_len': 1,
             'pre_len': 1019,
             'test_name': 'Verilator/t_sv_cpu_code/ac_dig'}}
 
 +----------------------------+----------+-----------+
 | INPUT                      |   PRELEN |   POSTLEN |
 +============================+==========+===========+
-| $Output/lib/work/ac_dig.sv |     1019 |        16 |
+| $Output/lib/work/ac_dig.sv |     1019 |         1 |
 +============================+==========+===========+
-|                            |     1019 |        16 |
+|                            |     1019 |         1 |
 +----------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.43
+[COVERAGE] : 99.9
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2007,9 +2034,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            40      39       0         1
 Operation                            9       8       0         1
-RefTypespec                         64      63       0         1
+RefTypespec                         65      64       0         1
 ----------------------------------------------------------------
-Others                             159     159       0         0
+Others                             164     164       0         0
 ----------------------------------------------------------------
-                                   272     269       0         3
+                                   278     275       0         3
 ===================== END REDUCTION RESULT =====================

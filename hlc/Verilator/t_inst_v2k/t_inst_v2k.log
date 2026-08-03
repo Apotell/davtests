@@ -22,7 +22,7 @@ n<$Source01/t_inst_v2k.v> u<665> t<Top_level_rule> c<1> l<6:1> el<70:1>
     n<> u<609> t<Description> p<664> c<608> s<663> l<6:1> el<63:10>
       n<> u<608> t<Module_declaration> p<609> c<18> l<6:1> el<63:10>
         n<> u<18> t<Module_nonansi_header> p<608> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -626,7 +626,7 @@ n<$Source01/t_inst_v2k.v> u<665> t<Top_level_rule> c<1> l<6:1> el<70:1>
     n<> u<663> t<Description> p<664> c<662> l<65:1> el<69:10>
       n<> u<662> t<Module_declaration> p<663> c<620> l<65:1> el<69:10>
         n<> u<620> t<Module_nonansi_header> p<662> c<610> s<637> l<65:1> el<65:25>
-          n<module> u<610> t<Module_keyword> p<620> s<611> l<65:1> el<65:7>
+          n<module> u<610> t<MODULE> p<620> s<611> l<65:1> el<65:7>
           n<hello> u<611> t<SIMPLE_IDENTIFIER> p<620> s<612> l<65:8> el<65:13>
           n<> u<612> t<Package_import_declaration_list> p<620> s<619> l<65:13> el<65:13>
           n<> u<619> t<Port_list> p<620> c<618> l<65:13> el<65:24>
@@ -681,6 +681,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_v2k.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_v2k.v:65:1: Compile module "hello".
 [ERR:LN0813] $Source01/t_inst_v2k.v:1:1: Found 1 orphan node(s).
+[ERR:LN0814] Found 2 weak node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -891,6 +892,7 @@ Design name:unnamed:
           vpiName Identifier name:hello start:28:4 end:28:9:
             vpiParent: ModuleTypespec name:hello
             vpiName: hello
+          vpiModule: Module name:hello
         UnsupportedTypespec name:t_inst_v2k__sub start:31:4 end:31:19:
           vpiParent: Module name:t
           vpiName Identifier name:t_inst_v2k__sub start:31:4 end:31:19:
@@ -913,6 +915,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:low start:14:18 end:14:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:12 end:14:17:
@@ -922,6 +925,7 @@ Design name:unnamed:
           vpiName: low
           vpiFullName: t.low
           vpiNetType: supply0 (11)
+          vpiVector: true
         Net name:high start:15:18 end:15:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:12 end:15:17:
@@ -931,6 +935,7 @@ Design name:unnamed:
           vpiName: high
           vpiFullName: t.high
           vpiNetType: supply1 (10)
+          vpiVector: true
         Net name:osizedreg start:24:16 end:24:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:24:9 end:24:14:
@@ -940,6 +945,7 @@ Design name:unnamed:
           vpiName: osizedreg
           vpiFullName: t.osizedreg
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:tied start:25:16 end:25:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:25:9 end:25:14:
@@ -949,6 +955,7 @@ Design name:unnamed:
           vpiName: tied
           vpiFullName: t.tied
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:tied_also start:26:16 end:26:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:26:9 end:26:14:
@@ -958,6 +965,7 @@ Design name:unnamed:
           vpiName: tied_also
           vpiFullName: t.tied_also
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1505,6 +1513,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: tied_also
           vpiFullName: hello.tied_also
+          vpiVector: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:hello
@@ -1595,7 +1604,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

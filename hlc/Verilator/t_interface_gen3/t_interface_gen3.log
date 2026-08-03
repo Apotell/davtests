@@ -23,7 +23,7 @@ n<$Source01/t_interface_gen3.v> u<804> t<Top_level_rule> c<1> l<8:1> el<71:1>
     n<> u<648> t<Description> p<803> c<647> s<740> l<8:1> el<52:10>
       n<> u<647> t<Module_declaration> p<648> c<19> l<8:1> el<52:10>
         n<> u<19> t<Module_nonansi_header> p<647> c<7> s<26> l<8:1> el<11:6>
-          n<module> u<7> t<Module_keyword> p<19> s<8> l<8:1> el<8:7>
+          n<module> u<7> t<MODULE> p<19> s<8> l<8:1> el<8:7>
           n<t> u<8> t<SIMPLE_IDENTIFIER> p<19> s<9> l<8:8> el<8:9>
           n<> u<9> t<Package_import_declaration_list> p<19> s<10> l<8:10> el<8:10>
           n</*AUTOARG*/> u<10> t<BLOCK_COMMENT> p<19> s<11> l<8:10> el<11:5>
@@ -758,7 +758,7 @@ n<$Source01/t_interface_gen3.v> u<804> t<Top_level_rule> c<1> l<8:1> el<71:1>
     n<> u<802> t<Description> p<803> c<801> l<64:1> el<70:10>
       n<> u<801> t<Module_declaration> p<802> c<759> l<64:1> el<70:10>
         n<> u<759> t<Module_ansi_header> p<801> c<742> s<799> l<64:1> el<68:6>
-          n<module> u<742> t<Module_keyword> p<759> s<743> l<64:1> el<64:7>
+          n<module> u<742> t<MODULE> p<759> s<743> l<64:1> el<64:7>
           n<sub> u<743> t<SIMPLE_IDENTIFIER> p<759> s<744> l<64:8> el<64:11>
           n<> u<744> t<Package_import_declaration_list> p<759> s<758> l<65:4> el<65:4>
           n<> u<758> t<Port_declaration_list> p<759> c<751> l<65:4> el<68:5>
@@ -821,7 +821,7 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/t_interface_gen3.v:8:1: Multiply defined typedef "sub".
 [INF:CP0304] $Source01/t_interface_gen3.v:54:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface_gen3.v:64:1: Compile module "sub".
-[ERR:LN0813] $Source01/t_interface_gen3.v:1:1: Found 1 orphan node(s).
+[WRN:CP0310] $Source01/t_interface_gen3.v:66:20: Port "isub" definition missing its direction (input, output, inout).
 [WRN:CP0350] $Source01/t_interface_gen3.v:19:24: Failed to bind "id:44, name:out_modport".
 [WRN:CP0350] $Source01/t_interface_gen3.v:21:24: Failed to bind "id:55, name:out_modport".
 [WRN:CP0350] $Source01/t_interface_gen3.v:29:13: Failed to bind "id:77, name:valuei".
@@ -838,8 +838,8 @@ AST_DEBUG_END
 [WRN:CP0350] $Source01/t_interface_gen3.v:41:13: Failed to bind "id:196, name:valueo".
 [WRN:CP0350] $Source01/t_interface_gen3.v:44:13: Failed to bind "id:213, name:valueo".
 [WRN:CP0350] $Source01/t_interface_gen3.v:45:13: Failed to bind "id:223, name:valueo".
-[WRN:CP0350] $Source01/t_interface_gen3.v:69:31: Failed to bind "id:311, name:valueo".
-[WRN:CP0350] $Source01/t_interface_gen3.v:69:46: Failed to bind "id:314, name:valuei".
+[WRN:CP0350] $Source01/t_interface_gen3.v:69:31: Failed to bind "id:313, name:valueo".
+[WRN:CP0350] $Source01/t_interface_gen3.v:69:46: Failed to bind "id:316, name:valuei".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1060,11 +1060,13 @@ Design name:unnamed:
           vpiName Identifier name:sub start:19:4 end:19:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
         ModuleTypespec name:sub start:21:4 end:21:7:
           vpiParent: Module name:t
           vpiName Identifier name:sub start:21:4 end:21:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1082,6 +1084,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:10:4 end:10:7:
           vpiParent: Module name:t
@@ -1750,6 +1753,7 @@ Design name:unnamed:
           vpiParamAssign (1 items):
             ParamAssign start:16:10 end:16:11:
               vpiParent: RefInstance name:itopa
+              vpiOverridden: true
               vpiRhs Constant start:16:10 end:16:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -1771,6 +1775,7 @@ Design name:unnamed:
           vpiParamAssign (1 items):
             ParamAssign start:17:10 end:17:11:
               vpiParent: RefInstance name:itopb
+              vpiOverridden: true
               vpiRhs Constant start:17:10 end:17:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -1859,7 +1864,22 @@ Design name:unnamed:
         vpiParent: Module name:sub
         vpiName: sub
       vpiFullName: sub
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:ifc::out_modport start:66:4 end:66:19:
+          vpiParent: Module name:sub
+          vpiPathElem (2 items):
+            RefObj name:ifc start:66:4 end:66:7:
+              vpiParent: UnsupportedTypespec name:ifc::out_modport
+              vpiName: ifc
+              vpiFullName: sub.ifc::out_modport.ifc
+              vpiActual: Interface name:ifc
+            RefObj name:out_modport start:66:8 end:66:19:
+              vpiParent: UnsupportedTypespec name:ifc::out_modport
+              vpiName: out_modport
+              vpiFullName: sub.ifc::out_modport.out_modport
+          vpiName Identifier name:ifc::out_modport:
+            vpiParent: UnsupportedTypespec name:ifc::out_modport
+            vpiName: ifc::out_modport
         LogicTypespec:
           vpiParent: Module name:sub
       vpiDefName: sub
@@ -1879,11 +1899,21 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: sub.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:isub start:66:20 end:66:24:
           vpiParent: Module name:sub
           vpiName: isub
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:isub start:66:20 end:66:24:
+            vpiParent: Port name:isub
+            vpiName: isub
+            vpiFullName: sub.isub.isub
+            vpiActual: Port name:isub
+          vpiTypespec RefTypespec start:66:4 end:66:19:
+            vpiParent: Port name:isub
+            vpiFullName: sub.isub
+            vpiActual: UnsupportedTypespec name:ifc::out_modport
         Port name:clk start:67:10 end:67:13:
           vpiParent: Module name:sub
           vpiName: clk
@@ -1985,8 +2015,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 19
+[  ERROR] : 0
+[WARNING] : 20
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2001,25 +2031,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen3/mounts.json
 
 
-{'result': {'coverage': 98.49,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen3.v': {'post_len': 15,
+            'files': {'$Output/lib/work/t_interface_gen3.v': {'post_len': 0,
                                                               'pre_len': 991}},
-            'post_len': 15,
+            'post_len': 0,
             'pre_len': 991,
             'test_name': 'Verilator/t_interface_gen3'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_interface_gen3.v |      991 |        15 |
+| $Output/lib/work/t_interface_gen3.v |      991 |         0 |
 +=====================================+==========+===========+
-|                                     |      991 |        15 |
+|                                     |      991 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.49
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2031,10 +2061,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            29      29       7         7
 Operation                           20      13       0         7
-RefObj                              56      49       0         7
-RefTypespec                         45      45       7         7
+RefObj                              59      52       0         7
+RefTypespec                         46      46       7         7
 ----------------------------------------------------------------
-Others                             136     136       0         0
+Others                             138     138       0         0
 ----------------------------------------------------------------
-                                   286     272      14        28
+                                   292     278      14        28
 ===================== END REDUCTION RESULT =====================

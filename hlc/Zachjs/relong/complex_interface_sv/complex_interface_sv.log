@@ -76,7 +76,7 @@ n<$Source01/relong/complex_interface.sv> u<329> t<Top_level_rule> c<1> l<1:1> el
     n<> u<239> t<Description> p<328> c<238> s<327> l<13:1> el<36:10>
       n<> u<238> t<Module_declaration> p<239> c<113> l<13:1> el<36:10>
         n<> u<113> t<Module_ansi_header> p<238> c<60> s<135> l<13:1> el<17:3>
-          n<module> u<60> t<Module_keyword> p<113> s<61> l<13:1> el<13:7>
+          n<module> u<60> t<MODULE> p<113> s<61> l<13:1> el<13:7>
           n<CacheWithInterface> u<61> t<SIMPLE_IDENTIFIER> p<113> s<62> l<13:8> el<13:26>
           n<> u<62> t<Package_import_declaration_list> p<113> s<112> l<13:26> el<13:26>
           n<> u<112> t<Port_declaration_list> p<113> c<80> l<13:26> el<17:2>
@@ -256,7 +256,7 @@ n<$Source01/relong/complex_interface.sv> u<329> t<Top_level_rule> c<1> l<1:1> el
     n<> u<327> t<Description> p<328> c<326> l<38:1> el<49:10>
       n<> u<326> t<Module_declaration> p<327> c<264> l<38:1> el<49:10>
         n<> u<264> t<Module_ansi_header> p<326> c<240> s<324> l<38:1> el<41:3>
-          n<module> u<240> t<Module_keyword> p<264> s<241> l<38:1> el<38:7>
+          n<module> u<240> t<MODULE> p<264> s<241> l<38:1> el<38:7>
           n<CacheSet> u<241> t<SIMPLE_IDENTIFIER> p<264> s<242> l<38:8> el<38:16>
           n<> u<242> t<Package_import_declaration_list> p<264> s<263> l<38:17> el<38:17>
           n<> u<263> t<Port_declaration_list> p<264> c<249> l<38:17> el<41:2>
@@ -345,10 +345,10 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/relong/complex_interface.sv:1:1: Compile interface "CacheSetInterface".
 [INF:CP0303] $Source01/relong/complex_interface.sv:13:1: Compile module "CacheWithInterface".
 [INF:CP0303] $Source01/relong/complex_interface.sv:38:1: Compile module "CacheSet".
-[ERR:LN0813] $Source01/relong/complex_interface.sv:1:1: Found 3 orphan node(s).
-[WRN:CP0350] $Source01/relong/complex_interface.sv:45:18: Failed to bind "id:152, name:response".
-[WRN:CP0350] $Source01/relong/complex_interface.sv:47:18: Failed to bind "id:159, name:response".
-[WRN:CP0350] $Source01/relong/complex_interface.sv:47:36: Failed to bind "id:162, name:request".
+[WRN:CP0310] $Source01/relong/complex_interface.sv:39:32: Port "data" definition missing its direction (input, output, inout).
+[WRN:CP0350] $Source01/relong/complex_interface.sv:45:18: Failed to bind "id:162, name:response".
+[WRN:CP0350] $Source01/relong/complex_interface.sv:47:18: Failed to bind "id:169, name:response".
+[WRN:CP0350] $Source01/relong/complex_interface.sv:47:36: Failed to bind "id:172, name:request".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -374,6 +374,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: response
           vpiFullName: CacheSetInterface.response
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:CacheSetInterface
@@ -443,6 +444,7 @@ Design name:unnamed:
           vpiName: request
           vpiFullName: CacheSetInterface.request
           vpiNetType: wire (1)
+          vpiVector: true
       vpiModport (1 items):
         Modport name:CacheSet start:6:13 end:6:21:
           vpiParent: Interface name:CacheSetInterface
@@ -508,6 +510,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dataOut
           vpiFullName: CacheWithInterface.dataOut
+          vpiVector: true
         Variable name:myRequest start:19:17 end:19:26:
           vpiParent: Module name:CacheWithInterface
           vpiTypespec RefTypespec start:19:5 end:19:16:
@@ -638,6 +641,7 @@ Design name:unnamed:
           vpiName Identifier name:CacheSet start:27:5 end:27:13:
             vpiParent: ModuleTypespec name:CacheSet
             vpiName: CacheSet
+          vpiModule: Module name:CacheSet
       vpiDefName: CacheWithInterface
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -645,7 +649,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: CacheWithInterface.work
       vpiCell: CacheWithInterface
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:dataIn start:14:23 end:14:29:
           vpiParent: Module name:CacheWithInterface
           vpiTypespec RefTypespec start:14:5 end:14:22:
@@ -655,6 +659,7 @@ Design name:unnamed:
           vpiName: dataIn
           vpiFullName: CacheWithInterface.dataIn
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:clock start:16:17 end:16:22:
           vpiParent: Module name:CacheWithInterface
           vpiTypespec RefTypespec start:16:5 end:16:16:
@@ -664,6 +669,17 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: CacheWithInterface.clock
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clear start:16:24 end:16:29:
+          vpiParent: Module name:CacheWithInterface
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clear
+            vpiFullName: CacheWithInterface.clear
+            vpiActual: LogicTypespec
+          vpiName: clear
+          vpiFullName: CacheWithInterface.clear
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:dataIn start:14:23 end:14:29:
           vpiParent: Module name:CacheWithInterface
@@ -707,7 +723,16 @@ Design name:unnamed:
         Port name:clear start:16:24 end:16:29:
           vpiParent: Module name:CacheWithInterface
           vpiName: clear
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clear start:16:24 end:16:29:
+            vpiParent: Port name:clear
+            vpiName: clear
+            vpiFullName: CacheWithInterface.clear.clear
+            vpiActual: Net name:clear
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clear
+            vpiFullName: CacheWithInterface.clear
+            vpiActual: LogicTypespec
       vpiContAssign (2 items):
         ContAssign start:33:12 end:33:30:
           vpiParent: Module name:CacheWithInterface
@@ -808,14 +833,30 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clear
                 vpiFullName: CacheWithInterface.set.clear
-                vpiActual: Port name:clear
+                vpiActual: Net name:clear
     Module name:CacheSet file:$Source01/relong/complex_interface.sv start:38:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:CacheSet start:38:8 end:38:16:
         vpiParent: Module name:CacheSet
         vpiName: CacheSet
       vpiFullName: CacheSet
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:CacheSetInterface::CacheSet start:39:5 end:39:31:
+          vpiParent: Module name:CacheSet
+          vpiPathElem (2 items):
+            RefObj name:CacheSetInterface start:39:5 end:39:22:
+              vpiParent: UnsupportedTypespec name:CacheSetInterface::CacheSet
+              vpiName: CacheSetInterface
+              vpiFullName: CacheSet.CacheSetInterface::CacheSet.CacheSetInterface
+              vpiActual: Interface name:CacheSetInterface
+            RefObj name:CacheSet start:39:23 end:39:31:
+              vpiParent: UnsupportedTypespec name:CacheSetInterface::CacheSet
+              vpiName: CacheSet
+              vpiFullName: CacheSet.CacheSetInterface::CacheSet.CacheSet
+              vpiActual: Module name:CacheSet
+          vpiName Identifier name:CacheSetInterface::CacheSet:
+            vpiParent: UnsupportedTypespec name:CacheSetInterface::CacheSet
+            vpiName: CacheSetInterface::CacheSet
         LogicTypespec:
           vpiParent: Module name:CacheSet
       vpiDefName: CacheSet
@@ -825,7 +866,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: CacheSet.work
       vpiCell: CacheSet
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:clock start:40:17 end:40:22:
           vpiParent: Module name:CacheSet
           vpiTypespec RefTypespec start:40:5 end:40:16:
@@ -835,11 +876,31 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: CacheSet.clock
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clear start:40:24 end:40:29:
+          vpiParent: Module name:CacheSet
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clear
+            vpiFullName: CacheSet.clear
+            vpiActual: LogicTypespec
+          vpiName: clear
+          vpiFullName: CacheSet.clear
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:data start:39:32 end:39:36:
           vpiParent: Module name:CacheSet
           vpiName: data
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:data start:39:32 end:39:36:
+            vpiParent: Port name:data
+            vpiName: data
+            vpiFullName: CacheSet.data.data
+            vpiActual: Port name:data
+          vpiTypespec RefTypespec start:39:5 end:39:31:
+            vpiParent: Port name:data
+            vpiFullName: CacheSet.data
+            vpiActual: UnsupportedTypespec name:CacheSetInterface::CacheSet
         Port name:clock start:40:17 end:40:22:
           vpiParent: Module name:CacheSet
           vpiName: clock
@@ -856,7 +917,16 @@ Design name:unnamed:
         Port name:clear start:40:24 end:40:29:
           vpiParent: Module name:CacheSet
           vpiName: clear
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clear start:40:24 end:40:29:
+            vpiParent: Port name:clear
+            vpiName: clear
+            vpiFullName: CacheSet.clear.clear
+            vpiActual: Net name:clear
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clear
+            vpiFullName: CacheSet.clear
+            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:43:5 end:47:44:
           vpiParent: Module name:CacheSet
@@ -877,7 +947,7 @@ Design name:unnamed:
                 vpiParent: IfElse
                 vpiName: clear
                 vpiFullName: CacheSet.clear
-                vpiActual: Port name:clear
+                vpiActual: Net name:clear
               vpiStmt Assignment start:45:13 end:45:34:
                 vpiParent: IfElse
                 vpiLhs HierPath name:data.response start:45:13 end:45:26:
@@ -966,8 +1036,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -982,25 +1052,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/complex_interface_sv/mounts.json
 
 
-{'result': {'coverage': 96.08,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/complex_interface.sv': {'post_len': 26,
+            'files': {'$Output/lib/work/relong/complex_interface.sv': {'post_len': 0,
                                                                        'pre_len': 664}},
-            'post_len': 26,
+            'post_len': 0,
             'pre_len': 664,
             'test_name': 'Zachjs/relong/complex_interface_sv'}}
 
 +----------------------------------------------+----------+-----------+
 | INPUT                                        |   PRELEN |   POSTLEN |
 +==============================================+==========+===========+
-| $Output/lib/work/relong/complex_interface.sv |      664 |        26 |
+| $Output/lib/work/relong/complex_interface.sv |      664 |         0 |
 +==============================================+==========+===========+
-|                                              |      664 |        26 |
+|                                              |      664 |         0 |
 +----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.08
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1011,7 +1081,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/complex_interface_sv/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             147     147       0         0
+Others                             161     161       0         0
 ----------------------------------------------------------------
-                                   147     147       0         0
+                                   161     161       0         0
 ===================== END REDUCTION RESULT =====================

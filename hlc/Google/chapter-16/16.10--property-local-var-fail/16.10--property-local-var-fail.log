@@ -26,7 +26,7 @@ n<$Source01/16.10--property-local-var-fail.sv> u<717> t<Top_level_rule> c<1> l<1
     n<> u<307> t<Description> p<716> c<306> s<715> l<18:1> el<45:19>
       n<> u<306> t<Module_declaration> p<307> c<60> l<18:1> el<45:19>
         n<> u<60> t<Module_ansi_header> p<306> c<10> s<82> l<18:1> el<23:3>
-          n<module> u<10> t<Module_keyword> p<60> s<11> l<18:1> el<18:7>
+          n<module> u<10> t<MODULE> p<60> s<11> l<18:1> el<18:7>
           n<clk_gen> u<11> t<SIMPLE_IDENTIFIER> p<60> s<12> l<18:8> el<18:15>
           n<> u<12> t<Package_import_declaration_list> p<60> s<59> l<18:15> el<18:15>
           n<> u<59> t<Port_declaration_list> p<60> c<18> l<18:15> el<23:2>
@@ -324,7 +324,7 @@ n<$Source01/16.10--property-local-var-fail.sv> u<717> t<Top_level_rule> c<1> l<1
     n<> u<715> t<Description> p<716> c<714> l<47:1> el<83:10>
       n<> u<714> t<Module_declaration> p<715> c<312> l<47:1> el<83:10>
         n<> u<312> t<Module_nonansi_header> p<714> c<308> s<325> l<47:1> el<47:14>
-          n<module> u<308> t<Module_keyword> p<312> s<309> l<47:1> el<47:7>
+          n<module> u<308> t<MODULE> p<312> s<309> l<47:1> el<47:7>
           n<top> u<309> t<SIMPLE_IDENTIFIER> p<312> s<310> l<47:8> el<47:11>
           n<> u<310> t<Package_import_declaration_list> p<312> s<311> l<47:11> el<47:11>
           n<> u<311> t<Port_list> p<312> l<47:11> el<47:13>
@@ -732,6 +732,7 @@ n<$Source01/16.10--property-local-var-fail.sv> u<717> t<Top_level_rule> c<1> l<1
 AST_DEBUG_END
 [INF:CP0303] $Source01/16.10--property-local-var-fail.sv:18:1: Compile module "clk_gen".
 [INF:CP0303] $Source01/16.10--property-local-var-fail.sv:47:1: Compile module "top".
+[ERR:CP0347] $Source01/16.10--property-local-var-fail.sv:1:1: Call to "Variable::setParent" failed.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -757,6 +758,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: clk_gen.out
+          vpiVector: true
         Variable name:data_reg_0 start:25:15 end:25:25:
           vpiParent: Module name:clk_gen
           vpiTypespec RefTypespec start:25:5 end:25:14:
@@ -934,6 +936,7 @@ Design name:unnamed:
           vpiName: valid
           vpiFullName: clk_gen.valid
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:clk start:20:22 end:20:25:
           vpiParent: Module name:clk_gen
           vpiTypespec RefTypespec start:20:5 end:20:10:
@@ -943,6 +946,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: clk_gen.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:in start:22:22 end:22:24:
           vpiParent: Module name:clk_gen
           vpiTypespec RefTypespec start:22:5 end:22:21:
@@ -952,6 +956,7 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: clk_gen.in
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:valid start:19:22 end:19:27:
           vpiParent: Module name:clk_gen
@@ -1233,15 +1238,6 @@ Design name:unnamed:
             vpiParent: PropertyDecl name:prop
             vpiName: prop
           vpiFullName: top.prop
-          vpiVariable (1 items):
-            Variable name:x start:64:13 end:64:14:
-              vpiParent: PropertyDecl name:prop
-              vpiTypespec RefTypespec start:64:9 end:64:12:
-                vpiParent: Variable name:x
-                vpiFullName: top.prop.x
-                vpiActual: IntTypespec
-              vpiName: x
-              vpiFullName: top.prop.x
           vpiPropertySpec PropertySpec start:65:9 end:65:62:
             vpiParent: PropertyDecl name:prop
             vpiClockingEvent Operation start:65:11 end:65:22:
@@ -1353,7 +1349,7 @@ Design name:unnamed:
                     vpiSize: 304
                     vpiDecompile: "\"property check failed :assert: (False)\""
                     vpiValue: "property check failed :assert: (False)"
-      vpiVariable (5 items):
+      vpiVariable (6 items):
         Variable name:cycle start:49:17 end:49:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:49:5 end:49:8:
@@ -1398,6 +1394,14 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: top.in
           vpiVector: true
+        Variable name:x start:64:13 end:64:14:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:64:9 end:64:12:
+            vpiParent: Variable name:x
+            vpiFullName: top.x
+            vpiActual: IntTypespec
+          vpiName: x
+          vpiFullName: top.x
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -1458,6 +1462,7 @@ Design name:unnamed:
           vpiName Identifier name:clk_gen start:55:5 end:55:12:
             vpiParent: ModuleTypespec name:clk_gen
             vpiName: clk_gen
+          vpiModule: Module name:clk_gen
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1719,7 +1724,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

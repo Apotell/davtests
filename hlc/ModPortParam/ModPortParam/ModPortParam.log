@@ -36,7 +36,7 @@ n<$Source01/dut.sv> u<69> t<Top_level_rule> c<1> l<1:1> el<18:1>
     n<> u<34> t<Description> p<68> c<33> s<67> l<8:1> el<11:10>
       n<> u<33> t<Module_declaration> p<34> c<31> l<8:1> el<11:10>
         n<> u<31> t<Module_ansi_header> p<33> c<20> s<32> l<8:1> el<10:3>
-          n<module> u<20> t<Module_keyword> p<31> s<21> l<8:1> el<8:7>
+          n<module> u<20> t<MODULE> p<31> s<21> l<8:1> el<8:7>
           n<CSR_Unit> u<21> t<SIMPLE_IDENTIFIER> p<31> s<22> l<8:8> el<8:16>
           n<> u<22> t<Package_import_declaration_list> p<31> s<30> l<8:16> el<8:16>
           n<> u<30> t<Port_declaration_list> p<31> c<29> l<8:16> el<10:2>
@@ -51,7 +51,7 @@ n<$Source01/dut.sv> u<69> t<Top_level_rule> c<1> l<1:1> el<18:1>
     n<> u<67> t<Description> p<68> c<66> l<13:1> el<17:10>
       n<> u<66> t<Module_declaration> p<67> c<39> l<13:1> el<17:10>
         n<> u<39> t<Module_nonansi_header> p<66> c<35> s<50> l<13:1> el<13:15>
-          n<module> u<35> t<Module_keyword> p<39> s<36> l<13:1> el<13:7>
+          n<module> u<35> t<MODULE> p<39> s<36> l<13:1> el<13:7>
           n<Core> u<36> t<SIMPLE_IDENTIFIER> p<39> s<37> l<13:8> el<13:12>
           n<> u<37> t<Package_import_declaration_list> p<39> s<38> l<13:12> el<13:12>
           n<> u<38> t<Port_list> p<39> l<13:12> el<13:14>
@@ -85,8 +85,8 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/dut.sv:1:1: Compile interface "PerformanceCounterIF".
 [ERR:CP0311] $Source01/dut.sv:4:9: Undefined net used in modport: "perfCounter".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "CSR_Unit".
+[WRN:CP0310] $Source01/dut.sv:9:30: Port "perfCounter" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/dut.sv:13:1: Compile module "Core".
-[ERR:LN0813] $Source01/dut.sv:1:1: Found 1 orphan node(s).
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "CSR_Unit".
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "Core".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "PerformanceCounterIF".
@@ -133,6 +133,22 @@ Design name:unnamed:
         vpiParent: Module name:CSR_Unit
         vpiName: CSR_Unit
       vpiFullName: CSR_Unit
+      vpiTypespec (1 items):
+        UnsupportedTypespec name:PerformanceCounterIF::CSR start:9:5 end:9:29:
+          vpiParent: Module name:CSR_Unit
+          vpiPathElem (2 items):
+            RefObj name:PerformanceCounterIF start:9:5 end:9:25:
+              vpiParent: UnsupportedTypespec name:PerformanceCounterIF::CSR
+              vpiName: PerformanceCounterIF
+              vpiFullName: CSR_Unit.PerformanceCounterIF::CSR.PerformanceCounterIF
+              vpiActual: Interface name:PerformanceCounterIF
+            RefObj name:CSR start:9:26 end:9:29:
+              vpiParent: UnsupportedTypespec name:PerformanceCounterIF::CSR
+              vpiName: CSR
+              vpiFullName: CSR_Unit.PerformanceCounterIF::CSR.CSR
+          vpiName Identifier name:PerformanceCounterIF::CSR:
+            vpiParent: UnsupportedTypespec name:PerformanceCounterIF::CSR
+            vpiName: PerformanceCounterIF::CSR
       vpiDefName: CSR_Unit
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -145,6 +161,15 @@ Design name:unnamed:
           vpiParent: Module name:CSR_Unit
           vpiName: perfCounter
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:perfCounter start:9:30 end:9:41:
+            vpiParent: Port name:perfCounter
+            vpiName: perfCounter
+            vpiFullName: CSR_Unit.perfCounter.perfCounter
+            vpiActual: Port name:perfCounter
+          vpiTypespec RefTypespec start:9:5 end:9:29:
+            vpiParent: Port name:perfCounter
+            vpiFullName: CSR_Unit.perfCounter
+            vpiActual: UnsupportedTypespec name:PerformanceCounterIF::CSR
     Module name:Core file:$Source01/dut.sv start:13:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Core start:13:8 end:13:12:
@@ -157,6 +182,7 @@ Design name:unnamed:
           vpiName Identifier name:CSR_Unit start:16:2 end:16:10:
             vpiParent: ModuleTypespec name:CSR_Unit
             vpiName: CSR_Unit
+          vpiModule: Module name:CSR_Unit
       vpiDefName: Core
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -214,8 +240,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 3
+[  ERROR] : 1
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -230,25 +256,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/ModPortParam/ModPortParam/mounts.json
 
 
-{'result': {'coverage': 89.7,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 24,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 233}},
-            'post_len': 24,
+            'post_len': 0,
             'pre_len': 233,
             'test_name': 'ModPortParam/ModPortParam'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      233 |        24 |
+| $Output/lib/work/dut.sv |      233 |         0 |
 +=========================+==========+===========+
-|                         |      233 |        24 |
+|                         |      233 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 89.7
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -259,7 +285,7 @@ COMMAND: ${HLC_DIR}/regression/ModPortParam/ModPortParam/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    31      31       0         0
+                                    37      37       0         0
 ===================== END REDUCTION RESULT =====================

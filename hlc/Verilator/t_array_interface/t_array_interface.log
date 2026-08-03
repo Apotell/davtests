@@ -57,7 +57,7 @@ n<$Source01/t_array_interface.v> u<565> t<Top_level_rule> c<1> l<6:1> el<65:1>
     n<> u<79> t<Description> p<564> c<78> s<100> l<12:1> el<18:10>
       n<> u<78> t<Module_declaration> p<79> c<60> l<12:1> el<18:10>
         n<> u<60> t<Module_ansi_header> p<78> c<41> s<76> l<12:1> el<16:3>
-          n<module> u<41> t<Module_keyword> p<60> s<42> l<12:1> el<12:7>
+          n<module> u<41> t<MODULE> p<60> s<42> l<12:1> el<12:7>
           n<modify_interface> u<42> t<SIMPLE_IDENTIFIER> p<60> s<43> l<12:8> el<12:24>
           n<> u<43> t<Package_import_declaration_list> p<60> s<59> l<13:1> el<13:1>
           n<> u<59> t<Port_declaration_list> p<60> c<51> l<13:1> el<16:2>
@@ -117,7 +117,7 @@ n<$Source01/t_array_interface.v> u<565> t<Top_level_rule> c<1> l<6:1> el<65:1>
     n<> u<563> t<Description> p<564> c<562> l<24:1> el<64:10>
       n<> u<562> t<Module_declaration> p<563> c<118> l<24:1> el<64:10>
         n<> u<118> t<Module_nonansi_header> p<562> c<101> s<145> l<24:1> el<27:5>
-          n<module> u<101> t<Module_keyword> p<118> s<102> l<24:1> el<24:7>
+          n<module> u<101> t<MODULE> p<118> s<102> l<24:1> el<24:7>
           n<t> u<102> t<SIMPLE_IDENTIFIER> p<118> s<103> l<24:8> el<24:9>
           n<> u<103> t<Package_import_declaration_list> p<118> s<116> l<25:1> el<25:1>
           n<> u<116> t<Parameter_port_list> p<118> c<115> s<117> l<25:1> el<27:2>
@@ -583,13 +583,12 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_array_interface.v:24:1: Compile module "t".
 [WRN:CP0323] $Source01/t_array_interface.v:24:1: Multiply defined typedef "modify_interface".
 [WRN:CP0323] $Source01/t_array_interface.v:24:1: Multiply defined typedef "modify_interface".
-[ERR:LN0813] $Source01/t_array_interface.v:1:1: Found 1 orphan node(s).
-[WRN:CP0350] $Source01/t_array_interface.v:17:18: Failed to bind "id:40, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:35:27: Failed to bind "id:134, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:47:21: Failed to bind "id:179, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:54:27: Failed to bind "id:220, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:60:19: Failed to bind "id:236, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:60:44: Failed to bind "id:243, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:17:18: Failed to bind "id:42, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:35:27: Failed to bind "id:136, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:47:21: Failed to bind "id:181, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:54:27: Failed to bind "id:222, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:60:19: Failed to bind "id:238, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:60:44: Failed to bind "id:245, name:logic_in_intf".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -657,12 +656,27 @@ Design name:unnamed:
         vpiParent: Module name:modify_interface
         vpiName: modify_interface
       vpiFullName: modify_interface
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         UnsupportedTypespec name:logic start:14:7 end:14:12:
           vpiParent: Module name:modify_interface
           vpiName Identifier name:logic start:14:7 end:14:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
+        UnsupportedTypespec name:intf::source start:15:1 end:15:12:
+          vpiParent: Module name:modify_interface
+          vpiPathElem (2 items):
+            RefObj name:intf start:15:1 end:15:5:
+              vpiParent: UnsupportedTypespec name:intf::source
+              vpiName: intf
+              vpiFullName: modify_interface.intf::source.intf
+              vpiActual: Interface name:intf
+            RefObj name:source start:15:6 end:15:12:
+              vpiParent: UnsupportedTypespec name:intf::source
+              vpiName: source
+              vpiFullName: modify_interface.intf::source.source
+          vpiName Identifier name:intf::source:
+            vpiParent: UnsupportedTypespec name:intf::source
+            vpiName: intf::source
       vpiDefName: modify_interface
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -699,7 +713,16 @@ Design name:unnamed:
         Port name:intf_inst start:15:13 end:15:22:
           vpiParent: Module name:modify_interface
           vpiName: intf_inst
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:intf_inst start:15:13 end:15:22:
+            vpiParent: Port name:intf_inst
+            vpiName: intf_inst
+            vpiFullName: modify_interface.intf_inst.intf_inst
+            vpiActual: Port name:intf_inst
+          vpiTypespec RefTypespec start:15:1 end:15:12:
+            vpiParent: Port name:intf_inst
+            vpiFullName: modify_interface.intf_inst
+            vpiActual: UnsupportedTypespec name:intf::source
       vpiContAssign (1 items):
         ContAssign start:17:8 end:17:39:
           vpiParent: Module name:modify_interface
@@ -859,16 +882,19 @@ Design name:unnamed:
           vpiName Identifier name:modify_interface start:38:5 end:38:21:
             vpiParent: ModuleTypespec name:modify_interface
             vpiName: modify_interface
+          vpiModule: Module name:modify_interface
         ModuleTypespec name:modify_interface start:42:5 end:42:21:
           vpiParent: Module name:t
           vpiName Identifier name:modify_interface start:42:5 end:42:21:
             vpiParent: ModuleTypespec name:modify_interface
             vpiName: modify_interface
+          vpiModule: Module name:modify_interface
         ModuleTypespec name:modify_interface start:46:5 end:46:21:
           vpiParent: Module name:t
           vpiName Identifier name:modify_interface start:46:5 end:46:21:
             vpiParent: ModuleTypespec name:modify_interface
             vpiName: modify_interface
+          vpiModule: Module name:modify_interface
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1536,7 +1562,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
@@ -1552,25 +1578,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_array_interface/mounts.json
 
 
-{'result': {'coverage': 98.83,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_array_interface.v': {'post_len': 11,
+            'files': {'$Output/lib/work/t_array_interface.v': {'post_len': 0,
                                                                'pre_len': 941}},
-            'post_len': 11,
+            'post_len': 0,
             'pre_len': 941,
             'test_name': 'Verilator/t_array_interface'}}
 
 +--------------------------------------+----------+-----------+
 | INPUT                                |   PRELEN |   POSTLEN |
 +======================================+==========+===========+
-| $Output/lib/work/t_array_interface.v |      941 |        11 |
+| $Output/lib/work/t_array_interface.v |      941 |         0 |
 +======================================+==========+===========+
-|                                      |      941 |        11 |
+|                                      |      941 |         0 |
 +--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.83
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1582,10 +1608,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            23      18       4         9
 Operation                           12       8       0         4
-RefObj                              43      40       0         3
-RefTypespec                         39      33       3         9
+RefObj                              46      43       0         3
+RefTypespec                         40      34       3         9
 ----------------------------------------------------------------
-Others                             112     112       0         0
+Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   229     211       7        25
+                                   235     217       7        25
 ===================== END REDUCTION RESULT =====================
