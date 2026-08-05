@@ -86,7 +86,6 @@ COMMAND: -wd ../../../tests/YosysDsp +incdir+. -sverilog -writepp -fileunit boxc
 [INF:CP0335] $Source01/slowsymf.v:114:19: Compile generate block "DYNAMIC_TAP_ADJUSTMENT".
 [INF:CP0303] $Source01/smplfir.v:47:1: Compile module "smplfir".
 [WRN:CP0334] Colliding compilation unit name: "slowfil_srl".
-[ERR:LN0814] Found 3 weak node(s).
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/boxcar.v:74:1: No timescale set for "boxcar".
 [WRN:PA0205] $Source01/delayw.v:42:1: No timescale set for "delayw".
@@ -345,6 +344,17 @@ Design name:unnamed:
         SourceFile name:slowfil_srl.vh file:$Source01/slowfil_srl.vh start:23:1 end:23:26:
           vpiParent: SourceFile name:slowfil_srl_fixedtaps.v
           vpiName: slowfil_srl.vh
+          vpiDirective (1 items):
+            GenericDirective start:47:1 end:47:22:
+              vpiParent: SourceFile name:slowfil_srl.vh
+              vpiDirectiveType: default_nettype (6)
+              vpiValue Constant start:47:18 end:47:22:
+                vpiParent: GenericDirective
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: slowfil_srl_fixedtaps.v.slowfil_srl.vh
+                  vpiActual: IntTypespec
+                vpiDecompile: "12"
     SourceFile name:slowsymf.v file:$Source01/slowsymf.v:
       vpiParent: Design name:unnamed
       vpiName: slowsymf.v
@@ -27135,7 +27145,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: slowfil_srl
-      vpiDefNetType: wire (1)
+      vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:slowfil_srl
         vpiName: work
@@ -33689,7 +33699,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 5
 [WARNING] : 22
 [   NOTE] : 0
 ********************************************************************************
@@ -33705,7 +33715,7 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysDsp/YosysDsp/mounts.json
 
 
-{'result': {'coverage': 99.92,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 19,
             'files': {'$Output/lib/work/boxcar.v': {'post_len': 0,
@@ -33740,13 +33750,13 @@ mounts-filepath: ${HLC_DIR}/regression/YosysDsp/YosysDsp/mounts.json
                                                                'pre_len': 594},
                       '$Output/lib/work/slowfil_srl.v': {'post_len': 0,
                                                          'pre_len': 2622},
-                      '$Output/lib/work/slowfil_srl_fixedtaps.v': {'post_len': 21,
+                      '$Output/lib/work/slowfil_srl_fixedtaps.v': {'post_len': 0,
                                                                    'pre_len': 3256},
                       '$Output/lib/work/slowsymf.v': {'post_len': 0,
                                                       'pre_len': 3740},
                       '$Output/lib/work/smplfir.v': {'post_len': 0,
                                                      'pre_len': 342}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 27817,
             'test_name': 'YosysDsp/YosysDsp'}}
 
@@ -33769,15 +33779,15 @@ mounts-filepath: ${HLC_DIR}/regression/YosysDsp/YosysDsp/mounts.json
 | $Output/lib/work/slowfil.v               |     2598 |         0 |
 | $Output/lib/work/slowfil_fixedtaps.v     |      594 |         0 |
 | $Output/lib/work/slowfil_srl.v           |     2622 |         0 |
-| $Output/lib/work/slowfil_srl_fixedtaps.v |     3256 |        21 |
+| $Output/lib/work/slowfil_srl_fixedtaps.v |     3256 |         0 |
 | $Output/lib/work/slowsymf.v              |     3740 |         0 |
 | $Output/lib/work/smplfir.v               |      342 |         0 |
 +==========================================+==========+===========+
-|                                          |    27817 |        21 |
+|                                          |    27817 |         0 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.92
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -33787,12 +33797,12 @@ COMMAND: ${HLC_DIR}/regression/YosysDsp/YosysDsp/design.hldb ${HLC_DIR}/regressi
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                           914     923     268       259
+Constant                           915     924     268       259
 Operation                          728     386       0       342
 RefObj                            1847    1508       0       339
-RefTypespec                       1642    1643     260       259
+RefTypespec                       1643    1644     260       259
 ----------------------------------------------------------------
-Others                            2915    2915       0         0
+Others                            2916    2916       0         0
 ----------------------------------------------------------------
-                                  8046    7375     528      1199
+                                  8049    7378     528      1199
 ===================== END REDUCTION RESULT =====================

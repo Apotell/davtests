@@ -582,7 +582,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_nest.v:15:1: Compile module "mod1".
 [INF:CP0303] $Source01/t_interface_nest.v:37:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_nest.v:37:1: Multiply defined typedef "mod1".
-[ERR:LN0814] Found 3 weak node(s).
 [WRN:CP0350] $Source01/t_interface_nest.v:26:18: Failed to bind "id:66, name:i1".
 [WRN:CP0350] $Source01/t_interface_nest.v:26:21: Failed to bind "id:67, name:var1".
 [WRN:CP0350] $Source01/t_interface_nest.v:30:18: Failed to bind "id:94, name:i1".
@@ -653,6 +652,15 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: if2.work
       vpiCell: if2
+      vpiRefInstance (1 items):
+        RefInstance name:i1 start:11:8 end:11:10:
+          vpiParent: Interface name:if2
+          vpiName: i1
+          vpiTypespec RefTypespec name:if1 start:11:4 end:11:7:
+            vpiParent: RefInstance name:i1
+            vpiName: if1
+            vpiFullName: if2.i1.if1
+            vpiActual: InterfaceTypespec name:if1
   vpiAllModules (2 items):
     Module name:mod1 file:$Source01/t_interface_nest.v start:15:1 end:35:10:
       vpiParent: Design name:unnamed
@@ -1405,7 +1413,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
@@ -1421,25 +1429,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_nest/mounts.json
 
 
-{'result': {'coverage': 99.15,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_nest.v': {'post_len': 6,
+            'files': {'$Output/lib/work/t_interface_nest.v': {'post_len': 0,
                                                               'pre_len': 704}},
-            'post_len': 6,
+            'post_len': 0,
             'pre_len': 704,
             'test_name': 'Verilator/t_interface_nest'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_interface_nest.v |      704 |         6 |
+| $Output/lib/work/t_interface_nest.v |      704 |         0 |
 +=====================================+==========+===========+
-|                                     |      704 |         6 |
+|                                     |      704 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.15
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1452,9 +1460,9 @@ Name                            Before   After   Added   Removed
 Constant                            16      16       2         2
 Operation                           10       8       0         2
 RefObj                              45      43       0         2
-RefTypespec                         33      33       2         2
+RefTypespec                         34      34       2         2
 ----------------------------------------------------------------
-Others                              94      94       0         0
+Others                              95      95       0         0
 ----------------------------------------------------------------
-                                   198     194       4         8
+                                   200     196       4         8
 ===================== END REDUCTION RESULT =====================

@@ -732,7 +732,6 @@ n<$Source01/16.10--property-local-var-fail.sv> u<717> t<Top_level_rule> c<1> l<1
 AST_DEBUG_END
 [INF:CP0303] $Source01/16.10--property-local-var-fail.sv:18:1: Compile module "clk_gen".
 [INF:CP0303] $Source01/16.10--property-local-var-fail.sv:47:1: Compile module "top".
-[ERR:CP0347] $Source01/16.10--property-local-var-fail.sv:1:1: Call to "Variable::setParent" failed.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1238,6 +1237,15 @@ Design name:unnamed:
             vpiParent: PropertyDecl name:prop
             vpiName: prop
           vpiFullName: top.prop
+          vpiVariable (1 items):
+            Variable name:x start:64:13 end:64:14:
+              vpiParent: PropertyDecl name:prop
+              vpiTypespec RefTypespec start:64:9 end:64:12:
+                vpiParent: Variable name:x
+                vpiFullName: top.prop.x
+                vpiActual: IntTypespec
+              vpiName: x
+              vpiFullName: top.prop.x
           vpiPropertySpec PropertySpec start:65:9 end:65:62:
             vpiParent: PropertyDecl name:prop
             vpiClockingEvent Operation start:65:11 end:65:22:
@@ -1349,7 +1357,7 @@ Design name:unnamed:
                     vpiSize: 304
                     vpiDecompile: "\"property check failed :assert: (False)\""
                     vpiValue: "property check failed :assert: (False)"
-      vpiVariable (6 items):
+      vpiVariable (5 items):
         Variable name:cycle start:49:17 end:49:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:49:5 end:49:8:
@@ -1394,14 +1402,6 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: top.in
           vpiVector: true
-        Variable name:x start:64:13 end:64:14:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:64:9 end:64:12:
-            vpiParent: Variable name:x
-            vpiFullName: top.x
-            vpiActual: IntTypespec
-          vpiName: x
-          vpiFullName: top.x
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -1724,7 +1724,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

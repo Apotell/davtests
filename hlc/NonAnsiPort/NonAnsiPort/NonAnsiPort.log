@@ -225,9 +225,6 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "pkg1".
 [INF:CP0301] $Source01/dut.sv:7:1: Compile package "pkg2".
 [INF:CP0303] $Source01/dut.sv:13:1: Compile module "dut".
-[WRN:CP0350] $Source01/dut.sv:22:17: Failed to bind "id:85, name:first".
-[WRN:CP0350] $Source01/dut.sv:23:17: Failed to bind "id:92, name:second".
-[WRN:CP0350] $Source01/dut.sv:24:17: Failed to bind "id:99, name:third".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "pkg1".
 [WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "pkg2".
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "dut".
@@ -370,29 +367,32 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:var1 start:18:26 end:18:30:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:18:12 end:18:25:
+          vpiTypespec RefTypespec name:pkg1::struct1 start:18:12 end:18:25:
             vpiParent: Variable name:var1
-            vpiFullName: dut.var1
-            vpiActual: UnsupportedTypespec name:pkg1::struct1
+            vpiName: pkg1::struct1
+            vpiFullName: dut.var1.pkg1::struct1
+            vpiActual: TypedefTypespec name:struct1
           vpiName: var1
           vpiFullName: dut.var1
         Variable name:var2 start:19:26 end:19:30:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:19:12 end:19:25:
+          vpiTypespec RefTypespec name:pkg2::struct1 start:19:12 end:19:25:
             vpiParent: Variable name:var2
-            vpiFullName: dut.var2
-            vpiActual: UnsupportedTypespec name:pkg2::struct1
+            vpiName: pkg2::struct1
+            vpiFullName: dut.var2.pkg2::struct1
+            vpiActual: TypedefTypespec name:struct1
           vpiName: var2
           vpiFullName: dut.var2
         Variable name:var3 start:20:20 end:20:24:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:20:12 end:20:19:
+          vpiTypespec RefTypespec name:struct2 start:20:12 end:20:19:
             vpiParent: Variable name:var3
-            vpiFullName: dut.var3
-            vpiActual: UnsupportedTypespec name:struct2
+            vpiName: struct2
+            vpiFullName: dut.var3.struct2
+            vpiActual: TypedefTypespec name:struct2
           vpiName: var3
           vpiFullName: dut.var3
-      vpiTypespec (6 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:dut
           vpiRange (1 items):
@@ -439,43 +439,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:struct2
             vpiFullName: dut.struct2
             vpiActual: StructTypespec
-        UnsupportedTypespec name:pkg1::struct1 start:18:12 end:18:25:
-          vpiParent: Module name:dut
-          vpiPathElem (2 items):
-            UnsupportedScope name:pkg1 start:18:12 end:18:18:
-              vpiParent: UnsupportedTypespec name:pkg1::struct1
-              vpiName Identifier name:pkg1 start:18:12 end:18:16:
-                vpiParent: UnsupportedScope name:pkg1
-                vpiName: pkg1
-              vpiFullName: dut.pkg1::struct1.pkg1
-            RefTypespec name:struct1 start:18:18 end:18:25:
-              vpiParent: UnsupportedTypespec name:pkg1::struct1
-              vpiName: struct1
-              vpiFullName: dut.pkg1::struct1.struct1
-          vpiName Identifier name:pkg1::struct1 start:18:12 end:18:25:
-            vpiParent: UnsupportedTypespec name:pkg1::struct1
-            vpiName: pkg1::struct1
-        UnsupportedTypespec name:pkg2::struct1 start:19:12 end:19:25:
-          vpiParent: Module name:dut
-          vpiPathElem (2 items):
-            UnsupportedScope name:pkg2 start:19:12 end:19:18:
-              vpiParent: UnsupportedTypespec name:pkg2::struct1
-              vpiName Identifier name:pkg2 start:19:12 end:19:16:
-                vpiParent: UnsupportedScope name:pkg2
-                vpiName: pkg2
-              vpiFullName: dut.pkg2::struct1.pkg2
-            RefTypespec name:struct1 start:19:18 end:19:25:
-              vpiParent: UnsupportedTypespec name:pkg2::struct1
-              vpiName: struct1
-              vpiFullName: dut.pkg2::struct1.struct1
-          vpiName Identifier name:pkg2::struct1 start:19:12 end:19:25:
-            vpiParent: UnsupportedTypespec name:pkg2::struct1
-            vpiName: pkg2::struct1
-        UnsupportedTypespec name:struct2 start:20:12 end:20:19:
-          vpiParent: Module name:dut
-          vpiName Identifier name:struct2 start:20:12 end:20:19:
-            vpiParent: UnsupportedTypespec name:struct2
-            vpiName: struct2
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -493,10 +456,11 @@ Design name:unnamed:
             vpiName: var1
             vpiFullName: dut.var1.var1
             vpiActual: Variable name:var1
-          vpiTypespec RefTypespec start:18:12 end:18:25:
+          vpiTypespec RefTypespec name:pkg1::struct1 start:18:12 end:18:25:
             vpiParent: Port name:var1
-            vpiFullName: dut.var1
-            vpiActual: UnsupportedTypespec name:pkg1::struct1
+            vpiName: pkg1::struct1
+            vpiFullName: dut.var1.pkg1::struct1
+            vpiActual: TypedefTypespec name:struct1
         Port name:var2 start:13:18 end:13:22:
           vpiParent: Module name:dut
           vpiName: var2
@@ -506,10 +470,11 @@ Design name:unnamed:
             vpiName: var2
             vpiFullName: dut.var2.var2
             vpiActual: Variable name:var2
-          vpiTypespec RefTypespec start:19:12 end:19:25:
+          vpiTypespec RefTypespec name:pkg2::struct1 start:19:12 end:19:25:
             vpiParent: Port name:var2
-            vpiFullName: dut.var2
-            vpiActual: UnsupportedTypespec name:pkg2::struct1
+            vpiName: pkg2::struct1
+            vpiFullName: dut.var2.pkg2::struct1
+            vpiActual: TypedefTypespec name:struct1
         Port name:var3 start:13:24 end:13:28:
           vpiParent: Module name:dut
           vpiName: var3
@@ -519,10 +484,11 @@ Design name:unnamed:
             vpiName: var3
             vpiFullName: dut.var3.var3
             vpiActual: Variable name:var3
-          vpiTypespec RefTypespec start:20:12 end:20:19:
+          vpiTypespec RefTypespec name:struct2 start:20:12 end:20:19:
             vpiParent: Port name:var3
-            vpiFullName: dut.var3
-            vpiActual: UnsupportedTypespec name:struct2
+            vpiName: struct2
+            vpiFullName: dut.var3.struct2
+            vpiActual: TypedefTypespec name:struct2
       vpiContAssign (3 items):
         ContAssign start:22:12 end:22:28:
           vpiParent: Module name:dut
@@ -540,6 +506,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:var1.first
                 vpiName: first
                 vpiFullName: dut.first
+                vpiActual: TypespecMember name:first
           vpiRhs Constant start:22:25 end:22:28:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -566,6 +533,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:var2.second
                 vpiName: second
                 vpiFullName: dut.second
+                vpiActual: TypespecMember name:second
           vpiRhs Constant start:23:26 end:23:29:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -592,6 +560,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:var3.third
                 vpiName: third
                 vpiFullName: dut.third
+                vpiActual: TypespecMember name:third
           vpiRhs Constant start:24:25 end:24:27:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -616,7 +585,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -660,7 +629,7 @@ COMMAND: ${HLC_DIR}/regression/NonAnsiPort/NonAnsiPort/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              83      83       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    83      83       0         0
 ===================== END REDUCTION RESULT =====================

@@ -2502,7 +2502,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:309:1: Compile module "top".
 [INF:CP0307] $Source01/dut.sv:389:9: Compile checker "my_checker_global2".
 [ERR:LN0813] $Source01/dut.sv:1:1: Found 6 orphan node(s).
-[ERR:LN0814] Found 61 weak node(s).
+[ERR:LN0814] Found 9 weak node(s).
 [WRN:PA0205] $Source01/dut.sv:309:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -4694,6 +4694,97 @@ Design name:unnamed:
             vpiFullName: C10_GenvarLoop.en
             vpiActual: LogicTypespec
           vpiFormalType: data (1)
+      vpiGenStmt (1 items):
+        GenRegion start:195:5 end:199:16:
+          vpiParent: CheckerDecl name:C10_GenvarLoop
+          vpiFullName: C10_GenvarLoop
+          vpiStmt GenFor start:196:9 end:198:12:
+            vpiParent: GenRegion
+            vpiFullName: C10_GenvarLoop
+            vpiVariable (1 items):
+              Variable name:gi start:196:14 end:196:16:
+                vpiParent: GenFor
+                vpiName: gi
+                vpiFullName: C10_GenvarLoop.gi
+            vpiForInitStmt (1 items):
+              Assignment start:196:14 end:196:20:
+                vpiParent: GenFor
+                vpiLhs: Variable name:gi
+                vpiRhs Constant start:196:19 end:196:20:
+                  vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: C10_GenvarLoop
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+            vpiForIncStmt (1 items):
+              Operation start:196:30 end:196:34:
+                vpiParent: GenFor
+                vpiOpType: post inc (64)
+                vpiOperand (1 items):
+                  RefObj name:gi start:196:30 end:196:32:
+                    vpiParent: Operation
+                    vpiName: gi
+                    vpiFullName: C10_GenvarLoop.gi
+                    vpiActual: Variable name:gi
+            vpiCondition Operation start:196:22 end:196:28:
+              vpiParent: GenFor
+              vpiOpType: less than (20)
+              vpiOperand (2 items):
+                RefObj name:gi start:196:22 end:196:24:
+                  vpiParent: Operation
+                  vpiName: gi
+                  vpiFullName: C10_GenvarLoop.gi
+                  vpiActual: Variable name:gi
+                Constant start:196:27 end:196:28:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: C10_GenvarLoop
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "4"
+                  vpiValue: 4
+            vpiStmt Begin name:gen_en_check start:196:36 end:198:12:
+              vpiParent: GenFor
+              vpiName Identifier name:gen_en_check start:196:44 end:196:56:
+                vpiParent: Begin name:gen_en_check
+                vpiName: gen_en_check
+              vpiFullName: C10_GenvarLoop.gen_en_check
+              vpiConcurrentAssertions (1 items):
+                Assert start:197:13 end:197:53:
+                  vpiParent: Begin name:gen_en_check
+                  vpiProperty PropertySpec start:197:30 end:197:51:
+                    vpiParent: Assert
+                    vpiClockingEvent Operation start:197:32 end:197:43:
+                      vpiParent: PropertySpec
+                      vpiOpType: posedge (39)
+                      vpiOperand (1 items):
+                        RefObj name:clk start:197:40 end:197:43:
+                          vpiParent: Operation
+                          vpiName: clk
+                          vpiFullName: C10_GenvarLoop.gen_en_check.clk
+                          vpiActual: CheckerPort name:clk
+                    vpiPropertyExpr BitSelect name:en[gi] start:197:45 end:197:51:
+                      vpiParent: PropertySpec
+                      vpiName: en[gi]
+                      vpiFullName: C10_GenvarLoop.gen_en_check.en[gi]
+                      vpiPrefix RefObj name:en start:197:45 end:197:47:
+                        vpiParent: BitSelect name:en[gi]
+                        vpiName: en
+                        vpiFullName: C10_GenvarLoop.gen_en_check.en
+                        vpiActual: CheckerPort name:en
+                      vpiIndex RefObj name:gi start:197:48 end:197:50:
+                        vpiParent: BitSelect name:en[gi]
+                        vpiName: gi
+                        vpiFullName: C10_GenvarLoop.gen_en_check.gi
+                        vpiActual: Variable name:gi
+              vpiStmt (1 items):
+                Assert:
     CheckerDecl name:C11_ConditionalGen start:206:1 end:215:32:
       vpiParent: Design name:unnamed
       vpiName Identifier name:C11_ConditionalGen start:206:9 end:206:27:
@@ -4737,6 +4828,134 @@ Design name:unnamed:
             vpiFullName: C11_ConditionalGen.b
             vpiActual: LogicTypespec
           vpiFormalType: data (1)
+      vpiGenStmt (1 items):
+        GenRegion start:208:5 end:214:16:
+          vpiParent: CheckerDecl name:C11_ConditionalGen
+          vpiFullName: C11_ConditionalGen
+          vpiStmt GenIfElse start:209:9 end:213:12:
+            vpiParent: GenRegion
+            vpiCondition Constant start:209:13 end:209:14:
+              vpiParent: GenIfElse
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: C11_ConditionalGen
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "1"
+              vpiValue: 1
+            vpiStmt Begin name:gen_strict start:209:16 end:211:12:
+              vpiParent: GenIfElse
+              vpiName Identifier name:gen_strict start:209:24 end:209:34:
+                vpiParent: Begin name:gen_strict
+                vpiName: gen_strict
+              vpiFullName: C11_ConditionalGen.gen_strict
+              vpiConcurrentAssertions (1 items):
+                Assert start:210:13 end:210:58:
+                  vpiParent: Begin name:gen_strict
+                  vpiProperty PropertySpec start:210:30 end:210:56:
+                    vpiParent: Assert
+                    vpiClockingEvent Operation start:210:32 end:210:43:
+                      vpiParent: PropertySpec
+                      vpiOpType: posedge (39)
+                      vpiOperand (1 items):
+                        RefObj name:clk start:210:40 end:210:43:
+                          vpiParent: Operation
+                          vpiName: clk
+                          vpiFullName: C11_ConditionalGen.gen_strict.clk
+                          vpiActual: CheckerPort name:clk
+                    vpiPropertyExpr Operation start:210:45 end:210:56:
+                      vpiParent: PropertySpec
+                      vpiOpType: overlap imply (52)
+                      vpiOperand (2 items):
+                        RefObj name:a start:210:45 end:210:46:
+                          vpiParent: Operation
+                          vpiName: a
+                          vpiFullName: C11_ConditionalGen.gen_strict.a
+                          vpiActual: CheckerPort name:a
+                        Operation start:210:51 end:210:56:
+                          vpiParent: Operation
+                          vpiOpType: unary cycle delay (70)
+                          vpiOperand (2 items):
+                            Constant start:210:53 end:210:54:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: C11_ConditionalGen.gen_strict
+                                vpiActual: IntTypespec
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                            RefObj name:b start:210:55 end:210:56:
+                              vpiParent: Operation
+                              vpiName: b
+                              vpiFullName: C11_ConditionalGen.gen_strict.b
+                              vpiActual: CheckerPort name:b
+              vpiStmt (1 items):
+                Assert:
+            vpiElseStmt Begin name:gen_loose start:211:18 end:213:12:
+              vpiParent: GenIfElse
+              vpiName Identifier name:gen_loose start:211:26 end:211:35:
+                vpiParent: Begin name:gen_loose
+                vpiName: gen_loose
+              vpiFullName: C11_ConditionalGen.gen_loose
+              vpiConcurrentAssertions (1 items):
+                Assert start:212:13 end:212:62:
+                  vpiParent: Begin name:gen_loose
+                  vpiProperty PropertySpec start:212:30 end:212:60:
+                    vpiParent: Assert
+                    vpiClockingEvent Operation start:212:32 end:212:43:
+                      vpiParent: PropertySpec
+                      vpiOpType: posedge (39)
+                      vpiOperand (1 items):
+                        RefObj name:clk start:212:40 end:212:43:
+                          vpiParent: Operation
+                          vpiName: clk
+                          vpiFullName: C11_ConditionalGen.gen_loose.clk
+                          vpiActual: CheckerPort name:clk
+                    vpiPropertyExpr Operation start:212:45 end:212:60:
+                      vpiParent: PropertySpec
+                      vpiOpType: overlap imply (52)
+                      vpiOperand (2 items):
+                        RefObj name:a start:212:45 end:212:46:
+                          vpiParent: Operation
+                          vpiName: a
+                          vpiFullName: C11_ConditionalGen.gen_loose.a
+                          vpiActual: CheckerPort name:a
+                        Operation start:212:51 end:212:60:
+                          vpiParent: Operation
+                          vpiOpType: unary cycle delay (70)
+                          vpiOperand (2 items):
+                            Range start:212:54 end:212:57:
+                              vpiParent: Operation
+                              vpiLeftRange Constant start:212:54 end:212:55:
+                                vpiParent: Range
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: C11_ConditionalGen.gen_loose
+                                  vpiActual: IntTypespec
+                                vpiConstType: unsigned int (9)
+                                vpiSize: 64
+                                vpiDecompile: "1"
+                                vpiValue: 1
+                              vpiRightRange Constant start:212:56 end:212:57:
+                                vpiParent: Range
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: C11_ConditionalGen.gen_loose
+                                  vpiActual: IntTypespec
+                                vpiConstType: unsigned int (9)
+                                vpiSize: 64
+                                vpiDecompile: "5"
+                                vpiValue: 5
+                            RefObj name:b start:212:59 end:212:60:
+                              vpiParent: Operation
+                              vpiName: b
+                              vpiFullName: C11_ConditionalGen.gen_loose.b
+                              vpiActual: CheckerPort name:b
+              vpiStmt (1 items):
+                Assert:
     CheckerDecl name:C12_NestedChecker start:222:1 end:231:31:
       vpiParent: Design name:unnamed
       vpiName Identifier name:C12_NestedChecker start:222:9 end:222:26:
@@ -5402,25 +5621,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/CheckerDecl/CheckerDecl/mounts.json
 
 
-{'result': {'coverage': 91.09,
+{'result': {'coverage': 92.66,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 424,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 349,
                                                   'pre_len': 4758}},
-            'post_len': 424,
+            'post_len': 349,
             'pre_len': 4758,
             'test_name': 'CheckerDecl/CheckerDecl'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |     4758 |       424 |
+| $Output/lib/work/dut.sv |     4758 |       349 |
 +=========================+==========+===========+
-|                         |     4758 |       424 |
+|                         |     4758 |       349 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 91.09
+[COVERAGE] : 92.66
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -5431,7 +5650,7 @@ COMMAND: ${HLC_DIR}/regression/CheckerDecl/CheckerDecl/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             700     700       0         0
+Others                             752     752       0         0
 ----------------------------------------------------------------
-                                   700     700       0         0
+                                   752     752       0         0
 ===================== END REDUCTION RESULT =====================

@@ -402,7 +402,6 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/t_struct_array.v:6:1: Compile package "TEST_TYPES".
 [INF:CP0303] $Source01/t_struct_array.v:12:1: Compile module "t".
 [INF:CP0303] $Source01/t_struct_array.v:26:1: Compile module "sub".
-[WRN:CP0350] $Source01/t_struct_array.v:31:11: Failed to bind "id:163, name:stuff".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -775,10 +774,11 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:a_out start:28:42 end:28:47:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:28:11 end:28:41:
+          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:28:11 end:28:41:
             vpiParent: Variable name:a_out
-            vpiFullName: sub.a_out
-            vpiActual: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
+            vpiName: TEST_TYPES::a_struct_t
+            vpiFullName: sub.a_out.TEST_TYPES::a_struct_t
+            vpiActual: TypedefTypespec name:a_struct_t
           vpiName: a_out
           vpiFullName: sub.a_out
       vpiParameter (1 items):
@@ -808,26 +808,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:sub
-        UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0] start:28:11 end:28:41:
-          vpiParent: Module name:sub
-          vpiPathElem (2 items):
-            UnsupportedScope name:TEST_TYPES start:28:11 end:28:23:
-              vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
-              vpiName Identifier name:TEST_TYPES start:28:11 end:28:21:
-                vpiParent: UnsupportedScope name:TEST_TYPES
-                vpiName: TEST_TYPES
-              vpiFullName: sub.TEST_TYPES::a_struct_t [n-1:0].TEST_TYPES
-            RefTypespec name:a_struct_t start:28:23 end:28:41:
-              vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
-              vpiName: a_struct_t
-              vpiFullName: sub.TEST_TYPES::a_struct_t [n-1:0].a_struct_t
-              vpiActual: ArrayTypespec
-          vpiName Identifier name:TEST_TYPES::a_struct_t [n-1:0] start:28:11 end:28:41:
-            vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
-            vpiName: TEST_TYPES::a_struct_t [n-1:0]
         UnsupportedTypespec name:a_struct_t start:28:23 end:28:41:
           vpiParent: Module name:sub
           vpiName Identifier name:a_struct_t:
@@ -889,10 +872,11 @@ Design name:unnamed:
             vpiName: a_out
             vpiFullName: sub.a_out.a_out
             vpiActual: Variable name:a_out
-          vpiTypespec RefTypespec start:28:11 end:28:41:
+          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:28:11 end:28:41:
             vpiParent: Port name:a_out
-            vpiFullName: sub.a_out
-            vpiActual: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
+            vpiName: TEST_TYPES::a_struct_t
+            vpiFullName: sub.a_out.TEST_TYPES::a_struct_t
+            vpiActual: TypedefTypespec name:a_struct_t
       vpiProcess (1 items):
         Always start:29:4 end:32:7:
           vpiParent: Module name:sub
@@ -976,6 +960,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:a_out[i].stuff
                         vpiName: stuff
                         vpiFullName: sub.stuff
+                        vpiActual: TypespecMember name:stuff
                   vpiRhs BitSelect name:i[0] start:31:19 end:31:23:
                     vpiParent: Assignment
                     vpiName: i[0]
@@ -1018,7 +1003,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1064,9 +1049,9 @@ Name                            Before   After   Added   Removed
 Constant                            16      16       1         1
 Operation                            8       7       0         1
 RefObj                              20      19       0         1
-RefTypespec                         29      29       1         1
+RefTypespec                         28      28       1         1
 ----------------------------------------------------------------
-Others                              78      78       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                   151     149       2         4
+                                   146     144       2         4
 ===================== END REDUCTION RESULT =====================
