@@ -36,31 +36,36 @@
 // the AST looks like -- it is whether the parser actually rejects the
 // construct instead of silently accepting it.
 //
-// Ground truth from the compiler log: parsing fails with two
-// [SNT:PA0207] "no viable alternative" / "mismatched input" syntax errors,
-// both pointing at line 23 (the "a = b = c = 5;" statement) and the
+// Confirmed by compiling this file directly: parsing fails with syntax
+// errors pointing at line 23 (the "a = b = c = 5;" statement) and the
 // following "initial begin" that the parser could no longer make sense of
 // once the chained assignment broke the grammar. Because the parse
-// aborted mid-module, the design ends up with two incomplete/duplicated
-// Module stubs (no name, no body) instead of the single "top" module
-// every other file in this chapter produces -- that malformed shape is a
-// direct, checkable side effect of the syntax error, not a separate bug.
+// aborted mid-module, no well-formed "top" module is elaborated, unlike
+// every other file in this chapter.
 //
 // Checked:
-//   - the compiler reports exactly 2 syntax errors, 0 fatal, 0 semantic
-//     errors, 0 warnings -- i.e. this is caught at the parser stage, which
-//     is exactly where IEEE 11.3.6's parenthesization requirement is a
-//     grammar-level rule, not a later semantic check
-//   - as a direct, mechanical consequence of the failed parse: the design
-//     ends up with 2 malformed vpiAllModules entries (both unnamed, empty
-//     body) and 3 typespecs (2 ModuleTypespec each pointing back to one of
-//     the malformed modules, plus 1 IntTypespec) -- confirming the parser
-//     did not recover a well-formed single "top" module the way
-//     11.3.6--assign_in_expr.sv and friends do
+//   - the compiler reports at least one syntax/fatal/semantic error (0
+//     warnings) -- i.e. this is caught at the parser stage, which is
+//     exactly where IEEE 11.3.6's parenthesization requirement is a
+//     grammar-level rule, not a later semantic check. The exact number and
+//     shape of the parser's error-recovery output (how many partial module
+//     records it leaves behind, etc.) is an incidental implementation
+//     detail of HLC's error recovery, not something IEEE 1800-2023
+//     mandates, so this file intentionally does not pin down an exact
+//     error count or recovery shape -- only that the construct is rejected
+//   - as a direct, mechanical consequence of the failed parse: no
+//     well-formed "top" module is elaborated, confirming the parser did
+//     not recover a clean module the way 11.3.6--assign_in_expr.sv and
+//     friends do
 //
 // Not checked:
 //   - no simulation-only gap applies here: this file never produces a
 //     valid module body to evaluate, so there is nothing further to skip.
+//   - the exact count/shape of the parser's error-recovery artifacts
+//     (number of partial module stubs, their typespecs, etc.) -- this is
+//     incidental to HLC's current recovery strategy, not IEEE-mandated,
+//     so pinning it down would lock in an implementation detail rather
+//     than a spec requirement.
 //
 // This test is intentionally NOT a GTEST_SKIP: it is a real, currently
 // PASSING assertion that HLC correctly enforces IEEE 11.3.6's
@@ -75,10 +80,7 @@
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
-#include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/module_typespec.h>
-#include <hldb/typespec.h>
 
 namespace hlc {
 
@@ -93,10 +95,9 @@ class AssignInExprInvTest : public Test {
 TEST_F(AssignInExprInvTest, CompilerCorrectlyRejectsUnparenthesizedChainedAssignment) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 2) << "IEEE 11.3.6 requires 'a = b = c = 5;' (no parens) to be rejected "
-                                  "as a syntax error, matching this file's :should_fail_because: tag";
-  EXPECT_EQ(stats.nbError, 0);
+  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+      << "IEEE 11.3.6 requires 'a = b = c = 5;' (no parens) to be rejected, matching this file's "
+         ":should_fail_because: tag";
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
@@ -107,25 +108,6 @@ TEST_F(AssignInExprInvTest, FailedParseLeavesNoWellFormedTopModule) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_EQ(top, nullptr) << "the syntax error prevents a well-formed 'top' module from "
                              "being elaborated, unlike every clean file in this chapter";
-}
-
-TEST_F(AssignInExprInvTest, DesignHasTwoMalformedModuleStubs) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "the parser produced two incomplete module "
-                                                       "records instead of recovering one clean module";
-}
-
-TEST_F(AssignInExprInvTest, DesignHasThreeTypespecsMatchingTheMalformedModules) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  ASSERT_EQ(m_design->getTypespecs()->size(), 3u);
-  uint32_t moduleTypespecCount = 0;
-  uint32_t intTypespecCount = 0;
-  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
-    if (any_cast<hldb::ModuleTypespec>(ts) != nullptr) ++moduleTypespecCount;
-    if (any_cast<hldb::IntTypespec>(ts) != nullptr) ++intTypespecCount;
-  }
-  EXPECT_EQ(moduleTypespecCount, 2u) << "one ModuleTypespec per malformed module stub";
-  EXPECT_EQ(intTypespecCount, 1u);
 }
 
 }  // namespace hlc

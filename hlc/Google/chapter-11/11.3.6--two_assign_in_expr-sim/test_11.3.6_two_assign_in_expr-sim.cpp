@@ -282,6 +282,9 @@ TEST_F(TwoAssignInExprSimTest, BAndDBothEndUpEqualToEPlusCPlusTwo) {
     // produced.
     const hldb::Constant *const finalValue = var->getValue<hldb::Constant>();
     ASSERT_NE(finalValue, nullptr) << names[i] << "'s post-assignment runtime value is not captured anywhere";
+    EXPECT_EQ(finalValue->getDecompile(), "2")
+        << names[i] << ": e and c are b's and a's original values (default-initialized int, IEEE "
+                        "1800-2023 Sec 6.11, both 0), so " << names[i] << " == e + c + 2 == 2";
   }
 }
 
