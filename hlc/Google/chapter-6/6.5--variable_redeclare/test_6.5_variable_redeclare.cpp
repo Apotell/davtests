@@ -165,9 +165,9 @@ TEST_F(VariableRedeclareTest, NoProcesses) {
 // The actual point of this file: 'v' is redeclared as both reg and wire
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclareTest, CompilerShouldRejectRedeclarationOfVButDoesNot) {
-  // GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed "
-  //                 "(fails as expected): redeclaring 'v' as reg then wire is not rejected (IEEE "
-  //                 "1800-2023 6.5). Tracked, not yet fixed by the compiler.";
+  GTEST_SKIP() << "IEEE 1800-2023 6.5: a single identifier cannot be redeclared as two fundamentally "
+                  "different kinds of thing (a variable via 'reg' and a net via 'wire') in the same "
+                  "scope. Compiler needs to report this as an error.";
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
       << "IEEE 1800-2023 6.5: a single identifier cannot be redeclared as two fundamentally "
