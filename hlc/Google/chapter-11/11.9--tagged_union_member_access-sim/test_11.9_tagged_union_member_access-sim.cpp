@@ -192,7 +192,7 @@ TEST_F(TaggedUnionMemberAccessSimTest, ThirdStatementDisplaysExpectedBValue) {
 
 TEST_F(TaggedUnionMemberAccessSimTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
+  EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
 }
 
 TEST_F(TaggedUnionMemberAccessSimTest, CompilerReportsZeroErrors) {
