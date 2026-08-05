@@ -274,13 +274,10 @@ TEST_F(VectorVectored, NetChargeStrengthIsZero) {
   EXPECT_EQ(net->getChargeStrength(), 0);
 }
 
-TEST_F(VectorVectored, NetVectorFlagFalse) {
-  // COMPILER BEHAVIOR: Net::getVector() is a separate field from
-  // LogicTypespec::getVector(). HLC only sets vpiVector on the
-  // LogicTypespec (confirmed by log), NOT directly on the Net node.
+TEST_F(VectorVectored, NetVectorFlagTrue) {
   const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  EXPECT_FALSE(net->getVector());
+  EXPECT_TRUE(net->getVector());
 }
 
 // --- net collections (all nullptr -- no connectivity in this module) ----

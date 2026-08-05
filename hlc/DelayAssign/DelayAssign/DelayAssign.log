@@ -348,7 +348,7 @@ n<$Source01/dut.sv> u<688> t<Top_level_rule> c<1> l<2:1> el<80:1>
     n<> u<686> t<Description> p<687> c<685> l<16:1> el<79:10>
       n<> u<685> t<Module_declaration> p<686> c<205> l<16:1> el<79:10>
         n<> u<205> t<Module_ansi_header> p<685> c<69> s<217> l<16:1> el<32:3>
-          n<module> u<69> t<Module_keyword> p<205> s<70> l<16:1> el<16:7>
+          n<module> u<69> t<MODULE> p<205> s<70> l<16:1> el<16:7>
           n<SimDTM> u<70> t<SIMPLE_IDENTIFIER> p<205> s<71> l<16:8> el<16:14>
           n<> u<71> t<Package_import_declaration_list> p<205> s<204> l<16:14> el<16:14>
           n<> u<204> t<Port_declaration_list> p<205> c<77> l<16:14> el<32:2>
@@ -965,6 +965,12 @@ n<$Source01/dut.sv> u<688> t<Top_level_rule> c<1> l<2:1> el<80:1>
         n<> u<684> t<ENDMODULE> p<685> l<79:1> el<79:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "SimDTM".
+[NTE:CP0309] $Source01/dut.sv:20:17: Implicit port type (wire) for "debug_req_valid".
+[NTE:CP0309] $Source01/dut.sv:22:17: Implicit port type (wire) for "debug_req_bits_addr".
+[NTE:CP0309] $Source01/dut.sv:23:17: Implicit port type (wire) for "debug_req_bits_op".
+[NTE:CP0309] $Source01/dut.sv:24:17: Implicit port type (wire) for "debug_req_bits_data".
+[NTE:CP0309] $Source01/dut.sv:27:17: Implicit port type (wire) for "debug_resp_ready".
+[NTE:CP0309] $Source01/dut.sv:31:17: Implicit port type (wire) for "exit".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "SimDTM".
 ====== HLDB =======
@@ -3253,6 +3259,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: SimDTM.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:reset start:18:9 end:18:14:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:18:3 end:18:8:
@@ -3262,6 +3269,7 @@ Design name:unnamed:
           vpiName: reset
           vpiFullName: SimDTM.reset
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:debug_req_valid start:20:17 end:20:32:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:20:3 end:20:9:
@@ -3271,6 +3279,7 @@ Design name:unnamed:
           vpiName: debug_req_valid
           vpiFullName: SimDTM.debug_req_valid
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:debug_req_ready start:21:17 end:21:32:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:21:3 end:21:8:
@@ -3280,6 +3289,7 @@ Design name:unnamed:
           vpiName: debug_req_ready
           vpiFullName: SimDTM.debug_req_ready
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:debug_req_bits_addr start:22:17 end:22:36:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:22:3 end:22:16:
@@ -3289,6 +3299,7 @@ Design name:unnamed:
           vpiName: debug_req_bits_addr
           vpiFullName: SimDTM.debug_req_bits_addr
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:debug_req_bits_op start:23:17 end:23:34:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:23:3 end:23:16:
@@ -3298,6 +3309,7 @@ Design name:unnamed:
           vpiName: debug_req_bits_op
           vpiFullName: SimDTM.debug_req_bits_op
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:debug_req_bits_data start:24:17 end:24:36:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:24:3 end:24:16:
@@ -3307,6 +3319,7 @@ Design name:unnamed:
           vpiName: debug_req_bits_data
           vpiFullName: SimDTM.debug_req_bits_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:debug_resp_valid start:26:17 end:26:33:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:26:3 end:26:8:
@@ -3316,6 +3329,7 @@ Design name:unnamed:
           vpiName: debug_resp_valid
           vpiFullName: SimDTM.debug_resp_valid
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:debug_resp_ready start:27:17 end:27:33:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:27:3 end:27:9:
@@ -3325,6 +3339,7 @@ Design name:unnamed:
           vpiName: debug_resp_ready
           vpiFullName: SimDTM.debug_resp_ready
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:debug_resp_bits_resp start:28:17 end:28:37:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:28:3 end:28:16:
@@ -3334,6 +3349,7 @@ Design name:unnamed:
           vpiName: debug_resp_bits_resp
           vpiFullName: SimDTM.debug_resp_bits_resp
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:debug_resp_bits_data start:29:17 end:29:37:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:29:3 end:29:16:
@@ -3343,6 +3359,7 @@ Design name:unnamed:
           vpiName: debug_resp_bits_data
           vpiFullName: SimDTM.debug_resp_bits_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:exit start:31:17 end:31:21:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:31:3 end:31:16:
@@ -3352,6 +3369,7 @@ Design name:unnamed:
           vpiName: exit
           vpiFullName: SimDTM.exit
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:__debug_req_ready start:36:13 end:36:30:
           vpiParent: Module name:SimDTM
           vpiTypespec RefTypespec start:36:8 end:36:8:
@@ -3361,6 +3379,7 @@ Design name:unnamed:
           vpiName: "__debug_req_ready"
           vpiFullName: SimDTM.__debug_req_ready
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiDelay Constant start:36:9 end:36:12:
             vpiParent: Net name:__debug_req_ready
             vpiTypespec RefTypespec:
@@ -3385,6 +3404,7 @@ Design name:unnamed:
           vpiName: "__debug_resp_valid"
           vpiFullName: SimDTM.__debug_resp_valid
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiDelay Constant start:37:9 end:37:12:
             vpiParent: Net name:__debug_resp_valid
             vpiTypespec RefTypespec:
@@ -3419,6 +3439,7 @@ Design name:unnamed:
             vpiSize: 32
             vpiDecompile: "0.1"
             vpiValue: 0
+          vpiVector: true
           vpiValue Operation start:38:45 end:38:74:
             vpiParent: Net name:__debug_resp_bits_resp
             vpiOpType: concatenation (33)
@@ -3457,6 +3478,7 @@ Design name:unnamed:
             vpiSize: 32
             vpiDecompile: "0.1"
             vpiValue: 0
+          vpiVector: true
           vpiValue RefObj name:debug_resp_bits_data start:39:45 end:39:65:
             vpiParent: Net name:__debug_resp_bits_data
             vpiName: debug_resp_bits_data
@@ -4126,7 +4148,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 6
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

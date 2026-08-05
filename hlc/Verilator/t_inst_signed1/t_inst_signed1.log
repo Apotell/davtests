@@ -22,7 +22,7 @@ n<$Source01/t_inst_signed1.v> u<470> t<Top_level_rule> c<1> l<6:1> el<52:1>
     n<> u<372> t<Description> p<469> c<371> s<373> l<6:1> el<38:10>
       n<> u<371> t<Module_declaration> p<372> c<18> l<6:1> el<38:10>
         n<> u<18> t<Module_nonansi_header> p<371> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -390,7 +390,7 @@ n<$Source01/t_inst_signed1.v> u<470> t<Top_level_rule> c<1> l<6:1> el<52:1>
     n<> u<413> t<Description> p<469> c<412> s<468> l<41:1> el<45:10>
       n<> u<412> t<Module_declaration> p<413> c<393> l<41:1> el<45:10>
         n<> u<393> t<Module_ansi_header> p<412> c<374> s<410> l<41:1> el<43:36>
-          n<module> u<374> t<Module_keyword> p<393> s<375> l<41:1> el<41:7>
+          n<module> u<374> t<MODULE> p<393> s<375> l<41:1> el<41:7>
           n<sub1> u<375> t<SIMPLE_IDENTIFIER> p<393> s<376> l<41:8> el<41:12>
           n<> u<376> t<Package_import_declaration_list> p<393> s<392> l<41:13> el<41:13>
           n<> u<392> t<Port_declaration_list> p<393> c<383> l<41:13> el<43:35>
@@ -430,7 +430,7 @@ n<$Source01/t_inst_signed1.v> u<470> t<Top_level_rule> c<1> l<6:1> el<52:1>
     n<> u<468> t<Description> p<469> c<467> l<47:1> el<51:10>
       n<> u<467> t<Module_declaration> p<468> c<430> l<47:1> el<51:10>
         n<> u<430> t<Module_nonansi_header> p<467> c<414> s<438> l<47:1> el<47:19>
-          n<module> u<414> t<Module_keyword> p<430> s<415> l<47:1> el<47:7>
+          n<module> u<414> t<MODULE> p<430> s<415> l<47:1> el<47:7>
           n<sub2> u<415> t<SIMPLE_IDENTIFIER> p<430> s<416> l<47:8> el<47:12>
           n<> u<416> t<Package_import_declaration_list> p<430> s<429> l<47:13> el<47:13>
           n<> u<429> t<Port_list> p<430> c<422> l<47:13> el<47:18>
@@ -485,6 +485,7 @@ n<$Source01/t_inst_signed1.v> u<470> t<Top_level_rule> c<1> l<6:1> el<52:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_signed1.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_signed1.v:41:1: Compile module "sub1".
+[NTE:CP0309] $Source01/t_inst_signed1.v:43:33: Implicit port type (wire) for "o".
 [INF:CP0303] $Source01/t_inst_signed1.v:47:1: Compile module "sub2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -534,11 +535,13 @@ Design name:unnamed:
           vpiName Identifier name:sub1 start:18:4 end:18:8:
             vpiParent: ModuleTypespec name:sub1
             vpiName: sub1
+          vpiModule: Module name:sub1
         ModuleTypespec name:sub2 start:19:4 end:19:8:
           vpiParent: Module name:t
           vpiName Identifier name:sub2 start:19:4 end:19:8:
             vpiParent: ModuleTypespec name:sub2
             vpiName: sub2
+          vpiModule: Module name:sub2
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -556,6 +559,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o1 start:13:16 end:13:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:9 end:13:15:
@@ -565,6 +569,7 @@ Design name:unnamed:
           vpiName: o1
           vpiFullName: t.o1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o2 start:14:16 end:14:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:9 end:14:15:
@@ -574,6 +579,7 @@ Design name:unnamed:
           vpiName: o2
           vpiFullName: t.o2
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -943,6 +949,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:sub1
+          vpiSigned: true
       vpiDefName: sub1
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -960,6 +967,7 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: sub1.i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:43:33 end:43:34:
           vpiParent: Module name:sub1
           vpiTypespec RefTypespec start:43:14 end:43:32:
@@ -969,6 +977,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: sub1.o
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:42:28 end:42:29:
           vpiParent: Module name:sub1
@@ -1022,6 +1031,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:sub2
+          vpiSigned: true
       vpiDefName: sub2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1039,6 +1049,7 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: sub2.i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:49:18 end:49:19:
           vpiParent: Module name:sub2
           vpiTypespec RefTypespec start:50:9 end:50:15:
@@ -1048,6 +1059,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: sub2.o
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:50:20 end:50:22:
             vpiParent: Net name:o
             vpiOpType: bitwise negation (4)
@@ -1112,7 +1124,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

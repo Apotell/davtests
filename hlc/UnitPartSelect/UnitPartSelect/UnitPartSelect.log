@@ -282,7 +282,7 @@ n<$Source01/top.sv> u<526> t<Top_level_rule> c<1> l<1:1> el<43:1>
     n<> u<150> t<Description> p<525> c<149> s<277> l<1:1> el<19:10>
       n<> u<149> t<Module_declaration> p<150> c<6> l<1:1> el<19:10>
         n<> u<6> t<Module_nonansi_header> p<149> c<2> s<23> l<1:1> el<1:15>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
           n<toto> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:12>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:12> el<1:12>
           n<> u<5> t<Port_list> p<6> l<1:12> el<1:14>
@@ -431,7 +431,7 @@ n<$Source01/top.sv> u<526> t<Top_level_rule> c<1> l<1:1> el<43:1>
     n<> u<277> t<Description> p<525> c<276> s<422> l<21:1> el<27:10>
       n<> u<276> t<Module_declaration> p<277> c<167> l<21:1> el<27:10>
         n<> u<167> t<Module_nonansi_header> p<276> c<151> s<184> l<21:1> el<21:19>
-          n<module> u<151> t<Module_keyword> p<167> s<152> l<21:1> el<21:7>
+          n<module> u<151> t<MODULE> p<167> s<152> l<21:1> el<21:7>
           n<dut> u<152> t<SIMPLE_IDENTIFIER> p<167> s<153> l<21:8> el<21:11>
           n<> u<153> t<Package_import_declaration_list> p<167> s<166> l<21:12> el<21:12>
           n<> u<166> t<Port_list> p<167> c<159> l<21:12> el<21:18>
@@ -558,7 +558,7 @@ n<$Source01/top.sv> u<526> t<Top_level_rule> c<1> l<1:1> el<43:1>
     n<> u<422> t<Description> p<525> c<421> s<524> l<30:1> el<35:10>
       n<> u<421> t<Module_declaration> p<422> c<314> l<30:1> el<35:10>
         n<> u<314> t<Module_ansi_header> p<421> c<278> s<335> l<30:1> el<30:55>
-          n<module> u<278> t<Module_keyword> p<314> s<279> l<30:1> el<30:7>
+          n<module> u<278> t<MODULE> p<314> s<279> l<30:1> el<30:7>
           n<dut_part_select> u<279> t<SIMPLE_IDENTIFIER> p<314> s<280> l<30:8> el<30:23>
           n<> u<280> t<Package_import_declaration_list> p<314> s<313> l<30:23> el<30:23>
           n<> u<313> t<Port_declaration_list> p<314> c<296> l<30:23> el<30:54>
@@ -703,7 +703,7 @@ n<$Source01/top.sv> u<526> t<Top_level_rule> c<1> l<1:1> el<43:1>
     n<> u<524> t<Description> p<525> c<523> l<38:1> el<41:10>
       n<> u<523> t<Module_declaration> p<524> c<459> l<38:1> el<41:10>
         n<> u<459> t<Module_ansi_header> p<523> c<423> s<484> l<38:1> el<38:51>
-          n<module> u<423> t<Module_keyword> p<459> s<424> l<38:1> el<38:7>
+          n<module> u<423> t<MODULE> p<459> s<424> l<38:1> el<38:7>
           n<dut_no_decl> u<424> t<SIMPLE_IDENTIFIER> p<459> s<425> l<38:8> el<38:19>
           n<> u<425> t<Package_import_declaration_list> p<459> s<458> l<38:19> el<38:19>
           n<> u<458> t<Port_declaration_list> p<459> c<441> l<38:19> el<38:50>
@@ -806,7 +806,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/top.sv:1:1: Compile module "toto".
 [INF:CP0303] $Source01/top.sv:21:1: Compile module "dut".
 [INF:CP0303] $Source01/top.sv:30:1: Compile module "dut_part_select".
+[NTE:CP0309] $Source01/top.sv:30:52: Implicit port type (wire) for "b".
 [INF:CP0303] $Source01/top.sv:38:1: Compile module "dut_no_decl".
+[NTE:CP0309] $Source01/top.sv:38:48: Implicit port type (wire) for "b".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.sv:1:1: No timescale set for "toto".
 [WRN:PA0205] $Source01/top.sv:21:1: No timescale set for "dut".
@@ -3155,6 +3157,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: dut.a
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:a start:21:13 end:21:14:
           vpiParent: Module name:dut
@@ -3357,6 +3360,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: dut_part_select.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:b start:30:52 end:30:53:
           vpiParent: Module name:dut_part_select
           vpiTypespec RefTypespec start:30:39 end:30:51:
@@ -3366,6 +3370,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: dut_part_select.b
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:a start:30:36 end:30:37:
           vpiParent: Module name:dut_part_select
@@ -3574,6 +3579,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: dut_no_decl.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:b start:38:48 end:38:49:
           vpiParent: Module name:dut_no_decl
           vpiTypespec RefTypespec start:38:35 end:38:47:
@@ -3583,6 +3589,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: dut_no_decl.b
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:a start:38:32 end:38:33:
           vpiParent: Module name:dut_no_decl
@@ -3772,7 +3779,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 5
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

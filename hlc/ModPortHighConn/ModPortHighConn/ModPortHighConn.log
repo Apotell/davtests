@@ -10,11 +10,12 @@ COMMAND: -wd ../../../tests/ModPortHighConn -fileunit -d inst -d db -sv dut.sv -
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 [INF:CP0303] $Source01/dut.sv:2:1: Compile module "moduleA".
+[NTE:CP0309] $Source01/dut.sv:2:23: Implicit port type (wire) for "port0".
+[NTE:CP0309] $Source01/dut.sv:2:30: Implicit port type (wire) for "port1".
 [INF:CP0303] $Source01/dut.sv:5:1: Compile module "top".
 [WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "moduleA".
 [WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "moduleA".
 [WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "moduleA".
-[ERR:LN0813] $Source01/dut.sv:1:1: Found 1 orphan node(s).
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "moduleA".
 [WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "top".
 ====== HLDB =======
@@ -42,7 +43,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: moduleA.work
       vpiCell: moduleA
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:port0 start:2:23 end:2:28:
           vpiParent: Module name:moduleA
           vpiTypespec RefTypespec start:2:17 end:2:22:
@@ -52,6 +53,17 @@ Design name:unnamed:
           vpiName: port0
           vpiFullName: moduleA.port0
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:port1 start:2:30 end:2:35:
+          vpiParent: Module name:moduleA
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:port1
+            vpiFullName: moduleA.port1
+            vpiActual: LogicTypespec
+          vpiName: port1
+          vpiFullName: moduleA.port1
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:port0 start:2:23 end:2:28:
           vpiParent: Module name:moduleA
@@ -70,6 +82,15 @@ Design name:unnamed:
           vpiParent: Module name:moduleA
           vpiName: port1
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:port1 start:2:30 end:2:35:
+            vpiParent: Port name:port1
+            vpiName: port1
+            vpiFullName: moduleA.port1.port1
+            vpiActual: Net name:port1
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:port1
+            vpiFullName: moduleA.port1
+            vpiActual: LogicTypespec
     Module name:top file:$Source01/dut.sv start:5:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:5:8 end:5:11:
@@ -108,21 +129,25 @@ Design name:unnamed:
           vpiName Identifier name:moduleA start:7:5 end:7:12:
             vpiParent: ModuleTypespec name:moduleA
             vpiName: moduleA
+          vpiModule: Module name:moduleA
         ModuleTypespec name:moduleA start:8:5 end:8:12:
           vpiParent: Module name:top
           vpiName Identifier name:moduleA start:8:5 end:8:12:
             vpiParent: ModuleTypespec name:moduleA
             vpiName: moduleA
+          vpiModule: Module name:moduleA
         ModuleTypespec name:moduleA start:9:5 end:9:12:
           vpiParent: Module name:top
           vpiName Identifier name:moduleA start:9:5 end:9:12:
             vpiParent: ModuleTypespec name:moduleA
             vpiName: moduleA
+          vpiModule: Module name:moduleA
         ModuleTypespec name:moduleA start:10:5 end:10:12:
           vpiParent: Module name:top
           vpiName Identifier name:moduleA start:10:5 end:10:12:
             vpiParent: ModuleTypespec name:moduleA
             vpiName: moduleA
+          vpiModule: Module name:moduleA
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -140,6 +165,7 @@ Design name:unnamed:
           vpiName: topA
           vpiFullName: top.topA
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:topB start:6:22 end:6:26:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:10 end:6:15:
@@ -149,6 +175,7 @@ Design name:unnamed:
           vpiName: topB
           vpiFullName: top.topB
           vpiNetType: wire (1)
+          vpiVector: true
       vpiRefInstance (4 items):
         RefInstance name:instanceA start:7:13 end:7:22:
           vpiParent: Module name:top
@@ -445,9 +472,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 5
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -490,7 +517,7 @@ COMMAND: ${HLC_DIR}/regression/ModPortHighConn/ModPortHighConn/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             104     104       0         0
+Others                             108     108       0         0
 ----------------------------------------------------------------
-                                   104     104       0         0
+                                   108     108       0         0
 ===================== END REDUCTION RESULT =====================

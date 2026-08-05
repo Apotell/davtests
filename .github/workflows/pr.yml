@@ -159,7 +159,7 @@ jobs:
 # C++ Tests ###########################################################################################################
 
   cpp_tests:
-    name: "C++ Tests | ${{ matrix.platform }} | shard ${{ matrix.shard }}/${{ matrix.num_shards }} | release"
+    name: "C++ Tests | ${{ matrix.platform }} | filtered | shard ${{ matrix.shard }}/${{ matrix.num_shards }} | release"
     needs: preflight
     runs-on: ${{ matrix.os }}
 
@@ -175,6 +175,20 @@ jobs:
       uses: actions/checkout@v6
       with:
         submodules: recursive
+
+    - name: Populate filter list
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh api /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files  \
+          --jq '.[].filename'                                                                       \
+          | grep '^hlc/'                                                                            \
+          | sed 's|^hlc/||'                                                                         \
+          | xargs -I{} dirname {}                                                                   \
+          | sort -u                                                                                 \
+          > scripts/filter.lst
+        echo "Filter list (directories of hlc/ files changed in this PR):"
+        cat scripts/filter.lst
 
     - name: Set artifact name
       shell: bash
@@ -222,7 +236,8 @@ jobs:
           --test-dirpath hlc                    \
           --output scripts/shard.lst            \
           --shard ${{ matrix.shard }}           \
-          --num_shards ${{ matrix.num_shards }}
+          --num_shards ${{ matrix.num_shards }} \
+          --filters @scripts/filter.lst
 
     - name: Configure
       shell: bash

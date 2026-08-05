@@ -24,7 +24,7 @@ n<$Source01/top.v> u<376> t<Top_level_rule> c<1> l<1:1> el<54:1>
     n<> u<327> t<Description> p<375> c<326> s<374> l<1:1> el<43:10>
       n<> u<326> t<Module_declaration> p<327> c<40> l<1:1> el<43:10>
         n<> u<40> t<Module_ansi_header> p<326> c<2> s<56> l<1:1> el<9:4>
-          n<module> u<2> t<Module_keyword> p<40> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<40> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<40> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<40> s<39> l<2:1> el<2:1>
           n<> u<39> t<Port_declaration_list> p<40> c<10> l<2:1> el<9:3>
@@ -350,7 +350,7 @@ n<$Source01/top.v> u<376> t<Top_level_rule> c<1> l<1:1> el<54:1>
     n<> u<374> t<Description> p<375> c<373> l<45:1> el<53:10>
       n<> u<373> t<Module_declaration> p<374> c<350> l<45:1> el<53:10>
         n<> u<350> t<Module_ansi_header> p<373> c<328> s<371> l<45:1> el<50:3>
-          n<module> u<328> t<Module_keyword> p<350> s<329> l<45:1> el<45:7>
+          n<module> u<328> t<MODULE> p<350> s<329> l<45:1> el<45:7>
           n<middle> u<329> t<SIMPLE_IDENTIFIER> p<350> s<330> l<45:8> el<45:14>
           n<> u<330> t<Package_import_declaration_list> p<350> s<349> l<46:1> el<46:1>
           n<> u<349> t<Port_declaration_list> p<350> c<336> l<46:1> el<50:2>
@@ -397,6 +397,7 @@ n<$Source01/top.v> u<376> t<Top_level_rule> c<1> l<1:1> el<54:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:1:1: Compile module "top".
 [INF:CP0303] $Source01/top.v:45:1: Compile module "middle".
+[NTE:CP0309] $Source01/top.v:49:9: Implicit port type (wire) for "o".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -422,6 +423,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: top.A
+          vpiScalar: true
         Variable name:cout start:8:13 end:8:17:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:8:2 end:8:12:
@@ -430,6 +432,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: cout
           vpiFullName: top.cout
+          vpiScalar: true
         Variable name:ASSERT start:11:6 end:11:12:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:11:2 end:11:5:
@@ -494,6 +497,7 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: top.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:4:8 end:4:9:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:2 end:4:7:
@@ -503,6 +507,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: top.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cin start:5:8 end:5:11:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:2 end:5:7:
@@ -512,6 +517,7 @@ Design name:unnamed:
           vpiName: cin
           vpiFullName: top.cin
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:x start:3:8 end:3:9:
           vpiParent: Module name:top
@@ -823,6 +829,7 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: middle.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:48:8 end:48:9:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:48:2 end:48:7:
@@ -832,6 +839,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: middle.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:49:9 end:49:10:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:49:2 end:49:8:
@@ -841,6 +849,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: middle.o
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:x start:47:8 end:47:9:
           vpiParent: Module name:middle
@@ -924,7 +933,7 @@ Design name:unnamed:
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

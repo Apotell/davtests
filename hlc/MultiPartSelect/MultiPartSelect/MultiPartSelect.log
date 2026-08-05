@@ -22,8 +22,8 @@ n<$Source01/dut.sv> u<117> t<Top_level_rule> c<1> l<1:1> el<12:1>
             n<> u<34> t<Type_declaration> p<35> c<32> l<1:1> el<3:9>
               n<> u<32> t<Data_type> p<34> c<3> s<33> l<1:9> el<3:2>
                 n<> u<3> t<Struct_union> p<32> c<2> s<4> l<1:9> el<1:15>
-                  n<> u<2> t<Struct_keyword> p<3> l<1:9> el<1:15>
-                n<> u<4> t<Packed_keyword> p<32> s<31> l<1:16> el<1:22>
+                  n<> u<2> t<STRUCT> p<3> l<1:9> el<1:15>
+                n<> u<4> t<PACKED> p<32> s<31> l<1:16> el<1:22>
                 n<> u<31> t<Struct_union_member> p<32> c<27> l<2:5> el<2:24>
                   n<> u<27> t<Data_type_or_void> p<31> c<26> s<30> l<2:5> el<2:21>
                     n<> u<26> t<Data_type> p<27> c<5> l<2:5> el<2:21>
@@ -55,7 +55,7 @@ n<$Source01/dut.sv> u<117> t<Top_level_rule> c<1> l<1:1> el<12:1>
     n<> u<115> t<Description> p<116> c<114> l<5:1> el<11:10>
       n<> u<114> t<Module_declaration> p<115> c<43> l<5:1> el<11:10>
         n<> u<43> t<Module_nonansi_header> p<114> c<39> s<50> l<5:1> el<5:14>
-          n<module> u<39> t<Module_keyword> p<43> s<40> l<5:1> el<5:7>
+          n<module> u<39> t<MODULE> p<43> s<40> l<5:1> el<5:7>
           n<top> u<40> t<SIMPLE_IDENTIFIER> p<43> s<41> l<5:8> el<5:11>
           n<> u<41> t<Package_import_declaration_list> p<43> s<42> l<5:11> el<5:11>
           n<> u<42> t<Port_list> p<43> l<5:11> el<5:13>
@@ -167,55 +167,60 @@ Design name:unnamed:
       vpiContAssign (2 items):
         ContAssign start:8:12 end:8:28:
           vpiParent: Module name:top
-          vpiLhs PartSelect name:a[1][3:2] start:8:12 end:8:24:
+          vpiLhs HierPath name:xx.a[1][3:2] start:8:12 end:8:24:
             vpiParent: ContAssign
-            vpiName: a[1][3:2]
-            vpiFullName: top.a[1][3:2]
-            vpiPrefix HierPath name:a[1] start:8:14 end:8:24:
-              vpiParent: PartSelect name:a[1][3:2]
-              vpiName: a[1]
-              vpiFullName: top.a[1][3:2].a[1]
-              vpiPathElem (1 items):
-                BitSelect name:a[1] start:8:15 end:8:18:
-                  vpiParent: HierPath name:a[1]
+            vpiName: xx.a[1][3:2]
+            vpiFullName: top.xx.a[1][3:2]
+            vpiPathElem (2 items):
+              RefObj name:xx start:8:12 end:8:14:
+                vpiParent: HierPath name:xx.a[1][3:2]
+                vpiName: xx
+                vpiFullName: top.xx
+                vpiActual: Variable name:xx
+              PartSelect name:a[1][3:2] start:8:15 end:8:24:
+                vpiParent: HierPath name:xx.a[1][3:2]
+                vpiName: a[1][3:2]
+                vpiFullName: top.xx.a[1][3:2].a[1][3:2]
+                vpiPrefix BitSelect name:a[1] start:8:15 end:8:18:
+                  vpiParent: PartSelect name:a[1][3:2]
                   vpiName: a[1]
-                  vpiFullName: top.a[1][3:2].a[1].a[1]
+                  vpiFullName: top.xx.a[1][3:2].a[1][3:2].a[1]
                   vpiPrefix RefObj name:a start:8:15 end:8:16:
                     vpiParent: BitSelect name:a[1]
                     vpiName: a
-                    vpiFullName: top.a[1][3:2].a[1].a
+                    vpiFullName: top.xx.a[1][3:2].a[1][3:2].a
                   vpiIndex Constant start:8:17 end:8:18:
                     vpiParent: BitSelect name:a[1]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: top.a[1][3:2].a[1].a[1]
+                      vpiFullName: top.xx.a[1][3:2].a[1][3:2].a[1]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "1"
                     vpiValue: 1
-            vpiRange Range start:8:20 end:8:23:
-              vpiParent: PartSelect name:a[1][3:2]
-              vpiLeftRange Constant start:8:20 end:8:21:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.a[1][3:2]
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "3"
-                vpiValue: 3
-              vpiRightRange Constant start:8:22 end:8:23:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.a[1][3:2]
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
+                vpiRange Range start:8:20 end:8:23:
+                  vpiParent: PartSelect name:a[1][3:2]
+                  vpiLeftRange Constant start:8:20 end:8:21:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.xx.a[1][3:2].a[1][3:2]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "3"
+                    vpiValue: 3
+                  vpiRightRange Constant start:8:22 end:8:23:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.xx.a[1][3:2].a[1][3:2]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "2"
+                    vpiValue: 2
           vpiRhs Constant start:8:27 end:8:28:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -228,55 +233,60 @@ Design name:unnamed:
             vpiValue: 2
         ContAssign start:9:12 end:9:28:
           vpiParent: Module name:top
-          vpiLhs PartSelect name:a[1][1:0] start:9:12 end:9:24:
+          vpiLhs HierPath name:xx.a[1][1:0] start:9:12 end:9:24:
             vpiParent: ContAssign
-            vpiName: a[1][1:0]
-            vpiFullName: top.a[1][1:0]
-            vpiPrefix HierPath name:a[1] start:9:14 end:9:24:
-              vpiParent: PartSelect name:a[1][1:0]
-              vpiName: a[1]
-              vpiFullName: top.a[1][1:0].a[1]
-              vpiPathElem (1 items):
-                BitSelect name:a[1] start:9:15 end:9:18:
-                  vpiParent: HierPath name:a[1]
+            vpiName: xx.a[1][1:0]
+            vpiFullName: top.xx.a[1][1:0]
+            vpiPathElem (2 items):
+              RefObj name:xx start:9:12 end:9:14:
+                vpiParent: HierPath name:xx.a[1][1:0]
+                vpiName: xx
+                vpiFullName: top.xx
+                vpiActual: Variable name:xx
+              PartSelect name:a[1][1:0] start:9:15 end:9:24:
+                vpiParent: HierPath name:xx.a[1][1:0]
+                vpiName: a[1][1:0]
+                vpiFullName: top.xx.a[1][1:0].a[1][1:0]
+                vpiPrefix BitSelect name:a[1] start:9:15 end:9:18:
+                  vpiParent: PartSelect name:a[1][1:0]
                   vpiName: a[1]
-                  vpiFullName: top.a[1][1:0].a[1].a[1]
+                  vpiFullName: top.xx.a[1][1:0].a[1][1:0].a[1]
                   vpiPrefix RefObj name:a start:9:15 end:9:16:
                     vpiParent: BitSelect name:a[1]
                     vpiName: a
-                    vpiFullName: top.a[1][1:0].a[1].a
+                    vpiFullName: top.xx.a[1][1:0].a[1][1:0].a
                   vpiIndex Constant start:9:17 end:9:18:
                     vpiParent: BitSelect name:a[1]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: top.a[1][1:0].a[1].a[1]
+                      vpiFullName: top.xx.a[1][1:0].a[1][1:0].a[1]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "1"
                     vpiValue: 1
-            vpiRange Range start:9:20 end:9:23:
-              vpiParent: PartSelect name:a[1][1:0]
-              vpiLeftRange Constant start:9:20 end:9:21:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.a[1][1:0]
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
-              vpiRightRange Constant start:9:22 end:9:23:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.a[1][1:0]
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
+                vpiRange Range start:9:20 end:9:23:
+                  vpiParent: PartSelect name:a[1][1:0]
+                  vpiLeftRange Constant start:9:20 end:9:21:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.xx.a[1][1:0].a[1][1:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                  vpiRightRange Constant start:9:22 end:9:23:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.xx.a[1][1:0].a[1][1:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
           vpiRhs Constant start:9:27 end:9:28:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -409,7 +419,7 @@ COMMAND: ${HLC_DIR}/regression/MultiPartSelect/MultiPartSelect/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

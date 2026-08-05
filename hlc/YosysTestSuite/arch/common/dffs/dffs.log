@@ -18,7 +18,7 @@ n<$Source01/dffs.v> u<153> t<Top_level_rule> c<1> l<1:1> el<14:1>
     n<> u<57> t<Description> p<152> c<56> s<151> l<1:1> el<4:10>
       n<> u<56> t<Module_declaration> p<57> c<25> l<1:1> el<4:10>
         n<> u<25> t<Module_ansi_header> p<56> c<2> s<54> l<1:1> el<1:43>
-          n<module> u<2> t<Module_keyword> p<25> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<25> s<3> l<1:1> el<1:7>
           n<dff> u<3> t<SIMPLE_IDENTIFIER> p<25> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<25> s<24> l<1:12> el<1:12>
           n<> u<24> t<Port_declaration_list> p<25> c<10> l<1:12> el<1:42>
@@ -74,7 +74,7 @@ n<$Source01/dffs.v> u<153> t<Top_level_rule> c<1> l<1:1> el<14:1>
     n<> u<151> t<Description> p<152> c<150> l<6:1> el<13:10>
       n<> u<150> t<Module_declaration> p<151> c<86> l<6:1> el<13:10>
         n<> u<86> t<Module_ansi_header> p<150> c<58> s<109> l<6:1> el<6:47>
-          n<module> u<58> t<Module_keyword> p<86> s<59> l<6:1> el<6:7>
+          n<module> u<58> t<MODULE> p<86> s<59> l<6:1> el<6:7>
           n<dffe> u<59> t<SIMPLE_IDENTIFIER> p<86> s<60> l<6:8> el<6:12>
           n<> u<60> t<Package_import_declaration_list> p<86> s<85> l<6:12> el<6:12>
           n<> u<85> t<Port_declaration_list> p<86> c<66> l<6:12> el<6:46>
@@ -168,7 +168,6 @@ n<$Source01/dffs.v> u<153> t<Top_level_rule> c<1> l<1:1> el<14:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dffs.v:1:1: Compile module "dff".
 [INF:CP0303] $Source01/dffs.v:6:1: Compile module "dffe".
-[ERR:LN0813] $Source01/dffs.v:1:1: Found 3 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -194,6 +193,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: dff.q
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dff
@@ -204,7 +204,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: dff.work
       vpiCell: dff
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:d start:1:20 end:1:21:
           vpiParent: Module name:dff
           vpiTypespec RefTypespec start:1:14 end:1:19:
@@ -214,6 +214,17 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: dff.d
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clk start:1:23 end:1:26:
+          vpiParent: Module name:dff
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clk
+            vpiFullName: dff.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: dff.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:d start:1:20 end:1:21:
           vpiParent: Module name:dff
@@ -231,7 +242,16 @@ Design name:unnamed:
         Port name:clk start:1:23 end:1:26:
           vpiParent: Module name:dff
           vpiName: clk
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:1:23 end:1:26:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: dff.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clk
+            vpiFullName: dff.clk
+            vpiActual: LogicTypespec
         Port name:q start:1:39 end:1:40:
           vpiParent: Module name:dff
           vpiName: q
@@ -258,7 +278,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: dff.clk
-                  vpiActual: Port name:clk
+                  vpiActual: Net name:clk
             vpiStmt Assignment start:3:9 end:3:15:
               vpiParent: EventControl
               vpiLhs RefObj name:q start:3:9 end:3:10:
@@ -287,6 +307,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: dffe.q
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dffe
@@ -297,7 +318,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: dffe.work
       vpiCell: dffe
-      vpiNet (1 items):
+      vpiNet (3 items):
         Net name:d start:6:20 end:6:21:
           vpiParent: Module name:dffe
           vpiTypespec RefTypespec start:6:14 end:6:19:
@@ -307,6 +328,27 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: dffe.d
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clk start:6:23 end:6:26:
+          vpiParent: Module name:dffe
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clk
+            vpiFullName: dffe.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: dffe.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:en start:6:28 end:6:30:
+          vpiParent: Module name:dffe
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:en
+            vpiFullName: dffe.en
+            vpiActual: LogicTypespec
+          vpiName: en
+          vpiFullName: dffe.en
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:d start:6:20 end:6:21:
           vpiParent: Module name:dffe
@@ -324,11 +366,29 @@ Design name:unnamed:
         Port name:clk start:6:23 end:6:26:
           vpiParent: Module name:dffe
           vpiName: clk
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:6:23 end:6:26:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: dffe.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clk
+            vpiFullName: dffe.clk
+            vpiActual: LogicTypespec
         Port name:en start:6:28 end:6:30:
           vpiParent: Module name:dffe
           vpiName: en
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:en start:6:28 end:6:30:
+            vpiParent: Port name:en
+            vpiName: en
+            vpiFullName: dffe.en.en
+            vpiActual: Net name:en
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:en
+            vpiFullName: dffe.en
+            vpiActual: LogicTypespec
         Port name:q start:6:43 end:6:44:
           vpiParent: Module name:dffe
           vpiName: q
@@ -379,14 +439,14 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: dffe.clk
-                  vpiActual: Port name:clk
+                  vpiActual: Net name:clk
             vpiStmt IfStmt start:11:9 end:12:22:
               vpiParent: EventControl
               vpiCondition RefObj name:en start:11:14 end:11:16:
                 vpiParent: IfStmt
                 vpiName: en
                 vpiFullName: dffe.en
-                vpiActual: Port name:en
+                vpiActual: Net name:en
               vpiStmt Assignment start:12:15 end:12:21:
                 vpiParent: IfStmt
                 vpiLhs RefObj name:q start:12:15 end:12:16:
@@ -419,7 +479,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -464,7 +524,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/arch/common/dffs/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

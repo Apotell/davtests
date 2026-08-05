@@ -18,7 +18,7 @@ n<$Source01/bc.v> u<528> t<Top_level_rule> c<1> l<2:1> el<45:1>
     n<> u<526> t<Description> p<527> c<525> l<2:1> el<44:10>
       n<> u<525> t<Module_declaration> p<526> c<155> l<2:1> el<44:10>
         n<> u<155> t<Module_ansi_header> p<525> c<2> s<183> l<2:1> el<17:7>
-          n<module> u<2> t<Module_keyword> p<155> s<3> l<2:1> el<2:7>
+          n<module> u<2> t<MODULE> p<155> s<3> l<2:1> el<2:7>
           n<bc> u<3> t<SIMPLE_IDENTIFIER> p<155> s<4> l<2:8> el<2:10>
           n<> u<4> t<Package_import_declaration_list> p<155> s<29> l<2:11> el<2:11>
           n<> u<29> t<Parameter_port_list> p<155> c<16> s<154> l<2:11> el<5:14>
@@ -542,6 +542,9 @@ n<$Source01/bc.v> u<528> t<Top_level_rule> c<1> l<2:1> el<45:1>
         n<> u<524> t<ENDMODULE> p<525> l<44:1> el<44:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/bc.v:2:1: Compile module "bc".
+[NTE:CP0309] $Source01/bc.v:10:34: Implicit port type (wire) for "din_ready".
+[NTE:CP0309] $Source01/bc.v:15:34: Implicit port type (wire) for "dout_valid".
+[NTE:CP0309] $Source01/bc.v:16:34: Implicit port type (wire) for "dout_data".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -866,6 +869,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: bc.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:8:34 end:8:37:
           vpiParent: Module name:bc
           vpiTypespec RefTypespec start:8:5 end:8:10:
@@ -875,6 +879,7 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: bc.rst
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:din_ready start:10:34 end:10:43:
           vpiParent: Module name:bc
           vpiTypespec RefTypespec start:10:5 end:10:16:
@@ -884,6 +889,7 @@ Design name:unnamed:
           vpiName: din_ready
           vpiFullName: bc.din_ready
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:din_valid start:11:34 end:11:43:
           vpiParent: Module name:bc
           vpiTypespec RefTypespec start:11:5 end:11:15:
@@ -893,6 +899,7 @@ Design name:unnamed:
           vpiName: din_valid
           vpiFullName: bc.din_valid
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:din_data start:12:34 end:12:42:
           vpiParent: Module name:bc
           vpiTypespec RefTypespec start:12:5 end:12:27:
@@ -902,6 +909,7 @@ Design name:unnamed:
           vpiName: din_data
           vpiFullName: bc.din_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout_ready start:14:34 end:14:44:
           vpiParent: Module name:bc
           vpiTypespec RefTypespec start:14:5 end:14:26:
@@ -911,6 +919,7 @@ Design name:unnamed:
           vpiName: dout_ready
           vpiFullName: bc.dout_ready
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout_valid start:15:34 end:15:44:
           vpiParent: Module name:bc
           vpiTypespec RefTypespec start:15:5 end:15:27:
@@ -920,6 +929,7 @@ Design name:unnamed:
           vpiName: dout_valid
           vpiFullName: bc.dout_valid
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dout_data start:16:34 end:16:43:
           vpiParent: Module name:bc
           vpiTypespec RefTypespec start:16:5 end:16:33:
@@ -929,6 +939,7 @@ Design name:unnamed:
           vpiName: dout_data
           vpiFullName: bc.dout_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:ready_all start:20:22 end:20:31:
           vpiParent: Module name:bc
           vpiTypespec RefTypespec start:20:9 end:20:21:
@@ -938,6 +949,7 @@ Design name:unnamed:
           vpiName: ready_all
           vpiFullName: bc.ready_all
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (8 items):
         Port name:clk start:7:34 end:7:37:
           vpiParent: Module name:bc
@@ -1466,7 +1478,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

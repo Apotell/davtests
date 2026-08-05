@@ -18,7 +18,7 @@ n<$Source01/sva/basic05.sv> u<188> t<Top_level_rule> c<1> l<1:1> el<20:1>
     n<> u<186> t<Description> p<187> c<185> l<1:1> el<19:10>
       n<> u<185> t<Module_declaration> p<186> c<19> l<1:1> el<19:10>
         n<> u<19> t<Module_ansi_header> p<185> c<2> s<35> l<1:1> el<1:38>
-          n<module> u<2> t<Module_keyword> p<19> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<19> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<19> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<19> s<18> l<1:12> el<1:12>
           n<> u<18> t<Port_declaration_list> p<19> c<12> l<1:12> el<1:37>
@@ -202,7 +202,6 @@ n<$Source01/sva/basic05.sv> u<188> t<Top_level_rule> c<1> l<1:1> el<20:1>
         n<> u<184> t<ENDMODULE> p<185> l<19:1> el<19:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sva/basic05.sv:1:1: Compile module "top".
-[ERR:LN0813] $Source01/sva/basic05.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -327,7 +326,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:24:
@@ -337,6 +336,17 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: top.clock
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:ctrl start:1:32 end:1:36:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:ctrl
+            vpiFullName: top.ctrl
+            vpiActual: LogicTypespec
+          vpiName: ctrl
+          vpiFullName: top.ctrl
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
@@ -354,7 +364,16 @@ Design name:unnamed:
         Port name:ctrl start:1:32 end:1:36:
           vpiParent: Module name:top
           vpiName: ctrl
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:ctrl start:1:32 end:1:36:
+            vpiParent: Port name:ctrl
+            vpiName: ctrl
+            vpiFullName: top.ctrl.ctrl
+            vpiActual: Net name:ctrl
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:ctrl
+            vpiFullName: top.ctrl
+            vpiActual: LogicTypespec
       vpiContAssign (3 items):
         ContAssign start:9:9 end:9:24:
           vpiParent: Module name:top
@@ -450,12 +469,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ctrl
                 vpiFullName: top.uut.ctrl
-                vpiActual: Port name:ctrl
+                vpiActual: Net name:ctrl
               vpiHighConn RefObj name:ctrl start:6:9 end:6:13:
                 vpiParent: Port
                 vpiName: ctrl
                 vpiFullName: top.uut.ctrl
-                vpiActual: Port name:ctrl
+                vpiActual: Net name:ctrl
   vpiTypespec (1 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -466,7 +485,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -511,7 +530,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/sva/basic05.sv/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    66      66       0         0
 ===================== END REDUCTION RESULT =====================

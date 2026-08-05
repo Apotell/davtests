@@ -25,7 +25,7 @@ n<$Source01/chip.sv> u<403> t<Top_level_rule> c<1> l<12:1> el<135:1>
     n<> u<400> t<Description> p<401> c<399> l<12:1> el<134:10>
       n<> u<399> t<Module_declaration> p<400> c<67> l<12:1> el<134:10>
         n<> u<67> t<Module_ansi_header> p<399> c<9> s<68> l<12:1> el<27:5>
-          n<module> u<9> t<Module_keyword> p<67> s<10> l<12:1> el<12:7>
+          n<module> u<9> t<MODULE> p<67> s<10> l<12:1> el<12:7>
           n<chip> u<10> t<SIMPLE_IDENTIFIER> p<67> s<11> l<12:8> el<12:12>
           n<> u<11> t<Package_import_declaration_list> p<67> s<30> l<13:2> el<13:2>
           n<> u<30> t<Parameter_port_list> p<67> c<29> s<31> l<13:2> el<15:4>
@@ -417,6 +417,7 @@ n<$Source01/chip.sv> u<403> t<Top_level_rule> c<1> l<12:1> el<135:1>
   n<// chip> u<402> t<LINE_COMMENT> p<403> l<134:11> el<134:18>
 AST_DEBUG_END
 [INF:CP0303] $Source01/chip.sv:12:1: Compile module "chip".
+[NTE:CP0309] $Source01/chip.sv:21:14: Implicit port type (wire) for "pad".
 [WRN:CP0350] $Source01/chip.sv:54:49: Failed to bind "id:55, name:mp_pads".
 [WRN:CP0350] $Source01/chip.sv:77:47: Failed to bind "id:91, name:adrdec".
 [WRN:CP0350] $Source01/chip.sv:91:47: Failed to bind "id:105, name:master".
@@ -583,6 +584,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: chip.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:26:16 end:26:19:
           vpiParent: Module name:chip
           vpiTypespec RefTypespec start:26:3 end:26:15:
@@ -592,6 +594,7 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: chip.rst
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:pad start:21:14 end:21:17:
           vpiParent: Module name:chip
@@ -719,6 +722,7 @@ Design name:unnamed:
             ParamAssign start:68:8 end:68:25:
               vpiParent: RefInstance name:dbus
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:NSLAVES start:68:9 end:68:16:
                 vpiParent: ParamAssign
                 vpiName: NSLAVES
@@ -812,6 +816,7 @@ Design name:unnamed:
             ParamAssign start:86:8 end:86:14:
               vpiParent: RefInstance name:i_cpu
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:ID start:86:9 end:86:11:
                 vpiParent: ParamAssign
                 vpiName: ID
@@ -884,6 +889,7 @@ Design name:unnamed:
             ParamAssign start:103:8 end:103:14:
               vpiParent: RefInstance name:i_ports
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:ID start:103:9 end:103:11:
                 vpiParent: ParamAssign
                 vpiName: ID
@@ -977,6 +983,7 @@ Design name:unnamed:
             ParamAssign start:121:8 end:121:14:
               vpiParent: RefInstance name:i_ac
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:ID start:121:9 end:121:11:
                 vpiParent: ParamAssign
                 vpiName: ID
@@ -1073,7 +1080,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 7
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

@@ -18,7 +18,7 @@ n<$Source01/port-test7.v> u<488> t<Top_level_rule> c<1> l<3:1> el<40:1>
     n<> u<128> t<Description> p<486> c<127> s<485> l<3:1> el<10:10>
       n<> u<127> t<Module_declaration> p<128> c<51> l<3:1> el<10:10>
         n<> u<51> t<Module_ansi_header> p<127> c<2> s<125> l<3:1> el<3:70>
-          n<module> u<2> t<Module_keyword> p<51> s<3> l<3:1> el<3:7>
+          n<module> u<2> t<MODULE> p<51> s<3> l<3:1> el<3:7>
           n<ansireg> u<3> t<SIMPLE_IDENTIFIER> p<51> s<4> l<3:8> el<3:15>
           n<> u<4> t<Package_import_declaration_list> p<51> s<50> l<3:15> el<3:15>
           n<> u<50> t<Port_declaration_list> p<51> c<10> l<3:15> el<3:69>
@@ -145,7 +145,7 @@ n<$Source01/port-test7.v> u<488> t<Top_level_rule> c<1> l<3:1> el<40:1>
     n<> u<485> t<Description> p<486> c<484> l<12:1> el<39:10>
       n<> u<484> t<Module_declaration> p<485> c<132> l<12:1> el<39:10>
         n<> u<132> t<Module_ansi_header> p<484> c<129> s<146> l<12:1> el<12:13>
-          n<module> u<129> t<Module_keyword> p<132> s<130> l<12:1> el<12:7>
+          n<module> u<129> t<MODULE> p<132> s<130> l<12:1> el<12:7>
           n<main> u<130> t<SIMPLE_IDENTIFIER> p<132> s<131> l<12:8> el<12:12>
           n<> u<131> t<Package_import_declaration_list> p<132> l<12:12> el<12:12>
         n<> u<146> t<Non_port_module_item> p<484> c<145> s<168> l<14:4> el<14:19>
@@ -503,7 +503,6 @@ n<$Source01/port-test7.v> u<488> t<Top_level_rule> c<1> l<3:1> el<40:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/port-test7.v:3:1: Compile module "ansireg".
 [INF:CP0303] $Source01/port-test7.v:12:1: Compile module "main".
-[ERR:LN0813] $Source01/port-test7.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -586,6 +585,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: ansireg.q
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:ansireg
@@ -648,7 +648,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: ansireg.work
       vpiCell: ansireg
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:clk start:3:22 end:3:25:
           vpiParent: Module name:ansireg
           vpiTypespec RefTypespec start:3:16 end:3:21:
@@ -658,6 +658,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: ansireg.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d start:3:46 end:3:47:
           vpiParent: Module name:ansireg
           vpiTypespec RefTypespec start:3:34 end:3:45:
@@ -667,6 +668,17 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: ansireg.d
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:reset start:3:27 end:3:32:
+          vpiParent: Module name:ansireg
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:reset
+            vpiFullName: ansireg.reset
+            vpiActual: LogicTypespec
+          vpiName: reset
+          vpiFullName: ansireg.reset
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:clk start:3:22 end:3:25:
           vpiParent: Module name:ansireg
@@ -684,7 +696,16 @@ Design name:unnamed:
         Port name:reset start:3:27 end:3:32:
           vpiParent: Module name:ansireg
           vpiName: reset
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:reset start:3:27 end:3:32:
+            vpiParent: Port name:reset
+            vpiName: reset
+            vpiFullName: ansireg.reset.reset
+            vpiActual: Net name:reset
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:reset
+            vpiFullName: ansireg.reset
+            vpiActual: LogicTypespec
         Port name:d start:3:46 end:3:47:
           vpiParent: Module name:ansireg
           vpiName: d
@@ -737,14 +758,14 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: reset
                       vpiFullName: ansireg.reset
-                      vpiActual: Port name:reset
+                      vpiActual: Net name:reset
             vpiStmt IfElse start:5:4 end:8:27:
               vpiParent: EventControl
               vpiCondition RefObj name:reset start:5:7 end:5:12:
                 vpiParent: IfElse
                 vpiName: reset
                 vpiFullName: ansireg.reset
-                vpiActual: Port name:reset
+                vpiActual: Net name:reset
               vpiStmt Assignment start:6:6 end:6:30:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:6:6 end:6:7:
@@ -893,6 +914,7 @@ Design name:unnamed:
           vpiName Identifier name:ansireg start:18:4 end:18:11:
             vpiParent: ModuleTypespec name:ansireg
             vpiName: ansireg
+          vpiModule: Module name:ansireg
       vpiDefName: main
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -910,6 +932,7 @@ Design name:unnamed:
           vpiName: q
           vpiFullName: main.q
           vpiNetType: wire (1)
+          vpiVector: true
       vpiProcess (1 items):
         Initial start:20:4 end:38:7:
           vpiParent: Module name:main
@@ -1299,7 +1322,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1345,9 +1368,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            26      23       3         6
 Operation                            8       5       0         3
-RefTypespec                         37      34       3         6
+RefTypespec                         39      36       3         6
 ----------------------------------------------------------------
-Others                             125     125       0         0
+Others                             127     127       0         0
 ----------------------------------------------------------------
-                                   196     187       6        15
+                                   200     191       6        15
 ===================== END REDUCTION RESULT =====================

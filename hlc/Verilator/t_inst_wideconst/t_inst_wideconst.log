@@ -22,7 +22,7 @@ n<$Source01/t_inst_wideconst.v> u<653> t<Top_level_rule> c<1> l<6:1> el<69:1>
     n<> u<558> t<Description> p<652> c<557> s<651> l<6:1> el<57:10>
       n<> u<557> t<Module_declaration> p<558> c<18> l<6:1> el<57:10>
         n<> u<18> t<Module_nonansi_header> p<557> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -575,7 +575,7 @@ n<$Source01/t_inst_wideconst.v> u<653> t<Top_level_rule> c<1> l<6:1> el<69:1>
     n<> u<651> t<Description> p<652> c<650> l<59:1> el<68:10>
       n<> u<650> t<Module_declaration> p<651> c<611> l<59:1> el<68:10>
         n<> u<611> t<Module_ansi_header> p<650> c<559> s<612> l<59:1> el<63:4>
-          n<module> u<559> t<Module_keyword> p<611> s<560> l<59:1> el<59:7>
+          n<module> u<559> t<MODULE> p<611> s<560> l<59:1> el<59:7>
           n<wide> u<560> t<SIMPLE_IDENTIFIER> p<611> s<561> l<59:8> el<59:12>
           n<> u<561> t<Package_import_declaration_list> p<611> s<610> l<59:13> el<59:13>
           n<> u<610> t<Port_declaration_list> p<611> c<577> l<59:13> el<63:3>
@@ -669,6 +669,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_wideconst.v:6:1: Compile module "t".
 [WRN:CP0323] $Source01/t_inst_wideconst.v:6:1: Multiply defined typedef "wide".
 [INF:CP0303] $Source01/t_inst_wideconst.v:59:1: Compile module "wide".
+[NTE:CP0309] $Source01/t_inst_wideconst.v:62:17: Implicit port type (wire) for "zzz".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -820,11 +821,13 @@ Design name:unnamed:
           vpiName Identifier name:wide start:21:4 end:21:8:
             vpiParent: ModuleTypespec name:wide
             vpiName: wide
+          vpiModule: Module name:wide
         ModuleTypespec name:wide start:27:4 end:27:8:
           vpiParent: Module name:t
           vpiName Identifier name:wide start:27:4 end:27:8:
             vpiParent: ModuleTypespec name:wide
             vpiName: wide
+          vpiModule: Module name:wide
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -842,6 +845,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:bbb start:15:18 end:15:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:15:
@@ -851,6 +855,7 @@ Design name:unnamed:
           vpiName: bbb
           vpiFullName: t.bbb
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:z_0 start:18:18 end:18:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:9 end:18:15:
@@ -860,6 +865,7 @@ Design name:unnamed:
           vpiName: z_0
           vpiFullName: t.z_0
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:z_1 start:19:18 end:19:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:9 end:19:15:
@@ -869,6 +875,7 @@ Design name:unnamed:
           vpiName: z_1
           vpiFullName: t.z_1
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1511,6 +1518,7 @@ Design name:unnamed:
           vpiName: xxx
           vpiFullName: wide.xxx
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:yyy start:61:16 end:61:19:
           vpiParent: Module name:wide
           vpiTypespec RefTypespec start:61:2 end:61:13:
@@ -1520,6 +1528,7 @@ Design name:unnamed:
           vpiName: yyy
           vpiFullName: wide.yyy
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:zzz start:62:17 end:62:20:
           vpiParent: Module name:wide
           vpiTypespec RefTypespec start:62:2 end:62:15:
@@ -1529,6 +1538,7 @@ Design name:unnamed:
           vpiName: zzz
           vpiFullName: wide.zzz
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:xxx start:60:16 end:60:19:
           vpiParent: Module name:wide
@@ -1650,7 +1660,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

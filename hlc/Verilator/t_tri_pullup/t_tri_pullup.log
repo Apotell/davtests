@@ -20,7 +20,7 @@ n<$Source01/t_tri_pullup.v> u<298> t<Top_level_rule> c<1> l<4:1> el<27:1>
     n<> u<160> t<Description> p<297> c<159> s<218> l<4:1> el<14:10>
       n<> u<159> t<Module_declaration> p<160> c<38> l<4:1> el<14:10>
         n<> u<38> t<Module_ansi_header> p<159> c<4> s<50> l<4:1> el<4:62>
-          n<module> u<4> t<Module_keyword> p<38> s<5> l<4:1> el<4:7>
+          n<module> u<4> t<MODULE> p<38> s<5> l<4:1> el<4:7>
           n<top> u<5> t<SIMPLE_IDENTIFIER> p<38> s<6> l<4:8> el<4:11>
           n<> u<6> t<Package_import_declaration_list> p<38> s<37> l<4:12> el<4:12>
           n<> u<37> t<Port_declaration_list> p<38> c<12> l<4:12> el<4:61>
@@ -177,7 +177,7 @@ n<$Source01/t_tri_pullup.v> u<298> t<Top_level_rule> c<1> l<4:1> el<27:1>
     n<> u<218> t<Description> p<297> c<217> s<270> l<16:1> el<18:10>
       n<> u<217> t<Module_declaration> p<218> c<183> l<16:1> el<18:10>
         n<> u<183> t<Module_ansi_header> p<217> c<161> s<215> l<16:1> el<16:42>
-          n<module> u<161> t<Module_keyword> p<183> s<162> l<16:1> el<16:7>
+          n<module> u<161> t<MODULE> p<183> s<162> l<16:1> el<16:7>
           n<pass> u<162> t<SIMPLE_IDENTIFIER> p<183> s<163> l<16:8> el<16:12>
           n<> u<163> t<Package_import_declaration_list> p<183> s<182> l<16:13> el<16:13>
           n<> u<182> t<Port_declaration_list> p<183> c<169> l<16:13> el<16:41>
@@ -235,7 +235,7 @@ n<$Source01/t_tri_pullup.v> u<298> t<Top_level_rule> c<1> l<4:1> el<27:1>
     n<> u<270> t<Description> p<297> c<269> s<296> l<20:1> el<22:10>
       n<> u<269> t<Module_declaration> p<270> c<241> l<20:1> el<22:10>
         n<> u<241> t<Module_ansi_header> p<269> c<219> s<267> l<20:1> el<20:40>
-          n<module> u<219> t<Module_keyword> p<241> s<220> l<20:1> el<20:7>
+          n<module> u<219> t<MODULE> p<241> s<220> l<20:1> el<20:7>
           n<io> u<220> t<SIMPLE_IDENTIFIER> p<241> s<221> l<20:8> el<20:10>
           n<> u<221> t<Package_import_declaration_list> p<241> s<240> l<20:11> el<20:11>
           n<> u<240> t<Port_declaration_list> p<241> c<227> l<20:11> el<20:39>
@@ -287,7 +287,7 @@ n<$Source01/t_tri_pullup.v> u<298> t<Top_level_rule> c<1> l<4:1> el<27:1>
     n<> u<296> t<Description> p<297> c<295> l<24:1> el<26:10>
       n<> u<295> t<Module_declaration> p<296> c<281> l<24:1> el<26:10>
         n<> u<281> t<Module_ansi_header> p<295> c<271> s<293> l<24:1> el<24:33>
-          n<module> u<271> t<Module_keyword> p<281> s<272> l<24:1> el<24:7>
+          n<module> u<271> t<MODULE> p<281> s<272> l<24:1> el<24:7>
           n<pullup_module> u<272> t<SIMPLE_IDENTIFIER> p<281> s<273> l<24:8> el<24:21>
           n<> u<273> t<Package_import_declaration_list> p<281> s<280> l<24:22> el<24:22>
           n<> u<280> t<Port_declaration_list> p<281> c<279> l<24:22> el<24:32>
@@ -312,9 +312,15 @@ n<$Source01/t_tri_pullup.v> u<298> t<Top_level_rule> c<1> l<4:1> el<27:1>
         n<> u<294> t<ENDMODULE> p<295> l<26:1> el<26:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_tri_pullup.v:4:1: Compile module "top".
+[NTE:CP0309] $Source01/t_tri_pullup.v:4:39: Implicit port type (wire) for "X".
+[NTE:CP0309] $Source01/t_tri_pullup.v:4:49: Implicit port type (wire) for "Y".
+[NTE:CP0309] $Source01/t_tri_pullup.v:4:59: Implicit port type (wire) for "Z".
 [INF:CP0303] $Source01/t_tri_pullup.v:16:1: Compile module "pass".
+[NTE:CP0309] $Source01/t_tri_pullup.v:16:39: Implicit port type (wire) for "X".
 [INF:CP0303] $Source01/t_tri_pullup.v:20:1: Compile module "io".
+[NTE:CP0309] $Source01/t_tri_pullup.v:20:37: Implicit port type (wire) for "X".
 [INF:CP0303] $Source01/t_tri_pullup.v:24:1: Compile module "pullup_module".
+[NTE:CP0309] $Source01/t_tri_pullup.v:24:30: Implicit port type (wire) for "X".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -339,11 +345,13 @@ Design name:unnamed:
           vpiName Identifier name:pass start:12:4 end:12:8:
             vpiParent: ModuleTypespec name:pass
             vpiName: pass
+          vpiModule: Module name:pass
         ModuleTypespec name:pullup_module start:13:4 end:13:17:
           vpiParent: Module name:top
           vpiName Identifier name:pullup_module start:13:4 end:13:17:
             vpiParent: ModuleTypespec name:pullup_module
             vpiName: pullup_module
+          vpiModule: Module name:pullup_module
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -361,6 +369,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: top.A
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:OE start:4:28 end:4:30:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:22 end:4:27:
@@ -370,6 +379,7 @@ Design name:unnamed:
           vpiName: OE
           vpiFullName: top.OE
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:X start:4:39 end:4:40:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:32 end:4:38:
@@ -379,6 +389,7 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: top.X
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:Y start:4:49 end:4:50:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:42 end:4:48:
@@ -388,6 +399,7 @@ Design name:unnamed:
           vpiName: Y
           vpiFullName: top.Y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:Z start:4:59 end:4:60:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:52 end:4:58:
@@ -397,6 +409,7 @@ Design name:unnamed:
           vpiName: Z
           vpiFullName: top.Z
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:A start:4:19 end:4:20:
           vpiParent: Module name:top
@@ -640,6 +653,7 @@ Design name:unnamed:
           vpiName Identifier name:io start:17:4 end:17:6:
             vpiParent: ModuleTypespec name:io
             vpiName: io
+          vpiModule: Module name:io
       vpiDefName: pass
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -657,6 +671,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: pass.A
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:OE start:16:29 end:16:31:
           vpiParent: Module name:pass
           vpiTypespec RefTypespec start:16:23 end:16:28:
@@ -666,6 +681,7 @@ Design name:unnamed:
           vpiName: OE
           vpiFullName: pass.OE
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:X start:16:39 end:16:40:
           vpiParent: Module name:pass
           vpiTypespec RefTypespec start:16:33 end:16:38:
@@ -675,6 +691,7 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: pass.X
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:A start:16:20 end:16:21:
           vpiParent: Module name:pass
@@ -787,6 +804,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: io.A
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:OE start:20:27 end:20:29:
           vpiParent: Module name:io
           vpiTypespec RefTypespec start:20:21 end:20:26:
@@ -796,6 +814,7 @@ Design name:unnamed:
           vpiName: OE
           vpiFullName: io.OE
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:X start:20:37 end:20:38:
           vpiParent: Module name:io
           vpiTypespec RefTypespec start:20:31 end:20:36:
@@ -805,6 +824,7 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: io.X
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:A start:20:18 end:20:19:
           vpiParent: Module name:io
@@ -903,6 +923,7 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: pullup_module.X
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:X start:24:30 end:24:31:
           vpiParent: Module name:pullup_module
@@ -967,7 +988,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 6
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

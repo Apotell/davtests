@@ -28,7 +28,7 @@ n<$Source01/t_var_tieout.v> u<336> t<Top_level_rule> c<1> l<6:1> el<46:1>
     n<> u<270> t<Description> p<335> c<269> s<334> l<6:1> el<37:10>
       n<> u<269> t<Module_declaration> p<270> c<18> l<6:1> el<37:10>
         n<> u<18> t<Module_nonansi_header> p<269> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -293,7 +293,7 @@ n<$Source01/t_var_tieout.v> u<336> t<Top_level_rule> c<1> l<6:1> el<46:1>
     n<> u<334> t<Description> p<335> c<333> l<39:1> el<45:10>
       n<> u<333> t<Module_declaration> p<334> c<318> l<39:1> el<45:10>
         n<> u<318> t<Module_ansi_header> p<333> c<271> s<320> l<39:1> el<43:23>
-          n<module> u<271> t<Module_keyword> p<318> s<272> l<39:1> el<39:7>
+          n<module> u<271> t<MODULE> p<318> s<272> l<39:1> el<39:7>
           n<Test> u<272> t<SIMPLE_IDENTIFIER> p<318> s<273> l<39:8> el<39:12>
           n<> u<273> t<Package_import_declaration_list> p<318> s<317> l<39:13> el<39:13>
           n<> u<317> t<Port_declaration_list> p<318> c<284> l<39:13> el<43:23>
@@ -357,6 +357,7 @@ n<$Source01/t_var_tieout.v> u<336> t<Top_level_rule> c<1> l<6:1> el<46:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_var_tieout.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_var_tieout.v:39:1: Compile module "Test".
+[NTE:CP0309] $Source01/t_var_tieout.v:40:19: Implicit port type (wire) for "out1".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -393,6 +394,7 @@ Design name:unnamed:
           vpiName Identifier name:Test start:20:4 end:20:8:
             vpiParent: ModuleTypespec name:Test
             vpiName: Test
+          vpiModule: Module name:Test
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -410,6 +412,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:out1 start:15:11 end:15:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:11 end:15:11:
@@ -419,6 +422,7 @@ Design name:unnamed:
           vpiName: out1
           vpiFullName: t.out1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:out19 start:16:11 end:16:16:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:11 end:16:11:
@@ -428,6 +432,7 @@ Design name:unnamed:
           vpiName: out19
           vpiFullName: t.out19
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:out1b start:17:11 end:17:16:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:11 end:17:11:
@@ -437,6 +442,7 @@ Design name:unnamed:
           vpiName: out1b
           vpiFullName: t.out1b
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -744,6 +750,7 @@ Design name:unnamed:
           vpiName: out1
           vpiFullName: Test.out1
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Constant start:40:26 end:40:30:
             vpiParent: Net name:out1
             vpiTypespec RefTypespec:
@@ -831,7 +838,7 @@ Design name:unnamed:
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

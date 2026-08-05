@@ -18,7 +18,7 @@ n<$Source01/simple/wandwor.v> u<560> t<Top_level_rule> c<1> l<1:1> el<37:1>
     n<> u<202> t<Description> p<559> c<201> s<446> l<1:1> el<11:10>
       n<> u<201> t<Module_declaration> p<202> c<48> l<1:1> el<11:10>
         n<> u<48> t<Module_nonansi_header> p<201> c<2> s<58> l<1:1> el<1:44>
-          n<module> u<2> t<Module_keyword> p<48> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<48> s<3> l<1:1> el<1:7>
           n<wandwor_test0> u<3> t<SIMPLE_IDENTIFIER> p<48> s<4> l<1:8> el<1:21>
           n<> u<4> t<Package_import_declaration_list> p<48> s<47> l<1:22> el<1:22>
           n<> u<47> t<Port_list> p<48> c<10> l<1:22> el<1:43>
@@ -219,7 +219,7 @@ n<$Source01/simple/wandwor.v> u<560> t<Top_level_rule> c<1> l<1:1> el<37:1>
     n<> u<446> t<Description> p<559> c<445> s<492> l<13:1> el<28:10>
       n<> u<445> t<Module_declaration> p<446> c<249> l<13:1> el<28:10>
         n<> u<249> t<Module_nonansi_header> p<445> c<203> s<269> l<13:1> el<13:44>
-          n<module> u<203> t<Module_keyword> p<249> s<204> l<13:1> el<13:7>
+          n<module> u<203> t<MODULE> p<249> s<204> l<13:1> el<13:7>
           n<wandwor_test1> u<204> t<SIMPLE_IDENTIFIER> p<249> s<205> l<13:8> el<13:21>
           n<> u<205> t<Package_import_declaration_list> p<249> s<248> l<13:22> el<13:22>
           n<> u<248> t<Port_list> p<249> c<211> l<13:22> el<13:43>
@@ -463,7 +463,7 @@ n<$Source01/simple/wandwor.v> u<560> t<Top_level_rule> c<1> l<1:1> el<37:1>
     n<> u<492> t<Description> p<559> c<491> s<558> l<30:1> el<32:10>
       n<> u<491> t<Module_declaration> p<492> c<468> l<30:1> el<32:10>
         n<> u<468> t<Module_ansi_header> p<491> c<447> s<489> l<30:1> el<30:36>
-          n<module> u<447> t<Module_keyword> p<468> s<448> l<30:1> el<30:7>
+          n<module> u<447> t<MODULE> p<468> s<448> l<30:1> el<30:7>
           n<foo> u<448> t<SIMPLE_IDENTIFIER> p<468> s<449> l<30:8> el<30:11>
           n<> u<449> t<Package_import_declaration_list> p<468> s<467> l<30:11> el<30:11>
           n<> u<467> t<Port_declaration_list> p<468> c<455> l<30:11> el<30:35>
@@ -509,7 +509,7 @@ n<$Source01/simple/wandwor.v> u<560> t<Top_level_rule> c<1> l<1:1> el<37:1>
     n<> u<558> t<Description> p<559> c<557> l<34:1> el<36:10>
       n<> u<557> t<Module_declaration> p<558> c<534> l<34:1> el<36:10>
         n<> u<534> t<Module_ansi_header> p<557> c<493> s<555> l<34:1> el<34:48>
-          n<module> u<493> t<Module_keyword> p<534> s<494> l<34:1> el<34:7>
+          n<module> u<493> t<MODULE> p<534> s<494> l<34:1> el<34:7>
           n<bar> u<494> t<SIMPLE_IDENTIFIER> p<534> s<495> l<34:8> el<34:11>
           n<> u<495> t<Package_import_declaration_list> p<534> s<533> l<34:11> el<34:11>
           n<> u<533> t<Port_declaration_list> p<534> c<511> l<34:11> el<34:47>
@@ -578,8 +578,9 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/simple/wandwor.v:1:1: Multiply defined typedef "foo".
 [INF:CP0303] $Source01/simple/wandwor.v:13:1: Compile module "wandwor_test1".
 [INF:CP0303] $Source01/simple/wandwor.v:30:1: Compile module "foo".
+[NTE:CP0309] $Source01/simple/wandwor.v:30:33: Implicit port type (wire) for "O".
 [INF:CP0303] $Source01/simple/wandwor.v:34:1: Compile module "bar".
-[ERR:LN0813] $Source01/simple/wandwor.v:1:1: Found 2 orphan node(s).
+[NTE:CP0309] $Source01/simple/wandwor.v:34:45: Implicit port type (wire) for "O".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -604,16 +605,19 @@ Design name:unnamed:
           vpiName Identifier name:foo start:8:2 end:8:5:
             vpiParent: ModuleTypespec name:foo
             vpiName: foo
+          vpiModule: Module name:foo
         ModuleTypespec name:foo start:9:2 end:9:5:
           vpiParent: Module name:wandwor_test0
           vpiName Identifier name:foo start:9:2 end:9:5:
             vpiParent: ModuleTypespec name:foo
             vpiName: foo
+          vpiModule: Module name:foo
         ModuleTypespec name:foo start:10:2 end:10:5:
           vpiParent: Module name:wandwor_test0
           vpiName Identifier name:foo start:10:2 end:10:5:
             vpiParent: ModuleTypespec name:foo
             vpiName: foo
+          vpiModule: Module name:foo
       vpiDefName: wandwor_test0
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -631,6 +635,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: wandwor_test0.A
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:B start:2:11 end:2:12:
           vpiParent: Module name:wandwor_test0
           vpiTypespec RefTypespec start:2:8 end:2:8:
@@ -640,6 +645,7 @@ Design name:unnamed:
           vpiName: B
           vpiFullName: wandwor_test0.B
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:C start:2:14 end:2:15:
           vpiParent: Module name:wandwor_test0
           vpiTypespec RefTypespec start:2:8 end:2:8:
@@ -649,6 +655,7 @@ Design name:unnamed:
           vpiName: C
           vpiFullName: wandwor_test0.C
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:D start:2:17 end:2:18:
           vpiParent: Module name:wandwor_test0
           vpiTypespec RefTypespec start:2:8 end:2:8:
@@ -658,6 +665,7 @@ Design name:unnamed:
           vpiName: D
           vpiFullName: wandwor_test0.D
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:X start:3:13 end:3:14:
           vpiParent: Module name:wandwor_test0
           vpiTypespec RefTypespec start:3:9 end:3:12:
@@ -667,6 +675,7 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: wandwor_test0.X
           vpiNetType: wor (3)
+          vpiScalar: true
         Net name:Y start:4:14 end:4:15:
           vpiParent: Module name:wandwor_test0
           vpiTypespec RefTypespec start:4:9 end:4:13:
@@ -676,6 +685,7 @@ Design name:unnamed:
           vpiName: Y
           vpiFullName: wandwor_test0.Y
           vpiNetType: wand (2)
+          vpiScalar: true
         Net name:Z start:5:9 end:5:10:
           vpiParent: Module name:wandwor_test0
           vpiTypespec RefTypespec start:5:9 end:5:9:
@@ -685,6 +695,7 @@ Design name:unnamed:
           vpiName: Z
           vpiFullName: wandwor_test0.Z
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (7 items):
         Port name:A start:1:23 end:1:24:
           vpiParent: Module name:wandwor_test0
@@ -1036,6 +1047,7 @@ Design name:unnamed:
           vpiName Identifier name:bar start:19:2 end:19:5:
             vpiParent: ModuleTypespec name:bar
             vpiName: bar
+          vpiModule: Module name:bar
       vpiDefName: wandwor_test1
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1053,6 +1065,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: wandwor_test1.A
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:B start:14:17 end:14:18:
           vpiParent: Module name:wandwor_test1
           vpiTypespec RefTypespec start:14:8 end:14:13:
@@ -1062,6 +1075,7 @@ Design name:unnamed:
           vpiName: B
           vpiFullName: wandwor_test1.B
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:C start:14:20 end:14:21:
           vpiParent: Module name:wandwor_test1
           vpiTypespec RefTypespec start:14:8 end:14:13:
@@ -1071,6 +1085,7 @@ Design name:unnamed:
           vpiName: C
           vpiFullName: wandwor_test1.C
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:D start:14:23 end:14:24:
           vpiParent: Module name:wandwor_test1
           vpiTypespec RefTypespec start:14:8 end:14:13:
@@ -1080,6 +1095,7 @@ Design name:unnamed:
           vpiName: D
           vpiFullName: wandwor_test1.D
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:X start:15:19 end:15:20:
           vpiParent: Module name:wandwor_test1
           vpiTypespec RefTypespec start:15:9 end:15:18:
@@ -1089,6 +1105,7 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: wandwor_test1.X
           vpiNetType: wor (3)
+          vpiVector: true
         Net name:Y start:16:20 end:16:21:
           vpiParent: Module name:wandwor_test1
           vpiTypespec RefTypespec start:16:9 end:16:19:
@@ -1098,6 +1115,7 @@ Design name:unnamed:
           vpiName: Y
           vpiFullName: wandwor_test1.Y
           vpiNetType: wand (2)
+          vpiVector: true
         Net name:Z start:17:9 end:17:10:
           vpiParent: Module name:wandwor_test1
           vpiTypespec RefTypespec start:17:9 end:17:9:
@@ -1107,6 +1125,7 @@ Design name:unnamed:
           vpiName: Z
           vpiFullName: wandwor_test1.Z
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (7 items):
         Port name:A start:13:23 end:13:24:
           vpiParent: Module name:wandwor_test1
@@ -1359,7 +1378,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: foo.work
       vpiCell: foo
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:I0 start:30:18 end:30:20:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec start:30:12 end:30:17:
@@ -1369,6 +1388,7 @@ Design name:unnamed:
           vpiName: I0
           vpiFullName: foo.I0
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:O start:30:33 end:30:34:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec start:30:26 end:30:32:
@@ -1378,6 +1398,17 @@ Design name:unnamed:
           vpiName: O
           vpiFullName: foo.O
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:I1 start:30:22 end:30:24:
+          vpiParent: Module name:foo
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:I1
+            vpiFullName: foo.I1
+            vpiActual: LogicTypespec
+          vpiName: I1
+          vpiFullName: foo.I1
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:I0 start:30:18 end:30:20:
           vpiParent: Module name:foo
@@ -1395,7 +1426,16 @@ Design name:unnamed:
         Port name:I1 start:30:22 end:30:24:
           vpiParent: Module name:foo
           vpiName: I1
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:I1 start:30:22 end:30:24:
+            vpiParent: Port name:I1
+            vpiName: I1
+            vpiFullName: foo.I1.I1
+            vpiActual: Net name:I1
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:I1
+            vpiFullName: foo.I1
+            vpiActual: LogicTypespec
         Port name:O start:30:33 end:30:34:
           vpiParent: Module name:foo
           vpiName: O
@@ -1430,14 +1470,14 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: I1
                 vpiFullName: foo.I1
-                vpiActual: Port name:I1
+                vpiActual: Net name:I1
     Module name:bar file:$Source01/simple/wandwor.v start:34:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:34:8 end:34:11:
         vpiParent: Module name:bar
         vpiName: bar
       vpiFullName: bar
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:bar
           vpiRange (1 items):
@@ -1464,8 +1504,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:bar
         LogicTypespec:
           vpiParent: Module name:bar
           vpiRange (1 items):
@@ -1499,7 +1537,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: bar.work
       vpiCell: bar
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:I0 start:34:24 end:34:26:
           vpiParent: Module name:bar
           vpiTypespec RefTypespec start:34:12 end:34:23:
@@ -1509,6 +1547,7 @@ Design name:unnamed:
           vpiName: I0
           vpiFullName: bar.I0
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:O start:34:45 end:34:46:
           vpiParent: Module name:bar
           vpiTypespec RefTypespec start:34:32 end:34:44:
@@ -1518,6 +1557,17 @@ Design name:unnamed:
           vpiName: O
           vpiFullName: bar.O
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:I1 start:34:28 end:34:30:
+          vpiParent: Module name:bar
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:I1
+            vpiFullName: bar.I1
+            vpiActual: LogicTypespec
+          vpiName: I1
+          vpiFullName: bar.I1
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:I0 start:34:24 end:34:26:
           vpiParent: Module name:bar
@@ -1535,7 +1585,16 @@ Design name:unnamed:
         Port name:I1 start:34:28 end:34:30:
           vpiParent: Module name:bar
           vpiName: I1
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:I1 start:34:28 end:34:30:
+            vpiParent: Port name:I1
+            vpiName: I1
+            vpiFullName: bar.I1.I1
+            vpiActual: Net name:I1
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:I1
+            vpiFullName: bar.I1
+            vpiActual: LogicTypespec
         Port name:O start:34:45 end:34:46:
           vpiParent: Module name:bar
           vpiName: O
@@ -1570,7 +1629,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: I1
                 vpiFullName: bar.I1
-                vpiActual: Port name:I1
+                vpiActual: Net name:I1
   vpiTypespec (5 items):
     ModuleTypespec name:wandwor_test0:
       vpiParent: Design name:unnamed
@@ -1602,9 +1661,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1647,7 +1706,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/wandwor.v/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             247     247       0         0
+Others                             254     254       0         0
 ----------------------------------------------------------------
-                                   247     247       0         0
+                                   254     254       0         0
 ===================== END REDUCTION RESULT =====================

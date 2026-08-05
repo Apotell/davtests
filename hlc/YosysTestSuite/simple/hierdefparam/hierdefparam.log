@@ -22,7 +22,7 @@ n<$Source01/hierdefparam.v> u<411> t<Top_level_rule> c<1> l<1:1> el<26:1>
     n<> u<124> t<Description> p<410> c<123> s<322> l<3:1> el<9:10>
       n<> u<123> t<Module_declaration> p<124> c<42> l<3:1> el<9:10>
         n<> u<42> t<Module_ansi_header> p<123> c<6> s<73> l<3:1> el<3:56>
-          n<module> u<6> t<Module_keyword> p<42> s<7> l<3:1> el<3:7>
+          n<module> u<6> t<MODULE> p<42> s<7> l<3:1> el<3:7>
           n<hierdefparam_top> u<7> t<SIMPLE_IDENTIFIER> p<42> s<8> l<3:8> el<3:24>
           n<> u<8> t<Package_import_declaration_list> p<42> s<41> l<3:24> el<3:24>
           n<> u<41> t<Port_declaration_list> p<42> c<24> l<3:24> el<3:55>
@@ -141,7 +141,7 @@ n<$Source01/hierdefparam.v> u<411> t<Top_level_rule> c<1> l<1:1> el<26:1>
     n<> u<322> t<Description> p<410> c<321> s<409> l<11:1> el<20:10>
       n<> u<321> t<Module_declaration> p<322> c<161> l<11:1> el<20:10>
         n<> u<161> t<Module_ansi_header> p<321> c<125> s<168> l<11:1> el<11:54>
-          n<module> u<125> t<Module_keyword> p<161> s<126> l<11:1> el<11:7>
+          n<module> u<125> t<MODULE> p<161> s<126> l<11:1> el<11:7>
           n<hierdefparam_a> u<126> t<SIMPLE_IDENTIFIER> p<161> s<127> l<11:8> el<11:22>
           n<> u<127> t<Package_import_declaration_list> p<161> s<160> l<11:22> el<11:22>
           n<> u<160> t<Port_declaration_list> p<161> c<143> l<11:22> el<11:53>
@@ -339,7 +339,7 @@ n<$Source01/hierdefparam.v> u<411> t<Top_level_rule> c<1> l<1:1> el<26:1>
     n<> u<409> t<Description> p<410> c<408> l<22:1> el<25:10>
       n<> u<408> t<Module_declaration> p<409> c<359> l<22:1> el<25:10>
         n<> u<359> t<Module_ansi_header> p<408> c<323> s<385> l<22:1> el<22:54>
-          n<module> u<323> t<Module_keyword> p<359> s<324> l<22:1> el<22:7>
+          n<module> u<323> t<MODULE> p<359> s<324> l<22:1> el<22:7>
           n<hierdefparam_b> u<324> t<SIMPLE_IDENTIFIER> p<359> s<325> l<22:8> el<22:22>
           n<> u<325> t<Package_import_declaration_list> p<359> s<358> l<22:22> el<22:22>
           n<> u<358> t<Port_declaration_list> p<359> c<341> l<22:22> el<22:53>
@@ -425,10 +425,13 @@ n<$Source01/hierdefparam.v> u<411> t<Top_level_rule> c<1> l<1:1> el<26:1>
         n<> u<407> t<ENDMODULE> p<408> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/hierdefparam.v:3:1: Compile module "hierdefparam_top".
+[NTE:CP0309] $Source01/hierdefparam.v:3:53: Implicit port type (wire) for "Y".
 [INF:CP0335] $Source01/hierdefparam.v:4:18: Compile generate block "foo".
 [INF:CP0303] $Source01/hierdefparam.v:11:1: Compile module "hierdefparam_a".
+[NTE:CP0309] $Source01/hierdefparam.v:11:51: Implicit port type (wire) for "Y".
 [INF:CP0335] $Source01/hierdefparam.v:14:37: Compile generate block "bar".
 [INF:CP0303] $Source01/hierdefparam.v:22:1: Compile module "hierdefparam_b".
+[NTE:CP0309] $Source01/hierdefparam.v:22:51: Implicit port type (wire) for "Y".
 [WRN:CP0350] $Source01/hierdefparam.v:7:12: Failed to bind "id:62, name:foo".
 [WRN:CP0350] $Source01/hierdefparam.v:7:16: Failed to bind "id:63, name:mod_a".
 [WRN:CP0350] $Source01/hierdefparam.v:7:29: Failed to bind "id:65, name:mod_b".
@@ -473,6 +476,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: hierdefparam_top.A
+          vpiVector: true
         Variable name:Y start:3:53 end:3:54:
           vpiParent: Module name:hierdefparam_top
           vpiTypespec RefTypespec start:3:40 end:3:52:
@@ -481,6 +485,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Y
           vpiFullName: hierdefparam_top.Y
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:hierdefparam_top
@@ -687,6 +692,7 @@ Design name:unnamed:
                 vpiName Identifier name:hierdefparam_a start:5:5 end:5:19:
                   vpiParent: ModuleTypespec name:hierdefparam_a
                   vpiName: hierdefparam_a
+                vpiModule: Module name:hierdefparam_a
             vpiStmt (1 items):
               RefInstance name:mod_a start:5:20 end:5:25:
                 vpiParent: Begin name:foo
@@ -736,6 +742,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: hierdefparam_a.A
+          vpiVector: true
         Variable name:Y start:11:51 end:11:52:
           vpiParent: Module name:hierdefparam_a
           vpiTypespec RefTypespec start:11:38 end:11:50:
@@ -744,6 +751,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Y
           vpiFullName: hierdefparam_a.Y
+          vpiVector: true
         Variable name:i start:12:10 end:12:11:
           vpiParent: Module name:hierdefparam_a
           vpiTypespec RefTypespec:
@@ -821,6 +829,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: hierdefparam_a.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:y start:15:21 end:15:22:
           vpiParent: Module name:hierdefparam_a
           vpiTypespec RefTypespec start:15:12 end:15:17:
@@ -830,6 +839,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: hierdefparam_a.y
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:A start:11:35 end:11:36:
           vpiParent: Module name:hierdefparam_a
@@ -1097,6 +1107,7 @@ Design name:unnamed:
                   vpiName Identifier name:hierdefparam_b start:16:7 end:16:21:
                     vpiParent: ModuleTypespec name:hierdefparam_b
                     vpiName: hierdefparam_b
+                  vpiModule: Module name:hierdefparam_b
               vpiStmt (1 items):
                 RefInstance name:mod_b start:16:22 end:16:27:
                   vpiParent: Begin name:bar
@@ -1146,6 +1157,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: hierdefparam_b.A
+          vpiVector: true
         Variable name:Y start:22:51 end:22:52:
           vpiParent: Module name:hierdefparam_b
           vpiTypespec RefTypespec start:22:38 end:22:50:
@@ -1154,6 +1166,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Y
           vpiFullName: hierdefparam_b.Y
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:addvalue start:23:19 end:23:27:
           vpiParent: Module name:hierdefparam_b
@@ -1345,7 +1358,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 8
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

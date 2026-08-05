@@ -22,7 +22,7 @@ n<$Source01/relong/alu.sv> u<293> t<Top_level_rule> c<1> l<1:1> el<31:10>
     n<> u<291> t<Description> p<292> c<290> l<3:1> el<31:10>
       n<> u<290> t<Module_declaration> p<291> c<69> l<3:1> el<31:10>
         n<> u<69> t<Module_ansi_header> p<290> c<6> s<288> l<3:1> el<7:3>
-          n<module> u<6> t<Module_keyword> p<69> s<7> l<3:1> el<3:7>
+          n<module> u<6> t<MODULE> p<69> s<7> l<3:1> el<3:7>
           n<ALU> u<7> t<SIMPLE_IDENTIFIER> p<69> s<8> l<3:8> el<3:11>
           n<> u<8> t<Package_import_declaration_list> p<69> s<68> l<3:11> el<3:11>
           n<> u<68> t<Port_declaration_list> p<69> c<26> l<3:11> el<7:2>
@@ -307,7 +307,6 @@ n<$Source01/relong/alu.sv> u<293> t<Top_level_rule> c<1> l<1:1> el<31:10>
         n<> u<289> t<ENDMODULE> p<290> l<31:1> el<31:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/alu.sv:3:1: Compile module "ALU".
-[ERR:LN0813] $Source01/relong/alu.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -335,7 +334,7 @@ Design name:unnamed:
         vpiParent: Module name:ALU
         vpiName: ALU
       vpiFullName: ALU
-      vpiVariable (3 items):
+      vpiVariable (4 items):
         Variable name:operation start:4:23 end:4:32:
           vpiParent: Module name:ALU
           vpiTypespec RefTypespec start:4:5 end:4:22:
@@ -344,6 +343,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: operation
           vpiFullName: ALU.operation
+          vpiVector: true
         Variable name:left start:5:24 end:5:28:
           vpiParent: Module name:ALU
           vpiTypespec RefTypespec start:5:5 end:5:23:
@@ -352,6 +352,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: left
           vpiFullName: ALU.left
+          vpiVector: true
         Variable name:result start:6:25 end:6:31:
           vpiParent: Module name:ALU
           vpiTypespec RefTypespec start:6:5 end:6:24:
@@ -360,7 +361,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: ALU.result
-      vpiTypespec (4 items):
+          vpiVector: true
+        Variable name:right start:5:30 end:5:35:
+          vpiParent: Module name:ALU
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:right
+            vpiFullName: ALU.right
+            vpiActual: LogicTypespec
+          vpiName: right
+          vpiFullName: ALU.right
+          vpiVector: true
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:ALU
           vpiRange (1 items):
@@ -413,8 +424,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:ALU
         LogicTypespec:
           vpiParent: Module name:ALU
           vpiRange (1 items):
@@ -478,7 +487,16 @@ Design name:unnamed:
         Port name:right start:5:30 end:5:35:
           vpiParent: Module name:ALU
           vpiName: right
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:right start:5:30 end:5:35:
+            vpiParent: Port name:right
+            vpiName: right
+            vpiFullName: ALU.right.right
+            vpiActual: Variable name:right
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:right
+            vpiFullName: ALU.right
+            vpiActual: LogicTypespec
         Port name:result start:6:25 end:6:31:
           vpiParent: Module name:ALU
           vpiName: result
@@ -574,7 +592,7 @@ Design name:unnamed:
                                   vpiParent: PartSelect name:right[4:0]
                                   vpiName: right
                                   vpiFullName: ALU.right[4:0].right
-                                  vpiActual: Port name:right
+                                  vpiActual: Variable name:right
                                 vpiRange Range start:15:51 end:15:54:
                                   vpiParent: PartSelect name:right[4:0]
                                   vpiLeftRange Constant start:15:51 end:15:52:
@@ -645,7 +663,7 @@ Design name:unnamed:
                                   vpiParent: PartSelect name:right[4:0]
                                   vpiName: right
                                   vpiFullName: ALU.right[4:0].right
-                                  vpiActual: Port name:right
+                                  vpiActual: Variable name:right
                                 vpiRange Range start:19:50 end:19:53:
                                   vpiParent: PartSelect name:right[4:0]
                                   vpiLeftRange Constant start:19:50 end:19:51:
@@ -718,7 +736,7 @@ Design name:unnamed:
                                     vpiParent: SysFuncCall name:$signed
                                     vpiName: right
                                     vpiFullName: ALU.right
-                                    vpiActual: Port name:right
+                                    vpiActual: Variable name:right
                   CaseItem start:25:13 end:28:16:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -769,7 +787,7 @@ Design name:unnamed:
                                     vpiParent: SysFuncCall name:$unsigned
                                     vpiName: right
                                     vpiFullName: ALU.right
-                                    vpiActual: Port name:right
+                                    vpiActual: Variable name:right
           vpiAlwaysType: comb (2)
   vpiTypespec (4 items):
     IntTypespec:
@@ -788,7 +806,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -833,7 +851,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/alu_sv/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             116     116       0         0
+Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   116     116       0         0
+                                   119     119       0         0
 ===================== END REDUCTION RESULT =====================

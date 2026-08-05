@@ -213,6 +213,9 @@ TEST_F(ImplicitPortConnection, TopRefInstanceModTypespecGetModuleIsNull) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
+  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  ASSERT_NE(test, nullptr);
+
   const hldb::RefInstance *const inst = any_cast<hldb::RefInstance>(top->getRefInstances()->at(0));
   ASSERT_NE(inst, nullptr);
   ASSERT_NE(inst->getTypespec(), nullptr);
@@ -220,9 +223,8 @@ TEST_F(ImplicitPortConnection, TopRefInstanceModTypespecGetModuleIsNull) {
   const hldb::ModuleTypespec *const ts = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(ts, nullptr);
 
-  EXPECT_EQ(ts->getModule(), nullptr)
-      << "known HLC limitation: ModuleTypespec::getModule() is not resolved for this pattern; "
-      << "getName() is the only reliable way to identify the submodule";
+  EXPECT_EQ(ts->getModule(), test)
+      << "expected ModuleTypespec::getModule() to be resolved";
 }
 
 // ----

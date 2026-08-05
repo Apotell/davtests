@@ -29,7 +29,7 @@ n<$Source01/relong/struct.v> u<984> t<Top_level_rule> c<1> l<1:1> el<117:10>
     n<> u<569> t<Description> p<983> c<568> s<771> l<22:1> el<80:10>
       n<> u<568> t<Module_declaration> p<569> c<37> l<22:1> el<80:10>
         n<> u<37> t<Module_ansi_header> p<568> c<13> s<53> l<22:1> el<25:3>
-          n<module> u<13> t<Module_keyword> p<37> s<14> l<22:1> el<22:7>
+          n<module> u<13> t<MODULE> p<37> s<14> l<22:1> el<22:7>
           n<Example> u<14> t<SIMPLE_IDENTIFIER> p<37> s<15> l<22:8> el<22:15>
           n<> u<15> t<Package_import_declaration_list> p<37> s<36> l<22:15> el<22:15>
           n<> u<36> t<Port_declaration_list> p<37> c<22> l<22:15> el<25:2>
@@ -586,7 +586,7 @@ n<$Source01/relong/struct.v> u<984> t<Top_level_rule> c<1> l<1:1> el<117:10>
     n<> u<771> t<Description> p<983> c<770> s<982> l<82:1> el<99:10>
       n<> u<770> t<Module_declaration> p<771> c<633> l<82:1> el<99:10>
         n<> u<633> t<Module_ansi_header> p<770> c<570> s<634> l<82:1> el<87:3>
-          n<module> u<570> t<Module_keyword> p<633> s<571> l<82:1> el<82:7>
+          n<module> u<570> t<MODULE> p<633> s<571> l<82:1> el<82:7>
           n<StructCompose> u<571> t<SIMPLE_IDENTIFIER> p<633> s<572> l<82:8> el<82:21>
           n<> u<572> t<Package_import_declaration_list> p<633> s<632> l<82:21> el<82:21>
           n<> u<632> t<Port_declaration_list> p<633> c<589> l<82:21> el<87:2>
@@ -788,7 +788,7 @@ n<$Source01/relong/struct.v> u<984> t<Top_level_rule> c<1> l<1:1> el<117:10>
     n<> u<982> t<Description> p<983> c<981> l<101:1> el<117:10>
       n<> u<981> t<Module_declaration> p<982> c<837> l<101:1> el<117:10>
         n<> u<837> t<Module_ansi_header> p<981> c<772> s<838> l<101:1> el<106:3>
-          n<module> u<772> t<Module_keyword> p<837> s<773> l<101:1> el<101:7>
+          n<module> u<772> t<MODULE> p<837> s<773> l<101:1> el<101:7>
           n<StructDecompose> u<773> t<SIMPLE_IDENTIFIER> p<837> s<774> l<101:8> el<101:23>
           n<> u<774> t<Package_import_declaration_list> p<837> s<836> l<101:23> el<101:23>
           n<> u<836> t<Port_declaration_list> p<837> c<791> l<101:23> el<106:2>
@@ -1000,7 +1000,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/relong/struct.v:22:1: Compile module "Example".
 [INF:CP0303] $Source01/relong/struct.v:82:1: Compile module "StructCompose".
 [INF:CP0303] $Source01/relong/struct.v:101:1: Compile module "StructDecompose".
-[ERR:LN0813] $Source01/relong/struct.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1266,6 +1265,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: success
           vpiFullName: Example.success
+          vpiScalar: true
         Variable name:data_in start:30:16 end:30:23:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:30:5 end:30:15:
@@ -1483,11 +1483,13 @@ Design name:unnamed:
           vpiName Identifier name:StructCompose start:58:5 end:58:18:
             vpiParent: ModuleTypespec name:StructCompose
             vpiName: StructCompose
+          vpiModule: Module name:StructCompose
         ModuleTypespec name:StructDecompose start:65:5 end:65:20:
           vpiParent: Module name:Example
           vpiName Identifier name:StructDecompose start:65:5 end:65:20:
             vpiParent: ModuleTypespec name:StructDecompose
             vpiName: StructDecompose
+          vpiModule: Module name:StructDecompose
       vpiDefName: Example
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -1495,7 +1497,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (5 items):
+      vpiNet (6 items):
         Net name:clock start:23:16 end:23:21:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:23:5 end:23:15:
@@ -1505,6 +1507,17 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: Example.clock
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clear start:23:23 end:23:28:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clear
+            vpiFullName: Example.clear
+            vpiActual: LogicTypespec
+          vpiName: clear
+          vpiFullName: Example.clear
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:data_out start:31:17 end:31:25:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:31:10 end:31:16:
@@ -1514,6 +1527,7 @@ Design name:unnamed:
           vpiName: data_out
           vpiFullName: Example.data_out
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:valid_out start:33:10 end:33:19:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:33:10 end:33:10:
@@ -1523,6 +1537,7 @@ Design name:unnamed:
           vpiName: valid_out
           vpiFullName: Example.valid_out
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:mode_out start:35:17 end:35:25:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:35:10 end:35:16:
@@ -1532,6 +1547,7 @@ Design name:unnamed:
           vpiName: mode_out
           vpiFullName: Example.mode_out
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:object start:36:17 end:36:23:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:36:10 end:36:16:
@@ -1541,6 +1557,7 @@ Design name:unnamed:
           vpiName: object
           vpiFullName: Example.object
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:clock start:23:16 end:23:21:
           vpiParent: Module name:Example
@@ -1558,7 +1575,16 @@ Design name:unnamed:
         Port name:clear start:23:23 end:23:28:
           vpiParent: Module name:Example
           vpiName: clear
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clear start:23:23 end:23:28:
+            vpiParent: Port name:clear
+            vpiName: clear
+            vpiFullName: Example.clear.clear
+            vpiActual: Net name:clear
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clear
+            vpiFullName: Example.clear
+            vpiActual: LogicTypespec
         Port name:success start:24:16 end:24:23:
           vpiParent: Module name:Example
           vpiName: success
@@ -1596,7 +1622,7 @@ Design name:unnamed:
                     vpiParent: IfElse
                     vpiName: clear
                     vpiFullName: Example.clear
-                    vpiActual: Port name:clear
+                    vpiActual: Net name:clear
                   vpiStmt Begin start:43:19 end:47:12:
                     vpiParent: IfElse
                     vpiFullName: Example
@@ -2011,6 +2037,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: object
           vpiFullName: StructCompose.object
+          vpiVector: true
         Variable name:__inner start:91:16 end:91:23:
           vpiParent: Module name:StructCompose
           vpiTypespec RefTypespec start:91:5 end:91:15:
@@ -2144,6 +2171,7 @@ Design name:unnamed:
           vpiName: data
           vpiFullName: StructCompose.data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:valid start:84:16 end:84:21:
           vpiParent: Module name:StructCompose
           vpiTypespec RefTypespec start:84:5 end:84:15:
@@ -2153,6 +2181,7 @@ Design name:unnamed:
           vpiName: valid
           vpiFullName: StructCompose.valid
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:mode start:85:23 end:85:27:
           vpiParent: Module name:StructCompose
           vpiTypespec RefTypespec start:85:5 end:85:22:
@@ -2162,6 +2191,7 @@ Design name:unnamed:
           vpiName: mode
           vpiFullName: StructCompose.mode
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:data start:83:23 end:83:27:
           vpiParent: Module name:StructCompose
@@ -2396,6 +2426,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: StructDecompose.data
+          vpiVector: true
         Variable name:valid start:104:16 end:104:21:
           vpiParent: Module name:StructDecompose
           vpiTypespec RefTypespec start:104:5 end:104:15:
@@ -2404,6 +2435,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: valid
           vpiFullName: StructDecompose.valid
+          vpiScalar: true
         Variable name:mode start:105:23 end:105:27:
           vpiParent: Module name:StructDecompose
           vpiTypespec RefTypespec start:105:5 end:105:22:
@@ -2412,6 +2444,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: mode
           vpiFullName: StructDecompose.mode
+          vpiVector: true
         Variable name:__inner start:109:16 end:109:23:
           vpiParent: Module name:StructDecompose
           vpiTypespec RefTypespec start:109:5 end:109:15:
@@ -2545,6 +2578,7 @@ Design name:unnamed:
           vpiName: object
           vpiFullName: StructDecompose.object
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:object start:102:23 end:102:29:
           vpiParent: Module name:StructDecompose
@@ -2793,7 +2827,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -2838,7 +2872,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/struct_v/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             447     447       0         0
+Others                             451     451       0         0
 ----------------------------------------------------------------
-                                   447     447       0         0
+                                   451     451       0         0
 ===================== END REDUCTION RESULT =====================
