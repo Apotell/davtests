@@ -98,8 +98,6 @@ n<$Source01/t_lint_colonplus_bad.v> u<84> t<Top_level_rule> c<1> l<6:1> el<15:1>
         n<> u<80> t<ENDMODULE> p<81> l<14:1> el<14:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_lint_colonplus_bad.v:6:1: Compile module "t".
-[ERR:LN0813] $Source01/t_lint_colonplus_bad.v:1:1: Found 1 orphan node(s).
-[ERR:LN0814] Found 8 weak node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -207,6 +205,41 @@ Design name:unnamed:
           vpiFullName: t.z
           vpiNetType: wire (1)
           vpiVector: true
+          vpiValue PartSelect name:r[2:+1] start:12:21 end:12:30:
+            vpiParent: Net name:z
+            vpiName: r[2:+1]
+            vpiFullName: t.z.r[2:+1]
+            vpiPrefix RefObj name:r start:12:21 end:12:22:
+              vpiParent: PartSelect name:r[2:+1]
+              vpiName: r
+              vpiFullName: t.z.r[2:+1].r
+              vpiActual: Variable name:r
+            vpiRange Range start:12:23 end:12:29:
+              vpiParent: PartSelect name:r[2:+1]
+              vpiLeftRange Constant start:12:23 end:12:24:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.z.r[2:+1]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
+              vpiRightRange Operation start:12:26 end:12:29:
+                vpiParent: Range
+                vpiOpType: plus (2)
+                vpiOperand (1 items):
+                  Constant start:12:28 end:12:29:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.z.r[2:+1]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
       vpiPort (1 items):
         Port name:z start:8:4 end:8:5:
           vpiParent: Module name:t
@@ -236,7 +269,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -252,25 +285,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_lint_colonplus_bad/mounts.json
 
 
-{'result': {'coverage': 92.96,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_lint_colonplus_bad.v': {'post_len': 5,
+            'files': {'$Output/lib/work/t_lint_colonplus_bad.v': {'post_len': 0,
                                                                   'pre_len': 71}},
-            'post_len': 5,
+            'post_len': 0,
             'pre_len': 71,
             'test_name': 'Verilator/t_lint_colonplus_bad'}}
 
 +-----------------------------------------+----------+-----------+
 | INPUT                                   |   PRELEN |   POSTLEN |
 +=========================================+==========+===========+
-| $Output/lib/work/t_lint_colonplus_bad.v |       71 |         5 |
+| $Output/lib/work/t_lint_colonplus_bad.v |       71 |         0 |
 +=========================================+==========+===========+
-|                                         |       71 |         5 |
+|                                         |       71 |         0 |
 +-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.96
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -280,8 +313,11 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_colonplus_bad/design.hldb ${HLC_
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             7       7       1         1
+Operation                            1       0       0         1
+RefTypespec                         10      10       1         1
 ----------------------------------------------------------------
-Others                              30      30       0         0
+Others                              20      20       0         0
 ----------------------------------------------------------------
-                                    30      30       0         0
+                                    38      37       2         3
 ===================== END REDUCTION RESULT =====================

@@ -1,0 +1,168 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/NetsAndVariables/illegal_construct -d ast -d db ProgramAlwaysFf.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ProgramAlwaysFf
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/ProgramAlwaysFf.sv".
+[INF:PA0201] Parsing source file "$Source01/ProgramAlwaysFf.sv".
+[SNT:PA0207] $Source01/ProgramAlwaysFf.sv:24:2: Syntax error: extraneous input 'always_ff' expecting {';', 'default', 'interface', 'endprogram', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'sequence', 'covergroup', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'restrict', 'let', 'this', 'randomize', 'final', 'task', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, HLC_MACRO_NOT_DEFINED},
+  always_ff @(posedge clk) begin // ILLEGAL: always_ff procedure inside a program
+  ^-- $Source01/ProgramAlwaysFf.sv:24:2:.
+[SNT:PA0207] $Source01/ProgramAlwaysFf.sv:26:2: Syntax error: extraneous input 'end' expecting {';', 'default', 'interface', 'endprogram', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'sequence', 'covergroup', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'restrict', 'let', 'this', 'randomize', 'final', 'task', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, HLC_MACRO_NOT_DEFINED},
+  end
+  ^-- $Source01/ProgramAlwaysFf.sv:26:2:.
+AST_DEBUG_BEGIN
+Count: 43
+LIB: work
+FILE: f<13>:$Source01/ProgramAlwaysFf.sv
+n<$Source01/ProgramAlwaysFf.sv> u<42> t<Top_level_rule> c<1> l<21:1> el<28:1>
+  n<> u<1> t<Null_rule> p<42> s<2> l<21:1> el<21:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<42> s<3> l<21:1> el<27:11>
+  n<// Illegal construct: an 'always_ff' procedure inside a program. Per IEEE> u<3> t<LINE_COMMENT> p<42> s<4> l<17:1> el<17:74>
+  n<// 1800 clause 24.3, a program can only contain initial or final procedures> u<4> t<LINE_COMMENT> p<42> s<5> l<18:1> el<18:76>
+  n<// -- always procedures of any kind are illegal there.> u<5> t<LINE_COMMENT> p<42> s<41> l<19:1> el<19:55>
+  n<> u<41> t<Source_text> p<42> c<40> l<21:1> el<27:11>
+    n<> u<40> t<Description> p<41> c<39> l<21:1> el<27:11>
+      n<> u<39> t<Program_declaration> p<40> c<9> l<21:1> el<27:11>
+        n<> u<9> t<Program_ansi_header> p<39> c<6> s<19> l<21:1> el<21:50>
+          n<> u<6> t<PROGRAM> p<9> s<7> l<21:1> el<21:8>
+          n<illegal_construct_program_always_ff_test> u<7> t<SIMPLE_IDENTIFIER> p<9> s<8> l<21:9> el<21:49>
+          n<> u<8> t<Package_import_declaration_list> p<9> l<21:49> el<21:49>
+        n<> u<19> t<Non_port_program_item> p<39> c<18> s<29> l<22:3> el<22:13>
+          n<> u<18> t<Module_or_generate_item_declaration> p<19> c<17> l<22:3> el<22:13>
+            n<> u<17> t<Package_or_generate_item_declaration> p<18> c<16> l<22:3> el<22:13>
+              n<> u<16> t<Data_declaration> p<17> c<15> l<22:3> el<22:13>
+                n<> u<15> t<Variable_declaration> p<16> c<11> l<22:3> el<22:13>
+                  n<> u<11> t<Data_type> p<15> c<10> s<14> l<22:3> el<22:8>
+                    n<> u<10> t<LOGIC> p<11> l<22:3> el<22:8>
+                  n<> u<14> t<Variable_decl_assignment_list> p<15> c<13> l<22:9> el<22:12>
+                    n<> u<13> t<Variable_decl_assignment> p<14> c<12> l<22:9> el<22:12>
+                      n<clk> u<12> t<SIMPLE_IDENTIFIER> p<13> l<22:9> el<22:12>
+        n<> u<29> t<Non_port_program_item> p<39> c<28> s<30> l<23:3> el<23:18>
+          n<> u<28> t<Module_or_generate_item_declaration> p<29> c<27> l<23:3> el<23:18>
+            n<> u<27> t<Package_or_generate_item_declaration> p<28> c<26> l<23:3> el<23:18>
+              n<> u<26> t<Data_declaration> p<27> c<25> l<23:3> el<23:18>
+                n<> u<25> t<Variable_declaration> p<26> c<21> l<23:3> el<23:18>
+                  n<> u<21> t<Data_type> p<25> c<20> s<24> l<23:3> el<23:8>
+                    n<> u<20> t<LOGIC> p<21> l<23:3> el<23:8>
+                  n<> u<24> t<Variable_decl_assignment_list> p<25> c<23> l<23:9> el<23:17>
+                    n<> u<23> t<Variable_decl_assignment> p<24> c<22> l<23:9> el<23:17>
+                      n<prog_var> u<22> t<SIMPLE_IDENTIFIER> p<23> l<23:9> el<23:17>
+        n<> u<30> t<Non_port_program_item> p<39> s<31> l<24:23> el<24:23>
+        n<> u<31> t<Non_port_program_item> p<39> s<32> l<24:23> el<24:33>
+        n<// ILLEGAL: always_ff procedure inside a program> u<32> t<LINE_COMMENT> p<39> s<33> l<24:34> el<24:82>
+        n<> u<33> t<Non_port_program_item> p<39> s<34> l<25:5> el<25:5>
+        n<> u<34> t<Non_port_program_item> p<39> s<37> l<25:5> el<25:21>
+        n<> u<37> t<Non_port_program_item> p<39> c<36> s<38> l<25:21> el<25:22>
+          n<> u<36> t<Module_or_generate_item_declaration> p<37> c<35> l<25:21> el<25:22>
+            n<> u<35> t<Package_or_generate_item_declaration> p<36> l<25:21> el<25:22>
+        n<> u<38> t<ENDPROGRAM> p<39> l<27:1> el<27:11>
+AST_DEBUG_END
+[INF:CP0306] $Source01/ProgramAlwaysFf.sv:21:9: Compile program "illegal_construct_program_always_ff_test".
+[WRN:CP0314] $Source01/ProgramAlwaysFf.sv:21:9: Using programs is discouraged "illegal_construct_program_always_ff_test", programs are obsoleted by UVM.
+[WRN:PA0205] $Source01/ProgramAlwaysFf.sv:21:1: No timescale set for "illegal_construct_program_always_ff_test".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:ProgramAlwaysFf.sv file:$Source01/ProgramAlwaysFf.sv:
+      vpiParent: Design name:unnamed
+      vpiName: ProgramAlwaysFf.sv
+      vpiPreprocFile: "$Output/lib/work/ProgramAlwaysFf.sv"
+  vpiAllPrograms (1 items):
+    Program name:illegal_construct_program_always_ff_test file:$Source01/ProgramAlwaysFf.sv start:21:1 end:27:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:illegal_construct_program_always_ff_test start:21:9 end:21:49:
+        vpiParent: Program name:illegal_construct_program_always_ff_test
+        vpiName: illegal_construct_program_always_ff_test
+      vpiFullName: illegal_construct_program_always_ff_test
+      vpiVariable (2 items):
+        Variable name:clk start:22:9 end:22:12:
+          vpiParent: Program name:illegal_construct_program_always_ff_test
+          vpiTypespec RefTypespec start:22:3 end:22:8:
+            vpiParent: Variable name:clk
+            vpiFullName: illegal_construct_program_always_ff_test.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: illegal_construct_program_always_ff_test.clk
+          vpiScalar: true
+        Variable name:prog_var start:23:9 end:23:17:
+          vpiParent: Program name:illegal_construct_program_always_ff_test
+          vpiTypespec RefTypespec start:23:3 end:23:8:
+            vpiParent: Variable name:prog_var
+            vpiFullName: illegal_construct_program_always_ff_test.prog_var
+            vpiActual: LogicTypespec
+          vpiName: prog_var
+          vpiFullName: illegal_construct_program_always_ff_test.prog_var
+          vpiScalar: true
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Program name:illegal_construct_program_always_ff_test
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Program name:illegal_construct_program_always_ff_test
+        vpiName: work
+        vpiFullName: illegal_construct_program_always_ff_test.work
+      vpiCell: illegal_construct_program_always_ff_test
+  vpiTypespec (1 items):
+    ProgramTypespec name:illegal_construct_program_always_ff_test:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:illegal_construct_program_always_ff_test start:21:9 end:21:49:
+        vpiParent: ProgramTypespec name:illegal_construct_program_always_ff_test
+        vpiName: illegal_construct_program_always_ff_test
+      vpiProgram: Program name:illegal_construct_program_always_ff_test
+===================
+[  FATAL] : 0
+[ SYNTAX] : 2
+[  ERROR] : 0
+[WARNING] : 2
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: NetsAndVariables/illegal_construct/ProgramAlwaysFf
+   test-dirpath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ProgramAlwaysFf
+  hldb-filepath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ProgramAlwaysFf/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ProgramAlwaysFf/mounts.json
+
+
+{'result': {'coverage': 88.06,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/ProgramAlwaysFf.sv': {'post_len': 16,
+                                                              'pre_len': 134}},
+            'post_len': 16,
+            'pre_len': 134,
+            'test_name': 'NetsAndVariables/illegal_construct/ProgramAlwaysFf'}}
+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/ProgramAlwaysFf.sv |      134 |        16 |
++=====================================+==========+===========+
+|                                     |      134 |        16 |
++-------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 88.06
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ProgramAlwaysFf/design.hldb ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ProgramAlwaysFf/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                              12      12       0         0
+----------------------------------------------------------------
+                                    12      12       0         0
+===================== END REDUCTION RESULT =====================

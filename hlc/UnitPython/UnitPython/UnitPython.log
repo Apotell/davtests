@@ -385,27 +385,25 @@ n<$Source01/top.v> u<124> t<Top_level_rule> c<1> l<2:1> el<30:1>
                 n<Environment> u<99> t<SIMPLE_IDENTIFIER> p<100> l<25:1> el<25:12>
               n<> u<102> t<Interface_identifier_list> p<103> c<101> l<25:13> el<25:16>
                 n<env> u<101> t<SIMPLE_IDENTIFIER> p<102> l<25:13> el<25:16>
-        n<> u<112> t<Module_item> p<121> c<111> s<119> l<26:1> el<26:20>
-          n<> u<111> t<Port_declaration> p<112> c<110> l<26:1> el<26:19>
-            n<> u<110> t<Interface_port_declaration> p<111> c<107> l<26:1> el<26:19>
+        n<> u<112> t<Module_item> p<121> c<111> s<119> l<26:1> el<26:21>
+          n<> u<111> t<Port_declaration> p<112> c<110> l<26:1> el<26:20>
+            n<> u<110> t<Interface_port_declaration> p<111> c<107> l<26:1> el<26:20>
               n<Configuration1> u<107> t<Interface_identifier> p<110> c<106> s<109> l<26:1> el<26:15>
                 n<Configuration1> u<106> t<SIMPLE_IDENTIFIER> p<107> l<26:1> el<26:15>
-              n<> u<109> t<Interface_identifier_list> p<110> c<108> l<26:16> el<26:19>
-                n<cfg> u<108> t<SIMPLE_IDENTIFIER> p<109> l<26:16> el<26:19>
-        n<> u<119> t<Module_item> p<121> c<118> s<120> l<27:1> el<27:20>
-          n<> u<118> t<Port_declaration> p<119> c<117> l<27:1> el<27:19>
-            n<> u<117> t<Interface_port_declaration> p<118> c<114> l<27:1> el<27:19>
+              n<> u<109> t<Interface_identifier_list> p<110> c<108> l<26:16> el<26:20>
+                n<cfg1> u<108> t<SIMPLE_IDENTIFIER> p<109> l<26:16> el<26:20>
+        n<> u<119> t<Module_item> p<121> c<118> s<120> l<27:1> el<27:21>
+          n<> u<118> t<Port_declaration> p<119> c<117> l<27:1> el<27:20>
+            n<> u<117> t<Interface_port_declaration> p<118> c<114> l<27:1> el<27:20>
               n<Configuration2> u<114> t<Interface_identifier> p<117> c<113> s<116> l<27:1> el<27:15>
                 n<Configuration2> u<113> t<SIMPLE_IDENTIFIER> p<114> l<27:1> el<27:15>
-              n<> u<116> t<Interface_identifier_list> p<117> c<115> l<27:16> el<27:19>
-                n<cfg> u<115> t<SIMPLE_IDENTIFIER> p<116> l<27:16> el<27:19>
+              n<> u<116> t<Interface_identifier_list> p<117> c<115> l<27:16> el<27:20>
+                n<cfg2> u<115> t<SIMPLE_IDENTIFIER> p<116> l<27:16> el<27:20>
         n<> u<120> t<ENDMODULE> p<121> l<28:1> el<28:10>
 AST_DEBUG_END
 [INF:CP0301] $Source01/top.v:2:1: Compile package "pkg".
 [INF:CP0303] $Source01/top.v:13:1: Compile module "bottom".
 [INF:CP0303] $Source01/top.v:16:1: Compile module "top".
-[WRN:CP0331] $Source01/top.v:16:1: Multiply defined variable "cfg".
-[ERR:LN0814] Found 1 weak node(s).
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:2:1: No timescale set for "pkg".
 [WRN:PA0205] $Source01/top.v:13:1: No timescale set for "bottom".
@@ -2526,22 +2524,24 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:Environment
           vpiName: env
           vpiFullName: top.env
-        Variable name:cfg start:26:16 end:26:19:
+        Variable name:cfg1 start:26:16 end:26:20:
           vpiParent: Module name:top
           vpiTypespec RefTypespec name:Configuration1 start:26:1 end:26:15:
-            vpiParent: Variable name:cfg
+            vpiParent: Variable name:cfg1
             vpiName: Configuration1
-            vpiFullName: top.cfg.Configuration1
+            vpiFullName: top.cfg1.Configuration1
             vpiActual: ClassTypespec name:Configuration1
-          vpiName: cfg
-          vpiFullName: top.cfg
-        Variable name:cfg start:27:16 end:27:19:
+          vpiName: cfg1
+          vpiFullName: top.cfg1
+        Variable name:cfg2 start:27:16 end:27:20:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec:
-            vpiParent: Variable name:cfg
-            vpiFullName: top.cfg
-          vpiName: cfg
-          vpiFullName: top.cfg
+          vpiTypespec RefTypespec name:Configuration2 start:27:1 end:27:15:
+            vpiParent: Variable name:cfg2
+            vpiName: Configuration2
+            vpiFullName: top.cfg2.Configuration2
+            vpiActual: ClassTypespec name:Configuration2
+          vpiName: cfg2
+          vpiFullName: top.cfg2
       vpiTypespec (5 items):
         ImportTypespec name:pkg start:17:9 end:17:15:
           vpiParent: Module name:top
@@ -2656,8 +2656,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 5
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2672,25 +2672,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UnitPython/UnitPython/mounts.json
 
 
-{'result': {'coverage': 95.74,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.v': {'post_len': 14,
-                                                 'pre_len': 329}},
-            'post_len': 14,
-            'pre_len': 329,
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 331}},
+            'post_len': 0,
+            'pre_len': 331,
             'test_name': 'UnitPython/UnitPython'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/top.v |      329 |        14 |
+| $Output/lib/work/top.v |      331 |         0 |
 +========================+==========+===========+
-|                        |      329 |        14 |
+|                        |      331 |         0 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.74
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
