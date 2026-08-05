@@ -22,7 +22,7 @@ n<$Source01/t_case_reducer.v> u<5830> t<Top_level_rule> c<1> l<6:1> el<279:1>
     n<> u<709> t<Description> p<5828> c<708> s<892> l<6:1> el<65:10>
       n<> u<708> t<Module_declaration> p<709> c<18> l<6:1> el<65:10>
         n<> u<18> t<Module_nonansi_header> p<708> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -726,7 +726,7 @@ n<$Source01/t_case_reducer.v> u<5830> t<Top_level_rule> c<1> l<6:1> el<279:1>
     n<> u<892> t<Description> p<5828> c<891> s<5827> l<67:1> el<98:10>
       n<> u<891> t<Module_declaration> p<892> c<776> l<67:1> el<98:10>
         n<> u<776> t<Module_ansi_header> p<891> c<710> s<797> l<67:1> el<75:6>
-          n<module> u<710> t<Module_keyword> p<776> s<711> l<67:1> el<67:7>
+          n<module> u<710> t<MODULE> p<776> s<711> l<67:1> el<67:7>
           n<Test> u<711> t<SIMPLE_IDENTIFIER> p<776> s<712> l<67:8> el<67:12>
           n<> u<712> t<Package_import_declaration_list> p<776> s<713> l<68:3> el<68:3>
           n<// Inputs> u<713> t<LINE_COMMENT> p<776> s<775> l<69:4> el<69:13>
@@ -909,7 +909,7 @@ n<$Source01/t_case_reducer.v> u<5830> t<Top_level_rule> c<1> l<6:1> el<279:1>
     n<> u<5827> t<Description> p<5828> c<5826> l<207:1> el<278:10>
       n<> u<5826> t<Module_declaration> p<5827> c<931> l<207:1> el<278:10>
         n<> u<931> t<Module_ansi_header> p<5826> c<893> s<932> l<207:1> el<210:3>
-          n<module> u<893> t<Module_keyword> p<931> s<894> l<207:1> el<207:7>
+          n<module> u<893> t<MODULE> p<931> s<894> l<207:1> el<207:7>
           n<clz> u<894> t<SIMPLE_IDENTIFIER> p<931> s<895> l<207:8> el<207:11>
           n<> u<895> t<Package_import_declaration_list> p<931> s<930> l<207:11> el<207:11>
           n<> u<930> t<Port_declaration_list> p<931> c<912> l<207:11> el<210:2>
@@ -5845,8 +5845,10 @@ n<$Source01/t_case_reducer.v> u<5830> t<Top_level_rule> c<1> l<6:1> el<279:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_case_reducer.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_case_reducer.v:67:1: Compile module "Test".
+[NTE:CP0309] $Source01/t_case_reducer.v:74:22: Implicit port type (wire) for "out".
 [WRN:CP0323] $Source01/t_case_reducer.v:67:1: Multiply defined typedef "clz".
 [INF:CP0303] $Source01/t_case_reducer.v:207:1: Compile module "clz".
+[NTE:CP0309] $Source01/t_case_reducer.v:209:21: Implicit port type (wire) for "out".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -12185,6 +12187,7 @@ Design name:unnamed:
           vpiName Identifier name:Test start:25:4 end:25:8:
             vpiParent: ModuleTypespec name:Test
             vpiName: Test
+          vpiModule: Module name:Test
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -12228,6 +12231,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:operand_a start:17:16 end:17:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:14:
@@ -12237,6 +12241,7 @@ Design name:unnamed:
           vpiName: operand_a
           vpiFullName: t.operand_a
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:crc[7:0] start:17:28 end:17:36:
             vpiParent: Net name:operand_a
             vpiName: crc[7:0]
@@ -12277,6 +12282,7 @@ Design name:unnamed:
           vpiName: operand_b
           vpiFullName: t.operand_b
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:crc[15:8] start:18:28 end:18:37:
             vpiParent: Net name:operand_b
             vpiName: crc[15:8]
@@ -12317,6 +12323,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: t.out
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:result start:34:16 end:34:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:34:9 end:34:15:
@@ -12326,6 +12333,7 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: t.result
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:34:25 end:34:37:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -13166,11 +13174,13 @@ Design name:unnamed:
           vpiName Identifier name:clz start:80:4 end:80:7:
             vpiParent: ModuleTypespec name:clz
             vpiName: clz
+          vpiModule: Module name:clz
         ModuleTypespec name:clz start:86:3 end:86:6:
           vpiParent: Module name:Test
           vpiName Identifier name:clz start:86:3 end:86:6:
             vpiParent: ModuleTypespec name:clz
             vpiName: clz
+          vpiModule: Module name:clz
       vpiDefName: Test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -13188,6 +13198,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: Test.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:operand_a start:71:22 end:71:31:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:71:4 end:71:20:
@@ -13197,6 +13208,7 @@ Design name:unnamed:
           vpiName: operand_a
           vpiFullName: Test.operand_a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:operand_b start:72:22 end:72:31:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:72:4 end:72:20:
@@ -13206,6 +13218,7 @@ Design name:unnamed:
           vpiName: operand_b
           vpiFullName: Test.operand_b
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:out start:74:22 end:74:25:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:74:4 end:74:21:
@@ -13215,6 +13228,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: Test.out
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:clz_a start:77:21 end:77:26:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:77:9 end:77:14:
@@ -13224,6 +13238,7 @@ Design name:unnamed:
           vpiName: clz_a
           vpiFullName: Test.clz_a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:clz_b start:78:21 end:78:26:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:78:9 end:78:14:
@@ -13233,6 +13248,7 @@ Design name:unnamed:
           vpiName: clz_b
           vpiFullName: Test.clz_b
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:clk start:70:21 end:70:24:
           vpiParent: Module name:Test
@@ -13590,6 +13606,7 @@ Design name:unnamed:
           vpiName: data_i
           vpiFullName: clz.data_i
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:out start:209:21 end:209:24:
           vpiParent: Module name:clz
           vpiTypespec RefTypespec start:209:3 end:209:20:
@@ -13599,6 +13616,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: clz.out
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:data_i start:208:20 end:208:26:
           vpiParent: Module name:clz
@@ -24821,7 +24839,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

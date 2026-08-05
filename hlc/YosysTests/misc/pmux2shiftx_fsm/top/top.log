@@ -18,7 +18,7 @@ n<$Source01/top.v> u<740> t<Top_level_rule> c<1> l<1:2> el<78:1>
     n<> u<638> t<Description> p<739> c<637> s<738> l<1:2> el<59:11>
       n<> u<637> t<Module_declaration> p<638> c<42> l<1:2> el<59:11>
         n<> u<42> t<Module_nonansi_header> p<637> c<2> s<52> l<1:2> el<8:4>
-          n<module> u<2> t<Module_keyword> p<42> s<3> l<1:2> el<1:8>
+          n<module> u<2> t<MODULE> p<42> s<3> l<1:2> el<1:8>
           n<fsm> u<3> t<SIMPLE_IDENTIFIER> p<42> s<4> l<1:9> el<1:12>
           n<> u<4> t<Package_import_declaration_list> p<42> s<41> l<1:13> el<1:13>
           n<> u<41> t<Port_list> p<42> c<10> l<1:13> el<8:3>
@@ -655,7 +655,7 @@ n<$Source01/top.v> u<740> t<Top_level_rule> c<1> l<1:2> el<78:1>
     n<> u<738> t<Description> p<739> c<737> l<61:2> el<77:10>
       n<> u<737> t<Module_declaration> p<738> c<679> l<61:2> el<77:10>
         n<> u<679> t<Module_ansi_header> p<737> c<639> s<735> l<61:2> el<68:3>
-          n<module> u<639> t<Module_keyword> p<679> s<640> l<61:2> el<61:8>
+          n<module> u<639> t<MODULE> p<679> s<640> l<61:2> el<61:8>
           n<top> u<640> t<SIMPLE_IDENTIFIER> p<679> s<641> l<61:9> el<61:12>
           n<> u<641> t<Package_import_declaration_list> p<679> s<678> l<61:13> el<61:13>
           n<> u<678> t<Port_declaration_list> p<679> c<647> l<61:13> el<68:2>
@@ -755,6 +755,8 @@ n<$Source01/top.v> u<740> t<Top_level_rule> c<1> l<1:2> el<78:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:1:2: Compile module "fsm".
 [INF:CP0303] $Source01/top.v:61:2: Compile module "top".
+[NTE:CP0309] $Source01/top.v:66:8: Implicit port type (wire) for "g0".
+[NTE:CP0309] $Source01/top.v:67:8: Implicit port type (wire) for "g1".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1025,6 +1027,7 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: fsm.clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:reset start:9:16 end:9:21:
           vpiParent: Module name:fsm
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -1034,6 +1037,7 @@ Design name:unnamed:
           vpiName: reset
           vpiFullName: fsm.reset
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:req_0 start:9:22 end:9:27:
           vpiParent: Module name:fsm
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -1043,6 +1047,7 @@ Design name:unnamed:
           vpiName: req_0
           vpiFullName: fsm.req_0
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:req_1 start:9:28 end:9:33:
           vpiParent: Module name:fsm
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -1052,6 +1057,7 @@ Design name:unnamed:
           vpiName: req_1
           vpiFullName: fsm.req_1
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (6 items):
         Port name:clock start:2:2 end:2:7:
           vpiParent: Module name:fsm
@@ -1690,6 +1696,7 @@ Design name:unnamed:
           vpiName Identifier name:fsm start:70:1 end:70:4:
             vpiParent: ModuleTypespec name:fsm
             vpiName: fsm
+          vpiModule: Module name:fsm
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1707,6 +1714,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: top.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:63:7 end:63:10:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:63:1 end:63:6:
@@ -1716,6 +1724,7 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: top.rst
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:a start:64:7 end:64:8:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:64:1 end:64:6:
@@ -1725,6 +1734,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: top.a
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:65:7 end:65:8:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:65:1 end:65:6:
@@ -1734,6 +1744,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: top.b
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:g0 start:66:8 end:66:10:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:66:1 end:66:7:
@@ -1743,6 +1754,7 @@ Design name:unnamed:
           vpiName: g0
           vpiFullName: top.g0
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:g1 start:67:8 end:67:10:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:67:1 end:67:7:
@@ -1752,6 +1764,7 @@ Design name:unnamed:
           vpiName: g1
           vpiFullName: top.g1
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (6 items):
         Port name:clk start:62:7 end:62:10:
           vpiParent: Module name:top
@@ -1930,7 +1943,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

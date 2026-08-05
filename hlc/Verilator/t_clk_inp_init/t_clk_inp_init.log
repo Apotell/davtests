@@ -28,7 +28,7 @@ n<$Source01/t_clk_inp_init.v> u<559> t<Top_level_rule> c<1> l<13:1> el<83:1>
     n<> u<249> t<Description> p<558> c<248> s<557> l<13:1> el<34:10>
       n<> u<248> t<Module_declaration> p<249> c<37> l<13:1> el<34:10>
         n<> u<37> t<Module_ansi_header> p<248> c<12> s<59> l<13:1> el<15:31>
-          n<module> u<12> t<Module_keyword> p<37> s<13> l<13:1> el<13:7>
+          n<module> u<12> t<MODULE> p<37> s<13> l<13:1> el<13:7>
           n<dut> u<13> t<SIMPLE_IDENTIFIER> p<37> s<14> l<13:8> el<13:11>
           n<> u<14> t<Package_import_declaration_list> p<37> s<36> l<13:12> el<13:12>
           n<> u<36> t<Port_declaration_list> p<37> c<21> l<13:12> el<15:30>
@@ -266,7 +266,7 @@ n<$Source01/t_clk_inp_init.v> u<559> t<Top_level_rule> c<1> l<13:1> el<83:1>
     n<> u<557> t<Description> p<558> c<556> l<37:1> el<82:10>
       n<> u<556> t<Module_declaration> p<557> c<268> l<37:1> el<82:10>
         n<> u<268> t<Module_ansi_header> p<556> c<250> s<279> l<37:1> el<38:28>
-          n<module> u<250> t<Module_keyword> p<268> s<251> l<37:1> el<37:7>
+          n<module> u<250> t<MODULE> p<268> s<251> l<37:1> el<37:7>
           n<t> u<251> t<SIMPLE_IDENTIFIER> p<268> s<252> l<37:8> el<37:9>
           n<> u<252> t<Package_import_declaration_list> p<268> s<267> l<37:9> el<37:9>
           n<> u<267> t<Port_declaration_list> p<268> c<259> l<37:9> el<38:27>
@@ -573,6 +573,7 @@ n<$Source01/t_clk_inp_init.v> u<559> t<Top_level_rule> c<1> l<13:1> el<83:1>
         n<> u<555> t<ENDMODULE> p<556> l<82:1> el<82:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_clk_inp_init.v:13:1: Compile module "dut".
+[NTE:CP0309] $Source01/t_clk_inp_init.v:15:25: Implicit port type (wire) for "done".
 [INF:CP0303] $Source01/t_clk_inp_init.v:37:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -646,6 +647,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: dut.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst_n start:14:25 end:14:30:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec start:14:13 end:14:23:
@@ -655,6 +657,7 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: dut.rst_n
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:done start:15:25 end:15:29:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec start:15:13 end:15:24:
@@ -664,6 +667,7 @@ Design name:unnamed:
           vpiName: done
           vpiFullName: dut.done
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:clk start:13:25 end:13:28:
           vpiParent: Module name:dut
@@ -972,6 +976,7 @@ Design name:unnamed:
           vpiName Identifier name:dut start:78:4 end:78:7:
             vpiParent: ModuleTypespec name:dut
             vpiName: dut
+          vpiModule: Module name:dut
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -989,6 +994,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst_n start:38:21 end:38:26:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:38:10 end:38:20:
@@ -998,6 +1004,7 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: t.rst_n
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:dut_done start:40:9 end:40:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:40:9 end:40:9:
@@ -1007,6 +1014,7 @@ Design name:unnamed:
           vpiName: dut_done
           vpiFullName: t.dut_done
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:dut_rst_n start:75:9 end:75:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:75:9 end:75:9:
@@ -1016,6 +1024,7 @@ Design name:unnamed:
           vpiName: dut_rst_n
           vpiFullName: t.dut_rst_n
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:75:21 end:75:41:
             vpiParent: Net name:dut_rst_n
             vpiOpType: bitwise and (28)
@@ -1053,6 +1062,7 @@ Design name:unnamed:
           vpiName: done
           vpiFullName: t.done
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:37:21 end:37:24:
           vpiParent: Module name:t
@@ -1345,7 +1355,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

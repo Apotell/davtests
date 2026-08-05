@@ -22,7 +22,7 @@ n<$Source01/relong/fsm.sv> u<333> t<Top_level_rule> c<1> l<1:1> el<36:10>
     n<> u<331> t<Description> p<332> c<330> l<3:1> el<36:10>
       n<> u<330> t<Module_declaration> p<331> c<39> l<3:1> el<36:10>
         n<> u<39> t<Module_ansi_header> p<330> c<6> s<58> l<3:1> el<7:3>
-          n<module> u<6> t<Module_keyword> p<39> s<7> l<3:1> el<3:7>
+          n<module> u<6> t<MODULE> p<39> s<7> l<3:1> el<3:7>
           n<FSM> u<7> t<SIMPLE_IDENTIFIER> p<39> s<8> l<3:8> el<3:11>
           n<> u<8> t<Package_import_declaration_list> p<39> s<38> l<3:11> el<3:11>
           n<> u<38> t<Port_declaration_list> p<39> c<16> l<3:11> el<7:2>
@@ -347,7 +347,6 @@ n<$Source01/relong/fsm.sv> u<333> t<Top_level_rule> c<1> l<1:1> el<36:10>
         n<> u<329> t<ENDMODULE> p<330> l<36:1> el<36:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/fsm.sv:3:1: Compile module "FSM".
-[ERR:LN0813] $Source01/relong/fsm.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -375,7 +374,7 @@ Design name:unnamed:
         vpiParent: Module name:FSM
         vpiName: FSM
       vpiFullName: FSM
-      vpiVariable (5 items):
+      vpiVariable (6 items):
         Variable name:a start:4:17 end:4:18:
           vpiParent: Module name:FSM
           vpiTypespec RefTypespec start:4:5 end:4:16:
@@ -384,6 +383,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: FSM.a
+          vpiScalar: true
         Variable name:x start:5:18 end:5:19:
           vpiParent: Module name:FSM
           vpiTypespec RefTypespec start:5:5 end:5:17:
@@ -392,6 +392,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: FSM.x
+          vpiScalar: true
         Variable name:clock start:6:17 end:6:22:
           vpiParent: Module name:FSM
           vpiTypespec RefTypespec start:6:5 end:6:16:
@@ -400,6 +401,16 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clock
           vpiFullName: FSM.clock
+          vpiScalar: true
+        Variable name:clear start:6:24 end:6:29:
+          vpiParent: Module name:FSM
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:clear
+            vpiFullName: FSM.clear
+            vpiActual: LogicTypespec
+          vpiName: clear
+          vpiFullName: FSM.clear
+          vpiScalar: true
         Variable name:currentState start:9:26 end:9:38:
           vpiParent: Module name:FSM
           vpiTypespec RefTypespec start:9:5 end:9:25:
@@ -487,7 +498,16 @@ Design name:unnamed:
         Port name:clear start:6:24 end:6:29:
           vpiParent: Module name:FSM
           vpiName: clear
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clear start:6:24 end:6:29:
+            vpiParent: Port name:clear
+            vpiName: clear
+            vpiFullName: FSM.clear.clear
+            vpiActual: Variable name:clear
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clear
+            vpiFullName: FSM.clear
+            vpiActual: LogicTypespec
       vpiProcess (3 items):
         Always start:11:5 end:16:12:
           vpiParent: Module name:FSM
@@ -508,7 +528,7 @@ Design name:unnamed:
                 vpiParent: IfElse
                 vpiName: clear
                 vpiFullName: FSM.clear
-                vpiActual: Port name:clear
+                vpiActual: Variable name:clear
               vpiStmt Begin start:12:19 end:14:12:
                 vpiParent: IfElse
                 vpiFullName: FSM
@@ -790,7 +810,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -835,7 +855,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/fsm_sv/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             108     108       0         0
+Others                             112     112       0         0
 ----------------------------------------------------------------
-                                   108     108       0         0
+                                   112     112       0         0
 ===================== END REDUCTION RESULT =====================

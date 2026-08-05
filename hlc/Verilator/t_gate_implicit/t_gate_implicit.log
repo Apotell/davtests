@@ -22,7 +22,7 @@ n<$Source01/t_gate_implicit.v> u<757> t<Top_level_rule> c<1> l<6:1> el<80:1>
     n<> u<622> t<Description> p<756> c<621> s<708> l<6:1> el<63:10>
       n<> u<621> t<Module_declaration> p<622> c<18> l<6:1> el<63:10>
         n<> u<18> t<Module_nonansi_header> p<621> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -639,7 +639,7 @@ n<$Source01/t_gate_implicit.v> u<757> t<Top_level_rule> c<1> l<6:1> el<80:1>
     n<> u<708> t<Description> p<756> c<707> s<755> l<65:1> el<75:10>
       n<> u<707> t<Module_declaration> p<708> c<644> l<65:1> el<75:10>
         n<> u<644> t<Module_ansi_header> p<707> c<623> s<645> l<65:1> el<67:23>
-          n<module> u<623> t<Module_keyword> p<644> s<624> l<65:1> el<65:7>
+          n<module> u<623> t<MODULE> p<644> s<624> l<65:1> el<65:7>
           n<Test> u<624> t<SIMPLE_IDENTIFIER> p<644> s<625> l<65:8> el<65:12>
           n<> u<625> t<Package_import_declaration_list> p<644> s<643> l<65:13> el<65:13>
           n<> u<643> t<Port_declaration_list> p<644> c<631> l<65:13> el<67:22>
@@ -725,7 +725,7 @@ n<$Source01/t_gate_implicit.v> u<757> t<Top_level_rule> c<1> l<6:1> el<80:1>
     n<> u<755> t<Description> p<756> c<754> l<77:1> el<79:10>
       n<> u<754> t<Module_declaration> p<755> c<730> l<77:1> el<79:10>
         n<> u<730> t<Module_ansi_header> p<754> c<709> s<752> l<77:1> el<77:38>
-          n<module> u<709> t<Module_keyword> p<730> s<710> l<77:1> el<77:7>
+          n<module> u<709> t<MODULE> p<730> s<710> l<77:1> el<77:7>
           n<Mxor> u<710> t<SIMPLE_IDENTIFIER> p<730> s<711> l<77:8> el<77:12>
           n<> u<711> t<Package_import_declaration_list> p<730> s<729> l<77:13> el<77:13>
           n<> u<729> t<Port_declaration_list> p<730> c<717> l<77:13> el<77:37>
@@ -772,8 +772,9 @@ n<$Source01/t_gate_implicit.v> u<757> t<Top_level_rule> c<1> l<6:1> el<80:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_gate_implicit.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_gate_implicit.v:65:1: Compile module "Test".
+[NTE:CP0309] $Source01/t_gate_implicit.v:66:11: Implicit port type (wire) for "RBL2".
 [INF:CP0303] $Source01/t_gate_implicit.v:77:1: Compile module "Mxor".
-[ERR:LN0813] $Source01/t_gate_implicit.v:1:1: Found 2 orphan node(s).
+[NTE:CP0309] $Source01/t_gate_implicit.v:77:21: Implicit port type (wire) for "out".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -911,6 +912,7 @@ Design name:unnamed:
           vpiName Identifier name:Test start:24:4 end:24:8:
             vpiParent: ModuleTypespec name:Test
             vpiName: Test
+          vpiModule: Module name:Test
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -954,6 +956,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:RBL2 start:18:11 end:18:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:11 end:18:11:
@@ -963,6 +966,7 @@ Design name:unnamed:
           vpiName: RBL2
           vpiFullName: t.RBL2
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:RWL1 start:21:11 end:21:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:21:11 end:21:11:
@@ -972,6 +976,7 @@ Design name:unnamed:
           vpiName: RWL1
           vpiFullName: t.RWL1
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue BitSelect name:crc[2] start:21:18 end:21:24:
             vpiParent: Net name:RWL1
             vpiName: crc[2]
@@ -1000,6 +1005,7 @@ Design name:unnamed:
           vpiName: RWL2
           vpiFullName: t.RWL2
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue BitSelect name:crc[3] start:22:18 end:22:24:
             vpiParent: Net name:RWL2
             vpiName: crc[3]
@@ -1028,6 +1034,7 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: t.result
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:32:25 end:32:38:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -1650,6 +1657,7 @@ Design name:unnamed:
           vpiName Identifier name:Mxor start:72:4 end:72:8:
             vpiParent: ModuleTypespec name:Mxor
             vpiName: Mxor
+          vpiModule: Module name:Mxor
       vpiDefName: Test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1657,7 +1665,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Test.work
       vpiCell: Test
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:RBL2 start:66:11 end:66:15:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:66:4 end:66:10:
@@ -1667,6 +1675,7 @@ Design name:unnamed:
           vpiName: RBL2
           vpiFullName: Test.RBL2
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:RWL1 start:67:11 end:67:15:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:67:4 end:67:9:
@@ -1676,6 +1685,17 @@ Design name:unnamed:
           vpiName: RWL1
           vpiFullName: Test.RWL1
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:RWL2 start:67:17 end:67:21:
+          vpiParent: Module name:Test
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:RWL2
+            vpiFullName: Test.RWL2
+            vpiActual: LogicTypespec
+          vpiName: RWL2
+          vpiFullName: Test.RWL2
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:RBL2 start:66:11 end:66:15:
           vpiParent: Module name:Test
@@ -1706,7 +1726,16 @@ Design name:unnamed:
         Port name:RWL2 start:67:17 end:67:21:
           vpiParent: Module name:Test
           vpiName: RWL2
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:RWL2 start:67:17 end:67:21:
+            vpiParent: Port name:RWL2
+            vpiName: RWL2
+            vpiFullName: Test.RWL2.RWL2
+            vpiActual: Net name:RWL2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:RWL2
+            vpiFullName: Test.RWL2
+            vpiActual: LogicTypespec
       vpiPrimitive (2 items):
         Gate name:I1 start:70:11 end:70:13:
           vpiParent: Module name:Test
@@ -1732,7 +1761,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: RWL2
                 vpiFullName: Test.I1.RWL2
-                vpiActual: Port name:RWL2
+                vpiActual: Net name:RWL2
         Gate name:I2 start:71:11 end:71:13:
           vpiParent: Module name:Test
           vpiName: I2
@@ -1826,7 +1855,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Mxor.work
       vpiCell: Mxor
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:out start:77:21 end:77:24:
           vpiParent: Module name:Mxor
           vpiTypespec RefTypespec start:77:14 end:77:20:
@@ -1836,6 +1865,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: Mxor.out
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:a start:77:32 end:77:33:
           vpiParent: Module name:Mxor
           vpiTypespec RefTypespec start:77:26 end:77:31:
@@ -1845,6 +1875,17 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: Mxor.a
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:b start:77:35 end:77:36:
+          vpiParent: Module name:Mxor
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: Mxor.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: Mxor.b
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:out start:77:21 end:77:24:
           vpiParent: Module name:Mxor
@@ -1875,7 +1916,16 @@ Design name:unnamed:
         Port name:b start:77:35 end:77:36:
           vpiParent: Module name:Mxor
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:77:35 end:77:36:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: Mxor.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: Mxor.b
+            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:78:11 end:78:24:
           vpiParent: Module name:Mxor
@@ -1897,7 +1947,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: Mxor.b
-                vpiActual: Port name:b
+                vpiActual: Net name:b
   vpiTypespec (7 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1929,9 +1979,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1975,10 +2025,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            33      33       5         5
 Operation                           17      12       0         5
-RefObj                              56      51       0         5
-RefTypespec                         52      52       5         5
+RefObj                              58      53       0         5
+RefTypespec                         56      56       5         5
 ----------------------------------------------------------------
-Others                             119     119       0         0
+Others                             121     121       0         0
 ----------------------------------------------------------------
-                                   277     267      10        20
+                                   285     275      10        20
 ===================== END REDUCTION RESULT =====================

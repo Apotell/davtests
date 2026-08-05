@@ -18,7 +18,7 @@ n<$Source01/latches.v> u<256> t<Top_level_rule> c<1> l<1:1> el<22:1>
     n<> u<66> t<Description> p<255> c<65> s<133> l<1:1> el<5:10>
       n<> u<65> t<Module_declaration> p<66> c<30> l<1:1> el<5:10>
         n<> u<30> t<Module_ansi_header> p<65> c<2> s<63> l<1:1> el<1:50>
-          n<module> u<2> t<Module_keyword> p<30> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<30> s<3> l<1:1> el<1:7>
           n<latchp> u<3> t<SIMPLE_IDENTIFIER> p<30> s<4> l<1:8> el<1:14>
           n<> u<4> t<Package_import_declaration_list> p<30> s<29> l<1:15> el<1:15>
           n<> u<29> t<Port_declaration_list> p<30> c<10> l<1:15> el<1:49>
@@ -83,7 +83,7 @@ n<$Source01/latches.v> u<256> t<Top_level_rule> c<1> l<1:1> el<22:1>
     n<> u<133> t<Description> p<255> c<132> s<254> l<7:1> el<11:10>
       n<> u<132> t<Module_declaration> p<133> c<95> l<7:1> el<11:10>
         n<> u<95> t<Module_ansi_header> p<132> c<67> s<130> l<7:1> el<7:50>
-          n<module> u<67> t<Module_keyword> p<95> s<68> l<7:1> el<7:7>
+          n<module> u<67> t<MODULE> p<95> s<68> l<7:1> el<7:7>
           n<latchn> u<68> t<SIMPLE_IDENTIFIER> p<95> s<69> l<7:8> el<7:14>
           n<> u<69> t<Package_import_declaration_list> p<95> s<94> l<7:15> el<7:15>
           n<> u<94> t<Port_declaration_list> p<95> c<75> l<7:15> el<7:49>
@@ -150,7 +150,7 @@ n<$Source01/latches.v> u<256> t<Top_level_rule> c<1> l<1:1> el<22:1>
     n<> u<254> t<Description> p<255> c<253> l<13:1> el<21:10>
       n<> u<253> t<Module_declaration> p<254> c<172> l<13:1> el<21:10>
         n<> u<172> t<Module_ansi_header> p<253> c<134> s<251> l<13:1> el<13:61>
-          n<module> u<134> t<Module_keyword> p<172> s<135> l<13:1> el<13:7>
+          n<module> u<134> t<MODULE> p<172> s<135> l<13:1> el<13:7>
           n<latchsr> u<135> t<SIMPLE_IDENTIFIER> p<172> s<136> l<13:8> el<13:15>
           n<> u<136> t<Package_import_declaration_list> p<172> s<171> l<13:16> el<13:16>
           n<> u<171> t<Port_declaration_list> p<172> c<142> l<13:16> el<13:60>
@@ -272,7 +272,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/latches.v:1:1: Compile module "latchp".
 [INF:CP0303] $Source01/latches.v:7:1: Compile module "latchn".
 [INF:CP0303] $Source01/latches.v:13:1: Compile module "latchsr".
-[ERR:LN0813] $Source01/latches.v:1:1: Found 8 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -298,6 +297,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: latchp.q
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:latchp
@@ -308,7 +308,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: latchp.work
       vpiCell: latchp
-      vpiNet (1 items):
+      vpiNet (3 items):
         Net name:d start:1:23 end:1:24:
           vpiParent: Module name:latchp
           vpiTypespec RefTypespec start:1:17 end:1:22:
@@ -318,6 +318,27 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: latchp.d
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clk start:1:26 end:1:29:
+          vpiParent: Module name:latchp
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clk
+            vpiFullName: latchp.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: latchp.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:en start:1:31 end:1:33:
+          vpiParent: Module name:latchp
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:en
+            vpiFullName: latchp.en
+            vpiActual: LogicTypespec
+          vpiName: en
+          vpiFullName: latchp.en
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:d start:1:23 end:1:24:
           vpiParent: Module name:latchp
@@ -335,11 +356,29 @@ Design name:unnamed:
         Port name:clk start:1:26 end:1:29:
           vpiParent: Module name:latchp
           vpiName: clk
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:1:26 end:1:29:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: latchp.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clk
+            vpiFullName: latchp.clk
+            vpiActual: LogicTypespec
         Port name:en start:1:31 end:1:33:
           vpiParent: Module name:latchp
           vpiName: en
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:en start:1:31 end:1:33:
+            vpiParent: Port name:en
+            vpiName: en
+            vpiFullName: latchp.en.en
+            vpiActual: Net name:en
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:en
+            vpiFullName: latchp.en
+            vpiActual: LogicTypespec
         Port name:q start:1:46 end:1:47:
           vpiParent: Module name:latchp
           vpiName: q
@@ -364,7 +403,7 @@ Design name:unnamed:
                 vpiParent: IfStmt
                 vpiName: en
                 vpiFullName: latchp.en
-                vpiActual: Port name:en
+                vpiActual: Net name:en
               vpiStmt Assignment start:4:4 end:4:10:
                 vpiParent: IfStmt
                 vpiLhs RefObj name:q start:4:4 end:4:5:
@@ -393,6 +432,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: latchn.q
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:latchn
@@ -403,7 +443,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: latchn.work
       vpiCell: latchn
-      vpiNet (1 items):
+      vpiNet (3 items):
         Net name:d start:7:23 end:7:24:
           vpiParent: Module name:latchn
           vpiTypespec RefTypespec start:7:17 end:7:22:
@@ -413,6 +453,27 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: latchn.d
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clk start:7:26 end:7:29:
+          vpiParent: Module name:latchn
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clk
+            vpiFullName: latchn.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: latchn.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:en start:7:31 end:7:33:
+          vpiParent: Module name:latchn
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:en
+            vpiFullName: latchn.en
+            vpiActual: LogicTypespec
+          vpiName: en
+          vpiFullName: latchn.en
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:d start:7:23 end:7:24:
           vpiParent: Module name:latchn
@@ -430,11 +491,29 @@ Design name:unnamed:
         Port name:clk start:7:26 end:7:29:
           vpiParent: Module name:latchn
           vpiName: clk
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:7:26 end:7:29:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: latchn.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clk
+            vpiFullName: latchn.clk
+            vpiActual: LogicTypespec
         Port name:en start:7:31 end:7:33:
           vpiParent: Module name:latchn
           vpiName: en
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:en start:7:31 end:7:33:
+            vpiParent: Port name:en
+            vpiName: en
+            vpiFullName: latchn.en.en
+            vpiActual: Net name:en
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:en
+            vpiFullName: latchn.en
+            vpiActual: LogicTypespec
         Port name:q start:7:46 end:7:47:
           vpiParent: Module name:latchn
           vpiName: q
@@ -463,7 +542,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: en
                     vpiFullName: latchn.en
-                    vpiActual: Port name:en
+                    vpiActual: Net name:en
               vpiStmt Assignment start:10:4 end:10:10:
                 vpiParent: IfStmt
                 vpiLhs RefObj name:q start:10:4 end:10:5:
@@ -492,6 +571,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: latchsr.q
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:latchsr
@@ -504,7 +584,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: latchsr.work
       vpiCell: latchsr
-      vpiNet (1 items):
+      vpiNet (5 items):
         Net name:d start:13:24 end:13:25:
           vpiParent: Module name:latchsr
           vpiTypespec RefTypespec start:13:18 end:13:23:
@@ -514,6 +594,47 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: latchsr.d
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clk start:13:27 end:13:30:
+          vpiParent: Module name:latchsr
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clk
+            vpiFullName: latchsr.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: latchsr.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:en start:13:32 end:13:34:
+          vpiParent: Module name:latchsr
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:en
+            vpiFullName: latchsr.en
+            vpiActual: LogicTypespec
+          vpiName: en
+          vpiFullName: latchsr.en
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clr start:13:36 end:13:39:
+          vpiParent: Module name:latchsr
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clr
+            vpiFullName: latchsr.clr
+            vpiActual: LogicTypespec
+          vpiName: clr
+          vpiFullName: latchsr.clr
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:pre start:13:41 end:13:44:
+          vpiParent: Module name:latchsr
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:pre
+            vpiFullName: latchsr.pre
+            vpiActual: LogicTypespec
+          vpiName: pre
+          vpiFullName: latchsr.pre
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (6 items):
         Port name:d start:13:24 end:13:25:
           vpiParent: Module name:latchsr
@@ -531,19 +652,55 @@ Design name:unnamed:
         Port name:clk start:13:27 end:13:30:
           vpiParent: Module name:latchsr
           vpiName: clk
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:13:27 end:13:30:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: latchsr.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clk
+            vpiFullName: latchsr.clk
+            vpiActual: LogicTypespec
         Port name:en start:13:32 end:13:34:
           vpiParent: Module name:latchsr
           vpiName: en
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:en start:13:32 end:13:34:
+            vpiParent: Port name:en
+            vpiName: en
+            vpiFullName: latchsr.en.en
+            vpiActual: Net name:en
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:en
+            vpiFullName: latchsr.en
+            vpiActual: LogicTypespec
         Port name:clr start:13:36 end:13:39:
           vpiParent: Module name:latchsr
           vpiName: clr
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clr start:13:36 end:13:39:
+            vpiParent: Port name:clr
+            vpiName: clr
+            vpiFullName: latchsr.clr.clr
+            vpiActual: Net name:clr
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clr
+            vpiFullName: latchsr.clr
+            vpiActual: LogicTypespec
         Port name:pre start:13:41 end:13:44:
           vpiParent: Module name:latchsr
           vpiName: pre
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:pre start:13:41 end:13:44:
+            vpiParent: Port name:pre
+            vpiName: pre
+            vpiFullName: latchsr.pre.pre
+            vpiActual: Net name:pre
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:pre
+            vpiFullName: latchsr.pre
+            vpiActual: LogicTypespec
         Port name:q start:13:57 end:13:58:
           vpiParent: Module name:latchsr
           vpiName: q
@@ -568,7 +725,7 @@ Design name:unnamed:
                 vpiParent: IfElse
                 vpiName: clr
                 vpiFullName: latchsr.clr
-                vpiActual: Port name:clr
+                vpiActual: Net name:clr
               vpiStmt Assignment start:16:4 end:16:13:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:16:4 end:16:5:
@@ -592,7 +749,7 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiName: pre
                   vpiFullName: latchsr.pre
-                  vpiActual: Port name:pre
+                  vpiActual: Net name:pre
                 vpiStmt Assignment start:18:4 end:18:13:
                   vpiParent: IfElse
                   vpiLhs RefObj name:q start:18:4 end:18:5:
@@ -616,7 +773,7 @@ Design name:unnamed:
                     vpiParent: IfStmt
                     vpiName: en
                     vpiFullName: latchsr.en
-                    vpiActual: Port name:en
+                    vpiActual: Net name:en
                   vpiStmt Assignment start:20:4 end:20:10:
                     vpiParent: IfStmt
                     vpiLhs RefObj name:q start:20:4 end:20:5:
@@ -652,7 +809,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -697,7 +854,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/arch/common/latches/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              93      93       0         0
+Others                             125     125       0         0
 ----------------------------------------------------------------
-                                    93      93       0         0
+                                   125     125       0         0
 ===================== END REDUCTION RESULT =====================

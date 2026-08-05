@@ -30,7 +30,7 @@ n<$Source01/ports.sv> u<1380> t<Top_level_rule> c<1> l<14:1> el<168:1>
     n<> u<1377> t<Description> p<1378> c<1376> l<14:1> el<167:10>
       n<> u<1376> t<Module_declaration> p<1377> c<57> l<14:1> el<167:10>
         n<> u<57> t<Module_ansi_header> p<1376> c<6> s<58> l<14:1> el<28:4>
-          n<module> u<6> t<Module_keyword> p<57> s<7> l<14:1> el<14:7>
+          n<module> u<6> t<MODULE> p<57> s<7> l<14:1> el<14:7>
           n<ports> u<7> t<SIMPLE_IDENTIFIER> p<57> s<8> l<14:8> el<14:13>
           n<> u<8> t<Package_import_declaration_list> p<57> s<21> l<15:2> el<15:2>
           n<> u<21> t<Parameter_port_list> p<57> c<20> s<22> l<15:2> el<16:15>
@@ -217,7 +217,7 @@ n<$Source01/ports.sv> u<1380> t<Top_level_rule> c<1> l<14:1> el<168:1>
                     n<> u<302> t<Variable_declaration> p<303> c<287> l<44:3> el<55:30>
                       n<> u<287> t<Data_type> p<302> c<186> s<301> l<44:3> el<55:4>
                         n<> u<186> t<Struct_union> p<287> c<185> s<213> l<44:3> el<44:9>
-                          n<> u<185> t<Struct_keyword> p<186> l<44:3> el<44:9>
+                          n<> u<185> t<STRUCT> p<186> l<44:3> el<44:9>
                         n<> u<213> t<Struct_union_member> p<287> c<209> s<230> l<46:5> el<46:25>
                           n<> u<209> t<Data_type_or_void> p<213> c<208> s<212> l<46:5> el<46:21>
                             n<> u<208> t<Data_type> p<209> c<187> l<46:5> el<46:21>
@@ -283,7 +283,7 @@ n<$Source01/ports.sv> u<1380> t<Top_level_rule> c<1> l<14:1> el<168:1>
                           n<> u<282> t<Data_type_or_void> p<286> c<281> s<285> l<49:5> el<54:6>
                             n<> u<281> t<Data_type> p<282> c<249> l<49:5> el<54:6>
                               n<> u<249> t<Struct_union> p<281> c<248> s<266> l<49:5> el<49:11>
-                                n<> u<248> t<Struct_keyword> p<249> l<49:5> el<49:11>
+                                n<> u<248> t<STRUCT> p<249> l<49:5> el<49:11>
                               n<> u<266> t<Struct_union_member> p<281> c<262> s<273> l<51:5> el<51:31>
                                 n<> u<262> t<Data_type_or_void> p<266> c<261> s<265> l<51:5> el<51:16>
                                   n<> u<261> t<Data_type> p<262> c<250> l<51:5> el<51:16>
@@ -1402,8 +1402,9 @@ n<$Source01/ports.sv> u<1380> t<Top_level_rule> c<1> l<14:1> el<168:1>
   n<// ports> u<1379> t<LINE_COMMENT> p<1380> l<167:11> el<167:19>
 AST_DEBUG_END
 [INF:CP0303] $Source01/ports.sv:14:1: Compile module "ports".
-[ERR:LN0813] $Source01/ports.sv:1:1: Found 2 orphan node(s).
-[WRN:CP0350] $Source01/ports.sv:158:25: Failed to bind "id:518, name:id".
+[WRN:CP0310] $Source01/ports.sv:22:19: Port "dbus" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/ports.sv:23:19: Port "padsif" definition missing its direction (input, output, inout).
+[WRN:CP0350] $Source01/ports.sv:158:25: Failed to bind "id:522, name:id".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1517,9 +1518,37 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (13 items):
+      vpiTypespec (15 items):
         LogicTypespec:
           vpiParent: Module name:ports
+        UnsupportedTypespec name:genbus_if::slave start:22:3 end:22:18:
+          vpiParent: Module name:ports
+          vpiPathElem (2 items):
+            RefObj name:genbus_if start:22:3 end:22:12:
+              vpiParent: UnsupportedTypespec name:genbus_if::slave
+              vpiName: genbus_if
+              vpiFullName: ports.genbus_if::slave.genbus_if
+            RefObj name:slave start:22:13 end:22:18:
+              vpiParent: UnsupportedTypespec name:genbus_if::slave
+              vpiName: slave
+              vpiFullName: ports.genbus_if::slave.slave
+          vpiName Identifier name:genbus_if::slave:
+            vpiParent: UnsupportedTypespec name:genbus_if::slave
+            vpiName: genbus_if::slave
+        UnsupportedTypespec name:pads_if::mp_dig start:23:3 end:23:17:
+          vpiParent: Module name:ports
+          vpiPathElem (2 items):
+            RefObj name:pads_if start:23:3 end:23:10:
+              vpiParent: UnsupportedTypespec name:pads_if::mp_dig
+              vpiName: pads_if
+              vpiFullName: ports.pads_if::mp_dig.pads_if
+            RefObj name:mp_dig start:23:11 end:23:17:
+              vpiParent: UnsupportedTypespec name:pads_if::mp_dig
+              vpiName: mp_dig
+              vpiFullName: ports.pads_if::mp_dig.mp_dig
+          vpiName Identifier name:pads_if::mp_dig:
+            vpiParent: UnsupportedTypespec name:pads_if::mp_dig
+            vpiName: pads_if::mp_dig
         LogicTypespec:
           vpiParent: Module name:ports
           vpiRange (1 items):
@@ -1865,6 +1894,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: ports.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:27:22 end:27:25:
           vpiParent: Module name:ports
           vpiTypespec RefTypespec start:27:3 end:27:15:
@@ -1874,15 +1904,34 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: ports.rst
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:dbus start:22:19 end:22:23:
           vpiParent: Module name:ports
           vpiName: dbus
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:dbus start:22:19 end:22:23:
+            vpiParent: Port name:dbus
+            vpiName: dbus
+            vpiFullName: ports.dbus.dbus
+            vpiActual: Port name:dbus
+          vpiTypespec RefTypespec start:22:3 end:22:18:
+            vpiParent: Port name:dbus
+            vpiFullName: ports.dbus
+            vpiActual: UnsupportedTypespec name:genbus_if::slave
         Port name:padsif start:23:19 end:23:25:
           vpiParent: Module name:ports
           vpiName: padsif
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:padsif start:23:19 end:23:25:
+            vpiParent: Port name:padsif
+            vpiName: padsif
+            vpiFullName: ports.padsif.padsif
+            vpiActual: Port name:padsif
+          vpiTypespec RefTypespec start:23:3 end:23:17:
+            vpiParent: Port name:padsif
+            vpiFullName: ports.padsif
+            vpiActual: UnsupportedTypespec name:pads_if::mp_dig
         Port name:clk start:26:22 end:26:25:
           vpiParent: Module name:ports
           vpiName: clk
@@ -1919,7 +1968,7 @@ Design name:unnamed:
               vpiName: dbus_Connect
             vpiFullName: ports.dbus_Connect
             vpiStmt (1 items):
-              HierPath name:dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re) start:63:7 end:63:108:
+              HierPath name:dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re) start:63:7 end:63:110:
                 vpiParent: Begin name:dbus_Connect
                 vpiName: dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re)
                 vpiFullName: ports.dbus_Connect.dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re)
@@ -2006,7 +2055,7 @@ Design name:unnamed:
             vpiParent: Always
             vpiFullName: ports
             vpiStmt (1 items):
-              HierPath name:padsif.Init() start:77:21 end:77:33:
+              HierPath name:padsif.Init() start:77:21 end:77:34:
                 vpiParent: Begin
                 vpiName: padsif.Init()
                 vpiFullName: ports.padsif.Init()
@@ -2105,7 +2154,7 @@ Design name:unnamed:
                     vpiStmt (1 items):
                       IfElse start:88:11 end:102:16:
                         vpiParent: Begin
-                        vpiCondition HierPath name:padsif.IsPort(j) start:88:16 end:88:32:
+                        vpiCondition HierPath name:padsif.IsPort(j) start:88:16 end:88:34:
                           vpiParent: IfElse
                           vpiName: padsif.IsPort(j)
                           vpiFullName: ports.padsif.IsPort(j)
@@ -2642,7 +2691,7 @@ Design name:unnamed:
                   vpiStmt (1 items):
                     IfElse start:120:11 end:123:55:
                       vpiParent: Begin
-                      vpiCondition HierPath name:padsif.IsPort(j) start:120:16 end:120:32:
+                      vpiCondition HierPath name:padsif.IsPort(j) start:120:16 end:120:34:
                         vpiParent: IfElse
                         vpiName: padsif.IsPort(j)
                         vpiFullName: ports.RegisterRead.padsif.IsPort(j)
@@ -3405,7 +3454,7 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "3"
                                         vpiValue: 3
-                                BitSelect name:dir[j[2:0]] start:161:51 end:161:62:
+                                BitSelect name:dir[j[2:0]] start:161:51 end:161:61:
                                   vpiParent: HierPath name:port[j[4:3]].dir[j[2:0]]
                                   vpiName: dir[j[2:0]]
                                   vpiFullName: ports.port[j[4:3]].dir[j[2:0]].dir[j[2:0]]
@@ -3516,7 +3565,7 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "3"
                                         vpiValue: 3
-                                BitSelect name:out[j[2:0]] start:162:51 end:162:62:
+                                BitSelect name:out[j[2:0]] start:162:51 end:162:61:
                                   vpiParent: HierPath name:port[j[4:3]].out[j[2:0]]
                                   vpiName: out[j[2:0]]
                                   vpiFullName: ports.port[j[4:3]].out[j[2:0]].out[j[2:0]]
@@ -3572,8 +3621,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 3
-[WARNING] : 1
+[  ERROR] : 2
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3588,25 +3637,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ports/mounts.json
 
 
-{'result': {'coverage': 94.82,
+{'result': {'coverage': 96.47,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/ports.sv': {'post_len': 91,
+            'files': {'$Output/lib/work/ports.sv': {'post_len': 62,
                                                     'pre_len': 1758}},
-            'post_len': 91,
+            'post_len': 62,
             'pre_len': 1758,
             'test_name': 'Verilator/t_sv_cpu_code/ports'}}
 
 +---------------------------+----------+-----------+
 | INPUT                     |   PRELEN |   POSTLEN |
 +===========================+==========+===========+
-| $Output/lib/work/ports.sv |     1758 |        91 |
+| $Output/lib/work/ports.sv |     1758 |        62 |
 +===========================+==========+===========+
-|                           |     1758 |        91 |
+|                           |     1758 |        62 |
 +---------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.82
+[COVERAGE] : 96.47
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3617,7 +3666,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ports/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             508     508       0         0
+Others                             520     520       0         0
 ----------------------------------------------------------------
-                                   508     508       0         0
+                                   520     520       0         0
 ===================== END REDUCTION RESULT =====================

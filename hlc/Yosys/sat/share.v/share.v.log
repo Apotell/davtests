@@ -18,7 +18,7 @@ n<$Source01/sat/share.v> u<422> t<Top_level_rule> c<1> l<1:1> el<33:1>
     n<> u<194> t<Description> p<421> c<193> s<420> l<1:1> el<9:10>
       n<> u<193> t<Module_declaration> p<194> c<64> l<1:1> el<9:10>
         n<> u<64> t<Module_ansi_header> p<193> c<2> s<87> l<1:1> el<5:3>
-          n<module> u<2> t<Module_keyword> p<64> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<64> s<3> l<1:1> el<1:7>
           n<test_1> u<3> t<SIMPLE_IDENTIFIER> p<64> s<4> l<1:8> el<1:14>
           n<> u<4> t<Package_import_declaration_list> p<64> s<63> l<1:14> el<1:14>
           n<> u<63> t<Port_declaration_list> p<64> c<20> l<1:14> el<5:2>
@@ -211,7 +211,7 @@ n<$Source01/sat/share.v> u<422> t<Top_level_rule> c<1> l<1:1> el<33:1>
     n<> u<420> t<Description> p<421> c<419> l<12:1> el<31:10>
       n<> u<419> t<Module_declaration> p<420> c<249> l<12:1> el<31:10>
         n<> u<249> t<Module_ansi_header> p<419> c<195> s<417> l<12:1> el<16:3>
-          n<module> u<195> t<Module_keyword> p<249> s<196> l<12:1> el<12:7>
+          n<module> u<195> t<MODULE> p<249> s<196> l<12:1> el<12:7>
           n<test_2> u<196> t<SIMPLE_IDENTIFIER> p<249> s<197> l<12:8> el<12:14>
           n<> u<197> t<Package_import_declaration_list> p<249> s<248> l<12:14> el<12:14>
           n<> u<248> t<Port_declaration_list> p<249> c<203> l<12:14> el<16:2>
@@ -436,8 +436,9 @@ n<$Source01/sat/share.v> u<422> t<Top_level_rule> c<1> l<1:1> el<33:1>
         n<> u<418> t<ENDMODULE> p<419> l<31:1> el<31:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sat/share.v:1:1: Compile module "test_1".
+[NTE:CP0309] $Source01/sat/share.v:4:15: Implicit port type (wire) for "y1".
+[NTE:CP0309] $Source01/sat/share.v:4:19: Implicit port type (wire) for "y2".
 [INF:CP0303] $Source01/sat/share.v:12:1: Compile module "test_2".
-[ERR:LN0813] $Source01/sat/share.v:1:1: Found 6 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -542,7 +543,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: test_1.work
       vpiCell: test_1
-      vpiNet (5 items):
+      vpiNet (9 items):
         Net name:a start:2:14 end:2:15:
           vpiParent: Module name:test_1
           vpiTypespec RefTypespec start:2:2 end:2:13:
@@ -552,6 +553,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: test_1.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:s start:3:8 end:3:9:
           vpiParent: Module name:test_1
           vpiTypespec RefTypespec start:3:2 end:3:7:
@@ -561,6 +563,7 @@ Design name:unnamed:
           vpiName: s
           vpiFullName: test_1.s
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y1 start:4:15 end:4:17:
           vpiParent: Module name:test_1
           vpiTypespec RefTypespec start:4:2 end:4:14:
@@ -570,6 +573,47 @@ Design name:unnamed:
           vpiName: y1
           vpiFullName: test_1.y1
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:b start:2:17 end:2:18:
+          vpiParent: Module name:test_1
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: test_1.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: test_1.b
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:c start:2:20 end:2:21:
+          vpiParent: Module name:test_1
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:c
+            vpiFullName: test_1.c
+            vpiActual: LogicTypespec
+          vpiName: c
+          vpiFullName: test_1.c
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:x start:3:11 end:3:12:
+          vpiParent: Module name:test_1
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:x
+            vpiFullName: test_1.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: test_1.x
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:y2 start:4:19 end:4:21:
+          vpiParent: Module name:test_1
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:y2
+            vpiFullName: test_1.y2
+            vpiActual: LogicTypespec
+          vpiName: y2
+          vpiFullName: test_1.y2
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:t1 start:6:13 end:6:15:
           vpiParent: Module name:test_1
           vpiTypespec RefTypespec start:6:7 end:6:12:
@@ -579,6 +623,7 @@ Design name:unnamed:
           vpiName: t1
           vpiFullName: test_1.t1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:t2 start:6:17 end:6:19:
           vpiParent: Module name:test_1
           vpiTypespec RefTypespec start:6:7 end:6:12:
@@ -588,6 +633,7 @@ Design name:unnamed:
           vpiName: t2
           vpiFullName: test_1.t2
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (7 items):
         Port name:a start:2:14 end:2:15:
           vpiParent: Module name:test_1
@@ -605,11 +651,29 @@ Design name:unnamed:
         Port name:b start:2:17 end:2:18:
           vpiParent: Module name:test_1
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:2:17 end:2:18:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: test_1.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: test_1.b
+            vpiActual: LogicTypespec
         Port name:c start:2:20 end:2:21:
           vpiParent: Module name:test_1
           vpiName: c
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:c start:2:20 end:2:21:
+            vpiParent: Port name:c
+            vpiName: c
+            vpiFullName: test_1.c.c
+            vpiActual: Net name:c
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:c
+            vpiFullName: test_1.c
+            vpiActual: LogicTypespec
         Port name:s start:3:8 end:3:9:
           vpiParent: Module name:test_1
           vpiName: s
@@ -626,7 +690,16 @@ Design name:unnamed:
         Port name:x start:3:11 end:3:12:
           vpiParent: Module name:test_1
           vpiName: x
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:x start:3:11 end:3:12:
+            vpiParent: Port name:x
+            vpiName: x
+            vpiFullName: test_1.x.x
+            vpiActual: Net name:x
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:x
+            vpiFullName: test_1.x
+            vpiActual: LogicTypespec
         Port name:y1 start:4:15 end:4:17:
           vpiParent: Module name:test_1
           vpiName: y1
@@ -643,7 +716,16 @@ Design name:unnamed:
         Port name:y2 start:4:19 end:4:21:
           vpiParent: Module name:test_1
           vpiName: y2
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:y2 start:4:19 end:4:21:
+            vpiParent: Port name:y2
+            vpiName: y2
+            vpiFullName: test_1.y2.y2
+            vpiActual: Net name:y2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:y2
+            vpiFullName: test_1.y2
+            vpiActual: LogicTypespec
       vpiContAssign (4 items):
         ContAssign start:7:9 end:7:25:
           vpiParent: Module name:test_1
@@ -674,7 +756,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: test_1.b
-                    vpiActual: Port name:b
+                    vpiActual: Net name:b
               Constant start:7:24 end:7:25:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -713,12 +795,12 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: test_1.b
-                    vpiActual: Port name:b
+                    vpiActual: Net name:b
                   RefObj name:c start:7:39 end:7:40:
                     vpiParent: Operation
                     vpiName: c
                     vpiFullName: test_1.c
-                    vpiActual: Port name:c
+                    vpiActual: Net name:c
               Constant start:7:43 end:7:44:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -744,7 +826,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: x
                 vpiFullName: test_1.x
-                vpiActual: Port name:x
+                vpiActual: Net name:x
               RefObj name:t2 start:8:18 end:8:20:
                 vpiParent: Operation
                 vpiName: t2
@@ -761,7 +843,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: y2
             vpiFullName: test_1.y2
-            vpiActual: Port name:y2
+            vpiActual: Net name:y2
           vpiRhs Operation start:8:32 end:8:43:
             vpiParent: ContAssign
             vpiOpType: condition (32)
@@ -770,7 +852,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: x
                 vpiFullName: test_1.x
-                vpiActual: Port name:x
+                vpiActual: Net name:x
               RefObj name:t1 start:8:36 end:8:38:
                 vpiParent: Operation
                 vpiName: t1
@@ -796,6 +878,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: test_2.y
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:test_2
@@ -858,7 +941,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: test_2.work
       vpiCell: test_2
-      vpiNet (2 items):
+      vpiNet (4 items):
         Net name:s start:13:8 end:13:9:
           vpiParent: Module name:test_2
           vpiTypespec RefTypespec start:13:2 end:13:7:
@@ -868,6 +951,7 @@ Design name:unnamed:
           vpiName: s
           vpiFullName: test_2.s
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:a start:14:14 end:14:15:
           vpiParent: Module name:test_2
           vpiTypespec RefTypespec start:14:2 end:14:13:
@@ -877,6 +961,27 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: test_2.a
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:b start:14:17 end:14:18:
+          vpiParent: Module name:test_2
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: test_2.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: test_2.b
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:c start:14:20 end:14:21:
+          vpiParent: Module name:test_2
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:c
+            vpiFullName: test_2.c
+            vpiActual: LogicTypespec
+          vpiName: c
+          vpiFullName: test_2.c
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (5 items):
         Port name:s start:13:8 end:13:9:
           vpiParent: Module name:test_2
@@ -907,11 +1012,29 @@ Design name:unnamed:
         Port name:b start:14:17 end:14:18:
           vpiParent: Module name:test_2
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:14:17 end:14:18:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: test_2.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: test_2.b
+            vpiActual: LogicTypespec
         Port name:c start:14:20 end:14:21:
           vpiParent: Module name:test_2
           vpiName: c
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:c start:14:20 end:14:21:
+            vpiParent: Port name:c
+            vpiName: c
+            vpiFullName: test_2.c.c
+            vpiActual: Net name:c
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:c
+            vpiFullName: test_2.c
+            vpiActual: LogicTypespec
         Port name:y start:15:19 end:15:20:
           vpiParent: Module name:test_2
           vpiName: y
@@ -981,7 +1104,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: b
                                   vpiFullName: test_2.b
-                                  vpiActual: Port name:b
+                                  vpiActual: Net name:b
                             Constant start:20:16 end:20:17:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1007,12 +1130,12 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: b
                                 vpiFullName: test_2.b
-                                vpiActual: Port name:b
+                                vpiActual: Net name:b
                               RefObj name:c start:21:14 end:21:15:
                                 vpiParent: Operation
                                 vpiName: c
                                 vpiFullName: test_2.c
-                                vpiActual: Port name:c
+                                vpiActual: Net name:c
                         vpiElseStmt Assignment start:23:5 end:23:15:
                           vpiParent: IfElse
                           vpiLhs RefObj name:y start:23:5 end:23:6:
@@ -1028,12 +1151,12 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: c
                                 vpiFullName: test_2.c
-                                vpiActual: Port name:c
+                                vpiActual: Net name:c
                               RefObj name:b start:23:14 end:23:15:
                                 vpiParent: Operation
                                 vpiName: b
                                 vpiFullName: test_2.b
-                                vpiActual: Port name:b
+                                vpiActual: Net name:b
                   vpiElseStmt Begin start:24:12 end:29:6:
                     vpiParent: IfElse
                     vpiFullName: test_2
@@ -1052,12 +1175,12 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: b
                                   vpiFullName: test_2.b
-                                  vpiActual: Port name:b
+                                  vpiActual: Net name:b
                                 RefObj name:c start:25:12 end:25:13:
                                   vpiParent: Operation
                                   vpiName: c
                                   vpiFullName: test_2.c
-                                  vpiActual: Port name:c
+                                  vpiActual: Net name:c
                             Constant start:25:16 end:25:17:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1088,7 +1211,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: b
                                 vpiFullName: test_2.b
-                                vpiActual: Port name:b
+                                vpiActual: Net name:b
                         vpiElseStmt Assignment start:28:5 end:28:15:
                           vpiParent: IfElse
                           vpiLhs RefObj name:y start:28:5 end:28:6:
@@ -1104,7 +1227,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: b
                                 vpiFullName: test_2.b
-                                vpiActual: Port name:b
+                                vpiActual: Net name:b
                               RefObj name:a start:28:14 end:28:15:
                                 vpiParent: Operation
                                 vpiName: a
@@ -1132,9 +1255,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1177,7 +1300,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/sat/share.v/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             162     162       0         0
+Others                             186     186       0         0
 ----------------------------------------------------------------
-                                   162     162       0         0
+                                   186     186       0         0
 ===================== END REDUCTION RESULT =====================

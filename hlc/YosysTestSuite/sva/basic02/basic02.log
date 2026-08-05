@@ -18,7 +18,7 @@ n<$Source01/basic02.sv> u<224> t<Top_level_rule> c<1> l<1:1> el<21:1>
     n<> u<112> t<Description> p<223> c<111> s<210> l<1:1> el<9:10>
       n<> u<111> t<Module_declaration> p<112> c<19> l<1:1> el<9:10>
         n<> u<19> t<Module_ansi_header> p<111> c<2> s<47> l<1:1> el<1:38>
-          n<module> u<2> t<Module_keyword> p<19> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<19> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<19> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<19> s<18> l<1:12> el<1:12>
           n<> u<18> t<Port_declaration_list> p<19> c<12> l<1:12> el<1:37>
@@ -129,7 +129,7 @@ n<$Source01/basic02.sv> u<224> t<Top_level_rule> c<1> l<1:1> el<21:1>
     n<> u<210> t<Description> p<223> c<209> s<222> l<11:1> el<18:10>
       n<> u<209> t<Module_declaration> p<210> c<140> l<11:1> el<18:10>
         n<> u<140> t<Module_ansi_header> p<209> c<113> s<174> l<11:1> el<11:63>
-          n<module> u<113> t<Module_keyword> p<140> s<114> l<11:1> el<11:7>
+          n<module> u<113> t<MODULE> p<140> s<114> l<11:1> el<11:7>
           n<top_properties> u<114> t<SIMPLE_IDENTIFIER> p<140> s<115> l<11:8> el<11:22>
           n<> u<115> t<Package_import_declaration_list> p<140> s<139> l<11:23> el<11:23>
           n<> u<139> t<Port_declaration_list> p<140> c<123> l<11:23> el<11:62>
@@ -239,7 +239,6 @@ n<$Source01/basic02.sv> u<224> t<Top_level_rule> c<1> l<1:1> el<21:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/basic02.sv:1:1: Compile module "top".
 [INF:CP0303] $Source01/basic02.sv:11:1: Compile module "top_properties".
-[ERR:LN0813] $Source01/basic02.sv:1:1: Found 4 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -324,7 +323,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:24:
@@ -334,6 +333,17 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: top.clock
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:ctrl start:1:32 end:1:36:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:ctrl
+            vpiFullName: top.ctrl
+            vpiActual: LogicTypespec
+          vpiName: ctrl
+          vpiFullName: top.ctrl
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
@@ -351,7 +361,16 @@ Design name:unnamed:
         Port name:ctrl start:1:32 end:1:36:
           vpiParent: Module name:top
           vpiName: ctrl
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:ctrl start:1:32 end:1:36:
+            vpiParent: Port name:ctrl
+            vpiName: ctrl
+            vpiFullName: top.ctrl.ctrl
+            vpiActual: Net name:ctrl
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:ctrl
+            vpiFullName: top.ctrl
+            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:4:2 end:8:5:
           vpiParent: Module name:top
@@ -385,7 +404,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: ctrl
                         vpiFullName: top.ctrl
-                        vpiActual: Port name:ctrl
+                        vpiActual: Net name:ctrl
                 Assignment start:6:3 end:6:16:
                   vpiParent: Begin
                   vpiLhs RefObj name:write start:6:3 end:6:8:
@@ -397,7 +416,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: ctrl
                     vpiFullName: top.ctrl
-                    vpiActual: Port name:ctrl
+                    vpiActual: Net name:ctrl
                 Assignment start:7:3 end:7:17:
                   vpiParent: Begin
                   vpiLhs RefObj name:ready start:7:3 end:7:8:
@@ -446,12 +465,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: read
                       vpiFullName: top_properties.read
-                      vpiActual: Port name:read
+                      vpiActual: Net name:read
                     RefObj name:write start:12:53 end:12:58:
                       vpiParent: Operation
                       vpiName: write
                       vpiFullName: top_properties.write
-                      vpiActual: Port name:write
+                      vpiActual: Net name:write
         Assert start:16:8 end:16:61:
           vpiParent: Module name:top_properties
           vpiLabel Identifier name:a_wr start:16:2 end:16:6:
@@ -476,12 +495,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: write
                   vpiFullName: top_properties.write
-                  vpiActual: Port name:write
+                  vpiActual: Net name:write
                 RefObj name:ready start:16:53 end:16:58:
                   vpiParent: Operation
                   vpiName: ready
                   vpiFullName: top_properties.ready
-                  vpiActual: Port name:ready
+                  vpiActual: Net name:ready
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top_properties
@@ -492,7 +511,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top_properties.work
       vpiCell: top_properties
-      vpiNet (1 items):
+      vpiNet (4 items):
         Net name:clock start:11:36 end:11:41:
           vpiParent: Module name:top_properties
           vpiTypespec RefTypespec start:11:24 end:11:35:
@@ -502,6 +521,37 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: top_properties.clock
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:read start:11:43 end:11:47:
+          vpiParent: Module name:top_properties
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:read
+            vpiFullName: top_properties.read
+            vpiActual: LogicTypespec
+          vpiName: read
+          vpiFullName: top_properties.read
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:write start:11:49 end:11:54:
+          vpiParent: Module name:top_properties
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:write
+            vpiFullName: top_properties.write
+            vpiActual: LogicTypespec
+          vpiName: write
+          vpiFullName: top_properties.write
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:ready start:11:56 end:11:61:
+          vpiParent: Module name:top_properties
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:ready
+            vpiFullName: top_properties.ready
+            vpiActual: LogicTypespec
+          vpiName: ready
+          vpiFullName: top_properties.ready
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:clock start:11:36 end:11:41:
           vpiParent: Module name:top_properties
@@ -519,15 +569,42 @@ Design name:unnamed:
         Port name:read start:11:43 end:11:47:
           vpiParent: Module name:top_properties
           vpiName: read
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:read start:11:43 end:11:47:
+            vpiParent: Port name:read
+            vpiName: read
+            vpiFullName: top_properties.read.read
+            vpiActual: Net name:read
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:read
+            vpiFullName: top_properties.read
+            vpiActual: LogicTypespec
         Port name:write start:11:49 end:11:54:
           vpiParent: Module name:top_properties
           vpiName: write
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:write start:11:49 end:11:54:
+            vpiParent: Port name:write
+            vpiName: write
+            vpiFullName: top_properties.write.write
+            vpiActual: Net name:write
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:write
+            vpiFullName: top_properties.write
+            vpiActual: LogicTypespec
         Port name:ready start:11:56 end:11:61:
           vpiParent: Module name:top_properties
           vpiName: ready
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:ready start:11:56 end:11:61:
+            vpiParent: Port name:ready
+            vpiName: ready
+            vpiFullName: top_properties.ready.ready
+            vpiActual: Net name:ready
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:ready
+            vpiFullName: top_properties.ready
+            vpiActual: LogicTypespec
   vpiTypespec (4 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -549,6 +626,7 @@ Design name:unnamed:
       vpiName Identifier name:top_properties start:20:10 end:20:24:
         vpiParent: ModuleTypespec name:top_properties
         vpiName: top_properties
+      vpiModule: Module name:top_properties
   vpiBindDirective (1 items):
     BindDirective start:20:1 end:20:46:
       vpiParent: Design name:unnamed
@@ -574,7 +652,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -619,7 +697,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/sva/basic02/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              81      81       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                    81      81       0         0
+                                    97      97       0         0
 ===================== END REDUCTION RESULT =====================

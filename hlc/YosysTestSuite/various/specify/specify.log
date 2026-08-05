@@ -18,7 +18,7 @@ n<$Source01/specify.v> u<374> t<Top_level_rule> c<1> l<1:1> el<40:1>
     n<> u<190> t<Description> p<373> c<189> s<282> l<1:1> el<16:10>
       n<> u<189> t<Module_declaration> p<190> c<51> l<1:1> el<16:10>
         n<> u<51> t<Module_ansi_header> p<189> c<2> s<90> l<1:1> el<5:3>
-          n<module> u<2> t<Module_keyword> p<51> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<51> s<3> l<1:1> el<1:7>
           n<test> u<3> t<SIMPLE_IDENTIFIER> p<51> s<4> l<1:8> el<1:12>
           n<> u<4> t<Package_import_declaration_list> p<51> s<50> l<1:13> el<1:13>
           n<> u<50> t<Port_declaration_list> p<51> c<10> l<1:13> el<5:2>
@@ -207,7 +207,7 @@ n<$Source01/specify.v> u<374> t<Top_level_rule> c<1> l<1:1> el<40:1>
     n<> u<282> t<Description> p<373> c<281> s<372> l<18:1> el<32:10>
       n<> u<281> t<Module_declaration> p<282> c<212> l<18:1> el<32:10>
         n<> u<212> t<Module_ansi_header> p<281> c<191> s<230> l<18:1> el<21:3>
-          n<module> u<191> t<Module_keyword> p<212> s<192> l<18:1> el<18:7>
+          n<module> u<191> t<MODULE> p<212> s<192> l<18:1> el<18:7>
           n<test2> u<192> t<SIMPLE_IDENTIFIER> p<212> s<193> l<18:8> el<18:13>
           n<> u<193> t<Package_import_declaration_list> p<212> s<211> l<18:14> el<18:14>
           n<> u<211> t<Port_declaration_list> p<212> c<199> l<18:14> el<21:2>
@@ -299,7 +299,7 @@ n<$Source01/specify.v> u<374> t<Top_level_rule> c<1> l<1:1> el<40:1>
     n<> u<372> t<Description> p<373> c<371> l<34:1> el<39:10>
       n<> u<371> t<Module_declaration> p<372> c<304> l<34:1> el<39:10>
         n<> u<304> t<Module_ansi_header> p<371> c<283> s<369> l<34:1> el<34:43>
-          n<module> u<283> t<Module_keyword> p<304> s<284> l<34:1> el<34:7>
+          n<module> u<283> t<MODULE> p<304> s<284> l<34:1> el<34:7>
           n<issue01144> u<284> t<SIMPLE_IDENTIFIER> p<304> s<285> l<34:8> el<34:18>
           n<> u<285> t<Package_import_declaration_list> p<304> s<303> l<34:18> el<34:18>
           n<> u<303> t<Port_declaration_list> p<304> c<291> l<34:18> el<34:42>
@@ -389,8 +389,9 @@ n<$Source01/specify.v> u<374> t<Top_level_rule> c<1> l<1:1> el<40:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/specify.v:1:1: Compile module "test".
 [INF:CP0303] $Source01/specify.v:18:1: Compile module "test2".
+[NTE:CP0309] $Source01/specify.v:20:9: Implicit port type (wire) for "Q".
 [INF:CP0303] $Source01/specify.v:34:1: Compile module "issue01144".
-[ERR:LN0813] $Source01/specify.v:1:1: Found 3 orphan node(s).
+[NTE:CP0309] $Source01/specify.v:34:40: Implicit port type (wire) for "q".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -456,6 +457,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Q
           vpiFullName: test.Q
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -518,7 +520,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:EN start:2:8 end:2:10:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:2:2 end:2:7:
@@ -528,6 +530,7 @@ Design name:unnamed:
           vpiName: EN
           vpiFullName: test.EN
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:D start:3:14 end:3:15:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:3:2 end:3:13:
@@ -537,6 +540,17 @@ Design name:unnamed:
           vpiName: D
           vpiFullName: test.D
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:CLK start:2:12 end:2:15:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:CLK
+            vpiFullName: test.CLK
+            vpiActual: LogicTypespec
+          vpiName: CLK
+          vpiFullName: test.CLK
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:EN start:2:8 end:2:10:
           vpiParent: Module name:test
@@ -554,7 +568,16 @@ Design name:unnamed:
         Port name:CLK start:2:12 end:2:15:
           vpiParent: Module name:test
           vpiName: CLK
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:CLK start:2:12 end:2:15:
+            vpiParent: Port name:CLK
+            vpiName: CLK
+            vpiFullName: test.CLK.CLK
+            vpiActual: Net name:CLK
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:CLK
+            vpiFullName: test.CLK
+            vpiActual: LogicTypespec
         Port name:D start:3:14 end:3:15:
           vpiParent: Module name:test
           vpiName: D
@@ -594,7 +617,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: CLK
                   vpiFullName: test.CLK
-                  vpiActual: Port name:CLK
+                  vpiActual: Net name:CLK
             vpiStmt IfStmt start:7:3 end:7:18:
               vpiParent: EventControl
               vpiCondition RefObj name:EN start:7:7 end:7:9:
@@ -628,7 +651,7 @@ Design name:unnamed:
                     vpiParent: PathTerm
                     vpiName: CLK
                     vpiFullName: test.CLK
-                    vpiActual: Port name:CLK
+                    vpiActual: Net name:CLK
               vpiModPathOut (1 items):
                 PathTerm start:11:28 end:11:29:
                   vpiParent: ModPath
@@ -716,7 +739,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: CLK
                         vpiFullName: test.CLK
-                        vpiActual: Port name:CLK
+                        vpiActual: Net name:CLK
                       RefObj name:EN start:12:29 end:12:31:
                         vpiParent: Operation
                         vpiName: EN
@@ -745,7 +768,7 @@ Design name:unnamed:
                     vpiParent: TchkTerm
                     vpiName: CLK
                     vpiFullName: test.CLK
-                    vpiActual: Port name:CLK
+                    vpiActual: Net name:CLK
                   vpiEdge: posedge (13)
                 TchkTerm start:13:22 end:13:30:
                   vpiParent: Tchk
@@ -792,7 +815,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: test2.work
       vpiCell: test2
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:A start:19:8 end:19:9:
           vpiParent: Module name:test2
           vpiTypespec RefTypespec start:19:2 end:19:7:
@@ -802,6 +825,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: test2.A
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:Q start:20:9 end:20:10:
           vpiParent: Module name:test2
           vpiTypespec RefTypespec start:20:2 end:20:8:
@@ -811,6 +835,17 @@ Design name:unnamed:
           vpiName: Q
           vpiFullName: test2.Q
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:B start:19:11 end:19:12:
+          vpiParent: Module name:test2
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:B
+            vpiFullName: test2.B
+            vpiActual: LogicTypespec
+          vpiName: B
+          vpiFullName: test2.B
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:A start:19:8 end:19:9:
           vpiParent: Module name:test2
@@ -828,7 +863,16 @@ Design name:unnamed:
         Port name:B start:19:11 end:19:12:
           vpiParent: Module name:test2
           vpiName: B
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:B start:19:11 end:19:12:
+            vpiParent: Port name:B
+            vpiName: B
+            vpiFullName: test2.B.B
+            vpiActual: Net name:B
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:B
+            vpiFullName: test2.B
+            vpiActual: LogicTypespec
         Port name:Q start:20:9 end:20:10:
           vpiParent: Module name:test2
           vpiName: Q
@@ -876,7 +920,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: B
                 vpiFullName: test2.work@xor.B
-                vpiActual: Port name:B
+                vpiActual: Net name:B
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:23:2 end:31:12:
           vpiParent: Module name:test2
@@ -930,7 +974,7 @@ Design name:unnamed:
                     vpiParent: PathTerm
                     vpiName: B
                     vpiFullName: test2.B
-                    vpiActual: Port name:B
+                    vpiActual: Net name:B
               vpiModPathOut (1 items):
                 PathTerm start:30:9 end:30:10:
                   vpiParent: ModPath
@@ -967,7 +1011,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: issue01144.work
       vpiCell: issue01144
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:clk start:34:25 end:34:28:
           vpiParent: Module name:issue01144
           vpiTypespec RefTypespec start:34:19 end:34:24:
@@ -977,6 +1021,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: issue01144.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:q start:34:40 end:34:41:
           vpiParent: Module name:issue01144
           vpiTypespec RefTypespec start:34:33 end:34:39:
@@ -986,6 +1031,17 @@ Design name:unnamed:
           vpiName: q
           vpiFullName: issue01144.q
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:d start:34:30 end:34:31:
+          vpiParent: Module name:issue01144
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:d
+            vpiFullName: issue01144.d
+            vpiActual: LogicTypespec
+          vpiName: d
+          vpiFullName: issue01144.d
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:clk start:34:25 end:34:28:
           vpiParent: Module name:issue01144
@@ -1003,7 +1059,16 @@ Design name:unnamed:
         Port name:d start:34:30 end:34:31:
           vpiParent: Module name:issue01144
           vpiName: d
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:d start:34:30 end:34:31:
+            vpiParent: Port name:d
+            vpiName: d
+            vpiFullName: issue01144.d.d
+            vpiActual: Net name:d
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:d
+            vpiFullName: issue01144.d
+            vpiActual: LogicTypespec
         Port name:q start:34:40 end:34:41:
           vpiParent: Module name:issue01144
           vpiName: q
@@ -1043,7 +1108,7 @@ Design name:unnamed:
                 vpiParent: ModPath
                 vpiName: d
                 vpiFullName: issue01144.d
-                vpiActual: Port name:d
+                vpiActual: Net name:d
               vpiDelay (2 items):
                 Constant start:36:32 end:36:33:
                   vpiParent: ModPath
@@ -1091,7 +1156,7 @@ Design name:unnamed:
                 vpiParent: ModPath
                 vpiName: d
                 vpiFullName: issue01144.d
-                vpiActual: Port name:d
+                vpiActual: Net name:d
               vpiDelay (2 items):
                 Constant start:37:32 end:37:33:
                   vpiParent: ModPath
@@ -1144,9 +1209,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1189,7 +1254,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/various/specify/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             176     176       0         0
+Others                             188     188       0         0
 ----------------------------------------------------------------
-                                   176     176       0         0
+                                   188     188       0         0
 ===================== END REDUCTION RESULT =====================

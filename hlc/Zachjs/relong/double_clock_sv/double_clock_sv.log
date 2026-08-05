@@ -22,7 +22,7 @@ n<$Source01/relong/double_clock.sv> u<352> t<Top_level_rule> c<1> l<1:1> el<44:1
     n<> u<110> t<Description> p<351> c<109> s<350> l<3:1> el<16:10>
       n<> u<109> t<Module_declaration> p<110> c<41> l<3:1> el<16:10>
         n<> u<41> t<Module_ansi_header> p<109> c<6> s<107> l<3:1> el<6:3>
-          n<module> u<6> t<Module_keyword> p<41> s<7> l<3:1> el<3:7>
+          n<module> u<6> t<MODULE> p<41> s<7> l<3:1> el<3:7>
           n<Device> u<7> t<SIMPLE_IDENTIFIER> p<41> s<8> l<3:8> el<3:14>
           n<> u<8> t<Package_import_declaration_list> p<41> s<40> l<3:14> el<3:14>
           n<> u<40> t<Port_declaration_list> p<41> c<16> l<3:14> el<6:2>
@@ -127,7 +127,7 @@ n<$Source01/relong/double_clock.sv> u<352> t<Top_level_rule> c<1> l<1:1> el<44:1
     n<> u<350> t<Description> p<351> c<349> l<18:1> el<44:10>
       n<> u<349> t<Module_declaration> p<350> c<156> l<18:1> el<44:10>
         n<> u<156> t<Module_ansi_header> p<349> c<111> s<178> l<18:1> el<21:3>
-          n<module> u<111> t<Module_keyword> p<156> s<112> l<18:1> el<18:7>
+          n<module> u<111> t<MODULE> p<156> s<112> l<18:1> el<18:7>
           n<SharedMemory> u<112> t<SIMPLE_IDENTIFIER> p<156> s<113> l<18:8> el<18:20>
           n<> u<113> t<Package_import_declaration_list> p<156> s<155> l<18:20> el<18:20>
           n<> u<155> t<Port_declaration_list> p<156> c<121> l<18:20> el<21:2>
@@ -367,7 +367,7 @@ n<$Source01/relong/double_clock.sv> u<352> t<Top_level_rule> c<1> l<1:1> el<44:1
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/double_clock.sv:3:1: Compile module "Device".
 [INF:CP0303] $Source01/relong/double_clock.sv:18:1: Compile module "SharedMemory".
-[ERR:LN0813] $Source01/relong/double_clock.sv:1:1: Found 4 orphan node(s).
+[NTE:CP0309] $Source01/relong/double_clock.sv:20:31: Implicit port type (wire) for "data2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -395,7 +395,7 @@ Design name:unnamed:
         vpiParent: Module name:Device
         vpiName: Device
       vpiFullName: Device
-      vpiVariable (2 items):
+      vpiVariable (3 items):
         Variable name:clock start:4:17 end:4:22:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:4:5 end:4:16:
@@ -404,6 +404,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clock
           vpiFullName: Device.clock
+          vpiScalar: true
         Variable name:data start:5:24 end:5:28:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:5:5 end:5:23:
@@ -412,6 +413,16 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: Device.data
+          vpiVector: true
+        Variable name:clear start:4:24 end:4:29:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:clear
+            vpiFullName: Device.clear
+            vpiActual: LogicTypespec
+          vpiName: clear
+          vpiFullName: Device.clear
+          vpiScalar: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:Device
@@ -446,6 +457,7 @@ Design name:unnamed:
           vpiName Identifier name:SharedMemory start:8:5 end:8:17:
             vpiParent: ModuleTypespec name:SharedMemory
             vpiName: SharedMemory
+          vpiModule: Module name:SharedMemory
       vpiDefName: Device
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -470,7 +482,16 @@ Design name:unnamed:
         Port name:clear start:4:24 end:4:29:
           vpiParent: Module name:Device
           vpiName: clear
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clear start:4:24 end:4:29:
+            vpiParent: Port name:clear
+            vpiName: clear
+            vpiFullName: Device.clear.clear
+            vpiActual: Variable name:clear
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clear
+            vpiFullName: Device.clear
+            vpiActual: LogicTypespec
         Port name:data start:5:24 end:5:28:
           vpiParent: Module name:Device
           vpiName: data
@@ -522,7 +543,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clear
                 vpiFullName: Device.memory.clear
-                vpiActual: Port name:clear
+                vpiActual: Variable name:clear
             Port start:12:9 end:12:26:
               vpiParent: RefInstance name:memory
               vpiLowConn RefObj name:data1 start:12:10 end:12:15:
@@ -603,7 +624,7 @@ Design name:unnamed:
         vpiParent: Module name:SharedMemory
         vpiName: SharedMemory
       vpiFullName: SharedMemory
-      vpiVariable (3 items):
+      vpiVariable (6 items):
         Variable name:clock1 start:19:17 end:19:23:
           vpiParent: Module name:SharedMemory
           vpiTypespec RefTypespec start:19:5 end:19:16:
@@ -612,6 +633,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clock1
           vpiFullName: SharedMemory.clock1
+          vpiScalar: true
         Variable name:data1 start:20:24 end:20:29:
           vpiParent: Module name:SharedMemory
           vpiTypespec RefTypespec start:20:5 end:20:23:
@@ -620,6 +642,34 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data1
           vpiFullName: SharedMemory.data1
+          vpiVector: true
+        Variable name:clock2 start:19:25 end:19:31:
+          vpiParent: Module name:SharedMemory
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:clock2
+            vpiFullName: SharedMemory.clock2
+            vpiActual: LogicTypespec
+          vpiName: clock2
+          vpiFullName: SharedMemory.clock2
+          vpiScalar: true
+        Variable name:clear start:19:33 end:19:38:
+          vpiParent: Module name:SharedMemory
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:clear
+            vpiFullName: SharedMemory.clear
+            vpiActual: LogicTypespec
+          vpiName: clear
+          vpiFullName: SharedMemory.clear
+          vpiScalar: true
+        Variable name:data2 start:20:31 end:20:36:
+          vpiParent: Module name:SharedMemory
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:data2
+            vpiFullName: SharedMemory.data2
+            vpiActual: LogicTypespec
+          vpiName: data2
+          vpiFullName: SharedMemory.data2
+          vpiVector: true
         Variable name:memory start:23:17 end:23:23:
           vpiParent: Module name:SharedMemory
           vpiTypespec RefTypespec start:23:5 end:23:16:
@@ -708,11 +758,29 @@ Design name:unnamed:
         Port name:clock2 start:19:25 end:19:31:
           vpiParent: Module name:SharedMemory
           vpiName: clock2
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clock2 start:19:25 end:19:31:
+            vpiParent: Port name:clock2
+            vpiName: clock2
+            vpiFullName: SharedMemory.clock2.clock2
+            vpiActual: Variable name:clock2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clock2
+            vpiFullName: SharedMemory.clock2
+            vpiActual: LogicTypespec
         Port name:clear start:19:33 end:19:38:
           vpiParent: Module name:SharedMemory
           vpiName: clear
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clear start:19:33 end:19:38:
+            vpiParent: Port name:clear
+            vpiName: clear
+            vpiFullName: SharedMemory.clear.clear
+            vpiActual: Variable name:clear
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clear
+            vpiFullName: SharedMemory.clear
+            vpiActual: LogicTypespec
         Port name:data1 start:20:24 end:20:29:
           vpiParent: Module name:SharedMemory
           vpiName: data1
@@ -729,7 +797,16 @@ Design name:unnamed:
         Port name:data2 start:20:31 end:20:36:
           vpiParent: Module name:SharedMemory
           vpiName: data2
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:data2 start:20:31 end:20:36:
+            vpiParent: Port name:data2
+            vpiName: data2
+            vpiFullName: SharedMemory.data2.data2
+            vpiActual: Variable name:data2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:data2
+            vpiFullName: SharedMemory.data2
+            vpiActual: LogicTypespec
       vpiProcess (3 items):
         Always start:26:5 end:31:8:
           vpiParent: Module name:SharedMemory
@@ -757,7 +834,7 @@ Design name:unnamed:
                     vpiParent: IfElse
                     vpiName: clear
                     vpiFullName: SharedMemory.clear
-                    vpiActual: Port name:clear
+                    vpiActual: Variable name:clear
                   vpiStmt Assignment start:28:13 end:28:27:
                     vpiParent: IfElse
                     vpiLhs RefObj name:memory start:28:13 end:28:19:
@@ -896,7 +973,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clock2
                   vpiFullName: SharedMemory.clock2
-                  vpiActual: Port name:clock2
+                  vpiActual: Variable name:clock2
             vpiStmt Begin start:39:33 end:41:8:
               vpiParent: EventControl
               vpiFullName: SharedMemory
@@ -907,7 +984,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: data2
                     vpiFullName: SharedMemory.data2
-                    vpiActual: Port name:data2
+                    vpiActual: Variable name:data2
                   vpiRhs PartSelect name:memory[3:2] start:40:18 end:40:29:
                     vpiParent: Assignment
                     vpiName: memory[3:2]
@@ -963,9 +1040,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1008,7 +1085,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/double_clock_sv/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             146     146       0         0
+Others                             162     162       0         0
 ----------------------------------------------------------------
-                                   146     146       0         0
+                                   162     162       0         0
 ===================== END REDUCTION RESULT =====================

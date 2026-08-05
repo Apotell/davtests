@@ -22,7 +22,7 @@ n<$Source01/relong/array.sv> u<701> t<Top_level_rule> c<1> l<1:1> el<44:10>
     n<> u<459> t<Description> p<700> c<458> s<699> l<3:1> el<25:10>
       n<> u<458> t<Module_declaration> p<459> c<95> l<3:1> el<25:10>
         n<> u<95> t<Module_ansi_header> p<458> c<6> s<96> l<3:1> el<7:7>
-          n<module> u<6> t<Module_keyword> p<95> s<7> l<3:1> el<3:7>
+          n<module> u<6> t<MODULE> p<95> s<7> l<3:1> el<3:7>
           n<ArrayOrReduction> u<7> t<SIMPLE_IDENTIFIER> p<95> s<8> l<3:8> el<3:24>
           n<> u<8> t<Package_import_declaration_list> p<95> s<29> l<3:25> el<3:25>
           n<> u<29> t<Parameter_port_list> p<95> c<28> s<94> l<3:25> el<4:35>
@@ -476,7 +476,7 @@ n<$Source01/relong/array.sv> u<701> t<Top_level_rule> c<1> l<1:1> el<44:10>
     n<> u<699> t<Description> p<700> c<698> l<28:1> el<44:10>
       n<> u<698> t<Module_declaration> p<699> c<598> l<28:1> el<44:10>
         n<> u<598> t<Module_ansi_header> p<698> c<460> s<622> l<28:1> el<34:5>
-          n<module> u<460> t<Module_keyword> p<598> s<461> l<28:1> el<28:7>
+          n<module> u<460> t<MODULE> p<598> s<461> l<28:1> el<28:7>
           n<Array> u<461> t<SIMPLE_IDENTIFIER> p<598> s<462> l<28:8> el<28:13>
           n<> u<462> t<Package_import_declaration_list> p<598> s<483> l<28:14> el<28:14>
           n<> u<483> t<Parameter_port_list> p<598> c<482> s<484> l<28:14> el<28:48>
@@ -720,7 +720,6 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/relong/array.sv:13:41: Compile generate block "base_case_1".
 [INF:CP0335] $Source01/relong/array.sv:11:31: Compile generate block "error_case".
 [INF:CP0303] $Source01/relong/array.sv:28:1: Compile module "Array".
-[ERR:LN0813] $Source01/relong/array.sv:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -757,6 +756,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: inputs
           vpiFullName: ArrayOrReduction.inputs
+          vpiVector: true
         Variable name:result start:6:30 end:6:36:
           vpiParent: Module name:ArrayOrReduction
           vpiTypespec RefTypespec start:6:5 end:6:29:
@@ -765,6 +765,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: ArrayOrReduction.result
+          vpiVector: true
       vpiParameter (2 items):
         Parameter name:SIZE start:4:15 end:4:19:
           vpiParent: Module name:ArrayOrReduction
@@ -1219,11 +1220,13 @@ Design name:unnamed:
                               vpiName Identifier name:ArrayOrReduction start:19:13 end:19:29:
                                 vpiParent: ModuleTypespec name:ArrayOrReduction
                                 vpiName: ArrayOrReduction
+                              vpiModule: Module name:ArrayOrReduction
                             ModuleTypespec name:ArrayOrReduction start:20:13 end:20:29:
                               vpiParent: Begin name:recursive_case
                               vpiName Identifier name:ArrayOrReduction start:20:13 end:20:29:
                                 vpiParent: ModuleTypespec name:ArrayOrReduction
                                 vpiName: ArrayOrReduction
+                              vpiModule: Module name:ArrayOrReduction
                           vpiStmt (4 items):
                             Variable name:subResults:
                             RefInstance name:top start:19:62 end:19:65:
@@ -1238,6 +1241,7 @@ Design name:unnamed:
                                 ParamAssign start:19:32 end:19:45:
                                   vpiParent: RefInstance name:top
                                   vpiConnByName: true
+                                  vpiOverridden: true
                                   vpiLhs RefObj name:WIDTH start:19:33 end:19:38:
                                     vpiParent: ParamAssign
                                     vpiName: WIDTH
@@ -1251,6 +1255,7 @@ Design name:unnamed:
                                 ParamAssign start:19:47 end:19:60:
                                   vpiParent: RefInstance name:top
                                   vpiConnByName: true
+                                  vpiOverridden: true
                                   vpiLhs RefObj name:SIZE start:19:48 end:19:52:
                                     vpiParent: ParamAssign
                                     vpiName: SIZE
@@ -1370,6 +1375,7 @@ Design name:unnamed:
                                 ParamAssign start:20:32 end:20:45:
                                   vpiParent: RefInstance name:bot
                                   vpiConnByName: true
+                                  vpiOverridden: true
                                   vpiLhs RefObj name:WIDTH start:20:33 end:20:38:
                                     vpiParent: ParamAssign
                                     vpiName: WIDTH
@@ -1383,6 +1389,7 @@ Design name:unnamed:
                                 ParamAssign start:20:47 end:20:60:
                                   vpiParent: RefInstance name:bot
                                   vpiConnByName: true
+                                  vpiOverridden: true
                                   vpiLhs RefObj name:SIZE start:20:48 end:20:52:
                                     vpiParent: ParamAssign
                                     vpiName: SIZE
@@ -1550,7 +1557,7 @@ Design name:unnamed:
         vpiParent: Module name:Array
         vpiName: Array
       vpiFullName: Array
-      vpiVariable (4 items):
+      vpiVariable (6 items):
         Variable name:index start:30:38 end:30:43:
           vpiParent: Module name:Array
           vpiTypespec RefTypespec start:30:3 end:30:37:
@@ -1559,6 +1566,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: index
           vpiFullName: Array.index
+          vpiVector: true
         Variable name:element start:31:27 end:31:34:
           vpiParent: Module name:Array
           vpiTypespec RefTypespec start:31:3 end:31:26:
@@ -1567,6 +1575,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: element
           vpiFullName: Array.element
+          vpiVector: true
         Variable name:array start:32:42 end:32:47:
           vpiParent: Module name:Array
           vpiTypespec RefTypespec start:32:3 end:32:41:
@@ -1575,6 +1584,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: array
           vpiFullName: Array.array
+          vpiVector: true
         Variable name:clock start:33:15 end:33:20:
           vpiParent: Module name:Array
           vpiTypespec RefTypespec start:33:3 end:33:14:
@@ -1583,6 +1593,25 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clock
           vpiFullName: Array.clock
+          vpiScalar: true
+        Variable name:clear start:33:22 end:33:27:
+          vpiParent: Module name:Array
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:clear
+            vpiFullName: Array.clear
+            vpiActual: LogicTypespec
+          vpiName: clear
+          vpiFullName: Array.clear
+          vpiScalar: true
+        Variable name:enable start:33:29 end:33:35:
+          vpiParent: Module name:Array
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:enable
+            vpiFullName: Array.enable
+            vpiActual: LogicTypespec
+          vpiName: enable
+          vpiFullName: Array.enable
+          vpiScalar: true
       vpiParameter (3 items):
         Parameter name:ELEMENTS start:28:26 end:28:34:
           vpiParent: Module name:Array
@@ -1884,11 +1913,29 @@ Design name:unnamed:
         Port name:clear start:33:22 end:33:27:
           vpiParent: Module name:Array
           vpiName: clear
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clear start:33:22 end:33:27:
+            vpiParent: Port name:clear
+            vpiName: clear
+            vpiFullName: Array.clear.clear
+            vpiActual: Variable name:clear
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clear
+            vpiFullName: Array.clear
+            vpiActual: LogicTypespec
         Port name:enable start:33:29 end:33:35:
           vpiParent: Module name:Array
           vpiName: enable
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:enable start:33:29 end:33:35:
+            vpiParent: Port name:enable
+            vpiName: enable
+            vpiFullName: Array.enable.enable
+            vpiActual: Variable name:enable
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:enable
+            vpiFullName: Array.enable
+            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:38:3 end:42:31:
           vpiParent: Module name:Array
@@ -1909,7 +1956,7 @@ Design name:unnamed:
                 vpiParent: IfElse
                 vpiName: clear
                 vpiFullName: Array.clear
-                vpiActual: Port name:clear
+                vpiActual: Variable name:clear
               vpiStmt Assignment start:40:7 end:40:40:
                 vpiParent: IfElse
                 vpiLhs RefObj name:array start:40:7 end:40:12:
@@ -1941,7 +1988,7 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName: enable
                   vpiFullName: Array.enable
-                  vpiActual: Port name:enable
+                  vpiActual: Variable name:enable
                 vpiStmt Assignment start:42:7 end:42:30:
                   vpiParent: IfStmt
                   vpiLhs BitSelect name:array[index] start:42:7 end:42:19:
@@ -1985,7 +2032,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -2032,11 +2079,11 @@ Name                            Before   After   Added   Removed
 Constant                            41      41      18        18
 Identifier                          12      11       0         1
 Operation                           24       3       0        21
-RefObj                              61      42       0        19
-RefTypespec                         62      60      16        18
+RefObj                              63      44       0        19
+RefTypespec                         66      64      16        18
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              97      97       0         0
+Others                              99      99       0         0
 ----------------------------------------------------------------
-                                   298     254      34        78
+                                   306     262      34        78
 ===================== END REDUCTION RESULT =====================

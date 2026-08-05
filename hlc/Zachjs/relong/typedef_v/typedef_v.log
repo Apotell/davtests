@@ -23,7 +23,7 @@ n<$Source01/relong/typedef.v> u<125> t<Top_level_rule> c<1> l<1:1> el<22:1>
     n<> u<123> t<Description> p<124> c<122> l<5:1> el<18:10>
       n<> u<122> t<Module_declaration> p<123> c<45> l<5:1> el<18:10>
         n<> u<45> t<Module_ansi_header> p<122> c<7> s<67> l<5:1> el<8:3>
-          n<module> u<7> t<Module_keyword> p<45> s<8> l<5:1> el<5:7>
+          n<module> u<7> t<MODULE> p<45> s<8> l<5:1> el<5:7>
           n<Example> u<8> t<SIMPLE_IDENTIFIER> p<45> s<9> l<5:8> el<5:15>
           n<> u<9> t<Package_import_declaration_list> p<45> s<44> l<5:15> el<5:15>
           n<> u<44> t<Port_declaration_list> p<45> c<26> l<5:15> el<8:2>
@@ -139,6 +139,7 @@ n<$Source01/relong/typedef.v> u<125> t<Top_level_rule> c<1> l<1:1> el<22:1>
         n<> u<121> t<ENDMODULE> p<122> l<18:1> el<18:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/typedef.v:5:1: Compile module "Example".
+[NTE:CP0309] $Source01/relong/typedef.v:7:24: Implicit port type (wire) for "data_out".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -166,15 +167,7 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (2 items):
-        Variable name:data_out start:7:24 end:7:32:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:7:5 end:7:23:
-            vpiParent: Variable name:data_out
-            vpiFullName: Example.data_out
-            vpiActual: LogicTypespec
-          vpiName: data_out
-          vpiFullName: Example.data_out
+      vpiVariable (1 items):
         Variable name:word start:10:16 end:10:20:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:10:5 end:10:15:
@@ -270,7 +263,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:data_in start:6:22 end:6:29:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:6:5 end:6:21:
@@ -280,6 +273,17 @@ Design name:unnamed:
           vpiName: data_in
           vpiFullName: Example.data_in
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:data_out start:7:24 end:7:32:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:7:5 end:7:23:
+            vpiParent: Net name:data_out
+            vpiFullName: Example.data_out
+            vpiActual: LogicTypespec
+          vpiName: data_out
+          vpiFullName: Example.data_out
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:data_in start:6:22 end:6:29:
           vpiParent: Module name:Example
@@ -302,7 +306,7 @@ Design name:unnamed:
             vpiParent: Port name:data_out
             vpiName: data_out
             vpiFullName: Example.data_out.data_out
-            vpiActual: Variable name:data_out
+            vpiActual: Net name:data_out
           vpiTypespec RefTypespec start:7:5 end:7:23:
             vpiParent: Port name:data_out
             vpiFullName: Example.data_out
@@ -355,7 +359,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: data_out
             vpiFullName: Example.data_out
-            vpiActual: Variable name:data_out
+            vpiActual: Net name:data_out
           vpiRhs RefObj name:word start:16:23 end:16:27:
             vpiParent: ContAssign
             vpiName: word
@@ -378,7 +382,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

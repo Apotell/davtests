@@ -22,7 +22,7 @@ n<$Source01/t_inst_array.v> u<617> t<Top_level_rule> c<1> l<6:1> el<60:1>
     n<> u<541> t<Description> p<616> c<540> s<615> l<6:1> el<48:10>
       n<> u<540> t<Module_declaration> p<541> c<18> l<6:1> el<48:10>
         n<> u<18> t<Module_nonansi_header> p<540> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -558,7 +558,7 @@ n<$Source01/t_inst_array.v> u<617> t<Top_level_rule> c<1> l<6:1> el<60:1>
     n<> u<615> t<Description> p<616> c<614> l<56:1> el<59:10>
       n<> u<614> t<Module_declaration> p<615> c<584> l<56:1> el<59:10>
         n<> u<584> t<Module_ansi_header> p<614> c<542> s<585> l<56:1> el<56:69>
-          n<module> u<542> t<Module_keyword> p<584> s<543> l<56:1> el<56:7>
+          n<module> u<542> t<MODULE> p<584> s<543> l<56:1> el<56:7>
           n<sub> u<543> t<SIMPLE_IDENTIFIER> p<584> s<544> l<56:8> el<56:11>
           n<> u<544> t<Package_import_declaration_list> p<584> s<583> l<56:12> el<56:12>
           n<> u<583> t<Port_declaration_list> p<584> c<560> l<56:12> el<56:68>
@@ -632,6 +632,7 @@ n<$Source01/t_inst_array.v> u<617> t<Top_level_rule> c<1> l<6:1> el<60:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_array.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_array.v:56:1: Compile module "sub".
+[NTE:CP0309] $Source01/t_inst_array.v:56:61: Implicit port type (wire) for "bitout".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -850,6 +851,7 @@ Design name:unnamed:
           vpiName Identifier name:sub start:19:4 end:19:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -867,6 +869,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:bitout start:15:17 end:15:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:16:
@@ -876,6 +879,7 @@ Design name:unnamed:
           vpiName: bitout
           vpiFullName: t.bitout
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1462,6 +1466,7 @@ Design name:unnamed:
           vpiName: allbits
           vpiFullName: sub.allbits
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:onebit start:56:46 end:56:52:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:56:34 end:56:45:
@@ -1471,6 +1476,7 @@ Design name:unnamed:
           vpiName: onebit
           vpiFullName: sub.onebit
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:bitout start:56:61 end:56:67:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:56:54 end:56:60:
@@ -1480,6 +1486,7 @@ Design name:unnamed:
           vpiName: bitout
           vpiFullName: sub.bitout
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:allbits start:56:25 end:56:32:
           vpiParent: Module name:sub
@@ -1575,7 +1582,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

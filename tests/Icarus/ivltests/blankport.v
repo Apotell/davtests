@@ -18,9 +18,9 @@
 //
 //  SDW - PR 204 report - validates correct use of blank ports.
 
-module none;
+module nonce;
    reg x;
-endmodule // none
+endmodule // nonce
 
 module empty();
    reg x;
@@ -45,7 +45,7 @@ module main;
 
    wire w1, w2, w3, w4, w5, w6, w7, w8, w9;
        
-   none    U1 ();
+   nonce    U1 ();
    empty   U2 ();
    one     U3 ();
    one     U4 (w1);

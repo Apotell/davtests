@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<60> t<Top_level_rule> c<1> l<1:1> el<24:1>
     n<> u<57> t<Description> p<58> c<56> l<1:1> el<23:10>
       n<> u<56> t<Module_declaration> p<57> c<53> l<1:1> el<23:10>
         n<> u<53> t<Module_ansi_header> p<56> c<2> s<54> l<1:1> el<3:37>
-          n<module> u<2> t<Module_keyword> p<53> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<53> s<3> l<1:1> el<1:7>
           n<TestFunction> u<3> t<SIMPLE_IDENTIFIER> p<53> s<4> l<1:8> el<1:20>
           n<> u<4> t<Package_import_declaration_list> p<53> s<52> l<1:21> el<1:21>
           n<> u<52> t<Port_declaration_list> p<53> c<12> l<1:21> el<3:36>
@@ -74,7 +74,9 @@ n<$Source01/dut.sv> u<60> t<Top_level_rule> c<1> l<1:1> el<24:1>
   n<// TestFunction> u<59> t<LINE_COMMENT> p<60> l<23:11> el<23:26>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "TestFunction".
-[ERR:LN0813] $Source01/dut.sv:1:1: Found 4 orphan node(s).
+[NTE:CP0309] $Source01/dut.sv:2:21: Implicit port type (wire) for "O2".
+[NTE:CP0309] $Source01/dut.sv:2:25: Implicit port type (wire) for "O3".
+[NTE:CP0309] $Source01/dut.sv:2:29: Implicit port type (wire) for "O4".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "TestFunction".
 ====== HLDB =======
 Design name:unnamed:
@@ -91,7 +93,7 @@ Design name:unnamed:
         vpiParent: Module name:TestFunction
         vpiName: TestFunction
       vpiFullName: TestFunction
-      vpiVariable (1 items):
+      vpiVariable (4 items):
         Variable name:O1 start:2:17 end:2:19:
           vpiParent: Module name:TestFunction
           vpiTypespec RefTypespec start:2:4 end:2:16:
@@ -100,6 +102,34 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: O1
           vpiFullName: TestFunction.O1
+          vpiScalar: true
+        Variable name:O2 start:2:21 end:2:23:
+          vpiParent: Module name:TestFunction
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:O2
+            vpiFullName: TestFunction.O2
+            vpiActual: LogicTypespec
+          vpiName: O2
+          vpiFullName: TestFunction.O2
+          vpiScalar: true
+        Variable name:O3 start:2:25 end:2:27:
+          vpiParent: Module name:TestFunction
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:O3
+            vpiFullName: TestFunction.O3
+            vpiActual: LogicTypespec
+          vpiName: O3
+          vpiFullName: TestFunction.O3
+          vpiScalar: true
+        Variable name:O4 start:2:29 end:2:31:
+          vpiParent: Module name:TestFunction
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:O4
+            vpiFullName: TestFunction.O4
+            vpiActual: LogicTypespec
+          vpiName: O4
+          vpiFullName: TestFunction.O4
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:TestFunction
@@ -136,7 +166,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: TestFunction.work
       vpiCell: TestFunction
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:sw start:3:27 end:3:29:
           vpiParent: Module name:TestFunction
           vpiTypespec RefTypespec start:3:5 end:3:26:
@@ -146,6 +176,17 @@ Design name:unnamed:
           vpiName: sw
           vpiFullName: TestFunction.sw
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:sw2 start:3:32 end:3:35:
+          vpiParent: Module name:TestFunction
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:sw2
+            vpiFullName: TestFunction.sw2
+            vpiActual: LogicTypespec
+          vpiName: sw2
+          vpiFullName: TestFunction.sw2
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (6 items):
         Port name:O1 start:2:17 end:2:19:
           vpiParent: Module name:TestFunction
@@ -163,15 +204,42 @@ Design name:unnamed:
         Port name:O2 start:2:21 end:2:23:
           vpiParent: Module name:TestFunction
           vpiName: O2
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:O2 start:2:21 end:2:23:
+            vpiParent: Port name:O2
+            vpiName: O2
+            vpiFullName: TestFunction.O2.O2
+            vpiActual: Variable name:O2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:O2
+            vpiFullName: TestFunction.O2
+            vpiActual: LogicTypespec
         Port name:O3 start:2:25 end:2:27:
           vpiParent: Module name:TestFunction
           vpiName: O3
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:O3 start:2:25 end:2:27:
+            vpiParent: Port name:O3
+            vpiName: O3
+            vpiFullName: TestFunction.O3.O3
+            vpiActual: Variable name:O3
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:O3
+            vpiFullName: TestFunction.O3
+            vpiActual: LogicTypespec
         Port name:O4 start:2:29 end:2:31:
           vpiParent: Module name:TestFunction
           vpiName: O4
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:O4 start:2:29 end:2:31:
+            vpiParent: Port name:O4
+            vpiName: O4
+            vpiFullName: TestFunction.O4.O4
+            vpiActual: Variable name:O4
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:O4
+            vpiFullName: TestFunction.O4
+            vpiActual: LogicTypespec
         Port name:sw start:3:27 end:3:29:
           vpiParent: Module name:TestFunction
           vpiName: sw
@@ -188,7 +256,16 @@ Design name:unnamed:
         Port name:sw2 start:3:32 end:3:35:
           vpiParent: Module name:TestFunction
           vpiName: sw2
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:sw2 start:3:32 end:3:35:
+            vpiParent: Port name:sw2
+            vpiName: sw2
+            vpiFullName: TestFunction.sw2.sw2
+            vpiActual: Net name:sw2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:sw2
+            vpiFullName: TestFunction.sw2
+            vpiActual: LogicTypespec
   vpiTypespec (2 items):
     ModuleTypespec name:TestFunction:
       vpiParent: Design name:unnamed
@@ -202,9 +279,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -247,7 +324,7 @@ COMMAND: ${HLC_DIR}/regression/WireLogicSize/WireLogicSize/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              29      29       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    29      29       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

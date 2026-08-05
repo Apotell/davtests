@@ -22,7 +22,7 @@ n<$Source01/t_inst_array_bad.v> u<295> t<Top_level_rule> c<1> l<6:1> el<30:1>
     n<> u<233> t<Description> p<294> c<232> s<293> l<6:1> el<25:10>
       n<> u<232> t<Module_declaration> p<233> c<18> l<6:1> el<25:10>
         n<> u<18> t<Module_nonansi_header> p<232> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -250,7 +250,7 @@ n<$Source01/t_inst_array_bad.v> u<295> t<Top_level_rule> c<1> l<6:1> el<30:1>
     n<> u<293> t<Description> p<294> c<292> l<27:1> el<29:10>
       n<> u<292> t<Module_declaration> p<293> c<266> l<27:1> el<29:10>
         n<> u<266> t<Module_ansi_header> p<292> c<234> s<290> l<27:1> el<27:63>
-          n<module> u<234> t<Module_keyword> p<266> s<235> l<27:1> el<27:7>
+          n<module> u<234> t<MODULE> p<266> s<235> l<27:1> el<27:7>
           n<sub> u<235> t<SIMPLE_IDENTIFIER> p<266> s<236> l<27:8> el<27:11>
           n<> u<236> t<Package_import_declaration_list> p<266> s<265> l<27:12> el<27:12>
           n<> u<265> t<Port_declaration_list> p<266> c<252> l<27:12> el<27:62>
@@ -311,6 +311,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_array_bad.v:6:1: Compile module "t".
 [WRN:CP0323] $Source01/t_inst_array_bad.v:6:1: Multiply defined typedef "sub".
 [INF:CP0303] $Source01/t_inst_array_bad.v:27:1: Compile module "sub".
+[NTE:CP0309] $Source01/t_inst_array_bad.v:27:55: Implicit port type (wire) for "bitout".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -497,6 +498,7 @@ Design name:unnamed:
           vpiName Identifier name:sub start:18:4 end:18:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -584,6 +586,7 @@ Design name:unnamed:
           vpiName Identifier name:sub start:23:4 end:23:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -601,6 +604,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:bitout start:13:15 end:13:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:9 end:13:14:
@@ -610,6 +614,7 @@ Design name:unnamed:
           vpiName: bitout
           vpiFullName: t.bitout
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:b start:21:15 end:21:16:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:21:9 end:21:14:
@@ -619,6 +624,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: t.b
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:c start:22:15 end:22:16:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:22:9 end:22:14:
@@ -628,6 +634,7 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: t.c
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -773,6 +780,7 @@ Design name:unnamed:
           vpiName: allbits
           vpiFullName: sub.allbits
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:onebit start:27:40 end:27:46:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:27:34 end:27:39:
@@ -782,6 +790,7 @@ Design name:unnamed:
           vpiName: onebit
           vpiFullName: sub.onebit
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:bitout start:27:55 end:27:61:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:27:48 end:27:54:
@@ -791,6 +800,7 @@ Design name:unnamed:
           vpiName: bitout
           vpiFullName: sub.bitout
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:allbits start:27:25 end:27:32:
           vpiParent: Module name:sub
@@ -878,7 +888,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

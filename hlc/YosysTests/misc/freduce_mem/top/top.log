@@ -18,7 +18,7 @@ n<$Source01/top.v> u<378> t<Top_level_rule> c<1> l<1:1> el<53:1>
     n<> u<376> t<Description> p<377> c<375> l<1:1> el<52:10>
       n<> u<375> t<Module_declaration> p<376> c<102> l<1:1> el<52:10>
         n<> u<102> t<Module_ansi_header> p<375> c<2> s<103> l<1:1> el<7:3>
-          n<module> u<2> t<Module_keyword> p<102> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<102> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<102> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<102> s<101> l<2:1> el<2:1>
           n<> u<101> t<Port_declaration_list> p<102> c<20> l<2:1> el<7:2>
@@ -392,7 +392,7 @@ n<$Source01/top.v> u<378> t<Top_level_rule> c<1> l<1:1> el<53:1>
         n<> u<374> t<ENDMODULE> p<375> l<52:1> el<52:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:1:1: Compile module "top".
-[ERR:LN0813] $Source01/top.v:1:1: Found 8 orphan node(s).
+[NTE:CP0309] $Source01/top.v:6:24: Implicit port type (wire) for "q_b".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -409,7 +409,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
-      vpiVariable (2 items):
+      vpiVariable (3 items):
         Variable name:q_a start:6:19 end:6:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:2 end:6:18:
@@ -418,6 +418,16 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q_a
           vpiFullName: top.q_a
+          vpiVector: true
+        Variable name:q_b start:6:24 end:6:27:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:q_b
+            vpiFullName: top.q_b
+            vpiActual: LogicTypespec
+          vpiName: q_b
+          vpiFullName: top.q_b
+          vpiVector: true
         Variable name:ram start:9:12 end:9:15:
           vpiParent: Module name:top
           vpiTypespec RefTypespec:
@@ -456,8 +466,6 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:top
-        LogicTypespec:
-          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:4:8 end:4:13:
               vpiParent: LogicTypespec
@@ -482,6 +490,8 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:top
         LogicTypespec:
           vpiParent: Module name:top
           vpiRange (1 items):
@@ -570,7 +580,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (3 items):
+      vpiNet (10 items):
         Net name:data_a start:3:14 end:3:20:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:3:2 end:3:13:
@@ -580,6 +590,7 @@ Design name:unnamed:
           vpiName: data_a
           vpiFullName: top.data_a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:addr_a start:4:14 end:4:20:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:2 end:4:13:
@@ -589,6 +600,7 @@ Design name:unnamed:
           vpiName: addr_a
           vpiFullName: top.addr_a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:we_a start:5:8 end:5:12:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:2 end:5:7:
@@ -598,6 +610,77 @@ Design name:unnamed:
           vpiName: we_a
           vpiFullName: top.we_a
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:data_b start:3:22 end:3:28:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:data_b
+            vpiFullName: top.data_b
+            vpiActual: LogicTypespec
+          vpiName: data_b
+          vpiFullName: top.data_b
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:addr_b start:4:22 end:4:28:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:addr_b
+            vpiFullName: top.addr_b
+            vpiActual: LogicTypespec
+          vpiName: addr_b
+          vpiFullName: top.addr_b
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:we_b start:5:14 end:5:18:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:we_b
+            vpiFullName: top.we_b
+            vpiActual: LogicTypespec
+          vpiName: we_b
+          vpiFullName: top.we_b
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:re_a start:5:20 end:5:24:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:re_a
+            vpiFullName: top.re_a
+            vpiActual: LogicTypespec
+          vpiName: re_a
+          vpiFullName: top.re_a
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:re_b start:5:26 end:5:30:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:re_b
+            vpiFullName: top.re_b
+            vpiActual: LogicTypespec
+          vpiName: re_b
+          vpiFullName: top.re_b
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clka start:5:32 end:5:36:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clka
+            vpiFullName: top.clka
+            vpiActual: LogicTypespec
+          vpiName: clka
+          vpiFullName: top.clka
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clkb start:5:38 end:5:42:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clkb
+            vpiFullName: top.clkb
+            vpiActual: LogicTypespec
+          vpiName: clkb
+          vpiFullName: top.clkb
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (12 items):
         Port name:data_a start:3:14 end:3:20:
           vpiParent: Module name:top
@@ -615,7 +698,16 @@ Design name:unnamed:
         Port name:data_b start:3:22 end:3:28:
           vpiParent: Module name:top
           vpiName: data_b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:data_b start:3:22 end:3:28:
+            vpiParent: Port name:data_b
+            vpiName: data_b
+            vpiFullName: top.data_b.data_b
+            vpiActual: Net name:data_b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:data_b
+            vpiFullName: top.data_b
+            vpiActual: LogicTypespec
         Port name:addr_a start:4:14 end:4:20:
           vpiParent: Module name:top
           vpiName: addr_a
@@ -632,7 +724,16 @@ Design name:unnamed:
         Port name:addr_b start:4:22 end:4:28:
           vpiParent: Module name:top
           vpiName: addr_b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:addr_b start:4:22 end:4:28:
+            vpiParent: Port name:addr_b
+            vpiName: addr_b
+            vpiFullName: top.addr_b.addr_b
+            vpiActual: Net name:addr_b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:addr_b
+            vpiFullName: top.addr_b
+            vpiActual: LogicTypespec
         Port name:we_a start:5:8 end:5:12:
           vpiParent: Module name:top
           vpiName: we_a
@@ -649,23 +750,68 @@ Design name:unnamed:
         Port name:we_b start:5:14 end:5:18:
           vpiParent: Module name:top
           vpiName: we_b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:we_b start:5:14 end:5:18:
+            vpiParent: Port name:we_b
+            vpiName: we_b
+            vpiFullName: top.we_b.we_b
+            vpiActual: Net name:we_b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:we_b
+            vpiFullName: top.we_b
+            vpiActual: LogicTypespec
         Port name:re_a start:5:20 end:5:24:
           vpiParent: Module name:top
           vpiName: re_a
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:re_a start:5:20 end:5:24:
+            vpiParent: Port name:re_a
+            vpiName: re_a
+            vpiFullName: top.re_a.re_a
+            vpiActual: Net name:re_a
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:re_a
+            vpiFullName: top.re_a
+            vpiActual: LogicTypespec
         Port name:re_b start:5:26 end:5:30:
           vpiParent: Module name:top
           vpiName: re_b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:re_b start:5:26 end:5:30:
+            vpiParent: Port name:re_b
+            vpiName: re_b
+            vpiFullName: top.re_b.re_b
+            vpiActual: Net name:re_b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:re_b
+            vpiFullName: top.re_b
+            vpiActual: LogicTypespec
         Port name:clka start:5:32 end:5:36:
           vpiParent: Module name:top
           vpiName: clka
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clka start:5:32 end:5:36:
+            vpiParent: Port name:clka
+            vpiName: clka
+            vpiFullName: top.clka.clka
+            vpiActual: Net name:clka
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clka
+            vpiFullName: top.clka
+            vpiActual: LogicTypespec
         Port name:clkb start:5:38 end:5:42:
           vpiParent: Module name:top
           vpiName: clkb
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clkb start:5:38 end:5:42:
+            vpiParent: Port name:clkb
+            vpiName: clkb
+            vpiFullName: top.clkb.clkb
+            vpiActual: Net name:clkb
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clkb
+            vpiFullName: top.clkb
+            vpiActual: LogicTypespec
         Port name:q_a start:6:19 end:6:22:
           vpiParent: Module name:top
           vpiName: q_a
@@ -682,7 +828,16 @@ Design name:unnamed:
         Port name:q_b start:6:24 end:6:27:
           vpiParent: Module name:top
           vpiName: q_b
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:q_b start:6:24 end:6:27:
+            vpiParent: Port name:q_b
+            vpiName: q_b
+            vpiFullName: top.q_b.q_b
+            vpiActual: Variable name:q_b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:q_b
+            vpiFullName: top.q_b
+            vpiActual: LogicTypespec
       vpiProcess (3 items):
         Initial start:11:2 end:14:5:
           vpiParent: Module name:top
@@ -713,7 +868,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: q_b
                   vpiFullName: top.q_b
-                  vpiActual: Port name:q_b
+                  vpiActual: Variable name:q_b
                 vpiRhs Constant start:13:16 end:13:20:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -736,7 +891,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clka
                   vpiFullName: top.clka
-                  vpiActual: Port name:clka
+                  vpiActual: Net name:clka
             vpiStmt Begin start:18:2 end:32:5:
               vpiParent: EventControl
               vpiFullName: top
@@ -791,7 +946,7 @@ Design name:unnamed:
                     vpiParent: IfStmt
                     vpiName: re_b
                     vpiFullName: top.re_b
-                    vpiActual: Port name:re_b
+                    vpiActual: Net name:re_b
                   vpiStmt Begin start:29:3 end:31:6:
                     vpiParent: IfStmt
                     vpiFullName: top
@@ -830,7 +985,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clkb
                   vpiFullName: top.clkb
-                  vpiActual: Port name:clkb
+                  vpiActual: Net name:clkb
             vpiStmt Begin start:36:2 end:50:5:
               vpiParent: EventControl
               vpiFullName: top
@@ -841,7 +996,7 @@ Design name:unnamed:
                     vpiParent: IfStmt
                     vpiName: we_b
                     vpiFullName: top.we_b
-                    vpiActual: Port name:we_b
+                    vpiActual: Net name:we_b
                   vpiStmt Begin start:42:3 end:45:6:
                     vpiParent: IfStmt
                     vpiFullName: top
@@ -861,31 +1016,31 @@ Design name:unnamed:
                             vpiParent: BitSelect name:ram[addr_b]
                             vpiName: addr_b
                             vpiFullName: top.addr_b
-                            vpiActual: Port name:addr_b
+                            vpiActual: Net name:addr_b
                         vpiRhs RefObj name:data_b start:43:19 end:43:25:
                           vpiParent: Assignment
                           vpiName: data_b
                           vpiFullName: top.data_b
-                          vpiActual: Port name:data_b
+                          vpiActual: Net name:data_b
                       Assignment start:44:4 end:44:17:
                         vpiParent: Begin
                         vpiLhs RefObj name:q_b start:44:4 end:44:7:
                           vpiParent: Assignment
                           vpiName: q_b
                           vpiFullName: top.q_b
-                          vpiActual: Port name:q_b
+                          vpiActual: Variable name:q_b
                         vpiRhs RefObj name:data_b start:44:11 end:44:17:
                           vpiParent: Assignment
                           vpiName: data_b
                           vpiFullName: top.data_b
-                          vpiActual: Port name:data_b
+                          vpiActual: Net name:data_b
                 IfStmt start:46:3 end:49:6:
                   vpiParent: Begin
                   vpiCondition RefObj name:re_b start:46:7 end:46:11:
                     vpiParent: IfStmt
                     vpiName: re_b
                     vpiFullName: top.re_b
-                    vpiActual: Port name:re_b
+                    vpiActual: Net name:re_b
                   vpiStmt Begin start:47:3 end:49:6:
                     vpiParent: IfStmt
                     vpiFullName: top
@@ -896,7 +1051,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: q_b
                           vpiFullName: top.q_b
-                          vpiActual: Port name:q_b
+                          vpiActual: Variable name:q_b
                         vpiRhs BitSelect name:ram[addr_b] start:48:11 end:48:22:
                           vpiParent: Assignment
                           vpiName: ram[addr_b]
@@ -910,7 +1065,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:ram[addr_b]
                             vpiName: addr_b
                             vpiFullName: top.addr_b
-                            vpiActual: Port name:addr_b
+                            vpiActual: Net name:addr_b
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:top:
@@ -927,9 +1082,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -972,7 +1127,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/misc/freduce_mem/top/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             129     129       0         0
+Others                             161     161       0         0
 ----------------------------------------------------------------
-                                   129     129       0         0
+                                   161     161       0         0
 ===================== END REDUCTION RESULT =====================

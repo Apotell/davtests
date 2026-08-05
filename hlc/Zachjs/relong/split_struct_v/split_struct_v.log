@@ -26,7 +26,7 @@ n<$Source01/relong/split_struct.v> u<216> t<Top_level_rule> c<1> l<1:1> el<27:10
     n<> u<214> t<Description> p<215> c<213> l<9:1> el<27:10>
       n<> u<213> t<Module_declaration> p<214> c<53> l<9:1> el<27:10>
         n<> u<53> t<Module_ansi_header> p<213> c<10> s<75> l<9:1> el<12:3>
-          n<module> u<10> t<Module_keyword> p<53> s<11> l<9:1> el<9:7>
+          n<module> u<10> t<MODULE> p<53> s<11> l<9:1> el<9:7>
           n<Example> u<11> t<SIMPLE_IDENTIFIER> p<53> s<12> l<9:8> el<9:15>
           n<> u<12> t<Package_import_declaration_list> p<53> s<52> l<9:15> el<9:15>
           n<> u<52> t<Port_declaration_list> p<53> c<29> l<9:15> el<12:2>
@@ -230,7 +230,7 @@ n<$Source01/relong/split_struct.v> u<216> t<Top_level_rule> c<1> l<1:1> el<27:10
         n<> u<212> t<ENDMODULE> p<213> l<27:1> el<27:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/split_struct.v:9:1: Compile module "Example".
-[ERR:LN0813] $Source01/relong/split_struct.v:1:1: Found 1 orphan node(s).
+[NTE:CP0309] $Source01/relong/split_struct.v:11:23: Implicit port type (wire) for "result".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -258,15 +258,7 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (2 items):
-        Variable name:result start:11:23 end:11:29:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:11:5 end:11:22:
-            vpiParent: Variable name:result
-            vpiFullName: Example.result
-            vpiActual: LogicTypespec
-          vpiName: result
-          vpiFullName: Example.result
+      vpiVariable (1 items):
         Variable name:s start:14:14 end:14:15:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:14:4 end:14:13:
@@ -276,7 +268,7 @@ Design name:unnamed:
           vpiName: s
           vpiFullName: Example.s
           vpiVector: true
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:Example
           vpiRange (1 items):
@@ -303,8 +295,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:Example
         LogicTypespec:
           vpiParent: Module name:Example
           vpiRange (1 items):
@@ -390,7 +380,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (2 items):
+      vpiNet (4 items):
         Net name:a start:10:22 end:10:23:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:10:5 end:10:21:
@@ -400,6 +390,27 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: Example.a
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:result start:11:23 end:11:29:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:11:5 end:11:22:
+            vpiParent: Net name:result
+            vpiFullName: Example.result
+            vpiActual: LogicTypespec
+          vpiName: result
+          vpiFullName: Example.result
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:b start:10:25 end:10:26:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: Example.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: Example.b
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:_s_3_2 start:19:15 end:19:21:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:19:9 end:19:14:
@@ -409,6 +420,7 @@ Design name:unnamed:
           vpiName: "_s_3_2"
           vpiFullName: Example._s_3_2
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:a start:10:22 end:10:23:
           vpiParent: Module name:Example
@@ -426,7 +438,16 @@ Design name:unnamed:
         Port name:b start:10:25 end:10:26:
           vpiParent: Module name:Example
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:10:25 end:10:26:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: Example.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: Example.b
+            vpiActual: LogicTypespec
         Port name:result start:11:23 end:11:29:
           vpiParent: Module name:Example
           vpiName: result
@@ -435,7 +456,7 @@ Design name:unnamed:
             vpiParent: Port name:result
             vpiName: result
             vpiFullName: Example.result.result
-            vpiActual: Variable name:result
+            vpiActual: Net name:result
           vpiTypespec RefTypespec start:11:5 end:11:22:
             vpiParent: Port name:result
             vpiFullName: Example.result
@@ -531,7 +552,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: b
                     vpiFullName: Example.b
-                    vpiActual: Port name:b
+                    vpiActual: Net name:b
           vpiAlwaysType: always (1)
       vpiContAssign (2 items):
         ContAssign start:15:11 end:15:21:
@@ -540,7 +561,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: result
             vpiFullName: Example.result
-            vpiActual: Variable name:result
+            vpiActual: Net name:result
           vpiRhs RefObj name:s start:15:20 end:15:21:
             vpiParent: ContAssign
             vpiName: s
@@ -599,9 +620,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -644,7 +665,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/split_struct_v/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                    87      87       0         0
+                                    90      90       0         0
 ===================== END REDUCTION RESULT =====================

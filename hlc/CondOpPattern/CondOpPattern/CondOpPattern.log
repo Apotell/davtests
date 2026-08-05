@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<14:1>
     n<> u<111> t<Description> p<112> c<110> l<1:1> el<12:10>
       n<> u<110> t<Module_declaration> p<111> c<18> l<1:1> el<12:10>
         n<> u<18> t<Module_nonansi_header> p<110> c<2> s<40> l<1:1> el<1:27>
-          n<module> u<2> t<Module_keyword> p<18> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<18> s<3> l<1:1> el<1:7>
           n<Example> u<3> t<SIMPLE_IDENTIFIER> p<18> s<4> l<1:8> el<1:15>
           n<> u<4> t<Package_import_declaration_list> p<18> s<17> l<1:15> el<1:15>
           n<> u<17> t<Port_list> p<18> c<10> l<1:15> el<1:26>
@@ -44,8 +44,8 @@ n<$Source01/dut.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<14:1>
                       n<> u<33> t<Type_declaration> p<34> c<31> l<2:1> el<4:5>
                         n<> u<31> t<Data_type> p<33> c<20> s<32> l<2:9> el<4:2>
                           n<> u<20> t<Struct_union> p<31> c<19> s<21> l<2:9> el<2:15>
-                            n<> u<19> t<Struct_keyword> p<20> l<2:9> el<2:15>
-                          n<> u<21> t<Packed_keyword> p<31> s<30> l<2:16> el<2:22>
+                            n<> u<19> t<STRUCT> p<20> l<2:9> el<2:15>
+                          n<> u<21> t<PACKED> p<31> s<30> l<2:16> el<2:22>
                           n<> u<30> t<Struct_union_member> p<31> c<24> l<3:5> el<3:16>
                             n<> u<24> t<Data_type_or_void> p<30> c<23> s<29> l<3:5> el<3:10>
                               n<> u<23> t<Data_type> p<24> c<22> l<3:5> el<3:10>
@@ -146,13 +146,14 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:out start:5:10 end:5:13:
           vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:5:8 end:5:9:
+          vpiTypespec RefTypespec name:T start:5:8 end:5:9:
             vpiParent: Variable name:out
-            vpiFullName: Example.out
-            vpiActual: UnsupportedTypespec name:T
+            vpiName: T
+            vpiFullName: Example.out.T
+            vpiActual: TypedefTypespec name:T
           vpiName: out
           vpiFullName: Example.out
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:Example
         StructTypespec start:2:9 end:4:2:
@@ -182,11 +183,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:T
             vpiFullName: Example.T
             vpiActual: StructTypespec
-        UnsupportedTypespec name:T start:5:8 end:5:9:
-          vpiParent: Module name:Example
-          vpiName Identifier name:T start:5:8 end:5:9:
-            vpiParent: UnsupportedTypespec name:T
-            vpiName: T
         BitTypespec:
           vpiParent: Module name:Example
       vpiDefName: Example
@@ -206,6 +202,7 @@ Design name:unnamed:
           vpiName: flag
           vpiFullName: Example.flag
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:flag start:1:16 end:1:20:
           vpiParent: Module name:Example
@@ -229,10 +226,11 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: Example.out.out
             vpiActual: Variable name:out
-          vpiTypespec RefTypespec start:5:8 end:5:9:
+          vpiTypespec RefTypespec name:T start:5:8 end:5:9:
             vpiParent: Port name:out
-            vpiFullName: Example.out
-            vpiActual: UnsupportedTypespec name:T
+            vpiName: T
+            vpiFullName: Example.out.T
+            vpiActual: TypedefTypespec name:T
       vpiContAssign (1 items):
         ContAssign start:7:8 end:10:28:
           vpiParent: Module name:Example
@@ -377,7 +375,7 @@ COMMAND: ${HLC_DIR}/regression/CondOpPattern/CondOpPattern/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================

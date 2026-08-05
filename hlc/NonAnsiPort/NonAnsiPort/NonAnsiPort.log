@@ -26,8 +26,8 @@ n<$Source01/dut.sv> u<208> t<Top_level_rule> c<1> l<1:1> el<26:1>
               n<> u<26> t<Type_declaration> p<27> c<24> l<2:5> el<4:15>
                 n<> u<24> t<Data_type> p<26> c<5> s<25> l<2:13> el<4:6>
                   n<> u<5> t<Struct_union> p<24> c<4> s<6> l<2:13> el<2:19>
-                    n<> u<4> t<Struct_keyword> p<5> l<2:13> el<2:19>
-                  n<> u<6> t<Packed_keyword> p<24> s<23> l<2:20> el<2:26>
+                    n<> u<4> t<STRUCT> p<5> l<2:13> el<2:19>
+                  n<> u<6> t<PACKED> p<24> s<23> l<2:20> el<2:26>
                   n<> u<23> t<Struct_union_member> p<24> c<19> l<3:9> el<3:27>
                     n<> u<19> t<Data_type_or_void> p<23> c<18> s<22> l<3:9> el<3:20>
                       n<> u<18> t<Data_type> p<19> c<7> l<3:9> el<3:20>
@@ -57,8 +57,8 @@ n<$Source01/dut.sv> u<208> t<Top_level_rule> c<1> l<1:1> el<26:1>
               n<> u<57> t<Type_declaration> p<58> c<55> l<8:5> el<10:15>
                 n<> u<55> t<Data_type> p<57> c<36> s<56> l<8:13> el<10:6>
                   n<> u<36> t<Struct_union> p<55> c<35> s<37> l<8:13> el<8:19>
-                    n<> u<35> t<Struct_keyword> p<36> l<8:13> el<8:19>
-                  n<> u<37> t<Packed_keyword> p<55> s<54> l<8:20> el<8:26>
+                    n<> u<35> t<STRUCT> p<36> l<8:13> el<8:19>
+                  n<> u<37> t<PACKED> p<55> s<54> l<8:20> el<8:26>
                   n<> u<54> t<Struct_union_member> p<55> c<50> l<9:9> el<9:28>
                     n<> u<50> t<Data_type_or_void> p<54> c<49> s<53> l<9:9> el<9:20>
                       n<> u<49> t<Data_type> p<50> c<38> l<9:9> el<9:20>
@@ -81,7 +81,7 @@ n<$Source01/dut.sv> u<208> t<Top_level_rule> c<1> l<1:1> el<26:1>
     n<> u<203> t<Description> p<207> c<202> s<206> l<13:1> el<25:10>
       n<> u<202> t<Module_declaration> p<203> c<86> l<13:1> el<25:10>
         n<> u<86> t<Module_nonansi_header> p<202> c<64> s<116> l<13:1> el<13:30>
-          n<module> u<64> t<Module_keyword> p<86> s<65> l<13:1> el<13:7>
+          n<module> u<64> t<MODULE> p<86> s<65> l<13:1> el<13:7>
           n<dut> u<65> t<SIMPLE_IDENTIFIER> p<86> s<66> l<13:8> el<13:11>
           n<> u<66> t<Package_import_declaration_list> p<86> s<85> l<13:11> el<13:11>
           n<> u<85> t<Port_list> p<86> c<72> l<13:11> el<13:29>
@@ -113,8 +113,8 @@ n<$Source01/dut.sv> u<208> t<Top_level_rule> c<1> l<1:1> el<26:1>
                       n<> u<109> t<Type_declaration> p<110> c<107> l<14:5> el<16:15>
                         n<> u<107> t<Data_type> p<109> c<88> s<108> l<14:13> el<16:6>
                           n<> u<88> t<Struct_union> p<107> c<87> s<89> l<14:13> el<14:19>
-                            n<> u<87> t<Struct_keyword> p<88> l<14:13> el<14:19>
-                          n<> u<89> t<Packed_keyword> p<107> s<106> l<14:20> el<14:26>
+                            n<> u<87> t<STRUCT> p<88> l<14:13> el<14:19>
+                          n<> u<89> t<PACKED> p<107> s<106> l<14:20> el<14:26>
                           n<> u<106> t<Struct_union_member> p<107> c<102> l<15:9> el<15:27>
                             n<> u<102> t<Data_type_or_void> p<106> c<101> s<105> l<15:9> el<15:20>
                               n<> u<101> t<Data_type> p<102> c<90> l<15:9> el<15:20>
@@ -225,9 +225,6 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "pkg1".
 [INF:CP0301] $Source01/dut.sv:7:1: Compile package "pkg2".
 [INF:CP0303] $Source01/dut.sv:13:1: Compile module "dut".
-[WRN:CP0350] $Source01/dut.sv:22:17: Failed to bind "id:85, name:first".
-[WRN:CP0350] $Source01/dut.sv:23:17: Failed to bind "id:92, name:second".
-[WRN:CP0350] $Source01/dut.sv:24:17: Failed to bind "id:99, name:third".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "pkg1".
 [WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "pkg2".
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "dut".
@@ -370,29 +367,32 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:var1 start:18:26 end:18:30:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:18:12 end:18:25:
+          vpiTypespec RefTypespec name:pkg1::struct1 start:18:12 end:18:25:
             vpiParent: Variable name:var1
-            vpiFullName: dut.var1
-            vpiActual: UnsupportedTypespec name:pkg1::struct1
+            vpiName: pkg1::struct1
+            vpiFullName: dut.var1.pkg1::struct1
+            vpiActual: TypedefTypespec name:struct1
           vpiName: var1
           vpiFullName: dut.var1
         Variable name:var2 start:19:26 end:19:30:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:19:12 end:19:25:
+          vpiTypespec RefTypespec name:pkg2::struct1 start:19:12 end:19:25:
             vpiParent: Variable name:var2
-            vpiFullName: dut.var2
-            vpiActual: UnsupportedTypespec name:pkg2::struct1
+            vpiName: pkg2::struct1
+            vpiFullName: dut.var2.pkg2::struct1
+            vpiActual: TypedefTypespec name:struct1
           vpiName: var2
           vpiFullName: dut.var2
         Variable name:var3 start:20:20 end:20:24:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:20:12 end:20:19:
+          vpiTypespec RefTypespec name:struct2 start:20:12 end:20:19:
             vpiParent: Variable name:var3
-            vpiFullName: dut.var3
-            vpiActual: UnsupportedTypespec name:struct2
+            vpiName: struct2
+            vpiFullName: dut.var3.struct2
+            vpiActual: TypedefTypespec name:struct2
           vpiName: var3
           vpiFullName: dut.var3
-      vpiTypespec (6 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:dut
           vpiRange (1 items):
@@ -439,43 +439,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:struct2
             vpiFullName: dut.struct2
             vpiActual: StructTypespec
-        UnsupportedTypespec name:pkg1::struct1 start:18:12 end:18:25:
-          vpiParent: Module name:dut
-          vpiPathElem (2 items):
-            UnsupportedScope name:pkg1 start:18:12 end:18:18:
-              vpiParent: UnsupportedTypespec name:pkg1::struct1
-              vpiName Identifier name:pkg1 start:18:12 end:18:16:
-                vpiParent: UnsupportedScope name:pkg1
-                vpiName: pkg1
-              vpiFullName: dut.pkg1::struct1.pkg1
-            RefTypespec name:struct1 start:18:18 end:18:25:
-              vpiParent: UnsupportedTypespec name:pkg1::struct1
-              vpiName: struct1
-              vpiFullName: dut.pkg1::struct1.struct1
-          vpiName Identifier name:pkg1::struct1 start:18:12 end:18:25:
-            vpiParent: UnsupportedTypespec name:pkg1::struct1
-            vpiName: pkg1::struct1
-        UnsupportedTypespec name:pkg2::struct1 start:19:12 end:19:25:
-          vpiParent: Module name:dut
-          vpiPathElem (2 items):
-            UnsupportedScope name:pkg2 start:19:12 end:19:18:
-              vpiParent: UnsupportedTypespec name:pkg2::struct1
-              vpiName Identifier name:pkg2 start:19:12 end:19:16:
-                vpiParent: UnsupportedScope name:pkg2
-                vpiName: pkg2
-              vpiFullName: dut.pkg2::struct1.pkg2
-            RefTypespec name:struct1 start:19:18 end:19:25:
-              vpiParent: UnsupportedTypespec name:pkg2::struct1
-              vpiName: struct1
-              vpiFullName: dut.pkg2::struct1.struct1
-          vpiName Identifier name:pkg2::struct1 start:19:12 end:19:25:
-            vpiParent: UnsupportedTypespec name:pkg2::struct1
-            vpiName: pkg2::struct1
-        UnsupportedTypespec name:struct2 start:20:12 end:20:19:
-          vpiParent: Module name:dut
-          vpiName Identifier name:struct2 start:20:12 end:20:19:
-            vpiParent: UnsupportedTypespec name:struct2
-            vpiName: struct2
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -493,10 +456,11 @@ Design name:unnamed:
             vpiName: var1
             vpiFullName: dut.var1.var1
             vpiActual: Variable name:var1
-          vpiTypespec RefTypespec start:18:12 end:18:25:
+          vpiTypespec RefTypespec name:pkg1::struct1 start:18:12 end:18:25:
             vpiParent: Port name:var1
-            vpiFullName: dut.var1
-            vpiActual: UnsupportedTypespec name:pkg1::struct1
+            vpiName: pkg1::struct1
+            vpiFullName: dut.var1.pkg1::struct1
+            vpiActual: TypedefTypespec name:struct1
         Port name:var2 start:13:18 end:13:22:
           vpiParent: Module name:dut
           vpiName: var2
@@ -506,10 +470,11 @@ Design name:unnamed:
             vpiName: var2
             vpiFullName: dut.var2.var2
             vpiActual: Variable name:var2
-          vpiTypespec RefTypespec start:19:12 end:19:25:
+          vpiTypespec RefTypespec name:pkg2::struct1 start:19:12 end:19:25:
             vpiParent: Port name:var2
-            vpiFullName: dut.var2
-            vpiActual: UnsupportedTypespec name:pkg2::struct1
+            vpiName: pkg2::struct1
+            vpiFullName: dut.var2.pkg2::struct1
+            vpiActual: TypedefTypespec name:struct1
         Port name:var3 start:13:24 end:13:28:
           vpiParent: Module name:dut
           vpiName: var3
@@ -519,10 +484,11 @@ Design name:unnamed:
             vpiName: var3
             vpiFullName: dut.var3.var3
             vpiActual: Variable name:var3
-          vpiTypespec RefTypespec start:20:12 end:20:19:
+          vpiTypespec RefTypespec name:struct2 start:20:12 end:20:19:
             vpiParent: Port name:var3
-            vpiFullName: dut.var3
-            vpiActual: UnsupportedTypespec name:struct2
+            vpiName: struct2
+            vpiFullName: dut.var3.struct2
+            vpiActual: TypedefTypespec name:struct2
       vpiContAssign (3 items):
         ContAssign start:22:12 end:22:28:
           vpiParent: Module name:dut
@@ -540,6 +506,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:var1.first
                 vpiName: first
                 vpiFullName: dut.first
+                vpiActual: TypespecMember name:first
           vpiRhs Constant start:22:25 end:22:28:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -566,6 +533,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:var2.second
                 vpiName: second
                 vpiFullName: dut.second
+                vpiActual: TypespecMember name:second
           vpiRhs Constant start:23:26 end:23:29:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -592,6 +560,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:var3.third
                 vpiName: third
                 vpiFullName: dut.third
+                vpiActual: TypespecMember name:third
           vpiRhs Constant start:24:25 end:24:27:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -616,7 +585,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -660,7 +629,7 @@ COMMAND: ${HLC_DIR}/regression/NonAnsiPort/NonAnsiPort/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              83      83       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    83      83       0         0
 ===================== END REDUCTION RESULT =====================

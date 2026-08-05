@@ -14,13 +14,14 @@ COMMAND: -wd ../../../tests/UnitElabExternNested top.v middle.v -writepp -fileun
 [INF:PA0201] Parsing source file "$Source01/top.v".
 [INF:PA0201] Parsing source file "$Source01/middle.v".
 [INF:CP0303] $Source01/top.v:1:1: Compile module "dff_nested".
+[NTE:CP0309] $Source01/top.v:6:2: Implicit port type (wire) for "q".
+[NTE:CP0309] $Source01/top.v:6:5: Implicit port type (wire) for "nq".
 [INF:CP0303] $Source01/top.v:9:1: Compile module "ff1".
 [INF:CP0303] $Source01/top.v:18:1: Compile module "ff2".
 [INF:CP0303] $Source01/top.v:28:1: Compile module "ff3".
 [WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff1".
 [WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff2".
 [WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff3".
-[ERR:LN0813] $Source01/top.v:1:1: Found 4 orphan node(s).
 [INF:CP0303] $Source01/middle.v:2:1: Compile module "m".
 [INF:CP0303] $Source01/middle.v:3:1: Compile module "a".
 [INF:CP0303] $Source01/middle.v:18:1: Compile module "top".
@@ -2075,7 +2076,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: dff_nested.work
       vpiCell: dff_nested
-      vpiNet (5 items):
+      vpiNet (9 items):
         Net name:d start:4:2 end:4:3:
           vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:3:1 end:3:6:
@@ -2085,6 +2086,7 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: dff_nested.d
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:q start:6:2 end:6:3:
           vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:5:1 end:5:7:
@@ -2094,6 +2096,47 @@ Design name:unnamed:
           vpiName: q
           vpiFullName: dff_nested.q
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:ck start:4:5 end:4:7:
+          vpiParent: Module name:dff_nested
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:ck
+            vpiFullName: dff_nested.ck
+            vpiActual: LogicTypespec
+          vpiName: ck
+          vpiFullName: dff_nested.ck
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:pr start:4:9 end:4:11:
+          vpiParent: Module name:dff_nested
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:pr
+            vpiFullName: dff_nested.pr
+            vpiActual: LogicTypespec
+          vpiName: pr
+          vpiFullName: dff_nested.pr
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clr start:4:13 end:4:16:
+          vpiParent: Module name:dff_nested
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clr
+            vpiFullName: dff_nested.clr
+            vpiActual: LogicTypespec
+          vpiName: clr
+          vpiFullName: dff_nested.clr
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:nq start:6:5 end:6:7:
+          vpiParent: Module name:dff_nested
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:nq
+            vpiFullName: dff_nested.nq
+            vpiActual: LogicTypespec
+          vpiName: nq
+          vpiFullName: dff_nested.nq
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:q1 start:8:2 end:8:4:
           vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:8:2 end:8:2:
@@ -2103,6 +2146,7 @@ Design name:unnamed:
           vpiName: q1
           vpiFullName: dff_nested.q1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:nq1 start:8:6 end:8:9:
           vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:8:2 end:8:2:
@@ -2112,6 +2156,7 @@ Design name:unnamed:
           vpiName: nq1
           vpiFullName: dff_nested.nq1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:nq2 start:8:11 end:8:14:
           vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:8:2 end:8:2:
@@ -2121,6 +2166,7 @@ Design name:unnamed:
           vpiName: nq2
           vpiFullName: dff_nested.nq2
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (6 items):
         Port name:d start:4:2 end:4:3:
           vpiParent: Module name:dff_nested
@@ -2138,15 +2184,42 @@ Design name:unnamed:
         Port name:ck start:4:5 end:4:7:
           vpiParent: Module name:dff_nested
           vpiName: ck
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:ck start:4:5 end:4:7:
+            vpiParent: Port name:ck
+            vpiName: ck
+            vpiFullName: dff_nested.ck.ck
+            vpiActual: Net name:ck
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:ck
+            vpiFullName: dff_nested.ck
+            vpiActual: LogicTypespec
         Port name:pr start:4:9 end:4:11:
           vpiParent: Module name:dff_nested
           vpiName: pr
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:pr start:4:9 end:4:11:
+            vpiParent: Port name:pr
+            vpiName: pr
+            vpiFullName: dff_nested.pr.pr
+            vpiActual: Net name:pr
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:pr
+            vpiFullName: dff_nested.pr
+            vpiActual: LogicTypespec
         Port name:clr start:4:13 end:4:16:
           vpiParent: Module name:dff_nested
           vpiName: clr
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clr start:4:13 end:4:16:
+            vpiParent: Port name:clr
+            vpiName: clr
+            vpiFullName: dff_nested.clr.clr
+            vpiActual: Net name:clr
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clr
+            vpiFullName: dff_nested.clr
+            vpiActual: LogicTypespec
         Port name:q start:6:2 end:6:3:
           vpiParent: Module name:dff_nested
           vpiName: q
@@ -2163,7 +2236,16 @@ Design name:unnamed:
         Port name:nq start:6:5 end:6:7:
           vpiParent: Module name:dff_nested
           vpiName: nq
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:nq start:6:5 end:6:7:
+            vpiParent: Port name:nq
+            vpiName: nq
+            vpiFullName: dff_nested.nq.nq
+            vpiActual: Net name:nq
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:nq
+            vpiFullName: dff_nested.nq
+            vpiActual: LogicTypespec
       vpiModule (3 items):
         Module name:ff1 file:$Source01/top.v start:9:1 end:15:10:
           vpiParent: Module name:dff_nested
@@ -2213,7 +2295,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: clr
                     vpiFullName: dff_nested.ff1.g1b.clr
-                    vpiActual: Port name:clr
+                    vpiActual: Net name:clr
                 PrimTerm start:12:20 end:12:22:
                   vpiParent: Gate name:g1b
                   vpiDirection: input (1)
@@ -2248,7 +2330,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: ck
                     vpiFullName: dff_nested.ff1.g1a.ck
-                    vpiActual: Port name:ck
+                    vpiActual: Net name:ck
                 PrimTerm start:14:15 end:14:18:
                   vpiParent: Gate name:g1a
                   vpiDirection: input (1)
@@ -2293,6 +2375,7 @@ Design name:unnamed:
               vpiName: q2
               vpiFullName: dff_nested.ff2.q2
               vpiNetType: wire (1)
+              vpiScalar: true
           vpiPrimitive (2 items):
             Gate name:g2b start:23:2 end:23:5:
               vpiParent: Module name:ff2
@@ -2319,7 +2402,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: ck
                     vpiFullName: dff_nested.ff2.g2b.ck
-                    vpiActual: Port name:ck
+                    vpiActual: Net name:ck
                 PrimTerm start:23:16 end:23:19:
                   vpiParent: Gate name:g2b
                   vpiDirection: input (1)
@@ -2328,7 +2411,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: clr
                     vpiFullName: dff_nested.ff2.g2b.clr
-                    vpiActual: Port name:clr
+                    vpiActual: Net name:clr
                 PrimTerm start:23:21 end:23:23:
                   vpiParent: Gate name:g2b
                   vpiDirection: input (1)
@@ -2372,7 +2455,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: pr
                     vpiFullName: dff_nested.ff2.g2a.pr
-                    vpiActual: Port name:pr
+                    vpiActual: Net name:pr
                 PrimTerm start:25:20 end:25:23:
                   vpiParent: Gate name:g2a
                   vpiDirection: input (1)
@@ -2430,7 +2513,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: clr
                     vpiFullName: dff_nested.ff3.g3a.clr
-                    vpiActual: Port name:clr
+                    vpiActual: Net name:clr
                 PrimTerm start:31:20 end:31:22:
                   vpiParent: Gate name:g3a
                   vpiDirection: input (1)
@@ -2439,7 +2522,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: nq
                     vpiFullName: dff_nested.ff3.g3a.nq
-                    vpiActual: Port name:nq
+                    vpiActual: Net name:nq
             Gate name:g3b start:33:2 end:33:5:
               vpiParent: Module name:ff3
               vpiName: g3b
@@ -2456,7 +2539,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: nq
                     vpiFullName: dff_nested.ff3.g3b.nq
-                    vpiActual: Port name:nq
+                    vpiActual: Net name:nq
                 PrimTerm start:33:11 end:33:13:
                   vpiParent: Gate name:g3b
                   vpiDirection: input (1)
@@ -2474,7 +2557,7 @@ Design name:unnamed:
                     vpiParent: PrimTerm
                     vpiName: pr
                     vpiFullName: dff_nested.ff3.g3b.pr
-                    vpiActual: Port name:pr
+                    vpiActual: Net name:pr
                 PrimTerm start:33:19 end:33:20:
                   vpiParent: Gate name:g3b
                   vpiDirection: input (1)
@@ -2526,24 +2609,28 @@ Design name:unnamed:
         Port name:a start:2:18 end:2:19:
           vpiParent: Module name:m
           vpiName: a
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:a
             vpiFullName: m.a
         Port name:b start:2:20 end:2:21:
           vpiParent: Module name:m
           vpiName: b
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:b
             vpiFullName: m.b
         Port name:c start:2:22 end:2:23:
           vpiParent: Module name:m
           vpiName: c
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:c
             vpiFullName: m.c
         Port name:d start:2:24 end:2:25:
           vpiParent: Module name:m
           vpiName: d
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:d
             vpiFullName: m.d
@@ -2687,6 +2774,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: a.a
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:a start:13:11 end:13:12:
           vpiParent: Module name:a
@@ -2801,11 +2889,13 @@ Design name:unnamed:
           vpiName Identifier name:m start:26:1 end:26:2:
             vpiParent: ModuleTypespec name:m
             vpiName: m
+          vpiModule: Module name:m
         ModuleTypespec name:a start:27:1 end:27:2:
           vpiParent: Module name:top
           vpiName Identifier name:a start:27:1 end:27:2:
             vpiParent: ModuleTypespec name:a
             vpiName: a
+          vpiModule: Module name:a
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2823,6 +2913,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: top.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:c start:24:1 end:24:2:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:24:1 end:24:1:
@@ -2832,6 +2923,7 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: top.c
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d start:24:4 end:24:5:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:24:1 end:24:1:
@@ -2841,6 +2933,7 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: top.d
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiRefInstance (2 items):
         RefInstance name:mm start:26:3 end:26:5:
           vpiParent: Module name:top
@@ -2925,9 +3018,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 11
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -2973,7 +3066,7 @@ COMMAND: ${HLC_DIR}/regression/UnitElabExternNested/UnitElabExternNested/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             802     802       0         0
+Others                             818     818       0         0
 ----------------------------------------------------------------
-                                   802     802       0         0
+                                   818     818       0         0
 ===================== END REDUCTION RESULT =====================

@@ -34,7 +34,7 @@ n<$Source01/t_iff.v> u<816> t<Top_level_rule> c<1> l<18:1> el<88:1>
     n<> u<541> t<Description> p<815> c<540> s<814> l<18:1> el<63:10>
       n<> u<540> t<Module_declaration> p<541> c<30> l<18:1> el<63:10>
         n<> u<30> t<Module_nonansi_header> p<540> c<18> s<37> l<18:1> el<21:6>
-          n<module> u<18> t<Module_keyword> p<30> s<19> l<18:1> el<18:7>
+          n<module> u<18> t<MODULE> p<30> s<19> l<18:1> el<18:7>
           n<t> u<19> t<SIMPLE_IDENTIFIER> p<30> s<20> l<18:8> el<18:9>
           n<> u<20> t<Package_import_declaration_list> p<30> s<21> l<18:10> el<18:10>
           n</*AUTOARG*/> u<21> t<BLOCK_COMMENT> p<30> s<22> l<18:10> el<21:5>
@@ -558,7 +558,7 @@ n<$Source01/t_iff.v> u<816> t<Top_level_rule> c<1> l<18:1> el<88:1>
     n<> u<814> t<Description> p<815> c<813> l<65:1> el<87:10>
       n<> u<813> t<Module_declaration> p<814> c<601> l<65:1> el<87:10>
         n<> u<601> t<Module_ansi_header> p<813> c<542> s<622> l<65:1> el<70:31>
-          n<module> u<542> t<Module_keyword> p<601> s<543> l<65:1> el<65:7>
+          n<module> u<542> t<MODULE> p<601> s<543> l<65:1> el<65:7>
           n<Test> u<543> t<SIMPLE_IDENTIFIER> p<601> s<544> l<65:8> el<65:12>
           n<> u<544> t<Package_import_declaration_list> p<601> s<600> l<66:3> el<66:3>
           n<> u<600> t<Port_declaration_list> p<601> c<550> l<66:3> el<70:30>
@@ -831,6 +831,7 @@ n<$Source01/t_iff.v> u<816> t<Top_level_rule> c<1> l<18:1> el<88:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_iff.v:18:1: Compile module "t".
 [INF:CP0303] $Source01/t_iff.v:65:1: Compile module "Test".
+[NTE:CP0309] $Source01/t_iff.v:70:23: Implicit port type (wire) for "result".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -994,6 +995,7 @@ Design name:unnamed:
           vpiName Identifier name:Test start:32:4 end:32:8:
             vpiParent: ModuleTypespec name:Test
             vpiName: Test
+          vpiModule: Module name:Test
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1011,6 +1013,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:result start:30:25 end:30:31:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:30:9 end:30:15:
@@ -1020,6 +1023,7 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: t.result
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:20:4 end:20:7:
           vpiParent: Module name:t
@@ -1811,6 +1815,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: Test.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:crc start:68:23 end:68:26:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:68:4 end:68:16:
@@ -1820,6 +1825,7 @@ Design name:unnamed:
           vpiName: crc
           vpiFullName: Test.crc
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:cyc start:69:23 end:69:26:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:69:4 end:69:16:
@@ -1829,6 +1835,7 @@ Design name:unnamed:
           vpiName: cyc
           vpiFullName: Test.cyc
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:result start:70:23 end:70:29:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:70:4 end:70:22:
@@ -1838,6 +1845,7 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: Test.result
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:enable start:72:17 end:72:23:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:72:17 end:72:17:
@@ -1847,6 +1855,7 @@ Design name:unnamed:
           vpiName: enable
           vpiFullName: Test.enable
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue BitSelect name:crc[32] start:72:26 end:72:33:
             vpiParent: Net name:enable
             vpiName: crc[32]
@@ -1875,6 +1884,7 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: Test.d
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:crc[31:0] start:73:21 end:73:30:
             vpiParent: Net name:d
             vpiName: crc[31:0]
@@ -1915,6 +1925,7 @@ Design name:unnamed:
           vpiName: reset
           vpiFullName: Test.reset
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:79:18 end:79:26:
             vpiParent: Net name:reset
             vpiOpType: less than (20)
@@ -2094,7 +2105,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

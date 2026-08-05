@@ -22,7 +22,7 @@ n<$Source01/pads.sv> u<431> t<Top_level_rule> c<1> l<8:1> el<95:1>
     n<> u<428> t<Description> p<429> c<427> l<8:1> el<94:10>
       n<> u<427> t<Module_declaration> p<428> c<75> l<8:1> el<94:10>
         n<> u<75> t<Module_ansi_header> p<427> c<6> s<76> l<8:1> el<31:4>
-          n<module> u<6> t<Module_keyword> p<75> s<7> l<8:1> el<8:7>
+          n<module> u<6> t<MODULE> p<75> s<7> l<8:1> el<8:7>
           n<pads> u<7> t<SIMPLE_IDENTIFIER> p<75> s<8> l<8:8> el<8:12>
           n<> u<8> t<Package_import_declaration_list> p<75> s<27> l<9:2> el<9:2>
           n<> u<27> t<Parameter_port_list> p<75> c<26> s<28> l<9:2> el<11:4>
@@ -445,9 +445,10 @@ n<$Source01/pads.sv> u<431> t<Top_level_rule> c<1> l<8:1> el<95:1>
   n<// pads> u<430> t<LINE_COMMENT> p<431> l<94:11> el<94:18>
 AST_DEBUG_END
 [INF:CP0303] $Source01/pads.sv:8:1: Compile module "pads".
-[ERR:LN0813] $Source01/pads.sv:1:1: Found 1 orphan node(s).
-[WRN:CP0350] $Source01/pads.sv:50:47: Failed to bind "id:66, name:padtype".
-[WRN:CP0350] $Source01/pads.sv:51:47: Failed to bind "id:77, name:id".
+[WRN:CP0310] $Source01/pads.sv:18:19: Port "padsif" definition missing its direction (input, output, inout).
+[NTE:CP0309] $Source01/pads.sv:25:14: Implicit port type (wire) for "pad".
+[WRN:CP0350] $Source01/pads.sv:50:47: Failed to bind "id:68, name:padtype".
+[WRN:CP0350] $Source01/pads.sv:51:47: Failed to bind "id:79, name:id".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -499,9 +500,23 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$size
                 vpiName: pinout
                 vpiFullName: pads.pinout
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:pads
+        UnsupportedTypespec name:pads_if::mp_pads start:18:3 end:18:18:
+          vpiParent: Module name:pads
+          vpiPathElem (2 items):
+            RefObj name:pads_if start:18:3 end:18:10:
+              vpiParent: UnsupportedTypespec name:pads_if::mp_pads
+              vpiName: pads_if
+              vpiFullName: pads.pads_if::mp_pads.pads_if
+            RefObj name:mp_pads start:18:11 end:18:18:
+              vpiParent: UnsupportedTypespec name:pads_if::mp_pads
+              vpiName: mp_pads
+              vpiFullName: pads.pads_if::mp_pads.mp_pads
+          vpiName Identifier name:pads_if::mp_pads:
+            vpiParent: UnsupportedTypespec name:pads_if::mp_pads
+            vpiName: pads_if::mp_pads
         ArrayTypespec:
           vpiParent: Module name:pads
           vpiArrayType: static (1)
@@ -552,6 +567,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: pads.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:30:21 end:30:24:
           vpiParent: Module name:pads
           vpiTypespec RefTypespec start:30:3 end:30:14:
@@ -561,11 +577,21 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: pads.rst
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:padsif start:18:19 end:18:25:
           vpiParent: Module name:pads
           vpiName: padsif
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:padsif start:18:19 end:18:25:
+            vpiParent: Port name:padsif
+            vpiName: padsif
+            vpiFullName: pads.padsif.padsif
+            vpiActual: Port name:padsif
+          vpiTypespec RefTypespec start:18:3 end:18:18:
+            vpiParent: Port name:padsif
+            vpiFullName: pads.padsif
+            vpiActual: UnsupportedTypespec name:pads_if::mp_pads
         Port name:pad start:25:14 end:25:17:
           vpiParent: Module name:pads
           vpiName: pad
@@ -783,6 +809,7 @@ Design name:unnamed:
                         ParamAssign start:56:23 end:56:31:
                           vpiParent: RefInstance name:i_pad_gpio
                           vpiConnByName: true
+                          vpiOverridden: true
                           vpiLhs RefObj name:ID start:56:24 end:56:26:
                             vpiParent: ParamAssign
                             vpiName: ID
@@ -830,7 +857,7 @@ Design name:unnamed:
                                 vpiName: padsif
                                 vpiFullName: pads.i_pad_gpio.padsif
                                 vpiActual: Port name:padsif
-                              BitSelect name:input_val[i] start:60:49 end:60:65:
+                              BitSelect name:input_val[i] start:60:49 end:60:64:
                                 vpiParent: HierPath name:padsif.input_val[i]
                                 vpiName: input_val[i]
                                 vpiFullName: pads.i_pad_gpio.padsif.input_val[i].input_val[i]
@@ -859,7 +886,7 @@ Design name:unnamed:
                                 vpiName: padsif
                                 vpiFullName: pads.i_pad_gpio.padsif
                                 vpiActual: Port name:padsif
-                              BitSelect name:ana[i] start:65:49 end:65:65:
+                              BitSelect name:ana[i] start:65:49 end:65:64:
                                 vpiParent: HierPath name:padsif.ana[i]
                                 vpiName: ana[i]
                                 vpiFullName: pads.i_pad_gpio.padsif.ana[i].ana[i]
@@ -888,7 +915,7 @@ Design name:unnamed:
                                 vpiName: padsif
                                 vpiFullName: pads.i_pad_gpio.padsif
                                 vpiActual: Port name:padsif
-                              BitSelect name:pullup_en[i] start:68:49 end:68:65:
+                              BitSelect name:pullup_en[i] start:68:49 end:68:64:
                                 vpiParent: HierPath name:padsif.pullup_en[i]
                                 vpiName: pullup_en[i]
                                 vpiFullName: pads.i_pad_gpio.padsif.pullup_en[i].pullup_en[i]
@@ -917,7 +944,7 @@ Design name:unnamed:
                                 vpiName: padsif
                                 vpiFullName: pads.i_pad_gpio.padsif
                                 vpiActual: Port name:padsif
-                              BitSelect name:pulldown_en[i] start:69:49 end:69:65:
+                              BitSelect name:pulldown_en[i] start:69:49 end:69:64:
                                 vpiParent: HierPath name:padsif.pulldown_en[i]
                                 vpiName: pulldown_en[i]
                                 vpiFullName: pads.i_pad_gpio.padsif.pulldown_en[i].pulldown_en[i]
@@ -946,7 +973,7 @@ Design name:unnamed:
                                 vpiName: padsif
                                 vpiFullName: pads.i_pad_gpio.padsif
                                 vpiActual: Port name:padsif
-                              BitSelect name:output_en[i] start:70:49 end:70:65:
+                              BitSelect name:output_en[i] start:70:49 end:70:64:
                                 vpiParent: HierPath name:padsif.output_en[i]
                                 vpiName: output_en[i]
                                 vpiFullName: pads.i_pad_gpio.padsif.output_en[i].output_en[i]
@@ -975,7 +1002,7 @@ Design name:unnamed:
                                 vpiName: padsif
                                 vpiFullName: pads.i_pad_gpio.padsif
                                 vpiActual: Port name:padsif
-                              BitSelect name:output_val[i] start:71:49 end:71:65:
+                              BitSelect name:output_val[i] start:71:49 end:71:64:
                                 vpiParent: HierPath name:padsif.output_val[i]
                                 vpiName: output_val[i]
                                 vpiFullName: pads.i_pad_gpio.padsif.output_val[i].output_val[i]
@@ -1004,7 +1031,7 @@ Design name:unnamed:
                                 vpiName: padsif
                                 vpiFullName: pads.i_pad_gpio.padsif
                                 vpiActual: Port name:padsif
-                              BitSelect name:slew_limit_en[i] start:72:49 end:72:65:
+                              BitSelect name:slew_limit_en[i] start:72:49 end:72:64:
                                 vpiParent: HierPath name:padsif.slew_limit_en[i]
                                 vpiName: slew_limit_en[i]
                                 vpiFullName: pads.i_pad_gpio.padsif.slew_limit_en[i].slew_limit_en[i]
@@ -1033,7 +1060,7 @@ Design name:unnamed:
                                 vpiName: padsif
                                 vpiFullName: pads.i_pad_gpio.padsif
                                 vpiActual: Port name:padsif
-                              BitSelect name:input_en[i] start:73:49 end:73:65:
+                              BitSelect name:input_en[i] start:73:49 end:73:64:
                                 vpiParent: HierPath name:padsif.input_en[i]
                                 vpiName: input_en[i]
                                 vpiFullName: pads.i_pad_gpio.padsif.input_en[i].input_en[i]
@@ -1075,6 +1102,7 @@ Design name:unnamed:
                             ParamAssign start:78:24 end:78:32:
                               vpiParent: RefInstance name:i_pad_vdd
                               vpiConnByName: true
+                              vpiOverridden: true
                               vpiLhs RefObj name:ID start:78:25 end:78:27:
                                 vpiParent: ParamAssign
                                 vpiName: ID
@@ -1135,6 +1163,7 @@ Design name:unnamed:
                             ParamAssign start:87:24 end:87:32:
                               vpiParent: RefInstance name:i_pad_gnd
                               vpiConnByName: true
+                              vpiOverridden: true
                               vpiLhs RefObj name:ID start:87:25 end:87:27:
                                 vpiParent: ParamAssign
                                 vpiName: ID
@@ -1179,9 +1208,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 2
-[   NOTE] : 0
+[  ERROR] : 0
+[WARNING] : 3
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1195,25 +1224,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/pads/mounts.json
 
 
-{'result': {'coverage': 98.34,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/pads.sv': {'post_len': 15,
+            'files': {'$Output/lib/work/pads.sv': {'post_len': 0,
                                                    'pre_len': 904}},
-            'post_len': 15,
+            'post_len': 0,
             'pre_len': 904,
             'test_name': 'Verilator/t_sv_cpu_code/pads'}}
 
 +--------------------------+----------+-----------+
 | INPUT                    |   PRELEN |   POSTLEN |
 +==========================+==========+===========+
-| $Output/lib/work/pads.sv |      904 |        15 |
+| $Output/lib/work/pads.sv |      904 |         0 |
 +==========================+==========+===========+
-|                          |      904 |        15 |
+|                          |      904 |         0 |
 +--------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.34
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1224,7 +1253,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/pads/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             175     175       0         0
+Others                             181     181       0         0
 ----------------------------------------------------------------
-                                   175     175       0         0
+                                   181     181       0         0
 ===================== END REDUCTION RESULT =====================

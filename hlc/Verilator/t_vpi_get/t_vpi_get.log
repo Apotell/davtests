@@ -38,7 +38,7 @@ n<$Source01/t_vpi_get.v> u<332> t<Top_level_rule> c<1> l<11:1> el<72:1>
     n<> u<307> t<Description> p<331> c<306> s<330> l<14:1> el<65:14>
       n<> u<306> t<Module_declaration> p<307> c<70> l<14:1> el<65:14>
         n<> u<70> t<Module_ansi_header> p<306> c<22> s<83> l<14:1> el<22:6>
-          n<module> u<22> t<Module_keyword> p<70> s<23> l<14:1> el<14:7>
+          n<module> u<22> t<MODULE> p<70> s<23> l<14:1> el<14:7>
           n<t> u<23> t<SIMPLE_IDENTIFIER> p<70> s<24> l<14:8> el<14:9>
           n<> u<24> t<Package_import_declaration_list> p<70> s<25> l<14:10> el<14:10>
           n</*AUTOARG*/> u<25> t<BLOCK_COMMENT> p<70> s<26> l<14:10> el<22:5>
@@ -324,7 +324,7 @@ n<$Source01/t_vpi_get.v> u<332> t<Top_level_rule> c<1> l<11:1> el<72:1>
     n<> u<330> t<Description> p<331> c<329> l<67:1> el<71:16>
       n<> u<329> t<Module_declaration> p<330> c<326> l<67:1> el<71:16>
         n<> u<326> t<Module_ansi_header> p<329> c<308> s<328> l<67:1> el<70:3>
-          n<module> u<308> t<Module_keyword> p<326> s<309> l<67:1> el<67:7>
+          n<module> u<308> t<MODULE> p<326> s<309> l<67:1> el<67:7>
           n<sub> u<309> t<SIMPLE_IDENTIFIER> p<326> s<310> l<67:8> el<67:11>
           n<> u<310> t<Package_import_declaration_list> p<326> s<325> l<67:12> el<67:12>
           n<> u<325> t<Port_declaration_list> p<326> c<316> l<67:12> el<70:2>
@@ -346,7 +346,9 @@ n<$Source01/t_vpi_get.v> u<332> t<Top_level_rule> c<1> l<11:1> el<72:1>
         n<sub> u<327> t<SIMPLE_IDENTIFIER> p<329> l<71:13> el<71:16>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_vpi_get.v:14:1: Compile module "t".
+[NTE:CP0309] $Source01/t_vpi_get.v:20:19: Implicit port type (wire) for "testout".
 [INF:CP0303] $Source01/t_vpi_get.v:67:1: Compile module "sub".
+[NTE:CP0309] $Source01/t_vpi_get.v:69:11: Implicit port type (wire) for "subout".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -581,6 +583,7 @@ Design name:unnamed:
           vpiName Identifier name:sub start:44:4 end:44:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -598,6 +601,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:testin start:19:19 end:19:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:4 end:19:17:
@@ -607,6 +611,7 @@ Design name:unnamed:
           vpiName: testin
           vpiFullName: t.testin
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:testout start:20:19 end:20:26:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:20:4 end:20:17:
@@ -616,6 +621,7 @@ Design name:unnamed:
           vpiName: testout
           vpiFullName: t.testout
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:subin start:42:17 end:42:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:42:17 end:42:17:
@@ -625,6 +631,7 @@ Design name:unnamed:
           vpiName: subin
           vpiFullName: t.subin
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:subout start:43:17 end:43:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:43:17 end:43:17:
@@ -634,6 +641,7 @@ Design name:unnamed:
           vpiName: subout
           vpiFullName: t.subout
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:clk start:16:10 end:16:13:
           vpiParent: Module name:t
@@ -810,6 +818,7 @@ Design name:unnamed:
           vpiName: subin
           vpiFullName: sub.subin
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:subout start:69:11 end:69:17:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:69:4 end:69:10:
@@ -819,6 +828,7 @@ Design name:unnamed:
           vpiName: subout
           vpiFullName: sub.subout
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:subin start:68:11 end:68:16:
           vpiParent: Module name:sub
@@ -888,7 +898,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

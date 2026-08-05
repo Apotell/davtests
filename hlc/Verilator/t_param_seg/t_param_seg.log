@@ -24,7 +24,7 @@ n<$Source01/t_param_seg.v> u<216> t<Top_level_rule> c<1> l<10:1> el<29:1>
     n<> u<214> t<Description> p<215> c<213> l<10:1> el<28:10>
       n<> u<213> t<Module_declaration> p<214> c<33> l<10:1> el<28:10>
         n<> u<33> t<Module_nonansi_header> p<213> c<8> s<40> l<10:1> el<15:6>
-          n<module> u<8> t<Module_keyword> p<33> s<9> l<10:1> el<10:7>
+          n<module> u<8> t<MODULE> p<33> s<9> l<10:1> el<10:7>
           n<t> u<9> t<SIMPLE_IDENTIFIER> p<33> s<10> l<10:8> el<10:9>
           n<> u<10> t<Package_import_declaration_list> p<33> s<11> l<10:10> el<10:10>
           n</*AUTOARG*/> u<11> t<BLOCK_COMMENT> p<33> s<12> l<10:10> el<15:5>
@@ -230,7 +230,6 @@ n<$Source01/t_param_seg.v> u<216> t<Top_level_rule> c<1> l<10:1> el<29:1>
         n<> u<212> t<ENDMODULE> p<213> l<28:1> el<28:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_param_seg.v:10:1: Compile module "t".
-[ERR:LN0813] $Source01/t_param_seg.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -256,6 +255,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: err_count
           vpiFullName: t.err_count
+          vpiVector: true
+          vpiValue Constant start:19:34 end:19:35:
+            vpiParent: Variable name:err_count
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.err_count
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiParameter (1 items):
         Parameter name:M start:21:22 end:21:23:
           vpiParent: Module name:t
@@ -408,6 +418,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:syndromes start:18:16 end:18:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:10 end:18:15:
@@ -417,6 +428,7 @@ Design name:unnamed:
           vpiName: syndromes
           vpiFullName: t.syndromes
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:syn1 start:22:15 end:22:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:22:9 end:22:14:
@@ -426,6 +438,7 @@ Design name:unnamed:
           vpiName: syn1
           vpiFullName: t.syn1
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue IndexedPartSelect name:syndromes[0+:M] start:22:22 end:22:37:
             vpiParent: Net name:syn1
             vpiName: syndromes[0+:M]
@@ -581,7 +594,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -597,25 +610,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_param_seg/mounts.json
 
 
-{'result': {'coverage': 99.63,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_param_seg.v': {'post_len': 1,
+            'files': {'$Output/lib/work/t_param_seg.v': {'post_len': 0,
                                                          'pre_len': 269}},
-            'post_len': 1,
+            'post_len': 0,
             'pre_len': 269,
             'test_name': 'Verilator/t_param_seg'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/t_param_seg.v |      269 |         1 |
+| $Output/lib/work/t_param_seg.v |      269 |         0 |
 +================================+==========+===========+
-|                                |      269 |         1 |
+|                                |      269 |         0 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.63
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -626,7 +639,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_seg/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              82      82       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                    82      82       0         0
+                                    84      84       0         0
 ===================== END REDUCTION RESULT =====================

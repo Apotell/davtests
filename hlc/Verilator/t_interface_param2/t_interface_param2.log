@@ -23,7 +23,7 @@ n<$Source01/t_interface_param2.v> u<453> t<Top_level_rule> c<1> l<8:1> el<50:1>
     n<> u<126> t<Description> p<452> c<125> s<310> l<8:1> el<15:10>
       n<> u<125> t<Module_declaration> p<126> c<17> l<8:1> el<15:10>
         n<> u<17> t<Module_ansi_header> p<125> c<7> s<31> l<8:1> el<8:22>
-          n<module> u<7> t<Module_keyword> p<17> s<8> l<8:1> el<8:7>
+          n<module> u<7> t<MODULE> p<17> s<8> l<8:1> el<8:7>
           n<t> u<8> t<SIMPLE_IDENTIFIER> p<17> s<9> l<8:8> el<8:9>
           n<> u<9> t<Package_import_declaration_list> p<17> s<16> l<8:10> el<8:10>
           n<> u<16> t<Port_declaration_list> p<17> c<15> l<8:10> el<8:21>
@@ -327,7 +327,7 @@ n<$Source01/t_interface_param2.v> u<453> t<Top_level_rule> c<1> l<8:1> el<50:1>
     n<> u<440> t<Description> p<452> c<439> s<451> l<37:1> el<46:10>
       n<> u<439> t<Module_declaration> p<440> c<318> l<37:1> el<46:10>
         n<> u<318> t<Module_ansi_header> p<439> c<311> s<328> l<37:1> el<37:25>
-          n<module> u<311> t<Module_keyword> p<318> s<312> l<37:1> el<37:7>
+          n<module> u<311> t<MODULE> p<318> s<312> l<37:1> el<37:7>
           n<mem> u<312> t<SIMPLE_IDENTIFIER> p<318> s<313> l<37:8> el<37:11>
           n<> u<313> t<Package_import_declaration_list> p<318> s<317> l<37:11> el<37:11>
           n<> u<317> t<Port_declaration_list> p<318> c<316> l<37:11> el<37:24>
@@ -457,7 +457,7 @@ n<$Source01/t_interface_param2.v> u<453> t<Top_level_rule> c<1> l<8:1> el<50:1>
     n<> u<451> t<Description> p<452> c<450> l<48:1> el<49:10>
       n<> u<450> t<Module_declaration> p<451> c<448> l<48:1> el<49:10>
         n<> u<448> t<Module_ansi_header> p<450> c<441> s<449> l<48:1> el<48:25>
-          n<module> u<441> t<Module_keyword> p<448> s<442> l<48:1> el<48:7>
+          n<module> u<441> t<MODULE> p<448> s<442> l<48:1> el<48:7>
           n<cpu> u<442> t<SIMPLE_IDENTIFIER> p<448> s<443> l<48:8> el<48:11>
           n<> u<443> t<Package_import_declaration_list> p<448> s<447> l<48:11> el<48:11>
           n<> u<447> t<Port_declaration_list> p<448> c<446> l<48:11> el<48:24>
@@ -471,16 +471,17 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/t_interface_param2.v:8:1: Multiply defined typedef "cpu".
 [INF:CP0304] $Source01/t_interface_param2.v:17:1: Compile interface "simple_bus".
 [INF:CP0303] $Source01/t_interface_param2.v:37:1: Compile module "mem".
+[WRN:CP0310] $Source01/t_interface_param2.v:37:22: Port "a" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_interface_param2.v:48:1: Compile module "cpu".
-[ERR:LN0813] $Source01/t_interface_param2.v:1:1: Found 2 orphan node(s).
+[WRN:CP0310] $Source01/t_interface_param2.v:48:22: Port "b" definition missing its direction (input, output, inout).
 [WRN:CP0350] $Source01/t_interface_param2.v:11:20: Failed to bind "id:44, name:slave".
 [WRN:CP0350] $Source01/t_interface_param2.v:12:20: Failed to bind "id:53, name:master".
 [WRN:CP0350] $Source01/t_interface_param2.v:13:23: Failed to bind "id:62, name:slave".
 [WRN:CP0350] $Source01/t_interface_param2.v:14:23: Failed to bind "id:71, name:master".
-[WRN:CP0350] $Source01/t_interface_param2.v:39:23: Failed to bind "id:176, name:clk".
-[WRN:CP0350] $Source01/t_interface_param2.v:40:8: Failed to bind "id:181, name:gnt".
-[WRN:CP0350] $Source01/t_interface_param2.v:40:17: Failed to bind "id:184, name:req".
-[WRN:CP0350] $Source01/t_interface_param2.v:42:19: Failed to bind "id:193, name:data".
+[WRN:CP0350] $Source01/t_interface_param2.v:39:23: Failed to bind "id:178, name:clk".
+[WRN:CP0350] $Source01/t_interface_param2.v:40:8: Failed to bind "id:183, name:gnt".
+[WRN:CP0350] $Source01/t_interface_param2.v:40:17: Failed to bind "id:186, name:req".
+[WRN:CP0350] $Source01/t_interface_param2.v:42:19: Failed to bind "id:195, name:data".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -840,21 +841,25 @@ Design name:unnamed:
           vpiName Identifier name:mem start:11:4 end:11:7:
             vpiParent: ModuleTypespec name:mem
             vpiName: mem
+          vpiModule: Module name:mem
         ModuleTypespec name:cpu start:12:4 end:12:7:
           vpiParent: Module name:t
           vpiName Identifier name:cpu start:12:4 end:12:7:
             vpiParent: ModuleTypespec name:cpu
             vpiName: cpu
+          vpiModule: Module name:cpu
         ModuleTypespec name:mem start:13:4 end:13:7:
           vpiParent: Module name:t
           vpiName Identifier name:mem start:13:4 end:13:7:
             vpiParent: ModuleTypespec name:mem
             vpiName: mem
+          vpiModule: Module name:mem
         ModuleTypespec name:cpu start:14:4 end:14:7:
           vpiParent: Module name:t
           vpiName Identifier name:cpu start:14:4 end:14:7:
             vpiParent: ModuleTypespec name:cpu
             vpiName: cpu
+          vpiModule: Module name:cpu
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -872,6 +877,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:17 end:8:20:
           vpiParent: Module name:t
@@ -918,6 +924,7 @@ Design name:unnamed:
             ParamAssign start:10:17 end:10:28:
               vpiParent: RefInstance name:wide_intf
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:DWIDTH start:10:18 end:10:24:
                 vpiParent: ParamAssign
                 vpiName: DWIDTH
@@ -1085,6 +1092,15 @@ Design name:unnamed:
           vpiParent: Module name:mem
           vpiName: a
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:a start:37:22 end:37:23:
+            vpiParent: Port name:a
+            vpiName: a
+            vpiFullName: mem.a.a
+            vpiActual: Port name:a
+          vpiTypespec RefTypespec start:37:12 end:37:21:
+            vpiParent: Port name:a
+            vpiFullName: mem.a
+            vpiActual: InterfaceTypespec
       vpiProcess (2 items):
         Always start:39:4 end:40:29:
           vpiParent: Module name:mem
@@ -1237,6 +1253,15 @@ Design name:unnamed:
           vpiParent: Module name:cpu
           vpiName: b
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:b start:48:22 end:48:23:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: cpu.b.b
+            vpiActual: Port name:b
+          vpiTypespec RefTypespec start:48:12 end:48:21:
+            vpiParent: Port name:b
+            vpiFullName: cpu.b
+            vpiActual: InterfaceTypespec
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1270,8 +1295,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 10
+[  ERROR] : 0
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1316,10 +1341,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10      10       3         3
 Operation                            6       3       0         3
-RefObj                              37      34       0         3
-RefTypespec                         37      37       3         3
+RefObj                              39      36       0         3
+RefTypespec                         39      39       3         3
 ----------------------------------------------------------------
 Others                             111     111       0         0
 ----------------------------------------------------------------
-                                   201     195       6        12
+                                   205     199       6        12
 ===================== END REDUCTION RESULT =====================

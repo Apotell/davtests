@@ -22,7 +22,7 @@ n<$Source01/t_inst_aport.v> u<1398> t<Top_level_rule> c<1> l<6:1> el<110:1>
     n<> u<643> t<Description> p<1397> c<642> s<789> l<6:1> el<62:10>
       n<> u<642> t<Module_declaration> p<643> c<18> l<6:1> el<62:10>
         n<> u<18> t<Module_nonansi_header> p<642> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -660,7 +660,7 @@ n<$Source01/t_inst_aport.v> u<1398> t<Top_level_rule> c<1> l<6:1> el<110:1>
     n<> u<789> t<Description> p<1397> c<788> s<790> l<64:1> el<67:10>
       n<> u<788> t<Module_declaration> p<789> c<690> l<64:1> el<67:10>
         n<> u<690> t<Module_ansi_header> p<788> c<644> s<786> l<64:1> el<64:56>
-          n<module> u<644> t<Module_keyword> p<690> s<645> l<64:1> el<64:7>
+          n<module> u<644> t<MODULE> p<690> s<645> l<64:1> el<64:7>
           n<callee> u<645> t<SIMPLE_IDENTIFIER> p<690> s<646> l<64:8> el<64:14>
           n<> u<646> t<Package_import_declaration_list> p<690> s<689> l<64:15> el<64:15>
           n<> u<689> t<Port_declaration_list> p<690> c<672> l<64:15> el<64:55>
@@ -807,7 +807,7 @@ n<$Source01/t_inst_aport.v> u<1398> t<Top_level_rule> c<1> l<6:1> el<110:1>
     n<> u<1396> t<Description> p<1397> c<1395> l<69:1> el<109:10>
       n<> u<1395> t<Module_declaration> p<1396> c<810> l<69:1> el<109:10>
         n<> u<810> t<Module_nonansi_header> p<1395> c<791> s<827> l<69:1> el<74:6>
-          n<module> u<791> t<Module_keyword> p<810> s<792> l<69:1> el<69:7>
+          n<module> u<791> t<MODULE> p<810> s<792> l<69:1> el<69:7>
           n<Test> u<792> t<SIMPLE_IDENTIFIER> p<810> s<793> l<69:8> el<69:12>
           n<> u<793> t<Package_import_declaration_list> p<810> s<794> l<69:13> el<69:13>
           n</*AUTOARG*/> u<794> t<BLOCK_COMMENT> p<810> s<795> l<69:13> el<74:5>
@@ -1413,6 +1413,7 @@ n<$Source01/t_inst_aport.v> u<1398> t<Top_level_rule> c<1> l<6:1> el<110:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_aport.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_aport.v:64:1: Compile module "callee".
+[NTE:CP0309] $Source01/t_inst_aport.v:64:53: Implicit port type (wire) for "o".
 [INF:CP0303] $Source01/t_inst_aport.v:69:1: Compile module "Test".
 [WRN:CP0323] $Source01/t_inst_aport.v:69:1: Multiply defined typedef "callee".
 [INF:CM0029] Using global timescale: "1ns/1ns".
@@ -1604,6 +1605,7 @@ Design name:unnamed:
           vpiName Identifier name:Test start:24:4 end:24:8:
             vpiParent: ModuleTypespec name:Test
             vpiName: Test
+          vpiModule: Module name:Test
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1647,6 +1649,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:in start:17:17 end:17:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:15:
@@ -1656,6 +1659,7 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: t.in
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:crc[31:0] start:17:22 end:17:31:
             vpiParent: Net name:in
             vpiName: crc[31:0]
@@ -1696,6 +1700,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: t.out
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:result start:31:16 end:31:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:31:9 end:31:15:
@@ -1705,6 +1710,7 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: t.result
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:31:25 end:31:37:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -2465,6 +2471,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: callee.o
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:port start:64:28 end:64:32:
           vpiParent: Module name:callee
@@ -2675,6 +2682,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: Test.out
+          vpiVector: true
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:Test
@@ -2843,11 +2851,13 @@ Design name:unnamed:
           vpiName Identifier name:callee start:104:4 end:104:10:
             vpiParent: ModuleTypespec name:callee
             vpiName: callee
+          vpiModule: Module name:callee
         ModuleTypespec name:callee start:107:4 end:107:10:
           vpiParent: Module name:Test
           vpiName Identifier name:callee start:107:4 end:107:10:
             vpiParent: ModuleTypespec name:callee
             vpiName: callee
+          vpiModule: Module name:callee
       vpiDefName: Test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2865,6 +2875,7 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: Test.in
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:port start:79:15 end:79:19:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec:
@@ -2874,6 +2885,7 @@ Design name:unnamed:
           vpiName: port
           vpiFullName: Test.port
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:goodport start:80:15 end:80:23:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec:
@@ -2883,6 +2895,7 @@ Design name:unnamed:
           vpiName: goodport
           vpiFullName: Test.goodport
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:out start:71:4 end:71:7:
           vpiParent: Module name:Test
@@ -2923,7 +2936,7 @@ Design name:unnamed:
               Assignment start:83:7 end:83:29:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs PartSelect name:port[0][7:0] start:83:7 end:83:19:
+                vpiLhs PartSelect name:port[0][7:0] start:83:11 end:83:19:
                   vpiParent: Assignment
                   vpiName: port[0][7:0]
                   vpiFullName: Test.port[0][7:0]
@@ -3002,7 +3015,7 @@ Design name:unnamed:
               Assignment start:84:7 end:84:30:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs PartSelect name:port[1][7:0] start:84:7 end:84:19:
+                vpiLhs PartSelect name:port[1][7:0] start:84:11 end:84:19:
                   vpiParent: Assignment
                   vpiName: port[1][7:0]
                   vpiFullName: Test.port[1][7:0]
@@ -3283,7 +3296,7 @@ Design name:unnamed:
               Assignment start:94:7 end:94:33:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs PartSelect name:goodport[0][7:0] start:94:7 end:94:23:
+                vpiLhs PartSelect name:goodport[0][7:0] start:94:15 end:94:23:
                   vpiParent: Assignment
                   vpiName: goodport[0][7:0]
                   vpiFullName: Test.goodport[0][7:0]
@@ -3362,7 +3375,7 @@ Design name:unnamed:
               Assignment start:95:7 end:95:34:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs PartSelect name:goodport[1][7:0] start:95:7 end:95:23:
+                vpiLhs PartSelect name:goodport[1][7:0] start:95:15 end:95:23:
                   vpiParent: Assignment
                   vpiName: goodport[1][7:0]
                   vpiFullName: Test.goodport[1][7:0]
@@ -3807,7 +3820,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

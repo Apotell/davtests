@@ -18,7 +18,7 @@ n<$Source01/sva/basic01.sv> u<181> t<Top_level_rule> c<1> l<1:1> el<17:1>
     n<> u<179> t<Description> p<180> c<178> l<1:1> el<16:10>
       n<> u<178> t<Module_declaration> p<179> c<19> l<1:1> el<16:10>
         n<> u<19> t<Module_ansi_header> p<178> c<2> s<47> l<1:1> el<1:38>
-          n<module> u<2> t<Module_keyword> p<19> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<19> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<19> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<19> s<18> l<1:12> el<1:12>
           n<> u<18> t<Port_declaration_list> p<19> c<12> l<1:12> el<1:37>
@@ -195,7 +195,6 @@ n<$Source01/sva/basic01.sv> u<181> t<Top_level_rule> c<1> l<1:1> el<17:1>
         n<> u<177> t<ENDMODULE> p<178> l<16:1> el<16:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sva/basic01.sv:1:1: Compile module "top".
-[ERR:LN0813] $Source01/sva/basic01.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -345,7 +344,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:24:
@@ -355,6 +354,17 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: top.clock
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:ctrl start:1:32 end:1:36:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:ctrl
+            vpiFullName: top.ctrl
+            vpiActual: LogicTypespec
+          vpiName: ctrl
+          vpiFullName: top.ctrl
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clock start:1:25 end:1:30:
           vpiParent: Module name:top
@@ -372,7 +382,16 @@ Design name:unnamed:
         Port name:ctrl start:1:32 end:1:36:
           vpiParent: Module name:top
           vpiName: ctrl
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:ctrl start:1:32 end:1:36:
+            vpiParent: Port name:ctrl
+            vpiName: ctrl
+            vpiFullName: top.ctrl.ctrl
+            vpiActual: Net name:ctrl
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:ctrl
+            vpiFullName: top.ctrl
+            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:4:2 end:8:5:
           vpiParent: Module name:top
@@ -406,7 +425,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: ctrl
                         vpiFullName: top.ctrl
-                        vpiActual: Port name:ctrl
+                        vpiActual: Net name:ctrl
                 Assignment start:6:3 end:6:16:
                   vpiParent: Begin
                   vpiLhs RefObj name:write start:6:3 end:6:8:
@@ -418,7 +437,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: ctrl
                     vpiFullName: top.ctrl
-                    vpiActual: Port name:ctrl
+                    vpiActual: Net name:ctrl
                 Assignment start:7:3 end:7:17:
                   vpiParent: Begin
                   vpiLhs RefObj name:ready start:7:3 end:7:8:
@@ -445,7 +464,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -492,10 +511,10 @@ Name                            Before   After   Added   Removed
 Constant                             3       5       2         0
 LogicTypespec                        1       2       1         0
 Operation                            7       4       0         3
-RefObj                              15      11       0         4
-RefTypespec                          8      10       2         0
+RefObj                              16      12       0         4
+RefTypespec                         10      12       2         0
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    59      57       5         7
+                                    63      61       5         7
 ===================== END REDUCTION RESULT =====================

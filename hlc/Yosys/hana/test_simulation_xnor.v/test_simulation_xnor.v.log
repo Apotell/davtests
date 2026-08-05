@@ -19,7 +19,7 @@ n<$Source01/hana/test_simulation_xnor.v> u<323> t<Top_level_rule> c<1> l<3:1> el
     n<> u<68> t<Description> p<322> c<67> s<69> l<3:1> el<5:10>
       n<> u<67> t<Module_declaration> p<68> c<29> l<3:1> el<5:10>
         n<> u<29> t<Module_ansi_header> p<67> c<3> s<65> l<3:1> el<3:44>
-          n<module> u<3> t<Module_keyword> p<29> s<4> l<3:1> el<3:7>
+          n<module> u<3> t<MODULE> p<29> s<4> l<3:1> el<3:7>
           n<f1_test> u<4> t<SIMPLE_IDENTIFIER> p<29> s<5> l<3:8> el<3:15>
           n<> u<5> t<Package_import_declaration_list> p<29> s<28> l<3:15> el<3:15>
           n<> u<28> t<Port_declaration_list> p<29> c<21> l<3:15> el<3:43>
@@ -86,7 +86,7 @@ n<$Source01/hana/test_simulation_xnor.v> u<323> t<Top_level_rule> c<1> l<3:1> el
     n<> u<147> t<Description> p<322> c<146> s<148> l<8:1> el<10:10>
       n<> u<146> t<Module_declaration> p<147> c<96> l<8:1> el<10:10>
         n<> u<96> t<Module_ansi_header> p<146> c<70> s<144> l<8:1> el<8:44>
-          n<module> u<70> t<Module_keyword> p<96> s<71> l<8:1> el<8:7>
+          n<module> u<70> t<MODULE> p<96> s<71> l<8:1> el<8:7>
           n<f2_test> u<71> t<SIMPLE_IDENTIFIER> p<96> s<72> l<8:8> el<8:15>
           n<> u<72> t<Package_import_declaration_list> p<96> s<95> l<8:15> el<8:15>
           n<> u<95> t<Port_declaration_list> p<96> c<88> l<8:15> el<8:43>
@@ -165,7 +165,7 @@ n<$Source01/hana/test_simulation_xnor.v> u<323> t<Top_level_rule> c<1> l<3:1> el
     n<> u<238> t<Description> p<322> c<237> s<239> l<13:1> el<15:10>
       n<> u<237> t<Module_declaration> p<238> c<175> l<13:1> el<15:10>
         n<> u<175> t<Module_ansi_header> p<237> c<149> s<235> l<13:1> el<13:44>
-          n<module> u<149> t<Module_keyword> p<175> s<150> l<13:1> el<13:7>
+          n<module> u<149> t<MODULE> p<175> s<150> l<13:1> el<13:7>
           n<f3_test> u<150> t<SIMPLE_IDENTIFIER> p<175> s<151> l<13:8> el<13:15>
           n<> u<151> t<Package_import_declaration_list> p<175> s<174> l<13:15> el<13:15>
           n<> u<174> t<Port_declaration_list> p<175> c<167> l<13:15> el<13:43>
@@ -256,7 +256,7 @@ n<$Source01/hana/test_simulation_xnor.v> u<323> t<Top_level_rule> c<1> l<3:1> el
     n<> u<321> t<Description> p<322> c<320> l<18:1> el<20:10>
       n<> u<320> t<Module_declaration> p<321> c<266> l<18:1> el<20:10>
         n<> u<266> t<Module_ansi_header> p<320> c<240> s<318> l<18:1> el<18:44>
-          n<module> u<240> t<Module_keyword> p<266> s<241> l<18:1> el<18:7>
+          n<module> u<240> t<MODULE> p<266> s<241> l<18:1> el<18:7>
           n<f4_test> u<241> t<SIMPLE_IDENTIFIER> p<266> s<242> l<18:8> el<18:15>
           n<> u<242> t<Package_import_declaration_list> p<266> s<265> l<18:15> el<18:15>
           n<> u<265> t<Port_declaration_list> p<266> c<258> l<18:15> el<18:43>
@@ -337,9 +337,13 @@ n<$Source01/hana/test_simulation_xnor.v> u<323> t<Top_level_rule> c<1> l<3:1> el
         n<> u<319> t<ENDMODULE> p<320> l<20:1> el<20:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/hana/test_simulation_xnor.v:3:1: Compile module "f1_test".
+[NTE:CP0309] $Source01/hana/test_simulation_xnor.v:3:39: Implicit port type (wire) for "out".
 [INF:CP0303] $Source01/hana/test_simulation_xnor.v:8:1: Compile module "f2_test".
+[NTE:CP0309] $Source01/hana/test_simulation_xnor.v:8:39: Implicit port type (wire) for "out".
 [INF:CP0303] $Source01/hana/test_simulation_xnor.v:13:1: Compile module "f3_test".
+[NTE:CP0309] $Source01/hana/test_simulation_xnor.v:13:39: Implicit port type (wire) for "out".
 [INF:CP0303] $Source01/hana/test_simulation_xnor.v:18:1: Compile module "f4_test".
+[NTE:CP0309] $Source01/hana/test_simulation_xnor.v:18:39: Implicit port type (wire) for "out".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -402,6 +406,7 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: f1_test.in
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:out start:3:39 end:3:42:
           vpiParent: Module name:f1_test
           vpiTypespec RefTypespec start:3:32 end:3:38:
@@ -411,6 +416,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: f1_test.out
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:in start:3:28 end:3:30:
           vpiParent: Module name:f1_test
@@ -544,6 +550,7 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: f2_test.in
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:out start:8:39 end:8:42:
           vpiParent: Module name:f2_test
           vpiTypespec RefTypespec start:8:32 end:8:38:
@@ -553,6 +560,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: f2_test.out
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:in start:8:28 end:8:30:
           vpiParent: Module name:f2_test
@@ -709,6 +717,7 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: f3_test.in
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:out start:13:39 end:13:42:
           vpiParent: Module name:f3_test
           vpiTypespec RefTypespec start:13:32 end:13:38:
@@ -718,6 +727,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: f3_test.out
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:in start:13:28 end:13:30:
           vpiParent: Module name:f3_test
@@ -897,6 +907,7 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: f4_test.in
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:out start:18:39 end:18:42:
           vpiParent: Module name:f4_test
           vpiTypespec RefTypespec start:18:32 end:18:38:
@@ -906,6 +917,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: f4_test.out
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:in start:18:28 end:18:30:
           vpiParent: Module name:f4_test
@@ -1076,7 +1088,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 4
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

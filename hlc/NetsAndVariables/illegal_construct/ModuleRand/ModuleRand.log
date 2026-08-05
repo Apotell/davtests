@@ -1,0 +1,120 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/NetsAndVariables/illegal_construct -d ast -d db ModuleRand.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ModuleRand
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/ModuleRand.sv".
+[INF:PA0201] Parsing source file "$Source01/ModuleRand.sv".
+[SNT:PA0207] $Source01/ModuleRand.sv:24:2: Syntax error: no viable alternative at input 'module illegal_construct_module_rand_test();\n  rand',
+  rand logic [3:0] mod_rand; // ILLEGAL: rand qualifier at module scope
+  ^-- $Source01/ModuleRand.sv:24:2:.
+[SNT:PA0207] $Source01/ModuleRand.sv:24:2: Syntax error: mismatched input 'rand' expecting <EOF>,
+  rand logic [3:0] mod_rand; // ILLEGAL: rand qualifier at module scope
+  ^-- $Source01/ModuleRand.sv:24:2:.
+AST_DEBUG_BEGIN
+Count: 24
+LIB: work
+FILE: f<13>:$Source01/ModuleRand.sv
+n<$Source01/ModuleRand.sv> u<23> t<Top_level_rule> c<1> l<23:1> el<25:10>
+  n<> u<1> t<Null_rule> p<23> s<2> l<23:1> el<23:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<23> s<3> l<23:1> el<23:45>
+  n<// Illegal construct: a `rand` qualifier on a variable declared directly> u<3> t<LINE_COMMENT> p<23> s<4> l<17:1> el<17:73>
+  n<// inside a module. Per the LRM, `rand`/`randc` random-variable qualifiers> u<4> t<LINE_COMMENT> p<23> s<5> l<18:1> el<18:75>
+  n<// are only legal on class properties (and, since IEEE 1800-2017, on> u<5> t<LINE_COMMENT> p<23> s<6> l<19:1> el<19:69>
+  n<// variables declared inside a checker); a module has no randomize() context,> u<6> t<LINE_COMMENT> p<23> s<7> l<20:1> el<20:78>
+  n<// so declaring a rand variable at module scope is illegal.> u<7> t<LINE_COMMENT> p<23> s<21> l<21:1> el<21:60>
+  n<> u<21> t<Source_text> p<23> c<9> s<22> l<23:1> el<23:45>
+    n<> u<9> t<Description> p<21> c<8> s<11> l<23:1> el<23:1>
+      n<> u<8> t<Module_declaration> p<9> l<23:1> el<23:1>
+    n<> u<11> t<Description> p<21> c<10> s<14> l<23:1> el<23:7>
+      n<> u<10> t<Module_declaration> p<11> l<23:1> el<23:7>
+    n<> u<14> t<Description> p<21> c<13> s<17> l<23:8> el<23:8>
+      n<> u<13> t<Package_item> p<14> c<12> l<23:8> el<23:8>
+        n<> u<12> t<Package_or_generate_item_declaration> p<13> l<23:8> el<23:8>
+    n<> u<17> t<Description> p<21> c<16> s<20> l<23:8> el<23:44>
+      n<> u<16> t<Package_item> p<17> c<15> l<23:8> el<23:44>
+        n<> u<15> t<Package_or_generate_item_declaration> p<16> l<23:8> el<23:44>
+    n<> u<20> t<Description> p<21> c<19> l<23:44> el<23:45>
+      n<> u<19> t<Package_item> p<20> c<18> l<23:44> el<23:45>
+        n<> u<18> t<Package_or_generate_item_declaration> p<19> l<23:44> el<23:45>
+  n<// ILLEGAL: rand qualifier at module scope> u<22> t<LINE_COMMENT> p<23> l<24:30> el<24:72>
+AST_DEBUG_END
+[WRN:PA0205] $Source01/ModuleRand.sv:23:1: No timescale set for "".
+[WRN:PA0205] $Source01/ModuleRand.sv:23:1: No timescale set for "".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:ModuleRand.sv file:$Source01/ModuleRand.sv:
+      vpiParent: Design name:unnamed
+      vpiName: ModuleRand.sv
+      vpiPreprocFile: "$Output/lib/work/ModuleRand.sv"
+  vpiAllModules (2 items):
+    Module file:$Source01/ModuleRand.sv start:23:1 end:23:1:
+      vpiParent: Design name:unnamed
+      vpiDefNetType: wire (1)
+    Module file:$Source01/ModuleRand.sv start:23:1 end:23:7:
+      vpiParent: Design name:unnamed
+      vpiDefNetType: wire (1)
+  vpiTypespec (2 items):
+    ModuleTypespec:
+      vpiParent: Design name:unnamed
+      vpiModule: Module
+    ModuleTypespec:
+      vpiParent: Design name:unnamed
+      vpiModule: Module
+===================
+[  FATAL] : 0
+[ SYNTAX] : 2
+[  ERROR] : 0
+[WARNING] : 2
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: NetsAndVariables/illegal_construct/ModuleRand
+   test-dirpath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ModuleRand
+  hldb-filepath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ModuleRand/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ModuleRand/mounts.json
+
+
+{'result': {'coverage': 41.77,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/ModuleRand.sv': {'post_len': 46,
+                                                         'pre_len': 79}},
+            'post_len': 46,
+            'pre_len': 79,
+            'test_name': 'NetsAndVariables/illegal_construct/ModuleRand'}}
+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/ModuleRand.sv |       79 |        46 |
++================================+==========+===========+
+|                                |       79 |        46 |
++--------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 41.77
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ModuleRand/design.hldb ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/ModuleRand/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                               6       6       0         0
+----------------------------------------------------------------
+                                     6       6       0         0
+===================== END REDUCTION RESULT =====================

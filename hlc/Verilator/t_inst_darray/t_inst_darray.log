@@ -164,7 +164,7 @@ n<$Source01/t_inst_darray.v> u<626> t<Top_level_rule> c<1> l<6:1> el<86:1>
     n<> u<293> t<Description> p<625> c<292> s<360> l<26:1> el<42:10>
       n<> u<292> t<Module_declaration> p<293> c<220> l<26:1> el<42:10>
         n<> u<220> t<Module_ansi_header> p<292> c<148> s<256> l<26:1> el<33:7>
-          n<module> u<148> t<Module_keyword> p<220> s<149> l<26:1> el<26:7>
+          n<module> u<148> t<MODULE> p<220> s<149> l<26:1> el<26:7>
           n<Contemplator> u<149> t<SIMPLE_IDENTIFIER> p<220> s<150> l<26:8> el<26:20>
           n<> u<150> t<Package_import_declaration_list> p<220> s<187> l<26:21> el<26:21>
           n<> u<187> t<Parameter_port_list> p<220> c<162> s<219> l<26:21> el<29:29>
@@ -310,7 +310,7 @@ n<$Source01/t_inst_darray.v> u<626> t<Top_level_rule> c<1> l<6:1> el<86:1>
     n<> u<360> t<Description> p<625> c<359> s<624> l<44:1> el<50:10>
       n<> u<359> t<Module_declaration> p<360> c<357> l<44:1> el<50:10>
         n<> u<357> t<Module_ansi_header> p<359> c<294> s<358> l<44:1> el<49:7>
-          n<module> u<294> t<Module_keyword> p<357> s<295> l<44:1> el<44:7>
+          n<module> u<294> t<MODULE> p<357> s<295> l<44:1> el<44:7>
           n<DeepThought> u<295> t<SIMPLE_IDENTIFIER> p<357> s<296> l<44:8> el<44:19>
           n<> u<296> t<Package_import_declaration_list> p<357> s<309> l<44:20> el<44:20>
           n<> u<309> t<Parameter_port_list> p<357> c<308> s<356> l<44:20> el<45:25>
@@ -377,7 +377,7 @@ n<$Source01/t_inst_darray.v> u<626> t<Top_level_rule> c<1> l<6:1> el<86:1>
     n<> u<624> t<Description> p<625> c<623> l<53:1> el<85:10>
       n<> u<623> t<Module_declaration> p<624> c<373> l<53:1> el<85:10>
         n<> u<373> t<Module_nonansi_header> p<623> c<361> s<380> l<53:1> el<56:6>
-          n<module> u<361> t<Module_keyword> p<373> s<362> l<53:1> el<53:7>
+          n<module> u<361> t<MODULE> p<373> s<362> l<53:1> el<53:7>
           n<t> u<362> t<SIMPLE_IDENTIFIER> p<373> s<363> l<53:8> el<53:9>
           n<> u<363> t<Package_import_declaration_list> p<373> s<364> l<53:10> el<53:10>
           n</*AUTOARG*/> u<364> t<BLOCK_COMMENT> p<373> s<365> l<53:10> el<56:5>
@@ -642,9 +642,10 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_inst_darray.v:9:1: Compile interface "the_intf".
 [INF:CP0303] $Source01/t_inst_darray.v:26:1: Compile module "Contemplator".
 [INF:CP0303] $Source01/t_inst_darray.v:44:1: Compile module "DeepThought".
+[WRN:CP0310] $Source01/t_inst_darray.v:47:16: Port "src" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/t_inst_darray.v:48:16: Port "dst" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_inst_darray.v:53:1: Compile module "t".
 [WRN:CP0323] $Source01/t_inst_darray.v:53:1: Multiply defined typedef "Contemplator".
-[ERR:LN0813] $Source01/t_inst_darray.v:1:1: Found 6 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -905,7 +906,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:Contemplator
         UnsupportedTypespec name:logic start:31:11 end:31:16:
@@ -913,6 +914,21 @@ Design name:unnamed:
           vpiName Identifier name:logic start:31:11 end:31:16:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
+        UnsupportedTypespec name:the_intf::i start:32:5 end:32:15:
+          vpiParent: Module name:Contemplator
+          vpiPathElem (2 items):
+            RefObj name:the_intf start:32:5 end:32:13:
+              vpiParent: UnsupportedTypespec name:the_intf::i
+              vpiName: the_intf
+              vpiFullName: Contemplator.the_intf::i.the_intf
+              vpiActual: Interface name:the_intf
+            RefObj name:i start:32:14 end:32:15:
+              vpiParent: UnsupportedTypespec name:the_intf::i
+              vpiName: i
+              vpiFullName: Contemplator.the_intf::i.i
+          vpiName Identifier name:the_intf::i:
+            vpiParent: UnsupportedTypespec name:the_intf::i
+            vpiName: the_intf::i
         ArrayTypespec:
           vpiParent: Module name:Contemplator
           vpiArrayType: static (1)
@@ -947,9 +963,11 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec name:the_intf::i start:32:5 end:32:15:
             vpiParent: ArrayTypespec
-            vpiFullName: Contemplator
+            vpiName: the_intf::i
+            vpiFullName: Contemplator.the_intf::i
+            vpiActual: UnsupportedTypespec name:the_intf::i
         ArrayTypespec:
           vpiParent: Module name:Contemplator
           vpiArrayType: static (1)
@@ -994,6 +1012,7 @@ Design name:unnamed:
           vpiName Identifier name:DeepThought start:37:4 end:37:15:
             vpiParent: ModuleTypespec name:DeepThought
             vpiName: DeepThought
+          vpiModule: Module name:DeepThought
       vpiDefName: Contemplator
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1030,7 +1049,16 @@ Design name:unnamed:
         Port name:out start:32:16 end:32:19:
           vpiParent: Module name:Contemplator
           vpiName: out
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:out start:32:16 end:32:19:
+            vpiParent: Port name:out
+            vpiName: out
+            vpiFullName: Contemplator.out.out
+            vpiActual: Port name:out
+          vpiTypespec RefTypespec start:32:5 end:32:15:
+            vpiParent: Port name:out
+            vpiFullName: Contemplator.out
+            vpiActual: ArrayTypespec
       vpiRefInstance (2 items):
         RefInstance name:inp start:35:22 end:35:25:
           vpiParent: Module name:Contemplator
@@ -1044,6 +1072,7 @@ Design name:unnamed:
             ParamAssign start:35:15 end:35:20:
               vpiParent: RefInstance name:inp
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:M start:35:16 end:35:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1066,6 +1095,7 @@ Design name:unnamed:
             ParamAssign start:38:4 end:38:17:
               vpiParent: RefInstance name:ultimateAnswerer
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:N start:38:5 end:38:6:
                 vpiParent: ParamAssign
                 vpiName: N
@@ -1132,9 +1162,25 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (3 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:DeepThought
+        UnsupportedTypespec name:the_intf::t start:47:5 end:47:15:
+          vpiParent: Module name:DeepThought
+          vpiPathElem (2 items):
+            RefObj name:the_intf start:47:5 end:47:13:
+              vpiParent: UnsupportedTypespec name:the_intf::t
+              vpiName: the_intf
+              vpiFullName: DeepThought.the_intf::t.the_intf
+              vpiActual: Interface name:the_intf
+            RefObj name:t start:47:14 end:47:15:
+              vpiParent: UnsupportedTypespec name:the_intf::t
+              vpiName: t
+              vpiFullName: DeepThought.the_intf::t.t
+              vpiActual: Module name:t
+          vpiName Identifier name:the_intf::t:
+            vpiParent: UnsupportedTypespec name:the_intf::t
+            vpiName: the_intf::t
         ArrayTypespec:
           vpiParent: Module name:DeepThought
           vpiArrayType: static (1)
@@ -1169,9 +1215,26 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec name:the_intf::t start:47:5 end:47:15:
             vpiParent: ArrayTypespec
-            vpiFullName: DeepThought
+            vpiName: the_intf::t
+            vpiFullName: DeepThought.the_intf::t
+            vpiActual: UnsupportedTypespec name:the_intf::t
+        UnsupportedTypespec name:the_intf::i start:48:5 end:48:15:
+          vpiParent: Module name:DeepThought
+          vpiPathElem (2 items):
+            RefObj name:the_intf start:48:5 end:48:13:
+              vpiParent: UnsupportedTypespec name:the_intf::i
+              vpiName: the_intf
+              vpiFullName: DeepThought.the_intf::i.the_intf
+              vpiActual: Interface name:the_intf
+            RefObj name:i start:48:14 end:48:15:
+              vpiParent: UnsupportedTypespec name:the_intf::i
+              vpiName: i
+              vpiFullName: DeepThought.the_intf::i.i
+          vpiName Identifier name:the_intf::i:
+            vpiParent: UnsupportedTypespec name:the_intf::i
+            vpiName: the_intf::i
         ArrayTypespec:
           vpiParent: Module name:DeepThought
           vpiArrayType: static (1)
@@ -1206,9 +1269,11 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec name:the_intf::i start:48:5 end:48:15:
             vpiParent: ArrayTypespec
-            vpiFullName: DeepThought
+            vpiName: the_intf::i
+            vpiFullName: DeepThought.the_intf::i
+            vpiActual: UnsupportedTypespec name:the_intf::i
       vpiDefName: DeepThought
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1221,10 +1286,28 @@ Design name:unnamed:
           vpiParent: Module name:DeepThought
           vpiName: src
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:src start:47:16 end:47:19:
+            vpiParent: Port name:src
+            vpiName: src
+            vpiFullName: DeepThought.src.src
+            vpiActual: Port name:src
+          vpiTypespec RefTypespec start:47:5 end:47:15:
+            vpiParent: Port name:src
+            vpiFullName: DeepThought.src
+            vpiActual: ArrayTypespec
         Port name:dst start:48:16 end:48:19:
           vpiParent: Module name:DeepThought
           vpiName: dst
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:dst start:48:16 end:48:19:
+            vpiParent: Port name:dst
+            vpiName: dst
+            vpiFullName: DeepThought.dst.dst
+            vpiActual: Port name:dst
+          vpiTypespec RefTypespec start:48:5 end:48:15:
+            vpiParent: Port name:dst
+            vpiFullName: DeepThought.dst
+            vpiActual: ArrayTypespec
     Module name:t file:$Source01/t_inst_darray.v start:53:1 end:85:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:53:8 end:53:9:
@@ -1371,11 +1454,13 @@ Design name:unnamed:
           vpiName Identifier name:Contemplator start:65:4 end:65:16:
             vpiParent: ModuleTypespec name:Contemplator
             vpiName: Contemplator
+          vpiModule: Module name:Contemplator
         ModuleTypespec name:Contemplator start:73:4 end:73:16:
           vpiParent: Module name:t
           vpiName Identifier name:Contemplator start:73:4 end:73:16:
             vpiParent: ModuleTypespec name:Contemplator
             vpiName: Contemplator
+          vpiModule: Module name:Contemplator
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1393,6 +1478,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:55:4 end:55:7:
           vpiParent: Module name:t
@@ -1448,6 +1534,7 @@ Design name:unnamed:
             ParamAssign start:62:15 end:62:20:
               vpiParent: RefInstance name:out0
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:M start:62:16 end:62:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1470,6 +1557,7 @@ Design name:unnamed:
             ParamAssign start:63:15 end:63:20:
               vpiParent: RefInstance name:out1
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:M start:63:16 end:63:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1492,6 +1580,7 @@ Design name:unnamed:
             ParamAssign start:66:5 end:66:19:
               vpiParent: RefInstance name:contemplatorOfTheZerothKind
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:IMPL start:66:6 end:66:10:
                 vpiParent: ParamAssign
                 vpiName: IMPL
@@ -1509,6 +1598,7 @@ Design name:unnamed:
             ParamAssign start:67:5 end:67:19:
               vpiParent: RefInstance name:contemplatorOfTheZerothKind
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:M start:67:6 end:67:7:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1522,6 +1612,7 @@ Design name:unnamed:
             ParamAssign start:68:5 end:68:19:
               vpiParent: RefInstance name:contemplatorOfTheZerothKind
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:N start:68:6 end:68:7:
                 vpiParent: ParamAssign
                 vpiName: N
@@ -1568,6 +1659,7 @@ Design name:unnamed:
             ParamAssign start:74:5 end:74:19:
               vpiParent: RefInstance name:contemplatorOfTheFirstKind
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:IMPL start:74:6 end:74:10:
                 vpiParent: ParamAssign
                 vpiName: IMPL
@@ -1585,6 +1677,7 @@ Design name:unnamed:
             ParamAssign start:75:5 end:75:19:
               vpiParent: RefInstance name:contemplatorOfTheFirstKind
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:M start:75:6 end:75:7:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1598,6 +1691,7 @@ Design name:unnamed:
             ParamAssign start:76:5 end:76:19:
               vpiParent: RefInstance name:contemplatorOfTheFirstKind
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:N start:76:6 end:76:7:
                 vpiParent: ParamAssign
                 vpiName: N
@@ -1751,8 +1845,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1767,25 +1861,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_inst_darray/mounts.json
 
 
-{'result': {'coverage': 97.07,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_inst_darray.v': {'post_len': 30,
+            'files': {'$Output/lib/work/t_inst_darray.v': {'post_len': 0,
                                                            'pre_len': 1023}},
-            'post_len': 30,
+            'post_len': 0,
             'pre_len': 1023,
             'test_name': 'Verilator/t_inst_darray'}}
 
 +----------------------------------+----------+-----------+
 | INPUT                            |   PRELEN |   POSTLEN |
 +==================================+==========+===========+
-| $Output/lib/work/t_inst_darray.v |     1023 |        30 |
+| $Output/lib/work/t_inst_darray.v |     1023 |         0 |
 +==================================+==========+===========+
-|                                  |     1023 |        30 |
+|                                  |     1023 |         0 |
 +----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.07
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1797,10 +1891,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            28      28       7         7
 Operation                            7       0       0         7
-RefObj                              50      43       0         7
-RefTypespec                         65      65       7         7
+RefObj                              59      52       0         7
+RefTypespec                         68      68       7         7
 ----------------------------------------------------------------
-Others                             120     120       0         0
+Others                             126     126       0         0
 ----------------------------------------------------------------
-                                   270     256      14        28
+                                   288     274      14        28
 ===================== END REDUCTION RESULT =====================

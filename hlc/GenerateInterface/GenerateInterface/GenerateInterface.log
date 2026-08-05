@@ -409,7 +409,7 @@ n<$Source01/top.sv> u<432> t<Top_level_rule> c<1> l<1:1> el<44:1>
     n<> u<147> t<Description> p<431> c<146> s<290> l<16:1> el<19:10>
       n<> u<146> t<Module_declaration> p<147> c<133> l<16:1> el<19:10>
         n<> u<133> t<Module_nonansi_header> p<146> c<129> s<144> l<16:1> el<16:15>
-          n<module> u<129> t<Module_keyword> p<133> s<130> l<16:1> el<16:7>
+          n<module> u<129> t<MODULE> p<133> s<130> l<16:1> el<16:7>
           n<top> u<130> t<SIMPLE_IDENTIFIER> p<133> s<131> l<16:8> el<16:11>
           n<> u<131> t<Package_import_declaration_list> p<133> s<132> l<16:12> el<16:12>
           n<> u<132> t<Port_list> p<133> l<16:12> el<16:14>
@@ -571,7 +571,7 @@ n<$Source01/top.sv> u<432> t<Top_level_rule> c<1> l<1:1> el<44:1>
     n<> u<430> t<Description> p<431> c<429> l<34:1> el<43:10>
       n<> u<429> t<Module_declaration> p<430> c<332> l<34:1> el<43:10>
         n<> u<332> t<Module_ansi_header> p<429> c<291> s<356> l<34:1> el<34:67>
-          n<module> u<291> t<Module_keyword> p<332> s<292> l<34:1> el<34:7>
+          n<module> u<291> t<MODULE> p<332> s<292> l<34:1> el<34:7>
           n<top2> u<292> t<SIMPLE_IDENTIFIER> p<332> s<293> l<34:8> el<34:12>
           n<> u<293> t<Package_import_declaration_list> p<332> s<308> l<34:13> el<34:13>
           n<> u<308> t<Parameter_port_list> p<332> c<307> s<331> l<34:13> el<34:41>
@@ -714,6 +714,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/top.sv:16:1: Compile module "top".
 [INF:CP0304] $Source01/top.sv:22:1: Compile interface "pins_if".
 [INF:CP0303] $Source01/top.sv:34:1: Compile module "top2".
+[NTE:CP0309] $Source01/top.sv:34:61: Implicit port type (wire) for "pins".
 [INF:CP0335] $Source01/top.sv:38:48: Compile generate block "each_pin".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.sv:16:1: No timescale set for "top".
@@ -3052,6 +3053,7 @@ Design name:unnamed:
           vpiName: pins
           vpiFullName: pins_if.pins
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:pins start:23:21 end:23:25:
           vpiParent: Interface name:pins_if
@@ -3286,6 +3288,7 @@ Design name:unnamed:
           vpiName: pins
           vpiFullName: top2.pins
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:pins start:34:61 end:34:65:
           vpiParent: Module name:top2
@@ -3313,6 +3316,7 @@ Design name:unnamed:
             ParamAssign start:35:11 end:35:24:
               vpiParent: RefInstance name:intf
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:Width start:35:12 end:35:17:
                 vpiParent: ParamAssign
                 vpiName: Width
@@ -3506,7 +3510,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 5
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

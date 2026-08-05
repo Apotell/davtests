@@ -18,7 +18,7 @@ n<$Source01/top.v> u<70> t<Top_level_rule> c<1> l<1:1> el<10:1>
     n<> u<68> t<Description> p<69> c<67> l<1:1> el<9:10>
       n<> u<67> t<Module_declaration> p<68> c<25> l<1:1> el<9:10>
         n<> u<25> t<Module_ansi_header> p<67> c<2> s<36> l<1:1> el<2:36>
-          n<module> u<2> t<Module_keyword> p<25> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<25> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<25> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<25> s<24> l<2:5> el<2:5>
           n<> u<24> t<Port_declaration_list> p<25> c<10> l<2:5> el<2:35>
@@ -84,7 +84,6 @@ n<$Source01/top.v> u<70> t<Top_level_rule> c<1> l<1:1> el<10:1>
         n<> u<66> t<ENDMODULE> p<67> l<9:1> el<9:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:1:1: Compile module "top".
-[ERR:LN0813] $Source01/top.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -110,6 +109,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: top.q
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -120,7 +120,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:d start:2:13 end:2:14:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:2:7 end:2:12:
@@ -130,6 +130,17 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: top.d
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clk start:2:16 end:2:19:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clk
+            vpiFullName: top.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: top.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:u start:4:10 end:4:11:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:10 end:4:10:
@@ -139,6 +150,7 @@ Design name:unnamed:
           vpiName: u
           vpiFullName: top.u
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:d start:2:13 end:2:14:
           vpiParent: Module name:top
@@ -156,7 +168,16 @@ Design name:unnamed:
         Port name:clk start:2:16 end:2:19:
           vpiParent: Module name:top
           vpiName: clk
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:2:16 end:2:19:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clk
+            vpiFullName: top.clk
+            vpiActual: LogicTypespec
         Port name:q start:2:32 end:2:33:
           vpiParent: Module name:top
           vpiName: q
@@ -183,7 +204,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: top.clk
-                  vpiActual: Port name:clk
+                  vpiActual: Net name:clk
             vpiStmt Assignment start:8:13 end:8:19:
               vpiParent: EventControl
               vpiLhs RefObj name:q start:8:13 end:8:14:
@@ -207,7 +228,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -251,7 +272,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/misc/check/top/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              32      32       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    32      32       0         0
 ===================== END REDUCTION RESULT =====================

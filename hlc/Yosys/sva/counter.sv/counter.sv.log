@@ -18,7 +18,7 @@ n<$Source01/sva/counter.sv> u<557> t<Top_level_rule> c<1> l<1:1> el<31:1>
     n<> u<555> t<Description> p<556> c<554> l<1:1> el<30:10>
       n<> u<554> t<Module_declaration> p<555> c<45> l<1:1> el<30:10>
         n<> u<45> t<Module_ansi_header> p<554> c<2> s<147> l<1:1> el<1:63>
-          n<module> u<2> t<Module_keyword> p<45> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<45> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<45> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<45> s<44> l<1:12> el<1:12>
           n<> u<44> t<Port_declaration_list> p<45> c<10> l<1:12> el<1:62>
@@ -571,7 +571,7 @@ n<$Source01/sva/counter.sv> u<557> t<Top_level_rule> c<1> l<1:1> el<31:1>
         n<> u<553> t<ENDMODULE> p<554> l<30:1> el<30:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sva/counter.sv:1:1: Compile module "top".
-[ERR:LN0813] $Source01/sva/counter.sv:1:1: Found 3 orphan node(s).
+[ERR:LN0814] Found 1 weak node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -618,7 +618,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: down
                       vpiFullName: top.down_n.down
-                      vpiActual: Port name:down
+                      vpiActual: Net name:down
                     RefObj name:n start:25:10 end:25:11:
                       vpiParent: Operation
                       vpiName: n
@@ -671,7 +671,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: up
                   vpiFullName: top.up
-                  vpiActual: Port name:up
+                  vpiActual: Net name:up
                 Operation start:14:26 end:14:50:
                   vpiParent: Operation
                   vpiOpType: equal (14)
@@ -722,7 +722,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: up
                       vpiFullName: top.up
-                      vpiActual: Port name:up
+                      vpiActual: Net name:up
                     Constant start:15:24 end:15:25:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -793,7 +793,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: up
                       vpiFullName: top.up
-                      vpiActual: Port name:up
+                      vpiActual: Net name:up
                     Constant start:16:24 end:16:25:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -808,7 +808,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: up
                       vpiFullName: top.up
-                      vpiActual: Port name:up
+                      vpiActual: Net name:up
                 Operation start:16:33 end:16:60:
                   vpiParent: Operation
                   vpiOpType: equal (14)
@@ -865,7 +865,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: down
                   vpiFullName: top.down
-                  vpiActual: Port name:down
+                  vpiActual: Net name:down
                 Operation start:19:28 end:19:31:
                   vpiParent: Operation
                   vpiOpType: not (3)
@@ -874,7 +874,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: up
                       vpiFullName: top.up
-                      vpiActual: Port name:up
+                      vpiActual: Net name:up
         Assert start:21:2 end:21:57:
           vpiParent: Module name:top
           vpiProperty PropertySpec start:21:19 end:21:55:
@@ -891,7 +891,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: up
                       vpiFullName: top.up
-                      vpiActual: Port name:up
+                      vpiActual: Net name:up
                     Constant start:21:24 end:21:25:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -906,7 +906,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: down
                       vpiFullName: top.down
-                      vpiActual: Port name:down
+                      vpiActual: Net name:down
                 Operation start:21:35 end:21:55:
                   vpiParent: Operation
                   vpiOpType: equal (14)
@@ -949,7 +949,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: down
                   vpiFullName: top.down
-                  vpiActual: Port name:down
+                  vpiActual: Net name:down
                 Operation start:22:28 end:22:52:
                   vpiParent: Operation
                   vpiOpType: equal (14)
@@ -1033,6 +1033,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: cnt
           vpiFullName: top.cnt
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -1069,7 +1070,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (1 items):
+      vpiNet (4 items):
         Net name:clk start:1:19 end:1:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:18:
@@ -1079,6 +1080,37 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: top.clk
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:reset start:1:24 end:1:29:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:reset
+            vpiFullName: top.reset
+            vpiActual: LogicTypespec
+          vpiName: reset
+          vpiFullName: top.reset
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:up start:1:31 end:1:33:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:up
+            vpiFullName: top.up
+            vpiActual: LogicTypespec
+          vpiName: up
+          vpiFullName: top.up
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:down start:1:35 end:1:39:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:down
+            vpiFullName: top.down
+            vpiActual: LogicTypespec
+          vpiName: down
+          vpiFullName: top.down
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiDefaultClocking ClockingBlock start:11:2 end:11:46:
         vpiParent: Module name:top
         vpiFullName: top
@@ -1110,15 +1142,42 @@ Design name:unnamed:
         Port name:reset start:1:24 end:1:29:
           vpiParent: Module name:top
           vpiName: reset
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:reset start:1:24 end:1:29:
+            vpiParent: Port name:reset
+            vpiName: reset
+            vpiFullName: top.reset.reset
+            vpiActual: Net name:reset
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:reset
+            vpiFullName: top.reset
+            vpiActual: LogicTypespec
         Port name:up start:1:31 end:1:33:
           vpiParent: Module name:top
           vpiName: up
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:up start:1:31 end:1:33:
+            vpiParent: Port name:up
+            vpiName: up
+            vpiFullName: top.up.up
+            vpiActual: Net name:up
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:up
+            vpiFullName: top.up
+            vpiActual: LogicTypespec
         Port name:down start:1:35 end:1:39:
           vpiParent: Module name:top
           vpiName: down
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:down start:1:35 end:1:39:
+            vpiParent: Port name:down
+            vpiName: down
+            vpiFullName: top.down.down
+            vpiActual: Net name:down
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:down
+            vpiFullName: top.down
+            vpiActual: LogicTypespec
         Port name:cnt start:1:58 end:1:61:
           vpiParent: Module name:top
           vpiName: cnt
@@ -1156,7 +1215,7 @@ Design name:unnamed:
                     vpiParent: IfElse
                     vpiName: reset
                     vpiFullName: top.reset
-                    vpiActual: Port name:reset
+                    vpiActual: Net name:reset
                   vpiStmt Assignment start:4:4 end:4:12:
                     vpiParent: IfElse
                     vpiLhs RefObj name:cnt start:4:4 end:4:7:
@@ -1180,7 +1239,7 @@ Design name:unnamed:
                       vpiParent: IfElse
                       vpiName: up
                       vpiFullName: top.up
-                      vpiActual: Port name:up
+                      vpiActual: Net name:up
                     vpiStmt Assignment start:6:4 end:6:18:
                       vpiParent: IfElse
                       vpiLhs RefObj name:cnt start:6:4 end:6:7:
@@ -1213,7 +1272,7 @@ Design name:unnamed:
                         vpiParent: IfStmt
                         vpiName: down
                         vpiFullName: top.down
-                        vpiActual: Port name:down
+                        vpiActual: Net name:down
                       vpiStmt Assignment start:8:4 end:8:18:
                         vpiParent: IfStmt
                         vpiLhs RefObj name:cnt start:8:4 end:8:7:
@@ -1301,7 +1360,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/sva/counter.sv/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             168     168       0         0
+Others                             180     180       0         0
 ----------------------------------------------------------------
-                                   168     168       0         0
+                                   180     180       0         0
 ===================== END REDUCTION RESULT =====================
