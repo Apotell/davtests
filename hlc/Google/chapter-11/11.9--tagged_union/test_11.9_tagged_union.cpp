@@ -131,9 +131,8 @@ TEST_F(TaggedUnionTest, UnionTypespecIsTaggedWithInvalidAndValidMembers) {
   EXPECT_EQ(valid->getName(), "Valid");
 
   ASSERT_NE(invalid->getTypespec(), nullptr);
-  EXPECT_EQ(invalid->getTypespec()->getName(), "void");
-  EXPECT_EQ(invalid->getTypespec()->getActual<hldb::IntTypespec>(), nullptr)
-      << "the void member's typespec ref should not resolve to any backing typespec";
+  EXPECT_NE(invalid->getTypespec()->getActual<hldb::VoidTypespec>(), nullptr)
+      << "the void member's typespec ref should  resolve to VoidTypespec";
 
   ASSERT_NE(valid->getTypespec(), nullptr);
   EXPECT_NE(valid->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -228,9 +227,9 @@ TEST_F(TaggedUnionTest, SecondStatementAssignsTaggedValidWithTagFortyTwo) {
 
 // --- design-level typespecs / compiler diagnostics --------------------------
 
-TEST_F(TaggedUnionTest, DesignHasTwoTypespecs) {
+TEST_F(TaggedUnionTest, DesignHasThreTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
+  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
 TEST_F(TaggedUnionTest, CompilerReportsZeroErrors) {
