@@ -2183,21 +2183,29 @@ Design name:unnamed:
                     vpiName: simple_minus
                   vpiTaskFunc: Function name:simple_minus
                   vpiArgument (2 items):
-                    IODecl name:value2 start:11:35 end:11:50:
+                    NamedArgument start:11:35 end:11:50:
                       vpiParent: FuncCall name:simple_minus
-                      vpiName: value2
-                      vpiExpr RefObj name:value2 start:11:43 end:11:49:
-                        vpiParent: IODecl name:value2
+                      vpiLowConn RefObj name:value2 start:11:36 end:11:42:
+                        vpiParent: NamedArgument
                         vpiName: value2
-                        vpiFullName: my_funcs::simple_func::value2::value2
+                        vpiFullName: my_funcs::simple_func::value2
                         vpiActual: IODecl name:value2
-                    IODecl name:value1 start:11:52 end:11:67:
+                      vpiHighConn RefObj name:value2 start:11:43 end:11:49:
+                        vpiParent: NamedArgument
+                        vpiName: value2
+                        vpiFullName: my_funcs::simple_func::value2
+                        vpiActual: IODecl name:value2
+                    NamedArgument start:11:52 end:11:67:
                       vpiParent: FuncCall name:simple_minus
-                      vpiName: value1
-                      vpiExpr RefObj name:value1 start:11:60 end:11:66:
-                        vpiParent: IODecl name:value1
+                      vpiLowConn RefObj name:value1 start:11:53 end:11:59:
+                        vpiParent: NamedArgument
                         vpiName: value1
-                        vpiFullName: my_funcs::simple_func::value1::value1
+                        vpiFullName: my_funcs::simple_func::value1
+                        vpiActual: IODecl name:value1
+                      vpiHighConn RefObj name:value1 start:11:60 end:11:66:
+                        vpiParent: NamedArgument
+                        vpiName: value1
+                        vpiFullName: my_funcs::simple_func::value1
                         vpiActual: IODecl name:value1
           vpiReturn RefTypespec start:9:23 end:9:26:
             vpiParent: Function name:simple_func
@@ -2260,27 +2268,35 @@ Design name:unnamed:
               vpiName: simple_func
             vpiTaskFunc: Function name:simple_func
             vpiArgument (2 items):
-              IODecl name:value2 start:20:39 end:20:50:
+              NamedArgument start:20:39 end:20:50:
                 vpiParent: FuncCall name:simple_func
-                vpiName: value2
-                vpiExpr Constant start:20:47 end:20:49:
-                  vpiParent: IODecl name:value2
+                vpiLowConn RefObj name:value2 start:20:40 end:20:46:
+                  vpiParent: NamedArgument
+                  vpiName: value2
+                  vpiFullName: my_module_types::value2
+                  vpiActual: IODecl name:value2
+                vpiHighConn Constant start:20:47 end:20:49:
+                  vpiParent: NamedArgument
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: my_module_types::value2
+                    vpiFullName: my_module_types
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "12"
                   vpiValue: 12
-              IODecl name:value1 start:20:52 end:20:63:
+              NamedArgument start:20:52 end:20:63:
                 vpiParent: FuncCall name:simple_func
-                vpiName: value1
-                vpiExpr Constant start:20:60 end:20:62:
-                  vpiParent: IODecl name:value1
+                vpiLowConn RefObj name:value1 start:20:53 end:20:59:
+                  vpiParent: NamedArgument
+                  vpiName: value1
+                  vpiFullName: my_module_types::value1
+                  vpiActual: IODecl name:value1
+                vpiHighConn Constant start:20:60 end:20:62:
+                  vpiParent: NamedArgument
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: my_module_types::value1
+                    vpiFullName: my_module_types
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -2975,10 +2991,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      12       2         2
 Operation                            3       1       0         2
-RefObj                              16      14       0         2
+RefObj                              20      18       0         2
 RefTypespec                        198     198       2         2
 ----------------------------------------------------------------
 Others                             455     455       0         0
 ----------------------------------------------------------------
-                                   684     680       4         8
+                                   688     684       4         8
 ===================== END REDUCTION RESULT =====================
