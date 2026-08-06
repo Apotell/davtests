@@ -134,7 +134,7 @@ TEST_F(TaggedUnionTest, UnionTypespecIsTaggedWithInvalidAndValidMembers) {
 
   ASSERT_NE(invalid->getTypespec(), nullptr);
   EXPECT_NE(invalid->getTypespec()->getActual<hldb::VoidTypespec>(), nullptr)
-      << "the void member's typespec ref should resolve to a VoidTypespec, not be left unresolved";
+      << "the void member's typespec ref should  resolve to VoidTypespec";
 
   ASSERT_NE(valid->getTypespec(), nullptr);
   EXPECT_NE(valid->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -229,7 +229,7 @@ TEST_F(TaggedUnionTest, SecondStatementAssignsTaggedValidWithTagFortyTwo) {
 
 // --- design-level typespecs / compiler diagnostics --------------------------
 
-TEST_F(TaggedUnionTest, DesignHasTwoTypespecs) {
+TEST_F(TaggedUnionTest, DesignHasThreTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
