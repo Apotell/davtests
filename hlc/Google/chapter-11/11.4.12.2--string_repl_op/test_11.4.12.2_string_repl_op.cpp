@@ -162,6 +162,17 @@ TEST_F(StringReplOpTest, AssignmentRhsIsMultiConcatOfFourCopiesOfTestLiteral) {
   ASSERT_NE(testLit, nullptr) << "the replicated unit is a string literal, not a RefObj";
   EXPECT_EQ(testLit->getConstType(), vpiStringConst);
   EXPECT_EQ(testLit->getValue(), "test");
+
+  if (m_design->getElaborated()) {
+    // IEEE 1800-2023 Sec 11.4.12.2: string replication behaves like string
+    // concatenation -- the RESULT of the replication itself must resolve to a
+    // string, not just the replicated literal.
+    const hldb::RefTypespec *const resultType = multiConcat->getTypespec();
+    ASSERT_NE(resultType, nullptr) << "the replication's own result typespec must be set";
+    EXPECT_NE(resultType->getActual<hldb::StringTypespec>(), nullptr)
+        << "IEEE 1800-2023 Sec 11.4.12.2: replicating a string literal is itself treated as a "
+          "string, not a packed vector";
+  }
 }
 
 TEST_F(StringReplOpTest, SecondStatementDisplaysFourTimesTestAssertion) {

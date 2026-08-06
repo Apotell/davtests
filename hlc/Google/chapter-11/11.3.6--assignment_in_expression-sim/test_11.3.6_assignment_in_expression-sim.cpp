@@ -215,6 +215,8 @@ TEST_F(AssignmentInExpressionSimTest, BEndsUpEqualToCPlusOne) {
   // '+=' actually produced at runtime.
   const hldb::Constant *const finalValue = b->getValue<hldb::Constant>();
   ASSERT_NE(finalValue, nullptr) << "no field captures b's post-assignment runtime value";
+  EXPECT_EQ(finalValue->getDecompile(), "1") << "c is a's original value (default-initialized int, "
+                                                 "IEEE 1800-2023 Sec 6.11, is 0), so b == c + 1 == 1";
 }
 
 }  // namespace hlc

@@ -156,6 +156,17 @@ TEST_F(StringConcatOpTest, AssignmentRhsIsFourWayStringConcatenation) {
     EXPECT_EQ(part->getValue(), expected[i]);
     EXPECT_NE(part->getTypespec<hldb::RefTypespec>()->getActual<hldb::StringTypespec>(), nullptr);
   }
+
+  if (m_design->getElaborated()) {
+    // IEEE 1800-2023 Sec 11.4.12.2: "if any of the operands is of the data type
+    // string, the concatenation is treated as a string" -- the RESULT of the
+    // concatenation itself must resolve to a string, not just its operands.
+    const hldb::RefTypespec *const resultType = concat->getTypespec();
+    ASSERT_NE(resultType, nullptr) << "the concatenation's own result typespec must be set";
+    EXPECT_NE(resultType->getActual<hldb::StringTypespec>(), nullptr)
+        << "IEEE 1800-2023 Sec 11.4.12.2: a concatenation with a string operand is itself treated "
+          "as a string, not a packed vector";
+  }
 }
 
 TEST_F(StringConcatOpTest, SecondStatementDisplaysHelloWorldAssertion) {
