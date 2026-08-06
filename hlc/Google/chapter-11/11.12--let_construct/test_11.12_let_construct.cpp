@@ -272,12 +272,18 @@ TEST_F(LetConstructTest, StatementAssignsLetExprCallToD) {
       << "named binding ('.x(a)', '.y(b)', '.z(c)') should resolve to 3 actual arguments, in "
          "formal-port order (x, y, z)";
 
-  const char *const expectedNames[3] = {"a", "b", "c"};
+  const char *const expectedLCNames[3] = {"x", "y", "z"};
+  const char *const expectedHCNames[3] = {"a", "b", "c"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(i));
+    const hldb::NamedArgument *const arg = any_cast<hldb::NamedArgument>(call->getArguments()->at(i));
     ASSERT_NE(arg, nullptr) << "argument index " << i;
-    EXPECT_EQ(arg->getName(), expectedNames[i]);
-    EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr) << "argument index " << i;
+    const hldb::Any *const lc = arg->getLowConn();
+    ASSERT_NE(lc, nullptr);
+    EXPECT_EQ(lc->getName(), expectedLCNames[i]);
+    const hldb::RefObj *const hc = arg->getHighConn<hldb::RefObj>();
+    ASSERT_NE(hc, nullptr);
+    EXPECT_EQ(hc->getName(), expectedHCNames[i]);
+    EXPECT_NE(hc->getActual<hldb::Variable>(), nullptr) << "argument index " << i;
   }
 }
 
