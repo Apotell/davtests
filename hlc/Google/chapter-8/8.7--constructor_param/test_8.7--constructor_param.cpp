@@ -38,16 +38,16 @@
 // value once the constructor runs. This file otherwise mirrors
 // chapter-8/8.7--constructor/test_8.7--constructor.cpp structurally: a
 // block-scoped local "test_obj" with an inline "= new(...)" initializer,
-// same known bugs expected to reproduce here (see below).
+// same fixed compiler bugs reconfirmed here (see below).
 //
 // Checked:
-//   - design has module work@class_tb with NO module-level nets or
+//   - design has module class_tb with NO module-level nets or
 //     variables -- "test_obj" is block-scoped inside the initial process
-//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
+//   - the module has exactly 1 nested ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
-//     property ("a") and exactly 1 method ("new", a Function) -- see the
-//     KNOWN COMPILER BUG notes below for the class's lifetime and the
-//     property's visibility
+//     property ("a") and exactly 1 method ("new", a Function); defaults to
+//     automatic lifetime, and property 'a' defaults to public visibility
+//     (see the FIXED COMPILER BUG notes below)
 //   - constructor "new": resolves to a Function, correctly marked public
 //     by default, return typespec resolves to the SAME ClassDefn as
 //     "test_cls" itself
@@ -64,41 +64,41 @@
 //   - local Variable "test_obj": typespec resolves to the SAME ClassDefn
 //     as "test_cls"; its getValue() is a MethodFuncCall named "new" taking
 //     exactly 1 Constant argument "37" (the explicit override, not the
-//     IODecl's default of 42) -- see the KNOWN COMPILER BUG note below for
-//     whether this call resolves back to the constructor
+//     IODecl's default of 42), resolving back to the constructor (see the
+//     FIXED COMPILER BUG note below)
 //   - "$display(...)" has 2 arguments: a Constant string
 //     ":assert:(%d == 37)", and a HierPath "test_obj.a" with 2 path elems
 //     (RefObj "test_obj" resolved to the local Variable; RefObj "a"
 //     resolved to the class's property Variable)
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
-// KNOWN COMPILER BUG #1 (class lifetime defaulting, not a defect in this
+// FIXED COMPILER BUG #1 (class lifetime defaulting, not a defect in this
 // file): IEEE 1800-2017 8.3 says a class declared with no lifetime
 // qualifier must default to automatic lifetime (getAutomatic() == true).
-// Already confirmed independently via multiple other chapter-8 files (see
+// Cross-checked at the time via multiple other chapter-8 files (see
 // hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp and
 // siblings, including
 // hlc/Google/chapter-8/8.7--constructor/test_8.7--constructor.cpp).
-// ClassIsAutomaticByDefault below asserts the IEEE-mandated behavior and
-// will FAIL until this is fixed.
+// ClassIsAutomaticByDefault below asserts the IEEE-mandated behavior and now
+// passes.
 //
-// KNOWN COMPILER BUG #2 (property visibility defaulting, not a defect in
+// FIXED COMPILER BUG #2 (property visibility defaulting, not a defect in
 // this file): IEEE 1800-2017 8.14 says a property with no explicit
-// "local"/"protected" qualifier defaults to public visibility. Already
-// confirmed independently via
+// "local"/"protected" qualifier defaults to public visibility. Cross-checked
+// at the time via
 // hlc/Google/chapter-8/8.5--properties/test_8.5--properties.cpp and
 // hlc/Google/chapter-8/8.7--constructor/test_8.7--constructor.cpp.
 // PropertyAIsPublicByDefault below asserts the IEEE-mandated behavior and
-// will FAIL until this is fixed.
+// now passes.
 //
-// KNOWN COMPILER BUG #3 (constructor call resolution, not a defect in this
-// file): confirmed via ctest in
+// FIXED COMPILER BUG #3 (constructor call resolution, not a defect in this
+// file): cross-checked at the time in
 // hlc/Google/chapter-8/8.7--constructor/test_8.7--constructor.cpp that a
-// "new" call site's getTaskFunc() never resolves back to the actual
-// user-written constructor Function, even though the constructor itself is
-// correctly declared. LocalTestObjNewCallResolvesToConstructor below
-// re-checks the same gap with an argument-passing constructor and is
-// expected to FAIL the same way.
+// "new" call site's getTaskFunc() previously never resolved back to the
+// actual user-written constructor Function, even though the constructor
+// itself was correctly declared. LocalTestObjNewCallResolvesToConstructor
+// below re-checks the same case with an argument-passing constructor and
+// now passes too.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -138,13 +138,13 @@ class ClassConstructorParamTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getPropertyA() {
@@ -214,7 +214,7 @@ TEST_F(ClassConstructorParamTest, ClassIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls' has no lifetime qualifier so it defaults to automatic; "
-                                    "getAutomatic() must return true (see KNOWN COMPILER BUG #1 above)";
+                                    "getAutomatic() must return true (see FIXED COMPILER BUG #1 above)";
 }
 
 TEST_F(ClassConstructorParamTest, ClassHasOnePropertyA) {
@@ -235,7 +235,7 @@ TEST_F(ClassConstructorParamTest, PropertyAIsPublicByDefault) {
   const hldb::Variable *const a = getPropertyA();
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a;' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #2 above)";
+                                                 "(see FIXED COMPILER BUG #2 above)";
 }
 
 TEST_F(ClassConstructorParamTest, ClassHasOneConstructorFunction) {
@@ -361,7 +361,7 @@ TEST_F(ClassConstructorParamTest, LocalTestObjNewCallResolvesToConstructor) {
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getConstructorFunction())
       << "8.7: 'new(37)' must resolve back to the SAME user-written 'function new(int def = 42)' declared on "
-         "test_cls (see KNOWN COMPILER BUG #3 above)";
+         "test_cls (see FIXED COMPILER BUG #3 above)";
 }
 
 // --- $display(":assert:(%d == 37)", test_obj.a) --------------------------------

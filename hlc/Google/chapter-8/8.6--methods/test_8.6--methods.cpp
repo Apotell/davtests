@@ -43,17 +43,17 @@
 // specific Task declared in the class IS verifiable ground truth here.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 net: "test_obj" (the
+//   - design has module class_tb with exactly 1 variable: "test_obj" (the
 //     class handle)
-//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
+//   - the module has exactly 1 nested ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
-//     property ("a") and exactly 1 method ("test_method") -- see the KNOWN
-//     COMPILER BUG notes below for the class's lifetime and the property's
-//     visibility (both default-related bugs already confirmed elsewhere)
-//   - method "test_method": resolves to a Task, IS correctly marked public
-//     by default (getVisibility() == vpiPublicVis) -- contrast this with
-//     the KNOWN COMPILER BUG note below: methods default their visibility
-//     correctly where properties do not
+//     property ("a") and exactly 1 method ("test_method"); defaults to
+//     automatic lifetime, and property 'a' defaults to public visibility
+//     (see the FIXED COMPILER BUG notes below)
+//   - method "test_method": resolves to a Task, is correctly marked public
+//     by default (getVisibility() == vpiPublicVis) -- methods already
+//     defaulted their visibility correctly even while properties did not
+//     (see the FIXED COMPILER BUG note below)
 //   - scope: "test_method" is flagged getMethod() == true (correctly
 //     classified as belonging to a class, not a free-standing task), and
 //     does NOT also appear in the enclosing module's own getTaskFuncs()
@@ -66,53 +66,52 @@
 //     to the SAME Variable as the class's property; rhs is a 2-operand add
 //     Operation (vpiAddOp) whose operands are RefObj "a" (same Variable
 //     again) and RefObj "val" (resolved to the task's own IODecl)
-//   - net "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
-//     to the SAME ClassDefn as "work@test_cls"
+//   - variable "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
+//     to the SAME ClassDefn as "test_cls"
 //   - the initial process' Begin block has exactly 5 statements:
 //     "test_obj = new", "test_obj.a = 12", "$display(test_obj.a)",
 //     "test_obj.test_method(9)", "$display(test_obj.a)"
 //   - "test_obj.test_method(9)" is itself a bare HierPath statement (not
 //     wrapped in a SysFuncCall or Assignment): 2 path elems (RefObj
-//     "test_obj" resolved to the Net; MethodFuncCall "test_method" taking
+//     "test_obj" resolved to the Variable; MethodFuncCall "test_method" taking
 //     1 Constant argument "9") -- and crucially, that MethodFuncCall's
 //     getTaskFunc() resolves back to the SAME Task object declared as
 //     "test_cls"'s method, confirming the call is tied to its declaration
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
-// KNOWN COMPILER BUG #1 (class lifetime defaulting, not a defect in this
+// FIXED COMPILER BUG #1 (class lifetime defaulting, not a defect in this
 // file): IEEE 1800-2017 8.3 says a class declared with no lifetime
 // qualifier must default to automatic lifetime (getAutomatic() == true).
-// This HLC build never sets the automatic flag to true for the unqualified
-// case. Already confirmed independently via
+// HLC previously never set the automatic flag to true for the unqualified
+// case -- cross-checked at the time via
 // hlc/Google/generic/class/test_class_test_1.cpp,
 // hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp,
 // hlc/Google/chapter-8/8.5--parameters/test_8.5--parameters.cpp and
-// hlc/Google/chapter-8/8.5--properties_enum/test_8.5--properties_enum.cpp
-// (all fail the analogous check). ClassIsAutomaticByDefault below asserts
-// the IEEE-mandated behavior and will FAIL until this is fixed.
+// hlc/Google/chapter-8/8.5--properties_enum/test_8.5--properties_enum.cpp.
+// ClassIsAutomaticByDefault below asserts the IEEE-mandated behavior and now
+// passes.
 //
-// KNOWN COMPILER BUG #2 (property visibility defaulting, not a defect in
+// FIXED COMPILER BUG #2 (property visibility defaulting, not a defect in
 // this file): IEEE 1800-2017 8.14 says a property with no explicit
-// "local"/"protected" qualifier defaults to public visibility. Confirmed
-// independently via
+// "local"/"protected" qualifier defaults to public visibility. Cross-checked
+// at the time via
 // hlc/Google/chapter-8/8.5--properties/test_8.5--properties.cpp: property
-// 'a' returns getVisibility() == 0, not vpiPublicVis. PropertyAIsPublic-
-// ByDefault below asserts the IEEE-mandated behavior and will FAIL until
-// this is fixed. Notably, TestMethodIsPublicByDefault below is expected to
-// PASS for the method 'test_method' -- this build's .log shows
-// "vpiVisibility: public (1)" for it, so the defaulting bug appears
-// specific to properties (Variable), not methods (TaskFunc).
+// 'a' returned getVisibility() == 0, not vpiPublicVis.
+// PropertyAIsPublicByDefault below asserts the IEEE-mandated behavior and
+// now passes. Methods were unaffected throughout: TestMethodIsPublicByDefault
+// below has always passed for the method 'test_method' -- the defaulting bug
+// was specific to properties (Variable), not methods (TaskFunc).
 //
-// KNOWN COMPILER BUG #3 (method classification, new finding, confirmed via
-// ctest): 'test_method' is declared directly inside test_cls's body, is
-// found via ClassDefn::getMethods(), and resolves correctly when called
-// through a handle ("test_obj.test_method(9)") -- structurally it is a
-// class method in every observable way. Yet TaskFunc::getMethod(), the
-// flag specifically meant to record "this task/function belongs to a
-// class," returns false for it. Same root pattern as #1 and #2: a flag
-// that should be explicitly set based on where the declaration appears is
-// instead left at its unset default. TestMethodIsFlaggedAsAClassMethod
-// below asserts the correct classification and FAILS until this is fixed.
+// FIXED COMPILER BUG #3 (method classification, not a defect in this file):
+// 'test_method' is declared directly inside test_cls's body, is found via
+// ClassDefn::getMethods(), and resolves correctly when called through a
+// handle ("test_obj.test_method(9)") -- structurally it is a class method
+// in every observable way. TaskFunc::getMethod(), the flag specifically
+// meant to record "this task/function belongs to a class," previously
+// returned false for it regardless (same root pattern as #1 and #2: a flag
+// that should be explicitly set based on where the declaration appears was
+// instead left at its unset default). TestMethodIsFlaggedAsAClassMethod
+// below asserts the correct classification and now passes.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -135,7 +134,7 @@
 #include <hldb/io_decl.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -154,19 +153,19 @@ class ClassMethodsTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
-  static const hldb::Net *getNetTestObj() {
+  static const hldb::Variable *getVariableTestObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj", top->getVariables());
   }
 
   static const hldb::Variable *getPropertyA() {
@@ -209,7 +208,7 @@ class ClassMethodsTest : public Test {
     const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
     ASSERT_NE(testObjRef, nullptr);
     EXPECT_EQ(testObjRef->getName(), "test_obj");
-    EXPECT_EQ(testObjRef->getActual<hldb::Net>(), getNetTestObj());
+    EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
 
     const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
     ASSERT_NE(aRef, nullptr);
@@ -222,11 +221,11 @@ class ClassMethodsTest : public Test {
 
 TEST_F(ClassMethodsTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassMethodsTest, ModuleHasOneNet) {
+TEST_F(ClassMethodsTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ClassMethodsTest, ModuleHasOneClassDefn) {
@@ -250,7 +249,7 @@ TEST_F(ClassMethodsTest, ClassIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls' has no lifetime qualifier so it defaults to automatic; "
-                                    "getAutomatic() must return true (see KNOWN COMPILER BUG #1 above)";
+                                    "getAutomatic() must return true (see FIXED COMPILER BUG #1 above)";
 }
 
 TEST_F(ClassMethodsTest, ClassHasOnePropertyA) {
@@ -271,7 +270,14 @@ TEST_F(ClassMethodsTest, PropertyAIsPublicByDefault) {
   const hldb::Variable *const a = getPropertyA();
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a;' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #2 above)";
+                                                 "(see FIXED COMPILER BUG #2 above)";
+}
+
+TEST_F(ClassMethodsTest, PropertyAHasNoRandOrConstQualifier) {
+  const hldb::Variable *const a = getPropertyA();
+  ASSERT_NE(a, nullptr);
+  EXPECT_FALSE(a->getConstantVariable()) << "8.9: 'int a;' declares no 'const' qualifier";
+  EXPECT_FALSE(a->getIsRandomized()) << "8.9: 'int a;' declares no 'rand'/'randc' qualifier";
 }
 
 TEST_F(ClassMethodsTest, ClassHasOneMethodTestMethod) {
@@ -289,19 +295,25 @@ TEST_F(ClassMethodsTest, TestMethodIsPublicByDefault) {
   ASSERT_NE(t, nullptr);
   EXPECT_EQ(t->getVisibility(), vpiPublicVis)
       << "8.14: 'task test_method(...)' with no visibility qualifier defaults to public -- unlike property 'a' "
-         "(see KNOWN COMPILER BUG #2 above), this is expected to PASS for methods";
+         "(see FIXED COMPILER BUG #2 above), methods have always defaulted this correctly";
 }
 
 // "getMethod()" is the direct signal for "is this task correctly classified
 // as belonging to a class" (as opposed to a free-standing, non-method
 // task/function elsewhere in the design) -- the crux of "is the scope of
-// the task being correctly interpreted." See KNOWN COMPILER BUG #3 above.
+// the task being correctly interpreted." See FIXED COMPILER BUG #3 above.
 TEST_F(ClassMethodsTest, TestMethodIsFlaggedAsAClassMethod) {
   const hldb::Task *const t = getTestMethodTask();
   ASSERT_NE(t, nullptr);
   EXPECT_TRUE(t->getMethod()) << "'task test_method(...)' is declared inside test_cls's body, so it must be "
-                                 "flagged as a class method, not a free-standing task (see KNOWN COMPILER BUG "
+                                 "flagged as a class method, not a free-standing task (see FIXED COMPILER BUG "
                                  "#3 above)";
+}
+
+TEST_F(ClassMethodsTest, TestMethodIsNotVirtual) {
+  const hldb::Task *const t = getTestMethodTask();
+  ASSERT_NE(t, nullptr);
+  EXPECT_FALSE(t->getVirtual()) << "8.13: 'task test_method(...)' has no 'virtual' qualifier";
 }
 
 // Mirrors the enum/typedef scope-containment check in
@@ -396,12 +408,12 @@ TEST_F(ClassMethodsTest, TestMethodSecondStmtIsAPlusEqualsVal) {
       << "'val' inside the task body must resolve to the SAME IODecl as the task's own parameter";
 }
 
-// --- net "test_obj": the class handle ------------------------------------------
+// --- variable "test_obj": the class handle ------------------------------------------
 
-TEST_F(ClassMethodsTest, NetTestObjExists) { EXPECT_NE(getNetTestObj(), nullptr); }
+TEST_F(ClassMethodsTest, VariableTestObjExists) { EXPECT_NE(getVariableTestObj(), nullptr); }
 
-TEST_F(ClassMethodsTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj = getNetTestObj();
+TEST_F(ClassMethodsTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
   ASSERT_NE(testObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -447,7 +459,7 @@ TEST_F(ClassMethodsTest, FirstStmtLhsIsTestObjHandle) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj());
 }
 
 TEST_F(ClassMethodsTest, FirstStmtRhsIsNewMethodFuncCall) {
@@ -479,7 +491,7 @@ TEST_F(ClassMethodsTest, SecondStmtLhsIsTestObjDotA) {
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
   ASSERT_NE(testObjRef, nullptr);
   EXPECT_EQ(testObjRef->getName(), "test_obj");
-  EXPECT_EQ(testObjRef->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
 
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(1));
   ASSERT_NE(aRef, nullptr);
@@ -516,10 +528,10 @@ TEST_F(ClassMethodsTest, FourthStmtIsTestMethodCallHierPath) {
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(testObjRef, nullptr);
   EXPECT_EQ(testObjRef->getName(), "test_obj");
-  EXPECT_EQ(testObjRef->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'test_method(9)' should resolve to a MethodFuncCall";
+  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(path->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr) << "'test_method(9)' (a task, not a function) should resolve to a MethodTaskCall";
   EXPECT_EQ(call->getName(), "test_method");
   const hldb::Task *const t = getTestMethodTask();
   EXPECT_EQ(call->getTaskFunc<hldb::Task>(), t) << "the call must resolve back to the SAME Task declared as "

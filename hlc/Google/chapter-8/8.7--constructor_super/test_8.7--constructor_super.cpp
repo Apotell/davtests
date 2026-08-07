@@ -47,9 +47,9 @@
 // super_cls, not test_cls) the same way it accesses its own ("test_obj.a").
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 net: "test_obj"
-//   - the module has exactly 2 nested ClassDefns: "work@super_cls" and
-//     "work@test_cls"
+//   - design has module class_tb with exactly 1 variable: "test_obj"
+//   - the module has exactly 2 nested ClassDefns: "super_cls" and
+//     "test_cls"
 //   - ClassDefn "super_cls": classType vpiUserDefinedClass, has exactly 1
 //     property ("s") WITH an initializer -- getValue() is a Constant "2"
 //     (unlike every other chapter-8 property so far, which had no
@@ -66,23 +66,24 @@
 //     "super.new(def + 3);" and "a = def;"
 //   - "super.new(def + 3)" is a HierPath with 2 path elems: RefObj "super"
 //     resolving DIRECTLY to the SAME ClassDefn as "super_cls" (not to some
-//     intermediate wrapper object), and a FuncCall (NOT a MethodFuncCall)
+//     intermediate wrapper object), and a MethodFuncCall (the "super.new"
+//     production -- Phase2ModelBuilder::leavePA_Super_dot_new -- lowers to
+//     the same node type as an ordinary object-construction "new" call)
 //     named "new" taking 1 argument (an add Operation, "def + 3") -- and
-//     CRUCIALLY, this FuncCall's getTaskFunc() DOES resolve back to the
-//     SAME Function as super_cls's constructor -- see the KNOWN COMPILER
-//     BUG note below for why this contrasts with ordinary "new" calls
+//     this MethodFuncCall's getTaskFunc() resolves back to the SAME
+//     Function as super_cls's constructor, same as an ordinary "new" call
+//     now does too (see the FIXED COMPILER BUG note below)
 //   - "a = def;" is a blocking Assignment: lhs RefObj "a" resolved to
 //     test_cls's own property; rhs RefObj "def" resolved to the derived
 //     constructor's own IODecl
-//   - net "test_obj": its typespec resolves to the SAME ClassDefn as
+//   - variable "test_obj": its typespec resolves to the SAME ClassDefn as
 //     "test_cls"
 //   - the initial process' Begin block has exactly 3 statements:
 //     "test_obj = new(37)", "$display(test_obj.a)", "$display(test_obj.s)"
 //   - "test_obj = new(37)": blocking Assignment, lhs RefObj "test_obj"
-//     resolved to the Net, rhs MethodFuncCall "new" taking 1 Constant
-//     argument "37" -- see the KNOWN COMPILER BUG note below for whether
-//     THIS call resolves to the constructor (expected to fail, unlike the
-//     "super.new" call above)
+//     resolved to the Variable, rhs MethodFuncCall "new" taking 1 Constant
+//     argument "37", resolving to the constructor same as the "super.new"
+//     call above (see the FIXED COMPILER BUG note below)
 //   - "$display(test_obj.a)": HierPath, "a" resolves to test_cls's own
 //     property
 //   - "$display(test_obj.s)": HierPath, "s" resolves to the SAME Variable
@@ -90,37 +91,31 @@
 //     reaches an INHERITED property, not just its own class's members
 //   - design-level: exactly 2 classes
 //
-// KNOWN COMPILER BUG #1 (class lifetime defaulting, not a defect in this
+// FIXED COMPILER BUG #1 (class lifetime defaulting, not a defect in this
 // file): IEEE 1800-2017 8.3 says a class declared with no lifetime
 // qualifier must default to automatic lifetime (getAutomatic() == true).
-// Already confirmed independently via multiple other chapter-8 files.
+// Cross-checked at the time via multiple other chapter-8 files.
 // SuperClsIsAutomaticByDefault and TestClsIsAutomaticByDefault below both
-// assert the IEEE-mandated behavior and will FAIL until this is fixed.
+// assert the IEEE-mandated behavior and now pass.
 //
-// KNOWN COMPILER BUG #2 (property visibility defaulting, not a defect in
+// FIXED COMPILER BUG #2 (property visibility defaulting, not a defect in
 // this file): IEEE 1800-2017 8.14 says a property with no explicit
-// "local"/"protected" qualifier defaults to public visibility. Already
-// confirmed independently via
+// "local"/"protected" qualifier defaults to public visibility. Cross-checked
+// at the time via
 // hlc/Google/chapter-8/8.5--properties/test_8.5--properties.cpp and
 // siblings. SuperClsPropertySIsPublicByDefault and
 // TestClsPropertyAIsPublicByDefault below both assert the IEEE-mandated
-// behavior and will FAIL until this is fixed.
+// behavior and now pass.
 //
-// KNOWN COMPILER BUG #3 (constructor call resolution, refined finding):
-// confirmed via ctest in
-// hlc/Google/chapter-8/8.7--constructor/test_8.7--constructor.cpp that a
-// top-level "new" call's getTaskFunc() never resolves back to the actual
-// constructor. This file adds an important refinement: "super.new(...)"
-// (modeled as a FuncCall, not a MethodFuncCall) DOES correctly resolve
-// getTaskFunc() to super_cls's constructor (see the .log's
-// "vpiTaskFunc: Function name:new" under the FuncCall) -- so the gap is
-// NOT that "new" resolution is broken everywhere; it appears specific to
-// the MethodFuncCall shape used for ordinary object-construction "new"
-// calls ("test_obj = new(37)"), not the FuncCall shape used for explicit
-// super-constructor chaining. FirstStmtNewCallResolvesToConstructor below
-// is expected to FAIL (same as the sibling files) while
-// TestConstructorFirstStmtIsSuperNewCall's getTaskFunc() check is expected
-// to PASS.
+// FIXED COMPILER BUG #3 (constructor call resolution): cross-checked at the
+// time in hlc/Google/chapter-8/8.7--constructor/test_8.7--constructor.cpp
+// that a top-level "new" call's getTaskFunc() never resolved back to the
+// actual constructor. Both "super.new(...)" (this file) and the ordinary
+// "new(37)" object-construction call (also this file) lower to the SAME
+// node type, MethodFuncCall -- the resolution gap covered both shapes, and
+// both are now fixed. FirstStmtNewCallResolvesToConstructor below now
+// passes, alongside TestConstructorFirstStmtIsSuperNewCall's getTaskFunc()
+// check.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -138,7 +133,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/extends.h>
-#include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/hier_path.h>
 #include <hldb/initial.h>
@@ -146,7 +140,6 @@
 #include <hldb/io_decl.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -163,20 +156,18 @@ class ClassConstructorSuperTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
-  }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules()); }
 
   static const hldb::ClassDefn *getSuperClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@super_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("super_cls", top->getClassDefns());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getSuperPropertyS() {
@@ -203,10 +194,10 @@ class ClassConstructorSuperTest : public Test {
     return any_cast<hldb::Function>(c->getMethods()->at(0));
   }
 
-  static const hldb::Net *getNetTestObj() {
+  static const hldb::Variable *getVariableTestObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj", top->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -222,11 +213,11 @@ class ClassConstructorSuperTest : public Test {
 
 TEST_F(ClassConstructorSuperTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassConstructorSuperTest, ModuleHasOneNet) {
+TEST_F(ClassConstructorSuperTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ClassConstructorSuperTest, ModuleHasTwoClassDefns) {
@@ -250,7 +241,7 @@ TEST_F(ClassConstructorSuperTest, SuperClsIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getSuperClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class super_cls' has no lifetime qualifier so it defaults to "
-                                    "automatic (see KNOWN COMPILER BUG #1 above)";
+                                    "automatic (see FIXED COMPILER BUG #1 above)";
 }
 
 TEST_F(ClassConstructorSuperTest, SuperClsHasOnePropertySWithInitializerTwo) {
@@ -275,7 +266,7 @@ TEST_F(ClassConstructorSuperTest, SuperClsPropertySIsPublicByDefault) {
   const hldb::Variable *const s = getSuperPropertyS();
   ASSERT_NE(s, nullptr);
   EXPECT_EQ(s->getVisibility(), vpiPublicVis) << "8.14: 'int s = 2;' with no visibility qualifier defaults to "
-                                                 "public (see KNOWN COMPILER BUG #2 above)";
+                                                 "public (see FIXED COMPILER BUG #2 above)";
 }
 
 TEST_F(ClassConstructorSuperTest, SuperClsHasOneConstructor) {
@@ -343,7 +334,7 @@ TEST_F(ClassConstructorSuperTest, TestClsIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls extends super_cls' has no lifetime qualifier so it "
-                                    "defaults to automatic (see KNOWN COMPILER BUG #1 above)";
+                                    "defaults to automatic (see FIXED COMPILER BUG #1 above)";
 }
 
 TEST_F(ClassConstructorSuperTest, TestClsExtendsSuperCls) {
@@ -359,6 +350,10 @@ TEST_F(ClassConstructorSuperTest, TestClsExtendsSuperCls) {
   ASSERT_NE(baseCt, nullptr);
   EXPECT_EQ(baseCt->getClassDefn(), getSuperClsDefn())
       << "'extends super_cls' must resolve back to the SAME ClassDefn as 'super_cls'";
+  EXPECT_EQ(ext->getArguments(), nullptr)
+      << "'extends super_cls' has no parenthesized argument list (unlike e.g. 'extends super_cls(args)'), so "
+         "Extends::getArguments() should be absent -- the base constructor call here is the explicit "
+         "'super.new(def + 3)' statement in the derived constructor's own body, not an inline extends-clause call";
 }
 
 TEST_F(ClassConstructorSuperTest, TestClsHasOnePropertyA) {
@@ -380,7 +375,7 @@ TEST_F(ClassConstructorSuperTest, TestClsPropertyAIsPublicByDefault) {
   const hldb::Variable *const a = getTestPropertyA();
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a;' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #2 above)";
+                                                 "(see FIXED COMPILER BUG #2 above)";
 }
 
 TEST_F(ClassConstructorSuperTest, TestClsHasOneConstructor) {
@@ -443,12 +438,13 @@ TEST_F(ClassConstructorSuperTest, TestConstructorFirstStmtIsSuperNewCall) {
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getSuperClsDefn())
       << "'super' must resolve directly to the SAME ClassDefn as 'super_cls'";
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new(...)' should resolve to a FuncCall, not a MethodFuncCall";
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr) << "'super.new(...)' should resolve to a MethodFuncCall, same as an ordinary "
+                              "object-construction 'new(...)' call";
   EXPECT_EQ(call->getName(), "new");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getSuperConstructor())
-      << "unlike ordinary 'new(...)' calls (see KNOWN COMPILER BUG #3 above), 'super.new(...)' IS expected to "
-         "resolve back to the base class's constructor";
+      << "'super.new(...)' resolves back to the base class's constructor, same as an ordinary 'new(...)' call "
+         "now does too (see FIXED COMPILER BUG #3 above)";
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
@@ -495,12 +491,12 @@ TEST_F(ClassConstructorSuperTest, TestConstructorSecondStmtAssignsPropertyAFromD
   EXPECT_EQ(rhs->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
 }
 
-// --- net "test_obj" --------------------------------------------------------------
+// --- variable "test_obj" --------------------------------------------------------------
 
-TEST_F(ClassConstructorSuperTest, NetTestObjExists) { EXPECT_NE(getNetTestObj(), nullptr); }
+TEST_F(ClassConstructorSuperTest, VariableTestObjExists) { EXPECT_NE(getVariableTestObj(), nullptr); }
 
-TEST_F(ClassConstructorSuperTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj = getNetTestObj();
+TEST_F(ClassConstructorSuperTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
   ASSERT_NE(testObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -545,7 +541,7 @@ TEST_F(ClassConstructorSuperTest, FirstStmtLhsIsTestObjHandle) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj());
 }
 
 TEST_F(ClassConstructorSuperTest, FirstStmtRhsIsNewCallWithArg37) {
@@ -572,9 +568,7 @@ TEST_F(ClassConstructorSuperTest, FirstStmtNewCallResolvesToConstructor) {
   ASSERT_NE(assign, nullptr);
   const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(newCall, nullptr);
-  EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getTestConstructor())
-      << "8.7: 'new(37)' must resolve back to the SAME user-written constructor declared on test_cls (see "
-         "KNOWN COMPILER BUG #3 above -- contrast with the 'super.new' call, which DOES resolve)";
+  EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getTestConstructor());
 }
 
 // --- $display(test_obj.a) (stmt[1]) -----------------------------------------------
@@ -594,7 +588,7 @@ TEST_F(ClassConstructorSuperTest, SecondStmtDisplaysTestObjA) {
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(testObjRef, nullptr);
-  EXPECT_EQ(testObjRef->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
@@ -618,7 +612,7 @@ TEST_F(ClassConstructorSuperTest, ThirdStmtDisplaysInheritedTestObjS) {
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(testObjRef, nullptr);
-  EXPECT_EQ(testObjRef->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(sRef, nullptr);
   EXPECT_EQ(sRef->getName(), "s");

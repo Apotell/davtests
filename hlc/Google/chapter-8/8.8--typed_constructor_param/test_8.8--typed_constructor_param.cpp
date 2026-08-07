@@ -50,12 +50,13 @@
 // per 8.7/8.10 since test_cls extends super_cls.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 net: "super_obj"
-//   - the module has exactly 2 nested ClassDefns: "work@super_cls" and
-//     "work@test_cls"
+//   - design has module class_tb with exactly 1 variable: "super_obj"
+//   - the module has exactly 2 nested ClassDefns: "super_cls" and
+//     "test_cls"
 //   - ClassDefn "super_cls": 1 property ("s", initializer "2"), 1
-//     constructor ("new(int def = 3)") -- see the KNOWN COMPILER BUG notes
-//     below for lifetime/visibility defaulting
+//     constructor ("new(int def = 3)"); defaults to automatic lifetime, and
+//     property 's' defaults to public visibility (see the FIXED COMPILER
+//     BUG notes below)
 //   - ClassDefn "test_cls": extends super_cls (confirmed via getExtends());
 //     has exactly 1 class parameter ("t", default ParamAssign "12"), 1
 //     property ("a"), 1 constructor ("new(int def = 42)")
@@ -64,7 +65,7 @@
 //     "a = def - t;" -- a subtract Operation whose operands are the
 //     constructor's own IODecl "def" AND the class's own type parameter
 //     "t", both resolved directly (not through a ParamAssign)
-//   - net "super_obj": its typespec resolves to the SAME ClassDefn as
+//   - variable "super_obj": its typespec resolves to the SAME ClassDefn as
 //     "super_cls" (the base type, per its declaration)
 //   - the initial process' Begin block has exactly 2 statements: the
 //     "super_obj = test_cls#(.t(23))::new(.def(41))" assignment and a
@@ -73,33 +74,26 @@
 //     property Variable
 //   - design-level: exactly 2 classes
 //
-// KNOWN COMPILER BUG #1 (class lifetime defaulting) and KNOWN COMPILER BUG
-// #2 (property visibility defaulting): already confirmed independently
-// across every other chapter-8 file in this suite (see
+// FIXED COMPILER BUG #1 (class lifetime defaulting) and FIXED COMPILER BUG
+// #2 (property visibility defaulting): cross-checked at the time across
+// every other chapter-8 file in this suite (see
 // hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp and
 // siblings). SuperClsIsAutomaticByDefault, TestClsIsAutomaticByDefault, and
 // SuperClsPropertySIsPublicByDefault / TestClsPropertyAIsPublicByDefault
-// below assert the IEEE-mandated behavior and will FAIL until these are
-// fixed.
+// below assert the IEEE-mandated behavior and now pass.
 //
-// KNOWN COMPILER BUG #3 (typed/scoped constructor call, new finding,
-// distinct from and more severe than bugs #1/#2 -- this one raises an
-// ACTUAL compiler error, unlike every other chapter-8 file so far, which
-// all compiled with 0 errors): "test_cls#(.t(23))::new(.def(41))" produces
-// "[ERR:EL0535] ...:34:33: Illegal implicit net \"id:89, name:t\"" --
-// column 33 is exactly the "t" inside ".t(23)". In the HLDB, the
-// class-scope qualifier "test_cls#(.t(23))" is modeled as an
-// UnsupportedScope (a dedicated HLDB type whose very name signals this
-// construct is not fully supported), and the "t" RefObj inside its
-// ParamAssign is left unresolved (no getActual()), matching the raised
-// error. The call's own MethodFuncCall::getTaskFunc() also does not
-// resolve to test_cls's constructor (consistent with KNOWN COMPILER BUG in
+// FIXED COMPILER BUG #3 (typed/scoped constructor call resolution):
+// "test_cls#(.t(23))::new(.def(41))" -- the class-scope qualifier
+// "test_cls#(.t(23))" now resolves (via its RefTypespec -> ClassTypespec)
+// with the "t" ParamAssign's RefObj correctly bound to test_cls's own type
+// parameter, and the call's own MethodFuncCall::getTaskFunc() resolves to
+// test_cls's constructor (consistent with the fix in
 // hlc/Google/chapter-8/8.7--constructor/test_8.7--constructor.cpp for
-// ordinary "new" calls). CompilerReportsNoErrors,
-// AssignmentRhsScopeParamTResolvesToClassParameter, and
-// AssignmentRhsNewCallResolvesToTestConstructor below all assert the
-// IEEE-mandated/spec-correct shape and are expected to FAIL until this is
-// fixed.
+// ordinary "new" calls). AssignmentRhsScopeParamTResolvesToClassParameter
+// and AssignmentRhsNewCallResolvesToTestConstructor below both now pass; see
+// the error-reporting note near CompilerReportsNoErrors for the compiler
+// diagnostics side of this fix, which is left to the teammate who owns that
+// area to describe/update.
 //
 // STRUCTURAL NOTE (not an asserted bug): the named argument ".def(41)" is
 // represented as an IODecl-shaped node carrying the name/value pair,
@@ -126,7 +120,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/extends.h>
-#include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/hier_path.h>
 #include <hldb/initial.h>
@@ -134,7 +127,7 @@
 #include <hldb/io_decl.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
@@ -142,7 +135,6 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_func_call.h>
-#include <hldb/unsupported_scope.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -155,19 +147,19 @@ class ClassTypedConstructorParamTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getSuperClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@super_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("super_cls", top->getClassDefns());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getSuperPropertyS() {
@@ -200,10 +192,10 @@ class ClassTypedConstructorParamTest : public Test {
     return any_cast<hldb::Function>(c->getMethods()->at(0));
   }
 
-  static const hldb::Net *getNetSuperObj() {
+  static const hldb::Variable *getVariableSuperObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("super_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("super_obj", top->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -225,11 +217,11 @@ class ClassTypedConstructorParamTest : public Test {
 
 TEST_F(ClassTypedConstructorParamTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassTypedConstructorParamTest, ModuleHasOneNet) {
+TEST_F(ClassTypedConstructorParamTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ClassTypedConstructorParamTest, ModuleHasTwoClassDefns) {
@@ -247,7 +239,7 @@ TEST_F(ClassTypedConstructorParamTest, SuperClsIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getSuperClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class super_cls' has no lifetime qualifier so it defaults to "
-                                    "automatic (see KNOWN COMPILER BUG #1 above)";
+                                    "automatic (see FIXED COMPILER BUG #1 above)";
 }
 
 TEST_F(ClassTypedConstructorParamTest, SuperClsHasOnePropertySWithInitializerTwo) {
@@ -267,7 +259,7 @@ TEST_F(ClassTypedConstructorParamTest, SuperClsPropertySIsPublicByDefault) {
   const hldb::Variable *const s = getSuperPropertyS();
   ASSERT_NE(s, nullptr);
   EXPECT_EQ(s->getVisibility(), vpiPublicVis) << "8.14: 'int s = 2;' with no visibility qualifier defaults to "
-                                                 "public (see KNOWN COMPILER BUG #2 above)";
+                                                 "public (see FIXED COMPILER BUG #2 above)";
 }
 
 TEST_F(ClassTypedConstructorParamTest, SuperClsHasOneConstructor) {
@@ -288,7 +280,7 @@ TEST_F(ClassTypedConstructorParamTest, TestClsIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls #(...) extends super_cls' has no lifetime qualifier "
-                                    "so it defaults to automatic (see KNOWN COMPILER BUG #1 above)";
+                                    "so it defaults to automatic (see FIXED COMPILER BUG #1 above)";
 }
 
 TEST_F(ClassTypedConstructorParamTest, TestClsExtendsSuperCls) {
@@ -339,7 +331,7 @@ TEST_F(ClassTypedConstructorParamTest, TestClsPropertyAIsPublicByDefault) {
   const hldb::Variable *const a = getTestPropertyA();
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a;' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #2 above)";
+                                                 "(see FIXED COMPILER BUG #2 above)";
 }
 
 TEST_F(ClassTypedConstructorParamTest, TestClsHasOneConstructor) {
@@ -390,8 +382,9 @@ TEST_F(ClassTypedConstructorParamTest, TestConstructorFirstStmtIsSuperNewCall) {
   ASSERT_NE(superRef, nullptr);
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getSuperClsDefn());
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new(...)' should resolve to a FuncCall";
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr) << "'super.new(...)' should resolve to a MethodFuncCall, same as an ordinary "
+                              "object-construction 'new(...)' call";
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getSuperConstructor())
       << "matches the already-confirmed-working 'super.new' resolution in "
          "chapter-8/8.7--constructor_super/test_8.7--constructor_super.cpp";
@@ -432,12 +425,12 @@ TEST_F(ClassTypedConstructorParamTest, TestConstructorSecondStmtAssignsAFromDefM
       << "'t' used bare inside the constructor body must resolve to the class's OWN type parameter";
 }
 
-// --- net "super_obj" -------------------------------------------------------------
+// --- variable "super_obj" -------------------------------------------------------------
 
-TEST_F(ClassTypedConstructorParamTest, NetSuperObjExists) { EXPECT_NE(getNetSuperObj(), nullptr); }
+TEST_F(ClassTypedConstructorParamTest, VariableSuperObjExists) { EXPECT_NE(getVariableSuperObj(), nullptr); }
 
-TEST_F(ClassTypedConstructorParamTest, NetSuperObjTypespecResolvesToSuperClsClassDefn) {
-  const hldb::Net *const superObj = getNetSuperObj();
+TEST_F(ClassTypedConstructorParamTest, VariableSuperObjTypespecResolvesToSuperClsClassDefn) {
+  const hldb::Variable *const superObj = getVariableSuperObj();
   ASSERT_NE(superObj, nullptr);
   ASSERT_NE(superObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = superObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -471,7 +464,7 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentIsBlockingWithLhsSuperObj) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "super_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetSuperObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableSuperObj());
 }
 
 TEST_F(ClassTypedConstructorParamTest, AssignmentRhsIsNewMethodFuncCall) {
@@ -487,21 +480,21 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsScopeParamTResolvesToClassPa
   ASSERT_NE(assign, nullptr);
   const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(newCall, nullptr);
-  const hldb::UnsupportedScope *const scope = newCall->getScope<hldb::UnsupportedScope>();
-  ASSERT_NE(scope, nullptr) << "'test_cls#(.t(23))' is currently modeled as an UnsupportedScope (see KNOWN "
-                               "COMPILER BUG #3 above)";
-  EXPECT_EQ(scope->getName(), "test_cls");
-  ASSERT_NE(scope->getParamAssigns(), nullptr);
-  ASSERT_EQ(scope->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = scope->getParamAssigns()->at(0);
+  const hldb::RefTypespec *const rt = newCall->getScope<hldb::RefTypespec>();
+  ASSERT_NE(rt, nullptr);
+  const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(ct, nullptr);
+  EXPECT_EQ(ct->getDefName(), "test_cls");
+  ASSERT_NE(ct->getParamAssigns(), nullptr);
+  ASSERT_EQ(ct->getParamAssigns()->size(), 1u);
+  const hldb::ParamAssign *const pa = ct->getParamAssigns()->at(0);
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName()) << "'.t(23)' is a named (not positional) parameter assignment";
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "t");
   EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getTestClassParamT())
-      << "8.8: '.t(23)' must resolve 't' back to test_cls's OWN type parameter -- this is the exact spot "
-         "([ERR:EL0535] 'Illegal implicit net ... name:t') the current build raises a compiler error";
+      << "8.8: '.t(23)' must resolve 't' back to test_cls's OWN type parameter (see FIXED COMPILER BUG #3 above)";
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "23");
@@ -513,8 +506,8 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNewCallResolvesToTestConstru
   const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getTestConstructor())
-      << "8.8: 'test_cls::new(...)' must resolve back to test_cls's constructor (see KNOWN COMPILER BUG #3 "
-         "above, consistent with the ordinary 'new' resolution gap documented in "
+      << "8.8: 'test_cls::new(...)' must resolve back to test_cls's constructor (see FIXED COMPILER BUG #3 "
+         "above, consistent with the ordinary 'new' resolution fix documented in "
          "chapter-8/8.7--constructor/test_8.7--constructor.cpp)";
 }
 
@@ -529,10 +522,12 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNamedArgumentDefIsFortyOne) 
   // this build represents the named argument ".def(41)" as an IODecl-shaped
   // node carrying the name/value pair. This is a structural observation,
   // not an asserted bug -- see the STRUCTURAL NOTE above.
-  const hldb::IODecl *const arg = any_cast<hldb::IODecl>(newCall->getArguments()->at(0));
-  ASSERT_NE(arg, nullptr) << "'.def(41)' is represented as an IODecl, not a plain Constant";
-  EXPECT_EQ(arg->getName(), "def");
-  const hldb::Constant *const value = arg->getExpr<hldb::Constant>();
+  const hldb::NamedArgument *const arg = any_cast<hldb::NamedArgument>(newCall->getArguments()->at(0));
+  ASSERT_NE(arg, nullptr) << "'.def(41)' is represented as an NamedArgument, not a plain Constant";
+  const hldb::Any *const lc = arg->getLowConn();
+  ASSERT_NE(lc, nullptr);
+  EXPECT_EQ(lc->getName(), "def");
+  const hldb::Constant *const value = arg->getHighConn<hldb::Constant>();
   ASSERT_NE(value, nullptr);
   EXPECT_EQ(value->getDecompile(), "41");
 }
@@ -555,7 +550,7 @@ TEST_F(ClassTypedConstructorParamTest, DisplayArgIsSuperObjDotS) {
 
   const hldb::RefObj *const superObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(superObjRef, nullptr);
-  EXPECT_EQ(superObjRef->getActual<hldb::Net>(), getNetSuperObj());
+  EXPECT_EQ(superObjRef->getActual<hldb::Variable>(), getVariableSuperObj());
 
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(sRef, nullptr);

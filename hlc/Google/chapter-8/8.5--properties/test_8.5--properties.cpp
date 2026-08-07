@@ -38,53 +38,54 @@
 // resolve "a" back to the SAME property declared in test_cls.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 net: "test_obj" (the
-//     class handle, unparameterized so modeled as a Net, matching
+//   - design has module class_tb with exactly 1 variable: "test_obj" (the
+//     class handle, unparameterized so modeled as a Variable, matching
 //     chapter-8/8.4--instantiation.sv)
-//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
+//   - the module has exactly 1 nested ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
-//     property ("a", signed IntTypespec) -- see the KNOWN COMPILER BUG note
-//     below for its lifetime (automatic-by-default)
-//   - net "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
-//     to the SAME ClassDefn as "work@test_cls"
+//     property ("a", signed IntTypespec), defaults to automatic lifetime
+//     and the property defaults to public visibility (see the FIXED
+//     COMPILER BUG notes below)
+//   - variable "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
+//     to the SAME ClassDefn as "test_cls"
 //   - the initial process' Begin block has exactly 3 statements:
 //     "test_obj = new", "test_obj.a = 12", and a $display
 //   - "test_obj = new": blocking Assignment, lhs RefObj "test_obj" resolved
-//     to the Net, rhs MethodFuncCall "new" taking no arguments
+//     to the Variable, rhs MethodFuncCall "new" taking no arguments
 //   - "test_obj.a = 12": blocking Assignment whose LHS is a HierPath (not a
 //     plain RefObj, since it addresses a property through a handle) with 2
-//     path elems (RefObj "test_obj" resolved to the Net; RefObj "a"
+//     path elems (RefObj "test_obj" resolved to the Variable; RefObj "a"
 //     resolved to the class's Variable "a"), and whose rhs is Constant "12"
 //   - "$display(...)" has 2 arguments: a Constant string
 //     ":assert:(%d == 12)", and a HierPath "test_obj.a" whose second path
 //     elem resolves to the SAME Variable "a" object as the write above --
 //     confirming the write and the later read agree on which property they
 //     address
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
-// KNOWN COMPILER BUG #1 (class lifetime defaulting, not a defect in this
+// FIXED COMPILER BUG #1 (class lifetime defaulting, not a defect in this
 // file): IEEE 1800-2017 8.3 says a class declared with no lifetime
 // qualifier must default to automatic lifetime (getAutomatic() == true).
-// This HLC build never sets the automatic flag to true for the unqualified
-// case. Already confirmed independently via
+// HLC previously never set the automatic flag to true for the unqualified
+// case -- cross-checked at the time via
 // hlc/Google/generic/class/test_class_test_1.cpp,
 // hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp,
 // hlc/Google/chapter-8/8.5--parameters/test_8.5--parameters.cpp and
-// hlc/Google/chapter-8/8.5--properties_enum/test_8.5--properties_enum.cpp
-// (all fail the analogous check). ClassIsAutomaticByDefault below asserts
-// the IEEE-mandated behavior and will FAIL until this is fixed.
+// hlc/Google/chapter-8/8.5--properties_enum/test_8.5--properties_enum.cpp.
+// ClassIsAutomaticByDefault below asserts the IEEE-mandated behavior and now
+// passes.
 //
-// KNOWN COMPILER BUG #2 (property visibility defaulting, new finding,
-// confirmed via ctest): IEEE 1800-2017 8.14 says a property with no
-// explicit "local"/"protected" qualifier defaults to public visibility.
-// Confirmed: Variable::getVisibility() for 'a' returns 0, which is not a
-// valid vpiVisibility value at all (vpiPublicVis=1, vpiProtectedVis=2,
-// vpiLocalVis=3 -- see sv_vpi_user.h) -- it is simply the field's
-// never-touched default (int32_t m_visibility = 0;), meaning the compiler
-// never explicitly assigns public visibility to an unqualified property.
-// Same category of bug as #1: a source-level default that elaboration
-// never fills in. PropertyAIsPublicByDefault below asserts the
-// IEEE-mandated behavior and will FAIL until this is fixed.
+// FIXED COMPILER BUG #2 (property visibility defaulting): IEEE 1800-2017
+// 8.14 says a property with no explicit "local"/"protected" qualifier
+// defaults to public visibility. HLC previously left
+// Variable::getVisibility() for 'a' at 0, which is not a valid
+// vpiVisibility value at all (vpiPublicVis=1, vpiProtectedVis=2,
+// vpiLocalVis=3 -- see sv_vpi_user.h) -- simply the field's never-touched
+// default (int32_t m_visibility = 0;), meaning the compiler never
+// explicitly assigned public visibility to an unqualified property. Same
+// category of bug as #1: a source-level default that elaboration wasn't
+// filling in. PropertyAIsPublicByDefault below asserts the IEEE-mandated
+// behavior and now passes.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -106,7 +107,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
@@ -123,19 +124,19 @@ class ClassPropertiesTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
-  static const hldb::Net *getNetTestObj() {
+  static const hldb::Variable *getVariableTestObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj", top->getVariables());
   }
 
   static const hldb::Variable *getPropertyA() {
@@ -169,11 +170,11 @@ class ClassPropertiesTest : public Test {
 
 TEST_F(ClassPropertiesTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassPropertiesTest, ModuleHasOneNet) {
+TEST_F(ClassPropertiesTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ClassPropertiesTest, ModuleHasOneClassDefn) {
@@ -197,7 +198,7 @@ TEST_F(ClassPropertiesTest, ClassIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls' has no lifetime qualifier so it defaults to automatic; "
-                                    "getAutomatic() must return true (see KNOWN COMPILER BUG note above)";
+                                    "getAutomatic() must return true (see FIXED COMPILER BUG #1 note above)";
 }
 
 TEST_F(ClassPropertiesTest, ClassHasOnePropertyA) {
@@ -220,12 +221,25 @@ TEST_F(ClassPropertiesTest, PropertyAIsPublicByDefault) {
   EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a;' with no visibility qualifier defaults to public";
 }
 
-// --- net "test_obj": the class handle ------------------------------------------
+TEST_F(ClassPropertiesTest, PropertyAHasNoDefaultValue) {
+  const hldb::Variable *const a = getPropertyA();
+  ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getValue(), nullptr) << "8.5: 'int a;' inside test_cls has no '= expr' initializer";
+}
 
-TEST_F(ClassPropertiesTest, NetTestObjExists) { EXPECT_NE(getNetTestObj(), nullptr); }
+TEST_F(ClassPropertiesTest, PropertyAHasNoRandOrConstQualifier) {
+  const hldb::Variable *const a = getPropertyA();
+  ASSERT_NE(a, nullptr);
+  EXPECT_FALSE(a->getConstantVariable()) << "8.9: 'int a;' declares no 'const' qualifier";
+  EXPECT_FALSE(a->getIsRandomized()) << "8.9: 'int a;' declares no 'rand'/'randc' qualifier";
+}
 
-TEST_F(ClassPropertiesTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj = getNetTestObj();
+// --- variable "test_obj": the class handle ------------------------------------------
+
+TEST_F(ClassPropertiesTest, VariableTestObjExists) { EXPECT_NE(getVariableTestObj(), nullptr); }
+
+TEST_F(ClassPropertiesTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
   ASSERT_NE(testObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -265,7 +279,7 @@ TEST_F(ClassPropertiesTest, FirstStmtLhsIsTestObjHandle) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj());
 }
 
 TEST_F(ClassPropertiesTest, FirstStmtRhsIsNewMethodFuncCall) {
@@ -296,7 +310,7 @@ TEST_F(ClassPropertiesTest, SecondStmtLhsIsTestObjDotA) {
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
   ASSERT_NE(testObjRef, nullptr);
   EXPECT_EQ(testObjRef->getName(), "test_obj");
-  EXPECT_EQ(testObjRef->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
 
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(1));
   ASSERT_NE(aRef, nullptr);
@@ -346,7 +360,7 @@ TEST_F(ClassPropertiesTest, DisplaySecondArgIsTestObjDotAMatchingTheEarlierWrite
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(testObjRef, nullptr);
   EXPECT_EQ(testObjRef->getName(), "test_obj");
-  EXPECT_EQ(testObjRef->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
 
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(aRef, nullptr);

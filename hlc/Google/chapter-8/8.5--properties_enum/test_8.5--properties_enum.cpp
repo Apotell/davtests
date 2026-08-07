@@ -36,13 +36,12 @@
 // be.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 net: "test_obj" (the
-//     class handle -- unparameterized, so modeled as a Net here, matching
-//     chapter-8/8.4--instantiation.sv rather than the Variable seen for the
-//     parameterized handle in chapter-8/8.5--parameters.sv)
-//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
-//   - ClassDefn "test_cls": classType vpiUserDefinedClass -- see the KNOWN
-//     COMPILER BUG note below for its lifetime (automatic-by-default)
+//   - design has module class_tb with exactly 1 variable: "test_obj" (the
+//     class handle, modeled as a Variable, matching chapter-8/
+//     8.4--instantiation.sv and chapter-8/8.5--parameters.sv)
+//   - the module has exactly 1 nested ClassDefn: "test_cls"
+//   - ClassDefn "test_cls": classType vpiUserDefinedClass, defaults to
+//     automatic lifetime (see the FIXED COMPILER BUG note below)
 //   - ClassDefn "test_cls" has exactly 2 typespecs: an anonymous
 //     EnumTypespec (4 EnumConsts: A=10, B=20, C=30, D=1, in source order)
 //     and a TypedefTypespec "e_type" whose alias resolves to that SAME
@@ -50,28 +49,28 @@
 //   - scope containment: neither the EnumTypespec nor the TypedefTypespec
 //     also appears in the enclosing module's own typespec list -- they
 //     stay correctly scoped to the class, not leaked to module scope
-//   - net "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
-//     to the SAME ClassDefn as "work@test_cls"
+//   - variable "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
+//     to the SAME ClassDefn as "test_cls"
 //   - the initial process' Begin block has exactly 2 statements: an
 //     Assignment ("test_obj = new") and a $display SysFuncCall
 //   - "test_obj = new": blocking Assignment, lhs RefObj "test_obj" resolved
-//     to the Net, rhs MethodFuncCall "new" taking no arguments
+//     to the Variable, rhs MethodFuncCall "new" taking no arguments
 //   - "$display(test_obj.C)" has exactly 1 argument (no format string, only
 //     the enum-constant reference): a HierPath "test_obj.C" with 2 path
-//     elems (RefObj "test_obj" resolved to the Net; RefObj "C" resolved to
+//     elems (RefObj "test_obj" resolved to the Variable; RefObj "C" resolved to
 //     the SAME EnumConst "C" found on the class's EnumTypespec)
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
-// KNOWN COMPILER BUG (class lifetime defaulting, not a defect in this
+// FIXED COMPILER BUG (class lifetime defaulting, not a defect in this
 // file): IEEE 1800-2017 8.3 says a class declared with no lifetime
 // qualifier must default to automatic lifetime (getAutomatic() == true).
-// This HLC build never sets the automatic flag to true for the unqualified
-// case. Already confirmed independently via
+// HLC previously never set the automatic flag to true for the unqualified
+// case -- cross-checked at the time via
 // hlc/Google/generic/class/class_test_1/test_class_test_1.cpp,
 // hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp and
-// hlc/Google/chapter-8/8.5--parameters/test_8.5--parameters.cpp (all fail
-// the analogous check). ClassIsAutomaticByDefault below asserts the
-// IEEE-mandated behavior and will FAIL until this is fixed.
+// hlc/Google/chapter-8/8.5--parameters/test_8.5--parameters.cpp.
+// ClassIsAutomaticByDefault below asserts the IEEE-mandated behavior and now
+// passes.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -94,7 +93,7 @@
 #include <hldb/initial.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
@@ -111,19 +110,19 @@ class ClassPropertiesEnumTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
-  static const hldb::Net *getNetTestObj() {
+  static const hldb::Variable *getVariableTestObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj", top->getVariables());
   }
 
   static const hldb::EnumTypespec *getEnumTypespec() {
@@ -186,11 +185,11 @@ class ClassPropertiesEnumTest : public Test {
 
 TEST_F(ClassPropertiesEnumTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassPropertiesEnumTest, ModuleHasOneNet) {
+TEST_F(ClassPropertiesEnumTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ClassPropertiesEnumTest, ModuleHasOneClassDefn) {
@@ -214,7 +213,7 @@ TEST_F(ClassPropertiesEnumTest, ClassIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls' has no lifetime qualifier so it defaults to automatic; "
-                                    "getAutomatic() must return true (see KNOWN COMPILER BUG note above)";
+                                    "getAutomatic() must return true (see FIXED COMPILER BUG note above)";
 }
 
 TEST_F(ClassPropertiesEnumTest, ClassHasTwoTypespecs) {
@@ -239,6 +238,25 @@ TEST_F(ClassPropertiesEnumTest, EnumConstAIsTen) { ExpectEnumConst(0, "A", "10")
 TEST_F(ClassPropertiesEnumTest, EnumConstBIsTwenty) { ExpectEnumConst(1, "B", "20"); }
 TEST_F(ClassPropertiesEnumTest, EnumConstCIsThirty) { ExpectEnumConst(2, "C", "30"); }
 TEST_F(ClassPropertiesEnumTest, EnumConstDIsOne) { ExpectEnumConst(3, "D", "1"); }
+
+TEST_F(ClassPropertiesEnumTest, EnumTypespecHasNoExplicitBaseType) {
+  const hldb::EnumTypespec *const et = getEnumTypespec();
+  ASSERT_NE(et, nullptr);
+  EXPECT_EQ(et->getBaseTypespec(), nullptr)
+      << "6.19: 'typedef enum {...} e_type' with no explicit base data type stores no base RefTypespec "
+         "(mirrors chapter-6/6.19--enum_anon/test_6.19_enum_anon.cpp)";
+}
+
+// test_cls declares only the anonymous enum/its typedef -- no data properties or
+// methods -- so both collections should be absent, confirming nothing else
+// leaked into the class's member lists.
+TEST_F(ClassPropertiesEnumTest, ClassHasNoDataPropertiesOrMethods) {
+  const hldb::ClassDefn *const c = getTestClsDefn();
+  ASSERT_NE(c, nullptr);
+  EXPECT_TRUE(c->getVariables() == nullptr || c->getVariables()->empty())
+      << "test_cls declares only 'typedef enum {...} e_type;', no data properties";
+  EXPECT_TRUE(c->getMethods() == nullptr || c->getMethods()->empty()) << "test_cls declares no methods";
+}
 
 TEST_F(ClassPropertiesEnumTest, TypedefETypeExists) { EXPECT_NE(getTypedefTypespec(), nullptr); }
 
@@ -279,12 +297,12 @@ TEST_F(ClassPropertiesEnumTest, ModuleScopeDoesNotContainClassEnumOrTypedef) {
   }
 }
 
-// --- net "test_obj": the class handle ------------------------------------------
+// --- variable "test_obj": the class handle ------------------------------------------
 
-TEST_F(ClassPropertiesEnumTest, NetTestObjExists) { EXPECT_NE(getNetTestObj(), nullptr); }
+TEST_F(ClassPropertiesEnumTest, VariableTestObjExists) { EXPECT_NE(getVariableTestObj(), nullptr); }
 
-TEST_F(ClassPropertiesEnumTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj = getNetTestObj();
+TEST_F(ClassPropertiesEnumTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
   ASSERT_NE(testObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -324,7 +342,7 @@ TEST_F(ClassPropertiesEnumTest, AssignmentLhsIsTestObjHandle) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj());
 }
 
 TEST_F(ClassPropertiesEnumTest, AssignmentRhsIsNewMethodFuncCall) {
@@ -359,7 +377,7 @@ TEST_F(ClassPropertiesEnumTest, DisplayArgIsTestObjDotC) {
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(testObjRef, nullptr);
   EXPECT_EQ(testObjRef->getName(), "test_obj");
-  EXPECT_EQ(testObjRef->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
 
   const hldb::RefObj *const cRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(cRef, nullptr);

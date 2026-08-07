@@ -35,32 +35,31 @@
 // it.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 net: "test_obj" (the
+//   - design has module class_tb with exactly 1 variable: "test_obj" (the
 //     class handle)
-//   - the design has exactly 1 ClassDefn: "work@test_cls"
+//   - the design has exactly 1 ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, not virtual, has
-//     exactly 1 property ("a", signed IntTypespec), no extends clause -- see
-//     the KNOWN BUG notes below for its lifetime (automatic-by-default) and
-//     its property's visibility (public-by-default)
-//   - net "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
-//     to the SAME ClassDefn as "work@test_cls" -- this is the crux of "is
+//     exactly 1 property ("a", signed IntTypespec), no extends clause,
+//     defaults to automatic lifetime (see the FIXED notes below)
+//   - variable "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
+//     to the SAME ClassDefn as "test_cls" -- this is the crux of "is
 //     the class handle recognised by the parser": the handle's static type
 //     must be tied back to the actual class declaration, not left dangling
-//   - net "test_obj" has no initial value (no "= expr" in its declaration),
+//   - variable "test_obj" has no initial value (no "= expr" in its declaration),
 //     consistent with a class handle defaulting to null before any object
 //     is assigned to it
 //   - the initial process' Begin block has exactly 1 statement: an IfStmt
 //   - the IfStmt's condition is a 2-operand equality Operation (vpiEqOp):
-//     operand[0] is a RefObj "test_obj" resolved to the Net; operand[1] is
-//     the "null" keyword literal -- see the KNOWN BUG note below for how
-//     this currently resolves
+//     operand[0] is a RefObj "test_obj" resolved to the Variable; operand[1] is
+//     the "null" keyword literal, resolving to a Constant with vpiNullConst
+//     (see the FIXED note below)
 //   - the IfStmt's (then-branch) stmt is a blocking Assignment: lhs is a
-//     RefObj "test_obj" resolved to the SAME Net as the declaration (i.e.
+//     RefObj "test_obj" resolved to the SAME Variable as the declaration (i.e.
 //     the handle, once assigned, points back to itself/the same object
 //     slot); rhs is a MethodFuncCall named "new" taking no arguments -- this
 //     is "test_obj = new" (implicit constructor call, no explicit
 //     class_type# or (args))
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
 // Deliberately NOT tested: MethodFuncCall::getTaskFunc() resolution for the
 // "new" call. test_cls has no user-written "function new();", so whether an
@@ -70,19 +69,18 @@
 // kind of TaskFunc resolution is deliberately left unchecked rather than
 // asserted on without a confirmed ground truth.
 //
-// KNOWN COMPILER BUG #1 (class lifetime defaulting, not a defect in this
+// FIXED COMPILER BUG #1 (class lifetime defaulting, not a defect in this
 // file): IEEE 1800-2017 8.3 says a class declared with no lifetime
 // qualifier ("class test_cls; ... endclass") must default to automatic
-// lifetime (getAutomatic() == true). This HLC build never sets the
-// automatic flag to true for the unqualified case -- it returns false,
-// identical to what an explicit "class static test_cls;" would produce.
-// Already confirmed independently via
-// hlc/Google/generic/class/class_test_1/test_class_test_1.cpp (fails) vs
-// hlc/Google/generic/class/class_test_2/test_class_test_2.cpp (explicit
-// static, passes). ClassIsAutomaticByDefault below asserts the IEEE-mandated
-// behavior and will FAIL until this is fixed.
+// lifetime (getAutomatic() == true). HLC previously never set the automatic
+// flag to true for the unqualified case, returning false, identical to what
+// an explicit "class static test_cls;" would produce -- cross-checked at the
+// time via hlc/Google/generic/class/class_test_1/test_class_test_1.cpp
+// (unqualified) vs class_test_2/test_class_test_2.cpp (explicit static).
+// ClassIsAutomaticByDefault below asserts the IEEE-mandated behavior and now
+// passes.
 //
-// SUSPECTED COMPILER BUG #2 (new finding, "null" keyword resolution): the
+// FIXED COMPILER BUG #2 (was "suspected", "null" keyword resolution): the
 // SystemVerilog VPI extension defines a dedicated constant-type enumerant
 // "vpiNullConst" (sv_vpi_user.h) specifically for the "null" literal, and
 // this same codebase already establishes the precedent of lowering another
@@ -90,24 +88,22 @@
 // node with vpiConstType == vpiUnboundedConst (see
 // chapter-7/queues/*/test_*.cpp). By that precedent, "null" in "test_obj ==
 // null" should likewise lower to a Constant with getConstType() ==
-// vpiNullConst. This build's .log instead shows it as an unresolved RefObj
-// named "null" (no vpiActual), the same shape as an implicit/undeclared
+// vpiNullConst. HLC previously modeled it as an unresolved RefObj named
+// "null" (no vpiActual) instead, the same shape as an implicit/undeclared
 // identifier reference. IfConditionSecondOperandIsNullConstant below
-// asserts the enum-grounded expected shape and may FAIL, surfacing this as
-// a new finding distinct from the two queue-suite bugs.
+// confirms the enum-grounded expected shape and now passes.
 //
-// KNOWN COMPILER BUG #3 (property visibility defaulting, confirmed via
-// ctest, same root cause as #1): IEEE 1800-2017 8.14 says a property with
-// no explicit "local"/"protected" qualifier defaults to public visibility.
-// Confirmed independently via
-// hlc/Google/chapter-8/8.5--properties/test_8.5--properties.cpp: property
-// 'a' returns getVisibility() == 0, which is not a valid vpiVisibility
-// value at all (vpiPublicVis=1, vpiProtectedVis=2, vpiLocalVis=3 -- see
-// sv_vpi_user.h) -- it is simply the field's never-touched default
-// (int32_t m_visibility = 0;), meaning the compiler never explicitly
-// assigns public visibility to an unqualified property.
+// FIXED COMPILER BUG #3 (property visibility defaulting, same root cause as
+// #1): IEEE 1800-2017 8.14 says a property with no explicit
+// "local"/"protected" qualifier defaults to public visibility. Cross-checked
+// at the time via hlc/Google/chapter-8/8.5--properties/test_8.5--properties.cpp:
+// property 'a' returned getVisibility() == 0, which is not a valid
+// vpiVisibility value at all (vpiPublicVis=1, vpiProtectedVis=2,
+// vpiLocalVis=3 -- see sv_vpi_user.h) -- simply the field's never-touched
+// default (int32_t m_visibility = 0;), meaning the compiler never explicitly
+// assigned public visibility to an unqualified property.
 // PropertyAIsPublicByDefault below asserts the IEEE-mandated behavior and
-// will FAIL until this is fixed.
+// now passes.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -129,7 +125,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -145,20 +140,18 @@ class ClassInstantiationTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
-  }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules()); }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
-  static const hldb::Net *getNetTestObj() {
+  static const hldb::Variable *getVariableTestObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj", top->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -180,11 +173,11 @@ class ClassInstantiationTest : public Test {
 
 TEST_F(ClassInstantiationTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassInstantiationTest, ModuleHasOneNet) {
+TEST_F(ClassInstantiationTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ClassInstantiationTest, ModuleHasOneClassDefn) {
@@ -214,7 +207,7 @@ TEST_F(ClassInstantiationTest, ClassIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls' has no lifetime qualifier so it defaults to automatic; "
-                                    "getAutomatic() must return true (see KNOWN COMPILER BUG #1 above)";
+                                    "getAutomatic() must return true (see FIXED COMPILER BUG #1 above)";
 }
 
 TEST_F(ClassInstantiationTest, ClassHasNoExtends) {
@@ -245,15 +238,26 @@ TEST_F(ClassInstantiationTest, PropertyAIsPublicByDefault) {
   const hldb::Variable *const a = c->getVariables()->at(0);
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a;' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #3 above)";
+                                                 "(see FIXED COMPILER BUG #3 above)";
 }
 
-// --- net "test_obj": the class handle -----------------------------------------
+TEST_F(ClassInstantiationTest, PropertyAHasNoRandOrConstQualifier) {
+  const hldb::ClassDefn *const c = getTestClsDefn();
+  ASSERT_NE(c, nullptr);
+  ASSERT_NE(c->getVariables(), nullptr);
+  ASSERT_EQ(c->getVariables()->size(), 1u);
+  const hldb::Variable *const a = c->getVariables()->at(0);
+  ASSERT_NE(a, nullptr);
+  EXPECT_FALSE(a->getConstantVariable()) << "8.9: 'int a;' declares no 'const' qualifier";
+  EXPECT_FALSE(a->getIsRandomized()) << "8.9: 'int a;' declares no 'rand'/'randc' qualifier";
+}
 
-TEST_F(ClassInstantiationTest, NetTestObjExists) { EXPECT_NE(getNetTestObj(), nullptr); }
+// --- variable "test_obj": the class handle -----------------------------------------
 
-TEST_F(ClassInstantiationTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj = getNetTestObj();
+TEST_F(ClassInstantiationTest, VariableTestObjExists) { EXPECT_NE(getVariableTestObj(), nullptr); }
+
+TEST_F(ClassInstantiationTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
   ASSERT_NE(testObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -263,8 +267,8 @@ TEST_F(ClassInstantiationTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
          "confirming the parser recognises the handle's declared type";
 }
 
-TEST_F(ClassInstantiationTest, NetTestObjHasNoInitialValue) {
-  const hldb::Net *const testObj = getNetTestObj();
+TEST_F(ClassInstantiationTest, VariableTestObjHasNoInitialValue) {
+  const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
   EXPECT_EQ(testObj->getValue(), nullptr) << "8.4: 'test_cls test_obj;' has no initializer, "
                                              "consistent with the handle defaulting to null before "
@@ -312,7 +316,7 @@ TEST_F(ClassInstantiationTest, IfConditionFirstOperandIsTestObjHandle) {
   const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj());
 }
 
 TEST_F(ClassInstantiationTest, IfConditionSecondOperandIsNullConstant) {
@@ -324,7 +328,7 @@ TEST_F(ClassInstantiationTest, IfConditionSecondOperandIsNullConstant) {
   ASSERT_GT(cond->getOperands()->size(), 1u);
   const hldb::Constant *const nullLit = any_cast<hldb::Constant>(cond->getOperands()->at(1));
   ASSERT_NE(nullLit, nullptr) << "'null' should resolve to a Constant, not a plain RefObj "
-                                 "(see SUSPECTED COMPILER BUG #2 above)";
+                                 "(see FIXED COMPILER BUG #2 above)";
   EXPECT_EQ(nullLit->getConstType(), vpiNullConst);
 }
 
@@ -346,8 +350,8 @@ TEST_F(ClassInstantiationTest, AssignmentLhsIsTestObjHandle) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj())
-      << "8.4: once assigned, the handle must resolve back to the SAME Net slot it was declared with";
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj())
+      << "8.4: once assigned, the handle must resolve back to the SAME variable slot it was declared with";
 }
 
 TEST_F(ClassInstantiationTest, AssignmentRhsIsNewMethodFuncCall) {

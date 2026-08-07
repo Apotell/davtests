@@ -36,17 +36,16 @@
 // expected, spec-correct value.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 variable: "test_obj"
-//     (the class handle -- this build models a parameterized-class handle
-//     as a Variable, not a Net, unlike the unparameterized handle in
-//     chapter-8/8.4--instantiation.sv)
-//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
+//   - design has module class_tb with exactly 1 variable: "test_obj"
+//     (the class handle, modeled as a Variable, same as the unparameterized
+//     handle in chapter-8/8.4--instantiation.sv)
+//   - the module has exactly 1 nested ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
 //     parameter ("a", not a localparam) whose class-level default
-//     ParamAssign rhs is Constant "12" -- see the KNOWN COMPILER BUG #1
-//     note below for its lifetime (automatic-by-default)
+//     ParamAssign rhs is Constant "12", defaults to automatic lifetime (see
+//     the FIXED COMPILER BUG #1 note below)
 //   - variable "test_obj": its typespec resolves (RefTypespec ->
-//     ClassTypespec) to the SAME ClassDefn as "work@test_cls"
+//     ClassTypespec) to the SAME ClassDefn as "test_cls"
 //   - the initial process' Begin block has exactly 2 statements: an
 //     Assignment ("test_obj = new") and a $display SysFuncCall
 //   - "test_obj = new": blocking Assignment, lhs RefObj "test_obj" resolved
@@ -54,32 +53,31 @@
 //   - "$display(...)" has 2 arguments: a Constant string
 //     ":assert:(%d == 34)", and a HierPath "test_obj.a" with 2 path elems
 //     (RefObj "test_obj" resolved to the Variable; RefObj "a" resolved to a
-//     Parameter) -- see the KNOWN GAP note below for whether the
-//     34-override is actually reachable from this reference
-//   - design-level: exactly 1 class (work@test_cls)
+//     Parameter), with the 34-override reachable via test_obj's own
+//     ClassTypespec ParamAssigns (see the FIXED COMPILER BUG #2 note below)
+//   - design-level: exactly 1 class (test_cls)
 //
-// KNOWN COMPILER BUG #1 (class lifetime defaulting, not a defect in this
+// FIXED COMPILER BUG #1 (class lifetime defaulting, not a defect in this
 // file): IEEE 1800-2017 8.3 says a class declared with no lifetime
 // qualifier must default to automatic lifetime (getAutomatic() == true).
-// This HLC build never sets the automatic flag to true for the unqualified
-// case. Already confirmed independently via
+// HLC previously never set the automatic flag to true for the unqualified
+// case -- cross-checked at the time via
 // hlc/Google/generic/class/class_test_1/test_class_test_1.cpp and
-// hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp (both
-// fail the analogous check). ClassIsAutomaticByDefault below asserts the
-// IEEE-mandated behavior and will FAIL until this is fixed.
+// hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp.
+// ClassIsAutomaticByDefault below asserts the IEEE-mandated behavior and now
+// passes.
 //
-// KNOWN COMPILER BUG #2 (parameter-override tracking, not a defect in this
+// FIXED COMPILER BUG #2 (parameter-override tracking, not a defect in this
 // file): IEEE 1800-2017 8.25 specialization means "test_cls #(34) test_obj"
 // binds this handle's "a" to 34, distinct from the class's own default of
-// 12 (confirmed by the source's own ":assert:(%d == 34)" expectation).
-// Confirmed via ctest run: the ClassTypespec reached through test_obj's
-// typespec has getParamAssigns() == nullptr -- not even the class's default
-// ParamAssign is attached there, let alone one overriding "a" to 34. The
-// "#(34)" override parses and elaborates without any compiler error, but
-// it is not tracked anywhere reachable from test_obj's HLDB typespec: there
-// is no static path from "test_obj.a" to the value 34.
+// 12 (confirmed by the source's own ":assert:(%d == 34)" expectation). HLC
+// previously left the ClassTypespec reached through test_obj's typespec with
+// getParamAssigns() == nullptr -- not even the class's default ParamAssign
+// was attached there, let alone one overriding "a" to 34; the "#(34)"
+// override parsed and elaborated without any compiler error, but was not
+// tracked anywhere reachable from test_obj's HLDB typespec.
 // VariableTestObjTypespecParamAssignsReflectOverride below asserts the
-// IEEE-mandated specialization and FAILS until this is fixed.
+// IEEE-mandated specialization and now passes.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -118,13 +116,13 @@ class ClassParametersTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getVariableTestObj() {
@@ -186,7 +184,7 @@ TEST_F(ClassParametersTest, ClassIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
   EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls #(parameter a = 12)' has no lifetime qualifier so it "
-                                    "defaults to automatic; getAutomatic() must return true (same KNOWN COMPILER "
+                                    "defaults to automatic; getAutomatic() must return true (same FIXED COMPILER "
                                     "BUG #1 documented in chapter-8/8.4--instantiation.sv and class_test_1.sv)";
 }
 
@@ -214,6 +212,8 @@ TEST_F(ClassParametersTest, ClassParameterADefaultAssignIsTwelve) {
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "8.25: the class-level default for 'a' should be Constant '12'";
   EXPECT_EQ(rhs->getDecompile(), "12");
+  EXPECT_FALSE(pa->getOverridden()) << "8.25: the class's OWN default assign for 'a' does not override anything";
+  EXPECT_FALSE(pa->getConnByName()) << "'parameter a = 12' is a plain default value, not a by-name connection";
 }
 
 // --- variable "test_obj": the parameterized-class handle ----------------------
@@ -230,8 +230,8 @@ TEST_F(ClassParametersTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
       << "the handle's ClassTypespec must point back to the SAME ClassDefn as 'test_cls'";
 }
 
-// KNOWN COMPILER BUG: confirmed no per-handle override is tracked at all --
-// see the file-level comment above.
+// FIXED COMPILER BUG #2: the per-handle override is now tracked -- see the
+// file-level comment above.
 TEST_F(ClassParametersTest, VariableTestObjTypespecParamAssignsReflectOverride) {
   const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
@@ -248,6 +248,8 @@ TEST_F(ClassParametersTest, VariableTestObjTypespecParamAssignsReflectOverride) 
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "34") << "8.25: test_obj's specialization must override 'a' to 34, not "
                                           "reuse the class's default of 12";
+  EXPECT_TRUE(pa->getOverridden()) << "8.25: 'test_cls #(34)' overrides the class's own default ParamAssign for 'a'";
+  EXPECT_FALSE(pa->getConnByName()) << "'#(34)' is a positional (ordered) parameter value assignment, not by-name";
 }
 
 // --- test_obj = new --------------------------------------------------------------
