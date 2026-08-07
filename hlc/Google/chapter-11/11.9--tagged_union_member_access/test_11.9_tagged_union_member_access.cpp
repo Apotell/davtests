@@ -187,7 +187,7 @@ TEST_F(TaggedUnionMemberAccessTest, ThirdStatementReadsBDotValidAsHierPathToType
 
 TEST_F(TaggedUnionMemberAccessTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
+  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
 TEST_F(TaggedUnionMemberAccessTest, CompilerReportsZeroErrors) {

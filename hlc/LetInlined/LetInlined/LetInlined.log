@@ -234,6 +234,7 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$past
                 vpiName: x
                 vpiFullName: m.p1.x
+                vpiActual: SeqFormalDecl name:x
           vpiSeqFormalDecl (1 items):
             SeqFormalDecl name:x start:4:8 end:4:9:
               vpiParent: LetDecl name:p1
@@ -259,6 +260,7 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$past
                 vpiName: x
                 vpiFullName: m.p2.x
+                vpiActual: SeqFormalDecl name:x
               EventControl start:6:23 end:6:39:
                 vpiParent: SysFuncCall name:$past
                 vpiCondition Operation start:6:25 end:6:38:
@@ -294,6 +296,7 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$sampled
                 vpiName: x
                 vpiFullName: m.s.x
+                vpiActual: SeqFormalDecl name:x
           vpiSeqFormalDecl (1 items):
             SeqFormalDecl name:x start:7:7 end:7:8:
               vpiParent: LetDecl name:s
@@ -323,49 +326,43 @@ Design name:unnamed:
                 vpiLabel Identifier name:a1 start:10:1 end:10:3:
                   vpiParent: ImmediateAssert
                   vpiName: a1
-                vpiExpr SubroutineCall name:p1 start:10:12 end:10:17:
+                vpiExpr LetExpr start:10:12 end:10:17:
                   vpiParent: ImmediateAssert
-                  vpiName Identifier name:p1 start:10:12 end:10:14:
-                    vpiParent: SubroutineCall name:p1
-                    vpiName: p1
                   vpiArgument (1 items):
                     RefObj name:a start:10:15 end:10:16:
-                      vpiParent: SubroutineCall name:p1
+                      vpiParent: LetExpr
                       vpiName: a
-                      vpiFullName: m.p1.a
+                      vpiFullName: m.a
                       vpiActual: Variable name:a
+                  vpiLetDecl: LetDecl name:p1
               ImmediateAssert start:11:5 end:11:19:
                 vpiParent: Begin
                 vpiLabel Identifier name:a2 start:11:1 end:11:3:
                   vpiParent: ImmediateAssert
                   vpiName: a2
-                vpiExpr SubroutineCall name:p2 start:11:12 end:11:17:
+                vpiExpr LetExpr start:11:12 end:11:17:
                   vpiParent: ImmediateAssert
-                  vpiName Identifier name:p2 start:11:12 end:11:14:
-                    vpiParent: SubroutineCall name:p2
-                    vpiName: p2
                   vpiArgument (1 items):
                     RefObj name:a start:11:15 end:11:16:
-                      vpiParent: SubroutineCall name:p2
+                      vpiParent: LetExpr
                       vpiName: a
-                      vpiFullName: m.p2.a
+                      vpiFullName: m.a
                       vpiActual: Variable name:a
+                  vpiLetDecl: LetDecl name:p2
               ImmediateAssert start:12:5 end:12:18:
                 vpiParent: Begin
                 vpiLabel Identifier name:a3 start:12:1 end:12:3:
                   vpiParent: ImmediateAssert
                   vpiName: a3
-                vpiExpr SubroutineCall name:s start:12:12 end:12:16:
+                vpiExpr LetExpr start:12:12 end:12:16:
                   vpiParent: ImmediateAssert
-                  vpiName Identifier name:s start:12:12 end:12:13:
-                    vpiParent: SubroutineCall name:s
-                    vpiName: s
                   vpiArgument (1 items):
                     RefObj name:a start:12:14 end:12:15:
-                      vpiParent: SubroutineCall name:s
+                      vpiParent: LetExpr
                       vpiName: a
-                      vpiFullName: m.s.a
+                      vpiFullName: m.a
                       vpiActual: Variable name:a
+                  vpiLetDecl: LetDecl name:s
           vpiAlwaysType: comb (2)
       vpiEndLabel Identifier name:m start:16:13 end:16:14:
         vpiParent: Module name:m
@@ -425,7 +422,7 @@ COMMAND: ${HLC_DIR}/regression/LetInlined/LetInlined/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

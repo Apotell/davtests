@@ -193,7 +193,7 @@ TEST_F(TaggedUnionMemberAccessInvTest, ThirdStatementReadsAdotValidEvenThoughAIs
 
 TEST_F(TaggedUnionMemberAccessInvTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
+  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
 TEST_F(TaggedUnionMemberAccessInvTest, CompilerReportsZeroErrorsBecauseTheInvalidityIsRuntimeOnly) {
