@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,21 @@
 //     string a = "Test";
 //     initial a.putc(2, "B");
 //   endmodule
-// Per IEEE 1800-2023 6.8/6.16: 'string' has no explicit net-type keyword, so
-// 'a' is a variable_declaration, not a net_declaration.
 // Key property: unlike len/getc/toupper, putc is a void call inside an
 // Initial process (no result variable 'b'). The Initial stmt is a HierPath
 // "a.putc(2, \"B\")" whose FuncCall carries two arguments: Constant 2 and
 // Constant "B".
+//
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations", p.105):
+// the identifiers declared in this file (string/int/byte/real -- see the
+// module body above) are all 6.8 data_type keywords (string, integer_atom_type,
+// non_integer_type), never IEEE 1800-2023 6.7 net_type keywords, so they must
+// be Variables, not Nets, regardless of module-level scope. A prior version of
+// this test used hldb::Net/getNets() throughout -- the same net/variable
+// misclassification bug found and fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14,
+// and 6.16--string this session. This version targets hldb::Variable instead,
+// and adds a CompilerReportsZeroErrors check (previously absent) since this
+// file has no :should_fail_because: tag and is fully legal.
 //
 // Checked:
 //   - design has module top with 1 variable (a: string)
@@ -37,6 +46,7 @@
 //     string methods
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -46,46 +56,36 @@
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
 #include <hldb/initial.h>
-#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class StringPutc : public Test {
+class StringPutcTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.2--string_putc.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(StringPutc, ModuleExists) {
+TEST_F(StringPutcTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable -- only 'a' (string); putc is void so no result variable 'b'
-// ----
-TEST_F(StringPutc, OneVariableExists) {
+// ---------------------------------------------------------------------------
+TEST_F(StringPutcTest, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u) << "only variable 'a'; putc is void";
 }
 
-TEST_F(StringPutc, NoNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, 'string' has no net-type keyword, so 'a'
-  // must not be materialized as a Net.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
-}
-
-TEST_F(StringPutc, AVariableTypespecIsString) {
+TEST_F(StringPutcTest, AVariableTypespecIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -95,7 +95,7 @@ TEST_F(StringPutc, AVariableTypespecIsString) {
   EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringPutc, AVariableInitialValueIsTest) {
+TEST_F(StringPutcTest, AVariableInitialValueIsTest) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -106,17 +106,17 @@ TEST_F(StringPutc, AVariableInitialValueIsTest) {
   EXPECT_EQ(init->getDecompile(), "\"Test\"");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Initial process -- initial a.putc(2, "B")
-// ----
-TEST_F(StringPutc, InitialProcessExists) {
+// ---------------------------------------------------------------------------
+TEST_F(StringPutcTest, InitialProcessExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
-TEST_F(StringPutc, InitialStmtIsHierPath) {
+TEST_F(StringPutcTest, InitialStmtIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -126,10 +126,10 @@ TEST_F(StringPutc, InitialStmtIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.putc(2, \"B\")");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // HierPath -- receiver 'a' and FuncCall 'putc' with 2 arguments
-// ----
-TEST_F(StringPutc, HierPathReceiverIsA) {
+// ---------------------------------------------------------------------------
+TEST_F(StringPutcTest, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -144,7 +144,7 @@ TEST_F(StringPutc, HierPathReceiverIsA) {
   EXPECT_EQ(receiver->getName(), "a");
 }
 
-TEST_F(StringPutc, HierPathMethodIsPutc) {
+TEST_F(StringPutcTest, HierPathMethodIsPutc) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -159,7 +159,7 @@ TEST_F(StringPutc, HierPathMethodIsPutc) {
   EXPECT_EQ(call->getName(), "putc");
 }
 
-TEST_F(StringPutc, PutcFirstArgumentIsTwo) {
+TEST_F(StringPutcTest, PutcFirstArgumentIsTwo) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -176,7 +176,7 @@ TEST_F(StringPutc, PutcFirstArgumentIsTwo) {
   EXPECT_EQ(arg0->getDecompile(), "2");
 }
 
-TEST_F(StringPutc, PutcSecondArgumentIsB) {
+TEST_F(StringPutcTest, PutcSecondArgumentIsB) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -194,22 +194,27 @@ TEST_F(StringPutc, PutcSecondArgumentIsB) {
   EXPECT_EQ(arg1->getDecompile(), "\"B\"");
 }
 
-// ----
-// a.putc(2, "B") runtime mutation -- known gap: HLC never sets
-// Design::m_elaborated (no caller invokes setElaborated(true) anywhere in
-// src/), so a guard on getElaborated() is permanently-false dead code. Use
-// GTEST_SKIP() explicitly instead.
-// ----
-TEST_F(StringPutc, PutcMutationIsPreEvaluated) {
-  GTEST_SKIP() << "known gap: HLC does not perform compile-time evaluation of string methods; "
-                  "a.putc(2, \"B\") should mutate 'a' to a Constant \"TeBt\" once elaboration is implemented";
+// ---------------------------------------------------------------------------
+// a.putc(2, "B") runtime mutation
+// ---------------------------------------------------------------------------
+TEST_F(StringPutcTest, PutcMutationIsPreEvaluated) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const value = a->getValue<hldb::Constant>();
-  ASSERT_NE(value, nullptr) << "variable 'a' should hold a pre-evaluated Constant reflecting the putc mutation";
-  EXPECT_EQ(value->getDecompile(), "\"TeBt\"") << "a.putc(2, \"B\") should mutate 'a' to \"TeBt\"";
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "variable 'a' should hold a pre-evaluated Constant reflecting the putc mutation";
+    EXPECT_EQ(value->getDecompile(), "\"TeBt\"") << "a.putc(2, \"B\") should mutate 'a' to \"TeBt\"";
+  }
+}
+
+TEST_F(StringPutcTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

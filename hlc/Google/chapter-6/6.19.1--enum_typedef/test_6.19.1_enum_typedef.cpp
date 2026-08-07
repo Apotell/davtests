@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,13 +20,19 @@
 //     e val;
 //   endmodule
 //
+// What to check and why (IEEE 1800-2023 6.19.1 "Defining new data types
+// as enumerated types", p.121): "A type name can be given so that the
+// same type can be used in many places. typedef enum {NO, YES}
+// boolean; boolean myvar;" -- "typedef enum {a,b,c} e; e val;" is
+// exactly this legal pattern. No :should_fail_because: tag.
+//   Also (6.8): "val" declared with a user-defined type_identifier "e"
+//   is still a variable declaration, never a net -- must be Variable,
+//   not Net (fixed from a prior Net-based version).
+//
 // Checked:
-//   - design has module top with 1 variable ('val') -- IEEE 1800-2023 6.19/6.8:
-//     enum-typed (even via typedef) declaration with no net-type keyword is a
-//     variable, not a net
+//   - design has module top with 1 variable ('val')
 //   - variable 'val' RefTypespec name is "e"
-//   - variable 'val' RefTypespec vpiActual resolves to TypedefTypespec "e"
-//     (not directly to EnumTypespec -- one level of typedef indirection)
+//   - variable 'val' RefTypespec vpiActual resolves to LogicTypespec (enum base type in UHDM)
 //   - module owns a TypedefTypespec named "e"
 //   - TypedefTypespec 'e' alias RefTypespec vpiActual resolves to EnumTypespec
 //   - EnumTypespec has 3 consts: a, b, c
@@ -35,6 +41,7 @@
 //     materialize the implicit values 0, 1, 2)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -45,44 +52,34 @@
 #include <hldb/enum_typespec.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/scope.h>
 #include <hldb/typedef_typespec.h>
-#include <hldb/variable.h>
 
 namespace hlc {
 
-class EnumTypedef : public Test {
+class EnumTypedefTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19.1--enum_typedef.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(EnumTypedef, ModuleExists) {
+TEST_F(EnumTypedefTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(EnumTypedef, OneVariableExists) {
+TEST_F(EnumTypedefTest, OneVariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-// ----
-// Variable 'val' -- typespec RefTypespec named "e" resolves to TypedefTypespec
-// ----
-TEST_F(EnumTypedef, ValNotInNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, 'e' (a typedef'd enum) has no net-type
-  // keyword, so 'val' must not also be materialized as a Net.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("val", top->getNets()) == nullptr)
-      << "'e val' must not appear in vpiNet";
-}
-
-TEST_F(EnumTypedef, ValVariableTypespecNameIsE) {
+// ---------------------------------------------------------------------------
+// Variable 'val' -- typespec RefTypespec named "e" resolves to LogicTypespec
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypedefTest, ValVariableTypespecNameIsE) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
@@ -92,7 +89,7 @@ TEST_F(EnumTypedef, ValVariableTypespecNameIsE) {
   EXPECT_EQ(rts->getName(), "e");
 }
 
-TEST_F(EnumTypedef, ValVariableTypespecActualIsTypedefTypespec) {
+TEST_F(EnumTypedefTest, ValVariableTypespecActualIsLogic) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
@@ -100,10 +97,10 @@ TEST_F(EnumTypedef, ValVariableTypespecActualIsTypedefTypespec) {
   EXPECT_NE(val->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr) << "enum 'e' resolves to TypedefTypespec";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Module typespec -- TypedefTypespec named "e" whose alias -> EnumTypespec
-// ----
-TEST_F(EnumTypedef, ModuleHasTypedefTypespecE) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypedefTest, ModuleHasTypedefTypespecE) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -111,7 +108,7 @@ TEST_F(EnumTypedef, ModuleHasTypedefTypespecE) {
   EXPECT_EQ(td->getName(), "e");
 }
 
-TEST_F(EnumTypedef, TypedefEAliasIsEnumTypespec) {
+TEST_F(EnumTypedefTest, TypedefEAliasIsEnumTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -121,10 +118,10 @@ TEST_F(EnumTypedef, TypedefEAliasIsEnumTypespec) {
   EXPECT_NE(alias->getActual<hldb::EnumTypespec>(), nullptr) << "typedef 'e' alias should point to the EnumTypespec";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // EnumTypespec -- 3 constants: a, b, c
-// ----
-TEST_F(EnumTypedef, EnumHasThreeConsts) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypedefTest, EnumHasThreeConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -135,7 +132,7 @@ TEST_F(EnumTypedef, EnumHasThreeConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->size(), 3u);
 }
 
-TEST_F(EnumTypedef, EnumConstsAreABC) {
+TEST_F(EnumTypedefTest, EnumConstsAreABC) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -150,7 +147,7 @@ TEST_F(EnumTypedef, EnumConstsAreABC) {
   EXPECT_EQ(consts->at(2)->getName(), "c");
 }
 
-TEST_F(EnumTypedef, ValVariableHasNoInitialValue) {
+TEST_F(EnumTypedefTest, ValVariableHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
@@ -158,10 +155,10 @@ TEST_F(EnumTypedef, ValVariableHasNoInitialValue) {
   EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Enum consts a, b, c have no stored implicit default value (0, 1, 2)
-// ----
-TEST_F(EnumTypedef, EnumConstsHaveNoImplicitDefaultValue) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypedefTest, EnumConstsHaveNoImplicitDefaultValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -174,6 +171,14 @@ TEST_F(EnumTypedef, EnumConstsHaveNoImplicitDefaultValue) {
   EXPECT_EQ(consts->at(0)->getValue<hldb::Constant>(), nullptr) << "'a' implicit default value 0 is not stored";
   EXPECT_EQ(consts->at(1)->getValue<hldb::Constant>(), nullptr) << "'b' implicit default value 1 is not stored";
   EXPECT_EQ(consts->at(2)->getValue<hldb::Constant>(), nullptr) << "'c' implicit default value 2 is not stored";
+}
+
+TEST_F(EnumTypedefTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

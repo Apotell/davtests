@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,27 +14,45 @@
  limitations under the License.
 */
 
-// Validates the UHDM graph for a module using $cast as a task (void context):
+// Tests for 6.24.2--cast_task.sv (tags: 6.24.2 8.16)
 //   module top();
 //     int a;
 //     initial
 //       $cast(a, 2.1 * 3.7);
 //   endmodule
 //
-// ss.6.7 + ss.6.8: 'int a' has no net-type keyword (wire/tri/etc.), so per
-// the standard it is a variable_declaration, not a net_declaration. It must
-// be modeled as a Variable, found via Module::getVariables(), not as a Net.
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations",
+// p.105, checked before any test code was written):
+//   6.8's data_type grammar lists "integer_atom_type" ("int" among them)
+//   as a variable-declaring alternative, never a net_type (6.7). "int a"
+//   declared directly in a module body must therefore be a Variable, not
+//   a Net, regardless of module-level scope. This file has no
+//   :should_fail_because: tag -- it is legal per spec.
 //
-// Checked:
-//   - design has module top
-//   - module has exactly 1 variable: 'a' (IntTypespec, no initial value)
-//   - 1 Initial process; Initial stmt is directly SysFuncCall "$cast" (no IfStmt wrapper)
-//   - $cast has 2 args: RefObj "a" -> Variable, vpiMultOp(vpiRealConst "2.1", vpiRealConst "3.7")
+//   A prior version of this test used hldb::Net/getNets() for "a" --
+//   the same net/variable misclassification bug found and fixed across
+//   6.5, 6.9.1, 6.12, 6.13, 6.14, 6.16, 6.17, 6.18, 6.19, 6.23, and
+//   6.24.1/6.24.2--cast_fn this session. This version targets
+//   hldb::Variable for "a" instead.
+//
+// What is checked:
+//   - module top has no Nets and exactly 1 Variable "a" (IntTypespec, no
+//     inline initializer)
+//   - 1 Initial process; Initial stmt is directly SysFuncCall "$cast"
+//     (no IfStmt wrapper, since the return value is discarded)
+//   - $cast has 2 args: RefObj "a" -> Variable, vpiMultOp(vpiRealConst
+//     "2.1", vpiRealConst "3.7")
 //   - top has no continuous assignments
-//   - $cast SysFuncCall carries no static return typespec, consistent with the
-//     return value being discarded in void (task) context
+//   - $cast SysFuncCall carries no static return typespec, consistent
+//     with the return value being discarded in void (task) context
+//   - compiler reports zero errors (this file is fully legal per 6.8)
+//
+// What is NOT checked and why:
+//   - none: every corner above is fully structural and checkable without
+//     simulation.
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -53,21 +71,32 @@
 
 namespace hlc {
 
-class CastTask : public Test {
+class CastTaskTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.24.2--cast_task.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-TEST_F(CastTask, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+TEST_F(CastTaskTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+
+// ---------------------------------------------------------------------------
+// Variable "a" -> IntTypespec, no inline initializer
+// ---------------------------------------------------------------------------
+TEST_F(CastTaskTest, ModuleHasNoNetsAndOneVariableA) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
+      << "'int a' declares no net-type keyword (IEEE 1800-2023 6.7) anywhere in this file";
+  ASSERT_NE(top->getVariables(), nullptr)
+      << "'int a' should be a Variable; if this is null, hldb likely misclassified it as a Net";
+  ASSERT_EQ(top->getVariables()->size(), 1u) << "expected exactly 1 variable: 'a'";
 }
 
-// ----
-// Variable "a" -> IntTypespec, no inline initializer
-// ----
-TEST_F(CastTask, VariableAIsIntTypeWithNoValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(CastTaskTest, AIsIntTypeWithNoValue) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -75,11 +104,11 @@ TEST_F(CastTask, VariableAIsIntTypeWithNoValue) {
   EXPECT_EQ(a->getValue<hldb::Any>(), nullptr) << "int a; has no inline initializer -- vpiValue should be null";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Initial statement is directly SysFuncCall "$cast" (no IfStmt wrapper)
-// ----
-TEST_F(CastTask, InitialStmtIsCastSysFuncCall) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(CastTaskTest, InitialStmtIsCastSysFuncCall) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -89,11 +118,11 @@ TEST_F(CastTask, InitialStmtIsCastSysFuncCall) {
   EXPECT_EQ(castFn->getName(), "$cast");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // $cast arguments: arg[0]=RefObj "a" -> Variable, arg[1]=Operation(multiply, ...)
-// ----
-TEST_F(CastTask, CastFuncCallHasTwoArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(CastTaskTest, CastFuncCallHasTwoArguments) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -103,8 +132,8 @@ TEST_F(CastTask, CastFuncCallHasTwoArguments) {
   EXPECT_EQ(castFn->getArguments()->size(), 2u);
 }
 
-TEST_F(CastTask, CastArgZeroIsRefToVariableA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(CastTaskTest, CastArgZeroIsRefToVariableA) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -116,8 +145,8 @@ TEST_F(CastTask, CastArgZeroIsRefToVariableA) {
   EXPECT_NE(arg0->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(CastTask, CastArgOneIsMultiplyOperation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(CastTaskTest, CastArgOneIsMultiplyOperation) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -138,24 +167,17 @@ TEST_F(CastTask, CastArgOneIsMultiplyOperation) {
   EXPECT_EQ(rhs->getDecompile(), "3.7");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Structural completeness
-// ----
-TEST_F(CastTask, OneVariableExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getVariables(), nullptr);
-  EXPECT_EQ(top->getVariables()->size(), 1u) << "expected exactly 1 variable: 'a'";
-}
-
-TEST_F(CastTask, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+// ---------------------------------------------------------------------------
+TEST_F(CastTaskTest, NoContAssigns) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-TEST_F(CastTask, CastSysFuncCallHasNoStaticReturnTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(CastTaskTest, CastSysFuncCallHasNoStaticReturnTypespec) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -163,6 +185,14 @@ TEST_F(CastTask, CastSysFuncCallHasNoStaticReturnTypespec) {
   ASSERT_NE(castFn, nullptr);
   EXPECT_EQ(castFn->getTypespec(), nullptr)
       << "$cast used as a task discards its return value; HLC does not attach a static typespec";
+}
+
+TEST_F(CastTaskTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

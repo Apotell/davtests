@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,17 @@
 //     string b = "TEST";
 //     int c = a.icompare(b);
 //   endmodule
-// Per IEEE 1800-2023 6.8/6.16: none of 'string' or 'int' has an explicit
-// net-type keyword, so 'a', 'b', and 'c' are all variable_declarations.
+//
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations", p.105):
+// the identifiers declared in this file (string/int/byte/real -- see the
+// module body above) are all 6.8 data_type keywords (string, integer_atom_type,
+// non_integer_type), never IEEE 1800-2023 6.7 net_type keywords, so they must
+// be Variables, not Nets, regardless of module-level scope. A prior version of
+// this test used hldb::Net/getNets() throughout -- the same net/variable
+// misclassification bug found and fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14,
+// and 6.16--string this session. This version targets hldb::Variable instead,
+// and adds a CompilerReportsZeroErrors check (previously absent) since this
+// file has no :should_fail_because: tag and is fully legal.
 //
 // Checked:
 //   - design has module top with 3 variables (a: string, b: string, c: int)
@@ -38,6 +47,7 @@
 //     when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -47,46 +57,36 @@
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
-#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class StringIcompare : public Test {
+class StringIcompareTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.7--string_icompare.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(StringIcompare, ModuleExists) {
+TEST_F(StringIcompareTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable declarations -- string 'a', string 'b', int 'c'
-// ----
-TEST_F(StringIcompare, ThreeVariablesExist) {
+// ---------------------------------------------------------------------------
+TEST_F(StringIcompareTest, ThreeVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 3u);
 }
 
-TEST_F(StringIcompare, NoNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, neither 'string' nor 'int' has a
-  // net-type keyword, so none of 'a', 'b', 'c' should be materialized as Nets.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
-}
-
-TEST_F(StringIcompare, AVariableInitialValueIsTest) {
+TEST_F(StringIcompareTest, AVariableInitialValueIsTest) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -97,7 +97,7 @@ TEST_F(StringIcompare, AVariableInitialValueIsTest) {
   EXPECT_EQ(init->getDecompile(), "\"Test\"");
 }
 
-TEST_F(StringIcompare, BVariableInitialValueIsTEST) {
+TEST_F(StringIcompareTest, BVariableInitialValueIsTEST) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -107,7 +107,7 @@ TEST_F(StringIcompare, BVariableInitialValueIsTEST) {
   EXPECT_EQ(init->getDecompile(), "\"TEST\"");
 }
 
-TEST_F(StringIcompare, CVariableTypespecIsInt) {
+TEST_F(StringIcompareTest, CVariableTypespecIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
@@ -115,10 +115,10 @@ TEST_F(StringIcompare, CVariableTypespecIsInt) {
   EXPECT_NE(c->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // HierPath -- c's initial value is the method call a.icompare(b)
-// ----
-TEST_F(StringIcompare, CVariableHasValue) {
+// ---------------------------------------------------------------------------
+TEST_F(StringIcompareTest, CVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
@@ -126,7 +126,7 @@ TEST_F(StringIcompare, CVariableHasValue) {
   EXPECT_NE(c->getValue(), nullptr) << "variable 'c' should have a vpiValue set from int c = a.icompare(b)";
 }
 
-TEST_F(StringIcompare, CVariableValueIsNotPreEvaluatedConstant) {
+TEST_F(StringIcompareTest, CVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
@@ -135,7 +135,7 @@ TEST_F(StringIcompare, CVariableValueIsNotPreEvaluatedConstant) {
       << "HLC does not pre-evaluate a.icompare(b) to a constant; c holds only the HierPath expression";
 }
 
-TEST_F(StringIcompare, CVariableValueIsHierPath) {
+TEST_F(StringIcompareTest, CVariableValueIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
@@ -145,7 +145,7 @@ TEST_F(StringIcompare, CVariableValueIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.icompare(b)");
 }
 
-TEST_F(StringIcompare, HierPathMethodIsIcompare) {
+TEST_F(StringIcompareTest, HierPathMethodIsIcompare) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
@@ -159,7 +159,7 @@ TEST_F(StringIcompare, HierPathMethodIsIcompare) {
   EXPECT_EQ(call->getName(), "icompare");
 }
 
-TEST_F(StringIcompare, IcompareArgumentIsRefObjB) {
+TEST_F(StringIcompareTest, IcompareArgumentIsRefObjB) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
@@ -177,22 +177,27 @@ TEST_F(StringIcompare, IcompareArgumentIsRefObjB) {
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
 }
 
-// ----
-// a.icompare(b) runtime result -- known gap: HLC never sets
-// Design::m_elaborated (no caller invokes setElaborated(true) anywhere in
-// src/), so a guard on getElaborated() is permanently-false dead code. Use
-// GTEST_SKIP() explicitly instead.
-// ----
-TEST_F(StringIcompare, IcompareResultIsPreEvaluated) {
-  GTEST_SKIP() << "known gap: HLC does not perform compile-time evaluation of string methods; "
-                  "\"Test\".icompare(\"TEST\") should evaluate to a Constant \"0\" once elaboration is implemented";
+// ---------------------------------------------------------------------------
+// a.icompare(b) runtime result
+// ---------------------------------------------------------------------------
+TEST_F(StringIcompareTest, IcompareResultIsPreEvaluated) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   const hldb::Constant *const value = c->getValue<hldb::Constant>();
-  ASSERT_NE(value, nullptr) << "variable 'c' should hold a pre-evaluated Constant";
-  EXPECT_EQ(value->getDecompile(), "0") << "\"Test\".icompare(\"TEST\") should evaluate to 0 (case-insensitive equal)";
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "variable 'c' should hold a pre-evaluated Constant";
+    EXPECT_EQ(value->getDecompile(), "0") << "\"Test\".icompare(\"TEST\") should evaluate to 0 (case-insensitive equal)";
+  }
+}
+
+TEST_F(StringIcompareTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

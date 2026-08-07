@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,11 @@
 //     end
 //   endmodule
 //
+// What to check and why (IEEE 1800-2023 6.19.5.5 "Num()", p.123):
+// "function int num(); The num() method returns the number of elements
+// in the given enumeration." "int n = val.num();" is exactly this legal
+// method call. No :should_fail_because: tag.
+//
 // Checked:
 //   - design has module top
 //   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
@@ -36,6 +41,7 @@
 //     computed at simulation runtime)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -57,20 +63,20 @@
 
 namespace hlc {
 
-class EnumNum : public Test {
+class EnumNumTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19.5.5--enum_num.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(EnumNum, ModuleExists) {
+TEST_F(EnumNumTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Module typespec -- TypedefTypespec "e" -> EnumTypespec with 4 consts
-// ----
-TEST_F(EnumNum, TypedefEExists) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumTest, TypedefEExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -78,7 +84,7 @@ TEST_F(EnumNum, TypedefEExists) {
   EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
-TEST_F(EnumNum, EnumHasFourConsts) {
+TEST_F(EnumNumTest, EnumHasFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -93,10 +99,10 @@ TEST_F(EnumNum, EnumHasFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Begin block -- 2 variables, NO assignment statements
-// ----
-TEST_F(EnumNum, BeginHasTwoVariablesNoStmts) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumTest, BeginHasTwoVariablesNoStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -109,10 +115,10 @@ TEST_F(EnumNum, BeginHasTwoVariablesNoStmts) {
       << "int n = val.num() is an inline initializer, not an assignment statement";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable "val" -- TypedefTypespec, inline init = EnumConst "a"
-// ----
-TEST_F(EnumNum, ValVariableDeclaredWithInitA) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumTest, ValVariableDeclaredWithInitA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -129,10 +135,10 @@ TEST_F(EnumNum, ValVariableDeclaredWithInitA) {
   EXPECT_NE(initVal->getActual<hldb::EnumConst>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable "n" -- IntTypespec, inline init = HierPath "val.num()"
-// ----
-TEST_F(EnumNum, NVariableIsIntType) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumTest, NVariableIsIntType) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -146,7 +152,7 @@ TEST_F(EnumNum, NVariableIsIntType) {
       << "int keyword maps to IntTypespec (not IntegerTypespec)";
 }
 
-TEST_F(EnumNum, NInitializerIsHierPath) {
+TEST_F(EnumNumTest, NInitializerIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -160,7 +166,7 @@ TEST_F(EnumNum, NInitializerIsHierPath) {
   EXPECT_EQ(hp->getName(), "val.num");
 }
 
-TEST_F(EnumNum, HierPathReceiverAndFuncCall) {
+TEST_F(EnumNumTest, HierPathReceiverAndFuncCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -182,7 +188,7 @@ TEST_F(EnumNum, HierPathReceiverAndFuncCall) {
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "num() takes no arguments";
 }
 
-TEST_F(EnumNum, HierPathReceiverResolvesToVariable) {
+TEST_F(EnumNumTest, HierPathReceiverResolvesToVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -199,7 +205,7 @@ TEST_F(EnumNum, HierPathReceiverResolvesToVariable) {
       << "receiver RefObj 'val' in val.num() should resolve to the local Variable";
 }
 
-TEST_F(EnumNum, NumCallHasNoStaticReturnTypespec) {
+TEST_F(EnumNumTest, NumCallHasNoStaticReturnTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -214,6 +220,14 @@ TEST_F(EnumNum, NumCallHasNoStaticReturnTypespec) {
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getTypespec(), nullptr)
       << "num() return count is only known at simulation runtime; HLC does not attach a static typespec";
+}
+
+TEST_F(EnumNumTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

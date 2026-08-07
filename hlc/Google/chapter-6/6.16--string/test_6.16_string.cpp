@@ -14,76 +14,103 @@
  limitations under the License.
 */
 
-// Validates the UHDM graph for a minimal module declaring a string variable:
+// Tests for 6.16--string.sv (tags: 6.16)
 //   module top();
 //     string a;
 //   endmodule
-// Per IEEE 1800-2023 6.8/6.16: 'string' has no explicit net-type keyword, so
-// 'a' is a variable_declaration, not a net_declaration.
-// Only one variable 'a' with StringTypespec; no initial value, no processes.
+//
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations",
+// p.105, checked before any test code was written):
+//   6.8's data_type grammar lists "string" as its own top-level
+//   alternative ("data_type ::= ... | string | ..."), used only within
+//   data_declaration (variable declarations) -- it never appears in
+//   IEEE 1800-2023 6.7's net_type list. "string a;" declared directly
+//   in a module body must therefore be a Variable, not a Net,
+//   regardless of module-level scope. This file has no
+//   :should_fail_because: tag -- it is legal per spec.
+//
+//   A prior version of this test used hldb::Net/getNets() for "a" --
+//   the same net/variable misclassification bug found and fixed across
+//   6.5, 6.9.1, 6.12, and 6.14 this session. This version targets
+//   hldb::Variable for "a" instead.
+//
+// What is checked:
+//   - module top exists, has no Nets and exactly 1 Variable named "a"
+//   - "a" has a StringTypespec (via RefTypespec)
+//   - "a" has no initial value (plain declaration, no initializer)
+//   - top has no processes
+//   - compiler reports zero errors (this file is fully legal per 6.8)
+//
+// What is NOT checked and why:
+//   - none: every corner above is fully structural and checkable without
+//     simulation.
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/variable.h>
 
 namespace hlc {
 
-class StringType : public Test {
+class StringTypeTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16--string.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-TEST_F(StringType, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
-}
+TEST_F(StringTypeTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(StringType, OneVariableExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(StringTypeTest, ModuleHasNoNetsAndOneVariableA) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getVariables(), nullptr);
-  EXPECT_EQ(top->getVariables()->size(), 1u);
+  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
+      << "'string a' declares no net-type keyword (IEEE 1800-2023 6.7) anywhere in this file";
+  ASSERT_NE(top->getVariables(), nullptr)
+      << "'string a' should be a Variable; if this is null, hldb likely misclassified it as a Net";
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  ASSERT_NE(hldb::findByName<hldb::Variable>("a", top->getVariables()), nullptr) << "Variable 'a' not found";
 }
 
-TEST_F(StringType, ANotInNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, 'string' has no net-type keyword, so 'a'
-  // must not also be materialized as a Net.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("a", top->getNets()) == nullptr)
-      << "'string a' must not appear in vpiNet";
-}
-
-TEST_F(StringType, AVariableTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(StringTypeTest, ATypespecIsString) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr) << "variable 'a' should have StringTypespec";
+  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr) << "'a' should have StringTypespec";
 }
 
-TEST_F(StringType, AVariableHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(StringTypeTest, AHasNoInitialValue) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr) << "string a is declared without an initializer";
+  EXPECT_EQ(a->getValue(), nullptr) << "string a is declared without an initializer";
 }
 
-TEST_F(StringType, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+TEST_F(StringTypeTest, NoProcesses) {
+  const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty()) << "module has no initial/always blocks";
+}
+
+TEST_F(StringTypeTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc
