@@ -18,7 +18,7 @@ n<$Source01/testbench.v> u<360> t<Top_level_rule> c<1> l<1:1> el<49:1>
     n<> u<258> t<Description> p<359> c<257> s<358> l<1:1> el<35:10>
       n<> u<257> t<Module_declaration> p<258> c<5> l<1:1> el<35:10>
         n<> u<5> t<Module_ansi_header> p<257> c<2> s<17> l<1:1> el<1:18>
-          n<module> u<2> t<Module_keyword> p<5> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<5> s<3> l<1:1> el<1:7>
           n<testbench> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<1:8> el<1:17>
           n<> u<4> t<Package_import_declaration_list> p<5> l<1:17> el<1:17>
         n<> u<17> t<Non_port_module_item> p<257> c<16> s<117> l<2:5> el<2:13>
@@ -275,7 +275,7 @@ n<$Source01/testbench.v> u<360> t<Top_level_rule> c<1> l<1:1> el<49:1>
     n<> u<358> t<Description> p<359> c<357> l<38:1> el<48:10>
       n<> u<357> t<Module_declaration> p<358> c<275> l<38:1> el<48:10>
         n<> u<275> t<Module_ansi_header> p<357> c<259> s<355> l<38:1> el<38:40>
-          n<module> u<259> t<Module_keyword> p<275> s<260> l<38:1> el<38:7>
+          n<module> u<259> t<MODULE> p<275> s<260> l<38:1> el<38:7>
           n<assert_expr> u<260> t<SIMPLE_IDENTIFIER> p<275> s<261> l<38:8> el<38:19>
           n<> u<261> t<Package_import_declaration_list> p<275> s<274> l<38:19> el<38:19>
           n<> u<274> t<Port_declaration_list> p<275> c<267> l<38:19> el<38:39>
@@ -373,10 +373,8 @@ n<$Source01/testbench.v> u<360> t<Top_level_rule> c<1> l<1:1> el<49:1>
                               n<> u<344> t<END> p<345> l<47:5> el<47:8>
         n<> u<356> t<ENDMODULE> p<357> l<48:1> el<48:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/testbench.v:1:1: Compile module "work@testbench".
-[INF:CP0303] $Source01/testbench.v:38:1: Compile module "work@assert_expr".
-[ERR:EL0535] $Source01/testbench.v:24:16: Illegal implicit net "id:74, name:out".
-[ERR:EL0535] $Source01/testbench.v:33:33: Illegal implicit net "id:101, name:A".
+[INF:CP0303] $Source01/testbench.v:1:1: Compile module "testbench".
+[INF:CP0303] $Source01/testbench.v:38:1: Compile module "assert_expr".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -386,19 +384,37 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: testbench.v
       vpiPreprocFile: "$Output/lib/work/testbench.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@testbench file:$Source01/testbench.v start:1:1 end:35:10:
+    Module name:testbench file:$Source01/testbench.v start:1:1 end:35:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@testbench start:1:8 end:1:17:
-        vpiParent: Module name:work@testbench
-        vpiName: work@testbench
-      vpiFullName: work@testbench
+      vpiName Identifier name:testbench start:1:8 end:1:17:
+        vpiParent: Module name:testbench
+        vpiName: testbench
+      vpiFullName: testbench
+      vpiVariable (2 items):
+        Variable name:clk start:2:9 end:2:12:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:2:5 end:2:8:
+            vpiParent: Variable name:clk
+            vpiFullName: testbench.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: testbench.clk
+          vpiScalar: true
+        Variable name:in start:18:9 end:18:11:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:18:5 end:18:8:
+            vpiParent: Variable name:in
+            vpiFullName: testbench.in
+            vpiActual: LogicTypespec
+          vpiName: in
+          vpiFullName: testbench.in
+          vpiScalar: true
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
         LogicTypespec:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiRange (1 items):
             Range start:19:10 end:19:15:
               vpiParent: LogicTypespec
@@ -406,7 +422,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@testbench
+                  vpiFullName: testbench
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -416,62 +432,48 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@testbench
+                  vpiFullName: testbench
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:work@top start:22:5 end:22:8:
-          vpiParent: Module name:work@testbench
-          vpiName Identifier name:work@top start:22:5 end:22:8:
-            vpiParent: UnsupportedTypespec name:work@top
-            vpiName: work@top
-        ModuleTypespec name:work@assert_expr start:33:2 end:33:13:
-          vpiParent: Module name:work@testbench
-          vpiName Identifier name:work@assert_expr start:33:2 end:33:13:
-            vpiParent: ModuleTypespec name:work@assert_expr
-            vpiName: work@assert_expr
-      vpiDefName: work@testbench
-      vpiDefNetType: none (12)
+        UnsupportedTypespec name:top start:22:5 end:22:8:
+          vpiParent: Module name:testbench
+          vpiName Identifier name:top start:22:5 end:22:8:
+            vpiParent: UnsupportedTypespec name:top
+            vpiName: top
+        ModuleTypespec name:assert_expr start:33:2 end:33:13:
+          vpiParent: Module name:testbench
+          vpiName Identifier name:assert_expr start:33:2 end:33:13:
+            vpiParent: ModuleTypespec name:assert_expr
+            vpiName: assert_expr
+          vpiModule: Module name:assert_expr
+      vpiDefName: testbench
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@testbench
+        vpiParent: Module name:testbench
         vpiName: work
-        vpiFullName: work@testbench.work
+        vpiFullName: testbench.work
       vpiCell: testbench
-      vpiNet (3 items):
-        Net name:clk start:2:9 end:2:12:
-          vpiParent: Module name:work@testbench
-          vpiTypespec RefTypespec start:2:5 end:2:8:
-            vpiParent: Net name:clk
-            vpiFullName: work@testbench.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: work@testbench.clk
-        Net name:in start:18:9 end:18:11:
-          vpiParent: Module name:work@testbench
-          vpiTypespec RefTypespec start:18:5 end:18:8:
-            vpiParent: Net name:in
-            vpiFullName: work@testbench.in
-            vpiActual: LogicTypespec
-          vpiName: in
-          vpiFullName: work@testbench.in
+      vpiNet (1 items):
         Net name:f start:19:16 end:19:17:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiTypespec RefTypespec start:19:10 end:19:15:
             vpiParent: Net name:f
-            vpiFullName: work@testbench.f
+            vpiFullName: testbench.f
             vpiActual: LogicTypespec
           vpiName: f
-          vpiFullName: work@testbench.f
+          vpiFullName: testbench.f
           vpiNetType: wire (1)
+          vpiVector: true
       vpiProcess (2 items):
         Initial start:4:5 end:15:8:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiStmt Begin start:4:13 end:15:8:
             vpiParent: Initial
-            vpiFullName: work@testbench
+            vpiFullName: testbench
             vpiStmt (3 items):
               DelayControl start:8:9 end:8:20:
                 vpiParent: Begin
@@ -481,13 +483,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:clk start:8:12 end:8:15:
                     vpiParent: Assignment
                     vpiName: clk
-                    vpiFullName: work@testbench.clk
-                    vpiActual: Net name:clk
+                    vpiFullName: testbench.clk
+                    vpiActual: Variable name:clk
                   vpiRhs Constant start:8:18 end:8:19:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -497,7 +499,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -509,7 +511,7 @@ Design name:unnamed:
                   vpiParent: Repeat
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -517,7 +519,7 @@ Design name:unnamed:
                   vpiValue: 10000
                 vpiStmt Begin start:9:24 end:12:12:
                   vpiParent: Repeat
-                  vpiFullName: work@testbench
+                  vpiFullName: testbench
                   vpiStmt (2 items):
                     DelayControl start:10:13 end:10:24:
                       vpiParent: Begin
@@ -527,13 +529,13 @@ Design name:unnamed:
                         vpiLhs RefObj name:clk start:10:16 end:10:19:
                           vpiParent: Assignment
                           vpiName: clk
-                          vpiFullName: work@testbench.clk
-                          vpiActual: Net name:clk
+                          vpiFullName: testbench.clk
+                          vpiActual: Variable name:clk
                         vpiRhs Constant start:10:22 end:10:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@testbench
+                            vpiFullName: testbench
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -543,7 +545,7 @@ Design name:unnamed:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@testbench
+                          vpiFullName: testbench
                           vpiActual: IntTypespec
                         vpiConstType: int (7)
                         vpiSize: 32
@@ -557,13 +559,13 @@ Design name:unnamed:
                         vpiLhs RefObj name:clk start:11:16 end:11:19:
                           vpiParent: Assignment
                           vpiName: clk
-                          vpiFullName: work@testbench.clk
-                          vpiActual: Net name:clk
+                          vpiFullName: testbench.clk
+                          vpiActual: Variable name:clk
                         vpiRhs Constant start:11:22 end:11:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@testbench
+                            vpiFullName: testbench
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -573,7 +575,7 @@ Design name:unnamed:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@testbench
+                          vpiFullName: testbench
                           vpiActual: IntTypespec
                         vpiConstType: int (7)
                         vpiSize: 32
@@ -589,14 +591,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 32
                     vpiDecompile: "\"OKAY\""
                     vpiValue: OKAY
         Always start:26:5 end:29:8:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiStmt EventControl start:26:12 end:29:8:
             vpiParent: Always
             vpiCondition Operation start:26:14 end:26:25:
@@ -606,11 +608,11 @@ Design name:unnamed:
                 RefObj name:clk start:26:22 end:26:25:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@testbench.clk
-                  vpiActual: Net name:clk
+                  vpiFullName: testbench.clk
+                  vpiActual: Variable name:clk
             vpiStmt Begin start:26:27 end:29:8:
               vpiParent: EventControl
-              vpiFullName: work@testbench
+              vpiFullName: testbench
               vpiStmt (1 items):
                 DelayControl start:27:5 end:28:15:
                   vpiParent: Begin
@@ -619,8 +621,8 @@ Design name:unnamed:
                     vpiLhs RefObj name:in start:28:5 end:28:7:
                       vpiParent: Assignment
                       vpiName: in
-                      vpiFullName: work@testbench.in
-                      vpiActual: Net name:in
+                      vpiFullName: testbench.in
+                      vpiActual: Variable name:in
                     vpiRhs Operation start:28:11 end:28:14:
                       vpiParent: Assignment
                       vpiOpType: bitwise negation (4)
@@ -628,13 +630,13 @@ Design name:unnamed:
                         RefObj name:in start:28:12 end:28:14:
                           vpiParent: Operation
                           vpiName: in
-                          vpiFullName: work@testbench.in
-                          vpiActual: Net name:in
+                          vpiFullName: testbench.in
+                          vpiActual: Variable name:in
                   vpiDelay Constant start:27:6 end:27:7:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: IntTypespec
                     vpiConstType: int (7)
                     vpiSize: 32
@@ -643,158 +645,162 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiRefInstance (2 items):
         RefInstance name:uut start:22:9 end:22:12:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiName: uut
-          vpiTypespec RefTypespec name:work@top start:22:5 end:22:8:
+          vpiTypespec RefTypespec name:top start:22:5 end:22:8:
             vpiParent: RefInstance name:uut
-            vpiName: work@top
-            vpiFullName: work@testbench.uut.work@top
-            vpiActual: UnsupportedTypespec name:work@top
+            vpiName: top
+            vpiFullName: testbench.uut.top
+            vpiActual: UnsupportedTypespec name:top
           vpiPort (3 items):
             Port start:22:15 end:22:24:
               vpiParent: RefInstance name:uut
               vpiLowConn RefObj name:clk start:22:16 end:22:19:
                 vpiParent: Port
                 vpiName: clk
-                vpiFullName: work@testbench.uut.clk
-                vpiActual: Net name:clk
+                vpiFullName: testbench.uut.clk
+                vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:22:20 end:22:23:
                 vpiParent: Port
                 vpiName: clk
-                vpiFullName: work@testbench.uut.clk
-                vpiActual: Net name:clk
+                vpiFullName: testbench.uut.clk
+                vpiActual: Variable name:clk
             Port start:23:15 end:23:22:
               vpiParent: RefInstance name:uut
               vpiLowConn RefObj name:in start:23:16 end:23:18:
                 vpiParent: Port
                 vpiName: in
-                vpiFullName: work@testbench.uut.in
-                vpiActual: Net name:in
+                vpiFullName: testbench.uut.in
+                vpiActual: Variable name:in
               vpiHighConn RefObj name:in start:23:19 end:23:21:
                 vpiParent: Port
                 vpiName: in
-                vpiFullName: work@testbench.uut.in
-                vpiActual: Net name:in
+                vpiFullName: testbench.uut.in
+                vpiActual: Variable name:in
             Port start:24:15 end:24:22:
               vpiParent: RefInstance name:uut
               vpiLowConn RefObj name:out start:24:16 end:24:19:
                 vpiParent: Port
                 vpiName: out
-                vpiFullName: work@testbench.uut.out
+                vpiFullName: testbench.uut.out
               vpiHighConn RefObj name:f start:24:20 end:24:21:
                 vpiParent: Port
                 vpiName: f
-                vpiFullName: work@testbench.uut.f
+                vpiFullName: testbench.uut.f
                 vpiActual: Net name:f
         RefInstance name:f_test start:33:14 end:33:20:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiName: f_test
-          vpiTypespec RefTypespec name:work@assert_expr start:33:2 end:33:13:
+          vpiTypespec RefTypespec name:assert_expr start:33:2 end:33:13:
             vpiParent: RefInstance name:f_test
-            vpiName: work@assert_expr
-            vpiFullName: work@testbench.f_test.work@assert_expr
-            vpiActual: ModuleTypespec name:work@assert_expr
+            vpiName: assert_expr
+            vpiFullName: testbench.f_test.assert_expr
+            vpiActual: ModuleTypespec name:assert_expr
           vpiPort (2 items):
             Port start:33:21 end:33:30:
               vpiParent: RefInstance name:f_test
               vpiLowConn RefObj name:clk start:33:22 end:33:25:
                 vpiParent: Port
                 vpiName: clk
-                vpiFullName: work@testbench.f_test.clk
-                vpiActual: Net name:clk
+                vpiFullName: testbench.f_test.clk
+                vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:33:26 end:33:29:
                 vpiParent: Port
                 vpiName: clk
-                vpiFullName: work@testbench.f_test.clk
-                vpiActual: Net name:clk
+                vpiFullName: testbench.f_test.clk
+                vpiActual: Variable name:clk
             Port start:33:32 end:33:40:
               vpiParent: RefInstance name:f_test
               vpiLowConn RefObj name:A start:33:33 end:33:34:
                 vpiParent: Port
                 vpiName: A
-                vpiFullName: work@testbench.f_test.A
+                vpiFullName: testbench.f_test.A
               vpiHighConn BitSelect name:f[0] start:33:35 end:33:39:
                 vpiParent: Port
                 vpiName: f[0]
-                vpiFullName: work@testbench.f_test.f[0]
+                vpiFullName: testbench.f_test.f[0]
                 vpiPrefix RefObj name:f start:33:35 end:33:36:
                   vpiParent: BitSelect name:f[0]
                   vpiName: f
-                  vpiFullName: work@testbench.f_test.f
+                  vpiFullName: testbench.f_test.f
                   vpiActual: Net name:f
                 vpiIndex Constant start:33:37 end:33:38:
                   vpiParent: BitSelect name:f[0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench.f_test.f[0]
+                    vpiFullName: testbench.f_test.f[0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-    Module name:work@assert_expr file:$Source01/testbench.v start:38:1 end:48:10:
+    Module name:assert_expr file:$Source01/testbench.v start:38:1 end:48:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@assert_expr start:38:8 end:38:19:
-        vpiParent: Module name:work@assert_expr
-        vpiName: work@assert_expr
-      vpiFullName: work@assert_expr
+      vpiName Identifier name:assert_expr start:38:8 end:38:19:
+        vpiParent: Module name:assert_expr
+        vpiName: assert_expr
+      vpiFullName: assert_expr
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@assert_expr
-      vpiDefName: work@assert_expr
-      vpiDefNetType: none (12)
+          vpiParent: Module name:assert_expr
+      vpiDefName: assert_expr
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@assert_expr
+        vpiParent: Module name:assert_expr
         vpiName: work
-        vpiFullName: work@assert_expr.work
+        vpiFullName: assert_expr.work
       vpiCell: assert_expr
       vpiNet (2 items):
         Net name:clk start:38:26 end:38:29:
-          vpiParent: Module name:work@assert_expr
+          vpiParent: Module name:assert_expr
           vpiTypespec RefTypespec start:38:20 end:38:25:
             vpiParent: Net name:clk
-            vpiFullName: work@assert_expr.clk
+            vpiFullName: assert_expr.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@assert_expr.clk
+          vpiFullName: assert_expr.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:A start:38:37 end:38:38:
-          vpiParent: Module name:work@assert_expr
+          vpiParent: Module name:assert_expr
           vpiTypespec RefTypespec start:38:31 end:38:36:
             vpiParent: Net name:A
-            vpiFullName: work@assert_expr.A
+            vpiFullName: assert_expr.A
             vpiActual: LogicTypespec
           vpiName: A
-          vpiFullName: work@assert_expr.A
+          vpiFullName: assert_expr.A
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:38:26 end:38:29:
-          vpiParent: Module name:work@assert_expr
+          vpiParent: Module name:assert_expr
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:38:26 end:38:29:
+          vpiLowConn RefObj name:clk start:38:26 end:38:29:
             vpiParent: Port name:clk
-            vpiFullName: work@assert_expr.clk
+            vpiName: clk
+            vpiFullName: assert_expr.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:38:20 end:38:25:
             vpiParent: Port name:clk
-            vpiFullName: work@assert_expr.clk
+            vpiFullName: assert_expr.clk
             vpiActual: LogicTypespec
         Port name:A start:38:37 end:38:38:
-          vpiParent: Module name:work@assert_expr
+          vpiParent: Module name:assert_expr
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:38:37 end:38:38:
+          vpiLowConn RefObj name:A start:38:37 end:38:38:
             vpiParent: Port name:A
-            vpiFullName: work@assert_expr.A
+            vpiName: A
+            vpiFullName: assert_expr.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:38:31 end:38:36:
             vpiParent: Port name:A
-            vpiFullName: work@assert_expr.A
+            vpiFullName: assert_expr.A
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:39:5 end:47:8:
-          vpiParent: Module name:work@assert_expr
+          vpiParent: Module name:assert_expr
           vpiStmt EventControl start:39:12 end:47:8:
             vpiParent: Always
             vpiCondition Operation start:39:14 end:39:25:
@@ -804,11 +810,11 @@ Design name:unnamed:
                 RefObj name:clk start:39:22 end:39:25:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@assert_expr.clk
+                  vpiFullName: assert_expr.clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:40:5 end:47:8:
               vpiParent: EventControl
-              vpiFullName: work@assert_expr
+              vpiFullName: assert_expr
               vpiStmt (1 items):
                 IfStmt start:42:9 end:46:12:
                   vpiParent: Begin
@@ -819,13 +825,13 @@ Design name:unnamed:
                       RefObj name:A start:42:13 end:42:14:
                         vpiParent: Operation
                         vpiName: A
-                        vpiFullName: work@assert_expr.A
+                        vpiFullName: assert_expr.A
                         vpiActual: Net name:A
                       Constant start:42:18 end:42:22:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@assert_expr
+                          vpiFullName: assert_expr
                           vpiActual: LogicTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -833,7 +839,7 @@ Design name:unnamed:
                         vpiValue: Z
                   vpiStmt Begin start:43:9 end:46:12:
                     vpiParent: IfStmt
-                    vpiFullName: work@assert_expr
+                    vpiFullName: assert_expr
                     vpiStmt (2 items):
                       SysTaskCall name:$display start:44:13 end:44:67:
                         vpiParent: Begin
@@ -845,22 +851,22 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$display
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@assert_expr
+                              vpiFullName: assert_expr
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 240
                             vpiDecompile: "\"ERROR: ASSERTION FAILED in %m:\""
                             vpiValue: "ERROR: ASSERTION FAILED in %m:"
-                          SysTaskCall name:$time start:44:55 end:44:60:
+                          SysFuncCall name:$time start:44:55 end:44:60:
                             vpiParent: SysTaskCall name:$display
                             vpiName Identifier name:$time start:44:55 end:44:60:
-                              vpiParent: SysTaskCall name:$time
+                              vpiParent: SysFuncCall name:$time
                               vpiName: "$time"
                           Constant start:44:61 end:44:64:
                             vpiParent: SysTaskCall name:$display
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@assert_expr
+                              vpiFullName: assert_expr
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 8
@@ -869,7 +875,7 @@ Design name:unnamed:
                           RefObj name:A start:44:65 end:44:66:
                             vpiParent: SysTaskCall name:$display
                             vpiName: A
-                            vpiFullName: work@assert_expr.A
+                            vpiFullName: assert_expr.A
                             vpiActual: Net name:A
                       SysTaskCall name:$stop start:45:13 end:45:18:
                         vpiParent: Begin
@@ -878,29 +884,29 @@ Design name:unnamed:
                           vpiName: "$stop"
           vpiAlwaysType: always (1)
   vpiTypespec (5 items):
-    ModuleTypespec name:work@testbench:
+    ModuleTypespec name:testbench:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@testbench start:1:8 end:1:17:
-        vpiParent: ModuleTypespec name:work@testbench
-        vpiName: work@testbench
-      vpiModule: Module name:work@testbench
+      vpiName Identifier name:testbench start:1:8 end:1:17:
+        vpiParent: ModuleTypespec name:testbench
+        vpiName: testbench
+      vpiModule: Module name:testbench
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@assert_expr:
+    ModuleTypespec name:assert_expr:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@assert_expr start:38:8 end:38:19:
-        vpiParent: ModuleTypespec name:work@assert_expr
-        vpiName: work@assert_expr
-      vpiModule: Module name:work@assert_expr
+      vpiName Identifier name:assert_expr start:38:8 end:38:19:
+        vpiParent: ModuleTypespec name:assert_expr
+        vpiName: assert_expr
+      vpiModule: Module name:assert_expr
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

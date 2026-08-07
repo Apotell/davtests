@@ -9,12 +9,12 @@ COMMAND: -wd ../../../tests/TypedefAlias -fileunit -writepp -d db -sv dut.sv -no
 [INF:CM0020] Separate compilation-unit mode is on.
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
-[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@package1".
-[INF:CP0301] $Source01/dut.sv:9:1: Compile package "work@package2".
-[INF:CP0303] $Source01/dut.sv:15:1: Compile module "work@test".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@package1".
-[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@package2".
-[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "work@test".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "package1".
+[INF:CP0301] $Source01/dut.sv:9:1: Compile package "package2".
+[INF:CP0303] $Source01/dut.sv:15:1: Compile module "test".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "package1".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "package2".
+[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "test".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -23,19 +23,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@package1 file:$Source01/dut.sv start:1:1 end:7:22:
+    Package name:package1 file:$Source01/dut.sv start:1:1 end:7:22:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@package1 start:1:9 end:1:17:
-        vpiParent: Package name:work@package1
-        vpiName: work@package1
-      vpiFullName: work@package1
-      vpiTypespec (5 items):
+      vpiName Identifier name:package1 start:1:9 end:1:17:
+        vpiParent: Package name:package1
+        vpiName: package1
+      vpiFullName: package1
+      vpiTypespec (6 items):
         LogicTypespec:
-          vpiParent: Package name:work@package1
+          vpiParent: Package name:package1
         StructTypespec start:2:11 end:4:4:
-          vpiParent: Package name:work@package1
+          vpiParent: Package name:package1
           vpiPacked: true
           vpiTypespecMember (1 items):
             TypespecMember name:q start:3:20 end:3:21:
@@ -43,126 +42,130 @@ Design name:unnamed:
               vpiName: q
               vpiTypespec RefTypespec start:3:7 end:3:12:
                 vpiParent: TypespecMember name:q
-                vpiFullName: work@package1::q
+                vpiFullName: package1::q
                 vpiActual: LogicTypespec
         TypedefTypespec name:type_t start:2:3 end:4:12:
-          vpiParent: Package name:work@package1
+          vpiParent: Package name:package1
           vpiName Identifier name:type_t start:4:5 end:4:11:
             vpiParent: TypedefTypespec name:type_t
             vpiName: type_t
           vpiTypedefAlias RefTypespec start:2:11 end:4:4:
             vpiParent: TypedefTypespec name:type_t
-            vpiFullName: work@package1::type_t
+            vpiFullName: package1::type_t
             vpiActual: StructTypespec
+        UnsupportedTypespec name:package1 start:6:11 end:6:19:
+          vpiParent: Package name:package1
+          vpiName Identifier name:package1 start:6:11 end:6:19:
+            vpiParent: UnsupportedTypespec name:package1
+            vpiName: package1
         UnsupportedTypespec name:package1::type_t start:6:11 end:6:27:
-          vpiParent: Package name:work@package1
+          vpiParent: Package name:package1
           vpiPathElem (2 items):
-            UnsupportedScope name:package1 start:6:11 end:6:21:
+            RefTypespec start:6:11 end:6:21:
               vpiParent: UnsupportedTypespec name:package1::type_t
-              vpiName Identifier name:package1 start:6:11 end:6:19:
-                vpiParent: UnsupportedScope name:package1
-                vpiName: package1
-              vpiFullName: work@package1::package1::type_t::package1
+              vpiFullName: package1::type_t
+              vpiActual: UnsupportedTypespec name:package1
             RefTypespec name:type_t start:6:21 end:6:27:
               vpiParent: UnsupportedTypespec name:package1::type_t
               vpiName: type_t
-              vpiFullName: work@package1::package1::type_t::type_t
+              vpiFullName: package1::type_t::type_t
               vpiActual: TypedefTypespec name:type_t
           vpiName Identifier name:package1::type_t start:6:11 end:6:27:
             vpiParent: UnsupportedTypespec name:package1::type_t
             vpiName: package1::type_t
         TypedefTypespec name:type_alias start:6:3 end:6:39:
-          vpiParent: Package name:work@package1
+          vpiParent: Package name:package1
           vpiName Identifier name:type_alias start:6:28 end:6:38:
             vpiParent: TypedefTypespec name:type_alias
             vpiName: type_alias
           vpiTypedefAlias RefTypespec start:6:11 end:6:27:
             vpiParent: TypedefTypespec name:type_alias
-            vpiFullName: work@package1::type_alias
+            vpiFullName: package1::type_alias
             vpiActual: UnsupportedTypespec name:package1::type_t
-      vpiDefName: work@package1
-      vpiDefNetType: none (12)
+      vpiDefName: package1
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@package1
+        vpiParent: Package name:package1
         vpiName: work
-        vpiFullName: work@package1::work
+        vpiFullName: package1::work
       vpiCell: package1
       vpiEndLabel Identifier name:package1 start:7:14 end:7:22:
-        vpiParent: Package name:work@package1
+        vpiParent: Package name:package1
         vpiName: package1
-    Package name:work@package2 file:$Source01/dut.sv start:9:1 end:11:22:
+    Package name:package2 file:$Source01/dut.sv start:9:1 end:11:22:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@package2 start:9:9 end:9:17:
-        vpiParent: Package name:work@package2
-        vpiName: work@package2
-      vpiFullName: work@package2
-      vpiTypespec (2 items):
+      vpiName Identifier name:package2 start:9:9 end:9:17:
+        vpiParent: Package name:package2
+        vpiName: package2
+      vpiFullName: package2
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:package1 start:10:11 end:10:19:
+          vpiParent: Package name:package2
+          vpiName Identifier name:package1 start:10:11 end:10:19:
+            vpiParent: UnsupportedTypespec name:package1
+            vpiName: package1
         UnsupportedTypespec name:package1::type_t start:10:11 end:10:27:
-          vpiParent: Package name:work@package2
+          vpiParent: Package name:package2
           vpiPathElem (2 items):
-            UnsupportedScope name:package1 start:10:11 end:10:21:
+            RefTypespec start:10:11 end:10:21:
               vpiParent: UnsupportedTypespec name:package1::type_t
-              vpiName Identifier name:package1 start:10:11 end:10:19:
-                vpiParent: UnsupportedScope name:package1
-                vpiName: package1
-              vpiFullName: work@package2::package1::type_t::package1
+              vpiFullName: package2::package1::type_t
+              vpiActual: UnsupportedTypespec name:package1
             RefTypespec name:type_t start:10:21 end:10:27:
               vpiParent: UnsupportedTypespec name:package1::type_t
               vpiName: type_t
-              vpiFullName: work@package2::package1::type_t::type_t
+              vpiFullName: package2::package1::type_t::type_t
           vpiName Identifier name:package1::type_t start:10:11 end:10:27:
             vpiParent: UnsupportedTypespec name:package1::type_t
             vpiName: package1::type_t
         TypedefTypespec name:type_alias start:10:3 end:10:39:
-          vpiParent: Package name:work@package2
+          vpiParent: Package name:package2
           vpiName Identifier name:type_alias start:10:28 end:10:38:
             vpiParent: TypedefTypespec name:type_alias
             vpiName: type_alias
           vpiTypedefAlias RefTypespec start:10:11 end:10:27:
             vpiParent: TypedefTypespec name:type_alias
-            vpiFullName: work@package2::type_alias
+            vpiFullName: package2::type_alias
             vpiActual: UnsupportedTypespec name:package1::type_t
-      vpiDefName: work@package2
-      vpiDefNetType: none (12)
+      vpiDefName: package2
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@package2
+        vpiParent: Package name:package2
         vpiName: work
-        vpiFullName: work@package2::work
+        vpiFullName: package2::work
       vpiCell: package2
       vpiEndLabel Identifier name:package2 start:11:14 end:11:22:
-        vpiParent: Package name:work@package2
+        vpiParent: Package name:package2
         vpiName: package2
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/dut.sv start:15:1 end:20:10:
+    Module name:test file:$Source01/dut.sv start:15:1 end:20:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:15:8 end:15:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
+      vpiName Identifier name:test start:15:8 end:15:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
       vpiVariable (2 items):
         Variable name:kkkk start:18:16 end:18:20:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec name:t_two_bits start:18:5 end:18:15:
             vpiParent: Variable name:kkkk
             vpiName: t_two_bits
-            vpiFullName: work@test.kkkk.t_two_bits
+            vpiFullName: test.kkkk.t_two_bits
             vpiActual: TypedefTypespec name:t_two_bits
           vpiName: kkkk
-          vpiFullName: work@test.kkkk
-          vpiNetType: none (12)
+          vpiFullName: test.kkkk
         Variable name:zzzz start:19:21 end:19:25:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec name:t_two_bits_copy start:19:5 end:19:20:
             vpiParent: Variable name:zzzz
             vpiName: t_two_bits_copy
-            vpiFullName: work@test.zzzz.t_two_bits_copy
+            vpiFullName: test.zzzz.t_two_bits_copy
             vpiActual: TypedefTypespec name:t_two_bits_copy
           vpiName: zzzz
-          vpiFullName: work@test.zzzz
-          vpiNetType: none (12)
+          vpiFullName: test.zzzz
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiRange (1 items):
             Range start:16:19 end:16:24:
               vpiParent: LogicTypespec
@@ -170,7 +173,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -180,7 +183,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -188,42 +191,42 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         TypedefTypespec name:t_two_bits start:16:5 end:16:36:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName Identifier name:t_two_bits start:16:25 end:16:35:
             vpiParent: TypedefTypespec name:t_two_bits
             vpiName: t_two_bits
           vpiTypedefAlias RefTypespec start:16:13 end:16:24:
             vpiParent: TypedefTypespec name:t_two_bits
-            vpiFullName: work@test.t_two_bits
+            vpiFullName: test.t_two_bits
             vpiActual: LogicTypespec
         UnsupportedTypespec name:t_two_bits start:17:13 end:17:23:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName Identifier name:t_two_bits start:17:13 end:17:23:
             vpiParent: UnsupportedTypespec name:t_two_bits
             vpiName: t_two_bits
         TypedefTypespec name:t_two_bits_copy start:17:5 end:17:40:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName Identifier name:t_two_bits_copy start:17:24 end:17:39:
             vpiParent: TypedefTypespec name:t_two_bits_copy
             vpiName: t_two_bits_copy
           vpiTypedefAlias RefTypespec start:17:13 end:17:23:
             vpiParent: TypedefTypespec name:t_two_bits_copy
-            vpiFullName: work@test.t_two_bits_copy
+            vpiFullName: test.t_two_bits_copy
             vpiActual: UnsupportedTypespec name:t_two_bits
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
   vpiTypespec (2 items):
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:15:8 end:15:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:15:8 end:15:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -275,7 +278,7 @@ COMMAND: ${HLC_DIR}/regression/TypedefAlias/TypedefAlias/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              57      57       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    57      57       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

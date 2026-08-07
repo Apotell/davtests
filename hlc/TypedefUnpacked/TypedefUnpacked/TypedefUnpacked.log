@@ -9,10 +9,11 @@ COMMAND: -wd ../../../tests/TypedefUnpacked dut.sv -writepp -d inst -fileunit -n
 [INF:CM0020] Separate compilation-unit mode is on.
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
-[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg".
-[INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@dut".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
-[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@dut".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "pkg".
+[INF:CP0303] $Source01/dut.sv:8:1: Compile module "dut".
+[NTE:CP0309] $Source01/dut.sv:8:19: Implicit port type (wire) for "o".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "pkg".
+[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "dut".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -21,19 +22,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pkg file:$Source01/dut.sv start:1:1 end:6:11:
+    Package name:pkg file:$Source01/dut.sv start:1:1 end:6:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@pkg start:1:9 end:1:12:
-        vpiParent: Package name:work@pkg
-        vpiName: work@pkg
-      vpiFullName: work@pkg
+      vpiName Identifier name:pkg start:1:9 end:1:12:
+        vpiParent: Package name:pkg
+        vpiName: pkg
+      vpiFullName: pkg
       vpiTypespec (5 items):
         LogicTypespec:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
         StructTypespec start:2:12 end:4:5:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
           vpiPacked: true
           vpiTypespecMember (1 items):
             TypespecMember name:x start:3:16 end:3:17:
@@ -41,19 +41,19 @@ Design name:unnamed:
               vpiName: x
               vpiTypespec RefTypespec start:3:7 end:3:12:
                 vpiParent: TypespecMember name:x
-                vpiFullName: work@pkg::x
+                vpiFullName: pkg::x
                 vpiActual: LogicTypespec
         TypedefTypespec name:a start:2:4 end:4:8:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
           vpiName Identifier name:a start:4:6 end:4:7:
             vpiParent: TypedefTypespec name:a
             vpiName: a
           vpiTypedefAlias RefTypespec start:2:12 end:4:5:
             vpiParent: TypedefTypespec name:a
-            vpiFullName: work@pkg::a
+            vpiFullName: pkg::a
             vpiActual: StructTypespec
         ArrayTypespec:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
           vpiArrayType: static (1)
           vpiRange Range start:5:15 end:5:20:
             vpiParent: ArrayTypespec
@@ -61,7 +61,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@pkg
+                vpiFullName: pkg
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -71,7 +71,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@pkg
+                vpiFullName: pkg
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -80,95 +80,98 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:a start:5:12 end:5:13:
             vpiParent: ArrayTypespec
             vpiName: a
-            vpiFullName: work@pkg::a
+            vpiFullName: pkg::a
             vpiActual: TypedefTypespec name:a
         TypedefTypespec name:b start:5:4 end:5:21:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
           vpiName Identifier name:b start:5:14 end:5:15:
             vpiParent: TypedefTypespec name:b
             vpiName: b
           vpiTypedefAlias RefTypespec start:5:12 end:5:13:
             vpiParent: TypedefTypespec name:b
-            vpiFullName: work@pkg::b
+            vpiFullName: pkg::b
             vpiActual: ArrayTypespec
-      vpiDefName: work@pkg
-      vpiDefNetType: none (12)
+      vpiDefName: pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@pkg
+        vpiParent: Package name:pkg
         vpiName: work
-        vpiFullName: work@pkg::work
+        vpiFullName: pkg::work
       vpiCell: pkg
   vpiAllModules (1 items):
-    Module name:work@dut file:$Source01/dut.sv start:8:1 end:12:10:
+    Module name:dut file:$Source01/dut.sv start:8:1 end:12:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:8:8 end:8:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: Module name:work@dut
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
-        vpiName: work
-        vpiFullName: work@dut.work
-      vpiCell: dut
-      vpiNet (2 items):
-        Net name:o start:8:19 end:8:20:
-          vpiParent: Module name:work@dut
-          vpiTypespec RefTypespec start:8:12 end:8:18:
-            vpiParent: Net name:o
-            vpiFullName: work@dut.o
-            vpiActual: LogicTypespec
-          vpiName: o
-          vpiFullName: work@dut.o
-          vpiNetType: wire (1)
-        Net name:c start:9:11 end:9:12:
-          vpiParent: Module name:work@dut
+      vpiName Identifier name:dut start:8:8 end:8:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:c start:9:11 end:9:12:
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec name:pkg::b start:9:4 end:9:10:
-            vpiParent: Net name:c
+            vpiParent: Variable name:c
             vpiName: pkg::b
-            vpiFullName: work@dut.c.pkg::b
+            vpiFullName: dut.c.pkg::b
             vpiActual: TypedefTypespec name:b
           vpiName: c
-          vpiFullName: work@dut.c
+          vpiFullName: dut.c
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:dut
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:dut
+        vpiName: work
+        vpiFullName: dut.work
+      vpiCell: dut
+      vpiNet (1 items):
+        Net name:o start:8:19 end:8:20:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:8:12 end:8:18:
+            vpiParent: Net name:o
+            vpiFullName: dut.o
+            vpiActual: LogicTypespec
+          vpiName: o
+          vpiFullName: dut.o
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:o start:8:19 end:8:20:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:8:19 end:8:20:
+          vpiLowConn RefObj name:o start:8:19 end:8:20:
             vpiParent: Port name:o
-            vpiFullName: work@dut.o
+            vpiName: o
+            vpiFullName: dut.o.o
             vpiActual: Net name:o
           vpiTypespec RefTypespec start:8:12 end:8:18:
             vpiParent: Port name:o
-            vpiFullName: work@dut.o
+            vpiFullName: dut.o
             vpiActual: LogicTypespec
       vpiContAssign (2 items):
         ContAssign start:10:11 end:10:21:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs HierPath name:c[1].x start:10:11 end:10:17:
             vpiParent: ContAssign
             vpiName: c[1].x
-            vpiFullName: work@dut.c[1].x
+            vpiFullName: dut.c[1].x
             vpiPathElem (2 items):
               BitSelect name:c[1] start:10:11 end:10:14:
                 vpiParent: HierPath name:c[1].x
                 vpiName: c[1]
-                vpiFullName: work@dut.c[1].x.c[1]
+                vpiFullName: dut.c[1].x.c[1]
                 vpiPrefix RefObj name:c start:10:11 end:10:12:
                   vpiParent: BitSelect name:c[1]
                   vpiName: c
-                  vpiFullName: work@dut.c[1].x.c
-                  vpiActual: Net name:c
+                  vpiFullName: dut.c[1].x.c
+                  vpiActual: Variable name:c
                 vpiIndex Constant start:10:13 end:10:14:
                   vpiParent: BitSelect name:c[1]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@dut.c[1].x.c[1]
+                    vpiFullName: dut.c[1].x.c[1]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -177,44 +180,44 @@ Design name:unnamed:
               RefObj name:x start:10:16 end:10:17:
                 vpiParent: HierPath name:c[1].x
                 vpiName: x
-                vpiFullName: work@dut.x
+                vpiFullName: dut.x
                 vpiActual: TypespecMember name:x
           vpiRhs Constant start:10:20 end:10:21:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@dut
+              vpiFullName: dut
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
         ContAssign start:11:11 end:11:21:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:o start:11:11 end:11:12:
             vpiParent: ContAssign
             vpiName: o
-            vpiFullName: work@dut.o
+            vpiFullName: dut.o
             vpiActual: Net name:o
           vpiRhs HierPath name:c[1].x start:11:15 end:11:21:
             vpiParent: ContAssign
             vpiName: c[1].x
-            vpiFullName: work@dut.c[1].x
+            vpiFullName: dut.c[1].x
             vpiPathElem (2 items):
               BitSelect name:c[1] start:11:15 end:11:18:
                 vpiParent: HierPath name:c[1].x
                 vpiName: c[1]
-                vpiFullName: work@dut.c[1].x.c[1]
+                vpiFullName: dut.c[1].x.c[1]
                 vpiPrefix RefObj name:c start:11:15 end:11:16:
                   vpiParent: BitSelect name:c[1]
                   vpiName: c
-                  vpiFullName: work@dut.c[1].x.c
-                  vpiActual: Net name:c
+                  vpiFullName: dut.c[1].x.c
+                  vpiActual: Variable name:c
                 vpiIndex Constant start:11:17 end:11:18:
                   vpiParent: BitSelect name:c[1]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@dut.c[1].x.c[1]
+                    vpiFullName: dut.c[1].x.c[1]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -223,24 +226,24 @@ Design name:unnamed:
               RefObj name:x start:11:20 end:11:21:
                 vpiParent: HierPath name:c[1].x
                 vpiName: x
-                vpiFullName: work@dut.x
+                vpiFullName: dut.x
                 vpiActual: TypespecMember name:x
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:8:8 end:8:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
+      vpiName Identifier name:dut start:8:8 end:8:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

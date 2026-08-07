@@ -73,12 +73,12 @@ n<$Source01/class_member_test_27.sv> u<65> t<Top_level_rule> c<1> l<15:1> el<26:
     n<> u<63> t<Description> p<64> c<62> l<24:1> el<25:10>
       n<> u<62> t<Module_declaration> p<63> c<60> l<24:1> el<25:10>
         n<> u<60> t<Module_ansi_header> p<62> c<57> s<61> l<24:1> el<24:13>
-          n<module> u<57> t<Module_keyword> p<60> s<58> l<24:1> el<24:7>
+          n<module> u<57> t<MODULE> p<60> s<58> l<24:1> el<24:7>
           n<test> u<58> t<SIMPLE_IDENTIFIER> p<60> s<59> l<24:8> el<24:12>
           n<> u<59> t<Package_import_declaration_list> p<60> l<24:12> el<24:12>
         n<> u<61> t<ENDMODULE> p<62> l<25:1> el<25:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/class_member_test_27.sv:24:1: Compile module "work@test".
+[INF:CP0303] $Source01/class_member_test_27.sv:24:1: Compile module "test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -88,56 +88,64 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: class_member_test_27.sv
       vpiPreprocFile: "$Output/lib/work/class_member_test_27.sv"
-      vpiDefNetType: none (12)
   vpiAllClasses (2 items):
-    ClassDefn name:work@report_server file:$Source01/class_member_test_27.sv start:15:1 end:15:30:
+    ClassDefn name:report_server file:$Source01/class_member_test_27.sv start:15:1 end:15:30:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@report_server start:15:7 end:15:20:
-        vpiParent: ClassDefn name:work@report_server
-        vpiName: work@report_server
-      vpiFullName: work@report_server
+      vpiName Identifier name:report_server start:15:7 end:15:20:
+        vpiParent: ClassDefn name:report_server
+        vpiName: report_server
+      vpiFullName: report_server
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
-        vpiParent: ClassDefn name:work@report_server
+        vpiParent: ClassDefn name:report_server
         vpiName: work
-        vpiFullName: work@report_server::work
+        vpiFullName: report_server::work
       vpiCell: report_server
-    ClassDefn name:work@myclass file:$Source01/class_member_test_27.sv start:18:1 end:22:9:
+    ClassDefn name:myclass file:$Source01/class_member_test_27.sv start:18:1 end:22:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@myclass start:18:7 end:18:14:
-        vpiParent: ClassDefn name:work@myclass
-        vpiName: work@myclass
-      vpiFullName: work@myclass
+      vpiName Identifier name:myclass start:18:7 end:18:14:
+        vpiParent: ClassDefn name:myclass
+        vpiName: myclass
+      vpiFullName: myclass
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
-        vpiParent: ClassDefn name:work@myclass
+        vpiParent: ClassDefn name:myclass
         vpiName: work
-        vpiFullName: work@myclass::work
+        vpiFullName: myclass::work
       vpiCell: myclass
       vpiMethod (1 items):
         Function name:starter start:19:9 end:21:22:
-          vpiParent: ClassDefn name:work@myclass
+          vpiParent: ClassDefn name:myclass
           vpiName Identifier name:starter start:19:23 end:19:30:
             vpiParent: Function name:starter
             vpiName: starter
-          vpiFullName: work@myclass::starter
+          vpiFullName: myclass::starter
           vpiVariable (1 items):
             Variable name:new_server start:20:17 end:20:27:
               vpiParent: Function name:starter
               vpiTypespec RefTypespec name:report_server start:20:3 end:20:16:
                 vpiParent: Variable name:new_server
                 vpiName: report_server
-                vpiFullName: work@myclass::starter::new_server::report_server
-                vpiActual: ClassTypespec name:work@report_server
+                vpiFullName: myclass::starter::new_server::report_server
+                vpiActual: ClassTypespec name:report_server
               vpiName: new_server
-              vpiFullName: work@myclass::starter::new_server
+              vpiFullName: myclass::starter::new_server
               vpiValue MethodFuncCall name:new start:20:30 end:20:33:
                 vpiParent: Variable name:new_server
                 vpiName Identifier name:new:
                   vpiParent: MethodFuncCall name:new
                   vpiName: new
+          vpiTypespec (1 items):
+            ClassTypespec name:report_server start:20:3 end:20:16:
+              vpiParent: Function name:starter
+              vpiName Identifier name:report_server start:20:3 end:20:16:
+                vpiParent: ClassTypespec name:report_server
+                vpiName: report_server
+              vpiDefName: report_server
+              vpiClassDefn: ClassDefn name:report_server
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiVirtual: true
           vpiIODecl (1 items):
@@ -148,36 +156,38 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:uvm_phase start:19:31 end:19:40:
                 vpiParent: IODecl name:phase
                 vpiName: uvm_phase
-                vpiFullName: work@myclass::starter::phase::uvm_phase
+                vpiFullName: myclass::starter::phase::uvm_phase
                 vpiActual: TypedefTypespec name:uvm_phase
+          vpiStmt: Variable name:new_server
           vpiEndLabel Identifier name:starter start:21:15 end:21:22:
             vpiParent: Function name:starter
             vpiName: starter
           vpiReturn RefTypespec start:19:18 end:19:22:
             vpiParent: Function name:starter
-            vpiFullName: work@myclass::starter
+            vpiFullName: myclass::starter
             vpiActual: VoidTypespec
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/class_member_test_27.sv start:24:1 end:25:10:
+    Module name:test file:$Source01/class_member_test_27.sv start:24:1 end:25:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:24:8 end:24:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+      vpiName Identifier name:test start:24:8 end:24:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
   vpiTypespec (6 items):
-    ClassTypespec name:work@report_server:
+    ClassTypespec name:report_server:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@report_server:
-        vpiParent: ClassTypespec name:work@report_server
-        vpiName: work@report_server
-      vpiClassDefn: ClassDefn name:work@report_server
+      vpiName Identifier name:report_server:
+        vpiParent: ClassTypespec name:report_server
+        vpiName: report_server
+      vpiDefName: report_server
+      vpiClassDefn: ClassDefn name:report_server
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -190,20 +200,21 @@ Design name:unnamed:
         vpiParent: TypedefTypespec name:uvm_phase
         vpiFullName: uvm_phase
         vpiActual: IntTypespec
-    ClassTypespec name:work@myclass:
+    ClassTypespec name:myclass:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@myclass:
-        vpiParent: ClassTypespec name:work@myclass
-        vpiName: work@myclass
-      vpiClassDefn: ClassDefn name:work@myclass
+      vpiName Identifier name:myclass:
+        vpiParent: ClassTypespec name:myclass
+        vpiName: myclass
+      vpiDefName: myclass
+      vpiClassDefn: ClassDefn name:myclass
     VoidTypespec start:19:18 end:19:22:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:24:8 end:24:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:24:8 end:24:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -252,7 +263,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_27/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              34      34       0         0
 ----------------------------------------------------------------
-                                    32      32       0         0
+                                    34      34       0         0
 ===================== END REDUCTION RESULT =====================

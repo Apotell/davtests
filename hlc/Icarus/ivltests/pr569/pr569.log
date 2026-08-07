@@ -19,7 +19,7 @@ n<$Source01/pr569.v> u<160> t<Top_level_rule> c<1> l<5:1> el<18:1>
     n<> u<158> t<Description> p<159> c<157> l<5:1> el<16:10>
       n<> u<157> t<Module_declaration> p<158> c<7> l<5:1> el<16:10>
         n<> u<7> t<Module_nonansi_header> p<157> c<3> s<24> l<5:1> el<5:15>
-          n<module> u<3> t<Module_keyword> p<7> s<4> l<5:1> el<5:7>
+          n<module> u<3> t<MODULE> p<7> s<4> l<5:1> el<5:7>
           n<test> u<4> t<SIMPLE_IDENTIFIER> p<7> s<5> l<5:8> el<5:12>
           n<> u<5> t<Package_import_declaration_list> p<7> s<6> l<5:12> el<5:12>
           n<> u<6> t<Port_list> p<7> l<5:12> el<5:14>
@@ -173,7 +173,7 @@ n<$Source01/pr569.v> u<160> t<Top_level_rule> c<1> l<5:1> el<18:1>
                                   n<bar> u<142> t<SIMPLE_IDENTIFIER> p<143> l<15:20> el<15:23>
         n<> u<156> t<ENDMODULE> p<157> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/pr569.v:5:1: Compile module "work@test".
+[INF:CP0303] $Source01/pr569.v:5:1: Compile module "test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -183,55 +183,73 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr569.v
       vpiPreprocFile: "$Output/lib/work/pr569.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/pr569.v start:5:1 end:16:10:
+    Module name:test file:$Source01/pr569.v start:5:1 end:16:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:5:8 end:5:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
+      vpiName Identifier name:test start:5:8 end:5:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
+      vpiVariable (2 items):
+        Variable name:cnt start:10:16 end:10:19:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:10:6 end:10:15:
+            vpiParent: Variable name:cnt
+            vpiFullName: test.cnt
+            vpiActual: LogicTypespec
+          vpiName: cnt
+          vpiFullName: test.cnt
+          vpiVector: true
+        Variable name:CLK start:11:10 end:11:13:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:11:6 end:11:9:
+            vpiParent: Variable name:CLK
+            vpiFullName: test.CLK
+            vpiActual: LogicTypespec
+          vpiName: CLK
+          vpiFullName: test.CLK
+          vpiScalar: true
       vpiParameter (2 items):
         Parameter name:foo start:6:16 end:6:19:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:6:16 end:6:16:
             vpiParent: Parameter name:foo
-            vpiFullName: work@test.foo
+            vpiFullName: test.foo
             vpiActual: LogicTypespec
           vpiName: foo
-          vpiFullName: work@test.foo
+          vpiFullName: test.foo
         Parameter name:bar start:7:16 end:7:19:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:7:16 end:7:16:
             vpiParent: Parameter name:bar
-            vpiFullName: work@test.bar
+            vpiFullName: test.bar
             vpiActual: LogicTypespec
           vpiName: bar
-          vpiFullName: work@test.bar
+          vpiFullName: test.bar
       vpiParamAssign (2 items):
         ParamAssign start:6:16 end:6:33:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs RefObj name:foo start:6:16 end:6:19:
             vpiParent: ParamAssign
             vpiName: foo
-            vpiFullName: work@test.foo
+            vpiFullName: test.foo
             vpiActual: Parameter name:foo
           vpiRhs Constant start:6:22 end:6:33:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@test
+              vpiFullName: test
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 8
             vpiDecompile: "8'b01010101"
             vpiValue: "01010101"
         ParamAssign start:7:16 end:7:36:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs RefObj name:bar start:7:16 end:7:19:
             vpiParent: ParamAssign
             vpiName: bar
-            vpiFullName: work@test.bar
+            vpiFullName: test.bar
             vpiActual: Parameter name:bar
           vpiRhs Operation start:7:22 end:7:36:
             vpiParent: ParamAssign
@@ -240,7 +258,7 @@ Design name:unnamed:
               RefObj name:foo start:7:23 end:7:26:
                 vpiParent: Operation
                 vpiName: foo
-                vpiFullName: work@test.foo
+                vpiFullName: test.foo
                 vpiActual: Parameter name:foo
               Operation start:7:27 end:7:35:
                 vpiParent: Operation
@@ -250,7 +268,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -263,13 +281,13 @@ Design name:unnamed:
                       RefObj name:foo start:7:30 end:7:33:
                         vpiParent: Operation
                         vpiName: foo
-                        vpiFullName: work@test.foo
+                        vpiFullName: test.foo
                         vpiActual: Parameter name:foo
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
         LogicTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiRange (1 items):
             Range start:10:9 end:10:15:
               vpiParent: LogicTypespec
@@ -277,7 +295,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -287,40 +305,23 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
-      vpiNet (2 items):
-        Net name:cnt start:10:16 end:10:19:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec start:10:6 end:10:15:
-            vpiParent: Net name:cnt
-            vpiFullName: work@test.cnt
-            vpiActual: LogicTypespec
-          vpiName: cnt
-          vpiFullName: work@test.cnt
-        Net name:CLK start:11:10 end:11:13:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec start:11:6 end:11:9:
-            vpiParent: Net name:CLK
-            vpiFullName: work@test.CLK
-            vpiActual: LogicTypespec
-          vpiName: CLK
-          vpiFullName: work@test.CLK
       vpiProcess (3 items):
         Initial start:13:6 end:13:34:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt SysTaskCall name:$monitor start:13:14 end:13:33:
             vpiParent: Initial
             vpiName Identifier name:$monitor start:13:14 end:13:22:
@@ -331,7 +332,7 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$monitor
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 16
@@ -340,50 +341,50 @@ Design name:unnamed:
               RefObj name:cnt start:13:29 end:13:32:
                 vpiParent: SysTaskCall name:$monitor
                 vpiName: cnt
-                vpiFullName: work@test.cnt
-                vpiActual: Net name:cnt
+                vpiFullName: test.cnt
+                vpiActual: Variable name:cnt
         Initial start:14:6 end:14:22:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt Assignment start:14:14 end:14:21:
             vpiParent: Initial
             vpiBlocking: true
             vpiLhs RefObj name:CLK start:14:14 end:14:17:
               vpiParent: Assignment
               vpiName: CLK
-              vpiFullName: work@test.CLK
-              vpiActual: Net name:CLK
+              vpiFullName: test.CLK
+              vpiActual: Variable name:CLK
             vpiRhs Constant start:14:20 end:14:21:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
         Initial start:15:6 end:15:24:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt Assignment start:15:14 end:15:23:
             vpiParent: Initial
             vpiBlocking: true
             vpiLhs RefObj name:cnt start:15:14 end:15:17:
               vpiParent: Assignment
               vpiName: cnt
-              vpiFullName: work@test.cnt
-              vpiActual: Net name:cnt
+              vpiFullName: test.cnt
+              vpiActual: Variable name:cnt
             vpiRhs RefObj name:bar start:15:20 end:15:23:
               vpiParent: Assignment
               vpiName: bar
-              vpiFullName: work@test.bar
+              vpiFullName: test.bar
               vpiActual: Parameter name:bar
   vpiTypespec (4 items):
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:5:8 end:5:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:5:8 end:5:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
     LogicTypespec:
       vpiParent: Design name:unnamed
     IntTypespec:

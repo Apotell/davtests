@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<109> t<Top_level_rule> c<1> l<1:1> el<17:1>
     n<> u<89> t<Description> p<108> c<88> s<107> l<1:1> el<12:10>
       n<> u<88> t<Module_declaration> p<89> c<6> l<1:1> el<12:10>
         n<> u<6> t<Module_nonansi_header> p<88> c<2> s<63> l<1:1> el<1:15>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
           n<mod> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:12> el<1:12>
           n<> u<5> t<Port_list> p<6> l<1:12> el<1:14>
@@ -106,7 +106,7 @@ n<$Source01/dut.sv> u<109> t<Top_level_rule> c<1> l<1:1> el<17:1>
     n<> u<107> t<Description> p<108> c<106> l<14:1> el<16:10>
       n<> u<106> t<Module_declaration> p<107> c<94> l<14:1> el<16:10>
         n<> u<94> t<Module_nonansi_header> p<106> c<90> s<104> l<14:1> el<14:15>
-          n<module> u<90> t<Module_keyword> p<94> s<91> l<14:1> el<14:7>
+          n<module> u<90> t<MODULE> p<94> s<91> l<14:1> el<14:7>
           n<top> u<91> t<SIMPLE_IDENTIFIER> p<94> s<92> l<14:8> el<14:11>
           n<> u<92> t<Package_import_declaration_list> p<94> s<93> l<14:12> el<14:12>
           n<> u<93> t<Port_list> p<94> l<14:12> el<14:14>
@@ -122,14 +122,13 @@ n<$Source01/dut.sv> u<109> t<Top_level_rule> c<1> l<1:1> el<17:1>
                     n<> u<98> t<Ordered_port_connection> p<99> l<15:11> el<15:11>
         n<> u<105> t<ENDMODULE> p<106> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@mod".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "mod".
 [INF:CP0335] $Source01/dut.sv:4:20: Compile generate block "cscope".
-[INF:CP0303] $Source01/dut.sv:14:1: Compile module "work@top".
-[ERR:EL0535] $Source01/dut.sv:11:10: Illegal implicit net "id:32, name:foo".
-[ERR:EL0535] $Source01/dut.sv:11:38: Illegal implicit net "id:33, name:counter".
-[ERR:EL0535] $Source01/dut.sv:11:16: Illegal implicit net "id:35, name:cscope".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@mod".
-[WRN:PA0205] $Source01/dut.sv:14:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:14:1: Compile module "top".
+[WRN:CP0350] $Source01/dut.sv:11:16: Failed to bind "id:35, name:cscope".
+[WRN:CP0350] $Source01/dut.sv:11:23: Failed to bind "id:36, name:local_function".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "mod".
+[WRN:PA0205] $Source01/dut.sv:14:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -138,37 +137,36 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@mod file:$Source01/dut.sv start:1:1 end:12:10:
+    Module name:mod file:$Source01/dut.sv start:1:1 end:12:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@mod start:1:8 end:1:11:
-        vpiParent: Module name:work@mod
-        vpiName: work@mod
-      vpiFullName: work@mod
-      vpiDefName: work@mod
-      vpiDefNetType: none (12)
+      vpiName Identifier name:mod start:1:8 end:1:11:
+        vpiParent: Module name:mod
+        vpiName: mod
+      vpiFullName: mod
+      vpiDefName: mod
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@mod
+        vpiParent: Module name:mod
         vpiName: work
-        vpiFullName: work@mod.work
+        vpiFullName: mod.work
       vpiCell: mod
       vpiContAssign (1 items):
         ContAssign start:11:10 end:11:46:
-          vpiParent: Module name:work@mod
+          vpiParent: Module name:mod
           vpiLhs RefObj name:foo start:11:10 end:11:13:
             vpiParent: ContAssign
             vpiName: foo
-            vpiFullName: work@mod.foo
-          vpiRhs HierPath name:cscope.local_function(counter) start:11:16 end:11:45:
+            vpiFullName: mod.foo
+          vpiRhs HierPath name:cscope.local_function(counter) start:11:16 end:11:46:
             vpiParent: ContAssign
             vpiName: cscope.local_function(counter)
-            vpiFullName: work@mod.cscope.local_function(counter)
+            vpiFullName: mod.cscope.local_function(counter)
             vpiPathElem (2 items):
               RefObj name:cscope start:11:16 end:11:22:
                 vpiParent: HierPath name:cscope.local_function(counter)
                 vpiName: cscope
-                vpiFullName: work@mod.cscope
+                vpiFullName: mod.cscope
               SubroutineCall name:local_function start:11:23 end:11:46:
                 vpiParent: HierPath name:cscope.local_function(counter)
                 vpiName Identifier name:local_function start:11:23 end:11:37:
@@ -178,18 +176,18 @@ Design name:unnamed:
                   RefObj name:counter start:11:38 end:11:45:
                     vpiParent: SubroutineCall name:local_function
                     vpiName: counter
-                    vpiFullName: work@mod.cscope.local_function(counter).local_function.counter
+                    vpiFullName: mod.cscope.local_function(counter).local_function.counter
       vpiGenStmt (1 items):
         GenRegion start:3:3 end:9:14:
-          vpiParent: Module name:work@mod
-          vpiFullName: work@mod
+          vpiParent: Module name:mod
+          vpiFullName: mod
           vpiStmt GenIf start:4:5 end:8:8:
             vpiParent: GenRegion
             vpiCondition Constant start:4:9 end:4:10:
               vpiParent: GenIf
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@mod
+                vpiFullName: mod
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -200,14 +198,14 @@ Design name:unnamed:
               vpiName Identifier name:cscope start:4:20 end:4:26:
                 vpiParent: Begin name:cscope
                 vpiName: cscope
-              vpiFullName: work@mod.cscope
+              vpiFullName: mod.cscope
               vpiStmt (1 items):
                 Function name:local_function start:5:7 end:7:18:
                   vpiParent: Begin name:cscope
                   vpiName Identifier name:local_function start:5:32 end:5:46:
                     vpiParent: Function name:local_function
                     vpiName: local_function
-                  vpiFullName: work@mod.cscope.local_function
+                  vpiFullName: mod.cscope.local_function
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Function name:local_function
@@ -220,7 +218,7 @@ Design name:unnamed:
                       vpiDirection: input (1)
                       vpiTypespec RefTypespec start:5:54 end:5:54:
                         vpiParent: IODecl name:x
-                        vpiFullName: work@mod.cscope.local_function.x
+                        vpiFullName: mod.cscope.local_function.x
                         vpiActual: LogicTypespec
                   vpiStmt Assignment start:6:9 end:6:31:
                     vpiParent: Function name:local_function
@@ -228,7 +226,7 @@ Design name:unnamed:
                     vpiLhs RefObj name:local_function start:6:9 end:6:23:
                       vpiParent: Assignment
                       vpiName: local_function
-                      vpiFullName: work@mod.cscope.local_function.local_function
+                      vpiFullName: mod.cscope.local_function.local_function
                       vpiActual: Function name:local_function
                     vpiRhs Operation start:6:26 end:6:31:
                       vpiParent: Assignment
@@ -237,13 +235,13 @@ Design name:unnamed:
                         RefObj name:x start:6:26 end:6:27:
                           vpiParent: Operation
                           vpiName: x
-                          vpiFullName: work@mod.cscope.local_function.x
+                          vpiFullName: mod.cscope.local_function.x
                           vpiActual: IODecl name:x
                         Constant start:6:30 end:6:31:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@mod.cscope.local_function
+                            vpiFullName: mod.cscope.local_function
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -251,57 +249,58 @@ Design name:unnamed:
                           vpiValue: 1
                   vpiReturn RefTypespec start:5:26 end:5:31:
                     vpiParent: Function name:local_function
-                    vpiFullName: work@mod.cscope.local_function
+                    vpiFullName: mod.cscope.local_function
                     vpiActual: LogicTypespec
-    Module name:work@top file:$Source01/dut.sv start:14:1 end:16:10:
+    Module name:top file:$Source01/dut.sv start:14:1 end:16:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:14:8 end:14:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:14:8 end:14:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (1 items):
-        ModuleTypespec name:work@mod start:15:3 end:15:6:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@mod start:15:3 end:15:6:
-            vpiParent: ModuleTypespec name:work@mod
-            vpiName: work@mod
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        ModuleTypespec name:mod start:15:3 end:15:6:
+          vpiParent: Module name:top
+          vpiName Identifier name:mod start:15:3 end:15:6:
+            vpiParent: ModuleTypespec name:mod
+            vpiName: mod
+          vpiModule: Module name:mod
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:c start:15:8 end:15:9:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: c
-          vpiTypespec RefTypespec name:work@mod start:15:3 end:15:6:
+          vpiTypespec RefTypespec name:mod start:15:3 end:15:6:
             vpiParent: RefInstance name:c
-            vpiName: work@mod
-            vpiFullName: work@top.c.work@mod
-            vpiActual: ModuleTypespec name:work@mod
+            vpiName: mod
+            vpiFullName: top.c.mod
+            vpiActual: ModuleTypespec name:mod
   vpiTypespec (3 items):
-    ModuleTypespec name:work@mod:
+    ModuleTypespec name:mod:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@mod start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@mod
-        vpiName: work@mod
-      vpiModule: Module name:work@mod
+      vpiName Identifier name:mod start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:mod
+        vpiName: mod
+      vpiModule: Module name:mod
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:14:8 end:14:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:14:8 end:14:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

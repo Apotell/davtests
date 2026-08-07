@@ -24,7 +24,7 @@ n<$Source01/top.v> u<578> t<Top_level_rule> c<1> l<1:1> el<72:1>
     n<> u<250> t<Description> p<577> c<249> s<576> l<1:1> el<27:10>
       n<> u<249> t<Module_declaration> p<250> c<38> l<1:1> el<27:10>
         n<> u<38> t<Module_ansi_header> p<249> c<2> s<54> l<1:1> el<9:4>
-          n<module> u<2> t<Module_keyword> p<38> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<38> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<38> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<38> s<37> l<2:1> el<2:1>
           n<> u<37> t<Port_declaration_list> p<38> c<10> l<2:1> el<9:3>
@@ -273,7 +273,7 @@ n<$Source01/top.v> u<578> t<Top_level_rule> c<1> l<1:1> el<72:1>
     n<> u<576> t<Description> p<577> c<575> l<29:1> el<71:10>
       n<> u<575> t<Module_declaration> p<576> c<289> l<29:1> el<71:10>
         n<> u<289> t<Module_ansi_header> p<575> c<251> s<305> l<29:1> el<37:4>
-          n<module> u<251> t<Module_keyword> p<289> s<252> l<29:1> el<29:7>
+          n<module> u<251> t<MODULE> p<289> s<252> l<29:1> el<29:7>
           n<middle> u<252> t<SIMPLE_IDENTIFIER> p<289> s<253> l<29:8> el<29:14>
           n<> u<253> t<Package_import_declaration_list> p<289> s<288> l<30:1> el<30:1>
           n<> u<288> t<Port_declaration_list> p<289> c<259> l<30:1> el<37:3>
@@ -597,11 +597,12 @@ n<$Source01/top.v> u<578> t<Top_level_rule> c<1> l<1:1> el<72:1>
                               n<> u<562> t<END> p<563> l<66:1> el<66:4>
         n<> u<574> t<ENDMODULE> p<575> l<71:1> el<71:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/top.v:1:1: Compile module "work@top".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "work@middle".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "work@middle".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "work@middle".
-[INF:CP0303] $Source01/top.v:29:1: Compile module "work@middle".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "top".
+[NTE:CP0309] $Source01/top.v:8:9: Implicit port type (wire) for "cout".
+[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "middle".
+[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "middle".
+[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "middle".
+[INF:CP0303] $Source01/top.v:29:1: Compile module "middle".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -611,46 +612,45 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:$Source01/top.v start:1:1 end:27:10:
+    Module name:top file:$Source01/top.v start:1:1 end:27:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiVariable (1 items):
         Variable name:A start:7:13 end:7:14:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:7:2 end:7:12:
             vpiParent: Variable name:A
-            vpiFullName: work@top.A
+            vpiFullName: top.A
             vpiActual: LogicTypespec
           vpiName: A
-          vpiFullName: work@top.A
-          vpiNetType: none (12)
+          vpiFullName: top.A
+          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:X start:10:12 end:10:13:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:10:12 end:10:12:
             vpiParent: Parameter name:X
-            vpiFullName: work@top.X
+            vpiFullName: top.X
             vpiActual: LogicTypespec
           vpiName: X
-          vpiFullName: work@top.X
+          vpiFullName: top.X
       vpiParamAssign (1 items):
         ParamAssign start:10:12 end:10:17:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:X start:10:12 end:10:13:
             vpiParent: ParamAssign
             vpiName: X
-            vpiFullName: work@top.X
+            vpiFullName: top.X
             vpiActual: Parameter name:X
           vpiRhs Constant start:10:16 end:10:17:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -658,146 +658,160 @@ Design name:unnamed:
             vpiValue: 1
       vpiTypespec (6 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
         BitTypespec:
-          vpiParent: Module name:work@top
-        ModuleTypespec name:work@middle start:19:1 end:19:7:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@middle start:19:1 end:19:7:
-            vpiParent: ModuleTypespec name:work@middle
-            vpiName: work@middle
-        ModuleTypespec name:work@middle start:20:1 end:20:7:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@middle start:20:1 end:20:7:
-            vpiParent: ModuleTypespec name:work@middle
-            vpiName: work@middle
-        ModuleTypespec name:work@middle start:21:1 end:21:7:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@middle start:21:1 end:21:7:
-            vpiParent: ModuleTypespec name:work@middle
-            vpiName: work@middle
-        ModuleTypespec name:work@middle start:22:1 end:22:7:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@middle start:22:1 end:22:7:
-            vpiParent: ModuleTypespec name:work@middle
-            vpiName: work@middle
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+          vpiParent: Module name:top
+        ModuleTypespec name:middle start:19:1 end:19:7:
+          vpiParent: Module name:top
+          vpiName Identifier name:middle start:19:1 end:19:7:
+            vpiParent: ModuleTypespec name:middle
+            vpiName: middle
+          vpiModule: Module name:middle
+        ModuleTypespec name:middle start:20:1 end:20:7:
+          vpiParent: Module name:top
+          vpiName Identifier name:middle start:20:1 end:20:7:
+            vpiParent: ModuleTypespec name:middle
+            vpiName: middle
+          vpiModule: Module name:middle
+        ModuleTypespec name:middle start:21:1 end:21:7:
+          vpiParent: Module name:top
+          vpiName Identifier name:middle start:21:1 end:21:7:
+            vpiParent: ModuleTypespec name:middle
+            vpiName: middle
+          vpiModule: Module name:middle
+        ModuleTypespec name:middle start:22:1 end:22:7:
+          vpiParent: Module name:top
+          vpiName Identifier name:middle start:22:1 end:22:7:
+            vpiParent: ModuleTypespec name:middle
+            vpiName: middle
+          vpiModule: Module name:middle
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiNet (5 items):
         Net name:x start:3:8 end:3:9:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:3:2 end:3:7:
             vpiParent: Net name:x
-            vpiFullName: work@top.x
+            vpiFullName: top.x
             vpiActual: LogicTypespec
           vpiName: x
-          vpiFullName: work@top.x
+          vpiFullName: top.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:4:8 end:4:9:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:2 end:4:7:
             vpiParent: Net name:y
-            vpiFullName: work@top.y
+            vpiFullName: top.y
             vpiActual: LogicTypespec
           vpiName: y
-          vpiFullName: work@top.y
+          vpiFullName: top.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cin start:5:8 end:5:11:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:2 end:5:7:
             vpiParent: Net name:cin
-            vpiFullName: work@top.cin
+            vpiFullName: top.cin
             vpiActual: LogicTypespec
           vpiName: cin
-          vpiFullName: work@top.cin
+          vpiFullName: top.cin
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cout start:8:9 end:8:13:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:8:2 end:8:8:
             vpiParent: Net name:cout
-            vpiFullName: work@top.cout
+            vpiFullName: top.cout
             vpiActual: LogicTypespec
           vpiName: cout
-          vpiFullName: work@top.cout
+          vpiFullName: top.cout
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:11:7 end:11:8:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:11:7 end:11:7:
             vpiParent: Net name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: LogicTypespec
           vpiName: o
-          vpiFullName: work@top.o
+          vpiFullName: top.o
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:x start:3:8 end:3:9:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: x
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:8 end:3:9:
+          vpiLowConn RefObj name:x start:3:8 end:3:9:
             vpiParent: Port name:x
-            vpiFullName: work@top.x
+            vpiName: x
+            vpiFullName: top.x.x
             vpiActual: Net name:x
           vpiTypespec RefTypespec start:3:2 end:3:7:
             vpiParent: Port name:x
-            vpiFullName: work@top.x
+            vpiFullName: top.x
             vpiActual: LogicTypespec
         Port name:y start:4:8 end:4:9:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: y
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:8 end:4:9:
+          vpiLowConn RefObj name:y start:4:8 end:4:9:
             vpiParent: Port name:y
-            vpiFullName: work@top.y
+            vpiName: y
+            vpiFullName: top.y.y
             vpiActual: Net name:y
           vpiTypespec RefTypespec start:4:2 end:4:7:
             vpiParent: Port name:y
-            vpiFullName: work@top.y
+            vpiFullName: top.y
             vpiActual: LogicTypespec
         Port name:cin start:5:8 end:5:11:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: cin
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:8 end:5:11:
+          vpiLowConn RefObj name:cin start:5:8 end:5:11:
             vpiParent: Port name:cin
-            vpiFullName: work@top.cin
+            vpiName: cin
+            vpiFullName: top.cin.cin
             vpiActual: Net name:cin
           vpiTypespec RefTypespec start:5:2 end:5:7:
             vpiParent: Port name:cin
-            vpiFullName: work@top.cin
+            vpiFullName: top.cin
             vpiActual: LogicTypespec
         Port name:A start:7:13 end:7:14:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: A
           vpiDirection: output (2)
-          vpiLowConn RefObj start:7:13 end:7:14:
+          vpiLowConn RefObj name:A start:7:13 end:7:14:
             vpiParent: Port name:A
-            vpiFullName: work@top.A
+            vpiName: A
+            vpiFullName: top.A.A
             vpiActual: Variable name:A
           vpiTypespec RefTypespec start:7:2 end:7:12:
             vpiParent: Port name:A
-            vpiFullName: work@top.A
+            vpiFullName: top.A
             vpiActual: LogicTypespec
         Port name:cout start:8:9 end:8:13:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: cout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:8:9 end:8:13:
+          vpiLowConn RefObj name:cout start:8:9 end:8:13:
             vpiParent: Port name:cout
-            vpiFullName: work@top.cout
+            vpiName: cout
+            vpiFullName: top.cout.cout
             vpiActual: Net name:cout
           vpiTypespec RefTypespec start:8:2 end:8:8:
             vpiParent: Port name:cout
-            vpiFullName: work@top.cout
+            vpiFullName: top.cout
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:14:1 end:15:9:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiStmt EventControl start:14:8 end:15:9:
             vpiParent: Always
             vpiCondition Operation start:14:10 end:14:21:
@@ -807,28 +821,28 @@ Design name:unnamed:
                 RefObj name:cin start:14:18 end:14:21:
                   vpiParent: Operation
                   vpiName: cin
-                  vpiFullName: work@top.cin
+                  vpiFullName: top.cin
                   vpiActual: Net name:cin
             vpiStmt Assignment start:15:2 end:15:8:
               vpiParent: EventControl
               vpiLhs RefObj name:A start:15:2 end:15:3:
                 vpiParent: Assignment
                 vpiName: A
-                vpiFullName: work@top.A
+                vpiFullName: top.A
                 vpiActual: Variable name:A
               vpiRhs RefObj name:o start:15:7 end:15:8:
                 vpiParent: Assignment
                 vpiName: o
-                vpiFullName: work@top.o
+                vpiFullName: top.o
                 vpiActual: Net name:o
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:17:8 end:17:26:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:cout start:17:8 end:17:12:
             vpiParent: ContAssign
             vpiName: cout
-            vpiFullName: work@top.cout
+            vpiFullName: top.cout
             vpiActual: Net name:cout
           vpiRhs Operation start:17:16 end:17:26:
             vpiParent: ContAssign
@@ -837,394 +851,405 @@ Design name:unnamed:
               RefObj name:cin start:17:16 end:17:19:
                 vpiParent: Operation
                 vpiName: cin
-                vpiFullName: work@top.cin
+                vpiFullName: top.cin
                 vpiActual: Net name:cin
               RefObj name:y start:17:21 end:17:22:
                 vpiParent: Operation
                 vpiName: y
-                vpiFullName: work@top.y
+                vpiFullName: top.y
                 vpiActual: Net name:y
               RefObj name:x start:17:25 end:17:26:
                 vpiParent: Operation
                 vpiName: x
-                vpiFullName: work@top.x
+                vpiFullName: top.x
                 vpiActual: Net name:x
       vpiRefInstance (4 items):
         RefInstance name:u_mid1 start:19:8 end:19:14:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_mid1
-          vpiTypespec RefTypespec name:work@middle start:19:1 end:19:7:
+          vpiTypespec RefTypespec name:middle start:19:1 end:19:7:
             vpiParent: RefInstance name:u_mid1
-            vpiName: work@middle
-            vpiFullName: work@top.u_mid1.work@middle
-            vpiActual: ModuleTypespec name:work@middle
+            vpiName: middle
+            vpiFullName: top.u_mid1.middle
+            vpiActual: ModuleTypespec name:middle
           vpiPort (3 items):
             Port start:19:16 end:19:21:
               vpiParent: RefInstance name:u_mid1
               vpiLowConn RefObj name:x start:19:17 end:19:18:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_mid1.x
+                vpiFullName: top.u_mid1.x
                 vpiActual: Net name:x
               vpiHighConn RefObj name:x start:19:19 end:19:20:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_mid1.x
+                vpiFullName: top.u_mid1.x
                 vpiActual: Net name:x
             Port start:19:22 end:19:27:
               vpiParent: RefInstance name:u_mid1
               vpiLowConn RefObj name:A start:19:23 end:19:24:
                 vpiParent: Port
                 vpiName: A
-                vpiFullName: work@top.u_mid1.A
+                vpiFullName: top.u_mid1.A
                 vpiActual: Variable name:A
               vpiHighConn RefObj name:o start:19:25 end:19:26:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@top.u_mid1.o
+                vpiFullName: top.u_mid1.o
                 vpiActual: Net name:o
             Port start:19:28 end:19:36:
               vpiParent: RefInstance name:u_mid1
               vpiLowConn RefObj name:y start:19:29 end:19:30:
                 vpiParent: Port
                 vpiName: y
-                vpiFullName: work@top.u_mid1.y
+                vpiFullName: top.u_mid1.y
                 vpiActual: Net name:y
               vpiHighConn Constant start:19:31 end:19:35:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.u_mid1
+                  vpiFullName: top.u_mid1
                   vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
                 vpiValue: "0"
         RefInstance name:u_mid2 start:20:8 end:20:14:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_mid2
-          vpiTypespec RefTypespec name:work@middle start:20:1 end:20:7:
+          vpiTypespec RefTypespec name:middle start:20:1 end:20:7:
             vpiParent: RefInstance name:u_mid2
-            vpiName: work@middle
-            vpiFullName: work@top.u_mid2.work@middle
-            vpiActual: ModuleTypespec name:work@middle
+            vpiName: middle
+            vpiFullName: top.u_mid2.middle
+            vpiActual: ModuleTypespec name:middle
           vpiPort (3 items):
             Port start:20:16 end:20:21:
               vpiParent: RefInstance name:u_mid2
               vpiLowConn RefObj name:x start:20:17 end:20:18:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_mid2.x
+                vpiFullName: top.u_mid2.x
                 vpiActual: Net name:x
               vpiHighConn RefObj name:x start:20:19 end:20:20:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_mid2.x
+                vpiFullName: top.u_mid2.x
                 vpiActual: Net name:x
             Port start:20:22 end:20:27:
               vpiParent: RefInstance name:u_mid2
               vpiLowConn RefObj name:A start:20:23 end:20:24:
                 vpiParent: Port
                 vpiName: A
-                vpiFullName: work@top.u_mid2.A
+                vpiFullName: top.u_mid2.A
                 vpiActual: Variable name:A
               vpiHighConn RefObj name:o start:20:25 end:20:26:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@top.u_mid2.o
+                vpiFullName: top.u_mid2.o
                 vpiActual: Net name:o
             Port start:20:28 end:20:36:
               vpiParent: RefInstance name:u_mid2
               vpiLowConn RefObj name:y start:20:29 end:20:30:
                 vpiParent: Port
                 vpiName: y
-                vpiFullName: work@top.u_mid2.y
+                vpiFullName: top.u_mid2.y
                 vpiActual: Net name:y
               vpiHighConn Constant start:20:31 end:20:35:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.u_mid2
+                  vpiFullName: top.u_mid2
                   vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
         RefInstance name:u_mid3 start:21:8 end:21:14:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_mid3
-          vpiTypespec RefTypespec name:work@middle start:21:1 end:21:7:
+          vpiTypespec RefTypespec name:middle start:21:1 end:21:7:
             vpiParent: RefInstance name:u_mid3
-            vpiName: work@middle
-            vpiFullName: work@top.u_mid3.work@middle
-            vpiActual: ModuleTypespec name:work@middle
+            vpiName: middle
+            vpiFullName: top.u_mid3.middle
+            vpiActual: ModuleTypespec name:middle
           vpiPort (3 items):
             Port start:21:16 end:21:21:
               vpiParent: RefInstance name:u_mid3
               vpiLowConn RefObj name:x start:21:17 end:21:18:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_mid3.x
+                vpiFullName: top.u_mid3.x
                 vpiActual: Net name:x
               vpiHighConn RefObj name:x start:21:19 end:21:20:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_mid3.x
+                vpiFullName: top.u_mid3.x
                 vpiActual: Net name:x
             Port start:21:22 end:21:27:
               vpiParent: RefInstance name:u_mid3
               vpiLowConn RefObj name:A start:21:23 end:21:24:
                 vpiParent: Port
                 vpiName: A
-                vpiFullName: work@top.u_mid3.A
+                vpiFullName: top.u_mid3.A
                 vpiActual: Variable name:A
               vpiHighConn RefObj name:o start:21:25 end:21:26:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@top.u_mid3.o
+                vpiFullName: top.u_mid3.o
                 vpiActual: Net name:o
             Port start:21:28 end:21:36:
               vpiParent: RefInstance name:u_mid3
               vpiLowConn RefObj name:y start:21:29 end:21:30:
                 vpiParent: Port
                 vpiName: y
-                vpiFullName: work@top.u_mid3.y
+                vpiFullName: top.u_mid3.y
                 vpiActual: Net name:y
               vpiHighConn Constant start:21:31 end:21:35:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.u_mid3
+                  vpiFullName: top.u_mid3
                   vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'bX"
                 vpiValue: X
         RefInstance name:u_mid4 start:22:8 end:22:14:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_mid4
-          vpiTypespec RefTypespec name:work@middle start:22:1 end:22:7:
+          vpiTypespec RefTypespec name:middle start:22:1 end:22:7:
             vpiParent: RefInstance name:u_mid4
-            vpiName: work@middle
-            vpiFullName: work@top.u_mid4.work@middle
-            vpiActual: ModuleTypespec name:work@middle
+            vpiName: middle
+            vpiFullName: top.u_mid4.middle
+            vpiActual: ModuleTypespec name:middle
           vpiPort (3 items):
             Port start:22:16 end:22:21:
               vpiParent: RefInstance name:u_mid4
               vpiLowConn RefObj name:x start:22:17 end:22:18:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_mid4.x
+                vpiFullName: top.u_mid4.x
                 vpiActual: Net name:x
               vpiHighConn RefObj name:x start:22:19 end:22:20:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_mid4.x
+                vpiFullName: top.u_mid4.x
                 vpiActual: Net name:x
             Port start:22:22 end:22:27:
               vpiParent: RefInstance name:u_mid4
               vpiLowConn RefObj name:A start:22:23 end:22:24:
                 vpiParent: Port
                 vpiName: A
-                vpiFullName: work@top.u_mid4.A
+                vpiFullName: top.u_mid4.A
                 vpiActual: Variable name:A
               vpiHighConn RefObj name:o start:22:25 end:22:26:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@top.u_mid4.o
+                vpiFullName: top.u_mid4.o
                 vpiActual: Net name:o
             Port start:22:28 end:22:36:
               vpiParent: RefInstance name:u_mid4
               vpiLowConn RefObj name:y start:22:29 end:22:30:
                 vpiParent: Port
                 vpiName: y
-                vpiFullName: work@top.u_mid4.y
+                vpiFullName: top.u_mid4.y
                 vpiActual: Net name:y
               vpiHighConn Constant start:22:31 end:22:35:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.u_mid4
+                  vpiFullName: top.u_mid4
                   vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'bX"
                 vpiValue: X
-    Module name:work@middle file:$Source01/top.v start:29:1 end:71:10:
+    Module name:middle file:$Source01/top.v start:29:1 end:71:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@middle start:29:8 end:29:14:
-        vpiParent: Module name:work@middle
-        vpiName: work@middle
-      vpiFullName: work@middle
-      vpiVariable (2 items):
+      vpiName Identifier name:middle start:29:8 end:29:14:
+        vpiParent: Module name:middle
+        vpiName: middle
+      vpiFullName: middle
+      vpiVariable (5 items):
         Variable name:A start:35:13 end:35:14:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiTypespec RefTypespec start:35:2 end:35:12:
             vpiParent: Variable name:A
-            vpiFullName: work@middle.A
+            vpiFullName: middle.A
             vpiActual: LogicTypespec
           vpiName: A
-          vpiFullName: work@middle.A
-          vpiNetType: none (12)
+          vpiFullName: middle.A
+          vpiScalar: true
         Variable name:cout start:36:13 end:36:17:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiTypespec RefTypespec start:36:2 end:36:12:
             vpiParent: Variable name:cout
-            vpiFullName: work@middle.cout
+            vpiFullName: middle.cout
             vpiActual: LogicTypespec
           vpiName: cout
-          vpiFullName: work@middle.cout
-          vpiNetType: none (12)
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: Module name:work@middle
-      vpiAttribute (2 items):
-        Attribute name:anyconst start:40:5 end:40:13:
-          vpiParent: Module name:work@middle
-          vpiName: anyconst
-        Attribute name:anyseq start:41:5 end:41:11:
-          vpiParent: Module name:work@middle
-          vpiName: anyseq
-      vpiDefName: work@middle
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@middle
-        vpiName: work
-        vpiFullName: work@middle.work
-      vpiCell: middle
-      vpiNet (6 items):
-        Net name:x start:31:8 end:31:9:
-          vpiParent: Module name:work@middle
-          vpiTypespec RefTypespec start:31:2 end:31:7:
-            vpiParent: Net name:x
-            vpiFullName: work@middle.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: work@middle.x
-          vpiNetType: wire (1)
-        Net name:y start:32:8 end:32:9:
-          vpiParent: Module name:work@middle
-          vpiTypespec RefTypespec start:32:2 end:32:7:
-            vpiParent: Net name:y
-            vpiFullName: work@middle.y
-            vpiActual: LogicTypespec
-          vpiName: y
-          vpiFullName: work@middle.y
-          vpiNetType: wire (1)
-        Net name:cin start:33:8 end:33:11:
-          vpiParent: Module name:work@middle
-          vpiTypespec RefTypespec start:33:2 end:33:7:
-            vpiParent: Net name:cin
-            vpiFullName: work@middle.cin
-            vpiActual: LogicTypespec
-          vpiName: cin
-          vpiFullName: work@middle.cin
-          vpiNetType: wire (1)
-        Net name:ASSERT start:39:6 end:39:12:
-          vpiParent: Module name:work@middle
+          vpiFullName: middle.cout
+          vpiScalar: true
+        Variable name:ASSERT start:39:6 end:39:12:
+          vpiParent: Module name:middle
           vpiTypespec RefTypespec start:39:2 end:39:5:
-            vpiParent: Net name:ASSERT
-            vpiFullName: work@middle.ASSERT
+            vpiParent: Variable name:ASSERT
+            vpiFullName: middle.ASSERT
             vpiActual: LogicTypespec
           vpiName: ASSERT
-          vpiFullName: work@middle.ASSERT
+          vpiFullName: middle.ASSERT
+          vpiScalar: true
           vpiValue Constant start:39:15 end:39:16:
-            vpiParent: Net name:ASSERT
+            vpiParent: Variable name:ASSERT
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@middle.ASSERT
+              vpiFullName: middle.ASSERT
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-        Net name:foo start:40:21 end:40:24:
-          vpiParent: Module name:work@middle
+        Variable name:foo start:40:21 end:40:24:
+          vpiParent: Module name:middle
           vpiTypespec RefTypespec start:40:17 end:40:20:
-            vpiParent: Net name:foo
-            vpiFullName: work@middle.foo
+            vpiParent: Variable name:foo
+            vpiFullName: middle.foo
             vpiActual: LogicTypespec
           vpiName: foo
-          vpiFullName: work@middle.foo
-        Net name:too start:41:19 end:41:22:
-          vpiParent: Module name:work@middle
+          vpiFullName: middle.foo
+          vpiScalar: true
+        Variable name:too start:41:19 end:41:22:
+          vpiParent: Module name:middle
           vpiTypespec RefTypespec start:41:15 end:41:18:
-            vpiParent: Net name:too
-            vpiFullName: work@middle.too
+            vpiParent: Variable name:too
+            vpiFullName: middle.too
             vpiActual: LogicTypespec
           vpiName: too
-          vpiFullName: work@middle.too
+          vpiFullName: middle.too
+          vpiScalar: true
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:middle
+      vpiAttribute (2 items):
+        Attribute name:anyconst start:40:5 end:40:13:
+          vpiParent: Module name:middle
+          vpiName: anyconst
+        Attribute name:anyseq start:41:5 end:41:11:
+          vpiParent: Module name:middle
+          vpiName: anyseq
+      vpiDefName: middle
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:middle
+        vpiName: work
+        vpiFullName: middle.work
+      vpiCell: middle
+      vpiNet (3 items):
+        Net name:x start:31:8 end:31:9:
+          vpiParent: Module name:middle
+          vpiTypespec RefTypespec start:31:2 end:31:7:
+            vpiParent: Net name:x
+            vpiFullName: middle.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: middle.x
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:y start:32:8 end:32:9:
+          vpiParent: Module name:middle
+          vpiTypespec RefTypespec start:32:2 end:32:7:
+            vpiParent: Net name:y
+            vpiFullName: middle.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: middle.y
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:cin start:33:8 end:33:11:
+          vpiParent: Module name:middle
+          vpiTypespec RefTypespec start:33:2 end:33:7:
+            vpiParent: Net name:cin
+            vpiFullName: middle.cin
+            vpiActual: LogicTypespec
+          vpiName: cin
+          vpiFullName: middle.cin
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:x start:31:8 end:31:9:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiName: x
           vpiDirection: input (1)
-          vpiLowConn RefObj start:31:8 end:31:9:
+          vpiLowConn RefObj name:x start:31:8 end:31:9:
             vpiParent: Port name:x
-            vpiFullName: work@middle.x
+            vpiName: x
+            vpiFullName: middle.x.x
             vpiActual: Net name:x
           vpiTypespec RefTypespec start:31:2 end:31:7:
             vpiParent: Port name:x
-            vpiFullName: work@middle.x
+            vpiFullName: middle.x
             vpiActual: LogicTypespec
         Port name:y start:32:8 end:32:9:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiName: y
           vpiDirection: input (1)
-          vpiLowConn RefObj start:32:8 end:32:9:
+          vpiLowConn RefObj name:y start:32:8 end:32:9:
             vpiParent: Port name:y
-            vpiFullName: work@middle.y
+            vpiName: y
+            vpiFullName: middle.y.y
             vpiActual: Net name:y
           vpiTypespec RefTypespec start:32:2 end:32:7:
             vpiParent: Port name:y
-            vpiFullName: work@middle.y
+            vpiFullName: middle.y
             vpiActual: LogicTypespec
         Port name:cin start:33:8 end:33:11:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiName: cin
           vpiDirection: input (1)
-          vpiLowConn RefObj start:33:8 end:33:11:
+          vpiLowConn RefObj name:cin start:33:8 end:33:11:
             vpiParent: Port name:cin
-            vpiFullName: work@middle.cin
+            vpiName: cin
+            vpiFullName: middle.cin.cin
             vpiActual: Net name:cin
           vpiTypespec RefTypespec start:33:2 end:33:7:
             vpiParent: Port name:cin
-            vpiFullName: work@middle.cin
+            vpiFullName: middle.cin
             vpiActual: LogicTypespec
         Port name:A start:35:13 end:35:14:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiName: A
           vpiDirection: output (2)
-          vpiLowConn RefObj start:35:13 end:35:14:
+          vpiLowConn RefObj name:A start:35:13 end:35:14:
             vpiParent: Port name:A
-            vpiFullName: work@middle.A
+            vpiName: A
+            vpiFullName: middle.A.A
             vpiActual: Variable name:A
           vpiTypespec RefTypespec start:35:2 end:35:12:
             vpiParent: Port name:A
-            vpiFullName: work@middle.A
+            vpiFullName: middle.A
             vpiActual: LogicTypespec
         Port name:cout start:36:13 end:36:17:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiName: cout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:36:13 end:36:17:
+          vpiLowConn RefObj name:cout start:36:13 end:36:17:
             vpiParent: Port name:cout
-            vpiFullName: work@middle.cout
+            vpiName: cout
+            vpiFullName: middle.cout.cout
             vpiActual: Variable name:cout
           vpiTypespec RefTypespec start:36:2 end:36:12:
             vpiParent: Port name:cout
-            vpiFullName: work@middle.cout
+            vpiFullName: middle.cout
             vpiActual: LogicTypespec
       vpiProcess (3 items):
         Initial start:45:2 end:50:5:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiStmt Begin start:45:10 end:50:5:
             vpiParent: Initial
-            vpiFullName: work@middle
+            vpiFullName: middle
             vpiStmt (1 items):
               Begin start:46:5 end:49:8:
                 vpiParent: Begin
-                vpiFullName: work@middle
+                vpiFullName: middle
                 vpiStmt (2 items):
                   Assignment start:47:9 end:47:14:
                     vpiParent: Begin
@@ -1232,13 +1257,13 @@ Design name:unnamed:
                     vpiLhs RefObj name:A start:47:9 end:47:10:
                       vpiParent: Assignment
                       vpiName: A
-                      vpiFullName: work@middle.A
+                      vpiFullName: middle.A
                       vpiActual: Variable name:A
                     vpiRhs Constant start:47:13 end:47:14:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@middle
+                        vpiFullName: middle
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1250,20 +1275,20 @@ Design name:unnamed:
                     vpiLhs RefObj name:cout start:48:9 end:48:13:
                       vpiParent: Assignment
                       vpiName: cout
-                      vpiFullName: work@middle.cout
+                      vpiFullName: middle.cout
                       vpiActual: Variable name:cout
                     vpiRhs Constant start:48:16 end:48:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@middle
+                        vpiFullName: middle
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
         Always start:53:1 end:59:4:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiStmt EventControl start:53:8 end:59:4:
             vpiParent: Always
             vpiCondition Operation start:53:10 end:53:19:
@@ -1273,11 +1298,11 @@ Design name:unnamed:
                 RefObj name:x start:53:18 end:53:19:
                   vpiParent: Operation
                   vpiName: x
-                  vpiFullName: work@middle.x
+                  vpiFullName: middle.x
                   vpiActual: Net name:x
             vpiStmt Begin start:53:21 end:59:4:
               vpiParent: EventControl
-              vpiFullName: work@middle
+              vpiFullName: middle
               vpiStmt (4 items):
                 IfStmt start:54:5 end:55:16:
                   vpiParent: Begin
@@ -1291,13 +1316,13 @@ Design name:unnamed:
                     vpiLhs RefObj name:A start:55:9 end:55:10:
                       vpiParent: Assignment
                       vpiName: A
-                      vpiFullName: work@middle.A
+                      vpiFullName: middle.A
                       vpiActual: Variable name:A
                     vpiRhs Constant start:55:14 end:55:15:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@middle
+                        vpiFullName: middle
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1308,7 +1333,7 @@ Design name:unnamed:
                   vpiLhs RefObj name:A start:56:5 end:56:6:
                     vpiParent: Assignment
                     vpiName: A
-                    vpiFullName: work@middle.A
+                    vpiFullName: middle.A
                     vpiActual: Variable name:A
                   vpiRhs Operation start:56:11 end:56:24:
                     vpiParent: Assignment
@@ -1321,35 +1346,35 @@ Design name:unnamed:
                           RefObj name:y start:56:11 end:56:12:
                             vpiParent: Operation
                             vpiName: y
-                            vpiFullName: work@middle.y
+                            vpiFullName: middle.y
                             vpiActual: Net name:y
                           RefObj name:cin start:56:15 end:56:18:
                             vpiParent: Operation
                             vpiName: cin
-                            vpiFullName: work@middle.cin
+                            vpiFullName: middle.cin
                             vpiActual: Net name:cin
                       RefObj name:too start:56:21 end:56:24:
                         vpiParent: Operation
                         vpiName: too
-                        vpiFullName: work@middle.too
-                        vpiActual: Net name:too
+                        vpiFullName: middle.too
+                        vpiActual: Variable name:too
                 ImmediateAssume start:57:5 end:57:17:
                   vpiParent: Begin
                   vpiExpr RefObj name:too start:57:12 end:57:15:
                     vpiParent: ImmediateAssume
                     vpiName: too
-                    vpiFullName: work@middle.too
-                    vpiActual: Net name:too
+                    vpiFullName: middle.too
+                    vpiActual: Variable name:too
                 ImmediateAssume start:58:5 end:58:30:
                   vpiParent: Begin
                   vpiExpr RefObj name:too start:58:25 end:58:28:
                     vpiParent: ImmediateAssume
                     vpiName: too
-                    vpiFullName: work@middle.too
-                    vpiActual: Net name:too
+                    vpiFullName: middle.too
+                    vpiActual: Variable name:too
           vpiAlwaysType: always (1)
         Always start:60:1 end:66:4:
-          vpiParent: Module name:work@middle
+          vpiParent: Module name:middle
           vpiStmt EventControl start:60:8 end:66:4:
             vpiParent: Always
             vpiCondition Operation start:60:10 end:60:19:
@@ -1359,11 +1384,11 @@ Design name:unnamed:
                 RefObj name:x start:60:18 end:60:19:
                   vpiParent: Operation
                   vpiName: x
-                  vpiFullName: work@middle.x
+                  vpiFullName: middle.x
                   vpiActual: Net name:x
             vpiStmt Begin start:60:21 end:66:4:
               vpiParent: EventControl
-              vpiFullName: work@middle
+              vpiFullName: middle
               vpiStmt (4 items):
                 IfStmt start:61:5 end:62:19:
                   vpiParent: Begin
@@ -1377,13 +1402,13 @@ Design name:unnamed:
                     vpiLhs RefObj name:cout start:62:9 end:62:13:
                       vpiParent: Assignment
                       vpiName: cout
-                      vpiFullName: work@middle.cout
+                      vpiFullName: middle.cout
                       vpiActual: Variable name:cout
                     vpiRhs Constant start:62:17 end:62:18:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@middle
+                        vpiFullName: middle
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1394,7 +1419,7 @@ Design name:unnamed:
                   vpiLhs RefObj name:cout start:63:9 end:63:13:
                     vpiParent: Assignment
                     vpiName: cout
-                    vpiFullName: work@middle.cout
+                    vpiFullName: middle.cout
                     vpiActual: Variable name:cout
                   vpiRhs Operation start:63:18 end:63:29:
                     vpiParent: Assignment
@@ -1407,55 +1432,55 @@ Design name:unnamed:
                           RefObj name:y start:63:18 end:63:19:
                             vpiParent: Operation
                             vpiName: y
-                            vpiFullName: work@middle.y
+                            vpiFullName: middle.y
                             vpiActual: Net name:y
                           RefObj name:A start:63:22 end:63:23:
                             vpiParent: Operation
                             vpiName: A
-                            vpiFullName: work@middle.A
+                            vpiFullName: middle.A
                             vpiActual: Variable name:A
                       RefObj name:foo start:63:26 end:63:29:
                         vpiParent: Operation
                         vpiName: foo
-                        vpiFullName: work@middle.foo
-                        vpiActual: Net name:foo
+                        vpiFullName: middle.foo
+                        vpiActual: Variable name:foo
                 ImmediateAssert start:64:5 end:64:20:
                   vpiParent: Begin
                   vpiExpr RefObj name:ASSERT start:64:12 end:64:18:
                     vpiParent: ImmediateAssert
                     vpiName: ASSERT
-                    vpiFullName: work@middle.ASSERT
-                    vpiActual: Net name:ASSERT
+                    vpiFullName: middle.ASSERT
+                    vpiActual: Variable name:ASSERT
                 ImmediateAssert start:65:5 end:65:33:
                   vpiParent: Begin
                   vpiExpr RefObj name:ASSERT start:65:25 end:65:31:
                     vpiParent: ImmediateAssert
                     vpiName: ASSERT
-                    vpiFullName: work@middle.ASSERT
-                    vpiActual: Net name:ASSERT
+                    vpiFullName: middle.ASSERT
+                    vpiActual: Variable name:ASSERT
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@middle:
+    ModuleTypespec name:middle:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@middle start:29:8 end:29:14:
-        vpiParent: ModuleTypespec name:work@middle
-        vpiName: work@middle
-      vpiModule: Module name:work@middle
+      vpiName Identifier name:middle start:29:8 end:29:14:
+        vpiParent: ModuleTypespec name:middle
+        vpiName: middle
+      vpiModule: Module name:middle
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 3
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

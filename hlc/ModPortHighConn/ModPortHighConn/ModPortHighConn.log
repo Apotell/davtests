@@ -9,15 +9,15 @@ COMMAND: -wd ../../../tests/ModPortHighConn -fileunit -d inst -d db -sv dut.sv -
 [INF:CM0020] Separate compilation-unit mode is on.
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
-[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@moduleA".
-[INF:CP0303] $Source01/dut.sv:5:1: Compile module "work@top".
-[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "work@moduleA".
-[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "work@moduleA".
-[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "work@moduleA".
-[ERR:EL0535] $Source01/dut.sv:7:24: Illegal implicit net "id:43, name:port0".
-[ERR:EL0535] $Source01/dut.sv:7:41: Illegal implicit net "id:50, name:port1".
-[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@moduleA".
-[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "moduleA".
+[NTE:CP0309] $Source01/dut.sv:2:23: Implicit port type (wire) for "port0".
+[NTE:CP0309] $Source01/dut.sv:2:30: Implicit port type (wire) for "port1".
+[INF:CP0303] $Source01/dut.sv:5:1: Compile module "top".
+[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "moduleA".
+[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "moduleA".
+[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "moduleA".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "moduleA".
+[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -26,77 +26,80 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@moduleA file:$Source01/dut.sv start:2:1 end:3:10:
+    Module name:moduleA file:$Source01/dut.sv start:2:1 end:3:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@moduleA start:2:8 end:2:15:
-        vpiParent: Module name:work@moduleA
-        vpiName: work@moduleA
-      vpiFullName: work@moduleA
+      vpiName Identifier name:moduleA start:2:8 end:2:15:
+        vpiParent: Module name:moduleA
+        vpiName: moduleA
+      vpiFullName: moduleA
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@moduleA
-      vpiDefName: work@moduleA
-      vpiDefNetType: none (12)
+          vpiParent: Module name:moduleA
+      vpiDefName: moduleA
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@moduleA
+        vpiParent: Module name:moduleA
         vpiName: work
-        vpiFullName: work@moduleA.work
+        vpiFullName: moduleA.work
       vpiCell: moduleA
       vpiNet (2 items):
         Net name:port0 start:2:23 end:2:28:
-          vpiParent: Module name:work@moduleA
+          vpiParent: Module name:moduleA
           vpiTypespec RefTypespec start:2:17 end:2:22:
             vpiParent: Net name:port0
-            vpiFullName: work@moduleA.port0
+            vpiFullName: moduleA.port0
             vpiActual: LogicTypespec
           vpiName: port0
-          vpiFullName: work@moduleA.port0
+          vpiFullName: moduleA.port0
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:port1 start:2:30 end:2:35:
-          vpiParent: Module name:work@moduleA
-          vpiTypespec RefTypespec start:2:30 end:2:30:
+          vpiParent: Module name:moduleA
+          vpiTypespec RefTypespec:
             vpiParent: Net name:port1
-            vpiFullName: work@moduleA.port1
+            vpiFullName: moduleA.port1
             vpiActual: LogicTypespec
           vpiName: port1
-          vpiFullName: work@moduleA.port1
+          vpiFullName: moduleA.port1
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:port0 start:2:23 end:2:28:
-          vpiParent: Module name:work@moduleA
+          vpiParent: Module name:moduleA
           vpiName: port0
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:23 end:2:28:
+          vpiLowConn RefObj name:port0 start:2:23 end:2:28:
             vpiParent: Port name:port0
-            vpiFullName: work@moduleA.port0
+            vpiName: port0
+            vpiFullName: moduleA.port0.port0
             vpiActual: Net name:port0
           vpiTypespec RefTypespec start:2:17 end:2:22:
             vpiParent: Port name:port0
-            vpiFullName: work@moduleA.port0
+            vpiFullName: moduleA.port0
             vpiActual: LogicTypespec
         Port name:port1 start:2:30 end:2:35:
-          vpiParent: Module name:work@moduleA
+          vpiParent: Module name:moduleA
           vpiName: port1
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:30 end:2:35:
+          vpiLowConn RefObj name:port1 start:2:30 end:2:35:
             vpiParent: Port name:port1
-            vpiFullName: work@moduleA.port1
+            vpiName: port1
+            vpiFullName: moduleA.port1.port1
             vpiActual: Net name:port1
-          vpiTypespec RefTypespec start:2:30 end:2:30:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:port1
-            vpiFullName: work@moduleA.port1
+            vpiFullName: moduleA.port1
             vpiActual: LogicTypespec
-    Module name:work@top file:$Source01/dut.sv start:5:1 end:11:10:
+    Module name:top file:$Source01/dut.sv start:5:1 end:11:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:5:8 end:5:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:5:8 end:5:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (5 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:6:10 end:6:15:
               vpiParent: LogicTypespec
@@ -104,7 +107,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -114,89 +117,95 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        ModuleTypespec name:work@moduleA start:7:5 end:7:12:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@moduleA start:7:5 end:7:12:
-            vpiParent: ModuleTypespec name:work@moduleA
-            vpiName: work@moduleA
-        ModuleTypespec name:work@moduleA start:8:5 end:8:12:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@moduleA start:8:5 end:8:12:
-            vpiParent: ModuleTypespec name:work@moduleA
-            vpiName: work@moduleA
-        ModuleTypespec name:work@moduleA start:9:5 end:9:12:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@moduleA start:9:5 end:9:12:
-            vpiParent: ModuleTypespec name:work@moduleA
-            vpiName: work@moduleA
-        ModuleTypespec name:work@moduleA start:10:5 end:10:12:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@moduleA start:10:5 end:10:12:
-            vpiParent: ModuleTypespec name:work@moduleA
-            vpiName: work@moduleA
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        ModuleTypespec name:moduleA start:7:5 end:7:12:
+          vpiParent: Module name:top
+          vpiName Identifier name:moduleA start:7:5 end:7:12:
+            vpiParent: ModuleTypespec name:moduleA
+            vpiName: moduleA
+          vpiModule: Module name:moduleA
+        ModuleTypespec name:moduleA start:8:5 end:8:12:
+          vpiParent: Module name:top
+          vpiName Identifier name:moduleA start:8:5 end:8:12:
+            vpiParent: ModuleTypespec name:moduleA
+            vpiName: moduleA
+          vpiModule: Module name:moduleA
+        ModuleTypespec name:moduleA start:9:5 end:9:12:
+          vpiParent: Module name:top
+          vpiName Identifier name:moduleA start:9:5 end:9:12:
+            vpiParent: ModuleTypespec name:moduleA
+            vpiName: moduleA
+          vpiModule: Module name:moduleA
+        ModuleTypespec name:moduleA start:10:5 end:10:12:
+          vpiParent: Module name:top
+          vpiName Identifier name:moduleA start:10:5 end:10:12:
+            vpiParent: ModuleTypespec name:moduleA
+            vpiName: moduleA
+          vpiModule: Module name:moduleA
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiNet (2 items):
         Net name:topA start:6:16 end:6:20:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:10 end:6:15:
             vpiParent: Net name:topA
-            vpiFullName: work@top.topA
+            vpiFullName: top.topA
             vpiActual: LogicTypespec
           vpiName: topA
-          vpiFullName: work@top.topA
+          vpiFullName: top.topA
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:topB start:6:22 end:6:26:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:10 end:6:15:
             vpiParent: Net name:topB
-            vpiFullName: work@top.topB
+            vpiFullName: top.topB
             vpiActual: LogicTypespec
           vpiName: topB
-          vpiFullName: work@top.topB
+          vpiFullName: top.topB
           vpiNetType: wire (1)
+          vpiVector: true
       vpiRefInstance (4 items):
         RefInstance name:instanceA start:7:13 end:7:22:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: instanceA
-          vpiTypespec RefTypespec name:work@moduleA start:7:5 end:7:12:
+          vpiTypespec RefTypespec name:moduleA start:7:5 end:7:12:
             vpiParent: RefInstance name:instanceA
-            vpiName: work@moduleA
-            vpiFullName: work@top.instanceA.work@moduleA
-            vpiActual: ModuleTypespec name:work@moduleA
+            vpiName: moduleA
+            vpiFullName: top.instanceA.moduleA
+            vpiActual: ModuleTypespec name:moduleA
           vpiPort (2 items):
             Port start:7:23 end:7:38:
               vpiParent: RefInstance name:instanceA
               vpiLowConn RefObj name:port0 start:7:24 end:7:29:
                 vpiParent: Port
                 vpiName: port0
-                vpiFullName: work@top.instanceA.port0
+                vpiFullName: top.instanceA.port0
               vpiHighConn BitSelect name:topA[0] start:7:30 end:7:37:
                 vpiParent: Port
                 vpiName: topA[0]
-                vpiFullName: work@top.instanceA.topA[0]
+                vpiFullName: top.instanceA.topA[0]
                 vpiPrefix RefObj name:topA start:7:30 end:7:34:
                   vpiParent: BitSelect name:topA[0]
                   vpiName: topA
-                  vpiFullName: work@top.instanceA.topA
+                  vpiFullName: top.instanceA.topA
                   vpiActual: Net name:topA
                 vpiIndex Constant start:7:35 end:7:36:
                   vpiParent: BitSelect name:topA[0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.instanceA.topA[0]
+                    vpiFullName: top.instanceA.topA[0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -207,54 +216,54 @@ Design name:unnamed:
               vpiLowConn RefObj name:port1 start:7:41 end:7:46:
                 vpiParent: Port
                 vpiName: port1
-                vpiFullName: work@top.instanceA.port1
+                vpiFullName: top.instanceA.port1
               vpiHighConn BitSelect name:topB[0] start:7:47 end:7:54:
                 vpiParent: Port
                 vpiName: topB[0]
-                vpiFullName: work@top.instanceA.topB[0]
+                vpiFullName: top.instanceA.topB[0]
                 vpiPrefix RefObj name:topB start:7:47 end:7:51:
                   vpiParent: BitSelect name:topB[0]
                   vpiName: topB
-                  vpiFullName: work@top.instanceA.topB
+                  vpiFullName: top.instanceA.topB
                   vpiActual: Net name:topB
                 vpiIndex Constant start:7:52 end:7:53:
                   vpiParent: BitSelect name:topB[0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.instanceA.topB[0]
+                    vpiFullName: top.instanceA.topB[0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
         RefInstance name:instanceB start:8:13 end:8:22:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: instanceB
-          vpiTypespec RefTypespec name:work@moduleA start:8:5 end:8:12:
+          vpiTypespec RefTypespec name:moduleA start:8:5 end:8:12:
             vpiParent: RefInstance name:instanceB
-            vpiName: work@moduleA
-            vpiFullName: work@top.instanceB.work@moduleA
-            vpiActual: ModuleTypespec name:work@moduleA
+            vpiName: moduleA
+            vpiFullName: top.instanceB.moduleA
+            vpiActual: ModuleTypespec name:moduleA
           vpiPort (2 items):
             Port start:8:23 end:8:30:
               vpiParent: RefInstance name:instanceB
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.instanceB
+                vpiFullName: top.instanceB
               vpiHighConn BitSelect name:topA[1] start:8:23 end:8:30:
                 vpiParent: Port
                 vpiName: topA[1]
-                vpiFullName: work@top.instanceB.topA[1]
+                vpiFullName: top.instanceB.topA[1]
                 vpiPrefix RefObj name:topA start:8:23 end:8:27:
                   vpiParent: BitSelect name:topA[1]
                   vpiName: topA
-                  vpiFullName: work@top.instanceB.topA
+                  vpiFullName: top.instanceB.topA
                   vpiActual: Net name:topA
                 vpiIndex Constant start:8:28 end:8:29:
                   vpiParent: BitSelect name:topA[1]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.instanceB.topA[1]
+                    vpiFullName: top.instanceB.topA[1]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -264,54 +273,54 @@ Design name:unnamed:
               vpiParent: RefInstance name:instanceB
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.instanceB
+                vpiFullName: top.instanceB
               vpiHighConn BitSelect name:topB[0] start:8:32 end:8:39:
                 vpiParent: Port
                 vpiName: topB[0]
-                vpiFullName: work@top.instanceB.topB[0]
+                vpiFullName: top.instanceB.topB[0]
                 vpiPrefix RefObj name:topB start:8:32 end:8:36:
                   vpiParent: BitSelect name:topB[0]
                   vpiName: topB
-                  vpiFullName: work@top.instanceB.topB
+                  vpiFullName: top.instanceB.topB
                   vpiActual: Net name:topB
                 vpiIndex Constant start:8:37 end:8:38:
                   vpiParent: BitSelect name:topB[0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.instanceB.topB[0]
+                    vpiFullName: top.instanceB.topB[0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
         RefInstance name:instanceC start:9:13 end:9:22:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: instanceC
-          vpiTypespec RefTypespec name:work@moduleA start:9:5 end:9:12:
+          vpiTypespec RefTypespec name:moduleA start:9:5 end:9:12:
             vpiParent: RefInstance name:instanceC
-            vpiName: work@moduleA
-            vpiFullName: work@top.instanceC.work@moduleA
-            vpiActual: ModuleTypespec name:work@moduleA
+            vpiName: moduleA
+            vpiFullName: top.instanceC.moduleA
+            vpiActual: ModuleTypespec name:moduleA
           vpiPort (2 items):
             Port start:9:23 end:9:30:
               vpiParent: RefInstance name:instanceC
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.instanceC
+                vpiFullName: top.instanceC
               vpiHighConn BitSelect name:topA[1] start:9:23 end:9:30:
                 vpiParent: Port
                 vpiName: topA[1]
-                vpiFullName: work@top.instanceC.topA[1]
+                vpiFullName: top.instanceC.topA[1]
                 vpiPrefix RefObj name:topA start:9:23 end:9:27:
                   vpiParent: BitSelect name:topA[1]
                   vpiName: topA
-                  vpiFullName: work@top.instanceC.topA
+                  vpiFullName: top.instanceC.topA
                   vpiActual: Net name:topA
                 vpiIndex Constant start:9:28 end:9:29:
                   vpiParent: BitSelect name:topA[1]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.instanceC.topA[1]
+                    vpiFullName: top.instanceC.topA[1]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -321,7 +330,7 @@ Design name:unnamed:
               vpiParent: RefInstance name:instanceC
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.instanceC
+                vpiFullName: top.instanceC
               vpiHighConn Operation start:9:32 end:9:48:
                 vpiParent: Port
                 vpiOpType: logical or (27)
@@ -329,17 +338,17 @@ Design name:unnamed:
                   BitSelect name:topB[0] start:9:32 end:9:39:
                     vpiParent: Operation
                     vpiName: topB[0]
-                    vpiFullName: work@top.instanceC.topB[0]
+                    vpiFullName: top.instanceC.topB[0]
                     vpiPrefix RefObj name:topB start:9:32 end:9:36:
                       vpiParent: BitSelect name:topB[0]
                       vpiName: topB
-                      vpiFullName: work@top.instanceC.topB
+                      vpiFullName: top.instanceC.topB
                       vpiActual: Net name:topB
                     vpiIndex Constant start:9:37 end:9:38:
                       vpiParent: BitSelect name:topB[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.instanceC.topB[0]
+                        vpiFullName: top.instanceC.topB[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -348,36 +357,36 @@ Design name:unnamed:
                   BitSelect name:topB[1] start:9:41 end:9:48:
                     vpiParent: Operation
                     vpiName: topB[1]
-                    vpiFullName: work@top.instanceC.topB[1]
+                    vpiFullName: top.instanceC.topB[1]
                     vpiPrefix RefObj name:topB start:9:41 end:9:45:
                       vpiParent: BitSelect name:topB[1]
                       vpiName: topB
-                      vpiFullName: work@top.instanceC.topB
+                      vpiFullName: top.instanceC.topB
                       vpiActual: Net name:topB
                     vpiIndex Constant start:9:46 end:9:47:
                       vpiParent: BitSelect name:topB[1]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.instanceC.topB[1]
+                        vpiFullName: top.instanceC.topB[1]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
         RefInstance name:instanceD start:10:13 end:10:22:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: instanceD
-          vpiTypespec RefTypespec name:work@moduleA start:10:5 end:10:12:
+          vpiTypespec RefTypespec name:moduleA start:10:5 end:10:12:
             vpiParent: RefInstance name:instanceD
-            vpiName: work@moduleA
-            vpiFullName: work@top.instanceD.work@moduleA
-            vpiActual: ModuleTypespec name:work@moduleA
+            vpiName: moduleA
+            vpiFullName: top.instanceD.moduleA
+            vpiActual: ModuleTypespec name:moduleA
           vpiPort (2 items):
             Port start:10:23 end:10:39:
               vpiParent: RefInstance name:instanceD
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.instanceD
+                vpiFullName: top.instanceD
               vpiHighConn Operation start:10:23 end:10:39:
                 vpiParent: Port
                 vpiOpType: logical or (27)
@@ -385,17 +394,17 @@ Design name:unnamed:
                   BitSelect name:topA[1] start:10:23 end:10:30:
                     vpiParent: Operation
                     vpiName: topA[1]
-                    vpiFullName: work@top.instanceD.topA[1]
+                    vpiFullName: top.instanceD.topA[1]
                     vpiPrefix RefObj name:topA start:10:23 end:10:27:
                       vpiParent: BitSelect name:topA[1]
                       vpiName: topA
-                      vpiFullName: work@top.instanceD.topA
+                      vpiFullName: top.instanceD.topA
                       vpiActual: Net name:topA
                     vpiIndex Constant start:10:28 end:10:29:
                       vpiParent: BitSelect name:topA[1]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.instanceD.topA[1]
+                        vpiFullName: top.instanceD.topA[1]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -404,17 +413,17 @@ Design name:unnamed:
                   BitSelect name:topA[0] start:10:32 end:10:39:
                     vpiParent: Operation
                     vpiName: topA[0]
-                    vpiFullName: work@top.instanceD.topA[0]
+                    vpiFullName: top.instanceD.topA[0]
                     vpiPrefix RefObj name:topA start:10:32 end:10:36:
                       vpiParent: BitSelect name:topA[0]
                       vpiName: topA
-                      vpiFullName: work@top.instanceD.topA
+                      vpiFullName: top.instanceD.topA
                       vpiActual: Net name:topA
                     vpiIndex Constant start:10:37 end:10:38:
                       vpiParent: BitSelect name:topA[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.instanceD.topA[0]
+                        vpiFullName: top.instanceD.topA[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -424,48 +433,48 @@ Design name:unnamed:
               vpiParent: RefInstance name:instanceD
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.instanceD
+                vpiFullName: top.instanceD
               vpiHighConn BitSelect name:topB[0] start:10:41 end:10:48:
                 vpiParent: Port
                 vpiName: topB[0]
-                vpiFullName: work@top.instanceD.topB[0]
+                vpiFullName: top.instanceD.topB[0]
                 vpiPrefix RefObj name:topB start:10:41 end:10:45:
                   vpiParent: BitSelect name:topB[0]
                   vpiName: topB
-                  vpiFullName: work@top.instanceD.topB
+                  vpiFullName: top.instanceD.topB
                   vpiActual: Net name:topB
                 vpiIndex Constant start:10:46 end:10:47:
                   vpiParent: BitSelect name:topB[0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.instanceD.topB[0]
+                    vpiFullName: top.instanceD.topB[0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
   vpiTypespec (3 items):
-    ModuleTypespec name:work@moduleA:
+    ModuleTypespec name:moduleA:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@moduleA start:2:8 end:2:15:
-        vpiParent: ModuleTypespec name:work@moduleA
-        vpiName: work@moduleA
-      vpiModule: Module name:work@moduleA
-    ModuleTypespec name:work@top:
+      vpiName Identifier name:moduleA start:2:8 end:2:15:
+        vpiParent: ModuleTypespec name:moduleA
+        vpiName: moduleA
+      vpiModule: Module name:moduleA
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:5:8 end:5:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:5:8 end:5:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 5
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

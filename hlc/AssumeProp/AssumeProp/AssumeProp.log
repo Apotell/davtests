@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1> el<12:1>
     n<> u<82> t<Description> p<83> c<81> l<1:1> el<10:10>
       n<> u<81> t<Module_declaration> p<82> c<6> l<1:1> el<10:10>
         n<> u<6> t<Module_nonansi_header> p<81> c<2> s<79> l<1:1> el<1:14>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
           n<dut> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:11> el<1:11>
           n<> u<5> t<Port_list> p<6> l<1:11> el<1:13>
@@ -97,15 +97,10 @@ n<$Source01/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1> el<12:1>
                                               n<NoMstPorts> u<59> t<SIMPLE_IDENTIFIER> p<60> l<7:52> el<7:62>
         n<> u<80> t<ENDMODULE> p<81> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
-[ERR:EL0535] $Source01/dut.sv:4:43: Illegal implicit net "id:8, name:clk_i".
-[ERR:EL0535] $Source01/dut.sv:4:51: Illegal implicit net "id:11, name:slv_req_i".
-[ERR:EL0535] $Source01/dut.sv:4:61: Illegal implicit net "id:12, name:aw_valid".
-[ERR:EL0535] $Source01/dut.sv:5:51: Illegal implicit net "id:13, name:slv_aw_select_i".
-[ERR:EL0535] $Source01/dut.sv:5:69: Illegal implicit net "id:14, name:NoMstPorts".
-[ERR:EL0535] $Source01/dut.sv:7:35: Illegal implicit net "id:24, name:slv_aw_select_i".
-[ERR:EL0535] $Source01/dut.sv:7:52: Illegal implicit net "id:25, name:NoMstPorts".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
+[WRN:CP0350] $Source01/dut.sv:4:51: Failed to bind "id:11, name:slv_req_i".
+[WRN:CP0350] $Source01/dut.sv:4:61: Failed to bind "id:12, name:aw_valid".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -114,17 +109,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:$Source01/dut.sv start:1:1 end:10:10:
+    Module name:dut file:$Source01/dut.sv start:1:1 end:10:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
       vpiConcurrentAssertions (1 items):
         Assume start:4:16 end:7:64:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLabel Identifier name:aw_select start:4:5 end:4:14:
             vpiParent: Assume
             vpiName: aw_select
@@ -137,7 +131,7 @@ Design name:unnamed:
                 RefObj name:clk_i start:4:43 end:4:48:
                   vpiParent: Operation
                   vpiName: clk_i
-                  vpiFullName: work@dut.clk_i
+                  vpiFullName: dut.clk_i
             vpiPropertyExpr Operation start:4:51 end:5:80:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -145,16 +139,16 @@ Design name:unnamed:
                 HierPath name:slv_req_i.aw_valid start:4:51 end:4:69:
                   vpiParent: Operation
                   vpiName: slv_req_i.aw_valid
-                  vpiFullName: work@dut.slv_req_i.aw_valid
+                  vpiFullName: dut.slv_req_i.aw_valid
                   vpiPathElem (2 items):
                     RefObj name:slv_req_i start:4:51 end:4:60:
                       vpiParent: HierPath name:slv_req_i.aw_valid
                       vpiName: slv_req_i
-                      vpiFullName: work@dut.slv_req_i
+                      vpiFullName: dut.slv_req_i
                     RefObj name:aw_valid start:4:61 end:4:69:
                       vpiParent: HierPath name:slv_req_i.aw_valid
                       vpiName: aw_valid
-                      vpiFullName: work@dut.aw_valid
+                      vpiFullName: dut.aw_valid
                 Operation start:5:51 end:5:79:
                   vpiParent: Operation
                   vpiOpType: less than (20)
@@ -162,11 +156,11 @@ Design name:unnamed:
                     RefObj name:slv_aw_select_i start:5:51 end:5:66:
                       vpiParent: Operation
                       vpiName: slv_aw_select_i
-                      vpiFullName: work@dut.slv_aw_select_i
+                      vpiFullName: dut.slv_aw_select_i
                     RefObj name:NoMstPorts start:5:69 end:5:79:
                       vpiParent: Operation
                       vpiName: NoMstPorts
-                      vpiFullName: work@dut.NoMstPorts
+                      vpiFullName: dut.NoMstPorts
           vpiElseStmt SysTaskCall name:$fatal start:6:7 end:7:63:
             vpiParent: Assume
             vpiName Identifier name:$fatal start:6:7 end:6:13:
@@ -177,7 +171,7 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$fatal
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -187,35 +181,34 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$fatal
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 784
-                vpiDecompile: "\"slv_aw_select_i is %d: AW has selected a slave that is not defined.\\
-                 NoMstPorts: %d\""
+                vpiDecompile: "\"slv_aw_select_i is %d: AW has selected a slave that is not defined.\\\n                 NoMstPorts: %d\""
                 vpiValue: "slv_aw_select_i is %d: AW has selected a slave that is not defined.                 NoMstPorts: %d"
               RefObj name:slv_aw_select_i start:7:35 end:7:50:
                 vpiParent: SysTaskCall name:$fatal
                 vpiName: slv_aw_select_i
-                vpiFullName: work@dut.slv_aw_select_i
+                vpiFullName: dut.slv_aw_select_i
               RefObj name:NoMstPorts start:7:52 end:7:62:
                 vpiParent: SysTaskCall name:$fatal
                 vpiName: NoMstPorts
-                vpiFullName: work@dut.NoMstPorts
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
+                vpiFullName: dut.NoMstPorts
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
+        vpiParent: Module name:dut
         vpiName: work
-        vpiFullName: work@dut.work
+        vpiFullName: dut.work
       vpiCell: dut
   vpiTypespec (3 items):
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -224,8 +217,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

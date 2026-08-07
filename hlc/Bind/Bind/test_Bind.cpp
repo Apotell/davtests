@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Validates IEEE 1800-2017 §23.11 bind_directive HLDB model for all
+// Validates IEEE 1800-2017 Sec 23.11 bind_directive HLDB model for all
 // permutations defined in dut.sv (T1-T16 top-level, M1-M5 module-level,
 // G1-G3 generate-level).
 
@@ -60,7 +60,7 @@ class BindTest : public Test {
 
   // Collect BindDirectives from generate-if blocks inside a module.
   // At parse time (pre-elaboration) they live in:
-  //   module->getGenStmts() → GenIf → getStmt<Begin>() → getStmts() → BindDirective
+  //   module->getGenStmts() -> GenIf -> getStmt<Begin>() -> getStmts() -> BindDirective
   static std::vector<const hldb::BindDirective *> genScopeBinds(const hldb::Module *mod) {
     std::vector<const hldb::BindDirective *> result;
     if (mod == nullptr) return result;
@@ -83,7 +83,7 @@ class BindTest : public Test {
   }
 };
 
-// ─── Counts ──────────────────────────────────────────────────────────────────
+// --- Counts ---
 
 TEST_F(BindTest, DesignLevelCount) {
   const auto *bds = m_design->getBindDirectives();
@@ -92,7 +92,7 @@ TEST_F(BindTest, DesignLevelCount) {
 }
 
 TEST_F(BindTest, ModuleLevelCount) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module top_module_binds not found";
   const auto *bds = mod->getBindDirectives();
   ASSERT_NE(bds, nullptr);
@@ -100,13 +100,13 @@ TEST_F(BindTest, ModuleLevelCount) {
 }
 
 TEST_F(BindTest, GenerateLevelCount) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_generate_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module top_generate_binds not found";
   const auto bds = genScopeBinds(mod);
   EXPECT_EQ(bds.size(), 3u) << "Expected G1-G3 across generate blocks";
 }
 
-// ─── T1–T6: Form 1, scope-only (no instance list) ────────────────────────────
+// --- T1-T6: Form 1, scope-only (no instance list) ---
 
 TEST_F(BindTest, T1_ScopeOnly_NamedPorts) {
   const auto *bd = findBD(m_design->getBindDirectives(), "bd_t1");
@@ -159,7 +159,7 @@ TEST_F(BindTest, T5_ScopeOnly_ParamOverride) {
   EXPECT_EQ(bd->getBindSourceInstance()->getName(), "bd_t5");
 }
 
-// T6: checker_instantiation — grammar parses as module_instantiation at parse
+// T6: checker_instantiation -- grammar parses as module_instantiation at parse
 // time; elaboration must reclassify to CheckerInst.
 TEST_F(BindTest, T6_ScopeOnly_CheckerBind) {
   const auto *bd = findBD(m_design->getBindDirectives(), "bd_t6");
@@ -172,7 +172,7 @@ TEST_F(BindTest, T6_ScopeOnly_CheckerBind) {
   EXPECT_EQ(bd->getBindSourceInstance()->getName(), "bd_t6");
 }
 
-// ─── T7–T12: Form 1, explicit instance lists ──────────────────────────────────
+// --- T7-T12: Form 1, explicit instance lists ---
 
 TEST_F(BindTest, T7_OneInstance) {
   const auto *bd = findBD(m_design->getBindDirectives(), "bd_t7");
@@ -247,7 +247,7 @@ TEST_F(BindTest, T10_TwoBitSelects) {
 }
 
 TEST_F(BindTest, T11_2DBitSelect) {
-  // u_arr[1][0]  →  BitSelect{0, prefix=BitSelect{1, prefix=RefObj"u_arr"}}
+  // u_arr[1][0]  ->  BitSelect{0, prefix=BitSelect{1, prefix=RefObj"u_arr"}}
   const auto *bd = findBD(m_design->getBindDirectives(), "bd_t11");
   ASSERT_NE(bd, nullptr);
   const auto *insts = bd->getBindTargetInstances();
@@ -293,7 +293,7 @@ TEST_F(BindTest, T12_MixedList) {
   EXPECT_EQ(pfx1->getName(), "u_arr");
 }
 
-// ─── T13–T14: checker_instantiation with instance lists ──────────────────────
+// --- T13-T14: checker_instantiation with instance lists ---
 
 TEST_F(BindTest, T13_CheckerWithOneInstance) {
   const auto *bd = findBD(m_design->getBindDirectives(), "bd_t13");
@@ -323,7 +323,7 @@ TEST_F(BindTest, T14_CheckerWithBitSelects) {
   EXPECT_EQ(bd->getBindSourceInstance()->getName(), "bd_t14");
 }
 
-// ─── T15: Form 1/2 ambiguous — single identifier, no COLON ──────────────────
+// --- T15: Form 1/2 ambiguous -- single identifier, no COLON ---
 
 TEST_F(BindTest, T15_Ambiguous_SingleIdentifier) {
   // At parse time: scope="u0", no instances. Elaboration resolves Form 1 vs 2.
@@ -337,11 +337,11 @@ TEST_F(BindTest, T15_Ambiguous_SingleIdentifier) {
   EXPECT_EQ(bd->getBindSourceInstance()->getName(), "bd_t15");
 }
 
-// ─── T16: Form 2 — hierarchical path bind target ─────────────────────────────
+// --- T16: Form 2 -- hierarchical path bind target ---
 
 TEST_F(BindTest, T16_HierarchicalForm2) {
   // bind top_instances.u0 AsrtMod bd_t16(...)
-  // Grammar: bind_target_instance → hierarchical_identifier constant_bit_select
+  // Grammar: bind_target_instance -> hierarchical_identifier constant_bit_select
   // elaboration resolves the full path top_instances.u0 to a specific instance.
   const auto *bd = findBD(m_design->getBindDirectives(), "bd_t16");
   ASSERT_NE(bd, nullptr);
@@ -356,10 +356,10 @@ TEST_F(BindTest, T16_HierarchicalForm2) {
   EXPECT_EQ(bd->getBindSourceInstance()->getName(), "bd_t16");
 }
 
-// ─── M1–M5: module-level bind directives ─────────────────────────────────────
+// --- M1-M5: module-level bind directives ---
 
 TEST_F(BindTest, M1_FormOneAllInstances) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m1");
   ASSERT_NE(bd, nullptr);
@@ -372,7 +372,7 @@ TEST_F(BindTest, M1_FormOneAllInstances) {
 }
 
 TEST_F(BindTest, M2_TwoNamedInstances) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m2");
   ASSERT_NE(bd, nullptr);
@@ -391,7 +391,7 @@ TEST_F(BindTest, M2_TwoNamedInstances) {
 }
 
 TEST_F(BindTest, M3_BitSelectInstance) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m3");
   ASSERT_NE(bd, nullptr);
@@ -408,7 +408,7 @@ TEST_F(BindTest, M3_BitSelectInstance) {
 }
 
 TEST_F(BindTest, M4_CheckerBind) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m4");
   ASSERT_NE(bd, nullptr);
@@ -421,7 +421,7 @@ TEST_F(BindTest, M4_CheckerBind) {
 }
 
 TEST_F(BindTest, M5_ParamOverride) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m5");
   ASSERT_NE(bd, nullptr);
@@ -433,10 +433,10 @@ TEST_F(BindTest, M5_ParamOverride) {
   EXPECT_EQ(bd->getBindSourceInstance()->getName(), "bd_m5");
 }
 
-// ─── G1–G3: bind directives inside generate blocks ───────────────────────────
+// --- G1-G3: bind directives inside generate blocks ---
 
 TEST_F(BindTest, G1_FormOneInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_generate_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {
@@ -451,7 +451,7 @@ TEST_F(BindTest, G1_FormOneInGenerateIf) {
 }
 
 TEST_F(BindTest, G2_InstanceListInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_generate_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {
@@ -474,7 +474,7 @@ TEST_F(BindTest, G2_InstanceListInGenerateIf) {
 }
 
 TEST_F(BindTest, G3_CheckerInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_generate_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {

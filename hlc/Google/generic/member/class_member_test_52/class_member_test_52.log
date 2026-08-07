@@ -111,13 +111,7 @@ n<$Source01/class_member_test_52.sv> u<98> t<Top_level_rule> c<1> l<6:1> el<13:9
                     n<> u<86> t<ENDFUNCTION> p<87> l<12:1> el<12:12>
             n<> u<92> t<ENDCLASS> p<93> l<13:1> el<13:9>
 AST_DEBUG_END
-[ERR:EL0535] $Source01/class_member_test_52.sv:8:17: Illegal implicit net "id:19, name:foo".
-[ERR:EL0535] $Source01/class_member_test_52.sv:9:5: Illegal implicit net "id:21, name:y".
-[ERR:EL0535] $Source01/class_member_test_52.sv:9:10: Illegal implicit net "id:22, name:y".
-[ERR:EL0535] $Source01/class_member_test_52.sv:9:18: Illegal implicit net "id:27, name:foo".
-[ERR:EL0535] $Source01/class_member_test_52.sv:10:5: Illegal implicit net "id:30, name:z".
-[ERR:EL0535] $Source01/class_member_test_52.sv:10:10: Illegal implicit net "id:31, name:z".
-[ERR:EL0535] $Source01/class_member_test_52.sv:10:19: Illegal implicit net "id:36, name:bar".
+[WRN:CP0350] $Source01/class_member_test_52.sv:8:17: Failed to bind "id:20, name:foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -127,73 +121,76 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: class_member_test_52.sv
       vpiPreprocFile: "$Output/lib/work/class_member_test_52.sv"
-      vpiDefNetType: none (12)
   vpiAllClasses (1 items):
-    ClassDefn name:work@myclass file:$Source01/class_member_test_52.sv start:6:1 end:13:9:
+    ClassDefn name:myclass file:$Source01/class_member_test_52.sv start:6:1 end:13:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@myclass start:6:7 end:6:14:
-        vpiParent: ClassDefn name:work@myclass
-        vpiName: work@myclass
-      vpiFullName: work@myclass
+      vpiName Identifier name:myclass start:6:7 end:6:14:
+        vpiParent: ClassDefn name:myclass
+        vpiName: myclass
+      vpiFullName: myclass
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
-        vpiParent: ClassDefn name:work@myclass
+        vpiParent: ClassDefn name:myclass
         vpiName: work
-        vpiFullName: work@myclass::work
+        vpiFullName: myclass::work
       vpiCell: myclass
       vpiMethod (1 items):
         Function name:apply_all start:7:1 end:12:12:
-          vpiParent: ClassDefn name:work@myclass
+          vpiParent: ClassDefn name:myclass
           vpiName Identifier name:apply_all start:7:22 end:7:31:
             vpiParent: Function name:apply_all
             vpiName: apply_all
-          vpiFullName: work@myclass::apply_all
-          vpiTypespec (1 items):
+          vpiFullName: myclass::apply_all
+          vpiTypespec (2 items):
+            UnsupportedTypespec name:apkg start:7:10 end:7:14:
+              vpiParent: Function name:apply_all
+              vpiName Identifier name:apkg start:7:10 end:7:14:
+                vpiParent: UnsupportedTypespec name:apkg
+                vpiName: apkg
             UnsupportedTypespec name:apkg::num_t start:7:10 end:7:21:
               vpiParent: Function name:apply_all
               vpiPathElem (2 items):
-                UnsupportedScope name:apkg start:7:10 end:7:16:
+                RefTypespec start:7:10 end:7:16:
                   vpiParent: UnsupportedTypespec name:apkg::num_t
-                  vpiName Identifier name:apkg start:7:10 end:7:14:
-                    vpiParent: UnsupportedScope name:apkg
-                    vpiName: apkg
-                  vpiFullName: work@myclass::apply_all::apkg::num_t::apkg
+                  vpiFullName: myclass::apply_all::apkg::num_t
+                  vpiActual: UnsupportedTypespec name:apkg
                 RefTypespec name:num_t start:7:16 end:7:21:
                   vpiParent: UnsupportedTypespec name:apkg::num_t
                   vpiName: num_t
-                  vpiFullName: work@myclass::apply_all::apkg::num_t::num_t
+                  vpiFullName: myclass::apply_all::apkg::num_t::num_t
               vpiName Identifier name:apkg::num_t start:7:10 end:7:21:
                 vpiParent: UnsupportedTypespec name:apkg::num_t
                 vpiName: apkg::num_t
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt ForeachStmt start:8:3 end:11:6:
             vpiParent: Function name:apply_all
-            vpiFullName: work@myclass::apply_all
+            vpiFullName: myclass::apply_all
             vpiVariable (1 items):
               Variable name:i start:8:21 end:8:22:
                 vpiParent: ForeachStmt
                 vpiName: i
-                vpiFullName: work@myclass::apply_all::i
-            vpiVariable HierPath name:this.foo start:8:12 end:8:16:
+                vpiFullName: myclass::apply_all::i
+            vpiVariable HierPath name:this::foo start:8:12 end:8:16:
               vpiParent: ForeachStmt
-              vpiName: this.foo
-              vpiFullName: work@myclass::apply_all::this.foo
+              vpiName: this::foo
+              vpiFullName: myclass::apply_all::this::foo
               vpiPathElem (2 items):
                 RefObj name:this start:8:12 end:8:16:
-                  vpiParent: HierPath name:this.foo
+                  vpiParent: HierPath name:this::foo
                   vpiName: this
-                  vpiFullName: work@myclass::apply_all::this
-                  vpiActual: ClassDefn name:work@myclass
+                  vpiFullName: myclass::apply_all::this
+                  vpiActual: ClassDefn name:myclass
                 RefObj name:foo start:8:17 end:8:20:
-                  vpiParent: HierPath name:this.foo
+                  vpiParent: HierPath name:this::foo
                   vpiName: foo
-                  vpiFullName: work@myclass::apply_all::foo
+                  vpiFullName: myclass::apply_all::foo
             vpiLoopVars (1 items):
               Variable name:i:
             vpiStmt Begin start:8:25 end:11:6:
               vpiParent: ForeachStmt
-              vpiFullName: work@myclass::apply_all
+              vpiFullName: myclass::apply_all
               vpiStmt (2 items):
                 Assignment start:9:5 end:9:25:
                   vpiParent: Begin
@@ -201,7 +198,7 @@ Design name:unnamed:
                   vpiLhs RefObj name:y start:9:5 end:9:6:
                     vpiParent: Assignment
                     vpiName: y
-                    vpiFullName: work@myclass::apply_all::y
+                    vpiFullName: myclass::apply_all::y
                   vpiRhs Operation start:9:9 end:9:25:
                     vpiParent: Assignment
                     vpiOpType: concatenation (33)
@@ -209,29 +206,29 @@ Design name:unnamed:
                       RefObj name:y start:9:10 end:9:11:
                         vpiParent: Operation
                         vpiName: y
-                        vpiFullName: work@myclass::apply_all::y
-                      HierPath name:this.foo[i] start:9:13 end:9:24:
+                        vpiFullName: myclass::apply_all::y
+                      HierPath name:this::foo[i] start:9:13 end:9:24:
                         vpiParent: Operation
-                        vpiName: this.foo[i]
-                        vpiFullName: work@myclass::apply_all::this.foo[i]
+                        vpiName: this::foo[i]
+                        vpiFullName: myclass::apply_all::this::foo[i]
                         vpiPathElem (2 items):
                           RefObj name:this start:9:13 end:9:17:
-                            vpiParent: HierPath name:this.foo[i]
+                            vpiParent: HierPath name:this::foo[i]
                             vpiName: this
-                            vpiFullName: work@myclass::apply_all::this
-                            vpiActual: ClassDefn name:work@myclass
-                          BitSelect name:foo[i] start:9:18 end:9:24:
-                            vpiParent: HierPath name:this.foo[i]
+                            vpiFullName: myclass::apply_all::this
+                            vpiActual: ClassDefn name:myclass
+                          BitSelect name:foo[i] start:9:18 end:9:23:
+                            vpiParent: HierPath name:this::foo[i]
                             vpiName: foo[i]
-                            vpiFullName: work@myclass::apply_all::this.foo[i]::foo[i]
+                            vpiFullName: myclass::apply_all::this::foo[i]::foo[i]
                             vpiPrefix RefObj name:foo start:9:18 end:9:21:
                               vpiParent: BitSelect name:foo[i]
                               vpiName: foo
-                              vpiFullName: work@myclass::apply_all::this.foo[i]::foo
+                              vpiFullName: myclass::apply_all::this::foo[i]::foo
                             vpiIndex RefObj name:i start:9:22 end:9:23:
                               vpiParent: BitSelect name:foo[i]
                               vpiName: i
-                              vpiFullName: work@myclass::apply_all::this.foo[i]::i
+                              vpiFullName: myclass::apply_all::this::foo[i]::i
                               vpiActual: Variable name:i
                 Assignment start:10:5 end:10:26:
                   vpiParent: Begin
@@ -239,7 +236,7 @@ Design name:unnamed:
                   vpiLhs RefObj name:z start:10:5 end:10:6:
                     vpiParent: Assignment
                     vpiName: z
-                    vpiFullName: work@myclass::apply_all::z
+                    vpiFullName: myclass::apply_all::z
                   vpiRhs Operation start:10:9 end:10:26:
                     vpiParent: Assignment
                     vpiOpType: concatenation (33)
@@ -247,45 +244,46 @@ Design name:unnamed:
                       RefObj name:z start:10:10 end:10:11:
                         vpiParent: Operation
                         vpiName: z
-                        vpiFullName: work@myclass::apply_all::z
+                        vpiFullName: myclass::apply_all::z
                       HierPath name:super.bar[i] start:10:13 end:10:25:
                         vpiParent: Operation
                         vpiName: super.bar[i]
-                        vpiFullName: work@myclass::apply_all::super.bar[i]
+                        vpiFullName: myclass::apply_all::super.bar[i]
                         vpiPathElem (2 items):
                           RefObj name:super start:10:13 end:10:18:
                             vpiParent: HierPath name:super.bar[i]
                             vpiName: super
-                            vpiFullName: work@myclass::apply_all::super
-                          BitSelect name:bar[i] start:10:19 end:10:25:
+                            vpiFullName: myclass::apply_all::super
+                          BitSelect name:bar[i] start:10:19 end:10:24:
                             vpiParent: HierPath name:super.bar[i]
                             vpiName: bar[i]
-                            vpiFullName: work@myclass::apply_all::super.bar[i]::bar[i]
+                            vpiFullName: myclass::apply_all::super.bar[i]::bar[i]
                             vpiPrefix RefObj name:bar start:10:19 end:10:22:
                               vpiParent: BitSelect name:bar[i]
                               vpiName: bar
-                              vpiFullName: work@myclass::apply_all::super.bar[i]::bar
+                              vpiFullName: myclass::apply_all::super.bar[i]::bar
                             vpiIndex RefObj name:i start:10:23 end:10:24:
                               vpiParent: BitSelect name:bar[i]
                               vpiName: i
-                              vpiFullName: work@myclass::apply_all::super.bar[i]::i
+                              vpiFullName: myclass::apply_all::super.bar[i]::i
                               vpiActual: Variable name:i
           vpiReturn RefTypespec start:7:10 end:7:21:
             vpiParent: Function name:apply_all
-            vpiFullName: work@myclass::apply_all
+            vpiFullName: myclass::apply_all
             vpiActual: UnsupportedTypespec name:apkg::num_t
   vpiTypespec (1 items):
-    ClassTypespec name:work@myclass:
+    ClassTypespec name:myclass:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@myclass:
-        vpiParent: ClassTypespec name:work@myclass
-        vpiName: work@myclass
-      vpiClassDefn: ClassDefn name:work@myclass
+      vpiName Identifier name:myclass:
+        vpiParent: ClassTypespec name:myclass
+        vpiName: myclass
+      vpiDefName: myclass
+      vpiClassDefn: ClassDefn name:myclass
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -329,7 +327,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_52/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================

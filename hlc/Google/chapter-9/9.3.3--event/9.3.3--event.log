@@ -26,7 +26,7 @@ n<$Source01/9.3.3--event.sv> u<129> t<Top_level_rule> c<1> l<15:1> el<30:1>
     n<> u<127> t<Description> p<128> c<126> l<15:1> el<29:10>
       n<> u<126> t<Module_declaration> p<127> c<14> l<15:1> el<29:10>
         n<> u<14> t<Module_nonansi_header> p<126> c<10> s<27> l<15:1> el<15:20>
-          n<module> u<10> t<Module_keyword> p<14> s<11> l<15:1> el<15:7>
+          n<module> u<10> t<MODULE> p<14> s<11> l<15:1> el<15:7>
           n<block_tb> u<11> t<SIMPLE_IDENTIFIER> p<14> s<12> l<15:8> el<15:16>
           n<> u<12> t<Package_import_declaration_list> p<14> s<13> l<15:17> el<15:17>
           n<> u<13> t<Port_list> p<14> l<15:17> el<15:19>
@@ -39,7 +39,7 @@ n<$Source01/9.3.3--event.sv> u<129> t<Top_level_rule> c<1> l<15:1> el<30:1>
                     n<> u<21> t<Data_declaration> p<22> c<20> l<16:2> el<16:11>
                       n<> u<20> t<Variable_declaration> p<21> c<16> l<16:2> el<16:11>
                         n<> u<16> t<Data_type> p<20> c<15> s<19> l<16:2> el<16:7>
-                          n<> u<15> t<Event_type> p<16> l<16:2> el<16:7>
+                          n<> u<15> t<EVENT> p<16> l<16:2> el<16:7>
                         n<> u<19> t<Variable_decl_assignment_list> p<20> c<18> l<16:8> el<16:10>
                           n<> u<18> t<Variable_decl_assignment> p<19> c<17> l<16:8> el<16:10>
                             n<ev> u<17> t<SIMPLE_IDENTIFIER> p<18> l<16:8> el<16:10>
@@ -139,10 +139,10 @@ n<$Source01/9.3.3--event.sv> u<129> t<Top_level_rule> c<1> l<15:1> el<30:1>
                                                         n<> u<98> t<Primary_literal> p<99> c<97> l<26:8> el<26:11>
                                                           n<'h4> u<97> t<INTEGRAL_NUMBER> p<98> l<26:8> el<26:11>
                                   n<> u<110> t<END> p<111> l<27:3> el<27:6>
-                          n<> u<115> t<Join_keyword> p<116> l<28:2> el<28:6>
+                          n<> u<115> t<JOIN> p<116> l<28:2> el<28:6>
         n<> u<125> t<ENDMODULE> p<126> l<29:1> el<29:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/9.3.3--event.sv:15:1: Compile module "work@block_tb".
+[INF:CP0303] $Source01/9.3.3--event.sv:15:1: Compile module "block_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -152,19 +152,46 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: "9.3.3--event.sv"
       vpiPreprocFile: "$Output/lib/work/9.3.3--event.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@block_tb file:$Source01/9.3.3--event.sv start:15:1 end:29:10:
+    Module name:block_tb file:$Source01/9.3.3--event.sv start:15:1 end:29:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@block_tb start:15:8 end:15:16:
-        vpiParent: Module name:work@block_tb
-        vpiName: work@block_tb
-      vpiFullName: work@block_tb
+      vpiName Identifier name:block_tb start:15:8 end:15:16:
+        vpiParent: Module name:block_tb
+        vpiName: block_tb
+      vpiFullName: block_tb
+      vpiVariable (2 items):
+        Variable name:ev start:16:8 end:16:10:
+          vpiParent: Module name:block_tb
+          vpiTypespec RefTypespec start:16:2 end:16:7:
+            vpiParent: Variable name:ev
+            vpiFullName: block_tb.ev
+            vpiActual: EventTypespec
+          vpiName: ev
+          vpiFullName: block_tb.ev
+        Variable name:a start:17:12 end:17:13:
+          vpiParent: Module name:block_tb
+          vpiTypespec RefTypespec start:17:2 end:17:11:
+            vpiParent: Variable name:a
+            vpiFullName: block_tb.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: block_tb.a
+          vpiVector: true
+          vpiValue Constant start:17:16 end:17:17:
+            vpiParent: Variable name:a
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: block_tb.a
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (2 items):
         EventTypespec start:16:2 end:16:7:
-          vpiParent: Module name:work@block_tb
+          vpiParent: Module name:block_tb
         LogicTypespec:
-          vpiParent: Module name:work@block_tb
+          vpiParent: Module name:block_tb
           vpiRange (1 items):
             Range start:17:6 end:17:11:
               vpiParent: LogicTypespec
@@ -172,7 +199,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@block_tb
+                  vpiFullName: block_tb
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -182,57 +209,30 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@block_tb
+                  vpiFullName: block_tb
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@block_tb
-      vpiDefNetType: none (12)
+      vpiDefName: block_tb
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@block_tb
+        vpiParent: Module name:block_tb
         vpiName: work
-        vpiFullName: work@block_tb.work
+        vpiFullName: block_tb.work
       vpiCell: block_tb
-      vpiNet (2 items):
-        Net name:ev start:16:8 end:16:10:
-          vpiParent: Module name:work@block_tb
-          vpiTypespec RefTypespec start:16:2 end:16:7:
-            vpiParent: Net name:ev
-            vpiFullName: work@block_tb.ev
-            vpiActual: EventTypespec
-          vpiName: ev
-          vpiFullName: work@block_tb.ev
-        Net name:a start:17:12 end:17:13:
-          vpiParent: Module name:work@block_tb
-          vpiTypespec RefTypespec start:17:2 end:17:11:
-            vpiParent: Net name:a
-            vpiFullName: work@block_tb.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: work@block_tb.a
-          vpiValue Constant start:17:16 end:17:17:
-            vpiParent: Net name:a
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@block_tb.a
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
       vpiProcess (1 items):
         Initial start:18:2 end:28:6:
-          vpiParent: Module name:work@block_tb
+          vpiParent: Module name:block_tb
           vpiStmt ForkStmt start:18:10 end:28:6:
             vpiParent: Initial
-            vpiFullName: work@block_tb
+            vpiFullName: block_tb
             vpiStmt (2 items):
               Begin start:19:3 end:23:6:
                 vpiParent: ForkStmt
-                vpiFullName: work@block_tb
+                vpiFullName: block_tb
                 vpiStmt (3 items):
                   Assignment start:20:4 end:20:11:
                     vpiParent: Begin
@@ -240,13 +240,13 @@ Design name:unnamed:
                     vpiLhs RefObj name:a start:20:4 end:20:5:
                       vpiParent: Assignment
                       vpiName: a
-                      vpiFullName: work@block_tb.a
-                      vpiActual: Net name:a
+                      vpiFullName: block_tb.a
+                      vpiActual: Variable name:a
                     vpiRhs Constant start:20:8 end:20:11:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@block_tb
+                        vpiFullName: block_tb
                         vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: -1
@@ -258,7 +258,7 @@ Design name:unnamed:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@block_tb
+                        vpiFullName: block_tb
                         vpiActual: IntTypespec
                       vpiConstType: int (7)
                       vpiSize: 32
@@ -271,44 +271,44 @@ Design name:unnamed:
                       RefObj name:ev start:22:6 end:22:8:
                         vpiParent: Operation
                         vpiName: ev
-                        vpiFullName: work@block_tb.ev
-                        vpiActual: Net name:ev
+                        vpiFullName: block_tb.ev
+                        vpiActual: Variable name:ev
               Begin start:24:3 end:27:6:
                 vpiParent: ForkStmt
-                vpiFullName: work@block_tb
+                vpiFullName: block_tb
                 vpiStmt (1 items):
                   EventControl start:25:4 end:26:12:
                     vpiParent: Begin
                     vpiCondition RefObj name:ev start:25:5 end:25:7:
                       vpiParent: EventControl
                       vpiName: ev
-                      vpiFullName: work@block_tb.ev
-                      vpiActual: Net name:ev
+                      vpiFullName: block_tb.ev
+                      vpiActual: Variable name:ev
                     vpiStmt Assignment start:26:4 end:26:11:
                       vpiParent: EventControl
                       vpiBlocking: true
                       vpiLhs RefObj name:a start:26:4 end:26:5:
                         vpiParent: Assignment
                         vpiName: a
-                        vpiFullName: work@block_tb.a
-                        vpiActual: Net name:a
+                        vpiFullName: block_tb.a
+                        vpiActual: Variable name:a
                       vpiRhs Constant start:26:8 end:26:11:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@block_tb
+                          vpiFullName: block_tb
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: -1
                         vpiDecompile: "'h4"
                         vpiValue: "4"
   vpiTypespec (3 items):
-    ModuleTypespec name:work@block_tb:
+    ModuleTypespec name:block_tb:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@block_tb start:15:8 end:15:16:
-        vpiParent: ModuleTypespec name:work@block_tb
-        vpiName: work@block_tb
-      vpiModule: Module name:work@block_tb
+      vpiName Identifier name:block_tb start:15:8 end:15:16:
+        vpiParent: ModuleTypespec name:block_tb
+        vpiName: block_tb
+      vpiModule: Module name:block_tb
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

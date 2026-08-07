@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,20 +27,23 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "b", "y"
-//   - net "b": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2), elem
-//     -> ByteTypespec (signed); initial value stored directly on the Net
-//     as an Operation (vpiOpType=concatenation(33)) with 4 unsigned
-//     Constant operands 1, 2, 3, 4
-//   - net "y": RefTypespec -> IntTypespec (plain scalar, not an array),
-//     with no initial value
+//   - design has module top with exactly 2 variables: "b", "y" (IEEE
+//     1800-2023 6.7/6.8: 'byte b[] = {...}' and 'int y' have no net-type
+//     keyword, so they are variable_declarations, not net_declarations);
+//     neither appears in getNets()
+//   - variable "b": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2),
+//     elem -> ByteTypespec (signed); initial value stored directly on the
+//     Variable as an Operation (vpiOpType=concatenation(33)) with 4
+//     unsigned Constant operands 1, 2, 3, 4
+//   - variable "y": RefTypespec -> IntTypespec (plain scalar, not an
+//     array), with no initial value
 //   - Initial process: 1 Begin with 3 stmts (SysFuncCall + Assignment +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 5 args (format + BitSelect b[0..3])
 //   - Stmt[1]: y = b.product (no parens) -- blocking Assignment, lhs
-//     RefObj "y" resolving Net "y", rhs HierPath "b.product()" with 2 path
-//     elems: RefObj "b" (resolving Net "b") and MethodFuncCall "product"
-//     with no arguments -- correctly resolves, zero errors
+//     RefObj "y" resolving Variable "y", rhs HierPath "b.product()" with 2
+//     path elems: RefObj "b" (resolving Variable "b") and MethodFuncCall
+//     "product" with no arguments -- correctly resolves, zero errors
 //   - Stmt[2]: $display with 2 args (format + RefObj "y")
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
@@ -71,12 +74,12 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -87,37 +90,44 @@ class UnpackedProductTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(UnpackedProductTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedProductTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedProductTest, ModuleHasTwoVariables) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u)
+      << "6.7/6.8: 'byte b[] = {...}' and 'int y' declared with no net-type keyword are variables";
 }
 
-TEST_F(UnpackedProductTest, NetBIsDynamicArrayOfSignedByte) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedProductTest, ModuleHasNoNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in product.sv";
+}
+
+TEST_F(UnpackedProductTest, VarBIsDynamicArrayOfSignedByte) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::ArrayTypespec *const at = b->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 2);  // dynamic = 2
+  EXPECT_EQ(at->getArrayType(), vpiDynamicArray);
   const hldb::ByteTypespec *const elem = at->getElemTypespec()->getActual<hldb::ByteTypespec>();
   ASSERT_NE(elem, nullptr);
   EXPECT_TRUE(elem->getSigned());
 }
 
-TEST_F(UnpackedProductTest, NetBInitialValueIsConcatenationOfOneTwoThreeFour) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedProductTest, VarBInitialValueIsConcatenationOfOneTwoThreeFour) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::Operation *const init = b->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
@@ -130,19 +140,19 @@ TEST_F(UnpackedProductTest, NetBInitialValueIsConcatenationOfOneTwoThreeFour) {
   }
 }
 
-TEST_F(UnpackedProductTest, NetYIsPlainSignedIntWithNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedProductTest, VarYIsPlainSignedIntWithNoInitialValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const y = hldb::findByName<hldb::Net>("y", top->getNets());
+  const hldb::Variable *const y = hldb::findByName<hldb::Variable>("y", top->getVariables());
   ASSERT_NE(y, nullptr);
   EXPECT_NE(y->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   EXPECT_EQ(y->getValue(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedProductTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -155,7 +165,7 @@ TEST_F(UnpackedProductTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(UnpackedProductTest, FirstStmtDisplaysOneTwoThreeFour) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -175,7 +185,7 @@ TEST_F(UnpackedProductTest, FirstStmtDisplaysOneTwoThreeFour) {
 }
 
 TEST_F(UnpackedProductTest, SecondStmtAssignsYFromBProductReduction) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -185,12 +195,12 @@ TEST_F(UnpackedProductTest, SecondStmtAssignsYFromBProductReduction) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "y");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "product");
@@ -198,7 +208,7 @@ TEST_F(UnpackedProductTest, SecondStmtAssignsYFromBProductReduction) {
 }
 
 TEST_F(UnpackedProductTest, ThirdStmtDisplaysYEqualsTwentyFour) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -212,10 +222,10 @@ TEST_F(UnpackedProductTest, ThirdStmtDisplaysYEqualsTwentyFour) {
   const hldb::RefObj *const yRef = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(yRef, nullptr);
   EXPECT_EQ(yRef->getName(), "y");
-  EXPECT_NE(yRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(yRef->getActual<hldb::Variable>(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedProductTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -226,7 +236,7 @@ TEST_F(UnpackedProductTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedProductTest, DesignHasSignedIntTypespec) {
@@ -251,19 +261,19 @@ TEST_F(UnpackedProductTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedProductTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime product-reduction result requires simulation -------
+// --- known gap: runtime product-reduction result requires simulation ----
 
 TEST_F(UnpackedProductTest, RuntimeProductResultRequiresSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates product.sv; it does not run a simulator, "
                   "so the actual runtime value of y after y = b.product cannot be observed here. "
                   "product.sv's own $display format string documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

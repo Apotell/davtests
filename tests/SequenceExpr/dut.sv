@@ -115,7 +115,7 @@ module sequence_expr_coverage;
     (data dist { 0 := 1, [1:3] :/ 3 });
   endsequence
 
-  // - consecutive_repetition  [* …] ----------------------------------------
+  // - consecutive_repetition  [* ...] ---------------------------------------
 
   // 3c. [* N]  exact count
   sequence alt3_consec_exact;
@@ -142,7 +142,7 @@ module sequence_expr_coverage;
     a[*1:$];
   endsequence
 
-  // - non_consecutive_repetition  [= …] -------------------------------------
+  // - non_consecutive_repetition  [= ...] ------------------------------------
 
   // 3h. [= N]  exact non-consecutive
   sequence alt3_nonconsec_exact;
@@ -159,7 +159,7 @@ module sequence_expr_coverage;
     a[=1:$];
   endsequence
 
-  // - goto_repetition  [-> …] ------------------------------------------------
+  // - goto_repetition  [-> ...] -----------------------------------------------
 
   // 3k. [-> N]  exact goto
   sequence alt3_goto_exact;

@@ -26,7 +26,7 @@ n<$Source01/hierspace.v> u<217> t<Top_level_rule> c<1> l<27:1> el<47:1>
     n<> u<181> t<Description> p<216> c<180> s<215> l<27:1> el<42:10>
       n<> u<180> t<Module_declaration> p<181> c<13> l<27:1> el<42:10>
         n<> u<13> t<Module_ansi_header> p<180> c<10> s<24> l<27:1> el<27:10>
-          n<module> u<10> t<Module_keyword> p<13> s<11> l<27:1> el<27:7>
+          n<module> u<10> t<MODULE> p<13> s<11> l<27:1> el<27:7>
           n<a> u<11> t<SIMPLE_IDENTIFIER> p<13> s<12> l<27:8> el<27:9>
           n<> u<12> t<Package_import_declaration_list> p<13> l<27:9> el<27:9>
         n<> u<24> t<Non_port_module_item> p<180> c<23> s<37> l<28:4> el<28:12>
@@ -198,7 +198,7 @@ n<$Source01/hierspace.v> u<217> t<Top_level_rule> c<1> l<27:1> el<47:1>
     n<> u<215> t<Description> p<216> c<214> l<43:1> el<46:10>
       n<> u<214> t<Module_declaration> p<215> c<192> l<43:1> el<46:10>
         n<> u<192> t<Module_nonansi_header> p<214> c<182> s<199> l<43:1> el<43:14>
-          n<module> u<182> t<Module_keyword> p<192> s<183> l<43:1> el<43:7>
+          n<module> u<182> t<MODULE> p<192> s<183> l<43:1> el<43:7>
           n<m> u<183> t<SIMPLE_IDENTIFIER> p<192> s<184> l<43:8> el<43:9>
           n<> u<184> t<Package_import_declaration_list> p<192> s<191> l<43:10> el<43:10>
           n<> u<191> t<Port_list> p<192> c<190> l<43:10> el<43:13>
@@ -230,12 +230,12 @@ n<$Source01/hierspace.v> u<217> t<Top_level_rule> c<1> l<27:1> el<47:1>
                             n<x> u<202> t<SIMPLE_IDENTIFIER> p<203> l<45:11> el<45:12>
         n<> u<213> t<ENDMODULE> p<214> l<46:1> el<46:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/hierspace.v:27:1: Compile module "work@a".
-[INF:CP0303] $Source01/hierspace.v:43:1: Compile module "work@m".
-[ERR:EL0535] $Source01/hierspace.v:32:10: Illegal implicit net "id:29, name:x".
-[ERR:EL0535] $Source01/hierspace.v:33:11: Illegal implicit net "id:40, name:x".
-[ERR:EL0535] $Source01/hierspace.v:34:11: Illegal implicit net "id:51, name:x".
-[ERR:EL0535] $Source01/hierspace.v:35:12: Illegal implicit net "id:62, name:x".
+[INF:CP0303] $Source01/hierspace.v:27:1: Compile module "a".
+[INF:CP0303] $Source01/hierspace.v:43:1: Compile module "m".
+[WRN:CP0350] $Source01/hierspace.v:32:10: Failed to bind "id:29, name:x".
+[WRN:CP0350] $Source01/hierspace.v:33:11: Failed to bind "id:40, name:x".
+[WRN:CP0350] $Source01/hierspace.v:34:11: Failed to bind "id:51, name:x".
+[WRN:CP0350] $Source01/hierspace.v:35:12: Failed to bind "id:62, name:x".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -245,45 +245,46 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: hierspace.v
       vpiPreprocFile: "$Output/lib/work/hierspace.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@a file:$Source01/hierspace.v start:27:1 end:42:10:
+    Module name:a file:$Source01/hierspace.v start:27:1 end:42:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@a start:27:8 end:27:9:
-        vpiParent: Module name:work@a
-        vpiName: work@a
-      vpiFullName: work@a
+      vpiName Identifier name:a start:27:8 end:27:9:
+        vpiParent: Module name:a
+        vpiName: a
+      vpiFullName: a
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@a
-        ModuleTypespec name:work@m start:29:4 end:29:5:
-          vpiParent: Module name:work@a
-          vpiName Identifier name:work@m start:29:4 end:29:5:
-            vpiParent: ModuleTypespec name:work@m
-            vpiName: work@m
-      vpiDefName: work@a
-      vpiDefNetType: none (12)
+          vpiParent: Module name:a
+        ModuleTypespec name:m start:29:4 end:29:5:
+          vpiParent: Module name:a
+          vpiName Identifier name:m start:29:4 end:29:5:
+            vpiParent: ModuleTypespec name:m
+            vpiName: m
+          vpiModule: Module name:m
+      vpiDefName: a
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@a
+        vpiParent: Module name:a
         vpiName: work
-        vpiFullName: work@a.work
+        vpiFullName: a.work
       vpiCell: a
       vpiNet (1 items):
         Net name:b start:28:9 end:28:10:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiTypespec RefTypespec start:28:9 end:28:9:
             vpiParent: Net name:b
-            vpiFullName: work@a.b
+            vpiFullName: a.b
             vpiActual: LogicTypespec
           vpiName: b
-          vpiFullName: work@a.b
+          vpiFullName: a.b
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiProcess (1 items):
         Initial start:30:4 end:41:9:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiStmt Begin start:31:6 end:41:9:
             vpiParent: Initial
-            vpiFullName: work@a
+            vpiFullName: a
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -295,22 +296,22 @@ Design name:unnamed:
                   vpiLhs HierPath name:inst.x start:32:5 end:32:11:
                     vpiParent: Assignment
                     vpiName: inst.x
-                    vpiFullName: work@a.inst.x
+                    vpiFullName: a.inst.x
                     vpiPathElem (2 items):
                       RefObj name:inst start:32:5 end:32:9:
                         vpiParent: HierPath name:inst.x
                         vpiName: inst
-                        vpiFullName: work@a.inst
+                        vpiFullName: a.inst
                         vpiActual: RefInstance name:inst
                       RefObj name:x start:32:10 end:32:11:
                         vpiParent: HierPath name:inst.x
                         vpiName: x
-                        vpiFullName: work@a.x
+                        vpiFullName: a.x
                   vpiRhs Constant start:32:17 end:32:21:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@a
+                      vpiFullName: a
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -320,7 +321,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@a
+                    vpiFullName: a
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -333,22 +334,22 @@ Design name:unnamed:
                   vpiLhs HierPath name:inst.x start:33:5 end:33:12:
                     vpiParent: Assignment
                     vpiName: inst.x
-                    vpiFullName: work@a.inst.x
+                    vpiFullName: a.inst.x
                     vpiPathElem (2 items):
                       RefObj name:inst start:33:5 end:33:9:
                         vpiParent: HierPath name:inst.x
                         vpiName: inst
-                        vpiFullName: work@a.inst
+                        vpiFullName: a.inst
                         vpiActual: RefInstance name:inst
                       RefObj name:x start:33:11 end:33:12:
                         vpiParent: HierPath name:inst.x
                         vpiName: x
-                        vpiFullName: work@a.x
+                        vpiFullName: a.x
                   vpiRhs Constant start:33:17 end:33:21:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@a
+                      vpiFullName: a
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -358,7 +359,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@a
+                    vpiFullName: a
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -371,22 +372,22 @@ Design name:unnamed:
                   vpiLhs HierPath name:inst.x start:34:5 end:34:12:
                     vpiParent: Assignment
                     vpiName: inst.x
-                    vpiFullName: work@a.inst.x
+                    vpiFullName: a.inst.x
                     vpiPathElem (2 items):
                       RefObj name:inst start:34:5 end:34:9:
                         vpiParent: HierPath name:inst.x
                         vpiName: inst
-                        vpiFullName: work@a.inst
+                        vpiFullName: a.inst
                         vpiActual: RefInstance name:inst
                       RefObj name:x start:34:11 end:34:12:
                         vpiParent: HierPath name:inst.x
                         vpiName: x
-                        vpiFullName: work@a.x
+                        vpiFullName: a.x
                   vpiRhs Constant start:34:17 end:34:21:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@a
+                      vpiFullName: a
                       vpiActual: LogicTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -396,7 +397,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@a
+                    vpiFullName: a
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -409,22 +410,22 @@ Design name:unnamed:
                   vpiLhs HierPath name:inst.x start:35:5 end:35:13:
                     vpiParent: Assignment
                     vpiName: inst.x
-                    vpiFullName: work@a.inst.x
+                    vpiFullName: a.inst.x
                     vpiPathElem (2 items):
                       RefObj name:inst start:35:5 end:35:9:
                         vpiParent: HierPath name:inst.x
                         vpiName: inst
-                        vpiFullName: work@a.inst
+                        vpiFullName: a.inst
                         vpiActual: RefInstance name:inst
                       RefObj name:x start:35:12 end:35:13:
                         vpiParent: HierPath name:inst.x
                         vpiName: x
-                        vpiFullName: work@a.x
+                        vpiFullName: a.x
                   vpiRhs Constant start:35:17 end:35:21:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@a
+                      vpiFullName: a
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -434,7 +435,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@a
+                    vpiFullName: a
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -446,7 +447,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@a
+                    vpiFullName: a
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -461,13 +462,13 @@ Design name:unnamed:
                     RefObj name:b start:37:6 end:37:7:
                       vpiParent: Operation
                       vpiName: b
-                      vpiFullName: work@a.b
+                      vpiFullName: a.b
                       vpiActual: Net name:b
                     Constant start:37:13 end:37:17:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@a
+                        vpiFullName: a
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -483,7 +484,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@a
+                        vpiFullName: a
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 48
@@ -499,7 +500,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@a
+                        vpiFullName: a
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 48
@@ -507,70 +508,70 @@ Design name:unnamed:
                       vpiValue: FAILED
       vpiRefInstance (1 items):
         RefInstance name:inst start:29:6 end:29:10:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiName: inst
-          vpiTypespec RefTypespec name:work@m start:29:4 end:29:5:
+          vpiTypespec RefTypespec name:m start:29:4 end:29:5:
             vpiParent: RefInstance name:inst
-            vpiName: work@m
-            vpiFullName: work@a.inst.work@m
-            vpiActual: ModuleTypespec name:work@m
+            vpiName: m
+            vpiFullName: a.inst.m
+            vpiActual: ModuleTypespec name:m
           vpiPort (1 items):
             Port start:29:12 end:29:13:
               vpiParent: RefInstance name:inst
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@a.inst
+                vpiFullName: a.inst
               vpiHighConn RefObj name:b start:29:12 end:29:13:
                 vpiParent: Port
                 vpiName: b
-                vpiFullName: work@a.inst.b
+                vpiFullName: a.inst.b
                 vpiActual: Net name:b
-    Module name:work@m file:$Source01/hierspace.v start:43:1 end:46:10:
+    Module name:m file:$Source01/hierspace.v start:43:1 end:46:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@m start:43:8 end:43:9:
-        vpiParent: Module name:work@m
-        vpiName: work@m
-      vpiFullName: work@m
+      vpiName Identifier name:m start:43:8 end:43:9:
+        vpiParent: Module name:m
+        vpiName: m
+      vpiFullName: m
+      vpiVariable (1 items):
+        Variable name:x start:44:11 end:44:12:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:45:4 end:45:7:
+            vpiParent: Variable name:x
+            vpiFullName: m.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: m.x
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@m
-      vpiDefName: work@m
-      vpiDefNetType: none (12)
+          vpiParent: Module name:m
+      vpiDefName: m
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@m
+        vpiParent: Module name:m
         vpiName: work
-        vpiFullName: work@m.work
+        vpiFullName: m.work
       vpiCell: m
-      vpiNet (1 items):
-        Net name:x start:44:11 end:44:12:
-          vpiParent: Module name:work@m
-          vpiTypespec RefTypespec start:44:11 end:44:11:
-            vpiParent: Net name:x
-            vpiFullName: work@m.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: work@m.x
       vpiPort (1 items):
         Port name:x start:43:11 end:43:12:
-          vpiParent: Module name:work@m
+          vpiParent: Module name:m
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj name:x start:43:11 end:43:12:
+          vpiLowConn RefObj name:x start:44:11 end:44:12:
             vpiParent: Port name:x
             vpiName: x
-            vpiFullName: work@m.x.x
-            vpiActual: Net name:x
+            vpiFullName: m.x.x
+            vpiActual: Variable name:x
           vpiTypespec RefTypespec start:44:11 end:44:11:
             vpiParent: Port name:x
-            vpiFullName: work@m.x
-            vpiActual: LogicTypespec
+            vpiFullName: m.x
   vpiTypespec (5 items):
-    ModuleTypespec name:work@a:
+    ModuleTypespec name:a:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@a start:27:8 end:27:9:
-        vpiParent: ModuleTypespec name:work@a
-        vpiName: work@a
-      vpiModule: Module name:work@a
+      vpiName Identifier name:a start:27:8 end:27:9:
+        vpiParent: ModuleTypespec name:a
+        vpiName: a
+      vpiModule: Module name:a
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -578,17 +579,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@m:
+    ModuleTypespec name:m:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@m start:43:8 end:43:9:
-        vpiParent: ModuleTypespec name:work@m
-        vpiName: work@m
-      vpiModule: Module name:work@m
+      vpiName Identifier name:m start:43:8 end:43:9:
+        vpiParent: ModuleTypespec name:m
+        vpiName: m
+      vpiModule: Module name:m
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

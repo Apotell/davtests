@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<117> t<Top_level_rule> c<1> l<1:1> el<10:1>
     n<> u<115> t<Description> p<116> c<114> l<1:1> el<9:10>
       n<> u<114> t<Module_declaration> p<115> c<28> l<1:1> el<9:10>
         n<> u<28> t<Module_ansi_header> p<114> c<2> s<96> l<1:1> el<1:37>
-          n<module> u<2> t<Module_keyword> p<28> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<28> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<28> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<28> s<27> l<1:11> el<1:11>
           n<> u<27> t<Port_declaration_list> p<28> c<10> l<1:11> el<1:36>
@@ -393,9 +393,10 @@ n<$Source01/dut.sv> u<117> t<Top_level_rule> c<1> l<1:1> el<10:1>
                           n<> u<103> t<Argument_list> p<104> l<7:33> el<7:33>
         n<> u<113> t<ENDMODULE> p<114> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
+[NTE:CP0309] $Source01/dut.sv:1:34: Implicit port type (wire) for "b".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -404,7 +405,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1971,6 +1971,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -1982,6 +1983,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2013,6 +2015,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2027,6 +2030,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2048,6 +2052,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2071,6 +2076,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2090,6 +2096,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2113,6 +2120,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2132,6 +2140,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2201,16 +2210,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2223,6 +2235,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2234,6 +2247,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2241,6 +2255,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2248,6 +2263,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2255,6 +2271,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2268,6 +2285,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2279,6 +2297,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2310,6 +2329,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2336,6 +2356,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2362,6 +2383,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2387,17 +2409,17 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/dut.sv start:1:1 end:9:10:
+    Module name:top file:$Source01/dut.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:1:28 end:1:33:
               vpiParent: LogicTypespec
@@ -2405,7 +2427,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2415,41 +2437,42 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiTaskFunc (1 items):
         Function name:compute_next_state start:2:3 end:6:35:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName Identifier name:compute_next_state start:2:34 end:2:52:
             vpiParent: Function name:compute_next_state
             vpiName: compute_next_state
-          vpiFullName: work@top.compute_next_state
+          vpiFullName: top.compute_next_state
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiStmt Begin:
             vpiParent: Function name:compute_next_state
-            vpiFullName: work@top.compute_next_state
+            vpiFullName: top.compute_next_state
             vpiVariable (1 items):
               Variable name:function_variable start:3:17 end:3:34:
                 vpiParent: Begin
                 vpiTypespec RefTypespec start:3:5 end:3:16:
                   vpiParent: Variable name:function_variable
-                  vpiFullName: work@top.compute_next_state.function_variable
+                  vpiFullName: top.compute_next_state.function_variable
                   vpiActual: LogicTypespec
                 vpiName: function_variable
-                vpiFullName: work@top.compute_next_state.function_variable
+                vpiFullName: top.compute_next_state.function_variable
+                vpiVector: true
             vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -2460,7 +2483,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.compute_next_state
+                        vpiFullName: top.compute_next_state
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2470,7 +2493,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.compute_next_state
+                        vpiFullName: top.compute_next_state
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2486,7 +2509,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.compute_next_state
+                        vpiFullName: top.compute_next_state
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2496,26 +2519,27 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.compute_next_state
+                        vpiFullName: top.compute_next_state
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
                 vpiVector: true
-            vpiStmt (2 items):
+            vpiStmt (3 items):
+              Variable name:function_variable:
               AssignStmt start:4:5 end:4:36:
                 vpiParent: Begin
                 vpiLhs RefObj name:function_variable start:4:12 end:4:29:
                   vpiParent: AssignStmt
                   vpiName: function_variable
-                  vpiFullName: work@top.compute_next_state.function_variable
+                  vpiFullName: top.compute_next_state.function_variable
                   vpiActual: Variable name:function_variable
                 vpiRhs Constant start:4:32 end:4:36:
                   vpiParent: AssignStmt
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.compute_next_state
+                    vpiFullName: top.compute_next_state
                     vpiActual: LogicTypespec
                   vpiConstType: binary (3)
                   vpiSize: 3
@@ -2526,66 +2550,70 @@ Design name:unnamed:
                 vpiCondition RefObj name:function_variable start:5:12 end:5:29:
                   vpiParent: ReturnStmt
                   vpiName: function_variable
-                  vpiFullName: work@top.compute_next_state.function_variable
+                  vpiFullName: top.compute_next_state.function_variable
                   vpiActual: Variable name:function_variable
           vpiEndLabel Identifier name:compute_next_state start:6:17 end:6:35:
             vpiParent: Function name:compute_next_state
             vpiName: compute_next_state
           vpiReturn RefTypespec start:2:22 end:2:33:
             vpiParent: Function name:compute_next_state
-            vpiFullName: work@top.compute_next_state
+            vpiFullName: top.compute_next_state
             vpiActual: LogicTypespec
       vpiNet (2 items):
         Net name:a start:1:18 end:1:19:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:12 end:1:17:
             vpiParent: Net name:a
-            vpiFullName: work@top.a
+            vpiFullName: top.a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: work@top.a
+          vpiFullName: top.a
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:1:34 end:1:35:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:21 end:1:33:
             vpiParent: Net name:b
-            vpiFullName: work@top.b
+            vpiFullName: top.b
             vpiActual: LogicTypespec
           vpiName: b
-          vpiFullName: work@top.b
+          vpiFullName: top.b
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:a start:1:18 end:1:19:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:18 end:1:19:
+          vpiLowConn RefObj name:a start:1:18 end:1:19:
             vpiParent: Port name:a
-            vpiFullName: work@top.a
+            vpiName: a
+            vpiFullName: top.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:1:12 end:1:17:
             vpiParent: Port name:a
-            vpiFullName: work@top.a
+            vpiFullName: top.a
             vpiActual: LogicTypespec
         Port name:b start:1:34 end:1:35:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:34 end:1:35:
+          vpiLowConn RefObj name:b start:1:34 end:1:35:
             vpiParent: Port name:b
-            vpiFullName: work@top.b
+            vpiName: b
+            vpiFullName: top.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:1:21 end:1:33:
             vpiParent: Port name:b
-            vpiFullName: work@top.b
+            vpiFullName: top.b
             vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:7:10 end:7:34:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:b start:7:10 end:7:11:
             vpiParent: ContAssign
             vpiName: b
-            vpiFullName: work@top.b
+            vpiFullName: top.b
             vpiActual: Net name:b
           vpiRhs FuncCall name:compute_next_state start:7:14 end:7:34:
             vpiParent: ContAssign
@@ -2608,25 +2636,28 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
@@ -2634,7 +2665,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

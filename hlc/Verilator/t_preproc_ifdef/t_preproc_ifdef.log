@@ -22,7 +22,7 @@ n<$Source01/t_preproc_ifdef.v> u<222> t<Top_level_rule> c<1> l<6:1> el<44:1>
     n<> u<220> t<Description> p<221> c<219> l<6:1> el<43:10>
       n<> u<219> t<Module_declaration> p<220> c<11> l<6:1> el<43:10>
         n<> u<11> t<Module_nonansi_header> p<219> c<6> s<24> l<6:1> el<6:24>
-          n<module> u<6> t<Module_keyword> p<11> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<11> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<11> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<11> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<11> s<10> l<6:10> el<6:23>
@@ -235,7 +235,7 @@ n<$Source01/t_preproc_ifdef.v> u<222> t<Top_level_rule> c<1> l<6:1> el<44:1>
                           n<> u<208> t<END> p<209> l<42:4> el<42:7>
         n<> u<218> t<ENDMODULE> p<219> l<43:1> el<43:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_preproc_ifdef.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_preproc_ifdef.v:6:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -248,46 +248,49 @@ Design name:unnamed:
       vpiPreprocMacroDefinition (2 items):
         PreprocMacroDefinition name:EMPTY_TRUE start:11:1 end:12:1:
           vpiParent: SourceFile name:t_preproc_ifdef.v
-          vpiName: EMPTY_TRUE
-          vpiNameStartColumn: 9
+          vpiName Identifier name:EMPTY_TRUE start:11:9 end:11:19:
+            vpiParent: PreprocMacroDefinition name:EMPTY_TRUE
+            vpiName: EMPTY_TRUE
+          vpiPMDType: define (1)
         PreprocMacroDefinition name:A start:16:1 end:17:1:
           vpiParent: SourceFile name:t_preproc_ifdef.v
-          vpiName: A
-          vpiNameStartColumn: 9
-      vpiDefNetType: none (12)
+          vpiName Identifier name:A start:16:9 end:16:10:
+            vpiParent: PreprocMacroDefinition name:A
+            vpiName: A
+          vpiPMDType: define (1)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_preproc_ifdef.v start:6:1 end:43:10:
+    Module name:t file:$Source01/t_preproc_ifdef.v start:6:1 end:43:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
-      vpiTypespec (1 items):
-        IntegerTypespec:
-          vpiParent: Module name:work@t
-          vpiSigned: true
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
-        vpiName: work
-        vpiFullName: work@t.work
-      vpiCell: t
-      vpiNet (1 items):
-        Net name:num start:7:12 end:7:15:
-          vpiParent: Module name:work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:num start:7:12 end:7:15:
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:7:4 end:7:11:
-            vpiParent: Net name:num
-            vpiFullName: work@t.num
+            vpiParent: Variable name:num
+            vpiFullName: t.num
             vpiActual: IntegerTypespec
           vpiName: num
-          vpiFullName: work@t.num
+          vpiFullName: t.num
+      vpiTypespec (1 items):
+        IntegerTypespec:
+          vpiParent: Module name:t
+          vpiSigned: true
+      vpiDefName: t
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:t
+        vpiName: work
+        vpiFullName: t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:8:4 end:42:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:8:12 end:42:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
             vpiStmt (8 items):
               Assignment start:9:7 end:9:14:
                 vpiParent: Begin
@@ -295,13 +298,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:num start:9:7 end:9:10:
                   vpiParent: Assignment
                   vpiName: num
-                  vpiFullName: work@t.num
-                  vpiActual: Net name:num
+                  vpiFullName: t.num
+                  vpiActual: Variable name:num
                 vpiRhs Constant start:9:13 end:9:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -317,7 +320,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 16
@@ -329,8 +332,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:num start:17:18 end:17:21:
                   vpiParent: Assignment
                   vpiName: num
-                  vpiFullName: work@t.num
-                  vpiActual: Net name:num
+                  vpiFullName: t.num
+                  vpiActual: Variable name:num
                 vpiRhs Operation start:17:24 end:17:31:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -338,13 +341,13 @@ Design name:unnamed:
                     RefObj name:num start:17:24 end:17:27:
                       vpiParent: Operation
                       vpiName: num
-                      vpiFullName: work@t.num
-                      vpiActual: Net name:num
+                      vpiFullName: t.num
+                      vpiActual: Variable name:num
                     Constant start:17:30 end:17:31:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -360,7 +363,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 16
@@ -372,8 +375,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:num start:19:18 end:19:21:
                   vpiParent: Assignment
                   vpiName: num
-                  vpiFullName: work@t.num
-                  vpiActual: Net name:num
+                  vpiFullName: t.num
+                  vpiActual: Variable name:num
                 vpiRhs Operation start:19:24 end:19:31:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -381,13 +384,13 @@ Design name:unnamed:
                     RefObj name:num start:19:24 end:19:27:
                       vpiParent: Operation
                       vpiName: num
-                      vpiFullName: work@t.num
-                      vpiActual: Net name:num
+                      vpiFullName: t.num
+                      vpiActual: Variable name:num
                     Constant start:19:30 end:19:31:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -403,7 +406,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 16
@@ -415,8 +418,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:num start:22:19 end:22:22:
                   vpiParent: Assignment
                   vpiName: num
-                  vpiFullName: work@t.num
-                  vpiActual: Net name:num
+                  vpiFullName: t.num
+                  vpiActual: Variable name:num
                 vpiRhs Operation start:22:25 end:22:32:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -424,13 +427,13 @@ Design name:unnamed:
                     RefObj name:num start:22:25 end:22:28:
                       vpiParent: Operation
                       vpiName: num
-                      vpiFullName: work@t.num
-                      vpiActual: Net name:num
+                      vpiFullName: t.num
+                      vpiActual: Variable name:num
                     Constant start:22:31 end:22:32:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -445,13 +448,13 @@ Design name:unnamed:
                     RefObj name:num start:34:11 end:34:14:
                       vpiParent: Operation
                       vpiName: num
-                      vpiFullName: work@t.num
-                      vpiActual: Net name:num
+                      vpiFullName: t.num
+                      vpiActual: Variable name:num
                     Constant start:34:18 end:34:19:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -459,7 +462,7 @@ Design name:unnamed:
                       vpiValue: 3
                 vpiStmt Begin start:34:21 end:37:10:
                   vpiParent: IfElse
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiStmt (2 items):
                     SysTaskCall name:$write start:35:3 end:35:35:
                       vpiParent: Begin
@@ -471,7 +474,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$write
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 168
@@ -484,7 +487,7 @@ Design name:unnamed:
                         vpiName: "$finish"
                 vpiElseStmt Begin start:38:12 end:41:10:
                   vpiParent: IfElse
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiStmt (2 items):
                     SysTaskCall name:$write start:39:3 end:39:42:
                       vpiParent: Begin
@@ -496,7 +499,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$write
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 184
@@ -505,20 +508,20 @@ Design name:unnamed:
                         RefObj name:num start:39:38 end:39:41:
                           vpiParent: SysTaskCall name:$write
                           vpiName: num
-                          vpiFullName: work@t.num
-                          vpiActual: Net name:num
+                          vpiFullName: t.num
+                          vpiActual: Variable name:num
                     SysTaskCall name:$stop start:40:3 end:40:8:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:40:3 end:40:8:
                         vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
   vpiTypespec (3 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -572,7 +575,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_preproc_ifdef/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,6 +44,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -53,10 +54,10 @@ class AttributesCase : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// Helpers ----------------------------------------------------------------
+// Helpers ----
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Begin *getInitialBegin(const hldb::Module *top) {
@@ -88,28 +89,39 @@ static const hldb::Attribute *findAttr(const hldb::CaseStmt *cs, std::string_vie
   return nullptr;
 }
 
-// ---------------------------------------------------------------------------
-// Module and nets
-// ---------------------------------------------------------------------------
+// ----
+// Module and variables
+// ----
 TEST_F(AttributesCase, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr); }
 
-TEST_F(AttributesCase, NetsAAndBExist) {
+TEST_F(AttributesCase, VariablesAAndBExist) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
 
   bool hasA = false, hasB = false;
-  for (const hldb::Net *const n : *top->getNets()) {
+  for (const hldb::Variable *const n : *top->getVariables()) {
     if (n->getName() == "a") hasA = true;
     if (n->getName() == "b") hasB = true;
   }
-  EXPECT_TRUE(hasA) << "net 'a' not found";
-  EXPECT_TRUE(hasB) << "net 'b' not found";
+  EXPECT_TRUE(hasA) << "variable 'a' not found";
+  EXPECT_TRUE(hasB) << "variable 'b' not found";
 }
 
-// ---------------------------------------------------------------------------
+// `reg [1:0] a;` and `bit b;` have no net-type keyword, so per IEEE
+// 1800-2023 Sec 6.7/6.8 neither must also appear as a Net.
+TEST_F(AttributesCase, VariablesAreNotDuplicatedAsNets) {
+  const hldb::Module *const top = getTop(m_design);
+  ASSERT_NE(top, nullptr);
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr);
+    EXPECT_EQ(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr);
+  }
+}
+
+// ----
 // Begin block contains exactly 3 CaseStmt nodes
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesCase, InitialBlockHasThreeCaseStatements) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
@@ -124,9 +136,9 @@ TEST_F(AttributesCase, InitialBlockHasThreeCaseStatements) {
   EXPECT_EQ(count, 3u);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // All three cases use the "exact" (plain case) keyword
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesCase, AllCasesAreExactType) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
@@ -140,9 +152,9 @@ TEST_F(AttributesCase, AllCasesAreExactType) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// All three cases have 3 items and switch on net 'a'
-// ---------------------------------------------------------------------------
+// ----
+// All three cases have 3 items and switch on variable 'a'
+// ----
 TEST_F(AttributesCase, AllCasesHaveThreeItems) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
@@ -157,7 +169,7 @@ TEST_F(AttributesCase, AllCasesHaveThreeItems) {
   }
 }
 
-TEST_F(AttributesCase, AllCasesConditionIsNetA) {
+TEST_F(AttributesCase, AllCasesConditionIsVariableA) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -172,12 +184,12 @@ TEST_F(AttributesCase, AllCasesConditionIsNetA) {
   }
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // CaseItem structure for the first case statement
-// Item 0: 2'b00 → b = 0
-// Item 1: 2'b01, 2'b10 → b = 1
-// Item 2: default → b = 0
-// ---------------------------------------------------------------------------
+// Item 0: 2'b00 -> b = 0
+// Item 1: 2'b01, 2'b10 -> b = 1
+// Item 2: default -> b = 0
+// ----
 TEST_F(AttributesCase, FirstCaseItem0HasOneExpr) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
@@ -217,10 +229,10 @@ TEST_F(AttributesCase, FirstCaseDefaultItemHasNoExprs) {
   EXPECT_TRUE(!def->getExprs() || def->getExprs()->empty()) << "default item should have no match expressions";
 }
 
-// ---------------------------------------------------------------------------
-// Attribute: (* full_case, parallel_case *) — case 1
-//   full_case → attached to CaseStmt, no value (flag)
-// ---------------------------------------------------------------------------
+// ----
+// Attribute: (* full_case, parallel_case *) -- case 1
+//   full_case -> attached to CaseStmt, no value (flag)
+// ----
 TEST_F(AttributesCase, FirstCaseHasFullCaseFlagAttribute) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
@@ -232,10 +244,10 @@ TEST_F(AttributesCase, FirstCaseHasFullCaseFlagAttribute) {
   EXPECT_EQ(attr->getValue(), nullptr) << "flag attribute 'full_case' should have no value";
 }
 
-// ---------------------------------------------------------------------------
-// Attribute: (* full_case = 1 *) (* parallel_case = 1 *) — case 2
+// ----
+// Attribute: (* full_case = 1 *) (* parallel_case = 1 *) -- case 2
 //   Both attached to the CaseStmt with value = 1
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesCase, SecondCaseHasTwoAttributes) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
@@ -271,10 +283,10 @@ TEST_F(AttributesCase, SecondCaseParallelCaseValueIsOne) {
   EXPECT_EQ(val->getDecompile(), "1");
 }
 
-// ---------------------------------------------------------------------------
-// Attribute: (* full_case, parallel_case = 0 *) — case 3
-//   full_case → attached to CaseStmt, no value (flag)
-// ---------------------------------------------------------------------------
+// ----
+// Attribute: (* full_case, parallel_case = 0 *) -- case 3
+//   full_case -> attached to CaseStmt, no value (flag)
+// ----
 TEST_F(AttributesCase, ThirdCaseHasFullCaseFlagAttribute) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);

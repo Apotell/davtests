@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<238> t<Top_level_rule> c<1> l<1:1> el<28:1>
     n<> u<236> t<Description> p<237> c<235> l<1:1> el<27:10>
       n<> u<235> t<Module_declaration> p<236> c<5> l<1:1> el<27:10>
         n<> u<5> t<Module_ansi_header> p<235> c<2> s<50> l<1:1> el<1:12>
-          n<module> u<2> t<Module_keyword> p<5> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<5> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<5> l<1:11> el<1:11>
         n<> u<50> t<Non_port_module_item> p<235> c<49> s<233> l<2:2> el<4:13>
@@ -251,17 +251,13 @@ n<$Source01/dut.sv> u<238> t<Top_level_rule> c<1> l<1:1> el<28:1>
             n<> u<231> t<ENDPROGRAM> p<232> l<26:2> el<26:12>
         n<> u<234> t<ENDMODULE> p<235> l<27:1> el<27:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
 [INF:CP0306] $Source01/dut.sv:7:10: Compile program "test".
 [WRN:CP0314] $Source01/dut.sv:7:10: Using programs is discouraged "test", programs are obsoleted by UVM.
-[ERR:EL0535] $Source01/dut.sv:2:17: Illegal implicit net "id:13, name:clock".
-[ERR:EL0535] $Source01/dut.sv:3:24: Illegal implicit net "id:15, name:opcode".
-[ERR:EL0535] $Source01/dut.sv:3:32: Illegal implicit net "id:16, name:regA".
-[ERR:EL0535] $Source01/dut.sv:3:38: Illegal implicit net "id:25, name:regB".
-[ERR:EL0535] $Source01/dut.sv:15:21: Illegal implicit net "id:102, name:cpu1".
-[ERR:EL0535] $Source01/dut.sv:15:26: Illegal implicit net "id:103, name:state".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
-[WRN:PA0205] $Source01/dut.sv:7:2: No timescale set for "work@test".
+[WRN:CP0350] $Source01/dut.sv:15:21: Failed to bind "id:102, name:cpu1".
+[WRN:CP0350] $Source01/dut.sv:15:26: Failed to bind "id:103, name:state".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
+[WRN:PA0205] $Source01/dut.sv:7:2: No timescale set for "test".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -270,103 +266,58 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/dut.sv start:1:1 end:27:10:
+    Module name:top file:$Source01/dut.sv start:1:1 end:27:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (1 items):
-        ProgramTypespec name:work@test:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@test start:7:10 end:7:14:
-            vpiParent: ProgramTypespec name:work@test
-            vpiName: work@test
-          vpiProgram: Program name:work@test
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        ProgramTypespec name:test:
+          vpiParent: Module name:top
+          vpiName Identifier name:test start:7:10 end:7:14:
+            vpiParent: ProgramTypespec name:test
+            vpiName: test
+          vpiProgram: Program name:test
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiProgram (1 items):
-        Program name:work@test file:$Source01/dut.sv start:7:2 end:26:12:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@test start:7:10 end:7:14:
-            vpiParent: Program name:work@test
-            vpiName: work@test
-          vpiFullName: work@top.work@test
-          vpiVariable (7 items):
-            Variable name:phi1 start:8:9 end:8:13:
-              vpiParent: Program name:work@test
-              vpiTypespec RefTypespec start:8:3 end:8:8:
-                vpiParent: Variable name:phi1
-                vpiFullName: work@top.work@test.phi1
-                vpiActual: LogicTypespec
-              vpiName: phi1
-              vpiFullName: work@top.work@test.phi1
-              vpiNetType: wire (1)
-            Variable name:data start:8:28 end:8:32:
-              vpiParent: Program name:work@test
-              vpiTypespec RefTypespec start:8:15 end:8:27:
-                vpiParent: Variable name:data
-                vpiFullName: work@top.work@test.data
-                vpiActual: LogicTypespec
-              vpiName: data
-              vpiFullName: work@top.work@test.data
-              vpiNetType: wire (1)
+        Program name:test file:$Source01/dut.sv start:7:2 end:26:12:
+          vpiParent: Module name:top
+          vpiName Identifier name:test start:7:10 end:7:14:
+            vpiParent: Program name:test
+            vpiName: test
+          vpiFullName: top.test
+          vpiVariable (2 items):
             Variable name:write start:8:47 end:8:52:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiTypespec RefTypespec start:8:34 end:8:46:
                 vpiParent: Variable name:write
-                vpiFullName: work@top.work@test.write
+                vpiFullName: top.test.write
                 vpiActual: LogicTypespec
               vpiName: write
-              vpiFullName: work@top.work@test.write
-              vpiNetType: none (12)
-            Variable name:phi2 start:9:9 end:9:13:
-              vpiParent: Program name:work@test
-              vpiTypespec RefTypespec start:9:3 end:9:8:
-                vpiParent: Variable name:phi2
-                vpiFullName: work@top.work@test.phi2
-                vpiActual: LogicTypespec
-              vpiName: phi2
-              vpiFullName: work@top.work@test.phi2
-              vpiNetType: wire (1)
-            Variable name:cmd start:9:27 end:9:30:
-              vpiParent: Program name:work@test
-              vpiTypespec RefTypespec start:9:15 end:9:26:
-                vpiParent: Variable name:cmd
-                vpiFullName: work@top.work@test.cmd
-                vpiActual: LogicTypespec
-              vpiName: cmd
-              vpiFullName: work@top.work@test.cmd
-              vpiNetType: wire (1)
-            Variable name:enable start:9:38 end:9:44:
-              vpiParent: Program name:work@test
-              vpiTypespec RefTypespec start:9:32 end:9:37:
-                vpiParent: Variable name:enable
-                vpiFullName: work@top.work@test.enable
-                vpiActual: LogicTypespec
-              vpiName: enable
-              vpiFullName: work@top.work@test.enable
-              vpiNetType: wire (1)
+              vpiFullName: top.test.write
+              vpiScalar: true
             Variable name:cmd_reg start:11:12 end:11:19:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiTypespec RefTypespec start:11:2 end:11:11:
                 vpiParent: Variable name:cmd_reg
-                vpiFullName: work@top.work@test.cmd_reg
+                vpiFullName: top.test.cmd_reg
                 vpiActual: LogicTypespec
               vpiName: cmd_reg
-              vpiFullName: work@top.work@test.cmd_reg
+              vpiFullName: top.test.cmd_reg
+              vpiVector: true
           vpiTypespec (4 items):
             LogicTypespec:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
             LogicTypespec:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiRange (1 items):
                 Range start:8:21 end:8:27:
                   vpiParent: LogicTypespec
@@ -374,7 +325,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.work@test
+                      vpiFullName: top.test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -384,7 +335,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.work@test
+                      vpiFullName: top.test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -392,7 +343,7 @@ Design name:unnamed:
                     vpiValue: 0
               vpiVector: true
             LogicTypespec:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiRange (1 items):
                 Range start:9:21 end:9:26:
                   vpiParent: LogicTypespec
@@ -400,7 +351,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.work@test
+                      vpiFullName: top.test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -410,7 +361,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.work@test
+                      vpiFullName: top.test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -418,7 +369,7 @@ Design name:unnamed:
                     vpiValue: 1
               vpiVector: true
             LogicTypespec:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiRange (1 items):
                 Range start:11:6 end:11:11:
                   vpiParent: LogicTypespec
@@ -426,7 +377,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.work@test
+                      vpiFullName: top.test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -436,33 +387,84 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.work@test
+                      vpiFullName: top.test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "1"
                     vpiValue: 1
               vpiVector: true
-          vpiDefNetType: none (12)
+          vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work:
-            vpiParent: Program name:work@test
+            vpiParent: Program name:test
             vpiName: work
-            vpiFullName: work@top.work@test.work
+            vpiFullName: top.test.work
           vpiCell: test
+          vpiNet (5 items):
+            Net name:phi1 start:8:9 end:8:13:
+              vpiParent: Program name:test
+              vpiTypespec RefTypespec start:8:3 end:8:8:
+                vpiParent: Net name:phi1
+                vpiFullName: top.test.phi1
+                vpiActual: LogicTypespec
+              vpiName: phi1
+              vpiFullName: top.test.phi1
+              vpiNetType: wire (1)
+              vpiScalar: true
+            Net name:data start:8:28 end:8:32:
+              vpiParent: Program name:test
+              vpiTypespec RefTypespec start:8:15 end:8:27:
+                vpiParent: Net name:data
+                vpiFullName: top.test.data
+                vpiActual: LogicTypespec
+              vpiName: data
+              vpiFullName: top.test.data
+              vpiNetType: wire (1)
+              vpiVector: true
+            Net name:phi2 start:9:9 end:9:13:
+              vpiParent: Program name:test
+              vpiTypespec RefTypespec start:9:3 end:9:8:
+                vpiParent: Net name:phi2
+                vpiFullName: top.test.phi2
+                vpiActual: LogicTypespec
+              vpiName: phi2
+              vpiFullName: top.test.phi2
+              vpiNetType: wire (1)
+              vpiScalar: true
+            Net name:cmd start:9:27 end:9:30:
+              vpiParent: Program name:test
+              vpiTypespec RefTypespec start:9:15 end:9:26:
+                vpiParent: Net name:cmd
+                vpiFullName: top.test.cmd
+                vpiActual: LogicTypespec
+              vpiName: cmd
+              vpiFullName: top.test.cmd
+              vpiNetType: wire (1)
+              vpiVector: true
+            Net name:enable start:9:38 end:9:44:
+              vpiParent: Program name:test
+              vpiTypespec RefTypespec start:9:32 end:9:37:
+                vpiParent: Net name:enable
+                vpiFullName: top.test.enable
+                vpiActual: LogicTypespec
+              vpiName: enable
+              vpiFullName: top.test.enable
+              vpiNetType: wire (1)
+              vpiScalar: true
           vpiProcess (1 items):
             Initial start:22:2 end:23:5:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiStmt Begin start:22:10 end:23:5:
                 vpiParent: Initial
-                vpiFullName: work@top.work@test
+                vpiFullName: top.test
           vpiContAssign (1 items):
             ContAssign start:25:9 end:25:35:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiLhs RefObj name:cmd start:25:9 end:25:12:
                 vpiParent: ContAssign
                 vpiName: cmd
-                vpiFullName: work@top.work@test.cmd
-                vpiActual: Port name:cmd
+                vpiFullName: top.test.cmd
+                vpiActual: Net name:cmd
               vpiRhs Operation start:25:15 end:25:35:
                 vpiParent: ContAssign
                 vpiOpType: condition (32)
@@ -470,18 +472,18 @@ Design name:unnamed:
                   RefObj name:enable start:25:15 end:25:21:
                     vpiParent: Operation
                     vpiName: enable
-                    vpiFullName: work@top.work@test.enable
+                    vpiFullName: top.test.enable
                     vpiActual: Port name:enable
                   RefObj name:cmd_reg start:25:24 end:25:31:
                     vpiParent: Operation
                     vpiName: cmd_reg
-                    vpiFullName: work@top.work@test.cmd_reg
+                    vpiFullName: top.test.cmd_reg
                     vpiActual: Variable name:cmd_reg
                   Constant start:25:33 end:25:35:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.work@test
+                      vpiFullName: top.test
                       vpiActual: LogicTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -489,11 +491,11 @@ Design name:unnamed:
                     vpiValue: x
           vpiClockingBlock (2 items):
             ClockingBlock name:cd1 start:12:2 end:16:13:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiName Identifier name:cd1 start:12:11 end:12:14:
                 vpiParent: ClockingBlock name:cd1
                 vpiName: cd1
-              vpiFullName: work@top.work@test.cd1
+              vpiFullName: top.test.cd1
               vpiClockingEvent EventControl start:12:15 end:12:30:
                 vpiParent: ClockingBlock name:cd1
                 vpiCondition Operation start:12:17 end:12:29:
@@ -503,7 +505,7 @@ Design name:unnamed:
                     RefObj name:phi1 start:12:25 end:12:29:
                       vpiParent: Operation
                       vpiName: phi1
-                      vpiFullName: work@top.work@test.cd1.phi1
+                      vpiFullName: top.test.cd1.phi1
                       vpiActual: Port name:phi1
               vpiClockingIODecl (3 items):
                 ClockingIODecl name:data start:13:9 end:13:13:
@@ -527,27 +529,27 @@ Design name:unnamed:
                   vpiExpr HierPath name:top.cpu1.state start:15:17 end:15:31:
                     vpiParent: ClockingIODecl name:state
                     vpiName: top.cpu1.state
-                    vpiFullName: work@top.work@test.cd1.state.top.cpu1.state
+                    vpiFullName: top.test.cd1.state.top.cpu1.state
                     vpiPathElem (3 items):
                       RefObj name:top start:15:17 end:15:20:
                         vpiParent: HierPath name:top.cpu1.state
                         vpiName: top
-                        vpiFullName: work@top.work@test.cd1.state.top
-                        vpiActual: Module name:work@top
+                        vpiFullName: top.test.cd1.state.top
+                        vpiActual: Module name:top
                       RefObj name:cpu1 start:15:21 end:15:25:
                         vpiParent: HierPath name:top.cpu1.state
                         vpiName: cpu1
-                        vpiFullName: work@top.work@test.cd1.state.cpu1
+                        vpiFullName: top.test.cd1.state.cpu1
                       RefObj name:state start:15:26 end:15:31:
                         vpiParent: HierPath name:top.cpu1.state
                         vpiName: state
-                        vpiFullName: work@top.work@test.cd1.state.state
+                        vpiFullName: top.test.cd1.state.state
             ClockingBlock name:cd2 start:18:2 end:21:13:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiName Identifier name:cd2 start:18:11 end:18:14:
                 vpiParent: ClockingBlock name:cd2
                 vpiName: cd2
-              vpiFullName: work@top.work@test.cd2
+              vpiFullName: top.test.cd2
               vpiClockingEvent EventControl start:18:15 end:18:30:
                 vpiParent: ClockingBlock name:cd2
                 vpiCondition Operation start:18:17 end:18:29:
@@ -557,7 +559,7 @@ Design name:unnamed:
                     RefObj name:phi2 start:18:25 end:18:29:
                       vpiParent: Operation
                       vpiName: phi2
-                      vpiFullName: work@top.work@test.cd2.phi2
+                      vpiFullName: top.test.cd2.phi2
                       vpiActual: Port name:phi2
               vpiClockingIODecl (2 items):
                 ClockingIODecl name:cmd start:19:24 end:19:27:
@@ -572,7 +574,7 @@ Design name:unnamed:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.work@test.cd2.cmd
+                        vpiFullName: top.test.cd2.cmd
                         vpiActual: IntTypespec
                       vpiConstType: int (7)
                       vpiSize: 32
@@ -584,7 +586,7 @@ Design name:unnamed:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top.work@test.cd2.cmd
+                        vpiFullName: top.test.cd2.cmd
                         vpiActual: IntTypespec
                       vpiConstType: int (7)
                       vpiSize: 32
@@ -598,90 +600,96 @@ Design name:unnamed:
                   vpiDirection: input (1)
           vpiPort (6 items):
             Port name:phi1 start:8:9 end:8:13:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiName: phi1
               vpiDirection: input (1)
-              vpiLowConn RefObj start:8:9 end:8:13:
+              vpiLowConn RefObj name:phi1 start:8:9 end:8:13:
                 vpiParent: Port name:phi1
-                vpiFullName: work@top.work@test.phi1
-                vpiActual: Variable name:phi1
+                vpiName: phi1
+                vpiFullName: top.test.phi1.phi1
+                vpiActual: Net name:phi1
               vpiTypespec RefTypespec start:8:3 end:8:8:
                 vpiParent: Port name:phi1
-                vpiFullName: work@top.work@test.phi1
+                vpiFullName: top.test.phi1
                 vpiActual: LogicTypespec
             Port name:data start:8:28 end:8:32:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiName: data
               vpiDirection: input (1)
-              vpiLowConn RefObj start:8:28 end:8:32:
+              vpiLowConn RefObj name:data start:8:28 end:8:32:
                 vpiParent: Port name:data
-                vpiFullName: work@top.work@test.data
-                vpiActual: Variable name:data
+                vpiName: data
+                vpiFullName: top.test.data.data
+                vpiActual: Net name:data
               vpiTypespec RefTypespec start:8:15 end:8:27:
                 vpiParent: Port name:data
-                vpiFullName: work@top.work@test.data
+                vpiFullName: top.test.data
                 vpiActual: LogicTypespec
             Port name:write start:8:47 end:8:52:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiName: write
               vpiDirection: output (2)
-              vpiLowConn RefObj start:8:47 end:8:52:
+              vpiLowConn RefObj name:write start:8:47 end:8:52:
                 vpiParent: Port name:write
-                vpiFullName: work@top.work@test.write
+                vpiName: write
+                vpiFullName: top.test.write.write
                 vpiActual: Variable name:write
               vpiTypespec RefTypespec start:8:34 end:8:46:
                 vpiParent: Port name:write
-                vpiFullName: work@top.work@test.write
+                vpiFullName: top.test.write
                 vpiActual: LogicTypespec
             Port name:phi2 start:9:9 end:9:13:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiName: phi2
               vpiDirection: input (1)
-              vpiLowConn RefObj start:9:9 end:9:13:
+              vpiLowConn RefObj name:phi2 start:9:9 end:9:13:
                 vpiParent: Port name:phi2
-                vpiFullName: work@top.work@test.phi2
-                vpiActual: Variable name:phi2
+                vpiName: phi2
+                vpiFullName: top.test.phi2.phi2
+                vpiActual: Net name:phi2
               vpiTypespec RefTypespec start:9:3 end:9:8:
                 vpiParent: Port name:phi2
-                vpiFullName: work@top.work@test.phi2
+                vpiFullName: top.test.phi2
                 vpiActual: LogicTypespec
             Port name:cmd start:9:27 end:9:30:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiName: cmd
               vpiDirection: inout (3)
-              vpiLowConn RefObj start:9:27 end:9:30:
+              vpiLowConn RefObj name:cmd start:9:27 end:9:30:
                 vpiParent: Port name:cmd
-                vpiFullName: work@top.work@test.cmd
-                vpiActual: Variable name:cmd
+                vpiName: cmd
+                vpiFullName: top.test.cmd.cmd
+                vpiActual: Net name:cmd
               vpiTypespec RefTypespec start:9:15 end:9:26:
                 vpiParent: Port name:cmd
-                vpiFullName: work@top.work@test.cmd
+                vpiFullName: top.test.cmd
                 vpiActual: LogicTypespec
             Port name:enable start:9:38 end:9:44:
-              vpiParent: Program name:work@test
+              vpiParent: Program name:test
               vpiName: enable
               vpiDirection: input (1)
-              vpiLowConn RefObj start:9:38 end:9:44:
+              vpiLowConn RefObj name:enable start:9:38 end:9:44:
                 vpiParent: Port name:enable
-                vpiFullName: work@top.work@test.enable
-                vpiActual: Variable name:enable
+                vpiName: enable
+                vpiFullName: top.test.enable.enable
+                vpiActual: Net name:enable
               vpiTypespec RefTypespec start:9:32 end:9:37:
                 vpiParent: Port name:enable
-                vpiFullName: work@top.work@test.enable
+                vpiFullName: top.test.enable
                 vpiActual: LogicTypespec
       vpiClockingBlock (1 items):
         ClockingBlock name:mem start:2:2 end:4:13:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName Identifier name:mem start:2:11 end:2:14:
             vpiParent: ClockingBlock name:mem
             vpiName: mem
-          vpiFullName: work@top.mem
+          vpiFullName: top.mem
           vpiClockingEvent EventControl start:2:15 end:2:23:
             vpiParent: ClockingBlock name:mem
             vpiCondition RefObj name:clock start:2:17 end:2:22:
               vpiParent: EventControl
               vpiName: clock
-              vpiFullName: work@top.mem.clock
+              vpiFullName: top.mem.clock
           vpiClockingIODecl (1 items):
             ClockingIODecl name:instruction start:3:8 end:3:19:
               vpiParent: ClockingBlock name:mem
@@ -696,26 +704,26 @@ Design name:unnamed:
                   RefObj name:opcode start:3:24 end:3:30:
                     vpiParent: Operation
                     vpiName: opcode
-                    vpiFullName: work@top.mem.instruction.opcode
+                    vpiFullName: top.mem.instruction.opcode
                   RefObj name:regA start:3:32 end:3:36:
                     vpiParent: Operation
                     vpiName: regA
-                    vpiFullName: work@top.mem.instruction.regA
+                    vpiFullName: top.mem.instruction.regA
                   PartSelect name:regB[3:1] start:3:38 end:3:47:
                     vpiParent: Operation
                     vpiName: regB[3:1]
-                    vpiFullName: work@top.mem.instruction.regB[3:1]
+                    vpiFullName: top.mem.instruction.regB[3:1]
                     vpiPrefix RefObj name:regB start:3:38 end:3:42:
                       vpiParent: PartSelect name:regB[3:1]
                       vpiName: regB
-                      vpiFullName: work@top.mem.instruction.regB[3:1].regB
+                      vpiFullName: top.mem.instruction.regB[3:1].regB
                     vpiRange Range start:3:43 end:3:46:
                       vpiParent: PartSelect name:regB[3:1]
                       vpiLeftRange Constant start:3:43 end:3:44:
                         vpiParent: Range
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top.mem.instruction.regB[3:1]
+                          vpiFullName: top.mem.instruction.regB[3:1]
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -725,27 +733,27 @@ Design name:unnamed:
                         vpiParent: Range
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top.mem.instruction.regB[3:1]
+                          vpiFullName: top.mem.instruction.regB[3:1]
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "1"
                         vpiValue: 1
   vpiTypespec (2 items):
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

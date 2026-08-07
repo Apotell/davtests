@@ -36,7 +36,7 @@ n<$Source01/scope1.v> u<277> t<Top_level_rule> c<1> l<25:1> el<62:1>
     n<> u<66> t<Description> p<275> c<65> s<67> l<25:1> el<30:10>
       n<> u<65> t<Module_declaration> p<66> c<30> l<25:1> el<30:10>
         n<> u<30> t<Module_nonansi_header> p<65> c<20> s<37> l<25:1> el<25:19>
-          n<module> u<20> t<Module_keyword> p<30> s<21> l<25:1> el<25:7>
+          n<module> u<20> t<MODULE> p<30> s<21> l<25:1> el<25:7>
           n<glob> u<21> t<SIMPLE_IDENTIFIER> p<30> s<22> l<25:8> el<25:12>
           n<> u<22> t<Package_import_declaration_list> p<30> s<29> l<25:12> el<25:12>
           n<> u<29> t<Port_list> p<30> c<28> l<25:12> el<25:18>
@@ -84,7 +84,7 @@ n<$Source01/scope1.v> u<277> t<Top_level_rule> c<1> l<25:1> el<62:1>
     n<> u<274> t<Description> p<275> c<273> l<32:1> el<61:10>
       n<> u<273> t<Module_declaration> p<274> c<71> l<32:1> el<61:10>
         n<> u<71> t<Module_ansi_header> p<273> c<68> s<72> l<32:1> el<32:13>
-          n<module> u<68> t<Module_keyword> p<71> s<69> l<32:1> el<32:7>
+          n<module> u<68> t<MODULE> p<71> s<69> l<32:1> el<32:7>
           n<main> u<69> t<SIMPLE_IDENTIFIER> p<71> s<70> l<32:8> el<32:12>
           n<> u<70> t<Package_import_declaration_list> p<71> l<32:12> el<32:12>
         n</* This task reaches into the U1 module instance to set some\n      registers. This is tricky because task definitions are\n      elaborated early, probably before the modules are elaborated. */> u<72> t<BLOCK_COMMENT> p<273> s<117> l<38:4> el<43:11>
@@ -290,15 +290,14 @@ n<$Source01/scope1.v> u<277> t<Top_level_rule> c<1> l<25:1> el<62:1>
         n<> u<272> t<ENDMODULE> p<273> l<61:1> el<61:10>
   n<// main> u<276> t<LINE_COMMENT> p<277> l<61:11> el<61:18>
 AST_DEBUG_END
-[INF:CP0303] $Source01/scope1.v:25:1: Compile module "work@glob".
-[INF:CP0303] $Source01/scope1.v:32:1: Compile module "work@main".
-[ERR:EL0535] $Source01/scope1.v:40:6: Illegal implicit net "id:29, name:var1".
-[ERR:EL0535] $Source01/scope1.v:41:6: Illegal implicit net "id:36, name:var2".
-[ERR:EL0535] $Source01/scope1.v:45:13: Illegal implicit net "id:42, name:fake".
-[ERR:EL0535] $Source01/scope1.v:49:14: Illegal implicit net "id:54, name:var1".
-[ERR:EL0535] $Source01/scope1.v:50:43: Illegal implicit net "id:65, name:var1".
-[ERR:EL0535] $Source01/scope1.v:53:14: Illegal implicit net "id:73, name:var2".
-[ERR:EL0535] $Source01/scope1.v:54:43: Illegal implicit net "id:84, name:var2".
+[INF:CP0303] $Source01/scope1.v:25:1: Compile module "glob".
+[INF:CP0303] $Source01/scope1.v:32:1: Compile module "main".
+[WRN:CP0350] $Source01/scope1.v:40:6: Failed to bind "id:29, name:var1".
+[WRN:CP0350] $Source01/scope1.v:41:6: Failed to bind "id:36, name:var2".
+[WRN:CP0350] $Source01/scope1.v:49:14: Failed to bind "id:54, name:var1".
+[WRN:CP0350] $Source01/scope1.v:50:43: Failed to bind "id:65, name:var1".
+[WRN:CP0350] $Source01/scope1.v:53:14: Failed to bind "id:73, name:var2".
+[WRN:CP0350] $Source01/scope1.v:54:43: Failed to bind "id:84, name:var2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -308,92 +307,97 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: scope1.v
       vpiPreprocFile: "$Output/lib/work/scope1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@glob file:$Source01/scope1.v start:25:1 end:30:10:
+    Module name:glob file:$Source01/scope1.v start:25:1 end:30:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@glob start:25:8 end:25:12:
-        vpiParent: Module name:work@glob
-        vpiName: work@glob
-      vpiFullName: work@glob
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: Module name:work@glob
-      vpiDefName: work@glob
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@glob
-        vpiName: work
-        vpiFullName: work@glob.work
-      vpiCell: glob
-      vpiNet (3 items):
-        Net name:fake start:26:10 end:26:14:
-          vpiParent: Module name:work@glob
-          vpiTypespec RefTypespec start:26:10 end:26:10:
-            vpiParent: Net name:fake
-            vpiFullName: work@glob.fake
-            vpiActual: LogicTypespec
-          vpiName: fake
-          vpiFullName: work@glob.fake
-        Net name:var1 start:28:8 end:28:12:
-          vpiParent: Module name:work@glob
+      vpiName Identifier name:glob start:25:8 end:25:12:
+        vpiParent: Module name:glob
+        vpiName: glob
+      vpiFullName: glob
+      vpiVariable (2 items):
+        Variable name:var1 start:28:8 end:28:12:
+          vpiParent: Module name:glob
           vpiTypespec RefTypespec start:28:4 end:28:7:
-            vpiParent: Net name:var1
-            vpiFullName: work@glob.var1
+            vpiParent: Variable name:var1
+            vpiFullName: glob.var1
             vpiActual: LogicTypespec
           vpiName: var1
-          vpiFullName: work@glob.var1
-        Net name:var2 start:29:8 end:29:12:
-          vpiParent: Module name:work@glob
+          vpiFullName: glob.var1
+          vpiScalar: true
+        Variable name:var2 start:29:8 end:29:12:
+          vpiParent: Module name:glob
           vpiTypespec RefTypespec start:29:4 end:29:7:
-            vpiParent: Net name:var2
-            vpiFullName: work@glob.var2
+            vpiParent: Variable name:var2
+            vpiFullName: glob.var2
             vpiActual: LogicTypespec
           vpiName: var2
-          vpiFullName: work@glob.var2
+          vpiFullName: glob.var2
+          vpiScalar: true
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:glob
+      vpiDefName: glob
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:glob
+        vpiName: work
+        vpiFullName: glob.work
+      vpiCell: glob
+      vpiNet (1 items):
+        Net name:fake start:26:10 end:26:14:
+          vpiParent: Module name:glob
+          vpiTypespec RefTypespec start:26:10 end:26:10:
+            vpiParent: Net name:fake
+            vpiFullName: glob.fake
+            vpiActual: LogicTypespec
+          vpiName: fake
+          vpiFullName: glob.fake
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:fake start:25:13 end:25:17:
-          vpiParent: Module name:work@glob
+          vpiParent: Module name:glob
           vpiName: fake
           vpiDirection: input (1)
-          vpiLowConn RefObj name:fake start:25:13 end:25:17:
+          vpiLowConn RefObj name:fake start:26:10 end:26:14:
             vpiParent: Port name:fake
             vpiName: fake
-            vpiFullName: work@glob.fake.fake
+            vpiFullName: glob.fake.fake
             vpiActual: Net name:fake
           vpiTypespec RefTypespec start:26:10 end:26:10:
             vpiParent: Port name:fake
-            vpiFullName: work@glob.fake
+            vpiFullName: glob.fake
             vpiActual: LogicTypespec
-    Module name:work@main file:$Source01/scope1.v start:32:1 end:61:10:
+    Module name:main file:$Source01/scope1.v start:32:1 end:61:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:32:8 end:32:12:
-        vpiParent: Module name:work@main
-        vpiName: work@main
-      vpiFullName: work@main
+      vpiName Identifier name:main start:32:8 end:32:12:
+        vpiParent: Module name:main
+        vpiName: main
+      vpiFullName: main
       vpiTypespec (1 items):
-        ModuleTypespec name:work@glob start:45:4 end:45:8:
-          vpiParent: Module name:work@main
-          vpiName Identifier name:work@glob start:45:4 end:45:8:
-            vpiParent: ModuleTypespec name:work@glob
-            vpiName: work@glob
-      vpiDefName: work@main
-      vpiDefNetType: none (12)
+        ModuleTypespec name:glob start:45:4 end:45:8:
+          vpiParent: Module name:main
+          vpiName Identifier name:glob start:45:4 end:45:8:
+            vpiParent: ModuleTypespec name:glob
+            vpiName: glob
+          vpiModule: Module name:glob
+      vpiDefName: main
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@main
+        vpiParent: Module name:main
         vpiName: work
-        vpiFullName: work@main.work
+        vpiFullName: main.work
       vpiCell: main
       vpiTaskFunc (1 items):
         Task name:test start:38:4 end:43:11:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiName Identifier name:test start:38:9 end:38:13:
             vpiParent: Task name:test
             vpiName: test
-          vpiFullName: work@main.test
+          vpiFullName: main.test
           vpiStmt Begin start:39:7 end:42:10:
             vpiParent: Task name:test
-            vpiFullName: work@main.test
+            vpiFullName: main.test
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -404,22 +408,22 @@ Design name:unnamed:
                 vpiLhs HierPath name:U1.var1 start:40:3 end:40:10:
                   vpiParent: Assignment
                   vpiName: U1.var1
-                  vpiFullName: work@main.test.U1.var1
+                  vpiFullName: main.test.U1.var1
                   vpiPathElem (2 items):
                     RefObj name:U1 start:40:3 end:40:5:
                       vpiParent: HierPath name:U1.var1
                       vpiName: U1
-                      vpiFullName: work@main.test.U1
+                      vpiFullName: main.test.U1
                       vpiActual: RefInstance name:U1
                     RefObj name:var1 start:40:6 end:40:10:
                       vpiParent: HierPath name:U1.var1
                       vpiName: var1
-                      vpiFullName: work@main.test.var1
+                      vpiFullName: main.test.var1
                 vpiRhs Constant start:40:13 end:40:17:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main.test
+                    vpiFullName: main.test
                     vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
@@ -431,22 +435,22 @@ Design name:unnamed:
                 vpiLhs HierPath name:U1.var2 start:41:3 end:41:10:
                   vpiParent: Assignment
                   vpiName: U1.var2
-                  vpiFullName: work@main.test.U1.var2
+                  vpiFullName: main.test.U1.var2
                   vpiPathElem (2 items):
                     RefObj name:U1 start:41:3 end:41:5:
                       vpiParent: HierPath name:U1.var2
                       vpiName: U1
-                      vpiFullName: work@main.test.U1
+                      vpiFullName: main.test.U1
                       vpiActual: RefInstance name:U1
                     RefObj name:var2 start:41:6 end:41:10:
                       vpiParent: HierPath name:U1.var2
                       vpiName: var2
-                      vpiFullName: work@main.test.var2
+                      vpiFullName: main.test.var2
                 vpiRhs Constant start:41:13 end:41:17:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main.test
+                    vpiFullName: main.test
                     vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
@@ -454,10 +458,10 @@ Design name:unnamed:
                   vpiValue: "1"
       vpiProcess (1 items):
         Initial start:47:4 end:59:7:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Begin start:47:12 end:59:7:
             vpiParent: Initial
-            vpiFullName: work@main
+            vpiFullName: main
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -465,7 +469,7 @@ Design name:unnamed:
               RefObj name:test start:48:7 end:48:11:
                 vpiParent: Begin
                 vpiName: test
-                vpiFullName: work@main.test
+                vpiFullName: main.test
                 vpiActual: Task name:test
               IfStmt start:49:7 end:52:10:
                 vpiParent: Begin
@@ -476,22 +480,22 @@ Design name:unnamed:
                     HierPath name:U1.var1 start:49:11 end:49:18:
                       vpiParent: Operation
                       vpiName: U1.var1
-                      vpiFullName: work@main.U1.var1
+                      vpiFullName: main.U1.var1
                       vpiPathElem (2 items):
                         RefObj name:U1 start:49:11 end:49:13:
                           vpiParent: HierPath name:U1.var1
                           vpiName: U1
-                          vpiFullName: work@main.U1
+                          vpiFullName: main.U1
                           vpiActual: RefInstance name:U1
                         RefObj name:var1 start:49:14 end:49:18:
                           vpiParent: HierPath name:U1.var1
                           vpiName: var1
-                          vpiFullName: work@main.var1
+                          vpiFullName: main.var1
                     Constant start:49:23 end:49:27:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -499,7 +503,7 @@ Design name:unnamed:
                       vpiValue: "0"
                 vpiStmt Begin start:49:29 end:52:10:
                   vpiParent: IfStmt
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiStmt (2 items):
                     SysTaskCall name:$display start:50:3 end:50:48:
                       vpiParent: Begin
@@ -511,7 +515,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@main
+                            vpiFullName: main
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 192
@@ -520,17 +524,17 @@ Design name:unnamed:
                         HierPath name:U1.var1 start:50:40 end:50:47:
                           vpiParent: SysTaskCall name:$display
                           vpiName: U1.var1
-                          vpiFullName: work@main.U1.var1
+                          vpiFullName: main.U1.var1
                           vpiPathElem (2 items):
                             RefObj name:U1 start:50:40 end:50:42:
                               vpiParent: HierPath name:U1.var1
                               vpiName: U1
-                              vpiFullName: work@main.U1
+                              vpiFullName: main.U1
                               vpiActual: RefInstance name:U1
                             RefObj name:var1 start:50:43 end:50:47:
                               vpiParent: HierPath name:U1.var1
                               vpiName: var1
-                              vpiFullName: work@main.var1
+                              vpiFullName: main.var1
                     SysTaskCall name:$finish start:51:3 end:51:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:51:3 end:51:10:
@@ -545,22 +549,22 @@ Design name:unnamed:
                     HierPath name:U1.var2 start:53:11 end:53:18:
                       vpiParent: Operation
                       vpiName: U1.var2
-                      vpiFullName: work@main.U1.var2
+                      vpiFullName: main.U1.var2
                       vpiPathElem (2 items):
                         RefObj name:U1 start:53:11 end:53:13:
                           vpiParent: HierPath name:U1.var2
                           vpiName: U1
-                          vpiFullName: work@main.U1
+                          vpiFullName: main.U1
                           vpiActual: RefInstance name:U1
                         RefObj name:var2 start:53:14 end:53:18:
                           vpiParent: HierPath name:U1.var2
                           vpiName: var2
-                          vpiFullName: work@main.var2
+                          vpiFullName: main.var2
                     Constant start:53:23 end:53:27:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -568,7 +572,7 @@ Design name:unnamed:
                       vpiValue: "1"
                 vpiStmt Begin start:53:29 end:56:10:
                   vpiParent: IfStmt
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiStmt (2 items):
                     SysTaskCall name:$display start:54:3 end:54:48:
                       vpiParent: Begin
@@ -580,7 +584,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@main
+                            vpiFullName: main
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 192
@@ -589,17 +593,17 @@ Design name:unnamed:
                         HierPath name:U1.var2 start:54:40 end:54:47:
                           vpiParent: SysTaskCall name:$display
                           vpiName: U1.var2
-                          vpiFullName: work@main.U1.var2
+                          vpiFullName: main.U1.var2
                           vpiPathElem (2 items):
                             RefObj name:U1 start:54:40 end:54:42:
                               vpiParent: HierPath name:U1.var2
                               vpiName: U1
-                              vpiFullName: work@main.U1
+                              vpiFullName: main.U1
                               vpiActual: RefInstance name:U1
                             RefObj name:var2 start:54:43 end:54:47:
                               vpiParent: HierPath name:U1.var2
                               vpiName: var2
-                              vpiFullName: work@main.var2
+                              vpiFullName: main.var2
                     SysTaskCall name:$finish start:55:3 end:55:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:55:3 end:55:10:
@@ -615,7 +619,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@main
+                      vpiFullName: main
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 48
@@ -623,43 +627,43 @@ Design name:unnamed:
                     vpiValue: PASSED
       vpiRefInstance (1 items):
         RefInstance name:U1 start:45:9 end:45:11:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiName: U1
-          vpiTypespec RefTypespec name:work@glob start:45:4 end:45:8:
+          vpiTypespec RefTypespec name:glob start:45:4 end:45:8:
             vpiParent: RefInstance name:U1
-            vpiName: work@glob
-            vpiFullName: work@main.U1.work@glob
-            vpiActual: ModuleTypespec name:work@glob
+            vpiName: glob
+            vpiFullName: main.U1.glob
+            vpiActual: ModuleTypespec name:glob
           vpiPort (1 items):
             Port start:45:13 end:45:17:
               vpiParent: RefInstance name:U1
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@main.U1
+                vpiFullName: main.U1
               vpiHighConn RefObj name:fake start:45:13 end:45:17:
                 vpiParent: Port
                 vpiName: fake
-                vpiFullName: work@main.U1.fake
+                vpiFullName: main.U1.fake
   vpiTypespec (3 items):
-    ModuleTypespec name:work@glob:
+    ModuleTypespec name:glob:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@glob start:25:8 end:25:12:
-        vpiParent: ModuleTypespec name:work@glob
-        vpiName: work@glob
-      vpiModule: Module name:work@glob
-    ModuleTypespec name:work@main:
+      vpiName Identifier name:glob start:25:8 end:25:12:
+        vpiParent: ModuleTypespec name:glob
+        vpiName: glob
+      vpiModule: Module name:glob
+    ModuleTypespec name:main:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:32:8 end:32:12:
-        vpiParent: ModuleTypespec name:work@main
-        vpiName: work@main
-      vpiModule: Module name:work@main
+      vpiName Identifier name:main start:32:8 end:32:12:
+        vpiParent: ModuleTypespec name:main
+        vpiName: main
+      vpiModule: Module name:main
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

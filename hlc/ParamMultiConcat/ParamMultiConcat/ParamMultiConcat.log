@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
     n<> u<40> t<Description> p<162> c<39> s<161> l<1:1> el<7:10>
       n<> u<39> t<Module_declaration> p<40> c<37> l<1:1> el<7:10>
         n<> u<37> t<Module_ansi_header> p<39> c<2> s<38> l<1:1> el<6:3>
-          n<module> u<2> t<Module_keyword> p<37> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<37> s<3> l<1:1> el<1:7>
           n<dut> u<3> t<SIMPLE_IDENTIFIER> p<37> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<37> s<13> l<2:1> el<2:1>
           n<> u<13> t<Parameter_port_list> p<37> c<12> s<36> l<2:1> el<4:2>
@@ -57,7 +57,7 @@ n<$Source01/dut.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
     n<> u<161> t<Description> p<162> c<160> l<9:1> el<18:10>
       n<> u<160> t<Module_declaration> p<161> c<44> l<9:1> el<18:10>
         n<> u<44> t<Module_ansi_header> p<160> c<41> s<62> l<9:1> el<9:12>
-          n<module> u<41> t<Module_keyword> p<44> s<42> l<9:1> el<9:7>
+          n<module> u<41> t<MODULE> p<44> s<42> l<9:1> el<9:7>
           n<top> u<42> t<SIMPLE_IDENTIFIER> p<44> s<43> l<9:8> el<9:11>
           n<> u<43> t<Package_import_declaration_list> p<44> l<9:11> el<9:11>
         n<> u<62> t<Non_port_module_item> p<160> c<61> s<80> l<10:4> el<10:29>
@@ -177,11 +177,10 @@ n<$Source01/dut.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
         n<> u<159> t<ENDMODULE> p<160> l<18:1> el<18:10>
   n<// top> u<163> t<LINE_COMMENT> p<164> l<18:11> el<18:17>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
-[INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@top".
-[ERR:EL0535] $Source01/dut.sv:16:8: Illegal implicit net "id:76, name:wmask_i".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
-[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
+[INF:CP0303] $Source01/dut.sv:9:1: Compile module "top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -190,34 +189,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:$Source01/dut.sv start:1:1 end:7:10:
+    Module name:dut file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
       vpiParameter (1 items):
         Parameter name:Width start:3:18 end:3:23:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:3:14 end:3:17:
             vpiParent: Parameter name:Width
-            vpiFullName: work@dut.Width
+            vpiFullName: dut.Width
             vpiActual: IntTypespec
           vpiName: Width
-          vpiFullName: work@dut.Width
+          vpiFullName: dut.Width
       vpiParamAssign (1 items):
         ParamAssign start:3:18 end:3:23:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:Width start:3:18 end:3:23:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: work@dut.Width
+            vpiFullName: dut.Width
             vpiActual: Parameter name:Width
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiRange (1 items):
             Range start:5:10 end:5:21:
               vpiParent: LogicTypespec
@@ -228,13 +226,13 @@ Design name:unnamed:
                   RefObj name:Width start:5:11 end:5:16:
                     vpiParent: Operation
                     vpiName: Width
-                    vpiFullName: work@dut.Width
+                    vpiFullName: dut.Width
                     vpiActual: Parameter name:Width
                   Constant start:5:17 end:5:18:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@dut
+                      vpiFullName: dut
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -244,115 +242,117 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
+        vpiParent: Module name:dut
         vpiName: work
-        vpiFullName: work@dut.work
+        vpiFullName: dut.work
       vpiCell: dut
       vpiNet (1 items):
         Net name:wmask_i start:5:22 end:5:29:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:5:4 end:5:21:
             vpiParent: Net name:wmask_i
-            vpiFullName: work@dut.wmask_i
+            vpiFullName: dut.wmask_i
             vpiActual: LogicTypespec
           vpiName: wmask_i
-          vpiFullName: work@dut.wmask_i
+          vpiFullName: dut.wmask_i
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:wmask_i start:5:22 end:5:29:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName: wmask_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:22 end:5:29:
+          vpiLowConn RefObj name:wmask_i start:5:22 end:5:29:
             vpiParent: Port name:wmask_i
-            vpiFullName: work@dut.wmask_i
+            vpiName: wmask_i
+            vpiFullName: dut.wmask_i.wmask_i
             vpiActual: Net name:wmask_i
           vpiTypespec RefTypespec start:5:4 end:5:21:
             vpiParent: Port name:wmask_i
-            vpiFullName: work@dut.wmask_i
+            vpiFullName: dut.wmask_i
             vpiActual: LogicTypespec
-    Module name:work@top file:$Source01/dut.sv start:9:1 end:18:10:
+    Module name:top file:$Source01/dut.sv start:9:1 end:18:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:9:8 end:9:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:9:8 end:9:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiParameter (3 items):
         Parameter name:Width start:10:18 end:10:23:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:10:14 end:10:17:
             vpiParent: Parameter name:Width
-            vpiFullName: work@top.Width
+            vpiFullName: top.Width
             vpiActual: IntTypespec
           vpiName: Width
-          vpiFullName: work@top.Width
+          vpiFullName: top.Width
         Parameter name:EccWidth start:11:18 end:11:26:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:11:14 end:11:17:
             vpiParent: Parameter name:EccWidth
-            vpiFullName: work@top.EccWidth
+            vpiFullName: top.EccWidth
             vpiActual: IntTypespec
           vpiName: EccWidth
-          vpiFullName: work@top.EccWidth
+          vpiFullName: top.EccWidth
         Parameter name:BBB start:12:15 end:12:18:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:12:11 end:12:14:
             vpiParent: Parameter name:BBB
-            vpiFullName: work@top.BBB
+            vpiFullName: top.BBB
             vpiActual: IntTypespec
           vpiName: BBB
-          vpiFullName: work@top.BBB
+          vpiFullName: top.BBB
       vpiParamAssign (3 items):
         ParamAssign start:10:18 end:10:28:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:Width start:10:18 end:10:23:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: work@top.Width
+            vpiFullName: top.Width
             vpiActual: Parameter name:Width
           vpiRhs Constant start:10:26 end:10:28:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "16"
             vpiValue: 16
         ParamAssign start:11:18 end:11:30:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:EccWidth start:11:18 end:11:26:
             vpiParent: ParamAssign
             vpiName: EccWidth
-            vpiFullName: work@top.EccWidth
+            vpiFullName: top.EccWidth
             vpiActual: Parameter name:EccWidth
           vpiRhs Constant start:11:29 end:11:30:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
         ParamAssign start:12:15 end:12:43:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:BBB start:12:15 end:12:18:
             vpiParent: ParamAssign
             vpiName: BBB
-            vpiFullName: work@top.BBB
+            vpiFullName: top.BBB
             vpiActual: Parameter name:BBB
           vpiRhs Operation start:12:21 end:12:43:
             vpiParent: ParamAssign
@@ -365,12 +365,12 @@ Design name:unnamed:
                   RefObj name:Width start:12:22 end:12:27:
                     vpiParent: Operation
                     vpiName: Width
-                    vpiFullName: work@top.Width
+                    vpiFullName: top.Width
                     vpiActual: Parameter name:Width
                   RefObj name:EccWidth start:12:28 end:12:36:
                     vpiParent: Operation
                     vpiName: EccWidth
-                    vpiFullName: work@top.EccWidth
+                    vpiFullName: top.EccWidth
                     vpiActual: Parameter name:EccWidth
               Operation start:12:36 end:12:42:
                 vpiParent: Operation
@@ -380,7 +380,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -388,36 +388,38 @@ Design name:unnamed:
                     vpiValue: "1"
       vpiTypespec (2 items):
         BitTypespec:
-          vpiParent: Module name:work@top
-        ModuleTypespec name:work@dut start:13:4 end:13:7:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@dut start:13:4 end:13:7:
-            vpiParent: ModuleTypespec name:work@dut
-            vpiName: work@dut
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+          vpiParent: Module name:top
+        ModuleTypespec name:dut start:13:4 end:13:7:
+          vpiParent: Module name:top
+          vpiName Identifier name:dut start:13:4 end:13:7:
+            vpiParent: ModuleTypespec name:dut
+            vpiName: dut
+          vpiModule: Module name:dut
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:u_dut start:15:6 end:15:11:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_dut
-          vpiTypespec RefTypespec name:work@dut start:13:4 end:13:7:
+          vpiTypespec RefTypespec name:dut start:13:4 end:13:7:
             vpiParent: RefInstance name:u_dut
-            vpiName: work@dut
-            vpiFullName: work@top.u_dut.work@dut
-            vpiActual: ModuleTypespec name:work@dut
+            vpiName: dut
+            vpiFullName: top.u_dut.dut
+            vpiActual: ModuleTypespec name:dut
           vpiParamAssign (1 items):
             ParamAssign start:14:7 end:14:31:
               vpiParent: RefInstance name:u_dut
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:Width start:14:8 end:14:13:
                 vpiParent: ParamAssign
                 vpiName: Width
-                vpiFullName: work@top.u_dut.Width
+                vpiFullName: top.u_dut.Width
                 vpiActual: Parameter name:Width
               vpiRhs Operation start:14:14 end:14:30:
                 vpiParent: ParamAssign
@@ -426,12 +428,12 @@ Design name:unnamed:
                   RefObj name:Width start:14:14 end:14:19:
                     vpiParent: Operation
                     vpiName: Width
-                    vpiFullName: work@top.u_dut.Width
+                    vpiFullName: top.u_dut.Width
                     vpiActual: Parameter name:Width
                   RefObj name:EccWidth start:14:22 end:14:30:
                     vpiParent: Operation
                     vpiName: EccWidth
-                    vpiFullName: work@top.u_dut.EccWidth
+                    vpiFullName: top.u_dut.EccWidth
                     vpiActual: Parameter name:EccWidth
           vpiPort (1 items):
             Port start:16:7 end:16:41:
@@ -439,7 +441,7 @@ Design name:unnamed:
               vpiLowConn RefObj name:wmask_i start:16:8 end:16:15:
                 vpiParent: Port
                 vpiName: wmask_i
-                vpiFullName: work@top.u_dut.wmask_i
+                vpiFullName: top.u_dut.wmask_i
               vpiHighConn Operation start:16:16 end:16:40:
                 vpiParent: Port
                 vpiOpType: multi-concatenation (34)
@@ -451,12 +453,12 @@ Design name:unnamed:
                       RefObj name:Width start:16:17 end:16:22:
                         vpiParent: Operation
                         vpiName: Width
-                        vpiFullName: work@top.u_dut.Width
+                        vpiFullName: top.u_dut.Width
                         vpiActual: Parameter name:Width
                       RefObj name:EccWidth start:16:25 end:16:33:
                         vpiParent: Operation
                         vpiName: EccWidth
-                        vpiFullName: work@top.u_dut.EccWidth
+                        vpiFullName: top.u_dut.EccWidth
                         vpiActual: Parameter name:EccWidth
                   Operation start:16:33 end:16:39:
                     vpiParent: Operation
@@ -466,32 +468,32 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top.u_dut
+                          vpiFullName: top.u_dut
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
                         vpiValue: "1"
   vpiTypespec (3 items):
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:9:8 end:9:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:9:8 end:9:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

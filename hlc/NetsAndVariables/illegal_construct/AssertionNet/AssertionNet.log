@@ -1,0 +1,319 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/NetsAndVariables/illegal_construct -d ast -d db AssertionNet.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/AssertionNet
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/AssertionNet.sv".
+[INF:PA0201] Parsing source file "$Source01/AssertionNet.sv".
+[SNT:PA0207] $Source01/AssertionNet.sv:24:4: Syntax error: extraneous input 'wire' expecting {''b0', ''b1', ''B0', ''B1', ''0', ''1', ''x', ''X', ''z', ''Z', '1'b0', '1'b1', '1'bx', '1'bX', '1'B0', '1'B1', '1'Bx', '1'BX', POUND_POUND_DELAY, INTEGRAL_NUMBER, REAL_NUMBER, QUOTED_STRING, '(', 'virtual', 'type', 'const', 'local', 'super', '{', 'if', 'enum', 'struct', 'union', 'string', 'chandle', 'event', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'nexttime', 's_nexttime', 's_always', 'accept_on', 'reject_on', 'sync_accept_on', 'sync_reject_on', 'eventually', 's_eventually', 'signed', 'unsigned', 'strong', 'weak', '$', '++', '+', '--', '-', DOLLAR_UNIT, 'disable', 'not', 'first_match', '##', '!', 'case', 'always', '@', 'tagged', ''', 'null', 'this', DOLLAR_ROOT, 'randomize', 'sample', '&', '|', '~|', '~&', '^~', ESCAPED_IDENTIFIER, '~', '^', '~^', SIMPLE_IDENTIFIER},
+    wire local_val; // ILLEGAL: net type as a property-local variable
+    ^-- $Source01/AssertionNet.sv:24:4:.
+[SNT:PA0207] $Source01/AssertionNet.sv:25:4: Syntax error: mismatched input '@' expecting 'endproperty',
+    @(posedge clk) (a, local_val = b) |=> (b == local_val);
+    ^-- $Source01/AssertionNet.sv:25:4:.
+[SNT:PA0207] $Source01/AssertionNet.sv:25:36: Syntax error: mismatched input ')' expecting '=',
+    @(posedge clk) (a, local_val = b) |=> (b == local_val);
+                                    ^-- $Source01/AssertionNet.sv:25:36:.
+[SNT:PA0207] $Source01/AssertionNet.sv:26:2: Syntax error: extraneous input 'endproperty' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', HLC_MACRO_NOT_DEFINED},
+  endproperty
+  ^-- $Source01/AssertionNet.sv:26:2:.
+AST_DEBUG_BEGIN
+Count: 111
+LIB: work
+FILE: f<13>:$Source01/AssertionNet.sv
+n<$Source01/AssertionNet.sv> u<110> t<Top_level_rule> c<1> l<22:1> el<30:1>
+  n<> u<1> t<Null_rule> p<110> s<2> l<22:1> el<22:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<110> s<3> l<22:1> el<29:10>
+  n<// Illegal construct: a net-type local variable declared inside a property.> u<3> t<LINE_COMMENT> p<110> s<4> l<17:1> el<17:76>
+  n<// Per IEEE 1800 clause 16.10, local variables in sequences/properties must> u<4> t<LINE_COMMENT> p<110> s<5> l<18:1> el<18:76>
+  n<// be variable data types; a net type (e.g. wire) is illegal there since a> u<5> t<LINE_COMMENT> p<110> s<6> l<19:1> el<19:75>
+  n<// property has no driver context for a net.> u<6> t<LINE_COMMENT> p<110> s<109> l<20:1> el<20:45>
+  n<> u<109> t<Source_text> p<110> c<108> l<22:1> el<29:10>
+    n<> u<108> t<Description> p<109> c<107> l<22:1> el<29:10>
+      n<> u<107> t<Module_declaration> p<108> c<35> l<22:1> el<29:10>
+        n<> u<35> t<Module_ansi_header> p<107> c<7> s<52> l<22:1> el<22:92>
+          n<module> u<7> t<MODULE> p<35> s<8> l<22:1> el<22:7>
+          n<illegal_construct_assertion_net_test> u<8> t<SIMPLE_IDENTIFIER> p<35> s<9> l<22:8> el<22:44>
+          n<> u<9> t<Package_import_declaration_list> p<35> s<34> l<22:44> el<22:44>
+          n<> u<34> t<Port_declaration_list> p<35> c<17> l<22:44> el<22:91>
+            n<> u<17> t<Ansi_port_declaration> p<34> c<15> s<25> l<22:45> el<22:60>
+              n<> u<15> t<Net_port_header> p<17> c<10> s<16> l<22:45> el<22:56>
+                n<> u<10> t<INPUT> p<15> s<14> l<22:45> el<22:50>
+                n<> u<14> t<Net_port_type> p<15> c<13> l<22:51> el<22:56>
+                  n<> u<13> t<Data_type_or_implicit> p<14> c<12> l<22:51> el<22:56>
+                    n<> u<12> t<Data_type> p<13> c<11> l<22:51> el<22:56>
+                      n<> u<11> t<LOGIC> p<12> l<22:51> el<22:56>
+              n<clk> u<16> t<SIMPLE_IDENTIFIER> p<17> l<22:57> el<22:60>
+            n<> u<25> t<Ansi_port_declaration> p<34> c<23> s<33> l<22:62> el<22:75>
+              n<> u<23> t<Net_port_header> p<25> c<18> s<24> l<22:62> el<22:73>
+                n<> u<18> t<INPUT> p<23> s<22> l<22:62> el<22:67>
+                n<> u<22> t<Net_port_type> p<23> c<21> l<22:68> el<22:73>
+                  n<> u<21> t<Data_type_or_implicit> p<22> c<20> l<22:68> el<22:73>
+                    n<> u<20> t<Data_type> p<21> c<19> l<22:68> el<22:73>
+                      n<> u<19> t<LOGIC> p<20> l<22:68> el<22:73>
+              n<a> u<24> t<SIMPLE_IDENTIFIER> p<25> l<22:74> el<22:75>
+            n<> u<33> t<Ansi_port_declaration> p<34> c<31> l<22:77> el<22:90>
+              n<> u<31> t<Net_port_header> p<33> c<26> s<32> l<22:77> el<22:88>
+                n<> u<26> t<INPUT> p<31> s<30> l<22:77> el<22:82>
+                n<> u<30> t<Net_port_type> p<31> c<29> l<22:83> el<22:88>
+                  n<> u<29> t<Data_type_or_implicit> p<30> c<28> l<22:83> el<22:88>
+                    n<> u<28> t<Data_type> p<29> c<27> l<22:83> el<22:88>
+                      n<> u<27> t<LOGIC> p<28> l<22:83> el<22:88>
+              n<b> u<32> t<SIMPLE_IDENTIFIER> p<33> l<22:89> el<22:90>
+        n<> u<52> t<Non_port_module_item> p<107> c<51> s<54> l<23:3> el<25:14>
+          n<> u<51> t<Module_or_generate_item> p<52> c<50> l<23:3> el<25:14>
+            n<> u<50> t<Module_common_item> p<51> c<49> l<23:3> el<25:14>
+              n<> u<49> t<Module_or_generate_item_declaration> p<50> c<48> l<23:3> el<25:14>
+                n<> u<48> t<Package_or_generate_item_declaration> p<49> c<47> l<23:3> el<25:14>
+                  n<> u<47> t<Assertion_item_declaration> p<48> c<45> l<23:3> el<25:14>
+                    n<> u<45> t<Property_declaration> p<47> c<36> s<46> l<23:3> el<25:14>
+                      n<p_bad_local_net> u<36> t<SIMPLE_IDENTIFIER> p<45> s<44> l<23:12> el<23:27>
+                      n<> u<44> t<Property_spec> p<45> c<43> l<24:10> el<24:19>
+                        n<> u<43> t<Property_expr> p<44> c<42> l<24:10> el<24:19>
+                          n<> u<42> t<Sequence_expr> p<43> c<41> l<24:10> el<24:19>
+                            n<> u<41> t<Expression_or_dist> p<42> c<40> l<24:10> el<24:19>
+                              n<> u<40> t<Expression> p<41> c<39> l<24:10> el<24:19>
+                                n<> u<39> t<Primary> p<40> c<38> l<24:10> el<24:19>
+                                  n<> u<38> t<Primary_literal> p<39> c<37> l<24:10> el<24:19>
+                                    n<local_val> u<37> t<SIMPLE_IDENTIFIER> p<38> l<24:10> el<24:19>
+                    n<// ILLEGAL: net type as a property-local variable> u<46> t<LINE_COMMENT> p<47> l<24:21> el<24:70>
+        n<> u<54> t<Non_port_module_item> p<107> c<53> s<56> l<25:15> el<25:15>
+          n<> u<53> t<Module_or_generate_item> p<54> l<25:15> el<25:15>
+        n<> u<56> t<Non_port_module_item> p<107> c<55> s<58> l<25:15> el<25:21>
+          n<> u<55> t<Module_or_generate_item> p<56> l<25:15> el<25:21>
+        n<> u<58> t<Non_port_module_item> p<107> c<57> s<60> l<25:21> el<25:21>
+          n<> u<57> t<Module_or_generate_item> p<58> l<25:21> el<25:21>
+        n<> u<60> t<Non_port_module_item> p<107> c<59> s<62> l<25:21> el<25:23>
+          n<> u<59> t<Module_or_generate_item> p<60> l<25:21> el<25:23>
+        n<> u<62> t<Non_port_module_item> p<107> c<61> s<64> l<25:24> el<25:24>
+          n<> u<61> t<Module_or_generate_item> p<62> l<25:24> el<25:24>
+        n<> u<64> t<Non_port_module_item> p<107> c<63> s<75> l<25:24> el<25:33>
+          n<> u<63> t<Module_or_generate_item> p<64> l<25:24> el<25:33>
+        n<> u<75> t<Non_port_module_item> p<107> c<74> s<77> l<25:34> el<25:44>
+          n<> u<74> t<Module_or_generate_item> p<75> c<73> l<25:34> el<25:44>
+            n<> u<73> t<Module_common_item> p<74> c<72> l<25:34> el<25:44>
+              n<> u<72> t<Continuous_assign> p<73> c<71> l<25:34> el<25:44>
+                n<> u<71> t<Variable_assignment_list> p<72> c<70> l<25:36> el<25:44>
+                  n<> u<70> t<Variable_assignment> p<71> c<69> l<25:36> el<25:44>
+                    n<> u<69> t<Variable_lvalue> p<70> c<66> l<25:36> el<25:37>
+                      n<> u<66> t<Ps_or_hierarchical_identifier> p<69> c<65> s<68> l<25:36> el<25:37>
+                        n<b> u<65> t<SIMPLE_IDENTIFIER> p<66> l<25:36> el<25:37>
+                      n<> u<68> t<Select> p<69> c<67> l<25:37> el<25:37>
+                        n<> u<67> t<Bit_select> p<68> l<25:37> el<25:37>
+        n<> u<77> t<Non_port_module_item> p<107> c<76> s<79> l<25:44> el<25:44>
+          n<> u<76> t<Module_or_generate_item> p<77> l<25:44> el<25:44>
+        n<> u<79> t<Non_port_module_item> p<107> c<78> s<81> l<25:44> el<25:48>
+          n<> u<78> t<Module_or_generate_item> p<79> l<25:44> el<25:48>
+        n<> u<81> t<Non_port_module_item> p<107> c<80> s<83> l<25:49> el<25:49>
+          n<> u<80> t<Module_or_generate_item> p<81> l<25:49> el<25:49>
+        n<> u<83> t<Non_port_module_item> p<107> c<82> s<88> l<25:49> el<25:59>
+          n<> u<82> t<Module_or_generate_item> p<83> l<25:49> el<25:59>
+        n<> u<88> t<Non_port_module_item> p<107> c<87> s<105> l<25:59> el<25:60>
+          n<> u<87> t<Module_or_generate_item> p<88> c<86> l<25:59> el<25:60>
+            n<> u<86> t<Module_common_item> p<87> c<85> l<25:59> el<25:60>
+              n<> u<85> t<Module_or_generate_item_declaration> p<86> c<84> l<25:59> el<25:60>
+                n<> u<84> t<Package_or_generate_item_declaration> p<85> l<25:59> el<25:60>
+        n<> u<105> t<Non_port_module_item> p<107> c<104> s<106> l<28:3> el<28:37>
+          n<> u<104> t<Module_or_generate_item> p<105> c<103> l<28:3> el<28:37>
+            n<> u<103> t<Module_common_item> p<104> c<102> l<28:3> el<28:37>
+              n<> u<102> t<Assertion_item> p<103> c<101> l<28:3> el<28:37>
+                n<> u<101> t<Concurrent_assertion_item> p<102> c<100> l<28:3> el<28:37>
+                  n<> u<100> t<Concurrent_assertion_statement> p<101> c<99> l<28:3> el<28:37>
+                    n<> u<99> t<Assert_property_statement> p<100> c<96> l<28:3> el<28:37>
+                      n<> u<96> t<Property_spec> p<99> c<95> s<98> l<28:20> el<28:35>
+                        n<> u<95> t<Property_expr> p<96> c<94> l<28:20> el<28:35>
+                          n<> u<94> t<Sequence_expr> p<95> c<93> l<28:20> el<28:35>
+                            n<> u<93> t<Expression_or_dist> p<94> c<92> l<28:20> el<28:35>
+                              n<> u<92> t<Expression> p<93> c<91> l<28:20> el<28:35>
+                                n<> u<91> t<Primary> p<92> c<90> l<28:20> el<28:35>
+                                  n<> u<90> t<Primary_literal> p<91> c<89> l<28:20> el<28:35>
+                                    n<p_bad_local_net> u<89> t<SIMPLE_IDENTIFIER> p<90> l<28:20> el<28:35>
+                      n<> u<98> t<Action_block> p<99> c<97> l<28:36> el<28:37>
+                        n<> u<97> t<Statement_or_null> p<98> l<28:36> el<28:37>
+        n<> u<106> t<ENDMODULE> p<107> l<29:1> el<29:10>
+AST_DEBUG_END
+[INF:CP0303] $Source01/AssertionNet.sv:22:1: Compile module "illegal_construct_assertion_net_test".
+[ERR:LN0813] $Source01/AssertionNet.sv:1:1: Found 1 orphan node(s).
+[ERR:LN0814] Found 1 weak node(s).
+[WRN:PA0205] $Source01/AssertionNet.sv:22:1: No timescale set for "illegal_construct_assertion_net_test".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:AssertionNet.sv file:$Source01/AssertionNet.sv:
+      vpiParent: Design name:unnamed
+      vpiName: AssertionNet.sv
+      vpiPreprocFile: "$Output/lib/work/AssertionNet.sv"
+  vpiAllModules (1 items):
+    Module name:illegal_construct_assertion_net_test file:$Source01/AssertionNet.sv start:22:1 end:29:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:illegal_construct_assertion_net_test start:22:8 end:22:44:
+        vpiParent: Module name:illegal_construct_assertion_net_test
+        vpiName: illegal_construct_assertion_net_test
+      vpiFullName: illegal_construct_assertion_net_test
+      vpiPropertyDecl (1 items):
+        PropertyDecl name:p_bad_local_net start:23:3 end:25:14:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+          vpiName Identifier name:p_bad_local_net start:23:12 end:23:27:
+            vpiParent: PropertyDecl name:p_bad_local_net
+            vpiName: p_bad_local_net
+          vpiFullName: illegal_construct_assertion_net_test.p_bad_local_net
+          vpiPropertySpec PropertySpec start:24:10 end:24:19:
+            vpiParent: PropertyDecl name:p_bad_local_net
+            vpiPropertyExpr RefObj name:local_val start:24:10 end:24:19:
+              vpiParent: PropertySpec
+              vpiName: local_val
+              vpiFullName: illegal_construct_assertion_net_test.p_bad_local_net.local_val
+      vpiConcurrentAssertions (1 items):
+        Assert start:28:3 end:28:37:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+          vpiProperty PropertySpec start:28:20 end:28:35:
+            vpiParent: Assert
+            vpiPropertyExpr RefObj name:p_bad_local_net start:28:20 end:28:35:
+              vpiParent: PropertySpec
+              vpiName: p_bad_local_net
+              vpiFullName: illegal_construct_assertion_net_test.p_bad_local_net
+              vpiActual: PropertyDecl name:p_bad_local_net
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+      vpiDefName: illegal_construct_assertion_net_test
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:illegal_construct_assertion_net_test
+        vpiName: work
+        vpiFullName: illegal_construct_assertion_net_test.work
+      vpiCell: illegal_construct_assertion_net_test
+      vpiNet (3 items):
+        Net name:clk start:22:57 end:22:60:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+          vpiTypespec RefTypespec start:22:45 end:22:56:
+            vpiParent: Net name:clk
+            vpiFullName: illegal_construct_assertion_net_test.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: illegal_construct_assertion_net_test.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:a start:22:74 end:22:75:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+          vpiTypespec RefTypespec start:22:62 end:22:73:
+            vpiParent: Net name:a
+            vpiFullName: illegal_construct_assertion_net_test.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: illegal_construct_assertion_net_test.a
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:b start:22:89 end:22:90:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+          vpiTypespec RefTypespec start:22:77 end:22:88:
+            vpiParent: Net name:b
+            vpiFullName: illegal_construct_assertion_net_test.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: illegal_construct_assertion_net_test.b
+          vpiNetType: wire (1)
+          vpiScalar: true
+      vpiPort (3 items):
+        Port name:clk start:22:57 end:22:60:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+          vpiName: clk
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:22:57 end:22:60:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: illegal_construct_assertion_net_test.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec start:22:45 end:22:56:
+            vpiParent: Port name:clk
+            vpiFullName: illegal_construct_assertion_net_test.clk
+            vpiActual: LogicTypespec
+        Port name:a start:22:74 end:22:75:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+          vpiName: a
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:a start:22:74 end:22:75:
+            vpiParent: Port name:a
+            vpiName: a
+            vpiFullName: illegal_construct_assertion_net_test.a.a
+            vpiActual: Net name:a
+          vpiTypespec RefTypespec start:22:62 end:22:73:
+            vpiParent: Port name:a
+            vpiFullName: illegal_construct_assertion_net_test.a
+            vpiActual: LogicTypespec
+        Port name:b start:22:89 end:22:90:
+          vpiParent: Module name:illegal_construct_assertion_net_test
+          vpiName: b
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:22:89 end:22:90:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: illegal_construct_assertion_net_test.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec start:22:77 end:22:88:
+            vpiParent: Port name:b
+            vpiFullName: illegal_construct_assertion_net_test.b
+            vpiActual: LogicTypespec
+  vpiTypespec (1 items):
+    ModuleTypespec name:illegal_construct_assertion_net_test:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:illegal_construct_assertion_net_test start:22:8 end:22:44:
+        vpiParent: ModuleTypespec name:illegal_construct_assertion_net_test
+        vpiName: illegal_construct_assertion_net_test
+      vpiModule: Module name:illegal_construct_assertion_net_test
+===================
+[  FATAL] : 0
+[ SYNTAX] : 4
+[  ERROR] : 2
+[WARNING] : 1
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: NetsAndVariables/illegal_construct/AssertionNet
+   test-dirpath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/AssertionNet
+  hldb-filepath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/AssertionNet/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/AssertionNet/mounts.json
+
+
+{'result': {'coverage': 87.92,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/AssertionNet.sv': {'post_len': 29,
+                                                           'pre_len': 240}},
+            'post_len': 29,
+            'pre_len': 240,
+            'test_name': 'NetsAndVariables/illegal_construct/AssertionNet'}}
+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/AssertionNet.sv |      240 |        29 |
++==================================+==========+===========+
+|                                  |      240 |        29 |
++----------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 87.92
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/AssertionNet/design.hldb ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/AssertionNet/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                              30      30       0         0
+----------------------------------------------------------------
+                                    30      30       0         0
+===================== END REDUCTION RESULT =====================

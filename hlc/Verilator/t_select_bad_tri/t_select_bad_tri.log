@@ -22,7 +22,7 @@ n<$Source01/t_select_bad_tri.v> u<95> t<Top_level_rule> c<1> l<6:1> el<14:1>
     n<> u<93> t<Description> p<94> c<92> l<6:1> el<13:10>
       n<> u<92> t<Module_declaration> p<93> c<11> l<6:1> el<13:10>
         n<> u<11> t<Module_nonansi_header> p<92> c<6> s<34> l<6:1> el<6:24>
-          n<module> u<6> t<Module_keyword> p<11> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<11> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<11> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<11> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<11> s<10> l<6:10> el<6:23>
@@ -108,7 +108,7 @@ n<$Source01/t_select_bad_tri.v> u<95> t<Top_level_rule> c<1> l<6:1> el<14:1>
                           n<> u<81> t<END> p<82> l<11:4> el<11:7>
         n<> u<91> t<ENDMODULE> p<92> l<13:1> el<13:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_select_bad_tri.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_select_bad_tri.v:6:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -118,17 +118,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_select_bad_tri.v
       vpiPreprocFile: "$Output/lib/work/t_select_bad_tri.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_select_bad_tri.v start:6:1 end:13:10:
+    Module name:t file:$Source01/t_select_bad_tri.v start:6:1 end:13:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:in start:8:15 end:8:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:8:4 end:8:14:
+            vpiParent: Variable name:in
+            vpiFullName: t.in
+            vpiActual: LogicTypespec
+          vpiName: in
+          vpiFullName: t.in
+          vpiVector: true
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiRange (1 items):
             Range start:8:8 end:8:14:
               vpiParent: LogicTypespec
@@ -136,7 +145,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -146,35 +155,26 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
           vpiVector: true
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:in start:8:15 end:8:17:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:8:4 end:8:14:
-            vpiParent: Net name:in
-            vpiFullName: work@t.in
-            vpiActual: LogicTypespec
-          vpiName: in
-          vpiFullName: work@t.in
       vpiProcess (1 items):
         Initial start:9:4 end:11:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:9:12 end:11:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -188,12 +188,12 @@ Design name:unnamed:
                     "IndexedPartSelect name:in[1'h0/1'b0+:71] start:10:11 end:10:40":
                       vpiParent: Operation
                       vpiName: "in[1'h0/1'b0+:71]"
-                      vpiFullName: "work@t.in[1'h0/1'b0+:71]"
+                      vpiFullName: "t.in[1'h0/1'b0+:71]"
                       vpiPrefix RefObj name:in start:10:11 end:10:13:
                         vpiParent: "IndexedPartSelect name:in[1'h0/1'b0+:71]"
                         vpiName: in
-                        vpiFullName: work@t.in
-                        vpiActual: Net name:in
+                        vpiFullName: t.in
+                        vpiActual: Variable name:in
                       vpiIndexedPartSelectType: pos indexed (1)
                       vpiBaseExpr Operation start:10:19 end:10:30:
                         vpiParent: "IndexedPartSelect name:in[1'h0/1'b0+:71]"
@@ -203,7 +203,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: "work@t.in[1'h0/1'b0+:71]"
+                              vpiFullName: "t.in[1'h0/1'b0+:71]"
                               vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 1
@@ -213,7 +213,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: "work@t.in[1'h0/1'b0+:71]"
+                              vpiFullName: "t.in[1'h0/1'b0+:71]"
                               vpiActual: BitTypespec
                             vpiConstType: binary (3)
                             vpiSize: 1
@@ -223,7 +223,7 @@ Design name:unnamed:
                         vpiParent: "IndexedPartSelect name:in[1'h0/1'b0+:71]"
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: "work@t.in[1'h0/1'b0+:71]"
+                          vpiFullName: "t.in[1'h0/1'b0+:71]"
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -233,7 +233,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 71
@@ -245,12 +245,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
   vpiTypespec (3 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

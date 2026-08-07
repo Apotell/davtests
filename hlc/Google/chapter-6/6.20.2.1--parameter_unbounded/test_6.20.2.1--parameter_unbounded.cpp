@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Spec-based validation of IEEE 1800-2017 §6.20.2.1 unbounded parameter '$'.
+// Spec-based validation of IEEE 1800-2017 Sec 6.20.2.1 unbounded parameter '$'.
 // SV: tests/Google/chapter-6/6.20.2.1--parameter_unbounded.sv
 //
 //   parameter p = $;
@@ -22,7 +22,7 @@
 //   wire [31:0] a;
 //   always @(posedge clk) a[0:p] = 23;
 //
-// ── §6.20.2.1 construct under test ────────────────────────────────────────
+// -- Sec 6.20.2.1 construct under test ----
 //
 // The '$' token used as a parameter value represents an unbounded integer.
 // It is commonly used as an upper bound in parameterised width expressions
@@ -30,38 +30,38 @@
 // value as a Constant with vpiConstType = vpiUnbounded (11) and
 // vpiDecompile = "$".
 //
-// ── UHDM tree (from log) ──────────────────────────────────────────────────
+// -- UHDM tree (from log) ----
 //
-//   Module name:work@top
-//   ├── vpiParameter (1 item)
-//   │   └── Parameter name:p
-//   │       └── vpiTypespec  RefTypespec → LogicTypespec
-//   ├── vpiParamAssign (1 item)
-//   │   └── ParamAssign
-//   │       ├── vpiLhs  RefObj name:p → actual: Parameter name:p
-//   │       └── vpiRhs  Constant
-//   │           ├── vpiTypespec  RefTypespec → StringTypespec
-//   │           ├── vpiConstType: unbounded (11)
-//   │           └── vpiDecompile: "$"
-//   ├── vpiNet (2 items)
-//   │   ├── Net name:clk  vpiNetType:wire(1)
-//   │   │   └── vpiValue  Constant("0", uIntConst=9)
-//   │   └── Net name:a    vpiNetType:wire(1)
-//   │       └── vpiTypespec  LogicTypespec  vpiRange [31:0]
-//   └── vpiProcess (1 item)
-//       └── Always  vpiAlwaysType:always(1)
-//           └── vpiStmt  EventControl
-//               ├── vpiCondition  Operation { posedgeOp(39) }
-//               │   └── operands[0]  RefObj("clk")
-//               └── vpiStmt  Assignment (blocking)
-//                   ├── vpiLhs  PartSelect name:a[0:p]
-//                   │   ├── vpiPrefix  RefObj name:a → Net name:a
-//                   │   └── vpiRange  Range
-//                   │       ├── vpiLeftRange   Constant("0", uIntConst=9)
-//                   │       └── vpiRightRange  RefObj name:p → Parameter name:p
-//                   └── vpiRhs  Constant("23", uIntConst=9)
+//   Module name:top
+//   |-- vpiParameter (1 item)
+//   |   `-- Parameter name:p
+//   |       `-- vpiTypespec  RefTypespec -> LogicTypespec
+//   |-- vpiParamAssign (1 item)
+//   |   `-- ParamAssign
+//   |       |-- vpiLhs  RefObj name:p -> actual: Parameter name:p
+//   |       `-- vpiRhs  Constant
+//   |           |-- vpiTypespec  RefTypespec -> StringTypespec
+//   |           |-- vpiConstType: unbounded (11)
+//   |           `-- vpiDecompile: "$"
+//   |-- vpiNet (2 items)
+//   |   |-- Net name:clk  vpiNetType:wire(1)
+//   |   |   `-- vpiValue  Constant("0", uIntConst=9)
+//   |   `-- Net name:a    vpiNetType:wire(1)
+//   |       `-- vpiTypespec  LogicTypespec  vpiRange [31:0]
+//   `-- vpiProcess (1 item)
+//       `-- Always  vpiAlwaysType:always(1)
+//           `-- vpiStmt  EventControl
+//               |-- vpiCondition  Operation { posedgeOp(39) }
+//               |   `-- operands[0]  RefObj("clk")
+//               `-- vpiStmt  Assignment (blocking)
+//                   |-- vpiLhs  PartSelect name:a[0:p]
+//                   |   |-- vpiPrefix  RefObj name:a -> Net name:a
+//                   |   `-- vpiRange  Range
+//                   |       |-- vpiLeftRange   Constant("0", uIntConst=9)
+//                   |       `-- vpiRightRange  RefObj name:p -> Parameter name:p
+//                   `-- vpiRhs  Constant("23", uIntConst=9)
 //
-// ── VPI constants ──────────────────────────────────────────────────────────
+// -- VPI constants ----
 //   vpiPosedgeOp  = 39
 //   vpiUIntConst  =  9
 //   vpiUnbounded  = 11   (the '$' unbounded value)
@@ -88,6 +88,7 @@
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 #include <string>
 
@@ -99,12 +100,12 @@ class ParameterUnboundedTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
@@ -153,10 +154,10 @@ static const hldb::PartSelect *getPartSelect(const hldb::Design *d) {
 // Module
 // ===========================================================================
 
-TEST_F(ParameterUnboundedTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(ParameterUnboundedTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
-// Parameter — 'parameter p = $'
+// Parameter -- 'parameter p = $'
 // ===========================================================================
 
 TEST_F(ParameterUnboundedTest, Param_Collection_HasOneEntry) {
@@ -179,7 +180,7 @@ TEST_F(ParameterUnboundedTest, Param_p_HasLogicTypespec) {
 }
 
 // ===========================================================================
-// ParamAssign — value assignment 'p = $'
+// ParamAssign -- value assignment 'p = $'
 // ===========================================================================
 
 TEST_F(ParameterUnboundedTest, ParamAssign_Collection_HasOneEntry) {
@@ -218,14 +219,14 @@ TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_IsConstant) {
 }
 
 TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_IsUnbounded) {
-  // §6.20.2.1: '$' is the unbounded value; Surelog represents it as a
+  // Sec 6.20.2.1: '$' is the unbounded value; Surelog represents it as a
   // Constant with vpiConstType = vpiUnbounded (11).
   const auto *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
   const auto *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 11) /* vpiUnbounded */
-      << "§6.20.2.1: '$' must have vpiConstType = vpiUnbounded (11)";
+      << "Sec 6.20.2.1: '$' must have vpiConstType = vpiUnbounded (11)";
 }
 
 TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_ValueIsDollar) {
@@ -234,11 +235,11 @@ TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_ValueIsDollar) {
   ASSERT_NE(pa, nullptr);
   const auto *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "$") << "§6.20.2.1: unbounded '$' constant must have value \"$\"";
+  EXPECT_EQ(std::string(c->getValue()), "$") << "Sec 6.20.2.1: unbounded '$' constant must have value \"$\"";
 }
 
 // ===========================================================================
-// Nets — wire clk, wire [31:0] a
+// Nets -- wire clk, wire [31:0] a
 // ===========================================================================
 
 TEST_F(ParameterUnboundedTest, Net_Collection_HasTwoEntries) {
@@ -264,7 +265,7 @@ TEST_F(ParameterUnboundedTest, Net_clk_HasLogicTypespec) {
 }
 
 TEST_F(ParameterUnboundedTest, Net_clk_InitialValueIsZero) {
-  // 'wire clk = 0' — Surelog stores the initializer as vpiValue Constant.
+  // 'wire clk = 0' -- Surelog stores the initializer as vpiValue Constant.
   const auto *net = getNet(m_design, "clk");
   ASSERT_NE(net, nullptr);
   const auto *c = net->getValue<hldb::Constant>();
@@ -278,6 +279,15 @@ TEST_F(ParameterUnboundedTest, Net_clk_InitialValue_IsUnsignedInt) {
   const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '0' in 'wire clk = 0' must be vpiUIntConst (9)";
+}
+
+// IEEE 1800-2023 Sec 6.7/6.8: 'clk' has the net-type keyword `wire`, so it
+// must not also appear in the module's Variable collection.
+TEST_F(ParameterUnboundedTest, Net_clk_IsNotInVariables) {
+  const auto *m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(m->getVariables() == nullptr || hldb::findByName<hldb::Variable>("clk", m->getVariables()) == nullptr)
+      << "'clk' is declared with net-type 'wire'; it must not appear in the module's Variable collection";
 }
 
 TEST_F(ParameterUnboundedTest, Net_a_Exists) { EXPECT_NE(getNet(m_design, "a"), nullptr) << "net 'a' not found"; }
@@ -297,7 +307,7 @@ TEST_F(ParameterUnboundedTest, Net_a_HasLogicTypespec) {
 }
 
 TEST_F(ParameterUnboundedTest, Net_a_Typespec_HasPackedRange) {
-  // 'wire [31:0] a' — the LogicTypespec must have a Range [31:0].
+  // 'wire [31:0] a' -- the LogicTypespec must have a Range [31:0].
   const auto *net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
@@ -320,6 +330,15 @@ TEST_F(ParameterUnboundedTest, Net_a_Typespec_Range_LeftIs31) {
   EXPECT_EQ(std::string(lo->getValue()), "31") << "'wire [31:0] a' left bound must be 31";
 }
 
+// IEEE 1800-2023 Sec 6.7/6.8: 'a' has the net-type keyword `wire`, so it must
+// not also appear in the module's Variable collection.
+TEST_F(ParameterUnboundedTest, Net_a_IsNotInVariables) {
+  const auto *m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(m->getVariables() == nullptr || hldb::findByName<hldb::Variable>("a", m->getVariables()) == nullptr)
+      << "'a' is declared with net-type 'wire'; it must not appear in the module's Variable collection";
+}
+
 TEST_F(ParameterUnboundedTest, Net_a_Typespec_Range_RightIsZero) {
   const auto *net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
@@ -334,7 +353,7 @@ TEST_F(ParameterUnboundedTest, Net_a_Typespec_Range_RightIsZero) {
 }
 
 // ===========================================================================
-// Always process — 'always @(posedge clk) a[0:p] = 23'
+// Always process -- 'always @(posedge clk) a[0:p] = 23'
 // ===========================================================================
 
 TEST_F(ParameterUnboundedTest, Process_Collection_HasOneEntry) {
@@ -359,7 +378,7 @@ TEST_F(ParameterUnboundedTest, Always_Stmt_IsEventControl) {
 }
 
 // ===========================================================================
-// EventControl — '@(posedge clk)'
+// EventControl -- '@(posedge clk)'
 // ===========================================================================
 
 TEST_F(ParameterUnboundedTest, EventControl_Condition_IsPosedge) {
@@ -387,7 +406,7 @@ TEST_F(ParameterUnboundedTest, EventControl_Stmt_IsAssignment) {
 }
 
 // ===========================================================================
-// Assignment — 'a[0:p] = 23' (blocking)
+// Assignment -- 'a[0:p] = 23' (blocking)
 // ===========================================================================
 
 TEST_F(ParameterUnboundedTest, Assignment_IsBlocking) {
@@ -407,7 +426,7 @@ TEST_F(ParameterUnboundedTest, Assignment_Lhs_NameIsASlice) {
 }
 
 // ===========================================================================
-// PartSelect — 'a[0:p]'
+// PartSelect -- 'a[0:p]'
 // ===========================================================================
 
 TEST_F(ParameterUnboundedTest, PartSelect_Prefix_IsRefObjA) {
@@ -427,7 +446,7 @@ TEST_F(ParameterUnboundedTest, PartSelect_Prefix_ActualIsNet) {
 }
 
 TEST_F(ParameterUnboundedTest, PartSelect_Range_LeftIsZero) {
-  // 'a[0:p]' — left bound is the constant 0.
+  // 'a[0:p]' -- left bound is the constant 0.
   const auto *ps = getPartSelect(m_design);
   ASSERT_NE(ps, nullptr);
   const auto *range = ps->getRange();
@@ -438,7 +457,7 @@ TEST_F(ParameterUnboundedTest, PartSelect_Range_LeftIsZero) {
 }
 
 TEST_F(ParameterUnboundedTest, PartSelect_Range_RightIsRefObjP) {
-  // 'a[0:p]' — right bound is the parameter 'p' (a RefObj, not a Constant).
+  // 'a[0:p]' -- right bound is the parameter 'p' (a RefObj, not a Constant).
   const auto *ps = getPartSelect(m_design);
   ASSERT_NE(ps, nullptr);
   const auto *range = ps->getRange();
@@ -461,7 +480,7 @@ TEST_F(ParameterUnboundedTest, PartSelect_Range_RightRefObj_ActualIsParameter) {
 }
 
 // ===========================================================================
-// Assignment RHS — '23'
+// Assignment RHS -- '23'
 // ===========================================================================
 
 TEST_F(ParameterUnboundedTest, Assignment_Rhs_IsConstant23) {

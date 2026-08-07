@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<14:1>
     n<> u<111> t<Description> p<112> c<110> l<1:1> el<12:10>
       n<> u<110> t<Module_declaration> p<111> c<18> l<1:1> el<12:10>
         n<> u<18> t<Module_nonansi_header> p<110> c<2> s<40> l<1:1> el<1:27>
-          n<module> u<2> t<Module_keyword> p<18> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<18> s<3> l<1:1> el<1:7>
           n<Example> u<3> t<SIMPLE_IDENTIFIER> p<18> s<4> l<1:8> el<1:15>
           n<> u<4> t<Package_import_declaration_list> p<18> s<17> l<1:15> el<1:15>
           n<> u<17> t<Port_list> p<18> c<10> l<1:15> el<1:26>
@@ -44,8 +44,8 @@ n<$Source01/dut.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<14:1>
                       n<> u<33> t<Type_declaration> p<34> c<31> l<2:1> el<4:5>
                         n<> u<31> t<Data_type> p<33> c<20> s<32> l<2:9> el<4:2>
                           n<> u<20> t<Struct_union> p<31> c<19> s<21> l<2:9> el<2:15>
-                            n<> u<19> t<Struct_keyword> p<20> l<2:9> el<2:15>
-                          n<> u<21> t<Packed_keyword> p<31> s<30> l<2:16> el<2:22>
+                            n<> u<19> t<STRUCT> p<20> l<2:9> el<2:15>
+                          n<> u<21> t<PACKED> p<31> s<30> l<2:16> el<2:22>
                           n<> u<30> t<Struct_union_member> p<31> c<24> l<3:5> el<3:16>
                             n<> u<24> t<Data_type_or_void> p<30> c<23> s<29> l<3:5> el<3:10>
                               n<> u<23> t<Data_type> p<24> c<22> l<3:5> el<3:10>
@@ -126,12 +126,8 @@ n<$Source01/dut.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<14:1>
                                       n<> u<92> t<ONE_TICK_b1> p<93> l<10:22> el<10:26>
         n<> u<109> t<ENDMODULE> p<110> l<12:1> el<12:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@Example".
-[ERR:EL0535] $Source01/dut.sv:9:10: Illegal implicit net "id:32, name:a".
-[ERR:EL0535] $Source01/dut.sv:9:19: Illegal implicit net "id:36, name:b".
-[ERR:EL0535] $Source01/dut.sv:10:10: Illegal implicit net "id:43, name:a".
-[ERR:EL0535] $Source01/dut.sv:10:19: Illegal implicit net "id:47, name:b".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@Example".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "Example".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "Example".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -140,19 +136,28 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@Example file:$Source01/dut.sv start:1:1 end:12:10:
+    Module name:Example file:$Source01/dut.sv start:1:1 end:12:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@Example start:1:8 end:1:15:
-        vpiParent: Module name:work@Example
-        vpiName: work@Example
-      vpiFullName: work@Example
-      vpiTypespec (5 items):
+      vpiName Identifier name:Example start:1:8 end:1:15:
+        vpiParent: Module name:Example
+        vpiName: Example
+      vpiFullName: Example
+      vpiVariable (1 items):
+        Variable name:out start:5:10 end:5:13:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec name:T start:5:8 end:5:9:
+            vpiParent: Variable name:out
+            vpiName: T
+            vpiFullName: Example.out.T
+            vpiActual: TypedefTypespec name:T
+          vpiName: out
+          vpiFullName: Example.out
+      vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
         StructTypespec start:2:9 end:4:2:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiPacked: true
           vpiTypespecMember (2 items):
             TypespecMember name:a start:3:11 end:3:12:
@@ -160,91 +165,80 @@ Design name:unnamed:
               vpiName: a
               vpiTypespec RefTypespec start:3:5 end:3:10:
                 vpiParent: TypespecMember name:a
-                vpiFullName: work@Example.a
+                vpiFullName: Example.a
                 vpiActual: LogicTypespec
             TypespecMember name:b start:3:14 end:3:15:
               vpiParent: StructTypespec
               vpiName: b
               vpiTypespec RefTypespec start:3:5 end:3:10:
                 vpiParent: TypespecMember name:b
-                vpiFullName: work@Example.b
+                vpiFullName: Example.b
                 vpiActual: LogicTypespec
         TypedefTypespec name:T start:2:1 end:4:5:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName Identifier name:T start:4:3 end:4:4:
             vpiParent: TypedefTypespec name:T
             vpiName: T
           vpiTypedefAlias RefTypespec start:2:9 end:4:2:
             vpiParent: TypedefTypespec name:T
-            vpiFullName: work@Example.T
+            vpiFullName: Example.T
             vpiActual: StructTypespec
-        UnsupportedTypespec name:T start:5:8 end:5:9:
-          vpiParent: Module name:work@Example
-          vpiName Identifier name:T start:5:8 end:5:9:
-            vpiParent: UnsupportedTypespec name:T
-            vpiName: T
         BitTypespec:
-          vpiParent: Module name:work@Example
-      vpiDefName: work@Example
-      vpiDefNetType: none (12)
+          vpiParent: Module name:Example
+      vpiDefName: Example
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@Example
+        vpiParent: Module name:Example
         vpiName: work
-        vpiFullName: work@Example.work
+        vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:flag start:6:13 end:6:17:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiTypespec RefTypespec start:6:7 end:6:12:
             vpiParent: Net name:flag
-            vpiFullName: work@Example.flag
+            vpiFullName: Example.flag
             vpiActual: LogicTypespec
           vpiName: flag
-          vpiFullName: work@Example.flag
-          vpiNetType: net (36)
-        Net name:out start:5:10 end:5:13:
-          vpiParent: Module name:work@Example
-          vpiTypespec RefTypespec start:5:8 end:5:9:
-            vpiParent: Net name:out
-            vpiFullName: work@Example.out
-            vpiActual: UnsupportedTypespec name:T
-          vpiName: out
-          vpiFullName: work@Example.out
+          vpiFullName: Example.flag
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:flag start:1:16 end:1:20:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName: flag
           vpiDirection: input (1)
-          vpiLowConn RefObj name:flag start:1:16 end:1:20:
+          vpiLowConn RefObj name:flag start:6:13 end:6:17:
             vpiParent: Port name:flag
             vpiName: flag
-            vpiFullName: work@Example.flag.flag
+            vpiFullName: Example.flag.flag
             vpiActual: Net name:flag
           vpiTypespec RefTypespec start:6:7 end:6:12:
             vpiParent: Port name:flag
-            vpiFullName: work@Example.flag
+            vpiFullName: Example.flag
             vpiActual: LogicTypespec
         Port name:out start:1:22 end:1:25:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:1:22 end:1:25:
+          vpiLowConn RefObj name:out start:5:10 end:5:13:
             vpiParent: Port name:out
             vpiName: out
-            vpiFullName: work@Example.out.out
-            vpiActual: Net name:out
-          vpiTypespec RefTypespec start:5:8 end:5:9:
+            vpiFullName: Example.out.out
+            vpiActual: Variable name:out
+          vpiTypespec RefTypespec name:T start:5:8 end:5:9:
             vpiParent: Port name:out
-            vpiFullName: work@Example.out
-            vpiActual: UnsupportedTypespec name:T
+            vpiName: T
+            vpiFullName: Example.out.T
+            vpiActual: TypedefTypespec name:T
       vpiContAssign (1 items):
         ContAssign start:7:8 end:10:28:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiLhs RefObj name:out start:7:8 end:7:11:
             vpiParent: ContAssign
             vpiName: out
-            vpiFullName: work@Example.out
-            vpiActual: Net name:out
+            vpiFullName: Example.out
+            vpiActual: Variable name:out
           vpiRhs Operation start:8:5 end:10:28:
             vpiParent: ContAssign
             vpiOpType: condition (32)
@@ -252,7 +246,7 @@ Design name:unnamed:
               RefObj name:flag start:8:5 end:8:9:
                 vpiParent: Operation
                 vpiName: flag
-                vpiFullName: work@Example.flag
+                vpiFullName: Example.flag
                 vpiActual: Net name:flag
               Operation start:9:7 end:9:28:
                 vpiParent: Operation
@@ -263,12 +257,12 @@ Design name:unnamed:
                     vpiTag RefObj name:a start:9:10 end:9:11:
                       vpiParent: TaggedPattern
                       vpiName: a
-                      vpiFullName: work@Example.a
+                      vpiFullName: Example.a
                     vpiPattern Constant start:9:13 end:9:17:
                       vpiParent: TaggedPattern
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example
+                        vpiFullName: Example
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -279,12 +273,12 @@ Design name:unnamed:
                     vpiTag RefObj name:b start:9:19 end:9:20:
                       vpiParent: TaggedPattern
                       vpiName: b
-                      vpiFullName: work@Example.b
+                      vpiFullName: Example.b
                     vpiPattern Constant start:9:22 end:9:26:
                       vpiParent: TaggedPattern
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example
+                        vpiFullName: Example
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -299,12 +293,12 @@ Design name:unnamed:
                     vpiTag RefObj name:a start:10:10 end:10:11:
                       vpiParent: TaggedPattern
                       vpiName: a
-                      vpiFullName: work@Example.a
+                      vpiFullName: Example.a
                     vpiPattern Constant start:10:13 end:10:17:
                       vpiParent: TaggedPattern
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example
+                        vpiFullName: Example
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -315,28 +309,28 @@ Design name:unnamed:
                     vpiTag RefObj name:b start:10:19 end:10:20:
                       vpiParent: TaggedPattern
                       vpiName: b
-                      vpiFullName: work@Example.b
+                      vpiFullName: Example.b
                     vpiPattern Constant start:10:22 end:10:26:
                       vpiParent: TaggedPattern
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example
+                        vpiFullName: Example
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
                       vpiValue: "1"
   vpiTypespec (1 items):
-    ModuleTypespec name:work@Example:
+    ModuleTypespec name:Example:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@Example start:1:8 end:1:15:
-        vpiParent: ModuleTypespec name:work@Example
-        vpiName: work@Example
-      vpiModule: Module name:work@Example
+      vpiName Identifier name:Example start:1:8 end:1:15:
+        vpiParent: ModuleTypespec name:Example
+        vpiName: Example
+      vpiModule: Module name:Example
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -381,7 +375,7 @@ COMMAND: ${HLC_DIR}/regression/CondOpPattern/CondOpPattern/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================

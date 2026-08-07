@@ -19,7 +19,7 @@ n<$Source01/dut.sv> u<33> t<Top_level_rule> c<1> l<1:1> el<10:1>
     n<> u<31> t<Description> p<32> c<30> l<1:1> el<9:10>
       n<> u<30> t<Module_declaration> p<31> c<6> l<1:1> el<9:10>
         n<> u<6> t<Module_nonansi_header> p<30> c<2> s<28> l<1:1> el<1:15>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
           n<test> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:12>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:12> el<1:12>
           n<> u<5> t<Port_list> p<6> l<1:12> el<1:14>
@@ -47,8 +47,8 @@ n<$Source01/dut.sv> u<33> t<Top_level_rule> c<1> l<1:1> el<10:1>
                           n<> u<19> t<END> p<20> l<8:5> el<8:8>
         n<> u<29> t<ENDMODULE> p<30> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@test".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@test".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "test".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "test".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -60,69 +60,99 @@ Design name:unnamed:
       vpiPreprocMacroDefinition (2 items):
         PreprocMacroDefinition name:message start:3:1 end:3:27:
           vpiParent: SourceFile name:dut.sv
-          vpiName: message
-          vpiNameStartColumn: 9
-          vpiBodyStartColumn: 23
+          vpiName Identifier name:message start:3:9 end:3:16:
+            vpiParent: PreprocMacroDefinition name:message
+            vpiName: message
+          vpiPMDType: define (1)
+          vpiArgument (1 items):
+            Identifier name:TOTO start:3:17 end:3:21:
+              vpiParent: PreprocMacroDefinition name:message
+              vpiName: TOTO
+          vpiPMDToken (1 items):
+            Identifier name:TATA start:3:23 end:3:27:
+              vpiParent: PreprocMacroDefinition name:message
+              vpiName: TATA
         PreprocMacroDefinition name:MAKE_MEM_PATH start:5:1 end:5:63:
           vpiParent: SourceFile name:dut.sv
-          vpiName: MAKE_MEM_PATH
-          vpiNameStartColumn: 9
-          vpiBodyStartColumn: 33
+          vpiName Identifier name:MAKE_MEM_PATH start:5:9 end:5:22:
+            vpiParent: PreprocMacroDefinition name:MAKE_MEM_PATH
+            vpiName: MAKE_MEM_PATH
+          vpiPMDType: define (1)
+          vpiArgument (1 items):
+            Identifier name:filename start:5:23 end:5:31:
+              vpiParent: PreprocMacroDefinition name:MAKE_MEM_PATH
+              vpiName: filename
+          vpiPMDToken (6 items):
+            "Identifier name:\" start:5:33 end:5:34":
+              vpiParent: PreprocMacroDefinition name:MAKE_MEM_PATH
+              vpiName: "\""
+            Identifier name:`MEM_ROOT start:5:35 end:5:44:
+              vpiParent: PreprocMacroDefinition name:MAKE_MEM_PATH
+              vpiName: "`MEM_ROOT"
+            Identifier name:/ start:5:44 end:5:45:
+              vpiParent: PreprocMacroDefinition name:MAKE_MEM_PATH
+              vpiName: "/"
+            Identifier name:filename start:5:45 end:5:53:
+              vpiParent: PreprocMacroDefinition name:MAKE_MEM_PATH
+              vpiName: filename
+            Identifier name:`message start:5:53 end:5:61:
+              vpiParent: PreprocMacroDefinition name:MAKE_MEM_PATH
+              vpiName: "`message"
+            "Identifier name:\" start:5:61 end:5:62":
+              vpiParent: PreprocMacroDefinition name:MAKE_MEM_PATH
+              vpiName: "\""
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:MAKE_MEM_PATH file:$Source01/dut.sv start:7:14 end:7:37:
+        PreprocMacroInstance name:MAKE_MEM_PATH file:$Source01/dut.sv start:7:14 end:7:37 ppstart:7:14 ppend:7:36:
           vpiParent: SourceFile name:dut.sv
-          vpiName: MAKE_MEM_PATH
+          vpiName Identifier name:MAKE_MEM_PATH start:7:14 end:7:37:
+            vpiParent: PreprocMacroInstance name:MAKE_MEM_PATH
+            vpiName: MAKE_MEM_PATH
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:MAKE_MEM_PATH
-          vpiPreprocMacroInstance (2 items):
-            PreprocMacroInstance name:MEM_ROOT file:$Source01/dut.sv start:5:34 end:5:43:
+          vpiArgument (1 items):
+            Identifier name:rom.mem start:7:29 end:7:36:
               vpiParent: PreprocMacroInstance name:MAKE_MEM_PATH
-              vpiName: MEM_ROOT
-              vpiSectionEndColumn: 4
-              vpiSourceStartLine: 7
-              vpiSourceStartColumn: 15
-              vpiSourceEndLine: 7
-              vpiSourceEndColumn: 19
-            PreprocMacroInstance name:message file:$Source01/dut.sv start:5:51 end:5:59:
+              vpiName: rom.mem
+          "vpiPMIBody Identifier name:\"test/rom.mem`message\" start:5:33 end:5:55":
+            vpiParent: PreprocMacroInstance name:MAKE_MEM_PATH
+            vpiName: "\"test/rom.mem`message\""
+          vpiPMIItem (2 items):
+            PreprocMacroInstance name:MEM_ROOT file:$Source01/dut.sv start:5:34 end:5:43 ppstart:7:15 ppend:7:19:
               vpiParent: PreprocMacroInstance name:MAKE_MEM_PATH
-              vpiName: message
+              vpiName Identifier name:MEM_ROOT start:5:34 end:5:43:
+                vpiParent: PreprocMacroInstance name:MEM_ROOT
+                vpiName: MEM_ROOT
+              vpiPMIBody Identifier name:test:
+                vpiParent: PreprocMacroInstance name:MEM_ROOT
+                vpiName: test
+            PreprocMacroInstance name:message file:$Source01/dut.sv start:5:51 end:5:59 ppstart:7:27 ppend:7:35:
+              vpiParent: PreprocMacroInstance name:MAKE_MEM_PATH
+              vpiName Identifier name:message start:5:51 end:5:59:
+                vpiParent: PreprocMacroInstance name:message
+                vpiName: message
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:message
-              vpiSectionStartLine: 3
-              vpiSectionStartColumn: 23
-              vpiSectionEndLine: 1
-              vpiSectionEndColumn: 9
-              vpiSourceStartLine: 7
-              vpiSourceStartColumn: 27
-              vpiSourceEndLine: 7
-              vpiSourceEndColumn: 35
-          vpiSectionStartLine: 5
-          vpiSectionStartColumn: 33
-          vpiSectionEndLine: 5
-          vpiSectionEndColumn: 55
-          vpiSourceStartLine: 7
-          vpiSourceStartColumn: 14
-          vpiSourceEndLine: 7
-          vpiSourceEndColumn: 36
-      vpiDefNetType: none (12)
+              vpiPMIBody Identifier name:`message start:3:23 end:1:9:
+                vpiParent: PreprocMacroInstance name:message
+                vpiName: "`message"
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/dut.sv start:1:1 end:9:10:
+    Module name:test file:$Source01/dut.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:1:8 end:1:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+      vpiName Identifier name:test start:1:8 end:1:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
       vpiProcess (1 items):
         Initial start:6:1 end:8:8:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt Begin start:6:9 end:8:8:
             vpiParent: Initial
-            vpiFullName: work@test
+            vpiFullName: test
             vpiStmt (1 items):
               SysTaskCall name:$display start:7:5 end:7:38:
                 vpiParent: Begin
@@ -134,19 +164,19 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 160
                     vpiDecompile: "\"test/rom.mem`message\""
                     vpiValue: test/rom.mem`message
   vpiTypespec (2 items):
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:1:8 end:1:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:1:8 end:1:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
@@ -197,7 +227,7 @@ COMMAND: ${HLC_DIR}/regression/PreprocString/PreprocString/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              19      19       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    19      19       0         0
+                                    37      37       0         0
 ===================== END REDUCTION RESULT =====================

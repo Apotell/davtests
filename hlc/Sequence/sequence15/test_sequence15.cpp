@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,14 +35,10 @@
 //          operand[1..]: Constant("1"), Constant("2")  -- the value set
 //                        (weights stripped; ':=3' and ':=1' become '1' and '2')
 //
-// Compile-stage bugs exposed:
-//   Compiler_NoErrors                   -- EL0535: Surelog treats 'seq15' in
-//                                          assert property(@(posedge clk) seq15)
-//                                          as an implicit net instead of
-//                                          resolving to the SequenceDecl.
-//   Assert_PropertyExpr_ResolvedToSeq15Decl -- RefObj in the PropertySpec does
-//                                          not link back to the SequenceDecl
-//                                          (getActual<SequenceDecl>() is null).
+// Compile-stage: 'seq15' in assert property(@(posedge clk) seq15) resolves
+// correctly to its SequenceDecl and the compile produces zero errors (the
+// EL0535 "implicit net" misresolution once documented here no longer
+// reproduces against the current compiler).
 //
 // Elaboration-stage checks (SKIPPED -- elaboration not yet implemented):
 //   Seq15_Expr_IsInsideOp               -- dist must become InsideOp(94) when
@@ -93,19 +89,19 @@ class Sequence15Test : public Test {
   }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence15Test, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("tb", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Sequence declaration
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence15Test, Seq15DeclarationExists) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
 
@@ -115,7 +111,7 @@ TEST_F(Sequence15Test, Seq15DeclarationExists) {
 
 TEST_F(Sequence15Test, Seq15HasExpression) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -124,14 +120,14 @@ TEST_F(Sequence15Test, Seq15HasExpression) {
       << "seq15 has no expression (expected Distribution for 'a dist {1:=3, 2:=1}')";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Compile-stage: parser correctly reads 'a dist {1:=3, 2:=1}' and builds
 // a Distribution node with subject RefObj("a") and two DistItems.
 // These tests verify the compiler output without elaboration.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence15Test, Seq15_Dist_IsDistribution) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -145,7 +141,7 @@ TEST_F(Sequence15Test, Seq15_Dist_IsDistribution) {
 
 TEST_F(Sequence15Test, Seq15_Dist_IsNotSoft) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -156,7 +152,7 @@ TEST_F(Sequence15Test, Seq15_Dist_IsNotSoft) {
 
 TEST_F(Sequence15Test, Seq15_Dist_ExprIsRefToA) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -170,7 +166,7 @@ TEST_F(Sequence15Test, Seq15_Dist_ExprIsRefToA) {
 
 TEST_F(Sequence15Test, Seq15_Dist_HasTwoItems) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -185,7 +181,7 @@ TEST_F(Sequence15Test, Seq15_Dist_HasTwoItems) {
 // DistItem[0]: 1 := 3
 TEST_F(Sequence15Test, Seq15_Dist_Item0_TypeIsEqualDist) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -202,7 +198,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item0_TypeIsEqualDist) {
 
 TEST_F(Sequence15Test, Seq15_Dist_Item0_ValueRangeIsOne) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -222,7 +218,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item0_ValueRangeIsOne) {
 
 TEST_F(Sequence15Test, Seq15_Dist_Item0_WeightIsThree) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -243,7 +239,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item0_WeightIsThree) {
 // DistItem[1]: 2 := 1
 TEST_F(Sequence15Test, Seq15_Dist_Item1_TypeIsEqualDist) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -260,7 +256,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item1_TypeIsEqualDist) {
 
 TEST_F(Sequence15Test, Seq15_Dist_Item1_ValueRangeIsTwo) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -280,7 +276,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item1_ValueRangeIsTwo) {
 
 TEST_F(Sequence15Test, Seq15_Dist_Item1_WeightIsOne) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -298,18 +294,18 @@ TEST_F(Sequence15Test, Seq15_Dist_Item1_WeightIsOne) {
       << "DistItem[1] weight: expected '1', got '" << weight->getDecompile() << "'";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Elaboration-stage checks: dist -> inside conversion (ss.16.7).
 // The conversion of 'dist' to 'inside' in assertion context is performed
 // during elaboration, not compilation. These tests are skipped until
 // elaboration is implemented.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence15Test, Seq15_Expr_IsInsideOp) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "dist->inside conversion (ss.16.7) is an elaboration-stage "
                   "transform.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -330,7 +326,7 @@ TEST_F(Sequence15Test, Seq15_Expr_IsNotDistribution) {
                   "at compile stage Distribution is the correct raw node; "
                   "conversion to InsideOp happens during elaboration.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -346,7 +342,7 @@ TEST_F(Sequence15Test, Seq15_InsideOp_HasOperands) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "InsideOp structure checks require dist->inside conversion.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -369,7 +365,7 @@ TEST_F(Sequence15Test, Seq15_InsideOp_FirstOperandIsRefToA) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "InsideOp structure checks require dist->inside conversion.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -394,7 +390,7 @@ TEST_F(Sequence15Test, Seq15_InsideOp_ValueSetContainsOne) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "InsideOp structure checks require dist->inside conversion.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -420,7 +416,7 @@ TEST_F(Sequence15Test, Seq15_InsideOp_ValueSetContainsTwo) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "InsideOp structure checks require dist->inside conversion.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -441,26 +437,24 @@ TEST_F(Sequence15Test, Seq15_InsideOp_ValueSetContainsTwo) {
       << "InsideOp operand[2]: expected '2', got '" << val2->getDecompile() << "'";
 }
 
-// ---------------------------------------------------------------------------
-// Compiler -- EL0535 bug: Surelog emits an error for 'seq15' in
-// assert property(@(posedge clk) seq15) because it treats the sequence name
-// as an undeclared implicit net instead of resolving it to the SequenceDecl.
-// This test FAILS with the current compiler and PASSES when fixed.
-// ---------------------------------------------------------------------------
+// ----
+// Compiler must not emit any error for 'seq15' in
+// assert property(@(posedge clk) seq15) -- the sequence name resolves to its
+// SequenceDecl and there is no legitimate error condition here.
+// ----
 TEST_F(Sequence15Test, Compiler_NoErrors) {
   EXPECT_EQ(m_compiler->getErrorStats().nbError, 0)
-      << "Surelog emitted " << m_compiler->getErrorStats().nbError
-      << " error(s) -- expected 0. Likely EL0535: 'seq15' in "
-         "assert property(@(posedge clk) seq15) treated as an implicit net "
-         "instead of the declared SequenceDecl.";
+      << "Compiler emitted " << m_compiler->getErrorStats().nbError
+      << " error(s) -- expected 0 for legal use of 'seq15' in "
+         "assert property(@(posedge clk) seq15)";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Concurrent assertion -- assert property(@(posedge clk) seq15)
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Sequence15Test, Assert_ConcurrentAssertionExists) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr)
       << "tb has no concurrent assertions";
@@ -480,7 +474,7 @@ TEST_F(Sequence15Test, Assert_ConcurrentAssertionExists) {
 
 TEST_F(Sequence15Test, Assert_HasInlineClockingEvent) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
@@ -501,12 +495,11 @@ TEST_F(Sequence15Test, Assert_HasInlineClockingEvent) {
          "(expected @(posedge clk))";
 }
 
-// EL0535 bug: seq15 in 'assert property(@(posedge clk) seq15)' is not
-// resolved to its SequenceDecl -- getActual<SequenceDecl>() returns null.
-// This test FAILS with the current compiler and PASSES when fixed.
+// ss.16.7: 'seq15' in 'assert property(@(posedge clk) seq15)' must resolve
+// to its SequenceDecl at compile time.
 TEST_F(Sequence15Test, Assert_PropertyExpr_ResolvedToSeq15Decl) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
@@ -530,11 +523,9 @@ TEST_F(Sequence15Test, Assert_PropertyExpr_ResolvedToSeq15Decl) {
   EXPECT_EQ(propExpr->getName(), "seq15")
       << "property expression does not reference 'seq15'";
 
-  // EL0535: this returns null because Surelog does not resolve the sequence
-  // name to the SequenceDecl node.
   EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "EL0535: 'seq15' in assert property is not resolved to its "
-         "SequenceDecl -- getActual<SequenceDecl>() returns null";
+      << "ss.16.7: 'seq15' in assert property must resolve to its "
+         "SequenceDecl";
 }
 
 }  // namespace hlc

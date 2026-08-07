@@ -634,7 +634,7 @@ n<$Source01/dut.sv> u<661> t<Top_level_rule> c<1> l<1:1> el<108:1>
     n<> u<659> t<Description> p<660> c<658> l<84:1> el<106:10>
       n<> u<658> t<Module_declaration> p<659> c<359> l<84:1> el<106:10>
         n<> u<359> t<Module_nonansi_header> p<658> c<355> s<374> l<84:1> el<84:22>
-          n<module> u<355> t<Module_keyword> p<359> s<356> l<84:1> el<84:7>
+          n<module> u<355> t<MODULE> p<359> s<356> l<84:1> el<84:7>
           n<udp_body_tb> u<356> t<SIMPLE_IDENTIFIER> p<359> s<357> l<84:8> el<84:19>
           n<> u<357> t<Package_import_declaration_list> p<359> s<358> l<84:19> el<84:19>
           n<> u<358> t<Port_list> p<359> l<84:19> el<84:21>
@@ -941,9 +941,9 @@ AST_DEBUG_END
 [INF:CP0305] $Source01/dut.sv:21:11: Compile udp "udp_latch".
 [INF:CP0305] $Source01/dut.sv:37:11: Compile udp "udp_sequential".
 [INF:CP0305] $Source01/dut.sv:60:11: Compile udp "udp_sequential_initial".
-[INF:CP0303] $Source01/dut.sv:84:1: Compile module "work@udp_body_tb".
+[INF:CP0303] $Source01/dut.sv:84:1: Compile module "udp_body_tb".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:84:1: No timescale set for "work@udp_body_tb".
+[WRN:PA0205] $Source01/dut.sv:84:1: No timescale set for "udp_body_tb".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -952,7 +952,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2519,6 +2518,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2530,6 +2530,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2561,6 +2562,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2575,6 +2577,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2596,6 +2599,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2619,6 +2623,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2638,6 +2643,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2661,6 +2667,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2680,6 +2687,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2749,16 +2757,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2771,6 +2782,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2782,6 +2794,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2789,6 +2802,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2796,6 +2810,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2803,6 +2818,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2816,6 +2832,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2827,6 +2844,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2858,6 +2876,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2884,6 +2903,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2910,6 +2930,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2935,333 +2956,333 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllUdps (4 items):
-    UdpDefn name:work@udp_body start:1:1 end:18:13:
+    UdpDefn name:udp_body start:1:1 end:18:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@udp_body start:1:11 end:1:19:
-        vpiParent: UdpDefn name:work@udp_body
-        vpiName: work@udp_body
-      vpiFullName: work@udp_body
+      vpiName Identifier name:udp_body start:1:11 end:1:19:
+        vpiParent: UdpDefn name:udp_body
+        vpiName: udp_body
+      vpiFullName: udp_body
       vpiIODecl (3 items):
         IODecl name:a start:2:3 end:2:4:
-          vpiParent: UdpDefn name:work@udp_body
+          vpiParent: UdpDefn name:udp_body
           vpiName: a
           vpiDirection: output (2)
           vpiExpr Variable name:a start:6:10 end:6:11:
             vpiParent: IODecl name:a
             vpiTypespec RefTypespec:
               vpiParent: Variable name:a
-              vpiFullName: work@udp_body.a.a
+              vpiFullName: udp_body.a.a
             vpiName: a
-            vpiFullName: work@udp_body.a.a
+            vpiFullName: udp_body.a.a
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:a
-            vpiFullName: work@udp_body.a
+            vpiFullName: udp_body.a
         IODecl name:b start:3:3 end:3:4:
-          vpiParent: UdpDefn name:work@udp_body
+          vpiParent: UdpDefn name:udp_body
           vpiName: b
           vpiDirection: input (1)
           vpiExpr Variable name:b start:7:9 end:7:10:
             vpiParent: IODecl name:b
             vpiTypespec RefTypespec:
               vpiParent: Variable name:b
-              vpiFullName: work@udp_body.b.b
+              vpiFullName: udp_body.b.b
             vpiName: b
-            vpiFullName: work@udp_body.b.b
+            vpiFullName: udp_body.b.b
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:b
-            vpiFullName: work@udp_body.b
+            vpiFullName: udp_body.b
         IODecl name:c start:4:3 end:4:4:
-          vpiParent: UdpDefn name:work@udp_body
+          vpiParent: UdpDefn name:udp_body
           vpiName: c
           vpiDirection: input (1)
           vpiExpr Variable name:c start:7:11 end:7:12:
             vpiParent: IODecl name:c
             vpiTypespec RefTypespec:
               vpiParent: Variable name:c
-              vpiFullName: work@udp_body.c.c
+              vpiFullName: udp_body.c.c
             vpiName: c
-            vpiFullName: work@udp_body.c.c
+            vpiFullName: udp_body.c.c
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:c
-            vpiFullName: work@udp_body.c
+            vpiFullName: udp_body.c
       vpiTableEntry (3 items):
         TableEntry start:13:7 end:13:19:
-          vpiParent: UdpDefn name:work@udp_body
+          vpiParent: UdpDefn name:udp_body
           vpiValue Constant start:13:7 end:13:19:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_body
+              vpiFullName: udp_body
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "? 1 : 1"
             vpiValue: "? 1 : 1"
         TableEntry start:14:7 end:14:19:
-          vpiParent: UdpDefn name:work@udp_body
+          vpiParent: UdpDefn name:udp_body
           vpiValue Constant start:14:7 end:14:19:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_body
+              vpiFullName: udp_body
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "1 ? : 1"
             vpiValue: "1 ? : 1"
         TableEntry start:15:7 end:15:19:
-          vpiParent: UdpDefn name:work@udp_body
+          vpiParent: UdpDefn name:udp_body
           vpiValue Constant start:15:7 end:15:19:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_body
+              vpiFullName: udp_body
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "0 0 : 0"
             vpiValue: "0 0 : 0"
-    UdpDefn name:work@udp_latch start:21:1 end:34:13:
+    UdpDefn name:udp_latch start:21:1 end:34:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@udp_latch start:21:11 end:21:20:
-        vpiParent: UdpDefn name:work@udp_latch
-        vpiName: work@udp_latch
-      vpiFullName: work@udp_latch
+      vpiName Identifier name:udp_latch start:21:11 end:21:20:
+        vpiParent: UdpDefn name:udp_latch
+        vpiName: udp_latch
+      vpiFullName: udp_latch
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: UdpDefn name:work@udp_latch
+          vpiParent: UdpDefn name:udp_latch
       vpiIODecl (3 items):
         IODecl name:q start:21:21 end:21:22:
-          vpiParent: UdpDefn name:work@udp_latch
+          vpiParent: UdpDefn name:udp_latch
           vpiName: q
           vpiDirection: output (2)
           vpiExpr Variable name:q start:22:8 end:22:9:
             vpiParent: IODecl name:q
             vpiTypespec RefTypespec:
               vpiParent: Variable name:q
-              vpiFullName: work@udp_latch.q.q
+              vpiFullName: udp_latch.q.q
               vpiActual: LogicTypespec
             vpiName: q
-            vpiFullName: work@udp_latch.q.q
+            vpiFullName: udp_latch.q.q
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:q
-            vpiFullName: work@udp_latch.q
+            vpiFullName: udp_latch.q
             vpiActual: LogicTypespec
         IODecl name:clk start:21:24 end:21:27:
-          vpiParent: UdpDefn name:work@udp_latch
+          vpiParent: UdpDefn name:udp_latch
           vpiName: clk
           vpiDirection: input (1)
           vpiExpr Variable name:clk start:23:7 end:23:10:
             vpiParent: IODecl name:clk
             vpiTypespec RefTypespec:
               vpiParent: Variable name:clk
-              vpiFullName: work@udp_latch.clk.clk
+              vpiFullName: udp_latch.clk.clk
             vpiName: clk
-            vpiFullName: work@udp_latch.clk.clk
+            vpiFullName: udp_latch.clk.clk
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:clk
-            vpiFullName: work@udp_latch.clk
+            vpiFullName: udp_latch.clk
         IODecl name:d start:21:29 end:21:30:
-          vpiParent: UdpDefn name:work@udp_latch
+          vpiParent: UdpDefn name:udp_latch
           vpiName: d
           vpiDirection: input (1)
           vpiExpr Variable name:d start:23:12 end:23:13:
             vpiParent: IODecl name:d
             vpiTypespec RefTypespec:
               vpiParent: Variable name:d
-              vpiFullName: work@udp_latch.d.d
+              vpiFullName: udp_latch.d.d
             vpiName: d
-            vpiFullName: work@udp_latch.d.d
+            vpiFullName: udp_latch.d.d
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:d
-            vpiFullName: work@udp_latch.d
+            vpiFullName: udp_latch.d
       vpiTableEntry (3 items):
         TableEntry start:29:3 end:29:25:
-          vpiParent: UdpDefn name:work@udp_latch
+          vpiParent: UdpDefn name:udp_latch
           vpiValue Constant start:29:3 end:29:25:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_latch
+              vpiFullName: udp_latch
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "0 1 : ? : 1"
             vpiValue: "0 1 : ? : 1"
         TableEntry start:30:3 end:30:25:
-          vpiParent: UdpDefn name:work@udp_latch
+          vpiParent: UdpDefn name:udp_latch
           vpiValue Constant start:30:3 end:30:25:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_latch
+              vpiFullName: udp_latch
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "0 0 : ? : 0"
             vpiValue: "0 0 : ? : 0"
         TableEntry start:31:3 end:31:25:
-          vpiParent: UdpDefn name:work@udp_latch
+          vpiParent: UdpDefn name:udp_latch
           vpiValue Constant start:31:3 end:31:25:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_latch
+              vpiFullName: udp_latch
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "1 ? : ? : -"
             vpiValue: "1 ? : ? : -"
-    UdpDefn name:work@udp_sequential start:37:1 end:56:13:
+    UdpDefn name:udp_sequential start:37:1 end:56:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@udp_sequential start:37:11 end:37:25:
-        vpiParent: UdpDefn name:work@udp_sequential
-        vpiName: work@udp_sequential
-      vpiFullName: work@udp_sequential
+      vpiName Identifier name:udp_sequential start:37:11 end:37:25:
+        vpiParent: UdpDefn name:udp_sequential
+        vpiName: udp_sequential
+      vpiFullName: udp_sequential
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
       vpiIODecl (3 items):
         IODecl name:q start:37:26 end:37:27:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiName: q
           vpiDirection: output (2)
           vpiExpr Variable name:q start:38:8 end:38:9:
             vpiParent: IODecl name:q
             vpiTypespec RefTypespec:
               vpiParent: Variable name:q
-              vpiFullName: work@udp_sequential.q.q
+              vpiFullName: udp_sequential.q.q
               vpiActual: LogicTypespec
             vpiName: q
-            vpiFullName: work@udp_sequential.q.q
+            vpiFullName: udp_sequential.q.q
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:q
-            vpiFullName: work@udp_sequential.q
+            vpiFullName: udp_sequential.q
             vpiActual: LogicTypespec
         IODecl name:clk start:37:29 end:37:32:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiName: clk
           vpiDirection: input (1)
           vpiExpr Variable name:clk start:39:7 end:39:10:
             vpiParent: IODecl name:clk
             vpiTypespec RefTypespec:
               vpiParent: Variable name:clk
-              vpiFullName: work@udp_sequential.clk.clk
+              vpiFullName: udp_sequential.clk.clk
             vpiName: clk
-            vpiFullName: work@udp_sequential.clk.clk
+            vpiFullName: udp_sequential.clk.clk
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:clk
-            vpiFullName: work@udp_sequential.clk
+            vpiFullName: udp_sequential.clk
         IODecl name:d start:37:34 end:37:35:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiName: d
           vpiDirection: input (1)
           vpiExpr Variable name:d start:39:12 end:39:13:
             vpiParent: IODecl name:d
             vpiTypespec RefTypespec:
               vpiParent: Variable name:d
-              vpiFullName: work@udp_sequential.d.d
+              vpiFullName: udp_sequential.d.d
             vpiName: d
-            vpiFullName: work@udp_sequential.d.d
+            vpiFullName: udp_sequential.d.d
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:d
-            vpiFullName: work@udp_sequential.d
+            vpiFullName: udp_sequential.d
       vpiTableEntry (6 items):
         TableEntry start:46:4 end:46:38:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiValue Constant start:46:4 end:46:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential
+              vpiFullName: udp_sequential
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(01) 0 : ? : 0"
             vpiValue: "(01) 0 : ? : 0"
         TableEntry start:47:4 end:47:38:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiValue Constant start:47:4 end:47:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential
+              vpiFullName: udp_sequential
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(01) 1 : ? : 1"
             vpiValue: "(01) 1 : ? : 1"
         TableEntry start:48:4 end:48:38:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiValue Constant start:48:4 end:48:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential
+              vpiFullName: udp_sequential
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(0?) 1 : 1 : 1"
             vpiValue: "(0?) 1 : 1 : 1"
         TableEntry start:49:4 end:49:38:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiValue Constant start:49:4 end:49:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential
+              vpiFullName: udp_sequential
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(0?) 0 : 0 : 0"
             vpiValue: "(0?) 0 : 0 : 0"
         TableEntry start:51:4 end:51:38:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiValue Constant start:51:4 end:51:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential
+              vpiFullName: udp_sequential
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(?0) ? : ? : -"
             vpiValue: "(?0) ? : ? : -"
         TableEntry start:53:4 end:53:38:
-          vpiParent: UdpDefn name:work@udp_sequential
+          vpiParent: UdpDefn name:udp_sequential
           vpiValue Constant start:53:4 end:53:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential
+              vpiFullName: udp_sequential
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "? (??) : ? : -"
             vpiValue: "? (??) : ? : -"
-    UdpDefn name:work@udp_sequential_initial start:59:1 end:82:13:
+    UdpDefn name:udp_sequential_initial start:59:1 end:82:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@udp_sequential_initial start:60:11 end:60:33:
-        vpiParent: UdpDefn name:work@udp_sequential_initial
-        vpiName: work@udp_sequential_initial
-      vpiFullName: work@udp_sequential_initial
+      vpiName Identifier name:udp_sequential_initial start:60:11 end:60:33:
+        vpiParent: UdpDefn name:udp_sequential_initial
+        vpiName: udp_sequential_initial
+      vpiFullName: udp_sequential_initial
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
       vpiAttribute (1 items):
         Attribute name:my_udp start:59:4 end:59:10:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiName: my_udp
       vpiIODecl (3 items):
         IODecl name:q start:60:34 end:60:35:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiName: q
           vpiDirection: output (2)
           vpiExpr Variable name:q start:61:26 end:61:27:
             vpiParent: IODecl name:q
             vpiTypespec RefTypespec:
               vpiParent: Variable name:q
-              vpiFullName: work@udp_sequential_initial.q.q
+              vpiFullName: udp_sequential_initial.q.q
               vpiActual: LogicTypespec
             vpiAttribute (1 items):
               Attribute name:q start:61:4 end:61:14:
@@ -3271,27 +3292,27 @@ Design name:unnamed:
                   vpiParent: Attribute name:q
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_sequential_initial.q.q.q
+                    vpiFullName: udp_sequential_initial.q.q.q
                     vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 32
                   vpiDecompile: "\"blah\""
                   vpiValue: blah
             vpiName: q
-            vpiFullName: work@udp_sequential_initial.q.q
+            vpiFullName: udp_sequential_initial.q.q
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:q
-            vpiFullName: work@udp_sequential_initial.q
+            vpiFullName: udp_sequential_initial.q
             vpiActual: LogicTypespec
         IODecl name:clk start:60:37 end:60:40:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiName: clk
           vpiDirection: input (1)
           vpiExpr Variable name:clk start:62:25 end:62:28:
             vpiParent: IODecl name:clk
             vpiTypespec RefTypespec:
               vpiParent: Variable name:clk
-              vpiFullName: work@udp_sequential_initial.clk.clk
+              vpiFullName: udp_sequential_initial.clk.clk
             vpiAttribute (1 items):
               Attribute name:clk start:62:4 end:62:15:
                 vpiParent: Variable name:clk
@@ -3300,26 +3321,26 @@ Design name:unnamed:
                   vpiParent: Attribute name:clk
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_sequential_initial.clk.clk.clk
+                    vpiFullName: udp_sequential_initial.clk.clk.clk
                     vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 24
                   vpiDecompile: "\"foo\""
                   vpiValue: foo
             vpiName: clk
-            vpiFullName: work@udp_sequential_initial.clk.clk
+            vpiFullName: udp_sequential_initial.clk.clk
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:clk
-            vpiFullName: work@udp_sequential_initial.clk
+            vpiFullName: udp_sequential_initial.clk
         IODecl name:d start:60:42 end:60:43:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiName: d
           vpiDirection: input (1)
           vpiExpr Variable name:d start:62:30 end:62:31:
             vpiParent: IODecl name:d
             vpiTypespec RefTypespec:
               vpiParent: Variable name:d
-              vpiFullName: work@udp_sequential_initial.d.d
+              vpiFullName: udp_sequential_initial.d.d
             vpiAttribute (1 items):
               Attribute name:clk start:62:4 end:62:15:
                 vpiParent: Variable name:d
@@ -3328,161 +3349,165 @@ Design name:unnamed:
                   vpiParent: Attribute name:clk
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_sequential_initial.d.d.clk
+                    vpiFullName: udp_sequential_initial.d.d.clk
                     vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 24
                   vpiDecompile: "\"foo\""
                   vpiValue: foo
             vpiName: d
-            vpiFullName: work@udp_sequential_initial.d.d
+            vpiFullName: udp_sequential_initial.d.d
           vpiTypespec RefTypespec:
             vpiParent: IODecl name:d
-            vpiFullName: work@udp_sequential_initial.d
+            vpiFullName: udp_sequential_initial.d
       vpiTableEntry (6 items):
         TableEntry start:72:4 end:72:38:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiValue Constant start:72:4 end:72:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential_initial
+              vpiFullName: udp_sequential_initial
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(01) 0 : ? : 0"
             vpiValue: "(01) 0 : ? : 0"
         TableEntry start:73:4 end:73:38:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiValue Constant start:73:4 end:73:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential_initial
+              vpiFullName: udp_sequential_initial
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(01) 1 : ? : 1"
             vpiValue: "(01) 1 : ? : 1"
         TableEntry start:74:4 end:74:38:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiValue Constant start:74:4 end:74:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential_initial
+              vpiFullName: udp_sequential_initial
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(0?) 1 : 1 : 1"
             vpiValue: "(0?) 1 : 1 : 1"
         TableEntry start:75:4 end:75:38:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiValue Constant start:75:4 end:75:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential_initial
+              vpiFullName: udp_sequential_initial
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(0?) 0 : 0 : 0"
             vpiValue: "(0?) 0 : 0 : 0"
         TableEntry start:77:4 end:77:38:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiValue Constant start:77:4 end:77:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential_initial
+              vpiFullName: udp_sequential_initial
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "(?0) ? : ? : -"
             vpiValue: "(?0) ? : ? : -"
         TableEntry start:79:4 end:79:38:
-          vpiParent: UdpDefn name:work@udp_sequential_initial
+          vpiParent: UdpDefn name:udp_sequential_initial
           vpiValue Constant start:79:4 end:79:38:
             vpiParent: TableEntry
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential_initial
+              vpiFullName: udp_sequential_initial
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "? (??) : ? : -"
             vpiValue: "? (??) : ? : -"
       vpiInitial Initial start:66:1 end:67:9:
-        vpiParent: UdpDefn name:work@udp_sequential_initial
+        vpiParent: UdpDefn name:udp_sequential_initial
         vpiStmt Assignment start:67:3 end:67:8:
           vpiParent: Initial
           vpiLhs RefObj name:q start:67:3 end:67:4:
             vpiParent: Assignment
             vpiName: q
-            vpiFullName: work@udp_sequential_initial.q
+            vpiFullName: udp_sequential_initial.q
             vpiActual: IODecl name:q
           vpiRhs Constant start:67:7 end:67:8:
             vpiParent: Assignment
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@udp_sequential_initial
+              vpiFullName: udp_sequential_initial
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
   vpiAllModules (1 items):
-    Module name:work@udp_body_tb file:$Source01/dut.sv start:84:1 end:106:10:
+    Module name:udp_body_tb file:$Source01/dut.sv start:84:1 end:106:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@udp_body_tb start:84:8 end:84:19:
-        vpiParent: Module name:work@udp_body_tb
-        vpiName: work@udp_body_tb
-      vpiFullName: work@udp_body_tb
-      vpiTypespec (2 items):
-        LogicTypespec:
-          vpiParent: Module name:work@udp_body_tb
-        UdpDefnTypespec name:work@udp_body start:89:1 end:89:9:
-          vpiParent: Module name:work@udp_body_tb
-          vpiName: work@udp_body
-      vpiDefName: work@udp_body_tb
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@udp_body_tb
-        vpiName: work
-        vpiFullName: work@udp_body_tb.work
-      vpiCell: udp_body_tb
-      vpiNet (3 items):
-        Net name:b start:86:5 end:86:6:
-          vpiParent: Module name:work@udp_body_tb
+      vpiName Identifier name:udp_body_tb start:84:8 end:84:19:
+        vpiParent: Module name:udp_body_tb
+        vpiName: udp_body_tb
+      vpiFullName: udp_body_tb
+      vpiVariable (2 items):
+        Variable name:b start:86:5 end:86:6:
+          vpiParent: Module name:udp_body_tb
           vpiTypespec RefTypespec start:86:1 end:86:4:
-            vpiParent: Net name:b
-            vpiFullName: work@udp_body_tb.b
+            vpiParent: Variable name:b
+            vpiFullName: udp_body_tb.b
             vpiActual: LogicTypespec
           vpiName: b
-          vpiFullName: work@udp_body_tb.b
-        Net name:c start:86:7 end:86:8:
-          vpiParent: Module name:work@udp_body_tb
+          vpiFullName: udp_body_tb.b
+          vpiScalar: true
+        Variable name:c start:86:7 end:86:8:
+          vpiParent: Module name:udp_body_tb
           vpiTypespec RefTypespec start:86:1 end:86:4:
-            vpiParent: Net name:c
-            vpiFullName: work@udp_body_tb.c
+            vpiParent: Variable name:c
+            vpiFullName: udp_body_tb.c
             vpiActual: LogicTypespec
           vpiName: c
-          vpiFullName: work@udp_body_tb.c
+          vpiFullName: udp_body_tb.c
+          vpiScalar: true
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:udp_body_tb
+        UdpDefnTypespec name:udp_body start:89:1 end:89:9:
+          vpiParent: Module name:udp_body_tb
+          vpiName: udp_body
+      vpiDefName: udp_body_tb
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:udp_body_tb
+        vpiName: work
+        vpiFullName: udp_body_tb.work
+      vpiCell: udp_body_tb
+      vpiNet (1 items):
         Net name:a start:87:6 end:87:7:
-          vpiParent: Module name:work@udp_body_tb
+          vpiParent: Module name:udp_body_tb
           vpiTypespec RefTypespec start:87:6 end:87:6:
             vpiParent: Net name:a
-            vpiFullName: work@udp_body_tb.a
+            vpiFullName: udp_body_tb.a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: work@udp_body_tb.a
+          vpiFullName: udp_body_tb.a
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiProcess (1 items):
         Initial start:91:1 end:104:4:
-          vpiParent: Module name:work@udp_body_tb
+          vpiParent: Module name:udp_body_tb
           vpiStmt Begin start:91:9 end:104:4:
             vpiParent: Initial
-            vpiFullName: work@udp_body_tb
+            vpiFullName: udp_body_tb
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -3497,7 +3522,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$monitor
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 176
@@ -3506,17 +3531,17 @@ Design name:unnamed:
                   RefObj name:b start:92:37 end:92:38:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName: b
-                    vpiFullName: work@udp_body_tb.b
-                    vpiActual: Net name:b
+                    vpiFullName: udp_body_tb.b
+                    vpiActual: Variable name:b
                   RefObj name:c start:92:39 end:92:40:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName: c
-                    vpiFullName: work@udp_body_tb.c
-                    vpiActual: Net name:c
+                    vpiFullName: udp_body_tb.c
+                    vpiActual: Variable name:c
                   RefObj name:a start:92:41 end:92:42:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName: a
-                    vpiFullName: work@udp_body_tb.a
+                    vpiFullName: udp_body_tb.a
                     vpiActual: Net name:a
               Assignment start:93:3 end:93:8:
                 vpiParent: Begin
@@ -3524,13 +3549,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:b start:93:3 end:93:4:
                   vpiParent: Assignment
                   vpiName: b
-                  vpiFullName: work@udp_body_tb.b
-                  vpiActual: Net name:b
+                  vpiFullName: udp_body_tb.b
+                  vpiActual: Variable name:b
                 vpiRhs Constant start:93:7 end:93:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3542,13 +3567,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:c start:94:3 end:94:4:
                   vpiParent: Assignment
                   vpiName: c
-                  vpiFullName: work@udp_body_tb.c
-                  vpiActual: Net name:c
+                  vpiFullName: udp_body_tb.c
+                  vpiActual: Variable name:c
                 vpiRhs Constant start:94:7 end:94:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3562,13 +3587,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:b start:95:6 end:95:7:
                     vpiParent: Assignment
                     vpiName: b
-                    vpiFullName: work@udp_body_tb.b
-                    vpiActual: Net name:b
+                    vpiFullName: udp_body_tb.b
+                    vpiActual: Variable name:b
                   vpiRhs Constant start:95:10 end:95:11:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -3578,7 +3603,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3592,13 +3617,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:b start:96:6 end:96:7:
                     vpiParent: Assignment
                     vpiName: b
-                    vpiFullName: work@udp_body_tb.b
-                    vpiActual: Net name:b
+                    vpiFullName: udp_body_tb.b
+                    vpiActual: Variable name:b
                   vpiRhs Constant start:96:10 end:96:11:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -3608,7 +3633,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3622,13 +3647,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:c start:97:6 end:97:7:
                     vpiParent: Assignment
                     vpiName: c
-                    vpiFullName: work@udp_body_tb.c
-                    vpiActual: Net name:c
+                    vpiFullName: udp_body_tb.c
+                    vpiActual: Variable name:c
                   vpiRhs Constant start:97:10 end:97:11:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -3638,7 +3663,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3652,13 +3677,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:b start:98:6 end:98:7:
                     vpiParent: Assignment
                     vpiName: b
-                    vpiFullName: work@udp_body_tb.b
-                    vpiActual: Net name:b
+                    vpiFullName: udp_body_tb.b
+                    vpiActual: Variable name:b
                   vpiRhs Constant start:98:10 end:98:14:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -3668,7 +3693,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3682,13 +3707,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:c start:99:6 end:99:7:
                     vpiParent: Assignment
                     vpiName: c
-                    vpiFullName: work@udp_body_tb.c
-                    vpiActual: Net name:c
+                    vpiFullName: udp_body_tb.c
+                    vpiActual: Variable name:c
                   vpiRhs Constant start:99:10 end:99:11:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -3698,7 +3723,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3712,13 +3737,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:b start:100:6 end:100:7:
                     vpiParent: Assignment
                     vpiName: b
-                    vpiFullName: work@udp_body_tb.b
-                    vpiActual: Net name:b
+                    vpiFullName: udp_body_tb.b
+                    vpiActual: Variable name:b
                   vpiRhs Constant start:100:10 end:100:11:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -3728,7 +3753,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3742,13 +3767,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:c start:101:6 end:101:7:
                     vpiParent: Assignment
                     vpiName: c
-                    vpiFullName: work@udp_body_tb.c
-                    vpiActual: Net name:c
+                    vpiFullName: udp_body_tb.c
+                    vpiActual: Variable name:c
                   vpiRhs Constant start:101:10 end:101:14:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -3758,7 +3783,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3772,13 +3797,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:b start:102:6 end:102:7:
                     vpiParent: Assignment
                     vpiName: b
-                    vpiFullName: work@udp_body_tb.b
-                    vpiActual: Net name:b
+                    vpiFullName: udp_body_tb.b
+                    vpiActual: Variable name:b
                   vpiRhs Constant start:102:10 end:102:11:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@udp_body_tb
+                      vpiFullName: udp_body_tb
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -3788,7 +3813,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3805,7 +3830,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@udp_body_tb
+                    vpiFullName: udp_body_tb
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -3813,12 +3838,12 @@ Design name:unnamed:
                   vpiValue: 1
       vpiPrimitive (1 items):
         Udp name:udp file:$Source01/dut.sv start:89:10 end:89:13:
-          vpiParent: Module name:work@udp_body_tb
+          vpiParent: Module name:udp_body_tb
           vpiName: udp
-          vpiFullName: work@udp_body_tb.udp
-          vpiDefName Identifier name:work@udp_body start:89:1 end:89:9:
+          vpiFullName: udp_body_tb.udp
+          vpiDefName Identifier name:udp_body start:89:1 end:89:9:
             vpiParent: Udp name:udp
-            vpiName: work@udp_body
+            vpiName: udp_body
           vpiPrimTerm (3 items):
             PrimTerm start:89:15 end:89:16:
               vpiParent: Udp name:udp
@@ -3826,7 +3851,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:89:15 end:89:16:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@udp_body_tb.udp.a
+                vpiFullName: udp_body_tb.udp.a
                 vpiActual: Net name:a
             PrimTerm start:89:17 end:89:18:
               vpiParent: Udp name:udp
@@ -3835,8 +3860,8 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:89:17 end:89:18:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@udp_body_tb.udp.b
-                vpiActual: Net name:b
+                vpiFullName: udp_body_tb.udp.b
+                vpiActual: Variable name:b
             PrimTerm start:89:19 end:89:20:
               vpiParent: Udp name:udp
               vpiDirection: input (1)
@@ -3844,8 +3869,8 @@ Design name:unnamed:
               vpiExpr RefObj name:c start:89:19 end:89:20:
                 vpiParent: PrimTerm
                 vpiName: c
-                vpiFullName: work@udp_body_tb.udp.c
-                vpiActual: Net name:c
+                vpiFullName: udp_body_tb.udp.c
+                vpiActual: Variable name:c
   vpiTypespec (12 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3861,37 +3886,40 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    UdpDefnTypespec name:work@udp_body:
+    UdpDefnTypespec name:udp_body:
       vpiParent: Design name:unnamed
-      vpiName: work@udp_body
-    UdpDefnTypespec name:work@udp_latch:
+      vpiName: udp_body
+    UdpDefnTypespec name:udp_latch:
       vpiParent: Design name:unnamed
-      vpiName: work@udp_latch
-    UdpDefnTypespec name:work@udp_sequential:
+      vpiName: udp_latch
+    UdpDefnTypespec name:udp_sequential:
       vpiParent: Design name:unnamed
-      vpiName: work@udp_sequential
-    UdpDefnTypespec name:work@udp_sequential_initial:
+      vpiName: udp_sequential
+    UdpDefnTypespec name:udp_sequential_initial:
       vpiParent: Design name:unnamed
-      vpiName: work@udp_sequential_initial
-    ModuleTypespec name:work@udp_body_tb:
+      vpiName: udp_sequential_initial
+    ModuleTypespec name:udp_body_tb:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@udp_body_tb start:84:8 end:84:19:
-        vpiParent: ModuleTypespec name:work@udp_body_tb
-        vpiName: work@udp_body_tb
-      vpiModule: Module name:work@udp_body_tb
+      vpiName Identifier name:udp_body_tb start:84:8 end:84:19:
+        vpiParent: ModuleTypespec name:udp_body_tb
+        vpiName: udp_body_tb
+      vpiModule: Module name:udp_body_tb
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

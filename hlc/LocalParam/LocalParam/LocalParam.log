@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<209> t<Top_level_rule> c<1> l<1:1> el<14:1>
     n<> u<100> t<Description> p<208> c<99> s<207> l<1:1> el<4:10>
       n<> u<99> t<Module_declaration> p<100> c<29> l<1:1> el<4:10>
         n<> u<29> t<Module_ansi_header> p<99> c<2> s<63> l<1:1> el<1:57>
-          n<module> u<2> t<Module_keyword> p<29> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<29> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<29> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<29> s<28> l<1:12> el<1:12>
           n<> u<28> t<Port_declaration_list> p<29> c<11> l<1:12> el<1:56>
@@ -380,7 +380,7 @@ n<$Source01/dut.sv> u<209> t<Top_level_rule> c<1> l<1:1> el<14:1>
     n<> u<207> t<Description> p<208> c<206> l<6:1> el<12:10>
       n<> u<206> t<Module_declaration> p<207> c<133> l<6:1> el<12:10>
         n<> u<133> t<Module_ansi_header> p<206> c<101> s<151> l<6:1> el<6:74>
-          n<module> u<101> t<Module_keyword> p<133> s<102> l<6:1> el<6:7>
+          n<module> u<101> t<MODULE> p<133> s<102> l<6:1> el<6:7>
           n<assigner> u<102> t<SIMPLE_IDENTIFIER> p<133> s<103> l<6:8> el<6:16>
           n<> u<103> t<Package_import_declaration_list> p<133> s<116> l<6:17> el<6:17>
           n<> u<116> t<Parameter_port_list> p<133> c<115> s<132> l<6:17> el<6:40>
@@ -485,18 +485,12 @@ n<$Source01/dut.sv> u<209> t<Top_level_rule> c<1> l<1:1> el<14:1>
                                       n<inp> u<187> t<SIMPLE_IDENTIFIER> p<188> l<11:18> el<11:21>
         n<> u<205> t<ENDMODULE> p<206> l<12:1> el<12:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
-[WRN:CP0323] $Source01/dut.sv:1:1: Multiply defined typedef "work@assigner".
-[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@assigner".
-[ERR:EL0535] $Source01/dut.sv:2:15: Illegal implicit net "id:778, name:invert".
-[ERR:EL0535] $Source01/dut.sv:2:33: Illegal implicit net "id:781, name:inp".
-[ERR:EL0535] $Source01/dut.sv:2:42: Illegal implicit net "id:784, name:out".
-[ERR:EL0535] $Source01/dut.sv:3:15: Illegal implicit net "id:793, name:invert".
-[ERR:EL0535] $Source01/dut.sv:3:33: Illegal implicit net "id:796, name:inp".
-[ERR:EL0535] $Source01/dut.sv:3:42: Illegal implicit net "id:799, name:out".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
+[WRN:CP0323] $Source01/dut.sv:1:1: Multiply defined typedef "assigner".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "assigner".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
-[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@assigner".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "assigner".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -505,7 +499,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2072,6 +2065,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2083,6 +2077,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2114,6 +2109,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2128,6 +2124,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2149,6 +2146,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2172,6 +2170,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2191,6 +2190,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2214,6 +2214,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2233,6 +2234,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2302,16 +2304,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2324,6 +2329,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2335,6 +2341,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2342,6 +2349,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2349,6 +2357,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2356,6 +2365,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2369,6 +2379,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2380,6 +2391,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2411,6 +2423,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2437,6 +2450,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2463,6 +2477,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2488,120 +2503,127 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (2 items):
-    Module name:work@top file:$Source01/dut.sv start:1:1 end:4:10:
+    Module name:top file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiVariable (2 items):
         Variable name:o1 start:1:38 end:1:40:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:27 end:1:37:
             vpiParent: Variable name:o1
-            vpiFullName: work@top.o1
+            vpiFullName: top.o1
             vpiActual: LogicTypespec
           vpiName: o1
-          vpiFullName: work@top.o1
-          vpiNetType: none (12)
+          vpiFullName: top.o1
+          vpiScalar: true
         Variable name:o2 start:1:53 end:1:55:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:42 end:1:52:
             vpiParent: Variable name:o2
-            vpiFullName: work@top.o2
+            vpiFullName: top.o2
             vpiActual: LogicTypespec
           vpiName: o2
-          vpiFullName: work@top.o2
-          vpiNetType: none (12)
+          vpiFullName: top.o2
+          vpiScalar: true
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
-        ModuleTypespec name:work@assigner start:2:3 end:2:11:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@assigner start:2:3 end:2:11:
-            vpiParent: ModuleTypespec name:work@assigner
-            vpiName: work@assigner
-        ModuleTypespec name:work@assigner start:3:3 end:3:11:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@assigner start:3:3 end:3:11:
-            vpiParent: ModuleTypespec name:work@assigner
-            vpiName: work@assigner
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+          vpiParent: Module name:top
+        ModuleTypespec name:assigner start:2:3 end:2:11:
+          vpiParent: Module name:top
+          vpiName Identifier name:assigner start:2:3 end:2:11:
+            vpiParent: ModuleTypespec name:assigner
+            vpiName: assigner
+          vpiModule: Module name:assigner
+        ModuleTypespec name:assigner start:3:3 end:3:11:
+          vpiParent: Module name:top
+          vpiName Identifier name:assigner start:3:3 end:3:11:
+            vpiParent: ModuleTypespec name:assigner
+            vpiName: assigner
+          vpiModule: Module name:assigner
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiNet (1 items):
         Net name:i start:1:24 end:1:25:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:23:
             vpiParent: Net name:i
-            vpiFullName: work@top.i
+            vpiFullName: top.i
             vpiActual: LogicTypespec
           vpiName: i
-          vpiFullName: work@top.i
+          vpiFullName: top.i
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:i start:1:24 end:1:25:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:24 end:1:25:
+          vpiLowConn RefObj name:i start:1:24 end:1:25:
             vpiParent: Port name:i
-            vpiFullName: work@top.i
+            vpiName: i
+            vpiFullName: top.i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec start:1:13 end:1:23:
             vpiParent: Port name:i
-            vpiFullName: work@top.i
+            vpiFullName: top.i
             vpiActual: LogicTypespec
         Port name:o1 start:1:38 end:1:40:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: o1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:38 end:1:40:
+          vpiLowConn RefObj name:o1 start:1:38 end:1:40:
             vpiParent: Port name:o1
-            vpiFullName: work@top.o1
+            vpiName: o1
+            vpiFullName: top.o1.o1
             vpiActual: Variable name:o1
           vpiTypespec RefTypespec start:1:27 end:1:37:
             vpiParent: Port name:o1
-            vpiFullName: work@top.o1
+            vpiFullName: top.o1
             vpiActual: LogicTypespec
         Port name:o2 start:1:53 end:1:55:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: o2
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:53 end:1:55:
+          vpiLowConn RefObj name:o2 start:1:53 end:1:55:
             vpiParent: Port name:o2
-            vpiFullName: work@top.o2
+            vpiName: o2
+            vpiFullName: top.o2.o2
             vpiActual: Variable name:o2
           vpiTypespec RefTypespec start:1:42 end:1:52:
             vpiParent: Port name:o2
-            vpiFullName: work@top.o2
+            vpiFullName: top.o2
             vpiActual: LogicTypespec
       vpiRefInstance (2 items):
         RefInstance name:asgn0 start:2:26 end:2:31:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: asgn0
-          vpiTypespec RefTypespec name:work@assigner start:2:3 end:2:11:
+          vpiTypespec RefTypespec name:assigner start:2:3 end:2:11:
             vpiParent: RefInstance name:asgn0
-            vpiName: work@assigner
-            vpiFullName: work@top.asgn0.work@assigner
-            vpiActual: ModuleTypespec name:work@assigner
+            vpiName: assigner
+            vpiFullName: top.asgn0.assigner
+            vpiActual: ModuleTypespec name:assigner
           vpiParamAssign (1 items):
             ParamAssign start:2:14 end:2:24:
               vpiParent: RefInstance name:asgn0
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:invert start:2:15 end:2:21:
                 vpiParent: ParamAssign
                 vpiName: invert
-                vpiFullName: work@top.asgn0.invert
+                vpiFullName: top.asgn0.invert
               vpiRhs Constant start:2:22 end:2:23:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.asgn0
+                  vpiFullName: top.asgn0
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2613,44 +2635,45 @@ Design name:unnamed:
               vpiLowConn RefObj name:inp start:2:33 end:2:36:
                 vpiParent: Port
                 vpiName: inp
-                vpiFullName: work@top.asgn0.inp
+                vpiFullName: top.asgn0.inp
               vpiHighConn RefObj name:i start:2:37 end:2:38:
                 vpiParent: Port
                 vpiName: i
-                vpiFullName: work@top.asgn0.i
+                vpiFullName: top.asgn0.i
                 vpiActual: Net name:i
             Port start:2:41 end:2:49:
               vpiParent: RefInstance name:asgn0
               vpiLowConn RefObj name:out start:2:42 end:2:45:
                 vpiParent: Port
                 vpiName: out
-                vpiFullName: work@top.asgn0.out
+                vpiFullName: top.asgn0.out
               vpiHighConn RefObj name:o1 start:2:46 end:2:48:
                 vpiParent: Port
                 vpiName: o1
-                vpiFullName: work@top.asgn0.o1
+                vpiFullName: top.asgn0.o1
                 vpiActual: Variable name:o1
         RefInstance name:asgn1 start:3:26 end:3:31:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: asgn1
-          vpiTypespec RefTypespec name:work@assigner start:3:3 end:3:11:
+          vpiTypespec RefTypespec name:assigner start:3:3 end:3:11:
             vpiParent: RefInstance name:asgn1
-            vpiName: work@assigner
-            vpiFullName: work@top.asgn1.work@assigner
-            vpiActual: ModuleTypespec name:work@assigner
+            vpiName: assigner
+            vpiFullName: top.asgn1.assigner
+            vpiActual: ModuleTypespec name:assigner
           vpiParamAssign (1 items):
             ParamAssign start:3:14 end:3:24:
               vpiParent: RefInstance name:asgn1
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:invert start:3:15 end:3:21:
                 vpiParent: ParamAssign
                 vpiName: invert
-                vpiFullName: work@top.asgn1.invert
+                vpiFullName: top.asgn1.invert
               vpiRhs Constant start:3:22 end:3:23:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.asgn1
+                  vpiFullName: top.asgn1
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2662,87 +2685,87 @@ Design name:unnamed:
               vpiLowConn RefObj name:inp start:3:33 end:3:36:
                 vpiParent: Port
                 vpiName: inp
-                vpiFullName: work@top.asgn1.inp
+                vpiFullName: top.asgn1.inp
               vpiHighConn RefObj name:i start:3:37 end:3:38:
                 vpiParent: Port
                 vpiName: i
-                vpiFullName: work@top.asgn1.i
+                vpiFullName: top.asgn1.i
                 vpiActual: Net name:i
             Port start:3:41 end:3:49:
               vpiParent: RefInstance name:asgn1
               vpiLowConn RefObj name:out start:3:42 end:3:45:
                 vpiParent: Port
                 vpiName: out
-                vpiFullName: work@top.asgn1.out
+                vpiFullName: top.asgn1.out
               vpiHighConn RefObj name:o2 start:3:46 end:3:48:
                 vpiParent: Port
                 vpiName: o2
-                vpiFullName: work@top.asgn1.o2
+                vpiFullName: top.asgn1.o2
                 vpiActual: Variable name:o2
-    Module name:work@assigner file:$Source01/dut.sv start:6:1 end:12:10:
+    Module name:assigner file:$Source01/dut.sv start:6:1 end:12:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@assigner start:6:8 end:6:16:
-        vpiParent: Module name:work@assigner
-        vpiName: work@assigner
-      vpiFullName: work@assigner
+      vpiName Identifier name:assigner start:6:8 end:6:16:
+        vpiParent: Module name:assigner
+        vpiName: assigner
+      vpiFullName: assigner
       vpiVariable (1 items):
         Variable name:out start:6:69 end:6:72:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiTypespec RefTypespec start:6:58 end:6:68:
             vpiParent: Variable name:out
-            vpiFullName: work@assigner.out
+            vpiFullName: assigner.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: work@assigner.out
-          vpiNetType: none (12)
+          vpiFullName: assigner.out
+          vpiScalar: true
       vpiParameter (2 items):
         Parameter name:invert start:6:29 end:6:35:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiTypespec RefTypespec start:6:29 end:6:29:
             vpiParent: Parameter name:invert
-            vpiFullName: work@assigner.invert
+            vpiFullName: assigner.invert
             vpiActual: LogicTypespec
           vpiName: invert
-          vpiFullName: work@assigner.invert
+          vpiFullName: assigner.invert
         Parameter name:do_invert start:7:17 end:7:26:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiTypespec RefTypespec start:7:13 end:7:16:
             vpiParent: Parameter name:do_invert
-            vpiFullName: work@assigner.do_invert
+            vpiFullName: assigner.do_invert
             vpiActual: IntTypespec
           vpiName: do_invert
-          vpiFullName: work@assigner.do_invert
+          vpiFullName: assigner.do_invert
           vpiLocalParam: true
       vpiParamAssign (2 items):
         ParamAssign start:6:29 end:6:39:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiLhs RefObj name:invert start:6:29 end:6:35:
             vpiParent: ParamAssign
             vpiName: invert
-            vpiFullName: work@assigner.invert
+            vpiFullName: assigner.invert
             vpiActual: Parameter name:invert
           vpiRhs Constant start:6:38 end:6:39:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@assigner
+              vpiFullName: assigner
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
         ParamAssign start:7:17 end:7:30:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiLhs RefObj name:do_invert start:7:17 end:7:26:
             vpiParent: ParamAssign
             vpiName: do_invert
-            vpiFullName: work@assigner.do_invert
+            vpiFullName: assigner.do_invert
             vpiActual: Parameter name:do_invert
           vpiRhs Constant start:7:29 end:7:30:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@assigner
+              vpiFullName: assigner
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -2750,52 +2773,55 @@ Design name:unnamed:
             vpiValue: 0
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@assigner
-      vpiDefName: work@assigner
-      vpiDefNetType: none (12)
+          vpiParent: Module name:assigner
+      vpiDefName: assigner
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@assigner
+        vpiParent: Module name:assigner
         vpiName: work
-        vpiFullName: work@assigner.work
+        vpiFullName: assigner.work
       vpiCell: assigner
       vpiNet (1 items):
         Net name:inp start:6:53 end:6:56:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiTypespec RefTypespec start:6:42 end:6:52:
             vpiParent: Net name:inp
-            vpiFullName: work@assigner.inp
+            vpiFullName: assigner.inp
             vpiActual: LogicTypespec
           vpiName: inp
-          vpiFullName: work@assigner.inp
+          vpiFullName: assigner.inp
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:inp start:6:53 end:6:56:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiName: inp
           vpiDirection: input (1)
-          vpiLowConn RefObj start:6:53 end:6:56:
+          vpiLowConn RefObj name:inp start:6:53 end:6:56:
             vpiParent: Port name:inp
-            vpiFullName: work@assigner.inp
+            vpiName: inp
+            vpiFullName: assigner.inp.inp
             vpiActual: Net name:inp
           vpiTypespec RefTypespec start:6:42 end:6:52:
             vpiParent: Port name:inp
-            vpiFullName: work@assigner.inp
+            vpiFullName: assigner.inp
             vpiActual: LogicTypespec
         Port name:out start:6:69 end:6:72:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:69 end:6:72:
+          vpiLowConn RefObj name:out start:6:69 end:6:72:
             vpiParent: Port name:out
-            vpiFullName: work@assigner.out
+            vpiName: out
+            vpiFullName: assigner.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:6:58 end:6:68:
             vpiParent: Port name:out
-            vpiFullName: work@assigner.out
+            vpiFullName: assigner.out
             vpiActual: LogicTypespec
       vpiGenStmt (2 items):
         GenIf start:8:2 end:9:21:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiCondition Operation start:8:6 end:8:13:
             vpiParent: GenIf
             vpiOpType: not (3)
@@ -2803,41 +2829,41 @@ Design name:unnamed:
               RefObj name:invert start:8:7 end:8:13:
                 vpiParent: Operation
                 vpiName: invert
-                vpiFullName: work@assigner.invert
+                vpiFullName: assigner.invert
                 vpiActual: Parameter name:invert
           vpiStmt Begin:
             vpiParent: GenIf
-            vpiFullName: work@assigner
+            vpiFullName: assigner
             vpiStmt (1 items):
               ContAssign start:9:11 end:9:20:
                 vpiParent: Begin
                 vpiLhs RefObj name:out start:9:11 end:9:14:
                   vpiParent: ContAssign
                   vpiName: out
-                  vpiFullName: work@assigner.out
+                  vpiFullName: assigner.out
                   vpiActual: Variable name:out
                 vpiRhs RefObj name:inp start:9:17 end:9:20:
                   vpiParent: ContAssign
                   vpiName: inp
-                  vpiFullName: work@assigner.inp
+                  vpiFullName: assigner.inp
                   vpiActual: Net name:inp
         GenIf start:10:2 end:11:22:
-          vpiParent: Module name:work@assigner
+          vpiParent: Module name:assigner
           vpiCondition RefObj name:invert start:10:6 end:10:12:
             vpiParent: GenIf
             vpiName: invert
-            vpiFullName: work@assigner.invert
+            vpiFullName: assigner.invert
             vpiActual: Parameter name:invert
           vpiStmt Begin:
             vpiParent: GenIf
-            vpiFullName: work@assigner
+            vpiFullName: assigner
             vpiStmt (1 items):
               ContAssign start:11:11 end:11:21:
                 vpiParent: Begin
                 vpiLhs RefObj name:out start:11:11 end:11:14:
                   vpiParent: ContAssign
                   vpiName: out
-                  vpiFullName: work@assigner.out
+                  vpiFullName: assigner.out
                   vpiActual: Variable name:out
                 vpiRhs Operation start:11:17 end:11:21:
                   vpiParent: ContAssign
@@ -2846,7 +2872,7 @@ Design name:unnamed:
                     RefObj name:inp start:11:18 end:11:21:
                       vpiParent: Operation
                       vpiName: inp
-                      vpiFullName: work@assigner.inp
+                      vpiFullName: assigner.inp
                       vpiActual: Net name:inp
   vpiTypespec (9 items):
     IntTypespec:
@@ -2863,35 +2889,38 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
-    ModuleTypespec name:work@assigner:
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
+    ModuleTypespec name:assigner:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@assigner start:6:8 end:6:16:
-        vpiParent: ModuleTypespec name:work@assigner
-        vpiName: work@assigner
-      vpiModule: Module name:work@assigner
+      vpiName Identifier name:assigner start:6:8 end:6:16:
+        vpiParent: ModuleTypespec name:assigner
+        vpiName: assigner
+      vpiModule: Module name:assigner
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************

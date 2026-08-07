@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<144> t<Top_level_rule> c<1> l<2:1> el<18:1>
     n<> u<106> t<Description> p<143> c<105> s<107> l<2:1> el<13:10>
       n<> u<105> t<Module_declaration> p<106> c<6> l<2:1> el<13:10>
         n<> u<6> t<Module_nonansi_header> p<105> c<2> s<28> l<2:1> el<2:14>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<2:1> el<2:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<2:1> el<2:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<2:8> el<2:11>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<2:11> el<2:11>
           n<> u<5> t<Port_list> p<6> l<2:11> el<2:13>
@@ -351,7 +351,7 @@ n<$Source01/dut.sv> u<144> t<Top_level_rule> c<1> l<2:1> el<18:1>
                                         n<> u<60> t<Primary> p<61> c<59> l<8:29> el<8:39>
                                           n<> u<59> t<Cast> p<60> c<54> l<8:29> el<8:39>
                                             n<> u<54> t<Casting_type> p<59> c<53> s<58> l<8:29> el<8:35>
-                                              n<string> u<53> t<String_type> p<54> l<8:29> el<8:35>
+                                              n<string> u<53> t<STRING> p<54> l<8:29> el<8:35>
                                             n<> u<58> t<Expression> p<59> c<57> l<8:37> el<8:38>
                                               n<> u<57> t<Primary> p<58> c<56> l<8:37> el<8:38>
                                                 n<> u<56> t<Primary_literal> p<57> c<55> l<8:37> el<8:38>
@@ -387,7 +387,7 @@ n<$Source01/dut.sv> u<144> t<Top_level_rule> c<1> l<2:1> el<18:1>
     n<> u<142> t<Description> p<143> c<141> l<15:1> el<17:10>
       n<> u<141> t<Module_declaration> p<142> c<111> l<15:1> el<17:10>
         n<> u<111> t<Module_ansi_header> p<141> c<108> s<139> l<15:1> el<15:10>
-          n<module> u<108> t<Module_keyword> p<111> s<109> l<15:1> el<15:7>
+          n<module> u<108> t<MODULE> p<111> s<109> l<15:1> el<15:7>
           n<M> u<109> t<SIMPLE_IDENTIFIER> p<111> s<110> l<15:8> el<15:9>
           n<> u<110> t<Package_import_declaration_list> p<111> l<15:9> el<15:9>
         n<> u<139> t<Non_port_module_item> p<141> c<138> s<140> l<16:4> el<16:33>
@@ -420,17 +420,13 @@ n<$Source01/dut.sv> u<144> t<Top_level_rule> c<1> l<2:1> el<18:1>
                                   n<> u<126> t<TICK_0> p<127> l<16:30> el<16:32>
         n<> u<140> t<ENDMODULE> p<141> l<17:1> el<17:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@top".
-[INF:CP0303] $Source01/dut.sv:15:1: Compile module "work@M".
-[ERR:EL0535] $Source01/dut.sv:3:28: Illegal implicit net "id:758, name:N".
-[ERR:EL0535] $Source01/dut.sv:8:11: Illegal implicit net "id:773, name:setup_received".
-[ERR:EL0535] $Source01/dut.sv:8:37: Illegal implicit net "id:775, name:i".
-[ERR:EL0535] $Source01/dut.sv:9:9: Illegal implicit net "id:780, name:hw2reg".
-[ERR:EL0535] $Source01/dut.sv:9:16: Illegal implicit net "id:782, name:stall".
-[ERR:EL0535] $Source01/dut.sv:9:34: Illegal implicit net "id:783, name:i".
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "top".
+[INF:CP0303] $Source01/dut.sv:15:1: Compile module "M".
+[WRN:CP0350] $Source01/dut.sv:9:9: Failed to bind "id:780, name:hw2reg".
+[WRN:CP0350] $Source01/dut.sv:9:16: Failed to bind "id:782, name:stall".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@top".
-[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "work@M".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "top".
+[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "M".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -439,7 +435,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2006,6 +2001,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2017,6 +2013,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2048,6 +2045,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2062,6 +2060,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2083,6 +2082,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2106,6 +2106,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2125,6 +2126,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2148,6 +2150,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2167,6 +2170,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2236,16 +2240,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2258,6 +2265,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2269,6 +2277,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2276,6 +2285,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2283,6 +2293,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2290,6 +2301,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2303,6 +2315,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2314,6 +2327,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2345,6 +2359,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2371,6 +2386,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2397,6 +2413,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2422,34 +2439,34 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (2 items):
-    Module name:work@top file:$Source01/dut.sv start:2:1 end:13:10:
+    Module name:top file:$Source01/dut.sv start:2:1 end:13:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:2:8 end:2:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:2:8 end:2:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiParameter (1 items):
         Parameter name:INIT start:4:19 end:4:23:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:12 end:4:18:
             vpiParent: Parameter name:INIT
-            vpiFullName: work@top.INIT
+            vpiFullName: top.INIT
             vpiActual: LogicTypespec
           vpiName: INIT
-          vpiFullName: work@top.INIT
+          vpiFullName: top.INIT
       vpiParamAssign (1 items):
         ParamAssign start:4:19 end:4:28:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:INIT start:4:19 end:4:23:
             vpiParent: ParamAssign
             vpiName: INIT
-            vpiFullName: work@top.INIT
+            vpiFullName: top.INIT
             vpiActual: Parameter name:INIT
           vpiRhs Constant start:4:26 end:4:28:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
@@ -2457,46 +2474,48 @@ Design name:unnamed:
             vpiValue: "0"
       vpiTypespec (4 items):
         UnsupportedTypespec name:blah_if start:3:19 end:3:26:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName Identifier name:blah_if start:3:19 end:3:26:
             vpiParent: UnsupportedTypespec name:blah_if
             vpiName: blah_if
           vpiParamAssign (1 items):
             ParamAssign start:3:28 end:3:29:
               vpiParent: UnsupportedTypespec name:blah_if
+              vpiOverridden: true
               vpiRhs RefObj name:N start:3:28 end:3:29:
                 vpiParent: ParamAssign
                 vpiName: N
-                vpiFullName: work@top.blah_if.N
+                vpiFullName: top.blah_if.N
         TypedefTypespec name:foo_if start:3:3 end:3:38:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName Identifier name:foo_if start:3:31 end:3:37:
             vpiParent: TypedefTypespec name:foo_if
             vpiName: foo_if
           vpiTypedefAlias RefTypespec start:3:11 end:3:30:
             vpiParent: TypedefTypespec name:foo_if
-            vpiFullName: work@top.foo_if
+            vpiFullName: top.foo_if
             vpiActual: UnsupportedTypespec name:blah_if
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
+          vpiSigned: true
         BitTypespec:
-          vpiParent: Module name:work@top
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+          vpiParent: Module name:top
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiProcess (1 items):
         Always start:7:3 end:11:6:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiStmt Begin name:proc_stall_tieoff start:7:15 end:11:6:
             vpiParent: Always
             vpiName Identifier name:proc_stall_tieoff start:7:23 end:7:40:
               vpiParent: Begin name:proc_stall_tieoff
               vpiName: proc_stall_tieoff
-            vpiFullName: work@top.proc_stall_tieoff
+            vpiFullName: top.proc_stall_tieoff
             vpiStmt (1 items):
               IfStmt start:8:7 end:10:10:
                 vpiParent: Begin name:proc_stall_tieoff
@@ -2507,22 +2526,22 @@ Design name:unnamed:
                     RefObj name:setup_received start:8:11 end:8:25:
                       vpiParent: Operation
                       vpiName: setup_received
-                      vpiFullName: work@top.proc_stall_tieoff.setup_received
+                      vpiFullName: top.proc_stall_tieoff.setup_received
                     Operation start:8:29 end:8:39:
                       vpiParent: Operation
                       vpiTypespec RefTypespec start:8:29 end:8:35:
                         vpiParent: Operation
-                        vpiFullName: work@top.proc_stall_tieoff
+                        vpiFullName: top.proc_stall_tieoff
                         vpiActual: StringTypespec
                       vpiOpType: cast (81)
                       vpiOperand (1 items):
                         RefObj name:i start:8:37 end:8:38:
                           vpiParent: Operation
                           vpiName: i
-                          vpiFullName: work@top.proc_stall_tieoff.i
+                          vpiFullName: top.proc_stall_tieoff.i
                 vpiStmt Begin start:8:41 end:10:10:
                   vpiParent: IfStmt
-                  vpiFullName: work@top.proc_stall_tieoff
+                  vpiFullName: top.proc_stall_tieoff
                   vpiStmt (1 items):
                     Assignment start:9:9 end:9:36:
                       vpiParent: Begin
@@ -2530,16 +2549,16 @@ Design name:unnamed:
                       vpiLhs HierPath name:hw2reg.stall start:9:9 end:9:21:
                         vpiParent: Assignment
                         vpiName: hw2reg.stall
-                        vpiFullName: work@top.proc_stall_tieoff.hw2reg.stall
+                        vpiFullName: top.proc_stall_tieoff.hw2reg.stall
                         vpiPathElem (2 items):
                           RefObj name:hw2reg start:9:9 end:9:15:
                             vpiParent: HierPath name:hw2reg.stall
                             vpiName: hw2reg
-                            vpiFullName: work@top.proc_stall_tieoff.hw2reg
+                            vpiFullName: top.proc_stall_tieoff.hw2reg
                           RefObj name:stall start:9:16 end:9:21:
                             vpiParent: HierPath name:hw2reg.stall
                             vpiName: stall
-                            vpiFullName: work@top.proc_stall_tieoff.stall
+                            vpiFullName: top.proc_stall_tieoff.stall
                       vpiRhs Operation start:9:24 end:9:36:
                         vpiParent: Assignment
                         vpiOpType: cast (81)
@@ -2547,36 +2566,36 @@ Design name:unnamed:
                           RefObj name:i start:9:34 end:9:35:
                             vpiParent: Operation
                             vpiName: i
-                            vpiFullName: work@top.proc_stall_tieoff.i
+                            vpiFullName: top.proc_stall_tieoff.i
           vpiAlwaysType: comb (2)
-    Module name:work@M file:$Source01/dut.sv start:15:1 end:17:10:
+    Module name:M file:$Source01/dut.sv start:15:1 end:17:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@M start:15:8 end:15:9:
-        vpiParent: Module name:work@M
-        vpiName: work@M
-      vpiFullName: work@M
+      vpiName Identifier name:M start:15:8 end:15:9:
+        vpiParent: Module name:M
+        vpiName: M
+      vpiFullName: M
       vpiParameter (1 items):
         Parameter name:P start:16:26 end:16:27:
-          vpiParent: Module name:work@M
+          vpiParent: Module name:M
           vpiTypespec RefTypespec start:16:14 end:16:25:
             vpiParent: Parameter name:P
-            vpiFullName: work@M.P
+            vpiFullName: M.P
             vpiActual: LogicTypespec
           vpiName: P
-          vpiFullName: work@M.P
+          vpiFullName: M.P
       vpiParamAssign (1 items):
         ParamAssign start:16:26 end:16:32:
-          vpiParent: Module name:work@M
+          vpiParent: Module name:M
           vpiLhs RefObj name:P start:16:26 end:16:27:
             vpiParent: ParamAssign
             vpiName: P
-            vpiFullName: work@M.P
+            vpiFullName: M.P
             vpiActual: Parameter name:P
           vpiRhs Constant start:16:30 end:16:32:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@M
+              vpiFullName: M
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
@@ -2584,7 +2603,7 @@ Design name:unnamed:
             vpiValue: "0"
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@M
+          vpiParent: Module name:M
           vpiRange (1 items):
             Range start:16:20 end:16:25:
               vpiParent: LogicTypespec
@@ -2592,7 +2611,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@M
+                  vpiFullName: M
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2602,7 +2621,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@M
+                  vpiFullName: M
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2610,13 +2629,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         BitTypespec:
-          vpiParent: Module name:work@M
-      vpiDefName: work@M
-      vpiDefNetType: none (12)
+          vpiParent: Module name:M
+      vpiDefName: M
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@M
+        vpiParent: Module name:M
         vpiName: work
-        vpiFullName: work@M.work
+        vpiFullName: M.work
       vpiCell: M
   vpiTypespec (9 items):
     IntTypespec:
@@ -2633,36 +2652,39 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:2:8 end:2:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
-    ModuleTypespec name:work@M:
+      vpiName Identifier name:top start:2:8 end:2:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
+    ModuleTypespec name:M:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@M start:15:8 end:15:9:
-        vpiParent: ModuleTypespec name:work@M
-        vpiName: work@M
-      vpiModule: Module name:work@M
+      vpiName Identifier name:M start:15:8 end:15:9:
+        vpiParent: ModuleTypespec name:M
+        vpiName: M
+      vpiModule: Module name:M
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

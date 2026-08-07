@@ -26,7 +26,7 @@ n<$Source01/6.5--variable_mixed_assignments.sv> u<96> t<Top_level_rule> c<1> l<1
     n<> u<94> t<Description> p<95> c<93> l<17:1> el<23:10>
       n<> u<93> t<Module_declaration> p<94> c<14> l<17:1> el<23:10>
         n<> u<14> t<Module_nonansi_header> p<93> c<10> s<30> l<17:1> el<17:14>
-          n<module> u<10> t<Module_keyword> p<14> s<11> l<17:1> el<17:7>
+          n<module> u<10> t<MODULE> p<14> s<11> l<17:1> el<17:7>
           n<top> u<11> t<SIMPLE_IDENTIFIER> p<14> s<12> l<17:8> el<17:11>
           n<> u<12> t<Package_import_declaration_list> p<14> s<13> l<17:11> el<17:11>
           n<> u<13> t<Port_list> p<14> l<17:11> el<17:13>
@@ -109,7 +109,7 @@ n<$Source01/6.5--variable_mixed_assignments.sv> u<96> t<Top_level_rule> c<1> l<1
                                         n<v> u<74> t<SIMPLE_IDENTIFIER> p<75> l<22:30> el<22:31>
         n<> u<92> t<ENDMODULE> p<93> l<23:1> el<23:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/6.5--variable_mixed_assignments.sv:17:1: Compile module "work@top".
+[INF:CP0303] $Source01/6.5--variable_mixed_assignments.sv:17:1: Compile module "top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -119,55 +119,56 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: "6.5--variable_mixed_assignments.sv"
       vpiPreprocFile: "$Output/lib/work/6.5--variable_mixed_assignments.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/6.5--variable_mixed_assignments.sv start:17:1 end:23:10:
+    Module name:top file:$Source01/6.5--variable_mixed_assignments.sv start:17:1 end:23:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:17:8 end:17:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:17:8 end:17:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:v start:19:6 end:19:7:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:19:2 end:19:5:
+            vpiParent: Variable name:v
+            vpiFullName: top.v
+            vpiActual: IntTypespec
+          vpiName: v
+          vpiFullName: top.v
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+          vpiParent: Module name:top
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:18:7 end:18:10:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:18:7 end:18:7:
             vpiParent: Net name:clk
-            vpiFullName: work@top.clk
+            vpiFullName: top.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@top.clk
+          vpiFullName: top.clk
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Constant start:18:13 end:18:14:
             vpiParent: Net name:clk
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top.clk
+              vpiFullName: top.clk
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-        Net name:v start:19:6 end:19:7:
-          vpiParent: Module name:work@top
-          vpiTypespec RefTypespec start:19:2 end:19:5:
-            vpiParent: Net name:v
-            vpiFullName: work@top.v
-            vpiActual: IntTypespec
-          vpiName: v
-          vpiFullName: work@top.v
       vpiProcess (1 items):
         Always start:22:2 end:22:32:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiStmt EventControl start:22:9 end:22:32:
             vpiParent: Always
             vpiCondition Operation start:22:11 end:22:22:
@@ -177,15 +178,15 @@ Design name:unnamed:
                 RefObj name:clk start:22:19 end:22:22:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@top.clk
+                  vpiFullName: top.clk
                   vpiActual: Net name:clk
             vpiStmt Assignment start:22:24 end:22:31:
               vpiParent: EventControl
               vpiLhs RefObj name:v start:22:24 end:22:25:
                 vpiParent: Assignment
                 vpiName: v
-                vpiFullName: work@top.v
-                vpiActual: Net name:v
+                vpiFullName: top.v
+                vpiActual: Variable name:v
               vpiRhs Operation start:22:29 end:22:31:
                 vpiParent: Assignment
                 vpiOpType: bitwise negation (4)
@@ -193,34 +194,34 @@ Design name:unnamed:
                   RefObj name:v start:22:30 end:22:31:
                     vpiParent: Operation
                     vpiName: v
-                    vpiFullName: work@top.v
-                    vpiActual: Net name:v
+                    vpiFullName: top.v
+                    vpiActual: Variable name:v
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:21:9 end:21:15:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:v start:21:9 end:21:10:
             vpiParent: ContAssign
             vpiName: v
-            vpiFullName: work@top.v
-            vpiActual: Net name:v
+            vpiFullName: top.v
+            vpiActual: Variable name:v
           vpiRhs Constant start:21:13 end:21:15:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "12"
             vpiValue: 12
   vpiTypespec (2 items):
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:17:8 end:17:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:17:8 end:17:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

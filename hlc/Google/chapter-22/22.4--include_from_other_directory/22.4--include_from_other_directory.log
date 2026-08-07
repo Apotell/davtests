@@ -35,13 +35,13 @@ n<$Source01/22.4--include_from_other_directory.sv> u<27> t<Top_level_rule> c<1> 
     n<> u<25> t<Description> p<26> c<24> l<17:1> el<18:10>
       n<> u<24> t<Module_declaration> p<25> c<22> l<17:1> el<18:10>
         n<> u<22> t<Module_nonansi_header> p<24> c<18> s<23> l<17:1> el<17:15>
-          n<module> u<18> t<Module_keyword> p<22> s<19> l<17:1> el<17:7>
+          n<module> u<18> t<MODULE> p<22> s<19> l<17:1> el<17:7>
           n<top> u<19> t<SIMPLE_IDENTIFIER> p<22> s<20> l<17:8> el<17:11>
           n<> u<20> t<Package_import_declaration_list> p<22> s<21> l<17:12> el<17:12>
           n<> u<21> t<Port_list> p<22> l<17:12> el<17:14>
         n<> u<23> t<ENDMODULE> p<24> l<18:1> el<18:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/22.4--include_from_other_directory.sv:17:1: Compile module "work@top".
+[INF:CP0303] $Source01/22.4--include_from_other_directory.sv:17:1: Compile module "top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -58,37 +58,45 @@ Design name:unnamed:
           vpiPreprocMacroDefinition (2 items):
             PreprocMacroDefinition name:define_var start:17:1 end:17:32:
               vpiParent: SourceFile name:include_directory/defs.sv
-              vpiName: define_var
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 20
+              vpiName Identifier name:define_var start:17:9 end:17:19:
+                vpiParent: PreprocMacroDefinition name:define_var
+                vpiName: define_var
+              vpiPMDType: define (1)
+              vpiPMDToken (1 items):
+                "Identifier name:\"define_var\" start:17:20 end:17:32":
+                  vpiParent: PreprocMacroDefinition name:define_var
+                  vpiName: "\"define_var\""
             PreprocMacroDefinition name:TWO_PLUS_TWO start:18:1 end:18:23:
               vpiParent: SourceFile name:include_directory/defs.sv
-              vpiName: TWO_PLUS_TWO
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 22
-          vpiDefNetType: none (12)
-      vpiDefNetType: none (12)
+              vpiName Identifier name:TWO_PLUS_TWO start:18:9 end:18:21:
+                vpiParent: PreprocMacroDefinition name:TWO_PLUS_TWO
+                vpiName: TWO_PLUS_TWO
+              vpiPMDType: define (1)
+              vpiPMDToken (1 items):
+                Identifier name:5 start:18:22 end:18:23:
+                  vpiParent: PreprocMacroDefinition name:TWO_PLUS_TWO
+                  vpiName: "5"
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/22.4--include_from_other_directory.sv start:17:1 end:18:10:
+    Module name:top file:$Source01/22.4--include_from_other_directory.sv start:17:1 end:18:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:17:8 end:17:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+      vpiName Identifier name:top start:17:8 end:17:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
   vpiTypespec (1 items):
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:17:8 end:17:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:17:8 end:17:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -137,7 +145,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-22/22.4--include_from_other_direct
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              10      10       0         0
+Others                              14      14       0         0
 ----------------------------------------------------------------
-                                    10      10       0         0
+                                    14      14       0         0
 ===================== END REDUCTION RESULT =====================

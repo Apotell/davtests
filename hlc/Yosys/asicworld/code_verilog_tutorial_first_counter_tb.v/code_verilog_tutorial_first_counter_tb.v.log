@@ -18,7 +18,7 @@ n<$Source01/asicworld/code_verilog_tutorial_first_counter_tb.v> u<367> t<Top_lev
     n<> u<365> t<Description> p<366> c<364> l<3:1> el<39:10>
       n<> u<364> t<Module_declaration> p<365> c<6> l<3:1> el<39:10>
         n<> u<6> t<Module_nonansi_header> p<364> c<2> s<7> l<3:1> el<3:20>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<3:1> el<3:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<3:1> el<3:7>
           n<testbench> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<3:8> el<3:17>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<3:17> el<3:17>
           n<> u<5> t<Port_list> p<6> l<3:17> el<3:19>
@@ -380,7 +380,7 @@ n<$Source01/asicworld/code_verilog_tutorial_first_counter_tb.v> u<367> t<Top_lev
                             n<counter_out> u<352> t<SIMPLE_IDENTIFIER> p<353> l<36:1> el<36:12>
         n<> u<363> t<ENDMODULE> p<364> l<39:1> el<39:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/asicworld/code_verilog_tutorial_first_counter_tb.v:3:1: Compile module "work@testbench".
+[INF:CP0303] $Source01/asicworld/code_verilog_tutorial_first_counter_tb.v:3:1: Compile module "testbench".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -393,35 +393,102 @@ Design name:unnamed:
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:outfile start:1:1 end:1:26:
           vpiParent: SourceFile name:code_verilog_tutorial_first_counter_tb.v
-          vpiName: outfile
-          vpiNameStartColumn: 9
-          vpiBodyStartColumn: 17
+          vpiName Identifier name:outfile start:1:9 end:1:16:
+            vpiParent: PreprocMacroDefinition name:outfile
+            vpiName: outfile
+          vpiPMDType: define (1)
+          vpiPMDToken (1 items):
+            "Identifier name:\"foo.txt\" start:1:17 end:1:26":
+              vpiParent: PreprocMacroDefinition name:outfile
+              vpiName: "\"foo.txt\""
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:outfile file:$Source01/asicworld/code_verilog_tutorial_first_counter_tb.v start:11:17 end:11:25:
+        PreprocMacroInstance name:outfile file:$Source01/asicworld/code_verilog_tutorial_first_counter_tb.v start:11:17 end:11:25 ppstart:11:17 ppend:11:26:
           vpiParent: SourceFile name:code_verilog_tutorial_first_counter_tb.v
-          vpiName: outfile
+          vpiName Identifier name:outfile start:11:17 end:11:25:
+            vpiParent: PreprocMacroInstance name:outfile
+            vpiName: outfile
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:outfile
-          vpiSectionStartLine: 1
-          vpiSectionStartColumn: 17
-          vpiSectionEndLine: 1
-          vpiSectionEndColumn: 26
-          vpiSourceStartLine: 11
-          vpiSourceStartColumn: 17
-          vpiSourceEndLine: 11
-          vpiSourceEndColumn: 26
-      vpiDefNetType: none (12)
+          "vpiPMIBody Identifier name:\"foo.txt\" start:1:17 end:1:26":
+            vpiParent: PreprocMacroInstance name:outfile
+            vpiName: "\"foo.txt\""
   vpiAllModules (1 items):
-    Module name:work@testbench file:$Source01/asicworld/code_verilog_tutorial_first_counter_tb.v start:3:1 end:39:10:
+    Module name:testbench file:$Source01/asicworld/code_verilog_tutorial_first_counter_tb.v start:3:1 end:39:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@testbench start:3:8 end:3:17:
-        vpiParent: Module name:work@testbench
-        vpiName: work@testbench
-      vpiFullName: work@testbench
+      vpiName Identifier name:testbench start:3:8 end:3:17:
+        vpiParent: Module name:testbench
+        vpiName: testbench
+      vpiFullName: testbench
+      vpiVariable (4 items):
+        Variable name:clock start:5:5 end:5:10:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:5:1 end:5:4:
+            vpiParent: Variable name:clock
+            vpiFullName: testbench.clock
+            vpiActual: LogicTypespec
+          vpiName: clock
+          vpiFullName: testbench.clock
+          vpiScalar: true
+          vpiValue Constant start:5:13 end:5:14:
+            vpiParent: Variable name:clock
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: testbench.clock
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
+        Variable name:reset start:5:16 end:5:21:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:5:1 end:5:4:
+            vpiParent: Variable name:reset
+            vpiFullName: testbench.reset
+            vpiActual: LogicTypespec
+          vpiName: reset
+          vpiFullName: testbench.reset
+          vpiScalar: true
+          vpiValue Constant start:5:24 end:5:25:
+            vpiParent: Variable name:reset
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: testbench.reset
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:enable start:5:27 end:5:33:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:5:1 end:5:4:
+            vpiParent: Variable name:enable
+            vpiFullName: testbench.enable
+            vpiActual: LogicTypespec
+          vpiName: enable
+          vpiFullName: testbench.enable
+          vpiScalar: true
+          vpiValue Constant start:5:36 end:5:37:
+            vpiParent: Variable name:enable
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: testbench.enable
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:file start:7:9 end:7:13:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:7:1 end:7:8:
+            vpiParent: Variable name:file
+            vpiFullName: testbench.file
+            vpiActual: IntegerTypespec
+          vpiName: file
+          vpiFullName: testbench.file
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
         LogicTypespec:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiRange (1 items):
             Range start:6:6 end:6:11:
               vpiParent: LogicTypespec
@@ -429,7 +496,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@testbench
+                  vpiFullName: testbench
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -439,7 +506,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@testbench
+                  vpiFullName: testbench
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -447,98 +514,37 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         IntegerTypespec:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiSigned: true
-        UnsupportedTypespec name:work@first_counter start:32:1 end:32:14:
-          vpiParent: Module name:work@testbench
-          vpiName Identifier name:work@first_counter start:32:1 end:32:14:
-            vpiParent: UnsupportedTypespec name:work@first_counter
-            vpiName: work@first_counter
-      vpiDefName: work@testbench
-      vpiDefNetType: none (12)
+        UnsupportedTypespec name:first_counter start:32:1 end:32:14:
+          vpiParent: Module name:testbench
+          vpiName Identifier name:first_counter start:32:1 end:32:14:
+            vpiParent: UnsupportedTypespec name:first_counter
+            vpiName: first_counter
+      vpiDefName: testbench
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@testbench
+        vpiParent: Module name:testbench
         vpiName: work
-        vpiFullName: work@testbench.work
+        vpiFullName: testbench.work
       vpiCell: testbench
-      vpiNet (5 items):
-        Net name:clock start:5:5 end:5:10:
-          vpiParent: Module name:work@testbench
-          vpiTypespec RefTypespec start:5:1 end:5:4:
-            vpiParent: Net name:clock
-            vpiFullName: work@testbench.clock
-            vpiActual: LogicTypespec
-          vpiName: clock
-          vpiFullName: work@testbench.clock
-          vpiValue Constant start:5:13 end:5:14:
-            vpiParent: Net name:clock
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@testbench.clock
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
-        Net name:reset start:5:16 end:5:21:
-          vpiParent: Module name:work@testbench
-          vpiTypespec RefTypespec start:5:1 end:5:4:
-            vpiParent: Net name:reset
-            vpiFullName: work@testbench.reset
-            vpiActual: LogicTypespec
-          vpiName: reset
-          vpiFullName: work@testbench.reset
-          vpiValue Constant start:5:24 end:5:25:
-            vpiParent: Net name:reset
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@testbench.reset
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:enable start:5:27 end:5:33:
-          vpiParent: Module name:work@testbench
-          vpiTypespec RefTypespec start:5:1 end:5:4:
-            vpiParent: Net name:enable
-            vpiFullName: work@testbench.enable
-            vpiActual: LogicTypespec
-          vpiName: enable
-          vpiFullName: work@testbench.enable
-          vpiValue Constant start:5:36 end:5:37:
-            vpiParent: Net name:enable
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@testbench.enable
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
+      vpiNet (1 items):
         Net name:counter_out start:6:12 end:6:23:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiTypespec RefTypespec start:6:6 end:6:11:
             vpiParent: Net name:counter_out
-            vpiFullName: work@testbench.counter_out
+            vpiFullName: testbench.counter_out
             vpiActual: LogicTypespec
           vpiName: counter_out
-          vpiFullName: work@testbench.counter_out
+          vpiFullName: testbench.counter_out
           vpiNetType: wire (1)
-        Net name:file start:7:9 end:7:13:
-          vpiParent: Module name:work@testbench
-          vpiTypespec RefTypespec start:7:1 end:7:8:
-            vpiParent: Net name:file
-            vpiFullName: work@testbench.file
-            vpiActual: IntegerTypespec
-          vpiName: file
-          vpiFullName: work@testbench.file
+          vpiVector: true
       vpiProcess (3 items):
         Initial start:10:1 end:18:4:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiStmt Begin start:10:9 end:18:4:
             vpiParent: Initial
-            vpiFullName: work@testbench
+            vpiFullName: testbench
             vpiStmt (7 items):
               Assignment start:11:3 end:11:26:
                 vpiParent: Begin
@@ -546,8 +552,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:file start:11:3 end:11:7:
                   vpiParent: Assignment
                   vpiName: file
-                  vpiFullName: work@testbench.file
-                  vpiActual: Net name:file
+                  vpiFullName: testbench.file
+                  vpiActual: Variable name:file
                 vpiRhs SysFuncCall name:$fopen start:11:10 end:11:26:
                   vpiParent: Assignment
                   vpiName Identifier name:$fopen start:11:10 end:11:16:
@@ -558,7 +564,7 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$fopen
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@testbench
+                        vpiFullName: testbench
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 56
@@ -573,13 +579,13 @@ Design name:unnamed:
                   RefObj name:file start:12:14 end:12:18:
                     vpiParent: SysFuncCall name:$fdisplay
                     vpiName: file
-                    vpiFullName: work@testbench.file
-                    vpiActual: Net name:file
+                    vpiFullName: testbench.file
+                    vpiActual: Variable name:file
                   Constant start:12:20 end:12:53:
                     vpiParent: SysFuncCall name:$fdisplay
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 240
@@ -593,13 +599,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:reset start:13:6 end:13:11:
                     vpiParent: Assignment
                     vpiName: reset
-                    vpiFullName: work@testbench.reset
-                    vpiActual: Net name:reset
+                    vpiFullName: testbench.reset
+                    vpiActual: Variable name:reset
                   vpiRhs Constant start:13:14 end:13:15:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -609,7 +615,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -623,13 +629,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:reset start:14:7 end:14:12:
                     vpiParent: Assignment
                     vpiName: reset
-                    vpiFullName: work@testbench.reset
-                    vpiActual: Net name:reset
+                    vpiFullName: testbench.reset
+                    vpiActual: Variable name:reset
                   vpiRhs Constant start:14:15 end:14:16:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -639,7 +645,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -653,13 +659,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:enable start:15:7 end:15:13:
                     vpiParent: Assignment
                     vpiName: enable
-                    vpiFullName: work@testbench.enable
-                    vpiActual: Net name:enable
+                    vpiFullName: testbench.enable
+                    vpiActual: Variable name:enable
                   vpiRhs Constant start:15:16 end:15:17:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -669,7 +675,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -683,13 +689,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:enable start:16:8 end:16:14:
                     vpiParent: Assignment
                     vpiName: enable
-                    vpiFullName: work@testbench.enable
-                    vpiActual: Net name:enable
+                    vpiFullName: testbench.enable
+                    vpiActual: Variable name:enable
                   vpiRhs Constant start:16:17 end:16:18:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -699,7 +705,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -716,14 +722,14 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
                   vpiDecompile: "5"
                   vpiValue: 5
         Always start:20:1 end:22:46:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiStmt EventControl start:20:8 end:22:46:
             vpiParent: Always
             vpiCondition Operation start:20:10 end:20:23:
@@ -733,8 +739,8 @@ Design name:unnamed:
                 RefObj name:clock start:20:18 end:20:23:
                   vpiParent: Operation
                   vpiName: clock
-                  vpiFullName: work@testbench.clock
-                  vpiActual: Net name:clock
+                  vpiFullName: testbench.clock
+                  vpiActual: Variable name:clock
             vpiStmt SysFuncCall name:$fdisplay start:21:3 end:22:45:
               vpiParent: EventControl
               vpiName Identifier name:$fdisplay start:21:3 end:21:12:
@@ -744,49 +750,49 @@ Design name:unnamed:
                 RefObj name:file start:21:14 end:21:18:
                   vpiParent: SysFuncCall name:$fdisplay
                   vpiName: file
-                  vpiFullName: work@testbench.file
-                  vpiActual: Net name:file
+                  vpiFullName: testbench.file
+                  vpiActual: Variable name:file
                 Constant start:21:20 end:21:49:
                   vpiParent: SysFuncCall name:$fdisplay
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 208
                   vpiDecompile: "\"%g\\t %b   %b     %b      %b\""
                   vpiValue: "%g\\t %b   %b     %b      %b"
-                SysTaskCall name:$time start:22:4 end:22:9:
+                SysFuncCall name:$time start:22:4 end:22:9:
                   vpiParent: SysFuncCall name:$fdisplay
                   vpiName Identifier name:$time start:22:4 end:22:9:
-                    vpiParent: SysTaskCall name:$time
+                    vpiParent: SysFuncCall name:$time
                     vpiName: "$time"
                 RefObj name:clock start:22:11 end:22:16:
                   vpiParent: SysFuncCall name:$fdisplay
                   vpiName: clock
-                  vpiFullName: work@testbench.clock
-                  vpiActual: Net name:clock
+                  vpiFullName: testbench.clock
+                  vpiActual: Variable name:clock
                 RefObj name:reset start:22:18 end:22:23:
                   vpiParent: SysFuncCall name:$fdisplay
                   vpiName: reset
-                  vpiFullName: work@testbench.reset
-                  vpiActual: Net name:reset
+                  vpiFullName: testbench.reset
+                  vpiActual: Variable name:reset
                 RefObj name:enable start:22:25 end:22:31:
                   vpiParent: SysFuncCall name:$fdisplay
                   vpiName: enable
-                  vpiFullName: work@testbench.enable
-                  vpiActual: Net name:enable
+                  vpiFullName: testbench.enable
+                  vpiActual: Variable name:enable
                 RefObj name:counter_out start:22:33 end:22:44:
                   vpiParent: SysFuncCall name:$fdisplay
                   vpiName: counter_out
-                  vpiFullName: work@testbench.counter_out
+                  vpiFullName: testbench.counter_out
                   vpiActual: Net name:counter_out
           vpiAlwaysType: always (1)
         Initial start:25:1 end:29:4:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiStmt Begin start:25:9 end:29:4:
             vpiParent: Initial
-            vpiFullName: work@testbench
+            vpiFullName: testbench
             vpiStmt (2 items):
               DelayControl start:26:3 end:26:5:
                 vpiParent: Begin
@@ -794,7 +800,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@testbench
+                    vpiFullName: testbench
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -810,8 +816,8 @@ Design name:unnamed:
                     vpiLhs RefObj name:clock start:28:8 end:28:13:
                       vpiParent: Assignment
                       vpiName: clock
-                      vpiFullName: work@testbench.clock
-                      vpiActual: Net name:clock
+                      vpiFullName: testbench.clock
+                      vpiActual: Variable name:clock
                     vpiRhs Operation start:28:16 end:28:22:
                       vpiParent: Assignment
                       vpiOpType: bitwise negation (4)
@@ -819,13 +825,13 @@ Design name:unnamed:
                         RefObj name:clock start:28:17 end:28:22:
                           vpiParent: Operation
                           vpiName: clock
-                          vpiFullName: work@testbench.clock
-                          vpiActual: Net name:clock
+                          vpiFullName: testbench.clock
+                          vpiActual: Variable name:clock
                   vpiDelay Constant start:28:6 end:28:7:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@testbench
+                      vpiFullName: testbench
                       vpiActual: IntTypespec
                     vpiConstType: int (7)
                     vpiSize: 32
@@ -833,61 +839,61 @@ Design name:unnamed:
                     vpiValue: 5
       vpiRefInstance (1 items):
         RefInstance name:U_counter start:32:15 end:32:24:
-          vpiParent: Module name:work@testbench
+          vpiParent: Module name:testbench
           vpiName: U_counter
-          vpiTypespec RefTypespec name:work@first_counter start:32:1 end:32:14:
+          vpiTypespec RefTypespec name:first_counter start:32:1 end:32:14:
             vpiParent: RefInstance name:U_counter
-            vpiName: work@first_counter
-            vpiFullName: work@testbench.U_counter.work@first_counter
-            vpiActual: UnsupportedTypespec name:work@first_counter
+            vpiName: first_counter
+            vpiFullName: testbench.U_counter.first_counter
+            vpiActual: UnsupportedTypespec name:first_counter
           vpiPort (4 items):
             Port start:33:1 end:33:6:
               vpiParent: RefInstance name:U_counter
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@testbench.U_counter
+                vpiFullName: testbench.U_counter
               vpiHighConn RefObj name:clock start:33:1 end:33:6:
                 vpiParent: Port
                 vpiName: clock
-                vpiFullName: work@testbench.U_counter.clock
-                vpiActual: Net name:clock
+                vpiFullName: testbench.U_counter.clock
+                vpiActual: Variable name:clock
             Port start:34:1 end:34:6:
               vpiParent: RefInstance name:U_counter
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@testbench.U_counter
+                vpiFullName: testbench.U_counter
               vpiHighConn RefObj name:reset start:34:1 end:34:6:
                 vpiParent: Port
                 vpiName: reset
-                vpiFullName: work@testbench.U_counter.reset
-                vpiActual: Net name:reset
+                vpiFullName: testbench.U_counter.reset
+                vpiActual: Variable name:reset
             Port start:35:1 end:35:7:
               vpiParent: RefInstance name:U_counter
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@testbench.U_counter
+                vpiFullName: testbench.U_counter
               vpiHighConn RefObj name:enable start:35:1 end:35:7:
                 vpiParent: Port
                 vpiName: enable
-                vpiFullName: work@testbench.U_counter.enable
-                vpiActual: Net name:enable
+                vpiFullName: testbench.U_counter.enable
+                vpiActual: Variable name:enable
             Port start:36:1 end:36:12:
               vpiParent: RefInstance name:U_counter
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@testbench.U_counter
+                vpiFullName: testbench.U_counter
               vpiHighConn RefObj name:counter_out start:36:1 end:36:12:
                 vpiParent: Port
                 vpiName: counter_out
-                vpiFullName: work@testbench.U_counter.counter_out
+                vpiFullName: testbench.U_counter.counter_out
                 vpiActual: Net name:counter_out
   vpiTypespec (3 items):
-    ModuleTypespec name:work@testbench:
+    ModuleTypespec name:testbench:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@testbench start:3:8 end:3:17:
-        vpiParent: ModuleTypespec name:work@testbench
-        vpiName: work@testbench
-      vpiModule: Module name:work@testbench
+      vpiName Identifier name:testbench start:3:8 end:3:17:
+        vpiParent: ModuleTypespec name:testbench
+        vpiName: testbench
+      vpiModule: Module name:testbench
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -945,7 +951,7 @@ Operation                            2       1       0         1
 RefObj                              23      22       0         1
 RefTypespec                         25      26       1         0
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                   125     125       2         2
+                                   129     129       2         2
 ===================== END REDUCTION RESULT =====================

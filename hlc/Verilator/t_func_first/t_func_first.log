@@ -22,7 +22,7 @@ n<$Source01/t_func_first.v> u<301> t<Top_level_rule> c<1> l<6:1> el<39:1>
     n<> u<299> t<Description> p<300> c<298> l<6:1> el<38:10>
       n<> u<298> t<Module_declaration> p<299> c<18> l<6:1> el<38:10>
         n<> u<18> t<Module_nonansi_header> p<298> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -314,7 +314,7 @@ n<$Source01/t_func_first.v> u<301> t<Top_level_rule> c<1> l<6:1> el<39:1>
                         n<> u<288> t<ENDTASK> p<289> l<36:4> el<36:11>
         n<> u<297> t<ENDMODULE> p<298> l<38:1> el<38:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_func_first.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_func_first.v:6:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -324,19 +324,37 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_func_first.v
       vpiPreprocFile: "$Output/lib/work/t_func_first.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_func_first.v start:6:1 end:38:10:
+    Module name:t file:$Source01/t_func_first.v start:6:1 end:38:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:cyc start:12:14 end:12:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:12:4 end:12:13:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: LogicTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiVector: true
+        Variable name:set_in_task start:13:14 end:13:25:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:13:4 end:13:7:
+            vpiParent: Variable name:set_in_task
+            vpiFullName: t.set_in_task
+            vpiActual: LogicTypespec
+          vpiName: set_in_task
+          vpiFullName: t.set_in_task
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiRange (1 items):
             Range start:12:8 end:12:13:
               vpiParent: LogicTypespec
@@ -344,7 +362,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -354,30 +372,30 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
       vpiTaskFunc (1 items):
         Task name:ttask start:32:4 end:36:11:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName Identifier name:ttask start:32:9 end:32:14:
             vpiParent: Task name:ttask
             vpiName: ttask
-          vpiFullName: work@t.ttask
+          vpiFullName: t.ttask
           vpiStmt Begin start:33:7 end:35:10:
             vpiParent: Task name:ttask
-            vpiFullName: work@t.ttask
+            vpiFullName: t.ttask
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -387,80 +405,66 @@ Design name:unnamed:
                 vpiLhs RefObj name:set_in_task start:34:3 end:34:14:
                   vpiParent: Assignment
                   vpiName: set_in_task
-                  vpiFullName: work@t.ttask.set_in_task
-                  vpiActual: Net name:set_in_task
+                  vpiFullName: t.ttask.set_in_task
+                  vpiActual: Variable name:set_in_task
                 vpiRhs Constant start:34:18 end:34:22:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t.ttask
+                    vpiFullName: t.ttask
                     vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
             vpiParent: Net name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@t.clk
-        Net name:cyc start:12:14 end:12:17:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:12:4 end:12:13:
-            vpiParent: Net name:cyc
-            vpiFullName: work@t.cyc
-            vpiActual: LogicTypespec
-          vpiName: cyc
-          vpiFullName: work@t.cyc
-        Net name:set_in_task start:13:14 end:13:25:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:13:4 end:13:7:
-            vpiParent: Net name:set_in_task
-            vpiFullName: work@t.set_in_task
-            vpiActual: LogicTypespec
-          vpiName: set_in_task
-          vpiFullName: work@t.set_in_task
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@t.clk.clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:11:10 end:11:10:
             vpiParent: Port name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
       vpiProcess (2 items):
         Initial start:12:19 end:12:33:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Assignment start:12:27 end:12:32:
             vpiParent: Initial
             vpiBlocking: true
             vpiLhs RefObj name:cyc start:12:27 end:12:30:
               vpiParent: Assignment
               vpiName: cyc
-              vpiFullName: work@t.cyc
-              vpiActual: Net name:cyc
+              vpiFullName: t.cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:12:31 end:12:32:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@t
+                vpiFullName: t
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
         Always start:15:4 end:30:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt EventControl start:15:11 end:30:7:
             vpiParent: Always
             vpiCondition Operation start:15:14 end:15:25:
@@ -470,11 +474,11 @@ Design name:unnamed:
                 RefObj name:clk start:15:22 end:15:25:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@t.clk
+                  vpiFullName: t.clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:15:27 end:30:7:
               vpiParent: EventControl
-              vpiFullName: work@t
+              vpiFullName: t
               vpiStmt (3 items):
                 IfStmt start:16:7 end:19:10:
                   vpiParent: Begin
@@ -485,13 +489,13 @@ Design name:unnamed:
                       RefObj name:cyc start:16:11 end:16:14:
                         vpiParent: Operation
                         vpiName: cyc
-                        vpiFullName: work@t.cyc
-                        vpiActual: Net name:cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
                       Constant start:16:18 end:16:22:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: decimal (1)
                         vpiSize: 8
@@ -499,20 +503,20 @@ Design name:unnamed:
                         vpiValue: "0"
                   vpiStmt Begin start:16:24 end:19:10:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       Assignment start:17:3 end:17:14:
                         vpiParent: Begin
                         vpiLhs RefObj name:cyc start:17:3 end:17:6:
                           vpiParent: Assignment
                           vpiName: cyc
-                          vpiFullName: work@t.cyc
-                          vpiActual: Net name:cyc
+                          vpiFullName: t.cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Constant start:17:10 end:17:14:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: IntTypespec
                           vpiConstType: decimal (1)
                           vpiSize: 8
@@ -523,13 +527,13 @@ Design name:unnamed:
                         vpiLhs RefObj name:set_in_task start:18:3 end:18:14:
                           vpiParent: Assignment
                           vpiName: set_in_task
-                          vpiFullName: work@t.set_in_task
-                          vpiActual: Net name:set_in_task
+                          vpiFullName: t.set_in_task
+                          vpiActual: Variable name:set_in_task
                         vpiRhs Constant start:18:18 end:18:19:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -544,13 +548,13 @@ Design name:unnamed:
                       RefObj name:cyc start:20:11 end:20:14:
                         vpiParent: Operation
                         vpiName: cyc
-                        vpiFullName: work@t.cyc
-                        vpiActual: Net name:cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
                       Constant start:20:18 end:20:22:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: decimal (1)
                         vpiSize: 8
@@ -558,20 +562,20 @@ Design name:unnamed:
                         vpiValue: "1"
                   vpiStmt Begin start:20:24 end:23:10:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       Assignment start:21:3 end:21:14:
                         vpiParent: Begin
                         vpiLhs RefObj name:cyc start:21:3 end:21:6:
                           vpiParent: Assignment
                           vpiName: cyc
-                          vpiFullName: work@t.cyc
-                          vpiActual: Net name:cyc
+                          vpiFullName: t.cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Constant start:21:10 end:21:14:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: IntTypespec
                           vpiConstType: hexadecimal (5)
                           vpiSize: 8
@@ -580,7 +584,7 @@ Design name:unnamed:
                       RefObj name:ttask start:22:3 end:22:8:
                         vpiParent: Begin
                         vpiName: ttask
-                        vpiFullName: work@t.ttask
+                        vpiFullName: t.ttask
                         vpiActual: Task name:ttask
                 IfStmt start:24:7 end:29:10:
                   vpiParent: Begin
@@ -591,13 +595,13 @@ Design name:unnamed:
                       RefObj name:cyc start:24:11 end:24:14:
                         vpiParent: Operation
                         vpiName: cyc
-                        vpiFullName: work@t.cyc
-                        vpiActual: Net name:cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
                       Constant start:24:18 end:24:22:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: decimal (1)
                         vpiSize: 8
@@ -605,7 +609,7 @@ Design name:unnamed:
                         vpiValue: "2"
                   vpiStmt Begin start:24:24 end:29:10:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (4 items):
                       IfStmt start:25:3 end:25:27:
                         vpiParent: Begin
@@ -616,8 +620,8 @@ Design name:unnamed:
                             RefObj name:set_in_task start:25:8 end:25:19:
                               vpiParent: Operation
                               vpiName: set_in_task
-                              vpiFullName: work@t.set_in_task
-                              vpiActual: Net name:set_in_task
+                              vpiFullName: t.set_in_task
+                              vpiActual: Variable name:set_in_task
                         vpiStmt SysTaskCall name:$stop start:25:21 end:25:26:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:25:21 end:25:26:
@@ -628,13 +632,13 @@ Design name:unnamed:
                         vpiLhs RefObj name:cyc start:26:3 end:26:6:
                           vpiParent: Assignment
                           vpiName: cyc
-                          vpiFullName: work@t.cyc
-                          vpiActual: Net name:cyc
+                          vpiFullName: t.cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Constant start:26:10 end:26:14:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: IntTypespec
                           vpiConstType: hexadecimal (5)
                           vpiSize: 8
@@ -650,7 +654,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 168
@@ -663,12 +667,12 @@ Design name:unnamed:
                           vpiName: "$finish"
           vpiAlwaysType: always (1)
   vpiTypespec (4 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

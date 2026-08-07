@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<335> t<Top_level_rule> c<1> l<1:1> el<25:1>
     n<> u<333> t<Description> p<334> c<332> l<1:1> el<23:10>
       n<> u<332> t<Module_declaration> p<333> c<6> l<1:1> el<23:10>
         n<> u<6> t<Module_nonansi_header> p<332> c<2> s<35> l<1:1> el<1:14>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
           n<dut> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:11> el<1:11>
           n<> u<5> t<Port_list> p<6> l<1:11> el<1:13>
@@ -611,9 +611,9 @@ n<$Source01/dut.sv> u<335> t<Top_level_rule> c<1> l<1:1> el<25:1>
                         n<> u<321> t<END> p<322> l<21:1> el<21:4>
         n<> u<331> t<ENDMODULE> p<332> l<23:1> el<23:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -622,7 +622,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2189,6 +2188,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2200,6 +2200,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2231,6 +2232,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2245,6 +2247,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2266,6 +2269,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2289,6 +2293,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2308,6 +2313,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2331,6 +2337,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2350,6 +2357,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2419,16 +2427,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2441,6 +2452,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2452,6 +2464,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2459,6 +2472,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2466,6 +2480,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2473,6 +2488,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2486,6 +2502,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2497,6 +2514,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2528,6 +2546,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2554,6 +2573,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2580,6 +2600,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2605,104 +2626,104 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@dut file:$Source01/dut.sv start:1:1 end:23:10:
+    Module name:dut file:$Source01/dut.sv start:1:1 end:23:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
       vpiParameter (4 items):
         Parameter name:CSR_MISA_MXL start:2:24 end:2:36:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:2:11 end:2:22:
             vpiParent: Parameter name:CSR_MISA_MXL
-            vpiFullName: work@dut.CSR_MISA_MXL
+            vpiFullName: dut.CSR_MISA_MXL
             vpiActual: LogicTypespec
           vpiName: CSR_MISA_MXL
-          vpiFullName: work@dut.CSR_MISA_MXL
+          vpiFullName: dut.CSR_MISA_MXL
         Parameter name:RV32M start:3:15 end:3:20:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:3:11 end:3:14:
             vpiParent: Parameter name:RV32M
-            vpiFullName: work@dut.RV32M
+            vpiFullName: dut.RV32M
             vpiActual: BitTypespec
           vpiName: RV32M
-          vpiFullName: work@dut.RV32M
+          vpiFullName: dut.RV32M
         Parameter name:RV32E start:4:15 end:4:20:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:4:11 end:4:14:
             vpiParent: Parameter name:RV32E
-            vpiFullName: work@dut.RV32E
+            vpiFullName: dut.RV32E
             vpiActual: BitTypespec
           vpiName: RV32E
-          vpiFullName: work@dut.RV32E
+          vpiFullName: dut.RV32E
         Parameter name:MISA_VALUE start:5:25 end:5:35:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:5:12 end:5:24:
             vpiParent: Parameter name:MISA_VALUE
-            vpiFullName: work@dut.MISA_VALUE
+            vpiFullName: dut.MISA_VALUE
             vpiActual: LogicTypespec
           vpiName: MISA_VALUE
-          vpiFullName: work@dut.MISA_VALUE
+          vpiFullName: dut.MISA_VALUE
           vpiLocalParam: true
       vpiParamAssign (4 items):
         ParamAssign start:2:24 end:2:43:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:CSR_MISA_MXL start:2:24 end:2:36:
             vpiParent: ParamAssign
             vpiName: CSR_MISA_MXL
-            vpiFullName: work@dut.CSR_MISA_MXL
+            vpiFullName: dut.CSR_MISA_MXL
             vpiActual: Parameter name:CSR_MISA_MXL
           vpiRhs Constant start:2:39 end:2:43:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@dut
+              vpiFullName: dut
               vpiActual: IntTypespec
             vpiConstType: decimal (1)
             vpiSize: 2
             vpiDecompile: "2'd1"
             vpiValue: "1"
         ParamAssign start:3:15 end:3:31:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:RV32M start:3:15 end:3:20:
             vpiParent: ParamAssign
             vpiName: RV32M
-            vpiFullName: work@dut.RV32M
+            vpiFullName: dut.RV32M
             vpiActual: Parameter name:RV32M
           vpiRhs Constant start:3:30 end:3:31:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@dut
+              vpiFullName: dut
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
         ParamAssign start:4:15 end:4:31:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:RV32E start:4:15 end:4:20:
             vpiParent: ParamAssign
             vpiName: RV32E
-            vpiFullName: work@dut.RV32E
+            vpiFullName: dut.RV32E
             vpiActual: Parameter name:RV32E
           vpiRhs Constant start:4:30 end:4:31:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@dut
+              vpiFullName: dut
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
         ParamAssign start:5:25 end:17:28:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:MISA_VALUE start:5:25 end:5:35:
             vpiParent: ParamAssign
             vpiName: MISA_VALUE
-            vpiFullName: work@dut.MISA_VALUE
+            vpiFullName: dut.MISA_VALUE
             vpiActual: Parameter name:MISA_VALUE
           vpiRhs Operation start:6:3 end:17:28:
             vpiParent: ParamAssign
@@ -2756,7 +2777,7 @@ Design name:unnamed:
                                                             vpiParent: Operation
                                                             vpiTypespec RefTypespec:
                                                               vpiParent: Constant
-                                                              vpiFullName: work@dut
+                                                              vpiFullName: dut
                                                               vpiActual: IntTypespec
                                                             vpiConstType: unsigned int (9)
                                                             vpiSize: 64
@@ -2766,7 +2787,7 @@ Design name:unnamed:
                                                             vpiParent: Operation
                                                             vpiTypespec RefTypespec:
                                                               vpiParent: Constant
-                                                              vpiFullName: work@dut
+                                                              vpiFullName: dut
                                                               vpiActual: IntTypespec
                                                             vpiConstType: unsigned int (9)
                                                             vpiSize: 64
@@ -2780,7 +2801,7 @@ Design name:unnamed:
                                                             vpiParent: Operation
                                                             vpiTypespec RefTypespec:
                                                               vpiParent: Constant
-                                                              vpiFullName: work@dut
+                                                              vpiFullName: dut
                                                               vpiActual: IntTypespec
                                                             vpiConstType: unsigned int (9)
                                                             vpiSize: 64
@@ -2790,7 +2811,7 @@ Design name:unnamed:
                                                             vpiParent: Operation
                                                             vpiTypespec RefTypespec:
                                                               vpiParent: Constant
-                                                              vpiFullName: work@dut
+                                                              vpiFullName: dut
                                                               vpiActual: IntTypespec
                                                             vpiConstType: unsigned int (9)
                                                             vpiSize: 64
@@ -2804,7 +2825,7 @@ Design name:unnamed:
                                                         vpiParent: Operation
                                                         vpiTypespec RefTypespec:
                                                           vpiParent: Constant
-                                                          vpiFullName: work@dut
+                                                          vpiFullName: dut
                                                           vpiActual: IntTypespec
                                                         vpiConstType: unsigned int (9)
                                                         vpiSize: 64
@@ -2814,7 +2835,7 @@ Design name:unnamed:
                                                         vpiParent: Operation
                                                         vpiTypespec RefTypespec:
                                                           vpiParent: Constant
-                                                          vpiFullName: work@dut
+                                                          vpiFullName: dut
                                                           vpiActual: IntTypespec
                                                         vpiConstType: unsigned int (9)
                                                         vpiSize: 64
@@ -2832,7 +2853,7 @@ Design name:unnamed:
                                                         vpiParent: Operation
                                                         vpiTypespec RefTypespec:
                                                           vpiParent: Constant
-                                                          vpiFullName: work@dut
+                                                          vpiFullName: dut
                                                           vpiActual: IntTypespec
                                                         vpiConstType: unsigned int (9)
                                                         vpiSize: 64
@@ -2841,13 +2862,13 @@ Design name:unnamed:
                                                       RefObj name:RV32E start:9:8 end:9:13:
                                                         vpiParent: Operation
                                                         vpiName: RV32E
-                                                        vpiFullName: work@dut.RV32E
+                                                        vpiFullName: dut.RV32E
                                                         vpiActual: Parameter name:RV32E
                                                   Constant start:9:26 end:9:27:
                                                     vpiParent: Operation
                                                     vpiTypespec RefTypespec:
                                                       vpiParent: Constant
-                                                      vpiFullName: work@dut
+                                                      vpiFullName: dut
                                                       vpiActual: IntTypespec
                                                     vpiConstType: unsigned int (9)
                                                     vpiSize: 64
@@ -2861,7 +2882,7 @@ Design name:unnamed:
                                                 vpiParent: Operation
                                                 vpiTypespec RefTypespec:
                                                   vpiParent: Constant
-                                                  vpiFullName: work@dut
+                                                  vpiFullName: dut
                                                   vpiActual: IntTypespec
                                                 vpiConstType: unsigned int (9)
                                                 vpiSize: 64
@@ -2871,7 +2892,7 @@ Design name:unnamed:
                                                 vpiParent: Operation
                                                 vpiTypespec RefTypespec:
                                                   vpiParent: Constant
-                                                  vpiFullName: work@dut
+                                                  vpiFullName: dut
                                                   vpiActual: IntTypespec
                                                 vpiConstType: unsigned int (9)
                                                 vpiSize: 64
@@ -2889,7 +2910,7 @@ Design name:unnamed:
                                                 vpiParent: Operation
                                                 vpiTypespec RefTypespec:
                                                   vpiParent: Constant
-                                                  vpiFullName: work@dut
+                                                  vpiFullName: dut
                                                   vpiActual: IntTypespec
                                                 vpiConstType: unsigned int (9)
                                                 vpiSize: 64
@@ -2902,13 +2923,13 @@ Design name:unnamed:
                                                   RefObj name:RV32E start:11:9 end:11:14:
                                                     vpiParent: Operation
                                                     vpiName: RV32E
-                                                    vpiFullName: work@dut.RV32E
+                                                    vpiFullName: dut.RV32E
                                                     vpiActual: Parameter name:RV32E
                                           Constant start:11:26 end:11:27:
                                             vpiParent: Operation
                                             vpiTypespec RefTypespec:
                                               vpiParent: Constant
-                                              vpiFullName: work@dut
+                                              vpiFullName: dut
                                               vpiActual: IntTypespec
                                             vpiConstType: unsigned int (9)
                                             vpiSize: 64
@@ -2926,7 +2947,7 @@ Design name:unnamed:
                                             vpiParent: Operation
                                             vpiTypespec RefTypespec:
                                               vpiParent: Constant
-                                              vpiFullName: work@dut
+                                              vpiFullName: dut
                                               vpiActual: IntTypespec
                                             vpiConstType: unsigned int (9)
                                             vpiSize: 64
@@ -2935,13 +2956,13 @@ Design name:unnamed:
                                           RefObj name:RV32M start:12:8 end:12:13:
                                             vpiParent: Operation
                                             vpiName: RV32M
-                                            vpiFullName: work@dut.RV32M
+                                            vpiFullName: dut.RV32M
                                             vpiActual: Parameter name:RV32M
                                       Constant start:12:25 end:12:27:
                                         vpiParent: Operation
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@dut
+                                          vpiFullName: dut
                                           vpiActual: IntTypespec
                                         vpiConstType: unsigned int (9)
                                         vpiSize: 64
@@ -2955,7 +2976,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@dut
+                                      vpiFullName: dut
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -2965,7 +2986,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@dut
+                                      vpiFullName: dut
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -2979,7 +3000,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@dut
+                                  vpiFullName: dut
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -2989,7 +3010,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@dut
+                                  vpiFullName: dut
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -3003,7 +3024,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@dut
+                              vpiFullName: dut
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -3013,7 +3034,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@dut
+                              vpiFullName: dut
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -3027,7 +3048,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@dut
+                          vpiFullName: dut
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -3037,7 +3058,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@dut
+                          vpiFullName: dut
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -3055,7 +3076,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@dut
+                          vpiFullName: dut
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -3064,13 +3085,13 @@ Design name:unnamed:
                       RefObj name:CSR_MISA_MXL start:17:8 end:17:20:
                         vpiParent: Operation
                         vpiName: CSR_MISA_MXL
-                        vpiFullName: work@dut.CSR_MISA_MXL
+                        vpiFullName: dut.CSR_MISA_MXL
                         vpiActual: Parameter name:CSR_MISA_MXL
                   Constant start:17:25 end:17:27:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@dut
+                      vpiFullName: dut
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -3078,7 +3099,7 @@ Design name:unnamed:
                     vpiValue: 30
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiRange (1 items):
             Range start:2:17 end:2:22:
               vpiParent: LogicTypespec
@@ -3086,7 +3107,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3096,7 +3117,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3104,9 +3125,9 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         BitTypespec:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
         LogicTypespec:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiRange (1 items):
             Range start:5:18 end:5:24:
               vpiParent: LogicTypespec
@@ -3114,7 +3135,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3124,23 +3145,23 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
+        vpiParent: Module name:dut
         vpiName: work
-        vpiFullName: work@dut.work
+        vpiFullName: dut.work
       vpiCell: dut
       vpiGenStmt (1 items):
         GenIf start:19:1 end:21:4:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiCondition Operation start:19:5 end:19:29:
             vpiParent: GenIf
             vpiOpType: equal (14)
@@ -3148,13 +3169,13 @@ Design name:unnamed:
               RefObj name:MISA_VALUE start:19:5 end:19:15:
                 vpiParent: Operation
                 vpiName: MISA_VALUE
-                vpiFullName: work@dut.MISA_VALUE
+                vpiFullName: dut.MISA_VALUE
                 vpiActual: Parameter name:MISA_VALUE
               Constant start:19:19 end:19:29:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3162,22 +3183,22 @@ Design name:unnamed:
                 vpiValue: 1074794756
           vpiStmt Begin start:19:31 end:21:4:
             vpiParent: GenIf
-            vpiFullName: work@dut
+            vpiFullName: dut
             vpiTypespec (1 items):
-              UnsupportedTypespec name:work@OK start:20:3 end:20:5:
+              UnsupportedTypespec name:OK start:20:3 end:20:5:
                 vpiParent: Begin
-                vpiName Identifier name:work@OK start:20:3 end:20:5:
-                  vpiParent: UnsupportedTypespec name:work@OK
-                  vpiName: work@OK
+                vpiName Identifier name:OK start:20:3 end:20:5:
+                  vpiParent: UnsupportedTypespec name:OK
+                  vpiName: OK
             vpiStmt (1 items):
               RefInstance name:ok start:20:6 end:20:8:
                 vpiParent: Begin
                 vpiName: ok
-                vpiTypespec RefTypespec name:work@OK start:20:3 end:20:5:
+                vpiTypespec RefTypespec name:OK start:20:3 end:20:5:
                   vpiParent: RefInstance name:ok
-                  vpiName: work@OK
-                  vpiFullName: work@dut.ok.work@OK
-                  vpiActual: UnsupportedTypespec name:work@OK
+                  vpiName: OK
+                  vpiFullName: dut.ok.OK
+                  vpiActual: UnsupportedTypespec name:OK
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3193,25 +3214,28 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

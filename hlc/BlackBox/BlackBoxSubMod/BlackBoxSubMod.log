@@ -20,7 +20,7 @@ n<$Source01/dut.sv> u<128> t<Top_level_rule> c<1> l<5:1> el<34:10>
     n<> u<24> t<Description> p<127> c<23> s<80> l<5:1> el<9:10>
       n<> u<23> t<Module_declaration> p<24> c<8> l<5:1> el<9:10>
         n<> u<8> t<Module_nonansi_header> p<23> c<4> s<21> l<5:1> el<5:16>
-          n<module> u<4> t<Module_keyword> p<8> s<5> l<5:1> el<5:7>
+          n<module> u<4> t<MODULE> p<8> s<5> l<5:1> el<5:7>
           n<core> u<5> t<SIMPLE_IDENTIFIER> p<8> s<6> l<5:8> el<5:12>
           n<> u<6> t<Package_import_declaration_list> p<8> s<7> l<5:13> el<5:13>
           n<> u<7> t<Port_list> p<8> l<5:13> el<5:15>
@@ -41,7 +41,7 @@ n<$Source01/dut.sv> u<128> t<Top_level_rule> c<1> l<5:1> el<34:10>
     n<> u<80> t<Description> p<127> c<79> s<126> l<12:1> el<21:10>
       n<> u<79> t<Module_declaration> p<80> c<29> l<12:1> el<21:10>
         n<> u<29> t<Module_nonansi_header> p<79> c<25> s<37> l<12:1> el<12:16>
-          n<module> u<25> t<Module_keyword> p<29> s<26> l<12:1> el<12:7>
+          n<module> u<25> t<MODULE> p<29> s<26> l<12:1> el<12:7>
           n<nyuzi> u<26> t<SIMPLE_IDENTIFIER> p<29> s<27> l<12:8> el<12:13>
           n<> u<27> t<Package_import_declaration_list> p<29> s<28> l<12:13> el<12:13>
           n<> u<28> t<Port_list> p<29> l<12:13> el<12:15>
@@ -97,7 +97,7 @@ n<$Source01/dut.sv> u<128> t<Top_level_rule> c<1> l<5:1> el<34:10>
     n<> u<126> t<Description> p<127> c<125> l<25:1> el<34:10>
       n<> u<125> t<Module_declaration> p<126> c<85> l<25:1> el<34:10>
         n<> u<85> t<Module_nonansi_header> p<125> c<81> s<95> l<25:1> el<25:14>
-          n<module> u<81> t<Module_keyword> p<85> s<82> l<25:1> el<25:7>
+          n<module> u<81> t<MODULE> p<85> s<82> l<25:1> el<25:7>
           n<top> u<82> t<SIMPLE_IDENTIFIER> p<85> s<83> l<25:8> el<25:11>
           n<> u<83> t<Package_import_declaration_list> p<85> s<84> l<25:11> el<25:11>
           n<> u<84> t<Port_list> p<85> l<25:11> el<25:13>
@@ -141,15 +141,13 @@ n<$Source01/dut.sv> u<128> t<Top_level_rule> c<1> l<5:1> el<34:10>
                               n<> u<112> t<Bit_select> p<113> l<31:38> el<31:38>
         n<> u<124> t<ENDMODULE> p<125> l<34:1> el<34:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:5:1: Compile module "work@core".
-[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@nyuzi".
+[INF:CP0303] $Source01/dut.sv:5:1: Compile module "core".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "nyuzi".
 [INF:CP0335] $Source01/dut.sv:17:17: Compile generate block "core_gen".
-[INF:CP0303] $Source01/dut.sv:25:1: Compile module "work@top".
-[ERR:EL0535] $Source01/dut.sv:31:12: Illegal implicit net "id:49, name:o".
-[ERR:EL0535] $Source01/dut.sv:27:21: Illegal implicit net "id:56, name:core_gen".
-[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@core".
-[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@nyuzi".
-[WRN:PA0205] $Source01/dut.sv:25:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:25:1: Compile module "top".
+[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "core".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "nyuzi".
+[WRN:PA0205] $Source01/dut.sv:25:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -161,79 +159,101 @@ Design name:unnamed:
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:CORE0 start:27:1 end:27:37:
           vpiParent: SourceFile name:dut.sv
-          vpiName: CORE0
-          vpiNameStartColumn: 9
-          vpiBodyStartColumn: 15
+          vpiName Identifier name:CORE0 start:27:9 end:27:14:
+            vpiParent: PreprocMacroDefinition name:CORE0
+            vpiName: CORE0
+          vpiPMDType: define (1)
+          vpiPMDToken (8 items):
+            Identifier name:nyuzi start:27:15 end:27:20:
+              vpiParent: PreprocMacroDefinition name:CORE0
+              vpiName: nyuzi
+            Identifier name:. start:27:20 end:27:21:
+              vpiParent: PreprocMacroDefinition name:CORE0
+              vpiName: "."
+            Identifier name:core_gen start:27:21 end:27:29:
+              vpiParent: PreprocMacroDefinition name:CORE0
+              vpiName: core_gen
+            Identifier name:[ start:27:29 end:27:30:
+              vpiParent: PreprocMacroDefinition name:CORE0
+              vpiName: "["
+            Identifier name:0 start:27:30 end:27:31:
+              vpiParent: PreprocMacroDefinition name:CORE0
+              vpiName: "0"
+            Identifier name:] start:27:31 end:27:32:
+              vpiParent: PreprocMacroDefinition name:CORE0
+              vpiName: "]"
+            Identifier name:. start:27:32 end:27:33:
+              vpiParent: PreprocMacroDefinition name:CORE0
+              vpiName: "."
+            Identifier name:core start:27:33 end:27:37:
+              vpiParent: PreprocMacroDefinition name:CORE0
+              vpiName: core
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:CORE0 file:$Source01/dut.sv start:31:16 end:31:22:
+        PreprocMacroInstance name:CORE0 file:$Source01/dut.sv start:31:16 end:31:22 ppstart:31:16 ppend:31:38:
           vpiParent: SourceFile name:dut.sv
-          vpiName: CORE0
+          vpiName Identifier name:CORE0 start:31:16 end:31:22:
+            vpiParent: PreprocMacroInstance name:CORE0
+            vpiName: CORE0
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:CORE0
-          vpiSectionStartLine: 27
-          vpiSectionStartColumn: 15
-          vpiSectionEndLine: 27
-          vpiSectionEndColumn: 37
-          vpiSourceStartLine: 31
-          vpiSourceStartColumn: 16
-          vpiSourceEndLine: 31
-          vpiSourceEndColumn: 38
-      vpiDefNetType: none (12)
+          vpiPMIBody Identifier name:nyuzi.core_gen[0].core start:27:15 end:27:37:
+            vpiParent: PreprocMacroInstance name:CORE0
+            vpiName: nyuzi.core_gen[0].core
   vpiAllModules (3 items):
-    Module name:work@core file:$Source01/dut.sv start:5:1 end:9:10:
+    Module name:core file:$Source01/dut.sv start:5:1 end:9:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@core start:5:8 end:5:12:
-        vpiParent: Module name:work@core
-        vpiName: work@core
-      vpiFullName: work@core
-      vpiDefName: work@core
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@core
-        vpiName: work
-        vpiFullName: work@core.work
-      vpiCell: core
-      vpiNet (1 items):
-        Net name:wb_writeback_en start:7:5 end:7:20:
-          vpiParent: Module name:work@core
+      vpiName Identifier name:core start:5:8 end:5:12:
+        vpiParent: Module name:core
+        vpiName: core
+      vpiFullName: core
+      vpiVariable (1 items):
+        Variable name:wb_writeback_en start:7:5 end:7:20:
+          vpiParent: Module name:core
           vpiTypespec RefTypespec start:7:1 end:7:4:
-            vpiParent: Net name:wb_writeback_en
-            vpiFullName: work@core.wb_writeback_en
+            vpiParent: Variable name:wb_writeback_en
+            vpiFullName: core.wb_writeback_en
             vpiActual: IntTypespec
           vpiName: wb_writeback_en
-          vpiFullName: work@core.wb_writeback_en
-    Module name:work@nyuzi file:$Source01/dut.sv start:12:1 end:21:10:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@nyuzi start:12:8 end:12:13:
-        vpiParent: Module name:work@nyuzi
-        vpiName: work@nyuzi
-      vpiFullName: work@nyuzi
-      vpiDefName: work@nyuzi
-      vpiDefNetType: none (12)
+          vpiFullName: core.wb_writeback_en
+      vpiDefName: core
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@nyuzi
+        vpiParent: Module name:core
         vpiName: work
-        vpiFullName: work@nyuzi.work
-      vpiCell: nyuzi
-      vpiNet (1 items):
-        Net name:core_idx start:14:12 end:14:20:
-          vpiParent: Module name:work@nyuzi
+        vpiFullName: core.work
+      vpiCell: core
+    Module name:nyuzi file:$Source01/dut.sv start:12:1 end:21:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:nyuzi start:12:8 end:12:13:
+        vpiParent: Module name:nyuzi
+        vpiName: nyuzi
+      vpiFullName: nyuzi
+      vpiVariable (1 items):
+        Variable name:core_idx start:14:12 end:14:20:
+          vpiParent: Module name:nyuzi
           vpiTypespec RefTypespec:
-            vpiParent: Net name:core_idx
-            vpiFullName: work@nyuzi.core_idx
+            vpiParent: Variable name:core_idx
+            vpiFullName: nyuzi.core_idx
           vpiName: core_idx
-          vpiFullName: work@nyuzi.core_idx
+          vpiFullName: nyuzi.core_idx
+      vpiDefName: nyuzi
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:nyuzi
+        vpiName: work
+        vpiFullName: nyuzi.work
+      vpiCell: nyuzi
       vpiGenStmt (1 items):
         GenRegion start:15:5 end:20:16:
-          vpiParent: Module name:work@nyuzi
-          vpiFullName: work@nyuzi
+          vpiParent: Module name:nyuzi
+          vpiFullName: nyuzi
           vpiStmt GenFor start:16:9 end:19:12:
             vpiParent: GenRegion
-            vpiFullName: work@nyuzi
+            vpiFullName: nyuzi
             vpiVariable (1 items):
               Variable name:core_idx start:16:14 end:16:22:
                 vpiParent: GenFor
                 vpiName: core_idx
-                vpiFullName: work@nyuzi.core_idx
+                vpiFullName: nyuzi.core_idx
             vpiForInitStmt (1 items):
               Assignment start:16:14 end:16:26:
                 vpiParent: GenFor
@@ -242,7 +262,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@nyuzi
+                    vpiFullName: nyuzi
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -256,7 +276,7 @@ Design name:unnamed:
                   RefObj name:core_idx start:16:42 end:16:50:
                     vpiParent: Operation
                     vpiName: core_idx
-                    vpiFullName: work@nyuzi.core_idx
+                    vpiFullName: nyuzi.core_idx
                     vpiActual: Variable name:core_idx
             vpiCondition Operation start:16:28 end:16:40:
               vpiParent: GenFor
@@ -265,13 +285,13 @@ Design name:unnamed:
                 RefObj name:core_idx start:16:28 end:16:36:
                   vpiParent: Operation
                   vpiName: core_idx
-                  vpiFullName: work@nyuzi.core_idx
+                  vpiFullName: nyuzi.core_idx
                   vpiActual: Variable name:core_idx
                 Constant start:16:39 end:16:40:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@nyuzi
+                    vpiFullName: nyuzi
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -282,71 +302,73 @@ Design name:unnamed:
               vpiName Identifier name:core_gen start:17:17 end:17:25:
                 vpiParent: Begin name:core_gen
                 vpiName: core_gen
-              vpiFullName: work@nyuzi.core_gen
+              vpiFullName: nyuzi.core_gen
               vpiTypespec (1 items):
-                ModuleTypespec name:work@core start:18:13 end:18:17:
+                ModuleTypespec name:core start:18:13 end:18:17:
                   vpiParent: Begin name:core_gen
-                  vpiName Identifier name:work@core start:18:13 end:18:17:
-                    vpiParent: ModuleTypespec name:work@core
-                    vpiName: work@core
+                  vpiName Identifier name:core start:18:13 end:18:17:
+                    vpiParent: ModuleTypespec name:core
+                    vpiName: core
+                  vpiModule: Module name:core
               vpiStmt (1 items):
                 RefInstance name:core start:18:19 end:18:23:
                   vpiParent: Begin name:core_gen
                   vpiName: core
-                  vpiTypespec RefTypespec name:work@core start:18:13 end:18:17:
+                  vpiTypespec RefTypespec name:core start:18:13 end:18:17:
                     vpiParent: RefInstance name:core
-                    vpiName: work@core
-                    vpiFullName: work@nyuzi.core_gen.core.work@core
-                    vpiActual: ModuleTypespec name:work@core
-    Module name:work@top file:$Source01/dut.sv start:25:1 end:34:10:
+                    vpiName: core
+                    vpiFullName: nyuzi.core_gen.core.core
+                    vpiActual: ModuleTypespec name:core
+    Module name:top file:$Source01/dut.sv start:25:1 end:34:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:25:8 end:25:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:25:8 end:25:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (1 items):
-        ModuleTypespec name:work@nyuzi start:29:1 end:29:6:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@nyuzi start:29:1 end:29:6:
-            vpiParent: ModuleTypespec name:work@nyuzi
-            vpiName: work@nyuzi
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        ModuleTypespec name:nyuzi start:29:1 end:29:6:
+          vpiParent: Module name:top
+          vpiName Identifier name:nyuzi start:29:1 end:29:6:
+            vpiParent: ModuleTypespec name:nyuzi
+            vpiName: nyuzi
+          vpiModule: Module name:nyuzi
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiContAssign (1 items):
         ContAssign start:31:12 end:31:38:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:o start:31:12 end:31:13:
             vpiParent: ContAssign
             vpiName: o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
           vpiRhs HierPath name:nyuzi.core_gen[0].core.wb_writeback_en start:31:16 end:31:38:
             vpiParent: ContAssign
             vpiName: nyuzi.core_gen[0].core.wb_writeback_en
-            vpiFullName: work@top.nyuzi.core_gen[0].core.wb_writeback_en
+            vpiFullName: top.nyuzi.core_gen[0].core.wb_writeback_en
             vpiPathElem (4 items):
               RefObj name:nyuzi start:27:15 end:27:20:
                 vpiParent: HierPath name:nyuzi.core_gen[0].core.wb_writeback_en
                 vpiName: nyuzi
-                vpiFullName: work@top.nyuzi
+                vpiFullName: top.nyuzi
                 vpiActual: RefInstance name:nyuzi
               BitSelect name:core_gen[0] start:27:21 end:27:31:
                 vpiParent: HierPath name:nyuzi.core_gen[0].core.wb_writeback_en
                 vpiName: core_gen[0]
-                vpiFullName: work@top.nyuzi.core_gen[0].core.wb_writeback_en.core_gen[0]
+                vpiFullName: top.nyuzi.core_gen[0].core.wb_writeback_en.core_gen[0]
                 vpiPrefix RefObj name:core_gen start:27:21 end:27:29:
                   vpiParent: BitSelect name:core_gen[0]
                   vpiName: core_gen
-                  vpiFullName: work@top.nyuzi.core_gen[0].core.wb_writeback_en.core_gen
+                  vpiFullName: top.nyuzi.core_gen[0].core.wb_writeback_en.core_gen
                 vpiIndex Constant start:27:30 end:27:31:
                   vpiParent: BitSelect name:core_gen[0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.nyuzi.core_gen[0].core.wb_writeback_en.core_gen[0]
+                    vpiFullName: top.nyuzi.core_gen[0].core.wb_writeback_en.core_gen[0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -355,48 +377,48 @@ Design name:unnamed:
               RefObj name:core start:27:33 end:27:37:
                 vpiParent: HierPath name:nyuzi.core_gen[0].core.wb_writeback_en
                 vpiName: core
-                vpiFullName: work@top.core
-                vpiActual: Module name:work@core
+                vpiFullName: top.core
+                vpiActual: Module name:core
               RefObj name:wb_writeback_en start:31:23 end:31:38:
                 vpiParent: HierPath name:nyuzi.core_gen[0].core.wb_writeback_en
                 vpiName: wb_writeback_en
-                vpiFullName: work@top.wb_writeback_en
-                vpiActual: Net name:wb_writeback_en
+                vpiFullName: top.wb_writeback_en
+                vpiActual: Variable name:wb_writeback_en
       vpiRefInstance (1 items):
         RefInstance name:nyuzi start:29:8 end:29:13:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: nyuzi
-          vpiTypespec RefTypespec name:work@nyuzi start:29:1 end:29:6:
+          vpiTypespec RefTypespec name:nyuzi start:29:1 end:29:6:
             vpiParent: RefInstance name:nyuzi
-            vpiName: work@nyuzi
-            vpiFullName: work@top.nyuzi.work@nyuzi
-            vpiActual: ModuleTypespec name:work@nyuzi
+            vpiName: nyuzi
+            vpiFullName: top.nyuzi.nyuzi
+            vpiActual: ModuleTypespec name:nyuzi
   vpiTypespec (4 items):
-    ModuleTypespec name:work@core:
+    ModuleTypespec name:core:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@core start:5:8 end:5:12:
-        vpiParent: ModuleTypespec name:work@core
-        vpiName: work@core
-      vpiModule: Module name:work@core
+      vpiName Identifier name:core start:5:8 end:5:12:
+        vpiParent: ModuleTypespec name:core
+        vpiName: core
+      vpiModule: Module name:core
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@nyuzi:
+    ModuleTypespec name:nyuzi:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@nyuzi start:12:8 end:12:13:
-        vpiParent: ModuleTypespec name:work@nyuzi
-        vpiName: work@nyuzi
-      vpiModule: Module name:work@nyuzi
-    ModuleTypespec name:work@top:
+      vpiName Identifier name:nyuzi start:12:8 end:12:13:
+        vpiParent: ModuleTypespec name:nyuzi
+        vpiName: nyuzi
+      vpiModule: Module name:nyuzi
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:25:8 end:25:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:25:8 end:25:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
@@ -441,7 +463,7 @@ COMMAND: ${HLC_DIR}/regression/BlackBox/BlackBoxSubMod/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              67      67       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    67      67       0         0
 ===================== END REDUCTION RESULT =====================

@@ -26,7 +26,7 @@ n<$Source01/dangling_port.v> u<187> t<Top_level_rule> c<1> l<27:1> el<49:1>
     n<> u<185> t<Description> p<186> c<184> l<27:1> el<48:10>
       n<> u<184> t<Module_declaration> p<185> c<13> l<27:1> el<48:10>
         n<> u<13> t<Module_ansi_header> p<184> c<10> s<25> l<27:1> el<27:13>
-          n<module> u<10> t<Module_keyword> p<13> s<11> l<27:1> el<27:7>
+          n<module> u<10> t<MODULE> p<13> s<11> l<27:1> el<27:7>
           n<main> u<11> t<SIMPLE_IDENTIFIER> p<13> s<12> l<27:8> el<27:12>
           n<> u<12> t<Package_import_declaration_list> p<13> l<27:12> el<27:12>
         n<> u<25> t<Non_port_module_item> p<184> c<24> s<39> l<29:4> el<29:15>
@@ -200,7 +200,7 @@ n<$Source01/dangling_port.v> u<187> t<Top_level_rule> c<1> l<27:1> el<49:1>
                         n<> u<174> t<END> p<175> l<46:6> el<46:9>
         n<> u<183> t<ENDMODULE> p<184> l<48:1> el<48:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dangling_port.v:27:1: Compile module "work@main".
+[INF:CP0303] $Source01/dangling_port.v:27:1: Compile module "main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -210,40 +210,67 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dangling_port.v
       vpiPreprocFile: "$Output/lib/work/dangling_port.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:$Source01/dangling_port.v start:27:1 end:48:10:
+    Module name:main file:$Source01/dangling_port.v start:27:1 end:48:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:27:8 end:27:12:
-        vpiParent: Module name:work@main
-        vpiName: work@main
-      vpiFullName: work@main
+      vpiName Identifier name:main start:27:8 end:27:12:
+        vpiParent: Module name:main
+        vpiName: main
+      vpiFullName: main
+      vpiVariable (3 items):
+        Variable name:retval start:29:8 end:29:14:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:29:4 end:29:7:
+            vpiParent: Variable name:retval
+            vpiFullName: main.retval
+            vpiActual: LogicTypespec
+          vpiName: retval
+          vpiFullName: main.retval
+          vpiScalar: true
+        Variable name:a start:30:8 end:30:9:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:30:4 end:30:7:
+            vpiParent: Variable name:a
+            vpiFullName: main.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: main.a
+          vpiScalar: true
+        Variable name:b start:30:11 end:30:12:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:30:4 end:30:7:
+            vpiParent: Variable name:b
+            vpiFullName: main.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: main.b
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@main
-      vpiDefName: work@main
-      vpiDefNetType: none (12)
+          vpiParent: Module name:main
+      vpiDefName: main
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@main
+        vpiParent: Module name:main
         vpiName: work
-        vpiFullName: work@main.work
+        vpiFullName: main.work
       vpiCell: main
       vpiTaskFunc (1 items):
         Function name:f start:32:4 end:37:15:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiName Identifier name:f start:32:13 end:32:14:
             vpiParent: Function name:f
             vpiName: f
-          vpiFullName: work@main.f
+          vpiFullName: main.f
           vpiVariable (1 items):
             Variable name:dangle start:33:13 end:33:19:
               vpiParent: Function name:f
               vpiTypespec RefTypespec start:33:13 end:33:13:
                 vpiParent: Variable name:dangle
-                vpiFullName: work@main.f.dangle
+                vpiFullName: main.f.dangle
                 vpiActual: LogicTypespec
               vpiName: dangle
-              vpiFullName: work@main.f.dangle
+              vpiFullName: main.f.dangle
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:dangle start:33:13 end:33:19:
@@ -251,11 +278,11 @@ Design name:unnamed:
               vpiName: dangle
               vpiTypespec RefTypespec start:33:13 end:33:13:
                 vpiParent: IODecl name:dangle
-                vpiFullName: work@main.f.dangle
+                vpiFullName: main.f.dangle
                 vpiActual: LogicTypespec
           vpiStmt Begin:
             vpiParent: Function name:f
-            vpiFullName: work@main.f
+            vpiFullName: main.f
             vpiTypespec (2 items):
               LogicTypespec start:32:13 end:32:13:
                 vpiParent: Begin
@@ -264,7 +291,7 @@ Design name:unnamed:
             vpiStmt (1 items):
               Begin start:34:7 end:36:10:
                 vpiParent: Begin
-                vpiFullName: work@main.f
+                vpiFullName: main.f
                 vpiStmt (1 items):
                   Assignment start:35:3 end:35:13:
                     vpiParent: Begin
@@ -272,48 +299,23 @@ Design name:unnamed:
                     vpiLhs RefObj name:f start:35:3 end:35:4:
                       vpiParent: Assignment
                       vpiName: f
-                      vpiFullName: work@main.f.f
+                      vpiFullName: main.f.f
                       vpiActual: Function name:f
                     vpiRhs RefObj name:retval start:35:7 end:35:13:
                       vpiParent: Assignment
                       vpiName: retval
-                      vpiFullName: work@main.f.retval
-                      vpiActual: Net name:retval
+                      vpiFullName: main.f.retval
+                      vpiActual: Variable name:retval
           vpiReturn RefTypespec start:32:13 end:32:13:
             vpiParent: Function name:f
-            vpiFullName: work@main.f
+            vpiFullName: main.f
             vpiActual: LogicTypespec
-      vpiNet (3 items):
-        Net name:retval start:29:8 end:29:14:
-          vpiParent: Module name:work@main
-          vpiTypespec RefTypespec start:29:4 end:29:7:
-            vpiParent: Net name:retval
-            vpiFullName: work@main.retval
-            vpiActual: LogicTypespec
-          vpiName: retval
-          vpiFullName: work@main.retval
-        Net name:a start:30:8 end:30:9:
-          vpiParent: Module name:work@main
-          vpiTypespec RefTypespec start:30:4 end:30:7:
-            vpiParent: Net name:a
-            vpiFullName: work@main.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: work@main.a
-        Net name:b start:30:11 end:30:12:
-          vpiParent: Module name:work@main
-          vpiTypespec RefTypespec start:30:4 end:30:7:
-            vpiParent: Net name:b
-            vpiFullName: work@main.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: work@main.b
       vpiProcess (1 items):
         Initial start:39:4 end:46:9:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Begin start:40:6 end:46:9:
             vpiParent: Initial
-            vpiFullName: work@main
+            vpiFullName: main
             vpiStmt (5 items):
               DelayControl start:41:2 end:41:17:
                 vpiParent: Begin
@@ -322,13 +324,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:retval start:41:5 end:41:11:
                     vpiParent: Assignment
                     vpiName: retval
-                    vpiFullName: work@main.retval
-                    vpiActual: Net name:retval
+                    vpiFullName: main.retval
+                    vpiActual: Variable name:retval
                   vpiRhs Constant start:41:15 end:41:16:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@main
+                      vpiFullName: main
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -338,7 +340,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -351,8 +353,8 @@ Design name:unnamed:
                   vpiLhs RefObj name:a start:42:5 end:42:6:
                     vpiParent: Assignment
                     vpiName: a
-                    vpiFullName: work@main.a
-                    vpiActual: Net name:a
+                    vpiFullName: main.a
+                    vpiActual: Variable name:a
                   vpiRhs FuncCall name:f start:42:10 end:42:14:
                     vpiParent: Assignment
                     vpiName Identifier name:f start:42:10 end:42:11:
@@ -364,7 +366,7 @@ Design name:unnamed:
                         vpiParent: FuncCall name:f
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@main
+                          vpiFullName: main
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -374,7 +376,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -387,8 +389,8 @@ Design name:unnamed:
                   vpiLhs RefObj name:b start:43:5 end:43:6:
                     vpiParent: Assignment
                     vpiName: b
-                    vpiFullName: work@main.b
-                    vpiActual: Net name:b
+                    vpiFullName: main.b
+                    vpiActual: Variable name:b
                   vpiRhs FuncCall name:f start:43:10 end:43:14:
                     vpiParent: Assignment
                     vpiName Identifier name:f start:43:10 end:43:11:
@@ -400,7 +402,7 @@ Design name:unnamed:
                         vpiParent: FuncCall name:f
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@main
+                          vpiFullName: main
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -410,7 +412,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -428,7 +430,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 48
@@ -438,7 +440,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -450,12 +452,12 @@ Design name:unnamed:
                   vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
   vpiTypespec (3 items):
-    ModuleTypespec name:work@main:
+    ModuleTypespec name:main:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:27:8 end:27:12:
-        vpiParent: ModuleTypespec name:work@main
-        vpiName: work@main
-      vpiModule: Module name:work@main
+      vpiName Identifier name:main start:27:8 end:27:12:
+        vpiParent: ModuleTypespec name:main
+        vpiName: main
+      vpiModule: Module name:main
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

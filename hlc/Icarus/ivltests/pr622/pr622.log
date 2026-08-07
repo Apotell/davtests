@@ -18,7 +18,7 @@ n<$Source01/pr622.v> u<36> t<Top_level_rule> c<1> l<2:1> el<7:1>
     n<> u<34> t<Description> p<35> c<33> l<2:1> el<6:10>
       n<> u<33> t<Module_declaration> p<34> c<5> l<2:1> el<6:10>
         n<> u<5> t<Module_ansi_header> p<33> c<2> s<31> l<2:1> el<2:12>
-          n<module> u<2> t<Module_keyword> p<5> s<3> l<2:1> el<2:7>
+          n<module> u<2> t<MODULE> p<5> s<3> l<2:1> el<2:7>
           n<foo> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<2:8> el<2:11>
           n<> u<4> t<Package_import_declaration_list> p<5> l<2:11> el<2:11>
         n<> u<31> t<Non_port_module_item> p<33> c<30> s<32> l<3:10> el<5:13>
@@ -49,7 +49,7 @@ n<$Source01/pr622.v> u<36> t<Top_level_rule> c<1> l<2:1> el<7:1>
                         n<> u<23> t<END> p<24> l<5:10> el<5:13>
         n<> u<32> t<ENDMODULE> p<33> l<6:1> el<6:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/pr622.v:2:1: Compile module "work@foo".
+[INF:CP0303] $Source01/pr622.v:2:1: Compile module "foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -62,43 +62,44 @@ Design name:unnamed:
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:FOO start:1:1 end:1:16:
           vpiParent: SourceFile name:pr622.v
-          vpiName: FOO
-          vpiNameStartColumn: 9
-          vpiBodyStartColumn: 13
+          vpiName Identifier name:FOO start:1:9 end:1:12:
+            vpiParent: PreprocMacroDefinition name:FOO
+            vpiName: FOO
+          vpiPMDType: define (1)
+          vpiPMDToken (1 items):
+            Identifier name:bar start:1:13 end:1:16:
+              vpiParent: PreprocMacroDefinition name:FOO
+              vpiName: bar
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:FOO file:$Source01/pr622.v start:4:46 end:4:50:
+        PreprocMacroInstance name:FOO file:$Source01/pr622.v start:4:46 end:4:50 ppstart:4:46 ppend:4:49:
           vpiParent: SourceFile name:pr622.v
-          vpiName: FOO
+          vpiName Identifier name:FOO start:4:46 end:4:50:
+            vpiParent: PreprocMacroInstance name:FOO
+            vpiName: FOO
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:FOO
-          vpiSectionStartLine: 1
-          vpiSectionStartColumn: 13
-          vpiSectionEndLine: 1
-          vpiSectionEndColumn: 16
-          vpiSourceStartLine: 4
-          vpiSourceStartColumn: 46
-          vpiSourceEndLine: 4
-          vpiSourceEndColumn: 49
-      vpiDefNetType: none (12)
+          vpiPMIBody Identifier name:bar start:1:13 end:1:16:
+            vpiParent: PreprocMacroInstance name:FOO
+            vpiName: bar
   vpiAllModules (1 items):
-    Module name:work@foo file:$Source01/pr622.v start:2:1 end:6:10:
+    Module name:foo file:$Source01/pr622.v start:2:1 end:6:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo start:2:8 end:2:11:
-        vpiParent: Module name:work@foo
-        vpiName: work@foo
-      vpiFullName: work@foo
-      vpiDefName: work@foo
-      vpiDefNetType: none (12)
+      vpiName Identifier name:foo start:2:8 end:2:11:
+        vpiParent: Module name:foo
+        vpiName: foo
+      vpiFullName: foo
+      vpiDefName: foo
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@foo
+        vpiParent: Module name:foo
         vpiName: work
-        vpiFullName: work@foo.work
+        vpiFullName: foo.work
       vpiCell: foo
       vpiProcess (1 items):
         Initial start:3:10 end:5:13:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiStmt Begin start:3:18 end:5:13:
             vpiParent: Initial
-            vpiFullName: work@foo
+            vpiFullName: foo
             vpiStmt (1 items):
               SysTaskCall name:$display start:4:18 end:4:52:
                 vpiParent: Begin
@@ -110,7 +111,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@foo
+                      vpiFullName: foo
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 112
@@ -120,19 +121,19 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@foo
+                      vpiFullName: foo
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 24
                     vpiDecompile: "\"bar\""
                     vpiValue: bar
   vpiTypespec (2 items):
-    ModuleTypespec name:work@foo:
+    ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo start:2:8 end:2:11:
-        vpiParent: ModuleTypespec name:work@foo
-        vpiName: work@foo
-      vpiModule: Module name:work@foo
+      vpiName Identifier name:foo start:2:8 end:2:11:
+        vpiParent: ModuleTypespec name:foo
+        vpiName: foo
+      vpiModule: Module name:foo
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
@@ -183,7 +184,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr622/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              18      18       0         0
+Others                              22      22       0         0
 ----------------------------------------------------------------
-                                    18      18       0         0
+                                    22      22       0         0
 ===================== END REDUCTION RESULT =====================

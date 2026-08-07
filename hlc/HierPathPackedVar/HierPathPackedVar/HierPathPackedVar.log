@@ -25,8 +25,8 @@ n<$Source01/dut.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<27:1>
               n<> u<128> t<Type_declaration> p<129> c<126> l<2:4> el<12:16>
                 n<> u<126> t<Data_type> p<128> c<5> s<127> l<2:12> el<12:2>
                   n<> u<5> t<Struct_union> p<126> c<4> s<6> l<2:12> el<2:18>
-                    n<> u<4> t<Struct_keyword> p<5> l<2:12> el<2:18>
-                  n<> u<6> t<Packed_keyword> p<126> s<13> l<2:19> el<2:25>
+                    n<> u<4> t<STRUCT> p<5> l<2:12> el<2:18>
+                  n<> u<6> t<PACKED> p<126> s<13> l<2:19> el<2:25>
                   n<> u<13> t<Struct_union_member> p<126> c<9> s<23> l<3:5> el<3:30>
                     n<> u<9> t<Data_type_or_void> p<13> c<8> s<12> l<3:5> el<3:10>
                       n<> u<8> t<Data_type> p<9> c<7> l<3:5> el<3:10>
@@ -151,7 +151,7 @@ n<$Source01/dut.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<27:1>
     n<> u<254> t<Description> p<255> c<253> l<16:1> el<26:10>
       n<> u<253> t<Module_declaration> p<254> c<187> l<16:1> el<26:10>
         n<> u<187> t<Module_ansi_header> p<253> c<135> s<199> l<16:1> el<19:41>
-          n<module> u<135> t<Module_keyword> p<187> s<136> l<16:1> el<16:7>
+          n<module> u<135> t<MODULE> p<187> s<136> l<16:1> el<16:7>
           n<axi_adapter_arbiter> u<136> t<SIMPLE_IDENTIFIER> p<187> s<137> l<16:8> el<16:27>
           n<> u<137> t<Package_import_declaration_list> p<187> s<161> l<16:28> el<16:28>
           n<> u<161> t<Parameter_port_list> p<187> c<149> s<186> l<16:28> el<18:56>
@@ -269,13 +269,11 @@ n<$Source01/dut.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<27:1>
                       n<> u<244> t<END> p<245> l<25:5> el<25:8>
         n<> u<252> t<ENDMODULE> p<253> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@std_cache_pkg".
-[INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@axi_adapter_arbiter".
-[ERR:EL0535] $Source01/dut.sv:22:18: Illegal implicit net "id:124, name:i".
-[ERR:EL0535] $Source01/dut.sv:22:21: Illegal implicit net "id:128, name:req".
-[ERR:EL0535] $Source01/dut.sv:23:21: Illegal implicit net "id:135, name:SERVING".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@std_cache_pkg".
-[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@axi_adapter_arbiter".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "std_cache_pkg".
+[INF:CP0303] $Source01/dut.sv:16:1: Compile module "axi_adapter_arbiter".
+[WRN:CP0350] $Source01/dut.sv:22:21: Failed to bind "id:131, name:req".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "std_cache_pkg".
+[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "axi_adapter_arbiter".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -284,51 +282,56 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@std_cache_pkg file:$Source01/dut.sv start:1:1 end:14:11:
+    Package name:std_cache_pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@std_cache_pkg start:1:9 end:1:22:
-        vpiParent: Package name:work@std_cache_pkg
-        vpiName: work@std_cache_pkg
-      vpiFullName: work@std_cache_pkg
-      vpiTypespec (10 items):
+      vpiName Identifier name:std_cache_pkg start:1:9 end:1:22:
+        vpiParent: Package name:std_cache_pkg
+        vpiName: std_cache_pkg
+      vpiFullName: std_cache_pkg
+      vpiTypespec (12 items):
         LogicTypespec:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
+        UnsupportedTypespec name:ariane_axi start:4:5 end:4:15:
+          vpiParent: Package name:std_cache_pkg
+          vpiName Identifier name:ariane_axi start:4:5 end:4:15:
+            vpiParent: UnsupportedTypespec name:ariane_axi
+            vpiName: ariane_axi
         UnsupportedTypespec name:ariane_axi::ad_req_t start:4:5 end:4:25:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiPathElem (2 items):
-            UnsupportedScope name:ariane_axi start:4:5 end:4:17:
+            RefTypespec start:4:5 end:4:17:
               vpiParent: UnsupportedTypespec name:ariane_axi::ad_req_t
-              vpiName Identifier name:ariane_axi start:4:5 end:4:15:
-                vpiParent: UnsupportedScope name:ariane_axi
-                vpiName: ariane_axi
-              vpiFullName: work@std_cache_pkg::ariane_axi::ad_req_t::ariane_axi
+              vpiFullName: std_cache_pkg::ariane_axi::ad_req_t
+              vpiActual: UnsupportedTypespec name:ariane_axi
             RefTypespec name:ad_req_t start:4:17 end:4:25:
               vpiParent: UnsupportedTypespec name:ariane_axi::ad_req_t
               vpiName: ad_req_t
-              vpiFullName: work@std_cache_pkg::ariane_axi::ad_req_t::ad_req_t
+              vpiFullName: std_cache_pkg::ariane_axi::ad_req_t::ad_req_t
           vpiName Identifier name:ariane_axi::ad_req_t start:4:5 end:4:25:
             vpiParent: UnsupportedTypespec name:ariane_axi::ad_req_t
             vpiName: ariane_axi::ad_req_t
+        UnsupportedTypespec name:ariane_pkg start:5:5 end:5:15:
+          vpiParent: Package name:std_cache_pkg
+          vpiName Identifier name:ariane_pkg start:5:5 end:5:15:
+            vpiParent: UnsupportedTypespec name:ariane_pkg
+            vpiName: ariane_pkg
         UnsupportedTypespec name:ariane_pkg::amo_t start:5:5 end:5:22:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiPathElem (2 items):
-            UnsupportedScope name:ariane_pkg start:5:5 end:5:17:
+            RefTypespec start:5:5 end:5:17:
               vpiParent: UnsupportedTypespec name:ariane_pkg::amo_t
-              vpiName Identifier name:ariane_pkg start:5:5 end:5:15:
-                vpiParent: UnsupportedScope name:ariane_pkg
-                vpiName: ariane_pkg
-              vpiFullName: work@std_cache_pkg::ariane_pkg::amo_t::ariane_pkg
+              vpiFullName: std_cache_pkg::ariane_pkg::amo_t
+              vpiActual: UnsupportedTypespec name:ariane_pkg
             RefTypespec name:amo_t start:5:17 end:5:22:
               vpiParent: UnsupportedTypespec name:ariane_pkg::amo_t
               vpiName: amo_t
-              vpiFullName: work@std_cache_pkg::ariane_pkg::amo_t::amo_t
+              vpiFullName: std_cache_pkg::ariane_pkg::amo_t::amo_t
           vpiName Identifier name:ariane_pkg::amo_t start:5:5 end:5:22:
             vpiParent: UnsupportedTypespec name:ariane_pkg::amo_t
             vpiName: ariane_pkg::amo_t
         LogicTypespec:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiRange (1 items):
             Range start:6:11 end:6:16:
               vpiParent: LogicTypespec
@@ -336,7 +339,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -346,7 +349,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -354,7 +357,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiRange (1 items):
             Range start:7:11 end:7:17:
               vpiParent: LogicTypespec
@@ -362,7 +365,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -372,7 +375,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -380,7 +383,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiRange (1 items):
             Range start:8:11 end:8:17:
               vpiParent: LogicTypespec
@@ -388,7 +391,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -398,7 +401,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -406,7 +409,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiRange (1 items):
             Range start:10:11 end:10:16:
               vpiParent: LogicTypespec
@@ -414,7 +417,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -424,7 +427,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -432,7 +435,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiRange (1 items):
             Range start:11:11 end:11:16:
               vpiParent: LogicTypespec
@@ -440,7 +443,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -450,7 +453,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@std_cache_pkg
+                  vpiFullName: std_cache_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -458,7 +461,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         StructTypespec start:2:12 end:12:2:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiPacked: true
           vpiTypespecMember (9 items):
             TypespecMember name:req start:3:26 end:3:29:
@@ -466,7 +469,7 @@ Design name:unnamed:
               vpiName: req
               vpiTypespec RefTypespec start:3:5 end:3:10:
                 vpiParent: TypespecMember name:req
-                vpiFullName: work@std_cache_pkg::req
+                vpiFullName: std_cache_pkg::req
                 vpiActual: LogicTypespec
             TypespecMember name:reqtype start:4:26 end:4:33:
               vpiParent: StructTypespec
@@ -474,7 +477,7 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:ariane_axi::ad_req_t start:4:5 end:4:25:
                 vpiParent: TypespecMember name:reqtype
                 vpiName: ariane_axi::ad_req_t
-                vpiFullName: work@std_cache_pkg::reqtype::ariane_axi::ad_req_t
+                vpiFullName: std_cache_pkg::reqtype::ariane_axi::ad_req_t
                 vpiActual: UnsupportedTypespec name:ariane_axi::ad_req_t
             TypespecMember name:amo start:5:26 end:5:29:
               vpiParent: StructTypespec
@@ -482,136 +485,149 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:ariane_pkg::amo_t start:5:5 end:5:22:
                 vpiParent: TypespecMember name:amo
                 vpiName: ariane_pkg::amo_t
-                vpiFullName: work@std_cache_pkg::amo::ariane_pkg::amo_t
+                vpiFullName: std_cache_pkg::amo::ariane_pkg::amo_t
                 vpiActual: UnsupportedTypespec name:ariane_pkg::amo_t
             TypespecMember name:id start:6:26 end:6:28:
               vpiParent: StructTypespec
               vpiName: id
               vpiTypespec RefTypespec start:6:5 end:6:16:
                 vpiParent: TypespecMember name:id
-                vpiFullName: work@std_cache_pkg::id
+                vpiFullName: std_cache_pkg::id
                 vpiActual: LogicTypespec
             TypespecMember name:addr start:7:26 end:7:30:
               vpiParent: StructTypespec
               vpiName: addr
               vpiTypespec RefTypespec start:7:5 end:7:17:
                 vpiParent: TypespecMember name:addr
-                vpiFullName: work@std_cache_pkg::addr
+                vpiFullName: std_cache_pkg::addr
                 vpiActual: LogicTypespec
             TypespecMember name:wdata start:8:26 end:8:31:
               vpiParent: StructTypespec
               vpiName: wdata
               vpiTypespec RefTypespec start:8:5 end:8:17:
                 vpiParent: TypespecMember name:wdata
-                vpiFullName: work@std_cache_pkg::wdata
+                vpiFullName: std_cache_pkg::wdata
                 vpiActual: LogicTypespec
             TypespecMember name:we start:9:26 end:9:28:
               vpiParent: StructTypespec
               vpiName: we
               vpiTypespec RefTypespec start:9:5 end:9:10:
                 vpiParent: TypespecMember name:we
-                vpiFullName: work@std_cache_pkg::we
+                vpiFullName: std_cache_pkg::we
                 vpiActual: LogicTypespec
             TypespecMember name:be start:10:26 end:10:28:
               vpiParent: StructTypespec
               vpiName: be
               vpiTypespec RefTypespec start:10:5 end:10:16:
                 vpiParent: TypespecMember name:be
-                vpiFullName: work@std_cache_pkg::be
+                vpiFullName: std_cache_pkg::be
                 vpiActual: LogicTypespec
             TypespecMember name:size start:11:26 end:11:30:
               vpiParent: StructTypespec
               vpiName: size
               vpiTypespec RefTypespec start:11:5 end:11:16:
                 vpiParent: TypespecMember name:size
-                vpiFullName: work@std_cache_pkg::size
+                vpiFullName: std_cache_pkg::size
                 vpiActual: LogicTypespec
         TypedefTypespec name:bypass_req_t start:2:4 end:12:16:
-          vpiParent: Package name:work@std_cache_pkg
+          vpiParent: Package name:std_cache_pkg
           vpiName Identifier name:bypass_req_t start:12:3 end:12:15:
             vpiParent: TypedefTypespec name:bypass_req_t
             vpiName: bypass_req_t
           vpiTypedefAlias RefTypespec start:2:12 end:12:2:
             vpiParent: TypedefTypespec name:bypass_req_t
-            vpiFullName: work@std_cache_pkg::bypass_req_t
+            vpiFullName: std_cache_pkg::bypass_req_t
             vpiActual: StructTypespec
-      vpiDefName: work@std_cache_pkg
-      vpiDefNetType: none (12)
+      vpiDefName: std_cache_pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@std_cache_pkg
+        vpiParent: Package name:std_cache_pkg
         vpiName: work
-        vpiFullName: work@std_cache_pkg::work
+        vpiFullName: std_cache_pkg::work
       vpiCell: std_cache_pkg
   vpiAllModules (1 items):
-    Module name:work@axi_adapter_arbiter file:$Source01/dut.sv start:16:1 end:26:10:
+    Module name:axi_adapter_arbiter file:$Source01/dut.sv start:16:1 end:26:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@axi_adapter_arbiter start:16:8 end:16:27:
-        vpiParent: Module name:work@axi_adapter_arbiter
-        vpiName: work@axi_adapter_arbiter
-      vpiFullName: work@axi_adapter_arbiter
+      vpiName Identifier name:axi_adapter_arbiter start:16:8 end:16:27:
+        vpiParent: Module name:axi_adapter_arbiter
+        vpiName: axi_adapter_arbiter
+      vpiFullName: axi_adapter_arbiter
+      vpiVariable (1 items):
+        Variable name:state_d start:20:9 end:20:16:
+          vpiParent: Module name:axi_adapter_arbiter
+          vpiTypespec RefTypespec start:20:5 end:20:8:
+            vpiParent: Variable name:state_d
+            vpiFullName: axi_adapter_arbiter.state_d
+            vpiActual: LogicTypespec
+          vpiName: state_d
+          vpiFullName: axi_adapter_arbiter.state_d
+          vpiScalar: true
       vpiParameter (2 items):
         Parameter name:NR_PORTS start:17:15 end:17:23:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiTypespec RefTypespec start:17:15 end:17:15:
             vpiParent: Parameter name:NR_PORTS
-            vpiFullName: work@axi_adapter_arbiter.NR_PORTS
+            vpiFullName: axi_adapter_arbiter.NR_PORTS
             vpiActual: LogicTypespec
           vpiName: NR_PORTS
-          vpiFullName: work@axi_adapter_arbiter.NR_PORTS
+          vpiFullName: axi_adapter_arbiter.NR_PORTS
         TypeParameter name:req_t start:18:20 end:18:25:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiName: req_t
-          vpiFullName: work@axi_adapter_arbiter.req_t
+          vpiFullName: axi_adapter_arbiter.req_t
       vpiParamAssign (2 items):
         ParamAssign start:17:15 end:17:27:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiLhs RefObj name:NR_PORTS start:17:15 end:17:23:
             vpiParent: ParamAssign
             vpiName: NR_PORTS
-            vpiFullName: work@axi_adapter_arbiter.NR_PORTS
+            vpiFullName: axi_adapter_arbiter.NR_PORTS
             vpiActual: Parameter name:NR_PORTS
           vpiRhs Constant start:17:26 end:17:27:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@axi_adapter_arbiter
+              vpiFullName: axi_adapter_arbiter
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
         ParamAssign start:18:20 end:18:55:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiLhs RefTypespec name:req_t start:18:20 end:18:25:
             vpiParent: ParamAssign
             vpiName: req_t
-            vpiFullName: work@axi_adapter_arbiter.req_t
+            vpiFullName: axi_adapter_arbiter.req_t
             vpiActual: TypeParameter name:req_t
           vpiRhs RefTypespec start:18:28 end:18:55:
             vpiParent: ParamAssign
-            vpiFullName: work@axi_adapter_arbiter
+            vpiFullName: axi_adapter_arbiter
             vpiActual: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
         LogicTypespec:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
+        UnsupportedTypespec name:std_cache_pkg start:18:28 end:18:41:
+          vpiParent: Module name:axi_adapter_arbiter
+          vpiName Identifier name:std_cache_pkg start:18:28 end:18:41:
+            vpiParent: UnsupportedTypespec name:std_cache_pkg
+            vpiName: std_cache_pkg
         UnsupportedTypespec name:std_cache_pkg::bypass_req_t start:18:28 end:18:55:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiPathElem (2 items):
-            UnsupportedScope name:std_cache_pkg start:18:28 end:18:43:
+            RefTypespec start:18:28 end:18:43:
               vpiParent: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
-              vpiName Identifier name:std_cache_pkg start:18:28 end:18:41:
-                vpiParent: UnsupportedScope name:std_cache_pkg
-                vpiName: std_cache_pkg
-              vpiFullName: work@axi_adapter_arbiter.std_cache_pkg::bypass_req_t.std_cache_pkg
+              vpiFullName: axi_adapter_arbiter.std_cache_pkg::bypass_req_t
+              vpiActual: UnsupportedTypespec name:std_cache_pkg
             RefTypespec name:bypass_req_t start:18:43 end:18:55:
               vpiParent: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
               vpiName: bypass_req_t
-              vpiFullName: work@axi_adapter_arbiter.std_cache_pkg::bypass_req_t.bypass_req_t
+              vpiFullName: axi_adapter_arbiter.std_cache_pkg::bypass_req_t.bypass_req_t
           vpiName Identifier name:std_cache_pkg::bypass_req_t start:18:28 end:18:55:
             vpiParent: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
             vpiName: std_cache_pkg::bypass_req_t
         ArrayTypespec:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:19:19 end:19:33:
@@ -623,13 +639,13 @@ Design name:unnamed:
                 RefObj name:NR_PORTS start:19:20 end:19:28:
                   vpiParent: Operation
                   vpiName: NR_PORTS
-                  vpiFullName: work@axi_adapter_arbiter.NR_PORTS
+                  vpiFullName: axi_adapter_arbiter.NR_PORTS
                   vpiActual: Parameter name:NR_PORTS
                 Constant start:19:29 end:19:30:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@axi_adapter_arbiter
+                    vpiFullName: axi_adapter_arbiter
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -639,7 +655,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@axi_adapter_arbiter
+                vpiFullName: axi_adapter_arbiter
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -648,55 +664,48 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:req_t:
             vpiParent: ArrayTypespec
             vpiName: req_t
-            vpiFullName: work@axi_adapter_arbiter.req_t
+            vpiFullName: axi_adapter_arbiter.req_t
             vpiActual: TypeParameter name:req_t
         TypeParameter name:req_t:
-      vpiDefName: work@axi_adapter_arbiter
-      vpiDefNetType: none (12)
+      vpiDefName: axi_adapter_arbiter
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@axi_adapter_arbiter
+        vpiParent: Module name:axi_adapter_arbiter
         vpiName: work
-        vpiFullName: work@axi_adapter_arbiter.work
+        vpiFullName: axi_adapter_arbiter.work
       vpiCell: axi_adapter_arbiter
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:req_i start:19:34 end:19:39:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiTypespec RefTypespec name:req_t start:19:13 end:19:18:
             vpiParent: Net name:req_i
             vpiName: req_t
-            vpiFullName: work@axi_adapter_arbiter.req_i.req_t
+            vpiFullName: axi_adapter_arbiter.req_i.req_t
             vpiActual: ArrayTypespec
           vpiName: req_i
-          vpiFullName: work@axi_adapter_arbiter.req_i
+          vpiFullName: axi_adapter_arbiter.req_i
           vpiNetType: wire (1)
-        Net name:state_d start:20:9 end:20:16:
-          vpiParent: Module name:work@axi_adapter_arbiter
-          vpiTypespec RefTypespec start:20:5 end:20:8:
-            vpiParent: Net name:state_d
-            vpiFullName: work@axi_adapter_arbiter.state_d
-            vpiActual: LogicTypespec
-          vpiName: state_d
-          vpiFullName: work@axi_adapter_arbiter.state_d
       vpiPort (1 items):
         Port name:req_i start:19:34 end:19:39:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiName: req_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:19:34 end:19:39:
+          vpiLowConn RefObj name:req_i start:19:34 end:19:39:
             vpiParent: Port name:req_i
-            vpiFullName: work@axi_adapter_arbiter.req_i
+            vpiName: req_i
+            vpiFullName: axi_adapter_arbiter.req_i.req_i
             vpiActual: Net name:req_i
           vpiTypespec RefTypespec name:req_t start:19:13 end:19:18:
             vpiParent: Port name:req_i
             vpiName: req_t
-            vpiFullName: work@axi_adapter_arbiter.req_i.req_t
+            vpiFullName: axi_adapter_arbiter.req_i.req_t
             vpiActual: ArrayTypespec
       vpiProcess (1 items):
         Always start:21:5 end:25:8:
-          vpiParent: Module name:work@axi_adapter_arbiter
+          vpiParent: Module name:axi_adapter_arbiter
           vpiStmt Begin start:21:17 end:25:8:
             vpiParent: Always
-            vpiFullName: work@axi_adapter_arbiter
+            vpiFullName: axi_adapter_arbiter
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -710,30 +719,30 @@ Design name:unnamed:
                     HierPath name:req_i[i].req start:22:12 end:22:24:
                       vpiParent: Operation
                       vpiName: req_i[i].req
-                      vpiFullName: work@axi_adapter_arbiter.req_i[i].req
+                      vpiFullName: axi_adapter_arbiter.req_i[i].req
                       vpiPathElem (2 items):
                         BitSelect name:req_i[i] start:22:12 end:22:19:
                           vpiParent: HierPath name:req_i[i].req
                           vpiName: req_i[i]
-                          vpiFullName: work@axi_adapter_arbiter.req_i[i].req.req_i[i]
+                          vpiFullName: axi_adapter_arbiter.req_i[i].req.req_i[i]
                           vpiPrefix RefObj name:req_i start:22:12 end:22:17:
                             vpiParent: BitSelect name:req_i[i]
                             vpiName: req_i
-                            vpiFullName: work@axi_adapter_arbiter.req_i[i].req.req_i
+                            vpiFullName: axi_adapter_arbiter.req_i[i].req.req_i
                             vpiActual: Net name:req_i
                           vpiIndex RefObj name:i start:22:18 end:22:19:
                             vpiParent: BitSelect name:req_i[i]
                             vpiName: i
-                            vpiFullName: work@axi_adapter_arbiter.req_i[i].req.i
+                            vpiFullName: axi_adapter_arbiter.req_i[i].req.i
                         RefObj name:req start:22:21 end:22:24:
                           vpiParent: HierPath name:req_i[i].req
                           vpiName: req
-                          vpiFullName: work@axi_adapter_arbiter.req
+                          vpiFullName: axi_adapter_arbiter.req
                     Constant start:22:28 end:22:32:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@axi_adapter_arbiter
+                        vpiFullName: axi_adapter_arbiter
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -741,7 +750,7 @@ Design name:unnamed:
                       vpiValue: "1"
                 vpiStmt Begin start:22:34 end:24:10:
                   vpiParent: IfStmt
-                  vpiFullName: work@axi_adapter_arbiter
+                  vpiFullName: axi_adapter_arbiter
                   vpiStmt (1 items):
                     Assignment start:23:11 end:23:28:
                       vpiParent: Begin
@@ -749,28 +758,28 @@ Design name:unnamed:
                       vpiLhs RefObj name:state_d start:23:11 end:23:18:
                         vpiParent: Assignment
                         vpiName: state_d
-                        vpiFullName: work@axi_adapter_arbiter.state_d
-                        vpiActual: Net name:state_d
+                        vpiFullName: axi_adapter_arbiter.state_d
+                        vpiActual: Variable name:state_d
                       vpiRhs RefObj name:SERVING start:23:21 end:23:28:
                         vpiParent: Assignment
                         vpiName: SERVING
-                        vpiFullName: work@axi_adapter_arbiter.SERVING
+                        vpiFullName: axi_adapter_arbiter.SERVING
           vpiAlwaysType: comb (2)
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@axi_adapter_arbiter:
+    ModuleTypespec name:axi_adapter_arbiter:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@axi_adapter_arbiter start:16:8 end:16:27:
-        vpiParent: ModuleTypespec name:work@axi_adapter_arbiter
-        vpiName: work@axi_adapter_arbiter
-      vpiModule: Module name:work@axi_adapter_arbiter
+      vpiName Identifier name:axi_adapter_arbiter start:16:8 end:16:27:
+        vpiParent: ModuleTypespec name:axi_adapter_arbiter
+        vpiName: axi_adapter_arbiter
+      vpiModule: Module name:axi_adapter_arbiter
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -816,9 +825,9 @@ Name                            Before   After   Added   Removed
 Constant                            14      14       1         1
 Operation                            2       1       0         1
 RefObj                              10       9       0         1
-RefTypespec                         34      34       1         1
+RefTypespec                         37      37       1         1
 ----------------------------------------------------------------
 Others                              62      62       0         0
 ----------------------------------------------------------------
-                                   122     120       2         4
+                                   125     123       2         4
 ===================== END REDUCTION RESULT =====================

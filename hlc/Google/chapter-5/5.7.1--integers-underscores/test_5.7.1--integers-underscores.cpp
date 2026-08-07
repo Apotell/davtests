@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,11 +27,11 @@
 //   end
 //
 // UHDM strips all underscores and collapses all whitespace:
-//   a → constType: unsigned int (9), size: 64, getValue(): "27195000"
+//   a -> constType: unsigned int (9), size: 64, getValue(): "27195000"
 //       getDecompile(): "27195000"
-//   b → constType: binary (3), size: 16, getValue(): "0011010100011111"
+//   b -> constType: binary (3), size: 16, getValue(): "0011010100011111"
 //       getDecompile(): "16'b0011010100011111"
-//   c → constType: hexadecimal (5), size: 32, getValue(): "12abf001"
+//   c -> constType: hexadecimal (5), size: 32, getValue(): "12abf001"
 //       getDecompile(): "32'h12abf001"
 //
 // Note: unsized decimal constants are stored with size 64 (Surelog's default
@@ -48,9 +48,9 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/process_stmt.h>
 #include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -61,7 +61,7 @@ class IntegersUnderscores : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Begin *getBegin(const hldb::Design *d) {
@@ -79,21 +79,29 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t 
   return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module structure
-// ---------------------------------------------------------------------------
-TEST_F(IntegersUnderscores, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+// ----
+TEST_F(IntegersUnderscores, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
-TEST_F(IntegersUnderscores, ThreeNetsExist) {
+TEST_F(IntegersUnderscores, ThreeVariablesExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 3u) << "expected 3 nets: a [31:0], b [15:0], c [31:0]";
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 3u) << "expected 3 variables: a [31:0], b [15:0], c [31:0]";
 }
 
-// ---------------------------------------------------------------------------
+// `logic` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 none of
+// a, b, c must appear in the module's net collection.
+TEST_F(IntegersUnderscores, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "bare 'logic' declarations must not appear as Nets";
+}
+
+// ----
 // Initial block
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersUnderscores, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(IntegersUnderscores, BeginHasThreeStatements) {
@@ -114,16 +122,16 @@ TEST_F(IntegersUnderscores, AllAssignmentsAreBlocking) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// a = 27_195_000  — unsized decimal with underscore thousands separators
+// ----
+// a = 27_195_000  -- unsized decimal with underscore thousands separators
 // Underscores are stripped; stored as unsigned int (9), size 64.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersUnderscores, AssignmentA_ConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  // Unsized decimal → unsigned int (9)
+  // Unsized decimal -> unsigned int (9)
   EXPECT_EQ(c->getConstType(), 9) << "27_195_000: constType should be unsigned int (9)";
 }
 
@@ -152,10 +160,10 @@ TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getDecompile) {
   EXPECT_EQ(c->getDecompile(), "27195000") << "underscore separators should be stripped from getDecompile()";
 }
 
-// ---------------------------------------------------------------------------
-// b = 16'b0011_0101_0001_1111  — 16-bit binary with underscore separators
+// ----
+// b = 16'b0011_0101_0001_1111  -- 16-bit binary with underscore separators
 // Underscores stripped; getDecompile() emits the compact form without them.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersUnderscores, AssignmentB_ConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
@@ -189,10 +197,10 @@ TEST_F(IntegersUnderscores, AssignmentB_UnderscoresStripped_getDecompile) {
       << "underscore separators should be stripped from getDecompile()";
 }
 
-// ---------------------------------------------------------------------------
-// c = 32 'h 12ab_f001  — 32-bit hex with internal spaces and underscore
+// ----
+// c = 32 'h 12ab_f001  -- 32-bit hex with internal spaces and underscore
 // Both whitespace and underscores are collapsed/stripped in UHDM output.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersUnderscores, AssignmentC_ConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);

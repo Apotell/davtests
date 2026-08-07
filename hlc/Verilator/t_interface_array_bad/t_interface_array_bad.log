@@ -66,7 +66,7 @@ n<$Source01/t_interface_array_bad.v> u<264> t<Top_level_rule> c<1> l<6:1> el<54:
     n<> u<200> t<Description> p<263> c<199> s<262> l<14:1> el<43:10>
       n<> u<199> t<Module_declaration> p<200> c<55> l<14:1> el<43:10>
         n<> u<55> t<Module_nonansi_header> p<199> c<50> s<72> l<14:1> el<14:24>
-          n<module> u<50> t<Module_keyword> p<55> s<51> l<14:1> el<14:7>
+          n<module> u<50> t<MODULE> p<55> s<51> l<14:1> el<14:7>
           n<t> u<51> t<SIMPLE_IDENTIFIER> p<55> s<52> l<14:8> el<14:9>
           n<> u<52> t<Package_import_declaration_list> p<55> s<53> l<14:10> el<14:10>
           n</*AUTOARG*/> u<53> t<BLOCK_COMMENT> p<55> s<54> l<14:10> el<14:23>
@@ -217,7 +217,7 @@ n<$Source01/t_interface_array_bad.v> u<264> t<Top_level_rule> c<1> l<6:1> el<54:
     n<> u<262> t<Description> p<263> c<261> l<45:1> el<53:10>
       n<> u<261> t<Module_declaration> p<262> c<204> l<45:1> el<53:10>
         n<> u<204> t<Module_ansi_header> p<261> c<201> s<214> l<45:1> el<45:12>
-          n<module> u<201> t<Module_keyword> p<204> s<202> l<45:1> el<45:7>
+          n<module> u<201> t<MODULE> p<204> s<202> l<45:1> el<45:7>
           n<baz> u<202> t<SIMPLE_IDENTIFIER> p<204> s<203> l<45:8> el<45:11>
           n<> u<203> t<Package_import_declaration_list> p<204> l<45:11> el<45:11>
         n<> u<214> t<Non_port_module_item> p<261> c<213> s<243> l<46:4> el<46:26>
@@ -277,10 +277,10 @@ n<$Source01/t_interface_array_bad.v> u<264> t<Top_level_rule> c<1> l<6:1> el<54:
                                   n<5> u<246> t<INTEGRAL_NUMBER> p<247> l<52:24> el<52:25>
         n<> u<260> t<ENDMODULE> p<261> l<53:1> el<53:10>
 AST_DEBUG_END
-[INF:CP0304] $Source01/t_interface_array_bad.v:6:1: Compile interface "work@foo_intf".
-[INF:CP0303] $Source01/t_interface_array_bad.v:14:1: Compile module "work@t".
-[INF:CP0303] $Source01/t_interface_array_bad.v:45:1: Compile module "work@baz".
-[ERR:EL0535] $Source01/t_interface_array_bad.v:22:21: Illegal implicit net "id:67, name:a".
+[INF:CP0304] $Source01/t_interface_array_bad.v:6:1: Compile interface "foo_intf".
+[INF:CP0303] $Source01/t_interface_array_bad.v:14:1: Compile module "t".
+[INF:CP0303] $Source01/t_interface_array_bad.v:45:1: Compile module "baz".
+[WRN:CP0350] $Source01/t_interface_array_bad.v:22:21: Failed to bind "id:67, name:a".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -290,60 +290,68 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_array_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_array_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@foo_intf file:$Source01/t_interface_array_bad.v start:6:1 end:8:13:
+    Interface name:foo_intf file:$Source01/t_interface_array_bad.v start:6:1 end:8:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo_intf start:6:11 end:6:19:
-        vpiParent: Interface name:work@foo_intf
-        vpiName: work@foo_intf
-      vpiFullName: work@foo_intf
+      vpiName Identifier name:foo_intf start:6:11 end:6:19:
+        vpiParent: Interface name:foo_intf
+        vpiName: foo_intf
+      vpiFullName: foo_intf
       vpiVariable (1 items):
         Variable name:a start:7:10 end:7:11:
-          vpiParent: Interface name:work@foo_intf
+          vpiParent: Interface name:foo_intf
           vpiTypespec RefTypespec name:logic start:7:4 end:7:9:
             vpiParent: Variable name:a
             vpiName: logic
-            vpiFullName: work@foo_intf.a.logic
+            vpiFullName: foo_intf.a.logic
           vpiName: a
-          vpiFullName: work@foo_intf.a
-          vpiNetType: none (12)
-      vpiDefNetType: none (12)
+          vpiFullName: foo_intf.a
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Interface name:work@foo_intf
+        vpiParent: Interface name:foo_intf
         vpiName: work
-        vpiFullName: work@foo_intf.work
+        vpiFullName: foo_intf.work
       vpiCell: foo_intf
   vpiAllModules (2 items):
-    Module name:work@t file:$Source01/t_interface_array_bad.v start:14:1 end:43:10:
+    Module name:t file:$Source01/t_interface_array_bad.v start:14:1 end:43:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:14:8 end:14:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:14:8 end:14:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:bar start:19:20 end:19:23:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:19:4 end:19:19:
+            vpiParent: Variable name:bar
+            vpiName: logic
+            vpiFullName: t.bar.logic
+            vpiActual: ArrayTypespec
+          vpiName: bar
+          vpiFullName: t.bar
       vpiParameter (1 items):
         Parameter name:N start:16:15 end:16:16:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:15 end:16:15:
             vpiParent: Parameter name:N
-            vpiFullName: work@t.N
+            vpiFullName: t.N
             vpiActual: LogicTypespec
           vpiName: N
-          vpiFullName: work@t.N
+          vpiFullName: t.N
           vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:16:15 end:16:20:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiLhs RefObj name:N start:16:15 end:16:16:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: work@t.N
+            vpiFullName: t.N
             vpiActual: Parameter name:N
           vpiRhs Constant start:16:19 end:16:20:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@t
+              vpiFullName: t
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -351,9 +359,9 @@ Design name:unnamed:
             vpiValue: 4
       vpiTypespec (6 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
         ArrayTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiArrayType: static (1)
           vpiRange Range start:18:18 end:18:25:
             vpiParent: ArrayTypespec
@@ -364,13 +372,13 @@ Design name:unnamed:
                 RefObj name:N start:18:19 end:18:20:
                   vpiParent: Operation
                   vpiName: N
-                  vpiFullName: work@t.N
+                  vpiFullName: t.N
                   vpiActual: Parameter name:N
                 Constant start:18:21 end:18:22:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -380,7 +388,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@t
+                vpiFullName: t
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -389,15 +397,15 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:foo_intf start:18:4 end:18:12:
             vpiParent: ArrayTypespec
             vpiName: foo_intf
-            vpiFullName: work@t.foo_intf
-            vpiActual: InterfaceTypespec name:work@foo_intf
-        UnsupportedTypespec name:logic start:19:4 end:19:19:
-          vpiParent: Module name:work@t
+            vpiFullName: t.foo_intf
+            vpiActual: InterfaceTypespec name:foo_intf
+        UnsupportedTypespec name:logic start:19:4 end:19:9:
+          vpiParent: Module name:t
           vpiName Identifier name:logic start:19:4 end:19:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:19:10 end:19:19:
@@ -406,7 +414,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@t
+                vpiFullName: t
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -416,7 +424,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@t
+                vpiFullName: t
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -425,38 +433,29 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:logic:
             vpiParent: ArrayTypespec
             vpiName: logic
-            vpiFullName: work@t.logic
+            vpiFullName: t.logic
             vpiActual: UnsupportedTypespec name:logic
         BitTypespec:
-          vpiParent: Module name:work@t
-        ModuleTypespec name:work@baz start:24:4 end:24:7:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@baz start:24:4 end:24:7:
-            vpiParent: ModuleTypespec name:work@baz
-            vpiName: work@baz
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+          vpiParent: Module name:t
+        ModuleTypespec name:baz start:24:4 end:24:7:
+          vpiParent: Module name:t
+          vpiName Identifier name:baz start:24:4 end:24:7:
+            vpiParent: ModuleTypespec name:baz
+            vpiName: baz
+          vpiModule: Module name:baz
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:bar start:19:20 end:19:23:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec name:logic start:19:4 end:19:19:
-            vpiParent: Net name:bar
-            vpiName: logic
-            vpiFullName: work@t.bar.logic
-            vpiActual: ArrayTypespec
-          vpiName: bar
-          vpiFullName: work@t.bar
       vpiProcess (1 items):
         Initial start:38:4 end:41:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:38:12 end:41:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
             vpiStmt (2 items):
               SysTaskCall name:$write start:39:7 end:39:39:
                 vpiParent: Begin
@@ -468,7 +467,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 168
@@ -481,35 +480,35 @@ Design name:unnamed:
                   vpiName: "$finish"
       vpiContAssign (1 items):
         ContAssign start:22:11 end:22:29:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiLhs HierPath name:foos[bar].a start:22:11 end:22:22:
             vpiParent: ContAssign
             vpiName: foos[bar].a
-            vpiFullName: work@t.foos[bar].a
+            vpiFullName: t.foos[bar].a
             vpiPathElem (2 items):
               BitSelect name:foos[bar] start:22:11 end:22:19:
                 vpiParent: HierPath name:foos[bar].a
                 vpiName: foos[bar]
-                vpiFullName: work@t.foos[bar].a.foos[bar]
+                vpiFullName: t.foos[bar].a.foos[bar]
                 vpiPrefix RefObj name:foos start:22:11 end:22:15:
                   vpiParent: BitSelect name:foos[bar]
                   vpiName: foos
-                  vpiFullName: work@t.foos[bar].a.foos
+                  vpiFullName: t.foos[bar].a.foos
                   vpiActual: RefInstance name:foos
                 vpiIndex RefObj name:bar start:22:16 end:22:19:
                   vpiParent: BitSelect name:foos[bar]
                   vpiName: bar
-                  vpiFullName: work@t.foos[bar].a.bar
-                  vpiActual: Net name:bar
+                  vpiFullName: t.foos[bar].a.bar
+                  vpiActual: Variable name:bar
               RefObj name:a start:22:21 end:22:22:
                 vpiParent: HierPath name:foos[bar].a
                 vpiName: a
-                vpiFullName: work@t.a
+                vpiFullName: t.a
           vpiRhs Constant start:22:25 end:22:29:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@t
+              vpiFullName: t
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
@@ -517,50 +516,50 @@ Design name:unnamed:
             vpiValue: "1"
       vpiRefInstance (2 items):
         RefInstance name:foos start:18:13 end:18:17:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: foos
           vpiTypespec RefTypespec name:foo_intf start:18:4 end:18:12:
             vpiParent: RefInstance name:foos
             vpiName: foo_intf
-            vpiFullName: work@t.foos.foo_intf
+            vpiFullName: t.foos.foo_intf
             vpiActual: ArrayTypespec
         RefInstance name:baz_inst start:24:8 end:24:16:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: baz_inst
-          vpiTypespec RefTypespec name:work@baz start:24:4 end:24:7:
+          vpiTypespec RefTypespec name:baz start:24:4 end:24:7:
             vpiParent: RefInstance name:baz_inst
-            vpiName: work@baz
-            vpiFullName: work@t.baz_inst.work@baz
-            vpiActual: ModuleTypespec name:work@baz
-    Module name:work@baz file:$Source01/t_interface_array_bad.v start:45:1 end:53:10:
+            vpiName: baz
+            vpiFullName: t.baz_inst.baz
+            vpiActual: ModuleTypespec name:baz
+    Module name:baz file:$Source01/t_interface_array_bad.v start:45:1 end:53:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@baz start:45:8 end:45:11:
-        vpiParent: Module name:work@baz
-        vpiName: work@baz
-      vpiFullName: work@baz
+      vpiName Identifier name:baz start:45:8 end:45:11:
+        vpiParent: Module name:baz
+        vpiName: baz
+      vpiFullName: baz
       vpiParameter (1 items):
         Parameter name:the_lp start:52:15 end:52:21:
-          vpiParent: Module name:work@baz
+          vpiParent: Module name:baz
           vpiTypespec RefTypespec start:52:15 end:52:15:
             vpiParent: Parameter name:the_lp
-            vpiFullName: work@baz.the_lp
+            vpiFullName: baz.the_lp
             vpiActual: LogicTypespec
           vpiName: the_lp
-          vpiFullName: work@baz.the_lp
+          vpiFullName: baz.the_lp
           vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:52:15 end:52:25:
-          vpiParent: Module name:work@baz
+          vpiParent: Module name:baz
           vpiLhs RefObj name:the_lp start:52:15 end:52:21:
             vpiParent: ParamAssign
             vpiName: the_lp
-            vpiFullName: work@baz.the_lp
+            vpiFullName: baz.the_lp
             vpiActual: Parameter name:the_lp
           vpiRhs Constant start:52:24 end:52:25:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@baz
+              vpiFullName: baz
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -568,33 +567,33 @@ Design name:unnamed:
             vpiValue: 5
       vpiTypespec (3 items):
         IntegerTypespec:
-          vpiParent: Module name:work@baz
+          vpiParent: Module name:baz
           vpiSigned: true
         TypedefTypespec name:qux_t start:46:4 end:46:26:
-          vpiParent: Module name:work@baz
+          vpiParent: Module name:baz
           vpiName Identifier name:qux_t start:46:20 end:46:25:
             vpiParent: TypedefTypespec name:qux_t
             vpiName: qux_t
           vpiTypedefAlias RefTypespec start:46:12 end:46:19:
             vpiParent: TypedefTypespec name:qux_t
-            vpiFullName: work@baz.qux_t
+            vpiFullName: baz.qux_t
             vpiActual: IntegerTypespec
         LogicTypespec:
-          vpiParent: Module name:work@baz
-      vpiDefName: work@baz
-      vpiDefNetType: none (12)
+          vpiParent: Module name:baz
+      vpiDefName: baz
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@baz
+        vpiParent: Module name:baz
         vpiName: work
-        vpiFullName: work@baz.work
+        vpiFullName: baz.work
       vpiCell: baz
       vpiTaskFunc (1 items):
         Function name:the_func start:48:4 end:50:15:
-          vpiParent: Module name:work@baz
+          vpiParent: Module name:baz
           vpiName Identifier name:the_func start:48:21 end:48:29:
             vpiParent: Function name:the_func
             vpiName: the_func
-          vpiFullName: work@baz.the_func
+          vpiFullName: baz.the_func
           vpiTypespec (1 items):
             IntegerTypespec:
               vpiParent: Function name:the_func
@@ -607,43 +606,44 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:48:37 end:48:44:
                 vpiParent: IODecl name:val
-                vpiFullName: work@baz.the_func.val
+                vpiFullName: baz.the_func.val
                 vpiActual: IntegerTypespec
           vpiStmt ReturnStmt start:49:7 end:49:18:
             vpiParent: Function name:the_func
             vpiCondition RefObj name:val start:49:14 end:49:17:
               vpiParent: ReturnStmt
               vpiName: val
-              vpiFullName: work@baz.the_func.val
+              vpiFullName: baz.the_func.val
               vpiActual: IODecl name:val
           vpiReturn RefTypespec start:48:13 end:48:20:
             vpiParent: Function name:the_func
-            vpiFullName: work@baz.the_func
+            vpiFullName: baz.the_func
             vpiActual: IntegerTypespec
   vpiTypespec (5 items):
-    InterfaceTypespec name:work@foo_intf:
+    InterfaceTypespec name:foo_intf:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo_intf start:6:11 end:6:19:
-        vpiParent: InterfaceTypespec name:work@foo_intf
-        vpiName: work@foo_intf
-      vpiInterface: Interface name:work@foo_intf
-    ModuleTypespec name:work@t:
+      vpiName Identifier name:foo_intf start:6:11 end:6:19:
+        vpiParent: InterfaceTypespec name:foo_intf
+        vpiName: foo_intf
+      vpiDefName: foo_intf
+      vpiInterface: Interface name:foo_intf
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:14:8 end:14:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:14:8 end:14:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@baz:
+    ModuleTypespec name:baz:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@baz start:45:8 end:45:11:
-        vpiParent: ModuleTypespec name:work@baz
-        vpiName: work@baz
-      vpiModule: Module name:work@baz
+      vpiName Identifier name:baz start:45:8 end:45:11:
+        vpiParent: ModuleTypespec name:baz
+        vpiName: baz
+      vpiModule: Module name:baz
   vpiTaskFunc (1 items):
     Function name:the_other_func start:10:1 end:12:12:
       vpiParent: Design name:unnamed
@@ -679,8 +679,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

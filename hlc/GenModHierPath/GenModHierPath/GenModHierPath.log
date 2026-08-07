@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<98> t<Top_level_rule> c<1> l<1:1> el<21:1>
     n<> u<28> t<Description> p<96> c<27> s<95> l<1:1> el<5:10>
       n<> u<27> t<Module_declaration> p<28> c<6> l<1:1> el<5:10>
         n<> u<6> t<Module_nonansi_header> p<27> c<2> s<25> l<1:1> el<1:27>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
           n<ForNarrowRequest> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:24>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:24> el<1:24>
           n<> u<5> t<Port_list> p<6> l<1:24> el<1:26>
@@ -45,7 +45,7 @@ n<$Source01/dut.sv> u<98> t<Top_level_rule> c<1> l<1:1> el<21:1>
     n<> u<95> t<Description> p<96> c<94> l<8:1> el<20:10>
       n<> u<94> t<Module_declaration> p<95> c<33> l<8:1> el<20:10>
         n<> u<33> t<Module_nonansi_header> p<94> c<29> s<60> l<8:1> el<8:30>
-          n<module> u<29> t<Module_keyword> p<33> s<30> l<8:1> el<8:7>
+          n<module> u<29> t<MODULE> p<33> s<30> l<8:1> el<8:7>
           n<InitializedBlockRAM> u<30> t<SIMPLE_IDENTIFIER> p<33> s<31> l<8:8> el<8:27>
           n<> u<31> t<Package_import_declaration_list> p<33> s<32> l<8:27> el<8:27>
           n<> u<32> t<Port_list> p<33> l<8:27> el<8:29>
@@ -111,14 +111,14 @@ n<$Source01/dut.sv> u<98> t<Top_level_rule> c<1> l<1:1> el<21:1>
         n<> u<93> t<ENDMODULE> p<94> l<20:1> el<20:10>
   n<// InitializedBlockRAM> u<97> t<LINE_COMMENT> p<98> l<20:11> el<20:33>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@ForNarrowRequest".
-[INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@InitializedBlockRAM".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "ForNarrowRequest".
+[INF:CP0303] $Source01/dut.sv:8:1: Compile module "InitializedBlockRAM".
 [INF:CP0335] $Source01/dut.sv:11:20: Compile generate block "body".
-[ERR:EL0535] $Source01/dut.sv:17:15: Illegal implicit net "id:39, name:body".
-[ERR:EL0535] $Source01/dut.sv:17:20: Illegal implicit net "id:40, name:ram".
-[ERR:EL0535] $Source01/dut.sv:17:24: Illegal implicit net "id:41, name:array".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@ForNarrowRequest".
-[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@InitializedBlockRAM".
+[WRN:CP0350] $Source01/dut.sv:17:15: Failed to bind "id:39, name:body".
+[WRN:CP0350] $Source01/dut.sv:17:20: Failed to bind "id:40, name:ram".
+[WRN:CP0350] $Source01/dut.sv:17:24: Failed to bind "id:41, name:array".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "ForNarrowRequest".
+[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "InitializedBlockRAM".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -127,17 +127,25 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@ForNarrowRequest file:$Source01/dut.sv start:1:1 end:5:10:
+    Module name:ForNarrowRequest file:$Source01/dut.sv start:1:1 end:5:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ForNarrowRequest start:1:8 end:1:24:
-        vpiParent: Module name:work@ForNarrowRequest
-        vpiName: work@ForNarrowRequest
-      vpiFullName: work@ForNarrowRequest
+      vpiName Identifier name:ForNarrowRequest start:1:8 end:1:24:
+        vpiParent: Module name:ForNarrowRequest
+        vpiName: ForNarrowRequest
+      vpiFullName: ForNarrowRequest
+      vpiVariable (1 items):
+        Variable name:array start:3:7 end:3:12:
+          vpiParent: Module name:ForNarrowRequest
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:array
+            vpiFullName: ForNarrowRequest.array
+            vpiActual: ArrayTypespec
+          vpiName: array
+          vpiFullName: ForNarrowRequest.array
       vpiTypespec (1 items):
         ArrayTypespec:
-          vpiParent: Module name:work@ForNarrowRequest
+          vpiParent: Module name:ForNarrowRequest
           vpiArrayType: static (1)
           vpiRange Range start:3:12 end:3:16:
             vpiParent: ArrayTypespec
@@ -149,7 +157,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@ForNarrowRequest
+                    vpiFullName: ForNarrowRequest
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -157,44 +165,35 @@ Design name:unnamed:
                   vpiValue: 10
           vpiElemTypespec RefTypespec start:3:3 end:3:6:
             vpiParent: ArrayTypespec
-            vpiFullName: work@ForNarrowRequest
+            vpiFullName: ForNarrowRequest
             vpiActual: IntTypespec
-      vpiDefName: work@ForNarrowRequest
-      vpiDefNetType: none (12)
+      vpiDefName: ForNarrowRequest
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@ForNarrowRequest
+        vpiParent: Module name:ForNarrowRequest
         vpiName: work
-        vpiFullName: work@ForNarrowRequest.work
+        vpiFullName: ForNarrowRequest.work
       vpiCell: ForNarrowRequest
-      vpiNet (1 items):
-        Net name:array start:3:7 end:3:12:
-          vpiParent: Module name:work@ForNarrowRequest
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:array
-            vpiFullName: work@ForNarrowRequest.array
-            vpiActual: ArrayTypespec
-          vpiName: array
-          vpiFullName: work@ForNarrowRequest.array
-    Module name:work@InitializedBlockRAM file:$Source01/dut.sv start:8:1 end:20:10:
+    Module name:InitializedBlockRAM file:$Source01/dut.sv start:8:1 end:20:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@InitializedBlockRAM start:8:8 end:8:27:
-        vpiParent: Module name:work@InitializedBlockRAM
-        vpiName: work@InitializedBlockRAM
-      vpiFullName: work@InitializedBlockRAM
-      vpiDefName: work@InitializedBlockRAM
-      vpiDefNetType: none (12)
+      vpiName Identifier name:InitializedBlockRAM start:8:8 end:8:27:
+        vpiParent: Module name:InitializedBlockRAM
+        vpiName: InitializedBlockRAM
+      vpiFullName: InitializedBlockRAM
+      vpiDefName: InitializedBlockRAM
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@InitializedBlockRAM
+        vpiParent: Module name:InitializedBlockRAM
         vpiName: work
-        vpiFullName: work@InitializedBlockRAM.work
+        vpiFullName: InitializedBlockRAM.work
       vpiCell: InitializedBlockRAM
       vpiTaskFunc (1 items):
         Function name:InitializeMemory start:16:3 end:18:14:
-          vpiParent: Module name:work@InitializedBlockRAM
+          vpiParent: Module name:InitializedBlockRAM
           vpiName Identifier name:InitializeMemory start:16:27 end:16:43:
             vpiParent: Function name:InitializeMemory
             vpiName: InitializeMemory
-          vpiFullName: work@InitializedBlockRAM.InitializeMemory
+          vpiFullName: InitializedBlockRAM.InitializeMemory
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiStmt SysTaskCall name:$readmemh start:17:5 end:17:30:
@@ -206,35 +205,35 @@ Design name:unnamed:
               HierPath name:body.ram.array start:17:15 end:17:29:
                 vpiParent: SysTaskCall name:$readmemh
                 vpiName: body.ram.array
-                vpiFullName: work@InitializedBlockRAM.InitializeMemory.body.ram.array
+                vpiFullName: InitializedBlockRAM.InitializeMemory.body.ram.array
                 vpiPathElem (3 items):
                   RefObj name:body start:17:15 end:17:19:
                     vpiParent: HierPath name:body.ram.array
                     vpiName: body
-                    vpiFullName: work@InitializedBlockRAM.InitializeMemory.body
+                    vpiFullName: InitializedBlockRAM.InitializeMemory.body
                   RefObj name:ram start:17:20 end:17:23:
                     vpiParent: HierPath name:body.ram.array
                     vpiName: ram
-                    vpiFullName: work@InitializedBlockRAM.InitializeMemory.ram
+                    vpiFullName: InitializedBlockRAM.InitializeMemory.ram
                   RefObj name:array start:17:24 end:17:29:
                     vpiParent: HierPath name:body.ram.array
                     vpiName: array
-                    vpiFullName: work@InitializedBlockRAM.InitializeMemory.array
+                    vpiFullName: InitializedBlockRAM.InitializeMemory.array
           vpiReturn RefTypespec start:16:22 end:16:26:
             vpiParent: Function name:InitializeMemory
-            vpiFullName: work@InitializedBlockRAM.InitializeMemory
+            vpiFullName: InitializedBlockRAM.InitializeMemory
             vpiActual: VoidTypespec
       vpiGenStmt (1 items):
         GenRegion start:10:3 end:14:14:
-          vpiParent: Module name:work@InitializedBlockRAM
-          vpiFullName: work@InitializedBlockRAM
+          vpiParent: Module name:InitializedBlockRAM
+          vpiFullName: InitializedBlockRAM
           vpiStmt GenIf start:11:5 end:13:8:
             vpiParent: GenRegion
             vpiCondition Constant start:11:9 end:11:10:
               vpiParent: GenIf
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@InitializedBlockRAM
+                vpiFullName: InitializedBlockRAM
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -245,45 +244,46 @@ Design name:unnamed:
               vpiName Identifier name:body start:11:20 end:11:24:
                 vpiParent: Begin name:body
                 vpiName: body
-              vpiFullName: work@InitializedBlockRAM.body
+              vpiFullName: InitializedBlockRAM.body
               vpiTypespec (1 items):
-                ModuleTypespec name:work@ForNarrowRequest start:12:9 end:12:25:
+                ModuleTypespec name:ForNarrowRequest start:12:9 end:12:25:
                   vpiParent: Begin name:body
-                  vpiName Identifier name:work@ForNarrowRequest start:12:9 end:12:25:
-                    vpiParent: ModuleTypespec name:work@ForNarrowRequest
-                    vpiName: work@ForNarrowRequest
+                  vpiName Identifier name:ForNarrowRequest start:12:9 end:12:25:
+                    vpiParent: ModuleTypespec name:ForNarrowRequest
+                    vpiName: ForNarrowRequest
+                  vpiModule: Module name:ForNarrowRequest
               vpiStmt (1 items):
                 RefInstance name:ram start:12:26 end:12:29:
                   vpiParent: Begin name:body
                   vpiName: ram
-                  vpiTypespec RefTypespec name:work@ForNarrowRequest start:12:9 end:12:25:
+                  vpiTypespec RefTypespec name:ForNarrowRequest start:12:9 end:12:25:
                     vpiParent: RefInstance name:ram
-                    vpiName: work@ForNarrowRequest
-                    vpiFullName: work@InitializedBlockRAM.body.ram.work@ForNarrowRequest
-                    vpiActual: ModuleTypespec name:work@ForNarrowRequest
+                    vpiName: ForNarrowRequest
+                    vpiFullName: InitializedBlockRAM.body.ram.ForNarrowRequest
+                    vpiActual: ModuleTypespec name:ForNarrowRequest
   vpiTypespec (4 items):
-    ModuleTypespec name:work@ForNarrowRequest:
+    ModuleTypespec name:ForNarrowRequest:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ForNarrowRequest start:1:8 end:1:24:
-        vpiParent: ModuleTypespec name:work@ForNarrowRequest
-        vpiName: work@ForNarrowRequest
-      vpiModule: Module name:work@ForNarrowRequest
+      vpiName Identifier name:ForNarrowRequest start:1:8 end:1:24:
+        vpiParent: ModuleTypespec name:ForNarrowRequest
+        vpiName: ForNarrowRequest
+      vpiModule: Module name:ForNarrowRequest
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@InitializedBlockRAM:
+    ModuleTypespec name:InitializedBlockRAM:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@InitializedBlockRAM start:8:8 end:8:27:
-        vpiParent: ModuleTypespec name:work@InitializedBlockRAM
-        vpiName: work@InitializedBlockRAM
-      vpiModule: Module name:work@InitializedBlockRAM
+      vpiName Identifier name:InitializedBlockRAM start:8:8 end:8:27:
+        vpiParent: ModuleTypespec name:InitializedBlockRAM
+        vpiName: InitializedBlockRAM
+      vpiModule: Module name:InitializedBlockRAM
     VoidTypespec start:16:22 end:16:26:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

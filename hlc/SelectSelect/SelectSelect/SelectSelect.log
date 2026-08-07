@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<110> t<Top_level_rule> c<1> l<1:1> el<9:1>
     n<> u<107> t<Description> p<108> c<106> l<1:1> el<8:10>
       n<> u<106> t<Module_declaration> p<107> c<5> l<1:1> el<8:10>
         n<> u<5> t<Module_ansi_header> p<106> c<2> s<34> l<1:1> el<1:22>
-          n<module> u<2> t<Module_keyword> p<5> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<5> s<3> l<1:1> el<1:7>
           n<adc_ctrl_core> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<1:8> el<1:21>
           n<> u<4> t<Package_import_declaration_list> p<5> l<1:21> el<1:21>
         n<> u<34> t<Non_port_module_item> p<106> c<33> s<66> l<2:4> el<4:19>
@@ -293,8 +293,8 @@ n<$Source01/dut.sv> u<110> t<Top_level_rule> c<1> l<1:1> el<9:1>
                     n<> u<28> t<Type_declaration> p<29> c<26> l<2:4> el<4:19>
                       n<> u<26> t<Data_type> p<28> c<7> s<27> l<2:12> el<4:5>
                         n<> u<7> t<Struct_union> p<26> c<6> s<8> l<2:12> el<2:18>
-                          n<> u<6> t<Struct_keyword> p<7> l<2:12> el<2:18>
-                        n<> u<8> t<Packed_keyword> p<26> s<25> l<2:19> el<2:25>
+                          n<> u<6> t<STRUCT> p<7> l<2:12> el<2:18>
+                        n<> u<8> t<PACKED> p<26> s<25> l<2:19> el<2:25>
                         n<> u<25> t<Struct_union_member> p<26> c<21> l<3:7> el<3:25>
                           n<> u<21> t<Data_type_or_void> p<25> c<20> s<24> l<3:7> el<3:18>
                             n<> u<20> t<Data_type> p<21> c<9> l<3:7> el<3:18>
@@ -386,10 +386,10 @@ n<$Source01/dut.sv> u<110> t<Top_level_rule> c<1> l<1:1> el<9:1>
         n<> u<105> t<ENDMODULE> p<106> l<8:1> el<8:10>
   n<// adc_ctrl_core> u<109> t<LINE_COMMENT> p<110> l<8:11> el<8:27>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@adc_ctrl_core".
-[ERR:EL0535] $Source01/dut.sv:7:28: Illegal implicit net "id:807, name:min_v".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "adc_ctrl_core".
+[WRN:CP0350] $Source01/dut.sv:7:28: Failed to bind "id:807, name:min_v".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@adc_ctrl_core".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "adc_ctrl_core".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -398,7 +398,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1965,6 +1964,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -1976,6 +1976,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2007,6 +2008,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2021,6 +2023,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2042,6 +2045,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2065,6 +2069,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2084,6 +2089,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2107,6 +2113,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2126,6 +2133,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2195,16 +2203,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2217,6 +2228,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2228,6 +2240,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2235,6 +2248,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2242,6 +2256,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2249,6 +2264,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2262,6 +2278,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2273,6 +2290,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2304,6 +2322,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2330,6 +2349,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2356,6 +2376,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2381,194 +2402,54 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@adc_ctrl_core file:$Source01/dut.sv start:1:1 end:8:10:
+    Module name:adc_ctrl_core file:$Source01/dut.sv start:1:1 end:8:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@adc_ctrl_core start:1:8 end:1:21:
-        vpiParent: Module name:work@adc_ctrl_core
-        vpiName: work@adc_ctrl_core
-      vpiFullName: work@adc_ctrl_core
-      vpiTypespec (6 items):
-        LogicTypespec:
-          vpiParent: Module name:work@adc_ctrl_core
-          vpiRange (1 items):
-            Range start:3:13 end:3:18:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:3:14 end:3:15:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@adc_ctrl_core
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "9"
-                vpiValue: 9
-              vpiRightRange Constant start:3:16 end:3:17:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@adc_ctrl_core
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        StructTypespec start:2:12 end:4:5:
-          vpiParent: Module name:work@adc_ctrl_core
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:min_v start:3:19 end:3:24:
-              vpiParent: StructTypespec
-              vpiName: min_v
-              vpiTypespec RefTypespec start:3:7 end:3:18:
-                vpiParent: TypespecMember name:min_v
-                vpiFullName: work@adc_ctrl_core.min_v
-                vpiActual: LogicTypespec
-        TypedefTypespec name:filter_ctl_t start:2:4 end:4:19:
-          vpiParent: Module name:work@adc_ctrl_core
-          vpiName Identifier name:filter_ctl_t start:4:6 end:4:18:
-            vpiParent: TypedefTypespec name:filter_ctl_t
-            vpiName: filter_ctl_t
-          vpiTypedefAlias RefTypespec start:2:12 end:4:5:
-            vpiParent: TypedefTypespec name:filter_ctl_t
-            vpiFullName: work@adc_ctrl_core.filter_ctl_t
-            vpiActual: StructTypespec
-        ArrayTypespec:
-          vpiParent: Module name:work@adc_ctrl_core
-          vpiArrayType: static (1)
-          vpiPacked: true
-          vpiRange Range start:6:17 end:6:22:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:6:18 end:6:19:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@adc_ctrl_core
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "1"
-              vpiValue: 1
-            vpiRightRange Constant start:6:20 end:6:21:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@adc_ctrl_core
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "0"
-              vpiValue: 0
-          vpiElemTypespec RefTypespec:
-            vpiParent: ArrayTypespec
-            vpiFullName: work@adc_ctrl_core
-            vpiActual: ArrayTypespec
-        ArrayTypespec:
-          vpiParent: Module name:work@adc_ctrl_core
-          vpiArrayType: static (1)
-          vpiPacked: true
-          vpiRange Range start:6:22 end:6:27:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:6:23 end:6:24:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@adc_ctrl_core
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "2"
-              vpiValue: 2
-            vpiRightRange Constant start:6:25 end:6:26:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@adc_ctrl_core
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "0"
-              vpiValue: 0
-          vpiElemTypespec RefTypespec name:filter_ctl_t:
-            vpiParent: ArrayTypespec
-            vpiName: filter_ctl_t
-            vpiFullName: work@adc_ctrl_core.filter_ctl_t
-            vpiActual: TypedefTypespec name:filter_ctl_t
-        LogicTypespec:
-          vpiParent: Module name:work@adc_ctrl_core
-          vpiRange (1 items):
-            Range start:7:10 end:7:15:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:7:11 end:7:12:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@adc_ctrl_core
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "9"
-                vpiValue: 9
-              vpiRightRange Constant start:7:13 end:7:14:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@adc_ctrl_core
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-      vpiDefName: work@adc_ctrl_core
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@adc_ctrl_core
-        vpiName: work
-        vpiFullName: work@adc_ctrl_core.work
-      vpiCell: adc_ctrl_core
-      vpiNet (2 items):
-        Net name:a start:6:28 end:6:29:
-          vpiParent: Module name:work@adc_ctrl_core
+      vpiName Identifier name:adc_ctrl_core start:1:8 end:1:21:
+        vpiParent: Module name:adc_ctrl_core
+        vpiName: adc_ctrl_core
+      vpiFullName: adc_ctrl_core
+      vpiVariable (2 items):
+        Variable name:a start:6:28 end:6:29:
+          vpiParent: Module name:adc_ctrl_core
           vpiTypespec RefTypespec name:filter_ctl_t start:6:4 end:6:27:
-            vpiParent: Net name:a
+            vpiParent: Variable name:a
             vpiName: filter_ctl_t
-            vpiFullName: work@adc_ctrl_core.a.filter_ctl_t
+            vpiFullName: adc_ctrl_core.a.filter_ctl_t
             vpiActual: ArrayTypespec
           vpiName: a
-          vpiFullName: work@adc_ctrl_core.a
-        Net name:x start:7:16 end:7:17:
-          vpiParent: Module name:work@adc_ctrl_core
+          vpiFullName: adc_ctrl_core.a
+        Variable name:x start:7:16 end:7:17:
+          vpiParent: Module name:adc_ctrl_core
           vpiTypespec RefTypespec start:7:4 end:7:15:
-            vpiParent: Net name:x
-            vpiFullName: work@adc_ctrl_core.x
+            vpiParent: Variable name:x
+            vpiFullName: adc_ctrl_core.x
             vpiActual: LogicTypespec
           vpiName: x
-          vpiFullName: work@adc_ctrl_core.x
+          vpiFullName: adc_ctrl_core.x
+          vpiVector: true
           vpiValue HierPath name:a[0][0].min_v start:7:20 end:7:33:
-            vpiParent: Net name:x
+            vpiParent: Variable name:x
             vpiName: a[0][0].min_v
-            vpiFullName: work@adc_ctrl_core.x.a[0][0].min_v
+            vpiFullName: adc_ctrl_core.x.a[0][0].min_v
             vpiPathElem (2 items):
               BitSelect name:a[0][0] start:7:20 end:7:26:
                 vpiParent: HierPath name:a[0][0].min_v
                 vpiName: a[0][0]
-                vpiFullName: work@adc_ctrl_core.x.a[0][0].min_v.a[0][0]
+                vpiFullName: adc_ctrl_core.x.a[0][0].min_v.a[0][0]
                 vpiPrefix BitSelect name:a[0] start:7:20 end:7:23:
                   vpiParent: BitSelect name:a[0][0]
                   vpiName: a[0]
-                  vpiFullName: work@adc_ctrl_core.x.a[0][0].min_v.a[0][0].a[0]
+                  vpiFullName: adc_ctrl_core.x.a[0][0].min_v.a[0][0].a[0]
                   vpiPrefix RefObj name:a start:7:20 end:7:21:
                     vpiParent: BitSelect name:a[0]
                     vpiName: a
-                    vpiFullName: work@adc_ctrl_core.x.a[0][0].min_v.a[0][0].a
-                    vpiActual: Net name:a
+                    vpiFullName: adc_ctrl_core.x.a[0][0].min_v.a[0][0].a
+                    vpiActual: Variable name:a
                   vpiIndex Constant start:7:22 end:7:23:
                     vpiParent: BitSelect name:a[0]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@adc_ctrl_core.x.a[0][0].min_v.a[0][0].a[0]
+                      vpiFullName: adc_ctrl_core.x.a[0][0].min_v.a[0][0].a[0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2578,7 +2459,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:a[0][0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@adc_ctrl_core.x.a[0][0].min_v.a[0][0]
+                    vpiFullName: adc_ctrl_core.x.a[0][0].min_v.a[0][0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -2587,7 +2468,148 @@ Design name:unnamed:
               RefObj name:min_v start:7:28 end:7:33:
                 vpiParent: HierPath name:a[0][0].min_v
                 vpiName: min_v
-                vpiFullName: work@adc_ctrl_core.x.min_v
+                vpiFullName: adc_ctrl_core.x.min_v
+      vpiTypespec (6 items):
+        LogicTypespec:
+          vpiParent: Module name:adc_ctrl_core
+          vpiRange (1 items):
+            Range start:3:13 end:3:18:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:3:14 end:3:15:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: adc_ctrl_core
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "9"
+                vpiValue: 9
+              vpiRightRange Constant start:3:16 end:3:17:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: adc_ctrl_core
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+        StructTypespec start:2:12 end:4:5:
+          vpiParent: Module name:adc_ctrl_core
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:min_v start:3:19 end:3:24:
+              vpiParent: StructTypespec
+              vpiName: min_v
+              vpiTypespec RefTypespec start:3:7 end:3:18:
+                vpiParent: TypespecMember name:min_v
+                vpiFullName: adc_ctrl_core.min_v
+                vpiActual: LogicTypespec
+        TypedefTypespec name:filter_ctl_t start:2:4 end:4:19:
+          vpiParent: Module name:adc_ctrl_core
+          vpiName Identifier name:filter_ctl_t start:4:6 end:4:18:
+            vpiParent: TypedefTypespec name:filter_ctl_t
+            vpiName: filter_ctl_t
+          vpiTypedefAlias RefTypespec start:2:12 end:4:5:
+            vpiParent: TypedefTypespec name:filter_ctl_t
+            vpiFullName: adc_ctrl_core.filter_ctl_t
+            vpiActual: StructTypespec
+        ArrayTypespec:
+          vpiParent: Module name:adc_ctrl_core
+          vpiArrayType: static (1)
+          vpiPacked: true
+          vpiRange Range start:6:17 end:6:22:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:6:18 end:6:19:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: adc_ctrl_core
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "1"
+              vpiValue: 1
+            vpiRightRange Constant start:6:20 end:6:21:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: adc_ctrl_core
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: adc_ctrl_core
+            vpiActual: ArrayTypespec
+        ArrayTypespec:
+          vpiParent: Module name:adc_ctrl_core
+          vpiArrayType: static (1)
+          vpiPacked: true
+          vpiRange Range start:6:22 end:6:27:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:6:23 end:6:24:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: adc_ctrl_core
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+            vpiRightRange Constant start:6:25 end:6:26:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: adc_ctrl_core
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+          vpiElemTypespec RefTypespec name:filter_ctl_t:
+            vpiParent: ArrayTypespec
+            vpiName: filter_ctl_t
+            vpiFullName: adc_ctrl_core.filter_ctl_t
+            vpiActual: TypedefTypespec name:filter_ctl_t
+        LogicTypespec:
+          vpiParent: Module name:adc_ctrl_core
+          vpiRange (1 items):
+            Range start:7:10 end:7:15:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:7:11 end:7:12:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: adc_ctrl_core
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "9"
+                vpiValue: 9
+              vpiRightRange Constant start:7:13 end:7:14:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: adc_ctrl_core
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+      vpiDefName: adc_ctrl_core
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:adc_ctrl_core
+        vpiName: work
+        vpiFullName: adc_ctrl_core.work
+      vpiCell: adc_ctrl_core
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2603,30 +2625,33 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@adc_ctrl_core:
+    ModuleTypespec name:adc_ctrl_core:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@adc_ctrl_core start:1:8 end:1:21:
-        vpiParent: ModuleTypespec name:work@adc_ctrl_core
-        vpiName: work@adc_ctrl_core
-      vpiModule: Module name:work@adc_ctrl_core
+      vpiName Identifier name:adc_ctrl_core start:1:8 end:1:21:
+        vpiParent: ModuleTypespec name:adc_ctrl_core
+        vpiName: adc_ctrl_core
+      vpiModule: Module name:adc_ctrl_core
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -283,7 +283,7 @@ n<$Source01/top.v> u<204> t<Top_level_rule> c<1> l<6:1> el<54:1>
     n<> u<202> t<Description> p<203> c<201> l<6:1> el<52:10>
       n<> u<201> t<Module_declaration> p<202> c<8> l<6:1> el<52:10>
         n<> u<8> t<Module_nonansi_header> p<201> c<4> s<25> l<6:1> el<6:15>
-          n<module> u<4> t<Module_keyword> p<8> s<5> l<6:1> el<6:7>
+          n<module> u<4> t<MODULE> p<8> s<5> l<6:1> el<6:7>
           n<toto> u<5> t<SIMPLE_IDENTIFIER> p<8> s<6> l<6:8> el<6:12>
           n<> u<6> t<Package_import_declaration_list> p<8> s<7> l<6:12> el<6:12>
           n<> u<7> t<Port_list> p<8> l<6:12> el<6:14>
@@ -459,7 +459,7 @@ n<$Source01/top.v> u<204> t<Top_level_rule> c<1> l<6:1> el<54:1>
                                   n<obj> u<163> t<SIMPLE_IDENTIFIER> p<167> s<166> l<44:31> el<44:34>
                                   n<> u<166> t<Expression> p<167> c<165> l<44:35> el<44:39>
                                     n<> u<165> t<Primary> p<166> c<164> l<44:35> el<44:39>
-                                      n<> u<164> t<Null_keyword> p<165> l<44:35> el<44:39>
+                                      n<> u<164> t<NULL_KEYWORD> p<165> l<44:35> el<44:39>
                                 n<> u<176> t<Tf_port_item> p<177> c<170> l<44:41> el<44:52>
                                   n<> u<170> t<Data_type_or_implicit> p<176> c<169> s<171> l<44:41> el<44:44>
                                     n<> u<169> t<Data_type> p<170> c<168> l<44:41> el<44:44>
@@ -480,9 +480,9 @@ n<$Source01/top.v> u<204> t<Top_level_rule> c<1> l<6:1> el<54:1>
                 n<d> u<195> t<SIMPLE_IDENTIFIER> p<196> l<50:5> el<50:6>
         n<> u<200> t<ENDMODULE> p<201> l<52:1> el<52:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/top.v:6:1: Compile module "work@toto".
+[INF:CP0303] $Source01/top.v:6:1: Compile module "toto".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/top.v:6:1: No timescale set for "work@toto".
+[WRN:PA0205] $Source01/top.v:6:1: No timescale set for "toto".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -491,7 +491,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2058,6 +2057,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2069,6 +2069,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2100,6 +2101,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2114,6 +2116,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2135,6 +2138,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2158,6 +2162,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2177,6 +2182,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2200,6 +2206,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2219,6 +2226,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2288,16 +2296,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2310,6 +2321,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2321,6 +2333,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2328,6 +2341,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2335,6 +2349,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2342,6 +2357,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2355,6 +2371,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2366,6 +2383,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2397,6 +2415,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2423,6 +2442,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2449,6 +2469,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2474,115 +2495,130 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@toto file:$Source01/top.v start:6:1 end:52:10:
+    Module name:toto file:$Source01/top.v start:6:1 end:52:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@toto start:6:8 end:6:12:
-        vpiParent: Module name:work@toto
-        vpiName: work@toto
-      vpiFullName: work@toto
+      vpiName Identifier name:toto start:6:8 end:6:12:
+        vpiParent: Module name:toto
+        vpiName: toto
+      vpiFullName: toto
+      vpiVariable (1 items):
+        Variable name:d start:50:5 end:50:6:
+          vpiParent: Module name:toto
+          vpiTypespec RefTypespec name:DD start:50:2 end:50:4:
+            vpiParent: Variable name:d
+            vpiName: DD
+            vpiFullName: toto.d.DD
+            vpiActual: UnsupportedTypespec name:DD
+          vpiName: d
+          vpiFullName: toto.d
       vpiTypespec (4 items):
-        ClassTypespec name:work@c2:
-          vpiParent: Module name:work@toto
-          vpiName Identifier name:work@c2:
-            vpiParent: ClassTypespec name:work@c2
-            vpiName: work@c2
-          vpiClassDefn: ClassDefn name:work@c2
-        ClassTypespec name:work@c3:
-          vpiParent: Module name:work@toto
-          vpiName Identifier name:work@c3:
-            vpiParent: ClassTypespec name:work@c3
-            vpiName: work@c3
-          vpiClassDefn: ClassDefn name:work@c3
-        ClassTypespec name:work@c1:
-          vpiParent: Module name:work@toto
-          vpiName Identifier name:work@c1:
-            vpiParent: ClassTypespec name:work@c1
-            vpiName: work@c1
-          vpiClassDefn: ClassDefn name:work@c1
+        ClassTypespec name:c2:
+          vpiParent: Module name:toto
+          vpiName Identifier name:c2:
+            vpiParent: ClassTypespec name:c2
+            vpiName: c2
+          vpiDefName: c2
+          vpiClassDefn: ClassDefn name:c2
+        ClassTypespec name:c3:
+          vpiParent: Module name:toto
+          vpiName Identifier name:c3:
+            vpiParent: ClassTypespec name:c3
+            vpiName: c3
+          vpiDefName: c3
+          vpiClassDefn: ClassDefn name:c3
+        ClassTypespec name:c1:
+          vpiParent: Module name:toto
+          vpiName Identifier name:c1:
+            vpiParent: ClassTypespec name:c1
+            vpiName: c1
+          vpiDefName: c1
+          vpiClassDefn: ClassDefn name:c1
         UnsupportedTypespec name:DD start:50:2 end:50:4:
-          vpiParent: Module name:work@toto
+          vpiParent: Module name:toto
           vpiName Identifier name:DD start:50:2 end:50:4:
             vpiParent: UnsupportedTypespec name:DD
             vpiName: DD
-      vpiDefName: work@toto
-      vpiDefNetType: none (12)
+      vpiDefName: toto
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@toto
+        vpiParent: Module name:toto
         vpiName: work
-        vpiFullName: work@toto.work
+        vpiFullName: toto.work
       vpiCell: toto
       vpiClassDefn (3 items):
-        ClassDefn name:work@c2 file:$Source01/top.v start:8:1 end:12:9:
-          vpiParent: Module name:work@toto
-          vpiName Identifier name:work@c2 start:8:7 end:8:9:
-            vpiParent: ClassDefn name:work@c2
-            vpiName: work@c2
-          vpiFullName: work@toto::work@c2
+        ClassDefn name:c2 file:$Source01/top.v start:8:1 end:12:9:
+          vpiParent: Module name:toto
+          vpiName Identifier name:c2 start:8:7 end:8:9:
+            vpiParent: ClassDefn name:c2
+            vpiName: c2
+          vpiFullName: toto::c2
           vpiTypespec (1 items):
             TypedefTypespec name:this_type start:10:1 end:10:23:
-              vpiParent: ClassDefn name:work@c2
+              vpiParent: ClassDefn name:c2
               vpiName Identifier name:this_type start:10:13 end:10:22:
                 vpiParent: TypedefTypespec name:this_type
                 vpiName: this_type
               vpiTypedefAlias RefTypespec start:10:9 end:10:12:
                 vpiParent: TypedefTypespec name:this_type
-                vpiFullName: work@toto::work@c2::this_type
+                vpiFullName: toto::c2::this_type
                 vpiActual: IntTypespec
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
-            vpiParent: ClassDefn name:work@c2
+            vpiParent: ClassDefn name:c2
             vpiName: work
-            vpiFullName: work@toto::work@c2::work
+            vpiFullName: toto::c2::work
           vpiCell: c2
-        ClassDefn name:work@c3 file:$Source01/top.v start:15:1 end:16:9:
-          vpiParent: Module name:work@toto
-          vpiName Identifier name:work@c3 start:15:7 end:15:9:
-            vpiParent: ClassDefn name:work@c3
-            vpiName: work@c3
-          vpiFullName: work@toto::work@c3
+        ClassDefn name:c3 file:$Source01/top.v start:15:1 end:16:9:
+          vpiParent: Module name:toto
+          vpiName Identifier name:c3 start:15:7 end:15:9:
+            vpiParent: ClassDefn name:c3
+            vpiName: c3
+          vpiFullName: toto::c3
           vpiTypespec (1 items):
             ClassTypespec name:c2 start:15:18 end:15:20:
-              vpiParent: ClassDefn name:work@c3
-              vpiName Identifier name:c2:
+              vpiParent: ClassDefn name:c3
+              vpiName Identifier name:c2 start:15:18 end:15:20:
                 vpiParent: ClassTypespec name:c2
                 vpiName: c2
-              vpiClassDefn: ClassDefn name:work@c2
+              vpiDefName: c2
+              vpiClassDefn: ClassDefn name:c2
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiExtends Extends start:15:10 end:15:17:
-            vpiParent: ClassDefn name:work@c3
+            vpiParent: ClassDefn name:c3
             vpiClassTypespec (1 items):
               RefTypespec name:c2 start:15:18 end:15:20:
                 vpiParent: Extends
                 vpiName: c2
-                vpiFullName: work@toto::work@c3::c2
+                vpiFullName: toto::c3::c2
                 vpiActual: ClassTypespec name:c2
           vpiLibrary RefObj name:work:
-            vpiParent: ClassDefn name:work@c3
+            vpiParent: ClassDefn name:c3
             vpiName: work
-            vpiFullName: work@toto::work@c3::work
+            vpiFullName: toto::c3::work
           vpiCell: c3
-        ClassDefn name:work@c1 file:$Source01/top.v start:18:1 end:48:9:
-          vpiParent: Module name:work@toto
-          vpiName Identifier name:work@c1 start:18:7 end:18:9:
-            vpiParent: ClassDefn name:work@c1
-            vpiName: work@c1
-          vpiFullName: work@toto::work@c1
+        ClassDefn name:c1 file:$Source01/top.v start:18:1 end:48:9:
+          vpiParent: Module name:toto
+          vpiName Identifier name:c1 start:18:7 end:18:9:
+            vpiParent: ClassDefn name:c1
+            vpiName: c1
+          vpiFullName: toto::c1
           vpiTypespec (5 items):
             ClassTypespec name:c3 start:18:18 end:18:20:
-              vpiParent: ClassDefn name:work@c1
-              vpiName Identifier name:c3:
+              vpiParent: ClassDefn name:c1
+              vpiName Identifier name:c3 start:18:18 end:18:20:
                 vpiParent: ClassTypespec name:c3
                 vpiName: c3
-              vpiClassDefn: ClassDefn name:work@c3
-            UnsupportedTypespec name:bit start:21:14 end:21:23:
-              vpiParent: ClassDefn name:work@c1
-              vpiName Identifier name:bit:
+              vpiDefName: c3
+              vpiClassDefn: ClassDefn name:c3
+            UnsupportedTypespec name:bit start:21:14 end:21:17:
+              vpiParent: ClassDefn name:c1
+              vpiName Identifier name:bit start:21:14 end:21:17:
                 vpiParent: UnsupportedTypespec name:bit
                 vpiName: bit
             ArrayTypespec:
-              vpiParent: ClassDefn name:work@c1
+              vpiParent: ClassDefn name:c1
               vpiArrayType: static (1)
               vpiPacked: true
               vpiRange Range start:21:18 end:21:23:
@@ -2591,7 +2627,7 @@ Design name:unnamed:
                   vpiParent: Range
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@toto::work@c1
+                    vpiFullName: toto::c1
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -2601,7 +2637,7 @@ Design name:unnamed:
                   vpiParent: Range
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@toto::work@c1
+                    vpiFullName: toto::c1
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -2610,13 +2646,13 @@ Design name:unnamed:
               vpiElemTypespec RefTypespec name:bit:
                 vpiParent: ArrayTypespec
                 vpiName: bit
-                vpiFullName: work@toto::work@c1::bit
+                vpiFullName: toto::c1::bit
                 vpiActual: UnsupportedTypespec name:bit
             EnumTypespec start:21:9 end:27:2:
-              vpiParent: ClassDefn name:work@c1
+              vpiParent: ClassDefn name:c1
               vpiBaseTypespec RefTypespec start:21:14 end:21:23:
                 vpiParent: EnumTypespec
-                vpiFullName: work@toto::work@c1
+                vpiFullName: toto::c1
                 vpiActual: ArrayTypespec
               vpiEnumConst (4 items):
                 EnumConst name:UVM_INFO start:23:3 end:23:11:
@@ -2638,7 +2674,7 @@ Design name:unnamed:
                     vpiParent: EnumConst name:UVM_ERROR
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@toto::work@c1::UVM_ERROR
+                      vpiFullName: toto::c1::UVM_ERROR
                       vpiActual: ArrayTypespec
                     vpiConstType: string (6)
                     vpiSize: 32
@@ -2650,46 +2686,46 @@ Design name:unnamed:
                     vpiParent: EnumConst name:UVM_FATAL
                     vpiName: UVM_FATAL
             TypedefTypespec name:uvm_severity start:21:1 end:27:16:
-              vpiParent: ClassDefn name:work@c1
+              vpiParent: ClassDefn name:c1
               vpiName Identifier name:uvm_severity start:27:3 end:27:15:
                 vpiParent: TypedefTypespec name:uvm_severity
                 vpiName: uvm_severity
               vpiTypedefAlias RefTypespec start:21:9 end:27:2:
                 vpiParent: TypedefTypespec name:uvm_severity
-                vpiFullName: work@toto::work@c1::uvm_severity
+                vpiFullName: toto::c1::uvm_severity
                 vpiActual: EnumTypespec
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiExtends Extends start:18:10 end:18:17:
-            vpiParent: ClassDefn name:work@c1
+            vpiParent: ClassDefn name:c1
             vpiClassTypespec (1 items):
               RefTypespec name:c3 start:18:18 end:18:20:
                 vpiParent: Extends
                 vpiName: c3
-                vpiFullName: work@toto::work@c1::c3
+                vpiFullName: toto::c1::c3
                 vpiActual: ClassTypespec name:c3
           vpiLibrary RefObj name:work:
-            vpiParent: ClassDefn name:work@c1
+            vpiParent: ClassDefn name:c1
             vpiName: work
-            vpiFullName: work@toto::work@c1::work
+            vpiFullName: toto::c1::work
           vpiCell: c1
           vpiMethod (5 items):
             Function name:get_current_item start:30:1 end:33:14:
-              vpiParent: ClassDefn name:work@c1
+              vpiParent: ClassDefn name:c1
               vpiName Identifier name:get_current_item start:30:14 end:30:30:
                 vpiParent: Function name:get_current_item
                 vpiName: get_current_item
-              vpiFullName: work@toto::work@c1::get_current_item
+              vpiFullName: toto::c1::get_current_item
               vpiVariable (1 items):
                 Variable name:t start:31:9 end:31:10:
                   vpiParent: Function name:get_current_item
                   vpiTypespec RefTypespec name:REQ start:31:5 end:31:8:
                     vpiParent: Variable name:t
                     vpiName: REQ
-                    vpiFullName: work@toto::work@c1::get_current_item::t::REQ
+                    vpiFullName: toto::c1::get_current_item::t::REQ
                     vpiActual: UnsupportedTypespec name:REQ
                   vpiName: t
-                  vpiFullName: work@toto::work@c1::get_current_item::t
+                  vpiFullName: toto::c1::get_current_item::t
               vpiTypespec (2 items):
                 UnsupportedTypespec name:REQ start:30:10 end:30:13:
                   vpiParent: Function name:get_current_item
@@ -2701,17 +2737,20 @@ Design name:unnamed:
                   vpiName Identifier name:REQ start:31:5 end:31:8:
                     vpiParent: UnsupportedTypespec name:REQ
                     vpiName: REQ
+              vpiMethod: true
               vpiVisibility: public (1)
+              vpiStmt: Variable name:t
               vpiReturn RefTypespec start:30:10 end:30:13:
                 vpiParent: Function name:get_current_item
-                vpiFullName: work@toto::work@c1::get_current_item
+                vpiFullName: toto::c1::get_current_item
                 vpiActual: UnsupportedTypespec name:REQ
             Function name:connect start:35:2 end:36:12:
-              vpiParent: ClassDefn name:work@c1
+              vpiParent: ClassDefn name:c1
               vpiName Identifier name:connect start:35:16 end:35:23:
                 vpiParent: Function name:connect
                 vpiName: connect
-              vpiFullName: work@toto::work@c1::connect
+              vpiFullName: toto::c1::connect
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:provider start:35:34 end:35:42:
@@ -2721,18 +2760,18 @@ Design name:unnamed:
                   vpiTypespec RefTypespec name:this_type start:35:24 end:35:33:
                     vpiParent: IODecl name:provider
                     vpiName: this_type
-                    vpiFullName: work@toto::work@c1::connect::provider::this_type
+                    vpiFullName: toto::c1::connect::provider::this_type
                     vpiActual: TypedefTypespec name:this_type
               vpiReturn RefTypespec start:35:11 end:35:15:
                 vpiParent: Function name:connect
-                vpiFullName: work@toto::work@c1::connect
+                vpiFullName: toto::c1::connect
                 vpiActual: VoidTypespec
             Function name:get_verbosity_level start:38:4 end:39:15:
-              vpiParent: ClassDefn name:work@c1
+              vpiParent: ClassDefn name:c1
               vpiName Identifier name:get_verbosity_level start:38:17 end:38:36:
                 vpiParent: Function name:get_verbosity_level
                 vpiName: get_verbosity_level
-              vpiFullName: work@toto::work@c1::get_verbosity_level
+              vpiFullName: toto::c1::get_verbosity_level
               vpiTypespec (2 items):
                 UnsupportedTypespec name:uvm_reg start:38:71 end:38:78:
                   vpiParent: Function name:get_verbosity_level
@@ -2742,11 +2781,14 @@ Design name:unnamed:
                 ArrayTypespec:
                   vpiParent: Function name:get_verbosity_level
                   vpiArrayType: dynamic (2)
+                  vpiRange Range start:38:84 end:38:86:
+                    vpiParent: ArrayTypespec
                   vpiElemTypespec RefTypespec name:uvm_reg start:38:71 end:38:78:
                     vpiParent: ArrayTypespec
                     vpiName: uvm_reg
-                    vpiFullName: work@toto::work@c1::get_verbosity_level::uvm_reg
+                    vpiFullName: toto::c1::get_verbosity_level::uvm_reg
                     vpiActual: UnsupportedTypespec name:uvm_reg
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (2 items):
                 IODecl name:severity start:38:50 end:38:58:
@@ -2756,12 +2798,12 @@ Design name:unnamed:
                   vpiExpr RefObj name:UVM_ERROR start:38:59 end:38:68:
                     vpiParent: IODecl name:severity
                     vpiName: UVM_ERROR
-                    vpiFullName: work@toto::work@c1::get_verbosity_level::severity::UVM_ERROR
+                    vpiFullName: toto::c1::get_verbosity_level::severity::UVM_ERROR
                     vpiActual: EnumConst name:UVM_ERROR
                   vpiTypespec RefTypespec name:uvm_severity start:38:37 end:38:49:
                     vpiParent: IODecl name:severity
                     vpiName: uvm_severity
-                    vpiFullName: work@toto::work@c1::get_verbosity_level::severity::uvm_severity
+                    vpiFullName: toto::c1::get_verbosity_level::severity::uvm_severity
                     vpiActual: TypedefTypespec name:uvm_severity
                 IODecl name:reg_a start:38:79 end:38:84:
                   vpiParent: Function name:get_verbosity_level
@@ -2770,18 +2812,18 @@ Design name:unnamed:
                   vpiTypespec RefTypespec name:uvm_reg start:38:71 end:38:78:
                     vpiParent: IODecl name:reg_a
                     vpiName: uvm_reg
-                    vpiFullName: work@toto::work@c1::get_verbosity_level::reg_a::uvm_reg
+                    vpiFullName: toto::c1::get_verbosity_level::reg_a::uvm_reg
                     vpiActual: ArrayTypespec
               vpiReturn RefTypespec start:38:13 end:38:16:
                 vpiParent: Function name:get_verbosity_level
-                vpiFullName: work@toto::work@c1::get_verbosity_level
+                vpiFullName: toto::c1::get_verbosity_level
                 vpiActual: IntTypespec
             Function name:set_verbosity_level start:41:2 end:42:15:
-              vpiParent: ClassDefn name:work@c1
+              vpiParent: ClassDefn name:c1
               vpiName Identifier name:set_verbosity_level start:41:15 end:41:34:
                 vpiParent: Function name:set_verbosity_level
                 vpiName: set_verbosity_level
-              vpiFullName: work@toto::work@c1::set_verbosity_level
+              vpiFullName: toto::c1::set_verbosity_level
               vpiTypespec (2 items):
                 UnsupportedTypespec name:uvm_reg start:41:71 end:41:78:
                   vpiParent: Function name:set_verbosity_level
@@ -2791,11 +2833,14 @@ Design name:unnamed:
                 ArrayTypespec:
                   vpiParent: Function name:set_verbosity_level
                   vpiArrayType: dynamic (2)
+                  vpiRange Range start:41:84 end:41:86:
+                    vpiParent: ArrayTypespec
                   vpiElemTypespec RefTypespec name:uvm_reg start:41:71 end:41:78:
                     vpiParent: ArrayTypespec
                     vpiName: uvm_reg
-                    vpiFullName: work@toto::work@c1::set_verbosity_level::uvm_reg
+                    vpiFullName: toto::c1::set_verbosity_level::uvm_reg
                     vpiActual: UnsupportedTypespec name:uvm_reg
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (2 items):
                 IODecl name:severity start:41:48 end:41:56:
@@ -2805,12 +2850,12 @@ Design name:unnamed:
                   vpiExpr RefObj name:UVM_WARNING start:41:57 end:41:68:
                     vpiParent: IODecl name:severity
                     vpiName: UVM_WARNING
-                    vpiFullName: work@toto::work@c1::set_verbosity_level::severity::UVM_WARNING
+                    vpiFullName: toto::c1::set_verbosity_level::severity::UVM_WARNING
                     vpiActual: EnumConst name:UVM_WARNING
                   vpiTypespec RefTypespec name:uvm_severity start:41:35 end:41:47:
                     vpiParent: IODecl name:severity
                     vpiName: uvm_severity
-                    vpiFullName: work@toto::work@c1::set_verbosity_level::severity::uvm_severity
+                    vpiFullName: toto::c1::set_verbosity_level::severity::uvm_severity
                     vpiActual: TypedefTypespec name:uvm_severity
                 IODecl name:reg_a start:41:79 end:41:84:
                   vpiParent: Function name:set_verbosity_level
@@ -2819,33 +2864,43 @@ Design name:unnamed:
                   vpiTypespec RefTypespec name:uvm_reg start:41:71 end:41:78:
                     vpiParent: IODecl name:reg_a
                     vpiName: uvm_reg
-                    vpiFullName: work@toto::work@c1::set_verbosity_level::reg_a::uvm_reg
+                    vpiFullName: toto::c1::set_verbosity_level::reg_a::uvm_reg
                     vpiActual: ArrayTypespec
               vpiReturn RefTypespec start:41:11 end:41:14:
                 vpiParent: Function name:set_verbosity_level
-                vpiFullName: work@toto::work@c1::set_verbosity_level
+                vpiFullName: toto::c1::set_verbosity_level
                 vpiActual: IntTypespec
             Task name:wait_for_total_count start:44:2 end:46:10:
-              vpiParent: ClassDefn name:work@c1
+              vpiParent: ClassDefn name:c1
               vpiName Identifier name:wait_for_total_count start:44:7 end:44:27:
                 vpiParent: Task name:wait_for_total_count
                 vpiName: wait_for_total_count
-              vpiFullName: work@toto::work@c1::wait_for_total_count
+              vpiFullName: toto::c1::wait_for_total_count
+              vpiTypespec (1 items):
+                ClassTypespec name:c2 start:44:28 end:44:30:
+                  vpiParent: Task name:wait_for_total_count
+                  vpiName Identifier name:c2 start:44:28 end:44:30:
+                    vpiParent: ClassTypespec name:c2
+                    vpiName: c2
+                  vpiDefName: c2
+                  vpiClassDefn: ClassDefn name:c2
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (2 items):
                 IODecl name:obj start:44:31 end:44:34:
                   vpiParent: Task name:wait_for_total_count
                   vpiName: obj
                   vpiDirection: input (1)
-                  vpiExpr RefObj name:null start:44:35 end:44:39:
+                  vpiExpr Constant start:44:35 end:44:39:
                     vpiParent: IODecl name:obj
-                    vpiName: null
-                    vpiFullName: work@toto::work@c1::wait_for_total_count::obj::null
+                    vpiConstType: null (12)
+                    vpiDecompile: null
+                    vpiValue: 0
                   vpiTypespec RefTypespec name:c2 start:44:28 end:44:30:
                     vpiParent: IODecl name:obj
                     vpiName: c2
-                    vpiFullName: work@toto::work@c1::wait_for_total_count::obj::c2
-                    vpiActual: ClassTypespec name:work@c2
+                    vpiFullName: toto::c1::wait_for_total_count::obj::c2
+                    vpiActual: ClassTypespec name:c2
                 IODecl name:count start:44:45 end:44:50:
                   vpiParent: Task name:wait_for_total_count
                   vpiName: count
@@ -2854,7 +2909,7 @@ Design name:unnamed:
                     vpiParent: IODecl name:count
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@toto::work@c1::wait_for_total_count::count
+                      vpiFullName: toto::c1::wait_for_total_count::count
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2862,18 +2917,8 @@ Design name:unnamed:
                     vpiValue: 0
                   vpiTypespec RefTypespec start:44:41 end:44:44:
                     vpiParent: IODecl name:count
-                    vpiFullName: work@toto::work@c1::wait_for_total_count::count
+                    vpiFullName: toto::c1::wait_for_total_count::count
                     vpiActual: IntTypespec
-      vpiNet (1 items):
-        Net name:d start:50:5 end:50:6:
-          vpiParent: Module name:work@toto
-          vpiTypespec RefTypespec name:DD start:50:2 end:50:4:
-            vpiParent: Net name:d
-            vpiName: DD
-            vpiFullName: work@toto.d.DD
-            vpiActual: UnsupportedTypespec name:DD
-          vpiName: d
-          vpiFullName: work@toto.d
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2889,25 +2934,28 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@toto:
+    ModuleTypespec name:toto:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@toto start:6:8 end:6:12:
-        vpiParent: ModuleTypespec name:work@toto
-        vpiName: work@toto
-      vpiModule: Module name:work@toto
+      vpiName Identifier name:toto start:6:8 end:6:12:
+        vpiParent: ModuleTypespec name:toto
+        vpiName: toto
+      vpiModule: Module name:toto
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -2956,7 +3004,7 @@ COMMAND: ${HLC_DIR}/regression/ClassFuncProto/ClassFuncProto/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             695     695       0         0
+Others                             699     699       0         0
 ----------------------------------------------------------------
-                                   695     695       0         0
+                                   699     699       0         0
 ===================== END REDUCTION RESULT =====================

@@ -38,7 +38,7 @@ n<$Source01/t_detectarray_1.v> u<220> t<Top_level_rule> c<1> l<8:1> el<42:1>
     n<> u<218> t<Description> p<219> c<217> l<11:1> el<41:10>
       n<> u<217> t<Module_declaration> p<218> c<34> l<11:1> el<41:10>
         n<> u<34> t<Module_nonansi_header> p<217> c<22> s<41> l<11:1> el<14:6>
-          n<module> u<22> t<Module_keyword> p<34> s<23> l<11:1> el<11:7>
+          n<module> u<22> t<MODULE> p<34> s<23> l<11:1> el<11:7>
           n<t> u<23> t<SIMPLE_IDENTIFIER> p<34> s<24> l<11:8> el<11:9>
           n<> u<24> t<Package_import_declaration_list> p<34> s<25> l<11:10> el<11:10>
           n</*AUTOARG*/> u<25> t<BLOCK_COMMENT> p<34> s<26> l<11:10> el<14:5>
@@ -67,8 +67,8 @@ n<$Source01/t_detectarray_1.v> u<220> t<Top_level_rule> c<1> l<8:1> el<42:1>
                       n<> u<64> t<Type_declaration> p<65> c<62> l<17:4> el<19:16>
                         n<> u<62> t<Data_type> p<64> c<43> s<63> l<17:12> el<19:5>
                           n<> u<43> t<Struct_union> p<62> c<42> s<44> l<17:12> el<17:18>
-                            n<> u<42> t<Struct_keyword> p<43> l<17:12> el<17:18>
-                          n<> u<44> t<Packed_keyword> p<62> s<61> l<17:19> el<17:25>
+                            n<> u<42> t<STRUCT> p<43> l<17:12> el<17:18>
+                          n<> u<44> t<PACKED> p<62> s<61> l<17:19> el<17:25>
                           n<> u<61> t<Struct_union_member> p<62> c<57> l<18:7> el<18:28>
                             n<> u<57> t<Data_type_or_void> p<61> c<56> s<60> l<18:7> el<18:23>
                               n<logic> u<56> t<Data_type> p<57> c<45> l<18:7> el<18:23>
@@ -233,7 +233,7 @@ n<$Source01/t_detectarray_1.v> u<220> t<Top_level_rule> c<1> l<8:1> el<42:1>
                                 n<> u<203> t<END> p<204> l<39:4> el<39:7>
         n<> u<216> t<ENDMODULE> p<217> l<41:1> el<41:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_detectarray_1.v:11:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_detectarray_1.v:11:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -243,24 +243,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_detectarray_1.v
       vpiPreprocFile: "$Output/lib/work/t_detectarray_1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_detectarray_1.v start:11:1 end:41:10:
+    Module name:t file:$Source01/t_detectarray_1.v start:11:1 end:41:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:11:8 end:11:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:11:8 end:11:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:tsb start:21:15 end:21:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:context_t start:21:4 end:21:13:
+            vpiParent: Variable name:tsb
+            vpiName: context_t
+            vpiFullName: t.tsb.context_t
+            vpiActual: TypedefTypespec name:context_t
+          vpiName: tsb
+          vpiFullName: t.tsb
       vpiTypespec (5 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
-        UnsupportedTypespec name:logic start:18:7 end:18:23:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
+        UnsupportedTypespec name:logic start:18:7 end:18:12:
+          vpiParent: Module name:t
           vpiName Identifier name:logic start:18:7 end:18:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:18:13 end:18:23:
@@ -268,13 +277,13 @@ Design name:unnamed:
             vpiLeftRange RefObj name:ID_MSB start:18:14 end:18:20:
               vpiParent: Range
               vpiName: ID_MSB
-              vpiFullName: work@t.ID_MSB
+              vpiFullName: t.ID_MSB
               vpiActual: Parameter name:ID_MSB
             vpiRightRange Constant start:18:21 end:18:22:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@t
+                vpiFullName: t
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -283,10 +292,10 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:logic:
             vpiParent: ArrayTypespec
             vpiName: logic
-            vpiFullName: work@t.logic
+            vpiFullName: t.logic
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:17:12 end:19:5:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiPacked: true
           vpiTypespecMember (1 items):
             TypespecMember name:id start:18:25 end:18:27:
@@ -295,62 +304,55 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:logic start:18:7 end:18:23:
                 vpiParent: TypespecMember name:id
                 vpiName: logic
-                vpiFullName: work@t.id.logic
+                vpiFullName: t.id.logic
                 vpiActual: ArrayTypespec
         TypedefTypespec name:context_t start:17:4 end:19:16:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName Identifier name:context_t start:19:6 end:19:15:
             vpiParent: TypedefTypespec name:context_t
             vpiName: context_t
           vpiTypedefAlias RefTypespec start:17:12 end:19:5:
             vpiParent: TypedefTypespec name:context_t
-            vpiFullName: work@t.context_t
+            vpiFullName: t.context_t
             vpiActual: StructTypespec
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:15:10 end:15:13:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:10 end:15:10:
             vpiParent: Net name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@t.clk
-        Net name:tsb start:21:15 end:21:18:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec name:context_t start:21:4 end:21:13:
-            vpiParent: Net name:tsb
-            vpiName: context_t
-            vpiFullName: work@t.tsb.context_t
-            vpiActual: TypedefTypespec name:context_t
-          vpiName: tsb
-          vpiFullName: work@t.tsb
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:13:4 end:13:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:13:4 end:13:7:
+          vpiLowConn RefObj name:clk start:15:10 end:15:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@t.clk.clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:15:10 end:15:10:
             vpiParent: Port name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
       vpiProcess (2 items):
         Initial start:25:4 end:27:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:25:12 end:27:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
             vpiStmt (1 items):
               Assignment start:26:7 end:26:17:
                 vpiParent: Begin
@@ -358,30 +360,30 @@ Design name:unnamed:
                 vpiLhs HierPath name:tsb.id start:26:7 end:26:13:
                   vpiParent: Assignment
                   vpiName: tsb.id
-                  vpiFullName: work@t.tsb.id
+                  vpiFullName: t.tsb.id
                   vpiPathElem (2 items):
                     RefObj name:tsb start:26:7 end:26:10:
                       vpiParent: HierPath name:tsb.id
                       vpiName: tsb
-                      vpiFullName: work@t.tsb
-                      vpiActual: Net name:tsb
+                      vpiFullName: t.tsb
+                      vpiActual: Variable name:tsb
                     RefObj name:id start:26:11 end:26:13:
                       vpiParent: HierPath name:tsb.id
                       vpiName: id
-                      vpiFullName: work@t.id
+                      vpiFullName: t.id
                       vpiActual: TypespecMember name:id
                 vpiRhs Constant start:26:16 end:26:17:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
         Always start:29:4 end:39:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt EventControl start:29:11 end:39:7:
             vpiParent: Always
             vpiCondition Operation start:29:13 end:29:39:
@@ -395,7 +397,7 @@ Design name:unnamed:
                     RefObj name:clk start:29:21 end:29:24:
                       vpiParent: Operation
                       vpiName: clk
-                      vpiFullName: work@t.clk
+                      vpiFullName: t.clk
                       vpiActual: Net name:clk
                 Operation start:29:28 end:29:39:
                   vpiParent: Operation
@@ -404,11 +406,11 @@ Design name:unnamed:
                     RefObj name:clk start:29:36 end:29:39:
                       vpiParent: Operation
                       vpiName: clk
-                      vpiFullName: work@t.clk
+                      vpiFullName: t.clk
                       vpiActual: Net name:clk
             vpiStmt Begin start:29:41 end:39:7:
               vpiParent: EventControl
-              vpiFullName: work@t
+              vpiFullName: t
               vpiStmt (1 items):
                 IfStmt start:35:7 end:38:10:
                   vpiParent: Begin
@@ -419,27 +421,27 @@ Design name:unnamed:
                       HierPath name:tsb.id[1] start:35:11 end:35:20:
                         vpiParent: Operation
                         vpiName: tsb.id[1]
-                        vpiFullName: work@t.tsb.id[1]
+                        vpiFullName: t.tsb.id[1]
                         vpiPathElem (2 items):
                           RefObj name:tsb start:35:11 end:35:14:
                             vpiParent: HierPath name:tsb.id[1]
                             vpiName: tsb
-                            vpiFullName: work@t.tsb
-                            vpiActual: Net name:tsb
-                          BitSelect name:id[1] start:35:15 end:35:20:
+                            vpiFullName: t.tsb
+                            vpiActual: Variable name:tsb
+                          BitSelect name:id[1] start:35:15 end:35:19:
                             vpiParent: HierPath name:tsb.id[1]
                             vpiName: id[1]
-                            vpiFullName: work@t.tsb.id[1].id[1]
+                            vpiFullName: t.tsb.id[1].id[1]
                             vpiPrefix RefObj name:id start:35:15 end:35:17:
                               vpiParent: BitSelect name:id[1]
                               vpiName: id
-                              vpiFullName: work@t.tsb.id[1].id
+                              vpiFullName: t.tsb.id[1].id
                               vpiActual: TypespecMember name:id
                             vpiIndex Constant start:35:18 end:35:19:
                               vpiParent: BitSelect name:id[1]
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t.tsb.id[1].id[1]
+                                vpiFullName: t.tsb.id[1].id[1]
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -449,7 +451,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -457,7 +459,7 @@ Design name:unnamed:
                         vpiValue: 0
                   vpiStmt Begin start:35:27 end:38:10:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:36:3 end:36:35:
                         vpiParent: Begin
@@ -469,7 +471,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 168
@@ -483,21 +485,21 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:23:11 end:23:36:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiLhs HierPath name:tsb.id start:23:11 end:23:17:
             vpiParent: ContAssign
             vpiName: tsb.id
-            vpiFullName: work@t.tsb.id
+            vpiFullName: t.tsb.id
             vpiPathElem (2 items):
               RefObj name:tsb start:23:11 end:23:14:
                 vpiParent: HierPath name:tsb.id
                 vpiName: tsb
-                vpiFullName: work@t.tsb
-                vpiActual: Net name:tsb
+                vpiFullName: t.tsb
+                vpiActual: Variable name:tsb
               RefObj name:id start:23:15 end:23:17:
                 vpiParent: HierPath name:tsb.id
                 vpiName: id
-                vpiFullName: work@t.id
+                vpiFullName: t.id
                 vpiActual: TypespecMember name:id
           vpiRhs Operation start:23:20 end:23:36:
             vpiParent: ContAssign
@@ -506,27 +508,27 @@ Design name:unnamed:
               HierPath name:tsb.id[0] start:23:21 end:23:30:
                 vpiParent: Operation
                 vpiName: tsb.id[0]
-                vpiFullName: work@t.tsb.id[0]
+                vpiFullName: t.tsb.id[0]
                 vpiPathElem (2 items):
                   RefObj name:tsb start:23:21 end:23:24:
                     vpiParent: HierPath name:tsb.id[0]
                     vpiName: tsb
-                    vpiFullName: work@t.tsb
-                    vpiActual: Net name:tsb
-                  BitSelect name:id[0] start:23:25 end:23:30:
+                    vpiFullName: t.tsb
+                    vpiActual: Variable name:tsb
+                  BitSelect name:id[0] start:23:25 end:23:29:
                     vpiParent: HierPath name:tsb.id[0]
                     vpiName: id[0]
-                    vpiFullName: work@t.tsb.id[0].id[0]
+                    vpiFullName: t.tsb.id[0].id[0]
                     vpiPrefix RefObj name:id start:23:25 end:23:27:
                       vpiParent: BitSelect name:id[0]
                       vpiName: id
-                      vpiFullName: work@t.tsb.id[0].id
+                      vpiFullName: t.tsb.id[0].id
                       vpiActual: TypespecMember name:id
                     vpiIndex Constant start:23:28 end:23:29:
                       vpiParent: BitSelect name:id[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t.tsb.id[0].id[0]
+                        vpiFullName: t.tsb.id[0].id[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -535,7 +537,7 @@ Design name:unnamed:
               RefObj name:clk start:23:32 end:23:35:
                 vpiParent: Operation
                 vpiName: clk
-                vpiFullName: work@t.clk
+                vpiFullName: t.clk
                 vpiActual: Net name:clk
   vpiTypespec (4 items):
     LogicTypespec:
@@ -543,12 +545,12 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:11:8 end:11:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:11:8 end:11:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
   vpiParameter (1 items):

@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<137> t<Top_level_rule> c<1> l<1:1> el<12:1>
     n<> u<97> t<Description> p<136> c<96> s<135> l<1:1> el<6:10>
       n<> u<96> t<Module_declaration> p<97> c<6> l<1:1> el<6:10>
         n<> u<6> t<Module_nonansi_header> p<96> c<2> s<25> l<1:1> el<1:20>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
           n<submodule> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:17>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:17> el<1:17>
           n<> u<5> t<Port_list> p<6> l<1:17> el<1:19>
@@ -114,7 +114,7 @@ n<$Source01/dut.sv> u<137> t<Top_level_rule> c<1> l<1:1> el<12:1>
     n<> u<135> t<Description> p<136> c<134> l<8:1> el<11:10>
       n<> u<134> t<Module_declaration> p<135> c<102> l<8:1> el<11:10>
         n<> u<102> t<Module_nonansi_header> p<134> c<98> s<112> l<8:1> el<8:14>
-          n<module> u<98> t<Module_keyword> p<102> s<99> l<8:1> el<8:7>
+          n<module> u<98> t<MODULE> p<102> s<99> l<8:1> el<8:7>
           n<top> u<99> t<SIMPLE_IDENTIFIER> p<102> s<100> l<8:8> el<8:11>
           n<> u<100> t<Package_import_declaration_list> p<102> s<101> l<8:11> el<8:11>
           n<> u<101> t<Port_list> p<102> l<8:11> el<8:13>
@@ -150,13 +150,11 @@ n<$Source01/dut.sv> u<137> t<Top_level_rule> c<1> l<1:1> el<12:1>
                     n<> u<126> t<Ordered_port_connection> p<127> l<10:31> el<10:31>
         n<> u<133> t<ENDMODULE> p<134> l<11:1> el<11:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@submodule".
-[INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@top".
-[WRN:CP0323] $Source01/dut.sv:8:1: Multiply defined typedef "work@submodule".
-[ERR:EL0535] $Source01/dut.sv:5:11: Illegal implicit net "id:41, name:a".
-[ERR:EL0535] $Source01/dut.sv:10:17: Illegal implicit net "id:57, name:X".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@submodule".
-[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "submodule".
+[INF:CP0303] $Source01/dut.sv:8:1: Compile module "top".
+[WRN:CP0323] $Source01/dut.sv:8:1: Multiply defined typedef "submodule".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "submodule".
+[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -165,62 +163,61 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@submodule file:$Source01/dut.sv start:1:1 end:6:10:
+    Module name:submodule file:$Source01/dut.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@submodule start:1:8 end:1:17:
-        vpiParent: Module name:work@submodule
-        vpiName: work@submodule
-      vpiFullName: work@submodule
+      vpiName Identifier name:submodule start:1:8 end:1:17:
+        vpiParent: Module name:submodule
+        vpiName: submodule
+      vpiFullName: submodule
       vpiParameter (2 items):
         Parameter name:X start:2:18 end:2:19:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiTypespec RefTypespec start:2:14 end:2:17:
             vpiParent: Parameter name:X
-            vpiFullName: work@submodule.X
+            vpiFullName: submodule.X
             vpiActual: IntTypespec
           vpiName: X
-          vpiFullName: work@submodule.X
+          vpiFullName: submodule.X
         Parameter name:Y start:4:24 end:4:25:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiTypespec RefTypespec name:my_type_t start:4:14 end:4:23:
             vpiParent: Parameter name:Y
             vpiName: my_type_t
-            vpiFullName: work@submodule.Y.my_type_t
+            vpiFullName: submodule.Y.my_type_t
             vpiActual: TypedefTypespec name:my_type_t
           vpiName: Y
-          vpiFullName: work@submodule.Y
+          vpiFullName: submodule.Y
       vpiParamAssign (2 items):
         ParamAssign start:2:18 end:2:24:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiLhs RefObj name:X start:2:18 end:2:19:
             vpiParent: ParamAssign
             vpiName: X
-            vpiFullName: work@submodule.X
+            vpiFullName: submodule.X
             vpiActual: Parameter name:X
           vpiRhs Constant start:2:22 end:2:24:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@submodule
+              vpiFullName: submodule
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "20"
             vpiValue: 20
         ParamAssign start:4:24 end:4:30:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiLhs RefObj name:Y start:4:24 end:4:25:
             vpiParent: ParamAssign
             vpiName: Y
-            vpiFullName: work@submodule.Y
+            vpiFullName: submodule.Y
             vpiActual: Parameter name:Y
           vpiRhs Constant start:4:28 end:4:30:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@submodule
+              vpiFullName: submodule
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
@@ -228,7 +225,7 @@ Design name:unnamed:
             vpiValue: "1"
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiRange (1 items):
             Range start:3:18 end:3:25:
               vpiParent: LogicTypespec
@@ -239,13 +236,13 @@ Design name:unnamed:
                   RefObj name:X start:3:19 end:3:20:
                     vpiParent: Operation
                     vpiName: X
-                    vpiFullName: work@submodule.X
+                    vpiFullName: submodule.X
                     vpiActual: Parameter name:X
                   Constant start:3:21 end:3:22:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@submodule
+                      vpiFullName: submodule
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -255,7 +252,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@submodule
+                  vpiFullName: submodule
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -263,122 +260,125 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         TypedefTypespec name:my_type_t start:3:4 end:3:36:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiName Identifier name:my_type_t start:3:26 end:3:35:
             vpiParent: TypedefTypespec name:my_type_t
             vpiName: my_type_t
           vpiTypedefAlias RefTypespec start:3:12 end:3:25:
             vpiParent: TypedefTypespec name:my_type_t
-            vpiFullName: work@submodule.my_type_t
+            vpiFullName: submodule.my_type_t
             vpiActual: LogicTypespec
         BitTypespec:
-          vpiParent: Module name:work@submodule
-      vpiDefName: work@submodule
-      vpiDefNetType: none (12)
+          vpiParent: Module name:submodule
+      vpiDefName: submodule
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@submodule
+        vpiParent: Module name:submodule
         vpiName: work
-        vpiFullName: work@submodule.work
+        vpiFullName: submodule.work
       vpiCell: submodule
       vpiContAssign (1 items):
         ContAssign start:5:11 end:5:22:
-          vpiParent: Module name:work@submodule
+          vpiParent: Module name:submodule
           vpiLhs RefObj name:a start:5:11 end:5:12:
             vpiParent: ContAssign
             vpiName: a
-            vpiFullName: work@submodule.a
+            vpiFullName: submodule.a
           vpiRhs Operation start:5:15 end:5:22:
             vpiParent: ContAssign
             vpiTypespec RefTypespec start:5:15 end:5:18:
               vpiParent: Operation
-              vpiFullName: work@submodule
+              vpiFullName: submodule
               vpiActual: IntTypespec
             vpiOpType: cast (81)
             vpiOperand (1 items):
               RefObj name:Y start:5:20 end:5:21:
                 vpiParent: Operation
                 vpiName: Y
-                vpiFullName: work@submodule.Y
+                vpiFullName: submodule.Y
                 vpiActual: Parameter name:Y
-    Module name:work@top file:$Source01/dut.sv start:8:1 end:11:10:
+    Module name:top file:$Source01/dut.sv start:8:1 end:11:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:8:8 end:8:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:8:8 end:8:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (2 items):
-        ModuleTypespec name:work@submodule start:9:4 end:9:13:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@submodule start:9:4 end:9:13:
-            vpiParent: ModuleTypespec name:work@submodule
-            vpiName: work@submodule
-        ModuleTypespec name:work@submodule start:10:4 end:10:13:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@submodule start:10:4 end:10:13:
-            vpiParent: ModuleTypespec name:work@submodule
-            vpiName: work@submodule
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        ModuleTypespec name:submodule start:9:4 end:9:13:
+          vpiParent: Module name:top
+          vpiName Identifier name:submodule start:9:4 end:9:13:
+            vpiParent: ModuleTypespec name:submodule
+            vpiName: submodule
+          vpiModule: Module name:submodule
+        ModuleTypespec name:submodule start:10:4 end:10:13:
+          vpiParent: Module name:top
+          vpiName Identifier name:submodule start:10:4 end:10:13:
+            vpiParent: ModuleTypespec name:submodule
+            vpiName: submodule
+          vpiModule: Module name:submodule
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiRefInstance (2 items):
         RefInstance name:u_sub_default start:9:14 end:9:27:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_sub_default
-          vpiTypespec RefTypespec name:work@submodule start:9:4 end:9:13:
+          vpiTypespec RefTypespec name:submodule start:9:4 end:9:13:
             vpiParent: RefInstance name:u_sub_default
-            vpiName: work@submodule
-            vpiFullName: work@top.u_sub_default.work@submodule
-            vpiActual: ModuleTypespec name:work@submodule
+            vpiName: submodule
+            vpiFullName: top.u_sub_default.submodule
+            vpiActual: ModuleTypespec name:submodule
         RefInstance name:u_sub_5 start:10:23 end:10:30:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_sub_5
-          vpiTypespec RefTypespec name:work@submodule start:10:4 end:10:13:
+          vpiTypespec RefTypespec name:submodule start:10:4 end:10:13:
             vpiParent: RefInstance name:u_sub_5
-            vpiName: work@submodule
-            vpiFullName: work@top.u_sub_5.work@submodule
-            vpiActual: ModuleTypespec name:work@submodule
+            vpiName: submodule
+            vpiFullName: top.u_sub_5.submodule
+            vpiActual: ModuleTypespec name:submodule
           vpiParamAssign (1 items):
             ParamAssign start:10:16 end:10:21:
               vpiParent: RefInstance name:u_sub_5
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:X start:10:17 end:10:18:
                 vpiParent: ParamAssign
                 vpiName: X
-                vpiFullName: work@top.u_sub_5.X
+                vpiFullName: top.u_sub_5.X
               vpiRhs Constant start:10:19 end:10:20:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.u_sub_5
+                  vpiFullName: top.u_sub_5
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "5"
                 vpiValue: 5
   vpiTypespec (3 items):
-    ModuleTypespec name:work@submodule:
+    ModuleTypespec name:submodule:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@submodule start:1:8 end:1:17:
-        vpiParent: ModuleTypespec name:work@submodule
-        vpiName: work@submodule
-      vpiModule: Module name:work@submodule
+      vpiName Identifier name:submodule start:1:8 end:1:17:
+        vpiParent: ModuleTypespec name:submodule
+        vpiName: submodule
+      vpiModule: Module name:submodule
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:8:8 end:8:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:8:8 end:8:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************

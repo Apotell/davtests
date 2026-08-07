@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,14 +26,14 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//   - both variables: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - Initial process: 1 Begin with 3 stmts (2 Assignment + 1 SysFuncCall)
 //   - Stmt[0]: arr_a = 8'd17 -- RefObj lhs, decimal Constant rhs
 //     (vpiConstType=decimal(1), size=8, decompile "8'd17", value "17")
 //   - Stmt[1]: arr_b = (arr_a + 29) -- RefObj lhs "arr_b", rhs is an
 //     Operation (vpiOpType=add(24)) with 2 operands: RefObj "arr_a"
-//     (resolving the Net) and a plain unsigned int Constant "29" (no
+//     (resolving the Variable) and a plain unsigned int Constant "29" (no
 //     packed-array typespec/size -- treated as a plain integer literal,
 //     which is exactly the "treat array as integer" behavior under test)
 //   - Stmt[2]: $display(":assert: (%d == 46)", arr_b)
@@ -63,7 +63,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
@@ -80,24 +80,24 @@ class PackedTreatAsIntegerTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(PackedTreatAsIntegerTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedTreatAsIntegerTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(PackedTreatAsIntegerTest, ModuleHasTwoVariables) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedTreatAsIntegerTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -110,7 +110,7 @@ TEST_F(PackedTreatAsIntegerTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(PackedTreatAsIntegerTest, FirstAssignmentSetsArrAToDecimal17) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -127,7 +127,7 @@ TEST_F(PackedTreatAsIntegerTest, FirstAssignmentSetsArrAToDecimal17) {
 }
 
 TEST_F(PackedTreatAsIntegerTest, SecondAssignmentAddsTwentyNineToArrA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -143,7 +143,7 @@ TEST_F(PackedTreatAsIntegerTest, SecondAssignmentAddsTwentyNineToArrA) {
   const hldb::RefObj *const lhsOperand = any_cast<hldb::RefObj>(op->getOperands()->at(0));
   ASSERT_NE(lhsOperand, nullptr);
   EXPECT_EQ(lhsOperand->getName(), "arr_a");
-  EXPECT_NE(lhsOperand->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhsOperand->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const rhsOperand = any_cast<hldb::Constant>(op->getOperands()->at(1));
   ASSERT_NE(rhsOperand, nullptr);
   EXPECT_EQ(rhsOperand->getConstType(), vpiUIntConst);
@@ -151,7 +151,7 @@ TEST_F(PackedTreatAsIntegerTest, SecondAssignmentAddsTwentyNineToArrA) {
 }
 
 TEST_F(PackedTreatAsIntegerTest, DisplayAssertsSumEqualsFortySix) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -164,7 +164,7 @@ TEST_F(PackedTreatAsIntegerTest, DisplayAssertsSumEqualsFortySix) {
   EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr_b");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedTreatAsIntegerTest, DesignHasThreeTypespecs) {
   // Unlike most sibling files in this directory, no extra unsigned IntTypespec
@@ -177,7 +177,7 @@ TEST_F(PackedTreatAsIntegerTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedTreatAsIntegerTest, DesignHasStringTypespec) {
@@ -195,19 +195,19 @@ TEST_F(PackedTreatAsIntegerTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedTreatAsIntegerTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime arithmetic result requires simulation ---------------
+// --- known gap: runtime arithmetic result requires simulation ----
 
 TEST_F(PackedTreatAsIntegerTest, RuntimeArithmeticResultRequiresSimulation) {
   // GTEST_SKIP() << "This harness only compiles/elaborates treat-as-integer.sv; it does not run a "
   //                 "simulator, so the actual runtime result of arr_a + 29 cannot be observed here. "
   //                 "treat-as-integer.sv's own $display format string documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

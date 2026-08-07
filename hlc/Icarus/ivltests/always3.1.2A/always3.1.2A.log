@@ -38,7 +38,7 @@ n<$Source01/always3.1.2A.v> u<127> t<Top_level_rule> c<1> l<22:1> el<40:1>
     n<> u<125> t<Description> p<126> c<124> l<22:1> el<37:10>
       n<> u<124> t<Module_declaration> p<125> c<25> l<22:1> el<37:10>
         n<> u<25> t<Module_ansi_header> p<124> c<22> s<47> l<22:1> el<22:14>
-          n<module> u<22> t<Module_keyword> p<25> s<23> l<22:1> el<22:7>
+          n<module> u<22> t<MODULE> p<25> s<23> l<22:1> el<22:7>
           n<main> u<23> t<SIMPLE_IDENTIFIER> p<25> s<24> l<22:8> el<22:12>
           n<> u<24> t<Package_import_declaration_list> p<25> l<22:13> el<22:13>
         n<> u<47> t<Non_port_module_item> p<124> c<46> s<105> l<24:1> el<24:19>
@@ -140,7 +140,7 @@ n<$Source01/always3.1.2A.v> u<127> t<Top_level_rule> c<1> l<22:1> el<40:1>
                             n<4'h5> u<112> t<INTEGRAL_NUMBER> p<113> l<35:18> el<35:22>
         n<> u<123> t<ENDMODULE> p<124> l<37:1> el<37:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/always3.1.2A.v:22:1: Compile module "work@main".
+[INF:CP0303] $Source01/always3.1.2A.v:22:1: Compile module "main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -150,17 +150,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: always3.1.2A.v
       vpiPreprocFile: "$Output/lib/work/always3.1.2A.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:$Source01/always3.1.2A.v start:22:1 end:37:10:
+    Module name:main file:$Source01/always3.1.2A.v start:22:1 end:37:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:22:8 end:22:12:
-        vpiParent: Module name:work@main
-        vpiName: work@main
-      vpiFullName: work@main
+      vpiName Identifier name:main start:22:8 end:22:12:
+        vpiParent: Module name:main
+        vpiName: main
+      vpiFullName: main
+      vpiVariable (1 items):
+        Variable name:value1 start:24:11 end:24:17:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:24:1 end:24:10:
+            vpiParent: Variable name:value1
+            vpiFullName: main.value1
+            vpiActual: LogicTypespec
+          vpiName: value1
+          vpiFullName: main.value1
+          vpiVector: true
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiRange (1 items):
             Range start:24:5 end:24:10:
               vpiParent: LogicTypespec
@@ -168,7 +177,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -178,32 +187,23 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@main
-      vpiDefNetType: none (12)
+      vpiDefName: main
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@main
+        vpiParent: Module name:main
         vpiName: work
-        vpiFullName: work@main.work
+        vpiFullName: main.work
       vpiCell: main
-      vpiNet (1 items):
-        Net name:value1 start:24:11 end:24:17:
-          vpiParent: Module name:work@main
-          vpiTypespec RefTypespec start:24:1 end:24:10:
-            vpiParent: Net name:value1
-            vpiFullName: work@main.value1
-            vpiActual: LogicTypespec
-          vpiName: value1
-          vpiFullName: work@main.value1
       vpiProcess (2 items):
         Initial start:26:1 end:33:12:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt IfElse start:27:5 end:33:12:
             vpiParent: Initial
             vpiCondition Operation start:27:8 end:27:22:
@@ -213,13 +213,13 @@ Design name:unnamed:
                 RefObj name:value1 start:27:8 end:27:14:
                   vpiParent: Operation
                   vpiName: value1
-                  vpiFullName: work@main.value1
-                  vpiActual: Net name:value1
+                  vpiFullName: main.value1
+                  vpiActual: Variable name:value1
                 Constant start:27:18 end:27:22:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: hexadecimal (5)
                   vpiSize: 4
@@ -235,7 +235,7 @@ Design name:unnamed:
                   vpiParent: SysTaskCall name:$display
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 360
@@ -243,7 +243,7 @@ Design name:unnamed:
                   vpiValue: FAILED - 3.1.2A always reg_lvalue = constant\n
             vpiElseStmt Begin start:30:2 end:33:12:
               vpiParent: IfElse
-              vpiFullName: work@main
+              vpiFullName: main
               vpiStmt (2 items):
                 SysTaskCall name:$display start:31:12 end:31:32:
                   vpiParent: Begin
@@ -255,7 +255,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 56
@@ -267,19 +267,19 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
         Always start:35:1 end:35:24:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Assignment start:35:8 end:35:22:
             vpiParent: Always
             vpiLhs RefObj name:value1 start:35:8 end:35:14:
               vpiParent: Assignment
               vpiName: value1
-              vpiFullName: work@main.value1
-              vpiActual: Net name:value1
+              vpiFullName: main.value1
+              vpiActual: Variable name:value1
             vpiRhs Constant start:35:18 end:35:22:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@main
+                vpiFullName: main
                 vpiActual: IntTypespec
               vpiConstType: hexadecimal (5)
               vpiSize: 4
@@ -287,12 +287,12 @@ Design name:unnamed:
               vpiValue: "5"
           vpiAlwaysType: always (1)
   vpiTypespec (4 items):
-    ModuleTypespec name:work@main:
+    ModuleTypespec name:main:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:22:8 end:22:12:
-        vpiParent: ModuleTypespec name:work@main
-        vpiName: work@main
-      vpiModule: Module name:work@main
+      vpiName Identifier name:main start:22:8 end:22:12:
+        vpiParent: ModuleTypespec name:main
+        vpiName: main
+      vpiModule: Module name:main
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

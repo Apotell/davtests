@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,12 +23,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "arr"
-//   - net "arr": RefTypespec -> BitTypespec, 1 range [7:0], vector=true
+//   - design has module top with exactly 1 variable: "arr"
+//   - variable "arr": RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - Initial process: 1 Begin with exactly 1 stmt (SysFuncCall $display)
 //   - $display has 2 arguments: Constant string ":assert: (%d == 1)"
 //     (vpiConstType=string(6), size=144) and a nested SysFuncCall
-//     "$increment" with 1 argument -- RefObj "arr" resolving to Net "arr"
+//     "$increment" with 1 argument -- RefObj "arr" resolving to Variable "arr"
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
 //   - module has no other processes and no continuous assignments
@@ -51,7 +51,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -67,32 +67,32 @@ class PackedQueryIncrementTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(PackedQueryIncrementTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedQueryIncrementTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(PackedQueryIncrementTest, ModuleHasOneVariable) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(PackedQueryIncrementTest, NetArrNameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(PackedQueryIncrementTest, VariableArrNameIsArr) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
+  const hldb::Variable *const arr = hldb::findByName<hldb::Variable>("arr", top->getVariables());
   ASSERT_NE(arr, nullptr);
-  EXPECT_EQ(arr->getFullName(), "work@top.arr");
+  EXPECT_EQ(arr->getName(), "arr");
 }
 
-TEST_F(PackedQueryIncrementTest, NetArrTypespecIsBitWithRangeSevenToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(PackedQueryIncrementTest, VariableArrTypespecIsBitWithRangeSevenToZero) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
+  const hldb::Variable *const arr = hldb::findByName<hldb::Variable>("arr", top->getVariables());
   ASSERT_NE(arr, nullptr);
   const hldb::BitTypespec *const bt = arr->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
@@ -103,10 +103,10 @@ TEST_F(PackedQueryIncrementTest, NetArrTypespecIsBitWithRangeSevenToZero) {
   EXPECT_TRUE(bt->getVector());
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedQueryIncrementTest, InitialBeginHasOneStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -119,7 +119,7 @@ TEST_F(PackedQueryIncrementTest, InitialBeginHasOneStmt) {
 }
 
 TEST_F(PackedQueryIncrementTest, DisplayCallHasTwoArgumentsFirstIsAssertString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -136,7 +136,7 @@ TEST_F(PackedQueryIncrementTest, DisplayCallHasTwoArgumentsFirstIsAssertString) 
 }
 
 TEST_F(PackedQueryIncrementTest, NestedIncrementCallHasArrArgument) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -150,11 +150,10 @@ TEST_F(PackedQueryIncrementTest, NestedIncrementCallHasArrArgument) {
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(inc->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "arr");
-  EXPECT_EQ(arg->getFullName(), "work@top.arr");
-  EXPECT_NE(arg->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedQueryIncrementTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -165,7 +164,7 @@ TEST_F(PackedQueryIncrementTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedQueryIncrementTest, DesignHasSignedIntTypespec) {
@@ -190,19 +189,19 @@ TEST_F(PackedQueryIncrementTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedQueryIncrementTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime $increment value requires simulation ----------------
+// --- known gap: runtime $increment value requires simulation ----
 
 TEST_F(PackedQueryIncrementTest, RuntimeIncrementValueRequiresSimulation) {
   // GTEST_SKIP() << "This harness only compiles/elaborates increment.sv; it does not run a simulator, "
   //                 "so the actual runtime value returned by $increment(arr) cannot be observed here. "
   //                 "increment.sv's own $display format string documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

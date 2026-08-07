@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "un"
+//   - design has module top with exactly 1 net: "un"
 //   - net "un": RefTypespec -> UnionTypespec, vpiPacked true, vpiTagged
 //     false, exactly 2 TypespecMember "v1"/"v2"
 //   - member "v1": typespec -> BitTypespec [7:0] vector
@@ -73,7 +73,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -91,7 +91,7 @@ class UnionsPackedBasicTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();
@@ -103,22 +103,22 @@ class UnionsPackedBasicTest : public Test {
 
   static const hldb::UnionTypespec *getUnUnionTypespec() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getNets() == nullptr) return nullptr;
-    const hldb::Net *const un = hldb::findByName<hldb::Net>("un", top->getNets());
+    if (top == nullptr || top->getVariables() == nullptr) return nullptr;
+    const hldb::Variable *const un = hldb::findByName<hldb::Variable>("un", top->getVariables());
     if (un == nullptr) return nullptr;
     return un->getTypespec<hldb::RefTypespec>()->getActual<hldb::UnionTypespec>();
   }
 };
 
-// --- module / net / union typespec -------------------------------------------
+// --- module / net / union typespec ----
 
 TEST_F(UnionsPackedBasicTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
 TEST_F(UnionsPackedBasicTest, ModuleHasOneNet) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(UnionsPackedBasicTest, UnIsPackedUntaggedUnionWithTwoMembers) {
@@ -149,7 +149,7 @@ TEST_F(UnionsPackedBasicTest, MembersV1AndV2AreBothEightBitBitTypespecs) {
   }
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnionsPackedBasicTest, InitialBeginHasThreeStmts) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -195,7 +195,7 @@ TEST_F(UnionsPackedBasicTest, ThirdStmtDisplaysUnV2ExpectingSameValueAsV1) {
   EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), "un.v2");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnionsPackedBasicTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -206,7 +206,7 @@ TEST_F(UnionsPackedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnionsPackedBasicTest, DesignHasStringTypespec) {
@@ -229,7 +229,7 @@ TEST_F(UnionsPackedBasicTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime union-overlap values require simulation ------------
+// --- known gap: runtime union-overlap values require simulation ----
 
 TEST_F(UnionsPackedBasicTest, RuntimeUnionOverlapValuesRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates basic.sv; it does not run a simulator, so "

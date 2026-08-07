@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@
 //   endmodule
 //
 // The SV 'integer' keyword declares a 32-bit signed 2's-complement variable.
-// In UHDM the net 'a' carries a RefTypespec whose actual typespec is an
+// In UHDM the variable 'a' carries a RefTypespec whose actual typespec is an
 // IntegerTypespec with vpiSigned: true.  This is distinct from 'logic' which
 // produces a LogicTypespec, and from 'int' (SystemVerilog 2-state type).
 
@@ -35,8 +35,8 @@
 #include <hldb/design.h>
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -47,24 +47,32 @@ class IntegersToken : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module structure
-// ---------------------------------------------------------------------------
-TEST_F(IntegersToken, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+// ----
+TEST_F(IntegersToken, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
-TEST_F(IntegersToken, OneNetExists) {
+TEST_F(IntegersToken, OneVariableExists) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 1u) << "expected exactly 1 net ('a')";
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 1u) << "expected exactly 1 variable ('a')";
 }
 
-TEST_F(IntegersToken, NetIsNamedA) {
-  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
-  EXPECT_NE(net, nullptr) << "net 'a' not found";
+TEST_F(IntegersToken, VariableIsNamedA) {
+  const hldb::Variable *const var = hldb::findByName<hldb::Variable>("a", getTop(m_design)->getVariables());
+  EXPECT_NE(var, nullptr) << "var 'a' not found";
+}
+
+// `integer` is a variable keyword, not one of the net-type keywords listed
+// in IEEE 1800-2023 Sec 6.7/6.8, so 'a' must not also appear as a Net.
+TEST_F(IntegersToken, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "'integer a' must not appear as a Net";
 }
 
 TEST_F(IntegersToken, NoProcesses) {
@@ -73,23 +81,23 @@ TEST_F(IntegersToken, NoProcesses) {
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty()) << "module should have no initial/always processes";
 }
 
-// ---------------------------------------------------------------------------
-// 'integer a' → Net typespec is IntegerTypespec, marked signed.
-// The typespec chain: Net::getTypespec() → RefTypespec → getActual<IntegerTypespec>()
-// ---------------------------------------------------------------------------
-TEST_F(IntegersToken, NetTypespecIsInteger) {
-  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
-  ASSERT_NE(net, nullptr);
-  const hldb::RefTypespec *const ref = net->getTypespec();
-  ASSERT_NE(ref, nullptr) << "net 'a' has no typespec";
+// ----
+// 'integer a' -> Var typespec is IntegerTypespec, marked signed.
+// The typespec chain: Variable::getTypespec() -> RefTypespec -> getActual<IntegerTypespec>()
+// ----
+TEST_F(IntegersToken, VariableTypespecIsInteger) {
+  const hldb::Variable *const var = hldb::findByName<hldb::Variable>("a", getTop(m_design)->getVariables());
+  ASSERT_NE(var, nullptr);
+  const hldb::RefTypespec *const ref = var->getTypespec();
+  ASSERT_NE(ref, nullptr) << "var 'a' has no typespec";
   const auto *const intTs = ref->getActual<hldb::IntegerTypespec>();
   EXPECT_NE(intTs, nullptr) << "'integer a' should have an IntegerTypespec, not LogicTypespec or other";
 }
 
 TEST_F(IntegersToken, IntegerTypespecIsSigned) {
-  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
-  ASSERT_NE(net, nullptr);
-  const hldb::RefTypespec *const ref = net->getTypespec();
+  const hldb::Variable *const var = hldb::findByName<hldb::Variable>("a", getTop(m_design)->getVariables());
+  ASSERT_NE(var, nullptr);
+  const hldb::RefTypespec *const ref = var->getTypespec();
   ASSERT_NE(ref, nullptr);
   const auto *const intTs = ref->getActual<hldb::IntegerTypespec>();
   ASSERT_NE(intTs, nullptr);

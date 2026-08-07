@@ -698,7 +698,7 @@ n<$Source01/dut.sv> u<461> t<Top_level_rule> c<1> l<2:1> el<65:1>
     n<> u<458> t<Description> p<459> c<457> l<59:1> el<63:10>
       n<> u<457> t<Module_declaration> p<458> c<426> l<59:1> el<63:10>
         n<> u<426> t<Module_nonansi_header> p<457> c<419> s<455> l<59:1> el<59:57>
-          n<module> u<419> t<Module_keyword> p<426> s<420> l<59:1> el<59:7>
+          n<module> u<419> t<MODULE> p<426> s<420> l<59:1> el<59:7>
           n<flash_ctrl_info_cfg> u<420> t<SIMPLE_IDENTIFIER> p<426> s<424> l<59:8> el<59:27>
           n<> u<424> t<Package_import_declaration_list> p<426> c<423> s<425> l<59:28> el<59:53>
             n<> u<423> t<Package_import_declaration> p<424> c<422> l<59:28> el<59:53>
@@ -737,16 +737,16 @@ n<$Source01/dut.sv> u<461> t<Top_level_rule> c<1> l<2:1> el<65:1>
         n<> u<456> t<ENDMODULE> p<457> l<63:1> el<63:10>
   n<// flash_ctrl_info_cfg> u<460> t<LINE_COMMENT> p<461> l<63:11> el<63:33>
 AST_DEBUG_END
-[INF:CP0301] $Source01/dut.sv:2:1: Compile package "work@prim_util_pkg".
-[INF:CP0301] $Source01/dut.sv:24:1: Compile package "work@flash_ctrl_pkg".
-[INF:CP0301] $Source01/dut.sv:48:1: Compile package "work@otp_ctrl_pkg".
-[INF:CP0303] $Source01/dut.sv:59:1: Compile module "work@flash_ctrl_info_cfg".
-[ERR:EL0535] $Source01/dut.sv:54:38: Illegal implicit net "id:918, name:InfosPerBank".
+[INF:CP0301] $Source01/dut.sv:2:1: Compile package "prim_util_pkg".
+[INF:CP0301] $Source01/dut.sv:24:1: Compile package "flash_ctrl_pkg".
+[INF:CP0301] $Source01/dut.sv:48:1: Compile package "otp_ctrl_pkg".
+[INF:CP0303] $Source01/dut.sv:59:1: Compile module "flash_ctrl_info_cfg".
+[WRN:CP0350] $Source01/dut.sv:33:49: Failed to bind "id:861, name:vbits".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@prim_util_pkg".
-[WRN:PA0205] $Source01/dut.sv:24:1: No timescale set for "work@flash_ctrl_pkg".
-[WRN:PA0205] $Source01/dut.sv:48:1: No timescale set for "work@otp_ctrl_pkg".
-[WRN:PA0205] $Source01/dut.sv:59:1: No timescale set for "work@flash_ctrl_info_cfg".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "prim_util_pkg".
+[WRN:PA0205] $Source01/dut.sv:24:1: No timescale set for "flash_ctrl_pkg".
+[WRN:PA0205] $Source01/dut.sv:48:1: No timescale set for "otp_ctrl_pkg".
+[WRN:PA0205] $Source01/dut.sv:59:1: No timescale set for "flash_ctrl_info_cfg".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -755,7 +755,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (4 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2309,26 +2308,26 @@ Design name:unnamed:
                 vpiParent: Function name:rand_mode
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
-    Package name:work@prim_util_pkg file:$Source01/dut.sv start:2:1 end:22:11:
+    Package name:prim_util_pkg file:$Source01/dut.sv start:2:1 end:22:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@prim_util_pkg start:2:9 end:2:22:
-        vpiParent: Package name:work@prim_util_pkg
-        vpiName: work@prim_util_pkg
-      vpiFullName: work@prim_util_pkg
-      vpiDefName: work@prim_util_pkg
-      vpiDefNetType: none (12)
+      vpiName Identifier name:prim_util_pkg start:2:9 end:2:22:
+        vpiParent: Package name:prim_util_pkg
+        vpiName: prim_util_pkg
+      vpiFullName: prim_util_pkg
+      vpiDefName: prim_util_pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@prim_util_pkg
+        vpiParent: Package name:prim_util_pkg
         vpiName: work
-        vpiFullName: work@prim_util_pkg::work
+        vpiFullName: prim_util_pkg::work
       vpiCell: prim_util_pkg
       vpiTaskFunc (2 items):
         Function name:_clog2 start:6:3 end:13:14:
-          vpiParent: Package name:work@prim_util_pkg
+          vpiParent: Package name:prim_util_pkg
           vpiName Identifier name:_clog2 start:6:30 end:6:36:
             vpiParent: Function name:_clog2
             vpiName: "_clog2"
-          vpiFullName: work@prim_util_pkg::_clog2
+          vpiFullName: prim_util_pkg::_clog2
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -2338,32 +2337,33 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:6:37 end:6:44:
                 vpiParent: IODecl name:value
-                vpiFullName: work@prim_util_pkg::_clog2::value
+                vpiFullName: prim_util_pkg::_clog2::value
                 vpiActual: IntegerTypespec
           vpiStmt Begin:
             vpiParent: Function name:_clog2
-            vpiFullName: work@prim_util_pkg::_clog2
+            vpiFullName: prim_util_pkg::_clog2
             vpiVariable (1 items):
               Variable name:result start:7:13 end:7:19:
                 vpiParent: Begin
                 vpiTypespec RefTypespec start:7:5 end:7:12:
                   vpiParent: Variable name:result
-                  vpiFullName: work@prim_util_pkg::_clog2::result
+                  vpiFullName: prim_util_pkg::_clog2::result
                   vpiActual: IntegerTypespec
                 vpiName: result
-                vpiFullName: work@prim_util_pkg::_clog2::result
+                vpiFullName: prim_util_pkg::_clog2::result
             vpiTypespec (1 items):
               IntegerTypespec:
                 vpiParent: Begin
                 vpiSigned: true
-            vpiStmt (3 items):
+            vpiStmt (4 items):
+              Variable name:result:
               Assignment start:8:5 end:8:22:
                 vpiParent: Begin
                 vpiBlocking: true
                 vpiLhs RefObj name:value start:8:5 end:8:10:
                   vpiParent: Assignment
                   vpiName: value
-                  vpiFullName: work@prim_util_pkg::_clog2::value
+                  vpiFullName: prim_util_pkg::_clog2::value
                   vpiActual: IODecl name:value
                 vpiRhs Operation start:8:13 end:8:22:
                   vpiParent: Assignment
@@ -2372,13 +2372,13 @@ Design name:unnamed:
                     RefObj name:value start:8:13 end:8:18:
                       vpiParent: Operation
                       vpiName: value
-                      vpiFullName: work@prim_util_pkg::_clog2::value
+                      vpiFullName: prim_util_pkg::_clog2::value
                       vpiActual: IODecl name:value
                     Constant start:8:21 end:8:22:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@prim_util_pkg::_clog2
+                        vpiFullName: prim_util_pkg::_clog2
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2386,7 +2386,7 @@ Design name:unnamed:
                       vpiValue: 1
               ForStmt start:9:5 end:11:8:
                 vpiParent: Begin
-                vpiFullName: work@prim_util_pkg::_clog2
+                vpiFullName: prim_util_pkg::_clog2
                 vpiForInitStmt (1 items):
                   Assignment start:9:10 end:9:20:
                     vpiParent: ForStmt
@@ -2394,13 +2394,13 @@ Design name:unnamed:
                     vpiLhs RefObj name:result start:9:10 end:9:16:
                       vpiParent: Assignment
                       vpiName: result
-                      vpiFullName: work@prim_util_pkg::_clog2::result
+                      vpiFullName: prim_util_pkg::_clog2::result
                       vpiActual: Variable name:result
                     vpiRhs Constant start:9:19 end:9:20:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@prim_util_pkg::_clog2
+                        vpiFullName: prim_util_pkg::_clog2
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2413,7 +2413,7 @@ Design name:unnamed:
                     vpiLhs RefObj name:result start:9:33 end:9:39:
                       vpiParent: Assignment
                       vpiName: result
-                      vpiFullName: work@prim_util_pkg::_clog2::result
+                      vpiFullName: prim_util_pkg::_clog2::result
                       vpiActual: Variable name:result
                     vpiRhs Operation start:9:42 end:9:52:
                       vpiParent: Assignment
@@ -2422,13 +2422,13 @@ Design name:unnamed:
                         RefObj name:result start:9:42 end:9:48:
                           vpiParent: Operation
                           vpiName: result
-                          vpiFullName: work@prim_util_pkg::_clog2::result
+                          vpiFullName: prim_util_pkg::_clog2::result
                           vpiActual: Variable name:result
                         Constant start:9:51 end:9:52:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@prim_util_pkg::_clog2
+                            vpiFullName: prim_util_pkg::_clog2
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -2441,13 +2441,13 @@ Design name:unnamed:
                     RefObj name:value start:9:22 end:9:27:
                       vpiParent: Operation
                       vpiName: value
-                      vpiFullName: work@prim_util_pkg::_clog2::value
+                      vpiFullName: prim_util_pkg::_clog2::value
                       vpiActual: IODecl name:value
                     Constant start:9:30 end:9:31:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@prim_util_pkg::_clog2
+                        vpiFullName: prim_util_pkg::_clog2
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2455,7 +2455,7 @@ Design name:unnamed:
                       vpiValue: 0
                 vpiStmt Begin start:9:54 end:11:8:
                   vpiParent: ForStmt
-                  vpiFullName: work@prim_util_pkg::_clog2
+                  vpiFullName: prim_util_pkg::_clog2
                   vpiStmt (1 items):
                     Assignment start:10:7 end:10:25:
                       vpiParent: Begin
@@ -2463,7 +2463,7 @@ Design name:unnamed:
                       vpiLhs RefObj name:value start:10:7 end:10:12:
                         vpiParent: Assignment
                         vpiName: value
-                        vpiFullName: work@prim_util_pkg::_clog2::value
+                        vpiFullName: prim_util_pkg::_clog2::value
                         vpiActual: IODecl name:value
                       vpiRhs Operation start:10:15 end:10:25:
                         vpiParent: Assignment
@@ -2472,13 +2472,13 @@ Design name:unnamed:
                           RefObj name:value start:10:15 end:10:20:
                             vpiParent: Operation
                             vpiName: value
-                            vpiFullName: work@prim_util_pkg::_clog2::value
+                            vpiFullName: prim_util_pkg::_clog2::value
                             vpiActual: IODecl name:value
                           Constant start:10:24 end:10:25:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@prim_util_pkg::_clog2
+                              vpiFullName: prim_util_pkg::_clog2
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -2489,22 +2489,27 @@ Design name:unnamed:
                 vpiCondition RefObj name:result start:12:12 end:12:18:
                   vpiParent: ReturnStmt
                   vpiName: result
-                  vpiFullName: work@prim_util_pkg::_clog2::result
+                  vpiFullName: prim_util_pkg::_clog2::result
                   vpiActual: Variable name:result
           vpiReturn RefTypespec start:6:22 end:6:29:
             vpiParent: Function name:_clog2
-            vpiFullName: work@prim_util_pkg::_clog2
+            vpiFullName: prim_util_pkg::_clog2
             vpiActual: IntegerTypespec
         Function name:vbits start:15:1 end:19:14:
-          vpiParent: Package name:work@prim_util_pkg
+          vpiParent: Package name:prim_util_pkg
           vpiName Identifier name:vbits start:15:28 end:15:33:
             vpiParent: Function name:vbits
             vpiName: vbits
-          vpiFullName: work@prim_util_pkg::vbits
-          vpiTypespec (1 items):
+          vpiFullName: prim_util_pkg::vbits
+          vpiTypespec (2 items):
             IntegerTypespec:
               vpiParent: Function name:vbits
               vpiSigned: true
+            UnsupportedTypespec name:prim_util_pkg start:17:31 end:17:44:
+              vpiParent: Function name:vbits
+              vpiName Identifier name:prim_util_pkg start:17:31 end:17:44:
+                vpiParent: UnsupportedTypespec name:prim_util_pkg
+                vpiName: prim_util_pkg
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -2514,7 +2519,7 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:15:34 end:15:41:
                 vpiParent: IODecl name:value
-                vpiFullName: work@prim_util_pkg::vbits::value
+                vpiFullName: prim_util_pkg::vbits::value
                 vpiActual: IntegerTypespec
           vpiStmt ReturnStmt start:17:5 end:17:60:
             vpiParent: Function name:vbits
@@ -2529,13 +2534,13 @@ Design name:unnamed:
                     RefObj name:value start:17:13 end:17:18:
                       vpiParent: Operation
                       vpiName: value
-                      vpiFullName: work@prim_util_pkg::vbits::value
+                      vpiFullName: prim_util_pkg::vbits::value
                       vpiActual: IODecl name:value
                     Constant start:17:22 end:17:23:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@prim_util_pkg::vbits
+                        vpiFullName: prim_util_pkg::vbits
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2545,23 +2550,21 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@prim_util_pkg::vbits
+                    vpiFullName: prim_util_pkg::vbits
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-                HierPath name:prim_util_pkg::_clog2(value) start:17:31 end:17:58:
+                HierPath name:prim_util_pkg::_clog2(value) start:17:31 end:17:59:
                   vpiParent: Operation
                   vpiName: prim_util_pkg::_clog2(value)
-                  vpiFullName: work@prim_util_pkg::vbits::prim_util_pkg::_clog2(value)
+                  vpiFullName: prim_util_pkg::vbits::prim_util_pkg::_clog2(value)
                   vpiPathElem (2 items):
-                    UnsupportedScope name:prim_util_pkg start:17:31 end:17:46:
+                    RefTypespec start:17:31 end:17:46:
                       vpiParent: HierPath name:prim_util_pkg::_clog2(value)
-                      vpiName Identifier name:prim_util_pkg start:17:31 end:17:44:
-                        vpiParent: UnsupportedScope name:prim_util_pkg
-                        vpiName: prim_util_pkg
-                      vpiFullName: work@prim_util_pkg::vbits::prim_util_pkg::_clog2(value)::prim_util_pkg
+                      vpiFullName: prim_util_pkg::vbits::prim_util_pkg::_clog2(value)
+                      vpiActual: UnsupportedTypespec name:prim_util_pkg
                     FuncCall name:_clog2 start:17:46 end:17:59:
                       vpiParent: HierPath name:prim_util_pkg::_clog2(value)
                       vpiName Identifier name:_clog2 start:17:46 end:17:52:
@@ -2572,67 +2575,67 @@ Design name:unnamed:
                         RefObj name:value start:17:53 end:17:58:
                           vpiParent: FuncCall name:_clog2
                           vpiName: value
-                          vpiFullName: work@prim_util_pkg::vbits::prim_util_pkg::_clog2(value)::value
+                          vpiFullName: prim_util_pkg::vbits::prim_util_pkg::_clog2(value)::value
                           vpiActual: IODecl name:value
           vpiReturn RefTypespec start:15:20 end:15:27:
             vpiParent: Function name:vbits
-            vpiFullName: work@prim_util_pkg::vbits
+            vpiFullName: prim_util_pkg::vbits
             vpiActual: IntegerTypespec
-    Package name:work@flash_ctrl_pkg file:$Source01/dut.sv start:24:1 end:45:11:
+    Package name:flash_ctrl_pkg file:$Source01/dut.sv start:24:1 end:45:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@flash_ctrl_pkg start:24:9 end:24:23:
-        vpiParent: Package name:work@flash_ctrl_pkg
-        vpiName: work@flash_ctrl_pkg
-      vpiFullName: work@flash_ctrl_pkg
+      vpiName Identifier name:flash_ctrl_pkg start:24:9 end:24:23:
+        vpiParent: Package name:flash_ctrl_pkg
+        vpiName: flash_ctrl_pkg
+      vpiFullName: flash_ctrl_pkg
       vpiParameter (3 items):
         Parameter name:InfoTypes start:26:15 end:26:24:
-          vpiParent: Package name:work@flash_ctrl_pkg
+          vpiParent: Package name:flash_ctrl_pkg
           vpiTypespec RefTypespec start:26:11 end:26:14:
             vpiParent: Parameter name:InfoTypes
-            vpiFullName: work@flash_ctrl_pkg::InfoTypes
+            vpiFullName: flash_ctrl_pkg::InfoTypes
             vpiActual: IntTypespec
           vpiName: InfoTypes
-          vpiFullName: work@flash_ctrl_pkg::InfoTypes
+          vpiFullName: flash_ctrl_pkg::InfoTypes
         Parameter name:InfosPerBank start:27:15 end:27:27:
-          vpiParent: Package name:work@flash_ctrl_pkg
+          vpiParent: Package name:flash_ctrl_pkg
           vpiTypespec RefTypespec start:27:11 end:27:14:
             vpiParent: Parameter name:InfosPerBank
-            vpiFullName: work@flash_ctrl_pkg::InfosPerBank
+            vpiFullName: flash_ctrl_pkg::InfosPerBank
             vpiActual: IntTypespec
           vpiName: InfosPerBank
-          vpiFullName: work@flash_ctrl_pkg::InfosPerBank
+          vpiFullName: flash_ctrl_pkg::InfosPerBank
         Parameter name:InfoPageW start:33:16 end:33:25:
-          vpiParent: Package name:work@flash_ctrl_pkg
+          vpiParent: Package name:flash_ctrl_pkg
           vpiTypespec RefTypespec start:33:12 end:33:15:
             vpiParent: Parameter name:InfoPageW
-            vpiFullName: work@flash_ctrl_pkg::InfoPageW
+            vpiFullName: flash_ctrl_pkg::InfoPageW
             vpiActual: IntTypespec
           vpiName: InfoPageW
-          vpiFullName: work@flash_ctrl_pkg::InfoPageW
+          vpiFullName: flash_ctrl_pkg::InfoPageW
       vpiParamAssign (3 items):
         ParamAssign start:26:15 end:26:28:
-          vpiParent: Package name:work@flash_ctrl_pkg
+          vpiParent: Package name:flash_ctrl_pkg
           vpiLhs RefObj name:InfoTypes start:26:15 end:26:24:
             vpiParent: ParamAssign
             vpiName: InfoTypes
-            vpiFullName: work@flash_ctrl_pkg::InfoTypes
+            vpiFullName: flash_ctrl_pkg::InfoTypes
             vpiActual: Parameter name:InfoTypes
           vpiRhs Constant start:26:27 end:26:28:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@flash_ctrl_pkg
+              vpiFullName: flash_ctrl_pkg
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
         ParamAssign start:27:15 end:31:5:
-          vpiParent: Package name:work@flash_ctrl_pkg
+          vpiParent: Package name:flash_ctrl_pkg
           vpiLhs RefObj name:InfosPerBank start:27:15 end:27:27:
             vpiParent: ParamAssign
             vpiName: InfosPerBank
-            vpiFullName: work@flash_ctrl_pkg::InfosPerBank
+            vpiFullName: flash_ctrl_pkg::InfosPerBank
             vpiActual: Parameter name:InfosPerBank
           vpiRhs FuncCall name:max_info_pages start:27:33 end:31:5:
             vpiParent: ParamAssign
@@ -2649,7 +2652,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@flash_ctrl_pkg
+                      vpiFullName: flash_ctrl_pkg
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2659,7 +2662,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@flash_ctrl_pkg
+                      vpiFullName: flash_ctrl_pkg
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2669,30 +2672,28 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@flash_ctrl_pkg
+                      vpiFullName: flash_ctrl_pkg
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "2"
                     vpiValue: 2
         ParamAssign start:33:16 end:33:68:
-          vpiParent: Package name:work@flash_ctrl_pkg
+          vpiParent: Package name:flash_ctrl_pkg
           vpiLhs RefObj name:InfoPageW start:33:16 end:33:25:
             vpiParent: ParamAssign
             vpiName: InfoPageW
-            vpiFullName: work@flash_ctrl_pkg::InfoPageW
+            vpiFullName: flash_ctrl_pkg::InfoPageW
             vpiActual: Parameter name:InfoPageW
-          vpiRhs HierPath name:prim_util_pkg::vbits(InfosPerBank) start:33:34 end:33:67:
+          vpiRhs HierPath name:prim_util_pkg::vbits(InfosPerBank) start:33:34 end:33:68:
             vpiParent: ParamAssign
             vpiName: prim_util_pkg::vbits(InfosPerBank)
-            vpiFullName: work@flash_ctrl_pkg::prim_util_pkg::vbits(InfosPerBank)
+            vpiFullName: flash_ctrl_pkg::prim_util_pkg::vbits(InfosPerBank)
             vpiPathElem (2 items):
-              UnsupportedScope name:prim_util_pkg start:33:34 end:33:49:
+              RefTypespec start:33:34 end:33:49:
                 vpiParent: HierPath name:prim_util_pkg::vbits(InfosPerBank)
-                vpiName Identifier name:prim_util_pkg start:33:34 end:33:47:
-                  vpiParent: UnsupportedScope name:prim_util_pkg
-                  vpiName: prim_util_pkg
-                vpiFullName: work@flash_ctrl_pkg::prim_util_pkg::vbits(InfosPerBank)::prim_util_pkg
+                vpiFullName: flash_ctrl_pkg::prim_util_pkg::vbits(InfosPerBank)
+                vpiActual: UnsupportedTypespec name:prim_util_pkg
               SubroutineCall name:vbits start:33:49 end:33:68:
                 vpiParent: HierPath name:prim_util_pkg::vbits(InfosPerBank)
                 vpiName Identifier name:vbits start:33:49 end:33:54:
@@ -2702,22 +2703,28 @@ Design name:unnamed:
                   RefObj name:InfosPerBank start:33:55 end:33:67:
                     vpiParent: SubroutineCall name:vbits
                     vpiName: InfosPerBank
-                    vpiFullName: work@flash_ctrl_pkg::prim_util_pkg::vbits(InfosPerBank)::vbits::InfosPerBank
+                    vpiFullName: flash_ctrl_pkg::prim_util_pkg::vbits(InfosPerBank)::vbits::InfosPerBank
                     vpiActual: Parameter name:InfosPerBank
-      vpiDefName: work@flash_ctrl_pkg
-      vpiDefNetType: none (12)
+      vpiTypespec (1 items):
+        UnsupportedTypespec name:prim_util_pkg start:33:34 end:33:47:
+          vpiParent: Package name:flash_ctrl_pkg
+          vpiName Identifier name:prim_util_pkg start:33:34 end:33:47:
+            vpiParent: UnsupportedTypespec name:prim_util_pkg
+            vpiName: prim_util_pkg
+      vpiDefName: flash_ctrl_pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@flash_ctrl_pkg
+        vpiParent: Package name:flash_ctrl_pkg
         vpiName: work
-        vpiFullName: work@flash_ctrl_pkg::work
+        vpiFullName: flash_ctrl_pkg::work
       vpiCell: flash_ctrl_pkg
       vpiTaskFunc (1 items):
         Function name:max_info_pages start:35:1 end:43:14:
-          vpiParent: Package name:work@flash_ctrl_pkg
+          vpiParent: Package name:flash_ctrl_pkg
           vpiName Identifier name:max_info_pages start:35:28 end:35:42:
             vpiParent: Function name:max_info_pages
             vpiName: max_info_pages
-          vpiFullName: work@flash_ctrl_pkg::max_info_pages
+          vpiFullName: flash_ctrl_pkg::max_info_pages
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -2727,25 +2734,25 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:35:43 end:35:46:
                 vpiParent: IODecl name:infos
-                vpiFullName: work@flash_ctrl_pkg::max_info_pages::infos
+                vpiFullName: flash_ctrl_pkg::max_info_pages::infos
                 vpiActual: ArrayTypespec
           vpiStmt Begin:
             vpiParent: Function name:max_info_pages
-            vpiFullName: work@flash_ctrl_pkg::max_info_pages
+            vpiFullName: flash_ctrl_pkg::max_info_pages
             vpiVariable (1 items):
               Variable name:current_max start:36:9 end:36:20:
                 vpiParent: Begin
                 vpiTypespec RefTypespec start:36:5 end:36:8:
                   vpiParent: Variable name:current_max
-                  vpiFullName: work@flash_ctrl_pkg::max_info_pages::current_max
+                  vpiFullName: flash_ctrl_pkg::max_info_pages::current_max
                   vpiActual: IntTypespec
                 vpiName: current_max
-                vpiFullName: work@flash_ctrl_pkg::max_info_pages::current_max
+                vpiFullName: flash_ctrl_pkg::max_info_pages::current_max
                 vpiValue Constant start:36:23 end:36:24:
                   vpiParent: Variable name:current_max
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@flash_ctrl_pkg::max_info_pages::current_max
+                    vpiFullName: flash_ctrl_pkg::max_info_pages::current_max
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -2767,25 +2774,26 @@ Design name:unnamed:
                       RefObj name:InfoTypes start:35:53 end:35:62:
                         vpiParent: Operation
                         vpiName: InfoTypes
-                        vpiFullName: work@flash_ctrl_pkg::max_info_pages::InfoTypes
+                        vpiFullName: flash_ctrl_pkg::max_info_pages::InfoTypes
                         vpiActual: Parameter name:InfoTypes
                 vpiElemTypespec RefTypespec start:35:43 end:35:46:
                   vpiParent: ArrayTypespec
-                  vpiFullName: work@flash_ctrl_pkg::max_info_pages
+                  vpiFullName: flash_ctrl_pkg::max_info_pages
                   vpiActual: IntTypespec
-            vpiStmt (2 items):
+            vpiStmt (3 items):
+              Variable name:current_max:
               ForStmt start:37:5 end:41:8:
                 vpiParent: Begin
-                vpiFullName: work@flash_ctrl_pkg::max_info_pages
+                vpiFullName: flash_ctrl_pkg::max_info_pages
                 vpiVariable (1 items):
                   Variable name:i start:37:14 end:37:15:
                     vpiParent: ForStmt
                     vpiTypespec RefTypespec start:37:10 end:37:13:
                       vpiParent: Variable name:i
-                      vpiFullName: work@flash_ctrl_pkg::max_info_pages::i
+                      vpiFullName: flash_ctrl_pkg::max_info_pages::i
                       vpiActual: IntTypespec
                     vpiName: i
-                    vpiFullName: work@flash_ctrl_pkg::max_info_pages::i
+                    vpiFullName: flash_ctrl_pkg::max_info_pages::i
                 vpiForInitStmt (1 items):
                   Assignment start:37:14 end:37:19:
                     vpiParent: ForStmt
@@ -2794,7 +2802,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@flash_ctrl_pkg::max_info_pages
+                        vpiFullName: flash_ctrl_pkg::max_info_pages
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2808,7 +2816,7 @@ Design name:unnamed:
                       RefObj name:i start:37:36 end:37:37:
                         vpiParent: Operation
                         vpiName: i
-                        vpiFullName: work@flash_ctrl_pkg::max_info_pages::i
+                        vpiFullName: flash_ctrl_pkg::max_info_pages::i
                         vpiActual: Variable name:i
                 vpiCondition Operation start:37:21 end:37:34:
                   vpiParent: ForStmt
@@ -2817,16 +2825,16 @@ Design name:unnamed:
                     RefObj name:i start:37:21 end:37:22:
                       vpiParent: Operation
                       vpiName: i
-                      vpiFullName: work@flash_ctrl_pkg::max_info_pages::i
+                      vpiFullName: flash_ctrl_pkg::max_info_pages::i
                       vpiActual: Variable name:i
                     RefObj name:InfoTypes start:37:25 end:37:34:
                       vpiParent: Operation
                       vpiName: InfoTypes
-                      vpiFullName: work@flash_ctrl_pkg::max_info_pages::InfoTypes
+                      vpiFullName: flash_ctrl_pkg::max_info_pages::InfoTypes
                       vpiActual: Parameter name:InfoTypes
                 vpiStmt Begin start:37:41 end:41:8:
                   vpiParent: ForStmt
-                  vpiFullName: work@flash_ctrl_pkg::max_info_pages
+                  vpiFullName: flash_ctrl_pkg::max_info_pages
                   vpiStmt (1 items):
                     IfStmt start:38:7 end:40:10:
                       vpiParent: Begin
@@ -2837,25 +2845,25 @@ Design name:unnamed:
                           BitSelect name:infos[i] start:38:11 end:38:19:
                             vpiParent: Operation
                             vpiName: infos[i]
-                            vpiFullName: work@flash_ctrl_pkg::max_info_pages::infos[i]
+                            vpiFullName: flash_ctrl_pkg::max_info_pages::infos[i]
                             vpiPrefix RefObj name:infos start:38:11 end:38:16:
                               vpiParent: BitSelect name:infos[i]
                               vpiName: infos
-                              vpiFullName: work@flash_ctrl_pkg::max_info_pages::infos
+                              vpiFullName: flash_ctrl_pkg::max_info_pages::infos
                               vpiActual: IODecl name:infos
                             vpiIndex RefObj name:i start:38:17 end:38:18:
                               vpiParent: BitSelect name:infos[i]
                               vpiName: i
-                              vpiFullName: work@flash_ctrl_pkg::max_info_pages::i
+                              vpiFullName: flash_ctrl_pkg::max_info_pages::i
                               vpiActual: Variable name:i
                           RefObj name:current_max start:38:22 end:38:33:
                             vpiParent: Operation
                             vpiName: current_max
-                            vpiFullName: work@flash_ctrl_pkg::max_info_pages::current_max
+                            vpiFullName: flash_ctrl_pkg::max_info_pages::current_max
                             vpiActual: Variable name:current_max
                       vpiStmt Begin start:38:35 end:40:10:
                         vpiParent: IfStmt
-                        vpiFullName: work@flash_ctrl_pkg::max_info_pages
+                        vpiFullName: flash_ctrl_pkg::max_info_pages
                         vpiStmt (1 items):
                           Assignment start:39:9 end:39:31:
                             vpiParent: Begin
@@ -2863,55 +2871,55 @@ Design name:unnamed:
                             vpiLhs RefObj name:current_max start:39:9 end:39:20:
                               vpiParent: Assignment
                               vpiName: current_max
-                              vpiFullName: work@flash_ctrl_pkg::max_info_pages::current_max
+                              vpiFullName: flash_ctrl_pkg::max_info_pages::current_max
                               vpiActual: Variable name:current_max
                             vpiRhs BitSelect name:infos[i] start:39:23 end:39:31:
                               vpiParent: Assignment
                               vpiName: infos[i]
-                              vpiFullName: work@flash_ctrl_pkg::max_info_pages::infos[i]
+                              vpiFullName: flash_ctrl_pkg::max_info_pages::infos[i]
                               vpiPrefix RefObj name:infos start:39:23 end:39:28:
                                 vpiParent: BitSelect name:infos[i]
                                 vpiName: infos
-                                vpiFullName: work@flash_ctrl_pkg::max_info_pages::infos
+                                vpiFullName: flash_ctrl_pkg::max_info_pages::infos
                                 vpiActual: IODecl name:infos
                               vpiIndex RefObj name:i start:39:29 end:39:30:
                                 vpiParent: BitSelect name:infos[i]
                                 vpiName: i
-                                vpiFullName: work@flash_ctrl_pkg::max_info_pages::i
+                                vpiFullName: flash_ctrl_pkg::max_info_pages::i
                                 vpiActual: Variable name:i
               ReturnStmt start:42:5 end:42:24:
                 vpiParent: Begin
                 vpiCondition RefObj name:current_max start:42:12 end:42:23:
                   vpiParent: ReturnStmt
                   vpiName: current_max
-                  vpiFullName: work@flash_ctrl_pkg::max_info_pages::current_max
+                  vpiFullName: flash_ctrl_pkg::max_info_pages::current_max
                   vpiActual: Variable name:current_max
           vpiReturn RefTypespec start:35:20 end:35:27:
             vpiParent: Function name:max_info_pages
-            vpiFullName: work@flash_ctrl_pkg::max_info_pages
+            vpiFullName: flash_ctrl_pkg::max_info_pages
             vpiActual: IntegerTypespec
-    Package name:work@otp_ctrl_pkg file:$Source01/dut.sv start:48:1 end:57:11:
+    Package name:otp_ctrl_pkg file:$Source01/dut.sv start:48:1 end:57:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@otp_ctrl_pkg start:48:9 end:48:21:
-        vpiParent: Package name:work@otp_ctrl_pkg
-        vpiName: work@otp_ctrl_pkg
-      vpiFullName: work@otp_ctrl_pkg
+      vpiName Identifier name:otp_ctrl_pkg start:48:9 end:48:21:
+        vpiParent: Package name:otp_ctrl_pkg
+        vpiName: otp_ctrl_pkg
+      vpiFullName: otp_ctrl_pkg
       vpiParameter (1 items):
         Parameter name:NumPartWidth start:54:17 end:54:29:
-          vpiParent: Package name:work@otp_ctrl_pkg
+          vpiParent: Package name:otp_ctrl_pkg
           vpiTypespec RefTypespec start:54:13 end:54:16:
             vpiParent: Parameter name:NumPartWidth
-            vpiFullName: work@otp_ctrl_pkg::NumPartWidth
+            vpiFullName: otp_ctrl_pkg::NumPartWidth
             vpiActual: IntTypespec
           vpiName: NumPartWidth
-          vpiFullName: work@otp_ctrl_pkg::NumPartWidth
+          vpiFullName: otp_ctrl_pkg::NumPartWidth
       vpiParamAssign (1 items):
         ParamAssign start:54:17 end:54:51:
-          vpiParent: Package name:work@otp_ctrl_pkg
+          vpiParent: Package name:otp_ctrl_pkg
           vpiLhs RefObj name:NumPartWidth start:54:17 end:54:29:
             vpiParent: ParamAssign
             vpiName: NumPartWidth
-            vpiFullName: work@otp_ctrl_pkg::NumPartWidth
+            vpiFullName: otp_ctrl_pkg::NumPartWidth
             vpiActual: Parameter name:NumPartWidth
           vpiRhs FuncCall name:vbits start:54:32 end:54:51:
             vpiParent: ParamAssign
@@ -2923,10 +2931,10 @@ Design name:unnamed:
               RefObj name:InfosPerBank start:54:38 end:54:50:
                 vpiParent: FuncCall name:vbits
                 vpiName: InfosPerBank
-                vpiFullName: work@otp_ctrl_pkg::InfosPerBank
+                vpiFullName: otp_ctrl_pkg::InfosPerBank
       vpiTypespec (1 items):
         ImportTypespec name:prim_util_pkg start:50:10 end:50:30:
-          vpiParent: Package name:work@otp_ctrl_pkg
+          vpiParent: Package name:otp_ctrl_pkg
           vpiName Identifier name:prim_util_pkg start:50:10 end:50:23:
             vpiParent: ImportTypespec name:prim_util_pkg
             vpiName: prim_util_pkg
@@ -2934,18 +2942,18 @@ Design name:unnamed:
             vpiParent: ImportTypespec name:prim_util_pkg
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@otp_ctrl_pkg::prim_util_pkg
+              vpiFullName: otp_ctrl_pkg::prim_util_pkg
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 40
             vpiDecompile: vbits
             vpiValue: vbits
-      vpiDefName: work@otp_ctrl_pkg
-      vpiDefNetType: none (12)
+      vpiDefName: otp_ctrl_pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@otp_ctrl_pkg
+        vpiParent: Package name:otp_ctrl_pkg
         vpiName: work
-        vpiFullName: work@otp_ctrl_pkg::work
+        vpiFullName: otp_ctrl_pkg::work
       vpiCell: otp_ctrl_pkg
   vpiAllClasses (3 items):
     ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
@@ -2960,6 +2968,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2971,6 +2980,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -3002,6 +3012,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -3016,6 +3027,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -3037,6 +3049,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -3060,6 +3073,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -3079,6 +3093,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -3102,6 +3117,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -3121,6 +3137,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -3190,16 +3207,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -3212,6 +3232,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -3223,6 +3244,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -3230,6 +3252,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -3237,6 +3260,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -3244,6 +3268,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -3257,6 +3282,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -3268,6 +3294,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -3299,6 +3326,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -3325,6 +3353,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -3351,6 +3380,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -3376,20 +3406,30 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@flash_ctrl_info_cfg file:$Source01/dut.sv start:59:1 end:63:10:
+    Module name:flash_ctrl_info_cfg file:$Source01/dut.sv start:59:1 end:63:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@flash_ctrl_info_cfg start:59:8 end:59:27:
-        vpiParent: Module name:work@flash_ctrl_info_cfg
-        vpiName: work@flash_ctrl_info_cfg
-      vpiFullName: work@flash_ctrl_info_cfg
+      vpiName Identifier name:flash_ctrl_info_cfg start:59:8 end:59:27:
+        vpiParent: Module name:flash_ctrl_info_cfg
+        vpiName: flash_ctrl_info_cfg
+      vpiFullName: flash_ctrl_info_cfg
+      vpiVariable (1 items):
+        Variable name:CurPage start:61:23 end:61:30:
+          vpiParent: Module name:flash_ctrl_info_cfg
+          vpiTypespec RefTypespec start:61:1 end:61:22:
+            vpiParent: Variable name:CurPage
+            vpiFullName: flash_ctrl_info_cfg.CurPage
+            vpiActual: LogicTypespec
+          vpiName: CurPage
+          vpiFullName: flash_ctrl_info_cfg.CurPage
+          vpiVector: true
       vpiTypespec (2 items):
         ImportTypespec name:flash_ctrl_pkg start:59:35 end:59:52:
-          vpiParent: Module name:work@flash_ctrl_info_cfg
+          vpiParent: Module name:flash_ctrl_info_cfg
           vpiName Identifier name:flash_ctrl_pkg start:59:35 end:59:49:
             vpiParent: ImportTypespec name:flash_ctrl_pkg
             vpiName: flash_ctrl_pkg
         LogicTypespec:
-          vpiParent: Module name:work@flash_ctrl_info_cfg
+          vpiParent: Module name:flash_ctrl_info_cfg
           vpiRange (1 items):
             Range start:61:7 end:61:22:
               vpiParent: LogicTypespec
@@ -3400,13 +3440,13 @@ Design name:unnamed:
                   RefObj name:InfoPageW start:61:8 end:61:17:
                     vpiParent: Operation
                     vpiName: InfoPageW
-                    vpiFullName: work@flash_ctrl_info_cfg.InfoPageW
+                    vpiFullName: flash_ctrl_info_cfg.InfoPageW
                     vpiActual: Parameter name:InfoPageW
                   Constant start:61:18 end:61:19:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@flash_ctrl_info_cfg
+                      vpiFullName: flash_ctrl_info_cfg
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -3416,29 +3456,20 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@flash_ctrl_info_cfg
+                  vpiFullName: flash_ctrl_info_cfg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@flash_ctrl_info_cfg
-      vpiDefNetType: none (12)
+      vpiDefName: flash_ctrl_info_cfg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@flash_ctrl_info_cfg
+        vpiParent: Module name:flash_ctrl_info_cfg
         vpiName: work
-        vpiFullName: work@flash_ctrl_info_cfg.work
+        vpiFullName: flash_ctrl_info_cfg.work
       vpiCell: flash_ctrl_info_cfg
-      vpiNet (1 items):
-        Net name:CurPage start:61:23 end:61:30:
-          vpiParent: Module name:work@flash_ctrl_info_cfg
-          vpiTypespec RefTypespec start:61:1 end:61:22:
-            vpiParent: Net name:CurPage
-            vpiFullName: work@flash_ctrl_info_cfg.CurPage
-            vpiActual: LogicTypespec
-          vpiName: CurPage
-          vpiFullName: work@flash_ctrl_info_cfg.CurPage
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3454,30 +3485,33 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@flash_ctrl_info_cfg:
+    ModuleTypespec name:flash_ctrl_info_cfg:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@flash_ctrl_info_cfg start:59:8 end:59:27:
-        vpiParent: ModuleTypespec name:work@flash_ctrl_info_cfg
-        vpiName: work@flash_ctrl_info_cfg
-      vpiModule: Module name:work@flash_ctrl_info_cfg
+      vpiName Identifier name:flash_ctrl_info_cfg start:59:8 end:59:27:
+        vpiParent: ModuleTypespec name:flash_ctrl_info_cfg
+        vpiName: flash_ctrl_info_cfg
+      vpiModule: Module name:flash_ctrl_info_cfg
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 5
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3521,7 +3555,7 @@ COMMAND: ${HLC_DIR}/regression/EvalFuncPack/EvalFuncPack/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             756     756       0         0
+Others                             758     758       0         0
 ----------------------------------------------------------------
-                                   756     756       0         0
+                                   758     758       0         0
 ===================== END REDUCTION RESULT =====================

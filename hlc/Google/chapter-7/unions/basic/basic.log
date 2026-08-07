@@ -19,7 +19,7 @@ n<$Source01/basic.sv> u<127> t<Top_level_rule> c<1> l<7:1> el<21:1>
     n<> u<125> t<Description> p<126> c<124> l<7:1> el<20:10>
       n<> u<124> t<Module_declaration> p<125> c<7> l<7:1> el<20:10>
         n<> u<7> t<Module_nonansi_header> p<124> c<3> s<55> l<7:1> el<7:15>
-          n<module> u<3> t<Module_keyword> p<7> s<4> l<7:1> el<7:7>
+          n<module> u<3> t<MODULE> p<7> s<4> l<7:1> el<7:7>
           n<top> u<4> t<SIMPLE_IDENTIFIER> p<7> s<5> l<7:8> el<7:11>
           n<> u<5> t<Package_import_declaration_list> p<7> s<6> l<7:12> el<7:12>
           n<> u<6> t<Port_list> p<7> l<7:12> el<7:14>
@@ -33,7 +33,7 @@ n<$Source01/basic.sv> u<127> t<Top_level_rule> c<1> l<7:1> el<21:1>
                       n<> u<48> t<Variable_declaration> p<49> c<44> l<9:1> el<12:6>
                         n<> u<44> t<Data_type> p<48> c<9> s<47> l<9:1> el<12:2>
                           n<> u<9> t<Struct_union> p<44> c<8> s<26> l<9:1> el<9:6>
-                            n<> u<8> t<Union_keyword> p<9> l<9:1> el<9:6>
+                            n<> u<8> t<UNION> p<9> l<9:1> el<9:6>
                           n<> u<26> t<Struct_union_member> p<44> c<22> s<43> l<10:2> el<10:15>
                             n<> u<22> t<Data_type_or_void> p<26> c<21> s<25> l<10:2> el<10:11>
                               n<> u<21> t<Data_type> p<22> c<10> l<10:2> el<10:11>
@@ -140,7 +140,7 @@ n<$Source01/basic.sv> u<127> t<Top_level_rule> c<1> l<7:1> el<21:1>
                           n<> u<113> t<END> p<114> l<18:1> el<18:4>
         n<> u<123> t<ENDMODULE> p<124> l<20:1> el<20:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/basic.sv:7:1: Compile module "work@top".
+[INF:CP0303] $Source01/basic.sv:7:1: Compile module "top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -150,17 +150,25 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: basic.sv
       vpiPreprocFile: "$Output/lib/work/basic.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/basic.sv start:7:1 end:20:10:
+    Module name:top file:$Source01/basic.sv start:7:1 end:20:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:7:8 end:7:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:7:8 end:7:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:un start:12:3 end:12:5:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:9:1 end:12:2:
+            vpiParent: Variable name:un
+            vpiFullName: top.un
+            vpiActual: UnionTypespec
+          vpiName: un
+          vpiFullName: top.un
       vpiTypespec (3 items):
         BitTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:10:6 end:10:11:
               vpiParent: BitTypespec
@@ -168,7 +176,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -178,7 +186,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -186,7 +194,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         BitTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:11:6 end:11:11:
               vpiParent: BitTypespec
@@ -194,7 +202,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -204,7 +212,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -212,44 +220,35 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         UnionTypespec start:9:1 end:12:2:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespecMember (2 items):
             TypespecMember name:v1 start:10:12 end:10:14:
               vpiParent: UnionTypespec
               vpiName: v1
               vpiTypespec RefTypespec start:10:2 end:10:11:
                 vpiParent: TypespecMember name:v1
-                vpiFullName: work@top.v1
+                vpiFullName: top.v1
                 vpiActual: BitTypespec
             TypespecMember name:v2 start:11:12 end:11:14:
               vpiParent: UnionTypespec
               vpiName: v2
               vpiTypespec RefTypespec start:11:2 end:11:11:
                 vpiParent: TypespecMember name:v2
-                vpiFullName: work@top.v2
+                vpiFullName: top.v2
                 vpiActual: BitTypespec
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
-      vpiNet (1 items):
-        Net name:un start:12:3 end:12:5:
-          vpiParent: Module name:work@top
-          vpiTypespec RefTypespec start:9:1 end:12:2:
-            vpiParent: Net name:un
-            vpiFullName: work@top.un
-            vpiActual: UnionTypespec
-          vpiName: un
-          vpiFullName: work@top.un
       vpiProcess (1 items):
         Initial start:14:1 end:18:4:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiStmt Begin start:14:9 end:18:4:
             vpiParent: Initial
-            vpiFullName: work@top
+            vpiFullName: top
             vpiStmt (3 items):
               Assignment start:15:2 end:15:16:
                 vpiParent: Begin
@@ -257,23 +256,23 @@ Design name:unnamed:
                 vpiLhs HierPath name:un.v1 start:15:2 end:15:7:
                   vpiParent: Assignment
                   vpiName: un.v1
-                  vpiFullName: work@top.un.v1
+                  vpiFullName: top.un.v1
                   vpiPathElem (2 items):
                     RefObj name:un start:15:2 end:15:4:
                       vpiParent: HierPath name:un.v1
                       vpiName: un
-                      vpiFullName: work@top.un
-                      vpiActual: Net name:un
+                      vpiFullName: top.un
+                      vpiActual: Variable name:un
                     RefObj name:v1 start:15:5 end:15:7:
                       vpiParent: HierPath name:un.v1
                       vpiName: v1
-                      vpiFullName: work@top.v1
+                      vpiFullName: top.v1
                       vpiActual: TypespecMember name:v1
                 vpiRhs Constant start:15:10 end:15:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top
+                    vpiFullName: top
                     vpiActual: IntTypespec
                   vpiConstType: decimal (1)
                   vpiSize: 8
@@ -289,7 +288,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 160
@@ -298,17 +297,17 @@ Design name:unnamed:
                   HierPath name:un.v1 start:16:35 end:16:40:
                     vpiParent: SysTaskCall name:$display
                     vpiName: un.v1
-                    vpiFullName: work@top.un.v1
+                    vpiFullName: top.un.v1
                     vpiPathElem (2 items):
                       RefObj name:un start:16:35 end:16:37:
                         vpiParent: HierPath name:un.v1
                         vpiName: un
-                        vpiFullName: work@top.un
-                        vpiActual: Net name:un
+                        vpiFullName: top.un
+                        vpiActual: Variable name:un
                       RefObj name:v1 start:16:38 end:16:40:
                         vpiParent: HierPath name:un.v1
                         vpiName: v1
-                        vpiFullName: work@top.v1
+                        vpiFullName: top.v1
                         vpiActual: TypespecMember name:v1
               SysTaskCall name:$display start:17:2 end:17:40:
                 vpiParent: Begin
@@ -320,7 +319,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 152
@@ -329,25 +328,25 @@ Design name:unnamed:
                   HierPath name:un.v2 start:17:34 end:17:39:
                     vpiParent: SysTaskCall name:$display
                     vpiName: un.v2
-                    vpiFullName: work@top.un.v2
+                    vpiFullName: top.un.v2
                     vpiPathElem (2 items):
                       RefObj name:un start:17:34 end:17:36:
                         vpiParent: HierPath name:un.v2
                         vpiName: un
-                        vpiFullName: work@top.un
-                        vpiActual: Net name:un
+                        vpiFullName: top.un
+                        vpiActual: Variable name:un
                       RefObj name:v2 start:17:37 end:17:39:
                         vpiParent: HierPath name:un.v2
                         vpiName: v2
-                        vpiFullName: work@top.v2
+                        vpiFullName: top.v2
                         vpiActual: TypespecMember name:v2
   vpiTypespec (3 items):
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:7:8 end:7:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:7:8 end:7:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

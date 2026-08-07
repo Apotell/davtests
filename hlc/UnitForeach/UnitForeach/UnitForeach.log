@@ -358,7 +358,7 @@ n<$Source01/top.v> u<299> t<Top_level_rule> c<1> l<1:1> el<84:1>
                       n<> u<80> t<Data_declaration> p<81> c<79> l<50:7> el<50:25>
                         n<> u<79> t<Variable_declaration> p<80> c<69> l<50:7> el<50:25>
                           n<string> u<69> t<Data_type> p<79> c<68> s<78> l<50:7> el<50:13>
-                            n<string> u<68> t<String_type> p<69> l<50:7> el<50:13>
+                            n<string> u<68> t<STRING> p<69> l<50:7> el<50:13>
                           n<> u<78> t<Variable_decl_assignment_list> p<79> c<77> l<50:14> el<50:24>
                             n<> u<77> t<Variable_decl_assignment> p<78> c<70> l<50:14> el<50:24>
                               n<sarray> u<70> t<SIMPLE_IDENTIFIER> p<77> s<76> l<50:14> el<50:20>
@@ -716,16 +716,24 @@ n<$Source01/top2.v> u<134> t<Top_level_rule> c<1> l<3:1> el<15:1>
                 n<> u<125> t<ENDFUNCTION> p<126> l<11:3> el<11:14>
         n<> u<130> t<ENDPACKAGE> p<131> l<14:1> el<14:11>
 AST_DEBUG_END
-[INF:CP0301] $Source01/top2.v:3:1: Compile package "work@uvm_pkg".
-[ERR:EL0535] $Source01/top2.v:6:5: Illegal implicit net "id:914, name:super".
-[ERR:EL0535] $Source01/top2.v:7:53: Illegal implicit net "id:922, name:arb_sequence_q".
-[ERR:EL0535] $Source01/top2.v:8:14: Illegal implicit net "id:930, name:arb_sequence_q".
-[ERR:EL0535] $Source01/top2.v:10:34: Illegal implicit net "id:943, name:arb_sequence_q".
-[ERR:EL0535] $Source01/top2.v:10:52: Illegal implicit net "id:944, name:request".
-[ERR:EL0535] $Source01/top2.v:10:67: Illegal implicit net "id:950, name:arb_sequence_q".
-[ERR:EL0535] $Source01/top2.v:10:85: Illegal implicit net "id:951, name:sequence_id".
+[WRN:CP0323] $Source01/top.v:7:1: Multiply defined typedef "moreobj".
+[WRN:CP0323] $Source01/top.v:7:1: Multiply defined typedef "moreobj".
+[INF:CP0301] $Source01/top2.v:3:1: Compile package "uvm_pkg".
+[WRN:CP0350] $Source01/top.v:56:18: Failed to bind "id:832, name:bad1".
+[WRN:CP0350] $Source01/top.v:57:29: Failed to bind "id:838, name:bad2".
+[WRN:CP0350] $Source01/top.v:62:13: Failed to bind "id:852, name:bad3".
+[WRN:CP0350] $Source01/top.v:63:24: Failed to bind "id:858, name:bad4".
+[WRN:CP0350] $Source01/top.v:68:12: Failed to bind "id:872, name:bad5".
+[WRN:CP0350] $Source01/top.v:69:24: Failed to bind "id:878, name:bad6".
+[WRN:CP0350] $Source01/top.v:76:17: Failed to bind "id:896, name:bad6".
+[WRN:CP0350] $Source01/top2.v:6:5: Failed to bind "id:912, name:super".
+[WRN:CP0350] $Source01/top2.v:7:53: Failed to bind "id:920, name:arb_sequence_q".
+[WRN:CP0350] $Source01/top2.v:7:13: Failed to bind "id:925, name:print_array_header".
+[WRN:CP0350] $Source01/top2.v:10:52: Failed to bind "id:942, name:request".
+[WRN:CP0350] $Source01/top2.v:10:85: Failed to bind "id:949, name:sequence_id".
+[WRN:CP0350] $Source01/top2.v:9:15: Failed to bind "id:957, name:print_string".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/top2.v:3:1: No timescale set for "work@uvm_pkg".
+[WRN:PA0205] $Source01/top2.v:3:1: No timescale set for "uvm_pkg".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -734,12 +742,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
     SourceFile name:top2.v file:$Source01/top2.v:
       vpiParent: Design name:unnamed
       vpiName: top2.v
       vpiPreprocFile: "$Output/lib/work/top2.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2293,33 +2299,31 @@ Design name:unnamed:
                 vpiParent: Function name:rand_mode
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
-    Package name:work@uvm_pkg file:$Source01/top2.v start:3:1 end:14:11:
+    Package name:uvm_pkg file:$Source01/top2.v start:3:1 end:14:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@uvm_pkg start:3:9 end:3:16:
-        vpiParent: Package name:work@uvm_pkg
-        vpiName: work@uvm_pkg
-      vpiFullName: work@uvm_pkg
-      vpiDefName: work@uvm_pkg
-      vpiDefNetType: none (12)
+      vpiName Identifier name:uvm_pkg start:3:9 end:3:16:
+        vpiParent: Package name:uvm_pkg
+        vpiName: uvm_pkg
+      vpiFullName: uvm_pkg
+      vpiDefName: uvm_pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@uvm_pkg
+        vpiParent: Package name:uvm_pkg
         vpiName: work
-        vpiFullName: work@uvm_pkg::work
+        vpiFullName: uvm_pkg::work
       vpiCell: uvm_pkg
       vpiTaskFunc (1 items):
         Function name:do_print start:5:3 end:11:14:
-          vpiParent: Package name:work@uvm_pkg
+          vpiParent: Package name:uvm_pkg
           vpiName Identifier name:do_print start:5:37 end:5:45:
             vpiParent: Function name:do_print
             vpiName: do_print
-          vpiFullName: work@uvm_pkg::do_print
+          vpiFullName: uvm_pkg::do_print
           vpiVisibility: public (1)
-          vpiPrefix UnsupportedScope name:uvm_sequencer_base start:5:17 end:5:37:
+          vpiPrefix RefTypespec start:5:17 end:5:37:
             vpiParent: Function name:do_print
-            vpiName Identifier name:uvm_sequencer_base start:5:17 end:5:35:
-              vpiParent: UnsupportedScope name:uvm_sequencer_base
-              vpiName: uvm_sequencer_base
-            vpiFullName: work@uvm_pkg::do_print::uvm_sequencer_base
+            vpiFullName: uvm_pkg::do_print
+            vpiActual: UnsupportedTypespec name:uvm_sequencer_base
           vpiIODecl (1 items):
             IODecl name:printer start:5:59 end:5:66:
               vpiParent: Function name:do_print
@@ -2328,27 +2332,32 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:uvm_printer start:5:47 end:5:58:
                 vpiParent: IODecl name:printer
                 vpiName: uvm_printer
-                vpiFullName: work@uvm_pkg::do_print::printer::uvm_printer
+                vpiFullName: uvm_pkg::do_print::printer::uvm_printer
                 vpiActual: UnsupportedTypespec name:uvm_printer
           vpiStmt Begin:
             vpiParent: Function name:do_print
-            vpiFullName: work@uvm_pkg::do_print
-            vpiTypespec (1 items):
+            vpiFullName: uvm_pkg::do_print
+            vpiTypespec (2 items):
+              UnsupportedTypespec name:uvm_sequencer_base start:5:17 end:5:35:
+                vpiParent: Begin
+                vpiName Identifier name:uvm_sequencer_base start:5:17 end:5:35:
+                  vpiParent: UnsupportedTypespec name:uvm_sequencer_base
+                  vpiName: uvm_sequencer_base
               UnsupportedTypespec name:uvm_printer start:5:47 end:5:58:
                 vpiParent: Begin
                 vpiName Identifier name:uvm_printer start:5:47 end:5:58:
                   vpiParent: UnsupportedTypespec name:uvm_printer
                   vpiName: uvm_printer
             vpiStmt (3 items):
-              HierPath name:super.do_print(printer) start:6:5 end:6:27:
+              HierPath name:super.do_print(printer) start:6:5 end:6:28:
                 vpiParent: Begin
                 vpiName: super.do_print(printer)
-                vpiFullName: work@uvm_pkg::do_print::super.do_print(printer)
+                vpiFullName: uvm_pkg::do_print::super.do_print(printer)
                 vpiPathElem (2 items):
                   RefObj name:super start:6:5 end:6:10:
                     vpiParent: HierPath name:super.do_print(printer)
                     vpiName: super
-                    vpiFullName: work@uvm_pkg::do_print::super
+                    vpiFullName: uvm_pkg::do_print::super
                   FuncCall name:do_print start:6:11 end:6:28:
                     vpiParent: HierPath name:super.do_print(printer)
                     vpiName Identifier name:do_print start:6:11 end:6:19:
@@ -2359,17 +2368,17 @@ Design name:unnamed:
                       RefObj name:printer start:6:20 end:6:27:
                         vpiParent: FuncCall name:do_print
                         vpiName: printer
-                        vpiFullName: work@uvm_pkg::do_print::super.do_print(printer)::printer
+                        vpiFullName: uvm_pkg::do_print::super.do_print(printer)::printer
                         vpiActual: IODecl name:printer
-              "HierPath name:printer.print_array_header(\"arbitration_queue\", arb_sequence_q.size) start:7:5 end:7:74":
+              "HierPath name:printer.print_array_header(\"arbitration_queue\", arb_sequence_q.size) start:7:5 end:7:75":
                 vpiParent: Begin
                 vpiName: printer.print_array_header("arbitration_queue", arb_sequence_q.size)
-                vpiFullName: work@uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size)
+                vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size)
                 vpiPathElem (2 items):
                   RefObj name:printer start:7:5 end:7:12:
                     vpiParent: "HierPath name:printer.print_array_header(\"arbitration_queue\", arb_sequence_q.size)"
                     vpiName: printer
-                    vpiFullName: work@uvm_pkg::do_print::printer
+                    vpiFullName: uvm_pkg::do_print::printer
                     vpiActual: IODecl name:printer
                   SubroutineCall name:print_array_header start:7:13 end:7:75:
                     vpiParent: "HierPath name:printer.print_array_header(\"arbitration_queue\", arb_sequence_q.size)"
@@ -2381,21 +2390,21 @@ Design name:unnamed:
                         vpiParent: SubroutineCall name:print_array_header
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size)::print_array_header
+                          vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size)::print_array_header
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 136
                         vpiDecompile: "\"arbitration_queue\""
                         vpiValue: arbitration_queue
-                      HierPath name:arb_sequence_q.size start:7:53 end:7:73:
+                      HierPath name:arb_sequence_q.size start:7:53 end:7:74:
                         vpiParent: SubroutineCall name:print_array_header
                         vpiName: arb_sequence_q.size
-                        vpiFullName: work@uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size)::print_array_header::arb_sequence_q.size
+                        vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size)::print_array_header::arb_sequence_q.size
                         vpiPathElem (2 items):
                           RefObj name:arb_sequence_q start:7:53 end:7:67:
                             vpiParent: HierPath name:arb_sequence_q.size
                             vpiName: arb_sequence_q
-                            vpiFullName: work@uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size)::print_array_header::arb_sequence_q
+                            vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size)::print_array_header::arb_sequence_q
                           MethodFuncCall name:size start:7:68 end:7:74:
                             vpiParent: HierPath name:arb_sequence_q.size
                             vpiName Identifier name:size start:7:68 end:7:72:
@@ -2403,27 +2412,27 @@ Design name:unnamed:
                               vpiName: size
               ForeachStmt start:8:5 end:10:104:
                 vpiParent: Begin
-                vpiFullName: work@uvm_pkg::do_print
+                vpiFullName: uvm_pkg::do_print
                 vpiVariable (1 items):
                   Variable name:i start:8:29 end:8:30:
                     vpiParent: ForeachStmt
                     vpiName: i
-                    vpiFullName: work@uvm_pkg::do_print::i
+                    vpiFullName: uvm_pkg::do_print::i
                 vpiVariable RefObj name:arb_sequence_q start:8:14 end:8:28:
                   vpiParent: ForeachStmt
                   vpiName: arb_sequence_q
-                  vpiFullName: work@uvm_pkg::do_print::arb_sequence_q
+                  vpiFullName: uvm_pkg::do_print::arb_sequence_q
                 vpiLoopVars (1 items):
                   Variable name:i:
-                "vpiStmt HierPath name:printer.print_string($sformatf(\"[%0d]\", i), $sformatf(\"%s@seqid%0d\", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), \"[\") start:9:7 end:10:102":
+                "vpiStmt HierPath name:printer.print_string($sformatf(\"[%0d]\", i), $sformatf(\"%s@seqid%0d\", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), \"[\") start:9:7 end:10:103":
                   vpiParent: ForeachStmt
                   vpiName: printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")
-                  vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")
+                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")
                   vpiPathElem (2 items):
                     RefObj name:printer start:9:7 end:9:14:
                       vpiParent: "HierPath name:printer.print_string($sformatf(\"[%0d]\", i), $sformatf(\"%s@seqid%0d\", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), \"[\")"
                       vpiName: printer
-                      vpiFullName: work@uvm_pkg::do_print::printer
+                      vpiFullName: uvm_pkg::do_print::printer
                       vpiActual: IODecl name:printer
                     SubroutineCall name:print_string start:9:15 end:10:103:
                       vpiParent: "HierPath name:printer.print_string($sformatf(\"[%0d]\", i), $sformatf(\"%s@seqid%0d\", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), \"[\")"
@@ -2441,7 +2450,7 @@ Design name:unnamed:
                               vpiParent: SysFuncCall name:$sformatf
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string
+                                vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string
                                 vpiActual: StringTypespec
                               vpiConstType: string (6)
                               vpiSize: 40
@@ -2450,7 +2459,7 @@ Design name:unnamed:
                             RefObj name:i start:9:47 end:9:48:
                               vpiParent: SysFuncCall name:$sformatf
                               vpiName: i
-                              vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::i
+                              vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::i
                               vpiActual: Variable name:i
                         SysFuncCall name:$sformatf start:10:10 end:10:97:
                           vpiParent: SubroutineCall name:print_string
@@ -2462,34 +2471,34 @@ Design name:unnamed:
                               vpiParent: SysFuncCall name:$sformatf
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string
+                                vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string
                                 vpiActual: StringTypespec
                               vpiConstType: string (6)
                               vpiSize: 88
                               vpiDecompile: "\"%s@seqid%0d\""
                               vpiValue: "%s@seqid%0d"
-                            HierPath name:arb_sequence_q[i].request.name start:10:34 end:10:65:
+                            HierPath name:arb_sequence_q[i].request.name start:10:34 end:10:66:
                               vpiParent: SysFuncCall name:$sformatf
                               vpiName: arb_sequence_q[i].request.name
-                              vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name
+                              vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name
                               vpiPathElem (3 items):
                                 BitSelect name:arb_sequence_q[i] start:10:34 end:10:50:
                                   vpiParent: HierPath name:arb_sequence_q[i].request.name
                                   vpiName: arb_sequence_q[i]
-                                  vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name::arb_sequence_q[i]
+                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name::arb_sequence_q[i]
                                   vpiPrefix RefObj name:arb_sequence_q start:10:34 end:10:48:
                                     vpiParent: BitSelect name:arb_sequence_q[i]
                                     vpiName: arb_sequence_q
-                                    vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name::arb_sequence_q
+                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name::arb_sequence_q
                                   vpiIndex RefObj name:i start:10:49 end:10:50:
                                     vpiParent: BitSelect name:arb_sequence_q[i]
                                     vpiName: i
-                                    vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name::i
+                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name::i
                                     vpiActual: Variable name:i
                                 RefObj name:request start:10:52 end:10:59:
                                   vpiParent: HierPath name:arb_sequence_q[i].request.name
                                   vpiName: request
-                                  vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::request
+                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::request
                                 MethodFuncCall name:name start:10:60 end:10:66:
                                   vpiParent: HierPath name:arb_sequence_q[i].request.name
                                   vpiName Identifier name:name start:10:60 end:10:64:
@@ -2498,30 +2507,30 @@ Design name:unnamed:
                             HierPath name:arb_sequence_q[i].sequence_id start:10:67 end:10:96:
                               vpiParent: SysFuncCall name:$sformatf
                               vpiName: arb_sequence_q[i].sequence_id
-                              vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id
+                              vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id
                               vpiPathElem (2 items):
                                 BitSelect name:arb_sequence_q[i] start:10:67 end:10:83:
                                   vpiParent: HierPath name:arb_sequence_q[i].sequence_id
                                   vpiName: arb_sequence_q[i]
-                                  vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::arb_sequence_q[i]
+                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::arb_sequence_q[i]
                                   vpiPrefix RefObj name:arb_sequence_q start:10:67 end:10:81:
                                     vpiParent: BitSelect name:arb_sequence_q[i]
                                     vpiName: arb_sequence_q
-                                    vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::arb_sequence_q
+                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::arb_sequence_q
                                   vpiIndex RefObj name:i start:10:82 end:10:83:
                                     vpiParent: BitSelect name:arb_sequence_q[i]
                                     vpiName: i
-                                    vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::i
+                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::i
                                     vpiActual: Variable name:i
                                 RefObj name:sequence_id start:10:85 end:10:96:
                                   vpiParent: HierPath name:arb_sequence_q[i].sequence_id
                                   vpiName: sequence_id
-                                  vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::sequence_id
+                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string::sequence_id
                         Constant start:10:99 end:10:102:
                           vpiParent: SubroutineCall name:print_string
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string
+                            vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name, arb_sequence_q[i].sequence_id), "[")::print_string
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 8
@@ -2529,7 +2538,7 @@ Design name:unnamed:
                           vpiValue: "["
           vpiReturn RefTypespec start:5:12 end:5:16:
             vpiParent: Function name:do_print
-            vpiFullName: work@uvm_pkg::do_print
+            vpiFullName: uvm_pkg::do_print
             vpiActual: VoidTypespec
   vpiAllClasses (5 items):
     ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
@@ -2544,6 +2553,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2555,6 +2565,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2586,6 +2597,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2600,6 +2612,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2621,6 +2634,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2644,6 +2658,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2663,6 +2678,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2686,6 +2702,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2705,6 +2722,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2774,16 +2792,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2796,6 +2817,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2807,6 +2829,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2814,6 +2837,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2821,6 +2845,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2828,6 +2853,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2841,6 +2867,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2852,6 +2879,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2883,6 +2911,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2909,6 +2938,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2935,6 +2965,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2959,68 +2990,79 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
-    ClassDefn name:work@moreobj file:$Source01/top.v start:1:1 end:4:9:
+    ClassDefn name:moreobj file:$Source01/top.v start:1:1 end:4:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@moreobj start:1:7 end:1:14:
-        vpiParent: ClassDefn name:work@moreobj
-        vpiName: work@moreobj
-      vpiFullName: work@moreobj
+      vpiName Identifier name:moreobj start:1:7 end:1:14:
+        vpiParent: ClassDefn name:moreobj
+        vpiName: moreobj
+      vpiFullName: moreobj
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
-        vpiParent: ClassDefn name:work@moreobj
+        vpiParent: ClassDefn name:moreobj
         vpiName: work
-        vpiFullName: work@moreobj::work
+        vpiFullName: moreobj::work
       vpiCell: moreobj
       vpiMethod (1 items):
         Function name:mine start:2:6 end:3:17:
-          vpiParent: ClassDefn name:work@moreobj
+          vpiParent: ClassDefn name:moreobj
           vpiName Identifier name:mine start:2:15 end:2:19:
             vpiParent: Function name:mine
             vpiName: mine
-          vpiFullName: work@moreobj::mine
+          vpiFullName: moreobj::mine
           vpiTypespec (1 items):
             LogicTypespec start:2:15 end:2:15:
               vpiParent: Function name:mine
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:2:15 end:2:15:
             vpiParent: Function name:mine
-            vpiFullName: work@moreobj::mine
+            vpiFullName: moreobj::mine
             vpiActual: LogicTypespec
-    ClassDefn name:work@uvm_reg_map file:$Source01/top.v start:7:1 end:83:9:
+    ClassDefn name:uvm_reg_map file:$Source01/top.v start:7:1 end:83:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@uvm_reg_map start:7:7 end:7:18:
-        vpiParent: ClassDefn name:work@uvm_reg_map
-        vpiName: work@uvm_reg_map
-      vpiFullName: work@uvm_reg_map
+      vpiName Identifier name:uvm_reg_map start:7:7 end:7:18:
+        vpiParent: ClassDefn name:uvm_reg_map
+        vpiName: uvm_reg_map
+      vpiFullName: uvm_reg_map
       vpiVariable (3 items):
         Variable name:m_submaps start:46:21 end:46:30:
-          vpiParent: ClassDefn name:work@uvm_reg_map
+          vpiParent: ClassDefn name:uvm_reg_map
           vpiTypespec RefTypespec:
             vpiParent: Variable name:m_submaps
-            vpiFullName: work@uvm_reg_map::m_submaps
+            vpiFullName: uvm_reg_map::m_submaps
             vpiActual: ArrayTypespec
           vpiName: m_submaps
-          vpiFullName: work@uvm_reg_map::m_submaps
+          vpiFullName: uvm_reg_map::m_submaps
+          vpiVisibility: public (1)
         Variable name:m_submaps2 start:47:21 end:47:31:
-          vpiParent: ClassDefn name:work@uvm_reg_map
+          vpiParent: ClassDefn name:uvm_reg_map
           vpiTypespec RefTypespec:
             vpiParent: Variable name:m_submaps2
-            vpiFullName: work@uvm_reg_map::m_submaps2
+            vpiFullName: uvm_reg_map::m_submaps2
             vpiActual: ArrayTypespec
           vpiName: m_submaps2
-          vpiFullName: work@uvm_reg_map::m_submaps2
+          vpiFullName: uvm_reg_map::m_submaps2
+          vpiVisibility: public (1)
         Variable name:m_submaps3 start:48:21 end:48:31:
-          vpiParent: ClassDefn name:work@uvm_reg_map
+          vpiParent: ClassDefn name:uvm_reg_map
           vpiTypespec RefTypespec:
             vpiParent: Variable name:m_submaps3
-            vpiFullName: work@uvm_reg_map::m_submaps3
+            vpiFullName: uvm_reg_map::m_submaps3
             vpiActual: ArrayTypespec
           vpiName: m_submaps3
-          vpiFullName: work@uvm_reg_map::m_submaps3
-      vpiTypespec (3 items):
+          vpiFullName: uvm_reg_map::m_submaps3
+          vpiVisibility: public (1)
+      vpiTypespec (6 items):
+        ClassTypespec name:moreobj start:46:9 end:46:16:
+          vpiParent: ClassDefn name:uvm_reg_map
+          vpiName Identifier name:moreobj start:46:9 end:46:16:
+            vpiParent: ClassTypespec name:moreobj
+            vpiName: moreobj
+          vpiDefName: moreobj
+          vpiClassDefn: ClassDefn name:moreobj
         ArrayTypespec:
-          vpiParent: ClassDefn name:work@uvm_reg_map
+          vpiParent: ClassDefn name:uvm_reg_map
           vpiArrayType: static (1)
           vpiRange Range start:46:30 end:46:43:
             vpiParent: ArrayTypespec
@@ -3031,15 +3073,22 @@ Design name:unnamed:
                 RefObj name:uvm_reg_map start:46:31 end:46:42:
                   vpiParent: Operation
                   vpiName: uvm_reg_map
-                  vpiFullName: work@uvm_reg_map::uvm_reg_map
-                  vpiActual: ClassDefn name:work@uvm_reg_map
+                  vpiFullName: uvm_reg_map::uvm_reg_map
+                  vpiActual: ClassDefn name:uvm_reg_map
           vpiElemTypespec RefTypespec name:moreobj start:46:9 end:46:16:
             vpiParent: ArrayTypespec
             vpiName: moreobj
-            vpiFullName: work@uvm_reg_map::moreobj
-            vpiActual: ClassTypespec name:work@moreobj
+            vpiFullName: uvm_reg_map::moreobj
+            vpiActual: ClassTypespec name:moreobj
+        ClassTypespec name:moreobj start:47:9 end:47:16:
+          vpiParent: ClassDefn name:uvm_reg_map
+          vpiName Identifier name:moreobj start:47:9 end:47:16:
+            vpiParent: ClassTypespec name:moreobj
+            vpiName: moreobj
+          vpiDefName: moreobj
+          vpiClassDefn: ClassDefn name:moreobj
         ArrayTypespec:
-          vpiParent: ClassDefn name:work@uvm_reg_map
+          vpiParent: ClassDefn name:uvm_reg_map
           vpiArrayType: associative (3)
           vpiRange Range start:47:31 end:47:34:
             vpiParent: ArrayTypespec
@@ -3047,7 +3096,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@uvm_reg_map
+                vpiFullName: uvm_reg_map
                 vpiActual: IntTypespec
               vpiConstType: int (7)
               vpiDecompile: "0"
@@ -3056,71 +3105,83 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@uvm_reg_map
+                vpiFullName: uvm_reg_map
                 vpiActual: StringTypespec
               vpiConstType: unbounded (11)
               vpiDecompile: "$"
               vpiValue: "$"
           vpiIndexTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiFullName: work@uvm_reg_map
+            vpiFullName: uvm_reg_map
           vpiElemTypespec RefTypespec name:moreobj start:47:9 end:47:16:
             vpiParent: ArrayTypespec
             vpiName: moreobj
-            vpiFullName: work@uvm_reg_map::moreobj
-            vpiActual: ClassTypespec name:work@moreobj
+            vpiFullName: uvm_reg_map::moreobj
+            vpiActual: ClassTypespec name:moreobj
+        ClassTypespec name:moreobj start:48:9 end:48:16:
+          vpiParent: ClassDefn name:uvm_reg_map
+          vpiName Identifier name:moreobj start:48:9 end:48:16:
+            vpiParent: ClassTypespec name:moreobj
+            vpiName: moreobj
+          vpiDefName: moreobj
+          vpiClassDefn: ClassDefn name:moreobj
         ArrayTypespec:
-          vpiParent: ClassDefn name:work@uvm_reg_map
+          vpiParent: ClassDefn name:uvm_reg_map
           vpiArrayType: queue (4)
           vpiRange Range start:48:31 end:48:34:
             vpiParent: ArrayTypespec
             vpiLeftRange Constant start:48:32 end:48:33:
               vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: uvm_reg_map
+                vpiActual: StringTypespec
               vpiConstType: unbounded (11)
               vpiDecompile: "$"
               vpiValue: "$"
           vpiElemTypespec RefTypespec name:moreobj start:48:9 end:48:16:
             vpiParent: ArrayTypespec
             vpiName: moreobj
-            vpiFullName: work@uvm_reg_map::moreobj
-            vpiActual: ClassTypespec name:work@moreobj
+            vpiFullName: uvm_reg_map::moreobj
+            vpiActual: ClassTypespec name:moreobj
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
-        vpiParent: ClassDefn name:work@uvm_reg_map
+        vpiParent: ClassDefn name:uvm_reg_map
         vpiName: work
-        vpiFullName: work@uvm_reg_map::work
+        vpiFullName: uvm_reg_map::work
       vpiCell: uvm_reg_map
       vpiMethod (1 items):
         Function name:set_check_on_read start:49:3 end:79:15:
-          vpiParent: ClassDefn name:work@uvm_reg_map
+          vpiParent: ClassDefn name:uvm_reg_map
           vpiName Identifier name:set_check_on_read start:49:17 end:49:34:
             vpiParent: Function name:set_check_on_read
             vpiName: set_check_on_read
-          vpiFullName: work@uvm_reg_map::set_check_on_read
+          vpiFullName: uvm_reg_map::set_check_on_read
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Function name:set_check_on_read
-            vpiFullName: work@uvm_reg_map::set_check_on_read
+            vpiFullName: uvm_reg_map::set_check_on_read
             vpiVariable (2 items):
               Variable name:sarray start:50:14 end:50:20:
                 vpiParent: Begin
                 vpiTypespec RefTypespec:
                   vpiParent: Variable name:sarray
-                  vpiFullName: work@uvm_reg_map::set_check_on_read::sarray
+                  vpiFullName: uvm_reg_map::set_check_on_read::sarray
                   vpiActual: ArrayTypespec
                 vpiName: sarray
-                vpiFullName: work@uvm_reg_map::set_check_on_read::sarray
+                vpiFullName: uvm_reg_map::set_check_on_read::sarray
               Variable name:an_obj start:51:14 end:51:20:
                 vpiParent: Begin
                 vpiTypespec RefTypespec name:moreobj start:51:6 end:51:13:
                   vpiParent: Variable name:an_obj
                   vpiName: moreobj
-                  vpiFullName: work@uvm_reg_map::set_check_on_read::an_obj::moreobj
-                  vpiActual: ClassTypespec name:work@moreobj
+                  vpiFullName: uvm_reg_map::set_check_on_read::an_obj::moreobj
+                  vpiActual: ClassTypespec name:moreobj
                 vpiName: an_obj
-                vpiFullName: work@uvm_reg_map::set_check_on_read::an_obj
-            vpiTypespec (1 items):
+                vpiFullName: uvm_reg_map::set_check_on_read::an_obj
+            vpiTypespec (2 items):
               ArrayTypespec:
                 vpiParent: Begin
                 vpiArrayType: static (1)
@@ -3134,7 +3195,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@uvm_reg_map::set_check_on_read
+                          vpiFullName: uvm_reg_map::set_check_on_read
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -3143,18 +3204,27 @@ Design name:unnamed:
                 vpiElemTypespec RefTypespec name:string start:50:7 end:50:13:
                   vpiParent: ArrayTypespec
                   vpiName: string
-                  vpiFullName: work@uvm_reg_map::set_check_on_read::string
+                  vpiFullName: uvm_reg_map::set_check_on_read::string
                   vpiActual: StringTypespec
-            vpiStmt (5 items):
-              HierPath name:m_submaps3.push_back(an_obj) start:52:6 end:52:33:
+              ClassTypespec name:moreobj start:51:6 end:51:13:
+                vpiParent: Begin
+                vpiName Identifier name:moreobj start:51:6 end:51:13:
+                  vpiParent: ClassTypespec name:moreobj
+                  vpiName: moreobj
+                vpiDefName: moreobj
+                vpiClassDefn: ClassDefn name:moreobj
+            vpiStmt (7 items):
+              Variable name:sarray:
+              Variable name:an_obj:
+              HierPath name:m_submaps3.push_back(an_obj) start:52:6 end:52:34:
                 vpiParent: Begin
                 vpiName: m_submaps3.push_back(an_obj)
-                vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3.push_back(an_obj)
+                vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3.push_back(an_obj)
                 vpiPathElem (2 items):
                   RefObj name:m_submaps3 start:52:6 end:52:16:
                     vpiParent: HierPath name:m_submaps3.push_back(an_obj)
                     vpiName: m_submaps3
-                    vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3
+                    vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3
                     vpiActual: Variable name:m_submaps3
                   MethodFuncCall name:push_back start:52:17 end:52:34:
                     vpiParent: HierPath name:m_submaps3.push_back(an_obj)
@@ -3165,36 +3235,36 @@ Design name:unnamed:
                       RefObj name:an_obj start:52:27 end:52:33:
                         vpiParent: MethodFuncCall name:push_back
                         vpiName: an_obj
-                        vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3.push_back(an_obj)::an_obj
+                        vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3.push_back(an_obj)::an_obj
                         vpiActual: Variable name:an_obj
               ForeachStmt start:54:6 end:59:10:
                 vpiParent: Begin
-                vpiFullName: work@uvm_reg_map::set_check_on_read
+                vpiFullName: uvm_reg_map::set_check_on_read
                 vpiVariable (1 items):
                   Variable name:submap start:54:25 end:54:31:
                     vpiParent: ForeachStmt
                     vpiName: submap
-                    vpiFullName: work@uvm_reg_map::set_check_on_read::submap
+                    vpiFullName: uvm_reg_map::set_check_on_read::submap
                 vpiVariable RefObj name:m_submaps start:54:15 end:54:24:
                   vpiParent: ForeachStmt
                   vpiName: m_submaps
-                  vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps
+                  vpiFullName: uvm_reg_map::set_check_on_read::m_submaps
                   vpiActual: Variable name:m_submaps
                 vpiLoopVars (1 items):
                   Variable name:submap:
                 vpiStmt Begin start:54:34 end:59:10:
                   vpiParent: ForeachStmt
-                  vpiFullName: work@uvm_reg_map::set_check_on_read
+                  vpiFullName: uvm_reg_map::set_check_on_read
                   vpiStmt (4 items):
-                    HierPath name:submap.set_check_on_read() start:55:11 end:55:36:
+                    HierPath name:submap.set_check_on_read() start:55:11 end:55:37:
                       vpiParent: Begin
                       vpiName: submap.set_check_on_read()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::submap.set_check_on_read()
+                      vpiFullName: uvm_reg_map::set_check_on_read::submap.set_check_on_read()
                       vpiPathElem (2 items):
                         RefObj name:submap start:55:11 end:55:17:
                           vpiParent: HierPath name:submap.set_check_on_read()
                           vpiName: submap
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::submap
+                          vpiFullName: uvm_reg_map::set_check_on_read::submap
                           vpiActual: Variable name:submap
                         MethodFuncCall name:set_check_on_read start:55:18 end:55:37:
                           vpiParent: HierPath name:submap.set_check_on_read()
@@ -3202,261 +3272,264 @@ Design name:unnamed:
                             vpiParent: MethodFuncCall name:set_check_on_read
                             vpiName: set_check_on_read
                           vpiTaskFunc: Function name:set_check_on_read
-                    HierPath name:submap.bad1() start:56:11 end:56:23:
+                    HierPath name:submap.bad1() start:56:11 end:56:24:
                       vpiParent: Begin
                       vpiName: submap.bad1()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::submap.bad1()
+                      vpiFullName: uvm_reg_map::set_check_on_read::submap.bad1()
                       vpiPathElem (2 items):
                         RefObj name:submap start:56:11 end:56:17:
                           vpiParent: HierPath name:submap.bad1()
                           vpiName: submap
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::submap
+                          vpiFullName: uvm_reg_map::set_check_on_read::submap
                           vpiActual: Variable name:submap
                         SubroutineCall name:bad1 start:56:18 end:56:24:
                           vpiParent: HierPath name:submap.bad1()
                           vpiName Identifier name:bad1 start:56:18 end:56:22:
                             vpiParent: SubroutineCall name:bad1
                             vpiName: bad1
-                    HierPath name:m_submaps[submap].bad2() start:57:11 end:57:34:
+                    HierPath name:m_submaps[submap].bad2() start:57:11 end:57:35:
                       vpiParent: Begin
                       vpiName: m_submaps[submap].bad2()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[submap].bad2()
+                      vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[submap].bad2()
                       vpiPathElem (2 items):
                         BitSelect name:m_submaps[submap] start:57:11 end:57:27:
                           vpiParent: HierPath name:m_submaps[submap].bad2()
                           vpiName: m_submaps[submap]
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[submap].bad2()::m_submaps[submap]
+                          vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[submap].bad2()::m_submaps[submap]
                           vpiPrefix RefObj name:m_submaps start:57:11 end:57:20:
                             vpiParent: BitSelect name:m_submaps[submap]
                             vpiName: m_submaps
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[submap].bad2()::m_submaps
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[submap].bad2()::m_submaps
                             vpiActual: Variable name:m_submaps
                           vpiIndex RefObj name:submap start:57:21 end:57:27:
                             vpiParent: BitSelect name:m_submaps[submap]
                             vpiName: submap
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[submap].bad2()::submap
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[submap].bad2()::submap
                             vpiActual: Variable name:submap
                         SubroutineCall name:bad2 start:57:29 end:57:35:
                           vpiParent: HierPath name:m_submaps[submap].bad2()
                           vpiName Identifier name:bad2 start:57:29 end:57:33:
                             vpiParent: SubroutineCall name:bad2
                             vpiName: bad2
-                    HierPath name:m_submaps[submap].mine() start:58:11 end:58:34:
+                    HierPath name:m_submaps[submap].mine() start:58:11 end:58:35:
                       vpiParent: Begin
                       vpiName: m_submaps[submap].mine()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[submap].mine()
+                      vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[submap].mine()
                       vpiPathElem (2 items):
                         BitSelect name:m_submaps[submap] start:58:11 end:58:27:
                           vpiParent: HierPath name:m_submaps[submap].mine()
                           vpiName: m_submaps[submap]
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[submap].mine()::m_submaps[submap]
+                          vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[submap].mine()::m_submaps[submap]
                           vpiPrefix RefObj name:m_submaps start:58:11 end:58:20:
                             vpiParent: BitSelect name:m_submaps[submap]
                             vpiName: m_submaps
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[submap].mine()::m_submaps
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[submap].mine()::m_submaps
                             vpiActual: Variable name:m_submaps
                           vpiIndex RefObj name:submap start:58:21 end:58:27:
                             vpiParent: BitSelect name:m_submaps[submap]
                             vpiName: submap
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[submap].mine()::submap
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[submap].mine()::submap
                             vpiActual: Variable name:submap
-                        SubroutineCall name:mine start:58:29 end:58:35:
+                        MethodFuncCall name:mine start:58:29 end:58:35:
                           vpiParent: HierPath name:m_submaps[submap].mine()
                           vpiName Identifier name:mine start:58:29 end:58:33:
-                            vpiParent: SubroutineCall name:mine
+                            vpiParent: MethodFuncCall name:mine
                             vpiName: mine
+                          vpiTaskFunc: Function name:mine
               ForeachStmt start:61:6 end:65:10:
                 vpiParent: Begin
-                vpiFullName: work@uvm_reg_map::set_check_on_read
+                vpiFullName: uvm_reg_map::set_check_on_read
                 vpiVariable (1 items):
                   Variable name:i start:61:26 end:61:27:
                     vpiParent: ForeachStmt
                     vpiName: i
-                    vpiFullName: work@uvm_reg_map::set_check_on_read::i
+                    vpiFullName: uvm_reg_map::set_check_on_read::i
                 vpiVariable RefObj name:m_submaps2 start:61:15 end:61:25:
                   vpiParent: ForeachStmt
                   vpiName: m_submaps2
-                  vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps2
+                  vpiFullName: uvm_reg_map::set_check_on_read::m_submaps2
                   vpiActual: Variable name:m_submaps2
                 vpiLoopVars (1 items):
                   Variable name:i:
                 vpiStmt Begin start:61:30 end:65:10:
                   vpiParent: ForeachStmt
-                  vpiFullName: work@uvm_reg_map::set_check_on_read
+                  vpiFullName: uvm_reg_map::set_check_on_read
                   vpiStmt (3 items):
-                    HierPath name:i.bad3() start:62:11 end:62:18:
+                    HierPath name:i.bad3() start:62:11 end:62:19:
                       vpiParent: Begin
                       vpiName: i.bad3()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::i.bad3()
+                      vpiFullName: uvm_reg_map::set_check_on_read::i.bad3()
                       vpiPathElem (2 items):
                         RefObj name:i start:62:11 end:62:12:
                           vpiParent: HierPath name:i.bad3()
                           vpiName: i
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::i
+                          vpiFullName: uvm_reg_map::set_check_on_read::i
                           vpiActual: Variable name:i
                         SubroutineCall name:bad3 start:62:13 end:62:19:
                           vpiParent: HierPath name:i.bad3()
                           vpiName Identifier name:bad3 start:62:13 end:62:17:
                             vpiParent: SubroutineCall name:bad3
                             vpiName: bad3
-                    HierPath name:m_submaps[i].bad4() start:63:11 end:63:29:
+                    HierPath name:m_submaps[i].bad4() start:63:11 end:63:30:
                       vpiParent: Begin
                       vpiName: m_submaps[i].bad4()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[i].bad4()
+                      vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[i].bad4()
                       vpiPathElem (2 items):
                         BitSelect name:m_submaps[i] start:63:11 end:63:22:
                           vpiParent: HierPath name:m_submaps[i].bad4()
                           vpiName: m_submaps[i]
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[i].bad4()::m_submaps[i]
+                          vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[i].bad4()::m_submaps[i]
                           vpiPrefix RefObj name:m_submaps start:63:11 end:63:20:
                             vpiParent: BitSelect name:m_submaps[i]
                             vpiName: m_submaps
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[i].bad4()::m_submaps
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[i].bad4()::m_submaps
                             vpiActual: Variable name:m_submaps
                           vpiIndex RefObj name:i start:63:21 end:63:22:
                             vpiParent: BitSelect name:m_submaps[i]
                             vpiName: i
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[i].bad4()::i
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[i].bad4()::i
                             vpiActual: Variable name:i
                         SubroutineCall name:bad4 start:63:24 end:63:30:
                           vpiParent: HierPath name:m_submaps[i].bad4()
                           vpiName Identifier name:bad4 start:63:24 end:63:28:
                             vpiParent: SubroutineCall name:bad4
                             vpiName: bad4
-                    HierPath name:m_submaps[i].mine() start:64:11 end:64:29:
+                    HierPath name:m_submaps[i].mine() start:64:11 end:64:30:
                       vpiParent: Begin
                       vpiName: m_submaps[i].mine()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[i].mine()
+                      vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[i].mine()
                       vpiPathElem (2 items):
                         BitSelect name:m_submaps[i] start:64:11 end:64:22:
                           vpiParent: HierPath name:m_submaps[i].mine()
                           vpiName: m_submaps[i]
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[i].mine()::m_submaps[i]
+                          vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[i].mine()::m_submaps[i]
                           vpiPrefix RefObj name:m_submaps start:64:11 end:64:20:
                             vpiParent: BitSelect name:m_submaps[i]
                             vpiName: m_submaps
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[i].mine()::m_submaps
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[i].mine()::m_submaps
                             vpiActual: Variable name:m_submaps
                           vpiIndex RefObj name:i start:64:21 end:64:22:
                             vpiParent: BitSelect name:m_submaps[i]
                             vpiName: i
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps[i].mine()::i
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps[i].mine()::i
                             vpiActual: Variable name:i
-                        SubroutineCall name:mine start:64:24 end:64:30:
+                        MethodFuncCall name:mine start:64:24 end:64:30:
                           vpiParent: HierPath name:m_submaps[i].mine()
                           vpiName Identifier name:mine start:64:24 end:64:28:
-                            vpiParent: SubroutineCall name:mine
+                            vpiParent: MethodFuncCall name:mine
                             vpiName: mine
+                          vpiTaskFunc: Function name:mine
               ForeachStmt start:67:5 end:71:10:
                 vpiParent: Begin
-                vpiFullName: work@uvm_reg_map::set_check_on_read
+                vpiFullName: uvm_reg_map::set_check_on_read
                 vpiVariable (1 items):
                   Variable name:i start:67:25 end:67:26:
                     vpiParent: ForeachStmt
                     vpiName: i
-                    vpiFullName: work@uvm_reg_map::set_check_on_read::i
+                    vpiFullName: uvm_reg_map::set_check_on_read::i
                 vpiVariable RefObj name:m_submaps3 start:67:14 end:67:24:
                   vpiParent: ForeachStmt
                   vpiName: m_submaps3
-                  vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3
+                  vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3
                   vpiActual: Variable name:m_submaps3
                 vpiLoopVars (1 items):
                   Variable name:i:
                 vpiStmt Begin start:67:29 end:71:10:
                   vpiParent: ForeachStmt
-                  vpiFullName: work@uvm_reg_map::set_check_on_read
+                  vpiFullName: uvm_reg_map::set_check_on_read
                   vpiStmt (3 items):
-                    HierPath name:i.bad5() start:68:10 end:68:17:
+                    HierPath name:i.bad5() start:68:10 end:68:18:
                       vpiParent: Begin
                       vpiName: i.bad5()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::i.bad5()
+                      vpiFullName: uvm_reg_map::set_check_on_read::i.bad5()
                       vpiPathElem (2 items):
                         RefObj name:i start:68:10 end:68:11:
                           vpiParent: HierPath name:i.bad5()
                           vpiName: i
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::i
+                          vpiFullName: uvm_reg_map::set_check_on_read::i
                           vpiActual: Variable name:i
                         SubroutineCall name:bad5 start:68:12 end:68:18:
                           vpiParent: HierPath name:i.bad5()
                           vpiName Identifier name:bad5 start:68:12 end:68:16:
                             vpiParent: SubroutineCall name:bad5
                             vpiName: bad5
-                    HierPath name:m_submaps3[i].bad6() start:69:10 end:69:29:
+                    HierPath name:m_submaps3[i].bad6() start:69:10 end:69:30:
                       vpiParent: Begin
                       vpiName: m_submaps3[i].bad6()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3[i].bad6()
+                      vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3[i].bad6()
                       vpiPathElem (2 items):
                         BitSelect name:m_submaps3[i] start:69:10 end:69:22:
                           vpiParent: HierPath name:m_submaps3[i].bad6()
                           vpiName: m_submaps3[i]
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3[i].bad6()::m_submaps3[i]
+                          vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3[i].bad6()::m_submaps3[i]
                           vpiPrefix RefObj name:m_submaps3 start:69:10 end:69:20:
                             vpiParent: BitSelect name:m_submaps3[i]
                             vpiName: m_submaps3
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3[i].bad6()::m_submaps3
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3[i].bad6()::m_submaps3
                             vpiActual: Variable name:m_submaps3
                           vpiIndex RefObj name:i start:69:21 end:69:22:
                             vpiParent: BitSelect name:m_submaps3[i]
                             vpiName: i
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3[i].bad6()::i
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3[i].bad6()::i
                             vpiActual: Variable name:i
                         SubroutineCall name:bad6 start:69:24 end:69:30:
                           vpiParent: HierPath name:m_submaps3[i].bad6()
                           vpiName Identifier name:bad6 start:69:24 end:69:28:
                             vpiParent: SubroutineCall name:bad6
                             vpiName: bad6
-                    HierPath name:m_submaps3[i].mine() start:70:10 end:70:29:
+                    HierPath name:m_submaps3[i].mine() start:70:10 end:70:30:
                       vpiParent: Begin
                       vpiName: m_submaps3[i].mine()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3[i].mine()
+                      vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3[i].mine()
                       vpiPathElem (2 items):
                         BitSelect name:m_submaps3[i] start:70:10 end:70:22:
                           vpiParent: HierPath name:m_submaps3[i].mine()
                           vpiName: m_submaps3[i]
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3[i].mine()::m_submaps3[i]
+                          vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3[i].mine()::m_submaps3[i]
                           vpiPrefix RefObj name:m_submaps3 start:70:10 end:70:20:
                             vpiParent: BitSelect name:m_submaps3[i]
                             vpiName: m_submaps3
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3[i].mine()::m_submaps3
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3[i].mine()::m_submaps3
                             vpiActual: Variable name:m_submaps3
                           vpiIndex RefObj name:i start:70:21 end:70:22:
                             vpiParent: BitSelect name:m_submaps3[i]
                             vpiName: i
-                            vpiFullName: work@uvm_reg_map::set_check_on_read::m_submaps3[i].mine()::i
+                            vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3[i].mine()::i
                             vpiActual: Variable name:i
-                        SubroutineCall name:mine start:70:24 end:70:30:
+                        MethodFuncCall name:mine start:70:24 end:70:30:
                           vpiParent: HierPath name:m_submaps3[i].mine()
                           vpiName Identifier name:mine start:70:24 end:70:28:
-                            vpiParent: SubroutineCall name:mine
+                            vpiParent: MethodFuncCall name:mine
                             vpiName: mine
+                          vpiTaskFunc: Function name:mine
               ForeachStmt start:74:6 end:77:10:
                 vpiParent: Begin
-                vpiFullName: work@uvm_reg_map::set_check_on_read
+                vpiFullName: uvm_reg_map::set_check_on_read
                 vpiVariable (1 items):
                   Variable name:submap start:74:22 end:74:28:
                     vpiParent: ForeachStmt
                     vpiName: submap
-                    vpiFullName: work@uvm_reg_map::set_check_on_read::submap
+                    vpiFullName: uvm_reg_map::set_check_on_read::submap
                 vpiVariable RefObj name:sarray start:74:15 end:74:21:
                   vpiParent: ForeachStmt
                   vpiName: sarray
-                  vpiFullName: work@uvm_reg_map::set_check_on_read::sarray
+                  vpiFullName: uvm_reg_map::set_check_on_read::sarray
                   vpiActual: Variable name:sarray
                 vpiLoopVars (1 items):
                   Variable name:submap:
                 vpiStmt Begin start:74:31 end:77:10:
                   vpiParent: ForeachStmt
-                  vpiFullName: work@uvm_reg_map::set_check_on_read
+                  vpiFullName: uvm_reg_map::set_check_on_read
                   vpiStmt (2 items):
-                    HierPath name:submap.set_check_on_read() start:75:10 end:75:35:
+                    HierPath name:submap.set_check_on_read() start:75:10 end:75:36:
                       vpiParent: Begin
                       vpiName: submap.set_check_on_read()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::submap.set_check_on_read()
+                      vpiFullName: uvm_reg_map::set_check_on_read::submap.set_check_on_read()
                       vpiPathElem (2 items):
                         RefObj name:submap start:75:10 end:75:16:
                           vpiParent: HierPath name:submap.set_check_on_read()
                           vpiName: submap
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::submap
+                          vpiFullName: uvm_reg_map::set_check_on_read::submap
                           vpiActual: Variable name:submap
                         MethodFuncCall name:set_check_on_read start:75:17 end:75:36:
                           vpiParent: HierPath name:submap.set_check_on_read()
@@ -3464,15 +3537,15 @@ Design name:unnamed:
                             vpiParent: MethodFuncCall name:set_check_on_read
                             vpiName: set_check_on_read
                           vpiTaskFunc: Function name:set_check_on_read
-                    HierPath name:submap.bad6() start:76:10 end:76:22:
+                    HierPath name:submap.bad6() start:76:10 end:76:23:
                       vpiParent: Begin
                       vpiName: submap.bad6()
-                      vpiFullName: work@uvm_reg_map::set_check_on_read::submap.bad6()
+                      vpiFullName: uvm_reg_map::set_check_on_read::submap.bad6()
                       vpiPathElem (2 items):
                         RefObj name:submap start:76:10 end:76:16:
                           vpiParent: HierPath name:submap.bad6()
                           vpiName: submap
-                          vpiFullName: work@uvm_reg_map::set_check_on_read::submap
+                          vpiFullName: uvm_reg_map::set_check_on_read::submap
                           vpiActual: Variable name:submap
                         SubroutineCall name:bad6 start:76:17 end:76:23:
                           vpiParent: HierPath name:submap.bad6()
@@ -3481,7 +3554,7 @@ Design name:unnamed:
                             vpiName: bad6
           vpiReturn RefTypespec start:49:12 end:49:16:
             vpiParent: Function name:set_check_on_read
-            vpiFullName: work@uvm_reg_map::set_check_on_read
+            vpiFullName: uvm_reg_map::set_check_on_read
             vpiActual: VoidTypespec
   vpiTypespec (9 items):
     IntTypespec:
@@ -3498,36 +3571,41 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ClassTypespec name:work@moreobj:
+    ClassTypespec name:moreobj:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@moreobj:
-        vpiParent: ClassTypespec name:work@moreobj
-        vpiName: work@moreobj
-      vpiClassDefn: ClassDefn name:work@moreobj
-    ClassTypespec name:work@uvm_reg_map:
+      vpiName Identifier name:moreobj:
+        vpiParent: ClassTypespec name:moreobj
+        vpiName: moreobj
+      vpiDefName: moreobj
+      vpiClassDefn: ClassDefn name:moreobj
+    ClassTypespec name:uvm_reg_map:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@uvm_reg_map:
-        vpiParent: ClassTypespec name:work@uvm_reg_map
-        vpiName: work@uvm_reg_map
-      vpiClassDefn: ClassDefn name:work@uvm_reg_map
+      vpiName Identifier name:uvm_reg_map:
+        vpiParent: ClassTypespec name:uvm_reg_map
+        vpiName: uvm_reg_map
+      vpiDefName: uvm_reg_map
+      vpiClassDefn: ClassDefn name:uvm_reg_map
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 17
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3573,7 +3651,7 @@ COMMAND: ${HLC_DIR}/regression/UnitForeach/UnitForeach/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             780     780       0         0
+Others                             790     790       0         0
 ----------------------------------------------------------------
-                                   780     780       0         0
+                                   790     790       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +36,7 @@
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/sv_vpi_user.h>
 #include <hldb/tf_call.h>
 #include <hldb/void_typespec.h>
 #include <hldb/vpi_user.h>
@@ -49,27 +50,27 @@ class Void : public Test {
 };
 
 TEST_F(Void, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Void, NoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
 }
 
-// ---------------------------------------------------------------------------
-// Function "fun" — void return, $display body
-// ---------------------------------------------------------------------------
+// ----
+// Function "fun" -- void return, $display body
+// ----
 TEST_F(Void, OneFunctionExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr) << "module has no task/function declarations";
   EXPECT_EQ(top->getTaskFuncs()->size(), 1u);
 }
 
 TEST_F(Void, FunctionNameIsFun) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
@@ -79,7 +80,7 @@ TEST_F(Void, FunctionNameIsFun) {
 }
 
 TEST_F(Void, FunctionReturnIsVoidTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
@@ -92,27 +93,27 @@ TEST_F(Void, FunctionReturnIsVoidTypespec) {
 }
 
 TEST_F(Void, FunctionIsPublic) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
   const hldb::Function *const fun = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fun, nullptr);
-  EXPECT_EQ(fun->getVisibility(), 1);  // vpiPublic = 1
+  EXPECT_EQ(fun->getVisibility(), vpiPublicVis);
 }
 
-// ---------------------------------------------------------------------------
-// Initial process — initial fun()
-// ---------------------------------------------------------------------------
+// ----
+// Initial process -- initial fun()
+// ----
 TEST_F(Void, InitialProcessExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(Void, InitialProcessBodyIsFuncCallToFun) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
@@ -125,7 +126,7 @@ TEST_F(Void, InitialProcessBodyIsFuncCallToFun) {
 }
 
 TEST_F(Void, FuncCallHasNoArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

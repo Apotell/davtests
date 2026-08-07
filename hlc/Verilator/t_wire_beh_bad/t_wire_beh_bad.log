@@ -22,7 +22,7 @@ n<$Source01/t_wire_beh_bad.v> u<87> t<Top_level_rule> c<1> l<6:1> el<15:1>
     n<> u<85> t<Description> p<86> c<84> l<6:1> el<14:10>
       n<> u<84> t<Module_declaration> p<85> c<11> l<6:1> el<14:10>
         n<> u<11> t<Module_nonansi_header> p<84> c<6> s<23> l<6:1> el<6:24>
-          n<module> u<6> t<Module_keyword> p<11> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<11> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<11> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<11> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<11> s<10> l<6:10> el<6:23>
@@ -100,7 +100,7 @@ n<$Source01/t_wire_beh_bad.v> u<87> t<Top_level_rule> c<1> l<6:1> el<15:1>
                                         n<> u<66> t<ONE_TICK_b0> p<67> l<12:21> el<12:25>
         n<> u<83> t<ENDMODULE> p<84> l<14:1> el<14:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_wire_beh_bad.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_wire_beh_bad.v:6:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -110,67 +110,69 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_wire_beh_bad.v
       vpiPreprocFile: "$Output/lib/work/t_wire_beh_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_wire_beh_bad.v start:6:1 end:14:10:
+    Module name:t file:$Source01/t_wire_beh_bad.v start:6:1 end:14:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
-      vpiTypespec (2 items):
-        LogicTypespec:
-          vpiParent: Module name:work@t
-        BitTypespec:
-          vpiParent: Module name:work@t
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
-        vpiName: work
-        vpiFullName: work@t.work
-      vpiCell: t
-      vpiNet (2 items):
-        Net name:w start:8:9 end:8:10:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:8:9 end:8:9:
-            vpiParent: Net name:w
-            vpiFullName: work@t.w
-            vpiActual: LogicTypespec
-          vpiName: w
-          vpiFullName: work@t.w
-          vpiNetType: wire (1)
-        Net name:r start:9:9 end:9:10:
-          vpiParent: Module name:work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:r start:9:9 end:9:10:
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:9:4 end:9:7:
-            vpiParent: Net name:r
-            vpiFullName: work@t.r
+            vpiParent: Variable name:r
+            vpiFullName: t.r
             vpiActual: LogicTypespec
           vpiName: r
-          vpiFullName: work@t.r
+          vpiFullName: t.r
+          vpiScalar: true
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:t
+        BitTypespec:
+          vpiParent: Module name:t
+      vpiDefName: t
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:t
+        vpiName: work
+        vpiFullName: t.work
+      vpiCell: t
+      vpiNet (1 items):
+        Net name:w start:8:9 end:8:10:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:8:9 end:8:9:
+            vpiParent: Net name:w
+            vpiFullName: t.w
+            vpiActual: LogicTypespec
+          vpiName: w
+          vpiFullName: t.w
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiProcess (1 items):
         Always start:12:4 end:12:26:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt EventControl start:12:11 end:12:26:
             vpiParent: Always
             vpiCondition RefObj name:r start:12:14 end:12:15:
               vpiParent: EventControl
               vpiName: r
-              vpiFullName: work@t.r
-              vpiActual: Net name:r
+              vpiFullName: t.r
+              vpiActual: Variable name:r
             vpiStmt Assignment start:12:17 end:12:25:
               vpiParent: EventControl
               vpiBlocking: true
               vpiLhs RefObj name:w start:12:17 end:12:18:
                 vpiParent: Assignment
                 vpiName: w
-                vpiFullName: work@t.w
+                vpiFullName: t.w
                 vpiActual: Net name:w
               vpiRhs Constant start:12:21 end:12:25:
                 vpiParent: Assignment
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
@@ -179,29 +181,29 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:11:11 end:11:19:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiLhs RefObj name:r start:11:11 end:11:12:
             vpiParent: ContAssign
             vpiName: r
-            vpiFullName: work@t.r
-            vpiActual: Net name:r
+            vpiFullName: t.r
+            vpiActual: Variable name:r
           vpiRhs Constant start:11:15 end:11:19:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@t
+              vpiFullName: t
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
             vpiValue: "1"
   vpiTypespec (1 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

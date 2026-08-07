@@ -22,13 +22,13 @@ n<$Source01/net_type_directive.v> u<15> t<Top_level_rule> c<1> l<2:1> el<8:1>
     n<> u<13> t<Description> p<14> c<12> l<5:1> el<7:10>
       n<> u<12> t<Module_declaration> p<13> c<10> l<5:1> el<7:10>
         n<> u<10> t<Module_nonansi_header> p<12> c<6> s<11> l<5:1> el<5:15>
-          n<module> u<6> t<Module_keyword> p<10> s<7> l<5:1> el<5:7>
+          n<module> u<6> t<MODULE> p<10> s<7> l<5:1> el<5:7>
           n<dumb> u<7> t<SIMPLE_IDENTIFIER> p<10> s<8> l<5:8> el<5:12>
           n<> u<8> t<Package_import_declaration_list> p<10> s<9> l<5:12> el<5:12>
           n<> u<9> t<Port_list> p<10> l<5:12> el<5:14>
         n<> u<11> t<ENDMODULE> p<12> l<7:1> el<7:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/net_type_directive.v:5:1: Compile module "work@dumb".
+[INF:CP0303] $Source01/net_type_directive.v:5:1: Compile module "dumb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -38,28 +38,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: net_type_directive.v
       vpiPreprocFile: "$Output/lib/work/net_type_directive.v"
-      vpiDefNetType: wire (1)
+      vpiDirective (1 items):
+        GenericDirective start:2:1 end:2:22:
+          vpiParent: SourceFile name:net_type_directive.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:2:18 end:2:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: net_type_directive.v
+              vpiActual: IntTypespec
+            vpiDecompile: "1"
   vpiAllModules (1 items):
-    Module name:work@dumb file:$Source01/net_type_directive.v start:5:1 end:7:10:
+    Module name:dumb file:$Source01/net_type_directive.v start:5:1 end:7:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dumb start:5:8 end:5:12:
-        vpiParent: Module name:work@dumb
-        vpiName: work@dumb
-      vpiFullName: work@dumb
-      vpiDefName: work@dumb
-      vpiDefNetType: none (12)
+      vpiName Identifier name:dumb start:5:8 end:5:12:
+        vpiParent: Module name:dumb
+        vpiName: dumb
+      vpiFullName: dumb
+      vpiDefName: dumb
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dumb
+        vpiParent: Module name:dumb
         vpiName: work
-        vpiFullName: work@dumb.work
+        vpiFullName: dumb.work
       vpiCell: dumb
-  vpiTypespec (1 items):
-    ModuleTypespec name:work@dumb:
+  vpiTypespec (2 items):
+    IntTypespec:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dumb start:5:8 end:5:12:
-        vpiParent: ModuleTypespec name:work@dumb
-        vpiName: work@dumb
-      vpiModule: Module name:work@dumb
+    ModuleTypespec name:dumb:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:dumb start:5:8 end:5:12:
+        vpiParent: ModuleTypespec name:dumb
+        vpiName: dumb
+      vpiModule: Module name:dumb
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -79,25 +91,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UtdSV/net_type_directive.v/mounts.json
 
 
-{'result': {'coverage': 63.64,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/net_type_directive.v': {'post_len': 16,
+            'files': {'$Output/lib/work/net_type_directive.v': {'post_len': 0,
                                                                 'pre_len': 44}},
-            'post_len': 16,
+            'post_len': 0,
             'pre_len': 44,
             'test_name': 'UtdSV/net_type_directive.v'}}
 
 +---------------------------------------+----------+-----------+
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
-| $Output/lib/work/net_type_directive.v |       44 |        16 |
+| $Output/lib/work/net_type_directive.v |       44 |         0 |
 +=======================================+==========+===========+
-|                                       |       44 |        16 |
+|                                       |       44 |         0 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 63.64
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -108,7 +120,7 @@ COMMAND: ${HLC_DIR}/regression/UtdSV/net_type_directive.v/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                               7       7       0         0
+Others                              11      11       0         0
 ----------------------------------------------------------------
-                                     7       7       0         0
+                                    11      11       0         0
 ===================== END REDUCTION RESULT =====================

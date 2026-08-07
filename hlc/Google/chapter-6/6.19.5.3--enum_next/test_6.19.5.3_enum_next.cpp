@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,9 +24,9 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
-//   - module has TypedefTypespec "e" → EnumTypespec with 4 consts (a, b, c, d)
-//   - Initial → Begin has 1 Variable "val" (TypedefTypespec, inline init RefObj "a" → EnumConst)
+//   - design has module top
+//   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
+//   - Initial -> Begin has 1 Variable "val" (TypedefTypespec, inline init RefObj "a" -> EnumConst)
 //   - Begin has 1 blocking assignment: val = val.next()
 //   - assignment rhs is HierPath "val.next()"
 //   - HierPath pathElems[0] is RefObj "val", pathElems[1] is FuncCall "next" (no args)
@@ -63,14 +63,14 @@ class EnumNext : public Test {
 };
 
 TEST_F(EnumNext, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Module typespec — TypedefTypespec "e" → EnumTypespec with 4 consts
-// ---------------------------------------------------------------------------
+// ----
+// Module typespec -- TypedefTypespec "e" -> EnumTypespec with 4 consts
+// ----
 TEST_F(EnumNext, TypedefEExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -78,7 +78,7 @@ TEST_F(EnumNext, TypedefEExists) {
 }
 
 TEST_F(EnumNext, EnumHasFourConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -92,11 +92,11 @@ TEST_F(EnumNext, EnumHasFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ---------------------------------------------------------------------------
-// Variable "val" — declared with inline initializer EnumConst "a"
-// ---------------------------------------------------------------------------
+// ----
+// Variable "val" -- declared with inline initializer EnumConst "a"
+// ----
 TEST_F(EnumNext, ValVariableDeclaredWithInitA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -109,16 +109,16 @@ TEST_F(EnumNext, ValVariableDeclaredWithInitA) {
   EXPECT_EQ(val->getName(), "val");
   EXPECT_NE(val->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr);
   const hldb::RefObj *const initVal = val->getValue<hldb::RefObj>();
-  ASSERT_NE(initVal, nullptr) << "val inline initializer should be RefObj → EnumConst";
+  ASSERT_NE(initVal, nullptr) << "val inline initializer should be RefObj -> EnumConst";
   EXPECT_EQ(initVal->getName(), "a");
   EXPECT_NE(initVal->getActual<hldb::EnumConst>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Assignment: val = val.next() — rhs is HierPath "val.next()"
-// ---------------------------------------------------------------------------
+// ----
+// Assignment: val = val.next() -- rhs is HierPath "val.next()"
+// ----
 TEST_F(EnumNext, AssignmentRhsIsHierPath) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -136,7 +136,7 @@ TEST_F(EnumNext, AssignmentRhsIsHierPath) {
 }
 
 TEST_F(EnumNext, HierPathReceiverAndFuncCall) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -158,7 +158,7 @@ TEST_F(EnumNext, HierPathReceiverAndFuncCall) {
 }
 
 TEST_F(EnumNext, HierPathReceiverResolvesToVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -175,7 +175,7 @@ TEST_F(EnumNext, HierPathReceiverResolvesToVariable) {
 }
 
 TEST_F(EnumNext, NextCallHasNoStaticReturnTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

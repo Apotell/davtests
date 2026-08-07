@@ -19,7 +19,7 @@ n<$Source01/dut.sv> u<202> t<Top_level_rule> c<1> l<3:1> el<32:1>
     n<> u<59> t<Description> p<201> c<58> s<200> l<3:1> el<10:10>
       n<> u<58> t<Module_declaration> p<59> c<14> l<3:1> el<10:10>
         n<> u<14> t<Module_ansi_header> p<58> c<2> s<30> l<3:1> el<3:29>
-          n<module> u<2> t<Module_keyword> p<14> s<3> l<3:1> el<3:7>
+          n<module> u<2> t<MODULE> p<14> s<3> l<3:1> el<3:7>
           n<dut> u<3> t<SIMPLE_IDENTIFIER> p<14> s<4> l<3:8> el<3:11>
           n<> u<4> t<Package_import_declaration_list> p<14> s<13> l<3:12> el<3:12>
           n<> u<13> t<Port_declaration_list> p<14> c<12> l<3:12> el<3:28>
@@ -77,7 +77,7 @@ n<$Source01/dut.sv> u<202> t<Top_level_rule> c<1> l<3:1> el<32:1>
     n<> u<200> t<Description> p<201> c<199> l<12:1> el<30:10>
       n<> u<199> t<Module_declaration> p<200> c<85> l<12:1> el<30:10>
         n<> u<85> t<Module_ansi_header> p<199> c<60> s<197> l<12:1> el<16:3>
-          n<module> u<60> t<Module_keyword> p<85> s<61> l<12:1> el<12:7>
+          n<module> u<60> t<MODULE> p<85> s<61> l<12:1> el<12:7>
           n<ram_1p> u<61> t<SIMPLE_IDENTIFIER> p<85> s<62> l<12:8> el<12:14>
           n<> u<62> t<Package_import_declaration_list> p<85> s<75> l<12:15> el<12:15>
           n<> u<75> t<Parameter_port_list> p<85> c<74> s<84> l<12:15> el<14:2>
@@ -216,12 +216,10 @@ n<$Source01/dut.sv> u<202> t<Top_level_rule> c<1> l<3:1> el<32:1>
                         n<> u<189> t<END> p<190> l<28:1> el<28:4>
         n<> u<198> t<ENDMODULE> p<199> l<30:1> el<30:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:3:1: Compile module "work@dut".
-[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@ram_1p".
-[ERR:EL0535] $Source01/dut.sv:6:7: Illegal implicit net "id:29, name:MemInitFile".
-[ERR:EL0535] $Source01/dut.sv:8:13: Illegal implicit net "id:32, name:out".
-[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@dut".
-[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@ram_1p".
+[INF:CP0303] $Source01/dut.sv:3:1: Compile module "dut".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "ram_1p".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "dut".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "ram_1p".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -233,115 +231,119 @@ Design name:unnamed:
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:PARAM_FILE start:1:1 end:1:22:
           vpiParent: SourceFile name:dut.sv
-          vpiName: PARAM_FILE
-          vpiNameStartColumn: 9
-          vpiBodyStartColumn: 20
+          vpiName Identifier name:PARAM_FILE start:1:9 end:1:19:
+            vpiParent: PreprocMacroDefinition name:PARAM_FILE
+            vpiName: PARAM_FILE
+          vpiPMDType: define (1)
+          vpiPMDToken (1 items):
+            "Identifier name:\"\" start:1:20 end:1:22":
+              vpiParent: PreprocMacroDefinition name:PARAM_FILE
+              vpiName: "\"\""
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:PARAM_FILE file:$Source01/dut.sv start:4:29 end:4:40:
+        PreprocMacroInstance name:PARAM_FILE file:$Source01/dut.sv start:4:29 end:4:40 ppstart:4:29 ppend:4:31:
           vpiParent: SourceFile name:dut.sv
-          vpiName: PARAM_FILE
+          vpiName Identifier name:PARAM_FILE start:4:29 end:4:40:
+            vpiParent: PreprocMacroInstance name:PARAM_FILE
+            vpiName: PARAM_FILE
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:PARAM_FILE
-          vpiSectionStartLine: 1
-          vpiSectionStartColumn: 20
-          vpiSectionEndLine: 1
-          vpiSectionEndColumn: 22
-          vpiSourceStartLine: 4
-          vpiSourceStartColumn: 29
-          vpiSourceEndLine: 4
-          vpiSourceEndColumn: 31
-      vpiDefNetType: none (12)
+          "vpiPMIBody Identifier name:\"\" start:1:20 end:1:22":
+            vpiParent: PreprocMacroInstance name:PARAM_FILE
+            vpiName: "\"\""
   vpiAllModules (2 items):
-    Module name:work@dut file:$Source01/dut.sv start:3:1 end:10:10:
+    Module name:dut file:$Source01/dut.sv start:3:1 end:10:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:3:8 end:3:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
+      vpiName Identifier name:dut start:3:8 end:3:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
       vpiVariable (1 items):
         Variable name:o start:3:26 end:3:27:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:3:13 end:3:25:
             vpiParent: Variable name:o
-            vpiFullName: work@dut.o
+            vpiFullName: dut.o
             vpiActual: LogicTypespec
           vpiName: o
-          vpiFullName: work@dut.o
-          vpiNetType: none (12)
+          vpiFullName: dut.o
+          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:SRAMInitFile start:4:14 end:4:26:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:4:14 end:4:14:
             vpiParent: Parameter name:SRAMInitFile
-            vpiFullName: work@dut.SRAMInitFile
+            vpiFullName: dut.SRAMInitFile
             vpiActual: LogicTypespec
           vpiName: SRAMInitFile
-          vpiFullName: work@dut.SRAMInitFile
+          vpiFullName: dut.SRAMInitFile
       vpiParamAssign (1 items):
         ParamAssign start:4:14 end:4:40:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:SRAMInitFile start:4:14 end:4:26:
             vpiParent: ParamAssign
             vpiName: SRAMInitFile
-            vpiFullName: work@dut.SRAMInitFile
+            vpiFullName: dut.SRAMInitFile
             vpiActual: Parameter name:SRAMInitFile
           vpiRhs Constant start:1:20 end:1:22:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@dut
+              vpiFullName: dut
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiDecompile: "\"\""
             vpiValue: ""
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@dut
-        ModuleTypespec name:work@ram_1p start:5:4 end:5:10:
-          vpiParent: Module name:work@dut
-          vpiName Identifier name:work@ram_1p start:5:4 end:5:10:
-            vpiParent: ModuleTypespec name:work@ram_1p
-            vpiName: work@ram_1p
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
+          vpiParent: Module name:dut
+        ModuleTypespec name:ram_1p start:5:4 end:5:10:
+          vpiParent: Module name:dut
+          vpiName Identifier name:ram_1p start:5:4 end:5:10:
+            vpiParent: ModuleTypespec name:ram_1p
+            vpiName: ram_1p
+          vpiModule: Module name:ram_1p
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
+        vpiParent: Module name:dut
         vpiName: work
-        vpiFullName: work@dut.work
+        vpiFullName: dut.work
       vpiCell: dut
       vpiPort (1 items):
         Port name:o start:3:26 end:3:27:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:3:26 end:3:27:
+          vpiLowConn RefObj name:o start:3:26 end:3:27:
             vpiParent: Port name:o
-            vpiFullName: work@dut.o
+            vpiName: o
+            vpiFullName: dut.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:3:13 end:3:25:
             vpiParent: Port name:o
-            vpiFullName: work@dut.o
+            vpiFullName: dut.o
             vpiActual: LogicTypespec
       vpiRefInstance (1 items):
         RefInstance name:u_ram start:7:6 end:7:11:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName: u_ram
-          vpiTypespec RefTypespec name:work@ram_1p start:5:4 end:5:10:
+          vpiTypespec RefTypespec name:ram_1p start:5:4 end:5:10:
             vpiParent: RefInstance name:u_ram
-            vpiName: work@ram_1p
-            vpiFullName: work@dut.u_ram.work@ram_1p
-            vpiActual: ModuleTypespec name:work@ram_1p
+            vpiName: ram_1p
+            vpiFullName: dut.u_ram.ram_1p
+            vpiActual: ModuleTypespec name:ram_1p
           vpiParamAssign (1 items):
             ParamAssign start:6:6 end:6:32:
               vpiParent: RefInstance name:u_ram
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:MemInitFile start:6:7 end:6:18:
                 vpiParent: ParamAssign
                 vpiName: MemInitFile
-                vpiFullName: work@dut.u_ram.MemInitFile
+                vpiFullName: dut.u_ram.MemInitFile
               vpiRhs RefObj name:SRAMInitFile start:6:19 end:6:31:
                 vpiParent: ParamAssign
                 vpiName: SRAMInitFile
-                vpiFullName: work@dut.u_ram.SRAMInitFile
+                vpiFullName: dut.u_ram.SRAMInitFile
                 vpiActual: Parameter name:SRAMInitFile
           vpiPort (1 items):
             Port start:8:12 end:8:19:
@@ -349,83 +351,84 @@ Design name:unnamed:
               vpiLowConn RefObj name:out start:8:13 end:8:16:
                 vpiParent: Port
                 vpiName: out
-                vpiFullName: work@dut.u_ram.out
+                vpiFullName: dut.u_ram.out
               vpiHighConn RefObj name:o start:8:17 end:8:18:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@dut.u_ram.o
+                vpiFullName: dut.u_ram.o
                 vpiActual: Variable name:o
-    Module name:work@ram_1p file:$Source01/dut.sv start:12:1 end:30:10:
+    Module name:ram_1p file:$Source01/dut.sv start:12:1 end:30:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ram_1p start:12:8 end:12:14:
-        vpiParent: Module name:work@ram_1p
-        vpiName: work@ram_1p
-      vpiFullName: work@ram_1p
+      vpiName Identifier name:ram_1p start:12:8 end:12:14:
+        vpiParent: Module name:ram_1p
+        vpiName: ram_1p
+      vpiFullName: ram_1p
       vpiVariable (1 items):
         Variable name:out start:15:22 end:15:25:
-          vpiParent: Module name:work@ram_1p
+          vpiParent: Module name:ram_1p
           vpiTypespec RefTypespec start:15:9 end:15:21:
             vpiParent: Variable name:out
-            vpiFullName: work@ram_1p.out
+            vpiFullName: ram_1p.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: work@ram_1p.out
-          vpiNetType: none (12)
+          vpiFullName: ram_1p.out
+          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:MemInitFile start:13:23 end:13:34:
-          vpiParent: Module name:work@ram_1p
+          vpiParent: Module name:ram_1p
           vpiTypespec RefTypespec start:13:23 end:13:23:
             vpiParent: Parameter name:MemInitFile
-            vpiFullName: work@ram_1p.MemInitFile
+            vpiFullName: ram_1p.MemInitFile
             vpiActual: LogicTypespec
           vpiName: MemInitFile
-          vpiFullName: work@ram_1p.MemInitFile
+          vpiFullName: ram_1p.MemInitFile
       vpiParamAssign (1 items):
         ParamAssign start:13:23 end:13:39:
-          vpiParent: Module name:work@ram_1p
+          vpiParent: Module name:ram_1p
           vpiLhs RefObj name:MemInitFile start:13:23 end:13:34:
             vpiParent: ParamAssign
             vpiName: MemInitFile
-            vpiFullName: work@ram_1p.MemInitFile
+            vpiFullName: ram_1p.MemInitFile
             vpiActual: Parameter name:MemInitFile
           vpiRhs Constant start:13:37 end:13:39:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@ram_1p
+              vpiFullName: ram_1p
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiDecompile: "\"\""
             vpiValue: ""
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@ram_1p
-      vpiDefName: work@ram_1p
-      vpiDefNetType: none (12)
+          vpiParent: Module name:ram_1p
+      vpiDefName: ram_1p
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@ram_1p
+        vpiParent: Module name:ram_1p
         vpiName: work
-        vpiFullName: work@ram_1p.work
+        vpiFullName: ram_1p.work
       vpiCell: ram_1p
       vpiPort (1 items):
         Port name:out start:15:22 end:15:25:
-          vpiParent: Module name:work@ram_1p
+          vpiParent: Module name:ram_1p
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:15:22 end:15:25:
+          vpiLowConn RefObj name:out start:15:22 end:15:25:
             vpiParent: Port name:out
-            vpiFullName: work@ram_1p.out
+            vpiName: out
+            vpiFullName: ram_1p.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:15:9 end:15:21:
             vpiParent: Port name:out
-            vpiFullName: work@ram_1p.out
+            vpiFullName: ram_1p.out
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Initial start:18:1 end:28:4:
-          vpiParent: Module name:work@ram_1p
+          vpiParent: Module name:ram_1p
           vpiStmt Begin start:18:9 end:28:4:
             vpiParent: Initial
-            vpiFullName: work@ram_1p
+            vpiFullName: ram_1p
             vpiStmt (2 items):
               IfStmt start:19:3 end:22:6:
                 vpiParent: Begin
@@ -436,13 +439,13 @@ Design name:unnamed:
                     RefObj name:MemInitFile start:19:7 end:19:18:
                       vpiParent: Operation
                       vpiName: MemInitFile
-                      vpiFullName: work@ram_1p.MemInitFile
+                      vpiFullName: ram_1p.MemInitFile
                       vpiActual: Parameter name:MemInitFile
                     Constant start:19:22 end:19:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@ram_1p
+                        vpiFullName: ram_1p
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiDecompile: "\"\""
@@ -452,7 +455,7 @@ Design name:unnamed:
                   vpiName Identifier name:gen_meminit start:19:34 end:19:45:
                     vpiParent: Begin name:gen_meminit
                     vpiName: gen_meminit
-                  vpiFullName: work@ram_1p.gen_meminit
+                  vpiFullName: ram_1p.gen_meminit
                   vpiTypespec (1 items):
                     BitTypespec:
                       vpiParent: Begin name:gen_meminit
@@ -467,7 +470,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@ram_1p.gen_meminit
+                            vpiFullName: ram_1p.gen_meminit
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 304
@@ -476,20 +479,20 @@ Design name:unnamed:
                         RefObj name:MemInitFile start:20:58 end:20:69:
                           vpiParent: SysTaskCall name:$display
                           vpiName: MemInitFile
-                          vpiFullName: work@ram_1p.gen_meminit.MemInitFile
+                          vpiFullName: ram_1p.gen_meminit.MemInitFile
                           vpiActual: Parameter name:MemInitFile
                     AssignStmt start:21:7 end:21:24:
                       vpiParent: Begin name:gen_meminit
                       vpiLhs RefObj name:out start:21:14 end:21:17:
                         vpiParent: AssignStmt
                         vpiName: out
-                        vpiFullName: work@ram_1p.gen_meminit.out
+                        vpiFullName: ram_1p.gen_meminit.out
                         vpiActual: Variable name:out
                       vpiRhs Constant start:21:20 end:21:24:
                         vpiParent: AssignStmt
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@ram_1p.gen_meminit
+                          vpiFullName: ram_1p.gen_meminit
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -504,13 +507,13 @@ Design name:unnamed:
                     RefObj name:MemInitFile start:24:7 end:24:18:
                       vpiParent: Operation
                       vpiName: MemInitFile
-                      vpiFullName: work@ram_1p.MemInitFile
+                      vpiFullName: ram_1p.MemInitFile
                       vpiActual: Parameter name:MemInitFile
                     Constant start:24:22 end:24:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@ram_1p
+                        vpiFullName: ram_1p
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiDecompile: "\"\""
@@ -520,7 +523,7 @@ Design name:unnamed:
                   vpiName Identifier name:gen_nomeminit start:24:34 end:24:47:
                     vpiParent: Begin name:gen_nomeminit
                     vpiName: gen_nomeminit
-                  vpiFullName: work@ram_1p.gen_nomeminit
+                  vpiFullName: ram_1p.gen_nomeminit
                   vpiTypespec (1 items):
                     BitTypespec:
                       vpiParent: Begin name:gen_nomeminit
@@ -535,7 +538,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@ram_1p.gen_nomeminit
+                            vpiFullName: ram_1p.gen_nomeminit
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 272
@@ -546,37 +549,37 @@ Design name:unnamed:
                       vpiLhs RefObj name:out start:26:14 end:26:17:
                         vpiParent: AssignStmt
                         vpiName: out
-                        vpiFullName: work@ram_1p.gen_nomeminit.out
+                        vpiFullName: ram_1p.gen_nomeminit.out
                         vpiActual: Variable name:out
                       vpiRhs Constant start:26:20 end:26:24:
                         vpiParent: AssignStmt
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@ram_1p.gen_nomeminit
+                          vpiFullName: ram_1p.gen_nomeminit
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
                         vpiValue: "0"
   vpiTypespec (3 items):
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:3:8 end:3:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
+      vpiName Identifier name:dut start:3:8 end:3:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@ram_1p:
+    ModuleTypespec name:ram_1p:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ram_1p start:12:8 end:12:14:
-        vpiParent: ModuleTypespec name:work@ram_1p
-        vpiName: work@ram_1p
-      vpiModule: Module name:work@ram_1p
+      vpiName Identifier name:ram_1p start:12:8 end:12:14:
+        vpiParent: ModuleTypespec name:ram_1p
+        vpiName: ram_1p
+      vpiModule: Module name:ram_1p
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
@@ -621,7 +624,7 @@ COMMAND: ${HLC_DIR}/regression/ParamFile/ParamFileOverr/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              84      84       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                    84      84       0         0
+                                    88      88       0         0
 ===================== END REDUCTION RESULT =====================

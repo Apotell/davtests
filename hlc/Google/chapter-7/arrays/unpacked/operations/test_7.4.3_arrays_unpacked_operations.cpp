@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,9 +28,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "arr"
-//   - net "arr": RefTypespec -> ArrayTypespec static(1) range [7:0], elem
-//     -> BitTypespec
+//   - design has module top with exactly 1 variable: "arr" (IEEE 1800-2023
+//     6.7/6.8: 'bit arr [7:0]' has no net-type keyword, so it is a
+//     variable_declaration, not a net_declaration); it does not appear in
+//     getNets()
+//   - variable "arr": RefTypespec -> ArrayTypespec static(1) range [7:0],
+//     elem -> BitTypespec
 //   - Initial process: 1 Begin with 6 stmts (3 Assignment assign-pattern +
 //     3 SysTaskCall), alternating write/read three times
 //   - Stmt[0]/[2]/[4]: blocking Assignment, RefObj lhs "arr", rhs Operation
@@ -67,13 +70,13 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -84,24 +87,31 @@ class UnpackedOperationsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / net --------------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(UnpackedOperationsTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedOperationsTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedOperationsTest, ModuleHasOneVariable) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u)
+      << "6.7/6.8: 'bit arr [7:0]' declared with no net-type keyword is a variable";
 }
 
-TEST_F(UnpackedOperationsTest, NetArrIsArrayOfBitTypespecRangeSevenToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedOperationsTest, ModuleHasNoNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in operations.sv";
+}
+
+TEST_F(UnpackedOperationsTest, VarArrIsArrayOfBitTypespecRangeSevenToZero) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const arr = hldb::findByName<hldb::Variable>("arr", top->getVariables());
   ASSERT_NE(arr, nullptr);
   const hldb::ArrayTypespec *const at = arr->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -112,10 +122,10 @@ TEST_F(UnpackedOperationsTest, NetArrIsArrayOfBitTypespecRangeSevenToZero) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::BitTypespec>(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedOperationsTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -128,7 +138,7 @@ TEST_F(UnpackedOperationsTest, InitialBeginHasSixStmts) {
 }
 
 TEST_F(UnpackedOperationsTest, ThreeAssignPatternWritesToArrHaveExpectedBits) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -158,7 +168,7 @@ TEST_F(UnpackedOperationsTest, ThreeAssignPatternWritesToArrHaveExpectedBits) {
 }
 
 TEST_F(UnpackedOperationsTest, ThreeDisplaysReadEightBitSelectsEach) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -185,7 +195,7 @@ TEST_F(UnpackedOperationsTest, ThreeDisplaysReadEightBitSelectsEach) {
   }
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedOperationsTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -196,7 +206,7 @@ TEST_F(UnpackedOperationsTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedOperationsTest, DesignHasStringTypespec) {
@@ -214,19 +224,19 @@ TEST_F(UnpackedOperationsTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedOperationsTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime bit-pattern values require simulation ---------------
+// --- known gap: runtime bit-pattern values require simulation ----
 
 TEST_F(UnpackedOperationsTest, RuntimeArrValuesRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates operations.sv; it does not run a simulator, "
                   "so the actual runtime bit patterns of arr after each write cannot be observed "
                   "here. operations.sv's own $display format strings document the expected values.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

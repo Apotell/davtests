@@ -19,32 +19,32 @@
 // branches and records macro events on the SourceFile.
 //
 // SV source (preprocessor logic):
-//   `define XXX 1          ← (1) define XXX
-//   `ifdef XXX             ← true  (XXX is defined)
-//     `undef XXX           ← (2) undef XXX
-//   `elsif YYY             ← skipped (ifdef was taken)
-//     `define XXX 0        ← skipped
+//   `define XXX 1          // (1) define XXX
+//   `ifdef XXX             // true  (XXX is defined)
+//     `undef XXX           // (2) undef XXX
+//   `elsif YYY             // skipped (ifdef was taken)
+//     `define XXX 0        // skipped
 //   `endif
-//   `ifndef YYY            ← true  (YYY is not defined after undef)
-//     `define YYY 0        ← (3) define YYY
-//   `else                  ← skipped
-//     `define XXX 0        ← skipped
+//   `ifndef YYY            // true  (YYY is not defined after undef)
+//     `define YYY 0        // (3) define YYY
+//   `else                  // skipped
+//     `define XXX 0        // skipped
 //   `endif
-//   `undefineall           ← (4) clear all macros
+//   `undefineall           // (4) clear all macros
 //   module d();
 //   endmodule
 //
 // UHDM: SourceFile records exactly 4 PreprocMacroDefinition entries, in the
 // order the preprocessor encountered them:
-//   [0] name:"XXX", bodyStartColumn=13  (`define XXX 1)
-//   [1] name:"XXX", bodyStartColumn=0   (`undef XXX — no body)
-//   [2] name:"YYY", bodyStartColumn=13  (`define YYY 0)
-//   [3] name:""  , bodyStartColumn=0   (`undefineall — no name)
+//   [0] name:"XXX", has body tokens  (`define XXX 1)
+//   [1] name:"XXX", no body tokens   (`undef XXX -- no body)
+//   [2] name:"YYY", has body tokens  (`define YYY 0)
+//   [3] name:""  , no body tokens    (`undefineall -- no name)
 //
-// Distinguishing the three directive kinds via UHDM fields:
-//   `define     → name is non-empty AND bodyStartColumn > 0
-//   `undef      → name is non-empty AND bodyStartColumn == 0
-//   `undefineall → name is empty
+// Distinguishing the three directive kinds via getTokens():
+//   `define      -- name is non-empty AND getTokens() != nullptr
+//   `undef       -- name is non-empty AND getTokens() == nullptr
+//   `undefineall -- name is empty
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -80,8 +80,8 @@ static const hldb::PreprocMacroDefinition *getMacro(const hldb::Design *d, std::
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@d", m_design->getAllModules()), nullptr)
-      << "module 'work@d' not found";
+  ASSERT_NE(hldb::findByName<hldb::Module>("d", m_design->getAllModules()), nullptr)
+      << "module 'd' not found";
 }
 
 // ---------------------------------------------------------------------------
@@ -97,27 +97,28 @@ TEST_F(CompilerDirectivesDefine, FourMacroEventsRecorded) {
 }
 
 // ---------------------------------------------------------------------------
-// Event 0: `define XXX 1  — name="XXX", has body
+// Event 0: `define XXX 1  -- name="XXX", has body
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, FirstEventIsDefineXXX) {
   const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 0);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "XXX");
-  EXPECT_GT(m->getBodyStartColumn(), 0u) << "`define has a body, so bodyStartColumn should be non-zero";
+  EXPECT_NE(m->getTokens(), nullptr) << "`define has a body, so getTokens() should be non-null";
 }
 
 // ---------------------------------------------------------------------------
-// Event 1: `undef XXX  — name="XXX", no body
+// Event 1: `undef XXX  -- name="XXX", no body
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, SecondEventIsUndefXXX) {
   const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 1);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "XXX");
-  EXPECT_EQ(m->getBodyStartColumn(), 0u) << "`undef has no body, so bodyStartColumn should be zero";
+  EXPECT_TRUE(m->getTokens() == nullptr || m->getTokens()->empty())
+      << "`undef has no body, so getTokens() should be null or empty";
 }
 
 // ---------------------------------------------------------------------------
-// Event 2: `define YYY 0  — name="YYY", has body
+// Event 2: `define YYY 0  -- name="YYY", has body
 // The `elsif and `else branches were skipped by the preprocessor, so only
 // the taken `ifndef branch appears here.
 // ---------------------------------------------------------------------------
@@ -125,17 +126,50 @@ TEST_F(CompilerDirectivesDefine, ThirdEventIsDefineYYY) {
   const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 2);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "YYY");
-  EXPECT_GT(m->getBodyStartColumn(), 0u) << "`define has a body, so bodyStartColumn should be non-zero";
+  EXPECT_NE(m->getTokens(), nullptr) << "`define has a body, so getTokens() should be non-null";
 }
 
 // ---------------------------------------------------------------------------
-// Event 3: `undefineall  — empty name, no body
+// Event 3: `undefineall  -- empty name, no body
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, FourthEventIsUndefineall) {
   const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 3);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(m->getName().empty()) << "`undefineall has no macro name, getName() should be empty";
-  EXPECT_EQ(m->getBodyStartColumn(), 0u);
+  EXPECT_TRUE(m->getTokens() == nullptr || m->getTokens()->empty())
+      << "`undefineall has no body, so getTokens() should be null or empty";
+}
+
+// ---------------------------------------------------------------------------
+// 5. PreprocMacroDefinition arguments and tokens
+// ---------------------------------------------------------------------------
+
+// LRM 22.5.1: `define XXX 1 and `define YYY 0 are simple object-like macros
+// with no argument list. getArguments() must return null for both.
+TEST_F(CompilerDirectivesDefine, DefineXXXHasNoArguments) {
+  const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 0);
+  ASSERT_NE(m, nullptr);
+  EXPECT_EQ(m->getArguments(), nullptr) << "`define XXX 1 has no argument list";
+}
+
+TEST_F(CompilerDirectivesDefine, DefineYYYHasNoArguments) {
+  const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 2);
+  ASSERT_NE(m, nullptr);
+  EXPECT_EQ(m->getArguments(), nullptr) << "`define YYY 0 has no argument list";
+}
+
+// LRM 22.5.1: `define XXX 1 and `define YYY 0 have a replacement body.
+// getTokens() must return a non-null collection.
+TEST_F(CompilerDirectivesDefine, DefineXXXHasTokens) {
+  const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 0);
+  ASSERT_NE(m, nullptr);
+  EXPECT_NE(m->getTokens(), nullptr) << "`define XXX 1 must have body tokens";
+}
+
+TEST_F(CompilerDirectivesDefine, DefineYYYHasTokens) {
+  const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 2);
+  ASSERT_NE(m, nullptr);
+  EXPECT_NE(m->getTokens(), nullptr) << "`define YYY 0 must have body tokens";
 }
 
 }  // namespace hlc

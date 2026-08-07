@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,9 +28,9 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true --
-//     each net gets its own distinct BitTypespec instance
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//   - both variables: RefTypespec -> BitTypespec, 1 range [7:0], vector=true --
+//     each variable gets its own distinct BitTypespec instance
 //   - Initial process: 1 Begin with 5 stmts (2 Assignment + 3 SysTaskCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, hexadecimal Constant
 //     rhs ("8'hff", vpiConstType=hexadecimal(5), size=8)
@@ -63,7 +63,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
@@ -80,40 +80,40 @@ class PackedEqualityTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(PackedEqualityTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedEqualityTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(PackedEqualityTest, ModuleHasTwoVariables) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(PackedEqualityTest, NetArrAAndArrBAreBitTypespecRange7to0) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(PackedEqualityTest, VariableArrAAndArrBAreBitTypespecRange7to0) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   ASSERT_NE(arrB, nullptr);
   const hldb::BitTypespec *const btA = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
   const hldb::BitTypespec *const btB = arrB->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
   ASSERT_NE(btA, nullptr);
   ASSERT_NE(btB, nullptr);
-  EXPECT_NE(btA, btB) << "each net should get its own distinct BitTypespec instance";
+  EXPECT_NE(btA, btB) << "each variable should get its own distinct BitTypespec instance";
   EXPECT_EQ(btA->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "7");
   EXPECT_EQ(btA->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedEqualityTest, InitialBeginHasFiveStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -126,7 +126,7 @@ TEST_F(PackedEqualityTest, InitialBeginHasFiveStmts) {
 }
 
 TEST_F(PackedEqualityTest, FirstAssignmentSetsArrAToHexFf) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -136,7 +136,7 @@ TEST_F(PackedEqualityTest, FirstAssignmentSetsArrAToHexFf) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "arr_a");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getConstType(), 5);  // hexadecimal = 5
@@ -146,7 +146,7 @@ TEST_F(PackedEqualityTest, FirstAssignmentSetsArrAToHexFf) {
 }
 
 TEST_F(PackedEqualityTest, SecondAssignmentSetsArrBToHexFf) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -157,7 +157,7 @@ TEST_F(PackedEqualityTest, SecondAssignmentSetsArrBToHexFf) {
 }
 
 TEST_F(PackedEqualityTest, FirstDisplayHasThreeArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -174,7 +174,7 @@ TEST_F(PackedEqualityTest, FirstDisplayHasThreeArguments) {
 }
 
 TEST_F(PackedEqualityTest, SecondDisplayArgIsEqualOperation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -193,7 +193,7 @@ TEST_F(PackedEqualityTest, SecondDisplayArgIsEqualOperation) {
 }
 
 TEST_F(PackedEqualityTest, ThirdDisplayArgIsNotEqualOperation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -211,7 +211,7 @@ TEST_F(PackedEqualityTest, ThirdDisplayArgIsNotEqualOperation) {
   EXPECT_EQ(any_cast<hldb::RefObj>(op->getOperands()->at(1))->getName(), "arr_b");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedEqualityTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -222,7 +222,7 @@ TEST_F(PackedEqualityTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedEqualityTest, DesignHasStringTypespec) {
@@ -240,12 +240,12 @@ TEST_F(PackedEqualityTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedEqualityTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime comparison results require simulation ---------------
+// --- known gap: runtime comparison results require simulation ----
 
 TEST_F(PackedEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   // GTEST_SKIP() << "This harness only compiles/elaborates equality.sv; it does not run a simulator, "
@@ -253,7 +253,7 @@ TEST_F(PackedEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   //                 "observed here. equality.sv's own $display format strings document the expected "
   //                 "values instead.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

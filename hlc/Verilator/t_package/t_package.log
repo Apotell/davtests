@@ -224,7 +224,7 @@ n<$Source01/t_package.v> u<696> t<Top_level_rule> c<1> l<6:1> el<66:1>
     n<> u<521> t<Description> p<695> c<520> s<694> l<27:1> el<52:10>
       n<> u<520> t<Module_declaration> p<521> c<220> l<27:1> el<52:10>
         n<> u<220> t<Module_nonansi_header> p<520> c<208> s<227> l<27:1> el<30:6>
-          n<module> u<208> t<Module_keyword> p<220> s<209> l<27:1> el<27:7>
+          n<module> u<208> t<MODULE> p<220> s<209> l<27:1> el<27:7>
           n<t> u<209> t<SIMPLE_IDENTIFIER> p<220> s<210> l<27:8> el<27:9>
           n<> u<210> t<Package_import_declaration_list> p<220> s<211> l<27:10> el<27:10>
           n</*AUTOARG*/> u<211> t<BLOCK_COMMENT> p<220> s<212> l<27:10> el<30:5>
@@ -538,7 +538,7 @@ n<$Source01/t_package.v> u<696> t<Top_level_rule> c<1> l<6:1> el<66:1>
     n<> u<694> t<Description> p<695> c<693> l<54:1> el<65:10>
       n<> u<693> t<Module_declaration> p<694> c<525> l<54:1> el<65:10>
         n<> u<525> t<Module_ansi_header> p<693> c<522> s<534> l<54:1> el<54:11>
-          n<module> u<522> t<Module_keyword> p<525> s<523> l<54:1> el<54:7>
+          n<module> u<522> t<MODULE> p<525> s<523> l<54:1> el<54:7>
           n<t2> u<523> t<SIMPLE_IDENTIFIER> p<525> s<524> l<54:8> el<54:10>
           n<> u<524> t<Package_import_declaration_list> p<525> l<54:10> el<54:10>
         n<> u<534> t<Non_port_module_item> p<693> c<533> s<544> l<55:4> el<55:16>
@@ -709,13 +709,14 @@ n<$Source01/t_package.v> u<696> t<Top_level_rule> c<1> l<6:1> el<66:1>
                         n<> u<683> t<END> p<684> l<64:4> el<64:7>
         n<> u<692> t<ENDMODULE> p<693> l<65:1> el<65:10>
 AST_DEBUG_END
-[INF:CP0301] $Source01/t_package.v:12:1: Compile package "work@p".
-[INF:CP0301] $Source01/t_package.v:20:1: Compile package "work@p2".
-[INF:CP0303] $Source01/t_package.v:27:1: Compile module "work@t".
-[INF:CP0303] $Source01/t_package.v:54:1: Compile module "work@t2".
+[INF:CP0301] $Source01/t_package.v:12:1: Compile package "p".
+[INF:CP0301] $Source01/t_package.v:20:1: Compile package "p2".
+[INF:CP0303] $Source01/t_package.v:27:1: Compile module "t".
+[INF:CP0303] $Source01/t_package.v:54:1: Compile module "t2".
 [WRN:CP0323] $Source01/t_package.v:54:1: Multiply defined typedef "p2".
-[ERR:EL0535] $Source01/t_package.v:43:14: Illegal implicit net "id:201, name:pi".
-[ERR:EL0535] $Source01/t_package.v:50:14: Illegal implicit net "id:234, name:pi".
+[WRN:CP0350] $Source01/t_package.v:41:14: Failed to bind "id:186, name:plusone".
+[WRN:CP0350] $Source01/t_package.v:43:14: Failed to bind "id:206, name:pi".
+[WRN:CP0350] $Source01/t_package.v:50:14: Failed to bind "id:240, name:pi".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -725,28 +726,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_package.v
       vpiPreprocFile: "$Output/lib/work/t_package.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@p file:$Source01/t_package.v start:12:1 end:18:11:
+    Package name:p file:$Source01/t_package.v start:12:1 end:18:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@p start:12:9 end:12:10:
-        vpiParent: Package name:work@p
-        vpiName: work@p
-      vpiFullName: work@p
+      vpiName Identifier name:p start:12:9 end:12:10:
+        vpiParent: Package name:p
+        vpiName: p
+      vpiFullName: p
       vpiVariable (1 items):
         Variable name:pi start:14:16 end:14:18:
-          vpiParent: Package name:work@p
+          vpiParent: Package name:p
           vpiTypespec RefTypespec start:14:4 end:14:11:
             vpiParent: Variable name:pi
-            vpiFullName: work@p::pi
+            vpiFullName: p::pi
             vpiActual: IntegerTypespec
           vpiName: pi
-          vpiFullName: work@p::pi
+          vpiFullName: p::pi
           vpiValue Constant start:14:21 end:14:24:
             vpiParent: Variable name:pi
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@p::pi
+              vpiFullName: p::pi
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -754,31 +754,31 @@ Design name:unnamed:
             vpiValue: 123
       vpiTypespec (2 items):
         TypedefTypespec name:package_type_t start:13:4 end:13:31:
-          vpiParent: Package name:work@p
+          vpiParent: Package name:p
           vpiName Identifier name:package_type_t start:13:16 end:13:30:
             vpiParent: TypedefTypespec name:package_type_t
             vpiName: package_type_t
           vpiTypedefAlias RefTypespec start:13:12 end:13:15:
             vpiParent: TypedefTypespec name:package_type_t
-            vpiFullName: work@p::package_type_t
+            vpiFullName: p::package_type_t
             vpiActual: IntTypespec
         IntegerTypespec:
-          vpiParent: Package name:work@p
+          vpiParent: Package name:p
           vpiSigned: true
-      vpiDefName: work@p
-      vpiDefNetType: none (12)
+      vpiDefName: p
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@p
+        vpiParent: Package name:p
         vpiName: work
-        vpiFullName: work@p::work
+        vpiFullName: p::work
       vpiCell: p
       vpiTaskFunc (1 items):
         Function name:plusone start:15:4 end:17:15:
-          vpiParent: Package name:work@p
+          vpiParent: Package name:p
           vpiName Identifier name:plusone start:15:19 end:15:26:
             vpiParent: Function name:plusone
             vpiName: plusone
-          vpiFullName: work@p::plusone
+          vpiFullName: p::plusone
           vpiTypespec (2 items):
             LogicTypespec start:15:13 end:15:18:
               vpiParent: Function name:plusone
@@ -789,7 +789,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p::plusone
+                      vpiFullName: p::plusone
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -799,7 +799,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p::plusone
+                      vpiFullName: p::plusone
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -815,7 +815,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p::plusone
+                      vpiFullName: p::plusone
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -825,7 +825,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p::plusone
+                      vpiFullName: p::plusone
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -840,7 +840,7 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:15:33 end:15:38:
                 vpiParent: IODecl name:i
-                vpiFullName: work@p::plusone::i
+                vpiFullName: p::plusone::i
                 vpiActual: LogicTypespec
           vpiStmt Assignment start:16:7 end:16:20:
             vpiParent: Function name:plusone
@@ -848,7 +848,7 @@ Design name:unnamed:
             vpiLhs RefObj name:plusone start:16:7 end:16:14:
               vpiParent: Assignment
               vpiName: plusone
-              vpiFullName: work@p::plusone::plusone
+              vpiFullName: p::plusone::plusone
               vpiActual: Function name:plusone
             vpiRhs Operation start:16:17 end:16:20:
               vpiParent: Assignment
@@ -857,13 +857,13 @@ Design name:unnamed:
                 RefObj name:i start:16:17 end:16:18:
                   vpiParent: Operation
                   vpiName: i
-                  vpiFullName: work@p::plusone::i
+                  vpiFullName: p::plusone::i
                   vpiActual: IODecl name:i
                 Constant start:16:19 end:16:20:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@p::plusone
+                    vpiFullName: p::plusone
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -871,38 +871,38 @@ Design name:unnamed:
                   vpiValue: 1
           vpiReturn RefTypespec start:15:13 end:15:18:
             vpiParent: Function name:plusone
-            vpiFullName: work@p::plusone
+            vpiFullName: p::plusone
             vpiActual: LogicTypespec
-    Package name:work@p2 file:$Source01/t_package.v start:20:1 end:25:11:
+    Package name:p2 file:$Source01/t_package.v start:20:1 end:25:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@p2 start:20:9 end:20:11:
-        vpiParent: Package name:work@p2
-        vpiName: work@p2
-      vpiFullName: work@p2
+      vpiName Identifier name:p2 start:20:9 end:20:11:
+        vpiParent: Package name:p2
+        vpiName: p2
+      vpiFullName: p2
       vpiTypespec (1 items):
         TypedefTypespec name:package2_type_t start:21:4 end:21:32:
-          vpiParent: Package name:work@p2
+          vpiParent: Package name:p2
           vpiName Identifier name:package2_type_t start:21:16 end:21:31:
             vpiParent: TypedefTypespec name:package2_type_t
             vpiName: package2_type_t
           vpiTypedefAlias RefTypespec start:21:12 end:21:15:
             vpiParent: TypedefTypespec name:package2_type_t
-            vpiFullName: work@p2::package2_type_t
+            vpiFullName: p2::package2_type_t
             vpiActual: IntTypespec
-      vpiDefName: work@p2
-      vpiDefNetType: none (12)
+      vpiDefName: p2
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@p2
+        vpiParent: Package name:p2
         vpiName: work
-        vpiFullName: work@p2::work
+        vpiFullName: p2::work
       vpiCell: p2
       vpiTaskFunc (1 items):
         Function name:plustwo start:22:4 end:24:15:
-          vpiParent: Package name:work@p2
+          vpiParent: Package name:p2
           vpiName Identifier name:plustwo start:22:19 end:22:26:
             vpiParent: Function name:plustwo
             vpiName: plustwo
-          vpiFullName: work@p2::plustwo
+          vpiFullName: p2::plustwo
           vpiTypespec (2 items):
             LogicTypespec start:22:13 end:22:18:
               vpiParent: Function name:plustwo
@@ -913,7 +913,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p2::plustwo
+                      vpiFullName: p2::plustwo
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -923,7 +923,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p2::plustwo
+                      vpiFullName: p2::plustwo
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -939,7 +939,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p2::plustwo
+                      vpiFullName: p2::plustwo
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -949,7 +949,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p2::plustwo
+                      vpiFullName: p2::plustwo
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -964,7 +964,7 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:22:33 end:22:38:
                 vpiParent: IODecl name:i
-                vpiFullName: work@p2::plustwo::i
+                vpiFullName: p2::plustwo::i
                 vpiActual: LogicTypespec
           vpiStmt Assignment start:23:7 end:23:20:
             vpiParent: Function name:plustwo
@@ -972,7 +972,7 @@ Design name:unnamed:
             vpiLhs RefObj name:plustwo start:23:7 end:23:14:
               vpiParent: Assignment
               vpiName: plustwo
-              vpiFullName: work@p2::plustwo::plustwo
+              vpiFullName: p2::plustwo::plustwo
               vpiActual: Function name:plustwo
             vpiRhs Operation start:23:17 end:23:20:
               vpiParent: Assignment
@@ -981,13 +981,13 @@ Design name:unnamed:
                 RefObj name:i start:23:17 end:23:18:
                   vpiParent: Operation
                   vpiName: i
-                  vpiFullName: work@p2::plustwo::i
+                  vpiFullName: p2::plustwo::i
                   vpiActual: IODecl name:i
                 Constant start:23:19 end:23:20:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@p2::plustwo
+                    vpiFullName: p2::plustwo
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -995,103 +995,126 @@ Design name:unnamed:
                   vpiValue: 2
           vpiReturn RefTypespec start:22:13 end:22:18:
             vpiParent: Function name:plustwo
-            vpiFullName: work@p2::plustwo
+            vpiFullName: p2::plustwo
             vpiActual: LogicTypespec
   vpiAllModules (2 items):
-    Module name:work@t file:$Source01/t_package.v start:27:1 end:52:10:
+    Module name:t file:$Source01/t_package.v start:27:1 end:52:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:27:8 end:27:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
-      vpiTypespec (3 items):
+      vpiName Identifier name:t start:27:8 end:27:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:vu start:32:16 end:32:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:unit_type_t start:32:4 end:32:15:
+            vpiParent: Variable name:vu
+            vpiName: unit_type_t
+            vpiFullName: t.vu.unit_type_t
+            vpiActual: TypedefTypespec name:unit_type_t
+          vpiName: vu
+          vpiFullName: t.vu
+        Variable name:vdu start:33:23 end:33:26:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:$unit::unit_type_t start:33:4 end:33:22:
+            vpiParent: Variable name:vdu
+            vpiName: "$unit::unit_type_t"
+            vpiFullName: t.vdu.$unit::unit_type_t
+            vpiActual: UnsupportedTypespec name:$unit::unit_type_t
+          vpiName: vdu
+          vpiFullName: t.vdu
+        Variable name:vp start:34:22 end:34:24:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:p::package_type_t start:34:4 end:34:21:
+            vpiParent: Variable name:vp
+            vpiName: p::package_type_t
+            vpiFullName: t.vp.p::package_type_t
+            vpiActual: TypedefTypespec name:package_type_t
+          vpiName: vp
+          vpiFullName: t.vp
+      vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
+        UnsupportedTypespec name:$unit start:33:4 end:33:9:
+          vpiParent: Module name:t
+          vpiName Identifier name:$unit start:33:4 end:33:9:
+            vpiParent: UnsupportedTypespec name:$unit
+            vpiName: "$unit"
         UnsupportedTypespec name:$unit::unit_type_t start:33:4 end:33:22:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiPathElem (2 items):
-            UnsupportedScope name:$unit start:33:4 end:33:11:
+            RefTypespec start:33:4 end:33:11:
               vpiParent: UnsupportedTypespec name:$unit::unit_type_t
-              vpiName Identifier name:$unit start:33:4 end:33:9:
-                vpiParent: UnsupportedScope name:$unit
-                vpiName: "$unit"
-              vpiFullName: work@t.$unit::unit_type_t.$unit
+              vpiFullName: t.$unit::unit_type_t
+              vpiActual: UnsupportedTypespec name:$unit
             RefTypespec name:unit_type_t start:33:11 end:33:22:
               vpiParent: UnsupportedTypespec name:$unit::unit_type_t
               vpiName: unit_type_t
-              vpiFullName: work@t.$unit::unit_type_t.unit_type_t
+              vpiFullName: t.$unit::unit_type_t.unit_type_t
               vpiActual: TypedefTypespec name:unit_type_t
           vpiName Identifier name:$unit::unit_type_t start:33:4 end:33:22:
             vpiParent: UnsupportedTypespec name:$unit::unit_type_t
             vpiName: "$unit::unit_type_t"
-        ModuleTypespec name:work@t2 start:36:4 end:36:6:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@t2 start:36:4 end:36:6:
-            vpiParent: ModuleTypespec name:work@t2
-            vpiName: work@t2
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+        ModuleTypespec name:t2 start:36:4 end:36:6:
+          vpiParent: Module name:t
+          vpiName Identifier name:t2 start:36:4 end:36:6:
+            vpiParent: ModuleTypespec name:t2
+            vpiName: t2
+          vpiModule: Module name:t2
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:clk start:31:10 end:31:13:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:31:10 end:31:10:
             vpiParent: Net name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@t.clk
-        Net name:vu start:32:16 end:32:18:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec name:unit_type_t start:32:4 end:32:15:
-            vpiParent: Net name:vu
-            vpiName: unit_type_t
-            vpiFullName: work@t.vu.unit_type_t
-            vpiActual: TypedefTypespec name:unit_type_t
-          vpiName: vu
-          vpiFullName: work@t.vu
-        Net name:vdu start:33:23 end:33:26:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec name:$unit::unit_type_t start:33:4 end:33:22:
-            vpiParent: Net name:vdu
-            vpiName: "$unit::unit_type_t"
-            vpiFullName: work@t.vdu.$unit::unit_type_t
-            vpiActual: UnsupportedTypespec name:$unit::unit_type_t
-          vpiName: vdu
-          vpiFullName: work@t.vdu
-        Net name:vp start:34:22 end:34:24:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec name:p::package_type_t start:34:4 end:34:21:
-            vpiParent: Net name:vp
-            vpiName: p::package_type_t
-            vpiFullName: work@t.vp.p::package_type_t
-            vpiActual: TypedefTypespec name:package_type_t
-          vpiName: vp
-          vpiFullName: work@t.vp
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:29:4 end:29:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:29:4 end:29:7:
+          vpiLowConn RefObj name:clk start:31:10 end:31:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@t.clk.clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:31:10 end:31:10:
             vpiParent: Port name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
       vpiProcess (2 items):
         Initial start:38:4 end:47:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:38:12 end:47:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
+            vpiTypespec (3 items):
+              UnsupportedTypespec name:$unit start:40:11 end:40:16:
+                vpiParent: Begin
+                vpiName Identifier name:$unit start:40:11 end:40:16:
+                  vpiParent: UnsupportedTypespec name:$unit
+                  vpiName: "$unit"
+              UnsupportedTypespec name:p start:41:11 end:41:12:
+                vpiParent: Begin
+                vpiName Identifier name:p start:41:11 end:41:12:
+                  vpiParent: UnsupportedTypespec name:p
+                  vpiName: p
+              UnsupportedTypespec name:p start:43:11 end:43:12:
+                vpiParent: Begin
+                vpiName Identifier name:p start:43:11 end:43:12:
+                  vpiParent: UnsupportedTypespec name:p
+                  vpiName: p
             vpiStmt (7 items):
               IfStmt start:39:7 end:39:40:
                 vpiParent: Begin
@@ -1110,7 +1133,7 @@ Design name:unnamed:
                           vpiParent: FuncCall name:unit_plusone
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -1120,7 +1143,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1137,17 +1160,15 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiOpType: case neq (17)
                   vpiOperand (2 items):
-                    HierPath name:$unit::unit_plusone(1) start:40:11 end:40:32:
+                    HierPath name:$unit::unit_plusone(1) start:40:11 end:40:33:
                       vpiParent: Operation
                       vpiName: "$unit::unit_plusone(1)"
-                      vpiFullName: work@t.$unit::unit_plusone(1)
+                      vpiFullName: t.$unit::unit_plusone(1)
                       vpiPathElem (2 items):
-                        UnsupportedScope name:$unit start:40:11 end:40:18:
+                        RefTypespec start:40:11 end:40:18:
                           vpiParent: HierPath name:$unit::unit_plusone(1)
-                          vpiName Identifier name:$unit start:40:11 end:40:16:
-                            vpiParent: UnsupportedScope name:$unit
-                            vpiName: "$unit"
-                          vpiFullName: work@t.$unit::unit_plusone(1).$unit
+                          vpiFullName: t.$unit::unit_plusone(1)
+                          vpiActual: UnsupportedTypespec name:$unit
                         FuncCall name:unit_plusone start:40:18 end:40:33:
                           vpiParent: HierPath name:$unit::unit_plusone(1)
                           vpiName Identifier name:unit_plusone start:40:18 end:40:30:
@@ -1159,7 +1180,7 @@ Design name:unnamed:
                               vpiParent: FuncCall name:unit_plusone
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t.$unit::unit_plusone(1)
+                                vpiFullName: t.$unit::unit_plusone(1)
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -1169,7 +1190,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1186,17 +1207,15 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiOpType: case neq (17)
                   vpiOperand (2 items):
-                    HierPath name:p::plusone(1) start:41:11 end:41:23:
+                    HierPath name:p::plusone(1) start:41:11 end:41:24:
                       vpiParent: Operation
                       vpiName: p::plusone(1)
-                      vpiFullName: work@t.p::plusone(1)
+                      vpiFullName: t.p::plusone(1)
                       vpiPathElem (2 items):
-                        UnsupportedScope name:p start:41:11 end:41:14:
+                        RefTypespec start:41:11 end:41:14:
                           vpiParent: HierPath name:p::plusone(1)
-                          vpiName Identifier name:p start:41:11 end:41:12:
-                            vpiParent: UnsupportedScope name:p
-                            vpiName: p
-                          vpiFullName: work@t.p::plusone(1).p
+                          vpiFullName: t.p::plusone(1)
+                          vpiActual: UnsupportedTypespec name:p
                         SubroutineCall name:plusone start:41:14 end:41:24:
                           vpiParent: HierPath name:p::plusone(1)
                           vpiName Identifier name:plusone start:41:14 end:41:21:
@@ -1207,7 +1226,7 @@ Design name:unnamed:
                               vpiParent: SubroutineCall name:plusone
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t.p::plusone(1).plusone
+                                vpiFullName: t.p::plusone(1).plusone
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -1217,7 +1236,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1234,23 +1253,23 @@ Design name:unnamed:
                 vpiLhs HierPath name:p::pi start:42:7 end:42:12:
                   vpiParent: Assignment
                   vpiName: p::pi
-                  vpiFullName: work@t.p::pi
+                  vpiFullName: t.p::pi
                   vpiPathElem (2 items):
                     RefObj name:p start:42:7 end:42:10:
                       vpiParent: HierPath name:p::pi
                       vpiName: p
-                      vpiFullName: work@t.p
-                      vpiActual: Package name:work@p
+                      vpiFullName: t.p
+                      vpiActual: Package name:p
                     RefObj name:pi start:42:10 end:42:12:
                       vpiParent: HierPath name:p::pi
                       vpiName: pi
-                      vpiFullName: work@t.pi
+                      vpiFullName: t.pi
                       vpiActual: Variable name:pi
                 vpiRhs Constant start:42:15 end:42:18:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1265,23 +1284,21 @@ Design name:unnamed:
                     HierPath name:p::pi start:43:11 end:43:16:
                       vpiParent: Operation
                       vpiName: p::pi
-                      vpiFullName: work@t.p::pi
+                      vpiFullName: t.p::pi
                       vpiPathElem (2 items):
-                        UnsupportedScope name:p start:43:11 end:43:14:
+                        RefTypespec start:43:11 end:43:14:
                           vpiParent: HierPath name:p::pi
-                          vpiName Identifier name:p start:43:11 end:43:12:
-                            vpiParent: UnsupportedScope name:p
-                            vpiName: p
-                          vpiFullName: work@t.p::pi.p
+                          vpiFullName: t.p::pi
+                          vpiActual: UnsupportedTypespec name:p
                         RefObj name:pi start:43:14 end:43:16:
                           vpiParent: HierPath name:p::pi
                           vpiName: pi
-                          vpiFullName: work@t.pi
+                          vpiFullName: t.pi
                     Constant start:43:21 end:43:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1302,7 +1319,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 168
@@ -1314,7 +1331,7 @@ Design name:unnamed:
                   vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
         Always start:48:4 end:51:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt EventControl start:48:11 end:51:7:
             vpiParent: Always
             vpiCondition Operation start:48:14 end:48:25:
@@ -1324,11 +1341,17 @@ Design name:unnamed:
                 RefObj name:clk start:48:22 end:48:25:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@t.clk
+                  vpiFullName: t.clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:48:27 end:51:7:
               vpiParent: EventControl
-              vpiFullName: work@t
+              vpiFullName: t
+              vpiTypespec (1 items):
+                UnsupportedTypespec name:p start:50:11 end:50:12:
+                  vpiParent: Begin
+                  vpiName Identifier name:p start:50:11 end:50:12:
+                    vpiParent: UnsupportedTypespec name:p
+                    vpiName: p
               vpiStmt (2 items):
                 Assignment start:49:7 end:49:17:
                   vpiParent: Begin
@@ -1336,17 +1359,17 @@ Design name:unnamed:
                   vpiLhs HierPath name:p::pi start:49:7 end:49:12:
                     vpiParent: Assignment
                     vpiName: p::pi
-                    vpiFullName: work@t.p::pi
+                    vpiFullName: t.p::pi
                     vpiPathElem (2 items):
                       RefObj name:p start:49:7 end:49:10:
                         vpiParent: HierPath name:p::pi
                         vpiName: p
-                        vpiFullName: work@t.p
-                        vpiActual: Package name:work@p
+                        vpiFullName: t.p
+                        vpiActual: Package name:p
                       RefObj name:pi start:49:10 end:49:12:
                         vpiParent: HierPath name:p::pi
                         vpiName: pi
-                        vpiFullName: work@t.pi
+                        vpiFullName: t.pi
                         vpiActual: Variable name:pi
                   vpiRhs Operation:
                     vpiParent: Assignment
@@ -1355,23 +1378,23 @@ Design name:unnamed:
                       HierPath name:p::pi start:49:7 end:49:12:
                         vpiParent: Operation
                         vpiName: p::pi
-                        vpiFullName: work@t.p::pi
+                        vpiFullName: t.p::pi
                         vpiPathElem (2 items):
                           RefObj name:p start:49:7 end:49:10:
                             vpiParent: HierPath name:p::pi
                             vpiName: p
-                            vpiFullName: work@t.p
-                            vpiActual: Package name:work@p
+                            vpiFullName: t.p
+                            vpiActual: Package name:p
                           RefObj name:pi start:49:10 end:49:12:
                             vpiParent: HierPath name:p::pi
                             vpiName: pi
-                            vpiFullName: work@t.pi
+                            vpiFullName: t.pi
                             vpiActual: Variable name:pi
                       Constant start:49:16 end:49:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -1386,23 +1409,21 @@ Design name:unnamed:
                       HierPath name:p::pi start:50:11 end:50:16:
                         vpiParent: Operation
                         vpiName: p::pi
-                        vpiFullName: work@t.p::pi
+                        vpiFullName: t.p::pi
                         vpiPathElem (2 items):
-                          UnsupportedScope name:p start:50:11 end:50:14:
+                          RefTypespec start:50:11 end:50:14:
                             vpiParent: HierPath name:p::pi
-                            vpiName Identifier name:p start:50:11 end:50:12:
-                              vpiParent: UnsupportedScope name:p
-                              vpiName: p
-                            vpiFullName: work@t.p::pi.p
+                            vpiFullName: t.p::pi
+                            vpiActual: UnsupportedTypespec name:p
                           RefObj name:pi start:50:14 end:50:16:
                             vpiParent: HierPath name:p::pi
                             vpiName: pi
-                            vpiFullName: work@t.pi
+                            vpiFullName: t.pi
                       Constant start:50:19 end:50:22:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -1416,48 +1437,46 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:t2 start:36:7 end:36:9:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: t2
-          vpiTypespec RefTypespec name:work@t2 start:36:4 end:36:6:
+          vpiTypespec RefTypespec name:t2 start:36:4 end:36:6:
             vpiParent: RefInstance name:t2
-            vpiName: work@t2
-            vpiFullName: work@t.t2.work@t2
-            vpiActual: ModuleTypespec name:work@t2
-    Module name:work@t2 file:$Source01/t_package.v start:54:1 end:65:10:
+            vpiName: t2
+            vpiFullName: t.t2.t2
+            vpiActual: ModuleTypespec name:t2
+    Module name:t2 file:$Source01/t_package.v start:54:1 end:65:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t2 start:54:8 end:54:10:
-        vpiParent: Module name:work@t2
-        vpiName: work@t2
-      vpiFullName: work@t2
+      vpiName Identifier name:t2 start:54:8 end:54:10:
+        vpiParent: Module name:t2
+        vpiName: t2
+      vpiFullName: t2
       vpiVariable (2 items):
         Variable name:vp start:58:19 end:58:21:
-          vpiParent: Module name:work@t2
+          vpiParent: Module name:t2
           vpiTypespec RefTypespec name:package_type_t start:58:4 end:58:18:
             vpiParent: Variable name:vp
             vpiName: package_type_t
-            vpiFullName: work@t2.vp.package_type_t
+            vpiFullName: t2.vp.package_type_t
             vpiActual: TypedefTypespec name:package_type_t
           vpiName: vp
-          vpiFullName: work@t2.vp
-          vpiNetType: none (12)
+          vpiFullName: t2.vp
         Variable name:vp2 start:59:20 end:59:23:
-          vpiParent: Module name:work@t2
+          vpiParent: Module name:t2
           vpiTypespec RefTypespec name:package2_type_t start:59:4 end:59:19:
             vpiParent: Variable name:vp2
             vpiName: package2_type_t
-            vpiFullName: work@t2.vp2.package2_type_t
+            vpiFullName: t2.vp2.package2_type_t
             vpiActual: TypedefTypespec name:package2_type_t
           vpiName: vp2
-          vpiFullName: work@t2.vp2
-          vpiNetType: none (12)
+          vpiFullName: t2.vp2
       vpiTypespec (3 items):
         ImportTypespec name:p start:55:11 end:55:15:
-          vpiParent: Module name:work@t2
+          vpiParent: Module name:t2
           vpiName Identifier name:p start:55:11 end:55:12:
             vpiParent: ImportTypespec name:p
             vpiName: p
         ImportTypespec name:p2 start:56:11 end:56:22:
-          vpiParent: Module name:work@t2
+          vpiParent: Module name:t2
           vpiName Identifier name:p2 start:56:11 end:56:13:
             vpiParent: ImportTypespec name:p2
             vpiName: p2
@@ -1465,14 +1484,14 @@ Design name:unnamed:
             vpiParent: ImportTypespec name:p2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@t2.p2
+              vpiFullName: t2.p2
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 56
             vpiDecompile: plustwo
             vpiValue: plustwo
         ImportTypespec name:p2 start:57:11 end:57:30:
-          vpiParent: Module name:work@t2
+          vpiParent: Module name:t2
           vpiName Identifier name:p2 start:57:11 end:57:13:
             vpiParent: ImportTypespec name:p2
             vpiName: p2
@@ -1480,25 +1499,36 @@ Design name:unnamed:
             vpiParent: ImportTypespec name:p2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@t2.p2
+              vpiFullName: t2.p2
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 120
             vpiDecompile: package2_type_t
             vpiValue: package2_type_t
-      vpiDefName: work@t2
-      vpiDefNetType: none (12)
+      vpiDefName: t2
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t2
+        vpiParent: Module name:t2
         vpiName: work
-        vpiFullName: work@t2.work
+        vpiFullName: t2.work
       vpiCell: t2
       vpiProcess (1 items):
         Initial start:60:4 end:64:7:
-          vpiParent: Module name:work@t2
+          vpiParent: Module name:t2
           vpiStmt Begin start:60:12 end:64:7:
             vpiParent: Initial
-            vpiFullName: work@t2
+            vpiFullName: t2
+            vpiTypespec (2 items):
+              UnsupportedTypespec name:p start:63:11 end:63:12:
+                vpiParent: Begin
+                vpiName Identifier name:p start:63:11 end:63:12:
+                  vpiParent: UnsupportedTypespec name:p
+                  vpiName: p
+              UnsupportedTypespec name:p start:63:28 end:63:29:
+                vpiParent: Begin
+                vpiName Identifier name:p start:63:28 end:63:29:
+                  vpiParent: UnsupportedTypespec name:p
+                  vpiName: p
             vpiStmt (3 items):
               IfStmt start:61:7 end:61:35:
                 vpiParent: Begin
@@ -1517,7 +1547,7 @@ Design name:unnamed:
                           vpiParent: FuncCall name:plusone
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t2
+                            vpiFullName: t2
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -1527,7 +1557,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t2
+                        vpiFullName: t2
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1555,7 +1585,7 @@ Design name:unnamed:
                           vpiParent: FuncCall name:plustwo
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t2
+                            vpiFullName: t2
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -1565,7 +1595,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t2
+                        vpiFullName: t2
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1589,24 +1619,22 @@ Design name:unnamed:
                         HierPath name:p::pi start:63:11 end:63:16:
                           vpiParent: Operation
                           vpiName: p::pi
-                          vpiFullName: work@t2.p::pi
+                          vpiFullName: t2.p::pi
                           vpiPathElem (2 items):
-                            UnsupportedScope name:p start:63:11 end:63:14:
+                            RefTypespec start:63:11 end:63:14:
                               vpiParent: HierPath name:p::pi
-                              vpiName Identifier name:p start:63:11 end:63:12:
-                                vpiParent: UnsupportedScope name:p
-                                vpiName: p
-                              vpiFullName: work@t2.p::pi.p
+                              vpiFullName: t2.p::pi
+                              vpiActual: UnsupportedTypespec name:p
                             RefObj name:pi start:63:14 end:63:16:
                               vpiParent: HierPath name:p::pi
                               vpiName: pi
-                              vpiFullName: work@t2.pi
+                              vpiFullName: t2.pi
                               vpiActual: Variable name:pi
                         Constant start:63:21 end:63:24:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t2
+                            vpiFullName: t2
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -1619,24 +1647,22 @@ Design name:unnamed:
                         HierPath name:p::pi start:63:28 end:63:33:
                           vpiParent: Operation
                           vpiName: p::pi
-                          vpiFullName: work@t2.p::pi
+                          vpiFullName: t2.p::pi
                           vpiPathElem (2 items):
-                            UnsupportedScope name:p start:63:28 end:63:31:
+                            RefTypespec start:63:28 end:63:31:
                               vpiParent: HierPath name:p::pi
-                              vpiName Identifier name:p start:63:28 end:63:29:
-                                vpiParent: UnsupportedScope name:p
-                                vpiName: p
-                              vpiFullName: work@t2.p::pi.p
+                              vpiFullName: t2.p::pi
+                              vpiActual: UnsupportedTypespec name:p
                             RefObj name:pi start:63:31 end:63:33:
                               vpiParent: HierPath name:p::pi
                               vpiName: pi
-                              vpiFullName: work@t2.pi
+                              vpiFullName: t2.pi
                               vpiActual: Variable name:pi
                         Constant start:63:38 end:63:41:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t2
+                            vpiFullName: t2
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -1660,20 +1686,20 @@ Design name:unnamed:
         vpiParent: TypedefTypespec name:unit_type_t
         vpiFullName: unit_type_t
         vpiActual: IntTypespec
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:27:8 end:27:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:27:8 end:27:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@t2:
+    ModuleTypespec name:t2:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t2 start:54:8 end:54:10:
-        vpiParent: ModuleTypespec name:work@t2
-        vpiName: work@t2
-      vpiModule: Module name:work@t2
+      vpiName Identifier name:t2 start:54:8 end:54:10:
+        vpiParent: ModuleTypespec name:t2
+        vpiName: t2
+      vpiModule: Module name:t2
   vpiTaskFunc (1 items):
     Function name:unit_plusone start:8:1 end:10:12:
       vpiParent: Design name:unnamed
@@ -1778,8 +1804,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1823,7 +1849,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_package/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             263     263       0         0
+Others                             270     270       0         0
 ----------------------------------------------------------------
-                                   263     263       0         0
+                                   270     270       0         0
 ===================== END REDUCTION RESULT =====================

@@ -38,7 +38,7 @@ n<$Source01/ifdef4.v> u<161> t<Top_level_rule> c<1> l<25:1> el<52:1>
     n<> u<158> t<Description> p<159> c<157> l<25:1> el<51:10>
       n<> u<157> t<Module_declaration> p<158> c<25> l<25:1> el<51:10>
         n<> u<25> t<Module_ansi_header> p<157> c<22> s<37> l<25:1> el<25:15>
-          n<module> u<22> t<Module_keyword> p<25> s<23> l<25:1> el<25:7>
+          n<module> u<22> t<MODULE> p<25> s<23> l<25:1> el<25:7>
           n<ifdef2> u<23> t<SIMPLE_IDENTIFIER> p<25> s<24> l<25:8> el<25:14>
           n<> u<24> t<Package_import_declaration_list> p<25> l<25:14> el<25:14>
         n<> u<37> t<Non_port_module_item> p<157> c<36> s<76> l<27:1> el<27:12>
@@ -174,7 +174,7 @@ n<$Source01/ifdef4.v> u<161> t<Top_level_rule> c<1> l<25:1> el<52:1>
         n<> u<156> t<ENDMODULE> p<157> l<51:1> el<51:10>
   n<// main> u<160> t<LINE_COMMENT> p<161> l<51:11> el<51:18>
 AST_DEBUG_END
-[INF:CP0303] $Source01/ifdef4.v:25:1: Compile module "work@ifdef2".
+[INF:CP0303] $Source01/ifdef4.v:25:1: Compile module "ifdef2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -187,45 +187,49 @@ Design name:unnamed:
       vpiPreprocMacroDefinition (2 items):
         PreprocMacroDefinition name:DOUBLE start:23:1 end:24:1:
           vpiParent: SourceFile name:ifdef4.v
-          vpiName: DOUBLE
-          vpiNameStartColumn: 9
+          vpiName Identifier name:DOUBLE start:23:9 end:23:15:
+            vpiParent: PreprocMacroDefinition name:DOUBLE
+            vpiName: DOUBLE
+          vpiPMDType: define (1)
         PreprocMacroDefinition name:NOCODE start:24:1 end:25:1:
           vpiParent: SourceFile name:ifdef4.v
-          vpiName: NOCODE
-          vpiNameStartColumn: 9
-      vpiDefNetType: none (12)
+          vpiName Identifier name:NOCODE start:24:9 end:24:15:
+            vpiParent: PreprocMacroDefinition name:NOCODE
+            vpiName: NOCODE
+          vpiPMDType: define (1)
   vpiAllModules (1 items):
-    Module name:work@ifdef2 file:$Source01/ifdef4.v start:25:1 end:51:10:
+    Module name:ifdef2 file:$Source01/ifdef4.v start:25:1 end:51:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ifdef2 start:25:8 end:25:14:
-        vpiParent: Module name:work@ifdef2
-        vpiName: work@ifdef2
-      vpiFullName: work@ifdef2
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: Module name:work@ifdef2
-      vpiDefName: work@ifdef2
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@ifdef2
-        vpiName: work
-        vpiFullName: work@ifdef2.work
-      vpiCell: ifdef2
-      vpiNet (1 items):
-        Net name:error start:27:5 end:27:10:
-          vpiParent: Module name:work@ifdef2
+      vpiName Identifier name:ifdef2 start:25:8 end:25:14:
+        vpiParent: Module name:ifdef2
+        vpiName: ifdef2
+      vpiFullName: ifdef2
+      vpiVariable (1 items):
+        Variable name:error start:27:5 end:27:10:
+          vpiParent: Module name:ifdef2
           vpiTypespec RefTypespec start:27:1 end:27:4:
-            vpiParent: Net name:error
-            vpiFullName: work@ifdef2.error
+            vpiParent: Variable name:error
+            vpiFullName: ifdef2.error
             vpiActual: LogicTypespec
           vpiName: error
-          vpiFullName: work@ifdef2.error
+          vpiFullName: ifdef2.error
+          vpiScalar: true
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:ifdef2
+      vpiDefName: ifdef2
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:ifdef2
+        vpiName: work
+        vpiFullName: ifdef2.work
+      vpiCell: ifdef2
       vpiProcess (2 items):
         Initial start:32:1 end:37:7:
-          vpiParent: Module name:work@ifdef2
+          vpiParent: Module name:ifdef2
           vpiStmt Begin start:33:4 end:37:7:
             vpiParent: Initial
-            vpiFullName: work@ifdef2
+            vpiFullName: ifdef2
             vpiStmt (3 items):
               DelayControl start:34:6 end:34:9:
                 vpiParent: Begin
@@ -233,7 +237,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@ifdef2
+                    vpiFullName: ifdef2
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -245,13 +249,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:error start:35:6 end:35:11:
                   vpiParent: Assignment
                   vpiName: error
-                  vpiFullName: work@ifdef2.error
-                  vpiActual: Net name:error
+                  vpiFullName: ifdef2.error
+                  vpiActual: Variable name:error
                 vpiRhs Constant start:35:14 end:35:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@ifdef2
+                    vpiFullName: ifdef2
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -263,17 +267,17 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@ifdef2
+                    vpiFullName: ifdef2
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
                   vpiDecompile: "20"
                   vpiValue: 20
         Initial start:40:1 end:49:6:
-          vpiParent: Module name:work@ifdef2
+          vpiParent: Module name:ifdef2
           vpiStmt Begin start:41:2 end:49:6:
             vpiParent: Initial
-            vpiFullName: work@ifdef2
+            vpiFullName: ifdef2
             vpiStmt (4 items):
               DelayControl start:42:4 end:42:6:
                 vpiParent: Begin
@@ -281,7 +285,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@ifdef2
+                    vpiFullName: ifdef2
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -293,13 +297,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:error start:43:4 end:43:9:
                   vpiParent: Assignment
                   vpiName: error
-                  vpiFullName: work@ifdef2.error
-                  vpiActual: Net name:error
+                  vpiFullName: ifdef2.error
+                  vpiActual: Variable name:error
                 vpiRhs Constant start:43:12 end:43:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@ifdef2
+                    vpiFullName: ifdef2
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -311,7 +315,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@ifdef2
+                    vpiFullName: ifdef2
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -326,13 +330,13 @@ Design name:unnamed:
                     RefObj name:error start:45:7 end:45:12:
                       vpiParent: Operation
                       vpiName: error
-                      vpiFullName: work@ifdef2.error
-                      vpiActual: Net name:error
+                      vpiFullName: ifdef2.error
+                      vpiActual: Variable name:error
                     Constant start:45:16 end:45:17:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@ifdef2
+                        vpiFullName: ifdef2
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -348,7 +352,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@ifdef2
+                        vpiFullName: ifdef2
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 48
@@ -364,19 +368,19 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@ifdef2
+                        vpiFullName: ifdef2
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 48
                       vpiDecompile: "\"FAILED\""
                       vpiValue: FAILED
   vpiTypespec (3 items):
-    ModuleTypespec name:work@ifdef2:
+    ModuleTypespec name:ifdef2:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ifdef2 start:25:8 end:25:14:
-        vpiParent: ModuleTypespec name:work@ifdef2
-        vpiName: work@ifdef2
-      vpiModule: Module name:work@ifdef2
+      vpiName Identifier name:ifdef2 start:25:8 end:25:14:
+        vpiParent: ModuleTypespec name:ifdef2
+        vpiName: ifdef2
+      vpiModule: Module name:ifdef2
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -430,7 +434,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/ifdef4/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    53      53       0         0
 ===================== END REDUCTION RESULT =====================
