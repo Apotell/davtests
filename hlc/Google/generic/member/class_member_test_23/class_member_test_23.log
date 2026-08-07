@@ -63,16 +63,19 @@ Design name:unnamed:
         vpiParent: ClassDefn name:myclass
         vpiName: myclass
       vpiFullName: myclass
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:mypkg start:7:27 end:7:32:
+          vpiParent: ClassDefn name:myclass
+          vpiName Identifier name:mypkg start:7:27 end:7:32:
+            vpiParent: UnsupportedTypespec name:mypkg
+            vpiName: mypkg
         UnsupportedTypespec name:mypkg::foo start:7:27 end:7:37:
           vpiParent: ClassDefn name:myclass
           vpiPathElem (2 items):
-            UnsupportedScope name:mypkg start:7:27 end:7:34:
+            RefTypespec start:7:27 end:7:34:
               vpiParent: UnsupportedTypespec name:mypkg::foo
-              vpiName Identifier name:mypkg start:7:27 end:7:32:
-                vpiParent: UnsupportedScope name:mypkg
-                vpiName: mypkg
-              vpiFullName: myclass::mypkg::foo::mypkg
+              vpiFullName: myclass::mypkg::foo
+              vpiActual: UnsupportedTypespec name:mypkg
             RefTypespec name:foo start:7:34 end:7:37:
               vpiParent: UnsupportedTypespec name:mypkg::foo
               vpiName: foo
@@ -133,6 +136,7 @@ Design name:unnamed:
       vpiName Identifier name:myclass:
         vpiParent: ClassTypespec name:myclass
         vpiName: myclass
+      vpiDefName: myclass
       vpiClassDefn: ClassDefn name:myclass
     VoidTypespec start:7:17 end:7:21:
       vpiParent: Design name:unnamed
@@ -184,7 +188,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_23/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

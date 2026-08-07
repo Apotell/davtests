@@ -111,7 +111,7 @@ n<$Source01/basic/package_enum.sv> u<96> t<Top_level_rule> c<1> l<1:1> el<13:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/basic/package_enum.sv:1:1: Compile package "foo_pkg".
 [INF:CP0303] $Source01/basic/package_enum.sv:8:1: Compile module "top".
-[WRN:CP0350] $Source01/basic/package_enum.sv:10:28: Failed to bind "id:45, name:AccessAck".
+[WRN:CP0350] $Source01/basic/package_enum.sv:10:28: Failed to bind "id:47, name:AccessAck".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -225,6 +225,12 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:inp_t
           vpiName: test
           vpiFullName: top.test
+      vpiTypespec (1 items):
+        UnsupportedTypespec name:foo_pkg start:10:19 end:10:26:
+          vpiParent: Module name:top
+          vpiName Identifier name:foo_pkg start:10:19 end:10:26:
+            vpiParent: UnsupportedTypespec name:foo_pkg
+            vpiName: foo_pkg
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -259,12 +265,10 @@ Design name:unnamed:
             vpiName: foo_pkg::AccessAck
             vpiFullName: top.foo_pkg::AccessAck
             vpiPathElem (2 items):
-              UnsupportedScope name:foo_pkg start:10:19 end:10:28:
+              RefTypespec start:10:19 end:10:28:
                 vpiParent: HierPath name:foo_pkg::AccessAck
-                vpiName Identifier name:foo_pkg start:10:19 end:10:26:
-                  vpiParent: UnsupportedScope name:foo_pkg
-                  vpiName: foo_pkg
-                vpiFullName: top.foo_pkg::AccessAck.foo_pkg
+                vpiFullName: top.foo_pkg::AccessAck
+                vpiActual: UnsupportedTypespec name:foo_pkg
               RefObj name:AccessAck start:10:28 end:10:37:
                 vpiParent: HierPath name:foo_pkg::AccessAck
                 vpiName: AccessAck
@@ -327,7 +331,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/basic/package_enum_sv/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

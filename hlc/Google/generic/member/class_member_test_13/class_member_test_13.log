@@ -166,6 +166,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: counter
           vpiFullName: protected_stuff::counter
+          vpiVisibility: public (1)
           vpiValue Constant start:9:31 end:9:32:
             vpiParent: Variable name:counter
             vpiTypespec RefTypespec:
@@ -184,6 +185,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: counted
           vpiFullName: protected_stuff::counted
+          vpiVisibility: public (1)
           vpiValue Constant start:10:37 end:10:38:
             vpiParent: Variable name:counted
             vpiTypespec RefTypespec:
@@ -229,16 +231,19 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'b0"
                 vpiValue: "0"
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:myclass start:11:19 end:11:26:
+          vpiParent: ClassDefn name:protected_stuff
+          vpiName Identifier name:myclass start:11:19 end:11:26:
+            vpiParent: UnsupportedTypespec name:myclass
+            vpiName: myclass
         UnsupportedTypespec name:myclass::msg_t start:11:19 end:11:33:
           vpiParent: ClassDefn name:protected_stuff
           vpiPathElem (2 items):
-            UnsupportedScope name:myclass start:11:19 end:11:28:
+            RefTypespec start:11:19 end:11:28:
               vpiParent: UnsupportedTypespec name:myclass::msg_t
-              vpiName Identifier name:myclass start:11:19 end:11:26:
-                vpiParent: UnsupportedScope name:myclass
-                vpiName: myclass
-              vpiFullName: protected_stuff::myclass::msg_t::myclass
+              vpiFullName: protected_stuff::myclass::msg_t
+              vpiActual: UnsupportedTypespec name:myclass
             RefTypespec name:msg_t start:11:28 end:11:33:
               vpiParent: UnsupportedTypespec name:myclass::msg_t
               vpiName: msg_t
@@ -261,6 +266,7 @@ Design name:unnamed:
       vpiName Identifier name:protected_stuff:
         vpiParent: ClassTypespec name:protected_stuff
         vpiName: protected_stuff
+      vpiDefName: protected_stuff
       vpiClassDefn: ClassDefn name:protected_stuff
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -314,9 +320,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       4       1         2
 Operation                            1       0       0         1
-RefTypespec                         11       9       0         2
+RefTypespec                         12      10       0         2
 ----------------------------------------------------------------
 Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    35      31       1         5
+                                    36      32       1         5
 ===================== END REDUCTION RESULT =====================

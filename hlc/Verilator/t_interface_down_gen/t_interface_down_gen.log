@@ -698,6 +698,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_down_gen.v:58:1: Compile module "wrapper".
 [WRN:CP0310] $Source01/t_interface_down_gen.v:60:8: Port "isuba" definition missing its direction (input, output, inout).
 [WRN:CP0310] $Source01/t_interface_down_gen.v:61:8: Port "isubb" definition missing its direction (input, output, inout).
+[WRN:CP0323] $Source01/t_interface_down_gen.v:58:1: Multiply defined typedef "ifc".
 [WRN:CP0323] $Source01/t_interface_down_gen.v:58:1: Multiply defined typedef "lower".
 [INF:CP0303] $Source01/t_interface_down_gen.v:69:1: Compile module "lower".
 [WRN:CP0310] $Source01/t_interface_down_gen.v:71:8: Port "isub" definition missing its direction (input, output, inout).
@@ -1392,7 +1393,21 @@ Design name:unnamed:
         vpiParent: Module name:wrapper
         vpiName: wrapper
       vpiFullName: wrapper
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
+        InterfaceTypespec name:ifc start:60:4 end:60:7:
+          vpiParent: Module name:wrapper
+          vpiName Identifier name:ifc start:60:4 end:60:7:
+            vpiParent: InterfaceTypespec name:ifc
+            vpiName: ifc
+          vpiDefName: ifc
+          vpiInterface: Interface name:ifc
+        InterfaceTypespec name:ifc start:61:4 end:61:7:
+          vpiParent: Module name:wrapper
+          vpiName Identifier name:ifc start:61:4 end:61:7:
+            vpiParent: InterfaceTypespec name:ifc
+            vpiName: ifc
+          vpiDefName: ifc
+          vpiInterface: Interface name:ifc
         ModuleTypespec name:lower start:65:4 end:65:9:
           vpiParent: Module name:wrapper
           vpiName Identifier name:lower start:65:4 end:65:9:
@@ -1575,6 +1590,14 @@ Design name:unnamed:
         vpiParent: Module name:lower
         vpiName: lower
       vpiFullName: lower
+      vpiTypespec (1 items):
+        InterfaceTypespec name:ifc start:71:4 end:71:7:
+          vpiParent: Module name:lower
+          vpiName Identifier name:ifc start:71:4 end:71:7:
+            vpiParent: InterfaceTypespec name:ifc
+            vpiName: ifc
+          vpiDefName: ifc
+          vpiInterface: Interface name:ifc
       vpiDefName: lower
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1672,6 +1695,7 @@ Design name:unnamed:
       vpiName Identifier name:ifc start:10:11 end:10:14:
         vpiParent: InterfaceTypespec name:ifc
         vpiName: ifc
+      vpiDefName: ifc
       vpiInterface: Interface name:ifc
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1702,7 +1726,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 2
-[WARNING] : 15
+[WARNING] : 16
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1750,7 +1774,7 @@ Operation                            9       5       0         4
 RefObj                              54      50       0         4
 RefTypespec                         45      45       4         4
 ----------------------------------------------------------------
-Others                             114     114       0         0
+Others                             120     120       0         0
 ----------------------------------------------------------------
-                                   241     233       8        16
+                                   247     239       8        16
 ===================== END REDUCTION RESULT =====================

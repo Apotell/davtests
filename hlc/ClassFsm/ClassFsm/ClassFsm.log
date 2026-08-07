@@ -10,6 +10,7 @@ COMMAND: -wd ../../../tests/ClassFsm -fileunit -writepp -d db -sv dut.sv -nobuil
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "fsm_class".
+[WRN:CP0323] $Source01/dut.sv:1:1: Multiply defined typedef "specificFSM".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "fsm_class".
 ====== HLDB =======
 Design name:unnamed:
@@ -36,7 +37,7 @@ Design name:unnamed:
             vpiActual: ClassTypespec name:specificFSM
           vpiName: P
           vpiFullName: fsm_class.P
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:fsm_class
         ClassTypespec name:baseFsm:
@@ -44,12 +45,21 @@ Design name:unnamed:
           vpiName Identifier name:baseFsm:
             vpiParent: ClassTypespec name:baseFsm
             vpiName: baseFsm
+          vpiDefName: baseFsm
           vpiClassDefn: ClassDefn name:baseFsm
         ClassTypespec name:specificFSM:
           vpiParent: Module name:fsm_class
           vpiName Identifier name:specificFSM:
             vpiParent: ClassTypespec name:specificFSM
             vpiName: specificFSM
+          vpiDefName: specificFSM
+          vpiClassDefn: ClassDefn name:specificFSM
+        ClassTypespec name:specificFSM start:81:3 end:81:14:
+          vpiParent: Module name:fsm_class
+          vpiName Identifier name:specificFSM start:81:3 end:81:14:
+            vpiParent: ClassTypespec name:specificFSM
+            vpiName: specificFSM
+          vpiDefName: specificFSM
           vpiClassDefn: ClassDefn name:specificFSM
       vpiDefName: fsm_class
       vpiDefNetType: wire (1)
@@ -153,6 +163,7 @@ Design name:unnamed:
                 vpiParent: Task name:next_state_transition
                 vpiName: next_state_transition
               vpiFullName: fsm_class::baseFsm::next_state_transition
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:state_to_bit start:8:43 end:8:55:
@@ -224,6 +235,7 @@ Design name:unnamed:
               vpiTypespec (1 items):
                 LogicTypespec:
                   vpiParent: Task name:current_state_transition
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:reset start:15:48 end:15:53:
@@ -390,9 +402,10 @@ Design name:unnamed:
           vpiTypespec (2 items):
             ClassTypespec name:baseFsm start:26:29 end:26:36:
               vpiParent: ClassDefn name:specificFSM
-              vpiName Identifier name:baseFsm:
+              vpiName Identifier name:baseFsm start:26:29 end:26:36:
                 vpiParent: ClassTypespec name:baseFsm
                 vpiName: baseFsm
+              vpiDefName: baseFsm
               vpiClassDefn: ClassDefn name:baseFsm
             LogicTypespec:
               vpiParent: ClassDefn name:specificFSM
@@ -418,6 +431,7 @@ Design name:unnamed:
                 vpiParent: Task name:from_state_00
                 vpiName: from_state_00
               vpiFullName: fsm_class::specificFSM::from_state_00
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt Begin start:34:7 end:39:10:
                 vpiParent: Task name:from_state_00
@@ -460,6 +474,7 @@ Design name:unnamed:
                 vpiParent: Task name:from_state_01
                 vpiName: from_state_01
               vpiFullName: fsm_class::specificFSM::from_state_01
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt Begin start:43:7 end:48:10:
                 vpiParent: Task name:from_state_01
@@ -506,6 +521,7 @@ Design name:unnamed:
                 vpiParent: Task name:from_state_10
                 vpiName: from_state_10
               vpiFullName: fsm_class::specificFSM::from_state_10
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt Begin start:52:7 end:57:10:
                 vpiParent: Task name:from_state_10
@@ -548,6 +564,7 @@ Design name:unnamed:
                 vpiParent: Task name:from_state_11
                 vpiName: from_state_11
               vpiFullName: fsm_class::specificFSM::from_state_11
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt Begin start:61:7 end:66:10:
                 vpiParent: Task name:from_state_11
@@ -590,6 +607,7 @@ Design name:unnamed:
                 vpiParent: Task name:main_comb
                 vpiName: main_comb
               vpiFullName: fsm_class::specificFSM::main_comb
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt Begin start:70:7 end:77:10:
                 vpiParent: Task name:main_comb
@@ -851,7 +869,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -895,7 +913,7 @@ COMMAND: ${HLC_DIR}/regression/ClassFsm/ClassFsm/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             200     200       0         0
+Others                             202     202       0         0
 ----------------------------------------------------------------
-                                   200     200       0         0
+                                   202     202       0         0
 ===================== END REDUCTION RESULT =====================

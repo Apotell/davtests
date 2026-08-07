@@ -101,19 +101,21 @@ Design name:unnamed:
             vpiFullName: uvm_resource_db
             vpiActual: IntTypespec
       vpiTypespec (3 items):
-        UnsupportedTypespec name:uvm_resource #(T) start:9:10 end:9:27:
+        ClassTypespec name:uvm_resource #(T) start:9:10 end:9:27:
           vpiParent: ClassDefn name:uvm_resource_db
-          vpiName Identifier name:uvm_resource #(T) start:9:10 end:9:27:
-            vpiParent: UnsupportedTypespec name:uvm_resource #(T)
+          vpiName Identifier name:uvm_resource #(T) start:9:10 end:9:22:
+            vpiParent: ClassTypespec name:uvm_resource #(T)
             vpiName: uvm_resource #(T)
+          vpiDefName: uvm_resource
           vpiParamAssign (1 items):
             ParamAssign start:9:25 end:9:26:
-              vpiParent: UnsupportedTypespec name:uvm_resource #(T)
+              vpiParent: ClassTypespec name:uvm_resource #(T)
               vpiOverridden: true
               vpiRhs RefObj name:T start:9:25 end:9:26:
                 vpiParent: ParamAssign
                 vpiName: T
                 vpiFullName: uvm_resource_db::uvm_resource #(T)::T
+          vpiClassDefn: ClassDefn name:uvm_resource
         TypedefTypespec name:rsrc_t start:9:2 end:9:35:
           vpiParent: ClassDefn name:uvm_resource_db
           vpiName Identifier name:rsrc_t start:9:28 end:9:34:
@@ -122,7 +124,7 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:9:10 end:9:27:
             vpiParent: TypedefTypespec name:rsrc_t
             vpiFullName: uvm_resource_db::rsrc_t
-            vpiActual: UnsupportedTypespec name:uvm_resource #(T)
+            vpiActual: ClassTypespec name:uvm_resource #(T)
         TypeParameter name:T:
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -138,6 +140,7 @@ Design name:unnamed:
             vpiParent: Function name:check_all_sva_passed
             vpiName: check_all_sva_passed
           vpiFullName: uvm_resource_db::check_all_sva_passed
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiVirtual: true
           vpiIODecl (1 items):
@@ -195,9 +198,10 @@ Design name:unnamed:
       vpiTypespec (3 items):
         ClassTypespec name:uvm_resource_db #(T) start:16:55 end:16:74:
           vpiParent: ClassDefn name:uvm_config_db
-          vpiName Identifier name:uvm_resource_db #(T):
+          vpiName Identifier name:uvm_resource_db #(T) start:16:55 end:16:70:
             vpiParent: ClassTypespec name:uvm_resource_db #(T)
             vpiName: uvm_resource_db #(T)
+          vpiDefName: uvm_resource_db
           vpiParamAssign (1 items):
             ParamAssign start:16:72 end:16:73:
               vpiParent: ClassTypespec name:uvm_resource_db #(T)
@@ -206,6 +210,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: T
                 vpiFullName: uvm_config_db::uvm_resource_db #(T)::T
+          vpiClassDefn: ClassDefn name:uvm_resource_db
         TypeParameter name:T:
         TypeParameter name:T2:
       vpiAutomatic: true
@@ -251,7 +256,7 @@ Design name:unnamed:
             vpiParent: Variable name:misc2
             vpiName: uvm_config_db
             vpiFullName: top.misc2.uvm_config_db
-            vpiActual: ClassTypespec name:uvm_config_db
+            vpiActual: ClassTypespec name:uvm_config_db #(uvm_object, string)
           vpiName: misc2
           vpiFullName: top.misc2
           vpiValue MethodFuncCall name:new start:26:46 end:26:49:
@@ -259,6 +264,30 @@ Design name:unnamed:
             vpiName Identifier name:new:
               vpiParent: MethodFuncCall name:new
               vpiName: new
+      vpiTypespec (1 items):
+        ClassTypespec name:uvm_config_db #(uvm_object, string) start:26:3 end:26:37:
+          vpiParent: Module name:top
+          vpiName Identifier name:uvm_config_db #(uvm_object, string) start:26:3 end:26:16:
+            vpiParent: ClassTypespec name:uvm_config_db #(uvm_object, string)
+            vpiName: uvm_config_db #(uvm_object, string)
+          vpiDefName: uvm_config_db
+          vpiParamAssign (2 items):
+            ParamAssign start:26:18 end:26:28:
+              vpiParent: ClassTypespec name:uvm_config_db #(uvm_object, string)
+              vpiOverridden: true
+              vpiRhs RefObj name:uvm_object start:26:18 end:26:28:
+                vpiParent: ParamAssign
+                vpiName: uvm_object
+                vpiFullName: top.uvm_config_db #(uvm_object, string).uvm_object
+                vpiActual: ClassDefn name:uvm_object
+            ParamAssign start:26:30 end:26:36:
+              vpiParent: ClassTypespec name:uvm_config_db #(uvm_object, string)
+              vpiOverridden: true
+              vpiRhs RefTypespec start:26:30 end:26:36:
+                vpiParent: ParamAssign
+                vpiFullName: top.uvm_config_db #(uvm_object, string)
+                vpiActual: StringTypespec
+          vpiClassDefn: ClassDefn name:uvm_config_db
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -272,12 +301,14 @@ Design name:unnamed:
       vpiName Identifier name:uvm_object:
         vpiParent: ClassTypespec name:uvm_object
         vpiName: uvm_object
+      vpiDefName: uvm_object
       vpiClassDefn: ClassDefn name:uvm_object
     ClassTypespec name:uvm_resource:
       vpiParent: Design name:unnamed
       vpiName Identifier name:uvm_resource:
         vpiParent: ClassTypespec name:uvm_resource
         vpiName: uvm_resource
+      vpiDefName: uvm_resource
       vpiClassDefn: ClassDefn name:uvm_resource
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -287,6 +318,7 @@ Design name:unnamed:
       vpiName Identifier name:uvm_resource_db:
         vpiParent: ClassTypespec name:uvm_resource_db
         vpiName: uvm_resource_db
+      vpiDefName: uvm_resource_db
       vpiClassDefn: ClassDefn name:uvm_resource_db
     VoidTypespec start:11:19 end:11:23:
       vpiParent: Design name:unnamed
@@ -297,15 +329,17 @@ Design name:unnamed:
       vpiName Identifier name:uvm_config_db:
         vpiParent: ClassTypespec name:uvm_config_db
         vpiName: uvm_config_db
+      vpiDefName: uvm_config_db
       vpiClassDefn: ClassDefn name:uvm_config_db
-    UnsupportedTypespec name:uvm_config_db #(uvm_object, string) start:20:9 end:20:43:
+    ClassTypespec name:uvm_config_db #(uvm_object, string) start:20:9 end:20:43:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:uvm_config_db #(uvm_object, string) start:20:9 end:20:43:
-        vpiParent: UnsupportedTypespec name:uvm_config_db #(uvm_object, string)
+      vpiName Identifier name:uvm_config_db #(uvm_object, string) start:20:9 end:20:22:
+        vpiParent: ClassTypespec name:uvm_config_db #(uvm_object, string)
         vpiName: uvm_config_db #(uvm_object, string)
+      vpiDefName: uvm_config_db
       vpiParamAssign (2 items):
         ParamAssign start:20:24 end:20:34:
-          vpiParent: UnsupportedTypespec name:uvm_config_db #(uvm_object, string)
+          vpiParent: ClassTypespec name:uvm_config_db #(uvm_object, string)
           vpiOverridden: true
           vpiRhs RefObj name:uvm_object start:20:24 end:20:34:
             vpiParent: ParamAssign
@@ -313,12 +347,13 @@ Design name:unnamed:
             vpiFullName: uvm_config_db #(uvm_object, string).uvm_object
             vpiActual: ClassDefn name:uvm_object
         ParamAssign start:20:36 end:20:42:
-          vpiParent: UnsupportedTypespec name:uvm_config_db #(uvm_object, string)
+          vpiParent: ClassTypespec name:uvm_config_db #(uvm_object, string)
           vpiOverridden: true
           vpiRhs RefTypespec start:20:36 end:20:42:
             vpiParent: ParamAssign
             vpiFullName: uvm_config_db #(uvm_object, string)
             vpiActual: StringTypespec
+      vpiClassDefn: ClassDefn name:uvm_config_db
     TypedefTypespec name:m_uvm_config_obj_misc start:20:1 end:20:66:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m_uvm_config_obj_misc start:20:44 end:20:65:
@@ -327,7 +362,7 @@ Design name:unnamed:
       vpiTypedefAlias RefTypespec start:20:9 end:20:43:
         vpiParent: TypedefTypespec name:m_uvm_config_obj_misc
         vpiFullName: m_uvm_config_obj_misc
-        vpiActual: UnsupportedTypespec name:uvm_config_db #(uvm_object, string)
+        vpiActual: ClassTypespec name:uvm_config_db #(uvm_object, string)
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:22:8 end:22:11:
@@ -382,7 +417,7 @@ COMMAND: ${HLC_DIR}/regression/ClassTypeParam/ClassTypeParam/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              83      83       0         0
+Others                              89      89       0         0
 ----------------------------------------------------------------
-                                    83      83       0         0
+                                    89      89       0         0
 ===================== END REDUCTION RESULT =====================

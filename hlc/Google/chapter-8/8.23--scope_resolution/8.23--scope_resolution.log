@@ -137,8 +137,6 @@ n<$Source01/8.23--scope_resolution.sv> u<123> t<Top_level_rule> c<1> l<15:1> el<
         n<> u<119> t<ENDMODULE> p<120> l<28:1> el<28:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/8.23--scope_resolution.sv:15:1: Compile module "class_tb".
-[WRN:CP0350] $Source01/8.23--scope_resolution.sv:25:22: Failed to bind "id:34, name:next_id".
-[WRN:CP0350] $Source01/8.23--scope_resolution.sv:26:22: Failed to bind "id:41, name:next_id".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -161,6 +159,7 @@ Design name:unnamed:
           vpiName Identifier name:test_cls:
             vpiParent: ClassTypespec name:test_cls
             vpiName: test_cls
+          vpiDefName: test_cls
           vpiClassDefn: ClassDefn name:test_cls
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
@@ -210,6 +209,7 @@ Design name:unnamed:
                 vpiParent: Function name:next_id
                 vpiName: next_id
               vpiFullName: class_tb::test_cls::next_id
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt Begin:
                 vpiParent: Function name:next_id
@@ -247,6 +247,21 @@ Design name:unnamed:
           vpiStmt Begin start:24:10 end:27:5:
             vpiParent: Initial
             vpiFullName: class_tb
+            vpiTypespec (2 items):
+              ClassTypespec name:test_cls start:25:12 end:25:20:
+                vpiParent: Begin
+                vpiName Identifier name:test_cls start:25:12 end:25:20:
+                  vpiParent: ClassTypespec name:test_cls
+                  vpiName: test_cls
+                vpiDefName: test_cls
+                vpiClassDefn: ClassDefn name:test_cls
+              ClassTypespec name:test_cls start:26:12 end:26:20:
+                vpiParent: Begin
+                vpiName Identifier name:test_cls start:26:12 end:26:20:
+                  vpiParent: ClassTypespec name:test_cls
+                  vpiName: test_cls
+                vpiDefName: test_cls
+                vpiClassDefn: ClassDefn name:test_cls
             vpiStmt (2 items):
               SysTaskCall name:$display start:25:3 end:25:32:
                 vpiParent: Begin
@@ -259,17 +274,16 @@ Design name:unnamed:
                     vpiName: test_cls::next_id()
                     vpiFullName: class_tb.test_cls::next_id()
                     vpiPathElem (2 items):
-                      UnsupportedScope name:test_cls start:25:12 end:25:22:
+                      RefTypespec start:25:12 end:25:22:
                         vpiParent: HierPath name:test_cls::next_id()
-                        vpiName Identifier name:test_cls start:25:12 end:25:20:
-                          vpiParent: UnsupportedScope name:test_cls
-                          vpiName: test_cls
-                        vpiFullName: class_tb.test_cls::next_id().test_cls
-                      SubroutineCall name:next_id start:25:22 end:25:31:
+                        vpiFullName: class_tb.test_cls::next_id()
+                        vpiActual: ClassTypespec name:test_cls
+                      MethodFuncCall name:next_id start:25:22 end:25:31:
                         vpiParent: HierPath name:test_cls::next_id()
                         vpiName Identifier name:next_id start:25:22 end:25:29:
-                          vpiParent: SubroutineCall name:next_id
+                          vpiParent: MethodFuncCall name:next_id
                           vpiName: next_id
+                        vpiTaskFunc: Function name:next_id
               SysTaskCall name:$display start:26:3 end:26:32:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:26:3 end:26:11:
@@ -281,17 +295,16 @@ Design name:unnamed:
                     vpiName: test_cls::next_id()
                     vpiFullName: class_tb.test_cls::next_id()
                     vpiPathElem (2 items):
-                      UnsupportedScope name:test_cls start:26:12 end:26:22:
+                      RefTypespec start:26:12 end:26:22:
                         vpiParent: HierPath name:test_cls::next_id()
-                        vpiName Identifier name:test_cls start:26:12 end:26:20:
-                          vpiParent: UnsupportedScope name:test_cls
-                          vpiName: test_cls
-                        vpiFullName: class_tb.test_cls::next_id().test_cls
-                      SubroutineCall name:next_id start:26:22 end:26:31:
+                        vpiFullName: class_tb.test_cls::next_id()
+                        vpiActual: ClassTypespec name:test_cls
+                      MethodFuncCall name:next_id start:26:22 end:26:31:
                         vpiParent: HierPath name:test_cls::next_id()
                         vpiName Identifier name:next_id start:26:22 end:26:29:
-                          vpiParent: SubroutineCall name:next_id
+                          vpiParent: MethodFuncCall name:next_id
                           vpiName: next_id
+                        vpiTaskFunc: Function name:next_id
   vpiTypespec (2 items):
     ModuleTypespec name:class_tb:
       vpiParent: Design name:unnamed
@@ -306,7 +319,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -352,9 +365,9 @@ Name                            Before   After   Added   Removed
 Constant                             1       2       1         0
 Operation                            1       0       0         1
 RefObj                               5       4       0         1
-RefTypespec                          3       4       1         0
+RefTypespec                          5       6       1         0
 ----------------------------------------------------------------
 Others                              32      32       0         0
 ----------------------------------------------------------------
-                                    42      42       2         2
+                                    44      44       2         2
 ===================== END REDUCTION RESULT =====================

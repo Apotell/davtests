@@ -157,9 +157,35 @@ Design name:unnamed:
             vpiParent: Variable name:sub
             vpiName: sub
             vpiFullName: t.sub.sub
-            vpiActual: ModuleTypespec name:sub
+            vpiActual: "ModuleTypespec name: #(.REAL(2.0))"
           vpiName: sub
           vpiFullName: t.sub
+      vpiTypespec (1 items):
+        "ModuleTypespec name: #(.REAL(2.0)) start:7:4 end:7:21":
+          vpiParent: Module name:t
+          "vpiName Identifier name: #(.REAL(2.0)) start:7:4 end:7:7":
+            vpiParent: "ModuleTypespec name: #(.REAL(2.0))"
+            vpiName: " #(.REAL(2.0))"
+          vpiParamAssign (1 items):
+            ParamAssign start:7:10 end:7:20:
+              vpiParent: "ModuleTypespec name: #(.REAL(2.0))"
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:REAL start:7:11 end:7:15:
+                vpiParent: ParamAssign
+                vpiName: REAL
+                vpiFullName: t. #(.REAL(2.0)).REAL
+              vpiRhs Constant start:7:16 end:7:19:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t. #(.REAL(2.0))
+                  vpiActual: RealTypespec
+                vpiConstType: real (2)
+                vpiSize: 64
+                vpiDecompile: "2.0"
+                vpiValue: 2
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -326,7 +352,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_math_real_public/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    36      36       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================
