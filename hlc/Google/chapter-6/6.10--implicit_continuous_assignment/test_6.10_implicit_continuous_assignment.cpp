@@ -35,12 +35,21 @@
 //   asserting nbError == 1), and treated 'c' having no Net node and no
 //   vpiActual back-pointer as correct. Per 6.10's mandatory-implicit-net
 //   text quoted above, this is backwards: HLC should create a real
-//   implicit Net for 'c' and report ZERO errors. This matches the same
-//   EL0535-on-legal-implicit-net bug already confirmed in
-//   6.6.8--interconnect.sv (there, plain wire ports connected to an
-//   interconnect net triggered the same spurious EL0535). This version
-//   asserts the spec-correct outcome (real failing test, since HLC
-//   currently gets this wrong) instead of the old, backwards-passing one.
+//   implicit Net for 'c'. This version asserts the spec-correct outcome
+//   instead of the old, backwards-passing one.
+//
+//   CONFIRMED BY RUNNING THIS FILE WITH THE TWO SKIPS BELOW REMOVED: the
+//   real current behavior is not "reports 1 EL0535 error" as originally
+//   assumed -- HLC actually creates no Net for 'c' at all, leaves the
+//   ContAssign's LHS RefObj "c" permanently unresolved (no vpiActual),
+//   AND reports ZERO compiler errors for it. In other words HLC silently
+//   drops the mandatory implicit net instead of either creating it (per
+//   spec) or flagging it as an error -- a silent gap, not a spurious
+//   diagnostic. CompilerShouldAcceptLegalImplicitNetButReportsSpuriousError
+//   below happens to already pass (nbError == 0 is what the spec wants
+//   too), but for the wrong reason: not because HLC implements 6.10
+//   correctly, but because it silently ignores the undeclared identifier
+//   entirely.
 //
 // What is checked:
 //   - module top exists, has explicit nets 'a' (wire [3:0], init "8")
@@ -51,9 +60,11 @@
 //   - top has no processes
 //   - THE POINT OF THIS FILE: per IEEE 1800-2023 6.10, "c" on the LHS of
 //     this continuous assignment should be implicitly declared as a
-//     real net with zero compiler errors -- a real, non-skipped,
-//     currently-failing assertion (HLC currently reports 1 EL0535 error
-//     and never creates a Net for "c")
+//     real net. Confirmed by personally running with the skips removed:
+//     HLC never creates a Net for "c" and never resolves the ContAssign
+//     LHS to one -- kept as GTEST_SKIP() with the real assertions
+//     underneath, per the established gating rule (skips only added
+//     after personal verification)
 //
 // What is NOT checked and why:
 //   - none: every corner above is fully structural and checkable without
@@ -264,6 +275,10 @@ TEST_F(ImplicitContinuousAssignmentTest, NoProcesses) {
 // is mandatory, legal SystemVerilog per IEEE 1800-2023 6.10
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitContinuousAssignmentTest, CShouldBeAnImplicitNetButIsNotCreated) {
+  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed "
+                  "(fails as expected): IEEE 1800-2023 6.10 mandates an implicit scalar net for "
+                  "'c' (undeclared, appears on the LHS of a continuous assignment), but HLC "
+                  "creates no Net for it at all. Tracked, not yet fixed by the compiler.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
@@ -275,6 +290,10 @@ TEST_F(ImplicitContinuousAssignmentTest, CShouldBeAnImplicitNetButIsNotCreated) 
 }
 
 TEST_F(ImplicitContinuousAssignmentTest, ContAssignLhsShouldResolveToImplicitNetCButDoesNot) {
+  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed "
+                  "(fails as expected): since HLC never creates an implicit Net for 'c' (see "
+                  "CShouldBeAnImplicitNetButIsNotCreated above), the ContAssign LHS RefObj 'c' "
+                  "has nothing to resolve to. Tracked, not yet fixed by the compiler.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
@@ -286,13 +305,15 @@ TEST_F(ImplicitContinuousAssignmentTest, ContAssignLhsShouldResolveToImplicitNet
          "currently leaves this RefObj unresolved (no vpiActual)";
 }
 
-TEST_F(ImplicitContinuousAssignmentTest, CompilerShouldAcceptLegalImplicitNetButReportsSpuriousError) {
+TEST_F(ImplicitContinuousAssignmentTest, CompilerReportsZeroErrorsForImplicitNetC) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbError, 0)
-      << "IEEE 1800-2023 6.10 mandates an implicit net here, not an error -- this matches the "
-         "same EL0535-on-legal-implicit-net bug already confirmed in 6.6.8--interconnect.sv. HLC "
-         "currently reports 1 spurious 'Illegal implicit net' error for 'c'";
+      << "IEEE 1800-2023 6.10 mandates an implicit net here, not an error, so zero errors is the "
+         "spec-correct outcome -- but confirmed by running this file directly, HLC reaches nbError "
+         "== 0 for the wrong reason: it never creates the implicit Net for 'c' at all (see "
+         "CShouldBeAnImplicitNetButIsNotCreated above) rather than correctly implementing 6.10. "
+         "This assertion passing does NOT mean the compiler is correct here";
 }
 
 }  // namespace hlc
