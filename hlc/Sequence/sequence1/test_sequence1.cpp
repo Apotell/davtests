@@ -39,14 +39,14 @@ class Sequence1 : public Test {
 };
 
 TEST_F(Sequence1, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("tb", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Sequence declaration
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, SequenceDeclaration) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
 
@@ -61,7 +61,7 @@ TEST_F(Sequence1, SequenceDeclaration) {
 }
 
 TEST_F(Sequence1, SequenceHasExpression) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
@@ -80,7 +80,7 @@ TEST_F(Sequence1, SequenceHasExpression) {
 // Property declaration
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, PropertyDeclaration) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr) << "tb has no property declarations";
 
@@ -95,7 +95,7 @@ TEST_F(Sequence1, PropertyDeclaration) {
 }
 
 TEST_F(Sequence1, PropertyHasClockingEvent) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr);
 
@@ -114,7 +114,7 @@ TEST_F(Sequence1, PropertyHasClockingEvent) {
 }
 
 TEST_F(Sequence1, PropertyHasExpression) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr);
 
@@ -136,7 +136,7 @@ TEST_F(Sequence1, PropertyHasExpression) {
 // Concurrent assertion (assert property(p))
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, ConcurrentAssertion) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr) << "tb has no concurrent assertions";
   ASSERT_FALSE(tb->getConcurrentAssertions()->empty()) << "tb concurrent assertions list is empty";

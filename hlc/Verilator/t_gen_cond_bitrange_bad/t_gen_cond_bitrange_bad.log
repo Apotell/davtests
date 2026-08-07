@@ -27,7 +27,7 @@ n<$Source01/t_gen_cond_bitrange_bad.v> u<567> t<Top_level_rule> c<1> l<16:1> el<
     n<> u<113> t<Description> p<566> c<112> s<114> l<16:1> el<34:10>
       n<> u<112> t<Module_declaration> p<113> c<23> l<16:1> el<34:10>
         n<> u<23> t<Module_nonansi_header> p<112> c<11> s<30> l<16:1> el<19:6>
-          n<module> u<11> t<Module_keyword> p<23> s<12> l<16:1> el<16:7>
+          n<module> u<11> t<MODULE> p<23> s<12> l<16:1> el<16:7>
           n<t> u<12> t<SIMPLE_IDENTIFIER> p<23> s<13> l<16:8> el<16:9>
           n<> u<13> t<Package_import_declaration_list> p<23> s<14> l<16:10> el<16:10>
           n</*AUTOARG*/> u<14> t<BLOCK_COMMENT> p<23> s<15> l<16:10> el<19:5>
@@ -131,7 +131,7 @@ n<$Source01/t_gen_cond_bitrange_bad.v> u<567> t<Top_level_rule> c<1> l<16:1> el<
     n<> u<565> t<Description> p<566> c<564> l<37:1> el<106:10>
       n<> u<564> t<Module_declaration> p<565> c<148> l<37:1> el<106:10>
         n<> u<148> t<Module_nonansi_header> p<564> c<115> s<155> l<37:1> el<46:6>
-          n<module> u<115> t<Module_keyword> p<148> s<116> l<37:1> el<37:7>
+          n<module> u<115> t<MODULE> p<148> s<116> l<37:1> el<37:7>
           n<test_gen> u<116> t<SIMPLE_IDENTIFIER> p<148> s<117> l<37:8> el<37:16>
           n<> u<117> t<Package_import_declaration_list> p<148> s<138> l<39:3> el<39:3>
           n<> u<138> t<Parameter_port_list> p<148> c<137> s<139> l<39:3> el<41:26>
@@ -580,10 +580,8 @@ n<$Source01/t_gen_cond_bitrange_bad.v> u<567> t<Top_level_rule> c<1> l<16:1> el<
               n<> u<559> t<ENDGENERATE> p<560> l<104:4> el<104:15>
         n<> u<563> t<ENDMODULE> p<564> l<106:1> el<106:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_gen_cond_bitrange_bad.v:16:1: Compile module "work@t".
-[INF:CP0303] $Source01/t_gen_cond_bitrange_bad.v:37:1: Compile module "work@test_gen".
-[ERR:EL0535] $Source01/t_gen_cond_bitrange_bad.v:24:9: Illegal implicit net "id:42, name:SIZE".
-[ERR:EL0535] $Source01/t_gen_cond_bitrange_bad.v:25:9: Illegal implicit net "id:47, name:MASK".
+[INF:CP0303] $Source01/t_gen_cond_bitrange_bad.v:16:1: Compile module "t".
+[INF:CP0303] $Source01/t_gen_cond_bitrange_bad.v:37:1: Compile module "test_gen".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -599,6 +597,7 @@ Design name:unnamed:
           vpiName Identifier name:MAX_SIZE start:13:9 end:13:17:
             vpiParent: PreprocMacroDefinition name:MAX_SIZE
             vpiName: MAX_SIZE
+          vpiPMDType: define (1)
           vpiPMDToken (1 items):
             Identifier name:3 start:13:19 end:13:20:
               vpiParent: PreprocMacroDefinition name:MAX_SIZE
@@ -658,55 +657,57 @@ Design name:unnamed:
           vpiPMIBody Identifier name:3 start:13:19 end:13:20:
             vpiParent: PreprocMacroInstance name:MAX_SIZE
             vpiName: "3"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:$Source01/t_gen_cond_bitrange_bad.v start:16:1 end:34:10:
+    Module name:t file:$Source01/t_gen_cond_bitrange_bad.v start:16:1 end:34:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:16:8 end:16:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:16:8 end:16:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
-        ModuleTypespec name:work@test_gen start:23:4 end:23:12:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@test_gen start:23:4 end:23:12:
-            vpiParent: ModuleTypespec name:work@test_gen
-            vpiName: work@test_gen
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+          vpiParent: Module name:t
+        ModuleTypespec name:test_gen start:23:4 end:23:12:
+          vpiParent: Module name:t
+          vpiName Identifier name:test_gen start:23:4 end:23:12:
+            vpiParent: ModuleTypespec name:test_gen
+            vpiName: test_gen
+          vpiModule: Module name:test_gen
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
       vpiNet (1 items):
         Net name:clk start:20:10 end:20:13:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:20:10 end:20:10:
             vpiParent: Net name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@t.clk
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:18:4 end:18:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:18:4 end:18:7:
+          vpiLowConn RefObj name:clk start:20:10 end:20:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@t.clk.clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:20:10 end:20:10:
             vpiParent: Port name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:29:4 end:32:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt EventControl start:29:11 end:32:7:
             vpiParent: Always
             vpiCondition Operation start:29:13 end:29:24:
@@ -716,11 +717,11 @@ Design name:unnamed:
                 RefObj name:clk start:29:21 end:29:24:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@t.clk
+                  vpiFullName: t.clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:29:26 end:32:7:
               vpiParent: EventControl
-              vpiFullName: work@t
+              vpiFullName: t
               vpiStmt (2 items):
                 SysTaskCall name:$write start:30:7 end:30:39:
                   vpiParent: Begin
@@ -732,7 +733,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$write
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
@@ -746,26 +747,27 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:i_test_gen start:26:6 end:26:16:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: i_test_gen
-          vpiTypespec RefTypespec name:work@test_gen start:23:4 end:23:12:
+          vpiTypespec RefTypespec name:test_gen start:23:4 end:23:12:
             vpiParent: RefInstance name:i_test_gen
-            vpiName: work@test_gen
-            vpiFullName: work@t.i_test_gen.work@test_gen
-            vpiActual: ModuleTypespec name:work@test_gen
+            vpiName: test_gen
+            vpiFullName: t.i_test_gen.test_gen
+            vpiActual: ModuleTypespec name:test_gen
           vpiParamAssign (2 items):
             ParamAssign start:24:8 end:24:17:
               vpiParent: RefInstance name:i_test_gen
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:SIZE start:24:9 end:24:13:
                 vpiParent: ParamAssign
                 vpiName: SIZE
-                vpiFullName: work@t.i_test_gen.SIZE
+                vpiFullName: t.i_test_gen.SIZE
               vpiRhs Constant start:24:15 end:24:16:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.i_test_gen
+                  vpiFullName: t.i_test_gen
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -774,15 +776,16 @@ Design name:unnamed:
             ParamAssign start:25:8 end:25:21:
               vpiParent: RefInstance name:i_test_gen
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:MASK start:25:9 end:25:13:
                 vpiParent: ParamAssign
                 vpiName: MASK
-                vpiFullName: work@t.i_test_gen.MASK
+                vpiFullName: t.i_test_gen.MASK
               vpiRhs Constant start:25:15 end:25:20:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.i_test_gen
+                  vpiFullName: t.i_test_gen
                   vpiActual: LogicTypespec
                 vpiConstType: binary (3)
                 vpiSize: 2
@@ -794,66 +797,66 @@ Design name:unnamed:
               vpiLowConn RefObj name:clk start:26:19 end:26:22:
                 vpiParent: Port
                 vpiName: clk
-                vpiFullName: work@t.i_test_gen.clk
+                vpiFullName: t.i_test_gen.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:26:24 end:26:27:
                 vpiParent: Port
                 vpiName: clk
-                vpiFullName: work@t.i_test_gen.clk
+                vpiFullName: t.i_test_gen.clk
                 vpiActual: Net name:clk
-    Module name:work@test_gen file:$Source01/t_gen_cond_bitrange_bad.v start:37:1 end:106:10:
+    Module name:test_gen file:$Source01/t_gen_cond_bitrange_bad.v start:37:1 end:106:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test_gen start:37:8 end:37:16:
-        vpiParent: Module name:work@test_gen
-        vpiName: work@test_gen
-      vpiFullName: work@test_gen
+      vpiName Identifier name:test_gen start:37:8 end:37:16:
+        vpiParent: Module name:test_gen
+        vpiName: test_gen
+      vpiFullName: test_gen
       vpiParameter (2 items):
         Parameter name:SIZE start:40:6 end:40:10:
-          vpiParent: Module name:work@test_gen
+          vpiParent: Module name:test_gen
           vpiTypespec RefTypespec start:40:6 end:40:6:
             vpiParent: Parameter name:SIZE
-            vpiFullName: work@test_gen.SIZE
+            vpiFullName: test_gen.SIZE
             vpiActual: LogicTypespec
           vpiName: SIZE
-          vpiFullName: work@test_gen.SIZE
+          vpiFullName: test_gen.SIZE
         Parameter name:MASK start:41:6 end:41:10:
-          vpiParent: Module name:work@test_gen
+          vpiParent: Module name:test_gen
           vpiTypespec RefTypespec start:40:6 end:40:6:
             vpiParent: Parameter name:MASK
-            vpiFullName: work@test_gen.MASK
+            vpiFullName: test_gen.MASK
             vpiActual: LogicTypespec
           vpiName: MASK
-          vpiFullName: work@test_gen.MASK
+          vpiFullName: test_gen.MASK
       vpiParamAssign (2 items):
         ParamAssign start:40:6 end:40:22:
-          vpiParent: Module name:work@test_gen
+          vpiParent: Module name:test_gen
           vpiLhs RefObj name:SIZE start:40:6 end:40:10:
             vpiParent: ParamAssign
             vpiName: SIZE
-            vpiFullName: work@test_gen.SIZE
+            vpiFullName: test_gen.SIZE
             vpiActual: Parameter name:SIZE
           vpiRhs Constant start:13:19 end:13:20:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@test_gen
+              vpiFullName: test_gen
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
         ParamAssign start:41:6 end:41:25:
-          vpiParent: Module name:work@test_gen
+          vpiParent: Module name:test_gen
           vpiLhs RefObj name:MASK start:41:6 end:41:10:
             vpiParent: ParamAssign
             vpiName: MASK
-            vpiFullName: work@test_gen.MASK
+            vpiFullName: test_gen.MASK
             vpiActual: Parameter name:MASK
           vpiRhs Constant start:41:13 end:41:25:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@test_gen
+              vpiFullName: test_gen
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 3
@@ -861,61 +864,63 @@ Design name:unnamed:
             vpiValue: "0"
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@test_gen
-      vpiDefName: work@test_gen
-      vpiDefNetType: none (12)
+          vpiParent: Module name:test_gen
+      vpiDefName: test_gen
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test_gen
+        vpiParent: Module name:test_gen
         vpiName: work
-        vpiFullName: work@test_gen.work
+        vpiFullName: test_gen.work
       vpiCell: test_gen
       vpiNet (1 items):
         Net name:clk start:48:10 end:48:13:
-          vpiParent: Module name:work@test_gen
+          vpiParent: Module name:test_gen
           vpiTypespec RefTypespec start:48:10 end:48:10:
             vpiParent: Net name:clk
-            vpiFullName: work@test_gen.clk
+            vpiFullName: test_gen.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@test_gen.clk
+          vpiFullName: test_gen.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:45:4 end:45:7:
-          vpiParent: Module name:work@test_gen
+          vpiParent: Module name:test_gen
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:45:4 end:45:7:
+          vpiLowConn RefObj name:clk start:48:10 end:48:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@test_gen.clk.clk
+            vpiFullName: test_gen.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:48:10 end:48:10:
             vpiParent: Port name:clk
-            vpiFullName: work@test_gen.clk
+            vpiFullName: test_gen.clk
             vpiActual: LogicTypespec
       vpiGenStmt (4 items):
         GenRegion start:54:4 end:66:15:
-          vpiParent: Module name:work@test_gen
-          vpiFullName: work@test_gen
+          vpiParent: Module name:test_gen
+          vpiFullName: test_gen
           vpiStmt Begin:
             vpiParent: GenRegion
-            vpiFullName: work@test_gen
+            vpiFullName: test_gen
             vpiVariable (1 items):
               Variable name:g start:55:14 end:55:15:
                 vpiParent: Begin
                 vpiTypespec RefTypespec:
                   vpiParent: Variable name:g
-                  vpiFullName: work@test_gen.g
+                  vpiFullName: test_gen.g
                 vpiName: g
-                vpiFullName: work@test_gen.g
+                vpiFullName: test_gen.g
             vpiStmt (1 items):
               GenFor start:57:7 end:65:10:
                 vpiParent: Begin
-                vpiFullName: work@test_gen
+                vpiFullName: test_gen
                 vpiVariable (1 items):
                   Variable name:g start:57:12 end:57:13:
                     vpiParent: GenFor
                     vpiName: g
-                    vpiFullName: work@test_gen.g
+                    vpiFullName: test_gen.g
                 vpiForInitStmt (1 items):
                   Assignment start:57:12 end:57:17:
                     vpiParent: GenFor
@@ -924,7 +929,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test_gen
+                        vpiFullName: test_gen
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -937,7 +942,7 @@ Design name:unnamed:
                     vpiLhs RefObj name:g start:57:34 end:57:35:
                       vpiParent: Assignment
                       vpiName: g
-                      vpiFullName: work@test_gen.g
+                      vpiFullName: test_gen.g
                       vpiActual: Variable name:g
                     vpiRhs Operation start:57:38 end:57:43:
                       vpiParent: Assignment
@@ -946,13 +951,13 @@ Design name:unnamed:
                         RefObj name:g start:57:38 end:57:39:
                           vpiParent: Operation
                           vpiName: g
-                          vpiFullName: work@test_gen.g
+                          vpiFullName: test_gen.g
                           vpiActual: Variable name:g
                         Constant start:57:42 end:57:43:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@test_gen
+                            vpiFullName: test_gen
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -965,13 +970,13 @@ Design name:unnamed:
                     RefObj name:g start:57:19 end:57:20:
                       vpiParent: Operation
                       vpiName: g
-                      vpiFullName: work@test_gen.g
+                      vpiFullName: test_gen.g
                       vpiActual: Variable name:g
                     Constant start:13:19 end:13:20:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test_gen
+                        vpiFullName: test_gen
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -979,7 +984,7 @@ Design name:unnamed:
                       vpiValue: 3
                 vpiStmt Begin start:57:45 end:65:10:
                   vpiParent: GenFor
-                  vpiFullName: work@test_gen
+                  vpiFullName: test_gen
                   vpiStmt (1 items):
                     GenIf start:58:10 end:64:13:
                       vpiParent: Begin
@@ -994,7 +999,7 @@ Design name:unnamed:
                               RefObj name:g start:58:15 end:58:16:
                                 vpiParent: Operation
                                 vpiName: g
-                                vpiFullName: work@test_gen.g
+                                vpiFullName: test_gen.g
                                 vpiActual: Variable name:g
                               Operation start:58:20 end:58:28:
                                 vpiParent: Operation
@@ -1003,35 +1008,35 @@ Design name:unnamed:
                                   RefObj name:SIZE start:58:20 end:58:24:
                                     vpiParent: Operation
                                     vpiName: SIZE
-                                    vpiFullName: work@test_gen.SIZE
+                                    vpiFullName: test_gen.SIZE
                                     vpiActual: Parameter name:SIZE
                                   Constant start:58:27 end:58:28:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@test_gen
+                                      vpiFullName: test_gen
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
                                     vpiDecompile: "1"
                                     vpiValue: 1
-                          BitSelect name:MASK[g] start:58:34 end:58:40:
+                          BitSelect name:MASK[g] start:58:34 end:58:41:
                             vpiParent: Operation
                             vpiName: MASK[g]
-                            vpiFullName: work@test_gen.MASK[g]
+                            vpiFullName: test_gen.MASK[g]
                             vpiPrefix RefObj name:MASK start:58:34 end:58:38:
                               vpiParent: BitSelect name:MASK[g]
                               vpiName: MASK
-                              vpiFullName: work@test_gen.MASK
+                              vpiFullName: test_gen.MASK
                               vpiActual: Parameter name:MASK
                             vpiIndex RefObj name:g start:58:39 end:58:40:
                               vpiParent: BitSelect name:MASK[g]
                               vpiName: g
-                              vpiFullName: work@test_gen.g
+                              vpiFullName: test_gen.g
                               vpiActual: Variable name:g
                       vpiStmt Begin start:58:43 end:64:13:
                         vpiParent: GenIf
-                        vpiFullName: work@test_gen
+                        vpiFullName: test_gen
                         vpiStmt (1 items):
                           Always start:59:13 end:63:16:
                             vpiParent: Begin
@@ -1044,23 +1049,23 @@ Design name:unnamed:
                                   RefObj name:clk start:59:30 end:59:33:
                                     vpiParent: Operation
                                     vpiName: clk
-                                    vpiFullName: work@test_gen.clk
+                                    vpiFullName: test_gen.clk
                                     vpiActual: Net name:clk
                               vpiStmt Begin start:59:35 end:63:16:
                                 vpiParent: EventControl
-                                vpiFullName: work@test_gen
+                                vpiFullName: test_gen
                             vpiAlwaysType: always (1)
         GenRegion start:68:4 end:78:15:
-          vpiParent: Module name:work@test_gen
-          vpiFullName: work@test_gen
+          vpiParent: Module name:test_gen
+          vpiFullName: test_gen
           vpiStmt GenFor start:69:7 end:77:10:
             vpiParent: GenRegion
-            vpiFullName: work@test_gen
+            vpiFullName: test_gen
             vpiVariable (1 items):
               Variable name:g start:69:12 end:69:13:
                 vpiParent: GenFor
                 vpiName: g
-                vpiFullName: work@test_gen.g
+                vpiFullName: test_gen.g
             vpiForInitStmt (1 items):
               Assignment start:69:12 end:69:17:
                 vpiParent: GenFor
@@ -1069,7 +1074,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1082,7 +1087,7 @@ Design name:unnamed:
                 vpiLhs RefObj name:g start:69:34 end:69:35:
                   vpiParent: Assignment
                   vpiName: g
-                  vpiFullName: work@test_gen.g
+                  vpiFullName: test_gen.g
                   vpiActual: Variable name:g
                 vpiRhs Operation start:69:38 end:69:43:
                   vpiParent: Assignment
@@ -1091,13 +1096,13 @@ Design name:unnamed:
                     RefObj name:g start:69:38 end:69:39:
                       vpiParent: Operation
                       vpiName: g
-                      vpiFullName: work@test_gen.g
+                      vpiFullName: test_gen.g
                       vpiActual: Variable name:g
                     Constant start:69:42 end:69:43:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test_gen
+                        vpiFullName: test_gen
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1110,13 +1115,13 @@ Design name:unnamed:
                 RefObj name:g start:69:19 end:69:20:
                   vpiParent: Operation
                   vpiName: g
-                  vpiFullName: work@test_gen.g
+                  vpiFullName: test_gen.g
                   vpiActual: Variable name:g
                 Constant start:13:19 end:13:20:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1124,7 +1129,7 @@ Design name:unnamed:
                   vpiValue: 3
             vpiStmt Begin start:69:45 end:77:10:
               vpiParent: GenFor
-              vpiFullName: work@test_gen
+              vpiFullName: test_gen
               vpiStmt (1 items):
                 GenIf start:70:10 end:76:13:
                   vpiParent: Begin
@@ -1139,21 +1144,21 @@ Design name:unnamed:
                           RefObj name:g start:70:15 end:70:16:
                             vpiParent: Operation
                             vpiName: g
-                            vpiFullName: work@test_gen.g
+                            vpiFullName: test_gen.g
                             vpiActual: Variable name:g
                           RefObj name:SIZE start:70:19 end:70:23:
                             vpiParent: Operation
                             vpiName: SIZE
-                            vpiFullName: work@test_gen.SIZE
+                            vpiFullName: test_gen.SIZE
                             vpiActual: Parameter name:SIZE
-                      BitSelect name:MASK[g + 1] start:70:28 end:70:38:
+                      BitSelect name:MASK[g + 1] start:70:28 end:70:39:
                         vpiParent: Operation
                         vpiName: MASK[g + 1]
-                        vpiFullName: work@test_gen.MASK[g + 1]
+                        vpiFullName: test_gen.MASK[g + 1]
                         vpiPrefix RefObj name:MASK start:70:28 end:70:32:
                           vpiParent: BitSelect name:MASK[g + 1]
                           vpiName: MASK
-                          vpiFullName: work@test_gen.MASK
+                          vpiFullName: test_gen.MASK
                           vpiActual: Parameter name:MASK
                         vpiIndex Operation start:70:33 end:70:38:
                           vpiParent: BitSelect name:MASK[g + 1]
@@ -1162,13 +1167,13 @@ Design name:unnamed:
                             RefObj name:g start:70:33 end:70:34:
                               vpiParent: Operation
                               vpiName: g
-                              vpiFullName: work@test_gen.MASK[g + 1].g
+                              vpiFullName: test_gen.MASK[g + 1].g
                               vpiActual: Variable name:g
                             Constant start:70:37 end:70:38:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@test_gen.MASK[g + 1]
+                                vpiFullName: test_gen.MASK[g + 1]
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -1176,7 +1181,7 @@ Design name:unnamed:
                               vpiValue: 1
                   vpiStmt Begin start:70:41 end:76:13:
                     vpiParent: GenIf
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiStmt (1 items):
                       Always start:71:13 end:75:16:
                         vpiParent: Begin
@@ -1189,23 +1194,23 @@ Design name:unnamed:
                               RefObj name:clk start:71:30 end:71:33:
                                 vpiParent: Operation
                                 vpiName: clk
-                                vpiFullName: work@test_gen.clk
+                                vpiFullName: test_gen.clk
                                 vpiActual: Net name:clk
                           vpiStmt Begin start:71:35 end:75:16:
                             vpiParent: EventControl
-                            vpiFullName: work@test_gen
+                            vpiFullName: test_gen
                         vpiAlwaysType: always (1)
         GenRegion start:81:4 end:91:15:
-          vpiParent: Module name:work@test_gen
-          vpiFullName: work@test_gen
+          vpiParent: Module name:test_gen
+          vpiFullName: test_gen
           vpiStmt GenFor start:82:7 end:90:10:
             vpiParent: GenRegion
-            vpiFullName: work@test_gen
+            vpiFullName: test_gen
             vpiVariable (1 items):
               Variable name:g start:82:12 end:82:13:
                 vpiParent: GenFor
                 vpiName: g
-                vpiFullName: work@test_gen.g
+                vpiFullName: test_gen.g
             vpiForInitStmt (1 items):
               Assignment start:82:12 end:82:17:
                 vpiParent: GenFor
@@ -1214,7 +1219,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1227,7 +1232,7 @@ Design name:unnamed:
                 vpiLhs RefObj name:g start:82:34 end:82:35:
                   vpiParent: Assignment
                   vpiName: g
-                  vpiFullName: work@test_gen.g
+                  vpiFullName: test_gen.g
                   vpiActual: Variable name:g
                 vpiRhs Operation start:82:38 end:82:43:
                   vpiParent: Assignment
@@ -1236,13 +1241,13 @@ Design name:unnamed:
                     RefObj name:g start:82:38 end:82:39:
                       vpiParent: Operation
                       vpiName: g
-                      vpiFullName: work@test_gen.g
+                      vpiFullName: test_gen.g
                       vpiActual: Variable name:g
                     Constant start:82:42 end:82:43:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test_gen
+                        vpiFullName: test_gen
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1255,13 +1260,13 @@ Design name:unnamed:
                 RefObj name:g start:82:19 end:82:20:
                   vpiParent: Operation
                   vpiName: g
-                  vpiFullName: work@test_gen.g
+                  vpiFullName: test_gen.g
                   vpiActual: Variable name:g
                 Constant start:13:19 end:13:20:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1269,7 +1274,7 @@ Design name:unnamed:
                   vpiValue: 3
             vpiStmt Begin start:82:45 end:90:10:
               vpiParent: GenFor
-              vpiFullName: work@test_gen
+              vpiFullName: test_gen
               vpiStmt (1 items):
                 GenIf start:83:10 end:89:13:
                   vpiParent: Begin
@@ -1284,30 +1289,30 @@ Design name:unnamed:
                           RefObj name:g start:83:15 end:83:16:
                             vpiParent: Operation
                             vpiName: g
-                            vpiFullName: work@test_gen.g
+                            vpiFullName: test_gen.g
                             vpiActual: Variable name:g
                           RefObj name:SIZE start:83:20 end:83:24:
                             vpiParent: Operation
                             vpiName: SIZE
-                            vpiFullName: work@test_gen.SIZE
+                            vpiFullName: test_gen.SIZE
                             vpiActual: Parameter name:SIZE
-                      BitSelect name:MASK[g] start:83:29 end:83:35:
+                      BitSelect name:MASK[g] start:83:29 end:83:36:
                         vpiParent: Operation
                         vpiName: MASK[g]
-                        vpiFullName: work@test_gen.MASK[g]
+                        vpiFullName: test_gen.MASK[g]
                         vpiPrefix RefObj name:MASK start:83:29 end:83:33:
                           vpiParent: BitSelect name:MASK[g]
                           vpiName: MASK
-                          vpiFullName: work@test_gen.MASK
+                          vpiFullName: test_gen.MASK
                           vpiActual: Parameter name:MASK
                         vpiIndex RefObj name:g start:83:34 end:83:35:
                           vpiParent: BitSelect name:MASK[g]
                           vpiName: g
-                          vpiFullName: work@test_gen.g
+                          vpiFullName: test_gen.g
                           vpiActual: Variable name:g
                   vpiStmt Begin start:83:38 end:89:13:
                     vpiParent: GenIf
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiStmt (1 items):
                       Always start:84:13 end:88:16:
                         vpiParent: Begin
@@ -1320,23 +1325,23 @@ Design name:unnamed:
                               RefObj name:clk start:84:30 end:84:33:
                                 vpiParent: Operation
                                 vpiName: clk
-                                vpiFullName: work@test_gen.clk
+                                vpiFullName: test_gen.clk
                                 vpiActual: Net name:clk
                           vpiStmt Begin start:84:35 end:88:16:
                             vpiParent: EventControl
-                            vpiFullName: work@test_gen
+                            vpiFullName: test_gen
                         vpiAlwaysType: always (1)
         GenRegion start:94:4 end:104:15:
-          vpiParent: Module name:work@test_gen
-          vpiFullName: work@test_gen
+          vpiParent: Module name:test_gen
+          vpiFullName: test_gen
           vpiStmt GenFor start:95:7 end:103:10:
             vpiParent: GenRegion
-            vpiFullName: work@test_gen
+            vpiFullName: test_gen
             vpiVariable (1 items):
               Variable name:g start:95:12 end:95:13:
                 vpiParent: GenFor
                 vpiName: g
-                vpiFullName: work@test_gen.g
+                vpiFullName: test_gen.g
             vpiForInitStmt (1 items):
               Assignment start:95:12 end:95:17:
                 vpiParent: GenFor
@@ -1345,7 +1350,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1358,7 +1363,7 @@ Design name:unnamed:
                 vpiLhs RefObj name:g start:95:34 end:95:35:
                   vpiParent: Assignment
                   vpiName: g
-                  vpiFullName: work@test_gen.g
+                  vpiFullName: test_gen.g
                   vpiActual: Variable name:g
                 vpiRhs Operation start:95:38 end:95:43:
                   vpiParent: Assignment
@@ -1367,13 +1372,13 @@ Design name:unnamed:
                     RefObj name:g start:95:38 end:95:39:
                       vpiParent: Operation
                       vpiName: g
-                      vpiFullName: work@test_gen.g
+                      vpiFullName: test_gen.g
                       vpiActual: Variable name:g
                     Constant start:95:42 end:95:43:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test_gen
+                        vpiFullName: test_gen
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1386,13 +1391,13 @@ Design name:unnamed:
                 RefObj name:g start:95:19 end:95:20:
                   vpiParent: Operation
                   vpiName: g
-                  vpiFullName: work@test_gen.g
+                  vpiFullName: test_gen.g
                   vpiActual: Variable name:g
                 Constant start:13:19 end:13:20:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1400,7 +1405,7 @@ Design name:unnamed:
                   vpiValue: 3
             vpiStmt Begin start:95:45 end:103:10:
               vpiParent: GenFor
-              vpiFullName: work@test_gen
+              vpiFullName: test_gen
               vpiStmt (1 items):
                 GenIf start:96:10 end:102:13:
                   vpiParent: Begin
@@ -1419,34 +1424,34 @@ Design name:unnamed:
                               RefObj name:g start:96:17 end:96:18:
                                 vpiParent: Operation
                                 vpiName: g
-                                vpiFullName: work@test_gen.g
+                                vpiFullName: test_gen.g
                                 vpiActual: Variable name:g
                               RefObj name:SIZE start:96:22 end:96:26:
                                 vpiParent: Operation
                                 vpiName: SIZE
-                                vpiFullName: work@test_gen.SIZE
+                                vpiFullName: test_gen.SIZE
                                 vpiActual: Parameter name:SIZE
                           Operation start:96:30 end:96:38:
                             vpiParent: Operation
                             vpiOpType: bitwise negation (4)
                             vpiOperand (1 items):
-                              BitSelect name:MASK[g] start:96:31 end:96:37:
+                              BitSelect name:MASK[g] start:96:31 end:96:38:
                                 vpiParent: Operation
                                 vpiName: MASK[g]
-                                vpiFullName: work@test_gen.MASK[g]
+                                vpiFullName: test_gen.MASK[g]
                                 vpiPrefix RefObj name:MASK start:96:31 end:96:35:
                                   vpiParent: BitSelect name:MASK[g]
                                   vpiName: MASK
-                                  vpiFullName: work@test_gen.MASK
+                                  vpiFullName: test_gen.MASK
                                   vpiActual: Parameter name:MASK
                                 vpiIndex RefObj name:g start:96:36 end:96:37:
                                   vpiParent: BitSelect name:MASK[g]
                                   vpiName: g
-                                  vpiFullName: work@test_gen.g
+                                  vpiFullName: test_gen.g
                                   vpiActual: Variable name:g
                   vpiStmt Begin start:96:41 end:102:13:
                     vpiParent: GenIf
-                    vpiFullName: work@test_gen
+                    vpiFullName: test_gen
                     vpiStmt (1 items):
                       Always start:97:13 end:101:16:
                         vpiParent: Begin
@@ -1459,19 +1464,19 @@ Design name:unnamed:
                               RefObj name:clk start:97:30 end:97:33:
                                 vpiParent: Operation
                                 vpiName: clk
-                                vpiFullName: work@test_gen.clk
+                                vpiFullName: test_gen.clk
                                 vpiActual: Net name:clk
                           vpiStmt Begin start:97:35 end:101:16:
                             vpiParent: EventControl
-                            vpiFullName: work@test_gen
+                            vpiFullName: test_gen
                         vpiAlwaysType: always (1)
   vpiTypespec (5 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:16:8 end:16:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:16:8 end:16:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -1479,16 +1484,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@test_gen:
+    ModuleTypespec name:test_gen:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test_gen start:37:8 end:37:16:
-        vpiParent: ModuleTypespec name:work@test_gen
-        vpiName: work@test_gen
-      vpiModule: Module name:work@test_gen
+      vpiName Identifier name:test_gen start:37:8 end:37:16:
+        vpiParent: ModuleTypespec name:test_gen
+        vpiName: test_gen
+      vpiModule: Module name:test_gen
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

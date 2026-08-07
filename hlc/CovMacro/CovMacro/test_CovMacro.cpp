@@ -38,12 +38,12 @@ class CovMacroTest : public Test {
 // defined externally (command-line or tool built-ins). Both declared modules
 // must compile.
 TEST_F(CovMacroTest, DutModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@DUT", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("DUT", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'DUT' must compile with SV_COV_* macro instantiations";
 }
 
 TEST_F(CovMacroTest, TopModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile";
 }
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,8 +28,8 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net "arr"
-//   - net "arr": RefTypespec -> BitTypespec, 1 range [7:0], vector=true
+//   - design has module top with exactly 1 variable "arr"
+//   - variable "arr": RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - module has exactly 1 typespec (the single BitTypespec)
 //   - Initial process: 1 Begin with 6 stmts (3 Assignment + 3 SysFuncCall)
 //   - each Assignment: RefObj lhs "arr", hexadecimal Constant rhs
@@ -59,7 +59,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -75,31 +75,31 @@ class PackedOperationsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / net -------------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(PackedOperationsTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedOperationsTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(PackedOperationsTest, ModuleHasOneVariable) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
   
 TEST_F(PackedOperationsTest, ModuleHasOneTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 1u);
 }
 
-TEST_F(PackedOperationsTest, NetArrIsBitTypespecRange7to0) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(PackedOperationsTest, VariableArrIsBitTypespecRange7to0) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
+  const hldb::Variable *const arr = hldb::findByName<hldb::Variable>("arr", top->getVariables());
   ASSERT_NE(arr, nullptr);
   const hldb::BitTypespec *const bt = arr->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
@@ -110,10 +110,10 @@ TEST_F(PackedOperationsTest, NetArrIsBitTypespecRange7to0) {
   EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedOperationsTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -126,7 +126,7 @@ TEST_F(PackedOperationsTest, InitialBeginHasSixStmts) {
 }
 
 TEST_F(PackedOperationsTest, ThreeAssignmentsWriteZeroDeAndAd) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -140,7 +140,7 @@ TEST_F(PackedOperationsTest, ThreeAssignmentsWriteZeroDeAndAd) {
     const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
     ASSERT_NE(lhs, nullptr);
     EXPECT_EQ(lhs->getName(), "arr");
-    EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+    EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
     const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
     ASSERT_NE(rhs, nullptr);
     EXPECT_EQ(rhs->getConstType(), 5);  // hexadecimal = 5
@@ -150,7 +150,7 @@ TEST_F(PackedOperationsTest, ThreeAssignmentsWriteZeroDeAndAd) {
 }
 
 TEST_F(PackedOperationsTest, ThreeDisplaysAssertZeroDeAndAd) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -169,7 +169,7 @@ TEST_F(PackedOperationsTest, ThreeDisplaysAssertZeroDeAndAd) {
   }
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedOperationsTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -180,7 +180,7 @@ TEST_F(PackedOperationsTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedOperationsTest, CompilerReportsZeroErrors) {
@@ -193,7 +193,7 @@ TEST_F(PackedOperationsTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedOperationsTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

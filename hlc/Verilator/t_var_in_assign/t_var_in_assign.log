@@ -21,7 +21,7 @@ n<$Source01/t_var_in_assign.v> u<629> t<Top_level_rule> c<1> l<5:1> el<65:1>
     n<> u<541> t<Description> p<628> c<540> s<592> l<5:1> el<54:10>
       n<> u<540> t<Module_declaration> p<541> c<17> l<5:1> el<54:10>
         n<> u<17> t<Module_nonansi_header> p<540> c<5> s<24> l<5:1> el<8:6>
-          n<module> u<5> t<Module_keyword> p<17> s<6> l<5:1> el<5:7>
+          n<module> u<5> t<MODULE> p<17> s<6> l<5:1> el<5:7>
           n<t> u<6> t<SIMPLE_IDENTIFIER> p<17> s<7> l<5:8> el<5:9>
           n<> u<7> t<Package_import_declaration_list> p<17> s<8> l<5:10> el<5:10>
           n</*AUTOARG*/> u<8> t<BLOCK_COMMENT> p<17> s<9> l<5:10> el<8:5>
@@ -558,7 +558,7 @@ n<$Source01/t_var_in_assign.v> u<629> t<Top_level_rule> c<1> l<5:1> el<65:1>
     n<> u<592> t<Description> p<628> c<591> s<627> l<56:1> el<60:10>
       n<> u<591> t<Module_declaration> p<592> c<558> l<56:1> el<60:10>
         n<> u<558> t<Module_ansi_header> p<591> c<542> s<559> l<56:1> el<56:31>
-          n<module> u<542> t<Module_keyword> p<558> s<543> l<56:1> el<56:7>
+          n<module> u<542> t<MODULE> p<558> s<543> l<56:1> el<56:7>
           n<a> u<543> t<SIMPLE_IDENTIFIER> p<558> s<544> l<56:8> el<56:9>
           n<> u<544> t<Package_import_declaration_list> p<558> s<557> l<56:10> el<56:10>
           n<> u<557> t<Port_declaration_list> p<558> c<550> l<56:10> el<56:30>
@@ -609,7 +609,7 @@ n<$Source01/t_var_in_assign.v> u<629> t<Top_level_rule> c<1> l<5:1> el<65:1>
     n<> u<627> t<Description> p<628> c<626> l<62:1> el<64:10>
       n<> u<626> t<Module_declaration> p<627> c<609> l<62:1> el<64:10>
         n<> u<609> t<Module_ansi_header> p<626> c<593> s<624> l<62:1> el<62:31>
-          n<module> u<593> t<Module_keyword> p<609> s<594> l<62:1> el<62:7>
+          n<module> u<593> t<MODULE> p<609> s<594> l<62:1> el<62:7>
           n<z> u<594> t<SIMPLE_IDENTIFIER> p<609> s<595> l<62:8> el<62:9>
           n<> u<595> t<Package_import_declaration_list> p<609> s<608> l<62:10> el<62:10>
           n<> u<608> t<Port_declaration_list> p<609> c<601> l<62:10> el<62:30>
@@ -642,9 +642,11 @@ n<$Source01/t_var_in_assign.v> u<629> t<Top_level_rule> c<1> l<5:1> el<65:1>
                           n<i> u<615> t<SIMPLE_IDENTIFIER> p<616> l<63:16> el<63:17>
         n<> u<625> t<ENDMODULE> p<626> l<64:1> el<64:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_var_in_assign.v:5:1: Compile module "work@t".
-[INF:CP0303] $Source01/t_var_in_assign.v:56:1: Compile module "work@a".
-[INF:CP0303] $Source01/t_var_in_assign.v:62:1: Compile module "work@z".
+[INF:CP0303] $Source01/t_var_in_assign.v:5:1: Compile module "t".
+[INF:CP0303] $Source01/t_var_in_assign.v:56:1: Compile module "a".
+[NTE:CP0309] $Source01/t_var_in_assign.v:56:27: Implicit port type (wire) for "oa".
+[INF:CP0303] $Source01/t_var_in_assign.v:62:1: Compile module "z".
+[NTE:CP0309] $Source01/t_var_in_assign.v:62:27: Implicit port type (wire) for "oz".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -654,44 +656,81 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_var_in_assign.v
       vpiPreprocFile: "$Output/lib/work/t_var_in_assign.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:$Source01/t_var_in_assign.v start:5:1 end:54:10:
+    Module name:t file:$Source01/t_var_in_assign.v start:5:1 end:54:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:5:8 end:5:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:5:8 end:5:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:cyc start:11:13 end:11:16:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:11:4 end:11:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:11:17 end:11:18:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:v start:12:12 end:12:13:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:12:4 end:12:11:
+            vpiParent: Variable name:v
+            vpiFullName: t.v
+            vpiActual: IntegerTypespec
+          vpiName: v
+          vpiFullName: t.v
+        Variable name:i start:14:9 end:14:10:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:14:7:
+            vpiParent: Variable name:i
+            vpiFullName: t.i
+            vpiActual: LogicTypespec
+          vpiName: i
+          vpiFullName: t.i
+          vpiScalar: true
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
         IntegerTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiSigned: true
-        ModuleTypespec name:work@a start:21:4 end:21:5:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@a start:21:4 end:21:5:
-            vpiParent: ModuleTypespec name:work@a
-            vpiName: work@a
-        ModuleTypespec name:work@z start:22:4 end:22:5:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@z start:22:4 end:22:5:
-            vpiParent: ModuleTypespec name:work@z
-            vpiName: work@z
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+        ModuleTypespec name:a start:21:4 end:21:5:
+          vpiParent: Module name:t
+          vpiName Identifier name:a start:21:4 end:21:5:
+            vpiParent: ModuleTypespec name:a
+            vpiName: a
+          vpiModule: Module name:a
+        ModuleTypespec name:z start:22:4 end:22:5:
+          vpiParent: Module name:t
+          vpiName Identifier name:z start:22:4 end:22:5:
+            vpiParent: ModuleTypespec name:z
+            vpiName: z
+          vpiModule: Module name:z
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
       vpiTaskFunc (1 items):
         Function name:assignin start:49:4 end:52:15:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName Identifier name:assignin start:49:21 end:49:29:
             vpiParent: Function name:assignin
             vpiName: assignin
-          vpiFullName: work@t.assignin
+          vpiFullName: t.assignin
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:49:44 end:49:45:
@@ -700,11 +739,11 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:49:36 end:49:43:
                 vpiParent: IODecl name:i
-                vpiFullName: work@t.assignin.i
+                vpiFullName: t.assignin.i
                 vpiActual: IntegerTypespec
           vpiStmt Begin:
             vpiParent: Function name:assignin
-            vpiFullName: work@t.assignin
+            vpiFullName: t.assignin
             vpiTypespec (1 items):
               IntegerTypespec:
                 vpiParent: Begin
@@ -716,13 +755,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:i start:50:7 end:50:8:
                   vpiParent: Assignment
                   vpiName: i
-                  vpiFullName: work@t.assignin.i
+                  vpiFullName: t.assignin.i
                   vpiActual: IODecl name:i
                 vpiRhs Constant start:50:11 end:50:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t.assignin
+                    vpiFullName: t.assignin
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -734,95 +773,65 @@ Design name:unnamed:
                 vpiLhs RefObj name:assignin start:51:7 end:51:15:
                   vpiParent: Assignment
                   vpiName: assignin
-                  vpiFullName: work@t.assignin.assignin
+                  vpiFullName: t.assignin.assignin
                   vpiActual: Function name:assignin
                 vpiRhs RefObj name:i start:51:18 end:51:19:
                   vpiParent: Assignment
                   vpiName: i
-                  vpiFullName: work@t.assignin.i
+                  vpiFullName: t.assignin.i
                   vpiActual: IODecl name:i
           vpiReturn RefTypespec start:49:13 end:49:20:
             vpiParent: Function name:assignin
-            vpiFullName: work@t.assignin
+            vpiFullName: t.assignin
             vpiActual: IntegerTypespec
-      vpiNet (6 items):
+      vpiNet (3 items):
         Net name:clk start:9:10 end:9:13:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:9:10 end:9:10:
             vpiParent: Net name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@t.clk
-        Net name:cyc start:11:13 end:11:16:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:11:4 end:11:11:
-            vpiParent: Net name:cyc
-            vpiFullName: work@t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: work@t.cyc
-          vpiValue Constant start:11:17 end:11:18:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:v start:12:12 end:12:13:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:12:4 end:12:11:
-            vpiParent: Net name:v
-            vpiFullName: work@t.v
-            vpiActual: IntegerTypespec
-          vpiName: v
-          vpiFullName: work@t.v
-        Net name:i start:14:9 end:14:10:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:14:4 end:14:7:
-            vpiParent: Net name:i
-            vpiFullName: work@t.i
-            vpiActual: LogicTypespec
-          vpiName: i
-          vpiFullName: work@t.i
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:oa start:17:11 end:17:13:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:11 end:17:11:
             vpiParent: Net name:oa
-            vpiFullName: work@t.oa
+            vpiFullName: t.oa
             vpiActual: LogicTypespec
           vpiName: oa
-          vpiFullName: work@t.oa
+          vpiFullName: t.oa
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:oz start:18:11 end:18:13:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:11 end:18:11:
             vpiParent: Net name:oz
-            vpiFullName: work@t.oz
+            vpiFullName: t.oz
             vpiActual: LogicTypespec
           vpiName: oz
-          vpiFullName: work@t.oz
+          vpiFullName: t.oz
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:7:4 end:7:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:7:4 end:7:7:
+          vpiLowConn RefObj name:clk start:9:10 end:9:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@t.clk.clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:9:10 end:9:10:
             vpiParent: Port name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:24:4 end:47:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt EventControl start:24:11 end:47:7:
             vpiParent: Always
             vpiCondition Operation start:24:14 end:24:25:
@@ -832,19 +841,19 @@ Design name:unnamed:
                 RefObj name:clk start:24:22 end:24:25:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@t.clk
+                  vpiFullName: t.clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:24:27 end:47:7:
               vpiParent: EventControl
-              vpiFullName: work@t
+              vpiFullName: t
               vpiStmt (3 items):
                 Assignment start:28:7 end:28:21:
                   vpiParent: Begin
                   vpiLhs RefObj name:cyc start:28:7 end:28:10:
                     vpiParent: Assignment
                     vpiName: cyc
-                    vpiFullName: work@t.cyc
-                    vpiActual: Net name:cyc
+                    vpiFullName: t.cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:28:14 end:28:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -852,13 +861,13 @@ Design name:unnamed:
                       RefObj name:cyc start:28:14 end:28:17:
                         vpiParent: Operation
                         vpiName: cyc
-                        vpiFullName: work@t.cyc
-                        vpiActual: Net name:cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
                       Constant start:28:20 end:28:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -869,22 +878,22 @@ Design name:unnamed:
                   vpiLhs RefObj name:i start:29:7 end:29:8:
                     vpiParent: Assignment
                     vpiName: i
-                    vpiFullName: work@t.i
-                    vpiActual: Net name:i
+                    vpiFullName: t.i
+                    vpiActual: Variable name:i
                   vpiRhs BitSelect name:cyc[0] start:29:12 end:29:18:
                     vpiParent: Assignment
                     vpiName: cyc[0]
-                    vpiFullName: work@t.cyc[0]
+                    vpiFullName: t.cyc[0]
                     vpiPrefix RefObj name:cyc start:29:12 end:29:15:
                       vpiParent: BitSelect name:cyc[0]
                       vpiName: cyc
-                      vpiFullName: work@t.cyc
-                      vpiActual: Net name:cyc
+                      vpiFullName: t.cyc
+                      vpiActual: Variable name:cyc
                     vpiIndex Constant start:29:16 end:29:17:
                       vpiParent: BitSelect name:cyc[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t.cyc[0]
+                        vpiFullName: t.cyc[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -899,13 +908,13 @@ Design name:unnamed:
                       RefObj name:cyc start:30:11 end:30:14:
                         vpiParent: Operation
                         vpiName: cyc
-                        vpiFullName: work@t.cyc
-                        vpiActual: Net name:cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
                       Constant start:30:16 end:30:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -913,7 +922,7 @@ Design name:unnamed:
                         vpiValue: 0
                   vpiStmt Begin start:30:19 end:35:10:
                     vpiParent: IfElse
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (4 items):
                       Assignment start:31:3 end:31:8:
                         vpiParent: Begin
@@ -921,13 +930,13 @@ Design name:unnamed:
                         vpiLhs RefObj name:v start:31:3 end:31:4:
                           vpiParent: Assignment
                           vpiName: v
-                          vpiFullName: work@t.v
-                          vpiActual: Net name:v
+                          vpiFullName: t.v
+                          vpiActual: Variable name:v
                         vpiRhs Constant start:31:7 end:31:8:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -942,13 +951,13 @@ Design name:unnamed:
                             RefObj name:v start:32:7 end:32:8:
                               vpiParent: Operation
                               vpiName: v
-                              vpiFullName: work@t.v
-                              vpiActual: Net name:v
+                              vpiFullName: t.v
+                              vpiActual: Variable name:v
                             Constant start:32:13 end:32:14:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -975,13 +984,13 @@ Design name:unnamed:
                                 RefObj name:v start:33:16 end:33:17:
                                   vpiParent: FuncCall name:assignin
                                   vpiName: v
-                                  vpiFullName: work@t.v
-                                  vpiActual: Net name:v
+                                  vpiFullName: t.v
+                                  vpiActual: Variable name:v
                             Constant start:33:23 end:33:24:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -1001,13 +1010,13 @@ Design name:unnamed:
                             RefObj name:v start:34:7 end:34:8:
                               vpiParent: Operation
                               vpiName: v
-                              vpiFullName: work@t.v
-                              vpiActual: Net name:v
+                              vpiFullName: t.v
+                              vpiActual: Variable name:v
                             Constant start:34:13 end:34:14:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -1027,13 +1036,13 @@ Design name:unnamed:
                         RefObj name:cyc start:36:16 end:36:19:
                           vpiParent: Operation
                           vpiName: cyc
-                          vpiFullName: work@t.cyc
-                          vpiActual: Net name:cyc
+                          vpiFullName: t.cyc
+                          vpiActual: Variable name:cyc
                         Constant start:36:20 end:36:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -1041,7 +1050,7 @@ Design name:unnamed:
                           vpiValue: 10
                     vpiStmt Begin start:36:24 end:40:10:
                       vpiParent: IfElse
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiTypespec (1 items):
                         BitTypespec:
                           vpiParent: Begin
@@ -1059,13 +1068,13 @@ Design name:unnamed:
                                   RefObj name:cyc start:37:7 end:37:10:
                                     vpiParent: Operation
                                     vpiName: cyc
-                                    vpiFullName: work@t.cyc
-                                    vpiActual: Net name:cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
                                   Constant start:37:12 end:37:14:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t
+                                      vpiFullName: t
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -1078,13 +1087,13 @@ Design name:unnamed:
                                   RefObj name:oz start:37:18 end:37:20:
                                     vpiParent: Operation
                                     vpiName: oz
-                                    vpiFullName: work@t.oz
+                                    vpiFullName: t.oz
                                     vpiActual: Net name:oz
                                   Constant start:37:23 end:37:27:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t
+                                      vpiFullName: t
                                       vpiActual: BitTypespec
                                     vpiConstType: binary (3)
                                     vpiSize: 1
@@ -1108,13 +1117,13 @@ Design name:unnamed:
                                   RefObj name:cyc start:38:7 end:38:10:
                                     vpiParent: Operation
                                     vpiName: cyc
-                                    vpiFullName: work@t.cyc
-                                    vpiActual: Net name:cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
                                   Constant start:38:12 end:38:14:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t
+                                      vpiFullName: t
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -1127,13 +1136,13 @@ Design name:unnamed:
                                   RefObj name:oz start:38:18 end:38:20:
                                     vpiParent: Operation
                                     vpiName: oz
-                                    vpiFullName: work@t.oz
+                                    vpiFullName: t.oz
                                     vpiActual: Net name:oz
                                   Constant start:38:23 end:38:27:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t
+                                      vpiFullName: t
                                       vpiActual: BitTypespec
                                     vpiConstType: binary (3)
                                     vpiSize: 1
@@ -1157,13 +1166,13 @@ Design name:unnamed:
                                   RefObj name:cyc start:39:7 end:39:10:
                                     vpiParent: Operation
                                     vpiName: cyc
-                                    vpiFullName: work@t.cyc
-                                    vpiActual: Net name:cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
                                   Constant start:39:12 end:39:14:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t
+                                      vpiFullName: t
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -1176,13 +1185,13 @@ Design name:unnamed:
                                   RefObj name:oa start:39:18 end:39:20:
                                     vpiParent: Operation
                                     vpiName: oa
-                                    vpiFullName: work@t.oa
+                                    vpiFullName: t.oa
                                     vpiActual: Net name:oa
                                   Constant start:39:23 end:39:27:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t
+                                      vpiFullName: t
                                       vpiActual: BitTypespec
                                     vpiConstType: binary (3)
                                     vpiSize: 1
@@ -1202,13 +1211,13 @@ Design name:unnamed:
                           RefObj name:cyc start:41:16 end:41:19:
                             vpiParent: Operation
                             vpiName: cyc
-                            vpiFullName: work@t.cyc
-                            vpiActual: Net name:cyc
+                            vpiFullName: t.cyc
+                            vpiActual: Variable name:cyc
                           Constant start:41:20 end:41:22:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1216,7 +1225,7 @@ Design name:unnamed:
                             vpiValue: 90
                       vpiStmt Begin start:41:24 end:42:10:
                         vpiParent: IfElse
-                        vpiFullName: work@t
+                        vpiFullName: t
                       vpiElseStmt IfStmt start:43:12 end:46:10:
                         vpiParent: IfElse
                         vpiCondition Operation start:43:16 end:43:23:
@@ -1226,13 +1235,13 @@ Design name:unnamed:
                             RefObj name:cyc start:43:16 end:43:19:
                               vpiParent: Operation
                               vpiName: cyc
-                              vpiFullName: work@t.cyc
-                              vpiActual: Net name:cyc
+                              vpiFullName: t.cyc
+                              vpiActual: Variable name:cyc
                             Constant start:43:21 end:43:23:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -1240,7 +1249,7 @@ Design name:unnamed:
                               vpiValue: 99
                         vpiStmt Begin start:43:25 end:46:10:
                           vpiParent: IfStmt
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiStmt (2 items):
                             SysTaskCall name:$write start:44:3 end:44:35:
                               vpiParent: Begin
@@ -1252,7 +1261,7 @@ Design name:unnamed:
                                   vpiParent: SysTaskCall name:$write
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: work@t
+                                    vpiFullName: t
                                     vpiActual: StringTypespec
                                   vpiConstType: string (6)
                                   vpiSize: 168
@@ -1266,228 +1275,236 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiRefInstance (2 items):
         RefInstance name:a start:21:6 end:21:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: a
-          vpiTypespec RefTypespec name:work@a start:21:4 end:21:5:
+          vpiTypespec RefTypespec name:a start:21:4 end:21:5:
             vpiParent: RefInstance name:a
-            vpiName: work@a
-            vpiFullName: work@t.a.work@a
-            vpiActual: ModuleTypespec name:work@a
+            vpiName: a
+            vpiFullName: t.a.a
+            vpiActual: ModuleTypespec name:a
           vpiPort (1 items):
             Port start:21:9 end:21:11:
               vpiParent: RefInstance name:a
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@t.a
+                vpiFullName: t.a
         RefInstance name:z start:22:6 end:22:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: z
-          vpiTypespec RefTypespec name:work@z start:22:4 end:22:5:
+          vpiTypespec RefTypespec name:z start:22:4 end:22:5:
             vpiParent: RefInstance name:z
-            vpiName: work@z
-            vpiFullName: work@t.z.work@z
-            vpiActual: ModuleTypespec name:work@z
+            vpiName: z
+            vpiFullName: t.z.z
+            vpiActual: ModuleTypespec name:z
           vpiPort (1 items):
             Port start:22:9 end:22:11:
               vpiParent: RefInstance name:z
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@t.z
-    Module name:work@a file:$Source01/t_var_in_assign.v start:56:1 end:60:10:
+                vpiFullName: t.z
+    Module name:a file:$Source01/t_var_in_assign.v start:56:1 end:60:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@a start:56:8 end:56:9:
-        vpiParent: Module name:work@a
-        vpiName: work@a
-      vpiFullName: work@a
+      vpiName Identifier name:a start:56:8 end:56:9:
+        vpiParent: Module name:a
+        vpiName: a
+      vpiFullName: a
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
         BitTypespec:
-          vpiParent: Module name:work@a
-      vpiDefName: work@a
-      vpiDefNetType: none (12)
+          vpiParent: Module name:a
+      vpiDefName: a
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@a
+        vpiParent: Module name:a
         vpiName: work
-        vpiFullName: work@a.work
+        vpiFullName: a.work
       vpiCell: a
       vpiNet (2 items):
         Net name:i start:56:17 end:56:18:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiTypespec RefTypespec start:56:11 end:56:16:
             vpiParent: Net name:i
-            vpiFullName: work@a.i
+            vpiFullName: a.i
             vpiActual: LogicTypespec
           vpiName: i
-          vpiFullName: work@a.i
+          vpiFullName: a.i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:oa start:56:27 end:56:29:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiTypespec RefTypespec start:56:20 end:56:26:
             vpiParent: Net name:oa
-            vpiFullName: work@a.oa
+            vpiFullName: a.oa
             vpiActual: LogicTypespec
           vpiName: oa
-          vpiFullName: work@a.oa
+          vpiFullName: a.oa
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:56:17 end:56:18:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiName: i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:56:17 end:56:18:
+          vpiLowConn RefObj name:i start:56:17 end:56:18:
             vpiParent: Port name:i
-            vpiFullName: work@a.i
+            vpiName: i
+            vpiFullName: a.i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec start:56:11 end:56:16:
             vpiParent: Port name:i
-            vpiFullName: work@a.i
+            vpiFullName: a.i
             vpiActual: LogicTypespec
         Port name:oa start:56:27 end:56:29:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiName: oa
           vpiDirection: output (2)
-          vpiLowConn RefObj start:56:27 end:56:29:
+          vpiLowConn RefObj name:oa start:56:27 end:56:29:
             vpiParent: Port name:oa
-            vpiFullName: work@a.oa
+            vpiName: oa
+            vpiFullName: a.oa.oa
             vpiActual: Net name:oa
           vpiTypespec RefTypespec start:56:20 end:56:26:
             vpiParent: Port name:oa
-            vpiFullName: work@a.oa
+            vpiFullName: a.oa
             vpiActual: LogicTypespec
       vpiContAssign (2 items):
         ContAssign start:58:11 end:58:19:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiLhs RefObj name:i start:58:11 end:58:12:
             vpiParent: ContAssign
             vpiName: i
-            vpiFullName: work@a.i
+            vpiFullName: a.i
             vpiActual: Net name:i
           vpiRhs Constant start:58:15 end:58:19:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@a
+              vpiFullName: a
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
             vpiValue: "1"
         ContAssign start:59:11 end:59:17:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiLhs RefObj name:oa start:59:11 end:59:13:
             vpiParent: ContAssign
             vpiName: oa
-            vpiFullName: work@a.oa
+            vpiFullName: a.oa
             vpiActual: Net name:oa
           vpiRhs RefObj name:i start:59:16 end:59:17:
             vpiParent: ContAssign
             vpiName: i
-            vpiFullName: work@a.i
+            vpiFullName: a.i
             vpiActual: Net name:i
-    Module name:work@z file:$Source01/t_var_in_assign.v start:62:1 end:64:10:
+    Module name:z file:$Source01/t_var_in_assign.v start:62:1 end:64:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@z start:62:8 end:62:9:
-        vpiParent: Module name:work@z
-        vpiName: work@z
-      vpiFullName: work@z
+      vpiName Identifier name:z start:62:8 end:62:9:
+        vpiParent: Module name:z
+        vpiName: z
+      vpiFullName: z
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@z
-      vpiDefName: work@z
-      vpiDefNetType: none (12)
+          vpiParent: Module name:z
+      vpiDefName: z
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@z
+        vpiParent: Module name:z
         vpiName: work
-        vpiFullName: work@z.work
+        vpiFullName: z.work
       vpiCell: z
       vpiNet (2 items):
         Net name:i start:62:17 end:62:18:
-          vpiParent: Module name:work@z
+          vpiParent: Module name:z
           vpiTypespec RefTypespec start:62:11 end:62:16:
             vpiParent: Net name:i
-            vpiFullName: work@z.i
+            vpiFullName: z.i
             vpiActual: LogicTypespec
           vpiName: i
-          vpiFullName: work@z.i
+          vpiFullName: z.i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:oz start:62:27 end:62:29:
-          vpiParent: Module name:work@z
+          vpiParent: Module name:z
           vpiTypespec RefTypespec start:62:20 end:62:26:
             vpiParent: Net name:oz
-            vpiFullName: work@z.oz
+            vpiFullName: z.oz
             vpiActual: LogicTypespec
           vpiName: oz
-          vpiFullName: work@z.oz
+          vpiFullName: z.oz
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:62:17 end:62:18:
-          vpiParent: Module name:work@z
+          vpiParent: Module name:z
           vpiName: i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:62:17 end:62:18:
+          vpiLowConn RefObj name:i start:62:17 end:62:18:
             vpiParent: Port name:i
-            vpiFullName: work@z.i
+            vpiName: i
+            vpiFullName: z.i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec start:62:11 end:62:16:
             vpiParent: Port name:i
-            vpiFullName: work@z.i
+            vpiFullName: z.i
             vpiActual: LogicTypespec
         Port name:oz start:62:27 end:62:29:
-          vpiParent: Module name:work@z
+          vpiParent: Module name:z
           vpiName: oz
           vpiDirection: output (2)
-          vpiLowConn RefObj start:62:27 end:62:29:
+          vpiLowConn RefObj name:oz start:62:27 end:62:29:
             vpiParent: Port name:oz
-            vpiFullName: work@z.oz
+            vpiName: oz
+            vpiFullName: z.oz.oz
             vpiActual: Net name:oz
           vpiTypespec RefTypespec start:62:20 end:62:26:
             vpiParent: Port name:oz
-            vpiFullName: work@z.oz
+            vpiFullName: z.oz
             vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:63:11 end:63:17:
-          vpiParent: Module name:work@z
+          vpiParent: Module name:z
           vpiLhs RefObj name:oz start:63:11 end:63:13:
             vpiParent: ContAssign
             vpiName: oz
-            vpiFullName: work@z.oz
+            vpiFullName: z.oz
             vpiActual: Net name:oz
           vpiRhs RefObj name:i start:63:16 end:63:17:
             vpiParent: ContAssign
             vpiName: i
-            vpiFullName: work@z.i
+            vpiFullName: z.i
             vpiActual: Net name:i
   vpiTypespec (5 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:5:8 end:5:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:5:8 end:5:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@a:
+    ModuleTypespec name:a:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@a start:56:8 end:56:9:
-        vpiParent: ModuleTypespec name:work@a
-        vpiName: work@a
-      vpiModule: Module name:work@a
-    ModuleTypespec name:work@z:
+      vpiName Identifier name:a start:56:8 end:56:9:
+        vpiParent: ModuleTypespec name:a
+        vpiName: a
+      vpiModule: Module name:a
+    ModuleTypespec name:z:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@z start:62:8 end:62:9:
-        vpiParent: ModuleTypespec name:work@z
-        vpiName: work@z
-      vpiModule: Module name:work@z
+      vpiName Identifier name:z start:62:8 end:62:9:
+        vpiParent: ModuleTypespec name:z
+        vpiName: z
+      vpiModule: Module name:z
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

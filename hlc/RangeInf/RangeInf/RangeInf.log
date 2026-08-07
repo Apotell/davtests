@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<192> t<Top_level_rule> c<1> l<1:1> el<13:1>
     n<> u<190> t<Description> p<191> c<189> l<1:1> el<10:10>
       n<> u<189> t<Module_declaration> p<190> c<36> l<1:1> el<10:10>
         n<> u<36> t<Module_nonansi_header> p<189> c<2> s<54> l<1:1> el<1:36>
-          n<module> u<2> t<Module_keyword> p<36> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<36> s<3> l<1:1> el<1:7>
           n<FullAdder> u<3> t<SIMPLE_IDENTIFIER> p<36> s<4> l<1:8> el<1:17>
           n<> u<4> t<Package_import_declaration_list> p<36> s<35> l<1:17> el<1:17>
           n<> u<35> t<Port_list> p<36> c<10> l<1:17> el<1:35>
@@ -468,9 +468,9 @@ n<$Source01/dut.sv> u<192> t<Top_level_rule> c<1> l<1:1> el<13:1>
                                       n<4> u<172> t<INTEGRAL_NUMBER> p<173> l<9:21> el<9:22>
         n<> u<188> t<ENDMODULE> p<189> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@FullAdder".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "FullAdder".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@FullAdder".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "FullAdder".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -479,7 +479,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2046,6 +2045,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2057,6 +2057,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2088,6 +2089,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2102,6 +2104,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2123,6 +2126,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2146,6 +2150,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2165,6 +2170,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2188,6 +2194,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2207,6 +2214,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2276,16 +2284,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2298,6 +2309,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2309,6 +2321,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2316,6 +2329,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2323,6 +2337,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2330,6 +2345,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2343,6 +2359,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2354,6 +2371,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2385,6 +2403,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2411,6 +2430,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2437,6 +2457,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2462,15 +2483,15 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@FullAdder file:$Source01/dut.sv start:1:1 end:10:10:
+    Module name:FullAdder file:$Source01/dut.sv start:1:1 end:10:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@FullAdder start:1:8 end:1:17:
-        vpiParent: Module name:work@FullAdder
-        vpiName: work@FullAdder
-      vpiFullName: work@FullAdder
+      vpiName Identifier name:FullAdder start:1:8 end:1:17:
+        vpiParent: Module name:FullAdder
+        vpiName: FullAdder
+      vpiFullName: FullAdder
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiRange (1 items):
             Range start:2:10 end:2:15:
               vpiParent: LogicTypespec
@@ -2478,7 +2499,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@FullAdder
+                  vpiFullName: FullAdder
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2488,7 +2509,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@FullAdder
+                  vpiFullName: FullAdder
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2496,9 +2517,9 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
         LogicTypespec:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiRange (1 items):
             Range start:4:16 end:4:21:
               vpiParent: LogicTypespec
@@ -2506,7 +2527,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@FullAdder
+                  vpiFullName: FullAdder
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2516,7 +2537,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@FullAdder
+                  vpiFullName: FullAdder
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2524,7 +2545,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiRange (1 items):
             Range start:6:9 end:6:14:
               vpiParent: LogicTypespec
@@ -2532,7 +2553,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@FullAdder
+                  vpiFullName: FullAdder
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2542,145 +2563,154 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@FullAdder
+                  vpiFullName: FullAdder
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@FullAdder
-      vpiDefNetType: none (12)
+      vpiDefName: FullAdder
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@FullAdder
+        vpiParent: Module name:FullAdder
         vpiName: work
-        vpiFullName: work@FullAdder.work
+        vpiFullName: FullAdder.work
       vpiCell: FullAdder
       vpiNet (6 items):
         Net name:A start:2:15 end:2:16:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiTypespec RefTypespec start:2:10 end:2:15:
             vpiParent: Net name:A
-            vpiFullName: work@FullAdder.A
+            vpiFullName: FullAdder.A
             vpiActual: LogicTypespec
           vpiName: A
-          vpiFullName: work@FullAdder.A
+          vpiFullName: FullAdder.A
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:B start:2:17 end:2:18:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiTypespec RefTypespec start:2:10 end:2:15:
             vpiParent: Net name:B
-            vpiFullName: work@FullAdder.B
+            vpiFullName: FullAdder.B
             vpiActual: LogicTypespec
           vpiName: B
-          vpiFullName: work@FullAdder.B
+          vpiFullName: FullAdder.B
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:Cin start:3:10 end:3:13:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:Cin
-            vpiFullName: work@FullAdder.Cin
+            vpiFullName: FullAdder.Cin
             vpiActual: LogicTypespec
           vpiName: Cin
-          vpiFullName: work@FullAdder.Cin
+          vpiFullName: FullAdder.Cin
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:Sum start:4:21 end:4:24:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiTypespec RefTypespec start:4:11 end:4:21:
             vpiParent: Net name:Sum
-            vpiFullName: work@FullAdder.Sum
+            vpiFullName: FullAdder.Sum
             vpiActual: LogicTypespec
           vpiName: Sum
-          vpiFullName: work@FullAdder.Sum
+          vpiFullName: FullAdder.Sum
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:Cout start:5:16 end:5:20:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiTypespec RefTypespec start:5:11 end:5:15:
             vpiParent: Net name:Cout
-            vpiFullName: work@FullAdder.Cout
+            vpiFullName: FullAdder.Cout
             vpiActual: LogicTypespec
           vpiName: Cout
-          vpiFullName: work@FullAdder.Cout
+          vpiFullName: FullAdder.Cout
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:temp start:6:14 end:6:18:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiTypespec RefTypespec start:6:9 end:6:14:
             vpiParent: Net name:temp
-            vpiFullName: work@FullAdder.temp
+            vpiFullName: FullAdder.temp
             vpiActual: LogicTypespec
           vpiName: temp
-          vpiFullName: work@FullAdder.temp
+          vpiFullName: FullAdder.temp
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (5 items):
         Port name:A start:1:18 end:1:19:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj name:A start:1:18 end:1:19:
+          vpiLowConn RefObj name:A start:2:15 end:2:16:
             vpiParent: Port name:A
             vpiName: A
-            vpiFullName: work@FullAdder.A.A
+            vpiFullName: FullAdder.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:2:10 end:2:15:
             vpiParent: Port name:A
-            vpiFullName: work@FullAdder.A
+            vpiFullName: FullAdder.A
             vpiActual: LogicTypespec
         Port name:B start:1:20 end:1:21:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj name:B start:1:20 end:1:21:
+          vpiLowConn RefObj name:B start:2:17 end:2:18:
             vpiParent: Port name:B
             vpiName: B
-            vpiFullName: work@FullAdder.B.B
+            vpiFullName: FullAdder.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:2:10 end:2:15:
             vpiParent: Port name:B
-            vpiFullName: work@FullAdder.B
+            vpiFullName: FullAdder.B
             vpiActual: LogicTypespec
         Port name:Cin start:1:22 end:1:25:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiName: Cin
           vpiDirection: input (1)
-          vpiLowConn RefObj name:Cin start:1:22 end:1:25:
+          vpiLowConn RefObj name:Cin start:3:10 end:3:13:
             vpiParent: Port name:Cin
             vpiName: Cin
-            vpiFullName: work@FullAdder.Cin.Cin
+            vpiFullName: FullAdder.Cin.Cin
             vpiActual: Net name:Cin
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:Cin
-            vpiFullName: work@FullAdder.Cin
+            vpiFullName: FullAdder.Cin
             vpiActual: LogicTypespec
         Port name:Sum start:1:26 end:1:29:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiName: Sum
           vpiDirection: output (2)
-          vpiLowConn RefObj name:Sum start:1:26 end:1:29:
+          vpiLowConn RefObj name:Sum start:4:21 end:4:24:
             vpiParent: Port name:Sum
             vpiName: Sum
-            vpiFullName: work@FullAdder.Sum.Sum
+            vpiFullName: FullAdder.Sum.Sum
             vpiActual: Net name:Sum
           vpiTypespec RefTypespec start:4:11 end:4:21:
             vpiParent: Port name:Sum
-            vpiFullName: work@FullAdder.Sum
+            vpiFullName: FullAdder.Sum
             vpiActual: LogicTypespec
         Port name:Cout start:1:30 end:1:34:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiName: Cout
           vpiDirection: output (2)
-          vpiLowConn RefObj name:Cout start:1:30 end:1:34:
+          vpiLowConn RefObj name:Cout start:5:16 end:5:20:
             vpiParent: Port name:Cout
             vpiName: Cout
-            vpiFullName: work@FullAdder.Cout.Cout
+            vpiFullName: FullAdder.Cout.Cout
             vpiActual: Net name:Cout
           vpiTypespec RefTypespec start:5:11 end:5:15:
             vpiParent: Port name:Cout
-            vpiFullName: work@FullAdder.Cout
+            vpiFullName: FullAdder.Cout
             vpiActual: LogicTypespec
       vpiContAssign (3 items):
         ContAssign start:7:11 end:7:23:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiLhs RefObj name:temp start:7:11 end:7:15:
             vpiParent: ContAssign
             vpiName: temp
-            vpiFullName: work@FullAdder.temp
+            vpiFullName: FullAdder.temp
             vpiActual: Net name:temp
           vpiRhs Operation start:7:16 end:7:23:
             vpiParent: ContAssign
@@ -2693,33 +2723,33 @@ Design name:unnamed:
                   RefObj name:A start:7:16 end:7:17:
                     vpiParent: Operation
                     vpiName: A
-                    vpiFullName: work@FullAdder.A
+                    vpiFullName: FullAdder.A
                     vpiActual: Net name:A
                   RefObj name:B start:7:18 end:7:19:
                     vpiParent: Operation
                     vpiName: B
-                    vpiFullName: work@FullAdder.B
+                    vpiFullName: FullAdder.B
                     vpiActual: Net name:B
               RefObj name:Cin start:7:20 end:7:23:
                 vpiParent: Operation
                 vpiName: Cin
-                vpiFullName: work@FullAdder.Cin
+                vpiFullName: FullAdder.Cin
                 vpiActual: Net name:Cin
         ContAssign start:8:11 end:8:24:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiLhs RefObj name:Sum start:8:11 end:8:14:
             vpiParent: ContAssign
             vpiName: Sum
-            vpiFullName: work@FullAdder.Sum
+            vpiFullName: FullAdder.Sum
             vpiActual: Net name:Sum
           vpiRhs PartSelect name:temp[3:0] start:8:15 end:8:24:
             vpiParent: ContAssign
             vpiName: temp[3:0]
-            vpiFullName: work@FullAdder.temp[3:0]
+            vpiFullName: FullAdder.temp[3:0]
             vpiPrefix RefObj name:temp start:8:15 end:8:19:
               vpiParent: PartSelect name:temp[3:0]
               vpiName: temp
-              vpiFullName: work@FullAdder.temp[3:0].temp
+              vpiFullName: FullAdder.temp[3:0].temp
               vpiActual: Net name:temp
             vpiRange Range start:8:20 end:8:23:
               vpiParent: PartSelect name:temp[3:0]
@@ -2727,7 +2757,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@FullAdder.temp[3:0]
+                  vpiFullName: FullAdder.temp[3:0]
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2737,33 +2767,33 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@FullAdder.temp[3:0]
+                  vpiFullName: FullAdder.temp[3:0]
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
         ContAssign start:9:11 end:9:23:
-          vpiParent: Module name:work@FullAdder
+          vpiParent: Module name:FullAdder
           vpiLhs RefObj name:Cout start:9:11 end:9:15:
             vpiParent: ContAssign
             vpiName: Cout
-            vpiFullName: work@FullAdder.Cout
+            vpiFullName: FullAdder.Cout
             vpiActual: Net name:Cout
           vpiRhs BitSelect name:temp[4] start:9:16 end:9:23:
             vpiParent: ContAssign
             vpiName: temp[4]
-            vpiFullName: work@FullAdder.temp[4]
+            vpiFullName: FullAdder.temp[4]
             vpiPrefix RefObj name:temp start:9:16 end:9:20:
               vpiParent: BitSelect name:temp[4]
               vpiName: temp
-              vpiFullName: work@FullAdder.temp
+              vpiFullName: FullAdder.temp
               vpiActual: Net name:temp
             vpiIndex Constant start:9:21 end:9:22:
               vpiParent: BitSelect name:temp[4]
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@FullAdder.temp[4]
+                vpiFullName: FullAdder.temp[4]
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2784,25 +2814,28 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@FullAdder:
+    ModuleTypespec name:FullAdder:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@FullAdder start:1:8 end:1:17:
-        vpiParent: ModuleTypespec name:work@FullAdder
-        vpiName: work@FullAdder
-      vpiModule: Module name:work@FullAdder
+      vpiName Identifier name:FullAdder start:1:8 end:1:17:
+        vpiParent: ModuleTypespec name:FullAdder
+        vpiName: FullAdder
+      vpiModule: Module name:FullAdder
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

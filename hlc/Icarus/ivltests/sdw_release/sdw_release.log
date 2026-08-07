@@ -46,7 +46,7 @@ n<$Source01/sdw_release.v> u<223> t<Top_level_rule> c<1> l<30:1> el<62:1>
     n<> u<221> t<Description> p<222> c<220> l<30:1> el<61:10>
       n<> u<220> t<Module_declaration> p<221> c<34> l<30:1> el<61:10>
         n<> u<34> t<Module_nonansi_header> p<220> c<30> s<47> l<30:1> el<30:16>
-          n<module> u<30> t<Module_keyword> p<34> s<31> l<30:1> el<30:7>
+          n<module> u<30> t<MODULE> p<34> s<31> l<30:1> el<30:7>
           n<main> u<31> t<SIMPLE_IDENTIFIER> p<34> s<32> l<30:8> el<30:12>
           n<> u<32> t<Package_import_declaration_list> p<34> s<33> l<30:13> el<30:13>
           n<> u<33> t<Port_list> p<34> l<30:13> el<30:15>
@@ -236,7 +236,7 @@ n<$Source01/sdw_release.v> u<223> t<Top_level_rule> c<1> l<30:1> el<62:1>
                           n<> u<209> t<END> p<210> l<59:3> el<59:6>
         n<> u<219> t<ENDMODULE> p<220> l<61:1> el<61:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/sdw_release.v:30:1: Compile module "work@main".
+[INF:CP0303] $Source01/sdw_release.v:30:1: Compile module "main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -246,67 +246,68 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: sdw_release.v
       vpiPreprocFile: "$Output/lib/work/sdw_release.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:$Source01/sdw_release.v start:30:1 end:61:10:
+    Module name:main file:$Source01/sdw_release.v start:30:1 end:61:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:30:8 end:30:12:
-        vpiParent: Module name:work@main
-        vpiName: work@main
-      vpiFullName: work@main
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: Module name:work@main
-      vpiDefName: work@main
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@main
-        vpiName: work
-        vpiFullName: work@main.work
-      vpiCell: main
-      vpiNet (2 items):
-        Net name:working start:32:5 end:32:12:
-          vpiParent: Module name:work@main
+      vpiName Identifier name:main start:30:8 end:30:12:
+        vpiParent: Module name:main
+        vpiName: main
+      vpiFullName: main
+      vpiVariable (2 items):
+        Variable name:working start:32:5 end:32:12:
+          vpiParent: Module name:main
           vpiTypespec RefTypespec start:32:1 end:32:4:
-            vpiParent: Net name:working
-            vpiFullName: work@main.working
+            vpiParent: Variable name:working
+            vpiFullName: main.working
             vpiActual: LogicTypespec
           vpiName: working
-          vpiFullName: work@main.working
-        Net name:timer start:33:5 end:33:10:
-          vpiParent: Module name:work@main
+          vpiFullName: main.working
+          vpiScalar: true
+        Variable name:timer start:33:5 end:33:10:
+          vpiParent: Module name:main
           vpiTypespec RefTypespec start:33:1 end:33:4:
-            vpiParent: Net name:timer
-            vpiFullName: work@main.timer
+            vpiParent: Variable name:timer
+            vpiFullName: main.timer
             vpiActual: LogicTypespec
           vpiName: timer
-          vpiFullName: work@main.timer
+          vpiFullName: main.timer
+          vpiScalar: true
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:main
+      vpiDefName: main
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:main
+        vpiName: work
+        vpiFullName: main.work
+      vpiCell: main
       vpiProcess (4 items):
         Initial start:35:1 end:36:15:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Assignment start:36:3 end:36:14:
             vpiParent: Initial
             vpiBlocking: true
             vpiLhs RefObj name:working start:36:3 end:36:10:
               vpiParent: Assignment
               vpiName: working
-              vpiFullName: work@main.working
-              vpiActual: Net name:working
+              vpiFullName: main.working
+              vpiActual: Variable name:working
             vpiRhs Constant start:36:13 end:36:14:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@main
+                vpiFullName: main
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
         Initial start:38:1 end:42:6:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Begin start:39:3 end:42:6:
             vpiParent: Initial
-            vpiFullName: work@main
+            vpiFullName: main
             vpiStmt (2 items):
               DelayControl start:40:5 end:40:7:
                 vpiParent: Begin
@@ -314,7 +315,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -325,23 +326,23 @@ Design name:unnamed:
                 vpiLhs RefObj name:working start:41:11 end:41:18:
                   vpiParent: Force
                   vpiName: working
-                  vpiFullName: work@main.working
-                  vpiActual: Net name:working
+                  vpiFullName: main.working
+                  vpiActual: Variable name:working
                 vpiRhs Constant start:41:21 end:41:22:
                   vpiParent: Force
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
         Initial start:44:1 end:50:6:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Begin start:45:3 end:50:6:
             vpiParent: Initial
-            vpiFullName: work@main
+            vpiFullName: main
             vpiStmt (4 items):
               DelayControl start:46:5 end:46:8:
                 vpiParent: Begin
@@ -349,7 +350,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -360,15 +361,15 @@ Design name:unnamed:
                 vpiLhs RefObj name:working start:47:13 end:47:20:
                   vpiParent: Release
                   vpiName: working
-                  vpiFullName: work@main.working
-                  vpiActual: Net name:working
+                  vpiFullName: main.working
+                  vpiActual: Variable name:working
               DelayControl start:48:5 end:48:7:
                 vpiParent: Begin
                 vpiDelay Constant start:48:6 end:48:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -380,23 +381,23 @@ Design name:unnamed:
                 vpiLhs RefObj name:working start:49:5 end:49:12:
                   vpiParent: Assignment
                   vpiName: working
-                  vpiFullName: work@main.working
-                  vpiActual: Net name:working
+                  vpiFullName: main.working
+                  vpiActual: Variable name:working
                 vpiRhs Constant start:49:15 end:49:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
         Initial start:52:1 end:59:6:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Begin start:53:3 end:59:6:
             vpiParent: Initial
-            vpiFullName: work@main
+            vpiFullName: main
             vpiStmt (2 items):
               DelayControl start:54:5 end:54:8:
                 vpiParent: Begin
@@ -404,7 +405,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -419,8 +420,8 @@ Design name:unnamed:
                     RefObj name:working start:55:9 end:55:16:
                       vpiParent: Operation
                       vpiName: working
-                      vpiFullName: work@main.working
-                      vpiActual: Net name:working
+                      vpiFullName: main.working
+                      vpiActual: Variable name:working
                 vpiStmt SysTaskCall name:$display start:56:9 end:56:29:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:56:9 end:56:17:
@@ -431,7 +432,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 56
@@ -447,19 +448,19 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 56
                       vpiDecompile: "\"PASSED\\n\""
                       vpiValue: PASSED\n
   vpiTypespec (3 items):
-    ModuleTypespec name:work@main:
+    ModuleTypespec name:main:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:30:8 end:30:12:
-        vpiParent: ModuleTypespec name:work@main
-        vpiName: work@main
-      vpiModule: Module name:work@main
+      vpiName Identifier name:main start:30:8 end:30:12:
+        vpiParent: ModuleTypespec name:main
+        vpiName: main
+      vpiModule: Module name:main
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

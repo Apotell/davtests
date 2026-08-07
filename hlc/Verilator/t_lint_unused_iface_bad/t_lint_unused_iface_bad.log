@@ -45,7 +45,7 @@ n<$Source01/t_lint_unused_iface_bad.v> u<108> t<Top_level_rule> c<1> l<6:1> el<2
     n<> u<69> t<Description> p<107> c<68> s<106> l<11:1> el<17:10>
       n<> u<68> t<Module_declaration> p<69> c<40> l<11:1> el<17:10>
         n<> u<40> t<Module_ansi_header> p<68> c<29> s<66> l<11:1> el<14:6>
-          n<module> u<29> t<Module_keyword> p<40> s<30> l<11:1> el<11:7>
+          n<module> u<29> t<MODULE> p<40> s<30> l<11:1> el<11:7>
           n<sub> u<30> t<SIMPLE_IDENTIFIER> p<40> s<31> l<11:8> el<11:11>
           n<> u<31> t<Package_import_declaration_list> p<40> s<39> l<12:3> el<12:3>
           n<> u<39> t<Port_declaration_list> p<40> c<38> l<12:3> el<14:5>
@@ -86,7 +86,7 @@ n<$Source01/t_lint_unused_iface_bad.v> u<108> t<Top_level_rule> c<1> l<6:1> el<2
     n<> u<106> t<Description> p<107> c<105> l<20:1> el<28:10>
       n<> u<105> t<Module_declaration> p<106> c<75> l<20:1> el<28:10>
         n<> u<75> t<Module_nonansi_header> p<105> c<70> s<86> l<20:1> el<20:24>
-          n<module> u<70> t<Module_keyword> p<75> s<71> l<20:1> el<20:7>
+          n<module> u<70> t<MODULE> p<75> s<71> l<20:1> el<20:7>
           n<t> u<71> t<SIMPLE_IDENTIFIER> p<75> s<72> l<20:8> el<20:9>
           n<> u<72> t<Package_import_declaration_list> p<75> s<73> l<20:10> el<20:10>
           n</*AUTOARG*/> u<73> t<BLOCK_COMMENT> p<75> s<74> l<20:10> el<20:23>
@@ -121,9 +121,10 @@ n<$Source01/t_lint_unused_iface_bad.v> u<108> t<Top_level_rule> c<1> l<6:1> el<2
                       n<> u<96> t<CLOSE_PARENS> p<97> l<25:19> el<25:20>
         n<> u<104> t<ENDMODULE> p<105> l<28:1> el<28:10>
 AST_DEBUG_END
-[INF:CP0304] $Source01/t_lint_unused_iface_bad.v:6:1: Compile interface "work@dummy_if".
-[INF:CP0303] $Source01/t_lint_unused_iface_bad.v:11:1: Compile module "work@sub".
-[INF:CP0303] $Source01/t_lint_unused_iface_bad.v:20:1: Compile module "work@t".
+[INF:CP0304] $Source01/t_lint_unused_iface_bad.v:6:1: Compile interface "dummy_if".
+[INF:CP0303] $Source01/t_lint_unused_iface_bad.v:11:1: Compile module "sub".
+[WRN:CP0310] $Source01/t_lint_unused_iface_bad.v:13:13: Port "dummy" definition missing its direction (input, output, inout).
+[INF:CP0303] $Source01/t_lint_unused_iface_bad.v:20:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -133,112 +134,119 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_lint_unused_iface_bad.v
       vpiPreprocFile: "$Output/lib/work/t_lint_unused_iface_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@dummy_if file:$Source01/t_lint_unused_iface_bad.v start:6:1 end:9:23:
+    Interface name:dummy_if file:$Source01/t_lint_unused_iface_bad.v start:6:1 end:9:23:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dummy_if start:6:11 end:6:19:
-        vpiParent: Interface name:work@dummy_if
-        vpiName: work@dummy_if
-      vpiFullName: work@dummy_if
+      vpiName Identifier name:dummy_if start:6:11 end:6:19:
+        vpiParent: Interface name:dummy_if
+        vpiName: dummy_if
+      vpiFullName: dummy_if
       vpiVariable (2 items):
         Variable name:sig_udrv start:7:10 end:7:18:
-          vpiParent: Interface name:work@dummy_if
+          vpiParent: Interface name:dummy_if
           vpiTypespec RefTypespec name:logic start:7:4 end:7:9:
             vpiParent: Variable name:sig_udrv
             vpiName: logic
-            vpiFullName: work@dummy_if.sig_udrv.logic
+            vpiFullName: dummy_if.sig_udrv.logic
             vpiActual: UnsupportedTypespec name:logic
           vpiName: sig_udrv
-          vpiFullName: work@dummy_if.sig_udrv
+          vpiFullName: dummy_if.sig_udrv
         Variable name:sig_uusd start:8:10 end:8:18:
-          vpiParent: Interface name:work@dummy_if
+          vpiParent: Interface name:dummy_if
           vpiTypespec RefTypespec name:logic start:8:4 end:8:9:
             vpiParent: Variable name:sig_uusd
             vpiName: logic
-            vpiFullName: work@dummy_if.sig_uusd.logic
+            vpiFullName: dummy_if.sig_uusd.logic
             vpiActual: UnsupportedTypespec name:logic
           vpiName: sig_uusd
-          vpiFullName: work@dummy_if.sig_uusd
+          vpiFullName: dummy_if.sig_uusd
       vpiTypespec (2 items):
         UnsupportedTypespec name:logic start:7:4 end:7:9:
-          vpiParent: Interface name:work@dummy_if
+          vpiParent: Interface name:dummy_if
           vpiName Identifier name:logic start:7:4 end:7:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         UnsupportedTypespec name:logic start:8:4 end:8:9:
-          vpiParent: Interface name:work@dummy_if
+          vpiParent: Interface name:dummy_if
           vpiName Identifier name:logic start:8:4 end:8:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Interface name:work@dummy_if
+        vpiParent: Interface name:dummy_if
         vpiName: work
-        vpiFullName: work@dummy_if.work
+        vpiFullName: dummy_if.work
       vpiCell: dummy_if
       vpiEndLabel Identifier name:dummy_if start:9:15 end:9:23:
-        vpiParent: Interface name:work@dummy_if
+        vpiParent: Interface name:dummy_if
         vpiName: dummy_if
   vpiAllModules (2 items):
-    Module name:work@sub file:$Source01/t_lint_unused_iface_bad.v start:11:1 end:17:10:
+    Module name:sub file:$Source01/t_lint_unused_iface_bad.v start:11:1 end:17:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sub start:11:8 end:11:11:
-        vpiParent: Module name:work@sub
-        vpiName: work@sub
-      vpiFullName: work@sub
-      vpiTypespec (1 items):
+      vpiName Identifier name:sub start:11:8 end:11:11:
+        vpiParent: Module name:sub
+        vpiName: sub
+      vpiFullName: sub
+      vpiTypespec (2 items):
+        InterfaceTypespec name:dummy_if start:13:4 end:13:12:
+          vpiParent: Module name:sub
+          vpiName Identifier name:dummy_if start:13:4 end:13:12:
+            vpiParent: InterfaceTypespec name:dummy_if
+            vpiName: dummy_if
+          vpiDefName: dummy_if
+          vpiInterface: Interface name:dummy_if
         BitTypespec:
-          vpiParent: Module name:work@sub
-      vpiDefName: work@sub
-      vpiDefNetType: none (12)
+          vpiParent: Module name:sub
+      vpiDefName: sub
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@sub
+        vpiParent: Module name:sub
         vpiName: work
-        vpiFullName: work@sub.work
+        vpiFullName: sub.work
       vpiCell: sub
       vpiNet (1 items):
         Net name:dummy start:13:13 end:13:18:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiTypespec RefTypespec name:dummy_if start:13:4 end:13:12:
             vpiParent: Net name:dummy
             vpiName: dummy_if
-            vpiFullName: work@sub.dummy.dummy_if
-            vpiActual: InterfaceTypespec name:work@dummy_if
+            vpiFullName: sub.dummy.dummy_if
+            vpiActual: InterfaceTypespec name:dummy_if
           vpiName: dummy
-          vpiFullName: work@sub.dummy
+          vpiFullName: sub.dummy
           vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:dummy start:13:13 end:13:18:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiName: dummy
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:13:13 end:13:18:
+          vpiLowConn RefObj name:dummy start:13:13 end:13:18:
             vpiParent: Port name:dummy
-            vpiFullName: work@sub.dummy
+            vpiName: dummy
+            vpiFullName: sub.dummy.dummy
             vpiActual: Net name:dummy
           vpiTypespec RefTypespec name:dummy_if start:13:4 end:13:12:
             vpiParent: Port name:dummy
             vpiName: dummy_if
-            vpiFullName: work@sub.dummy.dummy_if
-            vpiActual: InterfaceTypespec name:work@dummy_if
+            vpiFullName: sub.dummy.dummy_if
+            vpiActual: InterfaceTypespec name:dummy_if
       vpiContAssign (1 items):
         ContAssign start:16:11 end:16:49:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiLhs HierPath name:dummy.sig_uusd start:16:11 end:16:25:
             vpiParent: ContAssign
             vpiName: dummy.sig_uusd
-            vpiFullName: work@sub.dummy.sig_uusd
+            vpiFullName: sub.dummy.sig_uusd
             vpiPathElem (2 items):
               RefObj name:dummy start:16:11 end:16:16:
                 vpiParent: HierPath name:dummy.sig_uusd
                 vpiName: dummy
-                vpiFullName: work@sub.dummy
+                vpiFullName: sub.dummy
                 vpiActual: Net name:dummy
               RefObj name:sig_uusd start:16:17 end:16:25:
                 vpiParent: HierPath name:dummy.sig_uusd
                 vpiName: sig_uusd
-                vpiFullName: work@sub.sig_uusd
+                vpiFullName: sub.sig_uusd
                 vpiActual: Variable name:sig_uusd
           vpiRhs Operation start:16:28 end:16:49:
             vpiParent: ContAssign
@@ -248,7 +256,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sub
+                  vpiFullName: sub
                   vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
@@ -257,91 +265,93 @@ Design name:unnamed:
               HierPath name:dummy.sig_udrv start:16:35 end:16:49:
                 vpiParent: Operation
                 vpiName: dummy.sig_udrv
-                vpiFullName: work@sub.dummy.sig_udrv
+                vpiFullName: sub.dummy.sig_udrv
                 vpiPathElem (2 items):
                   RefObj name:dummy start:16:35 end:16:40:
                     vpiParent: HierPath name:dummy.sig_udrv
                     vpiName: dummy
-                    vpiFullName: work@sub.dummy
+                    vpiFullName: sub.dummy
                     vpiActual: Net name:dummy
                   RefObj name:sig_udrv start:16:41 end:16:49:
                     vpiParent: HierPath name:dummy.sig_udrv
                     vpiName: sig_udrv
-                    vpiFullName: work@sub.sig_udrv
+                    vpiFullName: sub.sig_udrv
                     vpiActual: Variable name:sig_udrv
-    Module name:work@t file:$Source01/t_lint_unused_iface_bad.v start:20:1 end:28:10:
+    Module name:t file:$Source01/t_lint_unused_iface_bad.v start:20:1 end:28:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:20:8 end:20:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:20:8 end:20:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
       vpiTypespec (1 items):
-        ModuleTypespec name:work@sub start:24:4 end:24:7:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@sub start:24:4 end:24:7:
-            vpiParent: ModuleTypespec name:work@sub
-            vpiName: work@sub
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+        ModuleTypespec name:sub start:24:4 end:24:7:
+          vpiParent: Module name:t
+          vpiName Identifier name:sub start:24:4 end:24:7:
+            vpiParent: ModuleTypespec name:sub
+            vpiName: sub
+          vpiModule: Module name:sub
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
       vpiRefInstance (2 items):
         RefInstance name:dummy start:22:13 end:22:18:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: dummy
           vpiTypespec RefTypespec name:dummy_if start:22:4 end:22:12:
             vpiParent: RefInstance name:dummy
             vpiName: dummy_if
-            vpiFullName: work@t.dummy.dummy_if
-            vpiActual: InterfaceTypespec name:work@dummy_if
+            vpiFullName: t.dummy.dummy_if
+            vpiActual: InterfaceTypespec name:dummy_if
         RefInstance name:sub start:24:8 end:24:11:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: sub
-          vpiTypespec RefTypespec name:work@sub start:24:4 end:24:7:
+          vpiTypespec RefTypespec name:sub start:24:4 end:24:7:
             vpiParent: RefInstance name:sub
-            vpiName: work@sub
-            vpiFullName: work@t.sub.work@sub
-            vpiActual: ModuleTypespec name:work@sub
+            vpiName: sub
+            vpiFullName: t.sub.sub
+            vpiActual: ModuleTypespec name:sub
           vpiPort (1 items):
             Port start:25:7 end:25:20:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:dummy start:25:8 end:25:13:
                 vpiParent: Port
                 vpiName: dummy
-                vpiFullName: work@t.sub.dummy
+                vpiFullName: t.sub.dummy
                 vpiActual: RefInstance name:dummy
               vpiHighConn RefObj name:dummy start:25:14 end:25:19:
                 vpiParent: Port
                 vpiName: dummy
-                vpiFullName: work@t.sub.dummy
+                vpiFullName: t.sub.dummy
                 vpiActual: RefInstance name:dummy
   vpiTypespec (3 items):
-    InterfaceTypespec name:work@dummy_if:
+    InterfaceTypespec name:dummy_if:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dummy_if start:6:11 end:6:19:
-        vpiParent: InterfaceTypespec name:work@dummy_if
-        vpiName: work@dummy_if
-      vpiInterface: Interface name:work@dummy_if
-    ModuleTypespec name:work@sub:
+      vpiName Identifier name:dummy_if start:6:11 end:6:19:
+        vpiParent: InterfaceTypespec name:dummy_if
+        vpiName: dummy_if
+      vpiDefName: dummy_if
+      vpiInterface: Interface name:dummy_if
+    ModuleTypespec name:sub:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sub start:11:8 end:11:11:
-        vpiParent: ModuleTypespec name:work@sub
-        vpiName: work@sub
-      vpiModule: Module name:work@sub
-    ModuleTypespec name:work@t:
+      vpiName Identifier name:sub start:11:8 end:11:11:
+        vpiParent: ModuleTypespec name:sub
+        vpiName: sub
+      vpiModule: Module name:sub
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:20:8 end:20:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:20:8 end:20:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -385,7 +395,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface_bad/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    53      53       0         0
 ===================== END REDUCTION RESULT =====================

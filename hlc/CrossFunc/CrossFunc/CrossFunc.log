@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<334> t<Top_level_rule> c<1> l<1:1> el<33:1>
     n<> u<332> t<Description> p<333> c<331> l<1:1> el<32:10>
       n<> u<331> t<Module_declaration> p<332> c<5> l<1:1> el<32:10>
         n<> u<5> t<Module_ansi_header> p<331> c<2> s<29> l<1:1> el<1:14>
-          n<module> u<2> t<Module_keyword> p<5> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<5> s<3> l<1:1> el<1:7>
           n<mod_m> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<1:8> el<1:13>
           n<> u<4> t<Package_import_declaration_list> p<5> l<1:13> el<1:13>
         n<> u<29> t<Non_port_module_item> p<331> c<28> s<269> l<2:2> el<2:20>
@@ -347,10 +347,10 @@ n<$Source01/dut.sv> u<334> t<Top_level_rule> c<1> l<1:1> el<33:1>
                     n<> u<323> t<ENDGROUP> p<324> l<31:2> el<31:10>
         n<> u<330> t<ENDMODULE> p<331> l<32:1> el<32:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@mod_m".
-[ERR:EL0535] $Source01/dut.sv:14:22: Illegal implicit net "id:57, name:cg_lim".
-[ERR:EL0535] $Source01/dut.sv:15:22: Illegal implicit net "id:62, name:cg_lim".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@mod_m".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "mod_m".
+[WRN:CP0350] $Source01/dut.sv:14:14: Failed to bind "id:58, name:myFunc1".
+[WRN:CP0350] $Source01/dut.sv:15:14: Failed to bind "id:63, name:myFunc2".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "mod_m".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -359,21 +359,20 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@mod_m file:$Source01/dut.sv start:1:1 end:32:10:
+    Module name:mod_m file:$Source01/dut.sv start:1:1 end:32:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@mod_m start:1:8 end:1:13:
-        vpiParent: Module name:work@mod_m
-        vpiName: work@mod_m
-      vpiFullName: work@mod_m
+      vpiName Identifier name:mod_m start:1:8 end:1:13:
+        vpiParent: Module name:mod_m
+        vpiName: mod_m
+      vpiFullName: mod_m
       vpiCoverGroup (2 items):
         CoverGroup name:cg start:3:2 end:23:10:
-          vpiParent: Module name:work@mod_m
+          vpiParent: Module name:mod_m
           vpiName Identifier name:cg start:3:13 end:3:15:
             vpiParent: CoverGroup name:cg
             vpiName: cg
-          vpiFullName: work@mod_m.cg
+          vpiFullName: mod_m.cg
           vpiIODecl (1 items):
             IODecl name:cg_lim start:3:20 end:3:26:
               vpiParent: CoverGroup name:cg
@@ -381,49 +380,49 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:3:16 end:3:19:
                 vpiParent: IODecl name:cg_lim
-                vpiFullName: work@mod_m.cg.cg_lim
+                vpiFullName: mod_m.cg.cg_lim
                 vpiActual: IntTypespec
           vpiStmt (3 items):
             CoverPoint start:4:2 end:4:15:
               vpiParent: CoverGroup name:cg
-              vpiFullName: work@mod_m.cg
+              vpiFullName: mod_m.cg
               vpiExpr RefObj name:a start:4:13 end:4:14:
                 vpiParent: CoverPoint
                 vpiName: a
-                vpiFullName: work@mod_m.cg.a
-                vpiActual: Net name:a
+                vpiFullName: mod_m.cg.a
+                vpiActual: Variable name:a
             CoverPoint start:5:2 end:5:15:
               vpiParent: CoverGroup name:cg
-              vpiFullName: work@mod_m.cg
+              vpiFullName: mod_m.cg
               vpiExpr RefObj name:b start:5:13 end:5:14:
                 vpiParent: CoverPoint
                 vpiName: b
-                vpiFullName: work@mod_m.cg.b
-                vpiActual: Net name:b
+                vpiFullName: mod_m.cg.b
+                vpiActual: Variable name:b
             CoverCross name:aXb start:6:2 end:22:3:
               vpiParent: CoverGroup name:cg
               vpiName Identifier name:aXb start:6:2 end:6:5:
                 vpiParent: CoverCross name:aXb
                 vpiName: aXb
-              vpiFullName: work@mod_m.cg.aXb
+              vpiFullName: mod_m.cg.aXb
               vpiCrossItem (2 items):
                 RefObj name:a start:6:14 end:6:15:
                   vpiParent: CoverCross name:aXb
                   vpiName: a
-                  vpiFullName: work@mod_m.cg.aXb.a
-                  vpiActual: Net name:a
+                  vpiFullName: mod_m.cg.aXb.a
+                  vpiActual: Variable name:a
                 RefObj name:b start:6:17 end:6:18:
                   vpiParent: CoverCross name:aXb
                   vpiName: b
-                  vpiFullName: work@mod_m.cg.aXb.b
-                  vpiActual: Net name:b
+                  vpiFullName: mod_m.cg.aXb.b
+                  vpiActual: Variable name:b
               vpiStmt (4 items):
                 Function name:myFunc1 start:9:3 end:12:14:
                   vpiParent: CoverCross name:aXb
                   vpiName Identifier name:myFunc1 start:9:27 end:9:34:
                     vpiParent: Function name:myFunc1
                     vpiName: myFunc1
-                  vpiFullName: work@mod_m.cg.aXb.myFunc1
+                  vpiFullName: mod_m.cg.aXb.myFunc1
                   vpiTypespec (1 items):
                     UnsupportedTypespec name:CrossQueueType start:9:12 end:9:26:
                       vpiParent: Function name:myFunc1
@@ -438,20 +437,20 @@ Design name:unnamed:
                       vpiDirection: input (1)
                       vpiTypespec RefTypespec start:9:35 end:9:38:
                         vpiParent: IODecl name:f_lim
-                        vpiFullName: work@mod_m.cg.aXb.myFunc1.f_lim
+                        vpiFullName: mod_m.cg.aXb.myFunc1.f_lim
                         vpiActual: IntTypespec
                   vpiStmt ForStmt start:10:4 end:11:30:
                     vpiParent: Function name:myFunc1
-                    vpiFullName: work@mod_m.cg.aXb.myFunc1
+                    vpiFullName: mod_m.cg.aXb.myFunc1
                     vpiVariable (1 items):
                       Variable name:i start:10:13 end:10:14:
                         vpiParent: ForStmt
                         vpiTypespec RefTypespec start:10:9 end:10:12:
                           vpiParent: Variable name:i
-                          vpiFullName: work@mod_m.cg.aXb.myFunc1.i
+                          vpiFullName: mod_m.cg.aXb.myFunc1.i
                           vpiActual: IntTypespec
                         vpiName: i
-                        vpiFullName: work@mod_m.cg.aXb.myFunc1.i
+                        vpiFullName: mod_m.cg.aXb.myFunc1.i
                     vpiForInitStmt (1 items):
                       Assignment start:10:13 end:10:18:
                         vpiParent: ForStmt
@@ -460,7 +459,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@mod_m.cg.aXb.myFunc1
+                            vpiFullName: mod_m.cg.aXb.myFunc1
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -474,7 +473,7 @@ Design name:unnamed:
                           RefObj name:i start:10:33 end:10:34:
                             vpiParent: Operation
                             vpiName: i
-                            vpiFullName: work@mod_m.cg.aXb.myFunc1.i
+                            vpiFullName: mod_m.cg.aXb.myFunc1.i
                             vpiActual: Variable name:i
                     vpiCondition Operation start:10:20 end:10:29:
                       vpiParent: ForStmt
@@ -483,22 +482,22 @@ Design name:unnamed:
                         RefObj name:i start:10:20 end:10:21:
                           vpiParent: Operation
                           vpiName: i
-                          vpiFullName: work@mod_m.cg.aXb.myFunc1.i
+                          vpiFullName: mod_m.cg.aXb.myFunc1.i
                           vpiActual: Variable name:i
                         RefObj name:f_lim start:10:24 end:10:29:
                           vpiParent: Operation
                           vpiName: f_lim
-                          vpiFullName: work@mod_m.cg.aXb.myFunc1.f_lim
+                          vpiFullName: mod_m.cg.aXb.myFunc1.f_lim
                           vpiActual: IODecl name:f_lim
-                    "vpiStmt HierPath name:myFunc1.push_back('{i, i}) start:11:4 end:11:28":
+                    "vpiStmt HierPath name:myFunc1.push_back('{i, i}) start:11:4 end:11:29":
                       vpiParent: ForStmt
                       vpiName: "myFunc1.push_back('{i, i})"
-                      vpiFullName: "work@mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i})"
+                      vpiFullName: "mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i})"
                       vpiPathElem (2 items):
                         RefObj name:myFunc1 start:11:4 end:11:11:
                           vpiParent: "HierPath name:myFunc1.push_back('{i, i})"
                           vpiName: myFunc1
-                          vpiFullName: work@mod_m.cg.aXb.myFunc1.myFunc1
+                          vpiFullName: mod_m.cg.aXb.myFunc1.myFunc1
                           vpiActual: Function name:myFunc1
                         MethodFuncCall name:push_back start:11:12 end:11:29:
                           vpiParent: "HierPath name:myFunc1.push_back('{i, i})"
@@ -513,16 +512,16 @@ Design name:unnamed:
                                 RefObj name:i start:11:24 end:11:25:
                                   vpiParent: Operation
                                   vpiName: i
-                                  vpiFullName: "work@mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i}).i"
+                                  vpiFullName: "mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i}).i"
                                   vpiActual: Variable name:i
                                 RefObj name:i start:11:26 end:11:27:
                                   vpiParent: Operation
                                   vpiName: i
-                                  vpiFullName: "work@mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i}).i"
+                                  vpiFullName: "mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i}).i"
                                   vpiActual: Variable name:i
                   vpiReturn RefTypespec start:9:12 end:9:26:
                     vpiParent: Function name:myFunc1
-                    vpiFullName: work@mod_m.cg.aXb.myFunc1
+                    vpiFullName: mod_m.cg.aXb.myFunc1
                     vpiActual: UnsupportedTypespec name:CrossQueueType
                 CoverBin name:one start:14:3 end:14:29:
                   vpiParent: CoverCross name:aXb
@@ -539,7 +538,7 @@ Design name:unnamed:
                       RefObj name:cg_lim start:14:22 end:14:28:
                         vpiParent: SubroutineCall name:myFunc1
                         vpiName: cg_lim
-                        vpiFullName: work@mod_m.cg.aXb.one.myFunc1.cg_lim
+                        vpiFullName: mod_m.cg.aXb.one.myFunc1.cg_lim
                 CoverBin name:two start:15:3 end:15:29:
                   vpiParent: CoverCross name:aXb
                   vpiName Identifier name:two start:15:8 end:15:11:
@@ -555,13 +554,13 @@ Design name:unnamed:
                       RefObj name:cg_lim start:15:22 end:15:28:
                         vpiParent: SubroutineCall name:myFunc2
                         vpiName: cg_lim
-                        vpiFullName: work@mod_m.cg.aXb.two.myFunc2.cg_lim
+                        vpiFullName: mod_m.cg.aXb.two.myFunc2.cg_lim
                 Function name:myFunc2 start:17:3 end:20:14:
                   vpiParent: CoverCross name:aXb
                   vpiName Identifier name:myFunc2 start:17:27 end:17:34:
                     vpiParent: Function name:myFunc2
                     vpiName: myFunc2
-                  vpiFullName: work@mod_m.cg.aXb.myFunc2
+                  vpiFullName: mod_m.cg.aXb.myFunc2
                   vpiTypespec (2 items):
                     UnsupportedTypespec name:CrossQueueType start:17:12 end:17:26:
                       vpiParent: Function name:myFunc2
@@ -577,7 +576,7 @@ Design name:unnamed:
                             vpiParent: Range
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@mod_m.cg.aXb.myFunc2
+                              vpiFullName: mod_m.cg.aXb.myFunc2
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -587,7 +586,7 @@ Design name:unnamed:
                             vpiParent: Range
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@mod_m.cg.aXb.myFunc2
+                              vpiFullName: mod_m.cg.aXb.myFunc2
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -602,20 +601,20 @@ Design name:unnamed:
                       vpiDirection: input (1)
                       vpiTypespec RefTypespec start:17:35 end:17:47:
                         vpiParent: IODecl name:f_lim
-                        vpiFullName: work@mod_m.cg.aXb.myFunc2.f_lim
+                        vpiFullName: mod_m.cg.aXb.myFunc2.f_lim
                         vpiActual: LogicTypespec
                   vpiStmt ForStmt start:18:4 end:19:34:
                     vpiParent: Function name:myFunc2
-                    vpiFullName: work@mod_m.cg.aXb.myFunc2
+                    vpiFullName: mod_m.cg.aXb.myFunc2
                     vpiVariable (1 items):
                       Variable name:i start:18:22 end:18:23:
                         vpiParent: ForStmt
                         vpiTypespec RefTypespec start:18:9 end:18:21:
                           vpiParent: Variable name:i
-                          vpiFullName: work@mod_m.cg.aXb.myFunc2.i
+                          vpiFullName: mod_m.cg.aXb.myFunc2.i
                           vpiActual: LogicTypespec
                         vpiName: i
-                        vpiFullName: work@mod_m.cg.aXb.myFunc2.i
+                        vpiFullName: mod_m.cg.aXb.myFunc2.i
                     vpiTypespec (1 items):
                       LogicTypespec:
                         vpiParent: ForStmt
@@ -626,7 +625,7 @@ Design name:unnamed:
                               vpiParent: Range
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@mod_m.cg.aXb.myFunc2
+                                vpiFullName: mod_m.cg.aXb.myFunc2
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -636,7 +635,7 @@ Design name:unnamed:
                               vpiParent: Range
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@mod_m.cg.aXb.myFunc2
+                                vpiFullName: mod_m.cg.aXb.myFunc2
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -651,7 +650,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@mod_m.cg.aXb.myFunc2
+                            vpiFullName: mod_m.cg.aXb.myFunc2
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -665,7 +664,7 @@ Design name:unnamed:
                           RefObj name:i start:18:42 end:18:43:
                             vpiParent: Operation
                             vpiName: i
-                            vpiFullName: work@mod_m.cg.aXb.myFunc2.i
+                            vpiFullName: mod_m.cg.aXb.myFunc2.i
                             vpiActual: Variable name:i
                     vpiCondition Operation start:18:29 end:18:38:
                       vpiParent: ForStmt
@@ -674,22 +673,22 @@ Design name:unnamed:
                         RefObj name:i start:18:29 end:18:30:
                           vpiParent: Operation
                           vpiName: i
-                          vpiFullName: work@mod_m.cg.aXb.myFunc2.i
+                          vpiFullName: mod_m.cg.aXb.myFunc2.i
                           vpiActual: Variable name:i
                         RefObj name:f_lim start:18:33 end:18:38:
                           vpiParent: Operation
                           vpiName: f_lim
-                          vpiFullName: work@mod_m.cg.aXb.myFunc2.f_lim
+                          vpiFullName: mod_m.cg.aXb.myFunc2.f_lim
                           vpiActual: IODecl name:f_lim
-                    "vpiStmt HierPath name:myFunc2.push_back('{2 * i, 2 * i}) start:19:4 end:19:32":
+                    "vpiStmt HierPath name:myFunc2.push_back('{2 * i, 2 * i}) start:19:4 end:19:33":
                       vpiParent: ForStmt
                       vpiName: "myFunc2.push_back('{2 * i, 2 * i})"
-                      vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
+                      vpiFullName: "mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
                       vpiPathElem (2 items):
                         RefObj name:myFunc2 start:19:4 end:19:11:
                           vpiParent: "HierPath name:myFunc2.push_back('{2 * i, 2 * i})"
                           vpiName: myFunc2
-                          vpiFullName: work@mod_m.cg.aXb.myFunc2.myFunc2
+                          vpiFullName: mod_m.cg.aXb.myFunc2.myFunc2
                           vpiActual: Function name:myFunc2
                         MethodFuncCall name:push_back start:19:12 end:19:33:
                           vpiParent: "HierPath name:myFunc2.push_back('{2 * i, 2 * i})"
@@ -709,7 +708,7 @@ Design name:unnamed:
                                       vpiParent: Operation
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
+                                        vpiFullName: "mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
                                         vpiActual: IntTypespec
                                       vpiConstType: unsigned int (9)
                                       vpiSize: 64
@@ -718,7 +717,7 @@ Design name:unnamed:
                                     RefObj name:i start:19:26 end:19:27:
                                       vpiParent: Operation
                                       vpiName: i
-                                      vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i}).i"
+                                      vpiFullName: "mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i}).i"
                                       vpiActual: Variable name:i
                                 Operation start:19:28 end:19:31:
                                   vpiParent: Operation
@@ -728,7 +727,7 @@ Design name:unnamed:
                                       vpiParent: Operation
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
+                                        vpiFullName: "mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
                                         vpiActual: IntTypespec
                                       vpiConstType: unsigned int (9)
                                       vpiSize: 64
@@ -737,33 +736,33 @@ Design name:unnamed:
                                     RefObj name:i start:19:30 end:19:31:
                                       vpiParent: Operation
                                       vpiName: i
-                                      vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i}).i"
+                                      vpiFullName: "mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i}).i"
                                       vpiActual: Variable name:i
                   vpiReturn RefTypespec start:17:12 end:17:26:
                     vpiParent: Function name:myFunc2
-                    vpiFullName: work@mod_m.cg.aXb.myFunc2
+                    vpiFullName: mod_m.cg.aXb.myFunc2
                     vpiActual: UnsupportedTypespec name:CrossQueueType
         CoverGroup name:yy start:26:2 end:31:10:
-          vpiParent: Module name:work@mod_m
+          vpiParent: Module name:mod_m
           vpiName Identifier name:yy start:26:13 end:26:15:
             vpiParent: CoverGroup name:yy
             vpiName: yy
-          vpiFullName: work@mod_m.yy
+          vpiFullName: mod_m.yy
           vpiStmt (1 items):
             CoverCross start:27:2 end:30:3:
               vpiParent: CoverGroup name:yy
-              vpiFullName: work@mod_m.yy
+              vpiFullName: mod_m.yy
               vpiCrossItem (2 items):
                 RefObj name:a start:27:8 end:27:9:
                   vpiParent: CoverCross
                   vpiName: a
-                  vpiFullName: work@mod_m.yy.a
-                  vpiActual: Net name:a
+                  vpiFullName: mod_m.yy.a
+                  vpiActual: Variable name:a
                 RefObj name:b start:27:11 end:27:12:
                   vpiParent: CoverCross
                   vpiName: b
-                  vpiFullName: work@mod_m.yy.b
-                  vpiActual: Net name:b
+                  vpiFullName: mod_m.yy.b
+                  vpiActual: Variable name:b
               vpiStmt (1 items):
                 CoverBin name:ignore start:29:2 end:29:55:
                   vpiParent: CoverCross
@@ -775,9 +774,11 @@ Design name:unnamed:
                     vpiParent: CoverBin name:ignore
                     vpiOpType: intersect (72)
                     vpiOperand (2 items):
-                      RefObj start:29:30 end:29:31:
+                      RefObj name:a start:29:30 end:29:31:
                         vpiParent: Operation
-                        vpiFullName: work@mod_m.yy.ignore
+                        vpiName: a
+                        vpiFullName: mod_m.yy.ignore.a
+                        vpiActual: Variable name:a
                       Operation start:29:45 end:29:53:
                         vpiParent: Operation
                         vpiOpType: list (37)
@@ -786,7 +787,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@mod_m.yy.ignore
+                              vpiFullName: mod_m.yy.ignore
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -798,7 +799,7 @@ Design name:unnamed:
                               vpiParent: Range
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@mod_m.yy.ignore
+                                vpiFullName: mod_m.yy.ignore
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -808,15 +809,59 @@ Design name:unnamed:
                               vpiParent: Range
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@mod_m.yy.ignore
+                                vpiFullName: mod_m.yy.ignore
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "3"
                               vpiValue: 3
+      vpiVariable (3 items):
+        Variable name:a start:2:15 end:2:16:
+          vpiParent: Module name:mod_m
+          vpiTypespec RefTypespec start:2:2 end:2:14:
+            vpiParent: Variable name:a
+            vpiFullName: mod_m.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: mod_m.a
+          vpiVector: true
+        Variable name:b start:2:18 end:2:19:
+          vpiParent: Module name:mod_m
+          vpiTypespec RefTypespec start:2:2 end:2:14:
+            vpiParent: Variable name:b
+            vpiFullName: mod_m.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: mod_m.b
+          vpiVector: true
+        Variable name:cg_inst start:24:5 end:24:12:
+          vpiParent: Module name:mod_m
+          vpiTypespec RefTypespec name:cg start:24:2 end:24:4:
+            vpiParent: Variable name:cg_inst
+            vpiName: cg
+            vpiFullName: mod_m.cg_inst.cg
+            vpiActual: UnsupportedTypespec name:cg
+          vpiName: cg_inst
+          vpiFullName: mod_m.cg_inst
+          vpiValue MethodFuncCall name:new start:24:15 end:24:21:
+            vpiParent: Variable name:cg_inst
+            vpiName Identifier name:new:
+              vpiParent: MethodFuncCall name:new
+              vpiName: new
+            vpiArgument (1 items):
+              Constant start:24:19 end:24:20:
+                vpiParent: MethodFuncCall name:new
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: mod_m.cg_inst
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "3"
+                vpiValue: 3
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@mod_m
+          vpiParent: Module name:mod_m
           vpiRange (1 items):
             Range start:2:8 end:2:14:
               vpiParent: LogicTypespec
@@ -824,7 +869,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@mod_m
+                  vpiFullName: mod_m
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -834,7 +879,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@mod_m
+                  vpiFullName: mod_m
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -842,74 +887,32 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         UnsupportedTypespec name:cg start:24:2 end:24:4:
-          vpiParent: Module name:work@mod_m
+          vpiParent: Module name:mod_m
           vpiName Identifier name:cg start:24:2 end:24:4:
             vpiParent: UnsupportedTypespec name:cg
             vpiName: cg
-      vpiDefName: work@mod_m
-      vpiDefNetType: none (12)
+      vpiDefName: mod_m
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@mod_m
+        vpiParent: Module name:mod_m
         vpiName: work
-        vpiFullName: work@mod_m.work
+        vpiFullName: mod_m.work
       vpiCell: mod_m
-      vpiNet (3 items):
-        Net name:a start:2:15 end:2:16:
-          vpiParent: Module name:work@mod_m
-          vpiTypespec RefTypespec start:2:2 end:2:14:
-            vpiParent: Net name:a
-            vpiFullName: work@mod_m.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: work@mod_m.a
-        Net name:b start:2:18 end:2:19:
-          vpiParent: Module name:work@mod_m
-          vpiTypespec RefTypespec start:2:2 end:2:14:
-            vpiParent: Net name:b
-            vpiFullName: work@mod_m.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: work@mod_m.b
-        Net name:cg_inst start:24:5 end:24:12:
-          vpiParent: Module name:work@mod_m
-          vpiTypespec RefTypespec name:cg start:24:2 end:24:4:
-            vpiParent: Net name:cg_inst
-            vpiName: cg
-            vpiFullName: work@mod_m.cg_inst.cg
-            vpiActual: UnsupportedTypespec name:cg
-          vpiName: cg_inst
-          vpiFullName: work@mod_m.cg_inst
-          vpiValue MethodFuncCall name:new start:24:15 end:24:21:
-            vpiParent: Net name:cg_inst
-            vpiName Identifier name:new:
-              vpiParent: MethodFuncCall name:new
-              vpiName: new
-            vpiArgument (1 items):
-              Constant start:24:19 end:24:20:
-                vpiParent: MethodFuncCall name:new
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@mod_m.cg_inst
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "3"
-                vpiValue: 3
   vpiTypespec (2 items):
-    ModuleTypespec name:work@mod_m:
+    ModuleTypespec name:mod_m:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@mod_m start:1:8 end:1:13:
-        vpiParent: ModuleTypespec name:work@mod_m
-        vpiName: work@mod_m
-      vpiModule: Module name:work@mod_m
+      vpiName Identifier name:mod_m start:1:8 end:1:13:
+        vpiParent: ModuleTypespec name:mod_m
+        vpiName: mod_m
+      vpiModule: Module name:mod_m
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

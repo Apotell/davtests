@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<71> t<Top_level_rule> c<1> l<1:1> el<7:1>
     n<> u<68> t<Description> p<69> c<67> l<1:1> el<6:10>
       n<> u<67> t<Module_declaration> p<68> c<44> l<1:1> el<6:10>
         n<> u<44> t<Module_ansi_header> p<67> c<2> s<65> l<1:1> el<4:3>
-          n<module> u<2> t<Module_keyword> p<44> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<44> s<3> l<1:1> el<1:7>
           n<add> u<3> t<SIMPLE_IDENTIFIER> p<44> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<44> s<43> l<1:11> el<1:11>
           n<> u<43> t<Port_declaration_list> p<44> c<20> l<1:11> el<4:2>
@@ -347,9 +347,10 @@ n<$Source01/dut.sv> u<71> t<Top_level_rule> c<1> l<1:1> el<7:1>
         n<> u<66> t<ENDMODULE> p<67> l<6:1> el<6:10>
   n<// add> u<70> t<LINE_COMMENT> p<71> l<6:11> el<6:17>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@add".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "add".
+[NTE:CP0309] $Source01/dut.sv:3:24: Implicit port type (wire) for "sum".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@add".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "add".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -358,7 +359,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1925,6 +1925,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -1936,6 +1937,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -1967,6 +1969,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -1981,6 +1984,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2002,6 +2006,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2025,6 +2030,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2044,6 +2050,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2067,6 +2074,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2086,6 +2094,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2155,16 +2164,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2177,6 +2189,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2188,6 +2201,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2195,6 +2209,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2202,6 +2217,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2209,6 +2225,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2222,6 +2239,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2233,6 +2251,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2264,6 +2283,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2290,6 +2310,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2316,6 +2337,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2341,15 +2363,15 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@add file:$Source01/dut.sv start:1:1 end:6:10:
+    Module name:add file:$Source01/dut.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@add start:1:8 end:1:11:
-        vpiParent: Module name:work@add
-        vpiName: work@add
-      vpiFullName: work@add
-      vpiTypespec (3 items):
+      vpiName Identifier name:add start:1:8 end:1:11:
+        vpiParent: Module name:add
+        vpiName: add
+      vpiFullName: add
+      vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@add
+          vpiParent: Module name:add
           vpiRange (1 items):
             Range start:2:9 end:2:15:
               vpiParent: LogicTypespec
@@ -2357,7 +2379,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@add
+                  vpiFullName: add
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2367,7 +2389,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@add
+                  vpiFullName: add
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2375,9 +2397,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@add
-        LogicTypespec:
-          vpiParent: Module name:work@add
+          vpiParent: Module name:add
           vpiRange (1 items):
             Range start:3:17 end:3:23:
               vpiParent: LogicTypespec
@@ -2385,7 +2405,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@add
+                  vpiFullName: add
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2395,92 +2415,99 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@add
+                  vpiFullName: add
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
-      vpiDefName: work@add
-      vpiDefNetType: none (12)
+      vpiDefName: add
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@add
+        vpiParent: Module name:add
         vpiName: work
-        vpiFullName: work@add.work
+        vpiFullName: add.work
       vpiCell: add
       vpiNet (3 items):
         Net name:a start:2:16 end:2:17:
-          vpiParent: Module name:work@add
+          vpiParent: Module name:add
           vpiTypespec RefTypespec start:2:3 end:2:15:
             vpiParent: Net name:a
-            vpiFullName: work@add.a
+            vpiFullName: add.a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: work@add.a
+          vpiFullName: add.a
           vpiNetType: wire (1)
-        Net name:b start:2:18 end:2:19:
-          vpiParent: Module name:work@add
-          vpiTypespec RefTypespec start:2:18 end:2:18:
-            vpiParent: Net name:b
-            vpiFullName: work@add.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: work@add.b
-          vpiNetType: wire (1)
+          vpiVector: true
         Net name:sum start:3:24 end:3:27:
-          vpiParent: Module name:work@add
+          vpiParent: Module name:add
           vpiTypespec RefTypespec start:3:3 end:3:23:
             vpiParent: Net name:sum
-            vpiFullName: work@add.sum
+            vpiFullName: add.sum
             vpiActual: LogicTypespec
           vpiName: sum
-          vpiFullName: work@add.sum
+          vpiFullName: add.sum
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:b start:2:18 end:2:19:
+          vpiParent: Module name:add
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: add.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: add.b
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:a start:2:16 end:2:17:
-          vpiParent: Module name:work@add
+          vpiParent: Module name:add
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:16 end:2:17:
+          vpiLowConn RefObj name:a start:2:16 end:2:17:
             vpiParent: Port name:a
-            vpiFullName: work@add.a
+            vpiName: a
+            vpiFullName: add.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:2:3 end:2:15:
             vpiParent: Port name:a
-            vpiFullName: work@add.a
+            vpiFullName: add.a
             vpiActual: LogicTypespec
         Port name:b start:2:18 end:2:19:
-          vpiParent: Module name:work@add
+          vpiParent: Module name:add
           vpiName: b
-          vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:18 end:2:19:
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:2:18 end:2:19:
             vpiParent: Port name:b
-            vpiFullName: work@add.b
+            vpiName: b
+            vpiFullName: add.b.b
             vpiActual: Net name:b
-          vpiTypespec RefTypespec start:2:18 end:2:18:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:b
-            vpiFullName: work@add.b
+            vpiFullName: add.b
             vpiActual: LogicTypespec
         Port name:sum start:3:24 end:3:27:
-          vpiParent: Module name:work@add
+          vpiParent: Module name:add
           vpiName: sum
           vpiDirection: output (2)
-          vpiLowConn RefObj start:3:24 end:3:27:
+          vpiLowConn RefObj name:sum start:3:24 end:3:27:
             vpiParent: Port name:sum
-            vpiFullName: work@add.sum
+            vpiName: sum
+            vpiFullName: add.sum.sum
             vpiActual: Net name:sum
           vpiTypespec RefTypespec start:3:3 end:3:23:
             vpiParent: Port name:sum
-            vpiFullName: work@add.sum
+            vpiFullName: add.sum
             vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:5:8 end:5:19:
-          vpiParent: Module name:work@add
+          vpiParent: Module name:add
           vpiLhs RefObj name:sum start:5:8 end:5:11:
             vpiParent: ContAssign
             vpiName: sum
-            vpiFullName: work@add.sum
+            vpiFullName: add.sum
             vpiActual: Net name:sum
           vpiRhs Operation start:5:14 end:5:19:
             vpiParent: ContAssign
@@ -2489,12 +2516,12 @@ Design name:unnamed:
               RefObj name:a start:5:14 end:5:15:
                 vpiParent: Operation
                 vpiName: a
-                vpiFullName: work@add.a
+                vpiFullName: add.a
                 vpiActual: Net name:a
               RefObj name:b start:5:18 end:5:19:
                 vpiParent: Operation
                 vpiName: b
-                vpiFullName: work@add.b
+                vpiFullName: add.b
                 vpiActual: Net name:b
   vpiTypespec (8 items):
     IntTypespec:
@@ -2511,31 +2538,34 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@add:
+    ModuleTypespec name:add:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@add start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@add
-        vpiName: work@add
-      vpiModule: Module name:work@add
+      vpiName Identifier name:add start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:add
+        vpiName: add
+      vpiModule: Module name:add
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -2578,7 +2608,7 @@ COMMAND: ${HLC_DIR}/regression/ImplicitPort/ImplicitPort/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             627     627       0         0
+Others                             626     626       0         0
 ----------------------------------------------------------------
-                                   627     627       0         0
+                                   626     626       0         0
 ===================== END REDUCTION RESULT =====================

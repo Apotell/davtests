@@ -72,7 +72,7 @@ n<$Source01/24.3--program.sv> u<117> t<Top_level_rule> c<1> l<16:1> el<28:1>
     n<> u<115> t<Description> p<116> c<114> l<20:1> el<27:10>
       n<> u<114> t<Module_declaration> p<115> c<60> l<20:1> el<27:10>
         n<> u<60> t<Module_nonansi_header> p<114> c<56> s<76> l<20:1> el<20:14>
-          n<module> u<56> t<Module_keyword> p<60> s<57> l<20:1> el<20:7>
+          n<module> u<56> t<MODULE> p<60> s<57> l<20:1> el<20:7>
           n<top> u<57> t<SIMPLE_IDENTIFIER> p<60> s<58> l<20:8> el<20:11>
           n<> u<58> t<Package_import_declaration_list> p<60> s<59> l<20:11> el<20:11>
           n<> u<59> t<Port_list> p<60> l<20:11> el<20:13>
@@ -132,7 +132,7 @@ n<$Source01/24.3--program.sv> u<117> t<Top_level_rule> c<1> l<16:1> el<28:1>
 AST_DEBUG_END
 [INF:CP0306] $Source01/24.3--program.sv:16:9: Compile program "prog".
 [WRN:CP0314] $Source01/24.3--program.sv:16:9: Using programs is discouraged "prog", programs are obsoleted by UVM.
-[INF:CP0303] $Source01/24.3--program.sv:20:1: Compile module "work@top".
+[INF:CP0303] $Source01/24.3--program.sv:20:1: Compile module "top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -142,45 +142,46 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: "24.3--program.sv"
       vpiPreprocFile: "$Output/lib/work/24.3--program.sv"
-      vpiDefNetType: none (12)
   vpiAllPrograms (1 items):
-    Program name:work@prog file:$Source01/24.3--program.sv start:16:1 end:18:11:
+    Program name:prog file:$Source01/24.3--program.sv start:16:1 end:18:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@prog start:16:9 end:16:13:
-        vpiParent: Program name:work@prog
-        vpiName: work@prog
-      vpiFullName: work@prog
-      vpiVariable (2 items):
-        Variable name:a start:16:25 end:16:26:
-          vpiParent: Program name:work@prog
-          vpiTypespec RefTypespec start:16:14 end:16:24:
-            vpiParent: Variable name:a
-            vpiFullName: work@prog.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: work@prog.a
-          vpiNetType: wire (1)
-        Variable name:b start:16:39 end:16:40:
-          vpiParent: Program name:work@prog
-          vpiTypespec RefTypespec start:16:28 end:16:38:
-            vpiParent: Variable name:b
-            vpiFullName: work@prog.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: work@prog.b
-          vpiNetType: wire (1)
+      vpiName Identifier name:prog start:16:9 end:16:13:
+        vpiParent: Program name:prog
+        vpiName: prog
+      vpiFullName: prog
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Program name:work@prog
-      vpiDefNetType: none (12)
+          vpiParent: Program name:prog
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Program name:work@prog
+        vpiParent: Program name:prog
         vpiName: work
-        vpiFullName: work@prog.work
+        vpiFullName: prog.work
       vpiCell: prog
+      vpiNet (2 items):
+        Net name:a start:16:25 end:16:26:
+          vpiParent: Program name:prog
+          vpiTypespec RefTypespec start:16:14 end:16:24:
+            vpiParent: Net name:a
+            vpiFullName: prog.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: prog.a
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:b start:16:39 end:16:40:
+          vpiParent: Program name:prog
+          vpiTypespec RefTypespec start:16:28 end:16:38:
+            vpiParent: Net name:b
+            vpiFullName: prog.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: prog.b
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiProcess (1 items):
         Initial start:17:2 end:17:48:
-          vpiParent: Program name:work@prog
+          vpiParent: Program name:prog
           vpiStmt SysTaskCall name:$display start:17:10 end:17:47:
             vpiParent: Initial
             vpiName Identifier name:$display start:17:10 end:17:18:
@@ -191,7 +192,7 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@prog
+                  vpiFullName: prog
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 152
@@ -200,94 +201,99 @@ Design name:unnamed:
               RefObj name:a start:17:42 end:17:43:
                 vpiParent: SysTaskCall name:$display
                 vpiName: a
-                vpiFullName: work@prog.a
+                vpiFullName: prog.a
                 vpiActual: Port name:a
               RefObj name:b start:17:45 end:17:46:
                 vpiParent: SysTaskCall name:$display
                 vpiName: b
-                vpiFullName: work@prog.b
+                vpiFullName: prog.b
                 vpiActual: Port name:b
       vpiPort (2 items):
         Port name:a start:16:25 end:16:26:
-          vpiParent: Program name:work@prog
+          vpiParent: Program name:prog
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:16:25 end:16:26:
+          vpiLowConn RefObj name:a start:16:25 end:16:26:
             vpiParent: Port name:a
-            vpiFullName: work@prog.a
-            vpiActual: Variable name:a
+            vpiName: a
+            vpiFullName: prog.a.a
+            vpiActual: Net name:a
           vpiTypespec RefTypespec start:16:14 end:16:24:
             vpiParent: Port name:a
-            vpiFullName: work@prog.a
+            vpiFullName: prog.a
             vpiActual: LogicTypespec
         Port name:b start:16:39 end:16:40:
-          vpiParent: Program name:work@prog
+          vpiParent: Program name:prog
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:16:39 end:16:40:
+          vpiLowConn RefObj name:b start:16:39 end:16:40:
             vpiParent: Port name:b
-            vpiFullName: work@prog.b
-            vpiActual: Variable name:b
+            vpiName: b
+            vpiFullName: prog.b.b
+            vpiActual: Net name:b
           vpiTypespec RefTypespec start:16:28 end:16:38:
             vpiParent: Port name:b
-            vpiFullName: work@prog.b
+            vpiFullName: prog.b
             vpiActual: LogicTypespec
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/24.3--program.sv start:20:1 end:27:10:
+    Module name:top file:$Source01/24.3--program.sv start:20:1 end:27:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:20:8 end:20:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:20:8 end:20:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
-        ProgramTypespec name:work@prog start:25:4 end:25:8:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@prog start:25:4 end:25:8:
-            vpiParent: ProgramTypespec name:work@prog
-            vpiName: work@prog
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+          vpiParent: Module name:top
+        ProgramTypespec name:prog start:25:4 end:25:8:
+          vpiParent: Module name:top
+          vpiName Identifier name:prog start:25:4 end:25:8:
+            vpiParent: ProgramTypespec name:prog
+            vpiName: prog
+          vpiProgram: Program name:prog
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiNet (2 items):
         Net name:a start:22:9 end:22:10:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:22:9 end:22:9:
             vpiParent: Net name:a
-            vpiFullName: work@top.a
+            vpiFullName: top.a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: work@top.a
+          vpiFullName: top.a
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Constant start:22:13 end:22:14:
             vpiParent: Net name:a
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top.a
+              vpiFullName: top.a
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
         Net name:b start:23:9 end:23:10:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:23:9 end:23:9:
             vpiParent: Net name:b
-            vpiFullName: work@top.b
+            vpiFullName: top.b
             vpiActual: LogicTypespec
           vpiName: b
-          vpiFullName: work@top.b
+          vpiFullName: top.b
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Constant start:23:13 end:23:14:
             vpiParent: Net name:b
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top.b
+              vpiFullName: top.b
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -295,49 +301,49 @@ Design name:unnamed:
             vpiValue: 1
       vpiRefInstance (1 items):
         RefInstance name:p start:25:9 end:25:10:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: p
-          vpiTypespec RefTypespec name:work@prog start:25:4 end:25:8:
+          vpiTypespec RefTypespec name:prog start:25:4 end:25:8:
             vpiParent: RefInstance name:p
-            vpiName: work@prog
-            vpiFullName: work@top.p.work@prog
-            vpiActual: ProgramTypespec name:work@prog
+            vpiName: prog
+            vpiFullName: top.p.prog
+            vpiActual: ProgramTypespec name:prog
           vpiPort (2 items):
             Port start:25:11 end:25:12:
               vpiParent: RefInstance name:p
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.p
+                vpiFullName: top.p
               vpiHighConn RefObj name:a start:25:11 end:25:12:
                 vpiParent: Port
                 vpiName: a
-                vpiFullName: work@top.p.a
+                vpiFullName: top.p.a
                 vpiActual: Net name:a
             Port start:25:14 end:25:15:
               vpiParent: RefInstance name:p
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.p
+                vpiFullName: top.p
               vpiHighConn RefObj name:b start:25:14 end:25:15:
                 vpiParent: Port
                 vpiName: b
-                vpiFullName: work@top.p.b
+                vpiFullName: top.p.b
                 vpiActual: Net name:b
   vpiTypespec (4 items):
-    ProgramTypespec name:work@prog:
+    ProgramTypespec name:prog:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@prog start:16:9 end:16:13:
-        vpiParent: ProgramTypespec name:work@prog
-        vpiName: work@prog
-      vpiProgram: Program name:work@prog
+      vpiName Identifier name:prog start:16:9 end:16:13:
+        vpiParent: ProgramTypespec name:prog
+        vpiName: prog
+      vpiProgram: Program name:prog
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:20:8 end:20:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:20:8 end:20:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

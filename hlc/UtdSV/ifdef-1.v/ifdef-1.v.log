@@ -18,7 +18,7 @@ n<$Source01/ifdef-1.v> u<75> t<Top_level_rule> c<1> l<2:1> el<32:1>
     n<> u<73> t<Description> p<74> c<72> l<2:1> el<31:10>
       n<> u<72> t<Module_declaration> p<73> c<12> l<2:1> el<31:10>
         n<> u<12> t<Module_nonansi_header> p<72> c<2> s<19> l<2:1> el<2:18>
-          n<module> u<2> t<Module_keyword> p<12> s<3> l<2:1> el<2:7>
+          n<module> u<2> t<MODULE> p<12> s<3> l<2:1> el<2:7>
           n<test> u<3> t<SIMPLE_IDENTIFIER> p<12> s<4> l<2:8> el<2:12>
           n<> u<4> t<Package_import_declaration_list> p<12> s<11> l<2:12> el<2:12>
           n<> u<11> t<Port_list> p<12> c<10> l<2:12> el<2:17>
@@ -88,7 +88,7 @@ n<$Source01/ifdef-1.v> u<75> t<Top_level_rule> c<1> l<2:1> el<32:1>
                                     n<"nest_two is defined"> u<56> t<QUOTED_STRING> p<57> l<15:30> el<15:51>
         n<> u<71> t<ENDMODULE> p<72> l<31:1> el<31:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/ifdef-1.v:2:1: Compile module "work@test".
+[INF:CP0303] $Source01/ifdef-1.v:2:1: Compile module "test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -104,65 +104,70 @@ Design name:unnamed:
           vpiName Identifier name:wow start:5:9 end:5:12:
             vpiParent: PreprocMacroDefinition name:wow
             vpiName: wow
+          vpiPMDType: define (1)
         PreprocMacroDefinition name:nest_one start:6:1 end:7:1:
           vpiParent: SourceFile name:ifdef-1.v
           vpiName Identifier name:nest_one start:6:9 end:6:17:
             vpiParent: PreprocMacroDefinition name:nest_one
             vpiName: nest_one
+          vpiPMDType: define (1)
         PreprocMacroDefinition name:second_nest start:7:1 end:8:1:
           vpiParent: SourceFile name:ifdef-1.v
           vpiName Identifier name:second_nest start:7:9 end:7:20:
             vpiParent: PreprocMacroDefinition name:second_nest
             vpiName: second_nest
+          vpiPMDType: define (1)
         PreprocMacroDefinition name:nest_two start:8:1 end:9:1:
           vpiParent: SourceFile name:ifdef-1.v
           vpiName Identifier name:nest_two start:8:9 end:8:17:
             vpiParent: PreprocMacroDefinition name:nest_two
             vpiName: nest_two
-      vpiDefNetType: none (12)
+          vpiPMDType: define (1)
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/ifdef-1.v start:2:1 end:31:10:
+    Module name:test file:$Source01/ifdef-1.v start:2:1 end:31:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:2:8 end:2:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
+      vpiName Identifier name:test start:2:8 end:2:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@test
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+          vpiParent: Module name:test
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
       vpiNet (1 items):
         Net name:out start:3:8 end:3:11:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:3:8 end:3:8:
             vpiParent: Net name:out
-            vpiFullName: work@test.out
+            vpiFullName: test.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: work@test.out
+          vpiFullName: test.out
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:out start:2:13 end:2:16:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:2:13 end:2:16:
+          vpiLowConn RefObj name:out start:3:8 end:3:11:
             vpiParent: Port name:out
             vpiName: out
-            vpiFullName: work@test.out.out
+            vpiFullName: test.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:3:8 end:3:8:
             vpiParent: Port name:out
-            vpiFullName: work@test.out
+            vpiFullName: test.out
             vpiActual: LogicTypespec
       vpiProcess (3 items):
         Initial start:11:5 end:11:40:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt SysTaskCall name:$display start:11:13 end:11:39:
             vpiParent: Initial
             vpiName Identifier name:$display start:11:13 end:11:21:
@@ -173,14 +178,14 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 112
                 vpiDecompile: "\"wow is defined\""
                 vpiValue: wow is defined
         Initial start:13:9 end:13:49:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt SysTaskCall name:$display start:13:17 end:13:48:
             vpiParent: Initial
             vpiName Identifier name:$display start:13:17 end:13:25:
@@ -191,14 +196,14 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 152
                 vpiDecompile: "\"nest_one is defined\""
                 vpiValue: nest_one is defined
         Initial start:15:13 end:15:53:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt SysTaskCall name:$display start:15:21 end:15:52:
             vpiParent: Initial
             vpiName Identifier name:$display start:15:21 end:15:29:
@@ -209,19 +214,19 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 152
                 vpiDecompile: "\"nest_two is defined\""
                 vpiValue: nest_two is defined
   vpiTypespec (2 items):
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:2:8 end:2:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:2:8 end:2:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================

@@ -80,8 +80,8 @@ static const hldb::PreprocMacroDefinition *getMacro(const hldb::Design *d, std::
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@d", m_design->getAllModules()), nullptr)
-      << "module 'work@d' not found";
+  ASSERT_NE(hldb::findByName<hldb::Module>("d", m_design->getAllModules()), nullptr)
+      << "module 'd' not found";
 }
 
 // ---------------------------------------------------------------------------

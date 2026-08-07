@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,7 @@
 // which is the expected, correct outcome here.
 //
 // Checked:
-//   - design has module work@top with exactly 1 Parameter "c" (typespec ->
+//   - design has module top with exactly 1 Parameter "c" (typespec ->
 //     LogicTypespec) and exactly 1 ParamAssign: lhs RefObj "c" resolving the
 //     Parameter, rhs Constant hexadecimal "4'h5" (value "5")
 //   - module has exactly 1 net: "p1"
@@ -81,7 +81,7 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
@@ -100,7 +100,7 @@ class UnpackedStructDefaultValueTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();
@@ -112,14 +112,14 @@ class UnpackedStructDefaultValueTest : public Test {
 
   static const hldb::StructTypespec *getP1StructTypespec() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getNets() == nullptr) return nullptr;
-    const hldb::Net *const p1 = hldb::findByName<hldb::Net>("p1", top->getNets());
+    if (top == nullptr || top->getVariables() == nullptr) return nullptr;
+    const hldb::Variable *const p1 = hldb::findByName<hldb::Variable>("p1", top->getVariables());
     if (p1 == nullptr) return nullptr;
     return p1->getTypespec<hldb::RefTypespec>()->getActual<hldb::StructTypespec>();
   }
 };
 
-// --- module / parameter -------------------------------------------------------
+// --- module / parameter ----
 
 TEST_F(UnpackedStructDefaultValueTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -151,13 +151,13 @@ TEST_F(UnpackedStructDefaultValueTest, ParamAssignSetsCToHexFive) {
   EXPECT_EQ(rhs->getValue(), "5");
 }
 
-// --- net / struct typespec / legal per-member default value -----------------
+// --- net / struct typespec / legal per-member default value ----
 
 TEST_F(UnpackedStructDefaultValueTest, ModuleHasOneNet) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(UnpackedStructDefaultValueTest, P1IsUnpackedStructWithTwoMembers) {
@@ -197,7 +197,7 @@ TEST_F(UnpackedStructDefaultValueTest, MemberHiHasNoDefaultValue) {
   EXPECT_EQ(hi->getDefaultValue(), nullptr);
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedStructDefaultValueTest, InitialBeginHasTwoStmts) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -217,7 +217,7 @@ TEST_F(UnpackedStructDefaultValueTest, FirstStmtAssignsHexAToPOneHi) {
   EXPECT_EQ(lhs->getName(), "p1.hi");
   ASSERT_NE(lhs->getPathElems(), nullptr);
   ASSERT_EQ(lhs->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
@@ -240,7 +240,7 @@ TEST_F(UnpackedStructDefaultValueTest, SecondStmtDisplaysHiAndLoFields) {
   EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(2))->getName(), "p1.lo");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedStructDefaultValueTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -251,7 +251,7 @@ TEST_F(UnpackedStructDefaultValueTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedStructDefaultValueTest, DesignHasSignedIntTypespec) {
@@ -281,7 +281,7 @@ TEST_F(UnpackedStructDefaultValueTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime default-value application requires simulation -----
+// --- known gap: runtime default-value application requires simulation ----
 
 TEST_F(UnpackedStructDefaultValueTest, RuntimeDefaultValueRequiresSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates default-value.sv; it does not run a "

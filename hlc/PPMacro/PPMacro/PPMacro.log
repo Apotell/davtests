@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<64> t<Top_level_rule> c<1> l<2:1> el<12:1>
     n<> u<31> t<Description> p<63> c<30> s<62> l<2:1> el<4:10>
       n<> u<30> t<Module_declaration> p<31> c<6> l<2:1> el<4:10>
         n<> u<6> t<Module_nonansi_header> p<30> c<2> s<28> l<2:1> el<2:15>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<2:1> el<2:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<2:1> el<2:7>
           n<top1> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<2:8> el<2:12>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<2:12> el<2:12>
           n<> u<5> t<Port_list> p<6> l<2:12> el<2:14>
@@ -48,7 +48,7 @@ n<$Source01/dut.sv> u<64> t<Top_level_rule> c<1> l<2:1> el<12:1>
     n<> u<62> t<Description> p<63> c<61> l<7:1> el<9:10>
       n<> u<61> t<Module_declaration> p<62> c<36> l<7:1> el<9:10>
         n<> u<36> t<Module_nonansi_header> p<61> c<32> s<59> l<7:1> el<7:15>
-          n<module> u<32> t<Module_keyword> p<36> s<33> l<7:1> el<7:7>
+          n<module> u<32> t<MODULE> p<36> s<33> l<7:1> el<7:7>
           n<top2> u<33> t<SIMPLE_IDENTIFIER> p<36> s<34> l<7:8> el<7:12>
           n<> u<34> t<Package_import_declaration_list> p<36> s<35> l<7:12> el<7:12>
           n<> u<35> t<Port_list> p<36> l<7:12> el<7:14>
@@ -77,12 +77,10 @@ n<$Source01/dut.sv> u<64> t<Top_level_rule> c<1> l<2:1> el<12:1>
                                 n<123> u<46> t<INTEGRAL_NUMBER> p<47> l<8:23> el<8:26>
         n<> u<60> t<ENDMODULE> p<61> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@top1".
-[INF:CP0303] $Source01/dut.sv:7:1: Compile module "work@top2".
-[ERR:EL0535] $Source01/dut.sv:3:10: Illegal implicit net "id:25, name:a".
-[ERR:EL0535] $Source01/dut.sv:8:10: Illegal implicit net "id:34, name:a".
-[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@top1".
-[WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "work@top2".
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "top1".
+[INF:CP0303] $Source01/dut.sv:7:1: Compile module "top2".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "top1".
+[WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "top2".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -97,6 +95,7 @@ Design name:unnamed:
           vpiName Identifier name:FOO1 start:1:9 end:1:13:
             vpiParent: PreprocMacroDefinition name:FOO1
             vpiName: FOO1
+          vpiPMDType: define (1)
           vpiPMDToken (2 items):
             Identifier name:$ start:1:14 end:1:15:
               vpiParent: PreprocMacroDefinition name:FOO1
@@ -109,6 +108,7 @@ Design name:unnamed:
           vpiName Identifier name:FOO2 start:6:9 end:6:13:
             vpiParent: PreprocMacroDefinition name:FOO2
             vpiName: FOO2
+          vpiPMDType: define (1)
           vpiPMDToken (1 items):
             Identifier name:42 start:6:14 end:6:16:
               vpiParent: PreprocMacroDefinition name:FOO2
@@ -136,28 +136,27 @@ Design name:unnamed:
           vpiPMIBody Identifier name:42 start:6:14 end:6:16:
             vpiParent: PreprocMacroInstance name:FOO2
             vpiName: "42"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top1 file:$Source01/dut.sv start:2:1 end:4:10:
+    Module name:top1 file:$Source01/dut.sv start:2:1 end:4:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top1 start:2:8 end:2:12:
-        vpiParent: Module name:work@top1
-        vpiName: work@top1
-      vpiFullName: work@top1
-      vpiDefName: work@top1
-      vpiDefNetType: none (12)
+      vpiName Identifier name:top1 start:2:8 end:2:12:
+        vpiParent: Module name:top1
+        vpiName: top1
+      vpiFullName: top1
+      vpiDefName: top1
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top1
+        vpiParent: Module name:top1
         vpiName: work
-        vpiFullName: work@top1.work
+        vpiFullName: top1.work
       vpiCell: top1
       vpiContAssign (1 items):
         ContAssign start:3:10 end:3:24:
-          vpiParent: Module name:work@top1
+          vpiParent: Module name:top1
           vpiLhs RefObj name:a start:3:10 end:3:11:
             vpiParent: ContAssign
             vpiName: a
-            vpiFullName: work@top1.a
+            vpiFullName: top1.a
           vpiRhs SysFuncCall name:$clog2 start:1:14 end:1:25:
             vpiParent: ContAssign
             vpiName Identifier name:$clog2 start:1:14 end:1:20:
@@ -168,32 +167,32 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$clog2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top1
+                  vpiFullName: top1
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "123"
                 vpiValue: 123
-    Module name:work@top2 file:$Source01/dut.sv start:7:1 end:9:10:
+    Module name:top2 file:$Source01/dut.sv start:7:1 end:9:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top2 start:7:8 end:7:12:
-        vpiParent: Module name:work@top2
-        vpiName: work@top2
-      vpiFullName: work@top2
-      vpiDefName: work@top2
-      vpiDefNetType: none (12)
+      vpiName Identifier name:top2 start:7:8 end:7:12:
+        vpiParent: Module name:top2
+        vpiName: top2
+      vpiFullName: top2
+      vpiDefName: top2
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top2
+        vpiParent: Module name:top2
         vpiName: work
-        vpiFullName: work@top2.work
+        vpiFullName: top2.work
       vpiCell: top2
       vpiContAssign (1 items):
         ContAssign start:8:10 end:8:27:
-          vpiParent: Module name:work@top2
+          vpiParent: Module name:top2
           vpiLhs RefObj name:a start:8:10 end:8:11:
             vpiParent: ContAssign
             vpiName: a
-            vpiFullName: work@top2.a
+            vpiFullName: top2.a
           vpiRhs Operation start:8:14 end:8:27:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -202,7 +201,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top2
+                  vpiFullName: top2
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -212,32 +211,32 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top2
+                  vpiFullName: top2
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "123"
                 vpiValue: 123
   vpiTypespec (3 items):
-    ModuleTypespec name:work@top1:
+    ModuleTypespec name:top1:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top1 start:2:8 end:2:12:
-        vpiParent: ModuleTypespec name:work@top1
-        vpiName: work@top1
-      vpiModule: Module name:work@top1
+      vpiName Identifier name:top1 start:2:8 end:2:12:
+        vpiParent: ModuleTypespec name:top1
+        vpiName: top1
+      vpiModule: Module name:top1
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@top2:
+    ModuleTypespec name:top2:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top2 start:7:8 end:7:12:
-        vpiParent: ModuleTypespec name:work@top2
-        vpiName: work@top2
-      vpiModule: Module name:work@top2
+      vpiName Identifier name:top2 start:7:8 end:7:12:
+        vpiParent: ModuleTypespec name:top2
+        vpiName: top2
+      vpiModule: Module name:top2
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

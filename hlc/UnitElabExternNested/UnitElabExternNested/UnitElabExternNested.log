@@ -13,25 +13,26 @@ COMMAND: -wd ../../../tests/UnitElabExternNested top.v middle.v -writepp -fileun
 [INF:PA0201] Parsing source file "$Source00/builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/top.v".
 [INF:PA0201] Parsing source file "$Source01/middle.v".
-[INF:CP0303] $Source01/top.v:1:1: Compile module "work@dff_nested".
-[INF:CP0303] $Source01/top.v:9:1: Compile module "work@ff1".
-[INF:CP0303] $Source01/top.v:18:1: Compile module "work@ff2".
-[INF:CP0303] $Source01/top.v:28:1: Compile module "work@ff3".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "work@ff1".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "work@ff2".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "work@ff3".
-[INF:CP0303] $Source01/middle.v:2:1: Compile module "work@m".
-[INF:CP0303] $Source01/middle.v:3:1: Compile module "work@a".
-[INF:CP0303] $Source01/middle.v:18:1: Compile module "work@top".
-[ERR:EL0535] $Source01/middle.v:9:1: Illegal implicit net "id:938, name:logic".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "dff_nested".
+[NTE:CP0309] $Source01/top.v:6:2: Implicit port type (wire) for "q".
+[NTE:CP0309] $Source01/top.v:6:5: Implicit port type (wire) for "nq".
+[INF:CP0303] $Source01/top.v:9:1: Compile module "ff1".
+[INF:CP0303] $Source01/top.v:18:1: Compile module "ff2".
+[INF:CP0303] $Source01/top.v:28:1: Compile module "ff3".
+[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff1".
+[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff2".
+[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff3".
+[INF:CP0303] $Source01/middle.v:2:1: Compile module "m".
+[INF:CP0303] $Source01/middle.v:3:1: Compile module "a".
+[INF:CP0303] $Source01/middle.v:18:1: Compile module "top".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/top.v:1:1: No timescale set for "work@dff_nested".
-[WRN:PA0205] $Source01/top.v:9:1: No timescale set for "work@ff1".
-[WRN:PA0205] $Source01/top.v:18:1: No timescale set for "work@ff2".
-[WRN:PA0205] $Source01/top.v:28:1: No timescale set for "work@ff3".
-[WRN:PA0205] $Source01/middle.v:2:1: No timescale set for "work@m".
-[WRN:PA0205] $Source01/middle.v:3:1: No timescale set for "work@a".
-[WRN:PA0205] $Source01/middle.v:18:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/top.v:1:1: No timescale set for "dff_nested".
+[WRN:PA0205] $Source01/top.v:9:1: No timescale set for "ff1".
+[WRN:PA0205] $Source01/top.v:18:1: No timescale set for "ff2".
+[WRN:PA0205] $Source01/top.v:28:1: No timescale set for "ff3".
+[WRN:PA0205] $Source01/middle.v:2:1: No timescale set for "m".
+[WRN:PA0205] $Source01/middle.v:3:1: No timescale set for "a".
+[WRN:PA0205] $Source01/middle.v:18:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -40,12 +41,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
     SourceFile name:middle.v file:$Source01/middle.v:
       vpiParent: Design name:unnamed
       vpiName: middle.v
       vpiPreprocFile: "$Output/lib/work/middle.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1612,6 +1611,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -1623,6 +1623,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -1654,6 +1655,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -1668,6 +1670,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -1689,6 +1692,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -1712,6 +1716,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -1731,6 +1736,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -1754,6 +1760,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -1773,6 +1780,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -1842,16 +1850,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -1864,6 +1875,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -1875,6 +1887,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -1882,6 +1895,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -1889,6 +1903,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -1896,6 +1911,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -1909,6 +1925,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -1920,6 +1937,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -1951,6 +1969,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -1977,6 +1996,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2003,6 +2023,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2028,229 +2049,244 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (4 items):
-    Module name:work@dff_nested file:$Source01/top.v start:1:1 end:36:10:
+    Module name:dff_nested file:$Source01/top.v start:1:1 end:36:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dff_nested start:2:2 end:2:12:
-        vpiParent: Module name:work@dff_nested
-        vpiName: work@dff_nested
-      vpiFullName: work@dff_nested
+      vpiName Identifier name:dff_nested start:2:2 end:2:12:
+        vpiParent: Module name:dff_nested
+        vpiName: dff_nested
+      vpiFullName: dff_nested
       vpiTypespec (7 items):
         LogicTypespec:
-          vpiParent: Module name:work@dff_nested
-        ModuleTypespec name:work@ff1:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff1 start:10:2 end:10:5:
-            vpiParent: ModuleTypespec name:work@ff1
-            vpiName: work@ff1
-          vpiModule: Module name:work@ff1
-        ModuleTypespec name:work@ff1 start:16:5 end:16:8:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff1 start:16:5 end:16:8:
-            vpiParent: ModuleTypespec name:work@ff1
-            vpiName: work@ff1
-        ModuleTypespec name:work@ff2:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff2 start:19:2 end:19:5:
-            vpiParent: ModuleTypespec name:work@ff2
-            vpiName: work@ff2
-          vpiModule: Module name:work@ff2
-        ModuleTypespec name:work@ff2 start:27:5 end:27:8:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff2 start:27:5 end:27:8:
-            vpiParent: ModuleTypespec name:work@ff2
-            vpiName: work@ff2
-        ModuleTypespec name:work@ff3:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff3 start:29:2 end:29:5:
-            vpiParent: ModuleTypespec name:work@ff3
-            vpiName: work@ff3
-          vpiModule: Module name:work@ff3
-        ModuleTypespec name:work@ff3 start:35:5 end:35:8:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff3 start:35:5 end:35:8:
-            vpiParent: ModuleTypespec name:work@ff3
-            vpiName: work@ff3
-      vpiDefName: work@dff_nested
-      vpiDefNetType: none (12)
+          vpiParent: Module name:dff_nested
+        ModuleTypespec name:ff1:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff1 start:10:2 end:10:5:
+            vpiParent: ModuleTypespec name:ff1
+            vpiName: ff1
+          vpiModule: Module name:ff1
+        ModuleTypespec name:ff1 start:16:5 end:16:8:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff1 start:16:5 end:16:8:
+            vpiParent: ModuleTypespec name:ff1
+            vpiName: ff1
+        ModuleTypespec name:ff2:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff2 start:19:2 end:19:5:
+            vpiParent: ModuleTypespec name:ff2
+            vpiName: ff2
+          vpiModule: Module name:ff2
+        ModuleTypespec name:ff2 start:27:5 end:27:8:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff2 start:27:5 end:27:8:
+            vpiParent: ModuleTypespec name:ff2
+            vpiName: ff2
+        ModuleTypespec name:ff3:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff3 start:29:2 end:29:5:
+            vpiParent: ModuleTypespec name:ff3
+            vpiName: ff3
+          vpiModule: Module name:ff3
+        ModuleTypespec name:ff3 start:35:5 end:35:8:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff3 start:35:5 end:35:8:
+            vpiParent: ModuleTypespec name:ff3
+            vpiName: ff3
+      vpiDefName: dff_nested
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dff_nested
+        vpiParent: Module name:dff_nested
         vpiName: work
-        vpiFullName: work@dff_nested.work
+        vpiFullName: dff_nested.work
       vpiCell: dff_nested
       vpiNet (9 items):
         Net name:d start:4:2 end:4:3:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:3:1 end:3:6:
             vpiParent: Net name:d
-            vpiFullName: work@dff_nested.d
+            vpiFullName: dff_nested.d
             vpiActual: LogicTypespec
           vpiName: d
-          vpiFullName: work@dff_nested.d
+          vpiFullName: dff_nested.d
           vpiNetType: wire (1)
-        Net name:ck start:4:5 end:4:7:
-          vpiParent: Module name:work@dff_nested
-          vpiTypespec RefTypespec start:4:5 end:4:5:
-            vpiParent: Net name:ck
-            vpiFullName: work@dff_nested.ck
-            vpiActual: LogicTypespec
-          vpiName: ck
-          vpiFullName: work@dff_nested.ck
-          vpiNetType: wire (1)
-        Net name:pr start:4:9 end:4:11:
-          vpiParent: Module name:work@dff_nested
-          vpiTypespec RefTypespec start:4:9 end:4:9:
-            vpiParent: Net name:pr
-            vpiFullName: work@dff_nested.pr
-            vpiActual: LogicTypespec
-          vpiName: pr
-          vpiFullName: work@dff_nested.pr
-          vpiNetType: wire (1)
-        Net name:clr start:4:13 end:4:16:
-          vpiParent: Module name:work@dff_nested
-          vpiTypespec RefTypespec start:4:13 end:4:13:
-            vpiParent: Net name:clr
-            vpiFullName: work@dff_nested.clr
-            vpiActual: LogicTypespec
-          vpiName: clr
-          vpiFullName: work@dff_nested.clr
-          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:q start:6:2 end:6:3:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:5:1 end:5:7:
             vpiParent: Net name:q
-            vpiFullName: work@dff_nested.q
+            vpiFullName: dff_nested.q
             vpiActual: LogicTypespec
           vpiName: q
-          vpiFullName: work@dff_nested.q
+          vpiFullName: dff_nested.q
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:ck start:4:5 end:4:7:
+          vpiParent: Module name:dff_nested
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:ck
+            vpiFullName: dff_nested.ck
+            vpiActual: LogicTypespec
+          vpiName: ck
+          vpiFullName: dff_nested.ck
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:pr start:4:9 end:4:11:
+          vpiParent: Module name:dff_nested
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:pr
+            vpiFullName: dff_nested.pr
+            vpiActual: LogicTypespec
+          vpiName: pr
+          vpiFullName: dff_nested.pr
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clr start:4:13 end:4:16:
+          vpiParent: Module name:dff_nested
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clr
+            vpiFullName: dff_nested.clr
+            vpiActual: LogicTypespec
+          vpiName: clr
+          vpiFullName: dff_nested.clr
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:nq start:6:5 end:6:7:
-          vpiParent: Module name:work@dff_nested
-          vpiTypespec RefTypespec start:6:5 end:6:5:
+          vpiParent: Module name:dff_nested
+          vpiTypespec RefTypespec:
             vpiParent: Net name:nq
-            vpiFullName: work@dff_nested.nq
+            vpiFullName: dff_nested.nq
             vpiActual: LogicTypespec
           vpiName: nq
-          vpiFullName: work@dff_nested.nq
+          vpiFullName: dff_nested.nq
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:q1 start:8:2 end:8:4:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:8:2 end:8:2:
             vpiParent: Net name:q1
-            vpiFullName: work@dff_nested.q1
+            vpiFullName: dff_nested.q1
             vpiActual: LogicTypespec
           vpiName: q1
-          vpiFullName: work@dff_nested.q1
+          vpiFullName: dff_nested.q1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:nq1 start:8:6 end:8:9:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:8:2 end:8:2:
             vpiParent: Net name:nq1
-            vpiFullName: work@dff_nested.nq1
+            vpiFullName: dff_nested.nq1
             vpiActual: LogicTypespec
           vpiName: nq1
-          vpiFullName: work@dff_nested.nq1
+          vpiFullName: dff_nested.nq1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:nq2 start:8:11 end:8:14:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiTypespec RefTypespec start:8:2 end:8:2:
             vpiParent: Net name:nq2
-            vpiFullName: work@dff_nested.nq2
+            vpiFullName: dff_nested.nq2
             vpiActual: LogicTypespec
           vpiName: nq2
-          vpiFullName: work@dff_nested.nq2
+          vpiFullName: dff_nested.nq2
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (6 items):
         Port name:d start:4:2 end:4:3:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:2 end:4:3:
+          vpiLowConn RefObj name:d start:4:2 end:4:3:
             vpiParent: Port name:d
-            vpiFullName: work@dff_nested.d
+            vpiName: d
+            vpiFullName: dff_nested.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:3:1 end:3:6:
             vpiParent: Port name:d
-            vpiFullName: work@dff_nested.d
+            vpiFullName: dff_nested.d
             vpiActual: LogicTypespec
         Port name:ck start:4:5 end:4:7:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: ck
-          vpiDirection: inout (3)
-          vpiLowConn RefObj start:4:5 end:4:7:
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:ck start:4:5 end:4:7:
             vpiParent: Port name:ck
-            vpiFullName: work@dff_nested.ck
+            vpiName: ck
+            vpiFullName: dff_nested.ck.ck
             vpiActual: Net name:ck
-          vpiTypespec RefTypespec start:4:5 end:4:5:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:ck
-            vpiFullName: work@dff_nested.ck
+            vpiFullName: dff_nested.ck
             vpiActual: LogicTypespec
         Port name:pr start:4:9 end:4:11:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: pr
-          vpiDirection: inout (3)
-          vpiLowConn RefObj start:4:9 end:4:11:
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:pr start:4:9 end:4:11:
             vpiParent: Port name:pr
-            vpiFullName: work@dff_nested.pr
+            vpiName: pr
+            vpiFullName: dff_nested.pr.pr
             vpiActual: Net name:pr
-          vpiTypespec RefTypespec start:4:9 end:4:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:pr
-            vpiFullName: work@dff_nested.pr
+            vpiFullName: dff_nested.pr
             vpiActual: LogicTypespec
         Port name:clr start:4:13 end:4:16:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: clr
-          vpiDirection: inout (3)
-          vpiLowConn RefObj start:4:13 end:4:16:
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clr start:4:13 end:4:16:
             vpiParent: Port name:clr
-            vpiFullName: work@dff_nested.clr
+            vpiName: clr
+            vpiFullName: dff_nested.clr.clr
             vpiActual: Net name:clr
-          vpiTypespec RefTypespec start:4:13 end:4:13:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clr
-            vpiFullName: work@dff_nested.clr
+            vpiFullName: dff_nested.clr
             vpiActual: LogicTypespec
         Port name:q start:6:2 end:6:3:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:2 end:6:3:
+          vpiLowConn RefObj name:q start:6:2 end:6:3:
             vpiParent: Port name:q
-            vpiFullName: work@dff_nested.q
+            vpiName: q
+            vpiFullName: dff_nested.q.q
             vpiActual: Net name:q
           vpiTypespec RefTypespec start:5:1 end:5:7:
             vpiParent: Port name:q
-            vpiFullName: work@dff_nested.q
+            vpiFullName: dff_nested.q
             vpiActual: LogicTypespec
         Port name:nq start:6:5 end:6:7:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: nq
-          vpiDirection: inout (3)
-          vpiLowConn RefObj start:6:5 end:6:7:
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:nq start:6:5 end:6:7:
             vpiParent: Port name:nq
-            vpiFullName: work@dff_nested.nq
+            vpiName: nq
+            vpiFullName: dff_nested.nq.nq
             vpiActual: Net name:nq
-          vpiTypespec RefTypespec start:6:5 end:6:5:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:nq
-            vpiFullName: work@dff_nested.nq
+            vpiFullName: dff_nested.nq
             vpiActual: LogicTypespec
       vpiModule (3 items):
-        Module name:work@ff1 file:$Source01/top.v start:9:1 end:15:10:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff1 start:10:2 end:10:5:
-            vpiParent: Module name:work@ff1
-            vpiName: work@ff1
-          vpiFullName: work@ff1
-          vpiDefName: work@ff1
-          vpiDefNetType: none (12)
+        Module name:ff1 file:$Source01/top.v start:9:1 end:15:10:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff1 start:10:2 end:10:5:
+            vpiParent: Module name:ff1
+            vpiName: ff1
+          vpiFullName: ff1
+          vpiDefName: ff1
+          vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work:
-            vpiParent: Module name:work@ff1
+            vpiParent: Module name:ff1
             vpiName: work
-            vpiFullName: work@dff_nested.work@ff1.work
+            vpiFullName: dff_nested.ff1.work
           vpiCell: ff1
           vpiPrimitive (2 items):
             Gate name:g1b start:12:2 end:12:5:
-              vpiParent: Module name:work@ff1
+              vpiParent: Module name:ff1
               vpiName: g1b
-              vpiFullName: work@dff_nested.work@ff1.g1b
+              vpiFullName: dff_nested.ff1.g1b
               vpiDefName Identifier name:work@nand start:11:1 end:11:5:
                 vpiParent: Gate name:g1b
                 vpiName: work@nand
@@ -2262,7 +2298,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq1 start:12:7 end:12:10:
                     vpiParent: PrimTerm
                     vpiName: nq1
-                    vpiFullName: work@dff_nested.work@ff1.g1b.nq1
+                    vpiFullName: dff_nested.ff1.g1b.nq1
                     vpiActual: Net name:nq1
                 PrimTerm start:12:12 end:12:13:
                   vpiParent: Gate name:g1b
@@ -2271,7 +2307,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:d start:12:12 end:12:13:
                     vpiParent: PrimTerm
                     vpiName: d
-                    vpiFullName: work@dff_nested.work@ff1.g1b.d
+                    vpiFullName: dff_nested.ff1.g1b.d
                     vpiActual: Net name:d
                 PrimTerm start:12:15 end:12:18:
                   vpiParent: Gate name:g1b
@@ -2280,7 +2316,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:clr start:12:15 end:12:18:
                     vpiParent: PrimTerm
                     vpiName: clr
-                    vpiFullName: work@dff_nested.work@ff1.g1b.clr
+                    vpiFullName: dff_nested.ff1.g1b.clr
                     vpiActual: Net name:clr
                 PrimTerm start:12:20 end:12:22:
                   vpiParent: Gate name:g1b
@@ -2289,12 +2325,12 @@ Design name:unnamed:
                   vpiExpr RefObj name:q1 start:12:20 end:12:22:
                     vpiParent: PrimTerm
                     vpiName: q1
-                    vpiFullName: work@dff_nested.work@ff1.g1b.q1
+                    vpiFullName: dff_nested.ff1.g1b.q1
                     vpiActual: Net name:q1
             Gate name:g1a start:14:2 end:14:5:
-              vpiParent: Module name:work@ff1
+              vpiParent: Module name:ff1
               vpiName: g1a
-              vpiFullName: work@dff_nested.work@ff1.g1a
+              vpiFullName: dff_nested.ff1.g1a
               vpiDefName Identifier name:work@nand start:13:1 end:13:5:
                 vpiParent: Gate name:g1a
                 vpiName: work@nand
@@ -2306,7 +2342,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:q1 start:14:7 end:14:9:
                     vpiParent: PrimTerm
                     vpiName: q1
-                    vpiFullName: work@dff_nested.work@ff1.g1a.q1
+                    vpiFullName: dff_nested.ff1.g1a.q1
                     vpiActual: Net name:q1
                 PrimTerm start:14:11 end:14:13:
                   vpiParent: Gate name:g1a
@@ -2315,7 +2351,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:ck start:14:11 end:14:13:
                     vpiParent: PrimTerm
                     vpiName: ck
-                    vpiFullName: work@dff_nested.work@ff1.g1a.ck
+                    vpiFullName: dff_nested.ff1.g1a.ck
                     vpiActual: Net name:ck
                 PrimTerm start:14:15 end:14:18:
                   vpiParent: Gate name:g1a
@@ -2324,7 +2360,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq2 start:14:15 end:14:18:
                     vpiParent: PrimTerm
                     vpiName: nq2
-                    vpiFullName: work@dff_nested.work@ff1.g1a.nq2
+                    vpiFullName: dff_nested.ff1.g1a.nq2
                     vpiActual: Net name:nq2
                 PrimTerm start:14:20 end:14:23:
                   vpiParent: Gate name:g1a
@@ -2333,39 +2369,40 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq1 start:14:20 end:14:23:
                     vpiParent: PrimTerm
                     vpiName: nq1
-                    vpiFullName: work@dff_nested.work@ff1.g1a.nq1
+                    vpiFullName: dff_nested.ff1.g1a.nq1
                     vpiActual: Net name:nq1
-        Module name:work@ff2 file:$Source01/top.v start:18:1 end:26:10:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff2 start:19:2 end:19:5:
-            vpiParent: Module name:work@ff2
-            vpiName: work@ff2
-          vpiFullName: work@ff2
+        Module name:ff2 file:$Source01/top.v start:18:1 end:26:10:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff2 start:19:2 end:19:5:
+            vpiParent: Module name:ff2
+            vpiName: ff2
+          vpiFullName: ff2
           vpiTypespec (1 items):
             LogicTypespec:
-              vpiParent: Module name:work@ff2
-          vpiDefName: work@ff2
-          vpiDefNetType: none (12)
+              vpiParent: Module name:ff2
+          vpiDefName: ff2
+          vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work:
-            vpiParent: Module name:work@ff2
+            vpiParent: Module name:ff2
             vpiName: work
-            vpiFullName: work@dff_nested.work@ff2.work
+            vpiFullName: dff_nested.ff2.work
           vpiCell: ff2
           vpiNet (1 items):
             Net name:q2 start:21:2 end:21:4:
-              vpiParent: Module name:work@ff2
+              vpiParent: Module name:ff2
               vpiTypespec RefTypespec start:21:2 end:21:2:
                 vpiParent: Net name:q2
-                vpiFullName: work@dff_nested.work@ff2.q2
+                vpiFullName: dff_nested.ff2.q2
                 vpiActual: LogicTypespec
               vpiName: q2
-              vpiFullName: work@dff_nested.work@ff2.q2
+              vpiFullName: dff_nested.ff2.q2
               vpiNetType: wire (1)
+              vpiScalar: true
           vpiPrimitive (2 items):
             Gate name:g2b start:23:2 end:23:5:
-              vpiParent: Module name:work@ff2
+              vpiParent: Module name:ff2
               vpiName: g2b
-              vpiFullName: work@dff_nested.work@ff2.g2b
+              vpiFullName: dff_nested.ff2.g2b
               vpiDefName Identifier name:work@nand start:22:1 end:22:5:
                 vpiParent: Gate name:g2b
                 vpiName: work@nand
@@ -2377,7 +2414,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq2 start:23:7 end:23:10:
                     vpiParent: PrimTerm
                     vpiName: nq2
-                    vpiFullName: work@dff_nested.work@ff2.g2b.nq2
+                    vpiFullName: dff_nested.ff2.g2b.nq2
                     vpiActual: Net name:nq2
                 PrimTerm start:23:12 end:23:14:
                   vpiParent: Gate name:g2b
@@ -2386,7 +2423,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:ck start:23:12 end:23:14:
                     vpiParent: PrimTerm
                     vpiName: ck
-                    vpiFullName: work@dff_nested.work@ff2.g2b.ck
+                    vpiFullName: dff_nested.ff2.g2b.ck
                     vpiActual: Net name:ck
                 PrimTerm start:23:16 end:23:19:
                   vpiParent: Gate name:g2b
@@ -2395,7 +2432,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:clr start:23:16 end:23:19:
                     vpiParent: PrimTerm
                     vpiName: clr
-                    vpiFullName: work@dff_nested.work@ff2.g2b.clr
+                    vpiFullName: dff_nested.ff2.g2b.clr
                     vpiActual: Net name:clr
                 PrimTerm start:23:21 end:23:23:
                   vpiParent: Gate name:g2b
@@ -2404,12 +2441,12 @@ Design name:unnamed:
                   vpiExpr RefObj name:q2 start:23:21 end:23:23:
                     vpiParent: PrimTerm
                     vpiName: q2
-                    vpiFullName: work@dff_nested.work@ff2.g2b.q2
+                    vpiFullName: dff_nested.ff2.g2b.q2
                     vpiActual: Net name:q2
             Gate name:g2a start:25:2 end:25:5:
-              vpiParent: Module name:work@ff2
+              vpiParent: Module name:ff2
               vpiName: g2a
-              vpiFullName: work@dff_nested.work@ff2.g2a
+              vpiFullName: dff_nested.ff2.g2a
               vpiDefName Identifier name:work@nand start:24:1 end:24:5:
                 vpiParent: Gate name:g2a
                 vpiName: work@nand
@@ -2421,7 +2458,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:q2 start:25:7 end:25:9:
                     vpiParent: PrimTerm
                     vpiName: q2
-                    vpiFullName: work@dff_nested.work@ff2.g2a.q2
+                    vpiFullName: dff_nested.ff2.g2a.q2
                     vpiActual: Net name:q2
                 PrimTerm start:25:11 end:25:14:
                   vpiParent: Gate name:g2a
@@ -2430,7 +2467,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq1 start:25:11 end:25:14:
                     vpiParent: PrimTerm
                     vpiName: nq1
-                    vpiFullName: work@dff_nested.work@ff2.g2a.nq1
+                    vpiFullName: dff_nested.ff2.g2a.nq1
                     vpiActual: Net name:nq1
                 PrimTerm start:25:16 end:25:18:
                   vpiParent: Gate name:g2a
@@ -2439,7 +2476,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:pr start:25:16 end:25:18:
                     vpiParent: PrimTerm
                     vpiName: pr
-                    vpiFullName: work@dff_nested.work@ff2.g2a.pr
+                    vpiFullName: dff_nested.ff2.g2a.pr
                     vpiActual: Net name:pr
                 PrimTerm start:25:20 end:25:23:
                   vpiParent: Gate name:g2a
@@ -2448,26 +2485,26 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq2 start:25:20 end:25:23:
                     vpiParent: PrimTerm
                     vpiName: nq2
-                    vpiFullName: work@dff_nested.work@ff2.g2a.nq2
+                    vpiFullName: dff_nested.ff2.g2a.nq2
                     vpiActual: Net name:nq2
-        Module name:work@ff3 file:$Source01/top.v start:28:1 end:34:10:
-          vpiParent: Module name:work@dff_nested
-          vpiName Identifier name:work@ff3 start:29:2 end:29:5:
-            vpiParent: Module name:work@ff3
-            vpiName: work@ff3
-          vpiFullName: work@ff3
-          vpiDefName: work@ff3
-          vpiDefNetType: none (12)
+        Module name:ff3 file:$Source01/top.v start:28:1 end:34:10:
+          vpiParent: Module name:dff_nested
+          vpiName Identifier name:ff3 start:29:2 end:29:5:
+            vpiParent: Module name:ff3
+            vpiName: ff3
+          vpiFullName: ff3
+          vpiDefName: ff3
+          vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work:
-            vpiParent: Module name:work@ff3
+            vpiParent: Module name:ff3
             vpiName: work
-            vpiFullName: work@dff_nested.work@ff3.work
+            vpiFullName: dff_nested.ff3.work
           vpiCell: ff3
           vpiPrimitive (2 items):
             Gate name:g3a start:31:2 end:31:5:
-              vpiParent: Module name:work@ff3
+              vpiParent: Module name:ff3
               vpiName: g3a
-              vpiFullName: work@dff_nested.work@ff3.g3a
+              vpiFullName: dff_nested.ff3.g3a
               vpiDefName Identifier name:work@nand start:30:1 end:30:5:
                 vpiParent: Gate name:g3a
                 vpiName: work@nand
@@ -2479,7 +2516,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:q start:31:7 end:31:8:
                     vpiParent: PrimTerm
                     vpiName: q
-                    vpiFullName: work@dff_nested.work@ff3.g3a.q
+                    vpiFullName: dff_nested.ff3.g3a.q
                     vpiActual: Net name:q
                 PrimTerm start:31:10 end:31:13:
                   vpiParent: Gate name:g3a
@@ -2488,7 +2525,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq2 start:31:10 end:31:13:
                     vpiParent: PrimTerm
                     vpiName: nq2
-                    vpiFullName: work@dff_nested.work@ff3.g3a.nq2
+                    vpiFullName: dff_nested.ff3.g3a.nq2
                     vpiActual: Net name:nq2
                 PrimTerm start:31:15 end:31:18:
                   vpiParent: Gate name:g3a
@@ -2497,7 +2534,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:clr start:31:15 end:31:18:
                     vpiParent: PrimTerm
                     vpiName: clr
-                    vpiFullName: work@dff_nested.work@ff3.g3a.clr
+                    vpiFullName: dff_nested.ff3.g3a.clr
                     vpiActual: Net name:clr
                 PrimTerm start:31:20 end:31:22:
                   vpiParent: Gate name:g3a
@@ -2506,12 +2543,12 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq start:31:20 end:31:22:
                     vpiParent: PrimTerm
                     vpiName: nq
-                    vpiFullName: work@dff_nested.work@ff3.g3a.nq
+                    vpiFullName: dff_nested.ff3.g3a.nq
                     vpiActual: Net name:nq
             Gate name:g3b start:33:2 end:33:5:
-              vpiParent: Module name:work@ff3
+              vpiParent: Module name:ff3
               vpiName: g3b
-              vpiFullName: work@dff_nested.work@ff3.g3b
+              vpiFullName: dff_nested.ff3.g3b
               vpiDefName Identifier name:work@nand start:32:1 end:32:5:
                 vpiParent: Gate name:g3b
                 vpiName: work@nand
@@ -2523,7 +2560,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:nq start:33:7 end:33:9:
                     vpiParent: PrimTerm
                     vpiName: nq
-                    vpiFullName: work@dff_nested.work@ff3.g3b.nq
+                    vpiFullName: dff_nested.ff3.g3b.nq
                     vpiActual: Net name:nq
                 PrimTerm start:33:11 end:33:13:
                   vpiParent: Gate name:g3b
@@ -2532,7 +2569,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:q1 start:33:11 end:33:13:
                     vpiParent: PrimTerm
                     vpiName: q1
-                    vpiFullName: work@dff_nested.work@ff3.g3b.q1
+                    vpiFullName: dff_nested.ff3.g3b.q1
                     vpiActual: Net name:q1
                 PrimTerm start:33:15 end:33:17:
                   vpiParent: Gate name:g3b
@@ -2541,7 +2578,7 @@ Design name:unnamed:
                   vpiExpr RefObj name:pr start:33:15 end:33:17:
                     vpiParent: PrimTerm
                     vpiName: pr
-                    vpiFullName: work@dff_nested.work@ff3.g3b.pr
+                    vpiFullName: dff_nested.ff3.g3b.pr
                     vpiActual: Net name:pr
                 PrimTerm start:33:19 end:33:20:
                   vpiParent: Gate name:g3b
@@ -2550,195 +2587,149 @@ Design name:unnamed:
                   vpiExpr RefObj name:q start:33:19 end:33:20:
                     vpiParent: PrimTerm
                     vpiName: q
-                    vpiFullName: work@dff_nested.work@ff3.g3b.q
+                    vpiFullName: dff_nested.ff3.g3b.q
                     vpiActual: Net name:q
       vpiRefInstance (3 items):
         RefInstance name:i1 start:16:9 end:16:11:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: i1
-          vpiTypespec RefTypespec name:work@ff1 start:16:5 end:16:8:
+          vpiTypespec RefTypespec name:ff1 start:16:5 end:16:8:
             vpiParent: RefInstance name:i1
-            vpiName: work@ff1
-            vpiFullName: work@dff_nested.i1.work@ff1
-            vpiActual: ModuleTypespec name:work@ff1
+            vpiName: ff1
+            vpiFullName: dff_nested.i1.ff1
+            vpiActual: ModuleTypespec name:ff1
         RefInstance name:i2 start:27:9 end:27:11:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: i2
-          vpiTypespec RefTypespec name:work@ff2 start:27:5 end:27:8:
+          vpiTypespec RefTypespec name:ff2 start:27:5 end:27:8:
             vpiParent: RefInstance name:i2
-            vpiName: work@ff2
-            vpiFullName: work@dff_nested.i2.work@ff2
-            vpiActual: ModuleTypespec name:work@ff2
+            vpiName: ff2
+            vpiFullName: dff_nested.i2.ff2
+            vpiActual: ModuleTypespec name:ff2
         RefInstance name:i3 start:35:9 end:35:11:
-          vpiParent: Module name:work@dff_nested
+          vpiParent: Module name:dff_nested
           vpiName: i3
-          vpiTypespec RefTypespec name:work@ff3 start:35:5 end:35:8:
+          vpiTypespec RefTypespec name:ff3 start:35:5 end:35:8:
             vpiParent: RefInstance name:i3
-            vpiName: work@ff3
-            vpiFullName: work@dff_nested.i3.work@ff3
-            vpiActual: ModuleTypespec name:work@ff3
-    Module name:work@m file:$Source01/middle.v start:2:1 end:2:27:
+            vpiName: ff3
+            vpiFullName: dff_nested.i3.ff3
+            vpiActual: ModuleTypespec name:ff3
+    Module name:m file:$Source01/middle.v start:2:1 end:2:27:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@m start:2:15 end:2:16:
-        vpiParent: Module name:work@m
-        vpiName: work@m
-      vpiFullName: work@m
-      vpiDefName: work@m
-      vpiDefNetType: none (12)
+      vpiName Identifier name:m start:2:15 end:2:16:
+        vpiParent: Module name:m
+        vpiName: m
+      vpiFullName: m
+      vpiDefName: m
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@m
+        vpiParent: Module name:m
         vpiName: work
-        vpiFullName: work@m.work
+        vpiFullName: m.work
       vpiCell: m
-      vpiNet (4 items):
-        Net name:a start:2:18 end:2:19:
-          vpiParent: Module name:work@m
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:a
-            vpiFullName: work@m.a
-          vpiName: a
-          vpiFullName: work@m.a
-        Net name:b start:2:20 end:2:21:
-          vpiParent: Module name:work@m
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:b
-            vpiFullName: work@m.b
-          vpiName: b
-          vpiFullName: work@m.b
-        Net name:c start:2:22 end:2:23:
-          vpiParent: Module name:work@m
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:c
-            vpiFullName: work@m.c
-          vpiName: c
-          vpiFullName: work@m.c
-        Net name:d start:2:24 end:2:25:
-          vpiParent: Module name:work@m
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:d
-            vpiFullName: work@m.d
-          vpiName: d
-          vpiFullName: work@m.d
       vpiPort (4 items):
         Port name:a start:2:18 end:2:19:
-          vpiParent: Module name:work@m
+          vpiParent: Module name:m
           vpiName: a
-          vpiLowConn RefObj name:a start:2:18 end:2:19:
-            vpiParent: Port name:a
-            vpiName: a
-            vpiFullName: work@m.a.a
-            vpiActual: Net name:a
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:a
-            vpiFullName: work@m.a
+            vpiFullName: m.a
         Port name:b start:2:20 end:2:21:
-          vpiParent: Module name:work@m
+          vpiParent: Module name:m
           vpiName: b
-          vpiLowConn RefObj name:b start:2:20 end:2:21:
-            vpiParent: Port name:b
-            vpiName: b
-            vpiFullName: work@m.b.b
-            vpiActual: Net name:b
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:b
-            vpiFullName: work@m.b
+            vpiFullName: m.b
         Port name:c start:2:22 end:2:23:
-          vpiParent: Module name:work@m
+          vpiParent: Module name:m
           vpiName: c
-          vpiLowConn RefObj name:c start:2:22 end:2:23:
-            vpiParent: Port name:c
-            vpiName: c
-            vpiFullName: work@m.c.c
-            vpiActual: Net name:c
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:c
-            vpiFullName: work@m.c
+            vpiFullName: m.c
         Port name:d start:2:24 end:2:25:
-          vpiParent: Module name:work@m
+          vpiParent: Module name:m
           vpiName: d
-          vpiLowConn RefObj name:d start:2:24 end:2:25:
-            vpiParent: Port name:d
-            vpiName: d
-            vpiFullName: work@m.d.d
-            vpiActual: Net name:d
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:d
-            vpiFullName: work@m.d
-    Module name:work@a file:$Source01/middle.v start:3:1 end:15:8:
+            vpiFullName: m.d
+    Module name:a file:$Source01/middle.v start:3:1 end:15:8:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@a start:3:15 end:3:16:
-        vpiParent: Module name:work@a
-        vpiName: work@a
-      vpiFullName: work@a
+      vpiName Identifier name:a start:3:15 end:3:16:
+        vpiParent: Module name:a
+        vpiName: a
+      vpiFullName: a
       vpiVariable (1 items):
         Variable name:b start:15:5 end:15:6:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiTypespec RefTypespec name:TP start:15:2 end:15:4:
             vpiParent: Variable name:b
             vpiName: TP
-            vpiFullName: work@a.b.TP
+            vpiFullName: a.b.TP
             vpiActual: UnsupportedTypespec name:TP
           vpiName: b
-          vpiFullName: work@a.b
-          vpiNetType: none (12)
+          vpiFullName: a.b
       vpiParameter (2 items):
         Parameter name:size start:5:2 end:5:6:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiTypespec RefTypespec start:5:2 end:5:2:
             vpiParent: Parameter name:size
-            vpiFullName: work@a.size
+            vpiFullName: a.size
             vpiActual: LogicTypespec
           vpiName: size
-          vpiFullName: work@a.size
+          vpiFullName: a.size
         Parameter name:TP start:8:2 end:8:4:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiTypespec RefTypespec name:type start:7:1 end:7:5:
             vpiParent: Parameter name:TP
             vpiName: type
-            vpiFullName: work@a.TP.type
+            vpiFullName: a.TP.type
             vpiActual: UnsupportedTypespec name:type
           vpiName: TP
-          vpiFullName: work@a.TP
+          vpiFullName: a.TP
       vpiParamAssign (2 items):
         ParamAssign start:5:2 end:5:9:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiLhs RefObj name:size start:5:2 end:5:6:
             vpiParent: ParamAssign
             vpiName: size
-            vpiFullName: work@a.size
+            vpiFullName: a.size
             vpiActual: Parameter name:size
           vpiRhs Constant start:5:8 end:5:9:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@a
+              vpiFullName: a
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "8"
             vpiValue: 8
         ParamAssign start:8:2 end:10:7:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiLhs RefObj name:TP start:8:2 end:8:4:
             vpiParent: ParamAssign
             vpiName: TP
-            vpiFullName: work@a.TP
+            vpiFullName: a.TP
             vpiActual: Parameter name:TP
           vpiRhs PartSelect name:logic[7:0] start:9:1 end:10:7:
             vpiParent: ParamAssign
             vpiName: logic[7:0]
-            vpiFullName: work@a.logic[7:0]
+            vpiFullName: a.logic[7:0]
             vpiPrefix RefObj name:logic start:9:1 end:9:6:
               vpiParent: PartSelect name:logic[7:0]
               vpiName: logic
-              vpiFullName: work@a.logic[7:0].logic
+              vpiFullName: a.logic[7:0].logic
             vpiRange Range start:10:3 end:10:6:
               vpiParent: PartSelect name:logic[7:0]
               vpiLeftRange Constant start:10:3 end:10:4:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@a.logic[7:0]
+                  vpiFullName: a.logic[7:0]
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2748,7 +2739,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@a.logic[7:0]
+                  vpiFullName: a.logic[7:0]
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2756,27 +2747,27 @@ Design name:unnamed:
                 vpiValue: 0
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
         UnsupportedTypespec name:type start:7:1 end:7:5:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiName Identifier name:type start:7:1 end:7:5:
             vpiParent: UnsupportedTypespec name:type
             vpiName: type
         LogicTypespec:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiRange (1 items):
             Range start:13:2 end:13:10:
               vpiParent: LogicTypespec
               vpiLeftRange RefObj name:size start:13:3 end:13:7:
                 vpiParent: Range
                 vpiName: size
-                vpiFullName: work@a.size
+                vpiFullName: a.size
                 vpiActual: Parameter name:size
               vpiRightRange Constant start:13:8 end:13:9:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@a
+                  vpiFullName: a
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2784,62 +2775,75 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         UnsupportedTypespec name:TP start:15:2 end:15:4:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiName Identifier name:TP start:15:2 end:15:4:
             vpiParent: UnsupportedTypespec name:TP
             vpiName: TP
-      vpiDefName: work@a
-      vpiDefNetType: none (12)
+      vpiDefName: a
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@a
+        vpiParent: Module name:a
         vpiName: work
-        vpiFullName: work@a.work
+        vpiFullName: a.work
       vpiCell: a
       vpiNet (1 items):
         Net name:a start:13:11 end:13:12:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiTypespec RefTypespec start:12:1 end:13:10:
             vpiParent: Net name:a
-            vpiFullName: work@a.a
+            vpiFullName: a.a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: work@a.a
+          vpiFullName: a.a
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:a start:13:11 end:13:12:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:11 end:13:12:
+          vpiLowConn RefObj name:a start:13:11 end:13:12:
             vpiParent: Port name:a
-            vpiFullName: work@a.a
+            vpiName: a
+            vpiFullName: a.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:12:1 end:13:10:
             vpiParent: Port name:a
-            vpiFullName: work@a.a
+            vpiFullName: a.a
             vpiActual: LogicTypespec
         Port name:b start:15:5 end:15:6:
-          vpiParent: Module name:work@a
+          vpiParent: Module name:a
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj start:15:5 end:15:6:
+          vpiLowConn RefObj name:b start:15:5 end:15:6:
             vpiParent: Port name:b
-            vpiFullName: work@a.b
+            vpiName: b
+            vpiFullName: a.b.b
             vpiActual: Variable name:b
           vpiTypespec RefTypespec name:TP start:15:2 end:15:4:
             vpiParent: Port name:b
             vpiName: TP
-            vpiFullName: work@a.b.TP
+            vpiFullName: a.b.TP
             vpiActual: UnsupportedTypespec name:TP
-    Module name:work@top file:$Source01/middle.v start:18:1 end:28:10:
+    Module name:top file:$Source01/middle.v start:18:1 end:28:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:18:8 end:18:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:18:8 end:18:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:b start:22:8 end:22:9:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec name:logic start:21:1 end:22:7:
+            vpiParent: Variable name:b
+            vpiName: logic
+            vpiFullName: top.b.logic
+            vpiActual: ArrayTypespec
+          vpiName: b
+          vpiFullName: top.b
       vpiTypespec (6 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:20:1 end:20:6:
               vpiParent: LogicTypespec
@@ -2847,7 +2851,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2857,20 +2861,20 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:logic start:21:1 end:22:7:
-          vpiParent: Module name:work@top
+        UnsupportedTypespec name:logic start:21:1 end:21:6:
+          vpiParent: Module name:top
           vpiName Identifier name:logic start:21:1 end:21:6:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:22:2 end:22:7:
@@ -2879,7 +2883,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@top
+                vpiFullName: top
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2889,7 +2893,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@top
+                vpiFullName: top
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2898,93 +2902,89 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:logic:
             vpiParent: ArrayTypespec
             vpiName: logic
-            vpiFullName: work@top.logic
+            vpiFullName: top.logic
             vpiActual: UnsupportedTypespec name:logic
         LogicTypespec:
-          vpiParent: Module name:work@top
-        ModuleTypespec name:work@m start:26:1 end:26:2:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@m start:26:1 end:26:2:
-            vpiParent: ModuleTypespec name:work@m
-            vpiName: work@m
-        ModuleTypespec name:work@a start:27:1 end:27:2:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@a start:27:1 end:27:2:
-            vpiParent: ModuleTypespec name:work@a
-            vpiName: work@a
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+          vpiParent: Module name:top
+        ModuleTypespec name:m start:26:1 end:26:2:
+          vpiParent: Module name:top
+          vpiName Identifier name:m start:26:1 end:26:2:
+            vpiParent: ModuleTypespec name:m
+            vpiName: m
+          vpiModule: Module name:m
+        ModuleTypespec name:a start:27:1 end:27:2:
+          vpiParent: Module name:top
+          vpiName Identifier name:a start:27:1 end:27:2:
+            vpiParent: ModuleTypespec name:a
+            vpiName: a
+          vpiModule: Module name:a
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:a start:20:7 end:20:8:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:20:1 end:20:6:
             vpiParent: Net name:a
-            vpiFullName: work@top.a
+            vpiFullName: top.a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: work@top.a
+          vpiFullName: top.a
           vpiNetType: wire (1)
-        Net name:b start:22:8 end:22:9:
-          vpiParent: Module name:work@top
-          vpiTypespec RefTypespec name:logic start:21:1 end:22:7:
-            vpiParent: Net name:b
-            vpiName: logic
-            vpiFullName: work@top.b.logic
-            vpiActual: ArrayTypespec
-          vpiName: b
-          vpiFullName: work@top.b
+          vpiVector: true
         Net name:c start:24:1 end:24:2:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:24:1 end:24:1:
             vpiParent: Net name:c
-            vpiFullName: work@top.c
+            vpiFullName: top.c
             vpiActual: LogicTypespec
           vpiName: c
-          vpiFullName: work@top.c
+          vpiFullName: top.c
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d start:24:4 end:24:5:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:24:1 end:24:1:
             vpiParent: Net name:d
-            vpiFullName: work@top.d
+            vpiFullName: top.d
             vpiActual: LogicTypespec
           vpiName: d
-          vpiFullName: work@top.d
+          vpiFullName: top.d
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiRefInstance (2 items):
         RefInstance name:mm start:26:3 end:26:5:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: mm
-          vpiTypespec RefTypespec name:work@m start:26:1 end:26:2:
+          vpiTypespec RefTypespec name:m start:26:1 end:26:2:
             vpiParent: RefInstance name:mm
-            vpiName: work@m
-            vpiFullName: work@top.mm.work@m
-            vpiActual: ModuleTypespec name:work@m
+            vpiName: m
+            vpiFullName: top.mm.m
+            vpiActual: ModuleTypespec name:m
           vpiPort (1 items):
             Port start:26:7 end:26:9:
               vpiParent: RefInstance name:mm
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.mm
+                vpiFullName: top.mm
         RefInstance name:aa start:27:3 end:27:5:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: aa
-          vpiTypespec RefTypespec name:work@a start:27:1 end:27:2:
+          vpiTypespec RefTypespec name:a start:27:1 end:27:2:
             vpiParent: RefInstance name:aa
-            vpiName: work@a
-            vpiFullName: work@top.aa.work@a
-            vpiActual: ModuleTypespec name:work@a
+            vpiName: a
+            vpiFullName: top.aa.a
+            vpiActual: ModuleTypespec name:a
           vpiPort (1 items):
             Port start:27:7 end:27:9:
               vpiParent: RefInstance name:aa
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@top.aa
+                vpiFullName: top.aa
   vpiTypespec (11 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3000,49 +3000,52 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@dff_nested:
+    ModuleTypespec name:dff_nested:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dff_nested start:2:2 end:2:12:
-        vpiParent: ModuleTypespec name:work@dff_nested
-        vpiName: work@dff_nested
-      vpiModule: Module name:work@dff_nested
-    ModuleTypespec name:work@m:
+      vpiName Identifier name:dff_nested start:2:2 end:2:12:
+        vpiParent: ModuleTypespec name:dff_nested
+        vpiName: dff_nested
+      vpiModule: Module name:dff_nested
+    ModuleTypespec name:m:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@m start:2:15 end:2:16:
-        vpiParent: ModuleTypespec name:work@m
-        vpiName: work@m
-      vpiModule: Module name:work@m
-    ModuleTypespec name:work@a:
+      vpiName Identifier name:m start:2:15 end:2:16:
+        vpiParent: ModuleTypespec name:m
+        vpiName: m
+      vpiModule: Module name:m
+    ModuleTypespec name:a:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@a start:3:15 end:3:16:
-        vpiParent: ModuleTypespec name:work@a
-        vpiName: work@a
-      vpiModule: Module name:work@a
-    ModuleTypespec name:work@top:
+      vpiName Identifier name:a start:3:15 end:3:16:
+        vpiParent: ModuleTypespec name:a
+        vpiName: a
+      vpiModule: Module name:a
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:18:8 end:18:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:18:8 end:18:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 11
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -3088,7 +3091,7 @@ COMMAND: ${HLC_DIR}/regression/UnitElabExternNested/UnitElabExternNested/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             830     830       0         0
+Others                             818     818       0         0
 ----------------------------------------------------------------
-                                   830     830       0         0
+                                   818     818       0         0
 ===================== END REDUCTION RESULT =====================

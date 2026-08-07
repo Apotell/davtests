@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +20,13 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "a" [1:0] (input),
+//   - design has module top with exactly 2 nets: "a" [1:0] (input),
 //     "b" [15:0] (output), both vpiNetType wire, each RefTypespec ->
-//     LogicTypespec with its own Range
+//     LogicTypespec with its own Range. Per IEEE 1800-2023 Sec
+//     6.7/23.2.2.3: an input port always defaults to a net, and an
+//     output port with no explicit data type also defaults to a net, so
+//     both being nets here is correct; module has no variables
+//     (getVariables() is null)
 //   - module has exactly 1 continuous assignment: lhs RefObj "b", rhs
 //     Operation (vpiOpType=multi-concatenation) with 2 operands: Constant
 //     "8" (the replication count), and a nested Operation
@@ -64,10 +68,10 @@ class SimpleReplOpSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ---------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(SimpleReplOpSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -78,19 +82,29 @@ TEST_F(SimpleReplOpSimTest, ModuleHasTwoNetsWithExpectedRanges) {
   ASSERT_EQ(top->getNets()->size(), 2u);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getNetType(), vpiWire);
   const hldb::LogicTypespec *const aType = a->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(aType, nullptr);
   EXPECT_EQ(aType->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "1");
   EXPECT_EQ(aType->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
+  EXPECT_EQ(b->getNetType(), vpiWire);
   const hldb::LogicTypespec *const bType = b->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(bType, nullptr);
   EXPECT_EQ(bType->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "15");
   EXPECT_EQ(bType->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-// --- continuous assignment: replication operator ----------------------------
+TEST_F(SimpleReplOpSimTest, ModuleHasNoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr) << "both ports default to nets per IEEE 1800-2023 "
+                                              "Sec 6.7/23.2.2.3, so the module should have no "
+                                              "variables";
+}
+
+// --- continuous assignment: replication operator ----
 
 TEST_F(SimpleReplOpSimTest, ContAssignIsEightTimesReplicationOfA) {
   const hldb::Module *const top = getTop();
@@ -114,7 +128,7 @@ TEST_F(SimpleReplOpSimTest, ContAssignIsEightTimesReplicationOfA) {
   EXPECT_EQ(any_cast<hldb::RefObj>(inner->getOperands()->at(0))->getName(), "a");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(SimpleReplOpSimTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

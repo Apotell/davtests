@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,15 +23,16 @@
 //   ...
 //   endmodule
 //
-// The block comment carries `:defines: VAR_1=2 VAR_2=5` — a test-framework
+// The block comment carries `:defines: VAR_1=2 VAR_2=5` -- a test-framework
 // hint that these macros should be pre-defined.  Without them, Surelog
-// substitutes `VAR_1 → "SURELOG_MACRO_NOT_DEFINED:VAR_1!!!" which produces
+// substitutes `VAR_1 -> "SURELOG_MACRO_NOT_DEFINED:VAR_1!!!" which produces
 // syntax errors and breaks the module parse.
 //
-// UHDM: 2 nameless stub modules (parse fragments) — the module name "top"
+// UHDM: 2 nameless stub modules (parse fragments) -- the module name "top"
 // was never captured due to the parse failure on line 18.
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -47,18 +48,18 @@ class CompilerDirectivesPreprocessorMacro1 : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
-// The module name "top" was never captured — the syntax error on the `int a`
+// ----
+// The module name "top" was never captured -- the syntax error on the `int a`
 // line broke the parse before the module body could be resolved.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesPreprocessorMacro1, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr)
-      << "'work@top' should not exist — parse failure swallowed the module name";
+  EXPECT_EQ(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr)
+      << "'top' should not exist -- parse failure swallowed the module name";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // UHDM contains 2 nameless stub modules produced by the broken parse.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesPreprocessorMacro1, TwoStubModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "broken parse should produce exactly 2 nameless stub modules";
@@ -71,15 +72,25 @@ TEST_F(CompilerDirectivesPreprocessorMacro1, StubModulesHaveNoName) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Neither stub module contains nets — the broken variable declaration was
+// ----
+// Neither stub module contains nets -- the broken variable declaration was
 // not added to any module scope.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesPreprocessorMacro1, NoNetsInStubModules) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const m : *m_design->getAllModules()) {
     EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "stub module should have no nets";
   }
+}
+
+// ----
+// Per IEEE 1800-2023 Sec 22.5.1, referencing an undefined macro (`VAR_1,
+// `VAR_2) is illegal and must be reported as a compiler error/syntax error.
+// ----
+TEST_F(CompilerDirectivesPreprocessorMacro1, Compiler_ReportsErrorForUndefinedMacros) {
+  const ErrorContainer::Stats stats = m_compiler->getErrorStats();
+  EXPECT_TRUE(stats.nbSyntax > 0 || stats.nbError > 0)
+      << "referencing undefined macros `VAR_1/`VAR_2 must produce a diagnostic";
 }
 
 }  // namespace hlc

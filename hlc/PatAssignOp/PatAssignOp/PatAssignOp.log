@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<235> t<Top_level_rule> c<1> l<2:1> el<17:1>
     n<> u<233> t<Description> p<234> c<232> l<2:1> el<16:10>
       n<> u<232> t<Module_declaration> p<233> c<6> l<2:1> el<16:10>
         n<> u<6> t<Module_nonansi_header> p<232> c<2> s<23> l<2:1> el<2:15>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<2:1> el<2:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<2:1> el<2:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<2:8> el<2:11>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<2:12> el<2:12>
           n<> u<5> t<Port_list> p<6> l<2:12> el<2:14>
@@ -383,7 +383,7 @@ n<$Source01/dut.sv> u<235> t<Top_level_rule> c<1> l<2:1> el<17:1>
                                   n<> u<91> t<Constant_primary> p<92> c<90> l<7:65> el<7:80>
                                     n<> u<90> t<Primary_literal> p<91> c<89> l<7:65> el<7:80>
                                       n<coh_noc_trans_p> u<89> t<SIMPLE_IDENTIFIER> p<90> l<7:65> el<7:80>
-                                n<> u<93> t<Conditional_operator> p<139> s<115> l<7:81> el<7:82>
+                                n<> u<93> t<QMARK> p<139> s<115> l<7:81> el<7:82>
                                 n<> u<115> t<Expression> p<139> c<114> s<138> l<7:83> el<7:158>
                                   n<> u<114> t<Primary> p<115> c<113> l<7:83> el<7:158>
                                     n<> u<113> t<Assignment_pattern_expression> p<114> c<112> l<7:83> el<7:158>
@@ -511,9 +511,9 @@ n<$Source01/dut.sv> u<235> t<Top_level_rule> c<1> l<2:1> el<17:1>
                         n<> u<221> t<END> p<222> l<15:3> el<15:6>
         n<> u<231> t<ENDMODULE> p<232> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "top".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -522,7 +522,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2089,6 +2088,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2100,6 +2100,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2131,6 +2132,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2145,6 +2147,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2166,6 +2169,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2189,6 +2193,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2208,6 +2213,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2231,6 +2237,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2250,6 +2257,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2319,16 +2327,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2341,6 +2352,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2352,6 +2364,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2359,6 +2372,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2366,6 +2380,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2373,6 +2388,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2386,6 +2402,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2397,6 +2414,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2428,6 +2446,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2454,6 +2473,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2480,6 +2500,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2505,142 +2526,142 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/dut.sv start:2:1 end:16:10:
+    Module name:top file:$Source01/dut.sv start:2:1 end:16:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:2:8 end:2:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:2:8 end:2:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiParameter (6 items):
         Parameter name:coh_noc_dims_p start:3:14 end:3:28:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:3:14 end:3:14:
             vpiParent: Parameter name:coh_noc_dims_p
-            vpiFullName: work@top.coh_noc_dims_p
+            vpiFullName: top.coh_noc_dims_p
             vpiActual: LogicTypespec
           vpiName: coh_noc_dims_p
-          vpiFullName: work@top.coh_noc_dims_p
+          vpiFullName: top.coh_noc_dims_p
           vpiLocalParam: true
         Parameter name:coh_noc_trans_p start:4:14 end:4:29:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:14 end:4:14:
             vpiParent: Parameter name:coh_noc_trans_p
-            vpiFullName: work@top.coh_noc_trans_p
+            vpiFullName: top.coh_noc_trans_p
             vpiActual: LogicTypespec
           vpiName: coh_noc_trans_p
-          vpiFullName: work@top.coh_noc_trans_p
+          vpiFullName: top.coh_noc_trans_p
           vpiLocalParam: true
         Parameter name:coh_noc_x_cord_width_p start:5:15 end:5:37:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:15 end:5:15:
             vpiParent: Parameter name:coh_noc_x_cord_width_p
-            vpiFullName: work@top.coh_noc_x_cord_width_p
+            vpiFullName: top.coh_noc_x_cord_width_p
             vpiActual: LogicTypespec
           vpiName: coh_noc_x_cord_width_p
-          vpiFullName: work@top.coh_noc_x_cord_width_p
+          vpiFullName: top.coh_noc_x_cord_width_p
           vpiLocalParam: true
         Parameter name:coh_noc_y_cord_width_p start:6:15 end:6:37:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:15 end:6:15:
             vpiParent: Parameter name:coh_noc_y_cord_width_p
-            vpiFullName: work@top.coh_noc_y_cord_width_p
+            vpiFullName: top.coh_noc_y_cord_width_p
             vpiActual: LogicTypespec
           vpiName: coh_noc_y_cord_width_p
-          vpiFullName: work@top.coh_noc_y_cord_width_p
+          vpiFullName: top.coh_noc_y_cord_width_p
           vpiLocalParam: true
         Parameter name:coh_noc_cord_markers_pos_p start:7:18 end:7:44:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:7:14 end:7:17:
             vpiParent: Parameter name:coh_noc_cord_markers_pos_p
-            vpiFullName: work@top.coh_noc_cord_markers_pos_p
+            vpiFullName: top.coh_noc_cord_markers_pos_p
             vpiActual: ArrayTypespec
           vpiName: coh_noc_cord_markers_pos_p
-          vpiFullName: work@top.coh_noc_cord_markers_pos_p
+          vpiFullName: top.coh_noc_cord_markers_pos_p
           vpiLocalParam: true
         Parameter name:coh_noc_cord_width_p start:9:14 end:9:34:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:9:14 end:9:14:
             vpiParent: Parameter name:coh_noc_cord_width_p
-            vpiFullName: work@top.coh_noc_cord_width_p
+            vpiFullName: top.coh_noc_cord_width_p
             vpiActual: LogicTypespec
           vpiName: coh_noc_cord_width_p
-          vpiFullName: work@top.coh_noc_cord_width_p
+          vpiFullName: top.coh_noc_cord_width_p
           vpiLocalParam: true
       vpiParamAssign (6 items):
         ParamAssign start:3:14 end:3:40:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:coh_noc_dims_p start:3:14 end:3:28:
             vpiParent: ParamAssign
             vpiName: coh_noc_dims_p
-            vpiFullName: work@top.coh_noc_dims_p
+            vpiFullName: top.coh_noc_dims_p
             vpiActual: Parameter name:coh_noc_dims_p
           vpiRhs Constant start:3:39 end:3:40:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
         ParamAssign start:4:14 end:4:40:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:coh_noc_trans_p start:4:14 end:4:29:
             vpiParent: ParamAssign
             vpiName: coh_noc_trans_p
-            vpiFullName: work@top.coh_noc_trans_p
+            vpiFullName: top.coh_noc_trans_p
             vpiActual: Parameter name:coh_noc_trans_p
           vpiRhs Constant start:4:39 end:4:40:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
         ParamAssign start:5:15 end:5:42:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:coh_noc_x_cord_width_p start:5:15 end:5:37:
             vpiParent: ParamAssign
             vpiName: coh_noc_x_cord_width_p
-            vpiFullName: work@top.coh_noc_x_cord_width_p
+            vpiFullName: top.coh_noc_x_cord_width_p
             vpiActual: Parameter name:coh_noc_x_cord_width_p
           vpiRhs Constant start:5:40 end:5:42:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "10"
             vpiValue: 10
         ParamAssign start:6:15 end:6:42:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:coh_noc_y_cord_width_p start:6:15 end:6:37:
             vpiParent: ParamAssign
             vpiName: coh_noc_y_cord_width_p
-            vpiFullName: work@top.coh_noc_y_cord_width_p
+            vpiFullName: top.coh_noc_y_cord_width_p
             vpiActual: Parameter name:coh_noc_y_cord_width_p
           vpiRhs Constant start:6:40 end:6:42:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "20"
             vpiValue: 20
         ParamAssign start:7:18 end:8:84:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:coh_noc_cord_markers_pos_p start:7:18 end:7:44:
             vpiParent: ParamAssign
             vpiName: coh_noc_cord_markers_pos_p
-            vpiFullName: work@top.coh_noc_cord_markers_pos_p
+            vpiFullName: top.coh_noc_cord_markers_pos_p
             vpiActual: Parameter name:coh_noc_cord_markers_pos_p
           vpiRhs Operation start:7:65 end:8:84:
             vpiParent: ParamAssign
@@ -2649,7 +2670,7 @@ Design name:unnamed:
               RefObj name:coh_noc_trans_p start:7:65 end:7:80:
                 vpiParent: Operation
                 vpiName: coh_noc_trans_p
-                vpiFullName: work@top.coh_noc_trans_p
+                vpiFullName: top.coh_noc_trans_p
                 vpiActual: Parameter name:coh_noc_trans_p
               Operation start:7:83 end:7:158:
                 vpiParent: Operation
@@ -2662,23 +2683,23 @@ Design name:unnamed:
                       RefObj name:coh_noc_x_cord_width_p start:7:85 end:7:107:
                         vpiParent: Operation
                         vpiName: coh_noc_x_cord_width_p
-                        vpiFullName: work@top.coh_noc_x_cord_width_p
+                        vpiFullName: top.coh_noc_x_cord_width_p
                         vpiActual: Parameter name:coh_noc_x_cord_width_p
                       RefObj name:coh_noc_y_cord_width_p start:7:108 end:7:130:
                         vpiParent: Operation
                         vpiName: coh_noc_y_cord_width_p
-                        vpiFullName: work@top.coh_noc_y_cord_width_p
+                        vpiFullName: top.coh_noc_y_cord_width_p
                         vpiActual: Parameter name:coh_noc_y_cord_width_p
                   RefObj name:coh_noc_y_cord_width_p start:7:132 end:7:154:
                     vpiParent: Operation
                     vpiName: coh_noc_y_cord_width_p
-                    vpiFullName: work@top.coh_noc_y_cord_width_p
+                    vpiFullName: top.coh_noc_y_cord_width_p
                     vpiActual: Parameter name:coh_noc_y_cord_width_p
                   Constant start:7:156 end:7:157:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2695,67 +2716,67 @@ Design name:unnamed:
                       RefObj name:coh_noc_y_cord_width_p start:8:11 end:8:33:
                         vpiParent: Operation
                         vpiName: coh_noc_y_cord_width_p
-                        vpiFullName: work@top.coh_noc_y_cord_width_p
+                        vpiFullName: top.coh_noc_y_cord_width_p
                         vpiActual: Parameter name:coh_noc_y_cord_width_p
                       RefObj name:coh_noc_x_cord_width_p start:8:34 end:8:56:
                         vpiParent: Operation
                         vpiName: coh_noc_x_cord_width_p
-                        vpiFullName: work@top.coh_noc_x_cord_width_p
+                        vpiFullName: top.coh_noc_x_cord_width_p
                         vpiActual: Parameter name:coh_noc_x_cord_width_p
                   RefObj name:coh_noc_x_cord_width_p start:8:58 end:8:80:
                     vpiParent: Operation
                     vpiName: coh_noc_x_cord_width_p
-                    vpiFullName: work@top.coh_noc_x_cord_width_p
+                    vpiFullName: top.coh_noc_x_cord_width_p
                     vpiActual: Parameter name:coh_noc_x_cord_width_p
                   Constant start:8:82 end:8:83:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
         ParamAssign start:9:14 end:9:81:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:coh_noc_cord_width_p start:9:14 end:9:34:
             vpiParent: ParamAssign
             vpiName: coh_noc_cord_width_p
-            vpiFullName: work@top.coh_noc_cord_width_p
+            vpiFullName: top.coh_noc_cord_width_p
             vpiActual: Parameter name:coh_noc_cord_width_p
-          vpiRhs BitSelect name:coh_noc_cord_markers_pos_p[coh_noc_dims_p] start:9:39 end:9:80:
+          vpiRhs BitSelect name:coh_noc_cord_markers_pos_p[coh_noc_dims_p] start:9:39 end:9:81:
             vpiParent: ParamAssign
             vpiName: coh_noc_cord_markers_pos_p[coh_noc_dims_p]
-            vpiFullName: work@top.coh_noc_cord_markers_pos_p[coh_noc_dims_p]
+            vpiFullName: top.coh_noc_cord_markers_pos_p[coh_noc_dims_p]
             vpiPrefix RefObj name:coh_noc_cord_markers_pos_p start:9:39 end:9:65:
               vpiParent: BitSelect name:coh_noc_cord_markers_pos_p[coh_noc_dims_p]
               vpiName: coh_noc_cord_markers_pos_p
-              vpiFullName: work@top.coh_noc_cord_markers_pos_p
+              vpiFullName: top.coh_noc_cord_markers_pos_p
               vpiActual: Parameter name:coh_noc_cord_markers_pos_p
             vpiIndex RefObj name:coh_noc_dims_p start:9:66 end:9:80:
               vpiParent: BitSelect name:coh_noc_cord_markers_pos_p[coh_noc_dims_p]
               vpiName: coh_noc_dims_p
-              vpiFullName: work@top.coh_noc_dims_p
+              vpiFullName: top.coh_noc_dims_p
               vpiActual: Parameter name:coh_noc_dims_p
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
         ArrayTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiArrayType: static (1)
           vpiRange Range start:7:44 end:7:62:
             vpiParent: ArrayTypespec
             vpiLeftRange RefObj name:coh_noc_dims_p start:7:45 end:7:59:
               vpiParent: Range
               vpiName: coh_noc_dims_p
-              vpiFullName: work@top.coh_noc_dims_p
+              vpiFullName: top.coh_noc_dims_p
               vpiActual: Parameter name:coh_noc_dims_p
             vpiRightRange Constant start:7:60 end:7:61:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@top
+                vpiFullName: top
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2763,18 +2784,18 @@ Design name:unnamed:
               vpiValue: 0
           vpiElemTypespec RefTypespec start:7:14 end:7:17:
             vpiParent: ArrayTypespec
-            vpiFullName: work@top
+            vpiFullName: top
             vpiActual: IntTypespec
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiGenStmt (2 items):
         GenIf start:10:3 end:12:6:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiCondition Operation start:10:7 end:10:33:
             vpiParent: GenIf
             vpiOpType: not equal (15)
@@ -2782,13 +2803,13 @@ Design name:unnamed:
               RefObj name:coh_noc_cord_width_p start:10:7 end:10:27:
                 vpiParent: Operation
                 vpiName: coh_noc_cord_width_p
-                vpiFullName: work@top.coh_noc_cord_width_p
+                vpiFullName: top.coh_noc_cord_width_p
                 vpiActual: Parameter name:coh_noc_cord_width_p
               Constant start:10:31 end:10:33:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2796,24 +2817,24 @@ Design name:unnamed:
                 vpiValue: 30
           vpiStmt Begin start:10:35 end:12:6:
             vpiParent: GenIf
-            vpiFullName: work@top
+            vpiFullName: top
             vpiTypespec (1 items):
-              UnsupportedTypespec name:work@BAD start:11:6 end:11:9:
+              UnsupportedTypespec name:BAD start:11:6 end:11:9:
                 vpiParent: Begin
-                vpiName Identifier name:work@BAD start:11:6 end:11:9:
-                  vpiParent: UnsupportedTypespec name:work@BAD
-                  vpiName: work@BAD
+                vpiName Identifier name:BAD start:11:6 end:11:9:
+                  vpiParent: UnsupportedTypespec name:BAD
+                  vpiName: BAD
             vpiStmt (1 items):
               RefInstance name:bad start:11:10 end:11:13:
                 vpiParent: Begin
                 vpiName: bad
-                vpiTypespec RefTypespec name:work@BAD start:11:6 end:11:9:
+                vpiTypespec RefTypespec name:BAD start:11:6 end:11:9:
                   vpiParent: RefInstance name:bad
-                  vpiName: work@BAD
-                  vpiFullName: work@top.bad.work@BAD
-                  vpiActual: UnsupportedTypespec name:work@BAD
+                  vpiName: BAD
+                  vpiFullName: top.bad.BAD
+                  vpiActual: UnsupportedTypespec name:BAD
         GenIf start:13:2 end:15:6:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiCondition Operation start:13:6 end:13:32:
             vpiParent: GenIf
             vpiOpType: equal (14)
@@ -2821,13 +2842,13 @@ Design name:unnamed:
               RefObj name:coh_noc_cord_width_p start:13:6 end:13:26:
                 vpiParent: Operation
                 vpiName: coh_noc_cord_width_p
-                vpiFullName: work@top.coh_noc_cord_width_p
+                vpiFullName: top.coh_noc_cord_width_p
                 vpiActual: Parameter name:coh_noc_cord_width_p
               Constant start:13:30 end:13:32:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2835,22 +2856,22 @@ Design name:unnamed:
                 vpiValue: 30
           vpiStmt Begin start:13:34 end:15:6:
             vpiParent: GenIf
-            vpiFullName: work@top
+            vpiFullName: top
             vpiTypespec (1 items):
-              UnsupportedTypespec name:work@GOOD start:14:6 end:14:10:
+              UnsupportedTypespec name:GOOD start:14:6 end:14:10:
                 vpiParent: Begin
-                vpiName Identifier name:work@GOOD start:14:6 end:14:10:
-                  vpiParent: UnsupportedTypespec name:work@GOOD
-                  vpiName: work@GOOD
+                vpiName Identifier name:GOOD start:14:6 end:14:10:
+                  vpiParent: UnsupportedTypespec name:GOOD
+                  vpiName: GOOD
             vpiStmt (1 items):
               RefInstance name:good start:14:11 end:14:15:
                 vpiParent: Begin
                 vpiName: good
-                vpiTypespec RefTypespec name:work@GOOD start:14:6 end:14:10:
+                vpiTypespec RefTypespec name:GOOD start:14:6 end:14:10:
                   vpiParent: RefInstance name:good
-                  vpiName: work@GOOD
-                  vpiFullName: work@top.good.work@GOOD
-                  vpiActual: UnsupportedTypespec name:work@GOOD
+                  vpiName: GOOD
+                  vpiFullName: top.good.GOOD
+                  vpiActual: UnsupportedTypespec name:GOOD
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2866,25 +2887,28 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:2:8 end:2:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:2:8 end:2:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

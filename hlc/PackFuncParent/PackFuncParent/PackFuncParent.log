@@ -179,7 +179,7 @@ n<$Source01/dut.sv> u<214> t<Top_level_rule> c<1> l<1:1> el<17:1>
     n<> u<211> t<Description> p<212> c<210> l<13:1> el<15:10>
       n<> u<210> t<Module_declaration> p<211> c<185> l<13:1> el<15:10>
         n<> u<185> t<Module_ansi_header> p<210> c<163> s<208> l<13:1> el<13:35>
-          n<module> u<163> t<Module_keyword> p<185> s<164> l<13:1> el<13:7>
+          n<module> u<163> t<MODULE> p<185> s<164> l<13:1> el<13:7>
           n<top> u<164> t<SIMPLE_IDENTIFIER> p<185> s<165> l<13:8> el<13:11>
           n<> u<165> t<Package_import_declaration_list> p<185> s<184> l<13:11> el<13:11>
           n<> u<184> t<Port_declaration_list> p<185> c<183> l<13:11> el<13:34>
@@ -227,10 +227,11 @@ n<$Source01/dut.sv> u<214> t<Top_level_rule> c<1> l<1:1> el<17:1>
         n<> u<209> t<ENDMODULE> p<210> l<15:1> el<15:10>
   n<// top> u<213> t<LINE_COMMENT> p<214> l<15:11> el<15:17>
 AST_DEBUG_END
-[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@my_pkg".
-[INF:CP0303] $Source01/dut.sv:13:1: Compile module "work@top".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@my_pkg".
-[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@top".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "my_pkg".
+[INF:CP0303] $Source01/dut.sv:13:1: Compile module "top".
+[WRN:CP0350] $Source01/dut.sv:14:23: Failed to bind "id:110, name:sbox4_16bit".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "my_pkg".
+[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -239,28 +240,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@my_pkg file:$Source01/dut.sv start:1:1 end:11:11:
+    Package name:my_pkg file:$Source01/dut.sv start:1:1 end:11:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@my_pkg start:1:9 end:1:15:
-        vpiParent: Package name:work@my_pkg
-        vpiName: work@my_pkg
-      vpiFullName: work@my_pkg
-      vpiDefName: work@my_pkg
-      vpiDefNetType: none (12)
+      vpiName Identifier name:my_pkg start:1:9 end:1:15:
+        vpiParent: Package name:my_pkg
+        vpiName: my_pkg
+      vpiFullName: my_pkg
+      vpiDefName: my_pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@my_pkg
+        vpiParent: Package name:my_pkg
         vpiName: work
-        vpiFullName: work@my_pkg::work
+        vpiFullName: my_pkg::work
       vpiCell: my_pkg
       vpiTaskFunc (2 items):
         Function name:sbox4_8bit start:2:4 end:4:28:
-          vpiParent: Package name:work@my_pkg
+          vpiParent: Package name:my_pkg
           vpiName Identifier name:sbox4_8bit start:2:35 end:2:45:
             vpiParent: Function name:sbox4_8bit
             vpiName: sbox4_8bit
-          vpiFullName: work@my_pkg::sbox4_8bit
+          vpiFullName: my_pkg::sbox4_8bit
           vpiTypespec (2 items):
             LogicTypespec:
               vpiParent: Function name:sbox4_8bit
@@ -271,7 +271,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@my_pkg::sbox4_8bit
+                      vpiFullName: my_pkg::sbox4_8bit
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -281,7 +281,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@my_pkg::sbox4_8bit
+                      vpiFullName: my_pkg::sbox4_8bit
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -297,7 +297,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@my_pkg::sbox4_8bit
+                      vpiFullName: my_pkg::sbox4_8bit
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -307,7 +307,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@my_pkg::sbox4_8bit
+                      vpiFullName: my_pkg::sbox4_8bit
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -323,28 +323,28 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:2:46 end:2:57:
                 vpiParent: IODecl name:state_in
-                vpiFullName: work@my_pkg::sbox4_8bit::state_in
+                vpiFullName: my_pkg::sbox4_8bit::state_in
                 vpiActual: LogicTypespec
           vpiStmt ReturnStmt start:3:7 end:3:23:
             vpiParent: Function name:sbox4_8bit
             vpiCondition RefObj name:state_in start:3:14 end:3:22:
               vpiParent: ReturnStmt
               vpiName: state_in
-              vpiFullName: work@my_pkg::sbox4_8bit::state_in
+              vpiFullName: my_pkg::sbox4_8bit::state_in
               vpiActual: IODecl name:state_in
           vpiEndLabel Identifier name:sbox4_8bit start:4:18 end:4:28:
             vpiParent: Function name:sbox4_8bit
             vpiName: sbox4_8bit
           vpiReturn RefTypespec start:2:23 end:2:34:
             vpiParent: Function name:sbox4_8bit
-            vpiFullName: work@my_pkg::sbox4_8bit
+            vpiFullName: my_pkg::sbox4_8bit
             vpiActual: LogicTypespec
         Function name:sbox4_16bit start:6:4 end:10:29:
-          vpiParent: Package name:work@my_pkg
+          vpiParent: Package name:my_pkg
           vpiName Identifier name:sbox4_16bit start:6:36 end:6:47:
             vpiParent: Function name:sbox4_16bit
             vpiName: sbox4_16bit
-          vpiFullName: work@my_pkg::sbox4_16bit
+          vpiFullName: my_pkg::sbox4_16bit
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -354,20 +354,21 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:6:48 end:6:60:
                 vpiParent: IODecl name:state_in
-                vpiFullName: work@my_pkg::sbox4_16bit::state_in
+                vpiFullName: my_pkg::sbox4_16bit::state_in
                 vpiActual: LogicTypespec
           vpiStmt Begin:
             vpiParent: Function name:sbox4_16bit
-            vpiFullName: work@my_pkg::sbox4_16bit
+            vpiFullName: my_pkg::sbox4_16bit
             vpiVariable (1 items):
               Variable name:state_out start:7:20 end:7:29:
                 vpiParent: Begin
                 vpiTypespec RefTypespec start:7:7 end:7:19:
                   vpiParent: Variable name:state_out
-                  vpiFullName: work@my_pkg::sbox4_16bit::state_out
+                  vpiFullName: my_pkg::sbox4_16bit::state_out
                   vpiActual: LogicTypespec
                 vpiName: state_out
-                vpiFullName: work@my_pkg::sbox4_16bit::state_out
+                vpiFullName: my_pkg::sbox4_16bit::state_out
+                vpiVector: true
             vpiTypespec (3 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -378,7 +379,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@my_pkg::sbox4_16bit
+                        vpiFullName: my_pkg::sbox4_16bit
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -388,7 +389,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@my_pkg::sbox4_16bit
+                        vpiFullName: my_pkg::sbox4_16bit
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -404,7 +405,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@my_pkg::sbox4_16bit
+                        vpiFullName: my_pkg::sbox4_16bit
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -414,7 +415,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@my_pkg::sbox4_16bit
+                        vpiFullName: my_pkg::sbox4_16bit
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -430,7 +431,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@my_pkg::sbox4_16bit
+                        vpiFullName: my_pkg::sbox4_16bit
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -440,32 +441,33 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@my_pkg::sbox4_16bit
+                        vpiFullName: my_pkg::sbox4_16bit
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
                 vpiVector: true
-            vpiStmt (2 items):
+            vpiStmt (3 items):
+              Variable name:state_out:
               Assignment start:8:7 end:8:55:
                 vpiParent: Begin
                 vpiBlocking: true
                 vpiLhs IndexedPartSelect name:state_out[0+:8] start:8:7 end:8:24:
                   vpiParent: Assignment
                   vpiName: state_out[0+:8]
-                  vpiFullName: work@my_pkg::sbox4_16bit::state_out[0+:8]
+                  vpiFullName: my_pkg::sbox4_16bit::state_out[0+:8]
                   vpiPrefix RefObj name:state_out start:8:7 end:8:16:
                     vpiParent: IndexedPartSelect name:state_out[0+:8]
                     vpiName: state_out
-                    vpiFullName: work@my_pkg::sbox4_16bit::state_out
+                    vpiFullName: my_pkg::sbox4_16bit::state_out
                     vpiActual: Variable name:state_out
                   vpiIndexedPartSelectType: pos indexed (1)
                   vpiBaseExpr Constant start:8:17 end:8:18:
                     vpiParent: IndexedPartSelect name:state_out[0+:8]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@my_pkg::sbox4_16bit::state_out[0+:8]
+                      vpiFullName: my_pkg::sbox4_16bit::state_out[0+:8]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -475,7 +477,7 @@ Design name:unnamed:
                     vpiParent: IndexedPartSelect name:state_out[0+:8]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@my_pkg::sbox4_16bit::state_out[0+:8]
+                      vpiFullName: my_pkg::sbox4_16bit::state_out[0+:8]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -491,18 +493,18 @@ Design name:unnamed:
                     IndexedPartSelect name:state_in[0+:8] start:8:38 end:8:54:
                       vpiParent: FuncCall name:sbox4_8bit
                       vpiName: state_in[0+:8]
-                      vpiFullName: work@my_pkg::sbox4_16bit::state_in[0+:8]
+                      vpiFullName: my_pkg::sbox4_16bit::state_in[0+:8]
                       vpiPrefix RefObj name:state_in start:8:38 end:8:46:
                         vpiParent: IndexedPartSelect name:state_in[0+:8]
                         vpiName: state_in
-                        vpiFullName: work@my_pkg::sbox4_16bit::state_in
+                        vpiFullName: my_pkg::sbox4_16bit::state_in
                         vpiActual: IODecl name:state_in
                       vpiIndexedPartSelectType: pos indexed (1)
                       vpiBaseExpr Constant start:8:47 end:8:48:
                         vpiParent: IndexedPartSelect name:state_in[0+:8]
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@my_pkg::sbox4_16bit::state_in[0+:8]
+                          vpiFullName: my_pkg::sbox4_16bit::state_in[0+:8]
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -512,7 +514,7 @@ Design name:unnamed:
                         vpiParent: IndexedPartSelect name:state_in[0+:8]
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@my_pkg::sbox4_16bit::state_in[0+:8]
+                          vpiFullName: my_pkg::sbox4_16bit::state_in[0+:8]
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -523,35 +525,35 @@ Design name:unnamed:
                 vpiCondition RefObj name:state_out start:9:14 end:9:23:
                   vpiParent: ReturnStmt
                   vpiName: state_out
-                  vpiFullName: work@my_pkg::sbox4_16bit::state_out
+                  vpiFullName: my_pkg::sbox4_16bit::state_out
                   vpiActual: Variable name:state_out
           vpiEndLabel Identifier name:sbox4_16bit start:10:18 end:10:29:
             vpiParent: Function name:sbox4_16bit
             vpiName: sbox4_16bit
           vpiReturn RefTypespec start:6:23 end:6:35:
             vpiParent: Function name:sbox4_16bit
-            vpiFullName: work@my_pkg::sbox4_16bit
+            vpiFullName: my_pkg::sbox4_16bit
             vpiActual: LogicTypespec
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/dut.sv start:13:1 end:15:10:
+    Module name:top file:$Source01/dut.sv start:13:1 end:15:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:13:8 end:13:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:13:8 end:13:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiVariable (1 items):
         Variable name:o start:13:32 end:13:33:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:13:12 end:13:31:
             vpiParent: Variable name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: LogicTypespec
           vpiName: o
-          vpiFullName: work@top.o
-          vpiNetType: none (12)
-      vpiTypespec (1 items):
+          vpiFullName: top.o
+          vpiVector: true
+      vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:13:25 end:13:31:
               vpiParent: LogicTypespec
@@ -559,7 +561,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -569,52 +571,56 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        UnsupportedTypespec name:my_pkg start:14:15 end:14:21:
+          vpiParent: Module name:top
+          vpiName Identifier name:my_pkg start:14:15 end:14:21:
+            vpiParent: UnsupportedTypespec name:my_pkg
+            vpiName: my_pkg
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiPort (1 items):
         Port name:o start:13:32 end:13:33:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:13:32 end:13:33:
+          vpiLowConn RefObj name:o start:13:32 end:13:33:
             vpiParent: Port name:o
-            vpiFullName: work@top.o
+            vpiName: o
+            vpiFullName: top.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:13:12 end:13:31:
             vpiParent: Port name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:14:11 end:14:44:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:o start:14:11 end:14:12:
             vpiParent: ContAssign
             vpiName: o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: Variable name:o
-          "vpiRhs HierPath name:my_pkg::sbox4_16bit(16'hABCD) start:14:15 end:14:43":
+          "vpiRhs HierPath name:my_pkg::sbox4_16bit(16'hABCD) start:14:15 end:14:44":
             vpiParent: ContAssign
             vpiName: "my_pkg::sbox4_16bit(16'hABCD)"
-            vpiFullName: "work@top.my_pkg::sbox4_16bit(16'hABCD)"
+            vpiFullName: "top.my_pkg::sbox4_16bit(16'hABCD)"
             vpiPathElem (2 items):
-              UnsupportedScope name:my_pkg start:14:15 end:14:23:
+              RefTypespec start:14:15 end:14:23:
                 vpiParent: "HierPath name:my_pkg::sbox4_16bit(16'hABCD)"
-                vpiName Identifier name:my_pkg start:14:15 end:14:21:
-                  vpiParent: UnsupportedScope name:my_pkg
-                  vpiName: my_pkg
-                vpiFullName: "work@top.my_pkg::sbox4_16bit(16'hABCD).my_pkg"
+                vpiFullName: "top.my_pkg::sbox4_16bit(16'hABCD)"
+                vpiActual: UnsupportedTypespec name:my_pkg
               SubroutineCall name:sbox4_16bit start:14:23 end:14:44:
                 vpiParent: "HierPath name:my_pkg::sbox4_16bit(16'hABCD)"
                 vpiName Identifier name:sbox4_16bit start:14:23 end:14:34:
@@ -625,7 +631,7 @@ Design name:unnamed:
                     vpiParent: SubroutineCall name:sbox4_16bit
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: "work@top.my_pkg::sbox4_16bit(16'hABCD).sbox4_16bit"
+                      vpiFullName: "top.my_pkg::sbox4_16bit(16'hABCD).sbox4_16bit"
                       vpiActual: IntTypespec
                     vpiConstType: hexadecimal (5)
                     vpiSize: 16
@@ -635,19 +641,19 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:13:8 end:13:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:13:8 end:13:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -691,7 +697,7 @@ COMMAND: ${HLC_DIR}/regression/PackFuncParent/PackFuncParent/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              96      96       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                    96      96       0         0
+                                    97      97       0         0
 ===================== END REDUCTION RESULT =====================

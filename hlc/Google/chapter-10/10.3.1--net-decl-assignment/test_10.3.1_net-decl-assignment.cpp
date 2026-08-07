@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a", "b", "w", all
+//   - design has module top with exactly 3 nets: "a", "b", "w", all
 //     vpiNetType wire, each RefTypespec -> LogicTypespec
 //   - module has exactly 2 ports: "a" (input), "b" (input)
 //   - net "w"'s initializer is captured directly on the Net itself via
@@ -61,10 +61,10 @@ class NetDeclAssignmentTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets / ports -----------------------------------------------
+// --- module / nets / ports ----
 
 TEST_F(NetDeclAssignmentTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -80,6 +80,15 @@ TEST_F(NetDeclAssignmentTest, ModuleHasThreeNetsAllWire) {
     EXPECT_EQ(net->getNetType(), vpiWire);
     EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
   }
+}
+
+TEST_F(NetDeclAssignmentTest, ModuleHasNoVariables) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8: "a", "b", "w" all use the explicit net
+  // keywords (ports default to net for input/inout; "wire w" is explicit),
+  // so none of them should also appear in the Variables collection.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr);
 }
 
 TEST_F(NetDeclAssignmentTest, ModuleHasTwoInputPorts) {
@@ -109,7 +118,7 @@ TEST_F(NetDeclAssignmentTest, NetWValueIsBitwiseAndOfAAndB) {
   EXPECT_NE(rhsOperand->getActual<hldb::Net>(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(NetDeclAssignmentTest, DesignHasOneTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -120,7 +129,7 @@ TEST_F(NetDeclAssignmentTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(NetDeclAssignmentTest, CompilerReportsZeroErrors) {

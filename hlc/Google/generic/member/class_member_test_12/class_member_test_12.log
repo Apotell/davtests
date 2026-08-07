@@ -36,7 +36,7 @@ n<$Source01/class_member_test_12.sv> u<36> t<Top_level_rule> c<1> l<15:1> el<21:
                 n<> u<19> t<Data_declaration> p<20> c<18> l<16:9> el<16:26>
                   n<> u<18> t<Variable_declaration> p<19> c<14> l<16:9> el<16:26>
                     n<> u<14> t<Data_type> p<18> c<13> s<17> l<16:9> el<16:16>
-                      n<> u<13> t<Chandle_type> p<14> l<16:9> el<16:16>
+                      n<> u<13> t<CHANDLE> p<14> l<16:9> el<16:16>
                     n<> u<17> t<Variable_decl_assignment_list> p<18> c<16> l<16:17> el<16:25>
                       n<> u<16> t<Variable_decl_assignment> p<17> c<15> l<16:17> el<16:25>
                         n<p_handle> u<15> t<SIMPLE_IDENTIFIER> p<16> l<16:17> el<16:25>
@@ -44,12 +44,12 @@ n<$Source01/class_member_test_12.sv> u<36> t<Top_level_rule> c<1> l<15:1> el<21:
     n<> u<34> t<Description> p<35> c<33> l<19:1> el<20:10>
       n<> u<33> t<Module_declaration> p<34> c<31> l<19:1> el<20:10>
         n<> u<31> t<Module_ansi_header> p<33> c<28> s<32> l<19:1> el<19:13>
-          n<module> u<28> t<Module_keyword> p<31> s<29> l<19:1> el<19:7>
+          n<module> u<28> t<MODULE> p<31> s<29> l<19:1> el<19:7>
           n<test> u<29> t<SIMPLE_IDENTIFIER> p<31> s<30> l<19:8> el<19:12>
           n<> u<30> t<Package_import_declaration_list> p<31> l<19:12> el<19:12>
         n<> u<32> t<ENDMODULE> p<33> l<20:1> el<20:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/class_member_test_12.sv:19:1: Compile module "work@test".
+[INF:CP0303] $Source01/class_member_test_12.sv:19:1: Compile module "test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -59,56 +59,61 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: class_member_test_12.sv
       vpiPreprocFile: "$Output/lib/work/class_member_test_12.sv"
-      vpiDefNetType: none (12)
   vpiAllClasses (1 items):
-    ClassDefn name:work@semaphore file:$Source01/class_member_test_12.sv start:15:1 end:17:9:
+    ClassDefn name:semaphore file:$Source01/class_member_test_12.sv start:15:1 end:17:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@semaphore start:15:7 end:15:16:
-        vpiParent: ClassDefn name:work@semaphore
-        vpiName: work@semaphore
-      vpiFullName: work@semaphore
+      vpiName Identifier name:semaphore start:15:7 end:15:16:
+        vpiParent: ClassDefn name:semaphore
+        vpiName: semaphore
+      vpiFullName: semaphore
       vpiVariable (1 items):
         Variable name:p_handle start:16:17 end:16:25:
-          vpiParent: ClassDefn name:work@semaphore
+          vpiParent: ClassDefn name:semaphore
           vpiTypespec RefTypespec start:16:9 end:16:16:
             vpiParent: Variable name:p_handle
-            vpiFullName: work@semaphore::p_handle
+            vpiFullName: semaphore::p_handle
+            vpiActual: ChandleTypespec
           vpiName: p_handle
-          vpiFullName: work@semaphore::p_handle
+          vpiFullName: semaphore::p_handle
+          vpiVisibility: public (1)
+      vpiTypespec (1 items):
+        ChandleTypespec start:16:9 end:16:16:
+          vpiParent: ClassDefn name:semaphore
       vpiAutomatic: true
-      vpiClassType: userdefined class (3)
+      vpiClassType: semaphore class (2)
       vpiLibrary RefObj name:work:
-        vpiParent: ClassDefn name:work@semaphore
+        vpiParent: ClassDefn name:semaphore
         vpiName: work
-        vpiFullName: work@semaphore::work
+        vpiFullName: semaphore::work
       vpiCell: semaphore
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/class_member_test_12.sv start:19:1 end:20:10:
+    Module name:test file:$Source01/class_member_test_12.sv start:19:1 end:20:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:19:8 end:19:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+      vpiName Identifier name:test start:19:8 end:19:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
   vpiTypespec (2 items):
-    ClassTypespec name:work@semaphore:
+    ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@semaphore:
-        vpiParent: ClassTypespec name:work@semaphore
-        vpiName: work@semaphore
-      vpiClassDefn: ClassDefn name:work@semaphore
-    ModuleTypespec name:work@test:
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
+      vpiDefName: semaphore
+      vpiClassDefn: ClassDefn name:semaphore
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:19:8 end:19:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:19:8 end:19:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -157,7 +162,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_12/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              14      14       0         0
+Others                              15      15       0         0
 ----------------------------------------------------------------
-                                    14      14       0         0
+                                    15      15       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,10 +23,10 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a", "b", "w", all
+//   - design has module top with exactly 3 nets: "a", "b", "w", all
 //     vpiNetType wire, each RefTypespec -> LogicTypespec
 //   - module has exactly 2 ports: "a" (input), "b" (input), each
-//     vpiLowConn -> the matching Net
+//     vpiLowConn -> RefObj of the same name -> actual resolves to the matching Net
 //   - module has exactly 1 process (Initial), whose stmt is directly a
 //     blocking Assignment (no Begin wrapper, since it is a single
 //     statement): lhs RefObj "w" resolving Net "w", rhs a DelayControl
@@ -77,10 +77,10 @@ class ProcAssignmentBadTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets / ports -----------------------------------------------
+// --- module / nets / ports ----
 
 TEST_F(ProcAssignmentBadTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -98,8 +98,13 @@ TEST_F(ProcAssignmentBadTest, ModuleHasThreeNetsAllWire) {
   }
 }
 
+TEST_F(ProcAssignmentBadTest, ModuleHasNoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr);
+}
+
 TEST_F(ProcAssignmentBadTest, ModuleHasTwoInputPorts) {
-  GTEST_SKIP() << "Known issues with deciding between net vs. variable";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);
@@ -110,11 +115,14 @@ TEST_F(ProcAssignmentBadTest, ModuleHasTwoInputPorts) {
     ASSERT_NE(port, nullptr) << "port " << i;
     EXPECT_EQ(port->getName(), names[i]);
     EXPECT_EQ(port->getDirection(), vpiInput);
-    EXPECT_NE(port->getLowConn<hldb::Net>(), nullptr);
+    const hldb::RefObj *const lowConn = port->getLowConn<hldb::RefObj>();
+    ASSERT_NE(lowConn, nullptr) << "port low_conn is a RefObj pointing at the net/variable, not the net/variable itself";
+    EXPECT_EQ(lowConn->getName(), names[i]);
+    EXPECT_NE(lowConn->getActual<hldb::Net>(), nullptr);
   }
 }
 
-// --- initial process: illegal procedural assignment to a net -----------
+// --- initial process: illegal procedural assignment to a net ----
 
 TEST_F(ProcAssignmentBadTest, InitialStmtIsBlockingAssignmentToNetW) {
   const hldb::Module *const top = getTop();
@@ -153,7 +161,7 @@ TEST_F(ProcAssignmentBadTest, RhsIsDelayControlWrappingBitwiseAndOfAAndB) {
   EXPECT_EQ(any_cast<hldb::RefObj>(op->getOperands()->at(1))->getName(), "b");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(ProcAssignmentBadTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -164,7 +172,7 @@ TEST_F(ProcAssignmentBadTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(ProcAssignmentBadTest, NoContAssigns) {
@@ -173,10 +181,11 @@ TEST_F(ProcAssignmentBadTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known compiler defect: illegal procedural assignment to a net ---------
+// --- known compiler defect: illegal procedural assignment to a net ----
 
 TEST_F(ProcAssignmentBadTest, CompilerShouldRejectProceduralAssignmentToWireButDoesNot) {
-  GTEST_SKIP() << "Known issues with deciding between net vs. variable";
+  GTEST_SKIP() << "HLC does not enforce IEEE 1800-2023 Table 10-1: a net shall not be the target of a "
+                  "procedural assignment. Fix pending.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)

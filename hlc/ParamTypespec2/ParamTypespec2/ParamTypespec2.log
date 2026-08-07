@@ -25,8 +25,8 @@ n<$Source01/dut.sv> u<174> t<Top_level_rule> c<1> l<1:1> el<27:1>
               n<> u<23> t<Type_declaration> p<24> c<21> l<2:3> el<5:14>
                 n<> u<21> t<Data_type> p<23> c<5> s<22> l<2:11> el<5:4>
                   n<> u<5> t<Struct_union> p<21> c<4> s<6> l<2:11> el<2:17>
-                    n<> u<4> t<Struct_keyword> p<5> l<2:11> el<2:17>
-                  n<> u<6> t<Packed_keyword> p<21> s<13> l<2:18> el<2:24>
+                    n<> u<4> t<STRUCT> p<5> l<2:11> el<2:17>
+                  n<> u<6> t<PACKED> p<21> s<13> l<2:18> el<2:24>
                   n<> u<13> t<Struct_union_member> p<21> c<9> s<20> l<3:5> el<3:17>
                     n<> u<9> t<Data_type_or_void> p<13> c<8> s<12> l<3:5> el<3:10>
                       n<> u<8> t<Data_type> p<9> c<7> l<3:5> el<3:10>
@@ -75,7 +75,7 @@ n<$Source01/dut.sv> u<174> t<Top_level_rule> c<1> l<1:1> el<27:1>
     n<> u<117> t<Description> p<172> c<116> s<118> l<12:1> el<19:10>
       n<> u<116> t<Module_declaration> p<117> c<92> l<12:1> el<19:10>
         n<> u<92> t<Module_ansi_header> p<116> c<59> s<114> l<12:1> el<17:3>
-          n<module> u<59> t<Module_keyword> p<92> s<60> l<12:1> el<12:7>
+          n<module> u<59> t<MODULE> p<92> s<60> l<12:1> el<12:7>
           n<nmi_gen> u<60> t<SIMPLE_IDENTIFIER> p<92> s<64> l<12:8> el<12:15>
           n<> u<64> t<Package_import_declaration_list> p<92> c<63> s<91> l<13:4> el<13:27>
             n<> u<63> t<Package_import_declaration> p<64> c<62> l<13:4> el<13:27>
@@ -135,7 +135,7 @@ n<$Source01/dut.sv> u<174> t<Top_level_rule> c<1> l<1:1> el<27:1>
     n<> u<171> t<Description> p<172> c<170> l<21:1> el<26:10>
       n<> u<170> t<Module_declaration> p<171> c<131> l<21:1> el<26:10>
         n<> u<131> t<Module_ansi_header> p<170> c<119> s<168> l<21:1> el<21:26>
-          n<module> u<119> t<Module_keyword> p<131> s<120> l<21:1> el<21:7>
+          n<module> u<119> t<MODULE> p<131> s<120> l<21:1> el<21:7>
           n<top> u<120> t<SIMPLE_IDENTIFIER> p<131> s<121> l<21:8> el<21:11>
           n<> u<121> t<Package_import_declaration_list> p<131> s<130> l<21:11> el<21:11>
           n<> u<130> t<Port_declaration_list> p<131> c<129> l<21:11> el<21:25>
@@ -187,17 +187,13 @@ n<$Source01/dut.sv> u<174> t<Top_level_rule> c<1> l<1:1> el<27:1>
         n<> u<169> t<ENDMODULE> p<170> l<26:1> el<26:10>
   n<// top> u<173> t<LINE_COMMENT> p<174> l<26:11> el<26:17>
 AST_DEBUG_END
-[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@prim_esc_pkg".
-[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@nmi_gen".
-[INF:CP0303] $Source01/dut.sv:21:1: Compile module "work@top".
-[ERR:EL0535] $Source01/dut.sv:7:41: Illegal implicit net "id:25, name:esc_p".
-[ERR:EL0535] $Source01/dut.sv:8:41: Illegal implicit net "id:29, name:esc_n".
-[ERR:EL0535] $Source01/dut.sv:23:27: Illegal implicit net "id:86, name:ESC_TX_DEFAULT".
-[ERR:EL0535] $Source01/dut.sv:23:8: Illegal implicit net "id:90, name:a".
-[ERR:EL0535] $Source01/dut.sv:24:8: Illegal implicit net "id:93, name:x".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@prim_esc_pkg".
-[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@nmi_gen".
-[WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "work@top".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "prim_esc_pkg".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "nmi_gen".
+[INF:CP0303] $Source01/dut.sv:21:1: Compile module "top".
+[WRN:CP0350] $Source01/dut.sv:23:27: Failed to bind "id:87, name:ESC_TX_DEFAULT".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "prim_esc_pkg".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "nmi_gen".
+[WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -206,31 +202,30 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@prim_esc_pkg file:$Source01/dut.sv start:1:1 end:10:26:
+    Package name:prim_esc_pkg file:$Source01/dut.sv start:1:1 end:10:26:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@prim_esc_pkg start:1:9 end:1:21:
-        vpiParent: Package name:work@prim_esc_pkg
-        vpiName: work@prim_esc_pkg
-      vpiFullName: work@prim_esc_pkg
+      vpiName Identifier name:prim_esc_pkg start:1:9 end:1:21:
+        vpiParent: Package name:prim_esc_pkg
+        vpiName: prim_esc_pkg
+      vpiFullName: prim_esc_pkg
       vpiParameter (1 items):
         Parameter name:ESC_TX_DEFAULT start:7:22 end:7:36:
-          vpiParent: Package name:work@prim_esc_pkg
+          vpiParent: Package name:prim_esc_pkg
           vpiTypespec RefTypespec name:esc_tx_t start:7:13 end:7:21:
             vpiParent: Parameter name:ESC_TX_DEFAULT
             vpiName: esc_tx_t
-            vpiFullName: work@prim_esc_pkg::ESC_TX_DEFAULT::esc_tx_t
+            vpiFullName: prim_esc_pkg::ESC_TX_DEFAULT::esc_tx_t
             vpiActual: TypedefTypespec name:esc_tx_t
           vpiName: ESC_TX_DEFAULT
-          vpiFullName: work@prim_esc_pkg::ESC_TX_DEFAULT
+          vpiFullName: prim_esc_pkg::ESC_TX_DEFAULT
       vpiParamAssign (1 items):
         ParamAssign start:7:22 end:8:54:
-          vpiParent: Package name:work@prim_esc_pkg
+          vpiParent: Package name:prim_esc_pkg
           vpiLhs RefObj name:ESC_TX_DEFAULT start:7:22 end:7:36:
             vpiParent: ParamAssign
             vpiName: ESC_TX_DEFAULT
-            vpiFullName: work@prim_esc_pkg::ESC_TX_DEFAULT
+            vpiFullName: prim_esc_pkg::ESC_TX_DEFAULT
             vpiActual: Parameter name:ESC_TX_DEFAULT
           vpiRhs Operation start:7:39 end:8:54:
             vpiParent: ParamAssign
@@ -241,12 +236,12 @@ Design name:unnamed:
                 vpiTag RefObj name:esc_p start:7:41 end:7:46:
                   vpiParent: TaggedPattern
                   vpiName: esc_p
-                  vpiFullName: work@prim_esc_pkg::esc_p
+                  vpiFullName: prim_esc_pkg::esc_p
                 vpiPattern Constant start:7:49 end:7:53:
                   vpiParent: TaggedPattern
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@prim_esc_pkg
+                    vpiFullName: prim_esc_pkg
                     vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
@@ -257,12 +252,12 @@ Design name:unnamed:
                 vpiTag RefObj name:esc_n start:8:41 end:8:46:
                   vpiParent: TaggedPattern
                   vpiName: esc_n
-                  vpiFullName: work@prim_esc_pkg::esc_n
+                  vpiFullName: prim_esc_pkg::esc_n
                 vpiPattern Constant start:8:49 end:8:53:
                   vpiParent: TaggedPattern
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@prim_esc_pkg
+                    vpiFullName: prim_esc_pkg
                     vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
@@ -270,9 +265,9 @@ Design name:unnamed:
                   vpiValue: "1"
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Package name:work@prim_esc_pkg
+          vpiParent: Package name:prim_esc_pkg
         StructTypespec start:2:11 end:5:4:
-          vpiParent: Package name:work@prim_esc_pkg
+          vpiParent: Package name:prim_esc_pkg
           vpiPacked: true
           vpiTypespecMember (2 items):
             TypespecMember name:esc_p start:3:11 end:3:16:
@@ -280,61 +275,60 @@ Design name:unnamed:
               vpiName: esc_p
               vpiTypespec RefTypespec start:3:5 end:3:10:
                 vpiParent: TypespecMember name:esc_p
-                vpiFullName: work@prim_esc_pkg::esc_p
+                vpiFullName: prim_esc_pkg::esc_p
                 vpiActual: LogicTypespec
             TypespecMember name:esc_n start:4:11 end:4:16:
               vpiParent: StructTypespec
               vpiName: esc_n
               vpiTypespec RefTypespec start:4:5 end:4:10:
                 vpiParent: TypespecMember name:esc_n
-                vpiFullName: work@prim_esc_pkg::esc_n
+                vpiFullName: prim_esc_pkg::esc_n
                 vpiActual: LogicTypespec
         TypedefTypespec name:esc_tx_t start:2:3 end:5:14:
-          vpiParent: Package name:work@prim_esc_pkg
+          vpiParent: Package name:prim_esc_pkg
           vpiName Identifier name:esc_tx_t start:5:5 end:5:13:
             vpiParent: TypedefTypespec name:esc_tx_t
             vpiName: esc_tx_t
           vpiTypedefAlias RefTypespec start:2:11 end:5:4:
             vpiParent: TypedefTypespec name:esc_tx_t
-            vpiFullName: work@prim_esc_pkg::esc_tx_t
+            vpiFullName: prim_esc_pkg::esc_tx_t
             vpiActual: StructTypespec
         BitTypespec:
-          vpiParent: Package name:work@prim_esc_pkg
-      vpiDefName: work@prim_esc_pkg
-      vpiDefNetType: none (12)
+          vpiParent: Package name:prim_esc_pkg
+      vpiDefName: prim_esc_pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@prim_esc_pkg
+        vpiParent: Package name:prim_esc_pkg
         vpiName: work
-        vpiFullName: work@prim_esc_pkg::work
+        vpiFullName: prim_esc_pkg::work
       vpiCell: prim_esc_pkg
       vpiEndLabel Identifier name:prim_esc_pkg start:10:14 end:10:26:
-        vpiParent: Package name:work@prim_esc_pkg
+        vpiParent: Package name:prim_esc_pkg
         vpiName: prim_esc_pkg
   vpiAllModules (2 items):
-    Module name:work@nmi_gen file:$Source01/dut.sv start:12:1 end:19:10:
+    Module name:nmi_gen file:$Source01/dut.sv start:12:1 end:19:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@nmi_gen start:12:8 end:12:15:
-        vpiParent: Module name:work@nmi_gen
-        vpiName: work@nmi_gen
-      vpiFullName: work@nmi_gen
+      vpiName Identifier name:nmi_gen start:12:8 end:12:15:
+        vpiParent: Module name:nmi_gen
+        vpiName: nmi_gen
+      vpiFullName: nmi_gen
       vpiVariable (1 items):
         Variable name:x start:16:15 end:16:16:
-          vpiParent: Module name:work@nmi_gen
+          vpiParent: Module name:nmi_gen
           vpiTypespec RefTypespec start:16:4 end:16:14:
             vpiParent: Variable name:x
-            vpiFullName: work@nmi_gen.x
+            vpiFullName: nmi_gen.x
             vpiActual: IntTypespec
           vpiName: x
-          vpiFullName: work@nmi_gen.x
-          vpiNetType: none (12)
+          vpiFullName: nmi_gen.x
       vpiTypespec (2 items):
         ImportTypespec name:prim_esc_pkg start:13:11 end:13:26:
-          vpiParent: Module name:work@nmi_gen
+          vpiParent: Module name:nmi_gen
           vpiName Identifier name:prim_esc_pkg start:13:11 end:13:23:
             vpiParent: ImportTypespec name:prim_esc_pkg
             vpiName: prim_esc_pkg
         ArrayTypespec:
-          vpiParent: Module name:work@nmi_gen
+          vpiParent: Module name:nmi_gen
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:15:19 end:15:24:
@@ -343,7 +337,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@nmi_gen
+                vpiFullName: nmi_gen
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -353,7 +347,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@nmi_gen
+                vpiFullName: nmi_gen
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -362,131 +356,139 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:esc_tx_t:
             vpiParent: ArrayTypespec
             vpiName: esc_tx_t
-            vpiFullName: work@nmi_gen.esc_tx_t
+            vpiFullName: nmi_gen.esc_tx_t
             vpiActual: TypedefTypespec name:esc_tx_t
-      vpiDefName: work@nmi_gen
-      vpiDefNetType: none (12)
+      vpiDefName: nmi_gen
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@nmi_gen
+        vpiParent: Module name:nmi_gen
         vpiName: work
-        vpiFullName: work@nmi_gen.work
+        vpiFullName: nmi_gen.work
       vpiCell: nmi_gen
       vpiNet (1 items):
         Net name:a start:15:25 end:15:26:
-          vpiParent: Module name:work@nmi_gen
+          vpiParent: Module name:nmi_gen
           vpiTypespec RefTypespec name:esc_tx_t start:15:10 end:15:18:
             vpiParent: Net name:a
             vpiName: esc_tx_t
-            vpiFullName: work@nmi_gen.a.esc_tx_t
+            vpiFullName: nmi_gen.a.esc_tx_t
             vpiActual: ArrayTypespec
           vpiName: a
-          vpiFullName: work@nmi_gen.a
+          vpiFullName: nmi_gen.a
           vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:15:25 end:15:26:
-          vpiParent: Module name:work@nmi_gen
+          vpiParent: Module name:nmi_gen
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:15:25 end:15:26:
+          vpiLowConn RefObj name:a start:15:25 end:15:26:
             vpiParent: Port name:a
-            vpiFullName: work@nmi_gen.a
+            vpiName: a
+            vpiFullName: nmi_gen.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec name:esc_tx_t start:15:10 end:15:18:
             vpiParent: Port name:a
             vpiName: esc_tx_t
-            vpiFullName: work@nmi_gen.a.esc_tx_t
+            vpiFullName: nmi_gen.a.esc_tx_t
             vpiActual: ArrayTypespec
         Port name:x start:16:15 end:16:16:
-          vpiParent: Module name:work@nmi_gen
+          vpiParent: Module name:nmi_gen
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj start:16:15 end:16:16:
+          vpiLowConn RefObj name:x start:16:15 end:16:16:
             vpiParent: Port name:x
-            vpiFullName: work@nmi_gen.x
+            vpiName: x
+            vpiFullName: nmi_gen.x.x
             vpiActual: Variable name:x
           vpiTypespec RefTypespec start:16:4 end:16:14:
             vpiParent: Port name:x
-            vpiFullName: work@nmi_gen.x
+            vpiFullName: nmi_gen.x
             vpiActual: IntTypespec
       vpiContAssign (1 items):
         ContAssign start:18:11 end:18:22:
-          vpiParent: Module name:work@nmi_gen
+          vpiParent: Module name:nmi_gen
           vpiLhs RefObj name:x start:18:11 end:18:12:
             vpiParent: ContAssign
             vpiName: x
-            vpiFullName: work@nmi_gen.x
+            vpiFullName: nmi_gen.x
             vpiActual: Variable name:x
           vpiRhs Operation start:18:15 end:18:22:
             vpiParent: ContAssign
             vpiTypespec RefTypespec start:18:15 end:18:18:
               vpiParent: Operation
-              vpiFullName: work@nmi_gen
+              vpiFullName: nmi_gen
               vpiActual: IntTypespec
             vpiOpType: cast (81)
             vpiOperand (1 items):
               RefObj name:a start:18:20 end:18:21:
                 vpiParent: Operation
                 vpiName: a
-                vpiFullName: work@nmi_gen.a
+                vpiFullName: nmi_gen.a
                 vpiActual: Net name:a
-    Module name:work@top file:$Source01/dut.sv start:21:1 end:26:10:
+    Module name:top file:$Source01/dut.sv start:21:1 end:26:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:21:8 end:21:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:21:8 end:21:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiVariable (1 items):
         Variable name:o start:21:23 end:21:24:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:21:12 end:21:22:
             vpiParent: Variable name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: IntTypespec
           vpiName: o
-          vpiFullName: work@top.o
-          vpiNetType: none (12)
-      vpiTypespec (1 items):
-        ModuleTypespec name:work@nmi_gen start:22:4 end:22:11:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@nmi_gen start:22:4 end:22:11:
-            vpiParent: ModuleTypespec name:work@nmi_gen
-            vpiName: work@nmi_gen
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+          vpiFullName: top.o
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:prim_esc_pkg start:23:13 end:23:25:
+          vpiParent: Module name:top
+          vpiName Identifier name:prim_esc_pkg start:23:13 end:23:25:
+            vpiParent: UnsupportedTypespec name:prim_esc_pkg
+            vpiName: prim_esc_pkg
+        ModuleTypespec name:nmi_gen start:22:4 end:22:11:
+          vpiParent: Module name:top
+          vpiName Identifier name:nmi_gen start:22:4 end:22:11:
+            vpiParent: ModuleTypespec name:nmi_gen
+            vpiName: nmi_gen
+          vpiModule: Module name:nmi_gen
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiPort (1 items):
         Port name:o start:21:23 end:21:24:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:21:23 end:21:24:
+          vpiLowConn RefObj name:o start:21:23 end:21:24:
             vpiParent: Port name:o
-            vpiFullName: work@top.o
+            vpiName: o
+            vpiFullName: top.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:21:12 end:21:22:
             vpiParent: Port name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: IntTypespec
       vpiRefInstance (1 items):
         RefInstance name:u_nmi_gen start:22:12 end:22:21:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_nmi_gen
-          vpiTypespec RefTypespec name:work@nmi_gen start:22:4 end:22:11:
+          vpiTypespec RefTypespec name:nmi_gen start:22:4 end:22:11:
             vpiParent: RefInstance name:u_nmi_gen
-            vpiName: work@nmi_gen
-            vpiFullName: work@top.u_nmi_gen.work@nmi_gen
-            vpiActual: ModuleTypespec name:work@nmi_gen
+            vpiName: nmi_gen
+            vpiFullName: top.u_nmi_gen.nmi_gen
+            vpiActual: ModuleTypespec name:nmi_gen
           vpiPort (2 items):
             Port start:23:7 end:23:44:
               vpiParent: RefInstance name:u_nmi_gen
               vpiLowConn RefObj name:a start:23:8 end:23:9:
                 vpiParent: Port
                 vpiName: a
-                vpiFullName: work@top.u_nmi_gen.a
+                vpiFullName: top.u_nmi_gen.a
               vpiHighConn Operation start:23:10 end:23:43:
                 vpiParent: Port
                 vpiOpType: multi-concatenation (34)
@@ -495,7 +497,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.u_nmi_gen
+                      vpiFullName: top.u_nmi_gen
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -508,50 +510,48 @@ Design name:unnamed:
                       HierPath name:prim_esc_pkg::ESC_TX_DEFAULT start:23:13 end:23:41:
                         vpiParent: Operation
                         vpiName: prim_esc_pkg::ESC_TX_DEFAULT
-                        vpiFullName: work@top.u_nmi_gen.prim_esc_pkg::ESC_TX_DEFAULT
+                        vpiFullName: top.u_nmi_gen.prim_esc_pkg::ESC_TX_DEFAULT
                         vpiPathElem (2 items):
-                          UnsupportedScope name:prim_esc_pkg start:23:13 end:23:27:
+                          RefTypespec start:23:13 end:23:27:
                             vpiParent: HierPath name:prim_esc_pkg::ESC_TX_DEFAULT
-                            vpiName Identifier name:prim_esc_pkg start:23:13 end:23:25:
-                              vpiParent: UnsupportedScope name:prim_esc_pkg
-                              vpiName: prim_esc_pkg
-                            vpiFullName: work@top.u_nmi_gen.prim_esc_pkg::ESC_TX_DEFAULT.prim_esc_pkg
+                            vpiFullName: top.u_nmi_gen.prim_esc_pkg::ESC_TX_DEFAULT
+                            vpiActual: UnsupportedTypespec name:prim_esc_pkg
                           RefObj name:ESC_TX_DEFAULT start:23:27 end:23:41:
                             vpiParent: HierPath name:prim_esc_pkg::ESC_TX_DEFAULT
                             vpiName: ESC_TX_DEFAULT
-                            vpiFullName: work@top.u_nmi_gen.ESC_TX_DEFAULT
+                            vpiFullName: top.u_nmi_gen.ESC_TX_DEFAULT
             Port start:24:7 end:24:12:
               vpiParent: RefInstance name:u_nmi_gen
               vpiLowConn RefObj name:x start:24:8 end:24:9:
                 vpiParent: Port
                 vpiName: x
-                vpiFullName: work@top.u_nmi_gen.x
+                vpiFullName: top.u_nmi_gen.x
               vpiHighConn RefObj name:o start:24:10 end:24:11:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@top.u_nmi_gen.o
+                vpiFullName: top.u_nmi_gen.o
                 vpiActual: Variable name:o
   vpiTypespec (3 items):
-    ModuleTypespec name:work@nmi_gen:
+    ModuleTypespec name:nmi_gen:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@nmi_gen start:12:8 end:12:15:
-        vpiParent: ModuleTypespec name:work@nmi_gen
-        vpiName: work@nmi_gen
-      vpiModule: Module name:work@nmi_gen
+      vpiName Identifier name:nmi_gen start:12:8 end:12:15:
+        vpiParent: ModuleTypespec name:nmi_gen
+        vpiName: nmi_gen
+      vpiModule: Module name:nmi_gen
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:21:8 end:21:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:21:8 end:21:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -595,7 +595,7 @@ COMMAND: ${HLC_DIR}/regression/ParamTypespec2/ParamTypespec2/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              87      87       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    87      87       0         0
 ===================== END REDUCTION RESULT =====================

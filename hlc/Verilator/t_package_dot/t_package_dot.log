@@ -29,8 +29,8 @@ n<$Source01/t_package_dot.v> u<160> t<Top_level_rule> c<1> l<6:1> el<25:1>
               n<> u<47> t<Type_declaration> p<48> c<45> l<7:4> el<10:12>
                 n<> u<45> t<Data_type> p<47> c<9> s<46> l<7:12> el<10:5>
                   n<> u<9> t<Struct_union> p<45> c<8> s<10> l<7:12> el<7:18>
-                    n<> u<8> t<Struct_keyword> p<9> l<7:12> el<7:18>
-                  n<> u<10> t<Packed_keyword> p<45> s<27> l<7:19> el<7:25>
+                    n<> u<8> t<STRUCT> p<9> l<7:12> el<7:18>
+                  n<> u<10> t<PACKED> p<45> s<27> l<7:19> el<7:25>
                   n<> u<27> t<Struct_union_member> p<45> c<23> s<44> l<8:7> el<8:23>
                     n<> u<23> t<Data_type_or_void> p<27> c<22> s<26> l<8:7> el<8:18>
                       n<logic> u<22> t<Data_type> p<23> c<11> l<8:7> el<8:18>
@@ -103,7 +103,7 @@ n<$Source01/t_package_dot.v> u<160> t<Top_level_rule> c<1> l<6:1> el<25:1>
     n<> u<158> t<Description> p<159> c<157> l<18:1> el<24:10>
       n<> u<157> t<Module_declaration> p<158> c<92> l<18:1> el<24:10>
         n<> u<92> t<Module_nonansi_header> p<157> c<87> s<155> l<18:1> el<18:24>
-          n<module> u<87> t<Module_keyword> p<92> s<88> l<18:1> el<18:7>
+          n<module> u<87> t<MODULE> p<92> s<88> l<18:1> el<18:7>
           n<t> u<88> t<SIMPLE_IDENTIFIER> p<92> s<89> l<18:8> el<18:9>
           n<> u<89> t<Package_import_declaration_list> p<92> s<90> l<18:10> el<18:10>
           n</*AUTOARG*/> u<90> t<BLOCK_COMMENT> p<92> s<91> l<18:10> el<18:23>
@@ -173,11 +173,11 @@ n<$Source01/t_package_dot.v> u<160> t<Top_level_rule> c<1> l<6:1> el<25:1>
                           n<> u<146> t<END> p<147> l<23:4> el<23:7>
         n<> u<156> t<ENDMODULE> p<157> l<24:1> el<24:10>
 AST_DEBUG_END
-[INF:CP0301] $Source01/t_package_dot.v:6:1: Compile package "work@pkg".
-[INF:CP0301] $Source01/t_package_dot.v:13:1: Compile package "work@csr_pkg".
-[INF:CP0303] $Source01/t_package_dot.v:18:1: Compile module "work@t".
-[ERR:EL0535] $Source01/t_package_dot.v:20:20: Illegal implicit net "id:66, name:REG_RST".
-[ERR:EL0535] $Source01/t_package_dot.v:20:28: Illegal implicit net "id:67, name:msk".
+[INF:CP0301] $Source01/t_package_dot.v:6:1: Compile package "pkg".
+[INF:CP0301] $Source01/t_package_dot.v:13:1: Compile package "csr_pkg".
+[INF:CP0303] $Source01/t_package_dot.v:18:1: Compile module "t".
+[WRN:CP0350] $Source01/t_package_dot.v:20:20: Failed to bind "id:68, name:REG_RST".
+[WRN:CP0350] $Source01/t_package_dot.v:20:28: Failed to bind "id:69, name:msk".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -187,22 +187,21 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_package_dot.v
       vpiPreprocFile: "$Output/lib/work/t_package_dot.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@pkg file:$Source01/t_package_dot.v start:6:1 end:11:11:
+    Package name:pkg file:$Source01/t_package_dot.v start:6:1 end:11:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@pkg start:6:9 end:6:12:
-        vpiParent: Package name:work@pkg
-        vpiName: work@pkg
-      vpiFullName: work@pkg
+      vpiName Identifier name:pkg start:6:9 end:6:12:
+        vpiParent: Package name:pkg
+        vpiName: pkg
+      vpiFullName: pkg
       vpiTypespec (6 items):
-        UnsupportedTypespec name:logic start:8:7 end:8:18:
-          vpiParent: Package name:work@pkg
+        UnsupportedTypespec name:logic start:8:7 end:8:12:
+          vpiParent: Package name:pkg
           vpiName Identifier name:logic start:8:7 end:8:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:8:13 end:8:18:
@@ -211,7 +210,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@pkg
+                vpiFullName: pkg
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -221,7 +220,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@pkg
+                vpiFullName: pkg
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -230,15 +229,15 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:logic:
             vpiParent: ArrayTypespec
             vpiName: logic
-            vpiFullName: work@pkg::logic
+            vpiFullName: pkg::logic
             vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:9:7 end:9:18:
-          vpiParent: Package name:work@pkg
+        UnsupportedTypespec name:logic start:9:7 end:9:12:
+          vpiParent: Package name:pkg
           vpiName Identifier name:logic start:9:7 end:9:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:9:13 end:9:18:
@@ -247,7 +246,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@pkg
+                vpiFullName: pkg
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -257,7 +256,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@pkg
+                vpiFullName: pkg
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -266,10 +265,10 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:logic:
             vpiParent: ArrayTypespec
             vpiName: logic
-            vpiFullName: work@pkg::logic
+            vpiFullName: pkg::logic
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:7:12 end:10:5:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
           vpiPacked: true
           vpiTypespecMember (2 items):
             TypespecMember name:msk start:8:19 end:8:22:
@@ -278,7 +277,7 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:logic start:8:7 end:8:18:
                 vpiParent: TypespecMember name:msk
                 vpiName: logic
-                vpiFullName: work@pkg::msk::logic
+                vpiFullName: pkg::msk::logic
                 vpiActual: ArrayTypespec
             TypespecMember name:dat start:9:19 end:9:22:
               vpiParent: StructTypespec
@@ -286,112 +285,121 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:logic start:9:7 end:9:18:
                 vpiParent: TypespecMember name:dat
                 vpiName: logic
-                vpiFullName: work@pkg::dat::logic
+                vpiFullName: pkg::dat::logic
                 vpiActual: ArrayTypespec
         TypedefTypespec name:STR_t start:7:4 end:10:12:
-          vpiParent: Package name:work@pkg
+          vpiParent: Package name:pkg
           vpiName Identifier name:STR_t start:10:6 end:10:11:
             vpiParent: TypedefTypespec name:STR_t
             vpiName: STR_t
           vpiTypedefAlias RefTypespec start:7:12 end:10:5:
             vpiParent: TypedefTypespec name:STR_t
-            vpiFullName: work@pkg::STR_t
+            vpiFullName: pkg::STR_t
             vpiActual: StructTypespec
-      vpiDefName: work@pkg
-      vpiDefNetType: none (12)
+      vpiDefName: pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@pkg
+        vpiParent: Package name:pkg
         vpiName: work
-        vpiFullName: work@pkg::work
+        vpiFullName: pkg::work
       vpiCell: pkg
-    Package name:work@csr_pkg file:$Source01/t_package_dot.v start:13:1 end:16:11:
+    Package name:csr_pkg file:$Source01/t_package_dot.v start:13:1 end:16:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@csr_pkg start:13:9 end:13:16:
-        vpiParent: Package name:work@csr_pkg
-        vpiName: work@csr_pkg
-      vpiFullName: work@csr_pkg
+      vpiName Identifier name:csr_pkg start:13:9 end:13:16:
+        vpiParent: Package name:csr_pkg
+        vpiName: csr_pkg
+      vpiFullName: csr_pkg
       vpiParameter (1 items):
         Parameter name:REG_RST start:15:21 end:15:28:
-          vpiParent: Package name:work@csr_pkg
+          vpiParent: Package name:csr_pkg
           vpiTypespec RefTypespec name:reg_t start:15:15 end:15:20:
             vpiParent: Parameter name:REG_RST
             vpiName: reg_t
-            vpiFullName: work@csr_pkg::REG_RST::reg_t
+            vpiFullName: csr_pkg::REG_RST::reg_t
             vpiActual: TypedefTypespec name:reg_t
           vpiName: REG_RST
-          vpiFullName: work@csr_pkg::REG_RST
+          vpiFullName: csr_pkg::REG_RST
           vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:15:21 end:15:36:
-          vpiParent: Package name:work@csr_pkg
+          vpiParent: Package name:csr_pkg
           vpiLhs RefObj name:REG_RST start:15:21 end:15:28:
             vpiParent: ParamAssign
             vpiName: REG_RST
-            vpiFullName: work@csr_pkg::REG_RST
+            vpiFullName: csr_pkg::REG_RST
             vpiActual: Parameter name:REG_RST
           vpiRhs Constant start:15:31 end:15:36:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@csr_pkg
+              vpiFullName: csr_pkg
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 8
             vpiDecompile: "8'h34"
             vpiValue: "34"
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:pkg start:14:12 end:14:15:
+          vpiParent: Package name:csr_pkg
+          vpiName Identifier name:pkg start:14:12 end:14:15:
+            vpiParent: UnsupportedTypespec name:pkg
+            vpiName: pkg
         UnsupportedTypespec name:pkg::STR_t start:14:12 end:14:22:
-          vpiParent: Package name:work@csr_pkg
+          vpiParent: Package name:csr_pkg
           vpiPathElem (2 items):
-            UnsupportedScope name:pkg start:14:12 end:14:17:
+            RefTypespec start:14:12 end:14:17:
               vpiParent: UnsupportedTypespec name:pkg::STR_t
-              vpiName Identifier name:pkg start:14:12 end:14:15:
-                vpiParent: UnsupportedScope name:pkg
-                vpiName: pkg
-              vpiFullName: work@csr_pkg::pkg::STR_t::pkg
+              vpiFullName: csr_pkg::pkg::STR_t
+              vpiActual: UnsupportedTypespec name:pkg
             RefTypespec name:STR_t start:14:17 end:14:22:
               vpiParent: UnsupportedTypespec name:pkg::STR_t
               vpiName: STR_t
-              vpiFullName: work@csr_pkg::pkg::STR_t::STR_t
+              vpiFullName: csr_pkg::pkg::STR_t::STR_t
           vpiName Identifier name:pkg::STR_t start:14:12 end:14:22:
             vpiParent: UnsupportedTypespec name:pkg::STR_t
             vpiName: pkg::STR_t
         TypedefTypespec name:reg_t start:14:4 end:14:29:
-          vpiParent: Package name:work@csr_pkg
+          vpiParent: Package name:csr_pkg
           vpiName Identifier name:reg_t start:14:23 end:14:28:
             vpiParent: TypedefTypespec name:reg_t
             vpiName: reg_t
           vpiTypedefAlias RefTypespec start:14:12 end:14:22:
             vpiParent: TypedefTypespec name:reg_t
-            vpiFullName: work@csr_pkg::reg_t
+            vpiFullName: csr_pkg::reg_t
             vpiActual: UnsupportedTypespec name:pkg::STR_t
-      vpiDefName: work@csr_pkg
-      vpiDefNetType: none (12)
+      vpiDefName: csr_pkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@csr_pkg
+        vpiParent: Package name:csr_pkg
         vpiName: work
-        vpiFullName: work@csr_pkg::work
+        vpiFullName: csr_pkg::work
       vpiCell: csr_pkg
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_package_dot.v start:18:1 end:24:10:
+    Module name:t file:$Source01/t_package_dot.v start:18:1 end:24:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:18:8 end:18:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+      vpiName Identifier name:t start:18:8 end:18:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
       vpiProcess (1 items):
         Initial start:19:4 end:23:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:19:12 end:23:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
+            vpiTypespec (1 items):
+              UnsupportedTypespec name:csr_pkg start:20:11 end:20:18:
+                vpiParent: Begin
+                vpiName Identifier name:csr_pkg start:20:11 end:20:18:
+                  vpiParent: UnsupportedTypespec name:csr_pkg
+                  vpiName: csr_pkg
             vpiStmt (3 items):
               IfStmt start:20:7 end:20:47:
                 vpiParent: Begin
@@ -402,27 +410,25 @@ Design name:unnamed:
                     HierPath name:csr_pkg::REG_RST.msk start:20:11 end:20:31:
                       vpiParent: Operation
                       vpiName: csr_pkg::REG_RST.msk
-                      vpiFullName: work@t.csr_pkg::REG_RST.msk
+                      vpiFullName: t.csr_pkg::REG_RST.msk
                       vpiPathElem (3 items):
-                        UnsupportedScope name:csr_pkg start:20:11 end:20:20:
+                        RefTypespec start:20:11 end:20:20:
                           vpiParent: HierPath name:csr_pkg::REG_RST.msk
-                          vpiName Identifier name:csr_pkg start:20:11 end:20:18:
-                            vpiParent: UnsupportedScope name:csr_pkg
-                            vpiName: csr_pkg
-                          vpiFullName: work@t.csr_pkg::REG_RST.msk.csr_pkg
+                          vpiFullName: t.csr_pkg::REG_RST.msk
+                          vpiActual: UnsupportedTypespec name:csr_pkg
                         RefObj name:REG_RST start:20:20 end:20:27:
                           vpiParent: HierPath name:csr_pkg::REG_RST.msk
                           vpiName: REG_RST
-                          vpiFullName: work@t.REG_RST
+                          vpiFullName: t.REG_RST
                         RefObj name:msk start:20:28 end:20:31:
                           vpiParent: HierPath name:csr_pkg::REG_RST.msk
                           vpiName: msk
-                          vpiFullName: work@t.msk
+                          vpiFullName: t.msk
                     Constant start:20:35 end:20:39:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 4
@@ -443,7 +449,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 168
@@ -460,19 +466,19 @@ Design name:unnamed:
       vpiSigned: true
     IntTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:18:8 end:18:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:18:8 end:18:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -516,7 +522,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_package_dot/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              75      75       0         0
+Others                              77      77       0         0
 ----------------------------------------------------------------
-                                    75      75       0         0
+                                    77      77       0         0
 ===================== END REDUCTION RESULT =====================

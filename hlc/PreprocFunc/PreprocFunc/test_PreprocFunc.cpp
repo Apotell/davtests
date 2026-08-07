@@ -34,7 +34,7 @@ class PreprocFuncTest : public Test {
 
 // LRM 22.5.1: the module that exercises the function-like macros must compile.
 TEST_F(PreprocFuncTest, AsymRamModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@asym_ram", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("asym_ram", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'asym_ram' must compile";
 }
 

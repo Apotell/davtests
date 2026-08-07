@@ -40,7 +40,7 @@
 namespace hlc {
 
 // ============================================================================
-// Test fixture — compiles tests/SequenceExpr/dut.sv once for all test cases.
+// Test fixture -- compiles tests/SequenceExpr/dut.sv once for all test cases.
 // ============================================================================
 class SequenceExprTest : public Test {
  public:
@@ -49,14 +49,14 @@ class SequenceExprTest : public Test {
 
  protected:
   const hldb::Module *getModule() const {
-    return getByName<hldb::Module>("work@sequence_expr_coverage", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("sequence_expr_coverage", m_design->getAllModules());
   }
 
   // Find a named sequence_decl inside the module.
   const hldb::SequenceDecl *findSeq(std::string_view name) const {
     const hldb::Module *mod = getModule();
     if (mod == nullptr) return nullptr;
-    return getByName<hldb::SequenceDecl>(name, mod->getSequenceDecls());
+    return hldb::findByName<hldb::SequenceDecl>(name, mod->getSequenceDecls());
   }
 
   // Return the expr of a named sequence, cast to Operation.
@@ -84,17 +84,17 @@ TEST_F(SequenceExprTest, SequenceDeclsPresent) {
 }
 
 // ============================================================================
-// Alt 1 — leading cycle_delay_range  (vpiUnaryCycleDelayOp)
+// Alt 1 -- leading cycle_delay_range  (vpiUnaryCycleDelayOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt1_Fixed_OpType) {
-  // ##2 a  — single leading delay
+  // ##2 a  -- single leading delay
   const auto *op = seqOp("alt1_fixed");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp);
 }
 
 TEST_F(SequenceExprTest, Alt1_Fixed_TwoOperands) {
-  // ##2 a  → [Const(2), RefObj(a)]
+  // ##2 a  -> [Const(2), RefObj(a)]
   const auto *op = seqOp("alt1_fixed");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -102,7 +102,7 @@ TEST_F(SequenceExprTest, Alt1_Fixed_TwoOperands) {
 }
 
 TEST_F(SequenceExprTest, Alt1_Fixed_FirstOperandIsConstant) {
-  // First operand is the delay value (##2 → Constant)
+  // First operand is the delay value (##2 -> Constant)
   const auto *op = seqOp("alt1_fixed");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -111,7 +111,7 @@ TEST_F(SequenceExprTest, Alt1_Fixed_FirstOperandIsConstant) {
 }
 
 // ============================================================================
-// Alt 2 — binary cycle_delay_range  (vpiCycleDelayOp)
+// Alt 2 -- binary cycle_delay_range  (vpiCycleDelayOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt2_Fixed_OpType) {
   // a ##1 b
@@ -121,7 +121,7 @@ TEST_F(SequenceExprTest, Alt2_Fixed_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt2_Fixed_ThreeOperands) {
-  // a ##1 b  → [RefObj(a), Const(1), RefObj(b)]
+  // a ##1 b  -> [RefObj(a), Const(1), RefObj(b)]
   const auto *op = seqOp("alt2_fixed");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -136,7 +136,7 @@ TEST_F(SequenceExprTest, Alt2_Range_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt2_Chain3_ThreeTerms) {
-  // a ##1 b ##1 c — right-nested; outer has 3 direct items
+  // a ##1 b ##1 c -- right-nested; outer has 3 direct items
   const auto *op = seqOp("alt2_chain3");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiCycleDelayOp);
@@ -145,7 +145,7 @@ TEST_F(SequenceExprTest, Alt2_Chain3_ThreeTerms) {
 }
 
 // ============================================================================
-// Alt 3 — consecutive_repetition  [* …]
+// Alt 3 -- consecutive_repetition  [* ...]
 // ============================================================================
 TEST_F(SequenceExprTest, Alt3_Consec_Exact_OpType) {
   // a[*3]
@@ -155,7 +155,7 @@ TEST_F(SequenceExprTest, Alt3_Consec_Exact_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt3_Consec_Exact_TwoOperands) {
-  // a[*3]  → [RefObj(a), Const(3)]
+  // a[*3]  -> [RefObj(a), Const(3)]
   const auto *op = seqOp("alt3_consec_exact");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -190,7 +190,7 @@ TEST_F(SequenceExprTest, Alt3_Consec_Range_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt3_Consec_Range_SecondOperandIsRange) {
-  // a[*2:5]  → [RefObj(a), Range(2,5)]
+  // a[*2:5]  -> [RefObj(a), Range(2,5)]
   const auto *op = seqOp("alt3_consec_range");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -199,14 +199,14 @@ TEST_F(SequenceExprTest, Alt3_Consec_Range_SecondOperandIsRange) {
 }
 
 TEST_F(SequenceExprTest, Alt3_Consec_Star_OpType) {
-  // a[*]  — zero-or-more
+  // a[*]  -- zero-or-more
   const auto *op = seqOp("alt3_consec_star");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiConsecutiveRepeatOp);
 }
 
 TEST_F(SequenceExprTest, Alt3_Consec_Star_RangeLeft_IsZero) {
-  // a[*]  → Range(0,$)
+  // a[*]  -> Range(0,$)
   const auto *op = seqOp("alt3_consec_star");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -219,14 +219,14 @@ TEST_F(SequenceExprTest, Alt3_Consec_Star_RangeLeft_IsZero) {
 }
 
 TEST_F(SequenceExprTest, Alt3_Consec_Plus_OpType) {
-  // a[+]  — one-or-more
+  // a[+]  -- one-or-more
   const auto *op = seqOp("alt3_consec_plus");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiConsecutiveRepeatOp);
 }
 
 TEST_F(SequenceExprTest, Alt3_Consec_Plus_RangeLeft_IsOne) {
-  // a[+]  → Range(1,$)
+  // a[+]  -> Range(1,$)
   const auto *op = seqOp("alt3_consec_plus");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -239,7 +239,7 @@ TEST_F(SequenceExprTest, Alt3_Consec_Plus_RangeLeft_IsOne) {
 }
 
 TEST_F(SequenceExprTest, Alt3_Consec_Unbounded_RightIsDollar) {
-  // a[*1:$]  → Range(1,$)
+  // a[*1:$]  -> Range(1,$)
   const auto *op = seqOp("alt3_consec_unbounded");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -252,7 +252,7 @@ TEST_F(SequenceExprTest, Alt3_Consec_Unbounded_RightIsDollar) {
 }
 
 // ============================================================================
-// Alt 3 — non_consecutive_repetition  [= …]  (vpiRepeatOp)
+// Alt 3 -- non_consecutive_repetition  [= ...]  (vpiRepeatOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt3_NonConsec_Exact_OpType) {
   // a[=2]
@@ -262,7 +262,7 @@ TEST_F(SequenceExprTest, Alt3_NonConsec_Exact_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt3_NonConsec_Exact_TwoOperands) {
-  // a[=2]  → [RefObj(a), Const(2)]
+  // a[=2]  -> [RefObj(a), Const(2)]
   const auto *op = seqOp("alt3_nonconsec_exact");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -308,7 +308,7 @@ TEST_F(SequenceExprTest, Alt3_NonConsec_Unbounded_RightIsDollar) {
 }
 
 // ============================================================================
-// Alt 3 — goto_repetition  [-> …]  (vpiGotoRepeatOp)
+// Alt 3 -- goto_repetition  [-> ...]  (vpiGotoRepeatOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt3_Goto_Exact_OpType) {
   // a[->1]
@@ -318,7 +318,7 @@ TEST_F(SequenceExprTest, Alt3_Goto_Exact_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt3_Goto_Exact_TwoOperands) {
-  // a[->1]  → [RefObj(a), Const(1)]
+  // a[->1]  -> [RefObj(a), Const(1)]
   const auto *op = seqOp("alt3_goto_exact");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -364,7 +364,7 @@ TEST_F(SequenceExprTest, Alt3_Goto_Unbounded_RightIsDollar) {
 }
 
 // ============================================================================
-// Alt 4 — ( expression_or_dist (, match_items)* ) boolean_abbrev?
+// Alt 4 -- ( expression_or_dist (, match_items)* ) boolean_abbrev?
 // ============================================================================
 TEST_F(SequenceExprTest, Alt4_Consec_Abbrev_OpType) {
   // (a, cnt += 1)[*3]
@@ -381,7 +381,7 @@ TEST_F(SequenceExprTest, Alt4_Consec_Abbrev_ThreeOperands) {
 }
 
 TEST_F(SequenceExprTest, Alt4_Consec_Abbrev_OperandOrder) {
-  // Verify: (a, cnt += 1)[*3] → [0]=RefObj, [1]=Const("3"), [2]=Assignment(cnt+=1)
+  // Verify: (a, cnt += 1)[*3] -> [0]=RefObj, [1]=Const("3"), [2]=Assignment(cnt+=1)
   const auto *op = seqOp("alt4_consec_abbrev");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -413,7 +413,7 @@ TEST_F(SequenceExprTest, Alt4_Goto_Abbrev_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt4_Goto_Abbrev_ThreeOperands) {
-  // (a, b = 1)[->1]  → [RefObj(a), match_item, Const(1)]
+  // (a, b = 1)[->1]  -> [RefObj(a), match_item, Const(1)]
   const auto *op = seqOp("alt4_goto_abbrev");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -421,7 +421,7 @@ TEST_F(SequenceExprTest, Alt4_Goto_Abbrev_ThreeOperands) {
 }
 
 // ============================================================================
-// Alt 5 — sequence_instance consecutive_repetition?
+// Alt 5 -- sequence_instance consecutive_repetition?
 // ============================================================================
 TEST_F(SequenceExprTest, Alt5_Consec_Exact_OpType) {
   // seq_ab[*3]
@@ -431,7 +431,7 @@ TEST_F(SequenceExprTest, Alt5_Consec_Exact_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt5_Consec_Exact_TwoOperands) {
-  // seq_ab[*3]  → [RefObj(seq_ab), Const(3)]
+  // seq_ab[*3]  -> [RefObj(seq_ab), Const(3)]
   const auto *op = seqOp("alt5_consec_exact");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -450,7 +450,7 @@ TEST_F(SequenceExprTest, Alt5_Consec_Exact_SubjectName) {
 }
 
 TEST_F(SequenceExprTest, Alt5_Star_RangeLeft_IsZero) {
-  // seq_ab[*]  → Range(0,$)
+  // seq_ab[*]  -> Range(0,$)
   const auto *op = seqOp("alt5_star");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -463,7 +463,7 @@ TEST_F(SequenceExprTest, Alt5_Star_RangeLeft_IsZero) {
 }
 
 TEST_F(SequenceExprTest, Alt5_Plus_RangeLeft_IsOne) {
-  // seq_ab[+]  → Range(1,$)
+  // seq_ab[+]  -> Range(1,$)
   const auto *op = seqOp("alt5_plus");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -476,7 +476,7 @@ TEST_F(SequenceExprTest, Alt5_Plus_RangeLeft_IsOne) {
 }
 
 // ============================================================================
-// Alt 6 — ( sequence_expr (, match_items)* ) consecutive_repetition?
+// Alt 6 -- ( sequence_expr (, match_items)* ) consecutive_repetition?
 // ============================================================================
 TEST_F(SequenceExprTest, Alt6_MatchConsec_Exact_OpType) {
   // (a ##1 b, cnt += 1)[*2]
@@ -486,7 +486,7 @@ TEST_F(SequenceExprTest, Alt6_MatchConsec_Exact_OpType) {
 }
 
 TEST_F(SequenceExprTest, Alt6_MatchConsec_Exact_ThreeOperands) {
-  // (a ##1 b, cnt += 1)[*2]  → [Op(vpiCycleDelayOp,...), match_item, Const(2)]
+  // (a ##1 b, cnt += 1)[*2]  -> [Op(vpiCycleDelayOp,...), match_item, Const(2)]
   const auto *op = seqOp("alt6_match_consec_exact");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -519,10 +519,10 @@ TEST_F(SequenceExprTest, Alt6_Plus_OpType) {
 }
 
 // ============================================================================
-// Alt 7 — sequence_expr AND sequence_expr  (vpiCompAndOp)
+// Alt 7 -- sequence_expr AND sequence_expr  (vpiCompAndOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt7_Simple_OpType) {
-  // a and b — ss.16.9.5: sequence 'and' must use vpiCompAndOp (91)
+  // a and b -- ss.16.9.5: sequence 'and' must use vpiCompAndOp (91)
   const auto *op = seqOp("alt7_simple");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiCompAndOp);
@@ -536,14 +536,14 @@ TEST_F(SequenceExprTest, Alt7_Simple_TwoOperands) {
 }
 
 TEST_F(SequenceExprTest, Alt7_Chained_OpType) {
-  // a and b and c — outer must also be vpiCompAndOp (91)
+  // a and b and c -- outer must also be vpiCompAndOp (91)
   const auto *op = seqOp("alt7_chained");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiCompAndOp);
 }
 
 // ============================================================================
-// Alt 8 — sequence_expr INTERSECT sequence_expr  (vpiIntersectOp)
+// Alt 8 -- sequence_expr INTERSECT sequence_expr  (vpiIntersectOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt8_Simple_OpType) {
   // a intersect b
@@ -578,10 +578,10 @@ TEST_F(SequenceExprTest, Alt8_WithRep_LeftIsConsecRepeat) {
 }
 
 // ============================================================================
-// Alt 9 — sequence_expr OR sequence_expr  (vpiCompOrOp)
+// Alt 9 -- sequence_expr OR sequence_expr  (vpiCompOrOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt9_Simple_OpType) {
-  // a or b — ss.16.9.7: sequence 'or' must use vpiCompOrOp (92)
+  // a or b -- ss.16.9.7: sequence 'or' must use vpiCompOrOp (92)
   const auto *op = seqOp("alt9_simple");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiCompOrOp);
@@ -595,7 +595,7 @@ TEST_F(SequenceExprTest, Alt9_Simple_TwoOperands) {
 }
 
 // ============================================================================
-// Alt 10 — first_match ( sequence_expr (, match_items)* )  (vpiFirstMatchOp)
+// Alt 10 -- first_match ( sequence_expr (, match_items)* )  (vpiFirstMatchOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt10_Simple_OpType) {
   // first_match(a ##1 b)
@@ -612,7 +612,7 @@ TEST_F(SequenceExprTest, Alt10_Simple_OneOperand) {
 }
 
 TEST_F(SequenceExprTest, Alt10_WithMatch_OperandCount) {
-  // first_match(a ##[1:3] b, cnt = 0)  → 2 operands (seq + match_item)
+  // first_match(a ##[1:3] b, cnt = 0)  -> 2 operands (seq + match_item)
   const auto *op = seqOp("alt10_one_match");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -620,7 +620,7 @@ TEST_F(SequenceExprTest, Alt10_WithMatch_OperandCount) {
 }
 
 // ============================================================================
-// Alt 11 — expression_or_dist THROUGHOUT sequence_expr  (vpiThroughoutOp)
+// Alt 11 -- expression_or_dist THROUGHOUT sequence_expr  (vpiThroughoutOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt11_Simple_OpType) {
   // a throughout (b ##1 c)
@@ -637,7 +637,7 @@ TEST_F(SequenceExprTest, Alt11_Simple_TwoOperands) {
 }
 
 // ============================================================================
-// Alt 12 — sequence_expr WITHIN sequence_expr  (vpiWithinOp)
+// Alt 12 -- sequence_expr WITHIN sequence_expr  (vpiWithinOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt12_Simple_OpType) {
   // a within (b ##[0:5] c)
@@ -668,7 +668,7 @@ TEST_F(SequenceExprTest, Alt12_Sequenced_BothOperandsAreCycleDelay) {
 }
 
 // ============================================================================
-// Alt 13 — clocking_event sequence_expr  (ClockedSeq)
+// Alt 13 -- clocking_event sequence_expr  (ClockedSeq)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt13_Posedge_IsClockedSeq) {
   // @(posedge clk) a
@@ -706,14 +706,14 @@ TEST_F(SequenceExprTest, Alt13_Sequenced_InnerIsCycleDelay) {
 // Combined / nested permutations
 // ============================================================================
 TEST_F(SequenceExprTest, Combo_AndOr_OuterIsOr) {
-  // (a and b) or (c and d) — outer must be vpiCompOrOp (92)
+  // (a and b) or (c and d) -- outer must be vpiCompOrOp (92)
   const auto *op = seqOp("combo_and_or");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiCompOrOp);
 }
 
 TEST_F(SequenceExprTest, Combo_AndOr_InnerOperandsAreAnd) {
-  // (a and b) or (c and d) — each branch must be vpiCompAndOp (91)
+  // (a and b) or (c and d) -- each branch must be vpiCompAndOp (91)
   const auto *op = seqOp("combo_and_or");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);

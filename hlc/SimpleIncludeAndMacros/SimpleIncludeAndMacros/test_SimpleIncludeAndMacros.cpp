@@ -15,6 +15,7 @@
 */
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -32,14 +33,34 @@ class SimpleIncludeAndMacrosTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
+// mode.vh (reached via top.v's `INCLUSION_FILES) deliberately exercises
+// several illegal macro invocation forms per IEEE 1800-2023 Sec 22.5.1
+// (`D("msg1")`/`D()`/`D(,,)` with wrong argument counts, `MACRO1 ( 1 )` with
+// no default for a required formal, `MACRO3` invoked with no parentheses at
+// all). top.v also has `define BOTTOM `TOP` / `define TOP `BOTTOM1` /
+// `define BOTTOM1 `BOTTOM`, a circular macro chain that Sec 22.5.1 requires
+// to be diagnosed as illegal (a macro shall not be used, directly or
+// indirectly, in the text of its own definition), and mode.vh's illegal
+// top-level macro expansions produce bare `initial` statements outside any
+// module. All of this must be reported as compile errors, not silently
+// accepted.
+TEST_F(SimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_GE(stats.nbSyntax, 1) << "illegal top-level macro expansions in mode.vh must produce syntax errors";
+  EXPECT_GE(stats.nbError, 1)
+      << "illegal macro argument counts, missing parentheses, and the "
+         "recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as errors";
+}
+
 // LRM 22.5.1: all FAKELIB_* modules from lib.v must compile.
 TEST_F(SimpleIncludeAndMacrosTest, FakelibNand2Compiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@FAKELIB_NAND2", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("FAKELIB_NAND2", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "FAKELIB_NAND2 must compile";
 }
 
 TEST_F(SimpleIncludeAndMacrosTest, FakelibDffCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@FAKELIB_DFF", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("FAKELIB_DFF", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "FAKELIB_DFF must compile";
 }
 

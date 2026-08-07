@@ -88,7 +88,7 @@ n<$Source01/dut.sv> u<156> t<Top_level_rule> c<1> l<2:1> el<37:1>
     n<> u<86> t<Description> p<155> c<85> s<136> l<15:1> el<19:10>
       n<> u<85> t<Module_declaration> p<86> c<83> l<15:1> el<19:10>
         n<> u<83> t<Module_ansi_header> p<85> c<72> s<84> l<15:1> el<17:3>
-          n<module> u<72> t<Module_keyword> p<83> s<73> l<15:1> el<15:7>
+          n<module> u<72> t<MODULE> p<83> s<73> l<15:1> el<15:7>
           n<apb_to_reg> u<73> t<SIMPLE_IDENTIFIER> p<83> s<74> l<15:8> el<15:18>
           n<> u<74> t<Package_import_declaration_list> p<83> s<82> l<15:19> el<15:19>
           n<> u<82> t<Port_declaration_list> p<83> c<81> l<15:19> el<17:2>
@@ -103,7 +103,7 @@ n<$Source01/dut.sv> u<156> t<Top_level_rule> c<1> l<2:1> el<37:1>
     n<> u<136> t<Description> p<155> c<135> s<154> l<21:1> el<29:10>
       n<> u<135> t<Module_declaration> p<136> c<91> l<21:1> el<29:10>
         n<> u<91> t<Module_nonansi_header> p<135> c<87> s<116> l<21:1> el<21:23>
-          n<module> u<87> t<Module_keyword> p<91> s<88> l<21:1> el<21:7>
+          n<module> u<87> t<MODULE> p<91> s<88> l<21:1> el<21:7>
           n<peripherals> u<88> t<SIMPLE_IDENTIFIER> p<91> s<89> l<21:8> el<21:19>
           n<> u<89> t<Package_import_declaration_list> p<91> s<90> l<21:20> el<21:20>
           n<> u<90> t<Port_list> p<91> l<21:20> el<21:22>
@@ -153,7 +153,7 @@ n<$Source01/dut.sv> u<156> t<Top_level_rule> c<1> l<2:1> el<37:1>
     n<> u<154> t<Description> p<155> c<153> l<32:1> el<36:10>
       n<> u<153> t<Module_declaration> p<154> c<141> l<32:1> el<36:10>
         n<> u<141> t<Module_nonansi_header> p<153> c<137> s<151> l<32:1> el<32:22>
-          n<module> u<137> t<Module_keyword> p<141> s<138> l<32:1> el<32:7>
+          n<module> u<137> t<MODULE> p<141> s<138> l<32:1> el<32:7>
           n<testharness> u<138> t<SIMPLE_IDENTIFIER> p<141> s<139> l<32:8> el<32:19>
           n<> u<139> t<Package_import_declaration_list> p<141> s<140> l<32:19> el<32:19>
           n<> u<140> t<Port_list> p<141> l<32:19> el<32:21>
@@ -169,18 +169,15 @@ n<$Source01/dut.sv> u<156> t<Top_level_rule> c<1> l<2:1> el<37:1>
                     n<> u<145> t<Ordered_port_connection> p<146> l<34:31> el<34:31>
         n<> u<152> t<ENDMODULE> p<153> l<36:1> el<36:10>
 AST_DEBUG_END
-[INF:CP0304] $Source01/dut.sv:2:1: Compile interface "work@REG_BUS".
-[INF:CP0303] $Source01/dut.sv:15:1: Compile module "work@apb_to_reg".
-[INF:CP0303] $Source01/dut.sv:21:1: Compile module "work@peripherals".
-[INF:CP0303] $Source01/dut.sv:32:1: Compile module "work@testharness".
-[ERR:EL0535] $Source01/dut.sv:16:11: Illegal implicit net "id:52, name:out".
-[ERR:EL0535] $Source01/dut.sv:24:10: Illegal implicit net "id:67, name:ADDR_WIDTH".
-[ERR:EL0535] $Source01/dut.sv:25:16: Illegal implicit net "id:68, name:clk_i".
-[ERR:EL0535] $Source01/dut.sv:27:27: Illegal implicit net "id:75, name:reg_o".
-[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "work@apb_to_reg".
-[WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "work@peripherals".
-[WRN:PA0205] $Source01/dut.sv:32:1: No timescale set for "work@testharness".
-[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@REG_BUS".
+[INF:CP0304] $Source01/dut.sv:2:1: Compile interface "REG_BUS".
+[INF:CP0303] $Source01/dut.sv:15:1: Compile module "apb_to_reg".
+[WRN:CP0310] $Source01/dut.sv:16:16: Port "reg_o" definition missing its direction (input, output, inout).
+[INF:CP0303] $Source01/dut.sv:21:1: Compile module "peripherals".
+[INF:CP0303] $Source01/dut.sv:32:1: Compile module "testharness".
+[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "apb_to_reg".
+[WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "peripherals".
+[WRN:PA0205] $Source01/dut.sv:32:1: No timescale set for "testharness".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "REG_BUS".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -189,48 +186,39 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@REG_BUS file:$Source01/dut.sv start:2:1 end:13:13:
+    Interface name:REG_BUS file:$Source01/dut.sv start:2:1 end:13:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@REG_BUS start:2:11 end:2:18:
-        vpiParent: Interface name:work@REG_BUS
-        vpiName: work@REG_BUS
-      vpiFullName: work@REG_BUS
-      vpiVariable (2 items):
-        Variable name:clk_i start:6:15 end:6:20:
-          vpiParent: Interface name:work@REG_BUS
-          vpiTypespec RefTypespec start:6:3 end:6:14:
-            vpiParent: Variable name:clk_i
-            vpiFullName: work@REG_BUS.clk_i
-            vpiActual: LogicTypespec
-          vpiName: clk_i
-          vpiFullName: work@REG_BUS.clk_i
-          vpiNetType: wire (1)
+      vpiName Identifier name:REG_BUS start:2:11 end:2:18:
+        vpiParent: Interface name:REG_BUS
+        vpiName: REG_BUS
+      vpiFullName: REG_BUS
+      vpiVariable (1 items):
         Variable name:addr start:9:28 end:9:32:
-          vpiParent: Interface name:work@REG_BUS
+          vpiParent: Interface name:REG_BUS
           vpiTypespec RefTypespec start:9:3 end:9:25:
             vpiParent: Variable name:addr
-            vpiFullName: work@REG_BUS.addr
+            vpiFullName: REG_BUS.addr
             vpiActual: LogicTypespec
           vpiName: addr
-          vpiFullName: work@REG_BUS.addr
+          vpiFullName: REG_BUS.addr
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:ADDR_WIDTH start:4:17 end:4:27:
-          vpiParent: Interface name:work@REG_BUS
+          vpiParent: Interface name:REG_BUS
           vpiTypespec RefTypespec start:4:13 end:4:16:
             vpiParent: Parameter name:ADDR_WIDTH
-            vpiFullName: work@REG_BUS.ADDR_WIDTH
+            vpiFullName: REG_BUS.ADDR_WIDTH
             vpiActual: IntTypespec
           vpiName: ADDR_WIDTH
-          vpiFullName: work@REG_BUS.ADDR_WIDTH
+          vpiFullName: REG_BUS.ADDR_WIDTH
       vpiParamAssign (1 items):
         ParamAssign start:4:17 end:4:32:
-          vpiParent: Interface name:work@REG_BUS
+          vpiParent: Interface name:REG_BUS
           vpiLhs RefObj name:ADDR_WIDTH start:4:17 end:4:27:
             vpiParent: ParamAssign
             vpiName: ADDR_WIDTH
-            vpiFullName: work@REG_BUS.ADDR_WIDTH
+            vpiFullName: REG_BUS.ADDR_WIDTH
             vpiActual: Parameter name:ADDR_WIDTH
           vpiRhs Operation start:4:30 end:4:32:
             vpiParent: ParamAssign
@@ -240,7 +228,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@REG_BUS
+                  vpiFullName: REG_BUS
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -248,9 +236,9 @@ Design name:unnamed:
                 vpiValue: 1
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Interface name:work@REG_BUS
+          vpiParent: Interface name:REG_BUS
         LogicTypespec:
-          vpiParent: Interface name:work@REG_BUS
+          vpiParent: Interface name:REG_BUS
           vpiRange (1 items):
             Range start:9:9 end:9:25:
               vpiParent: LogicTypespec
@@ -261,13 +249,13 @@ Design name:unnamed:
                   RefObj name:ADDR_WIDTH start:9:10 end:9:20:
                     vpiParent: Operation
                     vpiName: ADDR_WIDTH
-                    vpiFullName: work@REG_BUS.ADDR_WIDTH
+                    vpiFullName: REG_BUS.ADDR_WIDTH
                     vpiActual: Parameter name:ADDR_WIDTH
                   Constant start:9:21 end:9:22:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@REG_BUS
+                      vpiFullName: REG_BUS
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -277,22 +265,33 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@REG_BUS
+                  vpiFullName: REG_BUS
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Interface name:work@REG_BUS
+        vpiParent: Interface name:REG_BUS
         vpiName: work
-        vpiFullName: work@REG_BUS.work
+        vpiFullName: REG_BUS.work
       vpiCell: REG_BUS
+      vpiNet (1 items):
+        Net name:clk_i start:6:15 end:6:20:
+          vpiParent: Interface name:REG_BUS
+          vpiTypespec RefTypespec start:6:3 end:6:14:
+            vpiParent: Net name:clk_i
+            vpiFullName: REG_BUS.clk_i
+            vpiActual: LogicTypespec
+          vpiName: clk_i
+          vpiFullName: REG_BUS.clk_i
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiModport (1 items):
         Modport name:out start:11:11 end:11:14:
-          vpiParent: Interface name:work@REG_BUS
+          vpiParent: Interface name:REG_BUS
           vpiName Identifier name:out:
             vpiParent: Modport name:out
             vpiName: out
@@ -303,115 +302,109 @@ Design name:unnamed:
               vpiDirection: output (2)
               vpiTypespec RefTypespec:
                 vpiParent: IODecl name:addr
-                vpiFullName: work@REG_BUS.out.addr
-          vpiInterface: Interface name:work@REG_BUS
+                vpiFullName: REG_BUS.out.addr
+          vpiInterface: Interface name:REG_BUS
       vpiPort (1 items):
         Port name:clk_i start:6:15 end:6:20:
-          vpiParent: Interface name:work@REG_BUS
+          vpiParent: Interface name:REG_BUS
           vpiName: clk_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:6:15 end:6:20:
+          vpiLowConn RefObj name:clk_i start:6:15 end:6:20:
             vpiParent: Port name:clk_i
-            vpiFullName: work@REG_BUS.clk_i
-            vpiActual: Variable name:clk_i
+            vpiName: clk_i
+            vpiFullName: REG_BUS.clk_i.clk_i
+            vpiActual: Net name:clk_i
           vpiTypespec RefTypespec start:6:3 end:6:14:
             vpiParent: Port name:clk_i
-            vpiFullName: work@REG_BUS.clk_i
+            vpiFullName: REG_BUS.clk_i
             vpiActual: LogicTypespec
   vpiAllModules (3 items):
-    Module name:work@apb_to_reg file:$Source01/dut.sv start:15:1 end:19:10:
+    Module name:apb_to_reg file:$Source01/dut.sv start:15:1 end:19:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@apb_to_reg start:15:8 end:15:18:
-        vpiParent: Module name:work@apb_to_reg
-        vpiName: work@apb_to_reg
-      vpiFullName: work@apb_to_reg
+      vpiName Identifier name:apb_to_reg start:15:8 end:15:18:
+        vpiParent: Module name:apb_to_reg
+        vpiName: apb_to_reg
+      vpiFullName: apb_to_reg
       vpiTypespec (1 items):
         UnsupportedTypespec name:REG_BUS::out start:16:3 end:16:14:
-          vpiParent: Module name:work@apb_to_reg
+          vpiParent: Module name:apb_to_reg
           vpiPathElem (2 items):
             RefObj name:REG_BUS start:16:3 end:16:10:
               vpiParent: UnsupportedTypespec name:REG_BUS::out
               vpiName: REG_BUS
-              vpiFullName: work@apb_to_reg.REG_BUS::out.REG_BUS
-              vpiActual: Interface name:work@REG_BUS
+              vpiFullName: apb_to_reg.REG_BUS::out.REG_BUS
+              vpiActual: Interface name:REG_BUS
             RefObj name:out start:16:11 end:16:14:
               vpiParent: UnsupportedTypespec name:REG_BUS::out
               vpiName: out
-              vpiFullName: work@apb_to_reg.REG_BUS::out.out
+              vpiFullName: apb_to_reg.REG_BUS::out.out
           vpiName Identifier name:REG_BUS::out:
             vpiParent: UnsupportedTypespec name:REG_BUS::out
             vpiName: REG_BUS::out
-      vpiDefName: work@apb_to_reg
-      vpiDefNetType: none (12)
+      vpiDefName: apb_to_reg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@apb_to_reg
+        vpiParent: Module name:apb_to_reg
         vpiName: work
-        vpiFullName: work@apb_to_reg.work
+        vpiFullName: apb_to_reg.work
       vpiCell: apb_to_reg
-      vpiNet (1 items):
-        Net name:reg_o start:16:16 end:16:21:
-          vpiParent: Module name:work@apb_to_reg
-          vpiTypespec RefTypespec start:16:3 end:16:14:
-            vpiParent: Net name:reg_o
-            vpiFullName: work@apb_to_reg.reg_o
-            vpiActual: UnsupportedTypespec name:REG_BUS::out
-          vpiName: reg_o
-          vpiFullName: work@apb_to_reg.reg_o
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:reg_o start:16:16 end:16:21:
-          vpiParent: Module name:work@apb_to_reg
+          vpiParent: Module name:apb_to_reg
           vpiName: reg_o
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:16:16 end:16:21:
+          vpiLowConn RefObj name:reg_o start:16:16 end:16:21:
             vpiParent: Port name:reg_o
-            vpiFullName: work@apb_to_reg.reg_o
-            vpiActual: Net name:reg_o
+            vpiName: reg_o
+            vpiFullName: apb_to_reg.reg_o.reg_o
+            vpiActual: Port name:reg_o
           vpiTypespec RefTypespec start:16:3 end:16:14:
             vpiParent: Port name:reg_o
-            vpiFullName: work@apb_to_reg.reg_o
+            vpiFullName: apb_to_reg.reg_o
             vpiActual: UnsupportedTypespec name:REG_BUS::out
-    Module name:work@peripherals file:$Source01/dut.sv start:21:1 end:29:10:
+    Module name:peripherals file:$Source01/dut.sv start:21:1 end:29:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@peripherals start:21:8 end:21:19:
-        vpiParent: Module name:work@peripherals
-        vpiName: work@peripherals
-      vpiFullName: work@peripherals
+      vpiName Identifier name:peripherals start:21:8 end:21:19:
+        vpiParent: Module name:peripherals
+        vpiName: peripherals
+      vpiFullName: peripherals
       vpiTypespec (1 items):
-        ModuleTypespec name:work@apb_to_reg start:27:1 end:27:11:
-          vpiParent: Module name:work@peripherals
-          vpiName Identifier name:work@apb_to_reg start:27:1 end:27:11:
-            vpiParent: ModuleTypespec name:work@apb_to_reg
-            vpiName: work@apb_to_reg
-      vpiDefName: work@peripherals
-      vpiDefNetType: none (12)
+        ModuleTypespec name:apb_to_reg start:27:1 end:27:11:
+          vpiParent: Module name:peripherals
+          vpiName Identifier name:apb_to_reg start:27:1 end:27:11:
+            vpiParent: ModuleTypespec name:apb_to_reg
+            vpiName: apb_to_reg
+          vpiModule: Module name:apb_to_reg
+      vpiDefName: peripherals
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@peripherals
+        vpiParent: Module name:peripherals
         vpiName: work
-        vpiFullName: work@peripherals.work
+        vpiFullName: peripherals.work
       vpiCell: peripherals
       vpiRefInstance (2 items):
         RefInstance name:reg_bus start:25:7 end:25:14:
-          vpiParent: Module name:work@peripherals
+          vpiParent: Module name:peripherals
           vpiName: reg_bus
           vpiTypespec RefTypespec name:REG_BUS start:23:4 end:23:11:
             vpiParent: RefInstance name:reg_bus
             vpiName: REG_BUS
-            vpiFullName: work@peripherals.reg_bus.REG_BUS
-            vpiActual: InterfaceTypespec name:work@REG_BUS
+            vpiFullName: peripherals.reg_bus.REG_BUS
+            vpiActual: InterfaceTypespec name:REG_BUS
           vpiParamAssign (1 items):
             ParamAssign start:24:9 end:24:27:
               vpiParent: RefInstance name:reg_bus
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:ADDR_WIDTH start:24:10 end:24:20:
                 vpiParent: ParamAssign
                 vpiName: ADDR_WIDTH
-                vpiFullName: work@peripherals.reg_bus.ADDR_WIDTH
+                vpiFullName: peripherals.reg_bus.ADDR_WIDTH
               vpiRhs Constant start:24:23 end:24:25:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@peripherals.reg_bus
+                  vpiFullName: peripherals.reg_bus
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -422,92 +415,94 @@ Design name:unnamed:
               vpiParent: RefInstance name:reg_bus
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@peripherals.reg_bus
+                vpiFullName: peripherals.reg_bus
               vpiHighConn RefObj name:clk_i start:25:16 end:25:21:
                 vpiParent: Port
                 vpiName: clk_i
-                vpiFullName: work@peripherals.reg_bus.clk_i
+                vpiFullName: peripherals.reg_bus.clk_i
         RefInstance name:i_apb_to_reg start:27:12 end:27:24:
-          vpiParent: Module name:work@peripherals
+          vpiParent: Module name:peripherals
           vpiName: i_apb_to_reg
-          vpiTypespec RefTypespec name:work@apb_to_reg start:27:1 end:27:11:
+          vpiTypespec RefTypespec name:apb_to_reg start:27:1 end:27:11:
             vpiParent: RefInstance name:i_apb_to_reg
-            vpiName: work@apb_to_reg
-            vpiFullName: work@peripherals.i_apb_to_reg.work@apb_to_reg
-            vpiActual: ModuleTypespec name:work@apb_to_reg
+            vpiName: apb_to_reg
+            vpiFullName: peripherals.i_apb_to_reg.apb_to_reg
+            vpiActual: ModuleTypespec name:apb_to_reg
           vpiPort (1 items):
             Port start:27:26 end:27:42:
               vpiParent: RefInstance name:i_apb_to_reg
               vpiLowConn RefObj name:reg_o start:27:27 end:27:32:
                 vpiParent: Port
                 vpiName: reg_o
-                vpiFullName: work@peripherals.i_apb_to_reg.reg_o
+                vpiFullName: peripherals.i_apb_to_reg.reg_o
               vpiHighConn RefObj name:reg_bus start:27:34 end:27:41:
                 vpiParent: Port
                 vpiName: reg_bus
-                vpiFullName: work@peripherals.i_apb_to_reg.reg_bus
+                vpiFullName: peripherals.i_apb_to_reg.reg_bus
                 vpiActual: RefInstance name:reg_bus
-    Module name:work@testharness file:$Source01/dut.sv start:32:1 end:36:10:
+    Module name:testharness file:$Source01/dut.sv start:32:1 end:36:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@testharness start:32:8 end:32:19:
-        vpiParent: Module name:work@testharness
-        vpiName: work@testharness
-      vpiFullName: work@testharness
+      vpiName Identifier name:testharness start:32:8 end:32:19:
+        vpiParent: Module name:testharness
+        vpiName: testharness
+      vpiFullName: testharness
       vpiTypespec (1 items):
-        ModuleTypespec name:work@peripherals start:34:3 end:34:14:
-          vpiParent: Module name:work@testharness
-          vpiName Identifier name:work@peripherals start:34:3 end:34:14:
-            vpiParent: ModuleTypespec name:work@peripherals
-            vpiName: work@peripherals
-      vpiDefName: work@testharness
-      vpiDefNetType: none (12)
+        ModuleTypespec name:peripherals start:34:3 end:34:14:
+          vpiParent: Module name:testharness
+          vpiName Identifier name:peripherals start:34:3 end:34:14:
+            vpiParent: ModuleTypespec name:peripherals
+            vpiName: peripherals
+          vpiModule: Module name:peripherals
+      vpiDefName: testharness
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@testharness
+        vpiParent: Module name:testharness
         vpiName: work
-        vpiFullName: work@testharness.work
+        vpiFullName: testharness.work
       vpiCell: testharness
       vpiRefInstance (1 items):
         RefInstance name:i_peripherals start:34:16 end:34:29:
-          vpiParent: Module name:work@testharness
+          vpiParent: Module name:testharness
           vpiName: i_peripherals
-          vpiTypespec RefTypespec name:work@peripherals start:34:3 end:34:14:
+          vpiTypespec RefTypespec name:peripherals start:34:3 end:34:14:
             vpiParent: RefInstance name:i_peripherals
-            vpiName: work@peripherals
-            vpiFullName: work@testharness.i_peripherals.work@peripherals
-            vpiActual: ModuleTypespec name:work@peripherals
+            vpiName: peripherals
+            vpiFullName: testharness.i_peripherals.peripherals
+            vpiActual: ModuleTypespec name:peripherals
   vpiTypespec (5 items):
-    InterfaceTypespec name:work@REG_BUS:
+    InterfaceTypespec name:REG_BUS:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@REG_BUS start:2:11 end:2:18:
-        vpiParent: InterfaceTypespec name:work@REG_BUS
-        vpiName: work@REG_BUS
-      vpiInterface: Interface name:work@REG_BUS
+      vpiName Identifier name:REG_BUS start:2:11 end:2:18:
+        vpiParent: InterfaceTypespec name:REG_BUS
+        vpiName: REG_BUS
+      vpiDefName: REG_BUS
+      vpiInterface: Interface name:REG_BUS
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@apb_to_reg:
+    ModuleTypespec name:apb_to_reg:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@apb_to_reg start:15:8 end:15:18:
-        vpiParent: ModuleTypespec name:work@apb_to_reg
-        vpiName: work@apb_to_reg
-      vpiModule: Module name:work@apb_to_reg
-    ModuleTypespec name:work@peripherals:
+      vpiName Identifier name:apb_to_reg start:15:8 end:15:18:
+        vpiParent: ModuleTypespec name:apb_to_reg
+        vpiName: apb_to_reg
+      vpiModule: Module name:apb_to_reg
+    ModuleTypespec name:peripherals:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@peripherals start:21:8 end:21:19:
-        vpiParent: ModuleTypespec name:work@peripherals
-        vpiName: work@peripherals
-      vpiModule: Module name:work@peripherals
-    ModuleTypespec name:work@testharness:
+      vpiName Identifier name:peripherals start:21:8 end:21:19:
+        vpiParent: ModuleTypespec name:peripherals
+        vpiName: peripherals
+      vpiModule: Module name:peripherals
+    ModuleTypespec name:testharness:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@testharness start:32:8 end:32:19:
-        vpiParent: ModuleTypespec name:work@testharness
-        vpiName: work@testharness
-      vpiModule: Module name:work@testharness
+      vpiName Identifier name:testharness start:32:8 end:32:19:
+        vpiParent: ModuleTypespec name:testharness
+        vpiName: testharness
+      vpiModule: Module name:testharness
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 4
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -553,9 +548,9 @@ Name                            Before   After   Added   Removed
 Constant                             4       4       2         2
 Operation                            2       0       0         2
 RefObj                              15      14       0         1
-RefTypespec                         14      14       2         2
+RefTypespec                         13      13       2         2
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    79      76       4         7
+                                    77      74       4         7
 ===================== END REDUCTION RESULT =====================

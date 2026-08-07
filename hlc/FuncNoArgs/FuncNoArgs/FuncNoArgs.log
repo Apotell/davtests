@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<250> t<Top_level_rule> c<1> l<1:1> el<32:1>
     n<> u<248> t<Description> p<249> c<247> l<1:1> el<31:10>
       n<> u<247> t<Module_declaration> p<248> c<6> l<1:1> el<31:10>
         n<> u<6> t<Module_nonansi_header> p<247> c<2> s<23> l<1:1> el<1:27>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
           n<my_opt_reduce_or> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:24>
           n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:24> el<1:24>
           n<> u<5> t<Port_list> p<6> l<1:24> el<1:26>
@@ -526,9 +526,9 @@ n<$Source01/dut.sv> u<250> t<Top_level_rule> c<1> l<1:1> el<32:1>
                             n<tmp> u<235> t<SIMPLE_IDENTIFIER> p<236> l<28:37> el<28:40>
         n<> u<246> t<ENDMODULE> p<247> l<31:1> el<31:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@my_opt_reduce_or".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "my_opt_reduce_or".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@my_opt_reduce_or".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "my_opt_reduce_or".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -537,7 +537,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2104,6 +2103,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2115,6 +2115,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2146,6 +2147,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2160,6 +2162,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2181,6 +2184,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2204,6 +2208,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2223,6 +2228,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2246,6 +2252,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2265,6 +2272,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2334,16 +2342,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2356,6 +2367,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2367,6 +2379,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2374,6 +2387,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2381,6 +2395,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2388,6 +2403,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2401,6 +2417,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2412,6 +2429,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2443,6 +2461,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2469,6 +2488,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2495,6 +2515,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2520,78 +2541,88 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@my_opt_reduce_or file:$Source01/dut.sv start:1:1 end:31:10:
+    Module name:my_opt_reduce_or file:$Source01/dut.sv start:1:1 end:31:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@my_opt_reduce_or start:1:8 end:1:24:
-        vpiParent: Module name:work@my_opt_reduce_or
-        vpiName: work@my_opt_reduce_or
-      vpiFullName: work@my_opt_reduce_or
+      vpiName Identifier name:my_opt_reduce_or start:1:8 end:1:24:
+        vpiParent: Module name:my_opt_reduce_or
+        vpiName: my_opt_reduce_or
+      vpiFullName: my_opt_reduce_or
+      vpiVariable (1 items):
+        Variable name:tmp start:28:37 end:28:40:
+          vpiParent: Module name:my_opt_reduce_or
+          vpiTypespec RefTypespec start:28:5 end:28:36:
+            vpiParent: Variable name:tmp
+            vpiFullName: my_opt_reduce_or.tmp
+            vpiActual: LogicTypespec
+          vpiName: tmp
+          vpiFullName: my_opt_reduce_or.tmp
+          vpiVector: true
       vpiParameter (3 items):
         Parameter name:A_SIGNED start:2:15 end:2:23:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiTypespec RefTypespec start:2:15 end:2:15:
             vpiParent: Parameter name:A_SIGNED
-            vpiFullName: work@my_opt_reduce_or.A_SIGNED
+            vpiFullName: my_opt_reduce_or.A_SIGNED
             vpiActual: LogicTypespec
           vpiName: A_SIGNED
-          vpiFullName: work@my_opt_reduce_or.A_SIGNED
+          vpiFullName: my_opt_reduce_or.A_SIGNED
         Parameter name:A_WIDTH start:3:15 end:3:22:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiTypespec RefTypespec start:3:15 end:3:15:
             vpiParent: Parameter name:A_WIDTH
-            vpiFullName: work@my_opt_reduce_or.A_WIDTH
+            vpiFullName: my_opt_reduce_or.A_WIDTH
             vpiActual: LogicTypespec
           vpiName: A_WIDTH
-          vpiFullName: work@my_opt_reduce_or.A_WIDTH
+          vpiFullName: my_opt_reduce_or.A_WIDTH
         Parameter name:_TECHMAP_CONSTMSK_A_ start:5:32 end:5:52:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiTypespec RefTypespec start:5:15 end:5:31:
             vpiParent: Parameter name:_TECHMAP_CONSTMSK_A_
-            vpiFullName: work@my_opt_reduce_or._TECHMAP_CONSTMSK_A_
+            vpiFullName: my_opt_reduce_or._TECHMAP_CONSTMSK_A_
             vpiActual: LogicTypespec
           vpiName: "_TECHMAP_CONSTMSK_A_"
-          vpiFullName: work@my_opt_reduce_or._TECHMAP_CONSTMSK_A_
+          vpiFullName: my_opt_reduce_or._TECHMAP_CONSTMSK_A_
       vpiParamAssign (3 items):
         ParamAssign start:2:15 end:2:27:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiLhs RefObj name:A_SIGNED start:2:15 end:2:23:
             vpiParent: ParamAssign
             vpiName: A_SIGNED
-            vpiFullName: work@my_opt_reduce_or.A_SIGNED
+            vpiFullName: my_opt_reduce_or.A_SIGNED
             vpiActual: Parameter name:A_SIGNED
           vpiRhs Constant start:2:26 end:2:27:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@my_opt_reduce_or
+              vpiFullName: my_opt_reduce_or
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
         ParamAssign start:3:15 end:3:26:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiLhs RefObj name:A_WIDTH start:3:15 end:3:22:
             vpiParent: ParamAssign
             vpiName: A_WIDTH
-            vpiFullName: work@my_opt_reduce_or.A_WIDTH
+            vpiFullName: my_opt_reduce_or.A_WIDTH
             vpiActual: Parameter name:A_WIDTH
           vpiRhs Constant start:3:25 end:3:26:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@my_opt_reduce_or
+              vpiFullName: my_opt_reduce_or
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
         ParamAssign start:5:32 end:5:62:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiLhs RefObj name:_TECHMAP_CONSTMSK_A_ start:5:32 end:5:52:
             vpiParent: ParamAssign
             vpiName: "_TECHMAP_CONSTMSK_A_"
-            vpiFullName: work@my_opt_reduce_or._TECHMAP_CONSTMSK_A_
+            vpiFullName: my_opt_reduce_or._TECHMAP_CONSTMSK_A_
             vpiActual: Parameter name:_TECHMAP_CONSTMSK_A_
           vpiRhs Operation start:5:55 end:5:62:
             vpiParent: ParamAssign
@@ -2601,7 +2632,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@my_opt_reduce_or
+                  vpiFullName: my_opt_reduce_or
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2611,7 +2642,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@my_opt_reduce_or
+                  vpiFullName: my_opt_reduce_or
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2619,9 +2650,9 @@ Design name:unnamed:
                 vpiValue: 0
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
         LogicTypespec:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiRange (2 items):
             Range start:5:21 end:5:26:
               vpiParent: LogicTypespec
@@ -2629,7 +2660,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@my_opt_reduce_or
+                  vpiFullName: my_opt_reduce_or
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2639,7 +2670,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@my_opt_reduce_or
+                  vpiFullName: my_opt_reduce_or
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2651,7 +2682,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@my_opt_reduce_or
+                  vpiFullName: my_opt_reduce_or
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2661,7 +2692,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@my_opt_reduce_or
+                  vpiFullName: my_opt_reduce_or
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2669,7 +2700,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiRange (1 items):
             Range start:28:9 end:28:36:
               vpiParent: LogicTypespec
@@ -2687,7 +2718,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@my_opt_reduce_or
+                      vpiFullName: my_opt_reduce_or
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2697,48 +2728,49 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@my_opt_reduce_or
+                  vpiFullName: my_opt_reduce_or
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@my_opt_reduce_or
-      vpiDefNetType: none (12)
+      vpiDefName: my_opt_reduce_or
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@my_opt_reduce_or
+        vpiParent: Module name:my_opt_reduce_or
         vpiName: work
-        vpiFullName: work@my_opt_reduce_or.work
+        vpiFullName: my_opt_reduce_or.work
       vpiCell: my_opt_reduce_or
       vpiTaskFunc (1 items):
         Function name:count_nonconst_bits start:7:5 end:15:16:
-          vpiParent: Module name:work@my_opt_reduce_or
+          vpiParent: Module name:my_opt_reduce_or
           vpiName Identifier name:count_nonconst_bits start:7:22 end:7:41:
             vpiParent: Function name:count_nonconst_bits
             vpiName: count_nonconst_bits
-          vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+          vpiFullName: my_opt_reduce_or.count_nonconst_bits
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Function name:count_nonconst_bits
-            vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+            vpiFullName: my_opt_reduce_or.count_nonconst_bits
             vpiVariable (1 items):
               Variable name:i start:8:17 end:8:18:
                 vpiParent: Begin
                 vpiTypespec RefTypespec start:8:9 end:8:16:
                   vpiParent: Variable name:i
-                  vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.i
+                  vpiFullName: my_opt_reduce_or.count_nonconst_bits.i
                   vpiActual: IntegerTypespec
                 vpiName: i
-                vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.i
+                vpiFullName: my_opt_reduce_or.count_nonconst_bits.i
             vpiTypespec (1 items):
               IntegerTypespec:
                 vpiParent: Begin
                 vpiSigned: true
-            vpiStmt (1 items):
+            vpiStmt (2 items):
+              Variable name:i:
               Begin start:9:9 end:14:12:
                 vpiParent: Begin
-                vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+                vpiFullName: my_opt_reduce_or.count_nonconst_bits
                 vpiStmt (2 items):
                   Assignment start:10:13 end:10:36:
                     vpiParent: Begin
@@ -2746,13 +2778,13 @@ Design name:unnamed:
                     vpiLhs RefObj name:count_nonconst_bits start:10:13 end:10:32:
                       vpiParent: Assignment
                       vpiName: count_nonconst_bits
-                      vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.count_nonconst_bits
+                      vpiFullName: my_opt_reduce_or.count_nonconst_bits.count_nonconst_bits
                       vpiActual: Function name:count_nonconst_bits
                     vpiRhs Constant start:10:35 end:10:36:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+                        vpiFullName: my_opt_reduce_or.count_nonconst_bits
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2760,7 +2792,7 @@ Design name:unnamed:
                       vpiValue: 0
                   ForStmt start:11:13 end:13:65:
                     vpiParent: Begin
-                    vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+                    vpiFullName: my_opt_reduce_or.count_nonconst_bits
                     vpiForInitStmt (1 items):
                       Assignment start:11:18 end:11:23:
                         vpiParent: ForStmt
@@ -2768,13 +2800,13 @@ Design name:unnamed:
                         vpiLhs RefObj name:i start:11:18 end:11:19:
                           vpiParent: Assignment
                           vpiName: i
-                          vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.i
+                          vpiFullName: my_opt_reduce_or.count_nonconst_bits.i
                           vpiActual: Variable name:i
                         vpiRhs Constant start:11:22 end:11:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+                            vpiFullName: my_opt_reduce_or.count_nonconst_bits
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -2787,7 +2819,7 @@ Design name:unnamed:
                         vpiLhs RefObj name:i start:11:38 end:11:39:
                           vpiParent: Assignment
                           vpiName: i
-                          vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.i
+                          vpiFullName: my_opt_reduce_or.count_nonconst_bits.i
                           vpiActual: Variable name:i
                         vpiRhs Operation start:11:40 end:11:43:
                           vpiParent: Assignment
@@ -2796,13 +2828,13 @@ Design name:unnamed:
                             RefObj name:i start:11:40 end:11:41:
                               vpiParent: Operation
                               vpiName: i
-                              vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.i
+                              vpiFullName: my_opt_reduce_or.count_nonconst_bits.i
                               vpiActual: Variable name:i
                             Constant start:11:42 end:11:43:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+                                vpiFullName: my_opt_reduce_or.count_nonconst_bits
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -2815,12 +2847,12 @@ Design name:unnamed:
                         RefObj name:i start:11:25 end:11:26:
                           vpiParent: Operation
                           vpiName: i
-                          vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.i
+                          vpiFullName: my_opt_reduce_or.count_nonconst_bits.i
                           vpiActual: Variable name:i
                         RefObj name:A_WIDTH start:11:29 end:11:36:
                           vpiParent: Operation
                           vpiName: A_WIDTH
-                          vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.A_WIDTH
+                          vpiFullName: my_opt_reduce_or.count_nonconst_bits.A_WIDTH
                           vpiActual: Parameter name:A_WIDTH
                     vpiStmt IfStmt start:12:17 end:13:65:
                       vpiParent: ForStmt
@@ -2831,16 +2863,16 @@ Design name:unnamed:
                           BitSelect name:_TECHMAP_CONSTMSK_A_[i] start:12:22 end:12:45:
                             vpiParent: Operation
                             vpiName: "_TECHMAP_CONSTMSK_A_[i]"
-                            vpiFullName: work@my_opt_reduce_or.count_nonconst_bits._TECHMAP_CONSTMSK_A_[i]
+                            vpiFullName: my_opt_reduce_or.count_nonconst_bits._TECHMAP_CONSTMSK_A_[i]
                             vpiPrefix RefObj name:_TECHMAP_CONSTMSK_A_ start:12:22 end:12:42:
                               vpiParent: BitSelect name:_TECHMAP_CONSTMSK_A_[i]
                               vpiName: "_TECHMAP_CONSTMSK_A_"
-                              vpiFullName: work@my_opt_reduce_or.count_nonconst_bits._TECHMAP_CONSTMSK_A_
+                              vpiFullName: my_opt_reduce_or.count_nonconst_bits._TECHMAP_CONSTMSK_A_
                               vpiActual: Parameter name:_TECHMAP_CONSTMSK_A_
                             vpiIndex RefObj name:i start:12:43 end:12:44:
                               vpiParent: BitSelect name:_TECHMAP_CONSTMSK_A_[i]
                               vpiName: i
-                              vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.i
+                              vpiFullName: my_opt_reduce_or.count_nonconst_bits.i
                               vpiActual: Variable name:i
                       vpiStmt Assignment start:13:21 end:13:64:
                         vpiParent: IfStmt
@@ -2848,7 +2880,7 @@ Design name:unnamed:
                         vpiLhs RefObj name:count_nonconst_bits start:13:21 end:13:40:
                           vpiParent: Assignment
                           vpiName: count_nonconst_bits
-                          vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.count_nonconst_bits
+                          vpiFullName: my_opt_reduce_or.count_nonconst_bits.count_nonconst_bits
                           vpiActual: Function name:count_nonconst_bits
                         vpiRhs Operation start:13:43 end:13:64:
                           vpiParent: Assignment
@@ -2857,13 +2889,13 @@ Design name:unnamed:
                             RefObj name:count_nonconst_bits start:13:43 end:13:62:
                               vpiParent: Operation
                               vpiName: count_nonconst_bits
-                              vpiFullName: work@my_opt_reduce_or.count_nonconst_bits.count_nonconst_bits
+                              vpiFullName: my_opt_reduce_or.count_nonconst_bits.count_nonconst_bits
                               vpiActual: Function name:count_nonconst_bits
                             Constant start:13:63 end:13:64:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+                                vpiFullName: my_opt_reduce_or.count_nonconst_bits
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -2871,17 +2903,8 @@ Design name:unnamed:
                               vpiValue: 1
           vpiReturn RefTypespec start:7:14 end:7:21:
             vpiParent: Function name:count_nonconst_bits
-            vpiFullName: work@my_opt_reduce_or.count_nonconst_bits
+            vpiFullName: my_opt_reduce_or.count_nonconst_bits
             vpiActual: IntegerTypespec
-      vpiNet (1 items):
-        Net name:tmp start:28:37 end:28:40:
-          vpiParent: Module name:work@my_opt_reduce_or
-          vpiTypespec RefTypespec start:28:5 end:28:36:
-            vpiParent: Net name:tmp
-            vpiFullName: work@my_opt_reduce_or.tmp
-            vpiActual: LogicTypespec
-          vpiName: tmp
-          vpiFullName: work@my_opt_reduce_or.tmp
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2897,25 +2920,28 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@my_opt_reduce_or:
+    ModuleTypespec name:my_opt_reduce_or:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@my_opt_reduce_or start:1:8 end:1:24:
-        vpiParent: ModuleTypespec name:work@my_opt_reduce_or
-        vpiName: work@my_opt_reduce_or
-      vpiModule: Module name:work@my_opt_reduce_or
+      vpiName Identifier name:my_opt_reduce_or start:1:8 end:1:24:
+        vpiParent: ModuleTypespec name:my_opt_reduce_or
+        vpiName: my_opt_reduce_or
+      vpiModule: Module name:my_opt_reduce_or
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

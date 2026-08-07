@@ -49,13 +49,13 @@ n<$Source01/typedef_test_14.sv> u<41> t<Top_level_rule> c<1> l<15:1> el<23:1>
     n<> u<39> t<Description> p<40> c<38> l<21:1> el<22:10>
       n<> u<38> t<Module_declaration> p<39> c<36> l<21:1> el<22:10>
         n<> u<36> t<Module_ansi_header> p<38> c<33> s<37> l<21:1> el<21:13>
-          n<module> u<33> t<Module_keyword> p<36> s<34> l<21:1> el<21:7>
+          n<module> u<33> t<MODULE> p<36> s<34> l<21:1> el<21:7>
           n<test> u<34> t<SIMPLE_IDENTIFIER> p<36> s<35> l<21:8> el<21:12>
           n<> u<35> t<Package_import_declaration_list> p<36> l<21:12> el<21:12>
         n<> u<37> t<ENDMODULE> p<38> l<22:1> el<22:10>
 AST_DEBUG_END
-[INF:CP0301] $Source01/typedef_test_14.sv:15:1: Compile package "work@some_package".
-[INF:CP0303] $Source01/typedef_test_14.sv:21:1: Compile module "work@test".
+[INF:CP0301] $Source01/typedef_test_14.sv:15:1: Compile package "some_package".
+[INF:CP0303] $Source01/typedef_test_14.sv:21:1: Compile module "test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -65,57 +65,59 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: typedef_test_14.sv
       vpiPreprocFile: "$Output/lib/work/typedef_test_14.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@some_package file:$Source01/typedef_test_14.sv start:15:1 end:17:11:
+    Package name:some_package file:$Source01/typedef_test_14.sv start:15:1 end:17:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@some_package start:15:9 end:15:21:
-        vpiParent: Package name:work@some_package
-        vpiName: work@some_package
-      vpiFullName: work@some_package
+      vpiName Identifier name:some_package start:15:9 end:15:21:
+        vpiParent: Package name:some_package
+        vpiName: some_package
+      vpiFullName: some_package
       vpiTypespec (2 items):
         BitTypespec:
-          vpiParent: Package name:work@some_package
+          vpiParent: Package name:some_package
         TypedefTypespec name:some_type start:16:4 end:16:26:
-          vpiParent: Package name:work@some_package
+          vpiParent: Package name:some_package
           vpiName Identifier name:some_type start:16:16 end:16:25:
             vpiParent: TypedefTypespec name:some_type
             vpiName: some_type
           vpiTypedefAlias RefTypespec start:16:12 end:16:15:
             vpiParent: TypedefTypespec name:some_type
-            vpiFullName: work@some_package::some_type
+            vpiFullName: some_package::some_type
             vpiActual: BitTypespec
-      vpiDefName: work@some_package
-      vpiDefNetType: none (12)
+      vpiDefName: some_package
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@some_package
+        vpiParent: Package name:some_package
         vpiName: work
-        vpiFullName: work@some_package::work
+        vpiFullName: some_package::work
       vpiCell: some_package
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/typedef_test_14.sv start:21:1 end:22:10:
+    Module name:test file:$Source01/typedef_test_14.sv start:21:1 end:22:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:21:8 end:21:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+      vpiName Identifier name:test start:21:8 end:21:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
+    UnsupportedTypespec name:some_package start:19:9 end:19:21:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:some_package start:19:9 end:19:21:
+        vpiParent: UnsupportedTypespec name:some_package
+        vpiName: some_package
     UnsupportedTypespec name:some_package::some_type start:19:9 end:19:32:
       vpiParent: Design name:unnamed
       vpiPathElem (2 items):
-        UnsupportedScope name:some_package start:19:9 end:19:23:
+        RefTypespec start:19:9 end:19:23:
           vpiParent: UnsupportedTypespec name:some_package::some_type
-          vpiName Identifier name:some_package start:19:9 end:19:21:
-            vpiParent: UnsupportedScope name:some_package
-            vpiName: some_package
-          vpiFullName: some_package::some_type.some_package
+          vpiFullName: some_package::some_type
+          vpiActual: UnsupportedTypespec name:some_package
         RefTypespec name:some_type start:19:23 end:19:32:
           vpiParent: UnsupportedTypespec name:some_package::some_type
           vpiName: some_type
@@ -132,12 +134,12 @@ Design name:unnamed:
         vpiParent: TypedefTypespec name:myalias
         vpiFullName: myalias
         vpiActual: UnsupportedTypespec name:some_package::some_type
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:21:8 end:21:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:21:8 end:21:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -186,7 +188,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_14/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              23      23       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    23      23       0         0
 ===================== END REDUCTION RESULT =====================

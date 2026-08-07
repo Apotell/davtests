@@ -38,7 +38,7 @@ n<$Source01/dut.sv> u<133> t<Top_level_rule> c<1> l<2:1> el<15:1>
     n<> u<63> t<Description> p<131> c<62> s<64> l<6:1> el<8:10>
       n<> u<62> t<Module_declaration> p<63> c<41> l<6:1> el<8:10>
         n<> u<41> t<Module_ansi_header> p<62> c<22> s<60> l<6:1> el<6:45>
-          n<module> u<22> t<Module_keyword> p<41> s<23> l<6:1> el<6:7>
+          n<module> u<22> t<MODULE> p<41> s<23> l<6:1> el<6:7>
           n<dut> u<23> t<SIMPLE_IDENTIFIER> p<41> s<24> l<6:8> el<6:11>
           n<> u<24> t<Package_import_declaration_list> p<41> s<40> l<6:11> el<6:11>
           n<> u<40> t<Port_declaration_list> p<41> c<31> l<6:11> el<6:44>
@@ -81,7 +81,7 @@ n<$Source01/dut.sv> u<133> t<Top_level_rule> c<1> l<2:1> el<15:1>
     n<> u<130> t<Description> p<131> c<129> l<10:1> el<14:10>
       n<> u<129> t<Module_declaration> p<130> c<77> l<10:1> el<14:10>
         n<> u<77> t<Module_ansi_header> p<129> c<65> s<87> l<10:1> el<10:26>
-          n<module> u<65> t<Module_keyword> p<77> s<66> l<10:1> el<10:7>
+          n<module> u<65> t<MODULE> p<77> s<66> l<10:1> el<10:7>
           n<top> u<66> t<SIMPLE_IDENTIFIER> p<77> s<67> l<10:8> el<10:11>
           n<> u<67> t<Package_import_declaration_list> p<77> s<76> l<10:11> el<10:11>
           n<> u<76> t<Port_declaration_list> p<77> c<75> l<10:11> el<10:25>
@@ -146,15 +146,14 @@ n<$Source01/dut.sv> u<133> t<Top_level_rule> c<1> l<2:1> el<15:1>
         n<> u<128> t<ENDMODULE> p<129> l<14:1> el<14:10>
   n<// top> u<132> t<LINE_COMMENT> p<133> l<14:11> el<14:17>
 AST_DEBUG_END
-[INF:CP0304] $Source01/dut.sv:2:1: Compile interface "work@sim_sram_if".
-[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@dut".
-[INF:CP0303] $Source01/dut.sv:10:1: Compile module "work@top".
-[ERR:EL0535] $Source01/dut.sv:12:25: Illegal implicit net "id:51, name:start_addr".
-[ERR:EL0535] $Source01/dut.sv:13:15: Illegal implicit net "id:58, name:ss_if".
-[ERR:EL0535] $Source01/dut.sv:13:38: Illegal implicit net "id:61, name:a".
-[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@dut".
-[WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@top".
-[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@sim_sram_if".
+[INF:CP0304] $Source01/dut.sv:2:1: Compile interface "sim_sram_if".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "dut".
+[WRN:CP0310] $Source01/dut.sv:6:24: Port "ss_if" definition missing its direction (input, output, inout).
+[INF:CP0303] $Source01/dut.sv:10:1: Compile module "top".
+[WRN:CP0350] $Source01/dut.sv:12:25: Failed to bind "id:51, name:start_addr".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "dut".
+[WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "top".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "sim_sram_if".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -163,177 +162,186 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@sim_sram_if file:$Source01/dut.sv start:2:1 end:4:13:
+    Interface name:sim_sram_if file:$Source01/dut.sv start:2:1 end:4:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sim_sram_if start:2:11 end:2:22:
-        vpiParent: Interface name:work@sim_sram_if
-        vpiName: work@sim_sram_if
-      vpiFullName: work@sim_sram_if
+      vpiName Identifier name:sim_sram_if start:2:11 end:2:22:
+        vpiParent: Interface name:sim_sram_if
+        vpiName: sim_sram_if
+      vpiFullName: sim_sram_if
       vpiVariable (1 items):
         Variable name:start_addr start:3:8 end:3:18:
-          vpiParent: Interface name:work@sim_sram_if
+          vpiParent: Interface name:sim_sram_if
           vpiTypespec RefTypespec start:3:4 end:3:7:
             vpiParent: Variable name:start_addr
-            vpiFullName: work@sim_sram_if.start_addr
+            vpiFullName: sim_sram_if.start_addr
             vpiActual: IntTypespec
           vpiName: start_addr
-          vpiFullName: work@sim_sram_if.start_addr
-      vpiDefNetType: none (12)
+          vpiFullName: sim_sram_if.start_addr
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Interface name:work@sim_sram_if
+        vpiParent: Interface name:sim_sram_if
         vpiName: work
-        vpiFullName: work@sim_sram_if.work
+        vpiFullName: sim_sram_if.work
       vpiCell: sim_sram_if
   vpiAllModules (2 items):
-    Module name:work@dut file:$Source01/dut.sv start:6:1 end:8:10:
+    Module name:dut file:$Source01/dut.sv start:6:1 end:8:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:6:8 end:6:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
+      vpiName Identifier name:dut start:6:8 end:6:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
       vpiVariable (1 items):
         Variable name:a start:6:42 end:6:43:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec start:6:31 end:6:41:
             vpiParent: Variable name:a
-            vpiFullName: work@dut.a
+            vpiFullName: dut.a
             vpiActual: IntTypespec
           vpiName: a
-          vpiFullName: work@dut.a
-          vpiNetType: none (12)
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
+          vpiFullName: dut.a
+      vpiTypespec (1 items):
+        InterfaceTypespec name:sim_sram_if start:6:12 end:6:23:
+          vpiParent: Module name:dut
+          vpiName Identifier name:sim_sram_if start:6:12 end:6:23:
+            vpiParent: InterfaceTypespec name:sim_sram_if
+            vpiName: sim_sram_if
+          vpiDefName: sim_sram_if
+          vpiInterface: Interface name:sim_sram_if
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
+        vpiParent: Module name:dut
         vpiName: work
-        vpiFullName: work@dut.work
+        vpiFullName: dut.work
       vpiCell: dut
       vpiNet (1 items):
         Net name:ss_if start:6:24 end:6:29:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiTypespec RefTypespec name:sim_sram_if start:6:12 end:6:23:
             vpiParent: Net name:ss_if
             vpiName: sim_sram_if
-            vpiFullName: work@dut.ss_if.sim_sram_if
-            vpiActual: InterfaceTypespec name:work@sim_sram_if
+            vpiFullName: dut.ss_if.sim_sram_if
+            vpiActual: InterfaceTypespec name:sim_sram_if
           vpiName: ss_if
-          vpiFullName: work@dut.ss_if
+          vpiFullName: dut.ss_if
           vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:ss_if start:6:24 end:6:29:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName: ss_if
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:6:24 end:6:29:
+          vpiLowConn RefObj name:ss_if start:6:24 end:6:29:
             vpiParent: Port name:ss_if
-            vpiFullName: work@dut.ss_if
+            vpiName: ss_if
+            vpiFullName: dut.ss_if.ss_if
             vpiActual: Net name:ss_if
           vpiTypespec RefTypespec name:sim_sram_if start:6:12 end:6:23:
             vpiParent: Port name:ss_if
             vpiName: sim_sram_if
-            vpiFullName: work@dut.ss_if.sim_sram_if
-            vpiActual: InterfaceTypespec name:work@sim_sram_if
+            vpiFullName: dut.ss_if.sim_sram_if
+            vpiActual: InterfaceTypespec name:sim_sram_if
         Port name:a start:6:42 end:6:43:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName: a
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:42 end:6:43:
+          vpiLowConn RefObj name:a start:6:42 end:6:43:
             vpiParent: Port name:a
-            vpiFullName: work@dut.a
+            vpiName: a
+            vpiFullName: dut.a.a
             vpiActual: Variable name:a
           vpiTypespec RefTypespec start:6:31 end:6:41:
             vpiParent: Port name:a
-            vpiFullName: work@dut.a
+            vpiFullName: dut.a
             vpiActual: IntTypespec
       vpiContAssign (1 items):
         ContAssign start:7:11 end:7:31:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiLhs RefObj name:a start:7:11 end:7:12:
             vpiParent: ContAssign
             vpiName: a
-            vpiFullName: work@dut.a
+            vpiFullName: dut.a
             vpiActual: Variable name:a
           vpiRhs HierPath name:ss_if.start_addr start:7:15 end:7:31:
             vpiParent: ContAssign
             vpiName: ss_if.start_addr
-            vpiFullName: work@dut.ss_if.start_addr
+            vpiFullName: dut.ss_if.start_addr
             vpiPathElem (2 items):
               RefObj name:ss_if start:7:15 end:7:20:
                 vpiParent: HierPath name:ss_if.start_addr
                 vpiName: ss_if
-                vpiFullName: work@dut.ss_if
+                vpiFullName: dut.ss_if
                 vpiActual: Net name:ss_if
               RefObj name:start_addr start:7:21 end:7:31:
                 vpiParent: HierPath name:ss_if.start_addr
                 vpiName: start_addr
-                vpiFullName: work@dut.start_addr
+                vpiFullName: dut.start_addr
                 vpiActual: Variable name:start_addr
-    Module name:work@top file:$Source01/dut.sv start:10:1 end:14:10:
+    Module name:top file:$Source01/dut.sv start:10:1 end:14:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:10:8 end:10:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:10:8 end:10:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiVariable (1 items):
         Variable name:o start:10:23 end:10:24:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:10:12 end:10:22:
             vpiParent: Variable name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: IntTypespec
           vpiName: o
-          vpiFullName: work@top.o
-          vpiNetType: none (12)
+          vpiFullName: top.o
       vpiTypespec (1 items):
-        ModuleTypespec name:work@dut start:13:4 end:13:7:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@dut start:13:4 end:13:7:
-            vpiParent: ModuleTypespec name:work@dut
-            vpiName: work@dut
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        ModuleTypespec name:dut start:13:4 end:13:7:
+          vpiParent: Module name:top
+          vpiName Identifier name:dut start:13:4 end:13:7:
+            vpiParent: ModuleTypespec name:dut
+            vpiName: dut
+          vpiModule: Module name:dut
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiPort (1 items):
         Port name:o start:10:23 end:10:24:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:10:23 end:10:24:
+          vpiLowConn RefObj name:o start:10:23 end:10:24:
             vpiParent: Port name:o
-            vpiFullName: work@top.o
+            vpiName: o
+            vpiFullName: top.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:10:12 end:10:22:
             vpiParent: Port name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: IntTypespec
       vpiContAssign (1 items):
         ContAssign start:12:11 end:12:46:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs HierPath name:u_sim_sram_if.start_addr start:12:11 end:12:35:
             vpiParent: ContAssign
             vpiName: u_sim_sram_if.start_addr
-            vpiFullName: work@top.u_sim_sram_if.start_addr
+            vpiFullName: top.u_sim_sram_if.start_addr
             vpiPathElem (2 items):
               RefObj name:u_sim_sram_if start:12:11 end:12:24:
                 vpiParent: HierPath name:u_sim_sram_if.start_addr
                 vpiName: u_sim_sram_if
-                vpiFullName: work@top.u_sim_sram_if
+                vpiFullName: top.u_sim_sram_if
                 vpiActual: RefInstance name:u_sim_sram_if
               RefObj name:start_addr start:12:25 end:12:35:
                 vpiParent: HierPath name:u_sim_sram_if.start_addr
                 vpiName: start_addr
-                vpiFullName: work@top.start_addr
+                vpiFullName: top.start_addr
           vpiRhs Constant start:12:38 end:12:46:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
@@ -341,73 +349,74 @@ Design name:unnamed:
             vpiValue: "1234"
       vpiRefInstance (2 items):
         RefInstance name:u_sim_sram_if start:11:16 end:11:29:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_sim_sram_if
           vpiTypespec RefTypespec name:sim_sram_if start:11:4 end:11:15:
             vpiParent: RefInstance name:u_sim_sram_if
             vpiName: sim_sram_if
-            vpiFullName: work@top.u_sim_sram_if.sim_sram_if
-            vpiActual: InterfaceTypespec name:work@sim_sram_if
+            vpiFullName: top.u_sim_sram_if.sim_sram_if
+            vpiActual: InterfaceTypespec name:sim_sram_if
         RefInstance name:u_dut start:13:8 end:13:13:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_dut
-          vpiTypespec RefTypespec name:work@dut start:13:4 end:13:7:
+          vpiTypespec RefTypespec name:dut start:13:4 end:13:7:
             vpiParent: RefInstance name:u_dut
-            vpiName: work@dut
-            vpiFullName: work@top.u_dut.work@dut
-            vpiActual: ModuleTypespec name:work@dut
+            vpiName: dut
+            vpiFullName: top.u_dut.dut
+            vpiActual: ModuleTypespec name:dut
           vpiPort (2 items):
             Port start:13:14 end:13:35:
               vpiParent: RefInstance name:u_dut
               vpiLowConn RefObj name:ss_if start:13:15 end:13:20:
                 vpiParent: Port
                 vpiName: ss_if
-                vpiFullName: work@top.u_dut.ss_if
+                vpiFullName: top.u_dut.ss_if
               vpiHighConn RefObj name:u_sim_sram_if start:13:21 end:13:34:
                 vpiParent: Port
                 vpiName: u_sim_sram_if
-                vpiFullName: work@top.u_dut.u_sim_sram_if
+                vpiFullName: top.u_dut.u_sim_sram_if
                 vpiActual: RefInstance name:u_sim_sram_if
             Port start:13:37 end:13:42:
               vpiParent: RefInstance name:u_dut
               vpiLowConn RefObj name:a start:13:38 end:13:39:
                 vpiParent: Port
                 vpiName: a
-                vpiFullName: work@top.u_dut.a
+                vpiFullName: top.u_dut.a
               vpiHighConn RefObj name:o start:13:40 end:13:41:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@top.u_dut.o
+                vpiFullName: top.u_dut.o
                 vpiActual: Variable name:o
   vpiTypespec (5 items):
-    InterfaceTypespec name:work@sim_sram_if:
+    InterfaceTypespec name:sim_sram_if:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sim_sram_if start:2:11 end:2:22:
-        vpiParent: InterfaceTypespec name:work@sim_sram_if
-        vpiName: work@sim_sram_if
-      vpiInterface: Interface name:work@sim_sram_if
+      vpiName Identifier name:sim_sram_if start:2:11 end:2:22:
+        vpiParent: InterfaceTypespec name:sim_sram_if
+        vpiName: sim_sram_if
+      vpiDefName: sim_sram_if
+      vpiInterface: Interface name:sim_sram_if
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:6:8 end:6:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
-    ModuleTypespec name:work@top:
+      vpiName Identifier name:dut start:6:8 end:6:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:10:8 end:10:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:10:8 end:10:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -451,7 +460,7 @@ COMMAND: ${HLC_DIR}/regression/InterfInst/InterfInst/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    61      61       0         0
 ===================== END REDUCTION RESULT =====================

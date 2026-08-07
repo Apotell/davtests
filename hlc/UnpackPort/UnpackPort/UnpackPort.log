@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<118> t<Top_level_rule> c<1> l<1:1> el<13:1>
     n<> u<113> t<Description> p<117> c<112> s<116> l<1:1> el<11:10>
       n<> u<112> t<Module_declaration> p<113> c<12> l<1:1> el<11:10>
         n<> u<12> t<Module_nonansi_header> p<112> c<2> s<42> l<1:1> el<1:18>
-          n<module> u<2> t<Module_keyword> p<12> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<12> s<3> l<1:1> el<1:7>
           n<dut> u<3> t<SIMPLE_IDENTIFIER> p<12> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<12> s<11> l<1:11> el<1:11>
           n<> u<11> t<Port_list> p<12> c<10> l<1:11> el<1:17>
@@ -301,8 +301,8 @@ n<$Source01/dut.sv> u<118> t<Top_level_rule> c<1> l<1:1> el<13:1>
                       n<> u<35> t<Type_declaration> p<36> c<33> l<2:3> el<4:13>
                         n<> u<33> t<Data_type> p<35> c<14> s<34> l<2:11> el<4:4>
                           n<> u<14> t<Struct_union> p<33> c<13> s<15> l<2:11> el<2:17>
-                            n<> u<13> t<Struct_keyword> p<14> l<2:11> el<2:17>
-                          n<> u<15> t<Packed_keyword> p<33> s<32> l<2:18> el<2:24>
+                            n<> u<13> t<STRUCT> p<14> l<2:11> el<2:17>
+                          n<> u<15> t<PACKED> p<33> s<32> l<2:18> el<2:24>
                           n<> u<32> t<Struct_union_member> p<33> c<28> l<3:7> el<3:25>
                             n<> u<28> t<Data_type_or_void> p<32> c<27> s<31> l<3:7> el<3:18>
                               n<> u<27> t<Data_type> p<28> c<16> l<3:7> el<3:18>
@@ -394,10 +394,10 @@ n<$Source01/dut.sv> u<118> t<Top_level_rule> c<1> l<1:1> el<13:1>
       n<> u<115> t<Package_item> p<116> c<114> l<11:10> el<11:11>
         n<> u<114> t<Package_or_generate_item_declaration> p<115> l<11:10> el<11:11>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
 [INF:CP0335] $Source01/dut.sv:8:38: Compile generate block "g_fill".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -406,7 +406,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1973,6 +1972,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -1984,6 +1984,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2015,6 +2016,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2029,6 +2031,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2050,6 +2053,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2073,6 +2077,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2092,6 +2097,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2115,6 +2121,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2134,6 +2141,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2203,16 +2211,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2225,6 +2236,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2236,6 +2248,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2243,6 +2256,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2250,6 +2264,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2257,6 +2272,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2270,6 +2286,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2281,6 +2298,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2312,6 +2330,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2338,6 +2357,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2364,6 +2384,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2389,15 +2410,25 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@dut file:$Source01/dut.sv start:1:1 end:11:10:
+    Module name:dut file:$Source01/dut.sv start:1:1 end:11:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:var3 start:6:18 end:6:22:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec name:struct2 start:6:10 end:6:17:
+            vpiParent: Variable name:var3
+            vpiName: struct2
+            vpiFullName: dut.var3.struct2
+            vpiActual: ArrayTypespec
+          vpiName: var3
+          vpiFullName: dut.var3
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiRange (1 items):
             Range start:3:13 end:3:18:
               vpiParent: LogicTypespec
@@ -2405,7 +2436,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2415,7 +2446,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2423,7 +2454,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         StructTypespec start:2:11 end:4:4:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiPacked: true
           vpiTypespecMember (1 items):
             TypespecMember name:third start:3:19 end:3:24:
@@ -2431,19 +2462,19 @@ Design name:unnamed:
               vpiName: third
               vpiTypespec RefTypespec start:3:7 end:3:18:
                 vpiParent: TypespecMember name:third
-                vpiFullName: work@dut.third
+                vpiFullName: dut.third
                 vpiActual: LogicTypespec
         TypedefTypespec name:struct2 start:2:3 end:4:13:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName Identifier name:struct2 start:4:5 end:4:12:
             vpiParent: TypedefTypespec name:struct2
             vpiName: struct2
           vpiTypedefAlias RefTypespec start:2:11 end:4:4:
             vpiParent: TypedefTypespec name:struct2
-            vpiFullName: work@dut.struct2
+            vpiFullName: dut.struct2
             vpiActual: StructTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiArrayType: static (1)
           vpiRange Range start:6:23 end:6:26:
             vpiParent: ArrayTypespec
@@ -2455,7 +2486,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@dut
+                    vpiFullName: dut
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -2464,47 +2495,39 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:struct2 start:6:10 end:6:17:
             vpiParent: ArrayTypespec
             vpiName: struct2
-            vpiFullName: work@dut.struct2
+            vpiFullName: dut.struct2
             vpiActual: TypedefTypespec name:struct2
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
+        vpiParent: Module name:dut
         vpiName: work
-        vpiFullName: work@dut.work
+        vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (1 items):
-        Net name:var3 start:6:18 end:6:22:
-          vpiParent: Module name:work@dut
-          vpiTypespec RefTypespec start:6:10 end:6:17:
-            vpiParent: Net name:var3
-            vpiFullName: work@dut.var3
-            vpiActual: ArrayTypespec
-          vpiName: var3
-          vpiFullName: work@dut.var3
       vpiPort (1 items):
         Port name:var3 start:1:12 end:1:16:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiName: var3
           vpiDirection: output (2)
-          vpiLowConn RefObj name:var3 start:1:12 end:1:16:
+          vpiLowConn RefObj name:var3 start:6:18 end:6:22:
             vpiParent: Port name:var3
             vpiName: var3
-            vpiFullName: work@dut.var3.var3
-            vpiActual: Net name:var3
-          vpiTypespec RefTypespec start:6:10 end:6:17:
+            vpiFullName: dut.var3.var3
+            vpiActual: Variable name:var3
+          vpiTypespec RefTypespec name:struct2 start:6:10 end:6:17:
             vpiParent: Port name:var3
-            vpiFullName: work@dut.var3
+            vpiName: struct2
+            vpiFullName: dut.var3.struct2
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenFor start:8:3 end:10:6:
-          vpiParent: Module name:work@dut
-          vpiFullName: work@dut
+          vpiParent: Module name:dut
+          vpiFullName: dut
           vpiVariable (1 items):
             Variable name:i start:8:15 end:8:16:
               vpiParent: GenFor
               vpiName: i
-              vpiFullName: work@dut.i
+              vpiFullName: dut.i
           vpiForInitStmt (1 items):
             Assignment start:8:15 end:8:18:
               vpiParent: GenFor
@@ -2513,7 +2536,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2527,7 +2550,7 @@ Design name:unnamed:
                 RefObj name:i start:8:25 end:8:26:
                   vpiParent: Operation
                   vpiName: i
-                  vpiFullName: work@dut.i
+                  vpiFullName: dut.i
                   vpiActual: Variable name:i
           vpiCondition Operation start:8:20 end:8:23:
             vpiParent: GenFor
@@ -2536,13 +2559,13 @@ Design name:unnamed:
               RefObj name:i start:8:20 end:8:21:
                 vpiParent: Operation
                 vpiName: i
-                vpiFullName: work@dut.i
+                vpiFullName: dut.i
                 vpiActual: Variable name:i
               Constant start:8:22 end:8:23:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2553,30 +2576,30 @@ Design name:unnamed:
             vpiName Identifier name:g_fill start:8:38 end:8:44:
               vpiParent: Begin name:g_fill
               vpiName: g_fill
-            vpiFullName: work@dut.g_fill
+            vpiFullName: dut.g_fill
             vpiStmt (1 items):
               ContAssign start:9:14 end:9:37:
                 vpiParent: Begin name:g_fill
                 vpiLhs BitSelect name:var3[i] start:9:14 end:9:21:
                   vpiParent: ContAssign
                   vpiName: var3[i]
-                  vpiFullName: work@dut.g_fill.var3[i]
+                  vpiFullName: dut.g_fill.var3[i]
                   vpiPrefix RefObj name:var3 start:9:14 end:9:18:
                     vpiParent: BitSelect name:var3[i]
                     vpiName: var3
-                    vpiFullName: work@dut.g_fill.var3
-                    vpiActual: Net name:var3
+                    vpiFullName: dut.g_fill.var3
+                    vpiActual: Variable name:var3
                   vpiIndex RefObj name:i start:9:19 end:9:20:
                     vpiParent: BitSelect name:var3[i]
                     vpiName: i
-                    vpiFullName: work@dut.g_fill.i
+                    vpiFullName: dut.g_fill.i
                     vpiActual: Variable name:i
                 vpiRhs Operation start:9:24 end:9:37:
                   vpiParent: ContAssign
                   vpiTypespec RefTypespec name:struct2 start:9:24 end:9:31:
                     vpiParent: Operation
                     vpiName: struct2
-                    vpiFullName: work@dut.g_fill.struct2
+                    vpiFullName: dut.g_fill.struct2
                     vpiActual: TypedefTypespec name:struct2
                   vpiOpType: cast (81)
                   vpiOperand (1 items):
@@ -2584,7 +2607,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@dut.g_fill
+                        vpiFullName: dut.g_fill
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2605,25 +2628,28 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

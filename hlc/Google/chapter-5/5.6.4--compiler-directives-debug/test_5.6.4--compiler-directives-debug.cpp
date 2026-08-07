@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,12 @@
 //   initial $display("At %s @ %d\n", `__FILE__, `__LINE__);
 //
 // UHDM structure:
-//   Module name:work@directives
+//   Module name:directives
 //     Initial
 //       vpiStmt: SysTaskCall "$display"
-//         vpiArgument[0]: Constant (string, 6)  — format string "At %s @ %d\n"
-//         vpiArgument[1]: Constant (string, 6)  — `__FILE__ → full source path
-//         vpiArgument[2]: Constant (uint,   9)  — `__LINE__ → integer 17
+//         vpiArgument[0]: Constant (string, 6)  -- format string "At %s @ %d\n"
+//         vpiArgument[1]: Constant (string, 6)  -- `__FILE__ -> full source path
+//         vpiArgument[2]: Constant (uint,   9)  -- `__LINE__ -> integer 17
 //
 // Key assertions:
 //   - `__FILE__ expands to a string constant containing the source filename.
@@ -52,7 +52,7 @@ class CompilerDirectivesDebug : public Test {
 };
 
 static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@directives", d->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("directives", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysTaskCall>();
@@ -66,17 +66,17 @@ static const hldb::Constant *getArg(const hldb::Design *d, std::size_t idx) {
   return any_cast<hldb::Constant>((*c->getArguments())[idx]);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesDebug, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@directives", m_design->getAllModules()), nullptr)
-      << "module 'work@directives' not found";
+  ASSERT_NE(hldb::findByName<hldb::Module>("directives", m_design->getAllModules()), nullptr)
+      << "module 'directives' not found";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // $display with three arguments
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesDebug, DisplayCallHasThreeArguments) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr) << "$display call not found";
@@ -84,9 +84,9 @@ TEST_F(CompilerDirectivesDebug, DisplayCallHasThreeArguments) {
   EXPECT_EQ(c->getArguments()->size(), 3u);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Argument 0: format string "At %s @ %d\n"
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesDebug, FormatStringIsStringConstant) {
   const hldb::Constant *const arg = getArg(m_design, 0);
   ASSERT_NE(arg, nullptr) << "argument 0 not found or not a Constant";
@@ -97,13 +97,13 @@ TEST_F(CompilerDirectivesDebug, FormatStringIsStringConstant) {
 TEST_F(CompilerDirectivesDebug, FormatStringValue) {
   const hldb::Constant *const arg = getArg(m_design, 0);
   ASSERT_NE(arg, nullptr);
-  // vpiValue stores the raw escape sequence — literal backslash-n, not a newline.
+  // vpiValue stores the raw escape sequence -- literal backslash-n, not a newline.
   EXPECT_EQ(arg->getValue(), "At %s @ %d\\n");
 }
 
-// ---------------------------------------------------------------------------
-// Argument 1: `__FILE__ — preprocessor expands to the source file path
-// ---------------------------------------------------------------------------
+// ----
+// Argument 1: `__FILE__ -- preprocessor expands to the source file path
+// ----
 TEST_F(CompilerDirectivesDebug, FileDirectiveIsStringConstant) {
   const hldb::Constant *const arg = getArg(m_design, 1);
   ASSERT_NE(arg, nullptr) << "`__FILE__ argument not found or not a Constant";
@@ -122,9 +122,9 @@ TEST_F(CompilerDirectivesDebug, FileDirectiveContainsSourceFilename) {
       << val;
 }
 
-// ---------------------------------------------------------------------------
-// Argument 2: `__LINE__ — preprocessor expands to the integer line number
-// ---------------------------------------------------------------------------
+// ----
+// Argument 2: `__LINE__ -- preprocessor expands to the integer line number
+// ----
 TEST_F(CompilerDirectivesDebug, LineDirectiveIsIntegerConstant) {
   const hldb::Constant *const arg = getArg(m_design, 2);
   ASSERT_NE(arg, nullptr) << "`__LINE__ argument not found or not a Constant";

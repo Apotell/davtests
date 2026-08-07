@@ -38,25 +38,21 @@
 //   PA0207 x2 (input keyword): The parser rejects the 'input' direction
 //     keyword in sequence formal parameter lists with "extraneous input
 //     'input'". ss.16.8 permits 'input', 'inout', and 'output' directions.
-//     Reported as SYNTAX errors in the log but NOT counted in nbError.
-//
-//   EL0535 x2 (x, y in body): The formal parameters 'x' and 'y' used in
-//     the body ('x ##1 y') are treated as illegal implicit nets instead of
-//     resolving to their SeqFormalDecl nodes. Tests
-//     MySeq_Op_Operand0_X_ResolvesToFormalDecl and
-//     MySeq_Op_Operand2_Y_ResolvesToFormalDecl FAIL.
+//     Reported as SYNTAX errors in the log but NOT counted in nbError. See
+//     Compiler_NoSyntaxErrors (GTEST_SKIP) below -- this bug is still
+//     present and pending a grammar fix.
 //
 //   FuncCall instead of SeqInst: 'my_seq(.x(a),.y(b))' inside seq_named is
 //     represented as a FuncCall node rather than a proper sequence
-//     instantiation node. Named argument bindings appear as IODecl children
+//     instantiation node. Named argument bindings appear as NamedArgument children
 //     of the FuncCall. FuncCall has no getActual() method, so there is no API
 //     to verify the back-link to SequenceDecl my_seq -- the link does not
-//     exist in the HLDB. The named bindings are accessible via IODecl and
+//     exist in the HLDB. The named bindings are accessible via NamedArgument and
 //     are tested below.
 //
-//   EL0535 x1 (seq_named in assert): 'seq_named' in 'assert property(...)'
-//     is treated as an illegal implicit net. Test
-//     Assert_PropertyExpr_ResolvedToSeqNamedDecl FAILS.
+// Despite the PA0207 syntax errors above, the parser recovers: the formal
+// parameters 'x' and 'y' still resolve to their SeqFormalDecl nodes, and
+// 'seq_named' in 'assert property(...)' still resolves to its SequenceDecl.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -71,6 +67,7 @@
 #include <hldb/io_decl.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/ref_obj.h>
@@ -90,7 +87,7 @@ class Sequence22Test : public Test {
 
  protected:
   static const hldb::Module *getTb(const hldb::Design *d) {
-    return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
+    return hldb::findByName<hldb::Module>("tb", d->getAllModules());
   }
 
   static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *mod, std::string_view name) {
@@ -114,40 +111,47 @@ class Sequence22Test : public Test {
 // Module
 // ===========================================================================
 
-TEST_F(Sequence22Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
+TEST_F(Sequence22Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'tb' not found"; }
 
 // ===========================================================================
-// Nets
+// Variables (IEEE 1800-2023 Sec 6.7/6.8: no net-type keyword means
+// Variable, not Net, regardless of default_nettype)
 // ===========================================================================
 
-TEST_F(Sequence22Test, Net_clk_HasBitTypespec) {
+TEST_F(Sequence22Test, Variable_clk_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const clk = hldb::findByName<hldb::Net>("clk", tb->getNets());
-  ASSERT_NE(clk, nullptr) << "net 'clk' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const clk = hldb::findByName<hldb::Variable>("clk", tb->getVariables());
+  ASSERT_NE(clk, nullptr) << "variable 'clk' not found";
   ASSERT_NE(clk->getTypespec(), nullptr);
   EXPECT_NE(clk->getTypespec()->getActual<hldb::BitTypespec>(), nullptr) << "'bit clk' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("clk", tb->getNets()), nullptr)
+      << "'bit clk' has no net-type keyword -- must not also appear in vpiNet";
 }
 
-TEST_F(Sequence22Test, Net_a_HasBitTypespec) {
+TEST_F(Sequence22Test, Variable_a_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", tb->getNets());
-  ASSERT_NE(a, nullptr) << "net 'a' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", tb->getVariables());
+  ASSERT_NE(a, nullptr) << "variable 'a' not found";
   ASSERT_NE(a->getTypespec(), nullptr);
   EXPECT_NE(a->getTypespec()->getActual<hldb::BitTypespec>(), nullptr) << "'bit a' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("a", tb->getNets()), nullptr)
+      << "'bit a' has no net-type keyword -- must not also appear in vpiNet";
 }
 
-TEST_F(Sequence22Test, Net_b_HasBitTypespec) {
+TEST_F(Sequence22Test, Variable_b_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", tb->getNets());
-  ASSERT_NE(b, nullptr) << "net 'b' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", tb->getVariables());
+  ASSERT_NE(b, nullptr) << "variable 'b' not found";
   ASSERT_NE(b->getTypespec(), nullptr);
   EXPECT_NE(b->getTypespec()->getActual<hldb::BitTypespec>(), nullptr) << "'bit b' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("b", tb->getNets()), nullptr)
+      << "'bit b' has no net-type keyword -- must not also appear in vpiNet";
 }
 
 // ===========================================================================
@@ -269,9 +273,8 @@ TEST_F(Sequence22Test, MySeq_Op_Operand0_IsRefObjX) {
 }
 
 TEST_F(Sequence22Test, MySeq_Op_Operand0_X_ResolvesToFormalDecl) {
-  // ss.16.8: 'x' in the body must resolve to SeqFormalDecl x, not an implicit
-  // net. EL0535 bug: the compiler treats 'x' as an illegal implicit net.
-  // This test FAILS intentionally to document the bug.
+  // ss.16.8: 'x' in the body must resolve to SeqFormalDecl x, not an
+  // implicit net.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "my_seq");
@@ -283,8 +286,7 @@ TEST_F(Sequence22Test, MySeq_Op_Operand0_X_ResolvesToFormalDecl) {
   const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_NE(ref->getActual<hldb::SeqFormalDecl>(), nullptr)
-      << "EL0535: 'x' in body of my_seq must resolve to SeqFormalDecl 'x'; "
-         "compiler treats it as an illegal implicit net instead";
+      << "ss.16.8: 'x' in body of my_seq must resolve to SeqFormalDecl 'x'";
 }
 
 TEST_F(Sequence22Test, MySeq_Op_Operand1_IsConstantDelayOne) {
@@ -332,8 +334,6 @@ TEST_F(Sequence22Test, MySeq_Op_Operand2_IsRefObjY) {
 
 TEST_F(Sequence22Test, MySeq_Op_Operand2_Y_ResolvesToFormalDecl) {
   // ss.16.8: 'y' in the body must resolve to SeqFormalDecl y.
-  // EL0535 bug: compiler treats 'y' as an illegal implicit net.
-  // This test FAILS intentionally to document the bug.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "my_seq");
@@ -345,8 +345,7 @@ TEST_F(Sequence22Test, MySeq_Op_Operand2_Y_ResolvesToFormalDecl) {
   const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
   ASSERT_NE(ref, nullptr);
   EXPECT_NE(ref->getActual<hldb::SeqFormalDecl>(), nullptr)
-      << "EL0535: 'y' in body of my_seq must resolve to SeqFormalDecl 'y'; "
-         "compiler treats it as an illegal implicit net instead";
+      << "ss.16.8: 'y' in body of my_seq must resolve to SeqFormalDecl 'y'";
 }
 
 // ===========================================================================
@@ -377,8 +376,8 @@ TEST_F(Sequence22Test, SeqNamed_HasTwoNamedArguments) {
   EXPECT_EQ(sc->getArguments()->size(), 2u) << "ss.16.8: 'my_seq(.x(a),.y(b))' must pass exactly 2 named arguments";
 }
 
-TEST_F(Sequence22Test, SeqNamed_NamedArg0_IsIODecl) {
-  // ss.16.8: named argument '.x(a)' is represented as an IODecl node carrying
+TEST_F(Sequence22Test, SeqNamed_NamedArg0_IsNamedArgument) {
+  // ss.16.8: named argument '.x(a)' is represented as an NamedArgument node carrying
   // the formal parameter name and the actual expression.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
@@ -388,8 +387,8 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_IsIODecl) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[0]);
-  EXPECT_NE(iod, nullptr) << "ss.16.8: named argument 0 ('.x(a)') must be an IODecl node";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  EXPECT_NE(na, nullptr) << "ss.16.8: named argument 0 ('.x(a)') must be an NamedArgument node";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg0_FormalName_IsX) {
@@ -401,9 +400,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_FormalName_IsX) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[0]);
-  ASSERT_NE(iod, nullptr);
-  EXPECT_EQ(iod->getName(), "x") << "ss.16.8: named argument '.x(a)' formal name must be 'x'";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  ASSERT_NE(na, nullptr);
+  const hldb::Any *const lc = na->getLowConn();
+  ASSERT_NE(lc, nullptr);
+  EXPECT_EQ(lc->getName(), "x") << "ss.16.8: named argument '.x(a)' formal name must be 'x'";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualExpr_IsRefObjA) {
@@ -415,16 +416,16 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualExpr_IsRefObjA) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[0]);
-  ASSERT_NE(iod, nullptr);
-  const hldb::RefObj *const ref = iod->getExpr<hldb::RefObj>();
-  ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "a") << "ss.16.8: named argument '.x(a)' actual expression must be 'a'";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  ASSERT_NE(na, nullptr);
+  const hldb::Any *const hc = na->getHighConn();
+  ASSERT_NE(hc, nullptr);
+  EXPECT_EQ(hc->getName(), "a") << "ss.16.8: named argument '.x(a)' actual expression must be 'a'";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualSignal_ResolvesToNetA) {
   // ss.16.8: actual argument 'a' (bound to formal 'x') must resolve to the
-  // net declared as 'bit a'.
+  // variable declared as 'bit a'.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
@@ -433,14 +434,14 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualSignal_ResolvesToNetA) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[0]);
-  ASSERT_NE(iod, nullptr);
-  const hldb::RefObj *const ref = iod->getExpr<hldb::RefObj>();
-  ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr) << "ss.16.8: named actual argument 'a' must resolve to Net 'bit a'";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  ASSERT_NE(na, nullptr);
+  const hldb::RefObj *const hc = na->getHighConn<hldb::RefObj>();
+  ASSERT_NE(hc, nullptr);
+  EXPECT_NE(hc->getActual<hldb::Variable>(), nullptr) << "ss.16.8: named actual argument 'a' must resolve to Variable 'bit a'";
 }
 
-TEST_F(Sequence22Test, SeqNamed_NamedArg1_IsIODecl) {
+TEST_F(Sequence22Test, SeqNamed_NamedArg1_IsNamedArgument) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
@@ -449,8 +450,8 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_IsIODecl) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[1]);
-  EXPECT_NE(iod, nullptr) << "ss.16.8: named argument 1 ('.y(b)') must be an IODecl node";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  EXPECT_NE(na, nullptr) << "ss.16.8: named argument 1 ('.y(b)') must be an NamedArgument node";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg1_FormalName_IsY) {
@@ -462,9 +463,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_FormalName_IsY) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[1]);
-  ASSERT_NE(iod, nullptr);
-  EXPECT_EQ(iod->getName(), "y") << "ss.16.8: named argument '.y(b)' formal name must be 'y'";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  ASSERT_NE(na, nullptr);
+  const hldb::Any *const lc = na->getLowConn();
+  ASSERT_NE(lc, nullptr);
+  EXPECT_EQ(lc->getName(), "y") << "ss.16.8: named argument '.y(b)' formal name must be 'y'";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualExpr_IsRefObjB) {
@@ -476,16 +479,16 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualExpr_IsRefObjB) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[1]);
-  ASSERT_NE(iod, nullptr);
-  const hldb::RefObj *const ref = iod->getExpr<hldb::RefObj>();
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  ASSERT_NE(na, nullptr);
+  const hldb::Any *const ref = na->getHighConn();
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "b") << "ss.16.8: named argument '.y(b)' actual expression must be 'b'";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualSignal_ResolvesToNetB) {
   // ss.16.8: actual argument 'b' (bound to formal 'y') must resolve to the
-  // net declared as 'bit b'.
+  // variable declared as 'bit b'.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
@@ -494,11 +497,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualSignal_ResolvesToNetB) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[1]);
-  ASSERT_NE(iod, nullptr);
-  const hldb::RefObj *const ref = iod->getExpr<hldb::RefObj>();
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  ASSERT_NE(na, nullptr);
+  const hldb::RefObj *const ref = na->getHighConn<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr) << "ss.16.8: named actual argument 'b' must resolve to Net 'bit b'";
+  EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr) << "ss.16.8: named actual argument 'b' must resolve to Variable 'bit b'";
 }
 
 // ===========================================================================
@@ -521,8 +524,7 @@ TEST_F(Sequence22Test, Assert_PropertyExpr_NameIsSeqNamed) {
 
 TEST_F(Sequence22Test, Assert_PropertyExpr_ResolvedToSeqNamedDecl) {
   // ss.16.8: 'seq_named' in 'assert property(...)' must resolve to
-  // SequenceDecl seq_named. EL0535 bug: compiler treats it as implicit net.
-  // This test FAILS intentionally to document the bug.
+  // SequenceDecl seq_named.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
@@ -534,8 +536,23 @@ TEST_F(Sequence22Test, Assert_PropertyExpr_ResolvedToSeqNamedDecl) {
   const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(expr, nullptr);
   EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "EL0535: 'seq_named' in assert property must resolve to SequenceDecl; "
-         "compiler treats it as an illegal implicit net instead";
+      << "ss.16.8: 'seq_named' in assert property must resolve to SequenceDecl";
+}
+
+// ===========================================================================
+// Compiler diagnostics
+// ===========================================================================
+
+TEST_F(Sequence22Test, Compiler_NoSyntaxErrors) {
+  GTEST_SKIP() << "PA0207: the parser rejects the 'input' direction keyword "
+                  "in a sequence formal parameter list ('extraneous input "
+                  "'input''), even though IEEE 1800-2023 Annex A.2.10 "
+                  "(sequence_formal_type / data_type_or_implicit) and "
+                  "ss.16.8 permit 'input', 'output', and 'inout' directions "
+                  "on sequence formal arguments. Grammar fix pending.";
+  EXPECT_EQ(m_compiler->getErrorStats().nbSyntax, 0)
+      << "'sequence my_seq(input bit x, input bit y)' is legal per ss.16.8 "
+         "and must not produce any syntax error";
 }
 
 }  // namespace hlc

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,12 +20,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with 1 net ('a')
-//   - net 'a' has a RefTypespec node (typespec is present)
-//   - net 'a' RefTypespec vpiActual is null — HLC does not resolve chandle
+//   - design has module top with 1 variable ('a')
+//   - variable 'a' has a RefTypespec node (typespec is present)
+//   - variable 'a' RefTypespec vpiActual is null -- HLC does not resolve chandle
 //     to a ChandleTypespec in the global type pool
-//   - net 'a' has no initial value
-//   - no ContAssigns and no processes in work@top
+//   - variable 'a' has no initial value
+//   - no ContAssigns and no processes in top
 //
 // Also checked:
 //   - RefTypespec getName() for chandle -- the name string is preserved even
@@ -38,10 +38,12 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/chandle_typespec.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -53,48 +55,56 @@ class Chandle : public Test {
 };
 
 TEST_F(Chandle, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(Chandle, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Chandle, OneVariableExists) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Chandle, ANetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Chandle, AVariableExists) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
+  ASSERT_NE(hldb::findByName<hldb::Variable>("a", top->getVariables()), nullptr) << "variable 'a' not found";
 }
 
-// ---------------------------------------------------------------------------
-// Typespec — RefTypespec node present but vpiActual is unresolved
-// ---------------------------------------------------------------------------
-TEST_F(Chandle, ANetHasTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Chandle, ANotInNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'chandle' has no net-type keyword, so
+  // 'a' must not also be materialized as a Net.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("a", top->getNets()) == nullptr)
+      << "'chandle a' must not appear in vpiNet";
+}
+
+// ----
+// Typespec -- RefTypespec node present but vpiActual is unresolved
+// ----
+TEST_F(Chandle, AVariableHasTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getTypespec(), nullptr) << "net 'a' should have a RefTypespec node";
+  EXPECT_NE(a->getTypespec(), nullptr) << "variable 'a' should have a RefTypespec node";
 }
 
-TEST_F(Chandle, ANetTypespecActualIsNull) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Chandle, AVariableTypespecActualIsNotNull) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getActual(), nullptr) << "chandle net typespec vpiActual is unresolved in this HLDB version";
+  ASSERT_NE(rts->getActual(), nullptr) << "chandle variable typespec vpiActual is unresolved";
 }
 
-TEST_F(Chandle, ANetTypespecNameIsChandle) {
-  GTEST_SKIP() << "Compiler doesn't support CHandleTypesoec yet";
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Chandle, AVariableTypespecNameIsChandle) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
@@ -102,25 +112,25 @@ TEST_F(Chandle, ANetTypespecNameIsChandle) {
   EXPECT_NE(rts->getActual<hldb::ChandleTypespec>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // No initial value, no continuous assignments, no processes
-// ---------------------------------------------------------------------------
-TEST_F(Chandle, ANetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+TEST_F(Chandle, AVariableHasNoInitialValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getValue<hldb::Any>(), nullptr) << "chandle variable 'a' should have no initial value";
 }
 
 TEST_F(Chandle, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
 TEST_F(Chandle, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

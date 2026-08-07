@@ -20,7 +20,7 @@ n<$Source01/task-scope.v> u<313> t<Top_level_rule> c<1> l<24:1> el<72:1>
     n<> u<122> t<Description> p<312> c<121> s<311> l<24:1> el<37:10>
       n<> u<121> t<Module_declaration> p<122> c<14> l<24:1> el<37:10>
         n<> u<14> t<Module_nonansi_header> p<121> c<4> s<21> l<24:1> el<24:16>
-          n<module> u<4> t<Module_keyword> p<14> s<5> l<24:1> el<24:7>
+          n<module> u<4> t<MODULE> p<14> s<5> l<24:1> el<24:7>
           n<nest> u<5> t<SIMPLE_IDENTIFIER> p<14> s<6> l<24:8> el<24:12>
           n<> u<6> t<Package_import_declaration_list> p<14> s<13> l<24:12> el<24:12>
           n<> u<13> t<Port_list> p<14> c<12> l<24:12> el<24:15>
@@ -139,7 +139,7 @@ n<$Source01/task-scope.v> u<313> t<Top_level_rule> c<1> l<24:1> el<72:1>
     n<> u<311> t<Description> p<312> c<310> l<39:1> el<71:10>
       n<> u<310> t<Module_declaration> p<311> c<126> l<39:1> el<71:10>
         n<> u<126> t<Module_ansi_header> p<310> c<123> s<147> l<39:1> el<39:13>
-          n<module> u<123> t<Module_keyword> p<126> s<124> l<39:1> el<39:7>
+          n<module> u<123> t<MODULE> p<126> s<124> l<39:1> el<39:7>
           n<test> u<124> t<SIMPLE_IDENTIFIER> p<126> s<125> l<39:8> el<39:12>
           n<> u<125> t<Package_import_declaration_list> p<126> l<39:12> el<39:12>
         n<> u<147> t<Non_port_module_item> p<310> c<146> s<160> l<41:4> el<41:19>
@@ -326,9 +326,10 @@ n<$Source01/task-scope.v> u<313> t<Top_level_rule> c<1> l<24:1> el<72:1>
                         n<> u<300> t<END> p<301> l<69:6> el<69:9>
         n<> u<309> t<ENDMODULE> p<310> l<71:1> el<71:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/task-scope.v:24:1: Compile module "work@nest".
-[INF:CP0303] $Source01/task-scope.v:39:1: Compile module "work@test".
-[ERR:EL0535] $Source01/task-scope.v:45:14: Illegal implicit net "id:80, name:r".
+[INF:CP0303] $Source01/task-scope.v:24:1: Compile module "nest".
+[INF:CP0303] $Source01/task-scope.v:39:1: Compile module "test".
+[WRN:CP0350] $Source01/task-scope.v:45:14: Failed to bind "id:80, name:r".
+[WRN:CP0350] $Source01/task-scope.v:50:5: Failed to bind "id:92, name:incr".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -344,19 +345,29 @@ Design name:unnamed:
           vpiName Identifier name:TEST start:22:9 end:22:13:
             vpiParent: PreprocMacroDefinition name:TEST
             vpiName: TEST
-      vpiDefNetType: none (12)
+          vpiPMDType: define (1)
   vpiAllModules (2 items):
-    Module name:work@nest file:$Source01/task-scope.v start:24:1 end:37:10:
+    Module name:nest file:$Source01/task-scope.v start:24:1 end:37:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@nest start:24:8 end:24:12:
-        vpiParent: Module name:work@nest
-        vpiName: work@nest
-      vpiFullName: work@nest
+      vpiName Identifier name:nest start:24:8 end:24:12:
+        vpiParent: Module name:nest
+        vpiName: nest
+      vpiFullName: nest
+      vpiVariable (1 items):
+        Variable name:r start:26:11 end:26:12:
+          vpiParent: Module name:nest
+          vpiTypespec RefTypespec start:27:4 end:27:13:
+            vpiParent: Variable name:r
+            vpiFullName: nest.r
+            vpiActual: LogicTypespec
+          vpiName: r
+          vpiFullName: nest.r
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@nest
+          vpiParent: Module name:nest
         LogicTypespec:
-          vpiParent: Module name:work@nest
+          vpiParent: Module name:nest
           vpiRange (1 items):
             Range start:27:8 end:27:13:
               vpiParent: LogicTypespec
@@ -364,7 +375,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@nest
+                  vpiFullName: nest
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -374,47 +385,47 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@nest
+                  vpiFullName: nest
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@nest
-      vpiDefNetType: none (12)
+      vpiDefName: nest
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@nest
+        vpiParent: Module name:nest
         vpiName: work
-        vpiFullName: work@nest.work
+        vpiFullName: nest.work
       vpiCell: nest
       vpiTaskFunc (1 items):
         Task name:incr start:29:4 end:35:11:
-          vpiParent: Module name:work@nest
+          vpiParent: Module name:nest
           vpiName Identifier name:incr start:29:9 end:29:13:
             vpiParent: Task name:incr
             vpiName: incr
-          vpiFullName: work@nest.incr
+          vpiFullName: nest.incr
           vpiVariable (1 items):
             Variable name:a start:30:19 end:30:20:
               vpiParent: Task name:incr
               vpiTypespec RefTypespec start:30:13 end:30:18:
                 vpiParent: Variable name:a
-                vpiFullName: work@nest.incr.a
+                vpiFullName: nest.incr.a
                 vpiActual: LogicTypespec
               vpiName: a
-              vpiFullName: work@nest.incr.a
+              vpiFullName: nest.incr.a
           vpiIODecl (1 items):
             IODecl name:a start:30:19 end:30:20:
               vpiParent: Task name:incr
               vpiName: a
               vpiTypespec RefTypespec start:30:13 end:30:18:
                 vpiParent: IODecl name:a
-                vpiFullName: work@nest.incr.a
+                vpiFullName: nest.incr.a
                 vpiActual: LogicTypespec
           vpiStmt Begin:
             vpiParent: Task name:incr
-            vpiFullName: work@nest.incr
+            vpiFullName: nest.incr
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -425,7 +436,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@nest.incr
+                        vpiFullName: nest.incr
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -435,7 +446,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@nest.incr
+                        vpiFullName: nest.incr
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -445,15 +456,15 @@ Design name:unnamed:
             vpiStmt (1 items):
               Begin start:31:7 end:34:10:
                 vpiParent: Begin
-                vpiFullName: work@nest.incr
+                vpiFullName: nest.incr
                 vpiStmt (2 items):
                   Assignment start:32:3 end:32:11:
                     vpiParent: Begin
                     vpiLhs RefObj name:r start:32:3 end:32:4:
                       vpiParent: Assignment
                       vpiName: r
-                      vpiFullName: work@nest.incr.r
-                      vpiActual: Net name:r
+                      vpiFullName: nest.incr.r
+                      vpiActual: Variable name:r
                     vpiRhs Operation start:32:8 end:32:11:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -461,12 +472,12 @@ Design name:unnamed:
                         RefObj name:r start:32:8 end:32:9:
                           vpiParent: Operation
                           vpiName: r
-                          vpiFullName: work@nest.incr.r
-                          vpiActual: Net name:r
+                          vpiFullName: nest.incr.r
+                          vpiActual: Variable name:r
                         RefObj name:a start:32:10 end:32:11:
                           vpiParent: Operation
                           vpiName: a
-                          vpiFullName: work@nest.incr.a
+                          vpiFullName: nest.incr.a
                           vpiActual: IODecl name:a
                   DelayControl start:33:3 end:33:25:
                     vpiParent: Begin
@@ -480,7 +491,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@nest.incr
+                            vpiFullName: nest.incr
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 32
@@ -489,50 +500,40 @@ Design name:unnamed:
                         RefObj name:r start:33:22 end:33:23:
                           vpiParent: SysTaskCall name:$display
                           vpiName: r
-                          vpiFullName: work@nest.incr.r
-                          vpiActual: Net name:r
+                          vpiFullName: nest.incr.r
+                          vpiActual: Variable name:r
                     vpiDelay Constant start:33:4 end:33:5:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@nest.incr
+                        vpiFullName: nest.incr
                         vpiActual: IntTypespec
                       vpiConstType: int (7)
                       vpiSize: 32
                       vpiDecompile: "1"
                       vpiValue: 1
-      vpiNet (1 items):
-        Net name:r start:26:11 end:26:12:
-          vpiParent: Module name:work@nest
-          vpiTypespec RefTypespec start:26:11 end:26:11:
-            vpiParent: Net name:r
-            vpiFullName: work@nest.r
-            vpiActual: LogicTypespec
-          vpiName: r
-          vpiFullName: work@nest.r
       vpiPort (1 items):
         Port name:r start:24:13 end:24:14:
-          vpiParent: Module name:work@nest
+          vpiParent: Module name:nest
           vpiName: r
           vpiDirection: output (2)
-          vpiLowConn RefObj name:r start:24:13 end:24:14:
+          vpiLowConn RefObj name:r start:26:11 end:26:12:
             vpiParent: Port name:r
             vpiName: r
-            vpiFullName: work@nest.r.r
-            vpiActual: Net name:r
+            vpiFullName: nest.r.r
+            vpiActual: Variable name:r
           vpiTypespec RefTypespec start:26:11 end:26:11:
             vpiParent: Port name:r
-            vpiFullName: work@nest.r
-            vpiActual: LogicTypespec
-    Module name:work@test file:$Source01/task-scope.v start:39:1 end:71:10:
+            vpiFullName: nest.r
+    Module name:test file:$Source01/task-scope.v start:39:1 end:71:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:39:8 end:39:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
+      vpiName Identifier name:test start:39:8 end:39:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiRange (1 items):
             Range start:41:9 end:41:14:
               vpiParent: LogicTypespec
@@ -540,7 +541,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -550,45 +551,46 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        ModuleTypespec name:work@nest start:43:4 end:43:8:
-          vpiParent: Module name:work@test
-          vpiName Identifier name:work@nest start:43:4 end:43:8:
-            vpiParent: ModuleTypespec name:work@nest
-            vpiName: work@nest
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+        ModuleTypespec name:nest start:43:4 end:43:8:
+          vpiParent: Module name:test
+          vpiName Identifier name:nest start:43:4 end:43:8:
+            vpiParent: ModuleTypespec name:nest
+            vpiName: nest
+          vpiModule: Module name:nest
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
       vpiTaskFunc (1 items):
         Task name:increment start:48:4 end:52:11:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName Identifier name:increment start:48:9 end:48:18:
             vpiParent: Task name:increment
             vpiName: increment
-          vpiFullName: work@test.increment
+          vpiFullName: test.increment
           vpiStmt Begin start:49:7 end:51:10:
             vpiParent: Task name:increment
-            vpiFullName: work@test.increment
+            vpiFullName: test.increment
             vpiStmt (1 items):
-              HierPath name:n.incr(1) start:50:3 end:50:11:
+              HierPath name:n.incr(1) start:50:3 end:50:12:
                 vpiParent: Begin
                 vpiName: n.incr(1)
-                vpiFullName: work@test.increment.n.incr(1)
+                vpiFullName: test.increment.n.incr(1)
                 vpiPathElem (2 items):
                   RefObj name:n start:50:3 end:50:4:
                     vpiParent: HierPath name:n.incr(1)
                     vpiName: n
-                    vpiFullName: work@test.increment.n
+                    vpiFullName: test.increment.n
                     vpiActual: RefInstance name:n
                   SubroutineCall name:incr start:50:5 end:50:12:
                     vpiParent: HierPath name:n.incr(1)
@@ -600,7 +602,7 @@ Design name:unnamed:
                         vpiParent: SubroutineCall name:incr
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@test.increment.n.incr(1).incr
+                          vpiFullName: test.increment.n.incr(1).incr
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -608,61 +610,62 @@ Design name:unnamed:
                         vpiValue: 1
       vpiNet (1 items):
         Net name:acc start:41:15 end:41:18:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:41:9 end:41:14:
             vpiParent: Net name:acc
-            vpiFullName: work@test.acc
+            vpiFullName: test.acc
             vpiActual: LogicTypespec
           vpiName: acc
-          vpiFullName: work@test.acc
+          vpiFullName: test.acc
           vpiNetType: wire (1)
+          vpiVector: true
       vpiProcess (2 items):
         Initial start:45:4 end:45:21:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt Assignment start:45:12 end:45:20:
             vpiParent: Initial
             vpiLhs HierPath name:n.r start:45:12 end:45:15:
               vpiParent: Assignment
               vpiName: n.r
-              vpiFullName: work@test.n.r
+              vpiFullName: test.n.r
               vpiPathElem (2 items):
                 RefObj name:n start:45:12 end:45:13:
                   vpiParent: HierPath name:n.r
                   vpiName: n
-                  vpiFullName: work@test.n
+                  vpiFullName: test.n
                   vpiActual: RefInstance name:n
                 RefObj name:r start:45:14 end:45:15:
                   vpiParent: HierPath name:n.r
                   vpiName: r
-                  vpiFullName: work@test.r
+                  vpiFullName: test.r
             vpiRhs Constant start:45:19 end:45:20:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
         Initial start:55:4 end:69:9:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt Begin start:56:6 end:69:9:
             vpiParent: Initial
-            vpiFullName: work@test
+            vpiFullName: test
             vpiStmt (5 items):
               DelayControl start:58:2 end:58:16:
                 vpiParent: Begin
                 vpiStmt RefObj name:increment start:58:6 end:58:15:
                   vpiParent: DelayControl
                   vpiName: increment
-                  vpiFullName: work@test.increment
+                  vpiFullName: test.increment
                   vpiActual: Task name:increment
                 vpiDelay Constant start:58:3 end:58:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -673,13 +676,13 @@ Design name:unnamed:
                 vpiStmt RefObj name:increment start:59:6 end:59:15:
                   vpiParent: DelayControl
                   vpiName: increment
-                  vpiFullName: work@test.increment
+                  vpiFullName: test.increment
                   vpiActual: Task name:increment
                 vpiDelay Constant start:59:3 end:59:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -690,13 +693,13 @@ Design name:unnamed:
                 vpiStmt RefObj name:increment start:60:6 end:60:15:
                   vpiParent: DelayControl
                   vpiName: increment
-                  vpiFullName: work@test.increment
+                  vpiFullName: test.increment
                   vpiActual: Task name:increment
                 vpiDelay Constant start:60:3 end:60:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -708,7 +711,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -723,13 +726,13 @@ Design name:unnamed:
                     RefObj name:acc start:65:6 end:65:9:
                       vpiParent: Operation
                       vpiName: acc
-                      vpiFullName: work@test.acc
+                      vpiFullName: test.acc
                       vpiActual: Net name:acc
                     Constant start:65:11 end:65:12:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test
+                        vpiFullName: test
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -745,7 +748,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test
+                        vpiFullName: test
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 48
@@ -761,7 +764,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test
+                        vpiFullName: test
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 48
@@ -769,47 +772,47 @@ Design name:unnamed:
                       vpiValue: FAILED
       vpiRefInstance (1 items):
         RefInstance name:n start:43:9 end:43:10:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: n
-          vpiTypespec RefTypespec name:work@nest start:43:4 end:43:8:
+          vpiTypespec RefTypespec name:nest start:43:4 end:43:8:
             vpiParent: RefInstance name:n
-            vpiName: work@nest
-            vpiFullName: work@test.n.work@nest
-            vpiActual: ModuleTypespec name:work@nest
+            vpiName: nest
+            vpiFullName: test.n.nest
+            vpiActual: ModuleTypespec name:nest
           vpiPort (1 items):
             Port start:43:11 end:43:14:
               vpiParent: RefInstance name:n
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@test.n
+                vpiFullName: test.n
               vpiHighConn RefObj name:acc start:43:11 end:43:14:
                 vpiParent: Port
                 vpiName: acc
-                vpiFullName: work@test.n.acc
+                vpiFullName: test.n.acc
                 vpiActual: Net name:acc
   vpiTypespec (4 items):
-    ModuleTypespec name:work@nest:
+    ModuleTypespec name:nest:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@nest start:24:8 end:24:12:
-        vpiParent: ModuleTypespec name:work@nest
-        vpiName: work@nest
-      vpiModule: Module name:work@nest
+      vpiName Identifier name:nest start:24:8 end:24:12:
+        vpiParent: ModuleTypespec name:nest
+        vpiName: nest
+      vpiModule: Module name:nest
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:39:8 end:39:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:39:8 end:39:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

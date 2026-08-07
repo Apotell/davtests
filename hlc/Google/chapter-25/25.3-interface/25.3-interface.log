@@ -46,7 +46,7 @@ n<$Source01/25.3-interface.sv> u<73> t<Top_level_rule> c<1> l<16:1> el<27:1>
     n<> u<44> t<Description> p<72> c<43> s<71> l<20:1> el<21:10>
       n<> u<43> t<Module_declaration> p<44> c<41> l<20:1> el<21:10>
         n<> u<41> t<Module_ansi_header> p<43> c<30> s<42> l<20:1> el<20:28>
-          n<module> u<30> t<Module_keyword> p<41> s<31> l<20:1> el<20:7>
+          n<module> u<30> t<MODULE> p<41> s<31> l<20:1> el<20:7>
           n<sub> u<31> t<SIMPLE_IDENTIFIER> p<41> s<32> l<20:8> el<20:11>
           n<> u<32> t<Package_import_declaration_list> p<41> s<40> l<20:11> el<20:11>
           n<> u<40> t<Port_declaration_list> p<41> c<39> l<20:11> el<20:27>
@@ -61,7 +61,7 @@ n<$Source01/25.3-interface.sv> u<73> t<Top_level_rule> c<1> l<16:1> el<27:1>
     n<> u<71> t<Description> p<72> c<70> l<23:1> el<26:10>
       n<> u<70> t<Module_declaration> p<71> c<48> l<23:1> el<26:10>
         n<> u<48> t<Module_ansi_header> p<70> c<45> s<58> l<23:1> el<23:12>
-          n<module> u<45> t<Module_keyword> p<48> s<46> l<23:1> el<23:7>
+          n<module> u<45> t<MODULE> p<48> s<46> l<23:1> el<23:7>
           n<top> u<46> t<SIMPLE_IDENTIFIER> p<48> s<47> l<23:8> el<23:11>
           n<> u<47> t<Package_import_declaration_list> p<48> l<23:11> el<23:11>
         n<> u<58> t<Non_port_module_item> p<70> c<57> s<68> l<24:4> el<24:21>
@@ -86,9 +86,10 @@ n<$Source01/25.3-interface.sv> u<73> t<Top_level_rule> c<1> l<16:1> el<27:1>
                     n<iface> u<62> t<SIMPLE_IDENTIFIER> p<63> l<25:14> el<25:19>
         n<> u<69> t<ENDMODULE> p<70> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0304] $Source01/25.3-interface.sv:16:1: Compile interface "work@test_bus".
-[INF:CP0303] $Source01/25.3-interface.sv:20:1: Compile module "work@sub".
-[INF:CP0303] $Source01/25.3-interface.sv:23:1: Compile module "work@top".
+[INF:CP0304] $Source01/25.3-interface.sv:16:1: Compile interface "test_bus".
+[INF:CP0303] $Source01/25.3-interface.sv:20:1: Compile module "sub".
+[WRN:CP0310] $Source01/25.3-interface.sv:20:21: Port "iface" definition missing its direction (input, output, inout).
+[INF:CP0303] $Source01/25.3-interface.sv:23:1: Compile module "top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -98,142 +99,153 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: "25.3-interface.sv"
       vpiPreprocFile: "$Output/lib/work/25.3-interface.sv"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@test_bus file:$Source01/25.3-interface.sv start:16:1 end:18:23:
+    Interface name:test_bus file:$Source01/25.3-interface.sv start:16:1 end:18:23:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test_bus start:16:11 end:16:19:
-        vpiParent: Interface name:work@test_bus
-        vpiName: work@test_bus
-      vpiFullName: work@test_bus
+      vpiName Identifier name:test_bus start:16:11 end:16:19:
+        vpiParent: Interface name:test_bus
+        vpiName: test_bus
+      vpiFullName: test_bus
       vpiVariable (1 items):
         Variable name:test_pad start:17:9 end:17:17:
-          vpiParent: Interface name:work@test_bus
+          vpiParent: Interface name:test_bus
           vpiTypespec RefTypespec start:17:3 end:17:8:
             vpiParent: Variable name:test_pad
-            vpiFullName: work@test_bus.test_pad
+            vpiFullName: test_bus.test_pad
             vpiActual: LogicTypespec
           vpiName: test_pad
-          vpiFullName: work@test_bus.test_pad
+          vpiFullName: test_bus.test_pad
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Interface name:work@test_bus
-      vpiDefNetType: none (12)
+          vpiParent: Interface name:test_bus
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Interface name:work@test_bus
+        vpiParent: Interface name:test_bus
         vpiName: work
-        vpiFullName: work@test_bus.work
+        vpiFullName: test_bus.work
       vpiCell: test_bus
       vpiEndLabel Identifier name:test_bus start:18:15 end:18:23:
-        vpiParent: Interface name:work@test_bus
+        vpiParent: Interface name:test_bus
         vpiName: test_bus
   vpiAllModules (2 items):
-    Module name:work@sub file:$Source01/25.3-interface.sv start:20:1 end:21:10:
+    Module name:sub file:$Source01/25.3-interface.sv start:20:1 end:21:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sub start:20:8 end:20:11:
-        vpiParent: Module name:work@sub
-        vpiName: work@sub
-      vpiFullName: work@sub
-      vpiDefName: work@sub
-      vpiDefNetType: none (12)
+      vpiName Identifier name:sub start:20:8 end:20:11:
+        vpiParent: Module name:sub
+        vpiName: sub
+      vpiFullName: sub
+      vpiTypespec (1 items):
+        InterfaceTypespec name:test_bus start:20:12 end:20:20:
+          vpiParent: Module name:sub
+          vpiName Identifier name:test_bus start:20:12 end:20:20:
+            vpiParent: InterfaceTypespec name:test_bus
+            vpiName: test_bus
+          vpiDefName: test_bus
+          vpiInterface: Interface name:test_bus
+      vpiDefName: sub
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@sub
+        vpiParent: Module name:sub
         vpiName: work
-        vpiFullName: work@sub.work
+        vpiFullName: sub.work
       vpiCell: sub
       vpiNet (1 items):
         Net name:iface start:20:21 end:20:26:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiTypespec RefTypespec name:test_bus start:20:12 end:20:20:
             vpiParent: Net name:iface
             vpiName: test_bus
-            vpiFullName: work@sub.iface.test_bus
-            vpiActual: InterfaceTypespec name:work@test_bus
+            vpiFullName: sub.iface.test_bus
+            vpiActual: InterfaceTypespec name:test_bus
           vpiName: iface
-          vpiFullName: work@sub.iface
+          vpiFullName: sub.iface
           vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:iface start:20:21 end:20:26:
-          vpiParent: Module name:work@sub
+          vpiParent: Module name:sub
           vpiName: iface
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:20:21 end:20:26:
+          vpiLowConn RefObj name:iface start:20:21 end:20:26:
             vpiParent: Port name:iface
-            vpiFullName: work@sub.iface
+            vpiName: iface
+            vpiFullName: sub.iface.iface
             vpiActual: Net name:iface
           vpiTypespec RefTypespec name:test_bus start:20:12 end:20:20:
             vpiParent: Port name:iface
             vpiName: test_bus
-            vpiFullName: work@sub.iface.test_bus
-            vpiActual: InterfaceTypespec name:work@test_bus
-    Module name:work@top file:$Source01/25.3-interface.sv start:23:1 end:26:10:
+            vpiFullName: sub.iface.test_bus
+            vpiActual: InterfaceTypespec name:test_bus
+    Module name:top file:$Source01/25.3-interface.sv start:23:1 end:26:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:23:8 end:23:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:23:8 end:23:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (1 items):
-        ModuleTypespec name:work@sub start:25:4 end:25:7:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@sub start:25:4 end:25:7:
-            vpiParent: ModuleTypespec name:work@sub
-            vpiName: work@sub
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        ModuleTypespec name:sub start:25:4 end:25:7:
+          vpiParent: Module name:top
+          vpiName Identifier name:sub start:25:4 end:25:7:
+            vpiParent: ModuleTypespec name:sub
+            vpiName: sub
+          vpiModule: Module name:sub
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiRefInstance (2 items):
         RefInstance name:iface start:24:13 end:24:18:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: iface
           vpiTypespec RefTypespec name:test_bus start:24:4 end:24:12:
             vpiParent: RefInstance name:iface
             vpiName: test_bus
-            vpiFullName: work@top.iface.test_bus
-            vpiActual: InterfaceTypespec name:work@test_bus
+            vpiFullName: top.iface.test_bus
+            vpiActual: InterfaceTypespec name:test_bus
         RefInstance name:sub start:25:8 end:25:11:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: sub
-          vpiTypespec RefTypespec name:work@sub start:25:4 end:25:7:
+          vpiTypespec RefTypespec name:sub start:25:4 end:25:7:
             vpiParent: RefInstance name:sub
-            vpiName: work@sub
-            vpiFullName: work@top.sub.work@sub
-            vpiActual: ModuleTypespec name:work@sub
+            vpiName: sub
+            vpiFullName: top.sub.sub
+            vpiActual: ModuleTypespec name:sub
           vpiPort (1 items):
             Port start:25:13 end:25:19:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:iface start:25:14 end:25:19:
                 vpiParent: Port
                 vpiName: iface
-                vpiFullName: work@top.sub.iface
+                vpiFullName: top.sub.iface
                 vpiActual: RefInstance name:iface
   vpiTypespec (3 items):
-    InterfaceTypespec name:work@test_bus:
+    InterfaceTypespec name:test_bus:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test_bus start:16:11 end:16:19:
-        vpiParent: InterfaceTypespec name:work@test_bus
-        vpiName: work@test_bus
-      vpiInterface: Interface name:work@test_bus
-    ModuleTypespec name:work@sub:
+      vpiName Identifier name:test_bus start:16:11 end:16:19:
+        vpiParent: InterfaceTypespec name:test_bus
+        vpiName: test_bus
+      vpiDefName: test_bus
+      vpiInterface: Interface name:test_bus
+    ModuleTypespec name:sub:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sub start:20:8 end:20:11:
-        vpiParent: ModuleTypespec name:work@sub
-        vpiName: work@sub
-      vpiModule: Module name:work@sub
-    ModuleTypespec name:work@top:
+      vpiName Identifier name:sub start:20:8 end:20:11:
+        vpiParent: ModuleTypespec name:sub
+        vpiName: sub
+      vpiModule: Module name:sub
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:23:8 end:23:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:23:8 end:23:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -277,7 +289,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-25/25.3-interface/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

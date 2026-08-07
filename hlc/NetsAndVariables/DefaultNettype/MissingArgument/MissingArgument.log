@@ -1,0 +1,108 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/NetsAndVariables/DefaultNettype -d ast -d db MissingArgument.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/MissingArgument
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/MissingArgument.sv".
+[SNT:PP0106] $Source01/MissingArgument.sv:20:16: Syntax error: mismatched input '\n' expecting SPACES,
+`default_nettype
+                ^-- $Source01/MissingArgument.sv:20:16:.
+[INF:PA0201] Parsing source file "$Source01/MissingArgument.sv".
+[SNT:PA0207] $Source01/MissingArgument.sv:22: Syntax error: extraneous input 'module' expecting {'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', SIMPLE_IDENTIFIER},
+module illegal_construct_default_nettype_missing_argument_test(input logic a, input logic b, output logic y);
+^-- $Source01/MissingArgument.sv:22:0:.
+[SNT:PA0207] $Source01/MissingArgument.sv:22:62: Syntax error: mismatched input '(' expecting <EOF>,
+module illegal_construct_default_nettype_missing_argument_test(input logic a, input logic b, output logic y);
+                                                              ^-- $Source01/MissingArgument.sv:22:62:.
+AST_DEBUG_BEGIN
+Count: 11
+LIB: work
+FILE: f<13>:$Source01/MissingArgument.sv
+n<$Source01/MissingArgument.sv> u<10> t<Top_level_rule> c<1> l<20:1> el<26:22>
+  n<> u<1> t<Null_rule> p<10> s<2> l<20:1> el<20:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<10> s<3> l<20:1> el<22:63>
+  n<// Illegal construct: `default_nettype requires exactly one argument;> u<3> t<LINE_COMMENT> p<10> s<4> l<17:1> el<17:70>
+  n<// omitting it entirely is a compile error.> u<4> t<LINE_COMMENT> p<10> s<9> l<18:1> el<18:44>
+  n<> u<9> t<Source_text> p<10> c<8> l<20:1> el<22:63>
+    n<> u<8> t<Description> p<9> c<7> l<20:1> el<22:63>
+      n<> u<7> t<Top_directives> p<8> c<6> l<20:1> el<22:63>
+        n<> u<6> t<Default_nettype_directive> p<7> c<5> l<20:1> el<22:63>
+          n<illegal_construct_default_nettype_missing_argument_test> u<5> t<SIMPLE_IDENTIFIER> p<6> l<22:8> el<22:63>
+AST_DEBUG_END
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:MissingArgument.sv file:$Source01/MissingArgument.sv:
+      vpiParent: Design name:unnamed
+      vpiName: MissingArgument.sv
+      vpiPreprocFile: "$Output/lib/work/MissingArgument.sv"
+      vpiDirective (1 items):
+        GenericDirective start:20:1 end:22:63:
+          vpiParent: SourceFile name:MissingArgument.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:22:8 end:22:63:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: MissingArgument.sv
+              vpiActual: StringTypespec
+            vpiDecompile: illegal_construct_default_nettype_missing_argument_test
+  vpiTypespec (1 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
+===================
+[  FATAL] : 0
+[ SYNTAX] : 3
+[  ERROR] : 0
+[WARNING] : 0
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: NetsAndVariables/DefaultNettype/MissingArgument
+   test-dirpath: ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/MissingArgument
+  hldb-filepath: ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/MissingArgument/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/MissingArgument/mounts.json
+
+
+{'result': {'coverage': 75.58,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/MissingArgument.sv': {'post_len': 42,
+                                                              'pre_len': 172}},
+            'post_len': 42,
+            'pre_len': 172,
+            'test_name': 'NetsAndVariables/DefaultNettype/MissingArgument'}}
+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/MissingArgument.sv |      172 |        42 |
++=====================================+==========+===========+
+|                                     |      172 |        42 |
++-------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 75.58
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/MissingArgument/design.hldb ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/MissingArgument/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                               6       6       0         0
+----------------------------------------------------------------
+                                     6       6       0         0
+===================== END REDUCTION RESULT =====================

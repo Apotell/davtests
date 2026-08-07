@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,15 +21,15 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "arr_a", "arr_b"
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
 //     declared in a single multi-variable Data_declaration that shares the
 //     same packed dimensions [7:0][31:0] but has DIFFERENT unpacked
 //     dimensions per variable
-//   - net "arr_a": 2 unpacked dims [1:5][1:10] -- outer ArrayTypespec
+//   - variable "arr_a": 2 unpacked dims [1:5][1:10] -- outer ArrayTypespec
 //     static(1) range [1:5] whose elem is ANOTHER ArrayTypespec static(1)
 //     range [1:10] whose elem is BitTypespec with 2 packed ranges
 //     [7:0][31:0]
-//   - net "arr_b": 1 unpacked dim [0:255] -- ArrayTypespec static(1) range
+//   - variable "arr_b": 1 unpacked dim [0:255] -- ArrayTypespec static(1) range
 //     [0:255] whose elem is BitTypespec with the SAME 2 packed ranges
 //     [7:0][31:0] as arr_a's element type, but stored as its own distinct
 //     BitTypespec instance (not shared/deduplicated)
@@ -60,7 +60,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/vpi_user.h>
@@ -73,49 +73,49 @@ class MultiDimMultiDeclarationTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(MultiDimMultiDeclarationTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(MultiDimMultiDeclarationTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(MultiDimMultiDeclarationTest, ModuleHasTwoVariables) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(MultiDimMultiDeclarationTest, ModuleHasFourTypespecs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 4u);
 }
 
-TEST_F(MultiDimMultiDeclarationTest, NetArrANameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(MultiDimMultiDeclarationTest, VariableArrANameIsArrA) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
-  EXPECT_EQ(arrA->getFullName(), "work@top.arr_a");
+  EXPECT_EQ(arrA->getName(), "arr_a");
 }
 
-TEST_F(MultiDimMultiDeclarationTest, NetArrBNameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(MultiDimMultiDeclarationTest, VariableArrBNameIsArrB) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrB, nullptr);
-  EXPECT_EQ(arrB->getFullName(), "work@top.arr_b");
+  EXPECT_EQ(arrB->getName(), "arr_b");
 }
 
-// --- net arr_a: [7:0][31:0] arr_a [1:5][1:10] ---------------------------------
+// --- variable arr_a: [7:0][31:0] arr_a [1:5][1:10] ----
 
-TEST_F(MultiDimMultiDeclarationTest, NetArrAOuterDimIsOneToFive) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(MultiDimMultiDeclarationTest, VariableArrAOuterDimIsOneToFive) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   const hldb::ArrayTypespec *const outer = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(outer, nullptr);
@@ -127,10 +127,10 @@ TEST_F(MultiDimMultiDeclarationTest, NetArrAOuterDimIsOneToFive) {
       << "arr_a's outer dim elem should itself be another ArrayTypespec, not the BitTypespec directly";
 }
 
-TEST_F(MultiDimMultiDeclarationTest, NetArrAInnerDimIsOneToTen) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(MultiDimMultiDeclarationTest, VariableArrAInnerDimIsOneToTen) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   const hldb::ArrayTypespec *const outer = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(outer, nullptr);
@@ -142,10 +142,10 @@ TEST_F(MultiDimMultiDeclarationTest, NetArrAInnerDimIsOneToTen) {
   EXPECT_EQ(inner->getRange()->getRightExpr<hldb::Constant>()->getDecompile(), "10");
 }
 
-TEST_F(MultiDimMultiDeclarationTest, NetArrAElemIsBitTypespecWithPackedRanges7And31) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(MultiDimMultiDeclarationTest, VariableArrAElemIsBitTypespecWithPackedRanges7And31) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   const hldb::ArrayTypespec *const outer = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(outer, nullptr);
@@ -161,12 +161,12 @@ TEST_F(MultiDimMultiDeclarationTest, NetArrAElemIsBitTypespecWithPackedRanges7An
   EXPECT_EQ(bt->getRanges()->at(1)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-// --- net arr_b: [7:0][31:0] arr_b [0:255] -------------------------------------
+// --- variable arr_b: [7:0][31:0] arr_b [0:255] ----
 
-TEST_F(MultiDimMultiDeclarationTest, NetArrBDimIsZeroToTwoFiveFive) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(MultiDimMultiDeclarationTest, VariableArrBDimIsZeroToTwoFiveFive) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrB, nullptr);
   const hldb::ArrayTypespec *const at = arrB->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -176,10 +176,10 @@ TEST_F(MultiDimMultiDeclarationTest, NetArrBDimIsZeroToTwoFiveFive) {
   EXPECT_EQ(at->getRange()->getRightExpr<hldb::Constant>()->getDecompile(), "255");
 }
 
-TEST_F(MultiDimMultiDeclarationTest, NetArrBElemIsBitTypespecWithPackedRanges7And31) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(MultiDimMultiDeclarationTest, VariableArrBElemIsBitTypespecWithPackedRanges7And31) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrB, nullptr);
   const hldb::ArrayTypespec *const at = arrB->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -193,13 +193,13 @@ TEST_F(MultiDimMultiDeclarationTest, NetArrBElemIsBitTypespecWithPackedRanges7An
 
 TEST_F(MultiDimMultiDeclarationTest, ArrAAndArrBElemTypespecsAreDistinctInstances) {
   // "Same packed dimensions" (per the source comment) means textually
-  // identical, not the same shared typespec node -- each net's chain ends in
+  // identical, not the same shared typespec node -- each variable's chain ends in
   // its own distinct BitTypespec.
   GTEST_SKIP() << "Need to check the standard on this!";
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   ASSERT_NE(arrB, nullptr);
   const hldb::ArrayTypespec *const outerA = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -212,7 +212,7 @@ TEST_F(MultiDimMultiDeclarationTest, ArrAAndArrBElemTypespecsAreDistinctInstance
   EXPECT_NE(btA, btB);
 }
 
-// --- design-level typespecs / structural completeness ------------------------
+// --- design-level typespecs / structural completeness ----
 
 TEST_F(MultiDimMultiDeclarationTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -223,7 +223,7 @@ TEST_F(MultiDimMultiDeclarationTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(MultiDimMultiDeclarationTest, DesignHasSignedIntTypespec) {
@@ -234,13 +234,13 @@ TEST_F(MultiDimMultiDeclarationTest, DesignHasSignedIntTypespec) {
 }
 
 TEST_F(MultiDimMultiDeclarationTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(MultiDimMultiDeclarationTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

@@ -23,7 +23,7 @@ fsm_t_pkg state2;
 bottom bot();
  
 Environment env;
-Configuration1 cfg;
-Configuration2 cfg;
+Configuration1 cfg1;
+Configuration2 cfg2;
 endmodule
 

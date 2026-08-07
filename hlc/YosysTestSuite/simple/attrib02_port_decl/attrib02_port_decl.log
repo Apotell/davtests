@@ -18,7 +18,7 @@ n<$Source01/attrib02_port_decl.v> u<240> t<Top_level_rule> c<1> l<1:1> el<26:1>
     n<> u<142> t<Description> p<239> c<141> s<238> l<1:1> el<14:10>
       n<> u<141> t<Module_declaration> p<142> c<30> l<1:1> el<14:10>
         n<> u<30> t<Module_nonansi_header> p<141> c<2> s<45> l<1:1> el<1:32>
-          n<module> u<2> t<Module_keyword> p<30> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<30> s<3> l<1:1> el<1:7>
           n<bar> u<3> t<SIMPLE_IDENTIFIER> p<30> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<30> s<29> l<1:11> el<1:11>
           n<> u<29> t<Port_list> p<30> c<10> l<1:11> el<1:31>
@@ -159,7 +159,7 @@ n<$Source01/attrib02_port_decl.v> u<240> t<Top_level_rule> c<1> l<1:1> el<26:1>
     n<> u<238> t<Description> p<239> c<237> l<16:1> el<24:10>
       n<> u<237> t<Module_declaration> p<238> c<171> l<16:1> el<24:10>
         n<> u<171> t<Module_nonansi_header> p<237> c<143> s<182> l<16:1> el<16:32>
-          n<module> u<143> t<Module_keyword> p<171> s<144> l<16:1> el<16:7>
+          n<module> u<143> t<MODULE> p<171> s<144> l<16:1> el<16:7>
           n<foo> u<144> t<SIMPLE_IDENTIFIER> p<171> s<145> l<16:8> el<16:11>
           n<> u<145> t<Package_import_declaration_list> p<171> s<170> l<16:11> el<16:11>
           n<> u<170> t<Port_list> p<171> c<151> l<16:11> el<16:31>
@@ -253,8 +253,8 @@ n<$Source01/attrib02_port_decl.v> u<240> t<Top_level_rule> c<1> l<1:1> el<26:1>
                             n<out> u<225> t<SIMPLE_IDENTIFIER> p<226> l<23:36> el<23:39>
         n<> u<236> t<ENDMODULE> p<237> l<24:1> el<24:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/attrib02_port_decl.v:1:1: Compile module "work@bar".
-[INF:CP0303] $Source01/attrib02_port_decl.v:16:1: Compile module "work@foo".
+[INF:CP0303] $Source01/attrib02_port_decl.v:1:1: Compile module "bar".
+[INF:CP0303] $Source01/attrib02_port_decl.v:16:1: Compile module "foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -264,30 +264,53 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: attrib02_port_decl.v
       vpiPreprocFile: "$Output/lib/work/attrib02_port_decl.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@bar file:$Source01/attrib02_port_decl.v start:1:1 end:14:10:
+    Module name:bar file:$Source01/attrib02_port_decl.v start:1:1 end:14:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@bar start:1:8 end:1:11:
-        vpiParent: Module name:work@bar
-        vpiName: work@bar
-      vpiFullName: work@bar
+      vpiName Identifier name:bar start:1:8 end:1:11:
+        vpiParent: Module name:bar
+        vpiName: bar
+      vpiFullName: bar
+      vpiVariable (1 items):
+        Variable name:out start:8:15 end:8:18:
+          vpiParent: Module name:bar
+          vpiTypespec RefTypespec start:8:10 end:8:13:
+            vpiParent: Variable name:out
+            vpiFullName: bar.out
+            vpiActual: LogicTypespec
+          vpiAttribute (1 items):
+            Attribute name:an_output_register start:7:6 end:7:28:
+              vpiParent: Variable name:out
+              vpiName: an_output_register
+              vpiValue Constant start:7:27 end:7:28:
+                vpiParent: Attribute name:an_output_register
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: bar.out.an_output_register
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+          vpiName: out
+          vpiFullName: bar.out
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@bar
-      vpiDefName: work@bar
-      vpiDefNetType: none (12)
+          vpiParent: Module name:bar
+      vpiDefName: bar
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@bar
+        vpiParent: Module name:bar
         vpiName: work
-        vpiFullName: work@bar.work
+        vpiFullName: bar.work
       vpiCell: bar
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:clk start:3:15 end:3:18:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiTypespec RefTypespec start:3:10 end:3:14:
             vpiParent: Net name:clk
-            vpiFullName: work@bar.clk
+            vpiFullName: bar.clk
             vpiActual: LogicTypespec
           vpiAttribute (1 items):
             Attribute name:this_is_clock start:2:6 end:2:23:
@@ -297,20 +320,21 @@ Design name:unnamed:
                 vpiParent: Attribute name:this_is_clock
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@bar.clk.this_is_clock
+                  vpiFullName: bar.clk.this_is_clock
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
           vpiName: clk
-          vpiFullName: work@bar.clk
+          vpiFullName: bar.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:5:15 end:5:18:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiTypespec RefTypespec start:5:10 end:5:14:
             vpiParent: Net name:rst
-            vpiFullName: work@bar.rst
+            vpiFullName: bar.rst
             vpiActual: LogicTypespec
           vpiAttribute (1 items):
             Attribute name:this_is_reset start:4:6 end:4:23:
@@ -320,103 +344,82 @@ Design name:unnamed:
                 vpiParent: Attribute name:this_is_reset
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@bar.rst.this_is_reset
+                  vpiFullName: bar.rst.this_is_reset
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
           vpiName: rst
-          vpiFullName: work@bar.rst
+          vpiFullName: bar.rst
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:inp start:6:15 end:6:18:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiTypespec RefTypespec start:6:10 end:6:14:
             vpiParent: Net name:inp
-            vpiFullName: work@bar.inp
+            vpiFullName: bar.inp
             vpiActual: LogicTypespec
           vpiName: inp
-          vpiFullName: work@bar.inp
+          vpiFullName: bar.inp
           vpiNetType: wire (1)
-        Net name:out start:8:15 end:8:18:
-          vpiParent: Module name:work@bar
-          vpiTypespec RefTypespec start:8:10 end:8:13:
-            vpiParent: Net name:out
-            vpiFullName: work@bar.out
-            vpiActual: LogicTypespec
-          vpiAttribute (1 items):
-            Attribute name:an_output_register start:7:6 end:7:28:
-              vpiParent: Net name:out
-              vpiName: an_output_register
-              vpiValue Constant start:7:27 end:7:28:
-                vpiParent: Attribute name:an_output_register
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@bar.out.an_output_register
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
-          vpiName: out
-          vpiFullName: work@bar.out
-          vpiNetType: reg (48)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:clk start:1:12 end:1:15:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:1:12 end:1:15:
+          vpiLowConn RefObj name:clk start:3:15 end:3:18:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@bar.clk.clk
+            vpiFullName: bar.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:3:10 end:3:14:
             vpiParent: Port name:clk
-            vpiFullName: work@bar.clk
+            vpiFullName: bar.clk
             vpiActual: LogicTypespec
         Port name:rst start:1:17 end:1:20:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj name:rst start:1:17 end:1:20:
+          vpiLowConn RefObj name:rst start:5:15 end:5:18:
             vpiParent: Port name:rst
             vpiName: rst
-            vpiFullName: work@bar.rst.rst
+            vpiFullName: bar.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:5:10 end:5:14:
             vpiParent: Port name:rst
-            vpiFullName: work@bar.rst
+            vpiFullName: bar.rst
             vpiActual: LogicTypespec
         Port name:inp start:1:22 end:1:25:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiName: inp
           vpiDirection: input (1)
-          vpiLowConn RefObj name:inp start:1:22 end:1:25:
+          vpiLowConn RefObj name:inp start:6:15 end:6:18:
             vpiParent: Port name:inp
             vpiName: inp
-            vpiFullName: work@bar.inp.inp
+            vpiFullName: bar.inp.inp
             vpiActual: Net name:inp
           vpiTypespec RefTypespec start:6:10 end:6:14:
             vpiParent: Port name:inp
-            vpiFullName: work@bar.inp
+            vpiFullName: bar.inp
             vpiActual: LogicTypespec
         Port name:out start:1:27 end:1:30:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:1:27 end:1:30:
+          vpiLowConn RefObj name:out start:8:15 end:8:18:
             vpiParent: Port name:out
             vpiName: out
-            vpiFullName: work@bar.out.out
-            vpiActual: Net name:out
+            vpiFullName: bar.out.out
+            vpiActual: Variable name:out
           vpiTypespec RefTypespec start:8:10 end:8:13:
             vpiParent: Port name:out
-            vpiFullName: work@bar.out
+            vpiFullName: bar.out
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:10:3 end:12:26:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiStmt EventControl start:10:10 end:12:26:
             vpiParent: Always
             vpiCondition Operation start:10:12 end:10:23:
@@ -426,27 +429,27 @@ Design name:unnamed:
                 RefObj name:clk start:10:20 end:10:23:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@bar.clk
+                  vpiFullName: bar.clk
                   vpiActual: Net name:clk
             vpiStmt IfElse start:11:5 end:12:26:
               vpiParent: EventControl
               vpiCondition RefObj name:rst start:11:9 end:11:12:
                 vpiParent: IfElse
                 vpiName: rst
-                vpiFullName: work@bar.rst
+                vpiFullName: bar.rst
                 vpiActual: Net name:rst
               vpiStmt Assignment start:11:14 end:11:25:
                 vpiParent: IfElse
                 vpiLhs RefObj name:out start:11:14 end:11:17:
                   vpiParent: Assignment
                   vpiName: out
-                  vpiFullName: work@bar.out
-                  vpiActual: Net name:out
+                  vpiFullName: bar.out
+                  vpiActual: Variable name:out
                 vpiRhs Constant start:11:21 end:11:25:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@bar
+                    vpiFullName: bar
                     vpiActual: IntTypespec
                   vpiConstType: decimal (1)
                   vpiSize: 1
@@ -457,8 +460,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:out start:12:14 end:12:17:
                   vpiParent: Assignment
                   vpiName: out
-                  vpiFullName: work@bar.out
-                  vpiActual: Net name:out
+                  vpiFullName: bar.out
+                  vpiActual: Variable name:out
                 vpiRhs Operation start:12:21 end:12:25:
                   vpiParent: Assignment
                   vpiOpType: bitwise negation (4)
@@ -466,190 +469,195 @@ Design name:unnamed:
                     RefObj name:inp start:12:22 end:12:25:
                       vpiParent: Operation
                       vpiName: inp
-                      vpiFullName: work@bar.inp
+                      vpiFullName: bar.inp
                       vpiActual: Net name:inp
           vpiAlwaysType: always (1)
-    Module name:work@foo file:$Source01/attrib02_port_decl.v start:16:1 end:24:10:
+    Module name:foo file:$Source01/attrib02_port_decl.v start:16:1 end:24:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo start:16:8 end:16:11:
-        vpiParent: Module name:work@foo
-        vpiName: work@foo
-      vpiFullName: work@foo
+      vpiName Identifier name:foo start:16:8 end:16:11:
+        vpiParent: Module name:foo
+        vpiName: foo
+      vpiFullName: foo
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@foo
-        ModuleTypespec name:work@bar start:23:3 end:23:6:
-          vpiParent: Module name:work@foo
-          vpiName Identifier name:work@bar start:23:3 end:23:6:
-            vpiParent: ModuleTypespec name:work@bar
-            vpiName: work@bar
-      vpiDefName: work@foo
-      vpiDefNetType: none (12)
+          vpiParent: Module name:foo
+        ModuleTypespec name:bar start:23:3 end:23:6:
+          vpiParent: Module name:foo
+          vpiName Identifier name:bar start:23:3 end:23:6:
+            vpiParent: ModuleTypespec name:bar
+            vpiName: bar
+          vpiModule: Module name:bar
+      vpiDefName: foo
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@foo
+        vpiParent: Module name:foo
         vpiName: work
-        vpiFullName: work@foo.work
+        vpiFullName: foo.work
       vpiCell: foo
       vpiNet (4 items):
         Net name:clk start:18:15 end:18:18:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiTypespec RefTypespec start:18:10 end:18:14:
             vpiParent: Net name:clk
-            vpiFullName: work@foo.clk
+            vpiFullName: foo.clk
             vpiActual: LogicTypespec
           vpiAttribute (1 items):
             Attribute name:this_is_the_master_clock start:17:6 end:17:30:
               vpiParent: Net name:clk
               vpiName: this_is_the_master_clock
           vpiName: clk
-          vpiFullName: work@foo.clk
+          vpiFullName: foo.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst start:19:15 end:19:18:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiTypespec RefTypespec start:19:10 end:19:14:
             vpiParent: Net name:rst
-            vpiFullName: work@foo.rst
+            vpiFullName: foo.rst
             vpiActual: LogicTypespec
           vpiName: rst
-          vpiFullName: work@foo.rst
+          vpiFullName: foo.rst
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:inp start:20:15 end:20:18:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiTypespec RefTypespec start:20:10 end:20:14:
             vpiParent: Net name:inp
-            vpiFullName: work@foo.inp
+            vpiFullName: foo.inp
             vpiActual: LogicTypespec
           vpiName: inp
-          vpiFullName: work@foo.inp
+          vpiFullName: foo.inp
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:out start:21:15 end:21:18:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiTypespec RefTypespec start:21:10 end:21:14:
             vpiParent: Net name:out
-            vpiFullName: work@foo.out
+            vpiFullName: foo.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: work@foo.out
+          vpiFullName: foo.out
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:clk start:16:12 end:16:15:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:16:12 end:16:15:
+          vpiLowConn RefObj name:clk start:18:15 end:18:18:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@foo.clk.clk
+            vpiFullName: foo.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:18:10 end:18:14:
             vpiParent: Port name:clk
-            vpiFullName: work@foo.clk
+            vpiFullName: foo.clk
             vpiActual: LogicTypespec
         Port name:rst start:16:17 end:16:20:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj name:rst start:16:17 end:16:20:
+          vpiLowConn RefObj name:rst start:19:15 end:19:18:
             vpiParent: Port name:rst
             vpiName: rst
-            vpiFullName: work@foo.rst.rst
+            vpiFullName: foo.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:19:10 end:19:14:
             vpiParent: Port name:rst
-            vpiFullName: work@foo.rst
+            vpiFullName: foo.rst
             vpiActual: LogicTypespec
         Port name:inp start:16:22 end:16:25:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiName: inp
           vpiDirection: input (1)
-          vpiLowConn RefObj name:inp start:16:22 end:16:25:
+          vpiLowConn RefObj name:inp start:20:15 end:20:18:
             vpiParent: Port name:inp
             vpiName: inp
-            vpiFullName: work@foo.inp.inp
+            vpiFullName: foo.inp.inp
             vpiActual: Net name:inp
           vpiTypespec RefTypespec start:20:10 end:20:14:
             vpiParent: Port name:inp
-            vpiFullName: work@foo.inp
+            vpiFullName: foo.inp
             vpiActual: LogicTypespec
         Port name:out start:16:27 end:16:30:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:16:27 end:16:30:
+          vpiLowConn RefObj name:out start:21:15 end:21:18:
             vpiParent: Port name:out
             vpiName: out
-            vpiFullName: work@foo.out.out
+            vpiFullName: foo.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:21:10 end:21:14:
             vpiParent: Port name:out
-            vpiFullName: work@foo.out
+            vpiFullName: foo.out
             vpiActual: LogicTypespec
       vpiRefInstance (1 items):
         RefInstance name:bar_instance start:23:7 end:23:19:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiName: bar_instance
-          vpiTypespec RefTypespec name:work@bar start:23:3 end:23:6:
+          vpiTypespec RefTypespec name:bar start:23:3 end:23:6:
             vpiParent: RefInstance name:bar_instance
-            vpiName: work@bar
-            vpiFullName: work@foo.bar_instance.work@bar
-            vpiActual: ModuleTypespec name:work@bar
+            vpiName: bar
+            vpiFullName: foo.bar_instance.bar
+            vpiActual: ModuleTypespec name:bar
           vpiPort (4 items):
             Port start:23:21 end:23:24:
               vpiParent: RefInstance name:bar_instance
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@foo.bar_instance
+                vpiFullName: foo.bar_instance
               vpiHighConn RefObj name:clk start:23:21 end:23:24:
                 vpiParent: Port
                 vpiName: clk
-                vpiFullName: work@foo.bar_instance.clk
+                vpiFullName: foo.bar_instance.clk
                 vpiActual: Net name:clk
             Port start:23:26 end:23:29:
               vpiParent: RefInstance name:bar_instance
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@foo.bar_instance
+                vpiFullName: foo.bar_instance
               vpiHighConn RefObj name:rst start:23:26 end:23:29:
                 vpiParent: Port
                 vpiName: rst
-                vpiFullName: work@foo.bar_instance.rst
+                vpiFullName: foo.bar_instance.rst
                 vpiActual: Net name:rst
             Port start:23:31 end:23:34:
               vpiParent: RefInstance name:bar_instance
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@foo.bar_instance
+                vpiFullName: foo.bar_instance
               vpiHighConn RefObj name:inp start:23:31 end:23:34:
                 vpiParent: Port
                 vpiName: inp
-                vpiFullName: work@foo.bar_instance.inp
+                vpiFullName: foo.bar_instance.inp
                 vpiActual: Net name:inp
             Port start:23:36 end:23:39:
               vpiParent: RefInstance name:bar_instance
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: work@foo.bar_instance
+                vpiFullName: foo.bar_instance
               vpiHighConn RefObj name:out start:23:36 end:23:39:
                 vpiParent: Port
                 vpiName: out
-                vpiFullName: work@foo.bar_instance.out
+                vpiFullName: foo.bar_instance.out
                 vpiActual: Net name:out
   vpiTypespec (3 items):
-    ModuleTypespec name:work@bar:
+    ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@bar start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@bar
-        vpiName: work@bar
-      vpiModule: Module name:work@bar
+      vpiName Identifier name:bar start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:bar
+        vpiName: bar
+      vpiModule: Module name:bar
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@foo:
+    ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo start:16:8 end:16:11:
-        vpiParent: ModuleTypespec name:work@foo
-        vpiName: work@foo
-      vpiModule: Module name:work@foo
+      vpiName Identifier name:foo start:16:8 end:16:11:
+        vpiParent: ModuleTypespec name:foo
+        vpiName: foo
+      vpiModule: Module name:foo
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

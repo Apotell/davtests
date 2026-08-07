@@ -26,7 +26,7 @@ n<$Source01/21.3--fscanf.sv> u<118> t<Top_level_rule> c<1> l<16:1> el<30:1>
     n<> u<116> t<Description> p<117> c<115> l<16:1> el<29:10>
       n<> u<115> t<Module_declaration> p<116> c<14> l<16:1> el<29:10>
         n<> u<14> t<Module_nonansi_header> p<115> c<10> s<27> l<16:1> el<16:14>
-          n<module> u<10> t<Module_keyword> p<14> s<11> l<16:1> el<16:7>
+          n<module> u<10> t<MODULE> p<14> s<11> l<16:1> el<16:7>
           n<top> u<11> t<SIMPLE_IDENTIFIER> p<14> s<12> l<16:8> el<16:11>
           n<> u<12> t<Package_import_declaration_list> p<14> s<13> l<16:11> el<16:11>
           n<> u<13> t<Port_list> p<14> l<16:11> el<16:13>
@@ -131,7 +131,7 @@ n<$Source01/21.3--fscanf.sv> u<118> t<Top_level_rule> c<1> l<16:1> el<30:1>
                                   n<fd> u<100> t<SIMPLE_IDENTIFIER> p<101> l<27:10> el<27:12>
         n<> u<114> t<ENDMODULE> p<115> l<29:1> el<29:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/21.3--fscanf.sv:16:1: Compile module "work@top".
+[INF:CP0303] $Source01/21.3--fscanf.sv:16:1: Compile module "top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -141,44 +141,43 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: "21.3--fscanf.sv"
       vpiPreprocFile: "$Output/lib/work/21.3--fscanf.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/21.3--fscanf.sv start:16:1 end:29:10:
+    Module name:top file:$Source01/21.3--fscanf.sv start:16:1 end:29:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:16:8 end:16:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
-        vpiName: work
-        vpiFullName: work@top.work
-      vpiCell: top
-      vpiNet (2 items):
-        Net name:fd start:18:5 end:18:7:
-          vpiParent: Module name:work@top
+      vpiName Identifier name:top start:16:8 end:16:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiVariable (2 items):
+        Variable name:fd start:18:5 end:18:7:
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:18:1 end:18:4:
-            vpiParent: Net name:fd
-            vpiFullName: work@top.fd
+            vpiParent: Variable name:fd
+            vpiFullName: top.fd
             vpiActual: IntTypespec
           vpiName: fd
-          vpiFullName: work@top.fd
-        Net name:c start:19:5 end:19:6:
-          vpiParent: Module name:work@top
+          vpiFullName: top.fd
+        Variable name:c start:19:5 end:19:6:
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:19:1 end:19:4:
-            vpiParent: Net name:c
-            vpiFullName: work@top.c
+            vpiParent: Variable name:c
+            vpiFullName: top.c
             vpiActual: IntTypespec
           vpiName: c
-          vpiFullName: work@top.c
+          vpiFullName: top.c
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:top
+        vpiName: work
+        vpiFullName: top.work
+      vpiCell: top
       vpiProcess (2 items):
         Initial start:21:1 end:24:4:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiStmt Begin start:21:9 end:24:4:
             vpiParent: Initial
-            vpiFullName: work@top
+            vpiFullName: top
             vpiStmt (2 items):
               Assignment start:22:2 end:22:29:
                 vpiParent: Begin
@@ -186,8 +185,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:fd start:22:2 end:22:4:
                   vpiParent: Assignment
                   vpiName: fd
-                  vpiFullName: work@top.fd
-                  vpiActual: Net name:fd
+                  vpiFullName: top.fd
+                  vpiActual: Variable name:fd
                 vpiRhs SysFuncCall name:$fopen start:22:7 end:22:29:
                   vpiParent: Assignment
                   vpiName Identifier name:$fopen start:22:7 end:22:13:
@@ -198,7 +197,7 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$fopen
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top
+                        vpiFullName: top
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 56
@@ -208,7 +207,7 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$fopen
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@top
+                        vpiFullName: top
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 8
@@ -223,13 +222,13 @@ Design name:unnamed:
                   RefObj name:fd start:23:10 end:23:12:
                     vpiParent: SysFuncCall name:$fscanf
                     vpiName: fd
-                    vpiFullName: work@top.fd
-                    vpiActual: Net name:fd
+                    vpiFullName: top.fd
+                    vpiActual: Variable name:fd
                   Constant start:23:14 end:23:18:
                     vpiParent: SysFuncCall name:$fscanf
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 16
@@ -238,10 +237,10 @@ Design name:unnamed:
                   RefObj name:c start:23:20 end:23:21:
                     vpiParent: SysFuncCall name:$fscanf
                     vpiName: c
-                    vpiFullName: work@top.c
-                    vpiActual: Net name:c
+                    vpiFullName: top.c
+                    vpiActual: Variable name:c
         FinalStmt start:26:1 end:27:14:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiStmt SysFuncCall name:$fclose start:27:2 end:27:13:
             vpiParent: FinalStmt
             vpiName Identifier name:$fclose start:27:2 end:27:9:
@@ -251,15 +250,15 @@ Design name:unnamed:
               RefObj name:fd start:27:10 end:27:12:
                 vpiParent: SysFuncCall name:$fclose
                 vpiName: fd
-                vpiFullName: work@top.fd
-                vpiActual: Net name:fd
+                vpiFullName: top.fd
+                vpiActual: Variable name:fd
   vpiTypespec (3 items):
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:16:8 end:16:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:16:8 end:16:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

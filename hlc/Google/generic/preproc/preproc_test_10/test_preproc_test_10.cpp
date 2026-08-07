@@ -20,6 +20,7 @@
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
+#include <hldb/identifier.h>
 #include <hldb/module.h>
 #include <hldb/preproc_macro_definition.h>
 #include <hldb/source_file.h>
@@ -65,6 +66,22 @@ TEST_F(PreprocMultiLineArgListBodyTest, LongMacroHasReplacementText) {
   EXPECT_NE(macro->getArguments(), nullptr) << "LONG_MACRO arg list was not parsed -- getArguments() must not be null";
   EXPECT_FALSE(macro->getArguments()->empty()) << "LONG_MACRO arg list must not be empty";
   EXPECT_NE(macro->getTokens(), nullptr) << "LONG_MACRO replacement text 'text goes here' was not captured";
+}
+
+// LONG_MACRO(a, b, c) has exactly three formal arguments: a, b, c.
+TEST_F(PreprocMultiLineArgListBodyTest, LongMacroFormalArgNames) {
+  ASSERT_NE(m_design->getSourceFiles(), nullptr);
+  const hldb::SourceFile *const sf =
+      hldb::findByName<hldb::SourceFile>("preproc_test_10.sv", m_design->getSourceFiles());
+  ASSERT_NE(sf, nullptr);
+  const hldb::PreprocMacroDefinition *const macro =
+      hldb::findByName<hldb::PreprocMacroDefinition>("LONG_MACRO", sf->getPreprocMacroDefinitions());
+  ASSERT_NE(macro, nullptr);
+  ASSERT_NE(macro->getArguments(), nullptr);
+  ASSERT_EQ(macro->getArguments()->size(), 3u) << "LONG_MACRO must have exactly 3 formal arguments: a, b, c";
+  EXPECT_EQ((*macro->getArguments())[0]->getName(), "a") << "first formal argument must be 'a'";
+  EXPECT_EQ((*macro->getArguments())[1]->getName(), "b") << "second formal argument must be 'b'";
+  EXPECT_EQ((*macro->getArguments())[2]->getName(), "c") << "third formal argument must be 'c'";
 }
 
 }  // namespace hlc

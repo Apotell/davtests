@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,10 +31,14 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> ArrayTypespec static(1) range [7:0], elem
-//     -> BitTypespec -- the SAME (shared) BitTypespec instance for both
-//     nets, unlike the ArrayTypespec instances which are distinct per net
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//     (IEEE 1800-2023 6.7/6.8: 'bit arr_a [7:0]' has no net-type keyword,
+//     so it is a variable_declaration, not a net_declaration); neither
+//     appears in getNets()
+//   - both variables: RefTypespec -> ArrayTypespec static(1) range [7:0],
+//     elem -> BitTypespec -- the SAME (shared) BitTypespec instance for
+//     both variables, unlike the ArrayTypespec instances which are
+//     distinct per variable
 //   - Initial process: 1 Begin with 6 stmts (2 Assignment + 4 SysTaskCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, rhs Operation
 //     (vpiOpType=assign pattern(87)) with 8 unsigned-int Constant operands
@@ -76,13 +80,13 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -93,25 +97,32 @@ class UnpackedEqualityTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(UnpackedEqualityTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedEqualityTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedEqualityTest, ModuleHasTwoVariables) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u)
+      << "6.7/6.8: 'bit arr_a/arr_b [7:0]' declared with no net-type keyword are variables";
 }
 
-TEST_F(UnpackedEqualityTest, NetArrAAndArrBAreArraysOfSharedBitTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedEqualityTest, ModuleHasNoNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
-  const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in equality.sv";
+}
+
+TEST_F(UnpackedEqualityTest, VarArrAAndArrBAreArraysOfSharedBitTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
+  const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrA, nullptr);
   ASSERT_NE(arrB, nullptr);
   const hldb::ArrayTypespec *const atA = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -128,10 +139,10 @@ TEST_F(UnpackedEqualityTest, NetArrAAndArrBAreArraysOfSharedBitTypespec) {
   EXPECT_EQ(elemA, elemB) << "the element BitTypespec should be shared between arr_a and arr_b";
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedEqualityTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -144,7 +155,7 @@ TEST_F(UnpackedEqualityTest, InitialBeginHasSixStmts) {
 }
 
 TEST_F(UnpackedEqualityTest, FirstTwoStmtsAssignPatternLiteralsToArrAAndArrB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -167,7 +178,7 @@ TEST_F(UnpackedEqualityTest, FirstTwoStmtsAssignPatternLiteralsToArrAAndArrB) {
 }
 
 TEST_F(UnpackedEqualityTest, ThirdAndFourthStmtsDisplayEightBitSelectsEach) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -187,7 +198,7 @@ TEST_F(UnpackedEqualityTest, ThirdAndFourthStmtsDisplayEightBitSelectsEach) {
 }
 
 TEST_F(UnpackedEqualityTest, FifthStmtArgIsEqualOperationOnRefObjs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -204,15 +215,15 @@ TEST_F(UnpackedEqualityTest, FifthStmtArgIsEqualOperationOnRefObjs) {
   const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(op->getOperands()->at(0));
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "arr_a");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::RefObj *const rhs = any_cast<hldb::RefObj>(op->getOperands()->at(1));
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "arr_b");
-  EXPECT_NE(rhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(rhs->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(UnpackedEqualityTest, SixthStmtArgIsNotEqualOperationOnRefObjs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -230,7 +241,7 @@ TEST_F(UnpackedEqualityTest, SixthStmtArgIsNotEqualOperationOnRefObjs) {
   EXPECT_EQ(any_cast<hldb::RefObj>(op->getOperands()->at(1))->getName(), "arr_b");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedEqualityTest, DesignHasThreeTypespecs) {
   // NOTE: unlike packed/equality, no extra unsigned IntTypespec is added
@@ -243,7 +254,7 @@ TEST_F(UnpackedEqualityTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedEqualityTest, DesignHasStringTypespec) {
@@ -261,12 +272,12 @@ TEST_F(UnpackedEqualityTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedEqualityTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime comparison results require simulation ---------------
+// --- known gap: runtime comparison results require simulation ----
 
 TEST_F(UnpackedEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates equality.sv; it does not run a simulator, "
@@ -274,7 +285,7 @@ TEST_F(UnpackedEqualityTest, RuntimeComparisonResultsRequireSimulation) {
                   "observed here. equality.sv's own $display format strings document the expected "
                   "values instead.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

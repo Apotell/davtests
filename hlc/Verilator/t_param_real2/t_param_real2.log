@@ -18,7 +18,7 @@ n<$Source01/t_param_real2.v> u<256> t<Top_level_rule> c<1> l<1:1> el<33:1>
     n<> u<24> t<Description> p<255> c<23> s<254> l<1:1> el<5:10>
       n<> u<23> t<Module_declaration> p<24> c<21> l<1:1> el<5:10>
         n<> u<21> t<Module_nonansi_header> p<23> c<2> s<22> l<1:1> el<3:4>
-          n<module> u<2> t<Module_keyword> p<21> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<21> s<3> l<1:1> el<1:7>
           n<foo> u<3> t<SIMPLE_IDENTIFIER> p<21> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<21> s<19> l<2:1> el<2:1>
           n<> u<19> t<Parameter_port_list> p<21> c<18> s<20> l<2:1> el<2:29>
@@ -41,7 +41,7 @@ n<$Source01/t_param_real2.v> u<256> t<Top_level_rule> c<1> l<1:1> el<33:1>
     n<> u<254> t<Description> p<255> c<253> l<7:1> el<32:10>
       n<> u<253> t<Module_declaration> p<254> c<29> l<7:1> el<32:10>
         n<> u<29> t<Module_nonansi_header> p<253> c<25> s<38> l<7:1> el<7:12>
-          n<module> u<25> t<Module_keyword> p<29> s<26> l<7:1> el<7:7>
+          n<module> u<25> t<MODULE> p<29> s<26> l<7:1> el<7:7>
           n<t> u<26> t<SIMPLE_IDENTIFIER> p<29> s<27> l<7:8> el<7:9>
           n<> u<27> t<Package_import_declaration_list> p<29> s<28> l<7:9> el<7:9>
           n<> u<28> t<Port_list> p<29> l<7:9> el<7:11>
@@ -269,15 +269,14 @@ n<$Source01/t_param_real2.v> u<256> t<Top_level_rule> c<1> l<1:1> el<33:1>
                           n<> u<242> t<END> p<243> l<30:4> el<30:7>
         n<> u<252> t<ENDMODULE> p<253> l<32:1> el<32:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_param_real2.v:1:1: Compile module "work@foo".
-[INF:CP0303] $Source01/t_param_real2.v:7:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_param_real2.v:1:1: Compile module "foo".
+[INF:CP0303] $Source01/t_param_real2.v:7:1: Compile module "t".
 [INF:CP0335] $Source01/t_param_real2.v:11:44: Compile generate block "gen_m".
 [INF:CP0335] $Source01/t_param_real2.v:12:43: Compile generate block "gen_r".
-[ERR:EL0535] $Source01/t_param_real2.v:15:31: Illegal implicit net "id:77, name:foo_inst".
-[ERR:EL0535] $Source01/t_param_real2.v:15:40: Illegal implicit net "id:78, name:bar".
-[ERR:EL0535] $Source01/t_param_real2.v:17:37: Illegal implicit net "id:86, name:foo_inst".
-[ERR:EL0535] $Source01/t_param_real2.v:17:46: Illegal implicit net "id:87, name:bar".
-[ERR:EL0535] $Source01/t_param_real2.v:22:20: Illegal implicit net "id:95, name:bar".
+[WRN:CP0350] $Source01/t_param_real2.v:15:31: Failed to bind "id:77, name:foo_inst".
+[WRN:CP0350] $Source01/t_param_real2.v:15:40: Failed to bind "id:78, name:bar".
+[WRN:CP0350] $Source01/t_param_real2.v:17:37: Failed to bind "id:86, name:foo_inst".
+[WRN:CP0350] $Source01/t_param_real2.v:17:46: Failed to bind "id:87, name:bar".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -287,82 +286,81 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_real2.v
       vpiPreprocFile: "$Output/lib/work/t_param_real2.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@foo file:$Source01/t_param_real2.v start:1:1 end:5:10:
+    Module name:foo file:$Source01/t_param_real2.v start:1:1 end:5:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo start:1:8 end:1:11:
-        vpiParent: Module name:work@foo
-        vpiName: work@foo
-      vpiFullName: work@foo
+      vpiName Identifier name:foo start:1:8 end:1:11:
+        vpiParent: Module name:foo
+        vpiName: foo
+      vpiFullName: foo
       vpiParameter (1 items):
         Parameter name:bar start:2:19 end:2:22:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiTypespec RefTypespec start:2:14 end:2:18:
             vpiParent: Parameter name:bar
-            vpiFullName: work@foo.bar
+            vpiFullName: foo.bar
             vpiActual: RealTypespec
           vpiName: bar
-          vpiFullName: work@foo.bar
+          vpiFullName: foo.bar
       vpiParamAssign (1 items):
         ParamAssign start:2:19 end:2:28:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiLhs RefObj name:bar start:2:19 end:2:22:
             vpiParent: ParamAssign
             vpiName: bar
-            vpiFullName: work@foo.bar
+            vpiFullName: foo.bar
             vpiActual: Parameter name:bar
           vpiRhs Constant start:2:25 end:2:28:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@foo
+              vpiFullName: foo
               vpiActual: RealTypespec
             vpiConstType: real (2)
             vpiSize: 64
             vpiDecompile: "2.0"
             vpiValue: 2
-      vpiDefName: work@foo
-      vpiDefNetType: none (12)
+      vpiDefName: foo
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@foo
+        vpiParent: Module name:foo
         vpiName: work
-        vpiFullName: work@foo.work
+        vpiFullName: foo.work
       vpiCell: foo
-    Module name:work@t file:$Source01/t_param_real2.v start:7:1 end:32:10:
+    Module name:t file:$Source01/t_param_real2.v start:7:1 end:32:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:7:8 end:7:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
-        vpiName: work
-        vpiFullName: work@t.work
-      vpiCell: t
-      vpiNet (2 items):
-        Net name:m start:9:11 end:9:12:
-          vpiParent: Module name:work@t
+      vpiName Identifier name:t start:7:8 end:7:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:m start:9:11 end:9:12:
+          vpiParent: Module name:t
           vpiTypespec RefTypespec:
-            vpiParent: Net name:m
-            vpiFullName: work@t.m
+            vpiParent: Variable name:m
+            vpiFullName: t.m
           vpiName: m
-          vpiFullName: work@t.m
-        Net name:r start:9:14 end:9:15:
-          vpiParent: Module name:work@t
+          vpiFullName: t.m
+        Variable name:r start:9:14 end:9:15:
+          vpiParent: Module name:t
           vpiTypespec RefTypespec:
-            vpiParent: Net name:r
-            vpiFullName: work@t.r
+            vpiParent: Variable name:r
+            vpiFullName: t.r
           vpiName: r
-          vpiFullName: work@t.r
+          vpiFullName: t.r
+      vpiDefName: t
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:t
+        vpiName: work
+        vpiFullName: t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:27:4 end:30:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:27:12 end:30:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
             vpiStmt (2 items):
               SysTaskCall name:$write start:28:7 end:28:39:
                 vpiParent: Begin
@@ -374,7 +372,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 168
@@ -387,16 +385,16 @@ Design name:unnamed:
                   vpiName: "$finish"
       vpiGenStmt (1 items):
         GenRegion start:10:4 end:25:15:
-          vpiParent: Module name:work@t
-          vpiFullName: work@t
+          vpiParent: Module name:t
+          vpiFullName: t
           vpiStmt GenFor start:11:7 end:24:10:
             vpiParent: GenRegion
-            vpiFullName: work@t
+            vpiFullName: t
             vpiVariable (1 items):
               Variable name:m start:11:12 end:11:13:
                 vpiParent: GenFor
                 vpiName: m
-                vpiFullName: work@t.m
+                vpiFullName: t.m
             vpiForInitStmt (1 items):
               Assignment start:11:12 end:11:18:
                 vpiParent: GenFor
@@ -405,7 +403,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -418,7 +416,7 @@ Design name:unnamed:
                 vpiLhs RefObj name:m start:11:29 end:11:30:
                   vpiParent: Assignment
                   vpiName: m
-                  vpiFullName: work@t.m
+                  vpiFullName: t.m
                   vpiActual: Variable name:m
                 vpiRhs Operation start:11:29 end:11:34:
                   vpiParent: Assignment
@@ -427,13 +425,13 @@ Design name:unnamed:
                     RefObj name:m start:11:29 end:11:30:
                       vpiParent: Operation
                       vpiName: m
-                      vpiFullName: work@t.m
+                      vpiFullName: t.m
                       vpiActual: Variable name:m
                     Constant start:11:32 end:11:34:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -446,13 +444,13 @@ Design name:unnamed:
                 RefObj name:m start:11:20 end:11:21:
                   vpiParent: Operation
                   vpiName: m
-                  vpiFullName: work@t.m
+                  vpiFullName: t.m
                   vpiActual: Variable name:m
                 Constant start:11:25 end:11:27:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -463,16 +461,16 @@ Design name:unnamed:
               vpiName Identifier name:gen_m start:11:44 end:11:49:
                 vpiParent: Begin name:gen_m
                 vpiName: gen_m
-              vpiFullName: work@t.gen_m
+              vpiFullName: t.gen_m
               vpiStmt (1 items):
                 GenFor start:12:10 end:23:13:
                   vpiParent: Begin name:gen_m
-                  vpiFullName: work@t.gen_m
+                  vpiFullName: t.gen_m
                   vpiVariable (1 items):
                     Variable name:r start:12:15 end:12:16:
                       vpiParent: GenFor
                       vpiName: r
-                      vpiFullName: work@t.gen_m.r
+                      vpiFullName: t.gen_m.r
                   vpiForInitStmt (1 items):
                     Assignment start:12:15 end:12:20:
                       vpiParent: GenFor
@@ -481,7 +479,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t.gen_m
+                          vpiFullName: t.gen_m
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -495,7 +493,7 @@ Design name:unnamed:
                         RefObj name:r start:12:30 end:12:31:
                           vpiParent: Operation
                           vpiName: r
-                          vpiFullName: work@t.gen_m.r
+                          vpiFullName: t.gen_m.r
                           vpiActual: Variable name:r
                   vpiCondition Operation start:12:22 end:12:28:
                     vpiParent: GenFor
@@ -504,13 +502,13 @@ Design name:unnamed:
                       RefObj name:r start:12:22 end:12:23:
                         vpiParent: Operation
                         vpiName: r
-                        vpiFullName: work@t.gen_m.r
+                        vpiFullName: t.gen_m.r
                         vpiActual: Variable name:r
                       Constant start:12:27 end:12:28:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t.gen_m
+                          vpiFullName: t.gen_m
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -521,16 +519,16 @@ Design name:unnamed:
                     vpiName Identifier name:gen_r start:12:43 end:12:48:
                       vpiParent: Begin name:gen_r
                       vpiName: gen_r
-                    vpiFullName: work@t.gen_m.gen_r
+                    vpiFullName: t.gen_m.gen_r
                     vpiParameter (1 items):
                       Parameter name:lparam start:13:29 end:13:35:
                         vpiParent: Begin name:gen_r
                         vpiTypespec RefTypespec start:13:24 end:13:28:
                           vpiParent: Parameter name:lparam
-                          vpiFullName: work@t.gen_m.gen_r.lparam
+                          vpiFullName: t.gen_m.gen_r.lparam
                           vpiActual: RealTypespec
                         vpiName: lparam
-                        vpiFullName: work@t.gen_m.gen_r.lparam
+                        vpiFullName: t.gen_m.gen_r.lparam
                         vpiLocalParam: true
                     vpiParamAssign (1 items):
                       ParamAssign start:13:29 end:13:51:
@@ -538,7 +536,7 @@ Design name:unnamed:
                         vpiLhs RefObj name:lparam start:13:29 end:13:35:
                           vpiParent: ParamAssign
                           vpiName: lparam
-                          vpiFullName: work@t.gen_m.gen_r.lparam
+                          vpiFullName: t.gen_m.gen_r.lparam
                           vpiActual: Parameter name:lparam
                         vpiRhs Operation start:13:38 end:13:51:
                           vpiParent: ParamAssign
@@ -547,7 +545,7 @@ Design name:unnamed:
                             RefObj name:m start:13:38 end:13:39:
                               vpiParent: Operation
                               vpiName: m
-                              vpiFullName: work@t.gen_m.gen_r.m
+                              vpiFullName: t.gen_m.gen_r.m
                               vpiActual: Variable name:m
                             Operation start:13:43 end:13:50:
                               vpiParent: Operation
@@ -556,24 +554,25 @@ Design name:unnamed:
                                 RefObj name:r start:13:43 end:13:44:
                                   vpiParent: Operation
                                   vpiName: r
-                                  vpiFullName: work@t.gen_m.gen_r.r
+                                  vpiFullName: t.gen_m.gen_r.r
                                   vpiActual: Variable name:r
                                 Constant start:13:47 end:13:50:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: work@t.gen_m.gen_r
+                                    vpiFullName: t.gen_m.gen_r
                                     vpiActual: RealTypespec
                                   vpiConstType: real (2)
                                   vpiSize: 64
                                   vpiDecompile: "0.5"
                                   vpiValue: 0.5
                     vpiTypespec (1 items):
-                      ModuleTypespec name:work@foo start:22:13 end:22:16:
+                      ModuleTypespec name:foo start:22:13 end:22:16:
                         vpiParent: Begin name:gen_r
-                        vpiName Identifier name:work@foo start:22:13 end:22:16:
-                          vpiParent: ModuleTypespec name:work@foo
-                          vpiName: work@foo
+                        vpiName Identifier name:foo start:22:13 end:22:16:
+                          vpiParent: ModuleTypespec name:foo
+                          vpiName: foo
+                        vpiModule: Module name:foo
                     vpiStmt (4 items):
                       Parameter name:lparam:
                       ParamAssign:
@@ -581,7 +580,7 @@ Design name:unnamed:
                         vpiParent: Begin name:gen_r
                         vpiStmt Begin start:14:21 end:20:16:
                           vpiParent: Initial
-                          vpiFullName: work@t.gen_m.gen_r
+                          vpiFullName: t.gen_m.gen_r
                           vpiStmt (1 items):
                             IfStmt start:15:17 end:19:20:
                               vpiParent: Begin
@@ -592,24 +591,24 @@ Design name:unnamed:
                                   RefObj name:lparam start:15:21 end:15:27:
                                     vpiParent: Operation
                                     vpiName: lparam
-                                    vpiFullName: work@t.gen_m.gen_r.lparam
+                                    vpiFullName: t.gen_m.gen_r.lparam
                                     vpiActual: Parameter name:lparam
                                   HierPath name:foo_inst.bar start:15:31 end:15:43:
                                     vpiParent: Operation
                                     vpiName: foo_inst.bar
-                                    vpiFullName: work@t.gen_m.gen_r.foo_inst.bar
+                                    vpiFullName: t.gen_m.gen_r.foo_inst.bar
                                     vpiPathElem (2 items):
                                       RefObj name:foo_inst start:15:31 end:15:39:
                                         vpiParent: HierPath name:foo_inst.bar
                                         vpiName: foo_inst
-                                        vpiFullName: work@t.gen_m.gen_r.foo_inst
+                                        vpiFullName: t.gen_m.gen_r.foo_inst
                                       RefObj name:bar start:15:40 end:15:43:
                                         vpiParent: HierPath name:foo_inst.bar
                                         vpiName: bar
-                                        vpiFullName: work@t.gen_m.gen_r.bar
+                                        vpiFullName: t.gen_m.gen_r.bar
                               vpiStmt Begin start:15:45 end:19:20:
                                 vpiParent: IfStmt
-                                vpiFullName: work@t.gen_m.gen_r
+                                vpiFullName: t.gen_m.gen_r
                                 vpiStmt (2 items):
                                   SysTaskCall name:$display start:16:20 end:17:50:
                                     vpiParent: Begin
@@ -621,7 +620,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$display
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t.gen_m.gen_r
+                                          vpiFullName: t.gen_m.gen_r
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 280
@@ -630,21 +629,21 @@ Design name:unnamed:
                                       RefObj name:lparam start:17:29 end:17:35:
                                         vpiParent: SysTaskCall name:$display
                                         vpiName: lparam
-                                        vpiFullName: work@t.gen_m.gen_r.lparam
+                                        vpiFullName: t.gen_m.gen_r.lparam
                                         vpiActual: Parameter name:lparam
                                       HierPath name:foo_inst.bar start:17:37 end:17:49:
                                         vpiParent: SysTaskCall name:$display
                                         vpiName: foo_inst.bar
-                                        vpiFullName: work@t.gen_m.gen_r.foo_inst.bar
+                                        vpiFullName: t.gen_m.gen_r.foo_inst.bar
                                         vpiPathElem (2 items):
                                           RefObj name:foo_inst start:17:37 end:17:45:
                                             vpiParent: HierPath name:foo_inst.bar
                                             vpiName: foo_inst
-                                            vpiFullName: work@t.gen_m.gen_r.foo_inst
+                                            vpiFullName: t.gen_m.gen_r.foo_inst
                                           RefObj name:bar start:17:46 end:17:49:
                                             vpiParent: HierPath name:foo_inst.bar
                                             vpiName: bar
-                                            vpiFullName: work@t.gen_m.gen_r.bar
+                                            vpiFullName: t.gen_m.gen_r.bar
                                   SysTaskCall name:$stop start:18:20 end:18:27:
                                     vpiParent: Begin
                                     vpiName Identifier name:$stop start:18:20 end:18:25:
@@ -653,39 +652,40 @@ Design name:unnamed:
                       RefInstance name:foo_inst start:22:34 end:22:42:
                         vpiParent: Begin name:gen_r
                         vpiName: foo_inst
-                        vpiTypespec RefTypespec name:work@foo start:22:13 end:22:16:
+                        vpiTypespec RefTypespec name:foo start:22:13 end:22:16:
                           vpiParent: RefInstance name:foo_inst
-                          vpiName: work@foo
-                          vpiFullName: work@t.gen_m.gen_r.foo_inst.work@foo
-                          vpiActual: ModuleTypespec name:work@foo
+                          vpiName: foo
+                          vpiFullName: t.gen_m.gen_r.foo_inst.foo
+                          vpiActual: ModuleTypespec name:foo
                         vpiParamAssign (1 items):
                           ParamAssign start:22:19 end:22:32:
                             vpiParent: RefInstance name:foo_inst
                             vpiConnByName: true
+                            vpiOverridden: true
                             vpiLhs RefObj name:bar start:22:20 end:22:23:
                               vpiParent: ParamAssign
                               vpiName: bar
-                              vpiFullName: work@t.gen_m.gen_r.foo_inst.bar
+                              vpiFullName: t.gen_m.gen_r.foo_inst.bar
                             vpiRhs RefObj name:lparam start:22:25 end:22:31:
                               vpiParent: ParamAssign
                               vpiName: lparam
-                              vpiFullName: work@t.gen_m.gen_r.foo_inst.lparam
+                              vpiFullName: t.gen_m.gen_r.foo_inst.lparam
                               vpiActual: Parameter name:lparam
   vpiTypespec (5 items):
-    ModuleTypespec name:work@foo:
+    ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@foo
-        vpiName: work@foo
-      vpiModule: Module name:work@foo
+      vpiName Identifier name:foo start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:foo
+        vpiName: foo
+      vpiModule: Module name:foo
     RealTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:7:8 end:7:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:7:8 end:7:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -694,8 +694,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

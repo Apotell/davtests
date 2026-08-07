@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,18 +27,22 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "s"
-//   - net "s": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2), elem
-//     -> StringTypespec; initial value stored directly on the Net as an
-//     Operation (vpiOpType=concatenation(33)) with 3 string Constant
-//     operands "hello", "sad", "world"
+//   - design has module top with exactly 1 variable: "s" (IEEE 1800-2023
+//     6.7/6.8: 'string s[] = {...}' has no net-type keyword, so it is a
+//     variable_declaration, not a net_declaration); it does not appear in
+//     getNets()
+//   - variable "s": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2),
+//     elem -> StringTypespec; initial value stored directly on the
+//     Variable as an Operation (vpiOpType=concatenation(33)) with 3 string
+//     Constant operands "hello", "sad", "world"
 //   - Initial process: 1 Begin with 3 stmts (SysFuncCall + HierPath +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 4 args (format + BitSelect s[0], s[1], s[2])
 //   - Stmt[1]: s.reverse (no parens) -- HierPath "s.reverse()" with 2 path
-//     elems: RefObj "s" (resolving Net "s") and MethodFuncCall "reverse"
-//     with no arguments -- COMPILER BEHAVIOR: unlike the parenthesis-less
-//     ".size"/".index" gap documented elsewhere in this repo, "reverse"
+//     elems: RefObj "s" (resolving Variable "s") and MethodFuncCall
+//     "reverse" with no arguments -- COMPILER BEHAVIOR: unlike the
+//     parenthesis-less ".size"/".index" gap documented elsewhere in this
+//     repo, "reverse"
 //     (no parens, no arguments) correctly resolves to a MethodFuncCall
 //     with zero errors
 //   - Stmt[2]: $display with 4 args (format + BitSelect s[0], s[1], s[2],
@@ -72,12 +76,12 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,35 +92,42 @@ class UnpackedReverseTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / net --------------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(UnpackedReverseTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedReverseTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedReverseTest, ModuleHasOneVariable) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u)
+      << "6.7/6.8: 'string s[] = {...}' declared with no net-type keyword is a variable";
 }
 
-TEST_F(UnpackedReverseTest, NetSIsDynamicArrayOfString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedReverseTest, ModuleHasNoNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in reverse.sv";
+}
+
+TEST_F(UnpackedReverseTest, VarSIsDynamicArrayOfString) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
   const hldb::ArrayTypespec *const at = s->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 2);  // dynamic = 2
+  EXPECT_EQ(at->getArrayType(), vpiDynamicArray);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(UnpackedReverseTest, NetSInitialValueIsConcatenationOfThreeStrings) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedReverseTest, VarSInitialValueIsConcatenationOfThreeStrings) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
+  const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
   const hldb::Operation *const init = s->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
@@ -129,10 +140,10 @@ TEST_F(UnpackedReverseTest, NetSInitialValueIsConcatenationOfThreeStrings) {
   }
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedReverseTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -145,7 +156,7 @@ TEST_F(UnpackedReverseTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(UnpackedReverseTest, FirstStmtDisplaysHelloSadWorld) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -165,7 +176,7 @@ TEST_F(UnpackedReverseTest, FirstStmtDisplaysHelloSadWorld) {
 }
 
 TEST_F(UnpackedReverseTest, SecondStmtIsReverseHierPathWithNoErrorDespiteNoParens) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -175,7 +186,7 @@ TEST_F(UnpackedReverseTest, SecondStmtIsReverseHierPathWithNoErrorDespiteNoParen
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(sRef, nullptr);
-  EXPECT_NE(sRef->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(sRef->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr) << "'reverse' without parens should still resolve to a MethodFuncCall";
   EXPECT_EQ(call->getName(), "reverse");
@@ -183,7 +194,7 @@ TEST_F(UnpackedReverseTest, SecondStmtIsReverseHierPathWithNoErrorDespiteNoParen
 }
 
 TEST_F(UnpackedReverseTest, ThirdStmtDisplaysWorldSadHello) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -194,7 +205,7 @@ TEST_F(UnpackedReverseTest, ThirdStmtDisplaysWorldSadHello) {
   EXPECT_EQ(fmt->getValue(), ":assert: (('%s' == 'world') and ('%s' == 'sad') and ('%s' == 'hello'))");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedReverseTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -205,7 +216,7 @@ TEST_F(UnpackedReverseTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedReverseTest, DesignHasStringTypespecBeforeIntTypespec) {
@@ -227,19 +238,19 @@ TEST_F(UnpackedReverseTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedReverseTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime reverse result requires simulation -------------------
+// --- known gap: runtime reverse result requires simulation ----
 
 TEST_F(UnpackedReverseTest, RuntimeReverseResultRequiresSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates reverse.sv; it does not run a simulator, "
                   "so the actual runtime contents of s after s.reverse cannot be observed here. "
                   "reverse.sv's own $display format string documents the expected values.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

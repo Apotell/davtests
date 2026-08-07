@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<222> t<Top_level_rule> c<1> l<1:1> el<19:1>
     n<> u<219> t<Description> p<220> c<218> l<1:1> el<18:10>
       n<> u<218> t<Module_declaration> p<219> c<53> l<1:1> el<18:10>
         n<> u<53> t<Module_ansi_header> p<218> c<2> s<75> l<1:1> el<6:3>
-          n<module> u<2> t<Module_keyword> p<53> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<53> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<53> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<53> s<19> l<1:12> el<1:12>
           n<> u<19> t<Parameter_port_list> p<53> c<18> s<52> l<1:12> el<3:2>
@@ -498,9 +498,9 @@ n<$Source01/dut.sv> u<222> t<Top_level_rule> c<1> l<1:1> el<19:1>
         n<> u<217> t<ENDMODULE> p<218> l<18:1> el<18:10>
   n<// top> u<221> t<LINE_COMMENT> p<222> l<18:11> el<18:17>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -509,7 +509,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2076,6 +2075,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2087,6 +2087,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2118,6 +2119,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2132,6 +2134,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2153,6 +2156,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2176,6 +2180,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2195,6 +2200,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2218,6 +2224,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2237,6 +2244,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2306,16 +2314,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2328,6 +2339,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2339,6 +2351,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2346,6 +2359,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2353,6 +2367,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2360,6 +2375,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2373,6 +2389,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2384,6 +2401,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2415,6 +2433,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2441,6 +2460,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2467,6 +2487,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2492,44 +2513,62 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/dut.sv start:1:1 end:18:10:
+    Module name:top file:$Source01/dut.sv start:1:1 end:18:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
-      vpiVariable (1 items):
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiVariable (3 items):
         Variable name:out start:5:37 end:5:40:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:5 end:5:36:
             vpiParent: Variable name:out
-            vpiFullName: work@top.out
+            vpiFullName: top.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: work@top.out
-          vpiNetType: none (12)
+          vpiFullName: top.out
+          vpiVector: true
+        Variable name:counter start:8:18 end:8:25:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:8:5 end:8:17:
+            vpiParent: Variable name:counter
+            vpiFullName: top.counter
+            vpiActual: LogicTypespec
+          vpiName: counter
+          vpiFullName: top.counter
+          vpiVector: true
+        Variable name:counter_upd start:9:30 end:9:41:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:9:5 end:9:29:
+            vpiParent: Variable name:counter_upd
+            vpiFullName: top.counter_upd
+            vpiActual: LogicTypespec
+          vpiName: counter_upd
+          vpiFullName: top.counter_upd
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:CounterWidth start:2:19 end:2:31:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:2:15 end:2:18:
             vpiParent: Parameter name:CounterWidth
-            vpiFullName: work@top.CounterWidth
+            vpiFullName: top.CounterWidth
             vpiActual: IntTypespec
           vpiName: CounterWidth
-          vpiFullName: work@top.CounterWidth
+          vpiFullName: top.CounterWidth
       vpiParamAssign (1 items):
         ParamAssign start:2:19 end:2:36:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:CounterWidth start:2:19 end:2:31:
             vpiParent: ParamAssign
             vpiName: CounterWidth
-            vpiFullName: work@top.CounterWidth
+            vpiFullName: top.CounterWidth
             vpiActual: Parameter name:CounterWidth
           vpiRhs Constant start:2:34 end:2:36:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@top
+              vpiFullName: top
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -2537,9 +2576,9 @@ Design name:unnamed:
             vpiValue: 32
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:5:18 end:5:36:
               vpiParent: LogicTypespec
@@ -2550,13 +2589,13 @@ Design name:unnamed:
                   RefObj name:CounterWidth start:5:19 end:5:31:
                     vpiParent: Operation
                     vpiName: CounterWidth
-                    vpiFullName: work@top.CounterWidth
+                    vpiFullName: top.CounterWidth
                     vpiActual: Parameter name:CounterWidth
                   Constant start:5:32 end:5:33:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2566,7 +2605,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2574,7 +2613,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:8:11 end:8:17:
               vpiParent: LogicTypespec
@@ -2582,7 +2621,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2592,7 +2631,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2600,7 +2639,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:9:11 end:9:29:
               vpiParent: LogicTypespec
@@ -2611,13 +2650,13 @@ Design name:unnamed:
                   RefObj name:CounterWidth start:9:12 end:9:24:
                     vpiParent: Operation
                     vpiName: CounterWidth
-                    vpiFullName: work@top.CounterWidth
+                    vpiFullName: top.CounterWidth
                     vpiActual: Parameter name:CounterWidth
                   Constant start:9:25 end:9:26:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2627,94 +2666,81 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clk start:4:17 end:4:20:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:5 end:4:16:
             vpiParent: Net name:clk
-            vpiFullName: work@top.clk
+            vpiFullName: top.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@top.clk
+          vpiFullName: top.clk
           vpiNetType: wire (1)
-        Net name:counter start:8:18 end:8:25:
-          vpiParent: Module name:work@top
-          vpiTypespec RefTypespec start:8:5 end:8:17:
-            vpiParent: Net name:counter
-            vpiFullName: work@top.counter
-            vpiActual: LogicTypespec
-          vpiName: counter
-          vpiFullName: work@top.counter
-        Net name:counter_upd start:9:30 end:9:41:
-          vpiParent: Module name:work@top
-          vpiTypespec RefTypespec start:9:5 end:9:29:
-            vpiParent: Net name:counter_upd
-            vpiFullName: work@top.counter_upd
-            vpiActual: LogicTypespec
-          vpiName: counter_upd
-          vpiFullName: work@top.counter_upd
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:4:17 end:4:20:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:17 end:4:20:
+          vpiLowConn RefObj name:clk start:4:17 end:4:20:
             vpiParent: Port name:clk
-            vpiFullName: work@top.clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:4:5 end:4:16:
             vpiParent: Port name:clk
-            vpiFullName: work@top.clk
+            vpiFullName: top.clk
             vpiActual: LogicTypespec
         Port name:out start:5:37 end:5:40:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:37 end:5:40:
+          vpiLowConn RefObj name:out start:5:37 end:5:40:
             vpiParent: Port name:out
-            vpiFullName: work@top.out
+            vpiName: out
+            vpiFullName: top.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:5:5 end:5:36:
             vpiParent: Port name:out
-            vpiFullName: work@top.out
+            vpiFullName: top.out
             vpiActual: LogicTypespec
       vpiProcess (2 items):
         Initial start:11:5 end:12:21:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiStmt Assignment start:12:9 end:12:20:
             vpiParent: Initial
             vpiBlocking: true
             vpiLhs RefObj name:counter start:12:9 end:12:16:
               vpiParent: Assignment
               vpiName: counter
-              vpiFullName: work@top.counter
-              vpiActual: Net name:counter
+              vpiFullName: top.counter
+              vpiActual: Variable name:counter
             vpiRhs Constant start:12:19 end:12:20:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@top
+                vpiFullName: top
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
         Always start:13:5 end:15:8:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiStmt EventControl start:13:12 end:15:8:
             vpiParent: Always
             vpiCondition Operation start:13:14 end:13:25:
@@ -2724,11 +2750,11 @@ Design name:unnamed:
                 RefObj name:clk start:13:22 end:13:25:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@top.clk
+                  vpiFullName: top.clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:13:27 end:15:8:
               vpiParent: EventControl
-              vpiFullName: work@top
+              vpiFullName: top
               vpiTypespec (1 items):
                 BitTypespec:
                   vpiParent: Begin
@@ -2739,8 +2765,8 @@ Design name:unnamed:
                   vpiLhs RefObj name:counter_upd start:14:9 end:14:20:
                     vpiParent: Assignment
                     vpiName: counter_upd
-                    vpiFullName: work@top.counter_upd
-                    vpiActual: Net name:counter_upd
+                    vpiFullName: top.counter_upd
+                    vpiActual: Variable name:counter_upd
                   vpiRhs Operation start:14:23 end:14:80:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -2748,12 +2774,12 @@ Design name:unnamed:
                       PartSelect name:counter[CounterWidth-1:0] start:14:23 end:14:48:
                         vpiParent: Operation
                         vpiName: counter[CounterWidth-1:0]
-                        vpiFullName: work@top.counter[CounterWidth-1:0]
+                        vpiFullName: top.counter[CounterWidth-1:0]
                         vpiPrefix RefObj name:counter start:14:23 end:14:30:
                           vpiParent: PartSelect name:counter[CounterWidth-1:0]
                           vpiName: counter
-                          vpiFullName: work@top.counter[CounterWidth-1:0].counter
-                          vpiActual: Net name:counter
+                          vpiFullName: top.counter[CounterWidth-1:0].counter
+                          vpiActual: Variable name:counter
                         vpiRange Range start:14:31 end:14:47:
                           vpiParent: PartSelect name:counter[CounterWidth-1:0]
                           vpiLeftRange Operation start:14:31 end:14:45:
@@ -2763,13 +2789,13 @@ Design name:unnamed:
                               RefObj name:CounterWidth start:14:31 end:14:43:
                                 vpiParent: Operation
                                 vpiName: CounterWidth
-                                vpiFullName: work@top.counter[CounterWidth-1:0].CounterWidth
+                                vpiFullName: top.counter[CounterWidth-1:0].CounterWidth
                                 vpiActual: Parameter name:CounterWidth
                               Constant start:14:44 end:14:45:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@top.counter[CounterWidth-1:0]
+                                  vpiFullName: top.counter[CounterWidth-1:0]
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -2779,7 +2805,7 @@ Design name:unnamed:
                             vpiParent: Range
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.counter[CounterWidth-1:0]
+                              vpiFullName: top.counter[CounterWidth-1:0]
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -2800,13 +2826,13 @@ Design name:unnamed:
                                   RefObj name:CounterWidth start:14:53 end:14:65:
                                     vpiParent: Operation
                                     vpiName: CounterWidth
-                                    vpiFullName: work@top.CounterWidth
+                                    vpiFullName: top.CounterWidth
                                     vpiActual: Parameter name:CounterWidth
                                   Constant start:14:66 end:14:67:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@top
+                                      vpiFullName: top
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -2820,7 +2846,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@top
+                                      vpiFullName: top
                                       vpiActual: BitTypespec
                                     vpiConstType: binary (3)
                                     vpiSize: 1
@@ -2830,7 +2856,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top
+                              vpiFullName: top
                               vpiActual: BitTypespec
                             vpiConstType: binary (3)
                             vpiSize: 1
@@ -2839,17 +2865,17 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:16:12 end:16:29:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiLhs RefObj name:out start:16:12 end:16:15:
             vpiParent: ContAssign
             vpiName: out
-            vpiFullName: work@top.out
+            vpiFullName: top.out
             vpiActual: Variable name:out
           vpiRhs RefObj name:counter_upd start:16:18 end:16:29:
             vpiParent: ContAssign
             vpiName: counter_upd
-            vpiFullName: work@top.counter_upd
-            vpiActual: Net name:counter_upd
+            vpiFullName: top.counter_upd
+            vpiActual: Variable name:counter_upd
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2865,25 +2891,28 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

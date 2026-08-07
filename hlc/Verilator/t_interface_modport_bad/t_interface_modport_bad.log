@@ -50,7 +50,7 @@ n<$Source01/t_interface_modport_bad.v> u<114> t<Top_level_rule> c<1> l<6:1> el<2
     n<> u<78> t<Description> p<113> c<77> s<112> l<11:1> el<18:10>
       n<> u<77> t<Module_declaration> p<78> c<39> l<11:1> el<18:10>
         n<> u<39> t<Module_nonansi_header> p<77> c<34> s<50> l<11:1> el<11:24>
-          n<module> u<34> t<Module_keyword> p<39> s<35> l<11:1> el<11:7>
+          n<module> u<34> t<MODULE> p<39> s<35> l<11:1> el<11:7>
           n<t> u<35> t<SIMPLE_IDENTIFIER> p<39> s<36> l<11:8> el<11:9>
           n<> u<36> t<Package_import_declaration_list> p<39> s<37> l<11:10> el<11:10>
           n</*AUTOARG*/> u<37> t<BLOCK_COMMENT> p<39> s<38> l<11:10> el<11:23>
@@ -95,7 +95,7 @@ n<$Source01/t_interface_modport_bad.v> u<114> t<Top_level_rule> c<1> l<6:1> el<2
     n<> u<112> t<Description> p<113> c<111> l<20:1> el<25:10>
       n<> u<111> t<Module_declaration> p<112> c<109> l<20:1> el<25:10>
         n<> u<109> t<Module_ansi_header> p<111> c<79> s<110> l<20:1> el<24:6>
-          n<module> u<79> t<Module_keyword> p<109> s<80> l<20:1> el<20:7>
+          n<module> u<79> t<MODULE> p<109> s<80> l<20:1> el<20:7>
           n<counter_ansi> u<80> t<SIMPLE_IDENTIFIER> p<109> s<81> l<20:8> el<20:20>
           n<> u<81> t<Package_import_declaration_list> p<109> s<108> l<21:3> el<21:3>
           n<> u<108> t<Port_declaration_list> p<109> c<88> l<21:3> el<24:5>
@@ -127,12 +127,10 @@ n<$Source01/t_interface_modport_bad.v> u<114> t<Top_level_rule> c<1> l<6:1> el<2
               n<i_value> u<106> t<SIMPLE_IDENTIFIER> p<107> l<23:22> el<23:29>
         n<> u<110> t<ENDMODULE> p<111> l<25:1> el<25:10>
 AST_DEBUG_END
-[INF:CP0304] $Source01/t_interface_modport_bad.v:6:1: Compile interface "work@ifc".
-[INF:CP0303] $Source01/t_interface_modport_bad.v:11:1: Compile module "work@t".
-[INF:CP0303] $Source01/t_interface_modport_bad.v:20:1: Compile module "work@counter_ansi".
-[ERR:EL0535] $Source01/t_interface_modport_bad.v:15:22: Illegal implicit net "id:29, name:isub".
-[ERR:EL0535] $Source01/t_interface_modport_bad.v:16:22: Illegal implicit net "id:34, name:i_value".
-[ERR:EL0535] $Source01/t_interface_modport_bad.v:22:8: Illegal implicit net "id:43, name:oop_modport".
+[INF:CP0304] $Source01/t_interface_modport_bad.v:6:1: Compile interface "ifc".
+[INF:CP0303] $Source01/t_interface_modport_bad.v:11:1: Compile module "t".
+[INF:CP0303] $Source01/t_interface_modport_bad.v:20:1: Compile module "counter_ansi".
+[WRN:CP0310] $Source01/t_interface_modport_bad.v:22:20: Port "isub" definition missing its direction (input, output, inout).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -142,36 +140,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_modport_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_modport_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@ifc file:$Source01/t_interface_modport_bad.v start:6:1 end:9:13:
+    Interface name:ifc file:$Source01/t_interface_modport_bad.v start:6:1 end:9:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ifc start:6:11 end:6:14:
-        vpiParent: Interface name:work@ifc
-        vpiName: work@ifc
-      vpiFullName: work@ifc
+      vpiName Identifier name:ifc start:6:11 end:6:14:
+        vpiParent: Interface name:ifc
+        vpiName: ifc
+      vpiFullName: ifc
       vpiVariable (1 items):
         Variable name:ok start:7:12 end:7:14:
-          vpiParent: Interface name:work@ifc
+          vpiParent: Interface name:ifc
           vpiTypespec RefTypespec start:7:4 end:7:11:
             vpiParent: Variable name:ok
-            vpiFullName: work@ifc.ok
+            vpiFullName: ifc.ok
             vpiActual: IntegerTypespec
           vpiName: ok
-          vpiFullName: work@ifc.ok
+          vpiFullName: ifc.ok
       vpiTypespec (1 items):
         IntegerTypespec:
-          vpiParent: Interface name:work@ifc
+          vpiParent: Interface name:ifc
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Interface name:work@ifc
+        vpiParent: Interface name:ifc
         vpiName: work
-        vpiFullName: work@ifc.work
+        vpiFullName: ifc.work
       vpiCell: ifc
       vpiModport (1 items):
         Modport name:out_modport start:8:12 end:8:23:
-          vpiParent: Interface name:work@ifc
+          vpiParent: Interface name:ifc
           vpiName Identifier name:out_modport:
             vpiParent: Modport name:out_modport
             vpiName: out_modport
@@ -182,102 +179,103 @@ Design name:unnamed:
               vpiDirection: output (2)
               vpiTypespec RefTypespec:
                 vpiParent: IODecl name:ok
-                vpiFullName: work@ifc.out_modport.ok
-          vpiInterface: Interface name:work@ifc
+                vpiFullName: ifc.out_modport.ok
+          vpiInterface: Interface name:ifc
   vpiAllModules (2 items):
-    Module name:work@t file:$Source01/t_interface_modport_bad.v start:11:1 end:18:10:
+    Module name:t file:$Source01/t_interface_modport_bad.v start:11:1 end:18:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:11:8 end:11:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:11:8 end:11:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
       vpiTypespec (1 items):
-        ModuleTypespec name:work@counter_ansi start:15:4 end:15:16:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@counter_ansi start:15:4 end:15:16:
-            vpiParent: ModuleTypespec name:work@counter_ansi
-            vpiName: work@counter_ansi
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+        ModuleTypespec name:counter_ansi start:15:4 end:15:16:
+          vpiParent: Module name:t
+          vpiName Identifier name:counter_ansi start:15:4 end:15:16:
+            vpiParent: ModuleTypespec name:counter_ansi
+            vpiName: counter_ansi
+          vpiModule: Module name:counter_ansi
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
       vpiRefInstance (2 items):
         RefInstance name:itop start:13:8 end:13:12:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: itop
           vpiTypespec RefTypespec name:ifc start:13:4 end:13:7:
             vpiParent: RefInstance name:itop
             vpiName: ifc
-            vpiFullName: work@t.itop.ifc
-            vpiActual: InterfaceTypespec name:work@ifc
+            vpiFullName: t.itop.ifc
+            vpiActual: InterfaceTypespec name:ifc
         RefInstance name:c1 start:15:17 end:15:19:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: c1
-          vpiTypespec RefTypespec name:work@counter_ansi start:15:4 end:15:16:
+          vpiTypespec RefTypespec name:counter_ansi start:15:4 end:15:16:
             vpiParent: RefInstance name:c1
-            vpiName: work@counter_ansi
-            vpiFullName: work@t.c1.work@counter_ansi
-            vpiActual: ModuleTypespec name:work@counter_ansi
+            vpiName: counter_ansi
+            vpiFullName: t.c1.counter_ansi
+            vpiActual: ModuleTypespec name:counter_ansi
           vpiPort (2 items):
             Port start:15:21 end:15:32:
               vpiParent: RefInstance name:c1
               vpiLowConn RefObj name:isub start:15:22 end:15:26:
                 vpiParent: Port
                 vpiName: isub
-                vpiFullName: work@t.c1.isub
+                vpiFullName: t.c1.isub
               vpiHighConn RefObj name:itop start:15:27 end:15:31:
                 vpiParent: Port
                 vpiName: itop
-                vpiFullName: work@t.c1.itop
+                vpiFullName: t.c1.itop
                 vpiActual: RefInstance name:itop
             Port start:16:21 end:16:35:
               vpiParent: RefInstance name:c1
               vpiLowConn RefObj name:i_value start:16:22 end:16:29:
                 vpiParent: Port
                 vpiName: i_value
-                vpiFullName: work@t.c1.i_value
+                vpiFullName: t.c1.i_value
               vpiHighConn Constant start:16:30 end:16:34:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.c1
+                  vpiFullName: t.c1
                   vpiActual: IntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 4
                 vpiDecompile: "4'h4"
                 vpiValue: "4"
-    Module name:work@counter_ansi file:$Source01/t_interface_modport_bad.v start:20:1 end:25:10:
+    Module name:counter_ansi file:$Source01/t_interface_modport_bad.v start:20:1 end:25:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@counter_ansi start:20:8 end:20:20:
-        vpiParent: Module name:work@counter_ansi
-        vpiName: work@counter_ansi
-      vpiFullName: work@counter_ansi
+      vpiName Identifier name:counter_ansi start:20:8 end:20:20:
+        vpiParent: Module name:counter_ansi
+        vpiName: counter_ansi
+      vpiFullName: counter_ansi
       vpiTypespec (3 items):
         UnsupportedTypespec name:ifc::oop_modport start:22:4 end:22:19:
-          vpiParent: Module name:work@counter_ansi
+          vpiParent: Module name:counter_ansi
           vpiPathElem (2 items):
             RefObj name:ifc start:22:4 end:22:7:
               vpiParent: UnsupportedTypespec name:ifc::oop_modport
               vpiName: ifc
-              vpiFullName: work@counter_ansi.ifc::oop_modport.ifc
-              vpiActual: Interface name:work@ifc
+              vpiFullName: counter_ansi.ifc::oop_modport.ifc
+              vpiActual: Interface name:ifc
             RefObj name:oop_modport start:22:8 end:22:19:
               vpiParent: UnsupportedTypespec name:ifc::oop_modport
               vpiName: oop_modport
-              vpiFullName: work@counter_ansi.ifc::oop_modport.oop_modport
+              vpiFullName: counter_ansi.ifc::oop_modport.oop_modport
           vpiName Identifier name:ifc::oop_modport:
             vpiParent: UnsupportedTypespec name:ifc::oop_modport
             vpiName: ifc::oop_modport
-        UnsupportedTypespec name:logic start:23:10 end:23:21:
-          vpiParent: Module name:work@counter_ansi
+        UnsupportedTypespec name:logic start:23:10 end:23:15:
+          vpiParent: Module name:counter_ansi
           vpiName Identifier name:logic start:23:10 end:23:15:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
-          vpiParent: Module name:work@counter_ansi
+          vpiParent: Module name:counter_ansi
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:23:16 end:23:21:
@@ -286,7 +284,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@counter_ansi
+                vpiFullName: counter_ansi
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -296,7 +294,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@counter_ansi
+                vpiFullName: counter_ansi
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -305,90 +303,84 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:logic:
             vpiParent: ArrayTypespec
             vpiName: logic
-            vpiFullName: work@counter_ansi.logic
+            vpiFullName: counter_ansi.logic
             vpiActual: UnsupportedTypespec name:logic
-      vpiDefName: work@counter_ansi
-      vpiDefNetType: none (12)
+      vpiDefName: counter_ansi
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@counter_ansi
+        vpiParent: Module name:counter_ansi
         vpiName: work
-        vpiFullName: work@counter_ansi.work
+        vpiFullName: counter_ansi.work
       vpiCell: counter_ansi
-      vpiNet (2 items):
-        Net name:isub start:22:20 end:22:24:
-          vpiParent: Module name:work@counter_ansi
-          vpiTypespec RefTypespec start:22:4 end:22:19:
-            vpiParent: Net name:isub
-            vpiFullName: work@counter_ansi.isub
-            vpiActual: UnsupportedTypespec name:ifc::oop_modport
-          vpiName: isub
-          vpiFullName: work@counter_ansi.isub
-          vpiNetType: wire (1)
+      vpiNet (1 items):
         Net name:i_value start:23:22 end:23:29:
-          vpiParent: Module name:work@counter_ansi
+          vpiParent: Module name:counter_ansi
           vpiTypespec RefTypespec name:logic start:23:10 end:23:15:
             vpiParent: Net name:i_value
             vpiName: logic
-            vpiFullName: work@counter_ansi.i_value.logic
+            vpiFullName: counter_ansi.i_value.logic
             vpiActual: ArrayTypespec
           vpiName: i_value
-          vpiFullName: work@counter_ansi.i_value
+          vpiFullName: counter_ansi.i_value
           vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:isub start:22:20 end:22:24:
-          vpiParent: Module name:work@counter_ansi
+          vpiParent: Module name:counter_ansi
           vpiName: isub
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:22:20 end:22:24:
+          vpiLowConn RefObj name:isub start:22:20 end:22:24:
             vpiParent: Port name:isub
-            vpiFullName: work@counter_ansi.isub
-            vpiActual: Net name:isub
+            vpiName: isub
+            vpiFullName: counter_ansi.isub.isub
+            vpiActual: Port name:isub
           vpiTypespec RefTypespec start:22:4 end:22:19:
             vpiParent: Port name:isub
-            vpiFullName: work@counter_ansi.isub
+            vpiFullName: counter_ansi.isub
             vpiActual: UnsupportedTypespec name:ifc::oop_modport
         Port name:i_value start:23:22 end:23:29:
-          vpiParent: Module name:work@counter_ansi
+          vpiParent: Module name:counter_ansi
           vpiName: i_value
           vpiDirection: input (1)
-          vpiLowConn RefObj start:23:22 end:23:29:
+          vpiLowConn RefObj name:i_value start:23:22 end:23:29:
             vpiParent: Port name:i_value
-            vpiFullName: work@counter_ansi.i_value
+            vpiName: i_value
+            vpiFullName: counter_ansi.i_value.i_value
             vpiActual: Net name:i_value
           vpiTypespec RefTypespec name:logic start:23:10 end:23:15:
             vpiParent: Port name:i_value
             vpiName: logic
-            vpiFullName: work@counter_ansi.i_value.logic
+            vpiFullName: counter_ansi.i_value.logic
             vpiActual: ArrayTypespec
   vpiTypespec (5 items):
-    InterfaceTypespec name:work@ifc:
+    InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ifc start:6:11 end:6:14:
-        vpiParent: InterfaceTypespec name:work@ifc
-        vpiName: work@ifc
-      vpiInterface: Interface name:work@ifc
-    ModuleTypespec name:work@t:
+      vpiName Identifier name:ifc start:6:11 end:6:14:
+        vpiParent: InterfaceTypespec name:ifc
+        vpiName: ifc
+      vpiDefName: ifc
+      vpiInterface: Interface name:ifc
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:11:8 end:11:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:11:8 end:11:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@counter_ansi:
+    ModuleTypespec name:counter_ansi:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@counter_ansi start:20:8 end:20:20:
-        vpiParent: ModuleTypespec name:work@counter_ansi
-        vpiName: work@counter_ansi
-      vpiModule: Module name:work@counter_ansi
+      vpiName Identifier name:counter_ansi start:20:8 end:20:20:
+        vpiParent: ModuleTypespec name:counter_ansi
+        vpiName: counter_ansi
+      vpiModule: Module name:counter_ansi
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -432,7 +424,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_bad/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    60      60       0         0
 ===================== END REDUCTION RESULT =====================

@@ -33,7 +33,7 @@ n<$Source01/t_var_ref_bad1.v> u<69> t<Top_level_rule> c<1> l<9:1> el<18:10>
     n<> u<41> t<Description> p<68> c<40> s<43> l<9:1> el<15:10>
       n<> u<40> t<Module_declaration> p<41> c<13> l<9:1> el<15:10>
         n<> u<13> t<Module_nonansi_header> p<40> c<8> s<20> l<9:1> el<9:23>
-          n<module> u<8> t<Module_keyword> p<13> s<9> l<9:1> el<9:7>
+          n<module> u<8> t<MODULE> p<13> s<9> l<9:1> el<9:7>
           n<t> u<9> t<SIMPLE_IDENTIFIER> p<13> s<10> l<9:8> el<9:9>
           n<> u<10> t<Package_import_declaration_list> p<13> s<11> l<9:9> el<9:9>
           n</*AUTOARG*/> u<11> t<BLOCK_COMMENT> p<13> s<12> l<9:9> el<9:22>
@@ -91,8 +91,7 @@ n<$Source01/t_var_ref_bad1.v> u<69> t<Top_level_rule> c<1> l<9:1> el<18:10>
                 n<> u<61> t<Variable_decl_assignment> p<62> c<60> l<17:21> el<17:32>
                   n<bad_sub_ref> u<60> t<SIMPLE_IDENTIFIER> p<61> l<17:21> el<17:32>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_var_ref_bad1.v:9:1: Compile module "work@t".
-[ERR:EL0535] $Source01/t_var_ref_bad1.v:13:8: Illegal implicit net "id:16, name:bad_sub_ref".
+[INF:CP0303] $Source01/t_var_ref_bad1.v:9:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -102,76 +101,76 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_var_ref_bad1.v
       vpiPreprocFile: "$Output/lib/work/t_var_ref_bad1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:$Source01/t_var_ref_bad1.v start:9:1 end:15:10:
+    Module name:t file:$Source01/t_var_ref_bad1.v start:9:1 end:15:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:9:8 end:9:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:9:8 end:9:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:bad_parent start:11:8 end:11:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:bit start:11:4 end:11:7:
+            vpiParent: Variable name:bad_parent
+            vpiName: bit
+            vpiFullName: t.bad_parent.bit
+            vpiActual: UnsupportedTypespec name:bit
+          vpiName: bad_parent
+          vpiFullName: t.bad_parent
       vpiTypespec (2 items):
         UnsupportedTypespec name:bit start:11:4 end:11:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName Identifier name:bit start:11:4 end:11:7:
             vpiParent: UnsupportedTypespec name:bit
             vpiName: bit
-        ModuleTypespec name:work@sub start:12:4 end:12:7:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@sub start:12:4 end:12:7:
-            vpiParent: ModuleTypespec name:work@sub
-            vpiName: work@sub
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+        ModuleTypespec name:sub start:12:4 end:12:7:
+          vpiParent: Module name:t
+          vpiName Identifier name:sub start:12:4 end:12:7:
+            vpiParent: ModuleTypespec name:sub
+            vpiName: sub
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:bad_parent start:11:8 end:11:18:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec name:bit start:11:4 end:11:7:
-            vpiParent: Net name:bad_parent
-            vpiName: bit
-            vpiFullName: work@t.bad_parent.bit
-            vpiActual: UnsupportedTypespec name:bit
-          vpiName: bad_parent
-          vpiFullName: work@t.bad_parent
       vpiRefInstance (1 items):
         RefInstance name:sub start:12:8 end:12:11:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: sub
-          vpiTypespec RefTypespec name:work@sub start:12:4 end:12:7:
+          vpiTypespec RefTypespec name:sub start:12:4 end:12:7:
             vpiParent: RefInstance name:sub
-            vpiName: work@sub
-            vpiFullName: work@t.sub.work@sub
-            vpiActual: ModuleTypespec name:work@sub
+            vpiName: sub
+            vpiFullName: t.sub.sub
+            vpiActual: ModuleTypespec name:sub
           vpiPort (1 items):
             Port start:13:7 end:13:31:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:bad_sub_ref start:13:8 end:13:19:
                 vpiParent: Port
                 vpiName: bad_sub_ref
-                vpiFullName: work@t.sub.bad_sub_ref
+                vpiFullName: t.sub.bad_sub_ref
+                vpiActual: Variable name:bad_sub_ref
               vpiHighConn RefObj name:bad_parent start:13:20 end:13:30:
                 vpiParent: Port
                 vpiName: bad_parent
-                vpiFullName: work@t.sub.bad_parent
-                vpiActual: Net name:bad_parent
+                vpiFullName: t.sub.bad_parent
+                vpiActual: Variable name:bad_parent
     Module file:$Source01/t_var_ref_bad1.v start:17:1 end:17:1:
       vpiParent: Design name:unnamed
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
     Module file:$Source01/t_var_ref_bad1.v start:17:1 end:17:7:
       vpiParent: Design name:unnamed
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
   vpiTypespec (4 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:9:8 end:9:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:9:8 end:9:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     ModuleTypespec:
       vpiParent: Design name:unnamed
       vpiModule: Module
@@ -180,10 +179,19 @@ Design name:unnamed:
       vpiModule: Module
     RealTypespec:
       vpiParent: Design name:unnamed
+  vpiVariable (1 items):
+    Variable name:bad_sub_ref start:17:21 end:17:32:
+      vpiParent: Design name:unnamed
+      vpiTypespec RefTypespec start:17:16 end:17:20:
+        vpiParent: Variable name:bad_sub_ref
+        vpiFullName: bad_sub_ref
+        vpiActual: RealTypespec
+      vpiName: bad_sub_ref
+      vpiFullName: bad_sub_ref
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -199,25 +207,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_var_ref_bad1/mounts.json
 
 
-{'result': {'coverage': 87.7,
+{'result': {'coverage': 97.54,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_var_ref_bad1.v': {'post_len': 15,
+            'files': {'$Output/lib/work/t_var_ref_bad1.v': {'post_len': 3,
                                                             'pre_len': 122}},
-            'post_len': 15,
+            'post_len': 3,
             'pre_len': 122,
             'test_name': 'Verilator/t_var_ref_bad1'}}
 
 +-----------------------------------+----------+-----------+
 | INPUT                             |   PRELEN |   POSTLEN |
 +===================================+==========+===========+
-| $Output/lib/work/t_var_ref_bad1.v |      122 |        15 |
+| $Output/lib/work/t_var_ref_bad1.v |      122 |         3 |
 +===================================+==========+===========+
-|                                   |      122 |        15 |
+|                                   |      122 |         3 |
 +-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 87.7
+[COVERAGE] : 97.54
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -228,7 +236,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_ref_bad1/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              25      25       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    25      25       0         0
 ===================== END REDUCTION RESULT =====================

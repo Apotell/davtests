@@ -22,7 +22,7 @@ n<$Source01/t_var_bad_sv.v> u<42> t<Top_level_rule> c<1> l<6:1> el<10:1>
     n<> u<40> t<Description> p<41> c<39> l<6:1> el<9:10>
       n<> u<39> t<Module_declaration> p<40> c<9> l<6:1> el<9:10>
         n<> u<9> t<Module_ansi_header> p<39> c<6> s<21> l<6:1> el<6:10>
-          n<module> u<6> t<Module_keyword> p<9> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<9> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<9> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<9> l<6:9> el<6:9>
         n<> u<21> t<Non_port_module_item> p<39> c<20> s<37> l<7:4> el<7:11>
@@ -55,8 +55,7 @@ n<$Source01/t_var_bad_sv.v> u<42> t<Top_level_rule> c<1> l<6:1> el<10:1>
                     n<> u<31> t<CLOSE_PARENS> p<32> l<8:20> el<8:21>
         n<> u<38> t<ENDMODULE> p<39> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_var_bad_sv.v:6:1: Compile module "work@t".
-[ERR:EL0535] $Source01/t_var_bad_sv.v:8:17: Illegal implicit net "id:11, name:bar".
+[INF:CP0303] $Source01/t_var_bad_sv.v:6:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -66,70 +65,70 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_var_bad_sv.v
       vpiPreprocFile: "$Output/lib/work/t_var_bad_sv.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_var_bad_sv.v start:6:1 end:9:10:
+    Module name:t file:$Source01/t_var_bad_sv.v start:6:1 end:9:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
-      vpiTypespec (2 items):
-        LogicTypespec:
-          vpiParent: Module name:work@t
-        UnsupportedTypespec name:work@mod start:8:4 end:8:7:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@mod start:8:4 end:8:7:
-            vpiParent: UnsupportedTypespec name:work@mod
-            vpiName: work@mod
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
-        vpiName: work
-        vpiFullName: work@t.work
-      vpiCell: t
-      vpiNet (1 items):
-        Net name:do start:7:8 end:7:10:
-          vpiParent: Module name:work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:do start:7:8 end:7:10:
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:7:4 end:7:7:
-            vpiParent: Net name:do
-            vpiFullName: work@t.do
+            vpiParent: Variable name:do
+            vpiFullName: t.do
             vpiActual: LogicTypespec
           vpiName: do
-          vpiFullName: work@t.do
+          vpiFullName: t.do
+          vpiScalar: true
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:t
+        UnsupportedTypespec name:mod start:8:4 end:8:7:
+          vpiParent: Module name:t
+          vpiName Identifier name:mod start:8:4 end:8:7:
+            vpiParent: UnsupportedTypespec name:mod
+            vpiName: mod
+      vpiDefName: t
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:t
+        vpiName: work
+        vpiFullName: t.work
+      vpiCell: t
       vpiRefInstance (1 items):
         RefInstance name:mod start:8:8 end:8:11:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: mod
-          vpiTypespec RefTypespec name:work@mod start:8:4 end:8:7:
+          vpiTypespec RefTypespec name:mod start:8:4 end:8:7:
             vpiParent: RefInstance name:mod
-            vpiName: work@mod
-            vpiFullName: work@t.mod.work@mod
-            vpiActual: UnsupportedTypespec name:work@mod
+            vpiName: mod
+            vpiFullName: t.mod.mod
+            vpiActual: UnsupportedTypespec name:mod
           vpiPort (1 items):
             Port start:8:13 end:8:21:
               vpiParent: RefInstance name:mod
               vpiLowConn RefObj name:do start:8:14 end:8:16:
                 vpiParent: Port
                 vpiName: do
-                vpiFullName: work@t.mod.do
-                vpiActual: Net name:do
+                vpiFullName: t.mod.do
+                vpiActual: Variable name:do
               vpiHighConn RefObj name:bar start:8:17 end:8:20:
                 vpiParent: Port
                 vpiName: bar
-                vpiFullName: work@t.mod.bar
+                vpiFullName: t.mod.bar
   vpiTypespec (1 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:6:8 end:6:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

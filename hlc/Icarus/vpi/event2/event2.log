@@ -18,7 +18,7 @@ n<$Source01/event2.v> u<59> t<Top_level_rule> c<1> l<1:1> el<10:1>
     n<> u<57> t<Description> p<58> c<56> l<1:1> el<9:10>
       n<> u<56> t<Module_declaration> p<57> c<5> l<1:1> el<9:10>
         n<> u<5> t<Module_ansi_header> p<56> c<2> s<17> l<1:1> el<1:13>
-          n<module> u<2> t<Module_keyword> p<5> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<5> s<3> l<1:1> el<1:7>
           n<test> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<1:8> el<1:12>
           n<> u<4> t<Package_import_declaration_list> p<5> l<1:12> el<1:12>
         n<> u<17> t<Non_port_module_item> p<56> c<16> s<54> l<2:5> el<2:13>
@@ -29,7 +29,7 @@ n<$Source01/event2.v> u<59> t<Top_level_rule> c<1> l<1:1> el<10:1>
                   n<> u<12> t<Data_declaration> p<13> c<11> l<2:5> el<2:13>
                     n<> u<11> t<Variable_declaration> p<12> c<7> l<2:5> el<2:13>
                       n<> u<7> t<Data_type> p<11> c<6> s<10> l<2:5> el<2:10>
-                        n<> u<6> t<Event_type> p<7> l<2:5> el<2:10>
+                        n<> u<6> t<EVENT> p<7> l<2:5> el<2:10>
                       n<> u<10> t<Variable_decl_assignment_list> p<11> c<9> l<2:11> el<2:12>
                         n<> u<9> t<Variable_decl_assignment> p<10> c<8> l<2:11> el<2:12>
                           n<e> u<8> t<SIMPLE_IDENTIFIER> p<9> l<2:11> el<2:12>
@@ -72,7 +72,7 @@ n<$Source01/event2.v> u<59> t<Top_level_rule> c<1> l<1:1> el<10:1>
                         n<> u<46> t<END> p<47> l<8:5> el<8:8>
         n<> u<55> t<ENDMODULE> p<56> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/event2.v:1:1: Compile module "work@test".
+[INF:CP0303] $Source01/event2.v:1:1: Compile module "test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -82,39 +82,38 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: event2.v
       vpiPreprocFile: "$Output/lib/work/event2.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/event2.v start:1:1 end:9:10:
+    Module name:test file:$Source01/event2.v start:1:1 end:9:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:1:8 end:1:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
-      vpiTypespec (1 items):
-        EventTypespec start:2:5 end:2:10:
-          vpiParent: Module name:work@test
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
-        vpiName: work
-        vpiFullName: work@test.work
-      vpiCell: test
-      vpiNet (1 items):
-        Net name:e start:2:11 end:2:12:
-          vpiParent: Module name:work@test
+      vpiName Identifier name:test start:1:8 end:1:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
+      vpiVariable (1 items):
+        Variable name:e start:2:11 end:2:12:
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:2:5 end:2:10:
-            vpiParent: Net name:e
-            vpiFullName: work@test.e
+            vpiParent: Variable name:e
+            vpiFullName: test.e
             vpiActual: EventTypespec
           vpiName: e
-          vpiFullName: work@test.e
+          vpiFullName: test.e
+      vpiTypespec (1 items):
+        EventTypespec start:2:5 end:2:10:
+          vpiParent: Module name:test
+      vpiDefName: test
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:test
+        vpiName: work
+        vpiFullName: test.work
+      vpiCell: test
       vpiProcess (1 items):
         Initial start:3:5 end:8:8:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt Begin start:3:13 end:8:8:
             vpiParent: Initial
-            vpiFullName: work@test
+            vpiFullName: test
             vpiStmt (1 items):
               Repeat start:4:2 end:7:5:
                 vpiParent: Begin
@@ -122,7 +121,7 @@ Design name:unnamed:
                   vpiParent: Repeat
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -130,7 +129,7 @@ Design name:unnamed:
                   vpiValue: 5
                 vpiStmt Begin start:4:13 end:7:5:
                   vpiParent: Repeat
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiStmt (2 items):
                     DelayControl start:5:6 end:5:9:
                       vpiParent: Begin
@@ -138,7 +137,7 @@ Design name:unnamed:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@test
+                          vpiFullName: test
                           vpiActual: IntTypespec
                         vpiConstType: int (7)
                         vpiSize: 32
@@ -151,15 +150,15 @@ Design name:unnamed:
                         RefObj name:e start:6:8 end:6:9:
                           vpiParent: Operation
                           vpiName: e
-                          vpiFullName: work@test.e
-                          vpiActual: Net name:e
+                          vpiFullName: test.e
+                          vpiActual: Variable name:e
   vpiTypespec (2 items):
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:1:8 end:1:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:1:8 end:1:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

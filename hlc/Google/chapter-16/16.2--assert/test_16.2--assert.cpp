@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +14,13 @@
  limitations under the License.
 */
 
-// Spec-based validation of IEEE 1800-2017 sec. 16.2 simple immediate assertion.
+// Spec-based validation of IEEE 1800-2023 sec. 16.2 simple immediate assertion.
 //
 // All expected values are derived from sec. 16.2 of the spec and the SV source.
 // No expected value is taken from the UHDM log. Failing tests document
 // Surelog bugs.
 //
-// -- sec. 16.2 rules under test -------------------------------------------------
+// -- sec. 16.2 rules under test ----
 //
 // sec. 16.2 defines three forms of immediate assertion:
 //   simple:   assert (expr) [pass_stmt] [else fail_stmt]
@@ -45,11 +45,11 @@
 // Rule 4 -- 'initial assert (expr)' is a single statement. No begin...end
 //   wrapper. ImmediateAssert is the direct stmt of the Initial process.
 //
-// -- SV source --------------------------------------------------------------
+// -- SV source ----
 //   logic a = 1;
 //   initial assert (a != 0) $display("pass") else $display("fail");
 //
-// -- Spec-correct UHDM ------------------------------------------------------
+// -- Spec-correct UHDM ----
 //   Net 'a': LogicTypespec, inline value = 1
 //   Initial:
 //     stmt = ImmediateAssert {
@@ -95,6 +95,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 
 #include <string>
 
@@ -107,13 +108,13 @@ class ImmediateAssertTest : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Net *getNetA(const hldb::Design *d) {
+static const hldb::Variable *getVariableA(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getNets()) return nullptr;
-  return hldb::findByName<hldb::Net>("a", m->getNets());
+  if (!m || !m->getVariables()) return nullptr;
+  return hldb::findByName<hldb::Variable>("a", m->getVariables());
 }
 
 static const hldb::ImmediateAssert *getAssert(const hldb::Design *d) {
@@ -142,42 +143,56 @@ static const hldb::Constant *getFirstArg(const hldb::TFCall *call) {
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module and net
-// ---------------------------------------------------------------------------
-TEST_F(ImmediateAssertTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+// ----
+TEST_F(ImmediateAssertTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
-TEST_F(ImmediateAssertTest, NetA_HasLogicTypespec) {
-  // SV source: 'logic a' -- sec. 6.3 declares a 4-state single-bit net.
+TEST_F(ImmediateAssertTest, VariableA_HasLogicTypespec) {
+  // SV source: 'logic a' -- sec. 6.3 declares a 4-state single-bit type.
+  // 'logic a' has no net-type keyword (wire/tri/etc.), is not 'interconnect',
+  // and is not a user-defined nettype, so per sec. 6.7/6.8 it must be a
+  // Variable, not a Net, regardless of the module's default nettype.
   // UHDM must represent it as LogicTypespec.
-  const hldb::Net *const net = getNetA(m_design);
-  ASSERT_NE(net, nullptr) << "net 'a' not found";
-  ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
+  const hldb::Variable *const var = getVariableA(m_design);
+  ASSERT_NE(var, nullptr) << "variable 'a' not found";
+  ASSERT_NE(var->getTypespec(), nullptr) << "variable 'a' has no typespec";
+  EXPECT_NE(var->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
 }
 
-TEST_F(ImmediateAssertTest, NetA_InlineValue_Is1) {
+TEST_F(ImmediateAssertTest, VariableA_InlineValue_Is1) {
   // SV source: 'logic a = 1' -- inline initializer literal 1.
-  const hldb::Net *const net = getNetA(m_design);
-  ASSERT_NE(net, nullptr);
-  const auto *c = net->getValue<hldb::Constant>();
-  ASSERT_NE(c, nullptr) << "net 'a' has no inline initializer value";
+  const hldb::Variable *const var = getVariableA(m_design);
+  ASSERT_NE(var, nullptr);
+  const auto *c = var->getValue<hldb::Constant>();
+  ASSERT_NE(c, nullptr) << "variable 'a' has no inline initializer value";
   EXPECT_EQ(std::string(c->getValue()), "1") << "'logic a = 1' -- inline initializer must be 1";
 }
 
-// ---------------------------------------------------------------------------
+TEST_F(ImmediateAssertTest, VariableA_NotAlsoInNets) {
+  // sec. 6.7/6.8: 'logic a' with no net-type keyword is a variable, never a
+  // net -- it must not also appear in the module's net collection.
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  if (m->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("a", m->getNets()), nullptr)
+        << "'a' is a variable (no net-type keyword) and must not also appear in getNets()";
+  }
+}
+
+// ----
 // sec. 16.2 Rule 4: ImmediateAssert is the direct statement of the Initial
 // process. 'initial assert (expr)' does not need begin...end.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ImmediateAssertTest, InitialHasDirectImmediateAssert) {
   ASSERT_NE(getAssert(m_design), nullptr) << "sec. 16.2 Rule 4: 'initial assert (...)' must produce an ImmediateAssert "
                                              "as the direct statement of the Initial -- no Begin wrapper needed "
                                              "for a single immediate assert statement";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // sec. 16.2 Rule 1: simple immediate assertion -- not deferred, not final.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ImmediateAssertTest, Assert_IsNotDeferred) {
   // sec. 16.2: 'assert (expr)' without '#0' is simple. Deferred form requires
   // '#0'. If Surelog sets isDeferred=true, it misclassified the assert.
@@ -195,10 +210,10 @@ TEST_F(ImmediateAssertTest, Assert_IsNotFinal) {
   EXPECT_FALSE(ia->getIsFinal()) << "sec. 16.2 Rule 1: 'assert (expr)' without 'final' must have isFinal=false";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // sec. 16.2 Rule 2: assertion expression 'a != 0'.
 // sec. 11.4.5 defines '!=' as the logical inequality operator (vpiNeqOp).
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ImmediateAssertTest, Assert_ExpressionIsOperation) {
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
@@ -268,12 +283,12 @@ TEST_F(ImmediateAssertTest, Assert_RightOperand_ValueIsZero) {
   EXPECT_EQ(std::string(c->getValue()), "0") << "right operand of 'a != 0' must be the constant 0";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // sec. 16.2 Rule 3: pass action block -- $display("pass").
 // The pass action executes when the assertion expression evaluates to true.
 // sec. 16.2 allows a single statement without begin...end as the action block.
 // $display is a system task call represented as SysTaskCall in UHDM.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Exists) {
   // sec. 16.2: 'assert (expr) stmt' -- the statement after the expression is
   // the pass action block. It must be non-null.
@@ -334,11 +349,11 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_ConstType) {
       << "sec. 5.9: string literal \"pass\" must have constType vpiStringConst";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // sec. 16.2 Rule 3: fail action block (else clause) -- $display("fail").
 // The fail action executes when the assertion expression evaluates to false
 // (0, X, or Z). The else clause is optional; when present it is non-null.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Exists) {
   // sec. 16.2: '... else fail_stmt' -- the else clause is the fail action block.
   // It must be non-null because the SV source includes 'else $display("fail")'.

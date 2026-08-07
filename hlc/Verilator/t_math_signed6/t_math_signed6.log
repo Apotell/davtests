@@ -22,7 +22,7 @@ n<$Source01/t_math_signed6.v> u<557> t<Top_level_rule> c<1> l<8:3> el<37:1>
     n<> u<555> t<Description> p<556> c<554> l<8:3> el<36:10>
       n<> u<554> t<Module_declaration> p<555> c<11> l<8:3> el<36:10>
         n<> u<11> t<Module_nonansi_header> p<554> c<6> s<12> l<8:3> el<8:26>
-          n<module> u<6> t<Module_keyword> p<11> s<7> l<8:3> el<8:9>
+          n<module> u<6> t<MODULE> p<11> s<7> l<8:3> el<8:9>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<11> s<8> l<8:10> el<8:11>
           n<> u<8> t<Package_import_declaration_list> p<11> s<9> l<8:12> el<8:12>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<11> s<10> l<8:12> el<8:25>
@@ -69,8 +69,8 @@ n<$Source01/t_math_signed6.v> u<557> t<Top_level_rule> c<1> l<8:3> el<37:1>
                       n<> u<99> t<Variable_declaration> p<100> c<95> l<14:4> el<17:10>
                         n<> u<95> t<Data_type> p<99> c<45> s<98> l<14:4> el<17:5>
                           n<> u<45> t<Struct_union> p<95> c<44> s<46> l<14:4> el<14:10>
-                            n<> u<44> t<Struct_keyword> p<45> l<14:4> el<14:10>
-                          n<> u<46> t<Packed_keyword> p<95> s<70> l<14:11> el<14:17>
+                            n<> u<44> t<STRUCT> p<45> l<14:4> el<14:10>
+                          n<> u<46> t<PACKED> p<95> s<70> l<14:11> el<14:17>
                           n<> u<70> t<Struct_union_member> p<95> c<66> s<94> l<15:6> el<15:32>
                             n<> u<66> t<Data_type_or_void> p<70> c<65> s<69> l<15:6> el<15:29>
                               n<> u<65> t<Data_type> p<66> c<47> l<15:6> el<15:29>
@@ -570,11 +570,7 @@ n<$Source01/t_math_signed6.v> u<557> t<Top_level_rule> c<1> l<8:3> el<37:1>
                           n<> u<543> t<END> p<544> l<35:4> el<35:7>
         n<> u<553> t<ENDMODULE> p<554> l<36:1> el<36:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_math_signed6.v:8:3: Compile module "work@t".
-[ERR:EL0535] $Source01/t_math_signed6.v:23:15: Illegal implicit net "id:137, name:s".
-[ERR:EL0535] $Source01/t_math_signed6.v:23:23: Illegal implicit net "id:139, name:u".
-[ERR:EL0535] $Source01/t_math_signed6.v:28:15: Illegal implicit net "id:215, name:s".
-[ERR:EL0535] $Source01/t_math_signed6.v:28:23: Illegal implicit net "id:217, name:u".
+[INF:CP0303] $Source01/t_math_signed6.v:8:3: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -590,6 +586,7 @@ Design name:unnamed:
           vpiName Identifier name:checkh start:6:9 end:6:15:
             vpiParent: PreprocMacroDefinition name:checkh
             vpiName: checkh
+          vpiPMDType: define (1)
           vpiArgument (2 items):
             Identifier name:gotv start:6:16 end:6:20:
               vpiParent: PreprocMacroDefinition name:checkh
@@ -819,17 +816,34 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:do if ((dst.u) !== (16'hfff5)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_signed6.v\",0, (dst.u), (16'hfff5)); $stop; end while(0) start:6:27 end:6:185":
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: "do if ((dst.u) !== (16'hfff5)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_signed6.v\",0, (dst.u), (16'hfff5)); $stop; end while(0)"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_math_signed6.v start:8:3 end:36:10:
+    Module name:t file:$Source01/t_math_signed6.v start:8:3 end:36:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:8:10 end:8:11:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:8:10 end:8:11:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:src start:11:28 end:11:31:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:11:4 end:11:27:
+            vpiParent: Variable name:src
+            vpiFullName: t.src
+            vpiActual: LogicTypespec
+          vpiName: src
+          vpiFullName: t.src
+          vpiVector: true
+        Variable name:dst start:17:6 end:17:9:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:17:5:
+            vpiParent: Variable name:dst
+            vpiFullName: t.dst
+            vpiActual: StructTypespec
+          vpiName: dst
+          vpiFullName: t.dst
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiRange (1 items):
             Range start:11:20 end:11:27:
               vpiParent: LogicTypespec
@@ -841,7 +855,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -851,7 +865,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -861,7 +875,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -870,7 +884,7 @@ Design name:unnamed:
           vpiSigned: true
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiRange (1 items):
             Range start:15:21 end:15:29:
               vpiParent: LogicTypespec
@@ -882,7 +896,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -892,7 +906,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -902,7 +916,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -911,7 +925,7 @@ Design name:unnamed:
           vpiSigned: true
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiRange (1 items):
             Range start:16:21 end:16:29:
               vpiParent: LogicTypespec
@@ -923,7 +937,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -933,7 +947,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -943,7 +957,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -951,7 +965,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         StructTypespec start:14:4 end:17:5:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiPacked: true
           vpiTypespecMember (2 items):
             TypespecMember name:s start:15:30 end:15:31:
@@ -959,45 +973,28 @@ Design name:unnamed:
               vpiName: s
               vpiTypespec RefTypespec start:15:6 end:15:29:
                 vpiParent: TypespecMember name:s
-                vpiFullName: work@t.s
+                vpiFullName: t.s
                 vpiActual: LogicTypespec
             TypespecMember name:u start:16:30 end:16:31:
               vpiParent: StructTypespec
               vpiName: u
               vpiTypespec RefTypespec start:16:6 end:16:29:
                 vpiParent: TypespecMember name:u
-                vpiFullName: work@t.u
+                vpiFullName: t.u
                 vpiActual: LogicTypespec
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
-        Net name:src start:11:28 end:11:31:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:11:4 end:11:27:
-            vpiParent: Net name:src
-            vpiFullName: work@t.src
-            vpiActual: LogicTypespec
-          vpiName: src
-          vpiFullName: work@t.src
-        Net name:dst start:17:6 end:17:9:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:14:4 end:17:5:
-            vpiParent: Net name:dst
-            vpiFullName: work@t.dst
-            vpiActual: StructTypespec
-          vpiName: dst
-          vpiFullName: work@t.dst
       vpiProcess (1 items):
         Initial start:19:4 end:35:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:19:12 end:35:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
             vpiStmt (10 items):
               Assignment start:22:7 end:22:19:
                 vpiParent: Begin
@@ -1005,13 +1002,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:src start:22:7 end:22:10:
                   vpiParent: Assignment
                   vpiName: src
-                  vpiFullName: work@t.src
-                  vpiActual: Net name:src
+                  vpiFullName: t.src
+                  vpiActual: Variable name:src
                 vpiRhs Constant start:22:13 end:22:19:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: hexadecimal (5)
                   vpiSize: 8
@@ -1023,8 +1020,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:dst start:23:7 end:23:10:
                   vpiParent: Assignment
                   vpiName: dst
-                  vpiFullName: work@t.dst
-                  vpiActual: Net name:dst
+                  vpiFullName: t.dst
+                  vpiActual: Variable name:dst
                 vpiRhs Operation start:23:13 end:23:30:
                   vpiParent: Assignment
                   vpiOpType: assign pattern (87)
@@ -1034,30 +1031,30 @@ Design name:unnamed:
                       vpiTag RefObj name:s start:23:15 end:23:16:
                         vpiParent: TaggedPattern
                         vpiName: s
-                        vpiFullName: work@t.s
+                        vpiFullName: t.s
                       vpiPattern RefObj name:src start:23:18 end:23:21:
                         vpiParent: TaggedPattern
                         vpiName: src
-                        vpiFullName: work@t.src
-                        vpiActual: Net name:src
+                        vpiFullName: t.src
+                        vpiActual: Variable name:src
                     TaggedPattern start:23:23 end:23:29:
                       vpiParent: Operation
                       vpiTag RefObj name:u start:23:23 end:23:24:
                         vpiParent: TaggedPattern
                         vpiName: u
-                        vpiFullName: work@t.u
+                        vpiFullName: t.u
                       vpiPattern RefObj name:src start:23:26 end:23:29:
                         vpiParent: TaggedPattern
                         vpiName: src
-                        vpiFullName: work@t.src
-                        vpiActual: Net name:src
+                        vpiFullName: t.src
+                        vpiActual: Variable name:src
               DoWhile start:24:7 end:24:33:
                 vpiParent: Begin
                 vpiCondition Constant start:6:183 end:6:184:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1072,23 +1069,23 @@ Design name:unnamed:
                       HierPath name:dst.s start:6:35 end:6:40:
                         vpiParent: Operation
                         vpiName: dst.s
-                        vpiFullName: work@t.dst.s
+                        vpiFullName: t.dst.s
                         vpiPathElem (2 items):
                           RefObj name:dst start:6:35 end:6:38:
                             vpiParent: HierPath name:dst.s
                             vpiName: dst
-                            vpiFullName: work@t.dst
-                            vpiActual: Net name:dst
+                            vpiFullName: t.dst
+                            vpiActual: Variable name:dst
                           RefObj name:s start:6:39 end:6:40:
                             vpiParent: HierPath name:dst.s
                             vpiName: s
-                            vpiFullName: work@t.s
+                            vpiFullName: t.s
                             vpiActual: TypespecMember name:s
                       Constant start:6:47 end:6:55:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
@@ -1096,7 +1093,7 @@ Design name:unnamed:
                         vpiValue: "0005"
                   vpiStmt Begin start:6:58 end:6:176:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:64 end:6:164:
                         vpiParent: Begin
@@ -1108,7 +1105,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -1118,7 +1115,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 208
@@ -1128,7 +1125,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1137,23 +1134,23 @@ Design name:unnamed:
                           HierPath name:dst.s start:6:145 end:6:150:
                             vpiParent: SysTaskCall name:$write
                             vpiName: dst.s
-                            vpiFullName: work@t.dst.s
+                            vpiFullName: t.dst.s
                             vpiPathElem (2 items):
                               RefObj name:dst start:6:145 end:6:148:
                                 vpiParent: HierPath name:dst.s
                                 vpiName: dst
-                                vpiFullName: work@t.dst
-                                vpiActual: Net name:dst
+                                vpiFullName: t.dst
+                                vpiActual: Variable name:dst
                               RefObj name:s start:6:149 end:6:150:
                                 vpiParent: HierPath name:dst.s
                                 vpiName: s
-                                vpiFullName: work@t.s
+                                vpiFullName: t.s
                                 vpiActual: TypespecMember name:s
                           Constant start:6:154 end:6:162:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 16
@@ -1170,7 +1167,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1185,23 +1182,23 @@ Design name:unnamed:
                       HierPath name:dst.u start:6:35 end:6:40:
                         vpiParent: Operation
                         vpiName: dst.u
-                        vpiFullName: work@t.dst.u
+                        vpiFullName: t.dst.u
                         vpiPathElem (2 items):
                           RefObj name:dst start:6:35 end:6:38:
                             vpiParent: HierPath name:dst.u
                             vpiName: dst
-                            vpiFullName: work@t.dst
-                            vpiActual: Net name:dst
+                            vpiFullName: t.dst
+                            vpiActual: Variable name:dst
                           RefObj name:u start:6:39 end:6:40:
                             vpiParent: HierPath name:dst.u
                             vpiName: u
-                            vpiFullName: work@t.u
+                            vpiFullName: t.u
                             vpiActual: TypespecMember name:u
                       Constant start:6:47 end:6:55:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
@@ -1209,7 +1206,7 @@ Design name:unnamed:
                         vpiValue: "0005"
                   vpiStmt Begin start:6:58 end:6:176:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:64 end:6:164:
                         vpiParent: Begin
@@ -1221,7 +1218,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -1231,7 +1228,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 208
@@ -1241,7 +1238,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1250,23 +1247,23 @@ Design name:unnamed:
                           HierPath name:dst.u start:6:145 end:6:150:
                             vpiParent: SysTaskCall name:$write
                             vpiName: dst.u
-                            vpiFullName: work@t.dst.u
+                            vpiFullName: t.dst.u
                             vpiPathElem (2 items):
                               RefObj name:dst start:6:145 end:6:148:
                                 vpiParent: HierPath name:dst.u
                                 vpiName: dst
-                                vpiFullName: work@t.dst
-                                vpiActual: Net name:dst
+                                vpiFullName: t.dst
+                                vpiActual: Variable name:dst
                               RefObj name:u start:6:149 end:6:150:
                                 vpiParent: HierPath name:dst.u
                                 vpiName: u
-                                vpiFullName: work@t.u
+                                vpiFullName: t.u
                                 vpiActual: TypespecMember name:u
                           Constant start:6:154 end:6:162:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 16
@@ -1283,13 +1280,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:src start:27:7 end:27:10:
                   vpiParent: Assignment
                   vpiName: src
-                  vpiFullName: work@t.src
-                  vpiActual: Net name:src
+                  vpiFullName: t.src
+                  vpiActual: Variable name:src
                 vpiRhs Constant start:27:13 end:27:19:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: LongIntTypespec
                   vpiConstType: hexadecimal (5)
                   vpiSize: 8
@@ -1301,8 +1298,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:dst start:28:7 end:28:10:
                   vpiParent: Assignment
                   vpiName: dst
-                  vpiFullName: work@t.dst
-                  vpiActual: Net name:dst
+                  vpiFullName: t.dst
+                  vpiActual: Variable name:dst
                 vpiRhs Operation start:28:13 end:28:30:
                   vpiParent: Assignment
                   vpiOpType: assign pattern (87)
@@ -1312,30 +1309,30 @@ Design name:unnamed:
                       vpiTag RefObj name:s start:28:15 end:28:16:
                         vpiParent: TaggedPattern
                         vpiName: s
-                        vpiFullName: work@t.s
+                        vpiFullName: t.s
                       vpiPattern RefObj name:src start:28:18 end:28:21:
                         vpiParent: TaggedPattern
                         vpiName: src
-                        vpiFullName: work@t.src
-                        vpiActual: Net name:src
+                        vpiFullName: t.src
+                        vpiActual: Variable name:src
                     TaggedPattern start:28:23 end:28:29:
                       vpiParent: Operation
                       vpiTag RefObj name:u start:28:23 end:28:24:
                         vpiParent: TaggedPattern
                         vpiName: u
-                        vpiFullName: work@t.u
+                        vpiFullName: t.u
                       vpiPattern RefObj name:src start:28:26 end:28:29:
                         vpiParent: TaggedPattern
                         vpiName: src
-                        vpiFullName: work@t.src
-                        vpiActual: Net name:src
+                        vpiFullName: t.src
+                        vpiActual: Variable name:src
               DoWhile start:29:7 end:29:33:
                 vpiParent: Begin
                 vpiCondition Constant start:6:183 end:6:184:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1350,23 +1347,23 @@ Design name:unnamed:
                       HierPath name:dst.s start:6:35 end:6:40:
                         vpiParent: Operation
                         vpiName: dst.s
-                        vpiFullName: work@t.dst.s
+                        vpiFullName: t.dst.s
                         vpiPathElem (2 items):
                           RefObj name:dst start:6:35 end:6:38:
                             vpiParent: HierPath name:dst.s
                             vpiName: dst
-                            vpiFullName: work@t.dst
-                            vpiActual: Net name:dst
+                            vpiFullName: t.dst
+                            vpiActual: Variable name:dst
                           RefObj name:s start:6:39 end:6:40:
                             vpiParent: HierPath name:dst.s
                             vpiName: s
-                            vpiFullName: work@t.s
+                            vpiFullName: t.s
                             vpiActual: TypespecMember name:s
                       Constant start:6:47 end:6:55:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
@@ -1374,7 +1371,7 @@ Design name:unnamed:
                         vpiValue: fff5
                   vpiStmt Begin start:6:58 end:6:176:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:64 end:6:164:
                         vpiParent: Begin
@@ -1386,7 +1383,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -1396,7 +1393,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 208
@@ -1406,7 +1403,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1415,23 +1412,23 @@ Design name:unnamed:
                           HierPath name:dst.s start:6:145 end:6:150:
                             vpiParent: SysTaskCall name:$write
                             vpiName: dst.s
-                            vpiFullName: work@t.dst.s
+                            vpiFullName: t.dst.s
                             vpiPathElem (2 items):
                               RefObj name:dst start:6:145 end:6:148:
                                 vpiParent: HierPath name:dst.s
                                 vpiName: dst
-                                vpiFullName: work@t.dst
-                                vpiActual: Net name:dst
+                                vpiFullName: t.dst
+                                vpiActual: Variable name:dst
                               RefObj name:s start:6:149 end:6:150:
                                 vpiParent: HierPath name:dst.s
                                 vpiName: s
-                                vpiFullName: work@t.s
+                                vpiFullName: t.s
                                 vpiActual: TypespecMember name:s
                           Constant start:6:154 end:6:162:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 16
@@ -1448,7 +1445,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -1463,23 +1460,23 @@ Design name:unnamed:
                       HierPath name:dst.u start:6:35 end:6:40:
                         vpiParent: Operation
                         vpiName: dst.u
-                        vpiFullName: work@t.dst.u
+                        vpiFullName: t.dst.u
                         vpiPathElem (2 items):
                           RefObj name:dst start:6:35 end:6:38:
                             vpiParent: HierPath name:dst.u
                             vpiName: dst
-                            vpiFullName: work@t.dst
-                            vpiActual: Net name:dst
+                            vpiFullName: t.dst
+                            vpiActual: Variable name:dst
                           RefObj name:u start:6:39 end:6:40:
                             vpiParent: HierPath name:dst.u
                             vpiName: u
-                            vpiFullName: work@t.u
+                            vpiFullName: t.u
                             vpiActual: TypespecMember name:u
                       Constant start:6:47 end:6:55:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
@@ -1487,7 +1484,7 @@ Design name:unnamed:
                         vpiValue: fff5
                   vpiStmt Begin start:6:58 end:6:176:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:64 end:6:164:
                         vpiParent: Begin
@@ -1499,7 +1496,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -1509,7 +1506,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 208
@@ -1519,7 +1516,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1528,23 +1525,23 @@ Design name:unnamed:
                           HierPath name:dst.u start:6:145 end:6:150:
                             vpiParent: SysTaskCall name:$write
                             vpiName: dst.u
-                            vpiFullName: work@t.dst.u
+                            vpiFullName: t.dst.u
                             vpiPathElem (2 items):
                               RefObj name:dst start:6:145 end:6:148:
                                 vpiParent: HierPath name:dst.u
                                 vpiName: dst
-                                vpiFullName: work@t.dst
-                                vpiActual: Net name:dst
+                                vpiFullName: t.dst
+                                vpiActual: Variable name:dst
                               RefObj name:u start:6:149 end:6:150:
                                 vpiParent: HierPath name:dst.u
                                 vpiName: u
-                                vpiFullName: work@t.u
+                                vpiFullName: t.u
                                 vpiActual: TypespecMember name:u
                           Constant start:6:154 end:6:162:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 16
@@ -1565,7 +1562,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 168
@@ -1577,12 +1574,12 @@ Design name:unnamed:
                   vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
   vpiTypespec (5 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:8:10 end:8:11:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:8:10 end:8:11:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -1595,7 +1592,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

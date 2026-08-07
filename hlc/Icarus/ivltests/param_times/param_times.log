@@ -20,7 +20,7 @@ n<$Source01/param_times.v> u<163> t<Top_level_rule> c<1> l<27:1> el<49:1>
     n<> u<123> t<Description> p<162> c<122> s<161> l<27:1> el<42:10>
       n<> u<122> t<Module_declaration> p<123> c<20> l<27:1> el<42:10>
         n<> u<20> t<Module_nonansi_header> p<122> c<4> s<37> l<27:1> el<27:20>
-          n<module> u<4> t<Module_keyword> p<20> s<5> l<27:1> el<27:7>
+          n<module> u<4> t<MODULE> p<20> s<5> l<27:1> el<27:7>
           n<foo> u<5> t<SIMPLE_IDENTIFIER> p<20> s<6> l<27:8> el<27:11>
           n<> u<6> t<Package_import_declaration_list> p<20> s<19> l<27:11> el<27:11>
           n<> u<19> t<Port_list> p<20> c<12> l<27:11> el<27:19>
@@ -140,7 +140,7 @@ n<$Source01/param_times.v> u<163> t<Top_level_rule> c<1> l<27:1> el<49:1>
     n<> u<161> t<Description> p<162> c<160> l<44:1> el<48:10>
       n<> u<160> t<Module_declaration> p<161> c<127> l<44:1> el<48:10>
         n<> u<127> t<Module_ansi_header> p<160> c<124> s<158> l<44:1> el<44:12>
-          n<module> u<124> t<Module_keyword> p<127> s<125> l<44:1> el<44:7>
+          n<module> u<124> t<MODULE> p<127> s<125> l<44:1> el<44:7>
           n<bar> u<125> t<SIMPLE_IDENTIFIER> p<127> s<126> l<44:8> el<44:11>
           n<> u<126> t<Package_import_declaration_list> p<127> l<44:11> el<44:11>
         n<> u<158> t<Non_port_module_item> p<160> c<157> s<159> l<46:2> el<46:33>
@@ -176,8 +176,8 @@ n<$Source01/param_times.v> u<163> t<Top_level_rule> c<1> l<27:1> el<49:1>
                   n<> u<153> t<Ordered_port_connection> p<154> l<46:31> el<46:31>
         n<> u<159> t<ENDMODULE> p<160> l<48:1> el<48:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/param_times.v:27:1: Compile module "work@foo".
-[INF:CP0303] $Source01/param_times.v:44:1: Compile module "work@bar".
+[INF:CP0303] $Source01/param_times.v:27:1: Compile module "foo".
+[INF:CP0303] $Source01/param_times.v:44:1: Compile module "bar".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -193,6 +193,7 @@ Design name:unnamed:
           vpiName Identifier name:ONE start:24:9 end:24:12:
             vpiParent: PreprocMacroDefinition name:ONE
             vpiName: ONE
+          vpiPMDType: define (1)
           vpiPMDToken (1 items):
             Identifier name:1 start:24:13 end:24:14:
               vpiParent: PreprocMacroDefinition name:ONE
@@ -202,6 +203,7 @@ Design name:unnamed:
           vpiName Identifier name:TWO start:25:9 end:25:12:
             vpiParent: PreprocMacroDefinition name:TWO
             vpiName: TWO
+          vpiPMDType: define (1)
           vpiPMDToken (1 items):
             Identifier name:2 start:25:13 end:25:14:
               vpiParent: PreprocMacroDefinition name:TWO
@@ -225,36 +227,35 @@ Design name:unnamed:
           vpiPMIBody Identifier name:2 start:25:13 end:25:14:
             vpiParent: PreprocMacroInstance name:TWO
             vpiName: "2"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@foo file:$Source01/param_times.v start:27:1 end:42:10:
+    Module name:foo file:$Source01/param_times.v start:27:1 end:42:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo start:27:8 end:27:11:
-        vpiParent: Module name:work@foo
-        vpiName: work@foo
-      vpiFullName: work@foo
+      vpiName Identifier name:foo start:27:8 end:27:11:
+        vpiParent: Module name:foo
+        vpiName: foo
+      vpiFullName: foo
       vpiParameter (1 items):
         Parameter name:blah start:28:14 end:28:18:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiTypespec RefTypespec start:28:14 end:28:14:
             vpiParent: Parameter name:blah
-            vpiFullName: work@foo.blah
+            vpiFullName: foo.blah
             vpiActual: LogicTypespec
           vpiName: blah
-          vpiFullName: work@foo.blah
+          vpiFullName: foo.blah
       vpiParamAssign (1 items):
         ParamAssign start:28:14 end:28:22:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiLhs RefObj name:blah start:28:14 end:28:18:
             vpiParent: ParamAssign
             vpiName: blah
-            vpiFullName: work@foo.blah
+            vpiFullName: foo.blah
             vpiActual: Parameter name:blah
           vpiRhs Constant start:28:21 end:28:22:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@foo
+              vpiFullName: foo
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -262,64 +263,68 @@ Design name:unnamed:
             vpiValue: 2
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@foo
-      vpiDefName: work@foo
-      vpiDefNetType: none (12)
+          vpiParent: Module name:foo
+      vpiDefName: foo
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@foo
+        vpiParent: Module name:foo
         vpiName: work
-        vpiFullName: work@foo.work
+        vpiFullName: foo.work
       vpiCell: foo
       vpiNet (2 items):
         Net name:in start:30:14 end:30:16:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiTypespec RefTypespec start:30:14 end:30:14:
             vpiParent: Net name:in
-            vpiFullName: work@foo.in
+            vpiFullName: foo.in
             vpiActual: LogicTypespec
           vpiName: in
-          vpiFullName: work@foo.in
+          vpiFullName: foo.in
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:out start:31:14 end:31:17:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiTypespec RefTypespec start:31:14 end:31:14:
             vpiParent: Net name:out
-            vpiFullName: work@foo.out
+            vpiFullName: foo.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: work@foo.out
+          vpiFullName: foo.out
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:in start:27:12 end:27:14:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiName: in
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in start:27:12 end:27:14:
+          vpiLowConn RefObj name:in start:30:14 end:30:16:
             vpiParent: Port name:in
             vpiName: in
-            vpiFullName: work@foo.in.in
+            vpiFullName: foo.in.in
             vpiActual: Net name:in
           vpiTypespec RefTypespec start:30:14 end:30:14:
             vpiParent: Port name:in
-            vpiFullName: work@foo.in
+            vpiFullName: foo.in
             vpiActual: LogicTypespec
         Port name:out start:27:15 end:27:18:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:27:15 end:27:18:
+          vpiLowConn RefObj name:out start:31:14 end:31:17:
             vpiParent: Port name:out
             vpiName: out
-            vpiFullName: work@foo.out.out
+            vpiFullName: foo.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:31:14 end:31:14:
             vpiParent: Port name:out
-            vpiFullName: work@foo.out
+            vpiFullName: foo.out
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Initial start:33:4 end:40:7:
-          vpiParent: Module name:work@foo
+          vpiParent: Module name:foo
           vpiStmt Begin start:33:12 end:40:7:
             vpiParent: Initial
-            vpiFullName: work@foo
+            vpiFullName: foo
             vpiStmt (2 items):
               IfStmt start:34:7 end:37:10:
                 vpiParent: Begin
@@ -330,13 +335,13 @@ Design name:unnamed:
                     RefObj name:blah start:34:11 end:34:15:
                       vpiParent: Operation
                       vpiName: blah
-                      vpiFullName: work@foo.blah
+                      vpiFullName: foo.blah
                       vpiActual: Parameter name:blah
                     Constant start:34:19 end:34:20:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@foo
+                        vpiFullName: foo
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -344,7 +349,7 @@ Design name:unnamed:
                       vpiValue: 4
                 vpiStmt Begin start:34:22 end:37:10:
                   vpiParent: IfStmt
-                  vpiFullName: work@foo
+                  vpiFullName: foo
                   vpiStmt (2 items):
                     SysTaskCall name:$display start:35:3 end:35:68:
                       vpiParent: Begin
@@ -356,7 +361,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@foo
+                            vpiFullName: foo
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 376
@@ -365,7 +370,7 @@ Design name:unnamed:
                         RefObj name:blah start:35:63 end:35:67:
                           vpiParent: SysTaskCall name:$display
                           vpiName: blah
-                          vpiFullName: work@foo.blah
+                          vpiFullName: foo.blah
                           vpiActual: Parameter name:blah
                     SysTaskCall name:$finish start:36:3 end:36:10:
                       vpiParent: Begin
@@ -382,43 +387,45 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@foo
+                      vpiFullName: foo
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 48
                     vpiDecompile: "\"PASSED\""
                     vpiValue: PASSED
-    Module name:work@bar file:$Source01/param_times.v start:44:1 end:48:10:
+    Module name:bar file:$Source01/param_times.v start:44:1 end:48:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@bar start:44:8 end:44:11:
-        vpiParent: Module name:work@bar
-        vpiName: work@bar
-      vpiFullName: work@bar
+      vpiName Identifier name:bar start:44:8 end:44:11:
+        vpiParent: Module name:bar
+        vpiName: bar
+      vpiFullName: bar
       vpiTypespec (1 items):
-        ModuleTypespec name:work@foo start:46:2 end:46:5:
-          vpiParent: Module name:work@bar
-          vpiName Identifier name:work@foo start:46:2 end:46:5:
-            vpiParent: ModuleTypespec name:work@foo
-            vpiName: work@foo
-      vpiDefName: work@bar
-      vpiDefNetType: none (12)
+        ModuleTypespec name:foo start:46:2 end:46:5:
+          vpiParent: Module name:bar
+          vpiName Identifier name:foo start:46:2 end:46:5:
+            vpiParent: ModuleTypespec name:foo
+            vpiName: foo
+          vpiModule: Module name:foo
+      vpiDefName: bar
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@bar
+        vpiParent: Module name:bar
         vpiName: work
-        vpiFullName: work@bar.work
+        vpiFullName: bar.work
       vpiCell: bar
       vpiRefInstance (1 items):
         RefInstance name:yak start:46:25 end:46:28:
-          vpiParent: Module name:work@bar
+          vpiParent: Module name:bar
           vpiName: yak
-          vpiTypespec RefTypespec name:work@foo start:46:2 end:46:5:
+          vpiTypespec RefTypespec name:foo start:46:2 end:46:5:
             vpiParent: RefInstance name:yak
-            vpiName: work@foo
-            vpiFullName: work@bar.yak.work@foo
-            vpiActual: ModuleTypespec name:work@foo
+            vpiName: foo
+            vpiFullName: bar.yak.foo
+            vpiActual: ModuleTypespec name:foo
           vpiParamAssign (1 items):
             ParamAssign start:46:8 end:46:23:
               vpiParent: RefInstance name:yak
+              vpiOverridden: true
               vpiRhs Operation start:46:8 end:46:23:
                 vpiParent: ParamAssign
                 vpiOpType: add (24)
@@ -431,7 +438,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@bar.yak
+                          vpiFullName: bar.yak
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -441,7 +448,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@bar.yak
+                          vpiFullName: bar.yak
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -451,30 +458,35 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@bar.yak
+                      vpiFullName: bar.yak
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "2"
                     vpiValue: 2
+          vpiPort (2 items):
+            Port start:46:30 end:46:30:
+              vpiParent: RefInstance name:yak
+            Port start:46:31 end:46:31:
+              vpiParent: RefInstance name:yak
   vpiTypespec (4 items):
-    ModuleTypespec name:work@foo:
+    ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@foo start:27:8 end:27:11:
-        vpiParent: ModuleTypespec name:work@foo
-        vpiName: work@foo
-      vpiModule: Module name:work@foo
+      vpiName Identifier name:foo start:27:8 end:27:11:
+        vpiParent: ModuleTypespec name:foo
+        vpiName: foo
+      vpiModule: Module name:foo
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@bar:
+    ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@bar start:44:8 end:44:11:
-        vpiParent: ModuleTypespec name:work@bar
-        vpiName: work@bar
-      vpiModule: Module name:work@bar
+      vpiName Identifier name:bar start:44:8 end:44:11:
+        vpiParent: ModuleTypespec name:bar
+        vpiName: bar
+      vpiModule: Module name:bar
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -527,7 +539,7 @@ Operation                            3       0       0         3
 RefObj                               7       6       0         1
 RefTypespec                         13      11       2         4
 ----------------------------------------------------------------
-Others                              45      45       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    75      67       4        12
+                                    77      69       4        12
 ===================== END REDUCTION RESULT =====================

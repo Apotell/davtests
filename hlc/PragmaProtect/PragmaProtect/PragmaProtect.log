@@ -10,9 +10,9 @@ COMMAND: -wd ../../../tests/PragmaProtect top.sv -d 0 +incdir+. +libext+.v -writ
 [INF:PP0122] Preprocessing source file "$Source01/top.sv".
 [INF:PA0201] Parsing source file "$Source00/builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/top.sv".
-[INF:CP0303] $Source01/top.sv:2:1: Compile module "work@sram".
-[INF:CP0303] $Source01/top.sv:74:1: Compile module "work@sram".
-[WRN:CP0334] Colliding compilation unit name: "work@sram".
+[INF:CP0303] $Source01/top.sv:2:1: Compile module "sram".
+[INF:CP0303] $Source01/top.sv:74:1: Compile module "sram".
+[WRN:CP0334] Colliding compilation unit name: "sram".
 [WRN:PA0205] No timescale set for "builtin".
 ====== HLDB =======
 Design name:unnamed:
@@ -22,7 +22,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.sv
       vpiPreprocFile: "$Output/lib/work/top.sv"
-      vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
   vpiAllPackages (1 items):
@@ -1591,6 +1590,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -1602,6 +1602,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -1633,6 +1634,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -1647,6 +1649,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -1668,6 +1671,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -1691,6 +1695,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -1710,6 +1715,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -1733,6 +1739,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -1752,6 +1759,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -1821,16 +1829,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -1843,6 +1854,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -1854,6 +1866,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -1861,6 +1874,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -1868,6 +1882,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -1875,6 +1890,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -1888,6 +1904,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -1899,6 +1916,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -1930,6 +1948,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -1956,6 +1975,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -1982,6 +2002,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2007,17 +2028,44 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (2 items):
-    Module name:work@sram file:$Source01/top.sv start:2:1 end:50:10:
+    Module name:sram file:$Source01/top.sv start:2:1 end:50:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sram start:2:8 end:2:12:
-        vpiParent: Module name:work@sram
-        vpiName: work@sram
-      vpiFullName: work@sram
+      vpiName Identifier name:sram start:2:8 end:2:12:
+        vpiParent: Module name:sram
+        vpiName: sram
+      vpiFullName: sram
+      vpiVariable (3 items):
+        Variable name:DBUS_driver start:10:12 end:10:23:
+          vpiParent: Module name:sram
+          vpiTypespec RefTypespec start:10:1 end:10:11:
+            vpiParent: Variable name:DBUS_driver
+            vpiFullName: sram.DBUS_driver
+            vpiActual: LogicTypespec
+          vpiName: DBUS_driver
+          vpiFullName: sram.DBUS_driver
+          vpiVector: true
+        Variable name:ram start:12:11 end:12:14:
+          vpiParent: Module name:sram
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:ram
+            vpiFullName: sram.ram
+            vpiActual: ArrayTypespec
+          vpiName: ram
+          vpiFullName: sram.ram
+          vpiVector: true
+        Variable name:i start:14:9 end:14:10:
+          vpiParent: Module name:sram
+          vpiTypespec RefTypespec start:14:1 end:14:8:
+            vpiParent: Variable name:i
+            vpiFullName: sram.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: sram.i
       vpiTypespec (8 items):
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiRange (1 items):
             Range start:6:7 end:6:13:
               vpiParent: LogicTypespec
@@ -2025,7 +2073,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2035,7 +2083,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2043,7 +2091,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiRange (1 items):
             Range start:7:7 end:7:12:
               vpiParent: LogicTypespec
@@ -2051,7 +2099,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2061,7 +2109,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2069,7 +2117,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiRange (1 items):
             Range start:10:6 end:10:11:
               vpiParent: LogicTypespec
@@ -2077,7 +2125,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2087,7 +2135,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2095,7 +2143,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiRange (1 items):
             Range start:11:6 end:11:11:
               vpiParent: LogicTypespec
@@ -2103,7 +2151,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2113,7 +2161,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2121,7 +2169,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiRange (1 items):
             Range start:12:5 end:12:10:
               vpiParent: LogicTypespec
@@ -2129,7 +2177,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2139,7 +2187,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2147,7 +2195,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         ArrayTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiArrayType: static (1)
           vpiRange Range start:12:14 end:12:22:
             vpiParent: ArrayTypespec
@@ -2155,7 +2203,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@sram
+                vpiFullName: sram
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2165,7 +2213,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@sram
+                vpiFullName: sram
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2173,142 +2221,135 @@ Design name:unnamed:
               vpiValue: 4095
           vpiElemTypespec RefTypespec start:12:1 end:12:10:
             vpiParent: ArrayTypespec
-            vpiFullName: work@sram
+            vpiFullName: sram
             vpiActual: LogicTypespec
         IntegerTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiSigned: true
-      vpiDefName: work@sram
-      vpiDefNetType: none (12)
+      vpiDefName: sram
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@sram
+        vpiParent: Module name:sram
         vpiName: work
-        vpiFullName: work@sram.work
+        vpiFullName: sram.work
       vpiCell: sram
-      vpiNet (7 items):
+      vpiNet (4 items):
         Net name:CSB start:4:7 end:4:10:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiTypespec RefTypespec start:4:7 end:4:7:
             vpiParent: Net name:CSB
-            vpiFullName: work@sram.CSB
+            vpiFullName: sram.CSB
             vpiActual: LogicTypespec
           vpiName: CSB
-          vpiFullName: work@sram.CSB
+          vpiFullName: sram.CSB
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:WRB start:5:7 end:5:10:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiTypespec RefTypespec start:5:7 end:5:7:
             vpiParent: Net name:WRB
-            vpiFullName: work@sram.WRB
+            vpiFullName: sram.WRB
             vpiActual: LogicTypespec
           vpiName: WRB
-          vpiFullName: work@sram.WRB
+          vpiFullName: sram.WRB
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:ABUS start:6:14 end:6:18:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiTypespec RefTypespec start:6:7 end:6:13:
             vpiParent: Net name:ABUS
-            vpiFullName: work@sram.ABUS
+            vpiFullName: sram.ABUS
             vpiActual: LogicTypespec
           vpiName: ABUS
-          vpiFullName: work@sram.ABUS
+          vpiFullName: sram.ABUS
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:DBUS start:7:13 end:7:17:
-          vpiParent: Module name:work@sram
-          vpiTypespec RefTypespec start:7:7 end:7:12:
+          vpiParent: Module name:sram
+          vpiTypespec RefTypespec start:11:6 end:11:11:
             vpiParent: Net name:DBUS
-            vpiFullName: work@sram.DBUS
+            vpiFullName: sram.DBUS
             vpiActual: LogicTypespec
           vpiName: DBUS
-          vpiFullName: work@sram.DBUS
+          vpiFullName: sram.DBUS
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue RefObj name:DBUS_driver start:11:19 end:11:30:
             vpiParent: Net name:DBUS
             vpiName: DBUS_driver
-            vpiFullName: work@sram.DBUS.DBUS_driver
-            vpiActual: Net name:DBUS_driver
-        Net name:DBUS_driver start:10:12 end:10:23:
-          vpiParent: Module name:work@sram
-          vpiTypespec RefTypespec start:10:1 end:10:11:
-            vpiParent: Net name:DBUS_driver
-            vpiFullName: work@sram.DBUS_driver
-            vpiActual: LogicTypespec
-          vpiName: DBUS_driver
-          vpiFullName: work@sram.DBUS_driver
-        Net name:ram start:12:11 end:12:14:
-          vpiParent: Module name:work@sram
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ram
-            vpiFullName: work@sram.ram
-            vpiActual: ArrayTypespec
-          vpiName: ram
-          vpiFullName: work@sram.ram
-        Net name:i start:14:9 end:14:10:
-          vpiParent: Module name:work@sram
-          vpiTypespec RefTypespec start:14:1 end:14:8:
-            vpiParent: Net name:i
-            vpiFullName: work@sram.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: work@sram.i
+            vpiFullName: sram.DBUS.DBUS_driver
+            vpiActual: Variable name:DBUS_driver
+      vpiDirective (2 items):
+        PragmaDirective name:protect start:9:1 end:9:22:
+          vpiParent: Module name:sram
+          vpiName Identifier name:protect start:9:9 end:9:16:
+            vpiParent: PragmaDirective name:protect
+            vpiName: protect
+        PragmaDirective name:protect start:49:1 end:49:20:
+          vpiParent: Module name:sram
+          vpiName Identifier name:protect start:49:9 end:49:16:
+            vpiParent: PragmaDirective name:protect
+            vpiName: protect
       vpiPort (4 items):
         Port name:CSB start:2:13 end:2:16:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiName: CSB
           vpiDirection: input (1)
-          vpiLowConn RefObj name:CSB start:2:13 end:2:16:
+          vpiLowConn RefObj name:CSB start:4:7 end:4:10:
             vpiParent: Port name:CSB
             vpiName: CSB
-            vpiFullName: work@sram.CSB.CSB
+            vpiFullName: sram.CSB.CSB
             vpiActual: Net name:CSB
           vpiTypespec RefTypespec start:4:7 end:4:7:
             vpiParent: Port name:CSB
-            vpiFullName: work@sram.CSB
+            vpiFullName: sram.CSB
             vpiActual: LogicTypespec
         Port name:WRB start:2:17 end:2:20:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiName: WRB
           vpiDirection: input (1)
-          vpiLowConn RefObj name:WRB start:2:17 end:2:20:
+          vpiLowConn RefObj name:WRB start:5:7 end:5:10:
             vpiParent: Port name:WRB
             vpiName: WRB
-            vpiFullName: work@sram.WRB.WRB
+            vpiFullName: sram.WRB.WRB
             vpiActual: Net name:WRB
           vpiTypespec RefTypespec start:5:7 end:5:7:
             vpiParent: Port name:WRB
-            vpiFullName: work@sram.WRB
+            vpiFullName: sram.WRB
             vpiActual: LogicTypespec
         Port name:ABUS start:2:21 end:2:25:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiName: ABUS
           vpiDirection: input (1)
-          vpiLowConn RefObj name:ABUS start:2:21 end:2:25:
+          vpiLowConn RefObj name:ABUS start:6:14 end:6:18:
             vpiParent: Port name:ABUS
             vpiName: ABUS
-            vpiFullName: work@sram.ABUS.ABUS
+            vpiFullName: sram.ABUS.ABUS
             vpiActual: Net name:ABUS
           vpiTypespec RefTypespec start:6:7 end:6:13:
             vpiParent: Port name:ABUS
-            vpiFullName: work@sram.ABUS
+            vpiFullName: sram.ABUS
             vpiActual: LogicTypespec
         Port name:DBUS start:2:26 end:2:30:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiName: DBUS
           vpiDirection: inout (3)
-          vpiLowConn RefObj name:DBUS start:2:26 end:2:30:
+          vpiLowConn RefObj name:DBUS start:7:13 end:7:17:
             vpiParent: Port name:DBUS
             vpiName: DBUS
-            vpiFullName: work@sram.DBUS.DBUS
+            vpiFullName: sram.DBUS.DBUS
             vpiActual: Net name:DBUS
           vpiTypespec RefTypespec start:7:7 end:7:12:
             vpiParent: Port name:DBUS
-            vpiFullName: work@sram.DBUS
-            vpiActual: LogicTypespec
+            vpiFullName: sram.DBUS
       vpiProcess (2 items):
         Initial start:15:1 end:20:7:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiStmt Begin start:16:4 end:20:7:
             vpiParent: Initial
-            vpiFullName: work@sram
+            vpiFullName: sram
             vpiStmt (2 items):
               Assignment start:17:4 end:17:29:
                 vpiParent: Begin
@@ -2316,13 +2357,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:DBUS_driver start:17:4 end:17:15:
                   vpiParent: Assignment
                   vpiName: DBUS_driver
-                  vpiFullName: work@sram.DBUS_driver
-                  vpiActual: Net name:DBUS_driver
+                  vpiFullName: sram.DBUS_driver
+                  vpiActual: Variable name:DBUS_driver
                 vpiRhs Constant start:17:18 end:17:29:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@sram
+                    vpiFullName: sram
                     vpiActual: LogicTypespec
                   vpiConstType: binary (3)
                   vpiSize: 8
@@ -2330,7 +2371,7 @@ Design name:unnamed:
                   vpiValue: zzzzzzzz
               ForStmt start:18:4 end:19:17:
                 vpiParent: Begin
-                vpiFullName: work@sram
+                vpiFullName: sram
                 vpiForInitStmt (1 items):
                   Assignment start:18:9 end:18:12:
                     vpiParent: ForStmt
@@ -2338,13 +2379,13 @@ Design name:unnamed:
                     vpiLhs RefObj name:i start:18:9 end:18:10:
                       vpiParent: Assignment
                       vpiName: i
-                      vpiFullName: work@sram.i
-                      vpiActual: Net name:i
+                      vpiFullName: sram.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:18:11 end:18:12:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@sram
+                        vpiFullName: sram
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2357,8 +2398,8 @@ Design name:unnamed:
                     vpiLhs RefObj name:i start:18:24 end:18:25:
                       vpiParent: Assignment
                       vpiName: i
-                      vpiFullName: work@sram.i
-                      vpiActual: Net name:i
+                      vpiFullName: sram.i
+                      vpiActual: Variable name:i
                     vpiRhs Operation start:18:28 end:18:33:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -2366,13 +2407,13 @@ Design name:unnamed:
                         RefObj name:i start:18:28 end:18:29:
                           vpiParent: Operation
                           vpiName: i
-                          vpiFullName: work@sram.i
-                          vpiActual: Net name:i
+                          vpiFullName: sram.i
+                          vpiActual: Variable name:i
                         Constant start:18:32 end:18:33:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@sram
+                            vpiFullName: sram
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -2385,13 +2426,13 @@ Design name:unnamed:
                     RefObj name:i start:18:14 end:18:15:
                       vpiParent: Operation
                       vpiName: i
-                      vpiFullName: work@sram.i
-                      vpiActual: Net name:i
+                      vpiFullName: sram.i
+                      vpiActual: Variable name:i
                     Constant start:18:18 end:18:22:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@sram
+                        vpiFullName: sram
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2403,29 +2444,29 @@ Design name:unnamed:
                   vpiLhs BitSelect name:ram[i] start:19:6 end:19:12:
                     vpiParent: Assignment
                     vpiName: ram[i]
-                    vpiFullName: work@sram.ram[i]
+                    vpiFullName: sram.ram[i]
                     vpiPrefix RefObj name:ram start:19:6 end:19:9:
                       vpiParent: BitSelect name:ram[i]
                       vpiName: ram
-                      vpiFullName: work@sram.ram
-                      vpiActual: Net name:ram
+                      vpiFullName: sram.ram
+                      vpiActual: Variable name:ram
                     vpiIndex RefObj name:i start:19:10 end:19:11:
                       vpiParent: BitSelect name:ram[i]
                       vpiName: i
-                      vpiFullName: work@sram.i
-                      vpiActual: Net name:i
+                      vpiFullName: sram.i
+                      vpiActual: Variable name:i
                   vpiRhs Constant start:19:15 end:19:16:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@sram
+                      vpiFullName: sram
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
         Always start:26:1 end:48:6:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiStmt EventControl start:26:8 end:48:6:
             vpiParent: Always
             vpiCondition Operation start:26:10 end:26:28:
@@ -2439,21 +2480,21 @@ Design name:unnamed:
                     RefObj name:CSB start:26:10 end:26:13:
                       vpiParent: Operation
                       vpiName: CSB
-                      vpiFullName: work@sram.CSB
+                      vpiFullName: sram.CSB
                       vpiActual: Net name:CSB
                     RefObj name:WRB start:26:17 end:26:20:
                       vpiParent: Operation
                       vpiName: WRB
-                      vpiFullName: work@sram.WRB
+                      vpiFullName: sram.WRB
                       vpiActual: Net name:WRB
                 RefObj name:ABUS start:26:24 end:26:28:
                   vpiParent: Operation
                   vpiName: ABUS
-                  vpiFullName: work@sram.ABUS
+                  vpiFullName: sram.ABUS
                   vpiActual: Net name:ABUS
             vpiStmt Begin start:27:3 end:48:6:
               vpiParent: EventControl
-              vpiFullName: work@sram
+              vpiFullName: sram
               vpiTypespec (1 items):
                 BitTypespec:
                   vpiParent: Begin
@@ -2467,13 +2508,13 @@ Design name:unnamed:
                       RefObj name:CSB start:28:9 end:28:12:
                         vpiParent: Operation
                         vpiName: CSB
-                        vpiFullName: work@sram.CSB
+                        vpiFullName: sram.CSB
                         vpiActual: Net name:CSB
                       Constant start:28:16 end:28:20:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@sram
+                          vpiFullName: sram
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -2481,7 +2522,7 @@ Design name:unnamed:
                         vpiValue: "0"
                   vpiStmt Begin start:29:7 end:43:10:
                     vpiParent: IfElse
-                    vpiFullName: work@sram
+                    vpiFullName: sram
                     vpiTypespec (1 items):
                       BitTypespec:
                         vpiParent: Begin
@@ -2495,13 +2536,13 @@ Design name:unnamed:
                             RefObj name:WRB start:30:11 end:30:14:
                               vpiParent: Operation
                               vpiName: WRB
-                              vpiFullName: work@sram.WRB
+                              vpiFullName: sram.WRB
                               vpiActual: Net name:WRB
                             Constant start:30:18 end:30:22:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@sram
+                                vpiFullName: sram
                                 vpiActual: BitTypespec
                               vpiConstType: binary (3)
                               vpiSize: 1
@@ -2509,22 +2550,22 @@ Design name:unnamed:
                               vpiValue: "0"
                         vpiStmt Begin start:32:9 end:37:12:
                           vpiParent: IfElse
-                          vpiFullName: work@sram
+                          vpiFullName: sram
                           vpiStmt (4 items):
                             Assignment start:33:9 end:33:39:
                               vpiParent: Begin
                               vpiLhs RefObj name:DBUS_driver start:33:9 end:33:20:
                                 vpiParent: Assignment
                                 vpiName: DBUS_driver
-                                vpiFullName: work@sram.DBUS_driver
-                                vpiActual: Net name:DBUS_driver
+                                vpiFullName: sram.DBUS_driver
+                                vpiActual: Variable name:DBUS_driver
                               vpiRhs DelayControl start:33:24 end:33:27:
                                 vpiParent: Assignment
                                 vpiStmt Constant start:33:28 end:33:39:
                                   vpiParent: DelayControl
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: work@sram
+                                    vpiFullName: sram
                                     vpiActual: LogicTypespec
                                   vpiConstType: binary (3)
                                   vpiSize: 8
@@ -2534,7 +2575,7 @@ Design name:unnamed:
                                   vpiParent: DelayControl
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: work@sram
+                                    vpiFullName: sram
                                     vpiActual: IntTypespec
                                   vpiConstType: int (7)
                                   vpiSize: 32
@@ -2553,7 +2594,7 @@ Design name:unnamed:
                                       RefObj name:CSB start:34:19 end:34:22:
                                         vpiParent: Operation
                                         vpiName: CSB
-                                        vpiFullName: work@sram.CSB
+                                        vpiFullName: sram.CSB
                                         vpiActual: Net name:CSB
                                   Operation start:34:26 end:34:37:
                                     vpiParent: Operation
@@ -2562,7 +2603,7 @@ Design name:unnamed:
                                       RefObj name:WRB start:34:34 end:34:37:
                                         vpiParent: Operation
                                         vpiName: WRB
-                                        vpiFullName: work@sram.WRB
+                                        vpiFullName: sram.WRB
                                         vpiActual: Net name:WRB
                             SysTaskCall name:$display start:35:9 end:35:64:
                               vpiParent: Begin
@@ -2570,16 +2611,16 @@ Design name:unnamed:
                                 vpiParent: SysTaskCall name:$display
                                 vpiName: "$display"
                               vpiArgument (4 items):
-                                SysTaskCall name:$time start:35:18 end:35:23:
+                                SysFuncCall name:$time start:35:18 end:35:23:
                                   vpiParent: SysTaskCall name:$display
                                   vpiName Identifier name:$time start:35:18 end:35:23:
-                                    vpiParent: SysTaskCall name:$time
+                                    vpiParent: SysFuncCall name:$time
                                     vpiName: "$time"
                                 Constant start:35:24 end:35:53:
                                   vpiParent: SysTaskCall name:$display
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: work@sram
+                                    vpiFullName: sram
                                     vpiActual: StringTypespec
                                   vpiConstType: string (6)
                                   vpiSize: 216
@@ -2588,12 +2629,12 @@ Design name:unnamed:
                                 RefObj name:ABUS start:35:54 end:35:58:
                                   vpiParent: SysTaskCall name:$display
                                   vpiName: ABUS
-                                  vpiFullName: work@sram.ABUS
+                                  vpiFullName: sram.ABUS
                                   vpiActual: Net name:ABUS
                                 RefObj name:DBUS start:35:59 end:35:63:
                                   vpiParent: SysTaskCall name:$display
                                   vpiName: DBUS
-                                  vpiFullName: work@sram.DBUS
+                                  vpiFullName: sram.DBUS
                                   vpiActual: Net name:DBUS
                             Assignment start:36:9 end:36:25:
                               vpiParent: Begin
@@ -2601,21 +2642,21 @@ Design name:unnamed:
                               vpiLhs BitSelect name:ram[ABUS] start:36:9 end:36:18:
                                 vpiParent: Assignment
                                 vpiName: ram[ABUS]
-                                vpiFullName: work@sram.ram[ABUS]
+                                vpiFullName: sram.ram[ABUS]
                                 vpiPrefix RefObj name:ram start:36:9 end:36:12:
                                   vpiParent: BitSelect name:ram[ABUS]
                                   vpiName: ram
-                                  vpiFullName: work@sram.ram
-                                  vpiActual: Net name:ram
+                                  vpiFullName: sram.ram
+                                  vpiActual: Variable name:ram
                                 vpiIndex RefObj name:ABUS start:36:13 end:36:17:
                                   vpiParent: BitSelect name:ram[ABUS]
                                   vpiName: ABUS
-                                  vpiFullName: work@sram.ABUS
+                                  vpiFullName: sram.ABUS
                                   vpiActual: Net name:ABUS
                               vpiRhs RefObj name:DBUS start:36:21 end:36:25:
                                 vpiParent: Assignment
                                 vpiName: DBUS
-                                vpiFullName: work@sram.DBUS
+                                vpiFullName: sram.DBUS
                                 vpiActual: Net name:DBUS
                         vpiElseStmt IfStmt start:38:12 end:42:12:
                           vpiParent: IfElse
@@ -2626,13 +2667,13 @@ Design name:unnamed:
                               RefObj name:WRB start:38:16 end:38:19:
                                 vpiParent: Operation
                                 vpiName: WRB
-                                vpiFullName: work@sram.WRB
+                                vpiFullName: sram.WRB
                                 vpiActual: Net name:WRB
                               Constant start:38:23 end:38:27:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@sram
+                                  vpiFullName: sram
                                   vpiActual: BitTypespec
                                 vpiConstType: binary (3)
                                 vpiSize: 1
@@ -2640,7 +2681,7 @@ Design name:unnamed:
                                 vpiValue: "1"
                           vpiStmt Begin start:39:9 end:42:12:
                             vpiParent: IfStmt
-                            vpiFullName: work@sram
+                            vpiFullName: sram
                             vpiStmt (2 items):
                               DelayControl start:40:9 end:40:38:
                                 vpiParent: Begin
@@ -2650,27 +2691,27 @@ Design name:unnamed:
                                   vpiLhs RefObj name:DBUS_driver start:40:13 end:40:24:
                                     vpiParent: Assignment
                                     vpiName: DBUS_driver
-                                    vpiFullName: work@sram.DBUS_driver
-                                    vpiActual: Net name:DBUS_driver
+                                    vpiFullName: sram.DBUS_driver
+                                    vpiActual: Variable name:DBUS_driver
                                   vpiRhs BitSelect name:ram[ABUS] start:40:28 end:40:37:
                                     vpiParent: Assignment
                                     vpiName: ram[ABUS]
-                                    vpiFullName: work@sram.ram[ABUS]
+                                    vpiFullName: sram.ram[ABUS]
                                     vpiPrefix RefObj name:ram start:40:28 end:40:31:
                                       vpiParent: BitSelect name:ram[ABUS]
                                       vpiName: ram
-                                      vpiFullName: work@sram.ram
-                                      vpiActual: Net name:ram
+                                      vpiFullName: sram.ram
+                                      vpiActual: Variable name:ram
                                     vpiIndex RefObj name:ABUS start:40:32 end:40:36:
                                       vpiParent: BitSelect name:ram[ABUS]
                                       vpiName: ABUS
-                                      vpiFullName: work@sram.ABUS
+                                      vpiFullName: sram.ABUS
                                       vpiActual: Net name:ABUS
                                 vpiDelay Constant start:40:10 end:40:12:
                                   vpiParent: DelayControl
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: work@sram
+                                    vpiFullName: sram
                                     vpiActual: IntTypespec
                                   vpiConstType: int (7)
                                   vpiSize: 32
@@ -2682,16 +2723,16 @@ Design name:unnamed:
                                   vpiParent: SysTaskCall name:$display
                                   vpiName: "$display"
                                 vpiArgument (4 items):
-                                  SysTaskCall name:$time start:41:18 end:41:23:
+                                  SysFuncCall name:$time start:41:18 end:41:23:
                                     vpiParent: SysTaskCall name:$display
                                     vpiName Identifier name:$time start:41:18 end:41:23:
-                                      vpiParent: SysTaskCall name:$time
+                                      vpiParent: SysFuncCall name:$time
                                       vpiName: "$time"
                                   Constant start:41:24 end:41:53:
                                     vpiParent: SysTaskCall name:$display
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@sram
+                                      vpiFullName: sram
                                       vpiActual: StringTypespec
                                     vpiConstType: string (6)
                                     vpiSize: 216
@@ -2700,31 +2741,31 @@ Design name:unnamed:
                                   RefObj name:ABUS start:41:54 end:41:58:
                                     vpiParent: SysTaskCall name:$display
                                     vpiName: ABUS
-                                    vpiFullName: work@sram.ABUS
+                                    vpiFullName: sram.ABUS
                                     vpiActual: Net name:ABUS
                                   RefObj name:DBUS_driver start:41:59 end:41:70:
                                     vpiParent: SysTaskCall name:$display
                                     vpiName: DBUS_driver
-                                    vpiFullName: work@sram.DBUS_driver
-                                    vpiActual: Net name:DBUS_driver
+                                    vpiFullName: sram.DBUS_driver
+                                    vpiActual: Variable name:DBUS_driver
                   vpiElseStmt Begin start:45:7 end:47:10:
                     vpiParent: IfElse
-                    vpiFullName: work@sram
+                    vpiFullName: sram
                     vpiStmt (1 items):
                       Assignment start:46:7 end:46:38:
                         vpiParent: Begin
                         vpiLhs RefObj name:DBUS_driver start:46:7 end:46:18:
                           vpiParent: Assignment
                           vpiName: DBUS_driver
-                          vpiFullName: work@sram.DBUS_driver
-                          vpiActual: Net name:DBUS_driver
+                          vpiFullName: sram.DBUS_driver
+                          vpiActual: Variable name:DBUS_driver
                         vpiRhs DelayControl start:46:23 end:46:26:
                           vpiParent: Assignment
                           vpiStmt Constant start:46:27 end:46:38:
                             vpiParent: DelayControl
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@sram
+                              vpiFullName: sram
                               vpiActual: LogicTypespec
                             vpiConstType: binary (3)
                             vpiSize: 8
@@ -2734,7 +2775,7 @@ Design name:unnamed:
                             vpiParent: DelayControl
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@sram
+                              vpiFullName: sram
                               vpiActual: IntTypespec
                             vpiConstType: int (7)
                             vpiSize: 32
@@ -2743,7 +2784,7 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:22:1 end:24:11:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiSpecifyItem (1 items):
             Tchk start:23:3 end:23:31:
               vpiParent: SpecifyBlock
@@ -2753,14 +2794,14 @@ Design name:unnamed:
                   vpiExpr RefObj name:ABUS start:23:10 end:23:14:
                     vpiParent: TchkTerm
                     vpiName: ABUS
-                    vpiFullName: work@sram.ABUS
+                    vpiFullName: sram.ABUS
                     vpiActual: Net name:ABUS
                 TchkTerm start:23:15 end:23:26:
                   vpiParent: Tchk
                   vpiExpr RefObj name:WRB start:23:23 end:23:26:
                     vpiParent: TchkTerm
                     vpiName: WRB
-                    vpiFullName: work@sram.WRB
+                    vpiFullName: sram.WRB
                     vpiActual: Net name:WRB
                   vpiEdge: posedge (13)
                 TchkTerm start:23:27 end:23:29:
@@ -2769,24 +2810,24 @@ Design name:unnamed:
                     vpiParent: TchkTerm
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@sram
+                      vpiFullName: sram
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "10"
                     vpiValue: 10
               vpiTchkType: setup (1)
-    Module name:work@sram file:$Source01/top.sv start:74:1 end:102:10:
+    Module name:sram file:$Source01/top.sv start:74:1 end:102:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sram start:74:8 end:74:12:
-        vpiParent: Module name:work@sram
-        vpiName: work@sram
-      vpiFullName: work@sram
+      vpiName Identifier name:sram start:74:8 end:74:12:
+        vpiParent: Module name:sram
+        vpiName: sram
+      vpiFullName: sram
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiRange (1 items):
             Range start:78:7 end:78:13:
               vpiParent: LogicTypespec
@@ -2794,7 +2835,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2804,7 +2845,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2812,7 +2853,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiRange (1 items):
             Range start:79:7 end:79:12:
               vpiParent: LogicTypespec
@@ -2820,7 +2861,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2830,108 +2871,124 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@sram
+                  vpiFullName: sram
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@sram
-      vpiDefNetType: none (12)
+      vpiDefName: sram
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@sram
+        vpiParent: Module name:sram
         vpiName: work
-        vpiFullName: work@sram.work
+        vpiFullName: sram.work
       vpiCell: sram
       vpiNet (4 items):
         Net name:CSB start:76:7 end:76:10:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiTypespec RefTypespec start:76:7 end:76:7:
             vpiParent: Net name:CSB
-            vpiFullName: work@sram.CSB
+            vpiFullName: sram.CSB
             vpiActual: LogicTypespec
           vpiName: CSB
-          vpiFullName: work@sram.CSB
+          vpiFullName: sram.CSB
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:WRB start:77:7 end:77:10:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiTypespec RefTypespec start:77:7 end:77:7:
             vpiParent: Net name:WRB
-            vpiFullName: work@sram.WRB
+            vpiFullName: sram.WRB
             vpiActual: LogicTypespec
           vpiName: WRB
-          vpiFullName: work@sram.WRB
+          vpiFullName: sram.WRB
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:ABUS start:78:14 end:78:18:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiTypespec RefTypespec start:78:7 end:78:13:
             vpiParent: Net name:ABUS
-            vpiFullName: work@sram.ABUS
+            vpiFullName: sram.ABUS
             vpiActual: LogicTypespec
           vpiName: ABUS
-          vpiFullName: work@sram.ABUS
+          vpiFullName: sram.ABUS
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:DBUS start:79:13 end:79:17:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiTypespec RefTypespec start:79:7 end:79:12:
             vpiParent: Net name:DBUS
-            vpiFullName: work@sram.DBUS
-            vpiActual: LogicTypespec
+            vpiFullName: sram.DBUS
           vpiName: DBUS
-          vpiFullName: work@sram.DBUS
+          vpiFullName: sram.DBUS
+          vpiNetType: wire (1)
+      vpiDirective (1 items):
+        PragmaDirective name:reset start:101:1 end:101:22:
+          vpiParent: Module name:sram
+          vpiName Identifier name:reset start:101:9 end:101:14:
+            vpiParent: PragmaDirective name:reset
+            vpiName: reset
+          vpiExpr (1 items):
+            RefObj name:protect start:101:15 end:101:22:
+              vpiParent: PragmaDirective name:reset
+              vpiName: protect
+              vpiFullName: sram.reset.protect
       vpiPort (4 items):
         Port name:CSB start:74:13 end:74:16:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiName: CSB
           vpiDirection: input (1)
-          vpiLowConn RefObj name:CSB start:74:13 end:74:16:
+          vpiLowConn RefObj name:CSB start:76:7 end:76:10:
             vpiParent: Port name:CSB
             vpiName: CSB
-            vpiFullName: work@sram.CSB.CSB
+            vpiFullName: sram.CSB.CSB
             vpiActual: Net name:CSB
           vpiTypespec RefTypespec start:76:7 end:76:7:
             vpiParent: Port name:CSB
-            vpiFullName: work@sram.CSB
+            vpiFullName: sram.CSB
             vpiActual: LogicTypespec
         Port name:WRB start:74:17 end:74:20:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiName: WRB
           vpiDirection: input (1)
-          vpiLowConn RefObj name:WRB start:74:17 end:74:20:
+          vpiLowConn RefObj name:WRB start:77:7 end:77:10:
             vpiParent: Port name:WRB
             vpiName: WRB
-            vpiFullName: work@sram.WRB.WRB
+            vpiFullName: sram.WRB.WRB
             vpiActual: Net name:WRB
           vpiTypespec RefTypespec start:77:7 end:77:7:
             vpiParent: Port name:WRB
-            vpiFullName: work@sram.WRB
+            vpiFullName: sram.WRB
             vpiActual: LogicTypespec
         Port name:ABUS start:74:21 end:74:25:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiName: ABUS
           vpiDirection: input (1)
-          vpiLowConn RefObj name:ABUS start:74:21 end:74:25:
+          vpiLowConn RefObj name:ABUS start:78:14 end:78:18:
             vpiParent: Port name:ABUS
             vpiName: ABUS
-            vpiFullName: work@sram.ABUS.ABUS
+            vpiFullName: sram.ABUS.ABUS
             vpiActual: Net name:ABUS
           vpiTypespec RefTypespec start:78:7 end:78:13:
             vpiParent: Port name:ABUS
-            vpiFullName: work@sram.ABUS
+            vpiFullName: sram.ABUS
             vpiActual: LogicTypespec
         Port name:DBUS start:74:26 end:74:30:
-          vpiParent: Module name:work@sram
+          vpiParent: Module name:sram
           vpiName: DBUS
           vpiDirection: inout (3)
-          vpiLowConn RefObj name:DBUS start:74:26 end:74:30:
+          vpiLowConn RefObj name:DBUS start:79:13 end:79:17:
             vpiParent: Port name:DBUS
             vpiName: DBUS
-            vpiFullName: work@sram.DBUS.DBUS
+            vpiFullName: sram.DBUS.DBUS
             vpiActual: Net name:DBUS
           vpiTypespec RefTypespec start:79:7 end:79:12:
             vpiParent: Port name:DBUS
-            vpiFullName: work@sram.DBUS
-            vpiActual: LogicTypespec
+            vpiFullName: sram.DBUS
   vpiTypespec (10 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2947,33 +3004,36 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@sram:
+    ModuleTypespec name:sram:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sram start:2:8 end:2:12:
-        vpiParent: ModuleTypespec name:work@sram
-        vpiName: work@sram
-      vpiModule: Module name:work@sram
+      vpiName Identifier name:sram start:2:8 end:2:12:
+        vpiParent: ModuleTypespec name:sram
+        vpiName: sram
+      vpiModule: Module name:sram
     LogicTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@sram:
+    ModuleTypespec name:sram:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sram start:74:8 end:74:12:
-        vpiParent: ModuleTypespec name:work@sram
-        vpiName: work@sram
-      vpiModule: Module name:work@sram
+      vpiName Identifier name:sram start:74:8 end:74:12:
+        vpiParent: ModuleTypespec name:sram
+        vpiName: sram
+      vpiModule: Module name:sram
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -2993,25 +3053,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/mounts.json
 
 
-{'result': {'coverage': 89.28,
+{'result': {'coverage': 95.03,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 95,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 44,
                                                   'pre_len': 886}},
-            'post_len': 95,
+            'post_len': 44,
             'pre_len': 886,
             'test_name': 'PragmaProtect/PragmaProtect'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      886 |        95 |
+| $Output/lib/work/top.sv |      886 |        44 |
 +=========================+==========+===========+
-|                         |      886 |        95 |
+|                         |      886 |        44 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 89.28
+[COVERAGE] : 95.03
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3022,7 +3082,7 @@ COMMAND: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             813     813       0         0
+Others                             820     820       0         0
 ----------------------------------------------------------------
-                                   813     813       0         0
+                                   820     820       0         0
 ===================== END REDUCTION RESULT =====================

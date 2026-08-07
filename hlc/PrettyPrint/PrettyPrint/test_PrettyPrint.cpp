@@ -30,7 +30,7 @@ class PrettyPrint : public Test {
 };
 
 TEST_F(PrettyPrint, MinusOp) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("a", module->getParameters());
@@ -53,7 +53,7 @@ TEST_F(PrettyPrint, MinusOp) {
 }
 
 TEST_F(PrettyPrint, Select) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::ParamAssign *const paramAssign = hldb::findByName<hldb::ParamAssign>("b", module->getParamAssigns());
@@ -66,7 +66,7 @@ TEST_F(PrettyPrint, Select) {
 }
 
 TEST_F(PrettyPrint, ConditionOp) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::ParamAssign *const paramAssign = hldb::findByName<hldb::ParamAssign>("d", module->getParamAssigns());
@@ -79,7 +79,7 @@ TEST_F(PrettyPrint, ConditionOp) {
 }
 
 TEST_F(PrettyPrint, SysFuncCall) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::ParamAssign *const paramAssign = hldb::findByName<hldb::ParamAssign>("f", module->getParamAssigns());
@@ -92,7 +92,7 @@ TEST_F(PrettyPrint, SysFuncCall) {
 }
 
 TEST_F(PrettyPrint, AssignmentPatternOp) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::ParamAssign *const paramAssign = hldb::findByName<hldb::ParamAssign>("h", module->getParamAssigns());
@@ -105,7 +105,7 @@ TEST_F(PrettyPrint, AssignmentPatternOp) {
 }
 
 TEST_F(PrettyPrint, PackedArrayTypespec) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("i", module->getParameters());
@@ -118,7 +118,7 @@ TEST_F(PrettyPrint, PackedArrayTypespec) {
 }
 
 TEST_F(PrettyPrint, UnpackedArrayTypespec) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("j", module->getParameters());
@@ -131,7 +131,7 @@ TEST_F(PrettyPrint, UnpackedArrayTypespec) {
 }
 
 TEST_F(PrettyPrint, UnpackedArrayTypespecOfPackedArrayTypespec_1) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("k", module->getParameters());
@@ -144,7 +144,7 @@ TEST_F(PrettyPrint, UnpackedArrayTypespecOfPackedArrayTypespec_1) {
 }
 
 TEST_F(PrettyPrint, UnpackedArrayTypespecOfPackedArrayTypespec_2) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("m", module->getParameters());

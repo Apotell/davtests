@@ -281,7 +281,7 @@ n<$Source01/dut.sv> u<484> t<Top_level_rule> c<1> l<1:1> el<21:1>
     n<> u<482> t<Description> p<483> c<481> l<1:1> el<20:10>
       n<> u<481> t<Module_declaration> p<482> c<78> l<1:1> el<20:10>
         n<> u<78> t<Module_nonansi_header> p<481> c<2> s<86> l<1:1> el<1:58>
-          n<module> u<2> t<Module_keyword> p<78> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<78> s<3> l<1:1> el<1:7>
           n<LogicGates> u<3> t<SIMPLE_IDENTIFIER> p<78> s<4> l<1:8> el<1:18>
           n<> u<4> t<Package_import_declaration_list> p<78> s<77> l<1:18> el<1:18>
           n<> u<77> t<Port_list> p<78> c<10> l<1:18> el<1:57>
@@ -760,16 +760,9 @@ n<$Source01/dut.sv> u<484> t<Top_level_rule> c<1> l<1:1> el<21:1>
                       n<> u<471> t<Constant_bit_select> p<472> l<19:16> el<19:16>
         n<> u<480> t<ENDMODULE> p<481> l<20:1> el<20:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@LogicGates".
-[ERR:EL0535] $Source01/dut.sv:15:29: Illegal implicit net "id:898, name:nn".
-[ERR:EL0535] $Source01/dut.sv:16:25: Illegal implicit net "id:926, name:out2".
-[ERR:EL0535] $Source01/dut.sv:17:37: Illegal implicit net "id:943, name:out3".
-[ERR:EL0535] $Source01/dut.sv:18:12: Illegal implicit net "id:981, name:p1".
-[ERR:EL0535] $Source01/dut.sv:18:15: Illegal implicit net "id:982, name:p2".
-[ERR:EL0535] $Source01/dut.sv:18:18: Illegal implicit net "id:983, name:p3".
-[ERR:EL0535] $Source01/dut.sv:19:14: Illegal implicit net "id:989, name:p1".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "LogicGates".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@LogicGates".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "LogicGates".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -778,7 +771,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2345,6 +2337,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2356,6 +2349,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2387,6 +2381,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2401,6 +2396,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2422,6 +2418,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2445,6 +2442,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2464,6 +2462,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2487,6 +2486,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2506,6 +2506,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2575,16 +2576,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2597,6 +2601,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2608,6 +2613,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2615,6 +2621,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2622,6 +2629,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2629,6 +2637,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2642,6 +2651,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2653,6 +2663,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2684,6 +2695,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2710,6 +2722,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2736,6 +2749,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2761,277 +2775,288 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@LogicGates file:$Source01/dut.sv start:1:1 end:20:10:
+    Module name:LogicGates file:$Source01/dut.sv start:1:1 end:20:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@LogicGates start:1:8 end:1:18:
-        vpiParent: Module name:work@LogicGates
-        vpiName: work@LogicGates
-      vpiFullName: work@LogicGates
+      vpiName Identifier name:LogicGates start:1:8 end:1:18:
+        vpiParent: Module name:LogicGates
+        vpiName: LogicGates
+      vpiFullName: LogicGates
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@LogicGates
-      vpiDefName: work@LogicGates
-      vpiDefNetType: none (12)
+          vpiParent: Module name:LogicGates
+      vpiDefName: LogicGates
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@LogicGates
+        vpiParent: Module name:LogicGates
         vpiName: work
-        vpiFullName: work@LogicGates.work
+        vpiFullName: LogicGates.work
       vpiCell: LogicGates
-      vpiNet (12 items):
+      vpiNet (11 items):
         Net name:a start:2:9 end:2:10:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:2:9 end:2:9:
             vpiParent: Net name:a
-            vpiFullName: work@LogicGates.a
+            vpiFullName: LogicGates.a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: work@LogicGates.a
+          vpiFullName: LogicGates.a
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:2:11 end:2:12:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:2:9 end:2:9:
             vpiParent: Net name:b
-            vpiFullName: work@LogicGates.b
+            vpiFullName: LogicGates.b
             vpiActual: LogicTypespec
           vpiName: b
-          vpiFullName: work@LogicGates.b
+          vpiFullName: LogicGates.b
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y1 start:3:10 end:3:12:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y1
-            vpiFullName: work@LogicGates.y1
+            vpiFullName: LogicGates.y1
             vpiActual: LogicTypespec
           vpiName: y1
-          vpiFullName: work@LogicGates.y1
+          vpiFullName: LogicGates.y1
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y2 start:3:14 end:3:16:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y2
-            vpiFullName: work@LogicGates.y2
+            vpiFullName: LogicGates.y2
             vpiActual: LogicTypespec
           vpiName: y2
-          vpiFullName: work@LogicGates.y2
+          vpiFullName: LogicGates.y2
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y3 start:3:17 end:3:19:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y3
-            vpiFullName: work@LogicGates.y3
+            vpiFullName: LogicGates.y3
             vpiActual: LogicTypespec
           vpiName: y3
-          vpiFullName: work@LogicGates.y3
+          vpiFullName: LogicGates.y3
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y4 start:3:20 end:3:22:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y4
-            vpiFullName: work@LogicGates.y4
+            vpiFullName: LogicGates.y4
             vpiActual: LogicTypespec
           vpiName: y4
-          vpiFullName: work@LogicGates.y4
+          vpiFullName: LogicGates.y4
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y5 start:3:23 end:3:25:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y5
-            vpiFullName: work@LogicGates.y5
+            vpiFullName: LogicGates.y5
             vpiActual: LogicTypespec
           vpiName: y5
-          vpiFullName: work@LogicGates.y5
+          vpiFullName: LogicGates.y5
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y6 start:3:26 end:3:28:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y6
-            vpiFullName: work@LogicGates.y6
+            vpiFullName: LogicGates.y6
             vpiActual: LogicTypespec
           vpiName: y6
-          vpiFullName: work@LogicGates.y6
+          vpiFullName: LogicGates.y6
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y7 start:3:29 end:3:31:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y7
-            vpiFullName: work@LogicGates.y7
+            vpiFullName: LogicGates.y7
             vpiActual: LogicTypespec
           vpiName: y7
-          vpiFullName: work@LogicGates.y7
+          vpiFullName: LogicGates.y7
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y8 start:3:32 end:3:34:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y8
-            vpiFullName: work@LogicGates.y8
+            vpiFullName: LogicGates.y8
             vpiActual: LogicTypespec
           vpiName: y8
-          vpiFullName: work@LogicGates.y8
+          vpiFullName: LogicGates.y8
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y9 start:3:35 end:3:37:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Net name:y9
-            vpiFullName: work@LogicGates.y9
+            vpiFullName: LogicGates.y9
             vpiActual: LogicTypespec
           vpiName: y9
-          vpiFullName: work@LogicGates.y9
-        Net name:y10 start:1:53 end:1:56:
-          vpiParent: Module name:work@LogicGates
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:y10
-            vpiFullName: work@LogicGates.y10
-          vpiName: y10
-          vpiFullName: work@LogicGates.y10
+          vpiFullName: LogicGates.y9
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (12 items):
         Port name:a start:1:19 end:1:20:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:1:19 end:1:20:
+          vpiLowConn RefObj name:a start:2:9 end:2:10:
             vpiParent: Port name:a
             vpiName: a
-            vpiFullName: work@LogicGates.a.a
+            vpiFullName: LogicGates.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:2:9 end:2:9:
             vpiParent: Port name:a
-            vpiFullName: work@LogicGates.a
+            vpiFullName: LogicGates.a
             vpiActual: LogicTypespec
         Port name:b start:1:21 end:1:22:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:1:21 end:1:22:
+          vpiLowConn RefObj name:b start:2:11 end:2:12:
             vpiParent: Port name:b
             vpiName: b
-            vpiFullName: work@LogicGates.b.b
+            vpiFullName: LogicGates.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:2:9 end:2:9:
             vpiParent: Port name:b
-            vpiFullName: work@LogicGates.b
+            vpiFullName: LogicGates.b
             vpiActual: LogicTypespec
         Port name:y1 start:1:23 end:1:25:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y1
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y1 start:1:23 end:1:25:
+          vpiLowConn RefObj name:y1 start:3:10 end:3:12:
             vpiParent: Port name:y1
             vpiName: y1
-            vpiFullName: work@LogicGates.y1.y1
+            vpiFullName: LogicGates.y1.y1
             vpiActual: Net name:y1
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y1
-            vpiFullName: work@LogicGates.y1
+            vpiFullName: LogicGates.y1
             vpiActual: LogicTypespec
         Port name:y2 start:1:26 end:1:28:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y2
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y2 start:1:26 end:1:28:
+          vpiLowConn RefObj name:y2 start:3:14 end:3:16:
             vpiParent: Port name:y2
             vpiName: y2
-            vpiFullName: work@LogicGates.y2.y2
+            vpiFullName: LogicGates.y2.y2
             vpiActual: Net name:y2
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y2
-            vpiFullName: work@LogicGates.y2
+            vpiFullName: LogicGates.y2
             vpiActual: LogicTypespec
         Port name:y3 start:1:29 end:1:31:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y3
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y3 start:1:29 end:1:31:
+          vpiLowConn RefObj name:y3 start:3:17 end:3:19:
             vpiParent: Port name:y3
             vpiName: y3
-            vpiFullName: work@LogicGates.y3.y3
+            vpiFullName: LogicGates.y3.y3
             vpiActual: Net name:y3
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y3
-            vpiFullName: work@LogicGates.y3
+            vpiFullName: LogicGates.y3
             vpiActual: LogicTypespec
         Port name:y4 start:1:32 end:1:34:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y4
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y4 start:1:32 end:1:34:
+          vpiLowConn RefObj name:y4 start:3:20 end:3:22:
             vpiParent: Port name:y4
             vpiName: y4
-            vpiFullName: work@LogicGates.y4.y4
+            vpiFullName: LogicGates.y4.y4
             vpiActual: Net name:y4
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y4
-            vpiFullName: work@LogicGates.y4
+            vpiFullName: LogicGates.y4
             vpiActual: LogicTypespec
         Port name:y5 start:1:35 end:1:37:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y5
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y5 start:1:35 end:1:37:
+          vpiLowConn RefObj name:y5 start:3:23 end:3:25:
             vpiParent: Port name:y5
             vpiName: y5
-            vpiFullName: work@LogicGates.y5.y5
+            vpiFullName: LogicGates.y5.y5
             vpiActual: Net name:y5
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y5
-            vpiFullName: work@LogicGates.y5
+            vpiFullName: LogicGates.y5
             vpiActual: LogicTypespec
         Port name:y6 start:1:38 end:1:40:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y6
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y6 start:1:38 end:1:40:
+          vpiLowConn RefObj name:y6 start:3:26 end:3:28:
             vpiParent: Port name:y6
             vpiName: y6
-            vpiFullName: work@LogicGates.y6.y6
+            vpiFullName: LogicGates.y6.y6
             vpiActual: Net name:y6
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y6
-            vpiFullName: work@LogicGates.y6
+            vpiFullName: LogicGates.y6
             vpiActual: LogicTypespec
         Port name:y7 start:1:41 end:1:43:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y7
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y7 start:1:41 end:1:43:
+          vpiLowConn RefObj name:y7 start:3:29 end:3:31:
             vpiParent: Port name:y7
             vpiName: y7
-            vpiFullName: work@LogicGates.y7.y7
+            vpiFullName: LogicGates.y7.y7
             vpiActual: Net name:y7
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y7
-            vpiFullName: work@LogicGates.y7
+            vpiFullName: LogicGates.y7
             vpiActual: LogicTypespec
         Port name:y8 start:1:45 end:1:47:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y8
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y8 start:1:45 end:1:47:
+          vpiLowConn RefObj name:y8 start:3:32 end:3:34:
             vpiParent: Port name:y8
             vpiName: y8
-            vpiFullName: work@LogicGates.y8.y8
+            vpiFullName: LogicGates.y8.y8
             vpiActual: Net name:y8
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y8
-            vpiFullName: work@LogicGates.y8
+            vpiFullName: LogicGates.y8
             vpiActual: LogicTypespec
         Port name:y9 start:1:49 end:1:51:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y9
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y9 start:1:49 end:1:51:
+          vpiLowConn RefObj name:y9 start:3:35 end:3:37:
             vpiParent: Port name:y9
             vpiName: y9
-            vpiFullName: work@LogicGates.y9.y9
+            vpiFullName: LogicGates.y9.y9
             vpiActual: Net name:y9
           vpiTypespec RefTypespec start:3:10 end:3:10:
             vpiParent: Port name:y9
-            vpiFullName: work@LogicGates.y9
+            vpiFullName: LogicGates.y9
             vpiActual: LogicTypespec
         Port name:y10 start:1:53 end:1:56:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: y10
-          vpiLowConn RefObj name:y10 start:1:53 end:1:56:
-            vpiParent: Port name:y10
-            vpiName: y10
-            vpiFullName: work@LogicGates.y10.y10
-            vpiActual: Net name:y10
+          vpiDirection: no direction (5)
           vpiTypespec RefTypespec:
             vpiParent: Port name:y10
-            vpiFullName: work@LogicGates.y10
+            vpiFullName: LogicGates.y10
       vpiPrimitive (14 items):
         Gate:
-          vpiParent: Module name:work@LogicGates
-          vpiFullName: work@LogicGates.work@and
+          vpiParent: Module name:LogicGates
+          vpiFullName: LogicGates.work@and
           vpiDefName Identifier name:work@and start:5:3 end:5:6:
             vpiParent: Gate
             vpiName: work@and
@@ -3043,7 +3068,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y1 start:5:7 end:5:9:
                 vpiParent: PrimTerm
                 vpiName: y1
-                vpiFullName: work@LogicGates.work@and.y1
+                vpiFullName: LogicGates.work@and.y1
                 vpiActual: Net name:y1
             PrimTerm start:5:10 end:5:11:
               vpiParent: Gate
@@ -3052,7 +3077,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:5:10 end:5:11:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.work@and.a
+                vpiFullName: LogicGates.work@and.a
                 vpiActual: Net name:a
             PrimTerm start:5:12 end:5:13:
               vpiParent: Gate
@@ -3061,11 +3086,11 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:5:12 end:5:13:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.work@and.b
+                vpiFullName: LogicGates.work@and.b
                 vpiActual: Net name:b
         Gate:
-          vpiParent: Module name:work@LogicGates
-          vpiFullName: work@LogicGates.work@or
+          vpiParent: Module name:LogicGates
+          vpiFullName: LogicGates.work@or
           vpiDefName Identifier name:work@or start:6:3 end:6:5:
             vpiParent: Gate
             vpiName: work@or
@@ -3077,7 +3102,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y2 start:6:6 end:6:8:
                 vpiParent: PrimTerm
                 vpiName: y2
-                vpiFullName: work@LogicGates.work@or.y2
+                vpiFullName: LogicGates.work@or.y2
                 vpiActual: Net name:y2
             PrimTerm start:6:9 end:6:10:
               vpiParent: Gate
@@ -3086,7 +3111,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:6:9 end:6:10:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.work@or.a
+                vpiFullName: LogicGates.work@or.a
                 vpiActual: Net name:a
             PrimTerm start:6:11 end:6:12:
               vpiParent: Gate
@@ -3095,11 +3120,11 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:6:11 end:6:12:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.work@or.b
+                vpiFullName: LogicGates.work@or.b
                 vpiActual: Net name:b
         Gate:
-          vpiParent: Module name:work@LogicGates
-          vpiFullName: work@LogicGates.work@not
+          vpiParent: Module name:LogicGates
+          vpiFullName: LogicGates.work@not
           vpiDefName Identifier name:work@not start:7:3 end:7:6:
             vpiParent: Gate
             vpiName: work@not
@@ -3111,7 +3136,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y3 start:7:7 end:7:9:
                 vpiParent: PrimTerm
                 vpiName: y3
-                vpiFullName: work@LogicGates.work@not.y3
+                vpiFullName: LogicGates.work@not.y3
                 vpiActual: Net name:y3
             PrimTerm start:7:10 end:7:11:
               vpiParent: Gate
@@ -3120,11 +3145,11 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:7:10 end:7:11:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.work@not.a
+                vpiFullName: LogicGates.work@not.a
                 vpiActual: Net name:a
         Gate:
-          vpiParent: Module name:work@LogicGates
-          vpiFullName: work@LogicGates.work@nand
+          vpiParent: Module name:LogicGates
+          vpiFullName: LogicGates.work@nand
           vpiDefName Identifier name:work@nand start:8:3 end:8:7:
             vpiParent: Gate
             vpiName: work@nand
@@ -3136,7 +3161,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y4 start:8:8 end:8:10:
                 vpiParent: PrimTerm
                 vpiName: y4
-                vpiFullName: work@LogicGates.work@nand.y4
+                vpiFullName: LogicGates.work@nand.y4
                 vpiActual: Net name:y4
             PrimTerm start:8:11 end:8:12:
               vpiParent: Gate
@@ -3145,7 +3170,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:8:11 end:8:12:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.work@nand.a
+                vpiFullName: LogicGates.work@nand.a
                 vpiActual: Net name:a
             PrimTerm start:8:13 end:8:14:
               vpiParent: Gate
@@ -3154,11 +3179,11 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:8:13 end:8:14:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.work@nand.b
+                vpiFullName: LogicGates.work@nand.b
                 vpiActual: Net name:b
         Gate:
-          vpiParent: Module name:work@LogicGates
-          vpiFullName: work@LogicGates.work@nor
+          vpiParent: Module name:LogicGates
+          vpiFullName: LogicGates.work@nor
           vpiDefName Identifier name:work@nor start:9:3 end:9:6:
             vpiParent: Gate
             vpiName: work@nor
@@ -3170,7 +3195,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y5 start:9:7 end:9:9:
                 vpiParent: PrimTerm
                 vpiName: y5
-                vpiFullName: work@LogicGates.work@nor.y5
+                vpiFullName: LogicGates.work@nor.y5
                 vpiActual: Net name:y5
             PrimTerm start:9:10 end:9:11:
               vpiParent: Gate
@@ -3179,7 +3204,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:9:10 end:9:11:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.work@nor.a
+                vpiFullName: LogicGates.work@nor.a
                 vpiActual: Net name:a
             PrimTerm start:9:12 end:9:13:
               vpiParent: Gate
@@ -3188,11 +3213,11 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:9:12 end:9:13:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.work@nor.b
+                vpiFullName: LogicGates.work@nor.b
                 vpiActual: Net name:b
         Gate:
-          vpiParent: Module name:work@LogicGates
-          vpiFullName: work@LogicGates.work@xor
+          vpiParent: Module name:LogicGates
+          vpiFullName: LogicGates.work@xor
           vpiDefName Identifier name:work@xor start:10:3 end:10:6:
             vpiParent: Gate
             vpiName: work@xor
@@ -3204,7 +3229,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y6 start:10:7 end:10:9:
                 vpiParent: PrimTerm
                 vpiName: y6
-                vpiFullName: work@LogicGates.work@xor.y6
+                vpiFullName: LogicGates.work@xor.y6
                 vpiActual: Net name:y6
             PrimTerm start:10:10 end:10:11:
               vpiParent: Gate
@@ -3213,7 +3238,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:10:10 end:10:11:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.work@xor.a
+                vpiFullName: LogicGates.work@xor.a
                 vpiActual: Net name:a
             PrimTerm start:10:12 end:10:13:
               vpiParent: Gate
@@ -3222,11 +3247,11 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:10:12 end:10:13:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.work@xor.b
+                vpiFullName: LogicGates.work@xor.b
                 vpiActual: Net name:b
         Gate:
-          vpiParent: Module name:work@LogicGates
-          vpiFullName: work@LogicGates.work@xnor
+          vpiParent: Module name:LogicGates
+          vpiFullName: LogicGates.work@xnor
           vpiDefName Identifier name:work@xnor start:11:3 end:11:7:
             vpiParent: Gate
             vpiName: work@xnor
@@ -3238,7 +3263,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y7 start:11:8 end:11:10:
                 vpiParent: PrimTerm
                 vpiName: y7
-                vpiFullName: work@LogicGates.work@xnor.y7
+                vpiFullName: LogicGates.work@xnor.y7
                 vpiActual: Net name:y7
             PrimTerm start:11:11 end:11:12:
               vpiParent: Gate
@@ -3247,7 +3272,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:11:11 end:11:12:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.work@xnor.a
+                vpiFullName: LogicGates.work@xnor.a
                 vpiActual: Net name:a
             PrimTerm start:11:13 end:11:14:
               vpiParent: Gate
@@ -3256,12 +3281,12 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:11:13 end:11:14:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.work@xnor.b
+                vpiFullName: LogicGates.work@xnor.b
                 vpiActual: Net name:b
         Gate name:a1 start:13:14 end:13:16:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: a1
-          vpiFullName: work@LogicGates.a1
+          vpiFullName: LogicGates.a1
           vpiDefName Identifier name:work@and start:13:3 end:13:6:
             vpiParent: Gate name:a1
             vpiName: work@and
@@ -3271,7 +3296,7 @@ Design name:unnamed:
               vpiParent: Gate name:a1
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@LogicGates.a1
+                vpiFullName: LogicGates.a1
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -3284,7 +3309,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y8 start:13:18 end:13:20:
                 vpiParent: PrimTerm
                 vpiName: y8
-                vpiFullName: work@LogicGates.a1.y8
+                vpiFullName: LogicGates.a1.y8
                 vpiActual: Net name:y8
             PrimTerm start:13:21 end:13:22:
               vpiParent: Gate name:a1
@@ -3293,7 +3318,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:13:21 end:13:22:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.a1.a
+                vpiFullName: LogicGates.a1.a
                 vpiActual: Net name:a
             PrimTerm start:13:23 end:13:24:
               vpiParent: Gate name:a1
@@ -3302,12 +3327,12 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:13:23 end:13:24:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.a1.b
+                vpiFullName: LogicGates.a1.b
                 vpiActual: Net name:b
         Gate name:a2 start:14:13 end:14:15:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: a2
-          vpiFullName: work@LogicGates.a2
+          vpiFullName: LogicGates.a2
           vpiDefName Identifier name:work@or start:14:3 end:14:5:
             vpiParent: Gate name:a2
             vpiName: work@or
@@ -3317,7 +3342,7 @@ Design name:unnamed:
               vpiParent: Gate name:a2
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@LogicGates.a2
+                vpiFullName: LogicGates.a2
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -3327,7 +3352,7 @@ Design name:unnamed:
               vpiParent: Gate name:a2
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@LogicGates.a2
+                vpiFullName: LogicGates.a2
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -3340,7 +3365,7 @@ Design name:unnamed:
               vpiExpr RefObj name:y9 start:14:17 end:14:19:
                 vpiParent: PrimTerm
                 vpiName: y9
-                vpiFullName: work@LogicGates.a2.y9
+                vpiFullName: LogicGates.a2.y9
                 vpiActual: Net name:y9
             PrimTerm start:14:20 end:14:21:
               vpiParent: Gate name:a2
@@ -3349,7 +3374,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:14:20 end:14:21:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.a2.a
+                vpiFullName: LogicGates.a2.a
                 vpiActual: Net name:a
             PrimTerm start:14:22 end:14:23:
               vpiParent: Gate name:a2
@@ -3358,7 +3383,7 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:14:22 end:14:23:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.a2.b
+                vpiFullName: LogicGates.a2.b
                 vpiActual: Net name:b
             PrimTerm start:14:25 end:14:30:
               vpiParent: Gate name:a2
@@ -3371,17 +3396,17 @@ Design name:unnamed:
                   RefObj name:a start:14:25 end:14:26:
                     vpiParent: Operation
                     vpiName: a
-                    vpiFullName: work@LogicGates.a2.a
+                    vpiFullName: LogicGates.a2.a
                     vpiActual: Net name:a
                   RefObj name:b start:14:29 end:14:30:
                     vpiParent: Operation
                     vpiName: b
-                    vpiFullName: work@LogicGates.a2.b
+                    vpiFullName: LogicGates.a2.b
                     vpiActual: Net name:b
         Gate name:a3 start:15:25 end:15:27:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: a3
-          vpiFullName: work@LogicGates.a3
+          vpiFullName: LogicGates.a3
           vpiDefName Identifier name:work@nand start:15:3 end:15:7:
             vpiParent: Gate name:a3
             vpiName: work@nand
@@ -3395,7 +3420,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@LogicGates.a3
+                    vpiFullName: LogicGates.a3
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3405,7 +3430,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@LogicGates.a3
+                    vpiFullName: LogicGates.a3
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3415,7 +3440,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@LogicGates.a3
+                    vpiFullName: LogicGates.a3
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3429,7 +3454,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@LogicGates.a3
+                    vpiFullName: LogicGates.a3
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3439,7 +3464,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@LogicGates.a3
+                    vpiFullName: LogicGates.a3
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3449,7 +3474,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@LogicGates.a3
+                    vpiFullName: LogicGates.a3
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3462,7 +3487,7 @@ Design name:unnamed:
               vpiExpr RefObj name:nn start:15:29 end:15:31:
                 vpiParent: PrimTerm
                 vpiName: nn
-                vpiFullName: work@LogicGates.a3.nn
+                vpiFullName: LogicGates.a3.nn
             PrimTerm start:15:33 end:15:34:
               vpiParent: Gate name:a3
               vpiDirection: input (1)
@@ -3470,7 +3495,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:15:33 end:15:34:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.a3.a
+                vpiFullName: LogicGates.a3.a
                 vpiActual: Net name:a
             PrimTerm start:15:36 end:15:37:
               vpiParent: Gate name:a3
@@ -3479,47 +3504,50 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:15:36 end:15:37:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.a3.b
+                vpiFullName: LogicGates.a3.b
                 vpiActual: Net name:b
         Gate name:a4 start:16:21 end:16:23:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: a4
-          vpiFullName: work@LogicGates.a4
+          vpiFullName: LogicGates.a4
           vpiDefName Identifier name:work@bufif0 start:16:3 end:16:9:
             vpiParent: Gate name:a4
             vpiName: work@bufif0
           vpiPrimType: bufif0 (9)
-          vpiDelay (3 items):
-            Constant start:16:12 end:16:13:
+          vpiDelay (1 items):
+            DelayTerm start:16:10 end:16:20:
               vpiParent: Gate name:a4
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@LogicGates.a4
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "5"
-              vpiValue: 5
-            Constant start:16:15 end:16:16:
-              vpiParent: Gate name:a4
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@LogicGates.a4
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "6"
-              vpiValue: 6
-            Constant start:16:18 end:16:19:
-              vpiParent: Gate name:a4
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@LogicGates.a4
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "7"
-              vpiValue: 7
+              vpiDelay (3 items):
+                Constant start:16:12 end:16:13:
+                  vpiParent: DelayTerm
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: LogicGates.a4
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "5"
+                  vpiValue: 5
+                Constant start:16:15 end:16:16:
+                  vpiParent: DelayTerm
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: LogicGates.a4
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "6"
+                  vpiValue: 6
+                Constant start:16:18 end:16:19:
+                  vpiParent: DelayTerm
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: LogicGates.a4
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "7"
+                  vpiValue: 7
           vpiPrimTerm (3 items):
             PrimTerm start:16:25 end:16:29:
               vpiParent: Gate name:a4
@@ -3527,7 +3555,7 @@ Design name:unnamed:
               vpiExpr RefObj name:out2 start:16:25 end:16:29:
                 vpiParent: PrimTerm
                 vpiName: out2
-                vpiFullName: work@LogicGates.a4.out2
+                vpiFullName: LogicGates.a4.out2
             PrimTerm start:16:31 end:16:32:
               vpiParent: Gate name:a4
               vpiDirection: input (1)
@@ -3535,7 +3563,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:16:31 end:16:32:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.a4.a
+                vpiFullName: LogicGates.a4.a
                 vpiActual: Net name:a
             PrimTerm start:16:34 end:16:35:
               vpiParent: Gate name:a4
@@ -3544,119 +3572,122 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:16:34 end:16:35:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.a4.b
+                vpiFullName: LogicGates.a4.b
                 vpiActual: Net name:b
         Gate name:a5 start:17:33 end:17:35:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: a5
-          vpiFullName: work@LogicGates.a5
+          vpiFullName: LogicGates.a5
           vpiDefName Identifier name:work@bufif0 start:17:3 end:17:9:
             vpiParent: Gate name:a5
             vpiName: work@bufif0
           vpiPrimType: bufif0 (9)
-          vpiDelay (3 items):
-            Operation start:17:12 end:17:17:
+          vpiDelay (1 items):
+            DelayTerm start:17:10 end:17:32:
               vpiParent: Gate name:a5
-              vpiOpType: min:typ:max (38)
-              vpiOperand (3 items):
-                Constant start:17:12 end:17:13:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "5"
-                  vpiValue: 5
-                Constant start:17:14 end:17:15:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "6"
-                  vpiValue: 6
-                Constant start:17:16 end:17:17:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "7"
-                  vpiValue: 7
-            Operation start:17:19 end:17:24:
-              vpiParent: Gate name:a5
-              vpiOpType: min:typ:max (38)
-              vpiOperand (3 items):
-                Constant start:17:19 end:17:20:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "6"
-                  vpiValue: 6
-                Constant start:17:21 end:17:22:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "7"
-                  vpiValue: 7
-                Constant start:17:23 end:17:24:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "8"
-                  vpiValue: 8
-            Operation start:17:26 end:17:31:
-              vpiParent: Gate name:a5
-              vpiOpType: min:typ:max (38)
-              vpiOperand (3 items):
-                Constant start:17:26 end:17:27:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "7"
-                  vpiValue: 7
-                Constant start:17:28 end:17:29:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "8"
-                  vpiValue: 8
-                Constant start:17:30 end:17:31:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@LogicGates.a5
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "9"
-                  vpiValue: 9
+              vpiDelay (3 items):
+                Operation start:17:12 end:17:17:
+                  vpiParent: DelayTerm
+                  vpiOpType: min:typ:max (38)
+                  vpiOperand (3 items):
+                    Constant start:17:12 end:17:13:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "5"
+                      vpiValue: 5
+                    Constant start:17:14 end:17:15:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "6"
+                      vpiValue: 6
+                    Constant start:17:16 end:17:17:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "7"
+                      vpiValue: 7
+                Operation start:17:19 end:17:24:
+                  vpiParent: DelayTerm
+                  vpiOpType: min:typ:max (38)
+                  vpiOperand (3 items):
+                    Constant start:17:19 end:17:20:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "6"
+                      vpiValue: 6
+                    Constant start:17:21 end:17:22:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "7"
+                      vpiValue: 7
+                    Constant start:17:23 end:17:24:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "8"
+                      vpiValue: 8
+                Operation start:17:26 end:17:31:
+                  vpiParent: DelayTerm
+                  vpiOpType: min:typ:max (38)
+                  vpiOperand (3 items):
+                    Constant start:17:26 end:17:27:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "7"
+                      vpiValue: 7
+                    Constant start:17:28 end:17:29:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "8"
+                      vpiValue: 8
+                    Constant start:17:30 end:17:31:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: LogicGates.a5
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "9"
+                      vpiValue: 9
           vpiPrimTerm (3 items):
             PrimTerm start:17:37 end:17:41:
               vpiParent: Gate name:a5
@@ -3664,7 +3695,7 @@ Design name:unnamed:
               vpiExpr RefObj name:out3 start:17:37 end:17:41:
                 vpiParent: PrimTerm
                 vpiName: out3
-                vpiFullName: work@LogicGates.a5.out3
+                vpiFullName: LogicGates.a5.out3
             PrimTerm start:17:43 end:17:44:
               vpiParent: Gate name:a5
               vpiDirection: input (1)
@@ -3672,7 +3703,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:17:43 end:17:44:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: work@LogicGates.a5.a
+                vpiFullName: LogicGates.a5.a
                 vpiActual: Net name:a
             PrimTerm start:17:46 end:17:47:
               vpiParent: Gate name:a5
@@ -3681,12 +3712,12 @@ Design name:unnamed:
               vpiExpr RefObj name:b start:17:46 end:17:47:
                 vpiParent: PrimTerm
                 vpiName: b
-                vpiFullName: work@LogicGates.a5.b
+                vpiFullName: LogicGates.a5.b
                 vpiActual: Net name:b
         SwitchTran name:a6 start:18:8 end:18:10:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: a6
-          vpiFullName: work@LogicGates.a6
+          vpiFullName: LogicGates.a6
           vpiDefName Identifier name:work@pmos start:18:3 end:18:7:
             vpiParent: SwitchTran name:a6
             vpiName: work@pmos
@@ -3698,7 +3729,7 @@ Design name:unnamed:
               vpiExpr RefObj name:p1 start:18:12 end:18:14:
                 vpiParent: PrimTerm
                 vpiName: p1
-                vpiFullName: work@LogicGates.a6.p1
+                vpiFullName: LogicGates.a6.p1
             PrimTerm start:18:15 end:18:17:
               vpiParent: SwitchTran name:a6
               vpiDirection: input (1)
@@ -3706,7 +3737,7 @@ Design name:unnamed:
               vpiExpr RefObj name:p2 start:18:15 end:18:17:
                 vpiParent: PrimTerm
                 vpiName: p2
-                vpiFullName: work@LogicGates.a6.p2
+                vpiFullName: LogicGates.a6.p2
             PrimTerm start:18:18 end:18:20:
               vpiParent: SwitchTran name:a6
               vpiDirection: input (1)
@@ -3714,11 +3745,11 @@ Design name:unnamed:
               vpiExpr RefObj name:p3 start:18:18 end:18:20:
                 vpiParent: PrimTerm
                 vpiName: p3
-                vpiFullName: work@LogicGates.a6.p3
+                vpiFullName: LogicGates.a6.p3
         Gate name:a7 start:19:10 end:19:12:
-          vpiParent: Module name:work@LogicGates
+          vpiParent: Module name:LogicGates
           vpiName: a7
-          vpiFullName: work@LogicGates.a7
+          vpiFullName: LogicGates.a7
           vpiDefName Identifier name:work@pullup start:19:3 end:19:9:
             vpiParent: Gate name:a7
             vpiName: work@pullup
@@ -3730,7 +3761,7 @@ Design name:unnamed:
               vpiExpr RefObj name:p1 start:19:14 end:19:16:
                 vpiParent: PrimTerm
                 vpiName: p1
-                vpiFullName: work@LogicGates.a7.p1
+                vpiFullName: LogicGates.a7.p1
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3746,29 +3777,32 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@LogicGates:
+    ModuleTypespec name:LogicGates:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@LogicGates start:1:8 end:1:18:
-        vpiParent: ModuleTypespec name:work@LogicGates
-        vpiName: work@LogicGates
-      vpiModule: Module name:work@LogicGates
+      vpiName Identifier name:LogicGates start:1:8 end:1:18:
+        vpiParent: ModuleTypespec name:LogicGates
+        vpiName: LogicGates
+      vpiModule: Module name:LogicGates
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
@@ -3813,7 +3847,7 @@ COMMAND: ${HLC_DIR}/regression/GateLevel/GateLevel/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             812     812       0         0
+Others                             811     811       0         0
 ----------------------------------------------------------------
-                                   812     812       0         0
+                                   811     811       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,12 @@ class SurelogMacroTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// SurelogMacro exercises macro expansion patterns specific to Surelog.
+// dut.sv guards its sole module with `ifdef HLC. HLC does not predefine a
+// macro named HLC (no such predefined-macro registration exists in the
+// tool), so the `ifdef HLC branch is not taken and module top is never
+// compiled; this is confirmed by the empty AST for dut.sv. This test file
+// therefore validates the ifdef-false path (no user modules, only the
+// builtin package survives), not any Surelog-specific behavior.
 // The source file must be recorded in the design.
 TEST_F(SurelogMacroTest, SourceFileRecorded) {
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
@@ -42,14 +47,13 @@ TEST_F(SurelogMacroTest, SourceFileRecorded) {
   EXPECT_NE(sf, nullptr) << "dut.sv must be recorded as a source file";
 }
 
-// LRM 22.5.1: dut.sv defines no macros of its own; all macro content is
-// provided by the tool's built-in macro table.
+// LRM 22.5.1: dut.sv itself contains no `define directives, so no
+// PreprocMacroDefinition entries should be recorded for it.
 TEST_F(SurelogMacroTest, NoMacroDefinitionsInSourceFile) {
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
   const hldb::SourceFile *const sf = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
   ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getPreprocMacroDefinitions(), nullptr)
-      << "dut.sv defines no macros; all macro content comes from the tool built-ins";
+  EXPECT_EQ(sf->getPreprocMacroDefinitions(), nullptr) << "dut.sv contains no `define directives of its own";
 }
 
 // No user-defined modules are expected (only built-in packages survive).
@@ -64,9 +68,9 @@ TEST_F(SurelogMacroTest, NoUserModules) {
   }
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // 1. Macro arguments and body tokens
-// ---------------------------------------------------------------------------
+// ----
 
 // LRM 22.5.1: dut.sv defines no macros of its own; getArguments() and
 // getTokens() are not exercised on the definition side. Any macro instances
@@ -79,8 +83,11 @@ TEST_F(SurelogMacroTest, MacroInstancesBodyDoesNotCrash) {
   for (const hldb::PreprocMacroInstance *const mi : *sf->getPreprocMacroInstances()) {
     ASSERT_NE(mi, nullptr);
     EXPECT_FALSE(mi->getName().empty()) << "each macro instance must have a non-empty name";
-    std::string_view body = mi->getBody();
-    EXPECT_GE(body.size(), 0u) << "getBody() must be callable without crashing";
+    // getBody() is a smoke test here: dut.sv never expands a macro (its only
+    // directive is the unresolved `ifdef HLC), so this loop should not
+    // execute at all; if it ever does, getBody() must simply be callable.
+    const std::string_view body = mi->getBody();
+    (void)body;
   }
 }
 

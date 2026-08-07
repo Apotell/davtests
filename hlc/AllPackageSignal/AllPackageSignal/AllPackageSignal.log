@@ -111,7 +111,7 @@ n<$Source01/dut.sv> u<342> t<Top_level_rule> c<1> l<16:1> el<36:1>
                                                             n<ParameterIntEqual4> u<66> t<SIMPLE_IDENTIFIER> p<69> s<68> l<7:42> el<7:60>
                                                             n<> u<68> t<Select> p<69> c<67> l<7:60> el<7:60>
                                                               n<> u<67> t<Bit_select> p<68> l<7:60> el<7:60>
-                                      n<> u<81> t<Conditional_operator> p<91> s<85> l<7:63> el<7:64>
+                                      n<> u<81> t<QMARK> p<91> s<85> l<7:63> el<7:64>
                                       n<> u<85> t<Expression> p<91> c<84> s<90> l<7:65> el<7:66>
                                         n<> u<84> t<Primary> p<85> c<83> l<7:65> el<7:66>
                                           n<> u<83> t<Primary_literal> p<84> c<82> l<7:65> el<7:66>
@@ -202,7 +202,7 @@ n<$Source01/dut.sv> u<342> t<Top_level_rule> c<1> l<16:1> el<36:1>
                                                 n<> u<165> t<Constant_primary> p<166> c<164> l<7:52> el<7:54>
                                                   n<> u<164> t<Primary_literal> p<165> c<163> l<7:52> el<7:54>
                                                     n<32> u<163> t<INTEGRAL_NUMBER> p<164> l<7:52> el<7:54>
-                                      n<> u<172> t<Conditional_operator> p<182> s<176> l<7:56> el<7:57>
+                                      n<> u<172> t<QMARK> p<182> s<176> l<7:56> el<7:57>
                                       n<> u<176> t<Expression> p<182> c<175> s<181> l<7:58> el<7:59>
                                         n<> u<175> t<Primary> p<176> c<174> l<7:58> el<7:59>
                                           n<> u<174> t<Primary_literal> p<175> c<173> l<7:58> el<7:59>
@@ -305,7 +305,7 @@ n<$Source01/dut.sv> u<342> t<Top_level_rule> c<1> l<16:1> el<36:1>
                                                             n<ParameterIntEqual4> u<260> t<SIMPLE_IDENTIFIER> p<263> s<262> l<7:65> el<7:83>
                                                             n<> u<262> t<Select> p<263> c<261> l<7:83> el<7:83>
                                                               n<> u<261> t<Bit_select> p<262> l<7:83> el<7:83>
-                                      n<> u<275> t<Conditional_operator> p<285> s<279> l<7:86> el<7:87>
+                                      n<> u<275> t<QMARK> p<285> s<279> l<7:86> el<7:87>
                                       n<> u<279> t<Expression> p<285> c<278> s<284> l<7:88> el<7:89>
                                         n<> u<278> t<Primary> p<279> c<277> l<7:88> el<7:89>
                                           n<> u<277> t<Primary_literal> p<278> c<276> l<7:88> el<7:89>
@@ -355,12 +355,12 @@ n<$Source01/dut.sv> u<342> t<Top_level_rule> c<1> l<16:1> el<36:1>
         n<> u<338> t<ENDPACKAGE> p<339> s<337> l<34:1> el<34:11>
         n<pkg_a> u<337> t<SIMPLE_IDENTIFIER> p<339> l<34:14> el<34:19>
 AST_DEBUG_END
-[INF:CP0301] $Source01/dut.sv:16:1: Compile package "work@pkg_b".
-[INF:CP0301] $Source01/dut.sv:21:1: Compile package "work@pkg_a".
-[ERR:EL0535] $Source01/dut.sv:7:42: Illegal implicit net "id:127, name:ParameterIntEqual4".
-[ERR:EL0535] $Source01/dut.sv:7:65: Illegal implicit net "id:212, name:ParameterIntEqual4".
-[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@pkg_b".
-[WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "work@pkg_a".
+[INF:CP0301] $Source01/dut.sv:16:1: Compile package "pkg_b".
+[INF:CP0301] $Source01/dut.sv:21:1: Compile package "pkg_a".
+[WRN:CP0350] $Source01/dut.sv:7:42: Failed to bind "id:128, name:ParameterIntEqual4".
+[WRN:CP0350] $Source01/dut.sv:7:65: Failed to bind "id:214, name:ParameterIntEqual4".
+[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "pkg_b".
+[WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "pkg_a".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -375,11 +375,13 @@ Design name:unnamed:
           vpiName Identifier name:ASSERT_SV start:3:9 end:3:18:
             vpiParent: PreprocMacroDefinition name:ASSERT_SV
             vpiName: ASSERT_SV
+          vpiPMDType: define (1)
         PreprocMacroDefinition name:ASSERT_STATIC_IN_PACKAGE start:5:1 end:10:14:
           vpiParent: SourceFile name:dut.sv
           vpiName Identifier name:ASSERT_STATIC_IN_PACKAGE start:5:9 end:5:33:
             vpiParent: PreprocMacroDefinition name:ASSERT_STATIC_IN_PACKAGE
             vpiName: ASSERT_STATIC_IN_PACKAGE
+          vpiPMDType: define (1)
           vpiArgument (2 items):
             Identifier name:__name start:5:34 end:5:40:
               vpiParent: PreprocMacroDefinition name:ASSERT_STATIC_IN_PACKAGE
@@ -638,115 +640,120 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\n  function automatic bit assert_static_in_package_ThisNameDoesNotMatter3(); \n    bit unused_bit [(($bits(ParameterIntInPkgA) == $bits(pkg_b::ParameterIntEqual4)) ? 1 : -1)];                     \n    unused_bit = '{default: 1'b0};                            \n    return unused_bit[0];                                     \n  endfunction start:5:63 end:10:14":
             vpiParent: PreprocMacroInstance name:ASSERT_STATIC_IN_PACKAGE
             vpiName: "\n  function automatic bit assert_static_in_package_ThisNameDoesNotMatter3(); \n    bit unused_bit [(($bits(ParameterIntInPkgA) == $bits(pkg_b::ParameterIntEqual4)) ? 1 : -1)];                     \n    unused_bit = '{default: 1'b0};                            \n    return unused_bit[0];                                     \n  endfunction"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@pkg_b file:$Source01/dut.sv start:16:1 end:18:19:
+    Package name:pkg_b file:$Source01/dut.sv start:16:1 end:18:19:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@pkg_b start:16:9 end:16:14:
-        vpiParent: Package name:work@pkg_b
-        vpiName: work@pkg_b
-      vpiFullName: work@pkg_b
+      vpiName Identifier name:pkg_b start:16:9 end:16:14:
+        vpiParent: Package name:pkg_b
+        vpiName: pkg_b
+      vpiFullName: pkg_b
       vpiParameter (1 items):
         Parameter name:ParameterIntEqual4 start:17:17 end:17:35:
-          vpiParent: Package name:work@pkg_b
+          vpiParent: Package name:pkg_b
           vpiTypespec RefTypespec start:17:13 end:17:16:
             vpiParent: Parameter name:ParameterIntEqual4
-            vpiFullName: work@pkg_b::ParameterIntEqual4
+            vpiFullName: pkg_b::ParameterIntEqual4
             vpiActual: IntTypespec
           vpiName: ParameterIntEqual4
-          vpiFullName: work@pkg_b::ParameterIntEqual4
+          vpiFullName: pkg_b::ParameterIntEqual4
       vpiParamAssign (1 items):
         ParamAssign start:17:17 end:17:39:
-          vpiParent: Package name:work@pkg_b
+          vpiParent: Package name:pkg_b
           vpiLhs RefObj name:ParameterIntEqual4 start:17:17 end:17:35:
             vpiParent: ParamAssign
             vpiName: ParameterIntEqual4
-            vpiFullName: work@pkg_b::ParameterIntEqual4
+            vpiFullName: pkg_b::ParameterIntEqual4
             vpiActual: Parameter name:ParameterIntEqual4
           vpiRhs Constant start:17:38 end:17:39:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@pkg_b
+              vpiFullName: pkg_b
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
-      vpiDefName: work@pkg_b
-      vpiDefNetType: none (12)
+      vpiDefName: pkg_b
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@pkg_b
+        vpiParent: Package name:pkg_b
         vpiName: work
-        vpiFullName: work@pkg_b::work
+        vpiFullName: pkg_b::work
       vpiCell: pkg_b
       vpiEndLabel Identifier name:pkg_b start:18:14 end:18:19:
-        vpiParent: Package name:work@pkg_b
+        vpiParent: Package name:pkg_b
         vpiName: pkg_b
-    Package name:work@pkg_a file:$Source01/dut.sv start:21:1 end:34:19:
+    Package name:pkg_a file:$Source01/dut.sv start:21:1 end:34:19:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@pkg_a start:21:9 end:21:14:
-        vpiParent: Package name:work@pkg_a
-        vpiName: work@pkg_a
-      vpiFullName: work@pkg_a
+      vpiName Identifier name:pkg_a start:21:9 end:21:14:
+        vpiParent: Package name:pkg_a
+        vpiName: pkg_a
+      vpiFullName: pkg_a
       vpiParameter (1 items):
         Parameter name:ParameterIntInPkgA start:28:17 end:28:35:
-          vpiParent: Package name:work@pkg_a
+          vpiParent: Package name:pkg_a
           vpiTypespec RefTypespec start:28:13 end:28:16:
             vpiParent: Parameter name:ParameterIntInPkgA
-            vpiFullName: work@pkg_a::ParameterIntInPkgA
+            vpiFullName: pkg_a::ParameterIntInPkgA
             vpiActual: IntTypespec
           vpiName: ParameterIntInPkgA
-          vpiFullName: work@pkg_a::ParameterIntInPkgA
+          vpiFullName: pkg_a::ParameterIntInPkgA
       vpiParamAssign (1 items):
         ParamAssign start:28:17 end:28:39:
-          vpiParent: Package name:work@pkg_a
+          vpiParent: Package name:pkg_a
           vpiLhs RefObj name:ParameterIntInPkgA start:28:17 end:28:35:
             vpiParent: ParamAssign
             vpiName: ParameterIntInPkgA
-            vpiFullName: work@pkg_a::ParameterIntInPkgA
+            vpiFullName: pkg_a::ParameterIntInPkgA
             vpiActual: Parameter name:ParameterIntInPkgA
           vpiRhs Constant start:28:38 end:28:39:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@pkg_a
+              vpiFullName: pkg_a
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
-      vpiDefName: work@pkg_a
-      vpiDefNetType: none (12)
+      vpiDefName: pkg_a
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@pkg_a
+        vpiParent: Package name:pkg_a
         vpiName: work
-        vpiFullName: work@pkg_a::work
+        vpiFullName: pkg_a::work
       vpiCell: pkg_a
       vpiTaskFunc (3 items):
         Function name:assert_static_in_package_ThisNameDoesNotMatter1 start:6:3 end:10:14:
-          vpiParent: Package name:work@pkg_a
+          vpiParent: Package name:pkg_a
           vpiName Identifier name:assert_static_in_package_ThisNameDoesNotMatter1 start:6:26 end:6:73:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter1
             vpiName: assert_static_in_package_ThisNameDoesNotMatter1
-          vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
+          vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiStmt Begin:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter1
-            vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
+            vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
             vpiVariable (1 items):
               Variable name:unused_bit start:7:9 end:7:19:
                 vpiParent: Begin
                 vpiTypespec RefTypespec:
                   vpiParent: Variable name:unused_bit
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
-                vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
-            vpiTypespec (2 items):
+                vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
+                vpiScalar: true
+            vpiTypespec (3 items):
               BitTypespec:
                 vpiParent: Begin
+              UnsupportedTypespec name:pkg_b start:7:35 end:7:40:
+                vpiParent: Begin
+                vpiName Identifier name:pkg_b start:7:35 end:7:40:
+                  vpiParent: UnsupportedTypespec name:pkg_b
+                  vpiName: pkg_b
               ArrayTypespec:
                 vpiParent: Begin
                 vpiArrayType: static (1)
@@ -768,7 +775,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
+                                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -783,23 +790,21 @@ Design name:unnamed:
                                   HierPath name:pkg_b::ParameterIntEqual4 start:7:35 end:7:60:
                                     vpiParent: SysFuncCall name:$bits
                                     vpiName: pkg_b::ParameterIntEqual4
-                                    vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::pkg_b::ParameterIntEqual4
+                                    vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::pkg_b::ParameterIntEqual4
                                     vpiPathElem (2 items):
-                                      UnsupportedScope name:pkg_b start:7:35 end:7:42:
+                                      RefTypespec start:7:35 end:7:42:
                                         vpiParent: HierPath name:pkg_b::ParameterIntEqual4
-                                        vpiName Identifier name:pkg_b start:7:35 end:7:40:
-                                          vpiParent: UnsupportedScope name:pkg_b
-                                          vpiName: pkg_b
-                                        vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::pkg_b::ParameterIntEqual4::pkg_b
+                                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::pkg_b::ParameterIntEqual4
+                                        vpiActual: UnsupportedTypespec name:pkg_b
                                       RefObj name:ParameterIntEqual4 start:7:42 end:7:60:
                                         vpiParent: HierPath name:pkg_b::ParameterIntEqual4
                                         vpiName: ParameterIntEqual4
-                                        vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::ParameterIntEqual4
+                                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::ParameterIntEqual4
                           Constant start:7:65 end:7:66:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
+                              vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -813,7 +818,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
+                                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -821,16 +826,17 @@ Design name:unnamed:
                                 vpiValue: 1
                 vpiElemTypespec RefTypespec start:7:5 end:7:8:
                   vpiParent: ArrayTypespec
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
                   vpiActual: BitTypespec
-            vpiStmt (2 items):
+            vpiStmt (3 items):
+              Variable name:unused_bit:
               Assignment start:8:5 end:8:34:
                 vpiParent: Begin
                 vpiBlocking: true
                 vpiLhs RefObj name:unused_bit start:8:5 end:8:15:
                   vpiParent: Assignment
                   vpiName: unused_bit
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
                   vpiActual: Variable name:unused_bit
                 vpiRhs Operation start:8:18 end:8:34:
                   vpiParent: Assignment
@@ -841,12 +847,12 @@ Design name:unnamed:
                       vpiTag RefObj name:default start:8:20 end:8:27:
                         vpiParent: TaggedPattern
                         vpiName: default
-                        vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::default
+                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::default
                       vpiPattern Constant start:8:29 end:8:33:
                         vpiParent: TaggedPattern
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
+                          vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -857,17 +863,17 @@ Design name:unnamed:
                 vpiCondition BitSelect name:unused_bit[0] start:9:12 end:9:25:
                   vpiParent: ReturnStmt
                   vpiName: unused_bit[0]
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit[0]
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit[0]
                   vpiPrefix RefObj name:unused_bit start:9:12 end:9:22:
                     vpiParent: BitSelect name:unused_bit[0]
                     vpiName: unused_bit
-                    vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
+                    vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
                     vpiActual: Variable name:unused_bit
                   vpiIndex Constant start:9:23 end:9:24:
                     vpiParent: BitSelect name:unused_bit[0]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit[0]
+                      vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit[0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -875,28 +881,29 @@ Design name:unnamed:
                     vpiValue: 0
           vpiReturn RefTypespec start:6:22 end:6:25:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter1
-            vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
+            vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1
             vpiActual: BitTypespec
         Function name:assert_static_in_package_ThisNameDoesNotMatter2 start:6:3 end:10:14:
-          vpiParent: Package name:work@pkg_a
+          vpiParent: Package name:pkg_a
           vpiName Identifier name:assert_static_in_package_ThisNameDoesNotMatter2 start:6:26 end:6:73:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter2
             vpiName: assert_static_in_package_ThisNameDoesNotMatter2
-          vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
+          vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiStmt Begin:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter2
-            vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
+            vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
             vpiVariable (1 items):
               Variable name:unused_bit start:7:9 end:7:19:
                 vpiParent: Begin
                 vpiTypespec RefTypespec:
                   vpiParent: Variable name:unused_bit
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
-                vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
+                vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
+                vpiScalar: true
             vpiTypespec (2 items):
               BitTypespec:
                 vpiParent: Begin
@@ -926,13 +933,13 @@ Design name:unnamed:
                                   RefObj name:ParameterIntInPkgA start:7:29 end:7:47:
                                     vpiParent: SysFuncCall name:$bits
                                     vpiName: ParameterIntInPkgA
-                                    vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::ParameterIntInPkgA
+                                    vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::ParameterIntInPkgA
                                     vpiActual: Parameter name:ParameterIntInPkgA
                               Constant start:7:52 end:7:54:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
+                                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -942,7 +949,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
+                              vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -956,7 +963,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
+                                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -964,16 +971,17 @@ Design name:unnamed:
                                 vpiValue: 1
                 vpiElemTypespec RefTypespec start:7:5 end:7:8:
                   vpiParent: ArrayTypespec
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
                   vpiActual: BitTypespec
-            vpiStmt (2 items):
+            vpiStmt (3 items):
+              Variable name:unused_bit:
               Assignment start:8:5 end:8:34:
                 vpiParent: Begin
                 vpiBlocking: true
                 vpiLhs RefObj name:unused_bit start:8:5 end:8:15:
                   vpiParent: Assignment
                   vpiName: unused_bit
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
                   vpiActual: Variable name:unused_bit
                 vpiRhs Operation start:8:18 end:8:34:
                   vpiParent: Assignment
@@ -984,12 +992,12 @@ Design name:unnamed:
                       vpiTag RefObj name:default start:8:20 end:8:27:
                         vpiParent: TaggedPattern
                         vpiName: default
-                        vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::default
+                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::default
                       vpiPattern Constant start:8:29 end:8:33:
                         vpiParent: TaggedPattern
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
+                          vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -1000,17 +1008,17 @@ Design name:unnamed:
                 vpiCondition BitSelect name:unused_bit[0] start:9:12 end:9:25:
                   vpiParent: ReturnStmt
                   vpiName: unused_bit[0]
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit[0]
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit[0]
                   vpiPrefix RefObj name:unused_bit start:9:12 end:9:22:
                     vpiParent: BitSelect name:unused_bit[0]
                     vpiName: unused_bit
-                    vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
+                    vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
                     vpiActual: Variable name:unused_bit
                   vpiIndex Constant start:9:23 end:9:24:
                     vpiParent: BitSelect name:unused_bit[0]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit[0]
+                      vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit[0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1018,31 +1026,37 @@ Design name:unnamed:
                     vpiValue: 0
           vpiReturn RefTypespec start:6:22 end:6:25:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter2
-            vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
+            vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2
             vpiActual: BitTypespec
         Function name:assert_static_in_package_ThisNameDoesNotMatter3 start:6:3 end:10:14:
-          vpiParent: Package name:work@pkg_a
+          vpiParent: Package name:pkg_a
           vpiName Identifier name:assert_static_in_package_ThisNameDoesNotMatter3 start:6:26 end:6:73:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter3
             vpiName: assert_static_in_package_ThisNameDoesNotMatter3
-          vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
+          vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiStmt Begin:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter3
-            vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
+            vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
             vpiVariable (1 items):
               Variable name:unused_bit start:7:9 end:7:19:
                 vpiParent: Begin
                 vpiTypespec RefTypespec:
                   vpiParent: Variable name:unused_bit
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
-                vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
-            vpiTypespec (2 items):
+                vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
+                vpiScalar: true
+            vpiTypespec (3 items):
               BitTypespec:
                 vpiParent: Begin
+              UnsupportedTypespec name:pkg_b start:7:58 end:7:63:
+                vpiParent: Begin
+                vpiName Identifier name:pkg_b start:7:58 end:7:63:
+                  vpiParent: UnsupportedTypespec name:pkg_b
+                  vpiName: pkg_b
               ArrayTypespec:
                 vpiParent: Begin
                 vpiArrayType: static (1)
@@ -1069,7 +1083,7 @@ Design name:unnamed:
                                   RefObj name:ParameterIntInPkgA start:7:29 end:7:47:
                                     vpiParent: SysFuncCall name:$bits
                                     vpiName: ParameterIntInPkgA
-                                    vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::ParameterIntInPkgA
+                                    vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::ParameterIntInPkgA
                                     vpiActual: Parameter name:ParameterIntInPkgA
                               SysFuncCall name:$bits start:7:52 end:7:84:
                                 vpiParent: Operation
@@ -1080,23 +1094,21 @@ Design name:unnamed:
                                   HierPath name:pkg_b::ParameterIntEqual4 start:7:58 end:7:83:
                                     vpiParent: SysFuncCall name:$bits
                                     vpiName: pkg_b::ParameterIntEqual4
-                                    vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::pkg_b::ParameterIntEqual4
+                                    vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::pkg_b::ParameterIntEqual4
                                     vpiPathElem (2 items):
-                                      UnsupportedScope name:pkg_b start:7:58 end:7:65:
+                                      RefTypespec start:7:58 end:7:65:
                                         vpiParent: HierPath name:pkg_b::ParameterIntEqual4
-                                        vpiName Identifier name:pkg_b start:7:58 end:7:63:
-                                          vpiParent: UnsupportedScope name:pkg_b
-                                          vpiName: pkg_b
-                                        vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::pkg_b::ParameterIntEqual4::pkg_b
+                                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::pkg_b::ParameterIntEqual4
+                                        vpiActual: UnsupportedTypespec name:pkg_b
                                       RefObj name:ParameterIntEqual4 start:7:65 end:7:83:
                                         vpiParent: HierPath name:pkg_b::ParameterIntEqual4
                                         vpiName: ParameterIntEqual4
-                                        vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::ParameterIntEqual4
+                                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::ParameterIntEqual4
                           Constant start:7:88 end:7:89:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
+                              vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1110,7 +1122,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
+                                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -1118,16 +1130,17 @@ Design name:unnamed:
                                 vpiValue: 1
                 vpiElemTypespec RefTypespec start:7:5 end:7:8:
                   vpiParent: ArrayTypespec
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
                   vpiActual: BitTypespec
-            vpiStmt (2 items):
+            vpiStmt (3 items):
+              Variable name:unused_bit:
               Assignment start:8:5 end:8:34:
                 vpiParent: Begin
                 vpiBlocking: true
                 vpiLhs RefObj name:unused_bit start:8:5 end:8:15:
                   vpiParent: Assignment
                   vpiName: unused_bit
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
                   vpiActual: Variable name:unused_bit
                 vpiRhs Operation start:8:18 end:8:34:
                   vpiParent: Assignment
@@ -1138,12 +1151,12 @@ Design name:unnamed:
                       vpiTag RefObj name:default start:8:20 end:8:27:
                         vpiParent: TaggedPattern
                         vpiName: default
-                        vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::default
+                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::default
                       vpiPattern Constant start:8:29 end:8:33:
                         vpiParent: TaggedPattern
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
+                          vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -1154,17 +1167,17 @@ Design name:unnamed:
                 vpiCondition BitSelect name:unused_bit[0] start:9:12 end:9:25:
                   vpiParent: ReturnStmt
                   vpiName: unused_bit[0]
-                  vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit[0]
+                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit[0]
                   vpiPrefix RefObj name:unused_bit start:9:12 end:9:22:
                     vpiParent: BitSelect name:unused_bit[0]
                     vpiName: unused_bit
-                    vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
+                    vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
                     vpiActual: Variable name:unused_bit
                   vpiIndex Constant start:9:23 end:9:24:
                     vpiParent: BitSelect name:unused_bit[0]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit[0]
+                      vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit[0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1172,10 +1185,10 @@ Design name:unnamed:
                     vpiValue: 0
           vpiReturn RefTypespec start:6:22 end:6:25:
             vpiParent: Function name:assert_static_in_package_ThisNameDoesNotMatter3
-            vpiFullName: work@pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
+            vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3
             vpiActual: BitTypespec
       vpiEndLabel Identifier name:pkg_a start:34:14 end:34:19:
-        vpiParent: Package name:work@pkg_a
+        vpiParent: Package name:pkg_a
         vpiName: pkg_a
   vpiTypespec (1 items):
     IntTypespec:
@@ -1184,8 +1197,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1232,10 +1245,10 @@ Constant                            16      14       3         5
 Identifier                          96      94       0         2
 Operation                           15      10       0         5
 RefObj                              17      15       0         2
-RefTypespec                         27      24       2         5
+RefTypespec                         29      26       2         5
 SysFuncCall                          4       2       0         2
 ----------------------------------------------------------------
 Others                              48      48       0         0
 ----------------------------------------------------------------
-                                   223     207       5        21
+                                   225     209       5        21
 ===================== END REDUCTION RESULT =====================

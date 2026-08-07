@@ -18,7 +18,7 @@ n<$Source01/reg_wire_error.sv> u<789> t<Top_level_rule> c<1> l<1:1> el<75:1>
     n<> u<36> t<Description> p<788> c<35> s<787> l<1:1> el<3:10>
       n<> u<35> t<Module_declaration> p<36> c<18> l<1:1> el<3:10>
         n<> u<18> t<Module_ansi_header> p<35> c<2> s<33> l<1:1> el<1:42>
-          n<module> u<2> t<Module_keyword> p<18> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<18> s<3> l<1:1> el<1:7>
           n<sub_mod> u<3> t<SIMPLE_IDENTIFIER> p<18> s<4> l<1:8> el<1:15>
           n<> u<4> t<Package_import_declaration_list> p<18> s<17> l<1:15> el<1:15>
           n<> u<17> t<Port_declaration_list> p<18> c<10> l<1:15> el<1:41>
@@ -53,7 +53,7 @@ n<$Source01/reg_wire_error.sv> u<789> t<Top_level_rule> c<1> l<1:1> el<75:1>
     n<> u<787> t<Description> p<788> c<786> l<5:1> el<73:10>
       n<> u<786> t<Module_declaration> p<787> c<89> l<5:1> el<73:10>
         n<> u<89> t<Module_nonansi_header> p<786> c<37> s<96> l<5:1> el<5:63>
-          n<module> u<37> t<Module_keyword> p<89> s<38> l<5:1> el<5:7>
+          n<module> u<37> t<MODULE> p<89> s<38> l<5:1> el<5:7>
           n<test> u<38> t<SIMPLE_IDENTIFIER> p<89> s<39> l<5:8> el<5:12>
           n<> u<39> t<Package_import_declaration_list> p<89> s<88> l<5:12> el<5:12>
           n<> u<88> t<Port_list> p<89> c<45> l<5:12> el<5:62>
@@ -802,10 +802,9 @@ n<$Source01/reg_wire_error.sv> u<789> t<Top_level_rule> c<1> l<1:1> el<75:1>
                                 n<> u<772> t<END> p<773> l<71:1> el<71:4>
         n<> u<785> t<ENDMODULE> p<786> l<73:1> el<73:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/reg_wire_error.sv:1:1: Compile module "work@sub_mod".
-[INF:CP0303] $Source01/reg_wire_error.sv:5:1: Compile module "work@test".
-[ERR:EL0535] $Source01/reg_wire_error.sv:38:4: Illegal implicit net "id:113, name:i_in".
-[ERR:EL0535] $Source01/reg_wire_error.sv:39:4: Illegal implicit net "id:116, name:o_out".
+[INF:CP0303] $Source01/reg_wire_error.sv:1:1: Compile module "sub_mod".
+[NTE:CP0309] $Source01/reg_wire_error.sv:1:35: Implicit port type (wire) for "o_out".
+[INF:CP0303] $Source01/reg_wire_error.sv:5:1: Compile module "test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -815,99 +814,176 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: reg_wire_error.sv
       vpiPreprocFile: "$Output/lib/work/reg_wire_error.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@sub_mod file:$Source01/reg_wire_error.sv start:1:1 end:3:10:
+    Module name:sub_mod file:$Source01/reg_wire_error.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sub_mod start:1:8 end:1:15:
-        vpiParent: Module name:work@sub_mod
-        vpiName: work@sub_mod
-      vpiFullName: work@sub_mod
+      vpiName Identifier name:sub_mod start:1:8 end:1:15:
+        vpiParent: Module name:sub_mod
+        vpiName: sub_mod
+      vpiFullName: sub_mod
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@sub_mod
-      vpiDefName: work@sub_mod
-      vpiDefNetType: none (12)
+          vpiParent: Module name:sub_mod
+      vpiDefName: sub_mod
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@sub_mod
+        vpiParent: Module name:sub_mod
         vpiName: work
-        vpiFullName: work@sub_mod.work
+        vpiFullName: sub_mod.work
       vpiCell: sub_mod
       vpiNet (2 items):
         Net name:i_in start:1:22 end:1:26:
-          vpiParent: Module name:work@sub_mod
+          vpiParent: Module name:sub_mod
           vpiTypespec RefTypespec start:1:16 end:1:21:
             vpiParent: Net name:i_in
-            vpiFullName: work@sub_mod.i_in
+            vpiFullName: sub_mod.i_in
             vpiActual: LogicTypespec
           vpiName: i_in
-          vpiFullName: work@sub_mod.i_in
+          vpiFullName: sub_mod.i_in
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o_out start:1:35 end:1:40:
-          vpiParent: Module name:work@sub_mod
+          vpiParent: Module name:sub_mod
           vpiTypespec RefTypespec start:1:28 end:1:34:
             vpiParent: Net name:o_out
-            vpiFullName: work@sub_mod.o_out
+            vpiFullName: sub_mod.o_out
             vpiActual: LogicTypespec
           vpiName: o_out
-          vpiFullName: work@sub_mod.o_out
+          vpiFullName: sub_mod.o_out
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:i_in start:1:22 end:1:26:
-          vpiParent: Module name:work@sub_mod
+          vpiParent: Module name:sub_mod
           vpiName: i_in
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:22 end:1:26:
+          vpiLowConn RefObj name:i_in start:1:22 end:1:26:
             vpiParent: Port name:i_in
-            vpiFullName: work@sub_mod.i_in
+            vpiName: i_in
+            vpiFullName: sub_mod.i_in.i_in
             vpiActual: Net name:i_in
           vpiTypespec RefTypespec start:1:16 end:1:21:
             vpiParent: Port name:i_in
-            vpiFullName: work@sub_mod.i_in
+            vpiFullName: sub_mod.i_in
             vpiActual: LogicTypespec
         Port name:o_out start:1:35 end:1:40:
-          vpiParent: Module name:work@sub_mod
+          vpiParent: Module name:sub_mod
           vpiName: o_out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:35 end:1:40:
+          vpiLowConn RefObj name:o_out start:1:35 end:1:40:
             vpiParent: Port name:o_out
-            vpiFullName: work@sub_mod.o_out
+            vpiName: o_out
+            vpiFullName: sub_mod.o_out.o_out
             vpiActual: Net name:o_out
           vpiTypespec RefTypespec start:1:28 end:1:34:
             vpiParent: Port name:o_out
-            vpiFullName: work@sub_mod.o_out
+            vpiFullName: sub_mod.o_out
             vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:2:8 end:2:20:
-          vpiParent: Module name:work@sub_mod
+          vpiParent: Module name:sub_mod
           vpiLhs RefObj name:o_out start:2:8 end:2:13:
             vpiParent: ContAssign
             vpiName: o_out
-            vpiFullName: work@sub_mod.o_out
+            vpiFullName: sub_mod.o_out
             vpiActual: Net name:o_out
           vpiRhs RefObj name:i_in start:2:16 end:2:20:
             vpiParent: ContAssign
             vpiName: i_in
-            vpiFullName: work@sub_mod.i_in
+            vpiFullName: sub_mod.i_in
             vpiActual: Net name:i_in
-    Module name:work@test file:$Source01/reg_wire_error.sv start:5:1 end:73:10:
+    Module name:test file:$Source01/reg_wire_error.sv start:5:1 end:73:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:5:8 end:5:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
+      vpiName Identifier name:test start:5:8 end:5:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
+      vpiVariable (8 items):
+        Variable name:o_wire start:10:8 end:10:14:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:16:1 end:16:6:
+            vpiParent: Variable name:o_wire
+            vpiFullName: test.o_wire
+            vpiActual: LogicTypespec
+          vpiName: o_wire
+          vpiFullName: test.o_wire
+          vpiScalar: true
+        Variable name:l_reg start:22:7 end:22:12:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:22:1 end:22:6:
+            vpiParent: Variable name:l_reg
+            vpiFullName: test.l_reg
+            vpiActual: LogicTypespec
+          vpiName: l_reg
+          vpiFullName: test.l_reg
+          vpiScalar: true
+        Variable name:mr1 start:45:8 end:45:11:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mr1
+            vpiFullName: test.mr1
+            vpiActual: ArrayTypespec
+          vpiName: mr1
+          vpiFullName: test.mr1
+          vpiScalar: true
+        Variable name:mr2 start:46:8 end:46:11:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mr2
+            vpiFullName: test.mr2
+            vpiActual: ArrayTypespec
+          vpiName: mr2
+          vpiFullName: test.mr2
+          vpiScalar: true
+        Variable name:mr3 start:47:8 end:47:11:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mr3
+            vpiFullName: test.mr3
+            vpiActual: ArrayTypespec
+          vpiName: mr3
+          vpiFullName: test.mr3
+          vpiScalar: true
+        Variable name:ml1 start:48:8 end:48:11:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:ml1
+            vpiFullName: test.ml1
+            vpiActual: ArrayTypespec
+          vpiName: ml1
+          vpiFullName: test.ml1
+          vpiScalar: true
+        Variable name:ml2 start:49:8 end:49:11:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:ml2
+            vpiFullName: test.ml2
+            vpiActual: ArrayTypespec
+          vpiName: ml2
+          vpiFullName: test.ml2
+          vpiScalar: true
+        Variable name:ml3 start:50:8 end:50:11:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:ml3
+            vpiFullName: test.ml3
+            vpiActual: ArrayTypespec
+          vpiName: ml3
+          vpiFullName: test.ml3
+          vpiScalar: true
       vpiTypespec (12 items):
         LogicTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
         BitTypespec:
-          vpiParent: Module name:work@test
-        ModuleTypespec name:work@sub_mod start:37:1 end:37:8:
-          vpiParent: Module name:work@test
-          vpiName Identifier name:work@sub_mod start:37:1 end:37:8:
-            vpiParent: ModuleTypespec name:work@sub_mod
-            vpiName: work@sub_mod
+          vpiParent: Module name:test
+        ModuleTypespec name:sub_mod start:37:1 end:37:8:
+          vpiParent: Module name:test
+          vpiName Identifier name:sub_mod start:37:1 end:37:8:
+            vpiParent: ModuleTypespec name:sub_mod
+            vpiName: sub_mod
+          vpiModule: Module name:sub_mod
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:42:11 end:42:16:
             vpiParent: ArrayTypespec
@@ -915,7 +991,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -925,7 +1001,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -933,10 +1009,10 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:42:8 end:42:8:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:43:11 end:43:16:
             vpiParent: ArrayTypespec
@@ -944,7 +1020,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -954,7 +1030,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -962,10 +1038,10 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:43:8 end:43:8:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:44:11 end:44:16:
             vpiParent: ArrayTypespec
@@ -973,7 +1049,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -983,7 +1059,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -991,10 +1067,10 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:44:8 end:44:8:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:45:11 end:45:16:
             vpiParent: ArrayTypespec
@@ -1002,7 +1078,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1012,7 +1088,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1020,10 +1096,10 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:45:1 end:45:4:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:46:11 end:46:16:
             vpiParent: ArrayTypespec
@@ -1031,7 +1107,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1041,7 +1117,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1049,10 +1125,10 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:46:1 end:46:4:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:47:11 end:47:16:
             vpiParent: ArrayTypespec
@@ -1060,7 +1136,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1070,7 +1146,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1078,10 +1154,10 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:47:1 end:47:4:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:48:11 end:48:16:
             vpiParent: ArrayTypespec
@@ -1089,7 +1165,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1099,7 +1175,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1107,10 +1183,10 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:48:1 end:48:6:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:49:11 end:49:16:
             vpiParent: ArrayTypespec
@@ -1118,7 +1194,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1128,7 +1204,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1136,10 +1212,10 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:49:1 end:49:6:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:50:11 end:50:16:
             vpiParent: ArrayTypespec
@@ -1147,7 +1223,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1157,7 +1233,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1165,291 +1241,243 @@ Design name:unnamed:
               vpiValue: 1
           vpiElemTypespec RefTypespec start:50:1 end:50:6:
             vpiParent: ArrayTypespec
-            vpiFullName: work@test
+            vpiFullName: test
             vpiActual: LogicTypespec
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
-      vpiNet (18 items):
+      vpiNet (10 items):
         Net name:i_clk start:6:7 end:6:12:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:6:7 end:6:7:
             vpiParent: Net name:i_clk
-            vpiFullName: work@test.i_clk
+            vpiFullName: test.i_clk
             vpiActual: LogicTypespec
           vpiName: i_clk
-          vpiFullName: work@test.i_clk
+          vpiFullName: test.i_clk
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:i start:7:7 end:7:8:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:7:7 end:7:7:
             vpiParent: Net name:i
-            vpiFullName: work@test.i
+            vpiFullName: test.i
             vpiActual: LogicTypespec
           vpiName: i
-          vpiFullName: work@test.i
+          vpiFullName: test.i
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:i_reg start:8:7 end:8:12:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:8:7 end:8:7:
             vpiParent: Net name:i_reg
-            vpiFullName: work@test.i_reg
+            vpiFullName: test.i_reg
             vpiActual: LogicTypespec
           vpiName: i_reg
-          vpiFullName: work@test.i_reg
+          vpiFullName: test.i_reg
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o_reg start:9:8 end:9:13:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:9:8 end:9:8:
             vpiParent: Net name:o_reg
-            vpiFullName: work@test.o_reg
+            vpiFullName: test.o_reg
             vpiActual: LogicTypespec
           vpiName: o_reg
-          vpiFullName: work@test.o_reg
-        Net name:o_wire start:10:8 end:10:14:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec start:10:8 end:10:8:
-            vpiParent: Net name:o_wire
-            vpiFullName: work@test.o_wire
-            vpiActual: LogicTypespec
-          vpiName: o_wire
-          vpiFullName: work@test.o_wire
+          vpiFullName: test.o_reg
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o_mr start:11:8 end:11:12:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:11:8 end:11:8:
             vpiParent: Net name:o_mr
-            vpiFullName: work@test.o_mr
+            vpiFullName: test.o_mr
             vpiActual: LogicTypespec
           vpiName: o_mr
-          vpiFullName: work@test.o_mr
+          vpiFullName: test.o_mr
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o_mw start:11:14 end:11:18:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:11:8 end:11:8:
             vpiParent: Net name:o_mw
-            vpiFullName: work@test.o_mw
+            vpiFullName: test.o_mw
             vpiActual: LogicTypespec
           vpiName: o_mw
-          vpiFullName: work@test.o_mw
+          vpiFullName: test.o_mw
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o_ml start:11:20 end:11:24:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec start:11:8 end:11:8:
             vpiParent: Net name:o_ml
-            vpiFullName: work@test.o_ml
+            vpiFullName: test.o_ml
             vpiActual: LogicTypespec
           vpiName: o_ml
-          vpiFullName: work@test.o_ml
-        Net name:l_reg start:22:7 end:22:12:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec start:22:1 end:22:6:
-            vpiParent: Net name:l_reg
-            vpiFullName: work@test.l_reg
-            vpiActual: LogicTypespec
-          vpiName: l_reg
-          vpiFullName: work@test.l_reg
+          vpiFullName: test.o_ml
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:mw1 start:42:8 end:42:11:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec:
             vpiParent: Net name:mw1
-            vpiFullName: work@test.mw1
+            vpiFullName: test.mw1
             vpiActual: ArrayTypespec
           vpiName: mw1
-          vpiFullName: work@test.mw1
+          vpiFullName: test.mw1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:mw2 start:43:8 end:43:11:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec:
             vpiParent: Net name:mw2
-            vpiFullName: work@test.mw2
+            vpiFullName: test.mw2
             vpiActual: ArrayTypespec
           vpiName: mw2
-          vpiFullName: work@test.mw2
+          vpiFullName: test.mw2
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:mw3 start:44:8 end:44:11:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiTypespec RefTypespec:
             vpiParent: Net name:mw3
-            vpiFullName: work@test.mw3
+            vpiFullName: test.mw3
             vpiActual: ArrayTypespec
           vpiName: mw3
-          vpiFullName: work@test.mw3
+          vpiFullName: test.mw3
           vpiNetType: wire (1)
-        Net name:mr1 start:45:8 end:45:11:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mr1
-            vpiFullName: work@test.mr1
-            vpiActual: ArrayTypespec
-          vpiName: mr1
-          vpiFullName: work@test.mr1
-        Net name:mr2 start:46:8 end:46:11:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mr2
-            vpiFullName: work@test.mr2
-            vpiActual: ArrayTypespec
-          vpiName: mr2
-          vpiFullName: work@test.mr2
-        Net name:mr3 start:47:8 end:47:11:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mr3
-            vpiFullName: work@test.mr3
-            vpiActual: ArrayTypespec
-          vpiName: mr3
-          vpiFullName: work@test.mr3
-        Net name:ml1 start:48:8 end:48:11:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ml1
-            vpiFullName: work@test.ml1
-            vpiActual: ArrayTypespec
-          vpiName: ml1
-          vpiFullName: work@test.ml1
-        Net name:ml2 start:49:8 end:49:11:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ml2
-            vpiFullName: work@test.ml2
-            vpiActual: ArrayTypespec
-          vpiName: ml2
-          vpiFullName: work@test.ml2
-        Net name:ml3 start:50:8 end:50:11:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ml3
-            vpiFullName: work@test.ml3
-            vpiActual: ArrayTypespec
-          vpiName: ml3
-          vpiFullName: work@test.ml3
+          vpiScalar: true
       vpiPort (8 items):
         Port name:i_clk start:5:13 end:5:18:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: i_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:i_clk start:5:13 end:5:18:
+          vpiLowConn RefObj name:i_clk start:6:7 end:6:12:
             vpiParent: Port name:i_clk
             vpiName: i_clk
-            vpiFullName: work@test.i_clk.i_clk
+            vpiFullName: test.i_clk.i_clk
             vpiActual: Net name:i_clk
           vpiTypespec RefTypespec start:6:7 end:6:7:
             vpiParent: Port name:i_clk
-            vpiFullName: work@test.i_clk
+            vpiFullName: test.i_clk
             vpiActual: LogicTypespec
         Port name:i start:5:20 end:5:21:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: i
           vpiDirection: input (1)
-          vpiLowConn RefObj name:i start:5:20 end:5:21:
+          vpiLowConn RefObj name:i start:7:7 end:7:8:
             vpiParent: Port name:i
             vpiName: i
-            vpiFullName: work@test.i.i
+            vpiFullName: test.i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec start:7:7 end:7:7:
             vpiParent: Port name:i
-            vpiFullName: work@test.i
+            vpiFullName: test.i
             vpiActual: LogicTypespec
         Port name:i_reg start:5:23 end:5:28:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: i_reg
           vpiDirection: input (1)
-          vpiLowConn RefObj name:i_reg start:5:23 end:5:28:
+          vpiLowConn RefObj name:i_reg start:8:7 end:8:12:
             vpiParent: Port name:i_reg
             vpiName: i_reg
-            vpiFullName: work@test.i_reg.i_reg
+            vpiFullName: test.i_reg.i_reg
             vpiActual: Net name:i_reg
           vpiTypespec RefTypespec start:8:7 end:8:7:
             vpiParent: Port name:i_reg
-            vpiFullName: work@test.i_reg
+            vpiFullName: test.i_reg
             vpiActual: LogicTypespec
         Port name:o_reg start:5:30 end:5:35:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: o_reg
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o_reg start:5:30 end:5:35:
+          vpiLowConn RefObj name:o_reg start:9:8 end:9:13:
             vpiParent: Port name:o_reg
             vpiName: o_reg
-            vpiFullName: work@test.o_reg.o_reg
+            vpiFullName: test.o_reg.o_reg
             vpiActual: Net name:o_reg
           vpiTypespec RefTypespec start:9:8 end:9:8:
             vpiParent: Port name:o_reg
-            vpiFullName: work@test.o_reg
+            vpiFullName: test.o_reg
             vpiActual: LogicTypespec
         Port name:o_wire start:5:37 end:5:43:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: o_wire
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o_wire start:5:37 end:5:43:
+          vpiLowConn RefObj name:o_wire start:10:8 end:10:14:
             vpiParent: Port name:o_wire
             vpiName: o_wire
-            vpiFullName: work@test.o_wire.o_wire
-            vpiActual: Net name:o_wire
+            vpiFullName: test.o_wire.o_wire
+            vpiActual: Variable name:o_wire
           vpiTypespec RefTypespec start:10:8 end:10:8:
             vpiParent: Port name:o_wire
-            vpiFullName: work@test.o_wire
-            vpiActual: LogicTypespec
+            vpiFullName: test.o_wire
         Port name:o_mr start:5:45 end:5:49:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: o_mr
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o_mr start:5:45 end:5:49:
+          vpiLowConn RefObj name:o_mr start:11:8 end:11:12:
             vpiParent: Port name:o_mr
             vpiName: o_mr
-            vpiFullName: work@test.o_mr.o_mr
+            vpiFullName: test.o_mr.o_mr
             vpiActual: Net name:o_mr
           vpiTypespec RefTypespec start:11:8 end:11:8:
             vpiParent: Port name:o_mr
-            vpiFullName: work@test.o_mr
+            vpiFullName: test.o_mr
             vpiActual: LogicTypespec
         Port name:o_mw start:5:51 end:5:55:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: o_mw
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o_mw start:5:51 end:5:55:
+          vpiLowConn RefObj name:o_mw start:11:14 end:11:18:
             vpiParent: Port name:o_mw
             vpiName: o_mw
-            vpiFullName: work@test.o_mw.o_mw
+            vpiFullName: test.o_mw.o_mw
             vpiActual: Net name:o_mw
           vpiTypespec RefTypespec start:11:8 end:11:8:
             vpiParent: Port name:o_mw
-            vpiFullName: work@test.o_mw
+            vpiFullName: test.o_mw
             vpiActual: LogicTypespec
         Port name:o_ml start:5:57 end:5:61:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: o_ml
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o_ml start:5:57 end:5:61:
+          vpiLowConn RefObj name:o_ml start:11:20 end:11:24:
             vpiParent: Port name:o_ml
             vpiName: o_ml
-            vpiFullName: work@test.o_ml.o_ml
+            vpiFullName: test.o_ml.o_ml
             vpiActual: Net name:o_ml
           vpiTypespec RefTypespec start:11:8 end:11:8:
             vpiParent: Port name:o_ml
-            vpiFullName: work@test.o_ml
+            vpiFullName: test.o_ml
             vpiActual: LogicTypespec
       vpiProcess (4 items):
         Initial start:26:1 end:26:22:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt Assignment start:26:9 end:26:21:
             vpiParent: Initial
             vpiBlocking: true
             vpiLhs RefObj name:o_reg start:26:9 end:26:14:
               vpiParent: Assignment
               vpiName: o_reg
-              vpiFullName: work@test.o_reg
+              vpiFullName: test.o_reg
               vpiActual: Net name:o_reg
             vpiRhs Constant start:26:17 end:26:21:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: BitTypespec
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "1'b0"
               vpiValue: "0"
         Always start:27:1 end:31:4:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt EventControl start:27:8 end:31:4:
             vpiParent: Always
             vpiCondition Operation start:27:10 end:27:23:
@@ -1459,18 +1487,18 @@ Design name:unnamed:
                 RefObj name:i_clk start:27:18 end:27:23:
                   vpiParent: Operation
                   vpiName: i_clk
-                  vpiFullName: work@test.i_clk
+                  vpiFullName: test.i_clk
                   vpiActual: Net name:i_clk
             vpiStmt Begin start:28:1 end:31:4:
               vpiParent: EventControl
-              vpiFullName: work@test
+              vpiFullName: test
               vpiStmt (2 items):
                 Assignment start:29:3 end:29:18:
                   vpiParent: Begin
                   vpiLhs RefObj name:o_reg start:29:3 end:29:8:
                     vpiParent: Assignment
                     vpiName: o_reg
-                    vpiFullName: work@test.o_reg
+                    vpiFullName: test.o_reg
                     vpiActual: Net name:o_reg
                   vpiRhs Operation start:29:12 end:29:18:
                     vpiParent: Assignment
@@ -1479,15 +1507,15 @@ Design name:unnamed:
                       RefObj name:o_reg start:29:13 end:29:18:
                         vpiParent: Operation
                         vpiName: o_reg
-                        vpiFullName: work@test.o_reg
+                        vpiFullName: test.o_reg
                         vpiActual: Net name:o_reg
                 Assignment start:30:3 end:30:18:
                   vpiParent: Begin
                   vpiLhs RefObj name:l_reg start:30:3 end:30:8:
                     vpiParent: Assignment
                     vpiName: l_reg
-                    vpiFullName: work@test.l_reg
-                    vpiActual: Net name:l_reg
+                    vpiFullName: test.l_reg
+                    vpiActual: Variable name:l_reg
                   vpiRhs Operation start:30:12 end:30:18:
                     vpiParent: Assignment
                     vpiOpType: not (3)
@@ -1495,11 +1523,11 @@ Design name:unnamed:
                       RefObj name:o_reg start:30:13 end:30:18:
                         vpiParent: Operation
                         vpiName: o_reg
-                        vpiFullName: work@test.o_reg
+                        vpiFullName: test.o_reg
                         vpiActual: Net name:o_reg
           vpiAlwaysType: always (1)
         Always start:59:1 end:64:4:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt EventControl start:59:8 end:64:4:
             vpiParent: Always
             vpiCondition Operation start:59:10 end:59:23:
@@ -1509,11 +1537,11 @@ Design name:unnamed:
                 RefObj name:i_clk start:59:18 end:59:23:
                   vpiParent: Operation
                   vpiName: i_clk
-                  vpiFullName: work@test.i_clk
+                  vpiFullName: test.i_clk
                   vpiActual: Net name:i_clk
             vpiStmt Begin start:60:1 end:64:4:
               vpiParent: EventControl
-              vpiFullName: work@test
+              vpiFullName: test
               vpiTypespec (1 items):
                 BitTypespec:
                   vpiParent: Begin
@@ -1524,17 +1552,17 @@ Design name:unnamed:
                   vpiLhs BitSelect name:mr2[0] start:61:3 end:61:9:
                     vpiParent: Assignment
                     vpiName: mr2[0]
-                    vpiFullName: work@test.mr2[0]
+                    vpiFullName: test.mr2[0]
                     vpiPrefix RefObj name:mr2 start:61:3 end:61:6:
                       vpiParent: BitSelect name:mr2[0]
                       vpiName: mr2
-                      vpiFullName: work@test.mr2
-                      vpiActual: Net name:mr2
+                      vpiFullName: test.mr2
+                      vpiActual: Variable name:mr2
                     vpiIndex Constant start:61:7 end:61:8:
                       vpiParent: BitSelect name:mr2[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test.mr2[0]
+                        vpiFullName: test.mr2[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1544,7 +1572,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -1556,17 +1584,17 @@ Design name:unnamed:
                   vpiLhs BitSelect name:mw2[0] start:62:3 end:62:9:
                     vpiParent: Assignment
                     vpiName: mw2[0]
-                    vpiFullName: work@test.mw2[0]
+                    vpiFullName: test.mw2[0]
                     vpiPrefix RefObj name:mw2 start:62:3 end:62:6:
                       vpiParent: BitSelect name:mw2[0]
                       vpiName: mw2
-                      vpiFullName: work@test.mw2
+                      vpiFullName: test.mw2
                       vpiActual: Net name:mw2
                     vpiIndex Constant start:62:7 end:62:8:
                       vpiParent: BitSelect name:mw2[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test.mw2[0]
+                        vpiFullName: test.mw2[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1576,7 +1604,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -1588,17 +1616,17 @@ Design name:unnamed:
                   vpiLhs BitSelect name:ml2[0] start:63:3 end:63:9:
                     vpiParent: Assignment
                     vpiName: ml2[0]
-                    vpiFullName: work@test.ml2[0]
+                    vpiFullName: test.ml2[0]
                     vpiPrefix RefObj name:ml2 start:63:3 end:63:6:
                       vpiParent: BitSelect name:ml2[0]
                       vpiName: ml2
-                      vpiFullName: work@test.ml2
-                      vpiActual: Net name:ml2
+                      vpiFullName: test.ml2
+                      vpiActual: Variable name:ml2
                     vpiIndex Constant start:63:7 end:63:8:
                       vpiParent: BitSelect name:ml2[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test.ml2[0]
+                        vpiFullName: test.ml2[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1608,7 +1636,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -1616,7 +1644,7 @@ Design name:unnamed:
                     vpiValue: "0"
           vpiAlwaysType: always (1)
         Always start:66:1 end:71:4:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt EventControl start:66:8 end:71:4:
             vpiParent: Always
             vpiCondition Operation start:66:10 end:66:23:
@@ -1626,11 +1654,11 @@ Design name:unnamed:
                 RefObj name:i_clk start:66:18 end:66:23:
                   vpiParent: Operation
                   vpiName: i_clk
-                  vpiFullName: work@test.i_clk
+                  vpiFullName: test.i_clk
                   vpiActual: Net name:i_clk
             vpiStmt Begin start:67:1 end:71:4:
               vpiParent: EventControl
-              vpiFullName: work@test
+              vpiFullName: test
               vpiTypespec (1 items):
                 BitTypespec:
                   vpiParent: Begin
@@ -1640,17 +1668,17 @@ Design name:unnamed:
                   vpiLhs BitSelect name:mr3[0] start:68:3 end:68:9:
                     vpiParent: Assignment
                     vpiName: mr3[0]
-                    vpiFullName: work@test.mr3[0]
+                    vpiFullName: test.mr3[0]
                     vpiPrefix RefObj name:mr3 start:68:3 end:68:6:
                       vpiParent: BitSelect name:mr3[0]
                       vpiName: mr3
-                      vpiFullName: work@test.mr3
-                      vpiActual: Net name:mr3
+                      vpiFullName: test.mr3
+                      vpiActual: Variable name:mr3
                     vpiIndex Constant start:68:7 end:68:8:
                       vpiParent: BitSelect name:mr3[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test.mr3[0]
+                        vpiFullName: test.mr3[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1660,7 +1688,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -1671,17 +1699,17 @@ Design name:unnamed:
                   vpiLhs BitSelect name:mw3[0] start:69:3 end:69:9:
                     vpiParent: Assignment
                     vpiName: mw3[0]
-                    vpiFullName: work@test.mw3[0]
+                    vpiFullName: test.mw3[0]
                     vpiPrefix RefObj name:mw3 start:69:3 end:69:6:
                       vpiParent: BitSelect name:mw3[0]
                       vpiName: mw3
-                      vpiFullName: work@test.mw3
+                      vpiFullName: test.mw3
                       vpiActual: Net name:mw3
                     vpiIndex Constant start:69:7 end:69:8:
                       vpiParent: BitSelect name:mw3[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test.mw3[0]
+                        vpiFullName: test.mw3[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1691,7 +1719,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -1702,17 +1730,17 @@ Design name:unnamed:
                   vpiLhs BitSelect name:ml3[0] start:70:3 end:70:9:
                     vpiParent: Assignment
                     vpiName: ml3[0]
-                    vpiFullName: work@test.ml3[0]
+                    vpiFullName: test.ml3[0]
                     vpiPrefix RefObj name:ml3 start:70:3 end:70:6:
                       vpiParent: BitSelect name:ml3[0]
                       vpiName: ml3
-                      vpiFullName: work@test.ml3
-                      vpiActual: Net name:ml3
+                      vpiFullName: test.ml3
+                      vpiActual: Variable name:ml3
                     vpiIndex Constant start:70:7 end:70:8:
                       vpiParent: BitSelect name:ml3[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test.ml3[0]
+                        vpiFullName: test.ml3[0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1722,7 +1750,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -1731,12 +1759,12 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiContAssign (8 items):
         ContAssign start:25:8 end:25:22:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs RefObj name:l_reg start:25:8 end:25:13:
             vpiParent: ContAssign
             vpiName: l_reg
-            vpiFullName: work@test.l_reg
-            vpiActual: Net name:l_reg
+            vpiFullName: test.l_reg
+            vpiActual: Variable name:l_reg
           vpiRhs Operation start:25:16 end:25:22:
             vpiParent: ContAssign
             vpiOpType: not (3)
@@ -1744,15 +1772,15 @@ Design name:unnamed:
               RefObj name:o_reg start:25:17 end:25:22:
                 vpiParent: Operation
                 vpiName: o_reg
-                vpiFullName: work@test.o_reg
+                vpiFullName: test.o_reg
                 vpiActual: Net name:o_reg
         ContAssign start:33:8 end:33:23:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs RefObj name:o_wire start:33:8 end:33:14:
             vpiParent: ContAssign
             vpiName: o_wire
-            vpiFullName: work@test.o_wire
-            vpiActual: Net name:o_wire
+            vpiFullName: test.o_wire
+            vpiActual: Variable name:o_wire
           vpiRhs Operation start:33:17 end:33:23:
             vpiParent: ContAssign
             vpiOpType: not (3)
@@ -1760,15 +1788,15 @@ Design name:unnamed:
               RefObj name:o_reg start:33:18 end:33:23:
                 vpiParent: Operation
                 vpiName: o_reg
-                vpiFullName: work@test.o_reg
+                vpiFullName: test.o_reg
                 vpiActual: Net name:o_reg
         ContAssign start:35:8 end:35:22:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs RefObj name:l_reg start:35:8 end:35:13:
             vpiParent: ContAssign
             vpiName: l_reg
-            vpiFullName: work@test.l_reg
-            vpiActual: Net name:l_reg
+            vpiFullName: test.l_reg
+            vpiActual: Variable name:l_reg
           vpiRhs Operation start:35:16 end:35:22:
             vpiParent: ContAssign
             vpiOpType: not (3)
@@ -1776,87 +1804,87 @@ Design name:unnamed:
               RefObj name:o_reg start:35:17 end:35:22:
                 vpiParent: Operation
                 vpiName: o_reg
-                vpiFullName: work@test.o_reg
+                vpiFullName: test.o_reg
                 vpiActual: Net name:o_reg
         ContAssign start:52:8 end:52:21:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs RefObj name:o_mw start:52:8 end:52:12:
             vpiParent: ContAssign
             vpiName: o_mw
-            vpiFullName: work@test.o_mw
+            vpiFullName: test.o_mw
             vpiActual: Net name:o_mw
           vpiRhs BitSelect name:mw1[i] start:52:15 end:52:21:
             vpiParent: ContAssign
             vpiName: mw1[i]
-            vpiFullName: work@test.mw1[i]
+            vpiFullName: test.mw1[i]
             vpiPrefix RefObj name:mw1 start:52:15 end:52:18:
               vpiParent: BitSelect name:mw1[i]
               vpiName: mw1
-              vpiFullName: work@test.mw1
+              vpiFullName: test.mw1
               vpiActual: Net name:mw1
             vpiIndex RefObj name:i start:52:19 end:52:20:
               vpiParent: BitSelect name:mw1[i]
               vpiName: i
-              vpiFullName: work@test.i
+              vpiFullName: test.i
               vpiActual: Net name:i
         ContAssign start:53:8 end:53:21:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs RefObj name:o_mr start:53:8 end:53:12:
             vpiParent: ContAssign
             vpiName: o_mr
-            vpiFullName: work@test.o_mr
+            vpiFullName: test.o_mr
             vpiActual: Net name:o_mr
           vpiRhs BitSelect name:mr1[i] start:53:15 end:53:21:
             vpiParent: ContAssign
             vpiName: mr1[i]
-            vpiFullName: work@test.mr1[i]
+            vpiFullName: test.mr1[i]
             vpiPrefix RefObj name:mr1 start:53:15 end:53:18:
               vpiParent: BitSelect name:mr1[i]
               vpiName: mr1
-              vpiFullName: work@test.mr1
-              vpiActual: Net name:mr1
+              vpiFullName: test.mr1
+              vpiActual: Variable name:mr1
             vpiIndex RefObj name:i start:53:19 end:53:20:
               vpiParent: BitSelect name:mr1[i]
               vpiName: i
-              vpiFullName: work@test.i
+              vpiFullName: test.i
               vpiActual: Net name:i
         ContAssign start:54:8 end:54:21:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs RefObj name:o_ml start:54:8 end:54:12:
             vpiParent: ContAssign
             vpiName: o_ml
-            vpiFullName: work@test.o_ml
+            vpiFullName: test.o_ml
             vpiActual: Net name:o_ml
           vpiRhs BitSelect name:ml1[i] start:54:15 end:54:21:
             vpiParent: ContAssign
             vpiName: ml1[i]
-            vpiFullName: work@test.ml1[i]
+            vpiFullName: test.ml1[i]
             vpiPrefix RefObj name:ml1 start:54:15 end:54:18:
               vpiParent: BitSelect name:ml1[i]
               vpiName: ml1
-              vpiFullName: work@test.ml1
-              vpiActual: Net name:ml1
+              vpiFullName: test.ml1
+              vpiActual: Variable name:ml1
             vpiIndex RefObj name:i start:54:19 end:54:20:
               vpiParent: BitSelect name:ml1[i]
               vpiName: i
-              vpiFullName: work@test.i
+              vpiFullName: test.i
               vpiActual: Net name:i
         ContAssign start:56:8 end:56:21:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs BitSelect name:mw1[1] start:56:8 end:56:14:
             vpiParent: ContAssign
             vpiName: mw1[1]
-            vpiFullName: work@test.mw1[1]
+            vpiFullName: test.mw1[1]
             vpiPrefix RefObj name:mw1 start:56:8 end:56:11:
               vpiParent: BitSelect name:mw1[1]
               vpiName: mw1
-              vpiFullName: work@test.mw1
+              vpiFullName: test.mw1
               vpiActual: Net name:mw1
             vpiIndex Constant start:56:12 end:56:13:
               vpiParent: BitSelect name:mw1[1]
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test.mw1[1]
+                vpiFullName: test.mw1[1]
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1866,28 +1894,28 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@test
+              vpiFullName: test
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
             vpiValue: "1"
         ContAssign start:58:8 end:58:21:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiLhs BitSelect name:ml1[1] start:58:8 end:58:14:
             vpiParent: ContAssign
             vpiName: ml1[1]
-            vpiFullName: work@test.ml1[1]
+            vpiFullName: test.ml1[1]
             vpiPrefix RefObj name:ml1 start:58:8 end:58:11:
               vpiParent: BitSelect name:ml1[1]
               vpiName: ml1
-              vpiFullName: work@test.ml1
-              vpiActual: Net name:ml1
+              vpiFullName: test.ml1
+              vpiActual: Variable name:ml1
             vpiIndex Constant start:58:12 end:58:13:
               vpiParent: BitSelect name:ml1[1]
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test.ml1[1]
+                vpiFullName: test.ml1[1]
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -1897,7 +1925,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@test
+              vpiFullName: test
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
@@ -1905,25 +1933,25 @@ Design name:unnamed:
             vpiValue: "1"
       vpiRefInstance (1 items):
         RefInstance name:sm_inst start:37:9 end:37:16:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName: sm_inst
-          vpiTypespec RefTypespec name:work@sub_mod start:37:1 end:37:8:
+          vpiTypespec RefTypespec name:sub_mod start:37:1 end:37:8:
             vpiParent: RefInstance name:sm_inst
-            vpiName: work@sub_mod
-            vpiFullName: work@test.sm_inst.work@sub_mod
-            vpiActual: ModuleTypespec name:work@sub_mod
+            vpiName: sub_mod
+            vpiFullName: test.sm_inst.sub_mod
+            vpiActual: ModuleTypespec name:sub_mod
           vpiPort (2 items):
             Port start:38:3 end:38:14:
               vpiParent: RefInstance name:sm_inst
               vpiLowConn RefObj name:i_in start:38:4 end:38:8:
                 vpiParent: Port
                 vpiName: i_in
-                vpiFullName: work@test.sm_inst.i_in
+                vpiFullName: test.sm_inst.i_in
               vpiHighConn Constant start:38:9 end:38:13:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test.sm_inst
+                  vpiFullName: test.sm_inst
                   vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
@@ -1934,34 +1962,34 @@ Design name:unnamed:
               vpiLowConn RefObj name:o_out start:39:4 end:39:9:
                 vpiParent: Port
                 vpiName: o_out
-                vpiFullName: work@test.sm_inst.o_out
+                vpiFullName: test.sm_inst.o_out
               vpiHighConn RefObj name:o_reg start:39:10 end:39:15:
                 vpiParent: Port
                 vpiName: o_reg
-                vpiFullName: work@test.sm_inst.o_reg
+                vpiFullName: test.sm_inst.o_reg
                 vpiActual: Net name:o_reg
   vpiTypespec (3 items):
-    ModuleTypespec name:work@sub_mod:
+    ModuleTypespec name:sub_mod:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@sub_mod start:1:8 end:1:15:
-        vpiParent: ModuleTypespec name:work@sub_mod
-        vpiName: work@sub_mod
-      vpiModule: Module name:work@sub_mod
-    ModuleTypespec name:work@test:
+      vpiName Identifier name:sub_mod start:1:8 end:1:15:
+        vpiParent: ModuleTypespec name:sub_mod
+        vpiName: sub_mod
+      vpiModule: Module name:sub_mod
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:5:8 end:5:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:5:8 end:5:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

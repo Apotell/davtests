@@ -19,7 +19,7 @@ n<$Source01/pr224.v> u<332> t<Top_level_rule> c<1> l<3:1> el<39:1>
     n<> u<329> t<Description> p<330> c<328> l<3:1> el<37:10>
       n<> u<328> t<Module_declaration> p<329> c<6> l<3:1> el<37:10>
         n<> u<6> t<Module_ansi_header> p<328> c<3> s<18> l<3:1> el<3:13>
-          n<module> u<3> t<Module_keyword> p<6> s<4> l<3:1> el<3:7>
+          n<module> u<3> t<MODULE> p<6> s<4> l<3:1> el<3:7>
           n<test> u<4> t<SIMPLE_IDENTIFIER> p<6> s<5> l<3:8> el<3:12>
           n<> u<5> t<Package_import_declaration_list> p<6> l<3:12> el<3:12>
         n<> u<18> t<Non_port_module_item> p<328> c<17> s<40> l<5:4> el<5:19>
@@ -345,7 +345,7 @@ n<$Source01/pr224.v> u<332> t<Top_level_rule> c<1> l<3:1> el<39:1>
         n<> u<327> t<ENDMODULE> p<328> l<37:1> el<37:10>
   n<// test> u<331> t<LINE_COMMENT> p<332> l<37:11> el<37:18>
 AST_DEBUG_END
-[INF:CP0303] $Source01/pr224.v:3:1: Compile module "work@test".
+[INF:CP0303] $Source01/pr224.v:3:1: Compile module "test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -355,19 +355,37 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr224.v
       vpiPreprocFile: "$Output/lib/work/pr224.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:$Source01/pr224.v start:3:1 end:37:10:
+    Module name:test file:$Source01/pr224.v start:3:1 end:37:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:3:8 end:3:12:
-        vpiParent: Module name:work@test
-        vpiName: work@test
-      vpiFullName: work@test
+      vpiName Identifier name:test start:3:8 end:3:12:
+        vpiParent: Module name:test
+        vpiName: test
+      vpiFullName: test
+      vpiVariable (2 items):
+        Variable name:clk start:5:15 end:5:18:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:5:4 end:5:7:
+            vpiParent: Variable name:clk
+            vpiFullName: test.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: test.clk
+          vpiScalar: true
+        Variable name:ack start:6:15 end:6:18:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:6:4 end:6:13:
+            vpiParent: Variable name:ack
+            vpiFullName: test.ack
+            vpiActual: LogicTypespec
+          vpiName: ack
+          vpiFullName: test.ack
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
         LogicTypespec:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiRange (1 items):
             Range start:6:8 end:6:13:
               vpiParent: LogicTypespec
@@ -375,7 +393,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -385,47 +403,47 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@test
+                  vpiFullName: test
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@test
-      vpiDefNetType: none (12)
+      vpiDefName: test
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@test
+        vpiParent: Module name:test
         vpiName: work
-        vpiFullName: work@test.work
+        vpiFullName: test.work
       vpiCell: test
       vpiTaskFunc (1 items):
         Task name:first start:8:4 end:23:11:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiName Identifier name:first start:8:9 end:8:14:
             vpiParent: Task name:first
             vpiName: first
-          vpiFullName: work@test.first
+          vpiFullName: test.first
           vpiVariable (1 items):
             Variable name:p start:9:20 end:9:21:
               vpiParent: Task name:first
               vpiTypespec RefTypespec start:9:13 end:9:18:
                 vpiParent: Variable name:p
-                vpiFullName: work@test.first.p
+                vpiFullName: test.first.p
                 vpiActual: LogicTypespec
               vpiName: p
-              vpiFullName: work@test.first.p
+              vpiFullName: test.first.p
           vpiIODecl (1 items):
             IODecl name:p start:9:20 end:9:21:
               vpiParent: Task name:first
               vpiName: p
               vpiTypespec RefTypespec start:9:13 end:9:18:
                 vpiParent: IODecl name:p
-                vpiFullName: work@test.first.p
+                vpiFullName: test.first.p
                 vpiActual: LogicTypespec
           vpiStmt Begin:
             vpiParent: Task name:first
-            vpiFullName: work@test.first
+            vpiFullName: test.first
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -436,7 +454,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test.first
+                        vpiFullName: test.first
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -446,7 +464,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test.first
+                        vpiFullName: test.first
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -456,7 +474,7 @@ Design name:unnamed:
             vpiStmt (1 items):
               Begin start:10:7 end:22:10:
                 vpiParent: Begin
-                vpiFullName: work@test.first
+                vpiFullName: test.first
                 vpiStmt (8 items):
                   EventControl start:11:10 end:11:24:
                     vpiParent: Begin
@@ -467,8 +485,8 @@ Design name:unnamed:
                         RefObj name:clk start:11:20 end:11:23:
                           vpiParent: Operation
                           vpiName: clk
-                          vpiFullName: work@test.first.clk
-                          vpiActual: Net name:clk
+                          vpiFullName: test.first.clk
+                          vpiActual: Variable name:clk
                   SysTaskCall name:$display start:11:26 end:11:53:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:11:26 end:11:34:
@@ -479,7 +497,7 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$display
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@test.first
+                          vpiFullName: test.first
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 120
@@ -494,8 +512,8 @@ Design name:unnamed:
                         RefObj name:ack start:17:20 end:17:23:
                           vpiParent: Operation
                           vpiName: ack
-                          vpiFullName: work@test.first.ack
-                          vpiActual: Net name:ack
+                          vpiFullName: test.first.ack
+                          vpiActual: Variable name:ack
                   SysTaskCall name:$display start:17:26 end:17:53:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:17:26 end:17:34:
@@ -506,7 +524,7 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$display
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@test.first
+                          vpiFullName: test.first
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 120
@@ -521,8 +539,8 @@ Design name:unnamed:
                         RefObj name:clk start:19:20 end:19:23:
                           vpiParent: Operation
                           vpiName: clk
-                          vpiFullName: work@test.first.clk
-                          vpiActual: Net name:clk
+                          vpiFullName: test.first.clk
+                          vpiActual: Variable name:clk
                   SysTaskCall name:$display start:19:26 end:19:53:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:19:26 end:19:34:
@@ -533,7 +551,7 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$display
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@test.first
+                          vpiFullName: test.first
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 120
@@ -549,7 +567,7 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$display
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@test.first
+                          vpiFullName: test.first
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 48
@@ -560,26 +578,9 @@ Design name:unnamed:
                     vpiName Identifier name:$finish start:21:3 end:21:10:
                       vpiParent: SysTaskCall name:$finish
                       vpiName: "$finish"
-      vpiNet (2 items):
-        Net name:clk start:5:15 end:5:18:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec start:5:4 end:5:7:
-            vpiParent: Net name:clk
-            vpiFullName: work@test.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: work@test.clk
-        Net name:ack start:6:15 end:6:18:
-          vpiParent: Module name:work@test
-          vpiTypespec RefTypespec start:6:4 end:6:13:
-            vpiParent: Net name:ack
-            vpiFullName: work@test.ack
-            vpiActual: LogicTypespec
-          vpiName: ack
-          vpiFullName: work@test.ack
       vpiProcess (2 items):
         Initial start:25:4 end:25:24:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt DelayControl start:25:12 end:25:24:
             vpiParent: Initial
             vpiStmt TaskCall name:first start:25:15 end:25:23:
@@ -593,7 +594,7 @@ Design name:unnamed:
                   vpiParent: TaskCall name:first
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -603,30 +604,30 @@ Design name:unnamed:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@test
+                vpiFullName: test
                 vpiActual: IntTypespec
               vpiConstType: int (7)
               vpiSize: 32
               vpiDecompile: "5"
               vpiValue: 5
         Initial start:27:4 end:35:9:
-          vpiParent: Module name:work@test
+          vpiParent: Module name:test
           vpiStmt Begin start:28:6 end:35:9:
             vpiParent: Initial
-            vpiFullName: work@test
+            vpiFullName: test
             vpiStmt (8 items):
               Assignment start:29:2 end:29:10:
                 vpiParent: Begin
                 vpiLhs RefObj name:ack start:29:2 end:29:5:
                   vpiParent: Assignment
                   vpiName: ack
-                  vpiFullName: work@test.ack
-                  vpiActual: Net name:ack
+                  vpiFullName: test.ack
+                  vpiActual: Variable name:ack
                 vpiRhs Constant start:29:9 end:29:10:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -637,13 +638,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:clk start:29:12 end:29:15:
                   vpiParent: Assignment
                   vpiName: clk
-                  vpiFullName: work@test.clk
-                  vpiActual: Net name:clk
+                  vpiFullName: test.clk
+                  vpiActual: Variable name:clk
                 vpiRhs Constant start:29:19 end:29:20:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -656,13 +657,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:clk start:30:6 end:30:9:
                     vpiParent: Assignment
                     vpiName: clk
-                    vpiFullName: work@test.clk
-                    vpiActual: Net name:clk
+                    vpiFullName: test.clk
+                    vpiActual: Variable name:clk
                   vpiRhs Constant start:30:13 end:30:14:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -672,7 +673,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -685,13 +686,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:ack start:31:6 end:31:9:
                     vpiParent: Assignment
                     vpiName: ack
-                    vpiFullName: work@test.ack
-                    vpiActual: Net name:ack
+                    vpiFullName: test.ack
+                    vpiActual: Variable name:ack
                   vpiRhs Constant start:31:13 end:31:14:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -701,7 +702,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -712,13 +713,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:clk start:31:16 end:31:19:
                   vpiParent: Assignment
                   vpiName: clk
-                  vpiFullName: work@test.clk
-                  vpiActual: Net name:clk
+                  vpiFullName: test.clk
+                  vpiActual: Variable name:clk
                 vpiRhs Constant start:31:23 end:31:24:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -731,13 +732,13 @@ Design name:unnamed:
                   vpiLhs RefObj name:clk start:32:6 end:32:9:
                     vpiParent: Assignment
                     vpiName: clk
-                    vpiFullName: work@test.clk
-                    vpiActual: Net name:clk
+                    vpiFullName: test.clk
+                    vpiActual: Variable name:clk
                   vpiRhs Constant start:32:13 end:32:14:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@test
+                      vpiFullName: test
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -747,7 +748,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -765,7 +766,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@test
+                        vpiFullName: test
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 48
@@ -775,7 +776,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@test
+                    vpiFullName: test
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -787,12 +788,12 @@ Design name:unnamed:
                   vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
   vpiTypespec (3 items):
-    ModuleTypespec name:work@test:
+    ModuleTypespec name:test:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@test start:3:8 end:3:12:
-        vpiParent: ModuleTypespec name:work@test
-        vpiName: work@test
-      vpiModule: Module name:work@test
+      vpiName Identifier name:test start:3:8 end:3:12:
+        vpiParent: ModuleTypespec name:test
+        vpiName: test
+      vpiModule: Module name:test
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

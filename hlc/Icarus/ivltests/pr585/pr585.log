@@ -19,7 +19,7 @@ n<$Source01/pr585.v> u<203> t<Top_level_rule> c<1> l<4:1> el<24:1>
     n<> u<201> t<Description> p<202> c<200> l<4:1> el<23:10>
       n<> u<200> t<Module_declaration> p<201> c<7> l<4:1> el<23:10>
         n<> u<7> t<Module_nonansi_header> p<200> c<3> s<30> l<4:1> el<4:15>
-          n<module> u<3> t<Module_keyword> p<7> s<4> l<4:1> el<4:7>
+          n<module> u<3> t<MODULE> p<7> s<4> l<4:1> el<4:7>
           n<main> u<4> t<SIMPLE_IDENTIFIER> p<7> s<5> l<4:8> el<4:12>
           n<> u<5> t<Package_import_declaration_list> p<7> s<6> l<4:12> el<4:12>
           n<> u<6> t<Port_list> p<7> l<4:12> el<4:14>
@@ -216,7 +216,7 @@ n<$Source01/pr585.v> u<203> t<Top_level_rule> c<1> l<4:1> el<24:1>
                           n<> u<189> t<END> p<190> l<21:4> el<21:7>
         n<> u<199> t<ENDMODULE> p<200> l<23:1> el<23:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/pr585.v:4:1: Compile module "work@main".
+[INF:CP0303] $Source01/pr585.v:4:1: Compile module "main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -226,17 +226,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr585.v
       vpiPreprocFile: "$Output/lib/work/pr585.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:$Source01/pr585.v start:4:1 end:23:10:
+    Module name:main file:$Source01/pr585.v start:4:1 end:23:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:4:8 end:4:12:
-        vpiParent: Module name:work@main
-        vpiName: work@main
-      vpiFullName: work@main
+      vpiName Identifier name:main start:4:8 end:4:12:
+        vpiParent: Module name:main
+        vpiName: main
+      vpiFullName: main
+      vpiVariable (2 items):
+        Variable name:ram_temp start:6:13 end:6:21:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:6:3 end:6:12:
+            vpiParent: Variable name:ram_temp
+            vpiFullName: main.ram_temp
+            vpiActual: LogicTypespec
+          vpiName: ram_temp
+          vpiFullName: main.ram_temp
+          vpiVector: true
+        Variable name:mem start:7:7 end:7:10:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:7:3 end:7:6:
+            vpiParent: Variable name:mem
+            vpiFullName: main.mem
+            vpiActual: LogicTypespec
+          vpiName: mem
+          vpiFullName: main.mem
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiRange (1 items):
             Range start:6:7 end:6:12:
               vpiParent: LogicTypespec
@@ -244,7 +262,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -254,7 +272,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -262,37 +280,20 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@main
-      vpiDefName: work@main
-      vpiDefNetType: none (12)
+          vpiParent: Module name:main
+      vpiDefName: main
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@main
+        vpiParent: Module name:main
         vpiName: work
-        vpiFullName: work@main.work
+        vpiFullName: main.work
       vpiCell: main
-      vpiNet (2 items):
-        Net name:ram_temp start:6:13 end:6:21:
-          vpiParent: Module name:work@main
-          vpiTypespec RefTypespec start:6:3 end:6:12:
-            vpiParent: Net name:ram_temp
-            vpiFullName: work@main.ram_temp
-            vpiActual: LogicTypespec
-          vpiName: ram_temp
-          vpiFullName: work@main.ram_temp
-        Net name:mem start:7:7 end:7:10:
-          vpiParent: Module name:work@main
-          vpiTypespec RefTypespec start:7:3 end:7:6:
-            vpiParent: Net name:mem
-            vpiFullName: work@main.mem
-            vpiActual: LogicTypespec
-          vpiName: mem
-          vpiFullName: work@main.mem
       vpiProcess (1 items):
         Initial start:9:4 end:21:7:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Begin start:9:12 end:21:7:
             vpiParent: Initial
-            vpiFullName: work@main
+            vpiFullName: main
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -303,13 +304,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:ram_temp start:10:7 end:10:15:
                   vpiParent: Assignment
                   vpiName: ram_temp
-                  vpiFullName: work@main.ram_temp
-                  vpiActual: Net name:ram_temp
+                  vpiFullName: main.ram_temp
+                  vpiActual: Variable name:ram_temp
                 vpiRhs Constant start:10:18 end:10:23:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: hexadecimal (5)
                   vpiSize: 8
@@ -321,8 +322,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:mem start:11:7 end:11:10:
                   vpiParent: Assignment
                   vpiName: mem
-                  vpiFullName: work@main.mem
-                  vpiActual: Net name:mem
+                  vpiFullName: main.mem
+                  vpiActual: Variable name:mem
                 vpiRhs Operation start:11:13 end:11:36:
                   vpiParent: Assignment
                   vpiOpType: logical shift right (23)
@@ -334,13 +335,13 @@ Design name:unnamed:
                         RefObj name:ram_temp start:11:14 end:11:22:
                           vpiParent: Operation
                           vpiName: ram_temp
-                          vpiFullName: work@main.ram_temp
-                          vpiActual: Net name:ram_temp
+                          vpiFullName: main.ram_temp
+                          vpiActual: Variable name:ram_temp
                         Constant start:11:25 end:11:30:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@main
+                            vpiFullName: main
                             vpiActual: IntTypespec
                           vpiConstType: hexadecimal (5)
                           vpiSize: 8
@@ -350,7 +351,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -366,7 +367,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@main
+                      vpiFullName: main
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 280
@@ -383,13 +384,13 @@ Design name:unnamed:
                           RefObj name:ram_temp start:12:56 end:12:64:
                             vpiParent: Operation
                             vpiName: ram_temp
-                            vpiFullName: work@main.ram_temp
-                            vpiActual: Net name:ram_temp
+                            vpiFullName: main.ram_temp
+                            vpiActual: Variable name:ram_temp
                           Constant start:12:67 end:12:72:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@main
+                              vpiFullName: main
                               vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 8
@@ -399,7 +400,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@main
+                          vpiFullName: main
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -408,8 +409,8 @@ Design name:unnamed:
                   RefObj name:mem start:13:1 end:13:4:
                     vpiParent: SysTaskCall name:$write
                     vpiName: mem
-                    vpiFullName: work@main.mem
-                    vpiActual: Net name:mem
+                    vpiFullName: main.mem
+                    vpiActual: Variable name:mem
               IfStmt start:14:7 end:17:10:
                 vpiParent: Begin
                 vpiCondition Operation start:14:11 end:14:23:
@@ -419,13 +420,13 @@ Design name:unnamed:
                     RefObj name:mem start:14:11 end:14:14:
                       vpiParent: Operation
                       vpiName: mem
-                      vpiFullName: work@main.mem
-                      vpiActual: Net name:mem
+                      vpiFullName: main.mem
+                      vpiActual: Variable name:mem
                     Constant start:14:19 end:14:23:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -433,7 +434,7 @@ Design name:unnamed:
                       vpiValue: "1"
                 vpiStmt Begin start:14:25 end:17:10:
                   vpiParent: IfStmt
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiStmt (2 items):
                     SysTaskCall name:$display start:15:3 end:15:38:
                       vpiParent: Begin
@@ -445,7 +446,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@main
+                            vpiFullName: main
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 144
@@ -454,8 +455,8 @@ Design name:unnamed:
                         RefObj name:mem start:15:34 end:15:37:
                           vpiParent: SysTaskCall name:$display
                           vpiName: mem
-                          vpiFullName: work@main.mem
-                          vpiActual: Net name:mem
+                          vpiFullName: main.mem
+                          vpiActual: Variable name:mem
                     SysTaskCall name:$finish start:16:3 end:16:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:16:3 end:16:10:
@@ -471,7 +472,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@main
+                      vpiFullName: main
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 48
@@ -483,12 +484,12 @@ Design name:unnamed:
                   vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
   vpiTypespec (4 items):
-    ModuleTypespec name:work@main:
+    ModuleTypespec name:main:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:4:8 end:4:12:
-        vpiParent: ModuleTypespec name:work@main
-        vpiName: work@main
-      vpiModule: Module name:work@main
+      vpiName Identifier name:main start:4:8 end:4:12:
+        vpiParent: ModuleTypespec name:main
+        vpiName: main
+      vpiModule: Module name:main
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

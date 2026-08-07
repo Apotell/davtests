@@ -38,7 +38,7 @@ n<$Source01/always3.1.2H.v> u<212> t<Top_level_rule> c<1> l<22:1> el<52:1>
     n<> u<210> t<Description> p<211> c<209> l<22:1> el<49:10>
       n<> u<209> t<Module_declaration> p<210> c<25> l<22:1> el<49:10>
         n<> u<25> t<Module_ansi_header> p<209> c<22> s<47> l<22:1> el<22:14>
-          n<module> u<22> t<Module_keyword> p<25> s<23> l<22:1> el<22:7>
+          n<module> u<22> t<MODULE> p<25> s<23> l<22:1> el<22:7>
           n<main> u<23> t<SIMPLE_IDENTIFIER> p<25> s<24> l<22:8> el<22:12>
           n<> u<24> t<Package_import_declaration_list> p<25> l<22:13> el<22:13>
         n<> u<47> t<Non_port_module_item> p<209> c<46> s<59> l<24:1> el<24:19>
@@ -71,7 +71,7 @@ n<$Source01/always3.1.2H.v> u<212> t<Top_level_rule> c<1> l<22:1> el<52:1>
                   n<> u<54> t<Data_declaration> p<55> c<53> l<25:1> el<25:20>
                     n<> u<53> t<Variable_declaration> p<54> c<49> l<25:1> el<25:20>
                       n<> u<49> t<Data_type> p<53> c<48> s<52> l<25:1> el<25:6>
-                        n<> u<48> t<Event_type> p<49> l<25:1> el<25:6>
+                        n<> u<48> t<EVENT> p<49> l<25:1> el<25:6>
                       n<> u<52> t<Variable_decl_assignment_list> p<53> c<51> l<25:7> el<25:18>
                         n<> u<51> t<Variable_decl_assignment> p<52> c<50> l<25:7> el<25:18>
                           n<event_ident> u<50> t<SIMPLE_IDENTIFIER> p<51> l<25:7> el<25:18>
@@ -225,7 +225,7 @@ n<$Source01/always3.1.2H.v> u<212> t<Top_level_rule> c<1> l<22:1> el<52:1>
                               n<> u<195> t<ONE_TICK_b1> p<196> l<46:40> el<46:44>
         n<> u<208> t<ENDMODULE> p<209> l<49:1> el<49:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/always3.1.2H.v:22:1: Compile module "work@main".
+[INF:CP0303] $Source01/always3.1.2H.v:22:1: Compile module "main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -235,17 +235,34 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: always3.1.2H.v
       vpiPreprocFile: "$Output/lib/work/always3.1.2H.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:$Source01/always3.1.2H.v start:22:1 end:49:10:
+    Module name:main file:$Source01/always3.1.2H.v start:22:1 end:49:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:22:8 end:22:12:
-        vpiParent: Module name:work@main
-        vpiName: work@main
-      vpiFullName: work@main
+      vpiName Identifier name:main start:22:8 end:22:12:
+        vpiParent: Module name:main
+        vpiName: main
+      vpiFullName: main
+      vpiVariable (2 items):
+        Variable name:value1 start:24:11 end:24:17:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:24:1 end:24:10:
+            vpiParent: Variable name:value1
+            vpiFullName: main.value1
+            vpiActual: LogicTypespec
+          vpiName: value1
+          vpiFullName: main.value1
+          vpiVector: true
+        Variable name:event_ident start:25:7 end:25:18:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:25:1 end:25:6:
+            vpiParent: Variable name:event_ident
+            vpiFullName: main.event_ident
+            vpiActual: EventTypespec
+          vpiName: event_ident
+          vpiFullName: main.event_ident
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiRange (1 items):
             Range start:24:5 end:24:10:
               vpiParent: LogicTypespec
@@ -253,7 +270,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -263,7 +280,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -271,39 +288,22 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         EventTypespec start:25:1 end:25:6:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
         BitTypespec:
-          vpiParent: Module name:work@main
-      vpiDefName: work@main
-      vpiDefNetType: none (12)
+          vpiParent: Module name:main
+      vpiDefName: main
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@main
+        vpiParent: Module name:main
         vpiName: work
-        vpiFullName: work@main.work
+        vpiFullName: main.work
       vpiCell: main
-      vpiNet (2 items):
-        Net name:value1 start:24:11 end:24:17:
-          vpiParent: Module name:work@main
-          vpiTypespec RefTypespec start:24:1 end:24:10:
-            vpiParent: Net name:value1
-            vpiFullName: work@main.value1
-            vpiActual: LogicTypespec
-          vpiName: value1
-          vpiFullName: work@main.value1
-        Net name:event_ident start:25:7 end:25:18:
-          vpiParent: Module name:work@main
-          vpiTypespec RefTypespec start:25:1 end:25:6:
-            vpiParent: Net name:event_ident
-            vpiFullName: work@main.event_ident
-            vpiActual: EventTypespec
-          vpiName: event_ident
-          vpiFullName: work@main.event_ident
       vpiProcess (3 items):
         Initial start:27:1 end:30:4:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Begin start:28:1 end:30:4:
             vpiParent: Initial
-            vpiFullName: work@main
+            vpiFullName: main
             vpiStmt (1 items):
               DelayControl start:29:3 end:29:24:
                 vpiParent: Begin
@@ -314,23 +314,23 @@ Design name:unnamed:
                     RefObj name:event_ident start:29:11 end:29:22:
                       vpiParent: Operation
                       vpiName: event_ident
-                      vpiFullName: work@main.event_ident
-                      vpiActual: Net name:event_ident
+                      vpiFullName: main.event_ident
+                      vpiActual: Variable name:event_ident
                 vpiDelay Constant start:29:4 end:29:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
                   vpiDecompile: "  5"
                   vpiValue: 5
         Initial start:32:1 end:44:6:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Begin start:33:3 end:44:6:
             vpiParent: Initial
-            vpiFullName: work@main
+            vpiFullName: main
             vpiStmt (3 items):
               IfStmt start:34:5 end:35:86:
                 vpiParent: Begin
@@ -341,13 +341,13 @@ Design name:unnamed:
                     RefObj name:value1 start:34:8 end:34:14:
                       vpiParent: Operation
                       vpiName: value1
-                      vpiFullName: work@main.value1
-                      vpiActual: Net name:value1
+                      vpiFullName: main.value1
+                      vpiActual: Variable name:value1
                     Constant start:34:19 end:34:26:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: LogicTypespec
                       vpiConstType: binary (3)
                       vpiSize: 4
@@ -363,7 +363,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 544
@@ -375,7 +375,7 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@main
+                    vpiFullName: main
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
@@ -390,13 +390,13 @@ Design name:unnamed:
                     RefObj name:value1 start:37:8 end:37:14:
                       vpiParent: Operation
                       vpiName: value1
-                      vpiFullName: work@main.value1
-                      vpiActual: Net name:value1
+                      vpiFullName: main.value1
+                      vpiActual: Variable name:value1
                     Constant start:37:18 end:37:22:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: LogicTypespec
                       vpiConstType: binary (3)
                       vpiSize: 4
@@ -412,7 +412,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@main
+                        vpiFullName: main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 544
@@ -420,7 +420,7 @@ Design name:unnamed:
                       vpiValue: FAILED - always reg_lvalue <= @ event_identifier boolean_expression\n
                 vpiElseStmt Begin start:40:9 end:43:12:
                   vpiParent: IfElse
-                  vpiFullName: work@main
+                  vpiFullName: main
                   vpiStmt (2 items):
                     SysTaskCall name:$display start:41:11 end:41:31:
                       vpiParent: Begin
@@ -432,7 +432,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@main
+                            vpiFullName: main
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 56
@@ -444,21 +444,21 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$finish
                         vpiName: "$finish"
         Always start:46:1 end:46:46:
-          vpiParent: Module name:work@main
+          vpiParent: Module name:main
           vpiStmt Assignment start:46:8 end:46:44:
             vpiParent: Always
             vpiLhs RefObj name:value1 start:46:8 end:46:14:
               vpiParent: Assignment
               vpiName: value1
-              vpiFullName: work@main.value1
-              vpiActual: Net name:value1
+              vpiFullName: main.value1
+              vpiActual: Variable name:value1
             vpiRhs EventControl start:46:18 end:46:31:
               vpiParent: Assignment
               vpiCondition RefObj name:event_ident start:46:20 end:46:31:
                 vpiParent: EventControl
                 vpiName: event_ident
-                vpiFullName: work@main.event_ident
-                vpiActual: Net name:event_ident
+                vpiFullName: main.event_ident
+                vpiActual: Variable name:event_ident
               vpiStmt Operation start:46:32 end:46:44:
                 vpiParent: EventControl
                 vpiOpType: logical and (26)
@@ -467,7 +467,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@main
+                      vpiFullName: main
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -477,7 +477,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@main
+                      vpiFullName: main
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -485,12 +485,12 @@ Design name:unnamed:
                     vpiValue: "1"
           vpiAlwaysType: always (1)
   vpiTypespec (4 items):
-    ModuleTypespec name:work@main:
+    ModuleTypespec name:main:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@main start:22:8 end:22:12:
-        vpiParent: ModuleTypespec name:work@main
-        vpiName: work@main
-      vpiModule: Module name:work@main
+      vpiName Identifier name:main start:22:8 end:22:12:
+        vpiParent: ModuleTypespec name:main
+        vpiName: main
+      vpiModule: Module name:main
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
