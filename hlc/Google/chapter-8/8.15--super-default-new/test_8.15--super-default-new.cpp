@@ -57,7 +57,7 @@
 // (ClassDefn::getMethods()) contains only "print" -- no explicit Function
 // object represents its implicit default constructor anywhere in this
 // HLDB, so there is no existing, correct Function for "super.new()"'s
-// FuncCall to resolve to. Confirmed via ctest: getTaskFunc() resolves to
+// MethodFuncCall to resolve to. Confirmed via ctest: getTaskFunc() resolves to
 // uvm_report_object's OWN constructor -- a self-reference, the exact same
 // failure shape already confirmed for "super.<ordinary method>()" in
 // chapter-8/8.15--super/test_8.15--super.cpp (where "super.incs()"
@@ -102,9 +102,9 @@
 //     non-ANSI module headers, not an inherent property of class handles.
 //
 // Checked:
-//   - design has exactly 1 package: "work@test_pkg", with exactly 3
-//     nested ClassDefns: "work@uvm_void", "work@uvm_object",
-//     "work@uvm_report_object"
+//   - design has exactly 1 package: "test_pkg", with exactly 3
+//     nested ClassDefns: "uvm_void", "uvm_object",
+//     "uvm_report_object"
 //   - "uvm_void": classType vpiUserDefinedClass, getVirtual() == true (the
 //     "virtual class" qualifier), no properties or methods, end label
 //     "uvm_void"
@@ -121,7 +121,7 @@
 //     in Begin) "super.new();" -- a bare HierPath whose first path elem
 //     "super" resolves to uvm_object's ClassDefn (unambiguous, since
 //     uvm_object is uvm_report_object's direct and only base) and whose
-//     second path elem is a FuncCall "new" -- per KNOWN COMPILER BUG #8
+//     second path elem is a MethodFuncCall "new" -- per KNOWN COMPILER BUG #8
 //     above, its getTaskFunc() resolves to uvm_report_object's OWN
 //     constructor instead (a self-reference); end label
 //     "uvm_report_object"
@@ -146,12 +146,12 @@
 //   - design-level: exactly 1 package, 0 top-level classes directly under
 //     the module (all 3 classes live in the package)
 //
-// KNOWN COMPILER BUG #4 (a method declared directly in a class body is
-// not flagged via getMethod()): already confirmed independently across
-// other chapter-8 files in this suite (see
+// FIXED COMPILER BUG #4 (a method declared directly in a class body is
+// not flagged via getMethod()): cross-checked at the time across other
+// chapter-8 files in this suite (see
 // hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp and
 // siblings). PrintIsRecognizedAsClassMethod below asserts the
-// IEEE-mandated behavior and will FAIL until this is fixed.
+// IEEE-mandated behavior and now passes.
 //
 // "u0 = new();" is NOT filed under KNOWN COMPILER BUG #6 in the usual
 // way: that bug's established pattern is "an EXISTING, user-written
@@ -178,7 +178,6 @@
 #include <hldb/delay_control.h>
 #include <hldb/design.h>
 #include <hldb/extends.h>
-#include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/hier_path.h>
 #include <hldb/identifier.h>
@@ -205,25 +204,25 @@ class ClassSuperDefaultNewTest : public Test {
 
  protected:
   static const hldb::Package *getPkg() {
-    return hldb::findByName<hldb::Package>("work@test_pkg", m_design->getAllPackages());
+    return hldb::findByName<hldb::Package>("test_pkg", m_design->getAllPackages());
   }
 
   static const hldb::ClassDefn *getUvmVoidDefn() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@uvm_void", pkg->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("uvm_void", pkg->getClassDefns());
   }
 
   static const hldb::ClassDefn *getUvmObjectDefn() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@uvm_object", pkg->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("uvm_object", pkg->getClassDefns());
   }
 
   static const hldb::ClassDefn *getUvmReportObjectDefn() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@uvm_report_object", pkg->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("uvm_report_object", pkg->getClassDefns());
   }
 
   static const hldb::Function *getPrintFunction() {
@@ -239,7 +238,7 @@ class ClassSuperDefaultNewTest : public Test {
   }
 
   static const hldb::Module *getModuleM() {
-    return hldb::findByName<hldb::Module>("work@m", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("m", m_design->getAllModules());
   }
 
   static const hldb::Variable *getVariableU0() {
@@ -347,7 +346,7 @@ TEST_F(ClassSuperDefaultNewTest, PrintIsVirtual) {
 TEST_F(ClassSuperDefaultNewTest, PrintIsRecognizedAsClassMethod) {
   const hldb::Function *const print = getPrintFunction();
   ASSERT_NE(print, nullptr);
-  EXPECT_TRUE(print->getMethod()) << "see KNOWN COMPILER BUG #4 above";
+  EXPECT_TRUE(print->getMethod()) << "see FIXED COMPILER BUG #4 above";
 }
 
 TEST_F(ClassSuperDefaultNewTest, PrintReturnTypeIsVoid) {
@@ -440,7 +439,7 @@ TEST_F(ClassSuperDefaultNewTest, NewHasNoIODecls) {
 // "super.new();" -- "super" unambiguously resolves to uvm_object's
 // ClassDefn (uvm_report_object's one and only base), but uvm_object
 // declares NO explicit constructor (its own method list contains only
-// "print"), so there was no existing Function for the FuncCall to
+// "print"), so there was no existing Function for the MethodFuncCall to
 // correctly resolve to. Confirmed via ctest: getTaskFunc() resolves to
 // uvm_report_object's OWN constructor -- a self-reference, the same
 // failure pattern as "super.incs()" in
@@ -462,8 +461,8 @@ TEST_F(ClassSuperDefaultNewTest, NewBodyIsSuperNewCall) {
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getUvmObjectDefn())
       << "'super' should resolve to uvm_object, uvm_report_object's one and only base class";
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new()' second path elem should be a FuncCall";
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr) << "'super.new()' second path elem should be a MethodFuncCall";
   EXPECT_EQ(call->getName(), "new");
   EXPECT_NE(call->getTaskFunc(), getReportObjectNewFunction())
       << "'super.new()' must NOT resolve to uvm_report_object's own constructor -- a self-reference would be "

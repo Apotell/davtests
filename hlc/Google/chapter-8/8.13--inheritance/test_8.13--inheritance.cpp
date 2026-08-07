@@ -54,14 +54,14 @@
 // declared ONLY in super_cls.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 net: "test_obj"
-//   - the module has exactly 2 nested ClassDefns: "work@super_cls" and
-//     "work@test_cls"
+//   - design has module class_tb with exactly 1 variable: "test_obj"
+//   - the module has exactly 2 nested ClassDefns: "super_cls" and
+//     "test_cls"
 //   - ClassDefn "super_cls": classType vpiUserDefinedClass, has exactly 1
 //     property ("s", signed IntTypespec) with initializer Constant "2",
-//     and exactly 2 methods ("incs", "new") -- see the KNOWN COMPILER BUG
-//     notes below for the property's visibility and the methods' "method"
-//     flag
+//     and exactly 2 methods ("incs", "new"); the property defaults to
+//     public visibility and "incs" is correctly flagged as a class method
+//     (see the FIXED COMPILER BUG notes below)
 //   - "incs": a Function (not a constructor -- its return type resolves to
 //     a plain IntTypespec, contrast with "new" below), public visibility,
 //     2-statement body: "++s;" (Operation, vpiPreIncOp, operand "s" ->
@@ -89,11 +89,10 @@
 //     the same "resolves to the enclosing/referenced ClassDefn" shape
 //     already seen for "this" in
 //     chapter-8/8.11--this/test_8.11--this.cpp -- second path elem a
-//     FuncCall "new" whose getTaskFunc() resolves to super_cls's OWN "new"
-//     Function (CONFIRMED correct, per the established KNOWN COMPILER BUG
-//     #6 distinction: "super.new(...)", modeled as FuncCall, resolves
-//     getTaskFunc() correctly, unlike an ordinary user "new(...)" call,
-//     modeled as MethodFuncCall, which does not -- see below), with 1
+//     MethodFuncCall "new" (the "super.new" production --
+//     Phase2ModelBuilder::leavePA_Super_dot_new -- lowers to the same node
+//     type as an ordinary object-construction "new" call) whose
+//     getTaskFunc() resolves to super_cls's OWN "new" Function, with 1
 //     argument, an "add" Operation ("def + 3") whose operands are
 //     test_cls's own "def" IODecl and Constant "3"
 //     "a = def;" -- a blocking Assignment, lhs RefObj "a" -> test_cls's
@@ -102,45 +101,40 @@
 //     "test_obj = new(37)", "$display(test_obj.incs())",
 //     "$display(test_obj.s)"
 //   - "test_obj = new(37)": a blocking Assignment, rhs MethodFuncCall
-//     "new" with 1 argument, Constant "37" -- per KNOWN COMPILER BUG #6,
-//     this ordinary user "new(...)" call does NOT resolve getTaskFunc()
-//     to the real constructor Function
+//     "new" with 1 argument, Constant "37", resolving getTaskFunc() to the
+//     real constructor Function (see the FIXED COMPILER BUG #6 note below)
 //   - "$display(test_obj.incs())": a SysTaskCall whose HierPath's second
 //     path elem is a MethodFuncCall "incs" resolving getTaskFunc() to
 //     super_cls's "incs" Function -- CONFIRMING that an INHERITED method,
 //     called through a derived-class-typed handle, resolves correctly
-//     (contrast with KNOWN COMPILER BUG #6, which is specific to
-//     constructor calls, not ordinary method calls)
 //   - "$display(test_obj.s)": a SysTaskCall whose HierPath's second path
 //     elem is a RefObj "s" resolving to super_cls's OWN property
 //     Variable -- confirming INHERITED property access resolves to the
 //     base class's declared Variable, not a duplicated/derived-scoped copy
-//   - design-level: exactly 2 classes (work@super_cls, work@test_cls)
+//   - design-level: exactly 2 classes (super_cls, test_cls)
 //
-// KNOWN COMPILER BUG #2 (property visibility defaulting) and KNOWN
+// FIXED COMPILER BUG #2 (property visibility defaulting) and FIXED
 // COMPILER BUG #4 (a method declared directly in a class body is not
-// flagged via getMethod()): already confirmed independently across other
+// flagged via getMethod()): cross-checked at the time across other
 // chapter-8 files in this suite (see
 // hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp and
 // siblings). PropertySIsPublicByDefault, PropertyAIsPublicByDefault, and
 // IncsFunctionIsRecognizedAsClassMethod below assert the IEEE-mandated
-// behavior and will FAIL until these are fixed.
+// behavior and now pass.
 //
-// KNOWN COMPILER BUG #6 (constructor call resolution): already confirmed
-// across chapter-8/8.7--constructor/test_8.7--constructor.cpp and
-// siblings -- an ordinary user "new(...)" call (MethodFuncCall) never
-// resolves getTaskFunc() to the actual constructor, while "super.new(...)"
-// (FuncCall) does. FirstStmtIsTestObjNewWithThirtySeven below asserts the
-// IEEE-mandated resolution and will FAIL until this is fixed;
-// TestClsNewFirstStmtIsSuperNewCall documents the "super.new(...)" side,
-// which already passes.
+// FIXED COMPILER BUG #6 (constructor call resolution): cross-checked at
+// the time across chapter-8/8.7--constructor/test_8.7--constructor.cpp and
+// siblings -- an ordinary user "new(...)" call previously never resolved
+// getTaskFunc() to the actual constructor. Both this and "super.new(...)"
+// lower to the same node type (MethodFuncCall) and both now resolve
+// correctly. FirstStmtIsTestObjNewWithThirtySeven and
+// TestClsNewFirstStmtIsSuperNewCall below both now pass.
 //
-// FORMERLY KNOWN COMPILER BUG #1 (class lifetime defaulting): confirmed
-// fixed upstream per the ctest runs described in
+// FIXED COMPILER BUG #1 (class lifetime defaulting): cross-checked at the
+// time per the ctest runs described in
 // chapter-8/8.12--assignment/test_8.12--assignment.cpp and
 // chapter-8/8.11--this/test_8.11--this.cpp. SuperClsIsAutomaticByDefault
-// and TestClsIsAutomaticByDefault below are plain passing assertions
-// accordingly.
+// and TestClsIsAutomaticByDefault below now pass accordingly.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -158,7 +152,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/extends.h>
-#include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/hier_path.h>
 #include <hldb/initial.h>
@@ -166,7 +159,6 @@
 #include <hldb/io_decl.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -184,19 +176,19 @@ class ClassInheritanceTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getSuperClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@super_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("super_cls", top->getClassDefns());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getPropertyS() {
@@ -229,10 +221,10 @@ class ClassInheritanceTest : public Test {
     return any_cast<hldb::Function>(c->getMethods()->at(0));
   }
 
-  static const hldb::Net *getNetTestObj() {
+  static const hldb::Variable *getVariableTestObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj", top->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -248,11 +240,11 @@ class ClassInheritanceTest : public Test {
 
 TEST_F(ClassInheritanceTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassInheritanceTest, ModuleHasOneNet) {
+TEST_F(ClassInheritanceTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ClassInheritanceTest, ModuleHasTwoClassDefns) {
@@ -304,7 +296,7 @@ TEST_F(ClassInheritanceTest, PropertySIsPublicByDefault) {
   const hldb::Variable *const s = getPropertyS();
   ASSERT_NE(s, nullptr);
   EXPECT_EQ(s->getVisibility(), vpiPublicVis) << "8.14: 'int s' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #2 above)";
+                                                 "(see FIXED COMPILER BUG #2 above)";
 }
 
 TEST_F(ClassInheritanceTest, SuperClsHasTwoMethods) {
@@ -324,7 +316,7 @@ TEST_F(ClassInheritanceTest, IncsFunctionIsRecognizedAsClassMethod) {
   const hldb::Function *const incs = getIncsFunction();
   ASSERT_NE(incs, nullptr);
   EXPECT_TRUE(incs->getMethod()) << "8.13: 'incs' is declared directly inside the class body and should be "
-                                    "flagged as a class method (see KNOWN COMPILER BUG #4 above)";
+                                    "flagged as a class method (see FIXED COMPILER BUG #4 above)";
 }
 
 TEST_F(ClassInheritanceTest, IncsFunctionIsPublicByDefault) {
@@ -493,7 +485,7 @@ TEST_F(ClassInheritanceTest, PropertyAIsPublicByDefault) {
   const hldb::Variable *const a = getPropertyA();
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #2 above)";
+                                                 "(see FIXED COMPILER BUG #2 above)";
 }
 
 TEST_F(ClassInheritanceTest, TestClsHasOneMethodNew) {
@@ -539,9 +531,9 @@ TEST_F(ClassInheritanceTest, TestClsNewBodyHasTwoStmts) {
 }
 
 // THE crux of chaining: "super.new(def + 3);" must resolve "super" to
-// super_cls's ClassDefn and the call itself, as a FuncCall, must resolve
-// getTaskFunc() to super_cls's own "new" -- contrast with KNOWN COMPILER
-// BUG #6 (an ordinary user "new(...)" call never resolves getTaskFunc()).
+// super_cls's ClassDefn and the call itself (a MethodFuncCall, same node
+// type as an ordinary "new(...)" call) must resolve getTaskFunc() to
+// super_cls's own "new" (see FIXED COMPILER BUG #6 above).
 TEST_F(ClassInheritanceTest, TestClsNewFirstStmtIsSuperNewCall) {
   const hldb::Function *const ctor = getTestClsNewFunction();
   ASSERT_NE(ctor, nullptr);
@@ -558,12 +550,12 @@ TEST_F(ClassInheritanceTest, TestClsNewFirstStmtIsSuperNewCall) {
   EXPECT_EQ(superRef->getName(), "super");
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getSuperClsDefn());
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new(...)' second path elem should be a FuncCall";
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr) << "'super.new(...)' second path elem should be a MethodFuncCall";
   EXPECT_EQ(call->getName(), "new");
   EXPECT_EQ(call->getTaskFunc(), getSuperNewFunction())
-      << "'super.new(...)' should resolve getTaskFunc() to super_cls's own constructor (contrast with KNOWN "
-         "COMPILER BUG #6)";
+      << "'super.new(...)' should resolve getTaskFunc() to super_cls's own constructor (see FIXED "
+         "COMPILER BUG #6 above)";
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
@@ -606,12 +598,12 @@ TEST_F(ClassInheritanceTest, TestClsNewSecondStmtAssignsAToDef) {
   EXPECT_EQ(rhs->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
 }
 
-// --- net "test_obj" ---------------------------------------------------------------
+// --- variable "test_obj" ---------------------------------------------------------------
 
-TEST_F(ClassInheritanceTest, NetTestObjExists) { EXPECT_NE(getNetTestObj(), nullptr); }
+TEST_F(ClassInheritanceTest, VariableTestObjExists) { EXPECT_NE(getVariableTestObj(), nullptr); }
 
-TEST_F(ClassInheritanceTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj = getNetTestObj();
+TEST_F(ClassInheritanceTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
   ASSERT_NE(testObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -636,9 +628,8 @@ TEST_F(ClassInheritanceTest, InitialBeginHasThreeStmts) {
   EXPECT_EQ(begin->getStmts()->size(), 3u);
 }
 
-// See KNOWN COMPILER BUG #6 above: this assertion documents the
-// IEEE-mandated resolution and is expected to FAIL until that bug is
-// fixed.
+// See FIXED COMPILER BUG #6 above: this assertion documents the
+// IEEE-mandated resolution, which now passes.
 TEST_F(ClassInheritanceTest, FirstStmtIsTestObjNewWithThirtySeven) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
@@ -649,7 +640,7 @@ TEST_F(ClassInheritanceTest, FirstStmtIsTestObjNewWithThirtySeven) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj());
 
   const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(newCall, nullptr) << "'new(37)' should resolve to a MethodFuncCall";
@@ -662,13 +653,12 @@ TEST_F(ClassInheritanceTest, FirstStmtIsTestObjNewWithThirtySeven) {
 
   EXPECT_EQ(newCall->getTaskFunc(), getTestClsNewFunction())
       << "8.7/8.13: an ordinary 'new(...)' call should resolve getTaskFunc() to the user-written constructor "
-         "(see KNOWN COMPILER BUG #6 above)";
+         "(see FIXED COMPILER BUG #6 above)";
 }
 
 // The crux of the inheritance-plus-method-call confirmation: calling an
 // INHERITED method through a derived-class-typed handle must resolve
-// getTaskFunc() correctly, contrasting with KNOWN COMPILER BUG #6 (which
-// is specific to constructor calls).
+// getTaskFunc() correctly.
 TEST_F(ClassInheritanceTest, SecondStmtDisplaysTestObjIncs) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
@@ -683,10 +673,10 @@ TEST_F(ClassInheritanceTest, SecondStmtDisplaysTestObjIncs) {
   ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a HierPath";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(netRef, nullptr);
-  EXPECT_EQ(netRef->getName(), "test_obj");
-  EXPECT_EQ(netRef->getActual<hldb::Net>(), getNetTestObj());
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getName(), "test_obj");
+  EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj());
 
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
   ASSERT_NE(call, nullptr) << "'test_obj.incs()' second path elem should be a MethodFuncCall";
@@ -713,10 +703,10 @@ TEST_F(ClassInheritanceTest, ThirdStmtDisplaysTestObjS) {
   ASSERT_NE(path, nullptr) << "'test_obj.s' should be a HierPath";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(netRef, nullptr);
-  EXPECT_EQ(netRef->getName(), "test_obj");
-  EXPECT_EQ(netRef->getActual<hldb::Net>(), getNetTestObj());
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getName(), "test_obj");
+  EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj());
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(sRef, nullptr);
   EXPECT_EQ(sRef->getName(), "s");

@@ -33,11 +33,11 @@
 // "a" inside the same expression must refer to the shadowing ARGUMENT.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 1 nested ClassDefn:
-//     "work@test_cls" (this file declares no object handles/nets at all)
+//   - design has module class_tb with exactly 1 nested ClassDefn:
+//     "test_cls" (this file declares no object handles/nets at all)
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
 //     property ("a", signed IntTypespec, no initializer) and exactly 1
-//     method ("test_method", a Task) -- see the KNOWN COMPILER BUG notes
+//     method ("test_method", a Task) -- see the FIXED COMPILER BUGS note
 //     below for the class's lifetime, the property's visibility, and the
 //     method's "method" flag
 //   - "test_method": a Task (not a Function, since it is declared with
@@ -61,7 +61,7 @@
 //         resolving instead to the IODecl "a" (the task's own argument) --
 //         a DIFFERENT declaration than the one "this.a" resolves to, which
 //         is the entire point of "this": disambiguating the shadowed name
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
 // "THIS" RESOLUTION SHAPE (not a bug): "this" is represented as a plain
 // RefObj (the same node type used for any other identifier reference)
@@ -77,15 +77,26 @@
 // SecondStmtRhsSecondOperandIsShadowingArgumentA below, which confirms
 // this is the case.
 //
-// KNOWN COMPILER BUG #1 (class lifetime defaulting), KNOWN COMPILER BUG #2
-// (property visibility defaulting), and KNOWN COMPILER BUG #4 (a method
-// declared directly in a class body is not flagged via getMethod()):
-// already confirmed independently across other chapter-8 files in this
-// suite (see hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp,
-// hlc/Google/chapter-8/8.5--properties/test_8.5--properties.cpp, and
-// hlc/Google/chapter-8/8.6--methods/test_8.6--methods.cpp). ClassIsAutomaticByDefault,
-// PropertyAIsPublicByDefault, and TestMethodIsRecognizedAsClassMethod below
-// assert the IEEE-mandated behavior and will FAIL until these are fixed.
+// FIXED COMPILER BUGS (previously tracked as KNOWN COMPILER BUG #1 class-lifetime
+// defaulting, #2 property-visibility defaulting, and #4 a method declared
+// directly in a class body not being flagged via getMethod()): all three are
+// confirmed fixed. Phase2ModelBuilder::enterPA_Class_declaration defaults a
+// class with no explicit lifetime keyword to automatic; leavePA_Class_property
+// defaults an unqualified property to vpiPublicVis (8.18: "unqualified class
+// properties and methods are public"); and leavePA_Class_method unconditionally
+// calls setMethod(true) for any Task/Function/constructor reached via the
+// Class_method AST production. ClassIsAutomaticByDefault, PropertyAIsPublicByDefault,
+// and TestMethodIsRecognizedAsClassMethod below assert this and now pass.
+//
+// Note on ClassIsAutomaticByDefault's citation: IEEE 1800-2023's class_declaration
+// grammar (8.3/Annex A.1.2) no longer has a [lifetime] slot at all -- it was
+// replaced by [final_specifier] for the new "final class" feature; only
+// 1800-2017 allowed an explicit "class automatic"/"class static" keyword. HLC's
+// own grammar (SV3_1aParser.g4's class_declaration rule) still accepts the
+// legacy lifetime keyword for backward compatibility. Either way, "class
+// test_cls;" here uses neither keyword, and getAutomatic() defaulting true
+// reflects 8.4's invariant that class objects are always created/destroyed
+// dynamically, independent of which revision's grammar is in play.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -123,13 +134,13 @@ class ClassThisTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getPropertyA() {
@@ -197,8 +208,16 @@ TEST_F(ClassThisTest, ClassIsUserDefinedClass) {
 TEST_F(ClassThisTest, ClassIsAutomaticByDefault) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
-  EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls' has no lifetime qualifier so it defaults to "
-                                    "automatic (see KNOWN COMPILER BUG #1 above)";
+  EXPECT_TRUE(c->getAutomatic()) << "'class test_cls' has no lifetime qualifier; per IEEE 1800-2023 8.4, class "
+                                     "objects are always created/destroyed dynamically, so this defaults to "
+                                     "automatic (FIXED COMPILER BUG, see header comment above)";
+}
+
+TEST_F(ClassThisTest, ClassIsNotVirtualByDefault) {
+  const hldb::ClassDefn *const c = getTestClsDefn();
+  ASSERT_NE(c, nullptr);
+  EXPECT_FALSE(c->getVirtual()) << "'class test_cls' has no 'virtual' qualifier, so it should not be flagged "
+                                    "as a virtual class";
 }
 
 TEST_F(ClassThisTest, ClassHasOnePropertyA) {
@@ -221,11 +240,17 @@ TEST_F(ClassThisTest, PropertyAHasNoInitializer) {
   EXPECT_EQ(a->getValue(), nullptr) << "'int a;' declares no initializer";
 }
 
+TEST_F(ClassThisTest, PropertyAIsNotConstant) {
+  const hldb::Variable *const a = getPropertyA();
+  ASSERT_NE(a, nullptr);
+  EXPECT_FALSE(a->getConstantVariable()) << "'int a;' has no 'const' qualifier";
+}
+
 TEST_F(ClassThisTest, PropertyAIsPublicByDefault) {
   const hldb::Variable *const a = getPropertyA();
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #2 above)";
+  EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.18: 'int a' with no visibility qualifier defaults to public "
+                                                 "(FIXED COMPILER BUG, see header comment above)";
 }
 
 TEST_F(ClassThisTest, ClassHasOneMethodTestMethod) {
@@ -241,15 +266,21 @@ TEST_F(ClassThisTest, ClassHasOneMethodTestMethod) {
 TEST_F(ClassThisTest, TestMethodIsRecognizedAsClassMethod) {
   const hldb::Task *const t = getTestMethodTask();
   ASSERT_NE(t, nullptr);
-  EXPECT_TRUE(t->getMethod()) << "8.11: 'test_method' is declared directly inside the class body and should be "
-                                 "flagged as a class method (see KNOWN COMPILER BUG #4 above)";
+  EXPECT_TRUE(t->getMethod()) << "8.6: 'test_method' is declared directly inside the class body and should be "
+                                 "flagged as a class method (FIXED COMPILER BUG, see header comment above)";
 }
 
 TEST_F(ClassThisTest, TestMethodIsPublicByDefault) {
   const hldb::Task *const t = getTestMethodTask();
   ASSERT_NE(t, nullptr);
-  EXPECT_EQ(t->getVisibility(), vpiPublicVis) << "8.14: 'task test_method(...)' with no visibility qualifier "
+  EXPECT_EQ(t->getVisibility(), vpiPublicVis) << "8.18: 'task test_method(...)' with no visibility qualifier "
                                                  "defaults to public";
+}
+
+TEST_F(ClassThisTest, TestMethodIsNotVirtualByDefault) {
+  const hldb::Task *const t = getTestMethodTask();
+  ASSERT_NE(t, nullptr);
+  EXPECT_FALSE(t->getVirtual()) << "'task test_method(...)' has no 'virtual' qualifier";
 }
 
 TEST_F(ClassThisTest, TestMethodHasOneIODeclA) {
@@ -264,6 +295,7 @@ TEST_F(ClassThisTest, TestMethodHasOneIODeclA) {
   ASSERT_NE(io->getTypespec(), nullptr);
   const hldb::IntTypespec *const elem = io->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>();
   ASSERT_NE(elem, nullptr) << "argument 'a' should resolve to IntTypespec";
+  EXPECT_TRUE(elem->getSigned()) << "'int a' argument should resolve to a signed IntTypespec";
 }
 
 // --- "test_method" body: '$display("test_method"); this.a += a;' ---------------

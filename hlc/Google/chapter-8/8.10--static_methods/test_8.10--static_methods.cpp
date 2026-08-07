@@ -45,9 +45,9 @@
 // per-object copy.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 2 nets: "test_obj0" and
+//   - design has module class_tb with exactly 2 variables: "test_obj0" and
 //     "test_obj1", both typed as test_cls
-//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
+//   - the module has exactly 1 nested ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
 //     property ("id", signed IntTypespec) with initializer Constant "0",
 //     and exactly 1 method ("next_id") -- see the KNOWN COMPILER BUG notes
@@ -77,7 +77,7 @@
 //     getTaskFunc()), these ordinary (non-constructor) method calls DO
 //     resolve correctly, confirming that bug is specific to construction,
 //     not method-call resolution in general
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
 // KNOWN COMPILER BUG #1 (class lifetime defaulting), KNOWN COMPILER BUG #2
 // (property visibility defaulting), and KNOWN COMPILER BUG #4 (a method
@@ -134,7 +134,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -152,13 +151,13 @@ class ClassStaticMethodsTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getPropertyId() {
@@ -173,16 +172,16 @@ class ClassStaticMethodsTest : public Test {
     return any_cast<hldb::Function>(c->getMethods()->at(0));
   }
 
-  static const hldb::Net *getNetTestObj0() {
+  static const hldb::Variable *getVariableTestObj0() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj0", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj0", top->getVariables());
   }
 
-  static const hldb::Net *getNetTestObj1() {
+  static const hldb::Variable *getVariableTestObj1() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj1", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj1", top->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -193,54 +192,54 @@ class ClassStaticMethodsTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "<netName> = new;": a blocking Assignment
-  // whose lhs RefObj resolves to the given Net and whose rhs is a
+  // Verifies stmt[index] is "<varName> = new;": a blocking Assignment
+  // whose lhs RefObj resolves to the given Variable and whose rhs is a
   // no-argument "new" MethodFuncCall.
-  static void ExpectNewAssignment(size_t index, std::string_view netName, const hldb::Net *net) {
+  static void ExpectNewAssignment(size_t index, std::string_view varName, const hldb::Variable *var) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
     const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(index));
-    ASSERT_NE(assign, nullptr) << "stmt[" << index << "] should be an Assignment (" << netName << " = new)";
+    ASSERT_NE(assign, nullptr) << "stmt[" << index << "] should be an Assignment (" << varName << " = new)";
     EXPECT_TRUE(assign->getBlocking());
     const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
     ASSERT_NE(lhs, nullptr);
-    EXPECT_EQ(lhs->getName(), netName);
-    EXPECT_EQ(lhs->getActual<hldb::Net>(), net);
+    EXPECT_EQ(lhs->getName(), varName);
+    EXPECT_EQ(lhs->getActual<hldb::Variable>(), var);
     const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
     ASSERT_NE(newCall, nullptr) << "'new' should resolve to a MethodFuncCall";
     EXPECT_EQ(newCall->getName(), "new");
     EXPECT_EQ(newCall->getArguments(), nullptr);
   }
 
-  // Verifies stmt[index] is "$display(<netName>.next_id())": a SysFuncCall
+  // Verifies stmt[index] is "$display(<varName>.next_id())": a SysFuncCall
   // whose sole argument is a HierPath resolving "next_id" to a
   // MethodFuncCall whose getTaskFunc() resolves to the class's "next_id"
   // Function.
-  static void ExpectNextIdDisplay(size_t index, std::string_view netName, const hldb::Net *net) {
+  static void ExpectNextIdDisplay(size_t index, std::string_view varName, const hldb::Variable *var) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(index));
-    ASSERT_NE(disp, nullptr) << "stmt[" << index << "] should be a $display SysFuncCall";
+    const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(index));
+    ASSERT_NE(disp, nullptr) << "stmt[" << index << "] should be a $display SysTaskCall";
     EXPECT_EQ(disp->getName(), "$display");
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 1u);
 
     const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-    ASSERT_NE(path, nullptr) << "'" << netName << ".next_id()' should be a HierPath";
+    ASSERT_NE(path, nullptr) << "'" << varName << ".next_id()' should be a HierPath";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);
-    const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-    ASSERT_NE(netRef, nullptr);
-    EXPECT_EQ(netRef->getName(), netName);
-    EXPECT_EQ(netRef->getActual<hldb::Net>(), net);
+    const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+    ASSERT_NE(varRef, nullptr);
+    EXPECT_EQ(varRef->getName(), varName);
+    EXPECT_EQ(varRef->getActual<hldb::Variable>(), var);
 
     const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-    ASSERT_NE(call, nullptr) << "'" << netName << ".next_id()' second path elem should be a MethodFuncCall";
+    ASSERT_NE(call, nullptr) << "'" << varName << ".next_id()' second path elem should be a MethodFuncCall";
     EXPECT_EQ(call->getName(), "next_id");
     EXPECT_EQ(call->getTaskFunc(), getNextIdFunction())
-        << "'" << netName << ".next_id()' should resolve getTaskFunc() to the class's 'next_id' Function "
+        << "'" << varName << ".next_id()' should resolve getTaskFunc() to the class's 'next_id' Function "
         << "(contrast with KNOWN COMPILER BUG #6, where ordinary 'new()' never resolves getTaskFunc())";
   }
 };
@@ -249,11 +248,11 @@ class ClassStaticMethodsTest : public Test {
 
 TEST_F(ClassStaticMethodsTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassStaticMethodsTest, ModuleHasTwoNets) {
+TEST_F(ClassStaticMethodsTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(ClassStaticMethodsTest, ModuleHasOneClassDefn) {
@@ -403,14 +402,14 @@ TEST_F(ClassStaticMethodsTest, SecondStmtAssignsIdToNextIdReturnValue) {
   EXPECT_EQ(rhs->getActual<hldb::Variable>(), getPropertyId());
 }
 
-// --- nets "test_obj0" / "test_obj1" ---------------------------------------------
+// --- variables "test_obj0" / "test_obj1" ---------------------------------------------
 
-TEST_F(ClassStaticMethodsTest, NetTestObj0Exists) { EXPECT_NE(getNetTestObj0(), nullptr); }
+TEST_F(ClassStaticMethodsTest, VariableTestObj0Exists) { EXPECT_NE(getVariableTestObj0(), nullptr); }
 
-TEST_F(ClassStaticMethodsTest, NetTestObj1Exists) { EXPECT_NE(getNetTestObj1(), nullptr); }
+TEST_F(ClassStaticMethodsTest, VariableTestObj1Exists) { EXPECT_NE(getVariableTestObj1(), nullptr); }
 
-TEST_F(ClassStaticMethodsTest, NetTestObj0TypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj0 = getNetTestObj0();
+TEST_F(ClassStaticMethodsTest, VariableTestObj0TypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj0 = getVariableTestObj0();
   ASSERT_NE(testObj0, nullptr);
   ASSERT_NE(testObj0->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj0->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -418,8 +417,8 @@ TEST_F(ClassStaticMethodsTest, NetTestObj0TypespecResolvesToTestClsClassDefn) {
   EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
 }
 
-TEST_F(ClassStaticMethodsTest, NetTestObj1TypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj1 = getNetTestObj1();
+TEST_F(ClassStaticMethodsTest, VariableTestObj1TypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj1 = getVariableTestObj1();
   ASSERT_NE(testObj1, nullptr);
   ASSERT_NE(testObj1->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj1->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -446,21 +445,21 @@ TEST_F(ClassStaticMethodsTest, InitialBeginHasFourStmts) {
 
 // --- test_obj0 = new; test_obj1 = new; (stmt[0], stmt[1]) ------------------------
 
-TEST_F(ClassStaticMethodsTest, FirstStmtIsTestObj0New) { ExpectNewAssignment(0, "test_obj0", getNetTestObj0()); }
+TEST_F(ClassStaticMethodsTest, FirstStmtIsTestObj0New) { ExpectNewAssignment(0, "test_obj0", getVariableTestObj0()); }
 
-TEST_F(ClassStaticMethodsTest, SecondStmtIsTestObj1New) { ExpectNewAssignment(1, "test_obj1", getNetTestObj1()); }
+TEST_F(ClassStaticMethodsTest, SecondStmtIsTestObj1New) { ExpectNewAssignment(1, "test_obj1", getVariableTestObj1()); }
 
 // --- $display(test_obj0.next_id()); $display(test_obj1.next_id()); (stmt[2], stmt[3]) --
 
 TEST_F(ClassStaticMethodsTest, ThirdStmtDisplaysTestObj0NextId) {
-  ExpectNextIdDisplay(2, "test_obj0", getNetTestObj0());
+  ExpectNextIdDisplay(2, "test_obj0", getVariableTestObj0());
 }
 
 // The crux of this file: calling the static method through a DIFFERENT
 // handle (test_obj1) than the one used just before (test_obj0) must still
 // resolve "next_id" to the SAME declared Function.
 TEST_F(ClassStaticMethodsTest, FourthStmtDisplaysTestObj1NextId) {
-  ExpectNextIdDisplay(3, "test_obj1", getNetTestObj1());
+  ExpectNextIdDisplay(3, "test_obj1", getVariableTestObj1());
 }
 
 // --- compiler diagnostics ---------------------------------------------------------

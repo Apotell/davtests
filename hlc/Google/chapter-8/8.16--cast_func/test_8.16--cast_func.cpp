@@ -34,7 +34,7 @@
 // success/failure, checked here via "!$cast(...)" in a conditional.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 2 module-level
+//   - design has module class_tb with exactly 2 module-level
 //     typespecs: an anonymous EnumTypespec and a TypedefTypespec named
 //     "values" whose alias resolves to that same EnumTypespec
 //   - the EnumTypespec has exactly 5 EnumConsts, in declaration order:
@@ -74,12 +74,14 @@
 
 #include <hldb/Utils.h>
 #include <hldb/begin.h>
+#include <hldb/class_defn.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/if_stmt.h>
 #include <hldb/initial.h>
+#include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
@@ -100,7 +102,7 @@ class ClassCastFuncTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::EnumTypespec *getEnumTypespec() {
@@ -168,12 +170,42 @@ TEST_F(ClassCastFuncTest, EnumConstsHaveNoExplicitValue) {
   }
 }
 
+TEST_F(ClassCastFuncTest, EnumTypespecBaseTypeDefaultsToInt) {
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 6.19: 'In the absence of a data type declaration, the default data type "
+                  "shall be int.' Phase2ModelBuilder's enum-typespec handling only calls setBaseTypespec() when "
+                  "an explicit paEnum_base_type AST node is present (Phase2ModelBuilder.cpp ~line 6289); this "
+                  "anonymous 'enum { aaa, bbb, ccc, ddd, eee }' has no explicit base type, so getBaseTypespec() "
+                  "stays permanently null instead of resolving to an implicit signed 32-bit int.";
+  const hldb::EnumTypespec *const et = getEnumTypespec();
+  ASSERT_NE(et, nullptr);
+  ASSERT_NE(et->getBaseTypespec(), nullptr) << "enum with no explicit base type should still get an implicit "
+                                                "'int' RefTypespec (IEEE 1800-2023 6.19)";
+  const hldb::IntTypespec *const base = et->getBaseTypespec()->getActual<hldb::IntTypespec>();
+  ASSERT_NE(base, nullptr) << "the implicit enum base type should resolve to IntTypespec ('int')";
+  EXPECT_TRUE(base->getSigned());
+}
+
 TEST_F(ClassCastFuncTest, ValuesTypedefAliasesEnumTypespec) {
   const hldb::TypedefTypespec *const td = getValuesTypedef();
   ASSERT_NE(td, nullptr);
   EXPECT_EQ(td->getName(), "values");
   ASSERT_NE(td->getTypedefAlias(), nullptr);
   EXPECT_EQ(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), getEnumTypespec());
+}
+
+// --- design shape: no classes at all -------------------------------------------
+
+TEST_F(ClassCastFuncTest, ModuleHasNoClassDefns) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getClassDefns() == nullptr || top->getClassDefns()->empty())
+      << "this file declares no 'class' at all -- $cast applies more generally than just class handles";
+}
+
+TEST_F(ClassCastFuncTest, DesignHasNoClasses) {
+  ASSERT_NE(m_design, nullptr);
+  EXPECT_TRUE(m_design->getAllClasses() == nullptr || m_design->getAllClasses()->empty())
+      << "this file declares no 'class' at all -- $cast applies more generally than just class handles";
 }
 
 // --- initial process structure -------------------------------------------------
@@ -196,6 +228,16 @@ TEST_F(ClassCastFuncTest, InitialBeginHasOneLocalVariableVal) {
   EXPECT_EQ(val->getName(), "val");
   ASSERT_NE(val->getTypespec(), nullptr);
   EXPECT_EQ(val->getTypespec<hldb::RefTypespec>()->getActual<hldb::TypedefTypespec>(), getValuesTypedef());
+}
+
+TEST_F(ClassCastFuncTest, VariableValDefaultsToStaticLifetime) {
+  const hldb::Variable *const val = getVariableVal();
+  ASSERT_NE(val, nullptr);
+  EXPECT_FALSE(val->getAutomatic())
+      << "IEEE 1800-2023 Sec 6.21: a variable declared directly inside a procedural block that is not itself "
+         "declared automatic defaults to a static lifetime -- e.g. the standard's own example, 'int st1; // "
+         "static' declared directly inside 'initial begin ... end', which is exactly this file's shape "
+         "('values val;' with neither an enclosing automatic block nor an explicit lifetime keyword)";
 }
 
 TEST_F(ClassCastFuncTest, InitialBeginHasTwoStmts) {

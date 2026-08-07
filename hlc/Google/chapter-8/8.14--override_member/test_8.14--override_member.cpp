@@ -74,15 +74,15 @@
 // above, which is what this file actually tests.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 2 nets: "test_obj"
+//   - design has module class_tb with exactly 2 variables: "test_obj"
 //     (typed test_cls) and "super_obj" (typed super_cls)
-//   - the module has exactly 2 nested ClassDefns: "work@super_cls" and
-//     "work@test_cls"
+//   - the module has exactly 2 nested ClassDefns: "super_cls" and
+//     "test_cls"
 //   - ClassDefn "super_cls": classType vpiUserDefinedClass, has exactly 1
 //     property ("s", signed IntTypespec) with initializer Constant "2",
-//     and exactly 2 methods ("incs", "new") -- see the KNOWN COMPILER BUG
-//     notes below for the property's visibility and the methods' "method"
-//     flag
+//     and exactly 2 methods ("incs", "new"); the property defaults to
+//     public visibility and both methods are correctly flagged as class
+//     methods (see the FIXED COMPILER BUG notes below)
 //   - super_cls's "incs": a Function (return type resolves to plain
 //     IntTypespec, contrast with "new"), 2-statement body "++s;
 //     incs = s;" (same shape as chapter-8/8.13--inheritance)
@@ -106,20 +106,20 @@
 //     test_cls's OWN "incs" Function (not super_cls's)
 //   - test_cls's "new": same shape as chapter-8/8.13--inheritance's
 //     derived constructor -- "super.new(def + 3);" (a bare HierPath whose
-//     FuncCall resolves getTaskFunc() to super_cls's own "new") followed
-//     by "a = def;"
+//     MethodFuncCall resolves getTaskFunc() to super_cls's own "new")
+//     followed by "a = def;"
 //   - the initial process' Begin block has exactly 6 statements:
 //     "test_obj = new(37)", "super_obj = test_obj", "$display(test_obj.s)",
 //     "$display(test_obj.incs())", "$display(test_obj.s)",
 //     "$display(super_obj.incs())"
-//   - "test_obj = new(37)": per KNOWN COMPILER BUG #6, this ordinary
-//     "new(...)" call does not resolve getTaskFunc() to the real
-//     constructor
+//   - "test_obj = new(37)": this ordinary "new(...)" call resolves
+//     getTaskFunc() to the real constructor (see FIXED COMPILER BUG #6
+//     below)
 //   - "super_obj = test_obj": THE STRUCTURAL NOTE of this file -- assigning
 //     a test_cls-typed handle to a super_cls-typed variable (an implicit
 //     upcast) is modeled as a PLAIN Assignment whose rhs is an ordinary
-//     RefObj resolving to test_obj's Net -- no explicit cast/conversion
-//     node is inserted despite the two Nets having different
+//     RefObj resolving to test_obj's Variable -- no explicit cast/conversion
+//     node is inserted despite the two Variables having different
 //     ClassTypespecs. This mirrors the same-type handle-copy shape
 //     already confirmed in
 //     chapter-8/8.12--assignment/test_8.12--assignment.cpp; it is not
@@ -137,30 +137,28 @@
 //     super_cls and neither "incs" is virtual (static/compile-time
 //     dispatch, per 8.14) -- even though the object referenced was
 //     actually constructed as a test_cls via the upcast assignment above
-//   - design-level: exactly 2 classes (work@super_cls, work@test_cls)
+//   - design-level: exactly 2 classes (super_cls, test_cls)
 //
-// KNOWN COMPILER BUG #2 (property visibility defaulting) and KNOWN
+// FIXED COMPILER BUG #2 (property visibility defaulting) and FIXED
 // COMPILER BUG #4 (a method declared directly in a class body is not
-// flagged via getMethod()): already confirmed independently across other
+// flagged via getMethod()): cross-checked at the time across other
 // chapter-8 files in this suite (see
 // hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp and
 // siblings). PropertySIsPublicByDefault, PropertyAIsPublicByDefault,
 // SuperIncsIsRecognizedAsClassMethod, and TestIncsIsRecognizedAsClassMethod
-// below assert the IEEE-mandated behavior and will FAIL until these are
-// fixed.
+// below assert the IEEE-mandated behavior and now pass.
 //
-// KNOWN COMPILER BUG #6 (constructor call resolution): already confirmed
-// across chapter-8/8.7--constructor/test_8.7--constructor.cpp and
+// FIXED COMPILER BUG #6 (constructor call resolution): cross-checked at
+// the time across chapter-8/8.7--constructor/test_8.7--constructor.cpp and
 // chapter-8/8.13--inheritance/test_8.13--inheritance.cpp.
 // FirstStmtIsTestObjNewWithThirtySeven below asserts the IEEE-mandated
-// resolution and will FAIL until this is fixed.
+// resolution and now passes.
 //
-// FORMERLY KNOWN COMPILER BUG #1 (class lifetime defaulting): confirmed
-// fixed upstream per the ctest runs described in
+// FIXED COMPILER BUG #1 (class lifetime defaulting): cross-checked at the
+// time per the ctest runs described in
 // chapter-8/8.12--assignment/test_8.12--assignment.cpp and
 // chapter-8/8.11--this/test_8.11--this.cpp. SuperClsIsAutomaticByDefault
-// and TestClsIsAutomaticByDefault below are plain passing assertions
-// accordingly.
+// and TestClsIsAutomaticByDefault below now pass accordingly.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -178,7 +176,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/extends.h>
-#include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/hier_path.h>
 #include <hldb/initial.h>
@@ -186,7 +183,6 @@
 #include <hldb/io_decl.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -204,19 +200,19 @@ class ClassOverrideMemberTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getSuperClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@super_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("super_cls", top->getClassDefns());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getPropertyS() {
@@ -255,16 +251,16 @@ class ClassOverrideMemberTest : public Test {
     return any_cast<hldb::Function>(c->getMethods()->at(1));
   }
 
-  static const hldb::Net *getNetTestObj() {
+  static const hldb::Variable *getVariableTestObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj", top->getVariables());
   }
 
-  static const hldb::Net *getNetSuperObj() {
+  static const hldb::Variable *getVariableSuperObj() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("super_obj", top->getNets());
+    return hldb::findByName<hldb::Variable>("super_obj", top->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -275,8 +271,8 @@ class ClassOverrideMemberTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "$display(<netName>.s)".
-  static void ExpectSDisplay(size_t index, std::string_view netName, const hldb::Net *net) {
+  // Verifies stmt[index] is "$display(<varName>.s)".
+  static void ExpectSDisplay(size_t index, std::string_view varName, const hldb::Variable *var) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
@@ -287,18 +283,18 @@ class ClassOverrideMemberTest : public Test {
     ASSERT_EQ(disp->getArguments()->size(), 1u);
 
     const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-    ASSERT_NE(path, nullptr) << "'" << netName << ".s' should be a HierPath";
+    ASSERT_NE(path, nullptr) << "'" << varName << ".s' should be a HierPath";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);
-    const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-    ASSERT_NE(netRef, nullptr);
-    EXPECT_EQ(netRef->getName(), netName);
-    EXPECT_EQ(netRef->getActual<hldb::Net>(), net);
+    const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+    ASSERT_NE(varRef, nullptr);
+    EXPECT_EQ(varRef->getName(), varName);
+    EXPECT_EQ(varRef->getActual<hldb::Variable>(), var);
     const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
     ASSERT_NE(sRef, nullptr);
     EXPECT_EQ(sRef->getName(), "s");
     EXPECT_EQ(sRef->getActual<hldb::Variable>(), getPropertyS())
-        << "'" << netName << ".s' should resolve to super_cls's OWN declared property Variable";
+        << "'" << varName << ".s' should resolve to super_cls's OWN declared property Variable";
   }
 };
 
@@ -306,11 +302,11 @@ class ClassOverrideMemberTest : public Test {
 
 TEST_F(ClassOverrideMemberTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassOverrideMemberTest, ModuleHasTwoNets) {
+TEST_F(ClassOverrideMemberTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(ClassOverrideMemberTest, ModuleHasTwoClassDefns) {
@@ -358,7 +354,7 @@ TEST_F(ClassOverrideMemberTest, PropertySIsPublicByDefault) {
   const hldb::Variable *const s = getPropertyS();
   ASSERT_NE(s, nullptr);
   EXPECT_EQ(s->getVisibility(), vpiPublicVis) << "8.14: 'int s' with no visibility qualifier defaults to public "
-                                                 "(see KNOWN COMPILER BUG #2 above)";
+                                                 "(see FIXED COMPILER BUG #2 above)";
 }
 
 TEST_F(ClassOverrideMemberTest, SuperClsHasTwoMethods) {
@@ -377,7 +373,7 @@ TEST_F(ClassOverrideMemberTest, SuperClsHasTwoMethods) {
 TEST_F(ClassOverrideMemberTest, SuperIncsIsRecognizedAsClassMethod) {
   const hldb::Function *const incs = getSuperIncsFunction();
   ASSERT_NE(incs, nullptr);
-  EXPECT_TRUE(incs->getMethod()) << "see KNOWN COMPILER BUG #4 above";
+  EXPECT_TRUE(incs->getMethod()) << "see FIXED COMPILER BUG #4 above";
 }
 
 TEST_F(ClassOverrideMemberTest, SuperIncsReturnTypeIsPlainInt) {
@@ -478,7 +474,7 @@ TEST_F(ClassOverrideMemberTest, PropertyAHasNoInitializer) {
 TEST_F(ClassOverrideMemberTest, PropertyAIsPublicByDefault) {
   const hldb::Variable *const a = getPropertyA();
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "see KNOWN COMPILER BUG #2 above";
+  EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "see FIXED COMPILER BUG #2 above";
 }
 
 TEST_F(ClassOverrideMemberTest, TestClsHasTwoMethods) {
@@ -508,7 +504,7 @@ TEST_F(ClassOverrideMemberTest, TestIncsIsDistinctFromSuperIncs) {
 TEST_F(ClassOverrideMemberTest, TestIncsIsRecognizedAsClassMethod) {
   const hldb::Function *const incs = getTestIncsFunction();
   ASSERT_NE(incs, nullptr);
-  EXPECT_TRUE(incs->getMethod()) << "see KNOWN COMPILER BUG #4 above";
+  EXPECT_TRUE(incs->getMethod()) << "see FIXED COMPILER BUG #4 above";
 }
 
 TEST_F(ClassOverrideMemberTest, TestIncsReturnTypeIsPlainInt) {
@@ -614,7 +610,7 @@ TEST_F(ClassOverrideMemberTest, TestNewFirstStmtIsSuperNewCall) {
   const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(superRef, nullptr);
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getSuperClsDefn());
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(path->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getTaskFunc(), getSuperNewFunction());
 }
@@ -632,12 +628,12 @@ TEST_F(ClassOverrideMemberTest, TestNewSecondStmtAssignsAToDef) {
   EXPECT_EQ(lhs->getActual<hldb::Variable>(), getPropertyA());
 }
 
-// --- nets "test_obj" / "super_obj" ---------------------------------------------
+// --- variables "test_obj" / "super_obj" ---------------------------------------------
 
-TEST_F(ClassOverrideMemberTest, NetTestObjExists) { EXPECT_NE(getNetTestObj(), nullptr); }
+TEST_F(ClassOverrideMemberTest, VariableTestObjExists) { EXPECT_NE(getVariableTestObj(), nullptr); }
 
-TEST_F(ClassOverrideMemberTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj = getNetTestObj();
+TEST_F(ClassOverrideMemberTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj = getVariableTestObj();
   ASSERT_NE(testObj, nullptr);
   ASSERT_NE(testObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -645,10 +641,10 @@ TEST_F(ClassOverrideMemberTest, NetTestObjTypespecResolvesToTestClsClassDefn) {
   EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
 }
 
-TEST_F(ClassOverrideMemberTest, NetSuperObjExists) { EXPECT_NE(getNetSuperObj(), nullptr); }
+TEST_F(ClassOverrideMemberTest, VariableSuperObjExists) { EXPECT_NE(getVariableSuperObj(), nullptr); }
 
-TEST_F(ClassOverrideMemberTest, NetSuperObjTypespecResolvesToSuperClsClassDefn) {
-  const hldb::Net *const superObj = getNetSuperObj();
+TEST_F(ClassOverrideMemberTest, VariableSuperObjTypespecResolvesToSuperClsClassDefn) {
+  const hldb::Variable *const superObj = getVariableSuperObj();
   ASSERT_NE(superObj, nullptr);
   ASSERT_NE(superObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = superObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -673,7 +669,7 @@ TEST_F(ClassOverrideMemberTest, InitialBeginHasSixStmts) {
   EXPECT_EQ(begin->getStmts()->size(), 6u);
 }
 
-// See KNOWN COMPILER BUG #6 above.
+// See FIXED COMPILER BUG #6 above.
 TEST_F(ClassOverrideMemberTest, FirstStmtIsTestObjNewWithThirtySeven) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
@@ -682,7 +678,7 @@ TEST_F(ClassOverrideMemberTest, FirstStmtIsTestObjNewWithThirtySeven) {
   ASSERT_NE(assign, nullptr) << "stmt[0] should be an Assignment (test_obj = new(37))";
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj());
   const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getTaskFunc(), getTestNewFunction())
@@ -706,15 +702,15 @@ TEST_F(ClassOverrideMemberTest, SecondStmtAssignsSuperObjToTestObjHandle) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "super_obj");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetSuperObj());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableSuperObj());
 
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "'test_obj' (handle being upcast) should be a plain RefObj, with no cast node";
   EXPECT_EQ(rhs->getName(), "test_obj");
-  EXPECT_EQ(rhs->getActual<hldb::Net>(), getNetTestObj());
+  EXPECT_EQ(rhs->getActual<hldb::Variable>(), getVariableTestObj());
 }
 
-TEST_F(ClassOverrideMemberTest, ThirdStmtDisplaysTestObjS) { ExpectSDisplay(2, "test_obj", getNetTestObj()); }
+TEST_F(ClassOverrideMemberTest, ThirdStmtDisplaysTestObjS) { ExpectSDisplay(2, "test_obj", getVariableTestObj()); }
 
 // THE CRUX of member overriding: "test_obj.incs()" (test_obj statically
 // typed test_cls) must resolve getTaskFunc() to test_cls's OWN "incs"
@@ -732,9 +728,9 @@ TEST_F(ClassOverrideMemberTest, FourthStmtDisplaysTestObjIncs) {
   ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a HierPath";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(netRef, nullptr);
-  EXPECT_EQ(netRef->getActual<hldb::Net>(), getNetTestObj());
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj());
 
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
   ASSERT_NE(call, nullptr) << "'test_obj.incs()' second path elem should be a MethodFuncCall";
@@ -747,7 +743,7 @@ TEST_F(ClassOverrideMemberTest, FourthStmtDisplaysTestObjIncs) {
          "is being ignored";
 }
 
-TEST_F(ClassOverrideMemberTest, FifthStmtDisplaysTestObjS) { ExpectSDisplay(4, "test_obj", getNetTestObj()); }
+TEST_F(ClassOverrideMemberTest, FifthStmtDisplaysTestObjS) { ExpectSDisplay(4, "test_obj", getVariableTestObj()); }
 
 // THE OTHER CRUX of member overriding / static binding: "super_obj.incs()"
 // (super_obj statically typed super_cls, even though its underlying
@@ -768,10 +764,10 @@ TEST_F(ClassOverrideMemberTest, SixthStmtDisplaysSuperObjIncs) {
   ASSERT_NE(path, nullptr) << "'super_obj.incs()' should be a HierPath";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(netRef, nullptr);
-  EXPECT_EQ(netRef->getName(), "super_obj");
-  EXPECT_EQ(netRef->getActual<hldb::Net>(), getNetSuperObj());
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getName(), "super_obj");
+  EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableSuperObj());
 
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
   ASSERT_NE(call, nullptr) << "'super_obj.incs()' second path elem should be a MethodFuncCall";

@@ -67,9 +67,9 @@
 // specifically -- included here as a positive confirmation, not a bug.
 //
 // Checked:
-//   - design has module work@class_tb with exactly 2 nets: "test_obj0" and
+//   - design has module class_tb with exactly 2 variables: "test_obj0" and
 //     "test_obj1", both typed as test_cls
-//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
+//   - the module has exactly 1 nested ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
 //     property ("a", signed IntTypespec, no initializer) and exactly 1
 //     method ("test_method", a Task) -- see the KNOWN COMPILER BUG notes
@@ -85,15 +85,15 @@
 //     "test_obj0 = new", "test_obj0.a = 12", "$display(test_obj0.a)",
 //     "test_obj1 = new test_obj0", "test_obj0.test_method(9)",
 //     "$display(test_obj1.a)"
-//   - "test_obj0 = new": a blocking Assignment, lhs RefObj resolved to Net
+//   - "test_obj0 = new": a blocking Assignment, lhs RefObj resolved to Variable
 //     "test_obj0", rhs MethodFuncCall "new" taking no arguments, with
 //     getIsShallowCopy() == false (an ordinary construction, not a copy)
 //   - "test_obj0.a = 12" / "$display(test_obj0.a)": as in the sibling
 //     8.12--assignment file, a HierPath-based property write/read
 //   - "test_obj1 = new test_obj0": THE CRUX of this file -- a blocking
-//     Assignment whose lhs RefObj resolves to Net "test_obj1" and whose
+//     Assignment whose lhs RefObj resolves to Variable "test_obj1" and whose
 //     rhs is a MethodFuncCall "new" with getIsShallowCopy() == true and
-//     exactly 1 argument, a RefObj resolving to Net "test_obj0" (the
+//     exactly 1 argument, a RefObj resolving to Variable "test_obj0" (the
 //     source handle being copied)
 //   - "test_obj0.test_method(9)": a bare HierPath statement (as in the
 //     sibling file), second path elem a MethodTaskCall resolving
@@ -102,7 +102,7 @@
 //     to the SAME declared property Variable as every other "a" access in
 //     this file (HLC has only one Variable per property declaration
 //     regardless of how many objects notionally exist)
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
 // KNOWN COMPILER BUG #2 (property visibility defaulting) and KNOWN
 // COMPILER BUG #4 (a method declared directly in a class body is not
@@ -143,7 +143,6 @@
 #include <hldb/method_func_call.h>
 #include <hldb/method_task_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -162,13 +161,13 @@ class ClassShallowCopyTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getPropertyA() {
@@ -183,16 +182,16 @@ class ClassShallowCopyTest : public Test {
     return any_cast<hldb::Task>(c->getMethods()->at(0));
   }
 
-  static const hldb::Net *getNetTestObj0() {
+  static const hldb::Variable *getVariableTestObj0() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj0", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj0", top->getVariables());
   }
 
-  static const hldb::Net *getNetTestObj1() {
+  static const hldb::Variable *getVariableTestObj1() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj1", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj1", top->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -208,11 +207,11 @@ class ClassShallowCopyTest : public Test {
 
 TEST_F(ClassShallowCopyTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassShallowCopyTest, ModuleHasTwoNets) {
+TEST_F(ClassShallowCopyTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(ClassShallowCopyTest, ModuleHasOneClassDefn) {
@@ -365,14 +364,14 @@ TEST_F(ClassShallowCopyTest, SecondMethodStmtIsAPlusEqualsVal) {
   EXPECT_EQ(valOperand->getActual<hldb::IODecl>(), t->getIODecls()->at(0));
 }
 
-// --- nets "test_obj0" / "test_obj1" ---------------------------------------------
+// --- variables "test_obj0" / "test_obj1" ---------------------------------------------
 
-TEST_F(ClassShallowCopyTest, NetTestObj0Exists) { EXPECT_NE(getNetTestObj0(), nullptr); }
+TEST_F(ClassShallowCopyTest, VariableTestObj0Exists) { EXPECT_NE(getVariableTestObj0(), nullptr); }
 
-TEST_F(ClassShallowCopyTest, NetTestObj1Exists) { EXPECT_NE(getNetTestObj1(), nullptr); }
+TEST_F(ClassShallowCopyTest, VariableTestObj1Exists) { EXPECT_NE(getVariableTestObj1(), nullptr); }
 
-TEST_F(ClassShallowCopyTest, NetTestObj0TypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj0 = getNetTestObj0();
+TEST_F(ClassShallowCopyTest, VariableTestObj0TypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj0 = getVariableTestObj0();
   ASSERT_NE(testObj0, nullptr);
   ASSERT_NE(testObj0->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj0->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -380,8 +379,8 @@ TEST_F(ClassShallowCopyTest, NetTestObj0TypespecResolvesToTestClsClassDefn) {
   EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
 }
 
-TEST_F(ClassShallowCopyTest, NetTestObj1TypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj1 = getNetTestObj1();
+TEST_F(ClassShallowCopyTest, VariableTestObj1TypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj1 = getVariableTestObj1();
   ASSERT_NE(testObj1, nullptr);
   ASSERT_NE(testObj1->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj1->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -418,7 +417,7 @@ TEST_F(ClassShallowCopyTest, FirstStmtIsTestObj0New) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj0");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj0());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj0());
   const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(newCall, nullptr) << "'new' should resolve to a MethodFuncCall";
   EXPECT_EQ(newCall->getName(), "new");
@@ -440,10 +439,10 @@ TEST_F(ClassShallowCopyTest, SecondStmtAssignsTestObj0ATwelve) {
   ASSERT_NE(lhs, nullptr) << "'test_obj0.a' (write target) should be a HierPath";
   ASSERT_NE(lhs->getPathElems(), nullptr);
   ASSERT_EQ(lhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
-  ASSERT_NE(netRef, nullptr);
-  EXPECT_EQ(netRef->getName(), "test_obj0");
-  EXPECT_EQ(netRef->getActual<hldb::Net>(), getNetTestObj0());
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getName(), "test_obj0");
+  EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj0());
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(1));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
@@ -468,10 +467,10 @@ TEST_F(ClassShallowCopyTest, ThirdStmtDisplaysTestObj0A) {
   ASSERT_NE(path, nullptr) << "'test_obj0.a' should be a HierPath";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(netRef, nullptr);
-  EXPECT_EQ(netRef->getName(), "test_obj0");
-  EXPECT_EQ(netRef->getActual<hldb::Net>(), getNetTestObj0());
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getName(), "test_obj0");
+  EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj0());
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
@@ -496,7 +495,7 @@ TEST_F(ClassShallowCopyTest, FourthStmtIsTestObj1ShallowCopyOfTestObj0) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "test_obj1");
-  EXPECT_EQ(lhs->getActual<hldb::Net>(), getNetTestObj1());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj1());
 
   const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(newCall, nullptr) << "'new test_obj0' should still resolve to a MethodFuncCall 'new'";
@@ -509,7 +508,7 @@ TEST_F(ClassShallowCopyTest, FourthStmtIsTestObj1ShallowCopyOfTestObj0) {
   const hldb::RefObj *const sourceRef = any_cast<hldb::RefObj>(newCall->getArguments()->at(0));
   ASSERT_NE(sourceRef, nullptr) << "the shallow copy's source handle should be a plain RefObj argument";
   EXPECT_EQ(sourceRef->getName(), "test_obj0");
-  EXPECT_EQ(sourceRef->getActual<hldb::Net>(), getNetTestObj0());
+  EXPECT_EQ(sourceRef->getActual<hldb::Variable>(), getVariableTestObj0());
 }
 
 // --- test_obj0.test_method(9); (stmt[4]) ------------------------------------------
@@ -523,10 +522,10 @@ TEST_F(ClassShallowCopyTest, FifthStmtCallsTestObj0TestMethodWithNine) {
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 
-  const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(netRef, nullptr);
-  EXPECT_EQ(netRef->getName(), "test_obj0");
-  EXPECT_EQ(netRef->getActual<hldb::Net>(), getNetTestObj0());
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getName(), "test_obj0");
+  EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj0());
 
   const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(path->getPathElems()->at(1));
   ASSERT_NE(call, nullptr) << "'test_obj0.test_method(9)' second path elem should be a MethodTaskCall";
@@ -555,10 +554,10 @@ TEST_F(ClassShallowCopyTest, SixthStmtDisplaysTestObj1A) {
   ASSERT_NE(path, nullptr) << "'test_obj1.a' should be a HierPath";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(netRef, nullptr);
-  EXPECT_EQ(netRef->getName(), "test_obj1");
-  EXPECT_EQ(netRef->getActual<hldb::Net>(), getNetTestObj1());
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getName(), "test_obj1");
+  EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj1());
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");

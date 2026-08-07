@@ -50,9 +50,9 @@
 // recorded on that Variable -- see the OPEN QUESTION note below for (c).
 //
 // Checked:
-//   - design has module work@class_tb with exactly 2 nets: "test_obj0" and
+//   - design has module class_tb with exactly 2 variables: "test_obj0" and
 //     "test_obj1", both typed as test_cls
-//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
+//   - the module has exactly 1 nested ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
 //     property ("s", signed IntTypespec) with initializer Constant "24"
 //     -- see the KNOWN COMPILER BUG notes below for the class's lifetime
@@ -61,19 +61,19 @@
 //     "test_obj0 = new", "test_obj1 = new", "test_obj0.s = 12",
 //     "$display(test_obj0.s)", "test_obj0.s = 13", "$display(test_obj1.s)"
 //   - "test_obj0 = new" / "test_obj1 = new": each a blocking Assignment,
-//     lhs RefObj resolved to the respective Net, rhs MethodFuncCall "new"
+//     lhs RefObj resolved to the respective Variable, rhs MethodFuncCall "new"
 //     taking no arguments
 //   - "test_obj0.s = 12" / "test_obj0.s = 13": blocking Assignments whose
 //     lhs is a HierPath resolving "s" to the class's SAME property
 //     Variable, rhs Constant "12"/"13"
 //   - "$display(test_obj0.s)": HierPath resolving "s" the same way
 //   - "$display(test_obj1.s)": HierPath whose FIRST path elem resolves to
-//     the OTHER net (test_obj1, not test_obj0) but whose SECOND path elem
+//     the OTHER variable (test_obj1, not test_obj0) but whose SECOND path elem
 //     ("s") resolves to the exact SAME Variable object as every other "s"
 //     access in this file -- confirming that accessing the static property
 //     through a different handle still correctly ties back to the single
 //     declared property, not a dangling or duplicated reference
-//   - design-level: exactly 1 class (work@test_cls)
+//   - design-level: exactly 1 class (test_cls)
 //
 // KNOWN COMPILER BUG #1 (class lifetime defaulting) and KNOWN COMPILER BUG
 // #2 (property visibility defaulting): already confirmed independently
@@ -117,7 +117,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
@@ -134,13 +133,13 @@ class ClassStaticPropertiesTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getPropertyS() {
@@ -149,16 +148,16 @@ class ClassStaticPropertiesTest : public Test {
     return c->getVariables()->at(0);
   }
 
-  static const hldb::Net *getNetTestObj0() {
+  static const hldb::Variable *getVariableTestObj0() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj0", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj0", top->getVariables());
   }
 
-  static const hldb::Net *getNetTestObj1() {
+  static const hldb::Variable *getVariableTestObj1() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Net>("test_obj1", top->getNets());
+    return hldb::findByName<hldb::Variable>("test_obj1", top->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -169,46 +168,46 @@ class ClassStaticPropertiesTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "<netName> = new;": a blocking Assignment
-  // whose lhs RefObj resolves to the given Net and whose rhs is a
+  // Verifies stmt[index] is "<varName> = new;": a blocking Assignment
+  // whose lhs RefObj resolves to the given Variable and whose rhs is a
   // no-argument "new" MethodFuncCall.
-  static void ExpectNewAssignment(size_t index, std::string_view netName, const hldb::Net *net) {
+  static void ExpectNewAssignment(size_t index, std::string_view varName, const hldb::Variable *var) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
     const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(index));
-    ASSERT_NE(assign, nullptr) << "stmt[" << index << "] should be an Assignment (" << netName << " = new)";
+    ASSERT_NE(assign, nullptr) << "stmt[" << index << "] should be an Assignment (" << varName << " = new)";
     EXPECT_TRUE(assign->getBlocking());
     const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
     ASSERT_NE(lhs, nullptr);
-    EXPECT_EQ(lhs->getName(), netName);
-    EXPECT_EQ(lhs->getActual<hldb::Net>(), net);
+    EXPECT_EQ(lhs->getName(), varName);
+    EXPECT_EQ(lhs->getActual<hldb::Variable>(), var);
     const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
     ASSERT_NE(newCall, nullptr) << "'new' should resolve to a MethodFuncCall";
     EXPECT_EQ(newCall->getName(), "new");
     EXPECT_EQ(newCall->getArguments(), nullptr);
   }
 
-  // Verifies stmt[index] is "<netName>.s = <value>;": a blocking
+  // Verifies stmt[index] is "<varName>.s = <value>;": a blocking
   // Assignment whose lhs HierPath resolves "s" to the class's property
   // Variable, and whose rhs is a Constant matching "value".
-  static void ExpectSAssignment(size_t index, std::string_view netName, const hldb::Net *net, std::string_view value) {
+  static void ExpectSAssignment(size_t index, std::string_view varName, const hldb::Variable *var, std::string_view value) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
     const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(index));
-    ASSERT_NE(assign, nullptr) << "stmt[" << index << "] should be an Assignment (" << netName << ".s = " << value
+    ASSERT_NE(assign, nullptr) << "stmt[" << index << "] should be an Assignment (" << varName << ".s = " << value
                                << ")";
     EXPECT_TRUE(assign->getBlocking());
 
     const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
-    ASSERT_NE(lhs, nullptr) << "'" << netName << ".s' (write target) should be a HierPath";
+    ASSERT_NE(lhs, nullptr) << "'" << varName << ".s' (write target) should be a HierPath";
     ASSERT_NE(lhs->getPathElems(), nullptr);
     ASSERT_EQ(lhs->getPathElems()->size(), 2u);
-    const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
-    ASSERT_NE(netRef, nullptr);
-    EXPECT_EQ(netRef->getName(), netName);
-    EXPECT_EQ(netRef->getActual<hldb::Net>(), net);
+    const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
+    ASSERT_NE(varRef, nullptr);
+    EXPECT_EQ(varRef->getName(), varName);
+    EXPECT_EQ(varRef->getActual<hldb::Variable>(), var);
     const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(1));
     ASSERT_NE(sRef, nullptr);
     EXPECT_EQ(sRef->getName(), "s");
@@ -219,30 +218,30 @@ class ClassStaticPropertiesTest : public Test {
     EXPECT_EQ(rhs->getDecompile(), value);
   }
 
-  // Verifies stmt[index] is "$display(<netName>.s)".
-  static void ExpectSDisplay(size_t index, std::string_view netName, const hldb::Net *net) {
+  // Verifies stmt[index] is "$display(<varName>.s)".
+  static void ExpectSDisplay(size_t index, std::string_view varName, const hldb::Variable *var) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(index));
-    ASSERT_NE(disp, nullptr) << "stmt[" << index << "] should be a $display SysFuncCall";
+    const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(index));
+    ASSERT_NE(disp, nullptr) << "stmt[" << index << "] should be a $display SysTaskCall";
     EXPECT_EQ(disp->getName(), "$display");
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 1u);
 
     const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-    ASSERT_NE(path, nullptr) << "'" << netName << ".s' should be a HierPath";
+    ASSERT_NE(path, nullptr) << "'" << varName << ".s' should be a HierPath";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);
-    const hldb::RefObj *const netRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-    ASSERT_NE(netRef, nullptr);
-    EXPECT_EQ(netRef->getName(), netName);
-    EXPECT_EQ(netRef->getActual<hldb::Net>(), net);
+    const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+    ASSERT_NE(varRef, nullptr);
+    EXPECT_EQ(varRef->getName(), varName);
+    EXPECT_EQ(varRef->getActual<hldb::Variable>(), var);
     const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
     ASSERT_NE(sRef, nullptr);
     EXPECT_EQ(sRef->getName(), "s");
     EXPECT_EQ(sRef->getActual<hldb::Variable>(), getPropertyS())
-        << "'" << netName << ".s' must resolve back to the SAME declared property Variable";
+        << "'" << varName << ".s' must resolve back to the SAME declared property Variable";
   }
 };
 
@@ -250,11 +249,11 @@ class ClassStaticPropertiesTest : public Test {
 
 TEST_F(ClassStaticPropertiesTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ClassStaticPropertiesTest, ModuleHasTwoNets) {
+TEST_F(ClassStaticPropertiesTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(ClassStaticPropertiesTest, ModuleHasOneClassDefn) {
@@ -323,14 +322,14 @@ TEST_F(ClassStaticPropertiesTest, PropertySAllocationIsStatic) {
                                      "'static' is recognized if the paired non-static check also passes)";
 }
 
-// --- nets "test_obj0" / "test_obj1" ---------------------------------------------
+// --- vars "test_obj0" / "test_obj1" ---------------------------------------------
 
-TEST_F(ClassStaticPropertiesTest, NetTestObj0Exists) { EXPECT_NE(getNetTestObj0(), nullptr); }
+TEST_F(ClassStaticPropertiesTest, VariableTestObj0Exists) { EXPECT_NE(getVariableTestObj0(), nullptr); }
 
-TEST_F(ClassStaticPropertiesTest, NetTestObj1Exists) { EXPECT_NE(getNetTestObj1(), nullptr); }
+TEST_F(ClassStaticPropertiesTest, VariableTestObj1Exists) { EXPECT_NE(getVariableTestObj1(), nullptr); }
 
-TEST_F(ClassStaticPropertiesTest, NetTestObj0TypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj0 = getNetTestObj0();
+TEST_F(ClassStaticPropertiesTest, VariableTestObj0TypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj0 = getVariableTestObj0();
   ASSERT_NE(testObj0, nullptr);
   ASSERT_NE(testObj0->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj0->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -338,8 +337,8 @@ TEST_F(ClassStaticPropertiesTest, NetTestObj0TypespecResolvesToTestClsClassDefn)
   EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
 }
 
-TEST_F(ClassStaticPropertiesTest, NetTestObj1TypespecResolvesToTestClsClassDefn) {
-  const hldb::Net *const testObj1 = getNetTestObj1();
+TEST_F(ClassStaticPropertiesTest, VariableTestObj1TypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj1 = getVariableTestObj1();
   ASSERT_NE(testObj1, nullptr);
   ASSERT_NE(testObj1->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj1->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
@@ -366,28 +365,28 @@ TEST_F(ClassStaticPropertiesTest, InitialBeginHasSixStmts) {
 
 // --- test_obj0 = new; test_obj1 = new; (stmt[0], stmt[1]) ------------------------
 
-TEST_F(ClassStaticPropertiesTest, FirstStmtIsTestObj0New) { ExpectNewAssignment(0, "test_obj0", getNetTestObj0()); }
+TEST_F(ClassStaticPropertiesTest, FirstStmtIsTestObj0New) { ExpectNewAssignment(0, "test_obj0", getVariableTestObj0()); }
 
-TEST_F(ClassStaticPropertiesTest, SecondStmtIsTestObj1New) { ExpectNewAssignment(1, "test_obj1", getNetTestObj1()); }
+TEST_F(ClassStaticPropertiesTest, SecondStmtIsTestObj1New) { ExpectNewAssignment(1, "test_obj1", getVariableTestObj1()); }
 
 // --- test_obj0.s = 12; $display(test_obj0.s); (stmt[2], stmt[3]) ----------------
 
 TEST_F(ClassStaticPropertiesTest, ThirdStmtAssignsTestObj0SToTwelve) {
-  ExpectSAssignment(2, "test_obj0", getNetTestObj0(), "12");
+  ExpectSAssignment(2, "test_obj0", getVariableTestObj0(), "12");
 }
 
-TEST_F(ClassStaticPropertiesTest, FourthStmtDisplaysTestObj0S) { ExpectSDisplay(3, "test_obj0", getNetTestObj0()); }
+TEST_F(ClassStaticPropertiesTest, FourthStmtDisplaysTestObj0S) { ExpectSDisplay(3, "test_obj0", getVariableTestObj0()); }
 
 // --- test_obj0.s = 13; $display(test_obj1.s); (stmt[4], stmt[5]) ----------------
 
 TEST_F(ClassStaticPropertiesTest, FifthStmtAssignsTestObj0SToThirteen) {
-  ExpectSAssignment(4, "test_obj0", getNetTestObj0(), "13");
+  ExpectSAssignment(4, "test_obj0", getVariableTestObj0(), "13");
 }
 
 // The crux of this file: reading "s" through a DIFFERENT handle
 // (test_obj1) than the one it was just written through (test_obj0) must
 // still resolve "s" to the SAME declared property Variable.
-TEST_F(ClassStaticPropertiesTest, SixthStmtDisplaysTestObj1S) { ExpectSDisplay(5, "test_obj1", getNetTestObj1()); }
+TEST_F(ClassStaticPropertiesTest, SixthStmtDisplaysTestObj1S) { ExpectSDisplay(5, "test_obj1", getVariableTestObj1()); }
 
 // --- compiler diagnostics ---------------------------------------------------------
 
