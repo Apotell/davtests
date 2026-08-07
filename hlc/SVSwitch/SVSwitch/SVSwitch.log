@@ -37,6 +37,8 @@ COMMAND: -wd ../../../tests/SVSwitch -timescale=1ns/1ns +vcs+flush+all +warn=all
 [INF:CP0304] $Source01/interface.sv:38:1: Compile interface "input_interface".
 [INF:CP0304] $Source01/interface.sv:58:1: Compile interface "output_interface".
 [INF:CP0303] $Source01/top.sv:12:1: Compile module "top".
+[WRN:CP0323] $Source01/Scoreboard.sv:12:1: Multiply defined typedef "mailbox".
+[WRN:CP0323] $Source01/Environemnt.sv:12:1: Multiply defined typedef "mailbox".
 [INF:CP0306] $Source01/testcase.sv:18:9: Compile program "testcase".
 [WRN:CP0314] $Source01/testcase.sv:18:9: Using programs is discouraged "testcase", programs are obsoleted by UVM.
 [WRN:CP0350] $Source01/top.sv:51:34: Failed to bind "id:3332, name:reset".
@@ -2013,6 +2015,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2024,6 +2027,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2055,6 +2059,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2069,6 +2074,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2090,6 +2096,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2113,6 +2120,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2132,6 +2140,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2155,6 +2164,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2174,6 +2184,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2243,16 +2254,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2265,6 +2279,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2276,6 +2291,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2283,6 +2299,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2290,6 +2307,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2297,6 +2315,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2310,6 +2329,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2321,6 +2341,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2352,6 +2373,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2378,6 +2400,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2404,6 +2427,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2615,6 +2639,7 @@ Design name:unnamed:
             vpiParent: Function name:cal_fcs
             vpiName: cal_fcs
           vpiFullName: packet::cal_fcs
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Function name:cal_fcs
@@ -2859,6 +2884,7 @@ Design name:unnamed:
             vpiParent: Function name:display
             vpiName: display
           vpiFullName: packet::display
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiVirtual: true
           vpiStmt Begin:
@@ -3165,6 +3191,7 @@ Design name:unnamed:
             vpiParent: Function name:byte_pack
             vpiName: byte_pack
           vpiFullName: packet::byte_pack
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiVirtual: true
           vpiIODecl (1 items):
@@ -3479,6 +3506,7 @@ Design name:unnamed:
             vpiParent: Function name:byte_unpack
             vpiName: byte_unpack
           vpiFullName: packet::byte_unpack
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiVirtual: true
           vpiIODecl (1 items):
@@ -3533,18 +3561,18 @@ Design name:unnamed:
               Assignment start:83:3 end:83:21:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.da start:83:3 end:83:10:
+                vpiLhs HierPath name:this::da start:83:3 end:83:10:
                   vpiParent: Assignment
-                  vpiName: this.da
-                  vpiFullName: packet::byte_unpack::this.da
+                  vpiName: this::da
+                  vpiFullName: packet::byte_unpack::this::da
                   vpiPathElem (2 items):
                     RefObj name:this start:83:3 end:83:7:
-                      vpiParent: HierPath name:this.da
+                      vpiParent: HierPath name:this::da
                       vpiName: this
                       vpiFullName: packet::byte_unpack::this
                       vpiActual: ClassDefn name:packet
                     RefObj name:da start:83:8 end:83:10:
-                      vpiParent: HierPath name:this.da
+                      vpiParent: HierPath name:this::da
                       vpiName: da
                       vpiFullName: packet::byte_unpack::da
                       vpiActual: Variable name:da
@@ -3570,18 +3598,18 @@ Design name:unnamed:
               Assignment start:84:3 end:84:21:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.sa start:84:3 end:84:10:
+                vpiLhs HierPath name:this::sa start:84:3 end:84:10:
                   vpiParent: Assignment
-                  vpiName: this.sa
-                  vpiFullName: packet::byte_unpack::this.sa
+                  vpiName: this::sa
+                  vpiFullName: packet::byte_unpack::this::sa
                   vpiPathElem (2 items):
                     RefObj name:this start:84:3 end:84:7:
-                      vpiParent: HierPath name:this.sa
+                      vpiParent: HierPath name:this::sa
                       vpiName: this
                       vpiFullName: packet::byte_unpack::this
                       vpiActual: ClassDefn name:packet
                     RefObj name:sa start:84:8 end:84:10:
-                      vpiParent: HierPath name:this.sa
+                      vpiParent: HierPath name:this::sa
                       vpiName: sa
                       vpiFullName: packet::byte_unpack::sa
                       vpiActual: Variable name:sa
@@ -3607,18 +3635,18 @@ Design name:unnamed:
               Assignment start:85:3 end:85:25:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.length start:85:3 end:85:14:
+                vpiLhs HierPath name:this::length start:85:3 end:85:14:
                   vpiParent: Assignment
-                  vpiName: this.length
-                  vpiFullName: packet::byte_unpack::this.length
+                  vpiName: this::length
+                  vpiFullName: packet::byte_unpack::this::length
                   vpiPathElem (2 items):
                     RefObj name:this start:85:3 end:85:7:
-                      vpiParent: HierPath name:this.length
+                      vpiParent: HierPath name:this::length
                       vpiName: this
                       vpiFullName: packet::byte_unpack::this
                       vpiActual: ClassDefn name:packet
                     RefObj name:length start:85:8 end:85:14:
-                      vpiParent: HierPath name:this.length
+                      vpiParent: HierPath name:this::length
                       vpiName: length
                       vpiFullName: packet::byte_unpack::length
                       vpiActual: Variable name:length
@@ -3644,18 +3672,18 @@ Design name:unnamed:
               Assignment start:86:3 end:86:35:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.fcs start:86:3 end:86:11:
+                vpiLhs HierPath name:this::fcs start:86:3 end:86:11:
                   vpiParent: Assignment
-                  vpiName: this.fcs
-                  vpiFullName: packet::byte_unpack::this.fcs
+                  vpiName: this::fcs
+                  vpiFullName: packet::byte_unpack::this::fcs
                   vpiPathElem (2 items):
                     RefObj name:this start:86:3 end:86:7:
-                      vpiParent: HierPath name:this.fcs
+                      vpiParent: HierPath name:this::fcs
                       vpiName: this
                       vpiFullName: packet::byte_unpack::this
                       vpiActual: ClassDefn name:packet
                     RefObj name:fcs start:86:8 end:86:11:
-                      vpiParent: HierPath name:this.fcs
+                      vpiParent: HierPath name:this::fcs
                       vpiName: fcs
                       vpiFullName: packet::byte_unpack::fcs
                       vpiActual: Variable name:fcs
@@ -3700,18 +3728,18 @@ Design name:unnamed:
               Assignment start:87:3 end:87:34:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.data start:87:3 end:87:12:
+                vpiLhs HierPath name:this::data start:87:3 end:87:12:
                   vpiParent: Assignment
-                  vpiName: this.data
-                  vpiFullName: packet::byte_unpack::this.data
+                  vpiName: this::data
+                  vpiFullName: packet::byte_unpack::this::data
                   vpiPathElem (2 items):
                     RefObj name:this start:87:3 end:87:7:
-                      vpiParent: HierPath name:this.data
+                      vpiParent: HierPath name:this::data
                       vpiName: this
                       vpiFullName: packet::byte_unpack::this
                       vpiActual: ClassDefn name:packet
                     RefObj name:data start:87:3 end:87:12:
-                      vpiParent: HierPath name:this.data
+                      vpiParent: HierPath name:this::data
                       vpiName: data
                       vpiFullName: packet::byte_unpack::data
                       vpiActual: Variable name:data
@@ -3810,18 +3838,18 @@ Design name:unnamed:
               Assignment start:90:3 end:90:15:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.fcs start:90:3 end:90:11:
+                vpiLhs HierPath name:this::fcs start:90:3 end:90:11:
                   vpiParent: Assignment
-                  vpiName: this.fcs
-                  vpiFullName: packet::byte_unpack::this.fcs
+                  vpiName: this::fcs
+                  vpiFullName: packet::byte_unpack::this::fcs
                   vpiPathElem (2 items):
                     RefObj name:this start:90:3 end:90:7:
-                      vpiParent: HierPath name:this.fcs
+                      vpiParent: HierPath name:this::fcs
                       vpiName: this
                       vpiFullName: packet::byte_unpack::this
                       vpiActual: ClassDefn name:packet
                     RefObj name:fcs start:90:8 end:90:11:
-                      vpiParent: HierPath name:this.fcs
+                      vpiParent: HierPath name:this::fcs
                       vpiName: fcs
                       vpiFullName: packet::byte_unpack::fcs
                       vpiActual: Variable name:fcs
@@ -3887,18 +3915,18 @@ Design name:unnamed:
                 vpiStmt Assignment start:92:3 end:92:15:
                   vpiParent: IfStmt
                   vpiBlocking: true
-                  vpiLhs HierPath name:this.fcs start:92:3 end:92:11:
+                  vpiLhs HierPath name:this::fcs start:92:3 end:92:11:
                     vpiParent: Assignment
-                    vpiName: this.fcs
-                    vpiFullName: packet::byte_unpack::this.fcs
+                    vpiName: this::fcs
+                    vpiFullName: packet::byte_unpack::this::fcs
                     vpiPathElem (2 items):
                       RefObj name:this start:92:3 end:92:7:
-                        vpiParent: HierPath name:this.fcs
+                        vpiParent: HierPath name:this::fcs
                         vpiName: this
                         vpiFullName: packet::byte_unpack::this
                         vpiActual: ClassDefn name:packet
                       RefObj name:fcs start:92:8 end:92:11:
-                        vpiParent: HierPath name:this.fcs
+                        vpiParent: HierPath name:this::fcs
                         vpiName: fcs
                         vpiFullName: packet::byte_unpack::fcs
                         vpiActual: Variable name:fcs
@@ -3925,6 +3953,7 @@ Design name:unnamed:
             vpiParent: Function name:compare
             vpiName: compare
           vpiFullName: packet::compare
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiVirtual: true
           vpiIODecl (1 items):
@@ -3940,9 +3969,16 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:compare
             vpiFullName: packet::compare
-            vpiTypespec (1 items):
+            vpiTypespec (2 items):
               BitTypespec:
                 vpiParent: Begin
+              ClassTypespec name:packet start:96:30 end:96:36:
+                vpiParent: Begin
+                vpiName Identifier name:packet start:96:30 end:96:36:
+                  vpiParent: ClassTypespec name:packet
+                  vpiName: packet
+                vpiDefName: packet
+                vpiClassDefn: ClassDefn name:packet
             vpiStmt (2 items):
               Assignment start:97:1 end:97:12:
                 vpiParent: Begin
@@ -4041,18 +4077,18 @@ Design name:unnamed:
                                 vpiName: da
                                 vpiFullName: packet::compare::da
                                 vpiActual: Variable name:da
-                          HierPath name:this.da start:105:24 end:105:31:
+                          HierPath name:this::da start:105:24 end:105:31:
                             vpiParent: Operation
-                            vpiName: this.da
-                            vpiFullName: packet::compare::this.da
+                            vpiName: this::da
+                            vpiFullName: packet::compare::this::da
                             vpiPathElem (2 items):
                               RefObj name:this start:105:24 end:105:28:
-                                vpiParent: HierPath name:this.da
+                                vpiParent: HierPath name:this::da
                                 vpiName: this
                                 vpiFullName: packet::compare::this
                                 vpiActual: ClassDefn name:packet
                               RefObj name:da start:105:29 end:105:31:
-                                vpiParent: HierPath name:this.da
+                                vpiParent: HierPath name:this::da
                                 vpiName: da
                                 vpiFullName: packet::compare::da
                                 vpiActual: Variable name:da
@@ -4115,18 +4151,18 @@ Design name:unnamed:
                                 vpiName: sa
                                 vpiFullName: packet::compare::sa
                                 vpiActual: Variable name:sa
-                          HierPath name:this.sa start:110:24 end:110:31:
+                          HierPath name:this::sa start:110:24 end:110:31:
                             vpiParent: Operation
-                            vpiName: this.sa
-                            vpiFullName: packet::compare::this.sa
+                            vpiName: this::sa
+                            vpiFullName: packet::compare::this::sa
                             vpiPathElem (2 items):
                               RefObj name:this start:110:24 end:110:28:
-                                vpiParent: HierPath name:this.sa
+                                vpiParent: HierPath name:this::sa
                                 vpiName: this
                                 vpiFullName: packet::compare::this
                                 vpiActual: ClassDefn name:packet
                               RefObj name:sa start:110:29 end:110:31:
-                                vpiParent: HierPath name:this.sa
+                                vpiParent: HierPath name:this::sa
                                 vpiName: sa
                                 vpiFullName: packet::compare::sa
                                 vpiActual: Variable name:sa
@@ -4189,18 +4225,18 @@ Design name:unnamed:
                                 vpiName: length
                                 vpiFullName: packet::compare::length
                                 vpiActual: Variable name:length
-                          HierPath name:this.length start:116:28 end:116:39:
+                          HierPath name:this::length start:116:28 end:116:39:
                             vpiParent: Operation
-                            vpiName: this.length
-                            vpiFullName: packet::compare::this.length
+                            vpiName: this::length
+                            vpiFullName: packet::compare::this::length
                             vpiPathElem (2 items):
                               RefObj name:this start:116:28 end:116:32:
-                                vpiParent: HierPath name:this.length
+                                vpiParent: HierPath name:this::length
                                 vpiName: this
                                 vpiFullName: packet::compare::this
                                 vpiActual: ClassDefn name:packet
                               RefObj name:length start:116:33 end:116:39:
-                                vpiParent: HierPath name:this.length
+                                vpiParent: HierPath name:this::length
                                 vpiName: length
                                 vpiFullName: packet::compare::length
                                 vpiActual: Variable name:length
@@ -4250,18 +4286,18 @@ Design name:unnamed:
                           vpiParent: ForeachStmt
                           vpiName: i
                           vpiFullName: packet::compare::i
-                      vpiVariable HierPath name:this.data start:121:18 end:121:22:
+                      vpiVariable HierPath name:this::data start:121:18 end:121:22:
                         vpiParent: ForeachStmt
-                        vpiName: this.data
-                        vpiFullName: packet::compare::this.data
+                        vpiName: this::data
+                        vpiFullName: packet::compare::this::data
                         vpiPathElem (2 items):
                           RefObj name:this start:121:18 end:121:22:
-                            vpiParent: HierPath name:this.data
+                            vpiParent: HierPath name:this::data
                             vpiName: this
                             vpiFullName: packet::compare::this
                             vpiActual: ClassDefn name:packet
                           RefObj name:data start:121:23 end:121:27:
-                            vpiParent: HierPath name:this.data
+                            vpiParent: HierPath name:this::data
                             vpiName: data
                             vpiFullName: packet::compare::data
                             vpiActual: Variable name:data
@@ -4297,29 +4333,29 @@ Design name:unnamed:
                                     vpiName: i
                                     vpiFullName: packet::compare::pkt.data[i]::i
                                     vpiActual: Variable name:i
-                            HierPath name:this.data[i] start:122:29 end:122:41:
+                            HierPath name:this::data[i] start:122:29 end:122:41:
                               vpiParent: Operation
-                              vpiName: this.data[i]
-                              vpiFullName: packet::compare::this.data[i]
+                              vpiName: this::data[i]
+                              vpiFullName: packet::compare::this::data[i]
                               vpiPathElem (2 items):
                                 RefObj name:this start:122:29 end:122:33:
-                                  vpiParent: HierPath name:this.data[i]
+                                  vpiParent: HierPath name:this::data[i]
                                   vpiName: this
                                   vpiFullName: packet::compare::this
                                   vpiActual: ClassDefn name:packet
                                 BitSelect name:data[i] start:122:34 end:122:40:
-                                  vpiParent: HierPath name:this.data[i]
+                                  vpiParent: HierPath name:this::data[i]
                                   vpiName: data[i]
-                                  vpiFullName: packet::compare::this.data[i]::data[i]
+                                  vpiFullName: packet::compare::this::data[i]::data[i]
                                   vpiPrefix RefObj name:data start:122:34 end:122:38:
                                     vpiParent: BitSelect name:data[i]
                                     vpiName: data
-                                    vpiFullName: packet::compare::this.data[i]::data
+                                    vpiFullName: packet::compare::this::data[i]::data
                                     vpiActual: Variable name:data
                                   vpiIndex RefObj name:i start:122:39 end:122:40:
                                     vpiParent: BitSelect name:data[i]
                                     vpiName: i
-                                    vpiFullName: packet::compare::this.data[i]::i
+                                    vpiFullName: packet::compare::this::data[i]::i
                                     vpiActual: Variable name:i
                         vpiStmt Begin start:123:10 end:126:13:
                           vpiParent: IfStmt
@@ -4385,18 +4421,18 @@ Design name:unnamed:
                                 vpiName: fcs
                                 vpiFullName: packet::compare::fcs
                                 vpiActual: Variable name:fcs
-                          HierPath name:this.fcs start:128:25 end:128:33:
+                          HierPath name:this::fcs start:128:25 end:128:33:
                             vpiParent: Operation
-                            vpiName: this.fcs
-                            vpiFullName: packet::compare::this.fcs
+                            vpiName: this::fcs
+                            vpiFullName: packet::compare::this::fcs
                             vpiPathElem (2 items):
                               RefObj name:this start:128:25 end:128:29:
-                                vpiParent: HierPath name:this.fcs
+                                vpiParent: HierPath name:this::fcs
                                 vpiName: this
                                 vpiFullName: packet::compare::this
                                 vpiActual: ClassDefn name:packet
                               RefObj name:fcs start:128:30 end:128:33:
-                                vpiParent: HierPath name:this.fcs
+                                vpiParent: HierPath name:this::fcs
                                 vpiName: fcs
                                 vpiFullName: packet::compare::fcs
                                 vpiActual: Variable name:fcs
@@ -4435,18 +4471,18 @@ Design name:unnamed:
                                     vpiName: fcs
                                     vpiFullName: packet::compare::fcs
                                     vpiActual: Variable name:fcs
-                              HierPath name:this.fcs start:130:83 end:130:91:
+                              HierPath name:this::fcs start:130:83 end:130:91:
                                 vpiParent: SysTaskCall name:$display
-                                vpiName: this.fcs
-                                vpiFullName: packet::compare::this.fcs
+                                vpiName: this::fcs
+                                vpiFullName: packet::compare::this::fcs
                                 vpiPathElem (2 items):
                                   RefObj name:this start:130:83 end:130:87:
-                                    vpiParent: HierPath name:this.fcs
+                                    vpiParent: HierPath name:this::fcs
                                     vpiName: this
                                     vpiFullName: packet::compare::this
                                     vpiActual: ClassDefn name:packet
                                   RefObj name:fcs start:130:88 end:130:91:
-                                    vpiParent: HierPath name:this.fcs
+                                    vpiParent: HierPath name:this::fcs
                                     vpiName: fcs
                                     vpiFullName: packet::compare::fcs
                                     vpiActual: Variable name:fcs
@@ -4838,7 +4874,7 @@ Design name:unnamed:
           vpiName: gpkt
           vpiFullName: Driver::gpkt
           vpiVisibility: public (1)
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
         UnsupportedTypespec name:input_interface::IP start:13:9 end:13:27:
           vpiParent: ClassDefn name:Driver
           vpiPathElem (2 items):
@@ -4854,11 +4890,26 @@ Design name:unnamed:
           vpiName Identifier name:input_interface::IP:
             vpiParent: UnsupportedTypespec name:input_interface::IP
             vpiName: input_interface::IP
+        ClassTypespec name:mailbox start:14:1 end:14:8:
+          vpiParent: ClassDefn name:Driver
+          vpiName Identifier name:mailbox start:14:1 end:14:8:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
+          vpiDefName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+        ClassTypespec name:packet start:15:1 end:15:7:
+          vpiParent: ClassDefn name:Driver
+          vpiName Identifier name:packet start:15:1 end:15:7:
+            vpiParent: ClassTypespec name:packet
+            vpiName: packet
+          vpiDefName: packet
+          vpiClassDefn: ClassDefn name:packet
         ClassTypespec name:Driver:
           vpiParent: ClassDefn name:Driver
           vpiName Identifier name:Driver:
             vpiParent: ClassTypespec name:Driver
             vpiName: Driver
+          vpiDefName: Driver
           vpiClassDefn: ClassDefn name:Driver
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -4874,6 +4925,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: Driver::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (2 items):
             IODecl name:input_intf_new start:18:42 end:18:56:
@@ -4896,7 +4948,7 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:new
             vpiFullName: Driver::new
-            vpiTypespec (1 items):
+            vpiTypespec (2 items):
               UnsupportedTypespec name:input_interface::IP start:18:22 end:18:40:
                 vpiParent: Begin
                 vpiPathElem (2 items):
@@ -4912,22 +4964,29 @@ Design name:unnamed:
                 vpiName Identifier name:input_interface::IP:
                   vpiParent: UnsupportedTypespec name:input_interface::IP
                   vpiName: input_interface::IP
+              ClassTypespec name:mailbox start:18:57 end:18:64:
+                vpiParent: Begin
+                vpiName Identifier name:mailbox start:18:57 end:18:64:
+                  vpiParent: ClassTypespec name:mailbox
+                  vpiName: mailbox
+                vpiDefName: mailbox
+                vpiClassDefn: ClassDefn name:mailbox
             vpiStmt (3 items):
               Assignment start:19:3 end:19:38:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.input_intf start:19:3 end:19:18:
+                vpiLhs HierPath name:this::input_intf start:19:3 end:19:18:
                   vpiParent: Assignment
-                  vpiName: this.input_intf
-                  vpiFullName: Driver::new::this.input_intf
+                  vpiName: this::input_intf
+                  vpiFullName: Driver::new::this::input_intf
                   vpiPathElem (2 items):
                     RefObj name:this start:19:3 end:19:7:
-                      vpiParent: HierPath name:this.input_intf
+                      vpiParent: HierPath name:this::input_intf
                       vpiName: this
                       vpiFullName: Driver::new::this
                       vpiActual: ClassDefn name:Driver
                     RefObj name:input_intf start:19:8 end:19:18:
-                      vpiParent: HierPath name:this.input_intf
+                      vpiParent: HierPath name:this::input_intf
                       vpiName: input_intf
                       vpiFullName: Driver::new::input_intf
                       vpiActual: Variable name:input_intf
@@ -4980,18 +5039,18 @@ Design name:unnamed:
                 vpiElseStmt Assignment start:26:3 end:26:25:
                   vpiParent: IfElse
                   vpiBlocking: true
-                  vpiLhs HierPath name:this.drvr2sb start:26:3 end:26:15:
+                  vpiLhs HierPath name:this::drvr2sb start:26:3 end:26:15:
                     vpiParent: Assignment
-                    vpiName: this.drvr2sb
-                    vpiFullName: Driver::new::this.drvr2sb
+                    vpiName: this::drvr2sb
+                    vpiFullName: Driver::new::this::drvr2sb
                     vpiPathElem (2 items):
                       RefObj name:this start:26:3 end:26:7:
-                        vpiParent: HierPath name:this.drvr2sb
+                        vpiParent: HierPath name:this::drvr2sb
                         vpiName: this
                         vpiFullName: Driver::new::this
                         vpiActual: ClassDefn name:Driver
                       RefObj name:drvr2sb start:26:8 end:26:15:
-                        vpiParent: HierPath name:this.drvr2sb
+                        vpiParent: HierPath name:this::drvr2sb
                         vpiName: drvr2sb
                         vpiFullName: Driver::new::drvr2sb
                         vpiActual: Variable name:drvr2sb
@@ -5013,6 +5072,7 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                     vpiParent: MethodFuncCall name:new
                     vpiName: new
+                  vpiTaskFunc: Function name:new
           vpiReturn RefTypespec name:Driver:
             vpiParent: Function name:new
             vpiName: Driver
@@ -5024,6 +5084,7 @@ Design name:unnamed:
             vpiParent: Task name:start
             vpiName: start
           vpiFullName: Driver::start
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:start
@@ -5055,7 +5116,14 @@ Design name:unnamed:
                 vpiName: bytes
                 vpiFullName: Driver::start::bytes
                 vpiVector: true
-            vpiTypespec (2 items):
+            vpiTypespec (3 items):
+              ClassTypespec name:packet start:32:3 end:32:9:
+                vpiParent: Begin
+                vpiName Identifier name:packet start:32:3 end:32:9:
+                  vpiParent: ClassTypespec name:packet
+                  vpiName: packet
+                vpiDefName: packet
+                vpiClassDefn: ClassDefn name:packet
               LogicTypespec:
                 vpiParent: Begin
                 vpiRange (1 items):
@@ -5151,6 +5219,7 @@ Design name:unnamed:
                         vpiName Identifier name:new:
                           vpiParent: MethodFuncCall name:new
                           vpiName: new
+                        vpiTaskFunc: Function name:new
                         vpiArgument (1 items):
                           RefObj name:gpkt start:38:16 end:38:20:
                             vpiParent: MethodFuncCall name:new
@@ -5540,7 +5609,7 @@ Design name:unnamed:
           vpiName: rcvr2sb
           vpiFullName: Receiver::rcvr2sb
           vpiVisibility: public (1)
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         UnsupportedTypespec name:output_interface::OP start:14:9 end:14:28:
           vpiParent: ClassDefn name:Receiver
           vpiPathElem (2 items):
@@ -5556,11 +5625,19 @@ Design name:unnamed:
           vpiName Identifier name:output_interface::OP:
             vpiParent: UnsupportedTypespec name:output_interface::OP
             vpiName: output_interface::OP
+        ClassTypespec name:mailbox start:15:1 end:15:8:
+          vpiParent: ClassDefn name:Receiver
+          vpiName Identifier name:mailbox start:15:1 end:15:8:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
+          vpiDefName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
         ClassTypespec name:Receiver:
           vpiParent: ClassDefn name:Receiver
           vpiName Identifier name:Receiver:
             vpiParent: ClassTypespec name:Receiver
             vpiName: Receiver
+          vpiDefName: Receiver
           vpiClassDefn: ClassDefn name:Receiver
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -5576,6 +5653,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: Receiver::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (2 items):
             IODecl name:output_intf_new start:18:43 end:18:58:
@@ -5598,7 +5676,7 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:new
             vpiFullName: Receiver::new
-            vpiTypespec (1 items):
+            vpiTypespec (2 items):
               UnsupportedTypespec name:output_interface::OP start:18:22 end:18:41:
                 vpiParent: Begin
                 vpiPathElem (2 items):
@@ -5614,22 +5692,29 @@ Design name:unnamed:
                 vpiName Identifier name:output_interface::OP:
                   vpiParent: UnsupportedTypespec name:output_interface::OP
                   vpiName: output_interface::OP
+              ClassTypespec name:mailbox start:18:59 end:18:66:
+                vpiParent: Begin
+                vpiName Identifier name:mailbox start:18:59 end:18:66:
+                  vpiParent: ClassTypespec name:mailbox
+                  vpiName: mailbox
+                vpiDefName: mailbox
+                vpiClassDefn: ClassDefn name:mailbox
             vpiStmt (2 items):
               Assignment start:19:4 end:19:41:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.output_intf start:19:4 end:19:20:
+                vpiLhs HierPath name:this::output_intf start:19:4 end:19:20:
                   vpiParent: Assignment
-                  vpiName: this.output_intf
-                  vpiFullName: Receiver::new::this.output_intf
+                  vpiName: this::output_intf
+                  vpiFullName: Receiver::new::this::output_intf
                   vpiPathElem (2 items):
                     RefObj name:this start:19:4 end:19:8:
-                      vpiParent: HierPath name:this.output_intf
+                      vpiParent: HierPath name:this::output_intf
                       vpiName: this
                       vpiFullName: Receiver::new::this
                       vpiActual: ClassDefn name:Receiver
                     RefObj name:output_intf start:19:9 end:19:20:
-                      vpiParent: HierPath name:this.output_intf
+                      vpiParent: HierPath name:this::output_intf
                       vpiName: output_intf
                       vpiFullName: Receiver::new::output_intf
                       vpiActual: Variable name:output_intf
@@ -5682,18 +5767,18 @@ Design name:unnamed:
                 vpiElseStmt Assignment start:26:4 end:26:26:
                   vpiParent: IfElse
                   vpiBlocking: true
-                  vpiLhs HierPath name:this.rcvr2sb start:26:4 end:26:16:
+                  vpiLhs HierPath name:this::rcvr2sb start:26:4 end:26:16:
                     vpiParent: Assignment
-                    vpiName: this.rcvr2sb
-                    vpiFullName: Receiver::new::this.rcvr2sb
+                    vpiName: this::rcvr2sb
+                    vpiFullName: Receiver::new::this::rcvr2sb
                     vpiPathElem (2 items):
                       RefObj name:this start:26:4 end:26:8:
-                        vpiParent: HierPath name:this.rcvr2sb
+                        vpiParent: HierPath name:this::rcvr2sb
                         vpiName: this
                         vpiFullName: Receiver::new::this
                         vpiActual: ClassDefn name:Receiver
                       RefObj name:rcvr2sb start:26:9 end:26:16:
-                        vpiParent: HierPath name:this.rcvr2sb
+                        vpiParent: HierPath name:this::rcvr2sb
                         vpiName: rcvr2sb
                         vpiFullName: Receiver::new::rcvr2sb
                         vpiActual: Variable name:rcvr2sb
@@ -5713,6 +5798,7 @@ Design name:unnamed:
             vpiParent: Task name:start
             vpiName: start
           vpiFullName: Receiver::start
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:start
@@ -5736,7 +5822,7 @@ Design name:unnamed:
                   vpiActual: ClassTypespec name:packet
                 vpiName: pkt
                 vpiFullName: Receiver::start::pkt
-            vpiTypespec (2 items):
+            vpiTypespec (3 items):
               LogicTypespec:
                 vpiParent: Begin
                 vpiRange (1 items):
@@ -5772,6 +5858,13 @@ Design name:unnamed:
                   vpiParent: ArrayTypespec
                   vpiFullName: Receiver::start
                   vpiActual: LogicTypespec
+              ClassTypespec name:packet start:31:1 end:31:7:
+                vpiParent: Begin
+                vpiName Identifier name:packet start:31:1 end:31:7:
+                  vpiParent: ClassTypespec name:packet
+                  vpiName: packet
+                vpiDefName: packet
+                vpiClassDefn: ClassDefn name:packet
             vpiStmt (3 items):
               Variable name:bytes:
               Variable name:pkt:
@@ -6142,6 +6235,7 @@ Design name:unnamed:
                         vpiName Identifier name:new:
                           vpiParent: MethodFuncCall name:new
                           vpiName: new
+                        vpiTaskFunc: Function name:new
                     HierPath name:pkt.byte_unpack(bytes) start:48:5 end:48:27:
                       vpiParent: Begin
                       vpiName: pkt.byte_unpack(bytes)
@@ -6449,7 +6543,14 @@ Design name:unnamed:
           vpiName: pkt
           vpiFullName: coverage::pkt
           vpiVisibility: public (1)
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        ClassTypespec name:packet start:13:1 end:13:7:
+          vpiParent: ClassDefn name:coverage
+          vpiName Identifier name:packet start:13:1 end:13:7:
+            vpiParent: ClassTypespec name:packet
+            vpiName: packet
+          vpiDefName: packet
+          vpiClassDefn: ClassDefn name:packet
         LogicTypespec:
           vpiParent: ClassDefn name:coverage
         ClassTypespec name:coverage:
@@ -6457,6 +6558,7 @@ Design name:unnamed:
           vpiName Identifier name:coverage:
             vpiParent: ClassTypespec name:coverage
             vpiName: coverage
+          vpiDefName: coverage
           vpiClassDefn: ClassDefn name:coverage
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -6472,6 +6574,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: coverage::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Assignment start:30:1 end:30:24:
             vpiParent: Function name:new
@@ -6485,6 +6588,7 @@ Design name:unnamed:
               vpiName Identifier name:new:
                 vpiParent: MethodFuncCall name:new
                 vpiName: new
+              vpiTaskFunc: Function name:new
           vpiReturn RefTypespec name:coverage:
             vpiParent: Function name:new
             vpiName: coverage
@@ -6496,6 +6600,7 @@ Design name:unnamed:
             vpiParent: Task name:sample
             vpiName: sample
           vpiFullName: coverage::sample
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:pkt start:33:20 end:33:23:
@@ -6510,22 +6615,30 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Task name:sample
             vpiFullName: coverage::sample
+            vpiTypespec (1 items):
+              ClassTypespec name:packet start:33:13 end:33:19:
+                vpiParent: Begin
+                vpiName Identifier name:packet start:33:13 end:33:19:
+                  vpiParent: ClassTypespec name:packet
+                  vpiName: packet
+                vpiDefName: packet
+                vpiClassDefn: ClassDefn name:packet
             vpiStmt (2 items):
               Assignment start:34:1 end:34:15:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.pkt start:34:1 end:34:9:
+                vpiLhs HierPath name:this::pkt start:34:1 end:34:9:
                   vpiParent: Assignment
-                  vpiName: this.pkt
-                  vpiFullName: coverage::sample::this.pkt
+                  vpiName: this::pkt
+                  vpiFullName: coverage::sample::this::pkt
                   vpiPathElem (2 items):
                     RefObj name:this start:34:1 end:34:5:
-                      vpiParent: HierPath name:this.pkt
+                      vpiParent: HierPath name:this::pkt
                       vpiName: this
                       vpiFullName: coverage::sample::this
                       vpiActual: ClassDefn name:coverage
                     RefObj name:pkt start:34:6 end:34:9:
-                      vpiParent: HierPath name:this.pkt
+                      vpiParent: HierPath name:this::pkt
                       vpiName: pkt
                       vpiFullName: coverage::sample::pkt
                       vpiActual: Variable name:pkt
@@ -6595,12 +6708,34 @@ Design name:unnamed:
               vpiParent: MethodFuncCall name:new
               vpiName: new
             vpiTaskFunc: Function name:new
-      vpiTypespec (1 items):
+      vpiTypespec (4 items):
+        ClassTypespec name:mailbox start:14:1 end:14:8:
+          vpiParent: ClassDefn name:Scoreboard
+          vpiName Identifier name:mailbox start:14:1 end:14:8:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
+          vpiDefName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+        ClassTypespec name:mailbox start:15:1 end:15:8:
+          vpiParent: ClassDefn name:Scoreboard
+          vpiName Identifier name:mailbox start:15:1 end:15:8:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
+          vpiDefName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+        ClassTypespec name:coverage start:16:1 end:16:9:
+          vpiParent: ClassDefn name:Scoreboard
+          vpiName Identifier name:coverage start:16:1 end:16:9:
+            vpiParent: ClassTypespec name:coverage
+            vpiName: coverage
+          vpiDefName: coverage
+          vpiClassDefn: ClassDefn name:coverage
         ClassTypespec name:Scoreboard:
           vpiParent: ClassDefn name:Scoreboard
           vpiName Identifier name:Scoreboard:
             vpiParent: ClassTypespec name:Scoreboard
             vpiName: Scoreboard
+          vpiDefName: Scoreboard
           vpiClassDefn: ClassDefn name:Scoreboard
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -6616,6 +6751,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: Scoreboard::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (2 items):
             IODecl name:drvr2sb start:18:22 end:18:29:
@@ -6639,22 +6775,37 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:new
             vpiFullName: Scoreboard::new
+            vpiTypespec (2 items):
+              ClassTypespec name:mailbox start:18:14 end:18:21:
+                vpiParent: Begin
+                vpiName Identifier name:mailbox start:18:14 end:18:21:
+                  vpiParent: ClassTypespec name:mailbox
+                  vpiName: mailbox
+                vpiDefName: mailbox
+                vpiClassDefn: ClassDefn name:mailbox
+              ClassTypespec name:mailbox start:18:30 end:18:37:
+                vpiParent: Begin
+                vpiName Identifier name:mailbox start:18:30 end:18:37:
+                  vpiParent: ClassTypespec name:mailbox
+                  vpiName: mailbox
+                vpiDefName: mailbox
+                vpiClassDefn: ClassDefn name:mailbox
             vpiStmt (2 items):
               Assignment start:19:3 end:19:25:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.drvr2sb start:19:3 end:19:15:
+                vpiLhs HierPath name:this::drvr2sb start:19:3 end:19:15:
                   vpiParent: Assignment
-                  vpiName: this.drvr2sb
-                  vpiFullName: Scoreboard::new::this.drvr2sb
+                  vpiName: this::drvr2sb
+                  vpiFullName: Scoreboard::new::this::drvr2sb
                   vpiPathElem (2 items):
                     RefObj name:this start:19:3 end:19:7:
-                      vpiParent: HierPath name:this.drvr2sb
+                      vpiParent: HierPath name:this::drvr2sb
                       vpiName: this
                       vpiFullName: Scoreboard::new::this
                       vpiActual: ClassDefn name:Scoreboard
                     RefObj name:drvr2sb start:19:8 end:19:15:
-                      vpiParent: HierPath name:this.drvr2sb
+                      vpiParent: HierPath name:this::drvr2sb
                       vpiName: drvr2sb
                       vpiFullName: Scoreboard::new::drvr2sb
                       vpiActual: Variable name:drvr2sb
@@ -6666,18 +6817,18 @@ Design name:unnamed:
               Assignment start:20:3 end:20:25:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.rcvr2sb start:20:3 end:20:15:
+                vpiLhs HierPath name:this::rcvr2sb start:20:3 end:20:15:
                   vpiParent: Assignment
-                  vpiName: this.rcvr2sb
-                  vpiFullName: Scoreboard::new::this.rcvr2sb
+                  vpiName: this::rcvr2sb
+                  vpiFullName: Scoreboard::new::this::rcvr2sb
                   vpiPathElem (2 items):
                     RefObj name:this start:20:3 end:20:7:
-                      vpiParent: HierPath name:this.rcvr2sb
+                      vpiParent: HierPath name:this::rcvr2sb
                       vpiName: this
                       vpiFullName: Scoreboard::new::this
                       vpiActual: ClassDefn name:Scoreboard
                     RefObj name:rcvr2sb start:20:8 end:20:15:
-                      vpiParent: HierPath name:this.rcvr2sb
+                      vpiParent: HierPath name:this::rcvr2sb
                       vpiName: rcvr2sb
                       vpiFullName: Scoreboard::new::rcvr2sb
                       vpiActual: Variable name:rcvr2sb
@@ -6697,6 +6848,7 @@ Design name:unnamed:
             vpiParent: Task name:start
             vpiName: start
           vpiFullName: Scoreboard::start
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:start
@@ -6720,6 +6872,14 @@ Design name:unnamed:
                   vpiActual: ClassTypespec name:packet
                 vpiName: pkt_exp
                 vpiFullName: Scoreboard::start::pkt_exp
+            vpiTypespec (1 items):
+              ClassTypespec name:packet start:25:3 end:25:9:
+                vpiParent: Begin
+                vpiName Identifier name:packet start:25:3 end:25:9:
+                  vpiParent: ClassTypespec name:packet
+                  vpiName: packet
+                vpiDefName: packet
+                vpiClassDefn: ClassDefn name:packet
             vpiStmt (3 items):
               Variable name:pkt_rcv:
               Variable name:pkt_exp:
@@ -6960,7 +7120,7 @@ Design name:unnamed:
           vpiName: rcvr2sb
           vpiFullName: Environment::rcvr2sb
           vpiVisibility: public (1)
-      vpiTypespec (6 items):
+      vpiTypespec (11 items):
         UnsupportedTypespec name:mem_interface::MEM start:15:11 end:15:28:
           vpiParent: ClassDefn name:Environment
           vpiPathElem (2 items):
@@ -7029,6 +7189,20 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: Environment
             vpiActual: UnsupportedTypespec name:output_interface::OP
+        ClassTypespec name:Driver start:19:3 end:19:9:
+          vpiParent: ClassDefn name:Environment
+          vpiName Identifier name:Driver start:19:3 end:19:9:
+            vpiParent: ClassTypespec name:Driver
+            vpiName: Driver
+          vpiDefName: Driver
+          vpiClassDefn: ClassDefn name:Driver
+        ClassTypespec name:Receiver start:20:3 end:20:11:
+          vpiParent: ClassDefn name:Environment
+          vpiName Identifier name:Receiver start:20:3 end:20:11:
+            vpiParent: ClassTypespec name:Receiver
+            vpiName: Receiver
+          vpiDefName: Receiver
+          vpiClassDefn: ClassDefn name:Receiver
         ArrayTypespec:
           vpiParent: ClassDefn name:Environment
           vpiArrayType: static (1)
@@ -7053,11 +7227,33 @@ Design name:unnamed:
             vpiName: Receiver
             vpiFullName: Environment::Receiver
             vpiActual: ClassTypespec name:Receiver
+        ClassTypespec name:Scoreboard start:21:3 end:21:13:
+          vpiParent: ClassDefn name:Environment
+          vpiName Identifier name:Scoreboard start:21:3 end:21:13:
+            vpiParent: ClassTypespec name:Scoreboard
+            vpiName: Scoreboard
+          vpiDefName: Scoreboard
+          vpiClassDefn: ClassDefn name:Scoreboard
+        ClassTypespec name:mailbox start:22:3 end:22:10:
+          vpiParent: ClassDefn name:Environment
+          vpiName Identifier name:mailbox start:22:3 end:22:10:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
+          vpiDefName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+        ClassTypespec name:mailbox start:23:3 end:23:10:
+          vpiParent: ClassDefn name:Environment
+          vpiName Identifier name:mailbox start:23:3 end:23:10:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
+          vpiDefName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
         ClassTypespec name:Environment:
           vpiParent: ClassDefn name:Environment
           vpiName Identifier name:Environment:
             vpiParent: ClassTypespec name:Environment
             vpiName: Environment
+          vpiDefName: Environment
           vpiClassDefn: ClassDefn name:Environment
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -7073,6 +7269,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: Environment::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (3 items):
             IODecl name:mem_intf_new start:25:43 end:25:55:
@@ -7176,18 +7373,18 @@ Design name:unnamed:
               Assignment start:29:3 end:29:36:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.mem_intf start:29:3 end:29:16:
+                vpiLhs HierPath name:this::mem_intf start:29:3 end:29:16:
                   vpiParent: Assignment
-                  vpiName: this.mem_intf
-                  vpiFullName: Environment::new::this.mem_intf
+                  vpiName: this::mem_intf
+                  vpiFullName: Environment::new::this::mem_intf
                   vpiPathElem (2 items):
                     RefObj name:this start:29:3 end:29:7:
-                      vpiParent: HierPath name:this.mem_intf
+                      vpiParent: HierPath name:this::mem_intf
                       vpiName: this
                       vpiFullName: Environment::new::this
                       vpiActual: ClassDefn name:Environment
                     RefObj name:mem_intf start:29:8 end:29:16:
-                      vpiParent: HierPath name:this.mem_intf
+                      vpiParent: HierPath name:this::mem_intf
                       vpiName: mem_intf
                       vpiFullName: Environment::new::mem_intf
                       vpiActual: Variable name:mem_intf
@@ -7199,18 +7396,18 @@ Design name:unnamed:
               Assignment start:30:3 end:30:38:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.input_intf start:30:3 end:30:18:
+                vpiLhs HierPath name:this::input_intf start:30:3 end:30:18:
                   vpiParent: Assignment
-                  vpiName: this.input_intf
-                  vpiFullName: Environment::new::this.input_intf
+                  vpiName: this::input_intf
+                  vpiFullName: Environment::new::this::input_intf
                   vpiPathElem (2 items):
                     RefObj name:this start:30:3 end:30:7:
-                      vpiParent: HierPath name:this.input_intf
+                      vpiParent: HierPath name:this::input_intf
                       vpiName: this
                       vpiFullName: Environment::new::this
                       vpiActual: ClassDefn name:Environment
                     RefObj name:input_intf start:30:8 end:30:18:
-                      vpiParent: HierPath name:this.input_intf
+                      vpiParent: HierPath name:this::input_intf
                       vpiName: input_intf
                       vpiFullName: Environment::new::input_intf
                       vpiActual: Variable name:input_intf
@@ -7222,18 +7419,18 @@ Design name:unnamed:
               Assignment start:31:3 end:31:39:
                 vpiParent: Begin
                 vpiBlocking: true
-                vpiLhs HierPath name:this.output_intf start:31:3 end:31:19:
+                vpiLhs HierPath name:this::output_intf start:31:3 end:31:19:
                   vpiParent: Assignment
-                  vpiName: this.output_intf
-                  vpiFullName: Environment::new::this.output_intf
+                  vpiName: this::output_intf
+                  vpiFullName: Environment::new::this::output_intf
                   vpiPathElem (2 items):
                     RefObj name:this start:31:3 end:31:7:
-                      vpiParent: HierPath name:this.output_intf
+                      vpiParent: HierPath name:this::output_intf
                       vpiName: this
                       vpiFullName: Environment::new::this
                       vpiActual: ClassDefn name:Environment
                     RefObj name:output_intf start:31:8 end:31:19:
-                      vpiParent: HierPath name:this.output_intf
+                      vpiParent: HierPath name:this::output_intf
                       vpiName: output_intf
                       vpiFullName: Environment::new::output_intf
                       vpiActual: Variable name:output_intf
@@ -7274,6 +7471,7 @@ Design name:unnamed:
             vpiParent: Function name:build
             vpiName: build
           vpiFullName: Environment::build
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Function name:build
@@ -7313,6 +7511,7 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                     vpiParent: MethodFuncCall name:new
                     vpiName: new
+                  vpiTaskFunc: Function name:new
               Assignment start:39:4 end:39:19:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -7326,6 +7525,7 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                     vpiParent: MethodFuncCall name:new
                     vpiName: new
+                  vpiTaskFunc: Function name:new
               Assignment start:40:4 end:40:29:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -7339,6 +7539,7 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                     vpiParent: MethodFuncCall name:new
                     vpiName: new
+                  vpiTaskFunc: Function name:new
                   vpiArgument (2 items):
                     RefObj name:drvr2sb start:40:13 end:40:20:
                       vpiParent: MethodFuncCall name:new
@@ -7363,6 +7564,7 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                     vpiParent: MethodFuncCall name:new
                     vpiName: new
+                  vpiTaskFunc: Function name:new
                   vpiArgument (2 items):
                     RefObj name:input_intf start:41:14 end:41:24:
                       vpiParent: MethodFuncCall name:new
@@ -7411,6 +7613,7 @@ Design name:unnamed:
                     vpiName Identifier name:new:
                       vpiParent: MethodFuncCall name:new
                       vpiName: new
+                    vpiTaskFunc: Function name:new
                     vpiArgument (2 items):
                       BitSelect name:output_intf[i] start:43:19 end:43:33:
                         vpiParent: MethodFuncCall name:new
@@ -7465,6 +7668,7 @@ Design name:unnamed:
             vpiParent: Task name:reset
             vpiName: reset
           vpiFullName: Environment::reset
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:reset
@@ -7959,6 +8163,7 @@ Design name:unnamed:
             vpiParent: Task name:cfg_dut
             vpiName: cfg_dut
           vpiFullName: Environment::cfg_dut
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:cfg_dut
@@ -8679,6 +8884,7 @@ Design name:unnamed:
             vpiParent: Task name:start
             vpiName: start
           vpiFullName: Environment::start
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:start
@@ -8892,6 +9098,7 @@ Design name:unnamed:
             vpiParent: Task name:wait_for_end
             vpiName: wait_for_end
           vpiFullName: Environment::wait_for_end
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:wait_for_end
@@ -8976,6 +9183,7 @@ Design name:unnamed:
             vpiParent: Task name:run
             vpiName: run
           vpiFullName: Environment::run
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:run
@@ -9068,6 +9276,7 @@ Design name:unnamed:
             vpiParent: Task name:report
             vpiName: report
           vpiFullName: Environment::report
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Task name:report
@@ -9175,9 +9384,10 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:packet start:12:28 end:12:34:
           vpiParent: ClassDefn name:small_packet
-          vpiName Identifier name:packet:
+          vpiName Identifier name:packet start:12:28 end:12:34:
             vpiParent: ClassTypespec name:packet
             vpiName: packet
+          vpiDefName: packet
           vpiClassDefn: ClassDefn name:packet
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -9837,7 +10047,7 @@ Design name:unnamed:
             vpiActual: ClassTypespec name:small_packet
           vpiName: spkt
           vpiFullName: testcase.spkt
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
         UnsupportedTypespec name:mem_interface::MEM start:18:18 end:18:35:
           vpiParent: Program name:testcase
           vpiPathElem (2 items):
@@ -9907,6 +10117,13 @@ Design name:unnamed:
             vpiName: output_interface::OP
             vpiFullName: testcase.output_interface::OP
             vpiActual: UnsupportedTypespec name:output_interface::OP
+        ClassTypespec name:small_packet start:21:1 end:21:13:
+          vpiParent: Program name:testcase
+          vpiName Identifier name:small_packet start:21:1 end:21:13:
+            vpiParent: ClassTypespec name:small_packet
+            vpiName: small_packet
+          vpiDefName: small_packet
+          vpiClassDefn: ClassDefn name:small_packet
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Program name:testcase
@@ -9962,6 +10179,7 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                     vpiParent: MethodFuncCall name:new
                     vpiName: new
+                  vpiTaskFunc: Function name:new
                   vpiArgument (3 items):
                     RefObj name:mem_intf start:27:11 end:27:19:
                       vpiParent: MethodFuncCall name:new
@@ -19274,18 +19492,21 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:switch:
       vpiParent: Design name:unnamed
@@ -19300,18 +19521,21 @@ Design name:unnamed:
       vpiName Identifier name:mem_interface start:16:11 end:16:24:
         vpiParent: InterfaceTypespec name:mem_interface
         vpiName: mem_interface
+      vpiDefName: mem_interface
       vpiInterface: Interface name:mem_interface
     InterfaceTypespec name:input_interface:
       vpiParent: Design name:unnamed
       vpiName Identifier name:input_interface start:38:11 end:38:26:
         vpiParent: InterfaceTypespec name:input_interface
         vpiName: input_interface
+      vpiDefName: input_interface
       vpiInterface: Interface name:input_interface
     InterfaceTypespec name:output_interface:
       vpiParent: Design name:unnamed
       vpiName Identifier name:output_interface start:58:11 end:58:27:
         vpiParent: InterfaceTypespec name:output_interface
         vpiName: output_interface
+      vpiDefName: output_interface
       vpiInterface: Interface name:output_interface
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -19368,6 +19592,7 @@ Design name:unnamed:
       vpiName Identifier name:packet:
         vpiParent: ClassTypespec name:packet
         vpiName: packet
+      vpiDefName: packet
       vpiClassDefn: ClassDefn name:packet
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -19376,36 +19601,42 @@ Design name:unnamed:
       vpiName Identifier name:Driver:
         vpiParent: ClassTypespec name:Driver
         vpiName: Driver
+      vpiDefName: Driver
       vpiClassDefn: ClassDefn name:Driver
     ClassTypespec name:Receiver:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Receiver:
         vpiParent: ClassTypespec name:Receiver
         vpiName: Receiver
+      vpiDefName: Receiver
       vpiClassDefn: ClassDefn name:Receiver
     ClassTypespec name:coverage:
       vpiParent: Design name:unnamed
       vpiName Identifier name:coverage:
         vpiParent: ClassTypespec name:coverage
         vpiName: coverage
+      vpiDefName: coverage
       vpiClassDefn: ClassDefn name:coverage
     ClassTypespec name:Scoreboard:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Scoreboard:
         vpiParent: ClassTypespec name:Scoreboard
         vpiName: Scoreboard
+      vpiDefName: Scoreboard
       vpiClassDefn: ClassDefn name:Scoreboard
     ClassTypespec name:Environment:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Environment:
         vpiParent: ClassTypespec name:Environment
         vpiName: Environment
+      vpiDefName: Environment
       vpiClassDefn: ClassDefn name:Environment
     ClassTypespec name:small_packet:
       vpiParent: Design name:unnamed
       vpiName Identifier name:small_packet:
         vpiParent: ClassTypespec name:small_packet
         vpiName: small_packet
+      vpiDefName: small_packet
       vpiClassDefn: ClassDefn name:small_packet
     ProgramTypespec name:testcase:
       vpiParent: Design name:unnamed
@@ -19454,7 +19685,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 103
+[WARNING] : 105
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -19532,7 +19763,7 @@ Operation                          209     205       0         4
 RefObj                             973     965       0         8
 RefTypespec                        884     882       3         5
 ----------------------------------------------------------------
-Others                            2191    2191       0         0
+Others                            2235    2235       0         0
 ----------------------------------------------------------------
-                                  4713    4698       7        22
+                                  4757    4742       7        22
 ===================== END REDUCTION RESULT =====================

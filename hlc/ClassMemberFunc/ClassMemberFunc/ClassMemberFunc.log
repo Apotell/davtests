@@ -94,7 +94,7 @@ n<$Source01/dut.sv> u<80> t<Top_level_rule> c<1> l<1:1> el<22:1>
         n<> u<76> t<ENDPACKAGE> p<77> l<20:1> el<20:11>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "pkg".
-[WRN:CP0350] $Source01/dut.sv:15:31: Failed to bind "id:42, name:get".
+[WRN:CP0350] $Source01/dut.sv:15:31: Failed to bind "id:44, name:get".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "pkg".
 ====== HLDB =======
 Design name:unnamed:
@@ -117,12 +117,14 @@ Design name:unnamed:
           vpiName Identifier name:uvm_queue:
             vpiParent: ClassTypespec name:uvm_queue
             vpiName: uvm_queue
+          vpiDefName: uvm_queue
           vpiClassDefn: ClassDefn name:uvm_queue
         ClassTypespec name:uvm_resource_types:
           vpiParent: Package name:pkg
           vpiName Identifier name:uvm_resource_types:
             vpiParent: ClassTypespec name:uvm_resource_types
             vpiName: uvm_resource_types
+          vpiDefName: uvm_resource_types
           vpiClassDefn: ClassDefn name:uvm_resource_types
       vpiDefName: pkg
       vpiDefNetType: wire (1)
@@ -152,19 +154,21 @@ Design name:unnamed:
             vpiName: uvm_resource_types
           vpiFullName: pkg::uvm_resource_types
           vpiTypespec (2 items):
-            UnsupportedTypespec name:uvm_queue #(uvm_resource_base) start:8:11 end:8:40:
+            ClassTypespec name:uvm_queue #(uvm_resource_base) start:8:11 end:8:40:
               vpiParent: ClassDefn name:uvm_resource_types
-              vpiName Identifier name:uvm_queue #(uvm_resource_base) start:8:11 end:8:40:
-                vpiParent: UnsupportedTypespec name:uvm_queue #(uvm_resource_base)
+              vpiName Identifier name:uvm_queue #(uvm_resource_base) start:8:11 end:8:20:
+                vpiParent: ClassTypespec name:uvm_queue #(uvm_resource_base)
                 vpiName: uvm_queue #(uvm_resource_base)
+              vpiDefName: uvm_queue
               vpiParamAssign (1 items):
                 ParamAssign start:8:22 end:8:39:
-                  vpiParent: UnsupportedTypespec name:uvm_queue #(uvm_resource_base)
+                  vpiParent: ClassTypespec name:uvm_queue #(uvm_resource_base)
                   vpiOverridden: true
                   vpiRhs RefObj name:uvm_resource_base start:8:22 end:8:39:
                     vpiParent: ParamAssign
                     vpiName: uvm_resource_base
                     vpiFullName: pkg::uvm_resource_types::uvm_queue #(uvm_resource_base)::uvm_resource_base
+              vpiClassDefn: ClassDefn name:uvm_queue
             TypedefTypespec name:rsrc_q_t start:8:3 end:8:50:
               vpiParent: ClassDefn name:uvm_resource_types
               vpiName Identifier name:rsrc_q_t start:8:41 end:8:49:
@@ -173,7 +177,7 @@ Design name:unnamed:
               vpiTypedefAlias RefTypespec start:8:11 end:8:40:
                 vpiParent: TypedefTypespec name:rsrc_q_t
                 vpiFullName: pkg::uvm_resource_types::rsrc_q_t
-                vpiActual: UnsupportedTypespec name:uvm_queue #(uvm_resource_base)
+                vpiActual: ClassTypespec name:uvm_queue #(uvm_resource_base)
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
@@ -189,12 +193,10 @@ Design name:unnamed:
             vpiName: start_phase_sequence
           vpiFullName: pkg::start_phase_sequence
           vpiVisibility: public (1)
-          vpiPrefix UnsupportedScope name:uvm_sequencer_base start:12:15 end:12:35:
+          vpiPrefix RefTypespec start:12:15 end:12:35:
             vpiParent: Function name:start_phase_sequence
-            vpiName Identifier name:uvm_sequencer_base start:12:15 end:12:33:
-              vpiParent: UnsupportedScope name:uvm_sequencer_base
-              vpiName: uvm_sequencer_base
-            vpiFullName: pkg::start_phase_sequence::uvm_sequencer_base
+            vpiFullName: pkg::start_phase_sequence
+            vpiActual: UnsupportedTypespec name:uvm_sequencer_base
           vpiStmt Begin:
             vpiParent: Function name:start_phase_sequence
             vpiFullName: pkg::start_phase_sequence
@@ -237,7 +239,19 @@ Design name:unnamed:
                           vpiParent: SubroutineCall name:get
                           vpiName: i
                           vpiFullName: pkg::start_phase_sequence::rsrc::rq.get(i)::get::i
-            vpiTypespec (1 items):
+            vpiTypespec (3 items):
+              UnsupportedTypespec name:uvm_sequencer_base start:12:15 end:12:33:
+                vpiParent: Begin
+                vpiName Identifier name:uvm_sequencer_base start:12:15 end:12:33:
+                  vpiParent: UnsupportedTypespec name:uvm_sequencer_base
+                  vpiName: uvm_sequencer_base
+              ClassTypespec name:uvm_resource_types start:13:1 end:13:19:
+                vpiParent: Begin
+                vpiName Identifier name:uvm_resource_types start:13:1 end:13:19:
+                  vpiParent: ClassTypespec name:uvm_resource_types
+                  vpiName: uvm_resource_types
+                vpiDefName: uvm_resource_types
+                vpiClassDefn: ClassDefn name:uvm_resource_types
               UnsupportedTypespec name:uvm_resource_base start:15:3 end:15:20:
                 vpiParent: Begin
                 vpiName Identifier name:uvm_resource_base start:15:3 end:15:20:
@@ -301,7 +315,7 @@ COMMAND: ${HLC_DIR}/regression/ClassMemberFunc/ClassMemberFunc/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

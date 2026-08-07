@@ -18,6 +18,7 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/always.h>
 #include <hldb/any.h>
 #include <hldb/assert_stmt.h>
@@ -56,13 +57,13 @@ class CheckerDeclTest : public Test {
  protected:
   // Find a checker declaration by its qualified name (e.g. "C1_NoPortsNoBody").
   const hldb::CheckerDecl *findChecker(std::string_view name) const {
-    return getByName<hldb::CheckerDecl>(name, m_design->getCheckerDecls());
+    return hldb::findByName<hldb::CheckerDecl>(name, m_design->getCheckerDecls());
   }
 
   // Find a port on a checker by its simple name.
   const hldb::CheckerPort *findPort(const hldb::CheckerDecl *checker, std::string_view portName) const {
     if (checker == nullptr) return nullptr;
-    return getByName<hldb::CheckerPort>(portName, checker->getPorts());
+    return hldb::findByName<hldb::CheckerPort>(portName, checker->getPorts());
   }
 };
 
@@ -174,10 +175,10 @@ TEST_F(CheckerDeclTest, C3_Variables) {
 TEST_F(CheckerDeclTest, C3_VariableNames) {
   const auto *c3 = findChecker("C3_DataDecl");
   ASSERT_NE(c3, nullptr);
-  EXPECT_NE(getByName<hldb::Variable>("state", c3->getVariables()), nullptr);
-  EXPECT_NE(getByName<hldb::Variable>("r_state", c3->getVariables()), nullptr);
-  EXPECT_NE(getByName<hldb::Variable>("counter", c3->getVariables()), nullptr);
-  EXPECT_NE(getByName<hldb::Variable>("byte_val", c3->getVariables()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("state", c3->getVariables()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("r_state", c3->getVariables()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("counter", c3->getVariables()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("byte_val", c3->getVariables()), nullptr);
 }
 
 // None of C3's declarations (state, r_state, counter, byte_val) use an
@@ -205,7 +206,7 @@ TEST_F(CheckerDeclTest, C4_SequenceDecl) {
   ASSERT_NE(c4, nullptr);
   ASSERT_NE(c4->getSequenceDecls(), nullptr);
   EXPECT_EQ(c4->getSequenceDecls()->size(), 1u);
-  EXPECT_NE(getByName<hldb::SequenceDecl>("s_ab", c4->getSequenceDecls()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::SequenceDecl>("s_ab", c4->getSequenceDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C4_PropertyDecl) {
@@ -213,7 +214,7 @@ TEST_F(CheckerDeclTest, C4_PropertyDecl) {
   ASSERT_NE(c4, nullptr);
   ASSERT_NE(c4->getPropertyDecls(), nullptr);
   EXPECT_EQ(c4->getPropertyDecls()->size(), 1u);
-  EXPECT_NE(getByName<hldb::PropertyDecl>("p_ab", c4->getPropertyDecls()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::PropertyDecl>("p_ab", c4->getPropertyDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C4_LetDecl) {
@@ -221,7 +222,7 @@ TEST_F(CheckerDeclTest, C4_LetDecl) {
   ASSERT_NE(c4, nullptr);
   ASSERT_NE(c4->getLetDecls(), nullptr);
   EXPECT_EQ(c4->getLetDecls()->size(), 1u);
-  EXPECT_NE(getByName<hldb::LetDecl>("L_and", c4->getLetDecls()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::LetDecl>("L_and", c4->getLetDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C4_ConcurrentAssertions) {
@@ -261,7 +262,7 @@ TEST_F(CheckerDeclTest, C5_SequenceDecl) {
   const auto *c5 = findChecker("C5_RestrictCoverSeq");
   ASSERT_NE(c5, nullptr);
   ASSERT_NE(c5->getSequenceDecls(), nullptr);
-  EXPECT_NE(getByName<hldb::SequenceDecl>("s_a_then_b", c5->getSequenceDecls()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::SequenceDecl>("s_a_then_b", c5->getSequenceDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C5_ConcurrentAssertions) {
@@ -302,7 +303,7 @@ TEST_F(CheckerDeclTest, C6_Variable) {
   const auto *c6 = findChecker("C6_FunctionDecl");
   ASSERT_NE(c6, nullptr);
   ASSERT_NE(c6->getVariables(), nullptr);
-  EXPECT_NE(getByName<hldb::Variable>("inv_data", c6->getVariables()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("inv_data", c6->getVariables()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C6_ContinuousAssign) {
@@ -333,7 +334,7 @@ TEST_F(CheckerDeclTest, C7_Variable) {
   const auto *c7 = findChecker("C7_ProceduralItems");
   ASSERT_NE(c7, nullptr);
   ASSERT_NE(c7->getVariables(), nullptr);
-  EXPECT_NE(getByName<hldb::Variable>("cnt", c7->getVariables()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("cnt", c7->getVariables()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C7_Processes) {
@@ -391,7 +392,7 @@ TEST_F(CheckerDeclTest, C9_CovergroupInstanceVariable) {
   ASSERT_NE(c9, nullptr);
   // cg_inst is the covergroup instance variable
   ASSERT_NE(c9->getVariables(), nullptr);
-  EXPECT_NE(getByName<hldb::Variable>("cg_inst", c9->getVariables()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("cg_inst", c9->getVariables()), nullptr);
 }
 
 // ============================================================================
@@ -409,7 +410,7 @@ TEST_F(CheckerDeclTest, C10_GenvarVariable) {
   ASSERT_NE(c10, nullptr);
   // genvar gi -> Variable model auto-parented via getModelOnStack
   ASSERT_NE(c10->getVariables(), nullptr);
-  EXPECT_NE(getByName<hldb::Variable>("gi", c10->getVariables()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("gi", c10->getVariables()), nullptr);
 }
 
 // ============================================================================
@@ -489,7 +490,7 @@ TEST_F(CheckerDeclTest, C15_SequenceDecl) {
   const auto *c15 = findChecker("C15_AttributedItem");
   ASSERT_NE(c15, nullptr);
   ASSERT_NE(c15->getSequenceDecls(), nullptr);
-  EXPECT_NE(getByName<hldb::SequenceDecl>("s_x", c15->getSequenceDecls()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::SequenceDecl>("s_x", c15->getSequenceDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C15_ConcurrentAssertion) {

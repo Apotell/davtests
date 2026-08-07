@@ -99,7 +99,7 @@ n<$Source01/class_member_test_43.sv> u<86> t<Top_level_rule> c<1> l<6:1> el<12:9
                   n<> u<75> t<ENDFUNCTION> p<76> l<11:1> el<11:12>
             n<> u<80> t<ENDCLASS> p<81> l<12:1> el<12:9>
 AST_DEBUG_END
-[WRN:CP0350] $Source01/class_member_test_43.sv:10:8: Failed to bind "id:42, name:name".
+[WRN:CP0350] $Source01/class_member_test_43.sv:10:8: Failed to bind "id:44, name:name".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -122,6 +122,7 @@ Design name:unnamed:
           vpiName Identifier name:constructible:
             vpiParent: ClassTypespec name:constructible
             vpiName: constructible
+          vpiDefName: constructible
           vpiClassDefn: ClassDefn name:constructible
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -137,16 +138,19 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: constructible::new
-          vpiTypespec (4 items):
+          vpiTypespec (6 items):
+            UnsupportedTypespec name:foo start:7:15 end:7:18:
+              vpiParent: Function name:new
+              vpiName Identifier name:foo start:7:15 end:7:18:
+                vpiParent: UnsupportedTypespec name:foo
+                vpiName: foo
             UnsupportedTypespec name:foo::bar start:7:15 end:7:23:
               vpiParent: Function name:new
               vpiPathElem (2 items):
-                UnsupportedScope name:foo start:7:15 end:7:20:
+                RefTypespec start:7:15 end:7:20:
                   vpiParent: UnsupportedTypespec name:foo::bar
-                  vpiName Identifier name:foo start:7:15 end:7:18:
-                    vpiParent: UnsupportedScope name:foo
-                    vpiName: foo
-                  vpiFullName: constructible::new::foo::bar::foo
+                  vpiFullName: constructible::new::foo::bar
+                  vpiActual: UnsupportedTypespec name:foo
                 RefTypespec name:bar start:7:20 end:7:23:
                   vpiParent: UnsupportedTypespec name:foo::bar
                   vpiName: bar
@@ -159,30 +163,33 @@ Design name:unnamed:
               vpiName Identifier name:time_if start:8:23 end:8:30:
                 vpiParent: UnsupportedTypespec name:time_if
                 vpiName: time_if
+            UnsupportedTypespec name:baz start:9:5 end:9:14:
+              vpiParent: Function name:new
+              vpiName Identifier name:baz start:9:5 end:9:8:
+                vpiParent: UnsupportedTypespec name:baz
+                vpiName: baz
+              vpiParamAssign (2 items):
+                ParamAssign start:9:10 end:9:11:
+                  vpiParent: UnsupportedTypespec name:baz
+                  vpiOverridden: true
+                  vpiRhs RefObj name:M start:9:10 end:9:11:
+                    vpiParent: ParamAssign
+                    vpiName: M
+                    vpiFullName: constructible::new::baz::M
+                ParamAssign start:9:12 end:9:13:
+                  vpiParent: UnsupportedTypespec name:baz
+                  vpiOverridden: true
+                  vpiRhs RefObj name:N start:9:12 end:9:13:
+                    vpiParent: ParamAssign
+                    vpiName: N
+                    vpiFullName: constructible::new::baz::N
             UnsupportedTypespec name:baz::foo start:9:5 end:9:19:
               vpiParent: Function name:new
               vpiPathElem (2 items):
-                UnsupportedScope name:baz start:9:5 end:9:16:
+                RefTypespec start:9:5 end:9:16:
                   vpiParent: UnsupportedTypespec name:baz::foo
-                  vpiName Identifier name:baz start:9:5 end:9:8:
-                    vpiParent: UnsupportedScope name:baz
-                    vpiName: baz
-                  vpiFullName: constructible::new::baz::foo::baz
-                  vpiParamAssign (2 items):
-                    ParamAssign start:9:10 end:9:11:
-                      vpiParent: UnsupportedScope name:baz
-                      vpiOverridden: true
-                      vpiRhs RefObj name:M start:9:10 end:9:11:
-                        vpiParent: ParamAssign
-                        vpiName: M
-                        vpiFullName: constructible::new::baz::foo::baz::M
-                    ParamAssign start:9:12 end:9:13:
-                      vpiParent: UnsupportedScope name:baz
-                      vpiOverridden: true
-                      vpiRhs RefObj name:N start:9:12 end:9:13:
-                        vpiParent: ParamAssign
-                        vpiName: N
-                        vpiFullName: constructible::new::baz::foo::baz::N
+                  vpiFullName: constructible::new::baz::foo
+                  vpiActual: UnsupportedTypespec name:baz
                 RefTypespec name:foo start:9:16 end:9:19:
                   vpiParent: UnsupportedTypespec name:baz::foo
                   vpiName: foo
@@ -210,6 +217,7 @@ Design name:unnamed:
                     vpiDecompile: "0"
                     vpiValue: 0
               vpiVector: true
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (4 items):
             IODecl name:name start:7:24 end:7:28:
@@ -249,18 +257,18 @@ Design name:unnamed:
           vpiStmt Assignment start:10:3 end:10:19:
             vpiParent: Function name:new
             vpiBlocking: true
-            vpiLhs HierPath name:this.name start:10:3 end:10:12:
+            vpiLhs HierPath name:this::name start:10:3 end:10:12:
               vpiParent: Assignment
-              vpiName: this.name
-              vpiFullName: constructible::new::this.name
+              vpiName: this::name
+              vpiFullName: constructible::new::this::name
               vpiPathElem (2 items):
                 RefObj name:this start:10:3 end:10:7:
-                  vpiParent: HierPath name:this.name
+                  vpiParent: HierPath name:this::name
                   vpiName: this
                   vpiFullName: constructible::new::this
                   vpiActual: ClassDefn name:constructible
                 RefObj name:name start:10:8 end:10:12:
-                  vpiParent: HierPath name:this.name
+                  vpiParent: HierPath name:this::name
                   vpiName: name
                   vpiFullName: constructible::new::name
             vpiRhs RefObj name:name start:10:15 end:10:19:
@@ -279,6 +287,7 @@ Design name:unnamed:
       vpiName Identifier name:constructible:
         vpiParent: ClassTypespec name:constructible
         vpiName: constructible
+      vpiDefName: constructible
       vpiClassDefn: ClassDefn name:constructible
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -331,7 +340,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_43/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              47      47       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    47      47       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================

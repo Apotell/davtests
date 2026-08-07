@@ -17,7 +17,7 @@ COMMAND: -wd ../../../tests/ForElab -sverilog top.v -writepp -d inst -nobuiltin 
 [INF:CP0335] $Source01/top.v:54:60: Compile generate block "gen_tree_arb".
 [INF:CP0335] $Source01/top.v:62:20: Compile generate block "gen_unknown".
 [INF:CP0335] $Source01/top.v:52:47: Compile generate block "gen_arb_ppc".
-[WRN:CP0350] $Source01/top.v:57:32: Failed to bind "id:175, name:tl_h2d_t".
+[WRN:CP0350] $Source01/top.v:57:32: Failed to bind "id:176, name:tl_h2d_t".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "tlul_pkg".
 [WRN:PA0205] $Source01/top.v:16:1: No timescale set for "prim_arbiter_tree".
 [WRN:PA0205] $Source01/top.v:49:1: No timescale set for "tlul_socket_m1".
@@ -667,7 +667,12 @@ Design name:unnamed:
                     vpiParent: Begin name:gen_tree_arb
                     vpiName: gen_tree_arb
                   vpiFullName: tlul_socket_m1.gen_tree_arb
-                  vpiTypespec (1 items):
+                  vpiTypespec (2 items):
+                    UnsupportedTypespec name:tlul_pkg start:57:22 end:57:30:
+                      vpiParent: Begin name:gen_tree_arb
+                      vpiName Identifier name:tlul_pkg start:57:22 end:57:30:
+                        vpiParent: UnsupportedTypespec name:tlul_pkg
+                        vpiName: tlul_pkg
                     ModuleTypespec name:prim_arbiter_tree start:55:5 end:55:22:
                       vpiParent: Begin name:gen_tree_arb
                       vpiName Identifier name:prim_arbiter_tree start:55:5 end:55:22:
@@ -721,12 +726,10 @@ Design name:unnamed:
                                 vpiName: tlul_pkg::tl_h2d_t
                                 vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.tlul_pkg::tl_h2d_t
                                 vpiPathElem (2 items):
-                                  UnsupportedScope name:tlul_pkg start:57:22 end:57:32:
+                                  RefTypespec start:57:22 end:57:32:
                                     vpiParent: HierPath name:tlul_pkg::tl_h2d_t
-                                    vpiName Identifier name:tlul_pkg start:57:22 end:57:30:
-                                      vpiParent: UnsupportedScope name:tlul_pkg
-                                      vpiName: tlul_pkg
-                                    vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.tlul_pkg::tl_h2d_t.tlul_pkg
+                                    vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.tlul_pkg::tl_h2d_t
+                                    vpiActual: UnsupportedTypespec name:tlul_pkg
                                   RefObj name:tl_h2d_t start:57:32 end:57:40:
                                     vpiParent: HierPath name:tlul_pkg::tl_h2d_t
                                     vpiName: tl_h2d_t
@@ -821,10 +824,10 @@ Constant                            18      19       4         3
 Identifier                          17      16       0         1
 Operation                           12       9       0         3
 RefObj                              34      30       0         4
-RefTypespec                         31      31       3         3
+RefTypespec                         32      32       3         3
 SysFuncCall                          2       1       0         1
 ----------------------------------------------------------------
 Others                              63      63       0         0
 ----------------------------------------------------------------
-                                   177     169       7        15
+                                   178     170       7        15
 ===================== END REDUCTION RESULT =====================

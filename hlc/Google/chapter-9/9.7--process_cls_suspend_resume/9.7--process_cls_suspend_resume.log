@@ -280,13 +280,13 @@ n<$Source01/9.7--process_cls_suspend_resume.sv> u<266> t<Top_level_rule> c<1> l<
         n<> u<262> t<ENDMODULE> p<263> l<46:1> el<46:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/9.7--process_cls_suspend_resume.sv:15:1: Compile module "process_tb".
-[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:23:24: Failed to bind "id:36, name:self".
-[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:24:13: Failed to bind "id:43, name:suspend".
-[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:33:11: Failed to bind "id:67, name:resume".
-[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:35:10: Failed to bind "id:76, name:await".
-[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:38:14: Failed to bind "id:84, name:status".
-[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:38:33: Failed to bind "id:88, name:FINISHED".
-[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:39:12: Failed to bind "id:94, name:kill".
+[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:23:24: Failed to bind "id:37, name:self".
+[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:24:13: Failed to bind "id:44, name:suspend".
+[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:33:11: Failed to bind "id:68, name:resume".
+[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:35:10: Failed to bind "id:77, name:await".
+[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:38:14: Failed to bind "id:85, name:status".
+[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:38:33: Failed to bind "id:90, name:FINISHED".
+[WRN:CP0350] $Source01/9.7--process_cls_suspend_resume.sv:39:12: Failed to bind "id:96, name:kill".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -402,6 +402,12 @@ Design name:unnamed:
                     Begin start:22:5 end:26:8:
                       vpiParent: ForkStmt
                       vpiFullName: process_tb.test
+                      vpiTypespec (1 items):
+                        UnsupportedTypespec name:process start:23:15 end:23:22:
+                          vpiParent: Begin
+                          vpiName Identifier name:process start:23:15 end:23:22:
+                            vpiParent: UnsupportedTypespec name:process
+                            vpiName: process
                       vpiStmt (3 items):
                         Assignment start:23:6 end:23:30:
                           vpiParent: Begin
@@ -425,12 +431,10 @@ Design name:unnamed:
                             vpiName: process::self()
                             vpiFullName: process_tb.test.process::self()
                             vpiPathElem (2 items):
-                              UnsupportedScope name:process start:23:15 end:23:24:
+                              RefTypespec start:23:15 end:23:24:
                                 vpiParent: HierPath name:process::self()
-                                vpiName Identifier name:process start:23:15 end:23:22:
-                                  vpiParent: UnsupportedScope name:process
-                                  vpiName: process
-                                vpiFullName: process_tb.test.process::self().process
+                                vpiFullName: process_tb.test.process::self()
+                                vpiActual: UnsupportedTypespec name:process
                               SubroutineCall name:self start:23:24 end:23:30:
                                 vpiParent: HierPath name:process::self()
                                 vpiName Identifier name:self start:23:24 end:23:28:
@@ -597,6 +601,12 @@ Design name:unnamed:
                     vpiParent: ForeachStmt
                     vpiName: i
                     vpiFullName: process_tb.test.i
+                vpiTypespec (1 items):
+                  UnsupportedTypespec name:process start:38:24 end:38:31:
+                    vpiParent: ForeachStmt
+                    vpiName Identifier name:process start:38:24 end:38:31:
+                      vpiParent: UnsupportedTypespec name:process
+                      vpiName: process
                 vpiVariable RefObj name:job start:37:11 end:37:14:
                   vpiParent: ForeachStmt
                   vpiName: job
@@ -638,12 +648,10 @@ Design name:unnamed:
                         vpiName: process::FINISHED
                         vpiFullName: process_tb.test.process::FINISHED
                         vpiPathElem (2 items):
-                          UnsupportedScope name:process start:38:24 end:38:33:
+                          RefTypespec start:38:24 end:38:33:
                             vpiParent: HierPath name:process::FINISHED
-                            vpiName Identifier name:process start:38:24 end:38:31:
-                              vpiParent: UnsupportedScope name:process
-                              vpiName: process
-                            vpiFullName: process_tb.test.process::FINISHED.process
+                            vpiFullName: process_tb.test.process::FINISHED
+                            vpiActual: UnsupportedTypespec name:process
                           RefObj name:FINISHED start:38:33 end:38:41:
                             vpiParent: HierPath name:process::FINISHED
                             vpiName: FINISHED
@@ -756,7 +764,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_suspend_resume/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             104     104       0         0
 ----------------------------------------------------------------
-                                   102     102       0         0
+                                   104     104       0         0
 ===================== END REDUCTION RESULT =====================

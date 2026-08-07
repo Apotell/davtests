@@ -106,6 +106,7 @@ n<$Source01/6.20.6--const.sv> u<92> t<Top_level_rule> c<1> l<15:1> el<26:1>
         n<> u<88> t<ENDMODULE> p<89> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/6.20.6--const.sv:15:1: Compile module "top".
+[WRN:CP0323] $Source01/6.20.6--const.sv:15:1: Multiply defined typedef "test_cls".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -138,12 +139,20 @@ Design name:unnamed:
             vpiName Identifier name:new:
               vpiParent: MethodFuncCall name:new
               vpiName: new
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         ClassTypespec name:test_cls:
           vpiParent: Module name:top
           vpiName Identifier name:test_cls:
             vpiParent: ClassTypespec name:test_cls
             vpiName: test_cls
+          vpiDefName: test_cls
+          vpiClassDefn: ClassDefn name:test_cls
+        ClassTypespec name:test_cls start:24:8 end:24:16:
+          vpiParent: Module name:top
+          vpiName Identifier name:test_cls start:24:8 end:24:16:
+            vpiParent: ClassTypespec name:test_cls
+            vpiName: test_cls
+          vpiDefName: test_cls
           vpiClassDefn: ClassDefn name:test_cls
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -183,6 +192,7 @@ Design name:unnamed:
                 vpiParent: Task name:test_method
                 vpiName: test_method
               vpiFullName: top::test_cls::test_method
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:val start:18:24 end:18:27:
@@ -251,7 +261,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -295,7 +305,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-6/6.20.6--const/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

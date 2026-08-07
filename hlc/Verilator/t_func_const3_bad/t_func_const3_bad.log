@@ -405,7 +405,7 @@ Design name:unnamed:
             vpiParent: Variable name:c9
             vpiName: c9
             vpiFullName: b9.c9.c9
-            vpiActual: ModuleTypespec name:c9
+            vpiActual: "ModuleTypespec name: #(.A(A), .B(9))"
           vpiName: c9
           vpiFullName: b9.c9
       vpiParameter (1 items):
@@ -435,9 +435,48 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:b9
+        "ModuleTypespec name: #(.A(A), .B(9)) start:18:4 end:20:13":
+          vpiParent: Module name:b9
+          "vpiName Identifier name: #(.A(A), .B(9)) start:18:4 end:18:6":
+            vpiParent: "ModuleTypespec name: #(.A(A), .B(9))"
+            vpiName: " #(.A(A), .B(9))"
+          vpiParamAssign (2 items):
+            ParamAssign start:19:6 end:19:12:
+              vpiParent: "ModuleTypespec name: #(.A(A), .B(9))"
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:A start:19:7 end:19:8:
+                vpiParent: ParamAssign
+                vpiName: A
+                vpiFullName: b9. #(.A(A), .B(9)).A
+                vpiActual: Parameter name:A
+              vpiRhs RefObj name:A start:19:10 end:19:11:
+                vpiParent: ParamAssign
+                vpiName: A
+                vpiFullName: b9. #(.A(A), .B(9)).A
+                vpiActual: Parameter name:A
+            ParamAssign start:20:6 end:20:12:
+              vpiParent: "ModuleTypespec name: #(.A(A), .B(9))"
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:B start:20:7 end:20:8:
+                vpiParent: ParamAssign
+                vpiName: B
+                vpiFullName: b9. #(.A(A), .B(9)).B
+              vpiRhs Constant start:20:10 end:20:11:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: b9. #(.A(A), .B(9))
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "9"
+                vpiValue: 9
+          vpiModule: Module name:c9
       vpiDefName: b9
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -467,7 +506,7 @@ Design name:unnamed:
             vpiParent: Variable name:b900
             vpiName: b9
             vpiFullName: t.b900.b9
-            vpiActual: ModuleTypespec name:b9
+            vpiActual: "ModuleTypespec name: #(.A(100))"
           vpiName: b900
           vpiFullName: t.b900
         Variable name:b9k start:29:20 end:29:23:
@@ -476,9 +515,60 @@ Design name:unnamed:
             vpiParent: Variable name:b9k
             vpiName: b9
             vpiFullName: t.b9k.b9
-            vpiActual: ModuleTypespec name:b9
+            vpiActual: "ModuleTypespec name: #(.A(1000))"
           vpiName: b9k
           vpiFullName: t.b9k
+      vpiTypespec (2 items):
+        "ModuleTypespec name: #(.A(100)) start:28:4 end:28:18":
+          vpiParent: Module name:t
+          "vpiName Identifier name: #(.A(100)) start:28:4 end:28:6":
+            vpiParent: "ModuleTypespec name: #(.A(100))"
+            vpiName: " #(.A(100))"
+          vpiParamAssign (1 items):
+            ParamAssign start:28:9 end:28:17:
+              vpiParent: "ModuleTypespec name: #(.A(100))"
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:A start:28:10 end:28:11:
+                vpiParent: ParamAssign
+                vpiName: A
+                vpiFullName: t. #(.A(100)).A
+              vpiRhs Constant start:28:13 end:28:16:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t. #(.A(100))
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "100"
+                vpiValue: 100
+          vpiModule: Module name:b9
+        "ModuleTypespec name: #(.A(1000)) start:29:4 end:29:19":
+          vpiParent: Module name:t
+          "vpiName Identifier name: #(.A(1000)) start:29:4 end:29:6":
+            vpiParent: "ModuleTypespec name: #(.A(1000))"
+            vpiName: " #(.A(1000))"
+          vpiParamAssign (1 items):
+            ParamAssign start:29:9 end:29:18:
+              vpiParent: "ModuleTypespec name: #(.A(1000))"
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:A start:29:10 end:29:11:
+                vpiParent: ParamAssign
+                vpiName: A
+                vpiFullName: t. #(.A(1000)).A
+              vpiRhs Constant start:29:13 end:29:17:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t. #(.A(1000))
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1000"
+                vpiValue: 1000
+          vpiModule: Module name:b9
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -557,25 +647,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_func_const3_bad/mounts.json
 
 
-{'result': {'coverage': 97.2,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_func_const3_bad.v': {'post_len': 8,
+            'files': {'$Output/lib/work/t_func_const3_bad.v': {'post_len': 0,
                                                                'pre_len': 286}},
-            'post_len': 8,
+            'post_len': 0,
             'pre_len': 286,
             'test_name': 'Verilator/t_func_const3_bad'}}
 
 +--------------------------------------+----------+-----------+
 | INPUT                                |   PRELEN |   POSTLEN |
 +======================================+==========+===========+
-| $Output/lib/work/t_func_const3_bad.v |      286 |         8 |
+| $Output/lib/work/t_func_const3_bad.v |      286 |         0 |
 +======================================+==========+===========+
-|                                      |      286 |         8 |
+|                                      |      286 |         0 |
 +--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.2
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -585,12 +675,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_const3_bad/design.hldb ${HLC_DIR
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             5       6       2         1
+Constant                             8       9       2         1
 Operation                            3       0       0         3
-RefObj                              11       8       0         3
-RefTypespec                         14      14       1         1
+RefObj                              16      13       0         3
+RefTypespec                         17      17       1         1
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    72      67       3         8
+                                    93      88       3         8
 ===================== END REDUCTION RESULT =====================

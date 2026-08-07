@@ -30,7 +30,7 @@ Design name:unnamed:
         vpiParent: Package name:package1
         vpiName: package1
       vpiFullName: package1
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Package name:package1
         StructTypespec start:2:11 end:4:4:
@@ -53,15 +53,18 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:type_t
             vpiFullName: package1::type_t
             vpiActual: StructTypespec
+        UnsupportedTypespec name:package1 start:6:11 end:6:19:
+          vpiParent: Package name:package1
+          vpiName Identifier name:package1 start:6:11 end:6:19:
+            vpiParent: UnsupportedTypespec name:package1
+            vpiName: package1
         UnsupportedTypespec name:package1::type_t start:6:11 end:6:27:
           vpiParent: Package name:package1
           vpiPathElem (2 items):
-            UnsupportedScope name:package1 start:6:11 end:6:21:
+            RefTypespec start:6:11 end:6:21:
               vpiParent: UnsupportedTypespec name:package1::type_t
-              vpiName Identifier name:package1 start:6:11 end:6:19:
-                vpiParent: UnsupportedScope name:package1
-                vpiName: package1
-              vpiFullName: package1::type_t::package1
+              vpiFullName: package1::type_t
+              vpiActual: UnsupportedTypespec name:package1
             RefTypespec name:type_t start:6:21 end:6:27:
               vpiParent: UnsupportedTypespec name:package1::type_t
               vpiName: type_t
@@ -95,16 +98,19 @@ Design name:unnamed:
         vpiParent: Package name:package2
         vpiName: package2
       vpiFullName: package2
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:package1 start:10:11 end:10:19:
+          vpiParent: Package name:package2
+          vpiName Identifier name:package1 start:10:11 end:10:19:
+            vpiParent: UnsupportedTypespec name:package1
+            vpiName: package1
         UnsupportedTypespec name:package1::type_t start:10:11 end:10:27:
           vpiParent: Package name:package2
           vpiPathElem (2 items):
-            UnsupportedScope name:package1 start:10:11 end:10:21:
+            RefTypespec start:10:11 end:10:21:
               vpiParent: UnsupportedTypespec name:package1::type_t
-              vpiName Identifier name:package1 start:10:11 end:10:19:
-                vpiParent: UnsupportedScope name:package1
-                vpiName: package1
-              vpiFullName: package2::package1::type_t::package1
+              vpiFullName: package2::package1::type_t
+              vpiActual: UnsupportedTypespec name:package1
             RefTypespec name:type_t start:10:21 end:10:27:
               vpiParent: UnsupportedTypespec name:package1::type_t
               vpiName: type_t
@@ -272,7 +278,7 @@ COMMAND: ${HLC_DIR}/regression/TypedefAlias/TypedefAlias/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              57      57       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    57      57       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

@@ -72,24 +72,27 @@ Design name:unnamed:
         vpiParent: ClassDefn name:myclass
         vpiName: myclass
       vpiFullName: myclass
-      vpiTypespec (3 items):
-        "UnsupportedTypespec name:mypkg:: #(4) start:7:27 end:7:42":
+      vpiTypespec (4 items):
+        UnsupportedTypespec name:mypkg start:7:27 end:7:32:
+          vpiParent: ClassDefn name:myclass
+          vpiName Identifier name:mypkg start:7:27 end:7:32:
+            vpiParent: UnsupportedTypespec name:mypkg
+            vpiName: mypkg
+        "UnsupportedTypespec name:mypkg:: start:7:27 end:7:42":
           vpiParent: ClassDefn name:myclass
           vpiPathElem (2 items):
-            UnsupportedScope name:mypkg start:7:27 end:7:34:
-              vpiParent: "UnsupportedTypespec name:mypkg:: #(4)"
-              vpiName Identifier name:mypkg start:7:27 end:7:32:
-                vpiParent: UnsupportedScope name:mypkg
-                vpiName: mypkg
-              vpiFullName: "myclass::mypkg:: #(4)::mypkg"
+            RefTypespec start:7:27 end:7:34:
+              vpiParent: UnsupportedTypespec name:mypkg::
+              vpiFullName: myclass::mypkg
+              vpiActual: UnsupportedTypespec name:mypkg
             RefTypespec name:foo start:7:34 end:7:37:
-              vpiParent: "UnsupportedTypespec name:mypkg:: #(4)"
+              vpiParent: UnsupportedTypespec name:mypkg::
               vpiName: foo
-              vpiFullName: "myclass::mypkg:: #(4)::foo"
+              vpiFullName: myclass::mypkg::::foo
               vpiActual: UnsupportedTypespec
-          "vpiName Identifier name:mypkg:: #(4) start:7:27 end:7:42":
-            vpiParent: "UnsupportedTypespec name:mypkg:: #(4)"
-            vpiName: "mypkg:: #(4)"
+          "vpiName Identifier name:mypkg:: start:7:27 end:7:42":
+            vpiParent: UnsupportedTypespec name:mypkg::
+            vpiName: mypkg::
         UnsupportedTypespec start:7:34 end:7:42:
           vpiParent: ClassDefn name:myclass
           vpiParamAssign (1 items):
@@ -119,11 +122,11 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: N
                   vpiFullName: myclass::N
-          "vpiElemTypespec RefTypespec name:mypkg:: #(4) start:7:27 end:7:42":
+          "vpiElemTypespec RefTypespec name:mypkg:: start:7:27 end:7:42":
             vpiParent: ArrayTypespec
-            vpiName: "mypkg:: #(4)"
-            vpiFullName: "myclass::mypkg:: #(4)"
-            vpiActual: "UnsupportedTypespec name:mypkg:: #(4)"
+            vpiName: mypkg::
+            vpiFullName: myclass::mypkg
+            vpiActual: UnsupportedTypespec name:mypkg::
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
@@ -159,6 +162,7 @@ Design name:unnamed:
       vpiName Identifier name:myclass:
         vpiParent: ClassTypespec name:myclass
         vpiName: myclass
+      vpiDefName: myclass
       vpiClassDefn: ClassDefn name:myclass
     VoidTypespec start:7:17 end:7:21:
       vpiParent: Design name:unnamed
@@ -213,7 +217,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_24/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    29      29       0         0
 ===================== END REDUCTION RESULT =====================
