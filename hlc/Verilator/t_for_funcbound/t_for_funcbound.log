@@ -22,7 +22,7 @@ n<$Source01/t_for_funcbound.v> u<757> t<Top_level_rule> c<1> l<6:1> el<77:1>
     n<> u<492> t<Description> p<756> c<491> s<755> l<6:1> el<51:10>
       n<> u<491> t<Module_declaration> p<492> c<18> l<6:1> el<51:10>
         n<> u<18> t<Module_nonansi_header> p<491> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -509,7 +509,7 @@ n<$Source01/t_for_funcbound.v> u<757> t<Top_level_rule> c<1> l<6:1> el<77:1>
     n<> u<755> t<Description> p<756> c<754> l<53:1> el<76:10>
       n<> u<754> t<Module_declaration> p<755> c<496> l<53:1> el<76:10>
         n<> u<496> t<Module_ansi_header> p<754> c<493> s<497> l<53:1> el<53:16>
-          n<module> u<493> t<Module_keyword> p<496> s<494> l<53:1> el<53:7>
+          n<module> u<493> t<MODULE> p<496> s<494> l<53:1> el<53:7>
           n<strings> u<494> t<SIMPLE_IDENTIFIER> p<496> s<495> l<53:8> el<53:15>
           n<> u<495> t<Package_import_declaration_list> p<496> l<53:15> el<53:15>
         n<// **NOT** reentrant, just a test!> u<497> t<LINE_COMMENT> p<754> s<509> l<54:4> el<54:38>
@@ -772,6 +772,10 @@ n<$Source01/t_for_funcbound.v> u<757> t<Top_level_rule> c<1> l<6:1> el<77:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_for_funcbound.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_for_funcbound.v:53:1: Compile module "strings".
+[WRN:CP0350] $Source01/t_for_funcbound.v:25:11: Failed to bind "id:93, name:stringStart".
+[WRN:CP0350] $Source01/t_for_funcbound.v:26:23: Failed to bind "id:100, name:stringByte".
+[WRN:CP0350] $Source01/t_for_funcbound.v:26:49: Failed to bind "id:106, name:isNull".
+[WRN:CP0350] $Source01/t_for_funcbound.v:26:78: Failed to bind "id:113, name:stringByte".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -859,6 +863,7 @@ Design name:unnamed:
           vpiName Identifier name:strings start:17:4 end:17:11:
             vpiParent: ModuleTypespec name:strings
             vpiName: strings
+          vpiModule: Module name:strings
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1023,7 +1028,7 @@ Design name:unnamed:
                         vpiName Identifier name:$time start:24:19 end:24:24:
                           vpiParent: SysFuncCall name:$time
                           vpiName: "$time"
-                  HierPath name:strings.stringStart(8 * 8 - 1) start:25:3 end:25:28:
+                  HierPath name:strings.stringStart(8 * 8 - 1) start:25:3 end:25:29:
                     vpiParent: Begin
                     vpiName: strings.stringStart(8 * 8 - 1)
                     vpiFullName: t.show.strings.stringStart(8 * 8 - 1)
@@ -1089,7 +1094,7 @@ Design name:unnamed:
                           vpiName: char
                           vpiFullName: t.show.char
                           vpiActual: Variable name:char
-                        vpiRhs HierPath name:strings.stringByte(str) start:26:15 end:26:37:
+                        vpiRhs HierPath name:strings.stringByte(str) start:26:15 end:26:38:
                           vpiParent: Assignment
                           vpiName: strings.stringByte(str)
                           vpiFullName: t.show.strings.stringByte(str)
@@ -1119,7 +1124,7 @@ Design name:unnamed:
                           vpiName: char
                           vpiFullName: t.show.char
                           vpiActual: Variable name:char
-                        vpiRhs HierPath name:strings.stringByte(str) start:26:70 end:26:92:
+                        vpiRhs HierPath name:strings.stringByte(str) start:26:70 end:26:93:
                           vpiParent: Assignment
                           vpiName: strings.stringByte(str)
                           vpiFullName: t.show.strings.stringByte(str)
@@ -1144,7 +1149,7 @@ Design name:unnamed:
                       vpiParent: ForStmt
                       vpiOpType: not (3)
                       vpiOperand (1 items):
-                        HierPath name:strings.isNull(char) start:26:41 end:26:60:
+                        HierPath name:strings.isNull(char) start:26:41 end:26:61:
                           vpiParent: Operation
                           vpiName: strings.isNull(char)
                           vpiFullName: t.show.strings.isNull(char)
@@ -1216,6 +1221,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1927,7 +1933,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

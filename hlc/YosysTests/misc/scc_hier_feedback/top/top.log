@@ -18,7 +18,7 @@ n<$Source01/top.v> u<357> t<Top_level_rule> c<1> l<1:1> el<49:1>
     n<> u<163> t<Description> p<356> c<162> s<259> l<1:1> el<19:10>
       n<> u<162> t<Module_declaration> p<163> c<38> l<1:1> el<19:10>
         n<> u<38> t<Module_ansi_header> p<162> c<2> s<54> l<1:1> el<9:4>
-          n<module> u<2> t<Module_keyword> p<38> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<38> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<38> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<38> s<37> l<2:1> el<2:1>
           n<> u<37> t<Port_declaration_list> p<38> c<10> l<2:1> el<9:3>
@@ -180,7 +180,7 @@ n<$Source01/top.v> u<357> t<Top_level_rule> c<1> l<1:1> el<49:1>
     n<> u<259> t<Description> p<356> c<258> s<355> l<21:1> el<33:10>
       n<> u<258> t<Module_declaration> p<259> c<186> l<21:1> el<33:10>
         n<> u<186> t<Module_ansi_header> p<258> c<164> s<199> l<21:1> el<26:3>
-          n<module> u<164> t<Module_keyword> p<186> s<165> l<21:1> el<21:7>
+          n<module> u<164> t<MODULE> p<186> s<165> l<21:1> el<21:7>
           n<middle> u<165> t<SIMPLE_IDENTIFIER> p<186> s<166> l<21:8> el<21:14>
           n<> u<166> t<Package_import_declaration_list> p<186> s<185> l<22:1> el<22:1>
           n<> u<185> t<Port_declaration_list> p<186> c<172> l<22:1> el<26:2>
@@ -276,7 +276,7 @@ n<$Source01/top.v> u<357> t<Top_level_rule> c<1> l<1:1> el<49:1>
     n<> u<355> t<Description> p<356> c<354> l<35:1> el<48:10>
       n<> u<354> t<Module_declaration> p<355> c<282> l<35:1> el<48:10>
         n<> u<282> t<Module_ansi_header> p<354> c<260> s<295> l<35:1> el<40:3>
-          n<module> u<260> t<Module_keyword> p<282> s<261> l<35:1> el<35:7>
+          n<module> u<260> t<MODULE> p<282> s<261> l<35:1> el<35:7>
           n<u_rtl> u<261> t<SIMPLE_IDENTIFIER> p<282> s<262> l<35:8> el<35:13>
           n<> u<262> t<Package_import_declaration_list> p<282> s<281> l<36:1> el<36:1>
           n<> u<281> t<Port_declaration_list> p<282> c<268> l<36:1> el<40:2>
@@ -371,8 +371,11 @@ n<$Source01/top.v> u<357> t<Top_level_rule> c<1> l<1:1> el<49:1>
         n<> u<353> t<ENDMODULE> p<354> l<48:1> el<48:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:1:1: Compile module "top".
+[NTE:CP0309] $Source01/top.v:8:9: Implicit port type (wire) for "cout".
 [INF:CP0303] $Source01/top.v:21:1: Compile module "middle".
+[NTE:CP0309] $Source01/top.v:25:9: Implicit port type (wire) for "o".
 [INF:CP0303] $Source01/top.v:35:1: Compile module "u_rtl".
+[NTE:CP0309] $Source01/top.v:39:9: Implicit port type (wire) for "o".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -398,6 +401,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: top.A
+          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:X start:10:12 end:10:13:
           vpiParent: Module name:top
@@ -433,11 +437,13 @@ Design name:unnamed:
           vpiName Identifier name:middle start:16:1 end:16:7:
             vpiParent: ModuleTypespec name:middle
             vpiName: middle
+          vpiModule: Module name:middle
         ModuleTypespec name:u_rtl start:17:1 end:17:6:
           vpiParent: Module name:top
           vpiName Identifier name:u_rtl start:17:1 end:17:6:
             vpiParent: ModuleTypespec name:u_rtl
             vpiName: u_rtl
+          vpiModule: Module name:u_rtl
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -455,6 +461,7 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: top.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:4:8 end:4:9:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:2 end:4:7:
@@ -464,6 +471,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: top.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cin start:5:8 end:5:11:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:2 end:5:7:
@@ -473,6 +481,7 @@ Design name:unnamed:
           vpiName: cin
           vpiFullName: top.cin
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cout start:8:9 end:8:13:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:8:2 end:8:8:
@@ -482,6 +491,7 @@ Design name:unnamed:
           vpiName: cout
           vpiFullName: top.cout
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o_mid start:11:7 end:11:12:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:11:7 end:11:7:
@@ -491,6 +501,7 @@ Design name:unnamed:
           vpiName: o_mid
           vpiFullName: top.o_mid
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o_rtl start:11:13 end:11:18:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:11:7 end:11:7:
@@ -500,6 +511,7 @@ Design name:unnamed:
           vpiName: o_rtl
           vpiFullName: top.o_rtl
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:x start:3:8 end:3:9:
           vpiParent: Module name:top
@@ -708,6 +720,7 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: middle.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:24:8 end:24:9:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:24:2 end:24:7:
@@ -717,6 +730,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: middle.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:25:9 end:25:10:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:25:2 end:25:8:
@@ -726,6 +740,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: middle.o
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o1 start:28:6 end:28:8:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:28:6 end:28:6:
@@ -735,6 +750,7 @@ Design name:unnamed:
           vpiName: o1
           vpiFullName: middle.o1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o2 start:28:9 end:28:11:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:28:6 end:28:6:
@@ -744,6 +760,7 @@ Design name:unnamed:
           vpiName: o2
           vpiFullName: middle.o2
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:x start:23:8 end:23:9:
           vpiParent: Module name:middle
@@ -865,6 +882,7 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: u_rtl.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:38:8 end:38:9:
           vpiParent: Module name:u_rtl
           vpiTypespec RefTypespec start:38:2 end:38:7:
@@ -874,6 +892,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: u_rtl.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:39:9 end:39:10:
           vpiParent: Module name:u_rtl
           vpiTypespec RefTypespec start:39:2 end:39:8:
@@ -883,6 +902,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: u_rtl.o
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o1 start:43:6 end:43:8:
           vpiParent: Module name:u_rtl
           vpiTypespec RefTypespec start:43:6 end:43:6:
@@ -892,6 +912,7 @@ Design name:unnamed:
           vpiName: o1
           vpiFullName: u_rtl.o1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o2 start:43:9 end:43:11:
           vpiParent: Module name:u_rtl
           vpiTypespec RefTypespec start:43:6 end:43:6:
@@ -901,6 +922,7 @@ Design name:unnamed:
           vpiName: o2
           vpiFullName: u_rtl.o2
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:x start:37:8 end:37:9:
           vpiParent: Module name:u_rtl
@@ -1023,7 +1045,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

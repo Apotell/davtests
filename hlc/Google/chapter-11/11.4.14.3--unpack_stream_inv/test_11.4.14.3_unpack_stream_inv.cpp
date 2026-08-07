@@ -38,7 +38,7 @@
 // needed) siblings -- the only difference is d's declared width being
 // too small instead of exactly right or padded.
 //
-// Ground truth from the compiler log: parsing and elaboration both
+// Confirmed by compiling this file directly: parsing and elaboration both
 // succeed with the identical AST shape as the legal siblings (Variable
 // "d", typespec IntTypespec instead of BitTypespec[95:0]/[127:0], value
 // an Operation(vpiStreamRLOp) wrapping Operation(vpiConcatOp,[a,b,c])),

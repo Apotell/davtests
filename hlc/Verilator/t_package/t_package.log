@@ -224,7 +224,7 @@ n<$Source01/t_package.v> u<696> t<Top_level_rule> c<1> l<6:1> el<66:1>
     n<> u<521> t<Description> p<695> c<520> s<694> l<27:1> el<52:10>
       n<> u<520> t<Module_declaration> p<521> c<220> l<27:1> el<52:10>
         n<> u<220> t<Module_nonansi_header> p<520> c<208> s<227> l<27:1> el<30:6>
-          n<module> u<208> t<Module_keyword> p<220> s<209> l<27:1> el<27:7>
+          n<module> u<208> t<MODULE> p<220> s<209> l<27:1> el<27:7>
           n<t> u<209> t<SIMPLE_IDENTIFIER> p<220> s<210> l<27:8> el<27:9>
           n<> u<210> t<Package_import_declaration_list> p<220> s<211> l<27:10> el<27:10>
           n</*AUTOARG*/> u<211> t<BLOCK_COMMENT> p<220> s<212> l<27:10> el<30:5>
@@ -538,7 +538,7 @@ n<$Source01/t_package.v> u<696> t<Top_level_rule> c<1> l<6:1> el<66:1>
     n<> u<694> t<Description> p<695> c<693> l<54:1> el<65:10>
       n<> u<693> t<Module_declaration> p<694> c<525> l<54:1> el<65:10>
         n<> u<525> t<Module_ansi_header> p<693> c<522> s<534> l<54:1> el<54:11>
-          n<module> u<522> t<Module_keyword> p<525> s<523> l<54:1> el<54:7>
+          n<module> u<522> t<MODULE> p<525> s<523> l<54:1> el<54:7>
           n<t2> u<523> t<SIMPLE_IDENTIFIER> p<525> s<524> l<54:8> el<54:10>
           n<> u<524> t<Package_import_declaration_list> p<525> l<54:10> el<54:10>
         n<> u<534> t<Non_port_module_item> p<693> c<533> s<544> l<55:4> el<55:16>
@@ -714,6 +714,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_package.v:27:1: Compile module "t".
 [INF:CP0303] $Source01/t_package.v:54:1: Compile module "t2".
 [WRN:CP0323] $Source01/t_package.v:54:1: Multiply defined typedef "p2".
+[WRN:CP0350] $Source01/t_package.v:41:14: Failed to bind "id:182, name:plusone".
 [WRN:CP0350] $Source01/t_package.v:43:14: Failed to bind "id:201, name:pi".
 [WRN:CP0350] $Source01/t_package.v:50:14: Failed to bind "id:234, name:pi".
 [INF:CM0029] Using global timescale: "1ns/1ns".
@@ -1056,6 +1057,7 @@ Design name:unnamed:
           vpiName Identifier name:t2 start:36:4 end:36:6:
             vpiParent: ModuleTypespec name:t2
             vpiName: t2
+          vpiModule: Module name:t2
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1073,6 +1075,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:29:4 end:29:7:
           vpiParent: Module name:t
@@ -1138,7 +1141,7 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiOpType: case neq (17)
                   vpiOperand (2 items):
-                    HierPath name:$unit::unit_plusone(1) start:40:11 end:40:32:
+                    HierPath name:$unit::unit_plusone(1) start:40:11 end:40:33:
                       vpiParent: Operation
                       vpiName: "$unit::unit_plusone(1)"
                       vpiFullName: t.$unit::unit_plusone(1)
@@ -1187,7 +1190,7 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiOpType: case neq (17)
                   vpiOperand (2 items):
-                    HierPath name:p::plusone(1) start:41:11 end:41:23:
+                    HierPath name:p::plusone(1) start:41:11 end:41:24:
                       vpiParent: Operation
                       vpiName: p::plusone(1)
                       vpiFullName: t.p::plusone(1)
@@ -1778,7 +1781,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

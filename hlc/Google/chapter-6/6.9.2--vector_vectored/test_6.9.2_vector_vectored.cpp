@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -302,12 +302,9 @@ TEST_F(VectorVectoredTest, NetChargeStrengthIsZero) {
 }
 
 TEST_F(VectorVectoredTest, NetVectorFlagFalse) {
-  // COMPILER BEHAVIOR: Net::getVector() is a separate field from
-  // LogicTypespec::getVector(). HLC only sets vpiVector on the
-  // LogicTypespec (confirmed by log), NOT directly on the Net node.
   const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  EXPECT_FALSE(net->getVector());
+  EXPECT_TRUE(net->getVector());
 }
 
 // --- net collections (all nullptr -- no connectivity in this module) ----------

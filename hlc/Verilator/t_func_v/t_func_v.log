@@ -23,7 +23,7 @@ n<$Source01/t_func_v.v> u<156> t<Top_level_rule> c<1> l<8:1> el<35:1>
     n<> u<42> t<Description> p<155> c<41> s<123> l<8:1> el<14:10>
       n<> u<41> t<Module_declaration> p<42> c<11> l<8:1> el<14:10>
         n<> u<11> t<Module_nonansi_header> p<41> c<7> s<21> l<8:1> el<8:12>
-          n<module> u<7> t<Module_keyword> p<11> s<8> l<8:1> el<8:7>
+          n<module> u<7> t<MODULE> p<11> s<8> l<8:1> el<8:7>
           n<t> u<8> t<SIMPLE_IDENTIFIER> p<11> s<9> l<8:8> el<8:9>
           n<> u<9> t<Package_import_declaration_list> p<11> s<10> l<8:9> el<8:9>
           n<> u<10> t<Port_list> p<11> l<8:9> el<8:11>
@@ -59,7 +59,7 @@ n<$Source01/t_func_v.v> u<156> t<Top_level_rule> c<1> l<8:1> el<35:1>
     n<> u<123> t<Description> p<155> c<122> s<154> l<16:1> el<27:10>
       n<> u<122> t<Module_declaration> p<123> c<47> l<16:1> el<27:10>
         n<> u<47> t<Module_nonansi_header> p<122> c<43> s<57> l<16:1> el<16:17>
-          n<module> u<43> t<Module_keyword> p<47> s<44> l<16:1> el<16:7>
+          n<module> u<43> t<MODULE> p<47> s<44> l<16:1> el<16:7>
           n<level1> u<44> t<SIMPLE_IDENTIFIER> p<47> s<45> l<16:8> el<16:14>
           n<> u<45> t<Package_import_declaration_list> p<47> s<46> l<16:14> el<16:14>
           n<> u<46> t<Port_list> p<47> l<16:14> el<16:16>
@@ -140,7 +140,7 @@ n<$Source01/t_func_v.v> u<156> t<Top_level_rule> c<1> l<8:1> el<35:1>
     n<> u<154> t<Description> p<155> c<153> l<29:1> el<34:10>
       n<> u<153> t<Module_declaration> p<154> c<128> l<29:1> el<34:10>
         n<> u<128> t<Module_nonansi_header> p<153> c<124> s<151> l<29:1> el<29:17>
-          n<module> u<124> t<Module_keyword> p<128> s<125> l<29:1> el<29:7>
+          n<module> u<124> t<MODULE> p<128> s<125> l<29:1> el<29:7>
           n<level2> u<125> t<SIMPLE_IDENTIFIER> p<128> s<126> l<29:8> el<29:14>
           n<> u<126> t<Package_import_declaration_list> p<128> s<127> l<29:14> el<29:14>
           n<> u<127> t<Port_list> p<128> l<29:14> el<29:16>
@@ -172,6 +172,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_func_v.v:8:1: Compile module "t".
 [INF:CP0303] $Source01/t_func_v.v:16:1: Compile module "level1".
 [INF:CP0303] $Source01/t_func_v.v:29:1: Compile module "level2".
+[WRN:CP0350] $Source01/t_func_v.v:13:16: Failed to bind "id:24, name:doit".
 [WRN:CP0350] $Source01/t_func_v.v:23:11: Failed to bind "id:49, name:mem".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -195,6 +196,7 @@ Design name:unnamed:
           vpiName Identifier name:level1 start:12:4 end:12:10:
             vpiParent: ModuleTypespec name:level1
             vpiName: level1
+          vpiModule: Module name:level1
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -205,7 +207,7 @@ Design name:unnamed:
       vpiProcess (1 items):
         Initial start:13:4 end:13:27:
           vpiParent: Module name:t
-          "vpiStmt HierPath name:ul1.doit(4'b0) start:13:12 end:13:25":
+          "vpiStmt HierPath name:ul1.doit(4'b0) start:13:12 end:13:26":
             vpiParent: Initial
             vpiName: "ul1.doit(4'b0)"
             vpiFullName: "t.ul1.doit(4'b0)"
@@ -252,6 +254,7 @@ Design name:unnamed:
           vpiName Identifier name:level2 start:20:4 end:20:10:
             vpiParent: ModuleTypespec name:level2
             vpiName: level2
+          vpiModule: Module name:level2
       vpiDefName: level1
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -459,7 +462,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

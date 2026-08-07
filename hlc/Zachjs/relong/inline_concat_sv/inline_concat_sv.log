@@ -22,7 +22,7 @@ n<$Source01/relong/inline_concat.sv> u<298> t<Top_level_rule> c<1> l<1:1> el<31:
     n<> u<199> t<Description> p<297> c<198> s<296> l<3:1> el<19:10>
       n<> u<198> t<Module_declaration> p<199> c<51> l<3:1> el<19:10>
         n<> u<51> t<Module_ansi_header> p<198> c<6> s<75> l<3:1> el<6:3>
-          n<module> u<6> t<Module_keyword> p<51> s<7> l<3:1> el<3:7>
+          n<module> u<6> t<MODULE> p<51> s<7> l<3:1> el<3:7>
           n<Device> u<7> t<SIMPLE_IDENTIFIER> p<51> s<8> l<3:8> el<3:14>
           n<> u<8> t<Package_import_declaration_list> p<51> s<50> l<3:14> el<3:14>
           n<> u<50> t<Port_declaration_list> p<51> c<26> l<3:14> el<6:2>
@@ -216,7 +216,7 @@ n<$Source01/relong/inline_concat.sv> u<298> t<Top_level_rule> c<1> l<1:1> el<31:
     n<> u<296> t<Description> p<297> c<295> l<21:1> el<30:10>
       n<> u<295> t<Module_declaration> p<296> c<240> l<21:1> el<30:10>
         n<> u<240> t<Module_ansi_header> p<295> c<200> s<293> l<21:1> el<24:3>
-          n<module> u<200> t<Module_keyword> p<240> s<201> l<21:1> el<21:7>
+          n<module> u<200> t<MODULE> p<240> s<201> l<21:1> el<21:7>
           n<OrParts> u<201> t<SIMPLE_IDENTIFIER> p<240> s<202> l<21:8> el<21:15>
           n<> u<202> t<Package_import_declaration_list> p<240> s<239> l<21:15> el<21:15>
           n<> u<239> t<Port_declaration_list> p<240> c<220> l<21:15> el<24:2>
@@ -314,7 +314,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/relong/inline_concat.sv:3:1: Compile module "Device".
 [WRN:CP0323] $Source01/relong/inline_concat.sv:3:1: Multiply defined typedef "OrParts".
 [INF:CP0303] $Source01/relong/inline_concat.sv:21:1: Compile module "OrParts".
-[ERR:LN0813] $Source01/relong/inline_concat.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -342,7 +341,7 @@ Design name:unnamed:
         vpiParent: Module name:Device
         vpiName: Device
       vpiFullName: Device
-      vpiVariable (5 items):
+      vpiVariable (6 items):
         Variable name:a start:4:23 end:4:24:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:4:5 end:4:22:
@@ -351,6 +350,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: Device.a
+          vpiVector: true
         Variable name:result start:5:24 end:5:30:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:5:5 end:5:23:
@@ -359,6 +359,16 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: Device.result
+          vpiVector: true
+        Variable name:b start:4:26 end:4:27:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:b
+            vpiFullName: Device.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: Device.b
+          vpiVector: true
         Variable name:result1 start:8:17 end:8:24:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:8:5 end:8:16:
@@ -386,7 +396,7 @@ Design name:unnamed:
           vpiName: bothInputs
           vpiFullName: Device.bothInputs
           vpiVector: true
-      vpiTypespec (7 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:Device
           vpiRange (1 items):
@@ -413,8 +423,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:Device
         LogicTypespec:
           vpiParent: Module name:Device
           vpiRange (1 items):
@@ -472,6 +480,7 @@ Design name:unnamed:
           vpiName Identifier name:OrParts start:10:5 end:10:12:
             vpiParent: ModuleTypespec name:OrParts
             vpiName: OrParts
+          vpiModule: Module name:OrParts
         LogicTypespec:
           vpiParent: Module name:Device
           vpiRange (1 items):
@@ -503,6 +512,7 @@ Design name:unnamed:
           vpiName Identifier name:OrParts start:14:5 end:14:12:
             vpiParent: ModuleTypespec name:OrParts
             vpiName: OrParts
+          vpiModule: Module name:OrParts
       vpiDefName: Device
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -527,7 +537,16 @@ Design name:unnamed:
         Port name:b start:4:26 end:4:27:
           vpiParent: Module name:Device
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:4:26 end:4:27:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: Device.b.b
+            vpiActual: Variable name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: Device.b
+            vpiActual: LogicTypespec
         Port name:result start:5:24 end:5:30:
           vpiParent: Module name:Device
           vpiName: result
@@ -562,7 +581,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: Device.b
-                vpiActual: Port name:b
+                vpiActual: Variable name:b
         ContAssign start:17:12 end:17:38:
           vpiParent: Module name:Device
           vpiLhs RefObj name:result start:17:12 end:17:18:
@@ -613,7 +632,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: Device.helper1.b
-                    vpiActual: Port name:b
+                    vpiActual: Variable name:b
             Port start:10:36 end:10:52:
               vpiParent: RefInstance name:helper1
               vpiLowConn RefObj name:result start:10:37 end:10:43:
@@ -673,6 +692,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: OrParts.data
+          vpiVector: true
         Variable name:result start:23:24 end:23:30:
           vpiParent: Module name:OrParts
           vpiTypespec RefTypespec start:23:5 end:23:23:
@@ -681,6 +701,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: OrParts.result
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:OrParts
@@ -871,7 +892,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -916,7 +937,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/inline_concat_sv/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             132     132       0         0
+Others                             135     135       0         0
 ----------------------------------------------------------------
-                                   132     132       0         0
+                                   135     135       0         0
 ===================== END REDUCTION RESULT =====================

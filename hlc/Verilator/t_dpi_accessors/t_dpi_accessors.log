@@ -45,7 +45,7 @@ n<$Source01/t_dpi_accessors.v> u<2302> t<Top_level_rule> c<1> l<33:1> el<96:1>
     n<> u<1780> t<Description> p<2300> c<1779> s<1781> l<33:1> el<46:10>
       n<> u<1779> t<Module_declaration> p<1780> c<39> l<33:1> el<46:10>
         n<> u<39> t<Module_nonansi_header> p<1779> c<27> s<46> l<33:1> el<36:6>
-          n<module> u<27> t<Module_keyword> p<39> s<28> l<33:1> el<33:7>
+          n<module> u<27> t<MODULE> p<39> s<28> l<33:1> el<33:7>
           n<t> u<28> t<SIMPLE_IDENTIFIER> p<39> s<29> l<33:8> el<33:9>
           n<> u<29> t<Package_import_declaration_list> p<39> s<30> l<33:10> el<33:10>
           n</*AUTOARG*/> u<30> t<BLOCK_COMMENT> p<39> s<31> l<33:10> el<36:5>
@@ -1801,7 +1801,7 @@ n<$Source01/t_dpi_accessors.v> u<2302> t<Top_level_rule> c<1> l<33:1> el<96:1>
     n<> u<2299> t<Description> p<2300> c<2298> l<51:1> el<95:10>
       n<> u<2298> t<Module_declaration> p<2299> c<1795> l<51:1> el<95:10>
         n<> u<1795> t<Module_nonansi_header> p<2298> c<1783> s<1802> l<51:1> el<54:6>
-          n<module> u<1783> t<Module_keyword> p<1795> s<1784> l<51:1> el<51:7>
+          n<module> u<1783> t<MODULE> p<1795> s<1784> l<51:1> el<51:7>
           n<test_sub> u<1784> t<SIMPLE_IDENTIFIER> p<1795> s<1785> l<51:8> el<51:16>
           n<> u<1785> t<Package_import_declaration_list> p<1795> s<1786> l<51:17> el<51:17>
           n</*AUTOARG*/> u<1786> t<BLOCK_COMMENT> p<1795> s<1787> l<51:17> el<54:5>
@@ -2329,11 +2329,6 @@ AST_DEBUG_END
 [WRN:CP0350] $Source01/t_dpi_accessors_macros_inc.vh:22:21: Failed to bind "id:614, name:e".
 [WRN:CP0350] $Source01/t_dpi_accessors_macros_inc.vh:15:31: Failed to bind "id:640, name:f".
 [WRN:CP0350] $Source01/t_dpi_accessors_macros_inc.vh:22:21: Failed to bind "id:665, name:f".
-[WRN:CP0350] $Source01/t_dpi_accessors_macros_inc.vh:22:21: Failed to bind "id:731, name:b".
-[WRN:CP0350] $Source01/t_dpi_accessors_macros_inc.vh:22:21: Failed to bind "id:981, name:b".
-[WRN:CP0350] $Source01/t_dpi_accessors_macros_inc.vh:24:42: Failed to bind "id:1009, name:e".
-[WRN:CP0350] $Source01/t_dpi_accessors_macros_inc.vh:22:21: Failed to bind "id:1104, name:e".
-[WRN:CP0350] $Source01/t_dpi_accessors_macros_inc.vh:22:42: Failed to bind "id:1116, name:f".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -3434,6 +3429,7 @@ Design name:unnamed:
           vpiName Identifier name:test_sub start:44:4 end:44:12:
             vpiParent: ModuleTypespec name:test_sub
             vpiName: test_sub
+          vpiModule: Module name:test_sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -3861,7 +3857,7 @@ Design name:unnamed:
                       vpiName: i_test_sub
                       vpiFullName: t.mem32_read.i_test_sub
                       vpiActual: RefInstance name:i_test_sub
-                    BitSelect name:mem[32] start:15:35 end:15:42:
+                    BitSelect name:mem[32] start:15:35 end:15:41:
                       vpiParent: HierPath name:t.i_test_sub.mem[32]
                       vpiName: mem[32]
                       vpiFullName: t.mem32_read.t.i_test_sub.mem[32].mem[32]
@@ -4674,46 +4670,51 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiOpType: concatenation (33)
                   vpiOperand (1 items):
-                    PartSelect name:i_test_sub.b[3:0] start:22:8 end:22:27:
+                    HierPath name:t.i_test_sub.b[3:0] start:22:8 end:22:27:
                       vpiParent: Operation
-                      vpiName: i_test_sub.b[3:0]
-                      vpiFullName: t.b_slice_write.i_test_sub.b[3:0]
-                      vpiPrefix HierPath name:i_test_sub.b start:22:9 end:22:27:
-                        vpiParent: PartSelect name:i_test_sub.b[3:0]
-                        vpiName: i_test_sub.b
-                        vpiFullName: t.b_slice_write.i_test_sub.b[3:0].i_test_sub.b
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:22:10 end:22:20:
-                            vpiParent: HierPath name:i_test_sub.b
-                            vpiName: i_test_sub
-                            vpiFullName: t.b_slice_write.i_test_sub.b[3:0].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          RefObj name:b start:22:21 end:22:22:
-                            vpiParent: HierPath name:i_test_sub.b
+                      vpiName: t.i_test_sub.b[3:0]
+                      vpiFullName: t.b_slice_write.t.i_test_sub.b[3:0]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:22:8 end:22:9:
+                          vpiParent: HierPath name:t.i_test_sub.b[3:0]
+                          vpiName: t
+                          vpiFullName: t.b_slice_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:22:10 end:22:20:
+                          vpiParent: HierPath name:t.i_test_sub.b[3:0]
+                          vpiName: i_test_sub
+                          vpiFullName: t.b_slice_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:b[3:0] start:22:9 end:22:27:
+                          vpiParent: HierPath name:t.i_test_sub.b[3:0]
+                          vpiName: b[3:0]
+                          vpiFullName: t.b_slice_write.t.i_test_sub.b[3:0].b[3:0]
+                          vpiPrefix RefObj name:b start:22:21 end:22:22:
+                            vpiParent: PartSelect name:b[3:0]
                             vpiName: b
-                            vpiFullName: t.b_slice_write.i_test_sub.b[3:0].b
-                      vpiRange Range start:22:23 end:22:26:
-                        vpiParent: PartSelect name:i_test_sub.b[3:0]
-                        vpiLeftRange Constant start:22:23 end:22:24:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.b_slice_write.i_test_sub.b[3:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "3"
-                          vpiValue: 3
-                        vpiRightRange Constant start:22:25 end:22:26:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.b_slice_write.i_test_sub.b[3:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
+                            vpiFullName: t.b_slice_write.t.i_test_sub.b[3:0].b[3:0].b
+                          vpiRange Range start:22:23 end:22:26:
+                            vpiParent: PartSelect name:b[3:0]
+                            vpiLeftRange Constant start:22:23 end:22:24:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.b_slice_write.t.i_test_sub.b[3:0].b[3:0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "3"
+                              vpiValue: 3
+                            vpiRightRange Constant start:22:25 end:22:26:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.b_slice_write.t.i_test_sub.b[3:0].b[3:0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "0"
+                              vpiValue: 0
                 vpiRhs RefObj name:in start:22:31 end:22:33:
                   vpiParent: Assignment
                   vpiName: in
@@ -4790,7 +4791,7 @@ Design name:unnamed:
                       vpiName: i_test_sub
                       vpiFullName: t.mem32_slice_read.i_test_sub
                       vpiActual: RefInstance name:i_test_sub
-                    PartSelect name:mem[32][7:6] start:15:28 end:15:53:
+                    PartSelect name:mem[32][7:6] start:15:44 end:15:53:
                       vpiParent: HierPath name:t.i_test_sub.mem[32][7:6]
                       vpiName: mem[32][7:6]
                       vpiFullName: t.mem32_slice_read.t.i_test_sub.mem[32][7:6].mem[32][7:6]
@@ -4849,7 +4850,7 @@ Design name:unnamed:
                       vpiName: i_test_sub
                       vpiFullName: t.mem32_slice_read.i_test_sub
                       vpiActual: RefInstance name:i_test_sub
-                    PartSelect name:mem[32][2:0] start:15:55 end:15:80:
+                    PartSelect name:mem[32][2:0] start:15:71 end:15:80:
                       vpiParent: HierPath name:t.i_test_sub.mem[32][2:0]
                       vpiName: mem[32][2:0]
                       vpiFullName: t.mem32_slice_read.t.i_test_sub.mem[32][2:0].mem[32][2:0]
@@ -4968,114 +4969,124 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiOpType: concatenation (33)
                   vpiOperand (2 items):
-                    PartSelect name:i_test_sub.mem[32][7:6] start:22:8 end:22:33:
+                    HierPath name:t.i_test_sub.mem[32][7:6] start:22:8 end:22:33:
                       vpiParent: Operation
-                      vpiName: i_test_sub.mem[32][7:6]
-                      vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][7:6]
-                      vpiPrefix HierPath name:i_test_sub.mem[32] start:22:9 end:22:33:
-                        vpiParent: PartSelect name:i_test_sub.mem[32][7:6]
-                        vpiName: i_test_sub.mem[32]
-                        vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][7:6].i_test_sub.mem[32]
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:22:10 end:22:20:
-                            vpiParent: HierPath name:i_test_sub.mem[32]
-                            vpiName: i_test_sub
-                            vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][7:6].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          BitSelect name:mem[32] start:22:21 end:22:27:
-                            vpiParent: HierPath name:i_test_sub.mem[32]
+                      vpiName: t.i_test_sub.mem[32][7:6]
+                      vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][7:6]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:22:8 end:22:9:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][7:6]
+                          vpiName: t
+                          vpiFullName: t.mem32_slice_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:22:10 end:22:20:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][7:6]
+                          vpiName: i_test_sub
+                          vpiFullName: t.mem32_slice_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:mem[32][7:6] start:22:9 end:22:33:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][7:6]
+                          vpiName: mem[32][7:6]
+                          vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][7:6].mem[32][7:6]
+                          vpiPrefix BitSelect name:mem[32] start:22:21 end:22:27:
+                            vpiParent: PartSelect name:mem[32][7:6]
                             vpiName: mem[32]
-                            vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][7:6].i_test_sub.mem[32].mem[32]
+                            vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][7:6].mem[32][7:6].mem[32]
                             vpiPrefix RefObj name:mem start:22:21 end:22:24:
                               vpiParent: BitSelect name:mem[32]
                               vpiName: mem
-                              vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][7:6].i_test_sub.mem[32].mem
+                              vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][7:6].mem[32][7:6].mem
                             vpiIndex Constant start:22:25 end:22:27:
                               vpiParent: BitSelect name:mem[32]
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][7:6].i_test_sub.mem[32].mem[32]
+                                vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][7:6].mem[32][7:6].mem[32]
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "32"
                               vpiValue: 32
-                      vpiRange Range start:22:29 end:22:32:
-                        vpiParent: PartSelect name:i_test_sub.mem[32][7:6]
-                        vpiLeftRange Constant start:22:29 end:22:30:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][7:6]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "7"
-                          vpiValue: 7
-                        vpiRightRange Constant start:22:31 end:22:32:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][7:6]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "6"
-                          vpiValue: 6
-                    PartSelect name:i_test_sub.mem[32][2:0] start:22:35 end:22:60:
+                          vpiRange Range start:22:29 end:22:32:
+                            vpiParent: PartSelect name:mem[32][7:6]
+                            vpiLeftRange Constant start:22:29 end:22:30:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][7:6].mem[32][7:6]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "7"
+                              vpiValue: 7
+                            vpiRightRange Constant start:22:31 end:22:32:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][7:6].mem[32][7:6]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "6"
+                              vpiValue: 6
+                    HierPath name:t.i_test_sub.mem[32][2:0] start:22:35 end:22:60:
                       vpiParent: Operation
-                      vpiName: i_test_sub.mem[32][2:0]
-                      vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][2:0]
-                      vpiPrefix HierPath name:i_test_sub.mem[32] start:22:36 end:22:60:
-                        vpiParent: PartSelect name:i_test_sub.mem[32][2:0]
-                        vpiName: i_test_sub.mem[32]
-                        vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][2:0].i_test_sub.mem[32]
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:22:37 end:22:47:
-                            vpiParent: HierPath name:i_test_sub.mem[32]
-                            vpiName: i_test_sub
-                            vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][2:0].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          BitSelect name:mem[32] start:22:48 end:22:54:
-                            vpiParent: HierPath name:i_test_sub.mem[32]
+                      vpiName: t.i_test_sub.mem[32][2:0]
+                      vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][2:0]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:22:35 end:22:36:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][2:0]
+                          vpiName: t
+                          vpiFullName: t.mem32_slice_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:22:37 end:22:47:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][2:0]
+                          vpiName: i_test_sub
+                          vpiFullName: t.mem32_slice_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:mem[32][2:0] start:22:36 end:22:60:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][2:0]
+                          vpiName: mem[32][2:0]
+                          vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][2:0].mem[32][2:0]
+                          vpiPrefix BitSelect name:mem[32] start:22:48 end:22:54:
+                            vpiParent: PartSelect name:mem[32][2:0]
                             vpiName: mem[32]
-                            vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][2:0].i_test_sub.mem[32].mem[32]
+                            vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][2:0].mem[32][2:0].mem[32]
                             vpiPrefix RefObj name:mem start:22:48 end:22:51:
                               vpiParent: BitSelect name:mem[32]
                               vpiName: mem
-                              vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][2:0].i_test_sub.mem[32].mem
+                              vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][2:0].mem[32][2:0].mem
                             vpiIndex Constant start:22:52 end:22:54:
                               vpiParent: BitSelect name:mem[32]
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][2:0].i_test_sub.mem[32].mem[32]
+                                vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][2:0].mem[32][2:0].mem[32]
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "32"
                               vpiValue: 32
-                      vpiRange Range start:22:56 end:22:59:
-                        vpiParent: PartSelect name:i_test_sub.mem[32][2:0]
-                        vpiLeftRange Constant start:22:56 end:22:57:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][2:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "2"
-                          vpiValue: 2
-                        vpiRightRange Constant start:22:58 end:22:59:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.mem32_slice_write.i_test_sub.mem[32][2:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
+                          vpiRange Range start:22:56 end:22:59:
+                            vpiParent: PartSelect name:mem[32][2:0]
+                            vpiLeftRange Constant start:22:56 end:22:57:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][2:0].mem[32][2:0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "2"
+                              vpiValue: 2
+                            vpiRightRange Constant start:22:58 end:22:59:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.mem32_slice_write.t.i_test_sub.mem[32][2:0].mem[32][2:0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "0"
+                              vpiValue: 0
                 vpiRhs RefObj name:in start:22:64 end:22:66:
                   vpiParent: Assignment
                   vpiName: in
@@ -5302,7 +5313,7 @@ Design name:unnamed:
                       vpiName: i_test_sub
                       vpiFullName: t.l1_read.i_test_sub
                       vpiActual: RefInstance name:i_test_sub
-                    PartSelect name:mem[32][7:6] start:16:29 end:16:54:
+                    PartSelect name:mem[32][7:6] start:16:45 end:16:54:
                       vpiParent: HierPath name:t.i_test_sub.mem[32][7:6]
                       vpiName: mem[32][7:6]
                       vpiFullName: t.l1_read.t.i_test_sub.mem[32][7:6].mem[32][7:6]
@@ -5406,7 +5417,7 @@ Design name:unnamed:
                       vpiName: i_test_sub
                       vpiFullName: t.l1_read.i_test_sub
                       vpiActual: RefInstance name:i_test_sub
-                    PartSelect name:mem[32][2:0] start:18:29 end:18:54:
+                    PartSelect name:mem[32][2:0] start:18:45 end:18:54:
                       vpiParent: HierPath name:t.i_test_sub.mem[32][2:0]
                       vpiName: mem[32][2:0]
                       vpiFullName: t.l1_read.t.i_test_sub.mem[32][2:0].mem[32][2:0]
@@ -5525,194 +5536,214 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiOpType: concatenation (33)
                   vpiOperand (4 items):
-                    PartSelect name:i_test_sub.b[3:0] start:22:8 end:22:27:
+                    HierPath name:t.i_test_sub.b[3:0] start:22:8 end:22:27:
                       vpiParent: Operation
-                      vpiName: i_test_sub.b[3:0]
-                      vpiFullName: t.l1_write.i_test_sub.b[3:0]
-                      vpiPrefix HierPath name:i_test_sub.b start:22:9 end:22:27:
-                        vpiParent: PartSelect name:i_test_sub.b[3:0]
-                        vpiName: i_test_sub.b
-                        vpiFullName: t.l1_write.i_test_sub.b[3:0].i_test_sub.b
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:22:10 end:22:20:
-                            vpiParent: HierPath name:i_test_sub.b
-                            vpiName: i_test_sub
-                            vpiFullName: t.l1_write.i_test_sub.b[3:0].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          RefObj name:b start:22:21 end:22:22:
-                            vpiParent: HierPath name:i_test_sub.b
+                      vpiName: t.i_test_sub.b[3:0]
+                      vpiFullName: t.l1_write.t.i_test_sub.b[3:0]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:22:8 end:22:9:
+                          vpiParent: HierPath name:t.i_test_sub.b[3:0]
+                          vpiName: t
+                          vpiFullName: t.l1_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:22:10 end:22:20:
+                          vpiParent: HierPath name:t.i_test_sub.b[3:0]
+                          vpiName: i_test_sub
+                          vpiFullName: t.l1_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:b[3:0] start:22:9 end:22:27:
+                          vpiParent: HierPath name:t.i_test_sub.b[3:0]
+                          vpiName: b[3:0]
+                          vpiFullName: t.l1_write.t.i_test_sub.b[3:0].b[3:0]
+                          vpiPrefix RefObj name:b start:22:21 end:22:22:
+                            vpiParent: PartSelect name:b[3:0]
                             vpiName: b
-                            vpiFullName: t.l1_write.i_test_sub.b[3:0].b
-                      vpiRange Range start:22:23 end:22:26:
-                        vpiParent: PartSelect name:i_test_sub.b[3:0]
-                        vpiLeftRange Constant start:22:23 end:22:24:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l1_write.i_test_sub.b[3:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "3"
-                          vpiValue: 3
-                        vpiRightRange Constant start:22:25 end:22:26:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l1_write.i_test_sub.b[3:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                    PartSelect name:i_test_sub.mem[32][7:6] start:23:29 end:23:54:
+                            vpiFullName: t.l1_write.t.i_test_sub.b[3:0].b[3:0].b
+                          vpiRange Range start:22:23 end:22:26:
+                            vpiParent: PartSelect name:b[3:0]
+                            vpiLeftRange Constant start:22:23 end:22:24:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l1_write.t.i_test_sub.b[3:0].b[3:0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "3"
+                              vpiValue: 3
+                            vpiRightRange Constant start:22:25 end:22:26:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l1_write.t.i_test_sub.b[3:0].b[3:0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "0"
+                              vpiValue: 0
+                    HierPath name:t.i_test_sub.mem[32][7:6] start:23:29 end:23:54:
                       vpiParent: Operation
-                      vpiName: i_test_sub.mem[32][7:6]
-                      vpiFullName: t.l1_write.i_test_sub.mem[32][7:6]
-                      vpiPrefix HierPath name:i_test_sub.mem[32] start:23:30 end:23:54:
-                        vpiParent: PartSelect name:i_test_sub.mem[32][7:6]
-                        vpiName: i_test_sub.mem[32]
-                        vpiFullName: t.l1_write.i_test_sub.mem[32][7:6].i_test_sub.mem[32]
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:23:31 end:23:41:
-                            vpiParent: HierPath name:i_test_sub.mem[32]
-                            vpiName: i_test_sub
-                            vpiFullName: t.l1_write.i_test_sub.mem[32][7:6].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          BitSelect name:mem[32] start:23:42 end:23:48:
-                            vpiParent: HierPath name:i_test_sub.mem[32]
+                      vpiName: t.i_test_sub.mem[32][7:6]
+                      vpiFullName: t.l1_write.t.i_test_sub.mem[32][7:6]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:23:29 end:23:30:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][7:6]
+                          vpiName: t
+                          vpiFullName: t.l1_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:23:31 end:23:41:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][7:6]
+                          vpiName: i_test_sub
+                          vpiFullName: t.l1_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:mem[32][7:6] start:23:30 end:23:54:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][7:6]
+                          vpiName: mem[32][7:6]
+                          vpiFullName: t.l1_write.t.i_test_sub.mem[32][7:6].mem[32][7:6]
+                          vpiPrefix BitSelect name:mem[32] start:23:42 end:23:48:
+                            vpiParent: PartSelect name:mem[32][7:6]
                             vpiName: mem[32]
-                            vpiFullName: t.l1_write.i_test_sub.mem[32][7:6].i_test_sub.mem[32].mem[32]
+                            vpiFullName: t.l1_write.t.i_test_sub.mem[32][7:6].mem[32][7:6].mem[32]
                             vpiPrefix RefObj name:mem start:23:42 end:23:45:
                               vpiParent: BitSelect name:mem[32]
                               vpiName: mem
-                              vpiFullName: t.l1_write.i_test_sub.mem[32][7:6].i_test_sub.mem[32].mem
+                              vpiFullName: t.l1_write.t.i_test_sub.mem[32][7:6].mem[32][7:6].mem
                             vpiIndex Constant start:23:46 end:23:48:
                               vpiParent: BitSelect name:mem[32]
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: t.l1_write.i_test_sub.mem[32][7:6].i_test_sub.mem[32].mem[32]
+                                vpiFullName: t.l1_write.t.i_test_sub.mem[32][7:6].mem[32][7:6].mem[32]
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "32"
                               vpiValue: 32
-                      vpiRange Range start:23:50 end:23:53:
-                        vpiParent: PartSelect name:i_test_sub.mem[32][7:6]
-                        vpiLeftRange Constant start:23:50 end:23:51:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l1_write.i_test_sub.mem[32][7:6]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "7"
-                          vpiValue: 7
-                        vpiRightRange Constant start:23:52 end:23:53:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l1_write.i_test_sub.mem[32][7:6]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "6"
-                          vpiValue: 6
-                    PartSelect name:i_test_sub.e[6:1] start:24:29 end:24:48:
+                          vpiRange Range start:23:50 end:23:53:
+                            vpiParent: PartSelect name:mem[32][7:6]
+                            vpiLeftRange Constant start:23:50 end:23:51:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l1_write.t.i_test_sub.mem[32][7:6].mem[32][7:6]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "7"
+                              vpiValue: 7
+                            vpiRightRange Constant start:23:52 end:23:53:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l1_write.t.i_test_sub.mem[32][7:6].mem[32][7:6]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "6"
+                              vpiValue: 6
+                    HierPath name:t.i_test_sub.e[6:1] start:24:29 end:24:48:
                       vpiParent: Operation
-                      vpiName: i_test_sub.e[6:1]
-                      vpiFullName: t.l1_write.i_test_sub.e[6:1]
-                      vpiPrefix HierPath name:i_test_sub.e start:24:30 end:24:48:
-                        vpiParent: PartSelect name:i_test_sub.e[6:1]
-                        vpiName: i_test_sub.e
-                        vpiFullName: t.l1_write.i_test_sub.e[6:1].i_test_sub.e
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:24:31 end:24:41:
-                            vpiParent: HierPath name:i_test_sub.e
-                            vpiName: i_test_sub
-                            vpiFullName: t.l1_write.i_test_sub.e[6:1].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          RefObj name:e start:24:42 end:24:43:
-                            vpiParent: HierPath name:i_test_sub.e
+                      vpiName: t.i_test_sub.e[6:1]
+                      vpiFullName: t.l1_write.t.i_test_sub.e[6:1]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:24:29 end:24:30:
+                          vpiParent: HierPath name:t.i_test_sub.e[6:1]
+                          vpiName: t
+                          vpiFullName: t.l1_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:24:31 end:24:41:
+                          vpiParent: HierPath name:t.i_test_sub.e[6:1]
+                          vpiName: i_test_sub
+                          vpiFullName: t.l1_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:e[6:1] start:24:30 end:24:48:
+                          vpiParent: HierPath name:t.i_test_sub.e[6:1]
+                          vpiName: e[6:1]
+                          vpiFullName: t.l1_write.t.i_test_sub.e[6:1].e[6:1]
+                          vpiPrefix RefObj name:e start:24:42 end:24:43:
+                            vpiParent: PartSelect name:e[6:1]
                             vpiName: e
-                            vpiFullName: t.l1_write.i_test_sub.e[6:1].e
-                      vpiRange Range start:24:44 end:24:47:
-                        vpiParent: PartSelect name:i_test_sub.e[6:1]
-                        vpiLeftRange Constant start:24:44 end:24:45:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l1_write.i_test_sub.e[6:1]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "6"
-                          vpiValue: 6
-                        vpiRightRange Constant start:24:46 end:24:47:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l1_write.i_test_sub.e[6:1]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                    PartSelect name:i_test_sub.mem[32][2:0] start:25:29 end:25:54:
+                            vpiFullName: t.l1_write.t.i_test_sub.e[6:1].e[6:1].e
+                          vpiRange Range start:24:44 end:24:47:
+                            vpiParent: PartSelect name:e[6:1]
+                            vpiLeftRange Constant start:24:44 end:24:45:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l1_write.t.i_test_sub.e[6:1].e[6:1]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "6"
+                              vpiValue: 6
+                            vpiRightRange Constant start:24:46 end:24:47:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l1_write.t.i_test_sub.e[6:1].e[6:1]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                    HierPath name:t.i_test_sub.mem[32][2:0] start:25:29 end:25:54:
                       vpiParent: Operation
-                      vpiName: i_test_sub.mem[32][2:0]
-                      vpiFullName: t.l1_write.i_test_sub.mem[32][2:0]
-                      vpiPrefix HierPath name:i_test_sub.mem[32] start:25:30 end:25:54:
-                        vpiParent: PartSelect name:i_test_sub.mem[32][2:0]
-                        vpiName: i_test_sub.mem[32]
-                        vpiFullName: t.l1_write.i_test_sub.mem[32][2:0].i_test_sub.mem[32]
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:25:31 end:25:41:
-                            vpiParent: HierPath name:i_test_sub.mem[32]
-                            vpiName: i_test_sub
-                            vpiFullName: t.l1_write.i_test_sub.mem[32][2:0].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          BitSelect name:mem[32] start:25:42 end:25:48:
-                            vpiParent: HierPath name:i_test_sub.mem[32]
+                      vpiName: t.i_test_sub.mem[32][2:0]
+                      vpiFullName: t.l1_write.t.i_test_sub.mem[32][2:0]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:25:29 end:25:30:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][2:0]
+                          vpiName: t
+                          vpiFullName: t.l1_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:25:31 end:25:41:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][2:0]
+                          vpiName: i_test_sub
+                          vpiFullName: t.l1_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:mem[32][2:0] start:25:30 end:25:54:
+                          vpiParent: HierPath name:t.i_test_sub.mem[32][2:0]
+                          vpiName: mem[32][2:0]
+                          vpiFullName: t.l1_write.t.i_test_sub.mem[32][2:0].mem[32][2:0]
+                          vpiPrefix BitSelect name:mem[32] start:25:42 end:25:48:
+                            vpiParent: PartSelect name:mem[32][2:0]
                             vpiName: mem[32]
-                            vpiFullName: t.l1_write.i_test_sub.mem[32][2:0].i_test_sub.mem[32].mem[32]
+                            vpiFullName: t.l1_write.t.i_test_sub.mem[32][2:0].mem[32][2:0].mem[32]
                             vpiPrefix RefObj name:mem start:25:42 end:25:45:
                               vpiParent: BitSelect name:mem[32]
                               vpiName: mem
-                              vpiFullName: t.l1_write.i_test_sub.mem[32][2:0].i_test_sub.mem[32].mem
+                              vpiFullName: t.l1_write.t.i_test_sub.mem[32][2:0].mem[32][2:0].mem
                             vpiIndex Constant start:25:46 end:25:48:
                               vpiParent: BitSelect name:mem[32]
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: t.l1_write.i_test_sub.mem[32][2:0].i_test_sub.mem[32].mem[32]
+                                vpiFullName: t.l1_write.t.i_test_sub.mem[32][2:0].mem[32][2:0].mem[32]
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "32"
                               vpiValue: 32
-                      vpiRange Range start:25:50 end:25:53:
-                        vpiParent: PartSelect name:i_test_sub.mem[32][2:0]
-                        vpiLeftRange Constant start:25:50 end:25:51:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l1_write.i_test_sub.mem[32][2:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "2"
-                          vpiValue: 2
-                        vpiRightRange Constant start:25:52 end:25:53:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l1_write.i_test_sub.mem[32][2:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
+                          vpiRange Range start:25:50 end:25:53:
+                            vpiParent: PartSelect name:mem[32][2:0]
+                            vpiLeftRange Constant start:25:50 end:25:51:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l1_write.t.i_test_sub.mem[32][2:0].mem[32][2:0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "2"
+                              vpiValue: 2
+                            vpiRightRange Constant start:25:52 end:25:53:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l1_write.t.i_test_sub.mem[32][2:0].mem[32][2:0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "0"
+                              vpiValue: 0
                 vpiRhs RefObj name:in start:25:58 end:25:60:
                   vpiParent: Assignment
                   vpiName: in
@@ -5939,86 +5970,96 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiOpType: concatenation (33)
                   vpiOperand (2 items):
-                    PartSelect name:i_test_sub.e[5:2] start:22:8 end:22:27:
+                    HierPath name:t.i_test_sub.e[5:2] start:22:8 end:22:27:
                       vpiParent: Operation
-                      vpiName: i_test_sub.e[5:2]
-                      vpiFullName: t.l2_write.i_test_sub.e[5:2]
-                      vpiPrefix HierPath name:i_test_sub.e start:22:9 end:22:27:
-                        vpiParent: PartSelect name:i_test_sub.e[5:2]
-                        vpiName: i_test_sub.e
-                        vpiFullName: t.l2_write.i_test_sub.e[5:2].i_test_sub.e
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:22:10 end:22:20:
-                            vpiParent: HierPath name:i_test_sub.e
-                            vpiName: i_test_sub
-                            vpiFullName: t.l2_write.i_test_sub.e[5:2].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          RefObj name:e start:22:21 end:22:22:
-                            vpiParent: HierPath name:i_test_sub.e
+                      vpiName: t.i_test_sub.e[5:2]
+                      vpiFullName: t.l2_write.t.i_test_sub.e[5:2]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:22:8 end:22:9:
+                          vpiParent: HierPath name:t.i_test_sub.e[5:2]
+                          vpiName: t
+                          vpiFullName: t.l2_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:22:10 end:22:20:
+                          vpiParent: HierPath name:t.i_test_sub.e[5:2]
+                          vpiName: i_test_sub
+                          vpiFullName: t.l2_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:e[5:2] start:22:9 end:22:27:
+                          vpiParent: HierPath name:t.i_test_sub.e[5:2]
+                          vpiName: e[5:2]
+                          vpiFullName: t.l2_write.t.i_test_sub.e[5:2].e[5:2]
+                          vpiPrefix RefObj name:e start:22:21 end:22:22:
+                            vpiParent: PartSelect name:e[5:2]
                             vpiName: e
-                            vpiFullName: t.l2_write.i_test_sub.e[5:2].e
-                      vpiRange Range start:22:23 end:22:26:
-                        vpiParent: PartSelect name:i_test_sub.e[5:2]
-                        vpiLeftRange Constant start:22:23 end:22:24:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l2_write.i_test_sub.e[5:2]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "5"
-                          vpiValue: 5
-                        vpiRightRange Constant start:22:25 end:22:26:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l2_write.i_test_sub.e[5:2]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "2"
-                          vpiValue: 2
-                    PartSelect name:i_test_sub.f[5:2] start:22:29 end:22:48:
+                            vpiFullName: t.l2_write.t.i_test_sub.e[5:2].e[5:2].e
+                          vpiRange Range start:22:23 end:22:26:
+                            vpiParent: PartSelect name:e[5:2]
+                            vpiLeftRange Constant start:22:23 end:22:24:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l2_write.t.i_test_sub.e[5:2].e[5:2]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "5"
+                              vpiValue: 5
+                            vpiRightRange Constant start:22:25 end:22:26:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l2_write.t.i_test_sub.e[5:2].e[5:2]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "2"
+                              vpiValue: 2
+                    HierPath name:t.i_test_sub.f[5:2] start:22:29 end:22:48:
                       vpiParent: Operation
-                      vpiName: i_test_sub.f[5:2]
-                      vpiFullName: t.l2_write.i_test_sub.f[5:2]
-                      vpiPrefix HierPath name:i_test_sub.f start:22:30 end:22:48:
-                        vpiParent: PartSelect name:i_test_sub.f[5:2]
-                        vpiName: i_test_sub.f
-                        vpiFullName: t.l2_write.i_test_sub.f[5:2].i_test_sub.f
-                        vpiPathElem (2 items):
-                          RefObj name:i_test_sub start:22:31 end:22:41:
-                            vpiParent: HierPath name:i_test_sub.f
-                            vpiName: i_test_sub
-                            vpiFullName: t.l2_write.i_test_sub.f[5:2].i_test_sub
-                            vpiActual: RefInstance name:i_test_sub
-                          RefObj name:f start:22:42 end:22:43:
-                            vpiParent: HierPath name:i_test_sub.f
+                      vpiName: t.i_test_sub.f[5:2]
+                      vpiFullName: t.l2_write.t.i_test_sub.f[5:2]
+                      vpiPathElem (3 items):
+                        RefObj name:t start:22:29 end:22:30:
+                          vpiParent: HierPath name:t.i_test_sub.f[5:2]
+                          vpiName: t
+                          vpiFullName: t.l2_write.t
+                          vpiActual: Module name:t
+                        RefObj name:i_test_sub start:22:31 end:22:41:
+                          vpiParent: HierPath name:t.i_test_sub.f[5:2]
+                          vpiName: i_test_sub
+                          vpiFullName: t.l2_write.i_test_sub
+                          vpiActual: RefInstance name:i_test_sub
+                        PartSelect name:f[5:2] start:22:30 end:22:48:
+                          vpiParent: HierPath name:t.i_test_sub.f[5:2]
+                          vpiName: f[5:2]
+                          vpiFullName: t.l2_write.t.i_test_sub.f[5:2].f[5:2]
+                          vpiPrefix RefObj name:f start:22:42 end:22:43:
+                            vpiParent: PartSelect name:f[5:2]
                             vpiName: f
-                            vpiFullName: t.l2_write.i_test_sub.f[5:2].f
-                      vpiRange Range start:22:44 end:22:47:
-                        vpiParent: PartSelect name:i_test_sub.f[5:2]
-                        vpiLeftRange Constant start:22:44 end:22:45:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l2_write.i_test_sub.f[5:2]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "5"
-                          vpiValue: 5
-                        vpiRightRange Constant start:22:46 end:22:47:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.l2_write.i_test_sub.f[5:2]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "2"
-                          vpiValue: 2
+                            vpiFullName: t.l2_write.t.i_test_sub.f[5:2].f[5:2].f
+                          vpiRange Range start:22:44 end:22:47:
+                            vpiParent: PartSelect name:f[5:2]
+                            vpiLeftRange Constant start:22:44 end:22:45:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l2_write.t.i_test_sub.f[5:2].f[5:2]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "5"
+                              vpiValue: 5
+                            vpiRightRange Constant start:22:46 end:22:47:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.l2_write.t.i_test_sub.f[5:2].f[5:2]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "2"
+                              vpiValue: 2
                 vpiRhs RefObj name:in start:22:52 end:22:54:
                   vpiParent: Assignment
                   vpiName: in
@@ -6218,6 +6259,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:35:4 end:35:7:
           vpiParent: Module name:t
@@ -6580,6 +6622,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: test_sub.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:c start:64:15 end:64:16:
           vpiParent: Module name:test_sub
           vpiTypespec RefTypespec start:64:15 end:64:15:
@@ -6589,6 +6632,7 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: test_sub.c
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d start:65:29 end:65:30:
           vpiParent: Module name:test_sub
           vpiTypespec RefTypespec start:65:9 end:65:27:
@@ -6598,6 +6642,7 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: test_sub.d
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:53:4 end:53:7:
           vpiParent: Module name:test_sub
@@ -7011,7 +7056,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 15
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -7058,7 +7103,7 @@ Constant                           121     114       7        14
 Operation                           39      32       0         7
 RefTypespec                        198     191       7        14
 ----------------------------------------------------------------
-Others                             840     840       0         0
+Others                             849     849       0         0
 ----------------------------------------------------------------
-                                  1198    1177      14        35
+                                  1207    1186      14        35
 ===================== END REDUCTION RESULT =====================

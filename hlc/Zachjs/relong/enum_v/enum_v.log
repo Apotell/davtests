@@ -23,7 +23,7 @@ n<$Source01/relong/enum.v> u<275> t<Top_level_rule> c<1> l<1:1> el<39:10>
     n<> u<273> t<Description> p<274> c<272> l<13:1> el<39:10>
       n<> u<272> t<Module_declaration> p<273> c<35> l<13:1> el<39:10>
         n<> u<35> t<Module_ansi_header> p<272> c<7> s<51> l<13:1> el<16:3>
-          n<module> u<7> t<Module_keyword> p<35> s<8> l<13:1> el<13:7>
+          n<module> u<7> t<MODULE> p<35> s<8> l<13:1> el<13:7>
           n<Example> u<8> t<SIMPLE_IDENTIFIER> p<35> s<9> l<13:8> el<13:15>
           n<> u<9> t<Package_import_declaration_list> p<35> s<34> l<13:15> el<13:15>
           n<> u<34> t<Port_declaration_list> p<35> c<16> l<13:15> el<16:2>
@@ -289,6 +289,7 @@ n<$Source01/relong/enum.v> u<275> t<Top_level_rule> c<1> l<1:1> el<39:10>
         n<> u<271> t<ENDMODULE> p<272> l<39:1> el<39:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/enum.v:13:1: Compile module "Example".
+[NTE:CP0309] $Source01/relong/enum.v:15:23: Implicit port type (wire) for "rawOperation".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -479,15 +480,7 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (2 items):
-        Variable name:rawOperation start:15:23 end:15:35:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:15:5 end:15:22:
-            vpiParent: Variable name:rawOperation
-            vpiFullName: Example.rawOperation
-            vpiActual: LogicTypespec
-          vpiName: rawOperation
-          vpiFullName: Example.rawOperation
+      vpiVariable (1 items):
         Variable name:operation start:24:15 end:24:24:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:24:5 end:24:14:
@@ -712,7 +705,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:rawMode start:14:16 end:14:23:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:14:5 end:14:15:
@@ -722,6 +715,17 @@ Design name:unnamed:
           vpiName: rawMode
           vpiFullName: Example.rawMode
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:rawOperation start:15:23 end:15:35:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:15:5 end:15:22:
+            vpiParent: Net name:rawOperation
+            vpiFullName: Example.rawOperation
+            vpiActual: LogicTypespec
+          vpiName: rawOperation
+          vpiFullName: Example.rawOperation
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:mode start:23:17 end:23:21:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:23:10 end:23:16:
@@ -731,6 +735,7 @@ Design name:unnamed:
           vpiName: mode
           vpiFullName: Example.mode
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:rawMode start:14:16 end:14:23:
           vpiParent: Module name:Example
@@ -753,7 +758,7 @@ Design name:unnamed:
             vpiParent: Port name:rawOperation
             vpiName: rawOperation
             vpiFullName: Example.rawOperation.rawOperation
-            vpiActual: Variable name:rawOperation
+            vpiActual: Net name:rawOperation
           vpiTypespec RefTypespec start:15:5 end:15:22:
             vpiParent: Port name:rawOperation
             vpiFullName: Example.rawOperation
@@ -853,7 +858,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: rawOperation
             vpiFullName: Example.rawOperation
-            vpiActual: Variable name:rawOperation
+            vpiActual: Net name:rawOperation
           vpiRhs RefObj name:operation start:29:27 end:29:36:
             vpiParent: ContAssign
             vpiName: operation
@@ -878,7 +883,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

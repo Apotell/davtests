@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<1045> t<Top_level_rule> c<1> l<1:1> el<112:1>
     n<> u<61> t<Description> p<1044> c<60> s<1043> l<1:1> el<6:10>
       n<> u<60> t<Module_declaration> p<61> c<18> l<1:1> el<6:10>
         n<> u<18> t<Module_ansi_header> p<60> c<2> s<58> l<1:1> el<1:35>
-          n<module> u<2> t<Module_keyword> p<18> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<18> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<18> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<18> s<17> l<1:11> el<1:11>
           n<> u<17> t<Port_declaration_list> p<18> c<10> l<1:11> el<1:34>
@@ -78,7 +78,7 @@ n<$Source01/dut.sv> u<1045> t<Top_level_rule> c<1> l<1:1> el<112:1>
     n<> u<1043> t<Description> p<1044> c<1042> l<8:1> el<111:10>
       n<> u<1042> t<Module_declaration> p<1043> c<93> l<8:1> el<111:10>
         n<> u<93> t<Module_ansi_header> p<1042> c<62> s<115> l<8:1> el<10:23>
-          n<module> u<62> t<Module_keyword> p<93> s<63> l<8:1> el<8:7>
+          n<module> u<62> t<MODULE> p<93> s<63> l<8:1> el<8:7>
           n<dut> u<63> t<SIMPLE_IDENTIFIER> p<93> s<64> l<8:8> el<8:11>
           n<> u<64> t<Package_import_declaration_list> p<93> s<79> l<8:12> el<8:12>
           n<> u<79> t<Parameter_port_list> p<93> c<78> s<92> l<8:12> el<10:2>
@@ -470,7 +470,7 @@ n<$Source01/dut.sv> u<1045> t<Top_level_rule> c<1> l<1:1> el<112:1>
                                 n<> u<442> t<Constant_primary> p<443> c<441> l<42:18> el<42:20>
                                   n<> u<441> t<Primary_literal> p<442> c<440> l<42:18> el<42:20>
                                     n<A8> u<440> t<SIMPLE_IDENTIFIER> p<441> l<42:18> el<42:20>
-                              n<> u<444> t<Conditional_operator> p<453> s<448> l<42:21> el<42:22>
+                              n<> u<444> t<QMARK> p<453> s<448> l<42:21> el<42:22>
                               n<> u<448> t<Expression> p<453> c<447> s<452> l<42:23> el<42:26>
                                 n<> u<447> t<Primary> p<448> c<446> l<42:23> el<42:26>
                                   n<> u<446> t<Primary_literal> p<447> c<445> l<42:23> el<42:26>
@@ -1059,7 +1059,9 @@ n<$Source01/dut.sv> u<1045> t<Top_level_rule> c<1> l<1:1> el<112:1>
         n<> u<1041> t<ENDMODULE> p<1042> l<111:1> el<111:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
+[NTE:CP0309] $Source01/dut.sv:1:32: Implicit port type (wire) for "b".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "dut".
+[NTE:CP0309] $Source01/dut.sv:10:20: Implicit port type (wire) for "b".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "dut".
 ====== HLDB =======
@@ -1085,6 +1087,7 @@ Design name:unnamed:
           vpiName Identifier name:dut start:3:3 end:3:6:
             vpiParent: ModuleTypespec name:dut
             vpiName: dut
+          vpiModule: Module name:dut
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1102,6 +1105,7 @@ Design name:unnamed:
           vpiName: clk_i
           vpiFullName: top.clk_i
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:1:32 end:1:33:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:25 end:1:31:
@@ -1111,6 +1115,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: top.b
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clk_i start:1:18 end:1:23:
           vpiParent: Module name:top
@@ -1151,6 +1156,7 @@ Design name:unnamed:
             ParamAssign start:3:9 end:3:35:
               vpiParent: RefInstance name:d
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:CLKFBOUT_PHASE start:3:10 end:3:24:
                 vpiParent: ParamAssign
                 vpiName: CLKFBOUT_PHASE
@@ -2001,6 +2007,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: dut.a
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:10:20 end:10:21:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec start:10:13 end:10:19:
@@ -2010,6 +2017,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: dut.b
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:a start:10:10 end:10:11:
           vpiParent: Module name:dut
@@ -2734,7 +2742,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

@@ -41,7 +41,7 @@ n<$Source01/t_interface_down.v> u<530> t<Top_level_rule> c<1> l<6:1> el<73:1>
     n<> u<389> t<Description> p<529> c<388> s<475> l<10:1> el<45:10>
       n<> u<388> t<Module_declaration> p<389> c<37> l<10:1> el<45:10>
         n<> u<37> t<Module_nonansi_header> p<388> c<25> s<44> l<10:1> el<13:6>
-          n<module> u<25> t<Module_keyword> p<37> s<26> l<10:1> el<10:7>
+          n<module> u<25> t<MODULE> p<37> s<26> l<10:1> el<10:7>
           n<t> u<26> t<SIMPLE_IDENTIFIER> p<37> s<27> l<10:8> el<10:9>
           n<> u<27> t<Package_import_declaration_list> p<37> s<28> l<10:10> el<10:10>
           n</*AUTOARG*/> u<28> t<BLOCK_COMMENT> p<37> s<29> l<10:10> el<13:5>
@@ -406,7 +406,7 @@ n<$Source01/t_interface_down.v> u<530> t<Top_level_rule> c<1> l<6:1> el<73:1>
     n<> u<475> t<Description> p<529> c<474> s<528> l<47:1> el<59:10>
       n<> u<474> t<Module_declaration> p<475> c<424> l<47:1> el<59:10>
         n<> u<424> t<Module_ansi_header> p<474> c<390> s<448> l<47:1> el<53:6>
-          n<module> u<390> t<Module_keyword> p<424> s<391> l<47:1> el<47:7>
+          n<module> u<390> t<MODULE> p<424> s<391> l<47:1> el<47:7>
           n<wrapper> u<391> t<SIMPLE_IDENTIFIER> p<424> s<392> l<47:8> el<47:15>
           n<> u<392> t<Package_import_declaration_list> p<424> s<423> l<48:3> el<48:3>
           n<> u<423> t<Port_declaration_list> p<424> c<399> l<48:3> el<53:5>
@@ -492,7 +492,7 @@ n<$Source01/t_interface_down.v> u<530> t<Top_level_rule> c<1> l<6:1> el<73:1>
     n<> u<528> t<Description> p<529> c<527> l<61:1> el<72:10>
       n<> u<527> t<Module_declaration> p<528> c<495> l<61:1> el<72:10>
         n<> u<495> t<Module_ansi_header> p<527> c<476> s<525> l<61:1> el<65:6>
-          n<module> u<476> t<Module_keyword> p<495> s<477> l<61:1> el<61:7>
+          n<module> u<476> t<MODULE> p<495> s<477> l<61:1> el<61:7>
           n<lower> u<477> t<SIMPLE_IDENTIFIER> p<495> s<478> l<61:8> el<61:13>
           n<> u<478> t<Package_import_declaration_list> p<495> s<494> l<62:3> el<62:3>
           n<> u<494> t<Port_declaration_list> p<495> c<485> l<62:3> el<65:5>
@@ -547,8 +547,11 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_down.v:10:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_down.v:10:1: Multiply defined typedef "wrapper".
 [INF:CP0303] $Source01/t_interface_down.v:47:1: Compile module "wrapper".
+[WRN:CP0310] $Source01/t_interface_down.v:49:8: Port "isuba" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/t_interface_down.v:50:8: Port "isubb" definition missing its direction (input, output, inout).
 [WRN:CP0323] $Source01/t_interface_down.v:47:1: Multiply defined typedef "lower".
 [INF:CP0303] $Source01/t_interface_down.v:61:1: Compile module "lower".
+[WRN:CP0310] $Source01/t_interface_down.v:63:8: Port "isub" definition missing its direction (input, output, inout).
 [WRN:CP0350] $Source01/t_interface_down.v:37:14: Failed to bind "id:109, name:value".
 [WRN:CP0350] $Source01/t_interface_down.v:38:14: Failed to bind "id:119, name:value".
 [WRN:CP0350] $Source01/t_interface_down.v:39:14: Failed to bind "id:129, name:value".
@@ -625,11 +628,13 @@ Design name:unnamed:
           vpiName Identifier name:wrapper start:25:4 end:25:11:
             vpiParent: ModuleTypespec name:wrapper
             vpiName: wrapper
+          vpiModule: Module name:wrapper
         ModuleTypespec name:wrapper start:29:4 end:29:11:
           vpiParent: Module name:t
           vpiName Identifier name:wrapper start:29:4 end:29:11:
             vpiParent: ModuleTypespec name:wrapper
             vpiName: wrapper
+          vpiModule: Module name:wrapper
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -647,6 +652,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:12:4 end:12:7:
           vpiParent: Module name:t
@@ -1066,11 +1072,13 @@ Design name:unnamed:
           vpiName Identifier name:lower start:57:4 end:57:9:
             vpiParent: ModuleTypespec name:lower
             vpiName: lower
+          vpiModule: Module name:lower
         ModuleTypespec name:lower start:58:4 end:58:9:
           vpiParent: Module name:wrapper
           vpiName Identifier name:lower start:58:4 end:58:9:
             vpiParent: ModuleTypespec name:lower
             vpiName: lower
+          vpiModule: Module name:lower
       vpiDefName: wrapper
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1367,7 +1375,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

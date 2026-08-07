@@ -27,6 +27,7 @@ COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit ci
 [INF:CP0303] $Source01/cic5_tb.v:8:1: Compile module "tb".
 [INF:CP0303] $Source01/cic5.v:6:1: Compile module "cic5".
 [INF:CP0303] $Source01/crc32.v:8:1: Compile module "crc32".
+[NTE:CP0309] $Source01/crc32.v:8:70: Implicit port type (wire) for "dout".
 [INF:CP0303] $Source01/dspmac_16_40_tb.v:6:1: Compile module "tb".
 [INF:CP0303] $Source01/latch.v:7:1: Compile module "latch".
 [INF:CP0303] $Source01/pwm256_tb.v:6:1: Compile module "tb".
@@ -2178,6 +2179,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
       vpiDefName: tb
       vpiDefNetType: wire (1)
@@ -2196,6 +2198,7 @@ Design name:unnamed:
           vpiName: d_out
           vpiFullName: tb.d_out
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Constant start:13:28 end:13:29:
             vpiParent: Net name:d_out
             vpiTypespec RefTypespec:
@@ -2215,6 +2218,7 @@ Design name:unnamed:
           vpiName: d_out_valid
           vpiFullName: tb.d_out_valid
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiProcess (2 items):
         Always start:17:1 end:17:20:
           vpiParent: Module name:tb
@@ -2450,6 +2454,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d_out
           vpiFullName: cic5.d_out
+          vpiVector: true
         Variable name:d_out_valid start:11:16 end:11:27:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec start:11:5 end:11:15:
@@ -2458,6 +2463,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d_out_valid
           vpiFullName: cic5.d_out_valid
+          vpiScalar: true
         Variable name:int_s start:14:19 end:14:24:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec:
@@ -2530,6 +2536,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:cic5
@@ -2772,6 +2779,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: cic5.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst_n start:8:12 end:8:17:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec start:8:5 end:8:10:
@@ -2781,6 +2789,7 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: cic5.rst_n
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d_in start:9:26 end:9:30:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec start:9:5 end:9:25:
@@ -2790,6 +2799,7 @@ Design name:unnamed:
           vpiName: d_in
           vpiFullName: cic5.d_in
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (5 items):
         Port name:clk start:7:12 end:7:15:
           vpiParent: Module name:cic5
@@ -3863,6 +3873,7 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: crc32.din
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:clk start:8:38 end:8:41:
           vpiParent: Module name:crc32
           vpiTypespec RefTypespec start:8:32 end:8:37:
@@ -3872,6 +3883,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: crc32.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst_n start:8:49 end:8:54:
           vpiParent: Module name:crc32
           vpiTypespec RefTypespec start:8:43 end:8:48:
@@ -3881,6 +3893,7 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: crc32.rst_n
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:dout start:8:70 end:8:74:
           vpiParent: Module name:crc32
           vpiTypespec RefTypespec start:8:56 end:8:69:
@@ -3890,6 +3903,7 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: crc32.dout
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:din start:8:27 end:8:30:
           vpiParent: Module name:crc32
@@ -12247,6 +12261,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiSigned: true
           vpiVector: true
         UnsupportedTypespec name:dspmac_16_40 start:19:1 end:19:13:
           vpiParent: Module name:tb
@@ -12270,6 +12285,7 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: tb.result
           vpiNetType: wire (1)
+          vpiVector: true
       vpiProcess (2 items):
         Always start:16:1 end:16:20:
           vpiParent: Module name:tb
@@ -12627,6 +12643,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dout
           vpiFullName: latch.dout
+          vpiVector: true
         Variable name:state start:9:13 end:9:18:
           vpiParent: Module name:latch
           vpiTypespec RefTypespec start:9:3 end:9:12:
@@ -12734,6 +12751,7 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: latch.din
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:gate start:7:37 end:7:41:
           vpiParent: Module name:latch
           vpiTypespec RefTypespec start:7:31 end:7:36:
@@ -12743,6 +12761,7 @@ Design name:unnamed:
           vpiName: gate
           vpiFullName: latch.gate
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:din start:7:26 end:7:29:
           vpiParent: Module name:latch
@@ -12957,6 +12976,7 @@ Design name:unnamed:
           vpiName: pwm
           vpiFullName: tb.pwm
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiProcess (2 items):
         Always start:14:1 end:14:20:
           vpiParent: Module name:tb
@@ -13192,6 +13212,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: pwm_out
           vpiFullName: pwm256.pwm_out
+          vpiScalar: true
         Variable name:counter start:13:18 end:13:25:
           vpiParent: Module name:pwm256
           vpiTypespec RefTypespec start:13:1 end:13:17:
@@ -13274,6 +13295,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: pwm256.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:rst_n start:8:11 end:8:16:
           vpiParent: Module name:pwm256
           vpiTypespec RefTypespec start:8:5 end:8:10:
@@ -13283,6 +13305,7 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: pwm256.rst_n
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:d_in start:9:17 end:9:21:
           vpiParent: Module name:pwm256
           vpiTypespec RefTypespec start:9:5 end:9:16:
@@ -13292,6 +13315,7 @@ Design name:unnamed:
           vpiName: d_in
           vpiFullName: pwm256.d_in
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:clk start:7:11 end:7:14:
           vpiParent: Module name:pwm256
@@ -13604,7 +13628,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 10
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

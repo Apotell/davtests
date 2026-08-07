@@ -22,7 +22,7 @@ n<$Source01/dut.sv> u<241> t<Top_level_rule> c<1> l<1:1> el<29:1>
     n<> u<171> t<Description> p<240> c<170> s<239> l<3:1> el<19:10>
       n<> u<170> t<Module_declaration> p<171> c<44> l<3:1> el<19:10>
         n<> u<44> t<Module_ansi_header> p<170> c<6> s<91> l<3:1> el<6:3>
-          n<module> u<6> t<Module_keyword> p<44> s<7> l<3:1> el<3:7>
+          n<module> u<6> t<MODULE> p<44> s<7> l<3:1> el<3:7>
           n<Device> u<7> t<SIMPLE_IDENTIFIER> p<44> s<8> l<3:8> el<3:14>
           n<> u<8> t<Package_import_declaration_list> p<44> s<43> l<3:14> el<3:14>
           n<> u<43> t<Port_declaration_list> p<44> c<25> l<3:14> el<6:2>
@@ -188,7 +188,7 @@ n<$Source01/dut.sv> u<241> t<Top_level_rule> c<1> l<1:1> el<29:1>
     n<> u<239> t<Description> p<240> c<238> l<21:1> el<28:10>
       n<> u<238> t<Module_declaration> p<239> c<215> l<21:1> el<28:10>
         n<> u<215> t<Module_ansi_header> p<238> c<172> s<236> l<21:1> el<24:3>
-          n<module> u<172> t<Module_keyword> p<215> s<173> l<21:1> el<21:7>
+          n<module> u<172> t<MODULE> p<215> s<173> l<21:1> el<21:7>
           n<Helper> u<173> t<SIMPLE_IDENTIFIER> p<215> s<174> l<21:8> el<21:14>
           n<> u<174> t<Package_import_declaration_list> p<215> s<214> l<21:14> el<21:14>
           n<> u<214> t<Port_declaration_list> p<215> c<191> l<21:14> el<24:2>
@@ -255,9 +255,10 @@ n<$Source01/dut.sv> u<241> t<Top_level_rule> c<1> l<1:1> el<29:1>
         n<> u<237> t<ENDMODULE> p<238> l<28:1> el<28:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:3:1: Compile module "Device".
+[NTE:CP0309] $Source01/dut.sv:5:23: Implicit port type (wire) for "sum".
 [WRN:CP0323] $Source01/dut.sv:3:1: Multiply defined typedef "Helper".
 [INF:CP0303] $Source01/dut.sv:21:1: Compile module "Helper".
-[ERR:LN0813] $Source01/dut.sv:1:1: Found 1 orphan node(s).
+[NTE:CP0309] $Source01/dut.sv:23:23: Implicit port type (wire) for "result".
 [WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "Device".
 [WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "Helper".
 ====== HLDB =======
@@ -286,15 +287,6 @@ Design name:unnamed:
         vpiParent: Module name:Device
         vpiName: Device
       vpiFullName: Device
-      vpiVariable (1 items):
-        Variable name:sum start:5:23 end:5:26:
-          vpiParent: Module name:Device
-          vpiTypespec RefTypespec start:5:5 end:5:22:
-            vpiParent: Variable name:sum
-            vpiFullName: Device.sum
-            vpiActual: LogicTypespec
-          vpiName: sum
-          vpiFullName: Device.sum
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:Device
@@ -353,6 +345,7 @@ Design name:unnamed:
           vpiName Identifier name:Helper start:9:5 end:9:11:
             vpiParent: ModuleTypespec name:Helper
             vpiName: Helper
+          vpiModule: Module name:Helper
         LogicTypespec:
           vpiParent: Module name:Device
           vpiRange (1 items):
@@ -384,6 +377,7 @@ Design name:unnamed:
           vpiName Identifier name:Helper start:12:5 end:12:11:
             vpiParent: ModuleTypespec name:Helper
             vpiName: Helper
+          vpiModule: Module name:Helper
       vpiDefName: Device
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -391,7 +385,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Device.work
       vpiCell: Device
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:doubleNibble start:4:22 end:4:34:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:4:5 end:4:21:
@@ -401,6 +395,17 @@ Design name:unnamed:
           vpiName: doubleNibble
           vpiFullName: Device.doubleNibble
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:sum start:5:23 end:5:26:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec start:5:5 end:5:22:
+            vpiParent: Net name:sum
+            vpiFullName: Device.sum
+            vpiActual: LogicTypespec
+          vpiName: sum
+          vpiFullName: Device.sum
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:ignored start:11:16 end:11:23:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:11:10 end:11:15:
@@ -410,6 +415,7 @@ Design name:unnamed:
           vpiName: ignored
           vpiFullName: Device.ignored
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:doubleNibble start:4:22 end:4:34:
           vpiParent: Module name:Device
@@ -432,7 +438,7 @@ Design name:unnamed:
             vpiParent: Port name:sum
             vpiName: sum
             vpiFullName: Device.sum.sum
-            vpiActual: Variable name:sum
+            vpiActual: Net name:sum
           vpiTypespec RefTypespec start:5:5 end:5:22:
             vpiParent: Port name:sum
             vpiFullName: Device.sum
@@ -528,7 +534,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: sum
                 vpiFullName: Device.instance1.sum
-                vpiActual: Variable name:sum
+                vpiActual: Net name:sum
         RefInstance name:instance2 start:12:12 end:12:21:
           vpiParent: Module name:Device
           vpiName: instance2
@@ -629,16 +635,7 @@ Design name:unnamed:
         vpiParent: Module name:Helper
         vpiName: Helper
       vpiFullName: Helper
-      vpiVariable (1 items):
-        Variable name:result start:23:23 end:23:29:
-          vpiParent: Module name:Helper
-          vpiTypespec RefTypespec start:23:5 end:23:22:
-            vpiParent: Variable name:result
-            vpiFullName: Helper.result
-            vpiActual: LogicTypespec
-          vpiName: result
-          vpiFullName: Helper.result
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:Helper
           vpiRange (1 items):
@@ -665,8 +662,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:Helper
         LogicTypespec:
           vpiParent: Module name:Helper
           vpiRange (1 items):
@@ -700,7 +695,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Helper.work
       vpiCell: Helper
-      vpiNet (1 items):
+      vpiNet (3 items):
         Net name:a start:22:22 end:22:23:
           vpiParent: Module name:Helper
           vpiTypespec RefTypespec start:22:5 end:22:21:
@@ -710,6 +705,27 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: Helper.a
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:result start:23:23 end:23:29:
+          vpiParent: Module name:Helper
+          vpiTypespec RefTypespec start:23:5 end:23:22:
+            vpiParent: Net name:result
+            vpiFullName: Helper.result
+            vpiActual: LogicTypespec
+          vpiName: result
+          vpiFullName: Helper.result
+          vpiNetType: wire (1)
+          vpiVector: true
+        Net name:b start:22:25 end:22:26:
+          vpiParent: Module name:Helper
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: Helper.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: Helper.b
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:a start:22:22 end:22:23:
           vpiParent: Module name:Helper
@@ -727,7 +743,16 @@ Design name:unnamed:
         Port name:b start:22:25 end:22:26:
           vpiParent: Module name:Helper
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:22:25 end:22:26:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: Helper.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: Helper.b
+            vpiActual: LogicTypespec
         Port name:result start:23:23 end:23:29:
           vpiParent: Module name:Helper
           vpiName: result
@@ -736,7 +761,7 @@ Design name:unnamed:
             vpiParent: Port name:result
             vpiName: result
             vpiFullName: Helper.result.result
-            vpiActual: Variable name:result
+            vpiActual: Net name:result
           vpiTypespec RefTypespec start:23:5 end:23:22:
             vpiParent: Port name:result
             vpiFullName: Helper.result
@@ -748,7 +773,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: result
             vpiFullName: Helper.result
-            vpiActual: Variable name:result
+            vpiActual: Net name:result
           vpiRhs Operation start:26:21 end:26:26:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -762,7 +787,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: b
                 vpiFullName: Helper.b
-                vpiActual: Port name:b
+                vpiActual: Net name:b
   vpiTypespec (4 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -784,9 +809,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 3
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -829,7 +854,7 @@ COMMAND: ${HLC_DIR}/regression/HighConnPart/HighConnPart/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             126     126       0         0
+Others                             129     129       0         0
 ----------------------------------------------------------------
-                                   126     126       0         0
+                                   129     129       0         0
 ===================== END REDUCTION RESULT =====================

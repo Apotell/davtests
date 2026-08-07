@@ -185,7 +185,7 @@ TEST_F(EqualityOpTest, FirstSixStatementsAssignTheExactBitPatterns) {
     EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), names[i]);
     const hldb::Constant *const bits = assign->getRhs<hldb::Constant>();
     ASSERT_NE(bits, nullptr);
-    EXPECT_EQ(bits->getConstType(), 3 /* vpiBinaryConst */);
+    EXPECT_EQ(bits->getConstType(), vpiBinaryConst);
     EXPECT_EQ(bits->getDecompile(), decompiles[i]);
     EXPECT_EQ(bits->getValue(), values[i]);
   }

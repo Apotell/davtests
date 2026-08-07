@@ -105,7 +105,7 @@ n<$Source01/t_interface_modport_import.v> u<267> t<Top_level_rule> c<1> l<8:1> e
     n<> u<151> t<Description> p<266> c<150> s<265> l<28:1> el<39:10>
       n<> u<150> t<Module_declaration> p<151> c<101> l<28:1> el<39:10>
         n<> u<101> t<Module_nonansi_header> p<150> c<89> s<108> l<28:1> el<31:6>
-          n<module> u<89> t<Module_keyword> p<101> s<90> l<28:1> el<28:7>
+          n<module> u<89> t<MODULE> p<101> s<90> l<28:1> el<28:7>
           n<t> u<90> t<SIMPLE_IDENTIFIER> p<101> s<91> l<28:8> el<28:9>
           n<> u<91> t<Package_import_declaration_list> p<101> s<92> l<28:10> el<28:10>
           n</*AUTOARG*/> u<92> t<BLOCK_COMMENT> p<101> s<93> l<28:10> el<31:5>
@@ -168,7 +168,7 @@ n<$Source01/t_interface_modport_import.v> u<267> t<Top_level_rule> c<1> l<8:1> e
     n<> u<265> t<Description> p<266> c<264> l<42:1> el<58:10>
       n<> u<264> t<Module_declaration> p<265> c<169> l<42:1> el<58:10>
         n<> u<169> t<Module_ansi_header> p<264> c<152> s<262> l<42:1> el<46:6>
-          n<module> u<152> t<Module_keyword> p<169> s<153> l<42:1> el<42:7>
+          n<module> u<152> t<MODULE> p<169> s<153> l<42:1> el<42:7>
           n<testmod> u<153> t<SIMPLE_IDENTIFIER> p<169> s<154> l<42:8> el<42:15>
           n<> u<154> t<Package_import_declaration_list> p<169> s<168> l<43:3> el<43:3>
           n<> u<168> t<Port_declaration_list> p<169> c<160> l<43:3> el<46:5>
@@ -283,9 +283,9 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_modport_import.v:8:1: Compile interface "test_if".
 [INF:CP0303] $Source01/t_interface_modport_import.v:28:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_modport_import.v:42:1: Compile module "testmod".
-[ERR:LN0813] $Source01/t_interface_modport_import.v:1:1: Found 1 orphan node(s).
 [WRN:CP0350] $Source01/t_interface_modport_import.v:37:15: Failed to bind "id:54, name:mp".
-[WRN:CP0350] $Source01/t_interface_modport_import.v:49:9: Failed to bind "id:80, name:data".
+[WRN:CP0350] $Source01/t_interface_modport_import.v:49:9: Failed to bind "id:82, name:data".
+[WRN:CP0350] $Source01/t_interface_modport_import.v:50:13: Failed to bind "id:92, name:myfunc".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -415,6 +415,7 @@ Design name:unnamed:
           vpiName Identifier name:testmod start:36:4 end:36:11:
             vpiParent: ModuleTypespec name:testmod
             vpiName: testmod
+          vpiModule: Module name:testmod
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -432,6 +433,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:30:4 end:30:7:
           vpiParent: Module name:t
@@ -503,9 +505,24 @@ Design name:unnamed:
         vpiParent: Module name:testmod
         vpiName: testmod
       vpiFullName: testmod
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:testmod
+        UnsupportedTypespec name:test_if::mp start:45:4 end:45:14:
+          vpiParent: Module name:testmod
+          vpiPathElem (2 items):
+            RefObj name:test_if start:45:4 end:45:11:
+              vpiParent: UnsupportedTypespec name:test_if::mp
+              vpiName: test_if
+              vpiFullName: testmod.test_if::mp.test_if
+              vpiActual: Interface name:test_if
+            RefObj name:mp start:45:12 end:45:14:
+              vpiParent: UnsupportedTypespec name:test_if::mp
+              vpiName: mp
+              vpiFullName: testmod.test_if::mp.mp
+          vpiName Identifier name:test_if::mp:
+            vpiParent: UnsupportedTypespec name:test_if::mp
+            vpiName: test_if::mp
       vpiDefName: testmod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -523,6 +540,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: testmod.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:44:10 end:44:13:
           vpiParent: Module name:testmod
@@ -540,7 +558,16 @@ Design name:unnamed:
         Port name:i start:45:16 end:45:17:
           vpiParent: Module name:testmod
           vpiName: i
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:i start:45:16 end:45:17:
+            vpiParent: Port name:i
+            vpiName: i
+            vpiFullName: testmod.i.i
+            vpiActual: Port name:i
+          vpiTypespec RefTypespec start:45:4 end:45:14:
+            vpiParent: Port name:i
+            vpiFullName: testmod.i
+            vpiActual: UnsupportedTypespec name:test_if::mp
       vpiProcess (1 items):
         Always start:48:4 end:57:7:
           vpiParent: Module name:testmod
@@ -591,7 +618,7 @@ Design name:unnamed:
                     vpiValue: "0"
                 IfElse start:50:7 end:56:10:
                   vpiParent: Begin
-                  "vpiCondition HierPath name:i.myfunc(1'b0) start:50:11 end:50:25":
+                  "vpiCondition HierPath name:i.myfunc(1'b0) start:50:11 end:50:26":
                     vpiParent: IfElse
                     vpiName: "i.myfunc(1'b0)"
                     vpiFullName: "testmod.i.myfunc(1'b0)"
@@ -676,8 +703,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -692,25 +719,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_modport_import/mounts.json
 
 
-{'result': {'coverage': 96.4,
+{'result': {'coverage': 98.65,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_modport_import.v': {'post_len': 16,
+            'files': {'$Output/lib/work/t_interface_modport_import.v': {'post_len': 6,
                                                                         'pre_len': 444}},
-            'post_len': 16,
+            'post_len': 6,
             'pre_len': 444,
             'test_name': 'Verilator/t_interface_modport_import'}}
 
 +-----------------------------------------------+----------+-----------+
 | INPUT                                         |   PRELEN |   POSTLEN |
 +===============================================+==========+===========+
-| $Output/lib/work/t_interface_modport_import.v |      444 |        16 |
+| $Output/lib/work/t_interface_modport_import.v |      444 |         6 |
 +===============================================+==========+===========+
-|                                               |      444 |        16 |
+|                                               |      444 |         6 |
 +-----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.4
+[COVERAGE] : 98.65
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -721,7 +748,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_import/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              97      97       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                    97      97       0         0
+                                   103     103       0         0
 ===================== END REDUCTION RESULT =====================

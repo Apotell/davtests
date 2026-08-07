@@ -42,10 +42,11 @@
 // Checked:
 //   - module top has module-level typespecs (2): a UnionTypespec
 //     (vpiTagged == true) with exactly 2 TypespecMembers -- "Invalid"
-//     (whose getTypespec() is a RefTypespec named "void" that does NOT
-//     resolve via getActual<IntTypespec>(), i.e. void has no backing
-//     typespec) and "Valid" (whose getTypespec()->getActual<IntTypespec>()
-//     is non-null) -- and a TypedefTypespec "u_int" whose
+//     (whose getTypespec() is a RefTypespec named "void" that resolves via
+//     getActual<VoidTypespec>(), a real, distinct typespec kind -- not
+//     "no backing typespec") and "Valid" (whose
+//     getTypespec()->getActual<IntTypespec>() is non-null) -- and a
+//     TypedefTypespec "u_int" whose
 //     getTypedefAlias()->getActual<UnionTypespec>() resolves back to that
 //     same union
 //   - "u_int a, b;" has no explicit net-type keyword, so per IEEE 1800-2023
@@ -89,6 +90,7 @@
 #include <hldb/typespec_member.h>
 #include <hldb/union_typespec.h>
 #include <hldb/variable.h>
+#include <hldb/void_typespec.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -131,9 +133,8 @@ TEST_F(TaggedUnionTest, UnionTypespecIsTaggedWithInvalidAndValidMembers) {
   EXPECT_EQ(valid->getName(), "Valid");
 
   ASSERT_NE(invalid->getTypespec(), nullptr);
-  EXPECT_EQ(invalid->getTypespec()->getName(), "void");
-  EXPECT_EQ(invalid->getTypespec()->getActual<hldb::IntTypespec>(), nullptr)
-      << "the void member's typespec ref should not resolve to any backing typespec";
+  EXPECT_NE(invalid->getTypespec()->getActual<hldb::VoidTypespec>(), nullptr)
+      << "the void member's typespec ref should  resolve to VoidTypespec";
 
   ASSERT_NE(valid->getTypespec(), nullptr);
   EXPECT_NE(valid->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -228,9 +229,9 @@ TEST_F(TaggedUnionTest, SecondStatementAssignsTaggedValidWithTagFortyTwo) {
 
 // --- design-level typespecs / compiler diagnostics --------------------------
 
-TEST_F(TaggedUnionTest, DesignHasTwoTypespecs) {
+TEST_F(TaggedUnionTest, DesignHasThreTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
+  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
 TEST_F(TaggedUnionTest, CompilerReportsZeroErrors) {

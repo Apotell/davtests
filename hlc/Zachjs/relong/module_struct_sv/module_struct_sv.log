@@ -26,8 +26,8 @@ n<$Source01/relong/module_struct.sv> u<236> t<Top_level_rule> c<1> l<1:1> el<35:
             n<> u<45> t<Type_declaration> p<46> c<43> l<3:1> el<6:14>
               n<> u<43> t<Data_type> p<45> c<7> s<44> l<3:9> el<6:2>
                 n<> u<7> t<Struct_union> p<43> c<6> s<8> l<3:9> el<3:15>
-                  n<> u<6> t<Struct_keyword> p<7> l<3:9> el<3:15>
-                n<> u<8> t<Packed_keyword> p<43> s<25> l<3:16> el<3:22>
+                  n<> u<6> t<STRUCT> p<7> l<3:9> el<3:15>
+                n<> u<8> t<PACKED> p<43> s<25> l<3:16> el<3:22>
                 n<> u<25> t<Struct_union_member> p<43> c<21> s<42> l<4:5> el<4:22>
                   n<> u<21> t<Data_type_or_void> p<25> c<20> s<24> l<4:5> el<4:16>
                     n<> u<20> t<Data_type> p<21> c<9> l<4:5> el<4:16>
@@ -66,7 +66,7 @@ n<$Source01/relong/module_struct.sv> u<236> t<Top_level_rule> c<1> l<1:1> el<35:
     n<> u<175> t<Description> p<235> c<174> s<234> l<9:1> el<26:10>
       n<> u<174> t<Module_declaration> p<175> c<95> l<9:1> el<26:10>
         n<> u<95> t<Module_ansi_header> p<174> c<50> s<105> l<9:1> el<12:3>
-          n<module> u<50> t<Module_keyword> p<95> s<51> l<9:1> el<9:7>
+          n<module> u<50> t<MODULE> p<95> s<51> l<9:1> el<9:7>
           n<Example> u<51> t<SIMPLE_IDENTIFIER> p<95> s<52> l<9:8> el<9:15>
           n<> u<52> t<Package_import_declaration_list> p<95> s<94> l<9:15> el<9:15>
           n<> u<94> t<Port_declaration_list> p<95> c<70> l<9:15> el<12:2>
@@ -192,7 +192,7 @@ n<$Source01/relong/module_struct.sv> u<236> t<Top_level_rule> c<1> l<1:1> el<35:
     n<> u<234> t<Description> p<235> c<233> l<28:1> el<35:10>
       n<> u<233> t<Module_declaration> p<234> c<216> l<28:1> el<35:10>
         n<> u<216> t<Module_ansi_header> p<233> c<176> s<231> l<28:1> el<31:3>
-          n<module> u<176> t<Module_keyword> p<216> s<177> l<28:1> el<28:7>
+          n<module> u<176> t<MODULE> p<216> s<177> l<28:1> el<28:7>
           n<SubModule> u<177> t<SIMPLE_IDENTIFIER> p<216> s<178> l<28:8> el<28:17>
           n<> u<178> t<Package_import_declaration_list> p<216> s<215> l<28:17> el<28:17>
           n<> u<215> t<Port_declaration_list> p<216> c<196> l<28:17> el<31:2>
@@ -251,7 +251,6 @@ n<$Source01/relong/module_struct.sv> u<236> t<Top_level_rule> c<1> l<1:1> el<35:
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/module_struct.sv:9:1: Compile module "Example".
 [INF:CP0303] $Source01/relong/module_struct.sv:28:1: Compile module "SubModule".
-[ERR:LN0813] $Source01/relong/module_struct.sv:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -279,7 +278,7 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (3 items):
+      vpiVariable (4 items):
         Variable name:a start:10:23 end:10:24:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:10:5 end:10:22:
@@ -288,6 +287,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: Example.a
+          vpiVector: true
         Variable name:result start:11:24 end:11:30:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:11:5 end:11:23:
@@ -296,6 +296,16 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: Example.result
+          vpiVector: true
+        Variable name:b start:10:26 end:10:27:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:b
+            vpiFullName: Example.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: Example.b
+          vpiVector: true
         Variable name:s start:14:15 end:14:16:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec name:MyStruct_t start:14:4 end:14:14:
@@ -305,7 +315,7 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:MyStruct_t
           vpiName: s
           vpiFullName: Example.s
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:Example
           vpiRange (1 items):
@@ -332,8 +342,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:Example
         LogicTypespec:
           vpiParent: Module name:Example
           vpiRange (1 items):
@@ -365,6 +373,7 @@ Design name:unnamed:
           vpiName Identifier name:SubModule start:17:3 end:17:12:
             vpiParent: ModuleTypespec name:SubModule
             vpiName: SubModule
+          vpiModule: Module name:SubModule
       vpiDefName: Example
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -389,7 +398,16 @@ Design name:unnamed:
         Port name:b start:10:26 end:10:27:
           vpiParent: Module name:Example
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:10:26 end:10:27:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: Example.b.b
+            vpiActual: Variable name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: Example.b
+            vpiActual: LogicTypespec
         Port name:result start:11:24 end:11:30:
           vpiParent: Module name:Example
           vpiName: result
@@ -432,7 +450,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b
                   vpiFullName: Example.b
-                  vpiActual: Port name:b
+                  vpiActual: Variable name:b
           vpiAlwaysType: comb (2)
       vpiContAssign (1 items):
         ContAssign start:15:11 end:15:21:
@@ -504,6 +522,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: SubModule.in
+          vpiVector: true
         Variable name:out start:30:22 end:30:25:
           vpiParent: Module name:SubModule
           vpiTypespec RefTypespec start:30:3 end:30:21:
@@ -512,6 +531,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: SubModule.out
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:SubModule
@@ -708,7 +728,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -753,7 +773,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/module_struct_sv/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             111     111       0         0
+Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   111     111       0         0
+                                   114     114       0         0
 ===================== END REDUCTION RESULT =====================

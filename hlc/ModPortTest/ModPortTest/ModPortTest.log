@@ -16,8 +16,9 @@ PP TREE: (top_level_rule null_rule (source_text (description (module module)) (d
 [ERR:CP0311] $Source01/top.v:23:12: Undefined net used in modport: "ww_id".
 [INF:CP0304] $Source01/top.v:29:1: Compile interface "mem_if".
 [INF:CP0303] $Source01/top.v:36:1: Compile module "memory_ctrl1".
+[WRN:CP0310] $Source01/top.v:36:37: Port "sif" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/top.v:45:1: Compile module "memory_ctrl2".
-[ERR:LN0813] $Source01/top.v:1:1: Found 2 orphan node(s).
+[WRN:CP0310] $Source01/top.v:45:36: Port "sif" definition missing its direction (input, output, inout).
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "dff0_test".
 [WRN:PA0205] $Source01/top.v:36:1: No timescale set for "memory_ctrl1".
 [WRN:PA0205] $Source01/top.v:45:1: No timescale set for "memory_ctrl2".
@@ -204,6 +205,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: mem_if.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiModport (2 items):
         Modport name:system start:31:12 end:31:18:
           vpiParent: Interface name:mem_if
@@ -327,7 +329,22 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:fsm_t
           vpiName: state
           vpiFullName: memory_ctrl1.state
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:mem_if::system1 start:36:22 end:36:36:
+          vpiParent: Module name:memory_ctrl1
+          vpiPathElem (2 items):
+            RefObj name:mem_if start:36:22 end:36:28:
+              vpiParent: UnsupportedTypespec name:mem_if::system1
+              vpiName: mem_if
+              vpiFullName: memory_ctrl1.mem_if::system1.mem_if
+              vpiActual: Interface name:mem_if
+            RefObj name:system1 start:36:29 end:36:36:
+              vpiParent: UnsupportedTypespec name:mem_if::system1
+              vpiName: system1
+              vpiFullName: memory_ctrl1.mem_if::system1.system1
+          vpiName Identifier name:mem_if::system1:
+            vpiParent: UnsupportedTypespec name:mem_if::system1
+            vpiName: mem_if::system1
         EnumTypespec start:38:10 end:38:37:
           vpiParent: Module name:memory_ctrl1
           vpiEnumConst (4 items):
@@ -372,6 +389,15 @@ Design name:unnamed:
           vpiParent: Module name:memory_ctrl1
           vpiName: sif
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:sif start:36:37 end:36:40:
+            vpiParent: Port name:sif
+            vpiName: sif
+            vpiFullName: memory_ctrl1.sif.sif
+            vpiActual: Port name:sif
+          vpiTypespec RefTypespec start:36:22 end:36:36:
+            vpiParent: Port name:sif
+            vpiFullName: memory_ctrl1.sif
+            vpiActual: UnsupportedTypespec name:mem_if::system1
     Module name:memory_ctrl2 file:$Source01/top.v start:45:1 end:53:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:memory_ctrl2 start:45:8 end:45:20:
@@ -396,7 +422,22 @@ Design name:unnamed:
             vpiFullName: memory_ctrl2.t.DD
           vpiName: t
           vpiFullName: memory_ctrl2.t
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:mem_if::system start:45:22 end:45:35:
+          vpiParent: Module name:memory_ctrl2
+          vpiPathElem (2 items):
+            RefObj name:mem_if start:45:22 end:45:28:
+              vpiParent: UnsupportedTypespec name:mem_if::system
+              vpiName: mem_if
+              vpiFullName: memory_ctrl2.mem_if::system.mem_if
+              vpiActual: Interface name:mem_if
+            RefObj name:system start:45:29 end:45:35:
+              vpiParent: UnsupportedTypespec name:mem_if::system
+              vpiName: system
+              vpiFullName: memory_ctrl2.mem_if::system.system
+          vpiName Identifier name:mem_if::system:
+            vpiParent: UnsupportedTypespec name:mem_if::system
+            vpiName: mem_if::system
         EnumTypespec start:47:10 end:47:37:
           vpiParent: Module name:memory_ctrl2
           vpiEnumConst (4 items):
@@ -441,6 +482,15 @@ Design name:unnamed:
           vpiParent: Module name:memory_ctrl2
           vpiName: sif
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:sif start:45:36 end:45:39:
+            vpiParent: Port name:sif
+            vpiName: sif
+            vpiFullName: memory_ctrl2.sif.sif
+            vpiActual: Port name:sif
+          vpiTypespec RefTypespec start:45:22 end:45:35:
+            vpiParent: Port name:sif
+            vpiFullName: memory_ctrl2.sif
+            vpiActual: UnsupportedTypespec name:mem_if::system
   vpiTypespec (6 items):
     ModuleTypespec name:dff0_test:
       vpiParent: Design name:unnamed
@@ -478,8 +528,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 5
+[  ERROR] : 1
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -494,25 +544,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/ModPortTest/ModPortTest/mounts.json
 
 
-{'result': {'coverage': 95.06,
+{'result': {'coverage': 99.66,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.v': {'post_len': 29,
+            'files': {'$Output/lib/work/top.v': {'post_len': 2,
                                                  'pre_len': 587}},
-            'post_len': 29,
+            'post_len': 2,
             'pre_len': 587,
             'test_name': 'ModPortTest/ModPortTest'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/top.v |      587 |        29 |
+| $Output/lib/work/top.v |      587 |         2 |
 +========================+==========+===========+
-|                        |      587 |        29 |
+|                        |      587 |         2 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.06
+[COVERAGE] : 99.66
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -524,10 +574,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       2         2
 Operation                            2       0       0         2
-RefObj                               9       8       0         1
-RefTypespec                         23      23       2         2
+RefObj                              15      14       0         1
+RefTypespec                         25      25       2         2
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                   119     116       4         7
+                                   131     128       4         7
 ===================== END REDUCTION RESULT =====================

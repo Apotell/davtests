@@ -12,8 +12,16 @@ COMMAND: -wd ../../../tests/YosysMarlann +incdir+. -writepp -fileunit marlann_co
 [INF:PA0201] Parsing source file "$Source00/builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/marlann_compute.v".
 [INF:CP0303] $Source01/marlann_compute.v:18:1: Compile module "marlann_compute".
+[NTE:CP0309] $Source01/marlann_compute.v:25:16: Implicit port type (wire) for "busy".
+[NTE:CP0309] $Source01/marlann_compute.v:28:16: Implicit port type (wire) for "cmd_ready".
+[NTE:CP0309] $Source01/marlann_compute.v:31:16: Implicit port type (wire) for "mem_ren".
+[NTE:CP0309] $Source01/marlann_compute.v:32:16: Implicit port type (wire) for "mem_wen".
+[NTE:CP0309] $Source01/marlann_compute.v:33:16: Implicit port type (wire) for "mem_addr".
+[NTE:CP0309] $Source01/marlann_compute.v:34:16: Implicit port type (wire) for "mem_wdata".
+[NTE:CP0309] $Source01/marlann_compute.v:37:16: Implicit port type (wire) for "tick_simd".
+[NTE:CP0309] $Source01/marlann_compute.v:38:16: Implicit port type (wire) for "tick_nosimd".
 [INF:CP0303] $Source01/marlann_compute.v:545:1: Compile module "marlann_compute_mul2".
-[ERR:LN0813] $Source01/marlann_compute.v:1:1: Found 1 orphan node(s).
+[NTE:CP0309] $Source01/marlann_compute.v:548:16: Implicit port type (wire) for "X".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/marlann_compute.v:18:1: No timescale set for "marlann_compute".
 [WRN:PA0205] $Source01/marlann_compute.v:545:1: No timescale set for "marlann_compute_mul2".
@@ -4144,6 +4152,7 @@ Design name:unnamed:
           vpiName Identifier name:marlann_compute_mul2 start:364:2 end:364:22:
             vpiParent: ModuleTypespec name:marlann_compute_mul2
             vpiName: marlann_compute_mul2
+          vpiModule: Module name:marlann_compute_mul2
         LogicTypespec:
           vpiParent: Module name:marlann_compute
           vpiRange (1 items):
@@ -4525,6 +4534,7 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: marlann_compute.clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:reset start:24:16 end:24:21:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:24:2 end:24:7:
@@ -4534,6 +4544,7 @@ Design name:unnamed:
           vpiName: reset
           vpiFullName: marlann_compute.reset
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:busy start:25:16 end:25:20:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:25:2 end:25:8:
@@ -4543,6 +4554,7 @@ Design name:unnamed:
           vpiName: busy
           vpiFullName: marlann_compute.busy
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cmd_valid start:27:16 end:27:25:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:27:2 end:27:7:
@@ -4552,6 +4564,7 @@ Design name:unnamed:
           vpiName: cmd_valid
           vpiFullName: marlann_compute.cmd_valid
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cmd_ready start:28:16 end:28:25:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:28:2 end:28:8:
@@ -4561,6 +4574,7 @@ Design name:unnamed:
           vpiName: cmd_ready
           vpiFullName: marlann_compute.cmd_ready
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cmd_insn start:29:16 end:29:24:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:29:2 end:29:15:
@@ -4570,6 +4584,7 @@ Design name:unnamed:
           vpiName: cmd_insn
           vpiFullName: marlann_compute.cmd_insn
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:mem_ren start:31:16 end:31:23:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:31:2 end:31:8:
@@ -4579,6 +4594,7 @@ Design name:unnamed:
           vpiName: mem_ren
           vpiFullName: marlann_compute.mem_ren
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:mem_wen start:32:16 end:32:23:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:32:2 end:32:15:
@@ -4588,6 +4604,7 @@ Design name:unnamed:
           vpiName: mem_wen
           vpiFullName: marlann_compute.mem_wen
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:mem_addr start:33:16 end:33:24:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:33:2 end:33:15:
@@ -4597,6 +4614,7 @@ Design name:unnamed:
           vpiName: mem_addr
           vpiFullName: marlann_compute.mem_addr
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:mem_wdata start:34:16 end:34:25:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:34:2 end:34:15:
@@ -4606,6 +4624,7 @@ Design name:unnamed:
           vpiName: mem_wdata
           vpiFullName: marlann_compute.mem_wdata
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:mem_rdata start:35:16 end:35:25:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:35:2 end:35:15:
@@ -4615,6 +4634,7 @@ Design name:unnamed:
           vpiName: mem_rdata
           vpiFullName: marlann_compute.mem_rdata
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:tick_simd start:37:16 end:37:25:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:37:2 end:37:8:
@@ -4624,6 +4644,7 @@ Design name:unnamed:
           vpiName: tick_simd
           vpiFullName: marlann_compute.tick_simd
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:tick_nosimd start:38:16 end:38:27:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:38:2 end:38:8:
@@ -4633,6 +4654,7 @@ Design name:unnamed:
           vpiName: tick_nosimd
           vpiFullName: marlann_compute.tick_nosimd
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cmd_insn_maddr start:65:14 end:65:28:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:65:7 end:65:13:
@@ -4642,6 +4664,7 @@ Design name:unnamed:
           vpiName: cmd_insn_maddr
           vpiFullName: marlann_compute.cmd_insn_maddr
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:cmd_insn[31:15] start:65:31 end:65:46:
             vpiParent: Net name:cmd_insn_maddr
             vpiName: cmd_insn[31:15]
@@ -4682,6 +4705,7 @@ Design name:unnamed:
           vpiName: cmd_insn_caddr
           vpiFullName: marlann_compute.cmd_insn_caddr
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:cmd_insn[14:6] start:66:30 end:66:44:
             vpiParent: Net name:cmd_insn_caddr
             vpiName: cmd_insn[14:6]
@@ -4722,6 +4746,7 @@ Design name:unnamed:
           vpiName: cmd_insn_opcode
           vpiFullName: marlann_compute.cmd_insn_opcode
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:cmd_insn[5:0] start:67:31 end:67:44:
             vpiParent: Net name:cmd_insn_opcode
             vpiName: cmd_insn[5:0]
@@ -4762,6 +4787,7 @@ Design name:unnamed:
           vpiName: s1_insn
           vpiFullName: marlann_compute.s1_insn
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:s1_stall start:74:22 end:74:30:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:74:22 end:74:22:
@@ -4771,6 +4797,7 @@ Design name:unnamed:
           vpiName: s1_stall
           vpiFullName: marlann_compute.s1_stall
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:s7_prod start:99:22 end:99:29:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:99:7 end:99:21:
@@ -4780,6 +4807,7 @@ Design name:unnamed:
           vpiName: s7_prod
           vpiFullName: marlann_compute.s7_prod
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:s1_insn_maddr start:190:14 end:190:27:
           vpiParent: Module name:marlann_compute
           vpiTypespec RefTypespec start:190:7 end:190:13:
@@ -4789,6 +4817,7 @@ Design name:unnamed:
           vpiName: s1_insn_maddr
           vpiFullName: marlann_compute.s1_insn_maddr
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:s1_insn[31:15] start:190:30 end:190:44:
             vpiParent: Net name:s1_insn_maddr
             vpiName: s1_insn[31:15]
@@ -4829,6 +4858,7 @@ Design name:unnamed:
           vpiName: s1_insn_caddr
           vpiFullName: marlann_compute.s1_insn_caddr
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:s1_insn[14:6] start:191:29 end:191:42:
             vpiParent: Net name:s1_insn_caddr
             vpiName: s1_insn[14:6]
@@ -4869,6 +4899,7 @@ Design name:unnamed:
           vpiName: s1_insn_opcode
           vpiFullName: marlann_compute.s1_insn_opcode
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:s1_insn[5:0] start:192:30 end:192:42:
             vpiParent: Net name:s1_insn_opcode
             vpiName: s1_insn[5:0]
@@ -4909,6 +4940,7 @@ Design name:unnamed:
           vpiName: mulA
           vpiFullName: marlann_compute.mulA
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:362:26 end:362:48:
             vpiParent: Net name:mulA
             vpiOpType: concatenation (33)
@@ -4932,6 +4964,7 @@ Design name:unnamed:
           vpiName: acc0_shifted
           vpiFullName: marlann_compute.acc0_shifted
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:422:29 end:422:60:
             vpiParent: Net name:acc0_shifted
             vpiOpType: arith shift right (42)
@@ -4987,6 +5020,7 @@ Design name:unnamed:
           vpiName: acc1_shifted
           vpiFullName: marlann_compute.acc1_shifted
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:423:29 end:423:60:
             vpiParent: Net name:acc1_shifted
             vpiOpType: arith shift right (42)
@@ -5042,6 +5076,7 @@ Design name:unnamed:
           vpiName: s9_insn_opcode
           vpiFullName: marlann_compute.s9_insn_opcode
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:s9_insn[5:0] start:511:30 end:511:42:
             vpiParent: Net name:s9_insn_opcode
             vpiName: s9_insn[5:0]
@@ -8925,7 +8960,7 @@ Design name:unnamed:
                               vpiStmt (1 items):
                                 Assignment start:320:6 end:320:49:
                                   vpiParent: Begin
-                                  vpiLhs PartSelect name:coeff_mem[s4_insn[14:6]][63:0] start:320:6 end:320:36:
+                                  vpiLhs PartSelect name:coeff_mem[s4_insn[14:6]][63:0] start:320:15 end:320:36:
                                     vpiParent: Assignment
                                     vpiName: coeff_mem[s4_insn[14:6]][63:0]
                                     vpiFullName: marlann_compute.coeff_mem[s4_insn[14:6]][63:0]
@@ -9015,7 +9050,7 @@ Design name:unnamed:
                               vpiStmt (1 items):
                                 Assignment start:325:6 end:325:51:
                                   vpiParent: Begin
-                                  vpiLhs PartSelect name:coeff_mem[s4_insn[14:6]][127:64] start:325:6 end:325:38:
+                                  vpiLhs PartSelect name:coeff_mem[s4_insn[14:6]][127:64] start:325:15 end:325:38:
                                     vpiParent: Assignment
                                     vpiName: coeff_mem[s4_insn[14:6]][127:64]
                                     vpiFullName: marlann_compute.coeff_mem[s4_insn[14:6]][127:64]
@@ -15047,7 +15082,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: marlann_compute_mul2.work
       vpiCell: marlann_compute_mul2
-      vpiNet (3 items):
+      vpiNet (4 items):
         Net name:clock start:546:16 end:546:21:
           vpiParent: Module name:marlann_compute_mul2
           vpiTypespec RefTypespec start:546:2 end:546:7:
@@ -15057,6 +15092,7 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: marlann_compute_mul2.clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:A start:547:16 end:547:17:
           vpiParent: Module name:marlann_compute_mul2
           vpiTypespec RefTypespec start:547:2 end:547:15:
@@ -15066,6 +15102,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: marlann_compute_mul2.A
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:X start:548:16 end:548:17:
           vpiParent: Module name:marlann_compute_mul2
           vpiTypespec RefTypespec start:548:2 end:548:15:
@@ -15075,6 +15112,17 @@ Design name:unnamed:
           vpiName: X
           vpiFullName: marlann_compute_mul2.X
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:B start:547:19 end:547:20:
+          vpiParent: Module name:marlann_compute_mul2
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:B
+            vpiFullName: marlann_compute_mul2.B
+            vpiActual: LogicTypespec
+          vpiName: B
+          vpiFullName: marlann_compute_mul2.B
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:clock start:546:16 end:546:21:
           vpiParent: Module name:marlann_compute_mul2
@@ -15105,7 +15153,16 @@ Design name:unnamed:
         Port name:B start:547:19 end:547:20:
           vpiParent: Module name:marlann_compute_mul2
           vpiName: B
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:B start:547:19 end:547:20:
+            vpiParent: Port name:B
+            vpiName: B
+            vpiFullName: marlann_compute_mul2.B.B
+            vpiActual: Net name:B
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:B
+            vpiFullName: marlann_compute_mul2.B
+            vpiActual: LogicTypespec
         Port name:X start:548:16 end:548:17:
           vpiParent: Module name:marlann_compute_mul2
           vpiName: X
@@ -15199,7 +15256,7 @@ Design name:unnamed:
                               vpiParent: PartSelect name:B[7:0]
                               vpiName: B
                               vpiFullName: marlann_compute_mul2.B[7:0].B
-                              vpiActual: Port name:B
+                              vpiActual: Net name:B
                             vpiRange Range start:554:38 end:554:41:
                               vpiParent: PartSelect name:B[7:0]
                               vpiLeftRange Constant start:554:38 end:554:39:
@@ -15284,7 +15341,7 @@ Design name:unnamed:
                               vpiParent: PartSelect name:B[15:8]
                               vpiName: B
                               vpiFullName: marlann_compute_mul2.B[15:8].B
-                              vpiActual: Port name:B
+                              vpiActual: Net name:B
                             vpiRange Range start:555:39 end:555:43:
                               vpiParent: PartSelect name:B[15:8]
                               vpiLeftRange Constant start:555:39 end:555:41:
@@ -15425,9 +15482,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 3
-[   NOTE] : 0
+[   NOTE] : 9
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -15471,10 +15528,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                           658     583      76       151
 Operation                          285     201       0        84
-RefObj                             458     451       0         7
-RefTypespec                        954     879      76       151
+RefObj                             459     452       0         7
+RefTypespec                        956     881      76       151
 ----------------------------------------------------------------
-Others                            1282    1282       0         0
+Others                            1283    1283       0         0
 ----------------------------------------------------------------
-                                  3637    3396     152       393
+                                  3641    3400     152       393
 ===================== END REDUCTION RESULT =====================

@@ -44,10 +44,10 @@
 //
 //   FuncCall instead of SeqInst: 'my_seq(.x(a),.y(b))' inside seq_named is
 //     represented as a FuncCall node rather than a proper sequence
-//     instantiation node. Named argument bindings appear as IODecl children
+//     instantiation node. Named argument bindings appear as NamedArgument children
 //     of the FuncCall. FuncCall has no getActual() method, so there is no API
 //     to verify the back-link to SequenceDecl my_seq -- the link does not
-//     exist in the HLDB. The named bindings are accessible via IODecl and
+//     exist in the HLDB. The named bindings are accessible via NamedArgument and
 //     are tested below.
 //
 // Despite the PA0207 syntax errors above, the parser recovers: the formal
@@ -376,8 +376,8 @@ TEST_F(Sequence22Test, SeqNamed_HasTwoNamedArguments) {
   EXPECT_EQ(sc->getArguments()->size(), 2u) << "ss.16.8: 'my_seq(.x(a),.y(b))' must pass exactly 2 named arguments";
 }
 
-TEST_F(Sequence22Test, SeqNamed_NamedArg0_IsIODecl) {
-  // ss.16.8: named argument '.x(a)' is represented as an IODecl node carrying
+TEST_F(Sequence22Test, SeqNamed_NamedArg0_IsNamedArgument) {
+  // ss.16.8: named argument '.x(a)' is represented as an NamedArgument node carrying
   // the formal parameter name and the actual expression.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
@@ -387,8 +387,8 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_IsIODecl) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[0]);
-  EXPECT_NE(iod, nullptr) << "ss.16.8: named argument 0 ('.x(a)') must be an IODecl node";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  EXPECT_NE(na, nullptr) << "ss.16.8: named argument 0 ('.x(a)') must be an NamedArgument node";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg0_FormalName_IsX) {
@@ -400,9 +400,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_FormalName_IsX) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[0]);
-  ASSERT_NE(iod, nullptr);
-  EXPECT_EQ(iod->getName(), "x") << "ss.16.8: named argument '.x(a)' formal name must be 'x'";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  ASSERT_NE(na, nullptr);
+  const hldb::Any *const lc = na->getLowConn();
+  ASSERT_NE(lc, nullptr);
+  EXPECT_EQ(lc->getName(), "x") << "ss.16.8: named argument '.x(a)' formal name must be 'x'";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualExpr_IsRefObjA) {
@@ -414,11 +416,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualExpr_IsRefObjA) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[0]);
-  ASSERT_NE(iod, nullptr);
-  const hldb::RefObj *const ref = iod->getExpr<hldb::RefObj>();
-  ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "a") << "ss.16.8: named argument '.x(a)' actual expression must be 'a'";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  ASSERT_NE(na, nullptr);
+  const hldb::Any *const hc = na->getHighConn();
+  ASSERT_NE(hc, nullptr);
+  EXPECT_EQ(hc->getName(), "a") << "ss.16.8: named argument '.x(a)' actual expression must be 'a'";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualSignal_ResolvesToNetA) {
@@ -432,14 +434,14 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualSignal_ResolvesToNetA) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[0]);
-  ASSERT_NE(iod, nullptr);
-  const hldb::RefObj *const ref = iod->getExpr<hldb::RefObj>();
-  ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr) << "ss.16.8: named actual argument 'a' must resolve to Variable 'bit a'";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  ASSERT_NE(na, nullptr);
+  const hldb::RefObj *const hc = na->getHighConn<hldb::RefObj>();
+  ASSERT_NE(hc, nullptr);
+  EXPECT_NE(hc->getActual<hldb::Variable>(), nullptr) << "ss.16.8: named actual argument 'a' must resolve to Variable 'bit a'";
 }
 
-TEST_F(Sequence22Test, SeqNamed_NamedArg1_IsIODecl) {
+TEST_F(Sequence22Test, SeqNamed_NamedArg1_IsNamedArgument) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
@@ -448,8 +450,8 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_IsIODecl) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[1]);
-  EXPECT_NE(iod, nullptr) << "ss.16.8: named argument 1 ('.y(b)') must be an IODecl node";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  EXPECT_NE(na, nullptr) << "ss.16.8: named argument 1 ('.y(b)') must be an NamedArgument node";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg1_FormalName_IsY) {
@@ -461,9 +463,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_FormalName_IsY) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[1]);
-  ASSERT_NE(iod, nullptr);
-  EXPECT_EQ(iod->getName(), "y") << "ss.16.8: named argument '.y(b)' formal name must be 'y'";
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  ASSERT_NE(na, nullptr);
+  const hldb::Any *const lc = na->getLowConn();
+  ASSERT_NE(lc, nullptr);
+  EXPECT_EQ(lc->getName(), "y") << "ss.16.8: named argument '.y(b)' formal name must be 'y'";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualExpr_IsRefObjB) {
@@ -475,9 +479,9 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualExpr_IsRefObjB) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[1]);
-  ASSERT_NE(iod, nullptr);
-  const hldb::RefObj *const ref = iod->getExpr<hldb::RefObj>();
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  ASSERT_NE(na, nullptr);
+  const hldb::Any *const ref = na->getHighConn();
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "b") << "ss.16.8: named argument '.y(b)' actual expression must be 'b'";
 }
@@ -493,9 +497,9 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualSignal_ResolvesToNetB) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::IODecl *const iod = any_cast<const hldb::IODecl *>((*sc->getArguments())[1]);
-  ASSERT_NE(iod, nullptr);
-  const hldb::RefObj *const ref = iod->getExpr<hldb::RefObj>();
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  ASSERT_NE(na, nullptr);
+  const hldb::RefObj *const ref = na->getHighConn<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
   EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr) << "ss.16.8: named actual argument 'b' must resolve to Variable 'bit b'";
 }

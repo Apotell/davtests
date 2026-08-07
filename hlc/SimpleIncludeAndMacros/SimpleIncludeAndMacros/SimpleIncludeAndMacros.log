@@ -184,14 +184,19 @@ initial $display("start", "msg1"  , "msg2" , "end");
 ^-- $Source01/mode.vh:26:0:.
 [INF:PA0201] Parsing source file "$Source01/lib.v".
 [INF:CP0303] $Source01/lib.v:2:1: Compile module "FAKELIB_NAND2".
+[NTE:CP0309] $Source01/lib.v:2:29: Implicit port type (wire) for "OUT".
 [INF:CP0303] $Source01/lib.v:5:1: Compile module "FAKELIB_NAND4".
+[NTE:CP0309] $Source01/lib.v:5:29: Implicit port type (wire) for "OUT".
 [INF:CP0303] $Source01/lib.v:8:1: Compile module "FAKELIB_NOR2".
+[NTE:CP0309] $Source01/lib.v:8:28: Implicit port type (wire) for "OUT".
 [INF:CP0303] $Source01/lib.v:11:1: Compile module "FAKELIB_INV".
+[NTE:CP0309] $Source01/lib.v:11:27: Implicit port type (wire) for "OUT".
 [INF:CP0303] $Source01/lib.v:14:1: Compile module "FAKELIB_BUF".
+[NTE:CP0309] $Source01/lib.v:14:27: Implicit port type (wire) for "OUT".
 [INF:CP0303] $Source01/lib.v:17:1: Compile module "FAKELIB_BUF_BIGLOAD".
+[NTE:CP0309] $Source01/lib.v:17:35: Implicit port type (wire) for "OUT".
 [INF:CP0303] $Source01/lib.v:20:1: Compile module "FAKELIB_DFF".
 [INF:CP0305] $Source01/lib.v:25:11: Compile udp "FAKELIB_DFF_PRIMITIVE".
-[ERR:LN0813] $Source01/lib.v:1:1: Found 8 orphan node(s).
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/lib.v:2:1: No timescale set for "FAKELIB_NAND2".
 [WRN:PA0205] $Source01/lib.v:5:1: No timescale set for "FAKELIB_NAND4".
@@ -8788,7 +8793,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: FAKELIB_NAND2.work
       vpiCell: FAKELIB_NAND2
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:OUT start:2:29 end:2:32:
           vpiParent: Module name:FAKELIB_NAND2
           vpiTypespec RefTypespec start:2:22 end:2:28:
@@ -8798,6 +8803,7 @@ Design name:unnamed:
           vpiName: OUT
           vpiFullName: FAKELIB_NAND2.OUT
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:IN0 start:2:40 end:2:43:
           vpiParent: Module name:FAKELIB_NAND2
           vpiTypespec RefTypespec start:2:34 end:2:39:
@@ -8807,6 +8813,17 @@ Design name:unnamed:
           vpiName: IN0
           vpiFullName: FAKELIB_NAND2.IN0
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:IN1 start:2:44 end:2:47:
+          vpiParent: Module name:FAKELIB_NAND2
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:IN1
+            vpiFullName: FAKELIB_NAND2.IN1
+            vpiActual: LogicTypespec
+          vpiName: IN1
+          vpiFullName: FAKELIB_NAND2.IN1
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:OUT start:2:29 end:2:32:
           vpiParent: Module name:FAKELIB_NAND2
@@ -8837,7 +8854,16 @@ Design name:unnamed:
         Port name:IN1 start:2:44 end:2:47:
           vpiParent: Module name:FAKELIB_NAND2
           vpiName: IN1
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:IN1 start:2:44 end:2:47:
+            vpiParent: Port name:IN1
+            vpiName: IN1
+            vpiFullName: FAKELIB_NAND2.IN1.IN1
+            vpiActual: Net name:IN1
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:IN1
+            vpiFullName: FAKELIB_NAND2.IN1
+            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:3:10 end:3:28:
           vpiParent: Module name:FAKELIB_NAND2
@@ -8863,7 +8889,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: IN1
                     vpiFullName: FAKELIB_NAND2.IN1
-                    vpiActual: Port name:IN1
+                    vpiActual: Net name:IN1
     Module name:FAKELIB_NAND4 file:$Source01/lib.v start:5:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:FAKELIB_NAND4 start:5:8 end:5:21:
@@ -8880,7 +8906,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: FAKELIB_NAND4.work
       vpiCell: FAKELIB_NAND4
-      vpiNet (2 items):
+      vpiNet (5 items):
         Net name:OUT start:5:29 end:5:32:
           vpiParent: Module name:FAKELIB_NAND4
           vpiTypespec RefTypespec start:5:22 end:5:28:
@@ -8890,6 +8916,7 @@ Design name:unnamed:
           vpiName: OUT
           vpiFullName: FAKELIB_NAND4.OUT
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:IN0 start:5:40 end:5:43:
           vpiParent: Module name:FAKELIB_NAND4
           vpiTypespec RefTypespec start:5:34 end:5:39:
@@ -8899,6 +8926,37 @@ Design name:unnamed:
           vpiName: IN0
           vpiFullName: FAKELIB_NAND4.IN0
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:IN1 start:5:44 end:5:47:
+          vpiParent: Module name:FAKELIB_NAND4
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:IN1
+            vpiFullName: FAKELIB_NAND4.IN1
+            vpiActual: LogicTypespec
+          vpiName: IN1
+          vpiFullName: FAKELIB_NAND4.IN1
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:IN2 start:5:48 end:5:51:
+          vpiParent: Module name:FAKELIB_NAND4
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:IN2
+            vpiFullName: FAKELIB_NAND4.IN2
+            vpiActual: LogicTypespec
+          vpiName: IN2
+          vpiFullName: FAKELIB_NAND4.IN2
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:IN3 start:5:52 end:5:55:
+          vpiParent: Module name:FAKELIB_NAND4
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:IN3
+            vpiFullName: FAKELIB_NAND4.IN3
+            vpiActual: LogicTypespec
+          vpiName: IN3
+          vpiFullName: FAKELIB_NAND4.IN3
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:OUT start:5:29 end:5:32:
           vpiParent: Module name:FAKELIB_NAND4
@@ -8929,15 +8987,42 @@ Design name:unnamed:
         Port name:IN1 start:5:44 end:5:47:
           vpiParent: Module name:FAKELIB_NAND4
           vpiName: IN1
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:IN1 start:5:44 end:5:47:
+            vpiParent: Port name:IN1
+            vpiName: IN1
+            vpiFullName: FAKELIB_NAND4.IN1.IN1
+            vpiActual: Net name:IN1
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:IN1
+            vpiFullName: FAKELIB_NAND4.IN1
+            vpiActual: LogicTypespec
         Port name:IN2 start:5:48 end:5:51:
           vpiParent: Module name:FAKELIB_NAND4
           vpiName: IN2
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:IN2 start:5:48 end:5:51:
+            vpiParent: Port name:IN2
+            vpiName: IN2
+            vpiFullName: FAKELIB_NAND4.IN2.IN2
+            vpiActual: Net name:IN2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:IN2
+            vpiFullName: FAKELIB_NAND4.IN2
+            vpiActual: LogicTypespec
         Port name:IN3 start:5:52 end:5:55:
           vpiParent: Module name:FAKELIB_NAND4
           vpiName: IN3
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:IN3 start:5:52 end:5:55:
+            vpiParent: Port name:IN3
+            vpiName: IN3
+            vpiFullName: FAKELIB_NAND4.IN3.IN3
+            vpiActual: Net name:IN3
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:IN3
+            vpiFullName: FAKELIB_NAND4.IN3
+            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:6:10 end:6:40:
           vpiParent: Module name:FAKELIB_NAND4
@@ -8971,17 +9056,17 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: IN1
                             vpiFullName: FAKELIB_NAND4.IN1
-                            vpiActual: Port name:IN1
+                            vpiActual: Net name:IN1
                       RefObj name:IN2 start:6:30 end:6:33:
                         vpiParent: Operation
                         vpiName: IN2
                         vpiFullName: FAKELIB_NAND4.IN2
-                        vpiActual: Port name:IN2
+                        vpiActual: Net name:IN2
                   RefObj name:IN3 start:6:36 end:6:39:
                     vpiParent: Operation
                     vpiName: IN3
                     vpiFullName: FAKELIB_NAND4.IN3
-                    vpiActual: Port name:IN3
+                    vpiActual: Net name:IN3
     Module name:FAKELIB_NOR2 file:$Source01/lib.v start:8:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:FAKELIB_NOR2 start:8:8 end:8:20:
@@ -8998,7 +9083,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: FAKELIB_NOR2.work
       vpiCell: FAKELIB_NOR2
-      vpiNet (2 items):
+      vpiNet (3 items):
         Net name:OUT start:8:28 end:8:31:
           vpiParent: Module name:FAKELIB_NOR2
           vpiTypespec RefTypespec start:8:21 end:8:27:
@@ -9008,6 +9093,7 @@ Design name:unnamed:
           vpiName: OUT
           vpiFullName: FAKELIB_NOR2.OUT
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:IN0 start:8:39 end:8:42:
           vpiParent: Module name:FAKELIB_NOR2
           vpiTypespec RefTypespec start:8:33 end:8:38:
@@ -9017,6 +9103,17 @@ Design name:unnamed:
           vpiName: IN0
           vpiFullName: FAKELIB_NOR2.IN0
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:IN1 start:8:43 end:8:46:
+          vpiParent: Module name:FAKELIB_NOR2
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:IN1
+            vpiFullName: FAKELIB_NOR2.IN1
+            vpiActual: LogicTypespec
+          vpiName: IN1
+          vpiFullName: FAKELIB_NOR2.IN1
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:OUT start:8:28 end:8:31:
           vpiParent: Module name:FAKELIB_NOR2
@@ -9047,7 +9144,16 @@ Design name:unnamed:
         Port name:IN1 start:8:43 end:8:46:
           vpiParent: Module name:FAKELIB_NOR2
           vpiName: IN1
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:IN1 start:8:43 end:8:46:
+            vpiParent: Port name:IN1
+            vpiName: IN1
+            vpiFullName: FAKELIB_NOR2.IN1.IN1
+            vpiActual: Net name:IN1
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:IN1
+            vpiFullName: FAKELIB_NOR2.IN1
+            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:9:10 end:9:28:
           vpiParent: Module name:FAKELIB_NOR2
@@ -9068,7 +9174,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: IN1
                     vpiFullName: FAKELIB_NOR2.IN1
-                    vpiActual: Port name:IN1
+                    vpiActual: Net name:IN1
                   RefObj name:IN0 start:9:24 end:9:27:
                     vpiParent: Operation
                     vpiName: IN0
@@ -9100,6 +9206,7 @@ Design name:unnamed:
           vpiName: OUT
           vpiFullName: FAKELIB_INV.OUT
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:IN start:11:38 end:11:40:
           vpiParent: Module name:FAKELIB_INV
           vpiTypespec RefTypespec start:11:32 end:11:37:
@@ -9109,6 +9216,7 @@ Design name:unnamed:
           vpiName: IN
           vpiFullName: FAKELIB_INV.IN
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:OUT start:11:27 end:11:30:
           vpiParent: Module name:FAKELIB_INV
@@ -9179,6 +9287,7 @@ Design name:unnamed:
           vpiName: OUT
           vpiFullName: FAKELIB_BUF.OUT
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:IN start:14:38 end:14:40:
           vpiParent: Module name:FAKELIB_BUF
           vpiTypespec RefTypespec start:14:32 end:14:37:
@@ -9188,6 +9297,7 @@ Design name:unnamed:
           vpiName: IN
           vpiFullName: FAKELIB_BUF.IN
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:OUT start:14:27 end:14:30:
           vpiParent: Module name:FAKELIB_BUF
@@ -9254,6 +9364,7 @@ Design name:unnamed:
           vpiName: OUT
           vpiFullName: FAKELIB_BUF_BIGLOAD.OUT
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:IN start:17:46 end:17:48:
           vpiParent: Module name:FAKELIB_BUF_BIGLOAD
           vpiTypespec RefTypespec start:17:40 end:17:45:
@@ -9263,6 +9374,7 @@ Design name:unnamed:
           vpiName: IN
           vpiFullName: FAKELIB_BUF_BIGLOAD.IN
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:OUT start:17:35 end:17:38:
           vpiParent: Module name:FAKELIB_BUF_BIGLOAD
@@ -9318,6 +9430,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Q
           vpiFullName: FAKELIB_DFF.Q
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:FAKELIB_DFF
@@ -9331,7 +9444,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: FAKELIB_DFF.work
       vpiCell: FAKELIB_DFF
-      vpiNet (1 items):
+      vpiNet (4 items):
         Net name:CLK start:20:40 end:20:43:
           vpiParent: Module name:FAKELIB_DFF
           vpiTypespec RefTypespec start:20:34 end:20:39:
@@ -9341,6 +9454,37 @@ Design name:unnamed:
           vpiName: CLK
           vpiFullName: FAKELIB_DFF.CLK
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:RST_N start:20:45 end:20:50:
+          vpiParent: Module name:FAKELIB_DFF
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:RST_N
+            vpiFullName: FAKELIB_DFF.RST_N
+            vpiActual: LogicTypespec
+          vpiName: RST_N
+          vpiFullName: FAKELIB_DFF.RST_N
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:SET_N start:20:52 end:20:57:
+          vpiParent: Module name:FAKELIB_DFF
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:SET_N
+            vpiFullName: FAKELIB_DFF.SET_N
+            vpiActual: LogicTypespec
+          vpiName: SET_N
+          vpiFullName: FAKELIB_DFF.SET_N
+          vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:D start:20:59 end:20:60:
+          vpiParent: Module name:FAKELIB_DFF
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:D
+            vpiFullName: FAKELIB_DFF.D
+            vpiActual: LogicTypespec
+          vpiName: D
+          vpiFullName: FAKELIB_DFF.D
+          vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:Q start:20:31 end:20:32:
           vpiParent: Module name:FAKELIB_DFF
@@ -9371,15 +9515,42 @@ Design name:unnamed:
         Port name:RST_N start:20:45 end:20:50:
           vpiParent: Module name:FAKELIB_DFF
           vpiName: RST_N
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:RST_N start:20:45 end:20:50:
+            vpiParent: Port name:RST_N
+            vpiName: RST_N
+            vpiFullName: FAKELIB_DFF.RST_N.RST_N
+            vpiActual: Net name:RST_N
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:RST_N
+            vpiFullName: FAKELIB_DFF.RST_N
+            vpiActual: LogicTypespec
         Port name:SET_N start:20:52 end:20:57:
           vpiParent: Module name:FAKELIB_DFF
           vpiName: SET_N
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:SET_N start:20:52 end:20:57:
+            vpiParent: Port name:SET_N
+            vpiName: SET_N
+            vpiFullName: FAKELIB_DFF.SET_N.SET_N
+            vpiActual: Net name:SET_N
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:SET_N
+            vpiFullName: FAKELIB_DFF.SET_N
+            vpiActual: LogicTypespec
         Port name:D start:20:59 end:20:60:
           vpiParent: Module name:FAKELIB_DFF
           vpiName: D
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:D start:20:59 end:20:60:
+            vpiParent: Port name:D
+            vpiName: D
+            vpiFullName: FAKELIB_DFF.D.D
+            vpiActual: Net name:D
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:D
+            vpiFullName: FAKELIB_DFF.D
+            vpiActual: LogicTypespec
       vpiPrimitive (1 items):
         Udp name:dff file:$Source01/lib.v start:21:25 end:21:28:
           vpiParent: Module name:FAKELIB_DFF
@@ -9414,7 +9585,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: RST_N
                 vpiFullName: FAKELIB_DFF.dff.RST_N
-                vpiActual: Port name:RST_N
+                vpiActual: Net name:RST_N
             PrimTerm start:21:44 end:21:49:
               vpiParent: Udp name:dff
               vpiDirection: input (1)
@@ -9423,7 +9594,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: SET_N
                 vpiFullName: FAKELIB_DFF.dff.SET_N
-                vpiActual: Port name:SET_N
+                vpiActual: Net name:SET_N
             PrimTerm start:21:51 end:21:52:
               vpiParent: Udp name:dff
               vpiDirection: input (1)
@@ -9432,7 +9603,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: D
                 vpiFullName: FAKELIB_DFF.dff.D
-                vpiActual: Port name:D
+                vpiActual: Net name:D
   vpiTypespec (15 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -9509,9 +9680,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 6
-[  ERROR] : 53
+[  ERROR] : 52
 [WARNING] : 21
-[   NOTE] : 17
+[   NOTE] : 23
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -9569,7 +9740,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2878    2878       0         0
+Others                            2910    2910       0         0
 ----------------------------------------------------------------
-                                  2878    2878       0         0
+                                  2910    2910       0         0
 ===================== END REDUCTION RESULT =====================

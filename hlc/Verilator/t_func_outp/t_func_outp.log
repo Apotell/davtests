@@ -22,7 +22,7 @@ n<$Source01/t_func_outp.v> u<871> t<Top_level_rule> c<1> l<6:1> el<94:1>
     n<> u<497> t<Description> p<869> c<496> s<498> l<6:1> el<46:10>
       n<> u<496> t<Module_declaration> p<497> c<16> l<6:1> el<46:10>
         n<> u<16> t<Module_nonansi_header> p<496> c<6> s<23> l<6:1> el<6:16>
-          n<module> u<6> t<Module_keyword> p<16> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<16> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<16> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<16> s<15> l<6:10> el<6:10>
           n<> u<15> t<Port_list> p<16> c<14> l<6:10> el<6:15>
@@ -515,7 +515,7 @@ n<$Source01/t_func_outp.v> u<871> t<Top_level_rule> c<1> l<6:1> el<94:1>
     n<> u<556> t<Description> p<869> c<555> s<788> l<48:1> el<53:10>
       n<> u<555> t<Module_declaration> p<556> c<536> l<48:1> el<53:10>
         n<> u<536> t<Module_ansi_header> p<555> c<499> s<553> l<48:1> el<51:16>
-          n<module> u<499> t<Module_keyword> p<536> s<500> l<48:1> el<48:7>
+          n<module> u<499> t<MODULE> p<536> s<500> l<48:1> el<48:7>
           n<inv> u<500> t<SIMPLE_IDENTIFIER> p<536> s<501> l<48:8> el<48:11>
           n<> u<501> t<Package_import_declaration_list> p<536> s<535> l<48:11> el<48:11>
           n<> u<535> t<Port_declaration_list> p<536> c<517> l<48:11> el<51:15>
@@ -573,7 +573,7 @@ n<$Source01/t_func_outp.v> u<871> t<Top_level_rule> c<1> l<6:1> el<94:1>
     n<> u<788> t<Description> p<869> c<787> s<789> l<56:1> el<82:10>
       n<> u<787> t<Module_declaration> p<788> c<607> l<56:1> el<82:10>
         n<> u<607> t<Module_ansi_header> p<787> c<557> s<628> l<56:1> el<61:16>
-          n<module> u<557> t<Module_keyword> p<607> s<558> l<56:1> el<56:7>
+          n<module> u<557> t<MODULE> p<607> s<558> l<56:1> el<56:7>
           n<ftest> u<558> t<SIMPLE_IDENTIFIER> p<607> s<559> l<56:8> el<56:13>
           n<> u<559> t<Package_import_declaration_list> p<607> s<606> l<56:13> el<56:13>
           n<> u<606> t<Port_declaration_list> p<607> c<575> l<56:13> el<61:15>
@@ -806,7 +806,7 @@ n<$Source01/t_func_outp.v> u<871> t<Top_level_rule> c<1> l<6:1> el<94:1>
     n<> u<868> t<Description> p<869> c<867> l<84:1> el<93:10>
       n<> u<867> t<Module_declaration> p<868> c<837> l<84:1> el<93:10>
         n<> u<837> t<Module_ansi_header> p<867> c<790> s<865> l<84:1> el<89:14>
-          n<module> u<790> t<Module_keyword> p<837> s<791> l<84:1> el<84:7>
+          n<module> u<790> t<MODULE> p<837> s<791> l<84:1> el<84:7>
           n<mytop> u<791> t<SIMPLE_IDENTIFIER> p<837> s<792> l<84:8> el<84:13>
           n<> u<792> t<Package_import_declaration_list> p<837> s<836> l<84:14> el<84:14>
           n<> u<836> t<Port_declaration_list> p<837> c<808> l<84:14> el<89:13>
@@ -886,9 +886,10 @@ n<$Source01/t_func_outp.v> u<871> t<Top_level_rule> c<1> l<6:1> el<94:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_func_outp.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_func_outp.v:48:1: Compile module "inv".
+[NTE:CP0309] $Source01/t_func_outp.v:50:35: Implicit port type (wire) for "z".
 [INF:CP0303] $Source01/t_func_outp.v:56:1: Compile module "ftest".
 [INF:CP0303] $Source01/t_func_outp.v:84:1: Compile module "mytop".
-[ERR:LN0813] $Source01/t_func_outp.v:1:1: Found 2 orphan node(s).
+[NTE:CP0309] $Source01/t_func_outp.v:88:29: Implicit port type (wire) for "z".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -992,6 +993,7 @@ Design name:unnamed:
           vpiName Identifier name:mytop start:13:4 end:13:9:
             vpiParent: ModuleTypespec name:mytop
             vpiName: mytop
+          vpiModule: Module name:mytop
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -1012,6 +1014,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:z start:11:16 end:11:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:9 end:11:14:
@@ -1021,6 +1024,7 @@ Design name:unnamed:
           vpiName: z
           vpiFullName: t.z
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:6:11 end:6:14:
           vpiParent: Module name:t
@@ -1602,6 +1606,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: inv.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:z start:50:35 end:50:36:
           vpiParent: Module name:inv
           vpiTypespec RefTypespec start:50:14 end:50:33:
@@ -1611,6 +1616,7 @@ Design name:unnamed:
           vpiName: z
           vpiFullName: inv.z
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (2 items):
         Port name:a start:49:29 end:49:30:
           vpiParent: Module name:inv
@@ -1670,6 +1676,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: z
           vpiFullName: ftest.z
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:ftest
@@ -1756,6 +1763,7 @@ Design name:unnamed:
           vpiName Identifier name:inv start:65:4 end:65:7:
             vpiParent: ModuleTypespec name:inv
             vpiName: inv
+          vpiModule: Module name:inv
       vpiDefName: ftest
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1916,7 +1924,7 @@ Design name:unnamed:
             vpiParent: Function name:myadd
             vpiFullName: ftest.myadd
             vpiActual: LogicTypespec
-      vpiNet (3 items):
+      vpiNet (4 items):
         Net name:a start:57:29 end:57:30:
           vpiParent: Module name:ftest
           vpiTypespec RefTypespec start:57:14 end:57:27:
@@ -1926,6 +1934,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: ftest.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:clk start:59:20 end:59:23:
           vpiParent: Module name:ftest
           vpiTypespec RefTypespec start:59:14 end:59:19:
@@ -1935,6 +1944,17 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: ftest.clk
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:b start:58:29 end:58:30:
+          vpiParent: Module name:ftest
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: ftest.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: ftest.b
+          vpiNetType: wire (1)
+          vpiVector: true
         Net name:zi start:63:23 end:63:25:
           vpiParent: Module name:ftest
           vpiTypespec RefTypespec start:63:9 end:63:14:
@@ -1944,6 +1964,7 @@ Design name:unnamed:
           vpiName: zi
           vpiFullName: ftest.zi
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:a start:57:29 end:57:30:
           vpiParent: Module name:ftest
@@ -1961,7 +1982,16 @@ Design name:unnamed:
         Port name:b start:58:29 end:58:30:
           vpiParent: Module name:ftest
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:58:29 end:58:30:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: ftest.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: ftest.b
+            vpiActual: LogicTypespec
         Port name:clk start:59:20 end:59:23:
           vpiParent: Module name:ftest
           vpiName: clk
@@ -2064,7 +2094,7 @@ Design name:unnamed:
                     vpiParent: FuncCall name:myadd
                     vpiName: b
                     vpiFullName: ftest.u1.b
-                    vpiActual: Port name:b
+                    vpiActual: Net name:b
             Port start:66:5 end:66:11:
               vpiParent: RefInstance name:u1
               vpiLowConn RefObj name:z start:66:6 end:66:7:
@@ -2143,6 +2173,7 @@ Design name:unnamed:
           vpiName Identifier name:ftest start:91:4 end:91:9:
             vpiParent: ModuleTypespec name:ftest
             vpiName: ftest
+          vpiModule: Module name:ftest
       vpiDefName: mytop
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2150,7 +2181,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: mytop.work
       vpiCell: mytop
-      vpiNet (3 items):
+      vpiNet (4 items):
         Net name:a start:85:27 end:85:28:
           vpiParent: Module name:mytop
           vpiTypespec RefTypespec start:85:12 end:85:25:
@@ -2160,6 +2191,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: mytop.a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:clk start:87:18 end:87:21:
           vpiParent: Module name:mytop
           vpiTypespec RefTypespec start:87:12 end:87:17:
@@ -2169,6 +2201,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: mytop.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:z start:88:29 end:88:30:
           vpiParent: Module name:mytop
           vpiTypespec RefTypespec start:88:12 end:88:27:
@@ -2178,6 +2211,17 @@ Design name:unnamed:
           vpiName: z
           vpiFullName: mytop.z
           vpiNetType: wire (1)
+          vpiVector: true
+        Net name:b start:86:27 end:86:28:
+          vpiParent: Module name:mytop
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: mytop.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: mytop.b
+          vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:a start:85:27 end:85:28:
           vpiParent: Module name:mytop
@@ -2195,7 +2239,16 @@ Design name:unnamed:
         Port name:b start:86:27 end:86:28:
           vpiParent: Module name:mytop
           vpiName: b
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:b start:86:27 end:86:28:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: mytop.b.b
+            vpiActual: Net name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:b
+            vpiFullName: mytop.b
+            vpiActual: LogicTypespec
         Port name:clk start:87:18 end:87:21:
           vpiParent: Module name:mytop
           vpiName: clk
@@ -2251,7 +2304,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b
                 vpiFullName: mytop.u0.b
-                vpiActual: Port name:b
+                vpiActual: Net name:b
             Port start:91:20 end:91:23:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj:
@@ -2307,9 +2360,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -2352,7 +2405,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_outp/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             345     345       0         0
+Others                             353     353       0         0
 ----------------------------------------------------------------
-                                   345     345       0         0
+                                   353     353       0         0
 ===================== END REDUCTION RESULT =====================

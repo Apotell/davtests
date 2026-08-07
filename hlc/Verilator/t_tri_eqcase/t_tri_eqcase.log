@@ -22,7 +22,7 @@ n<$Source01/t_tri_eqcase.v> u<1561> t<Top_level_rule> c<1> l<6:1> el<129:1>
     n<> u<841> t<Description> p<1560> c<840> s<1200> l<6:1> el<71:10>
       n<> u<840> t<Module_declaration> p<841> c<18> l<6:1> el<71:10>
         n<> u<18> t<Module_nonansi_header> p<840> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -858,7 +858,7 @@ n<$Source01/t_tri_eqcase.v> u<1561> t<Top_level_rule> c<1> l<6:1> el<129:1>
     n<> u<1200> t<Description> p<1560> c<1199> s<1559> l<73:1> el<100:10>
       n<> u<1199> t<Module_declaration> p<1200> c<897> l<73:1> el<100:10>
         n<> u<897> t<Module_ansi_header> p<1199> c<842> s<918> l<73:1> el<78:6>
-          n<module> u<842> t<Module_keyword> p<897> s<843> l<73:1> el<73:7>
+          n<module> u<842> t<MODULE> p<897> s<843> l<73:1> el<73:7>
           n<Test1> u<843> t<SIMPLE_IDENTIFIER> p<897> s<844> l<73:8> el<73:13>
           n<> u<844> t<Package_import_declaration_list> p<897> s<896> l<74:3> el<74:3>
           n<> u<896> t<Port_declaration_list> p<897> c<861> l<74:3> el<78:5>
@@ -1217,7 +1217,7 @@ n<$Source01/t_tri_eqcase.v> u<1561> t<Top_level_rule> c<1> l<6:1> el<129:1>
     n<> u<1559> t<Description> p<1560> c<1558> l<102:1> el<128:10>
       n<> u<1558> t<Module_declaration> p<1559> c<1256> l<102:1> el<128:10>
         n<> u<1256> t<Module_ansi_header> p<1558> c<1201> s<1277> l<102:1> el<107:6>
-          n<module> u<1201> t<Module_keyword> p<1256> s<1202> l<102:1> el<102:7>
+          n<module> u<1201> t<MODULE> p<1256> s<1202> l<102:1> el<102:7>
           n<Test2> u<1202> t<SIMPLE_IDENTIFIER> p<1256> s<1203> l<102:8> el<102:13>
           n<> u<1203> t<Package_import_declaration_list> p<1256> s<1255> l<103:3> el<103:3>
           n<> u<1255> t<Port_declaration_list> p<1256> c<1220> l<103:3> el<107:5>
@@ -1576,7 +1576,9 @@ n<$Source01/t_tri_eqcase.v> u<1561> t<Top_level_rule> c<1> l<6:1> el<129:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_tri_eqcase.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_tri_eqcase.v:73:1: Compile module "Test1".
+[NTE:CP0309] $Source01/t_tri_eqcase.v:77:22: Implicit port type (wire) for "match1".
 [INF:CP0303] $Source01/t_tri_eqcase.v:102:1: Compile module "Test2".
+[NTE:CP0309] $Source01/t_tri_eqcase.v:106:22: Implicit port type (wire) for "match2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1844,11 +1846,13 @@ Design name:unnamed:
           vpiName Identifier name:Test1 start:26:4 end:26:9:
             vpiParent: ModuleTypespec name:Test1
             vpiName: Test1
+          vpiModule: Module name:Test1
         ModuleTypespec name:Test2 start:32:4 end:32:9:
           vpiParent: Module name:t
           vpiName Identifier name:Test2 start:32:4 end:32:9:
             vpiParent: ModuleTypespec name:Test2
             vpiName: Test2
+          vpiModule: Module name:Test2
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1892,6 +1896,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:drv_a start:16:16 end:16:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:9 end:16:14:
@@ -1901,6 +1906,7 @@ Design name:unnamed:
           vpiName: drv_a
           vpiFullName: t.drv_a
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:crc[3:0] start:16:24 end:16:32:
             vpiParent: Net name:drv_a
             vpiName: crc[3:0]
@@ -1941,6 +1947,7 @@ Design name:unnamed:
           vpiName: drv_b
           vpiFullName: t.drv_b
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:crc[7:4] start:17:24 end:17:32:
             vpiParent: Net name:drv_b
             vpiName: crc[7:4]
@@ -1981,6 +1988,7 @@ Design name:unnamed:
           vpiName: drv_e
           vpiFullName: t.drv_e
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:crc[19:16] start:18:24 end:18:34:
             vpiParent: Net name:drv_e
             vpiName: crc[19:16]
@@ -2021,6 +2029,7 @@ Design name:unnamed:
           vpiName: match1
           vpiFullName: t.match1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:match2 start:23:16 end:23:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:23:9 end:23:14:
@@ -2030,6 +2039,7 @@ Design name:unnamed:
           vpiName: match2
           vpiFullName: t.match2
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:result start:40:18 end:40:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:40:9 end:40:15:
@@ -2039,6 +2049,7 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: t.result
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:40:27 end:40:56:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -2989,6 +3000,7 @@ Design name:unnamed:
           vpiName: drv_a
           vpiFullName: Test1.drv_a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:drv_e start:76:21 end:76:26:
           vpiParent: Module name:Test1
           vpiTypespec RefTypespec start:76:4 end:76:20:
@@ -2998,6 +3010,7 @@ Design name:unnamed:
           vpiName: drv_e
           vpiFullName: Test1.drv_e
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:match1 start:77:22 end:77:28:
           vpiParent: Module name:Test1
           vpiTypespec RefTypespec start:77:4 end:77:21:
@@ -3007,6 +3020,7 @@ Design name:unnamed:
           vpiName: match1
           vpiFullName: Test1.match1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:drv_all start:80:21 end:80:28:
           vpiParent: Module name:Test1
           vpiTypespec RefTypespec start:80:9 end:80:14:
@@ -3016,6 +3030,7 @@ Design name:unnamed:
           vpiName: drv_all
           vpiFullName: Test1.drv_all
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:drv_a start:75:21 end:75:26:
           vpiParent: Module name:Test1
@@ -3661,6 +3676,7 @@ Design name:unnamed:
           vpiName: drv_a
           vpiFullName: Test2.drv_a
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:drv_e start:105:21 end:105:26:
           vpiParent: Module name:Test2
           vpiTypespec RefTypespec start:105:4 end:105:20:
@@ -3670,6 +3686,7 @@ Design name:unnamed:
           vpiName: drv_e
           vpiFullName: Test2.drv_e
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:match2 start:106:22 end:106:28:
           vpiParent: Module name:Test2
           vpiTypespec RefTypespec start:106:4 end:106:21:
@@ -3679,6 +3696,7 @@ Design name:unnamed:
           vpiName: match2
           vpiFullName: Test2.match2
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:drv_all start:109:21 end:109:28:
           vpiParent: Module name:Test2
           vpiTypespec RefTypespec start:109:9 end:109:14:
@@ -3688,6 +3706,7 @@ Design name:unnamed:
           vpiName: drv_all
           vpiFullName: Test2.drv_all
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (3 items):
         Port name:drv_a start:104:21 end:104:26:
           vpiParent: Module name:Test2
@@ -4240,7 +4259,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

@@ -28,6 +28,8 @@ COMMAND: -wd ../../../tests/Escape top.v top1.v -writepp -d 0 -fileunit -wd ${HL
 [WRN:CP0334] Colliding compilation unit name: "bottom1".
 [WRN:CP0334] Colliding compilation unit name: "bottom2".
 [WRN:CP0334] Colliding compilation unit name: "bottom3".
+[WRN:CP0350] $Source01/top.v:13:64: Failed to bind "id:1042, name:get_full_name".
+[WRN:CP0350] $Source01/top.v:13:50: Failed to bind "id:1049, name:read_by_name".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:27:1: No timescale set for "bottom2".
 [WRN:PA0205] $Source01/top1.v:26:1: No timescale set for "bottom2".
@@ -2800,7 +2802,7 @@ Design name:unnamed:
                 vpiActual: UnsupportedTypespec name:uvm_phase
           vpiStmt ImmediateAssert start:13:5 end:13:102:
             vpiParent: Function name:connect_phase
-            "vpiExpr HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if) start:13:12 end:13:99":
+            "vpiExpr HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if) start:13:12 end:13:100":
               vpiParent: ImmediateAssert
               vpiName: uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
               vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
@@ -2814,6 +2816,7 @@ Design name:unnamed:
                   vpiParamAssign (1 items):
                     ParamAssign start:13:29 end:13:47:
                       vpiParent: UnsupportedScope name:uvm_resource_db
+                      vpiOverridden: true
                       vpiRhs RefTypespec start:13:29 end:13:47:
                         vpiParent: ParamAssign
                         vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::uvm_resource_db
@@ -2899,6 +2902,7 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: my_interface.clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:select start:4:9 end:4:15:
           vpiParent: Interface name:my_interface
           vpiTypespec RefTypespec start:4:3 end:4:8:
@@ -2908,6 +2912,7 @@ Design name:unnamed:
           vpiName: select
           vpiFullName: my_interface.select
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:data start:5:15 end:5:19:
           vpiParent: Interface name:my_interface
           vpiTypespec RefTypespec start:5:3 end:5:14:
@@ -2917,6 +2922,7 @@ Design name:unnamed:
           vpiName: data
           vpiFullName: my_interface.data
           vpiNetType: wire (1)
+          vpiVector: true
       vpiClockingBlock (1 items):
         ClockingBlock name:cb start:7:3 end:9:14:
           vpiParent: Interface name:my_interface
@@ -3018,11 +3024,13 @@ Design name:unnamed:
           vpiName Identifier name:bottom2 start:20:2 end:20:9:
             vpiParent: ModuleTypespec name:bottom2
             vpiName: bottom2
+          vpiModule: Module name:bottom2
         ModuleTypespec name:bottom3 start:21:2 end:21:9:
           vpiParent: Module name:bottom1
           vpiName Identifier name:bottom3 start:21:2 end:21:9:
             vpiParent: ModuleTypespec name:bottom3
             vpiName: bottom3
+          vpiModule: Module name:bottom3
       vpiDefName: bottom1
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -3042,6 +3050,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: bottom1.a
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:17:32 end:17:33:
           vpiParent: Module name:bottom1
           vpiTypespec RefTypespec start:17:26 end:17:31:
@@ -3051,6 +3060,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: bottom1.b
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:a start:17:23 end:17:24:
           vpiParent: Module name:bottom1
@@ -3205,6 +3215,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: bottom2.a
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:27:32 end:27:33:
           vpiParent: Module name:bottom2
           vpiTypespec RefTypespec start:27:26 end:27:31:
@@ -3214,6 +3225,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: bottom2.b
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:a start:27:23 end:27:24:
           vpiParent: Module name:bottom2
@@ -3395,6 +3407,7 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: middle.a
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:b start:35:11 end:35:12:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:35:8 end:35:8:
@@ -3404,6 +3417,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: middle.b
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:c start:35:14 end:35:15:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:35:8 end:35:8:
@@ -3413,6 +3427,7 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: middle.c
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiModule (1 items):
         Module name:nested file:$Source01/top1.v start:36:3 end:38:12:
           vpiParent: Module name:middle
@@ -3564,7 +3579,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

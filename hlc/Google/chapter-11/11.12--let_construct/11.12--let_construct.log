@@ -26,7 +26,7 @@ n<$Source01/11.12--let_construct.sv> u<198> t<Top_level_rule> c<1> l<15:1> el<29
     n<> u<196> t<Description> p<197> c<195> l<15:1> el<28:10>
       n<> u<195> t<Module_declaration> p<196> c<14> l<15:1> el<28:10>
         n<> u<14> t<Module_nonansi_header> p<195> c<10> s<41> l<15:1> el<15:14>
-          n<module> u<10> t<Module_keyword> p<14> s<11> l<15:1> el<15:7>
+          n<module> u<10> t<MODULE> p<14> s<11> l<15:1> el<15:7>
           n<top> u<11> t<SIMPLE_IDENTIFIER> p<14> s<12> l<15:8> el<15:11>
           n<> u<12> t<Package_import_declaration_list> p<14> s<13> l<15:11> el<15:11>
           n<> u<13> t<Port_list> p<14> l<15:11> el<15:13>
@@ -398,14 +398,17 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: x
                         vpiFullName: top.op.x
+                        vpiActual: SeqFormalDecl name:x
                       RefObj name:y start:22:26 end:22:27:
                         vpiParent: Operation
                         vpiName: y
                         vpiFullName: top.op.y
+                        vpiActual: SeqFormalDecl name:y
                   RefObj name:z start:22:31 end:22:32:
                     vpiParent: Operation
                     vpiName: z
                     vpiFullName: top.op.z
+                    vpiActual: SeqFormalDecl name:z
           vpiSeqFormalDecl (3 items):
             SeqFormalDecl name:x start:22:8 end:22:9:
               vpiParent: LetDecl name:op
@@ -456,36 +459,46 @@ Design name:unnamed:
                   vpiName: d
                   vpiFullName: top.d
                   vpiActual: Variable name:d
-                vpiRhs SubroutineCall name:op start:25:6 end:25:29:
+                vpiRhs LetExpr start:25:6 end:25:29:
                   vpiParent: Assignment
-                  vpiName Identifier name:op start:25:6 end:25:8:
-                    vpiParent: SubroutineCall name:op
-                    vpiName: op
                   vpiArgument (3 items):
-                    IODecl name:x start:25:9 end:25:14:
-                      vpiParent: SubroutineCall name:op
-                      vpiName: x
-                      vpiExpr RefObj name:a start:25:12 end:25:13:
-                        vpiParent: IODecl name:x
+                    NamedArgument start:25:9 end:25:14:
+                      vpiParent: LetExpr
+                      vpiLowConn RefObj name:x start:25:10 end:25:11:
+                        vpiParent: NamedArgument
+                        vpiName: x
+                        vpiFullName: top.x
+                        vpiActual: SeqFormalDecl name:x
+                      vpiHighConn RefObj name:a start:25:12 end:25:13:
+                        vpiParent: NamedArgument
                         vpiName: a
-                        vpiFullName: top.op.x.a
+                        vpiFullName: top.a
                         vpiActual: Variable name:a
-                    IODecl name:y start:25:16 end:25:21:
-                      vpiParent: SubroutineCall name:op
-                      vpiName: y
-                      vpiExpr RefObj name:b start:25:19 end:25:20:
-                        vpiParent: IODecl name:y
+                    NamedArgument start:25:16 end:25:21:
+                      vpiParent: LetExpr
+                      vpiLowConn RefObj name:y start:25:17 end:25:18:
+                        vpiParent: NamedArgument
+                        vpiName: y
+                        vpiFullName: top.y
+                        vpiActual: SeqFormalDecl name:y
+                      vpiHighConn RefObj name:b start:25:19 end:25:20:
+                        vpiParent: NamedArgument
                         vpiName: b
-                        vpiFullName: top.op.y.b
+                        vpiFullName: top.b
                         vpiActual: Variable name:b
-                    IODecl name:z start:25:23 end:25:28:
-                      vpiParent: SubroutineCall name:op
-                      vpiName: z
-                      vpiExpr RefObj name:c start:25:26 end:25:27:
-                        vpiParent: IODecl name:z
+                    NamedArgument start:25:23 end:25:28:
+                      vpiParent: LetExpr
+                      vpiLowConn RefObj name:z start:25:24 end:25:25:
+                        vpiParent: NamedArgument
+                        vpiName: z
+                        vpiFullName: top.z
+                        vpiActual: SeqFormalDecl name:z
+                      vpiHighConn RefObj name:c start:25:26 end:25:27:
+                        vpiParent: NamedArgument
                         vpiName: c
-                        vpiFullName: top.op.z.c
+                        vpiFullName: top.c
                         vpiActual: Variable name:c
+                  vpiLetDecl: LetDecl name:op
   vpiTypespec (2 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -544,7 +557,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-11/11.12--let_construct/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

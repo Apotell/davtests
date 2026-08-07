@@ -22,7 +22,7 @@ n<$Source01/t_inst_ccall.v> u<599> t<Top_level_rule> c<1> l<6:1> el<55:1>
     n<> u<482> t<Description> p<598> c<481> s<597> l<6:1> el<43:10>
       n<> u<481> t<Module_declaration> p<482> c<18> l<6:1> el<43:10>
         n<> u<18> t<Module_nonansi_header> p<481> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -499,7 +499,7 @@ n<$Source01/t_inst_ccall.v> u<599> t<Top_level_rule> c<1> l<6:1> el<55:1>
     n<> u<597> t<Description> p<598> c<596> l<45:1> el<54:10>
       n<> u<596> t<Module_declaration> p<597> c<551> l<45:1> el<54:10>
         n<> u<551> t<Module_ansi_header> p<596> c<483> s<552> l<45:1> el<45:98>
-          n<module> u<483> t<Module_keyword> p<551> s<484> l<45:1> el<45:7>
+          n<module> u<483> t<MODULE> p<551> s<484> l<45:1> el<45:7>
           n<sub> u<484> t<SIMPLE_IDENTIFIER> p<551> s<485> l<45:8> el<45:11>
           n<> u<485> t<Package_import_declaration_list> p<551> s<550> l<45:12> el<45:12>
           n<> u<550> t<Port_declaration_list> p<551> c<501> l<45:12> el<45:97>
@@ -614,6 +614,8 @@ n<$Source01/t_inst_ccall.v> u<599> t<Top_level_rule> c<1> l<6:1> el<55:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_ccall.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_ccall.v:45:1: Compile module "sub".
+[NTE:CP0309] $Source01/t_inst_ccall.v:45:66: Implicit port type (wire) for "longout".
+[NTE:CP0309] $Source01/t_inst_ccall.v:45:89: Implicit port type (wire) for "quadout".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -798,6 +800,7 @@ Design name:unnamed:
           vpiName Identifier name:sub start:20:4 end:20:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -815,6 +818,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:longout start:17:16 end:17:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:15:
@@ -824,6 +828,7 @@ Design name:unnamed:
           vpiName: longout
           vpiFullName: t.longout
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:quadout start:18:16 end:18:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:9 end:18:15:
@@ -833,6 +838,7 @@ Design name:unnamed:
           vpiName: quadout
           vpiFullName: t.quadout
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:narrow start:19:15 end:19:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:9 end:19:14:
@@ -842,6 +848,7 @@ Design name:unnamed:
           vpiName: narrow
           vpiFullName: t.narrow
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue PartSelect name:long[7:0] start:19:24 end:19:33:
             vpiParent: Net name:narrow
             vpiName: long[7:0]
@@ -1424,6 +1431,7 @@ Design name:unnamed:
           vpiName: narrow
           vpiFullName: sub.narrow
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:quad start:45:46 end:45:50:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:45:33 end:45:45:
@@ -1433,6 +1441,7 @@ Design name:unnamed:
           vpiName: quad
           vpiFullName: sub.quad
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:longout start:45:66 end:45:73:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:45:52 end:45:65:
@@ -1442,6 +1451,7 @@ Design name:unnamed:
           vpiName: longout
           vpiFullName: sub.longout
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:quadout start:45:89 end:45:96:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:45:75 end:45:88:
@@ -1451,6 +1461,7 @@ Design name:unnamed:
           vpiName: quadout
           vpiFullName: sub.quadout
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:narrow start:45:25 end:45:31:
           vpiParent: Module name:sub
@@ -1584,7 +1595,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

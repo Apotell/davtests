@@ -29,8 +29,8 @@ n<$Source01/t_struct_array.v> u<386> t<Top_level_rule> c<1> l<6:1> el<38:1>
               n<> u<20> t<Type_declaration> p<21> c<18> l<7:4> el<9:17>
                 n<> u<18> t<Data_type> p<20> c<9> s<19> l<7:12> el<9:5>
                   n<> u<9> t<Struct_union> p<18> c<8> s<10> l<7:12> el<7:18>
-                    n<> u<8> t<Struct_keyword> p<9> l<7:12> el<7:18>
-                  n<> u<10> t<Packed_keyword> p<18> s<17> l<7:19> el<7:25>
+                    n<> u<8> t<STRUCT> p<9> l<7:12> el<7:18>
+                  n<> u<10> t<PACKED> p<18> s<17> l<7:19> el<7:25>
                   n<> u<17> t<Struct_union_member> p<18> c<13> l<8:7> el<8:22>
                     n<> u<13> t<Data_type_or_void> p<17> c<12> s<16> l<8:7> el<8:12>
                       n<logic> u<12> t<Data_type> p<13> c<11> l<8:7> el<8:12>
@@ -44,7 +44,7 @@ n<$Source01/t_struct_array.v> u<386> t<Top_level_rule> c<1> l<6:1> el<38:1>
     n<> u<252> t<Description> p<382> c<251> s<381> l<12:1> el<24:10>
       n<> u<251> t<Module_declaration> p<252> c<38> l<12:1> el<24:10>
         n<> u<38> t<Module_nonansi_header> p<251> c<28> s<45> l<12:1> el<12:15>
-          n<module> u<28> t<Module_keyword> p<38> s<29> l<12:1> el<12:7>
+          n<module> u<28> t<MODULE> p<38> s<29> l<12:1> el<12:7>
           n<t> u<29> t<SIMPLE_IDENTIFIER> p<38> s<30> l<12:8> el<12:9>
           n<> u<30> t<Package_import_declaration_list> p<38> s<37> l<12:9> el<12:9>
           n<> u<37> t<Port_list> p<38> c<36> l<12:9> el<12:14>
@@ -269,7 +269,7 @@ n<$Source01/t_struct_array.v> u<386> t<Top_level_rule> c<1> l<6:1> el<38:1>
     n<> u<381> t<Description> p<382> c<380> l<26:1> el<33:10>
       n<> u<380> t<Module_declaration> p<381> c<263> l<26:1> el<33:10>
         n<> u<263> t<Module_nonansi_header> p<380> c<253> s<280> l<26:1> el<26:19>
-          n<module> u<253> t<Module_keyword> p<263> s<254> l<26:1> el<26:7>
+          n<module> u<253> t<MODULE> p<263> s<254> l<26:1> el<26:7>
           n<sub> u<254> t<SIMPLE_IDENTIFIER> p<263> s<255> l<26:8> el<26:11>
           n<> u<255> t<Package_import_declaration_list> p<263> s<262> l<26:11> el<26:11>
           n<> u<262> t<Port_list> p<263> c<261> l<26:11> el<26:18>
@@ -402,7 +402,6 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/t_struct_array.v:6:1: Compile package "TEST_TYPES".
 [INF:CP0303] $Source01/t_struct_array.v:12:1: Compile module "t".
 [INF:CP0303] $Source01/t_struct_array.v:26:1: Compile module "sub".
-[WRN:CP0350] $Source01/t_struct_array.v:31:11: Failed to bind "id:163, name:stuff".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -513,6 +512,7 @@ Design name:unnamed:
           vpiName Identifier name:sub start:15:4 end:15:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -530,6 +530,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:12:10 end:12:13:
           vpiParent: Module name:t
@@ -773,10 +774,11 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:a_out start:28:42 end:28:47:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:28:11 end:28:41:
+          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:28:11 end:28:41:
             vpiParent: Variable name:a_out
-            vpiFullName: sub.a_out
-            vpiActual: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
+            vpiName: TEST_TYPES::a_struct_t
+            vpiFullName: sub.a_out.TEST_TYPES::a_struct_t
+            vpiActual: TypedefTypespec name:a_struct_t
           vpiName: a_out
           vpiFullName: sub.a_out
       vpiParameter (1 items):
@@ -806,26 +808,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:sub
-        UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0] start:28:11 end:28:41:
-          vpiParent: Module name:sub
-          vpiPathElem (2 items):
-            UnsupportedScope name:TEST_TYPES start:28:11 end:28:23:
-              vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
-              vpiName Identifier name:TEST_TYPES start:28:11 end:28:21:
-                vpiParent: UnsupportedScope name:TEST_TYPES
-                vpiName: TEST_TYPES
-              vpiFullName: sub.TEST_TYPES::a_struct_t [n-1:0].TEST_TYPES
-            RefTypespec name:a_struct_t start:28:23 end:28:41:
-              vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
-              vpiName: a_struct_t
-              vpiFullName: sub.TEST_TYPES::a_struct_t [n-1:0].a_struct_t
-              vpiActual: ArrayTypespec
-          vpiName Identifier name:TEST_TYPES::a_struct_t [n-1:0] start:28:11 end:28:41:
-            vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
-            vpiName: TEST_TYPES::a_struct_t [n-1:0]
         UnsupportedTypespec name:a_struct_t start:28:23 end:28:41:
           vpiParent: Module name:sub
           vpiName Identifier name:a_struct_t:
@@ -887,10 +872,11 @@ Design name:unnamed:
             vpiName: a_out
             vpiFullName: sub.a_out.a_out
             vpiActual: Variable name:a_out
-          vpiTypespec RefTypespec start:28:11 end:28:41:
+          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:28:11 end:28:41:
             vpiParent: Port name:a_out
-            vpiFullName: sub.a_out
-            vpiActual: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
+            vpiName: TEST_TYPES::a_struct_t
+            vpiFullName: sub.a_out.TEST_TYPES::a_struct_t
+            vpiActual: TypedefTypespec name:a_struct_t
       vpiProcess (1 items):
         Always start:29:4 end:32:7:
           vpiParent: Module name:sub
@@ -974,6 +960,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:a_out[i].stuff
                         vpiName: stuff
                         vpiFullName: sub.stuff
+                        vpiActual: TypespecMember name:stuff
                   vpiRhs BitSelect name:i[0] start:31:19 end:31:23:
                     vpiParent: Assignment
                     vpiName: i[0]
@@ -1016,7 +1003,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1062,9 +1049,9 @@ Name                            Before   After   Added   Removed
 Constant                            16      16       1         1
 Operation                            8       7       0         1
 RefObj                              20      19       0         1
-RefTypespec                         29      29       1         1
+RefTypespec                         28      28       1         1
 ----------------------------------------------------------------
-Others                              78      78       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                   151     149       2         4
+                                   146     144       2         4
 ===================== END REDUCTION RESULT =====================

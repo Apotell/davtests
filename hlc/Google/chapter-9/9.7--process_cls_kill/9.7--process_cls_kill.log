@@ -26,7 +26,7 @@ n<$Source01/9.7--process_cls_kill.sv> u<232> t<Top_level_rule> c<1> l<15:1> el<4
     n<> u<230> t<Description> p<231> c<229> l<15:1> el<42:10>
       n<> u<229> t<Module_declaration> p<230> c<14> l<15:1> el<42:10>
         n<> u<14> t<Module_nonansi_header> p<229> c<10> s<206> l<15:1> el<15:22>
-          n<module> u<10> t<Module_keyword> p<14> s<11> l<15:1> el<15:7>
+          n<module> u<10> t<MODULE> p<14> s<11> l<15:1> el<15:7>
           n<process_tb> u<11> t<SIMPLE_IDENTIFIER> p<14> s<12> l<15:8> el<15:18>
           n<> u<12> t<Package_import_declaration_list> p<14> s<13> l<15:19> el<15:19>
           n<> u<13> t<Port_list> p<14> l<15:19> el<15:21>
@@ -129,7 +129,7 @@ n<$Source01/9.7--process_cls_kill.sv> u<232> t<Top_level_rule> c<1> l<15:1> el<4
                                                                 n<> u<83> t<Primary_literal> p<84> c<82> l<24:29> el<24:30>
                                                                   n<k> u<82> t<SIMPLE_IDENTIFIER> p<83> l<24:29> el<24:30>
                                               n<> u<93> t<END> p<94> l<25:5> el<25:8>
-                                      n<> u<98> t<Join_none_keyword> p<99> l<26:4> el<26:13>
+                                      n<> u<98> t<JOIN_NONE> p<99> l<26:4> el<26:13>
                         n<> u<134> t<Statement_or_null> p<199> c<133> s<147> l<28:3> el<29:25>
                           n<> u<133> t<Statement> p<134> c<132> l<28:3> el<29:25>
                             n<> u<132> t<Statement_item> p<133> c<131> l<28:3> el<29:25>
@@ -156,7 +156,7 @@ n<$Source01/9.7--process_cls_kill.sv> u<232> t<Top_level_rule> c<1> l<15:1> el<4
                                         n<> u<124> t<NOTEQUAL> p<125> s<123> l<29:16> el<29:18>
                                         n<> u<123> t<Expression> p<125> c<122> l<29:19> el<29:23>
                                           n<> u<122> t<Primary> p<123> c<121> l<29:19> el<29:23>
-                                            n<> u<121> t<Null_keyword> p<122> l<29:19> el<29:23>
+                                            n<> u<121> t<NULL_KEYWORD> p<122> l<29:19> el<29:23>
                                       n<> u<126> t<Statement_or_null> p<127> l<29:24> el<29:25>
                         n<> u<147> t<Statement_or_null> p<199> c<146> s<197> l<31:3> el<31:18>
                           n<> u<146> t<Statement> p<147> c<145> l<31:3> el<31:18>
@@ -246,8 +246,11 @@ n<$Source01/9.7--process_cls_kill.sv> u<232> t<Top_level_rule> c<1> l<15:1> el<4
         n<> u<228> t<ENDMODULE> p<229> l<42:1> el<42:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/9.7--process_cls_kill.sv:15:1: Compile module "process_tb".
+[WRN:CP0350] $Source01/9.7--process_cls_kill.sv:23:24: Failed to bind "id:36, name:self".
+[WRN:CP0350] $Source01/9.7--process_cls_kill.sv:31:10: Failed to bind "id:61, name:await".
 [WRN:CP0350] $Source01/9.7--process_cls_kill.sv:34:14: Failed to bind "id:69, name:status".
 [WRN:CP0350] $Source01/9.7--process_cls_kill.sv:34:33: Failed to bind "id:73, name:FINISHED".
+[WRN:CP0350] $Source01/9.7--process_cls_kill.sv:35:12: Failed to bind "id:79, name:kill".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -381,7 +384,7 @@ Design name:unnamed:
                               vpiName: k
                               vpiFullName: process_tb.test.k
                               vpiActual: Variable name:k
-                          vpiRhs HierPath name:process::self() start:23:15 end:23:29:
+                          vpiRhs HierPath name:process::self() start:23:15 end:23:30:
                             vpiParent: Assignment
                             vpiName: process::self()
                             vpiFullName: process_tb.test.process::self()
@@ -453,11 +456,12 @@ Design name:unnamed:
                           vpiName: i
                           vpiFullName: process_tb.test.i
                           vpiActual: Variable name:i
-                      RefObj name:null start:29:19 end:29:23:
+                      Constant start:29:19 end:29:23:
                         vpiParent: Operation
-                        vpiName: null
-                        vpiFullName: process_tb.test.null
-              HierPath name:job[1].await() start:31:3 end:31:16:
+                        vpiConstType: null (12)
+                        vpiDecompile: null
+                        vpiValue: 0
+              HierPath name:job[1].await() start:31:3 end:31:17:
                 vpiParent: Begin
                 vpiName: job[1].await()
                 vpiFullName: process_tb.test.job[1].await()
@@ -545,7 +549,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:process::FINISHED
                             vpiName: FINISHED
                             vpiFullName: process_tb.test.FINISHED
-                  vpiStmt HierPath name:job[i].kill() start:35:5 end:35:17:
+                  vpiStmt HierPath name:job[i].kill() start:35:5 end:35:18:
                     vpiParent: IfStmt
                     vpiName: job[i].kill()
                     vpiFullName: process_tb.test.job[i].kill()
@@ -609,7 +613,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

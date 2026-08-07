@@ -314,7 +314,7 @@ n<$Source01/top.v> u<106> t<Top_level_rule> c<1> l<2:1> el<26:1>
     n<> u<104> t<Description> p<105> c<103> l<14:1> el<24:10>
       n<> u<103> t<Module_declaration> p<104> c<38> l<14:1> el<24:10>
         n<> u<38> t<Module_nonansi_header> p<103> c<34> s<48> l<14:1> el<14:15>
-          n<module> u<34> t<Module_keyword> p<38> s<35> l<14:1> el<14:7>
+          n<module> u<34> t<MODULE> p<38> s<35> l<14:1> el<14:7>
           n<top> u<35> t<SIMPLE_IDENTIFIER> p<38> s<36> l<14:8> el<14:11>
           n<> u<36> t<Package_import_declaration_list> p<38> s<37> l<14:12> el<14:12>
           n<> u<37> t<Port_list> p<38> l<14:12> el<14:14>
@@ -367,25 +367,24 @@ n<$Source01/top.v> u<106> t<Top_level_rule> c<1> l<2:1> el<26:1>
                 n<Environment> u<81> t<SIMPLE_IDENTIFIER> p<82> l<21:1> el<21:12>
               n<> u<84> t<Interface_identifier_list> p<85> c<83> l<21:13> el<21:16>
                 n<env> u<83> t<SIMPLE_IDENTIFIER> p<84> l<21:13> el<21:16>
-        n<> u<94> t<Module_item> p<103> c<93> s<101> l<22:1> el<22:20>
-          n<> u<93> t<Port_declaration> p<94> c<92> l<22:1> el<22:19>
-            n<> u<92> t<Interface_port_declaration> p<93> c<89> l<22:1> el<22:19>
+        n<> u<94> t<Module_item> p<103> c<93> s<101> l<22:1> el<22:21>
+          n<> u<93> t<Port_declaration> p<94> c<92> l<22:1> el<22:20>
+            n<> u<92> t<Interface_port_declaration> p<93> c<89> l<22:1> el<22:20>
               n<Configuration1> u<89> t<Interface_identifier> p<92> c<88> s<91> l<22:1> el<22:15>
                 n<Configuration1> u<88> t<SIMPLE_IDENTIFIER> p<89> l<22:1> el<22:15>
-              n<> u<91> t<Interface_identifier_list> p<92> c<90> l<22:16> el<22:19>
-                n<cfg> u<90> t<SIMPLE_IDENTIFIER> p<91> l<22:16> el<22:19>
-        n<> u<101> t<Module_item> p<103> c<100> s<102> l<23:1> el<23:20>
-          n<> u<100> t<Port_declaration> p<101> c<99> l<23:1> el<23:19>
-            n<> u<99> t<Interface_port_declaration> p<100> c<96> l<23:1> el<23:19>
+              n<> u<91> t<Interface_identifier_list> p<92> c<90> l<22:16> el<22:20>
+                n<cfg1> u<90> t<SIMPLE_IDENTIFIER> p<91> l<22:16> el<22:20>
+        n<> u<101> t<Module_item> p<103> c<100> s<102> l<23:1> el<23:21>
+          n<> u<100> t<Port_declaration> p<101> c<99> l<23:1> el<23:20>
+            n<> u<99> t<Interface_port_declaration> p<100> c<96> l<23:1> el<23:20>
               n<Configuration2> u<96> t<Interface_identifier> p<99> c<95> s<98> l<23:1> el<23:15>
                 n<Configuration2> u<95> t<SIMPLE_IDENTIFIER> p<96> l<23:1> el<23:15>
-              n<> u<98> t<Interface_identifier_list> p<99> c<97> l<23:16> el<23:19>
-                n<cfg> u<97> t<SIMPLE_IDENTIFIER> p<98> l<23:16> el<23:19>
+              n<> u<98> t<Interface_identifier_list> p<99> c<97> l<23:16> el<23:20>
+                n<cfg2> u<97> t<SIMPLE_IDENTIFIER> p<98> l<23:16> el<23:20>
         n<> u<102> t<ENDMODULE> p<103> l<24:1> el<24:10>
 AST_DEBUG_END
 [INF:CP0301] $Source01/top.v:2:1: Compile package "pkg".
 [INF:CP0303] $Source01/top.v:14:1: Compile module "top".
-[WRN:CP0331] $Source01/top.v:14:1: Multiply defined variable "cfg".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:2:1: No timescale set for "pkg".
 [WRN:PA0205] $Source01/top.v:14:1: No timescale set for "top".
@@ -2492,22 +2491,24 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:Environment
           vpiName: env
           vpiFullName: top.env
-        Variable name:cfg start:22:16 end:22:19:
+        Variable name:cfg1 start:22:16 end:22:20:
           vpiParent: Module name:top
           vpiTypespec RefTypespec name:Configuration1 start:22:1 end:22:15:
-            vpiParent: Variable name:cfg
+            vpiParent: Variable name:cfg1
             vpiName: Configuration1
-            vpiFullName: top.cfg.Configuration1
+            vpiFullName: top.cfg1.Configuration1
             vpiActual: ClassTypespec name:Configuration1
-          vpiName: cfg
-          vpiFullName: top.cfg
-        Variable name:cfg start:23:16 end:23:19:
+          vpiName: cfg1
+          vpiFullName: top.cfg1
+        Variable name:cfg2 start:23:16 end:23:20:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec:
-            vpiParent: Variable name:cfg
-            vpiFullName: top.cfg
-          vpiName: cfg
-          vpiFullName: top.cfg
+          vpiTypespec RefTypespec name:Configuration2 start:23:1 end:23:15:
+            vpiParent: Variable name:cfg2
+            vpiName: Configuration2
+            vpiFullName: top.cfg2.Configuration2
+            vpiActual: ClassTypespec name:Configuration2
+          vpiName: cfg2
+          vpiFullName: top.cfg2
       vpiTypespec (4 items):
         ImportTypespec name:pkg start:15:9 end:15:15:
           vpiParent: Module name:top
@@ -2602,7 +2603,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2617,25 +2618,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UnitEnum/UnitEnum/mounts.json
 
 
-{'result': {'coverage': 95.17,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.v': {'post_len': 14,
-                                                 'pre_len': 290}},
-            'post_len': 14,
-            'pre_len': 290,
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 292}},
+            'post_len': 0,
+            'pre_len': 292,
             'test_name': 'UnitEnum/UnitEnum'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/top.v |      290 |        14 |
+| $Output/lib/work/top.v |      292 |         0 |
 +========================+==========+===========+
-|                        |      290 |        14 |
+|                        |      292 |         0 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.17
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

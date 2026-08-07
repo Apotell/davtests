@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<280> t<Top_level_rule> c<1> l<1:1> el<34:1>
     n<> u<278> t<Description> p<279> c<277> l<1:1> el<33:10>
       n<> u<277> t<Module_declaration> p<278> c<39> l<1:1> el<33:10>
         n<> u<39> t<Module_ansi_header> p<277> c<2> s<141> l<1:1> el<4:3>
-          n<module> u<2> t<Module_keyword> p<39> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<39> s<3> l<1:1> el<1:7>
           n<matching_end_labels_top> u<3> t<SIMPLE_IDENTIFIER> p<39> s<4> l<1:8> el<1:31>
           n<> u<4> t<Package_import_declaration_list> p<39> s<38> l<1:31> el<1:31>
           n<> u<38> t<Port_declaration_list> p<39> c<22> l<1:31> el<4:2>
@@ -294,17 +294,19 @@ n<$Source01/dut.sv> u<280> t<Top_level_rule> c<1> l<1:1> el<34:1>
         n<> u<276> t<ENDMODULE> p<277> l<33:1> el<33:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "matching_end_labels_top".
+[NTE:CP0309] $Source01/dut.sv:3:11: Implicit port type (wire) for "out2".
+[NTE:CP0309] $Source01/dut.sv:3:17: Implicit port type (wire) for "out3".
+[NTE:CP0309] $Source01/dut.sv:3:23: Implicit port type (wire) for "out4".
 [INF:CP0335] $Source01/dut.sv:21:24: Compile generate block "blk3".
 [INF:CP0335] $Source01/dut.sv:26:24: Compile generate block "blk4".
-[ERR:LN0813] $Source01/dut.sv:1:1: Found 3 orphan node(s).
-[WRN:CP0350] $Source01/dut.sv:10:16: Failed to bind "id:41, name:blk1".
-[WRN:CP0350] $Source01/dut.sv:10:21: Failed to bind "id:42, name:x".
-[WRN:CP0350] $Source01/dut.sv:16:16: Failed to bind "id:57, name:blk2".
-[WRN:CP0350] $Source01/dut.sv:16:21: Failed to bind "id:58, name:x".
-[WRN:CP0350] $Source01/dut.sv:25:23: Failed to bind "id:81, name:blk3".
-[WRN:CP0350] $Source01/dut.sv:25:28: Failed to bind "id:82, name:x".
-[WRN:CP0350] $Source01/dut.sv:30:23: Failed to bind "id:101, name:blk4".
-[WRN:CP0350] $Source01/dut.sv:30:28: Failed to bind "id:102, name:x".
+[WRN:CP0350] $Source01/dut.sv:10:16: Failed to bind "id:53, name:blk1".
+[WRN:CP0350] $Source01/dut.sv:10:21: Failed to bind "id:54, name:x".
+[WRN:CP0350] $Source01/dut.sv:16:16: Failed to bind "id:69, name:blk2".
+[WRN:CP0350] $Source01/dut.sv:16:21: Failed to bind "id:70, name:x".
+[WRN:CP0350] $Source01/dut.sv:25:23: Failed to bind "id:93, name:blk3".
+[WRN:CP0350] $Source01/dut.sv:25:28: Failed to bind "id:94, name:x".
+[WRN:CP0350] $Source01/dut.sv:30:23: Failed to bind "id:113, name:blk4".
+[WRN:CP0350] $Source01/dut.sv:30:28: Failed to bind "id:114, name:x".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "matching_end_labels_top".
 ====== HLDB =======
 Design name:unnamed:
@@ -321,7 +323,7 @@ Design name:unnamed:
         vpiParent: Module name:matching_end_labels_top
         vpiName: matching_end_labels_top
       vpiFullName: matching_end_labels_top
-      vpiVariable (1 items):
+      vpiVariable (4 items):
         Variable name:out1 start:3:5 end:3:9:
           vpiParent: Module name:matching_end_labels_top
           vpiTypespec RefTypespec start:2:5 end:2:21:
@@ -330,7 +332,35 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out1
           vpiFullName: matching_end_labels_top.out1
-      vpiTypespec (2 items):
+          vpiVector: true
+        Variable name:out2 start:3:11 end:3:15:
+          vpiParent: Module name:matching_end_labels_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:out2
+            vpiFullName: matching_end_labels_top.out2
+            vpiActual: LogicTypespec
+          vpiName: out2
+          vpiFullName: matching_end_labels_top.out2
+          vpiVector: true
+        Variable name:out3 start:3:17 end:3:21:
+          vpiParent: Module name:matching_end_labels_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:out3
+            vpiFullName: matching_end_labels_top.out3
+            vpiActual: LogicTypespec
+          vpiName: out3
+          vpiFullName: matching_end_labels_top.out3
+          vpiVector: true
+        Variable name:out4 start:3:23 end:3:27:
+          vpiParent: Module name:matching_end_labels_top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:out4
+            vpiFullName: matching_end_labels_top.out4
+            vpiActual: LogicTypespec
+          vpiName: out4
+          vpiFullName: matching_end_labels_top.out4
+          vpiVector: true
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:matching_end_labels_top
           vpiRange (1 items):
@@ -357,8 +387,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:matching_end_labels_top
       vpiDefName: matching_end_labels_top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -383,15 +411,42 @@ Design name:unnamed:
         Port name:out2 start:3:11 end:3:15:
           vpiParent: Module name:matching_end_labels_top
           vpiName: out2
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:out2 start:3:11 end:3:15:
+            vpiParent: Port name:out2
+            vpiName: out2
+            vpiFullName: matching_end_labels_top.out2.out2
+            vpiActual: Variable name:out2
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:out2
+            vpiFullName: matching_end_labels_top.out2
+            vpiActual: LogicTypespec
         Port name:out3 start:3:17 end:3:21:
           vpiParent: Module name:matching_end_labels_top
           vpiName: out3
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:out3 start:3:17 end:3:21:
+            vpiParent: Port name:out3
+            vpiName: out3
+            vpiFullName: matching_end_labels_top.out3.out3
+            vpiActual: Variable name:out3
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:out3
+            vpiFullName: matching_end_labels_top.out3
+            vpiActual: LogicTypespec
         Port name:out4 start:3:23 end:3:27:
           vpiParent: Module name:matching_end_labels_top
           vpiName: out4
-          vpiDirection: inout (3)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:out4 start:3:23 end:3:27:
+            vpiParent: Port name:out4
+            vpiName: out4
+            vpiFullName: matching_end_labels_top.out4.out4
+            vpiActual: Variable name:out4
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:out4
+            vpiFullName: matching_end_labels_top.out4
+            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Initial start:5:5 end:18:8:
           vpiParent: Module name:matching_end_labels_top
@@ -506,7 +561,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: out2
                   vpiFullName: matching_end_labels_top.out2
-                  vpiActual: Port name:out2
+                  vpiActual: Variable name:out2
                 vpiRhs HierPath name:blk2.x start:16:16 end:16:22:
                   vpiParent: Assignment
                   vpiName: blk2.x
@@ -593,7 +648,7 @@ Design name:unnamed:
                   vpiParent: ContAssign
                   vpiName: out3
                   vpiFullName: matching_end_labels_top.out3
-                  vpiActual: Port name:out3
+                  vpiActual: Variable name:out3
                 vpiRhs HierPath name:blk3.x start:25:23 end:25:29:
                   vpiParent: ContAssign
                   vpiName: blk3.x
@@ -666,7 +721,7 @@ Design name:unnamed:
                   vpiParent: ContAssign
                   vpiName: out4
                   vpiFullName: matching_end_labels_top.out4
-                  vpiActual: Port name:out4
+                  vpiActual: Variable name:out4
                 vpiRhs HierPath name:blk4.x start:30:23 end:30:29:
                   vpiParent: ContAssign
                   vpiName: blk4.x
@@ -693,9 +748,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 9
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -738,7 +793,7 @@ COMMAND: ${HLC_DIR}/regression/HierPathBeginBlock/HierPathBeginBlock/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              93      93       0         0
+Others                             104     104       0         0
 ----------------------------------------------------------------
-                                    93      93       0         0
+                                   104     104       0         0
 ===================== END REDUCTION RESULT =====================

@@ -57,7 +57,7 @@ n<$Source01/t_dpi_var.v> u<589> t<Top_level_rule> c<1> l<8:1> el<91:10>
     n<> u<434> t<Description> p<582> c<433> s<438> l<8:1> el<52:10>
       n<> u<433> t<Module_declaration> p<434> c<20> l<8:1> el<52:10>
         n<> u<20> t<Module_nonansi_header> p<433> c<8> s<27> l<8:1> el<11:6>
-          n<module> u<8> t<Module_keyword> p<20> s<9> l<8:1> el<8:7>
+          n<module> u<8> t<MODULE> p<20> s<9> l<8:1> el<8:7>
           n<t> u<9> t<SIMPLE_IDENTIFIER> p<20> s<10> l<8:8> el<8:9>
           n<> u<10> t<Package_import_declaration_list> p<20> s<11> l<8:10> el<8:10>
           n</*AUTOARG*/> u<11> t<BLOCK_COMMENT> p<20> s<12> l<8:10> el<11:5>
@@ -509,7 +509,7 @@ n<$Source01/t_dpi_var.v> u<589> t<Top_level_rule> c<1> l<8:1> el<91:10>
                   n<> u<453> t<INPUT> p<458> s<456> l<54:54> el<54:59>
                   n<> u<456> t<Data_type_or_implicit> p<458> c<455> s<457> l<54:60> el<54:66>
                     n<string> u<455> t<Data_type> p<456> c<454> l<54:60> el<54:66>
-                      n<string> u<454> t<String_type> p<455> l<54:60> el<54:66>
+                      n<string> u<454> t<STRING> p<455> l<54:60> el<54:66>
                   n<formatted> u<457> t<SIMPLE_IDENTIFIER> p<458> l<54:67> el<54:76>
                 n</*verilator sformat*/> u<459> t<BLOCK_COMMENT> p<460> l<54:54> el<54:76>
               n<> u<465> t<Block_item_declaration> p<466> c<464> l<55:1> el<55:23>
@@ -529,7 +529,7 @@ n<$Source01/t_dpi_var.v> u<589> t<Top_level_rule> c<1> l<8:1> el<91:10>
                 n<> u<478> t<Tf_port_item> p<484> c<476> s<483> l<55:53> el<55:64>
                   n<> u<476> t<Data_type_or_implicit> p<478> c<475> s<477> l<55:53> el<55:59>
                     n<string> u<475> t<Data_type> p<476> c<474> l<55:53> el<55:59>
-                      n<string> u<474> t<String_type> p<475> l<55:53> el<55:59>
+                      n<string> u<474> t<STRING> p<475> l<55:53> el<55:59>
                   n<name> u<477> t<SIMPLE_IDENTIFIER> p<478> l<55:60> el<55:64>
                 n<> u<483> t<Tf_port_item> p<484> c<481> l<55:66> el<55:75>
                   n<> u<481> t<Data_type_or_implicit> p<483> c<480> s<482> l<55:66> el<55:69>
@@ -621,7 +621,7 @@ n<$Source01/t_dpi_var.v> u<589> t<Top_level_rule> c<1> l<8:1> el<91:10>
       n<> u<580> t<Package_item> p<581> c<579> l<67:23> el<67:42>
         n<> u<579> t<Package_or_generate_item_declaration> p<580> c<578> l<67:23> el<67:42>
           n<> u<578> t<Data_declaration> p<579> c<571> l<67:23> el<67:42>
-            n<> u<571> t<Const_type> p<578> s<577> l<67:23> el<67:28>
+            n<> u<571> t<CONST> p<578> s<577> l<67:23> el<67:28>
             n<> u<577> t<Variable_declaration> p<578> c<573> l<67:29> el<67:42>
               n<char> u<573> t<Data_type> p<577> c<572> s<576> l<67:29> el<67:34>
                 n<char> u<572> t<SIMPLE_IDENTIFIER> p<573> l<67:29> el<67:33>
@@ -636,6 +636,8 @@ n<$Source01/t_dpi_var.v> u<589> t<Top_level_rule> c<1> l<8:1> el<91:10>
   n<// Scheme B - use VPIish callbacks to see what signals exist> u<588> t<LINE_COMMENT> p<589> l<85:7> el<85:67>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_dpi_var.v:8:1: Compile module "t".
+[WRN:CP0350] $Source01/t_dpi_var.v:56:38: Failed to bind "id:167, name:mon_register_done".
+[WRN:CP0350] $Source01/t_dpi_var.v:59:8: Failed to bind "id:178, name:sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -731,6 +733,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:monclk start:16:12 end:16:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:12 end:16:12:
@@ -740,6 +743,7 @@ Design name:unnamed:
           vpiName: monclk
           vpiFullName: t.monclk
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue Operation start:16:21 end:16:25:
             vpiParent: Net name:monclk
             vpiOpType: bitwise negation (4)
@@ -1287,11 +1291,12 @@ Design name:unnamed:
         vpiActual: UnsupportedTypespec name:char
       vpiName: namep
       vpiFullName: namep
+      vpiConstantVariable: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 10
 [  ERROR] : 3
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

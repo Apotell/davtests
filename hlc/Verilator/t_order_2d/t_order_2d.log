@@ -22,7 +22,7 @@ n<$Source01/t_order_2d.v> u<795> t<Top_level_rule> c<1> l<6:1> el<80:1>
     n<> u<593> t<Description> p<794> c<592> s<793> l<6:1> el<62:10>
       n<> u<592> t<Module_declaration> p<593> c<18> l<6:1> el<62:10>
         n<> u<18> t<Module_nonansi_header> p<592> c<6> s<25> l<6:1> el<9:6>
-          n<module> u<6> t<Module_keyword> p<18> s<7> l<6:1> el<6:7>
+          n<module> u<6> t<MODULE> p<18> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<18> s<8> l<6:8> el<6:9>
           n<> u<8> t<Package_import_declaration_list> p<18> s<9> l<6:10> el<6:10>
           n</*AUTOARG*/> u<9> t<BLOCK_COMMENT> p<18> s<10> l<6:10> el<9:5>
@@ -610,7 +610,7 @@ n<$Source01/t_order_2d.v> u<795> t<Top_level_rule> c<1> l<6:1> el<80:1>
     n<> u<793> t<Description> p<794> c<792> l<64:1> el<79:10>
       n<> u<792> t<Module_declaration> p<793> c<610> l<64:1> el<79:10>
         n<> u<610> t<Module_ansi_header> p<792> c<594> s<611> l<64:1> el<67:7>
-          n<module> u<594> t<Module_keyword> p<610> s<595> l<64:1> el<64:7>
+          n<module> u<594> t<MODULE> p<610> s<595> l<64:1> el<64:7>
           n<Test> u<595> t<SIMPLE_IDENTIFIER> p<610> s<596> l<64:8> el<64:12>
           n<> u<596> t<Package_import_declaration_list> p<610> s<609> l<64:13> el<64:13>
           n<> u<609> t<Port_declaration_list> p<610> c<602> l<64:13> el<67:6>
@@ -810,6 +810,7 @@ n<$Source01/t_order_2d.v> u<795> t<Top_level_rule> c<1> l<6:1> el<80:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_order_2d.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_order_2d.v:64:1: Compile module "Test".
+[NTE:CP0309] $Source01/t_order_2d.v:66:12: Implicit port type (wire) for "output_signal".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -947,6 +948,7 @@ Design name:unnamed:
           vpiName Identifier name:Test start:24:4 end:24:8:
             vpiParent: ModuleTypespec name:Test
             vpiName: Test
+          vpiModule: Module name:Test
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -990,6 +992,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:input_signal start:17:11 end:17:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:11 end:17:11:
@@ -999,6 +1002,7 @@ Design name:unnamed:
           vpiName: input_signal
           vpiFullName: t.input_signal
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue BitSelect name:crc[0] start:17:26 end:17:32:
             vpiParent: Net name:input_signal
             vpiName: crc[0]
@@ -1027,6 +1031,7 @@ Design name:unnamed:
           vpiName: output_signal
           vpiFullName: t.output_signal
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:result start:31:16 end:31:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:31:9 end:31:15:
@@ -1036,6 +1041,7 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: t.result
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:31:25 end:31:47:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -1720,6 +1726,7 @@ Design name:unnamed:
           vpiName: input_signal
           vpiFullName: Test.input_signal
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:output_signal start:66:12 end:66:25:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:66:5 end:66:11:
@@ -1729,6 +1736,7 @@ Design name:unnamed:
           vpiName: output_signal
           vpiFullName: Test.output_signal
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:some_signal start:72:12 end:72:23:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec:
@@ -1738,6 +1746,7 @@ Design name:unnamed:
           vpiName: some_signal
           vpiFullName: Test.some_signal
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (2 items):
         Port name:input_signal start:65:11 end:65:23:
           vpiParent: Module name:Test
@@ -2077,7 +2086,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

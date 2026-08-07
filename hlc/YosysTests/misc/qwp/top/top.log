@@ -18,7 +18,7 @@ n<$Source01/top.v> u<129> t<Top_level_rule> c<1> l<1:1> el<34:1>
     n<> u<80> t<Description> p<128> c<79> s<127> l<1:1> el<23:10>
       n<> u<79> t<Module_declaration> p<80> c<38> l<1:1> el<23:10>
         n<> u<38> t<Module_ansi_header> p<79> c<2> s<49> l<1:1> el<9:4>
-          n<module> u<2> t<Module_keyword> p<38> s<3> l<1:1> el<1:7>
+          n<module> u<2> t<MODULE> p<38> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<38> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<38> s<37> l<2:1> el<2:1>
           n<> u<37> t<Port_declaration_list> p<38> c<10> l<2:1> el<9:3>
@@ -97,7 +97,7 @@ n<$Source01/top.v> u<129> t<Top_level_rule> c<1> l<1:1> el<34:1>
     n<> u<127> t<Description> p<128> c<126> l<25:1> el<33:10>
       n<> u<126> t<Module_declaration> p<127> c<103> l<25:1> el<33:10>
         n<> u<103> t<Module_ansi_header> p<126> c<81> s<124> l<25:1> el<30:3>
-          n<module> u<81> t<Module_keyword> p<103> s<82> l<25:1> el<25:7>
+          n<module> u<81> t<MODULE> p<103> s<82> l<25:1> el<25:7>
           n<middle> u<82> t<SIMPLE_IDENTIFIER> p<103> s<83> l<25:8> el<25:14>
           n<> u<83> t<Package_import_declaration_list> p<103> s<102> l<26:1> el<26:1>
           n<> u<102> t<Port_declaration_list> p<103> c<89> l<26:1> el<30:2>
@@ -143,7 +143,9 @@ n<$Source01/top.v> u<129> t<Top_level_rule> c<1> l<1:1> el<34:1>
         n<> u<125> t<ENDMODULE> p<126> l<33:1> el<33:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/top.v:1:1: Compile module "top".
+[NTE:CP0309] $Source01/top.v:8:9: Implicit port type (wire) for "cout".
 [INF:CP0303] $Source01/top.v:25:1: Compile module "middle".
+[NTE:CP0309] $Source01/top.v:29:9: Implicit port type (wire) for "o".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -169,6 +171,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: top.A
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -189,6 +192,7 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: top.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:4:8 end:4:9:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:2 end:4:7:
@@ -198,6 +202,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: top.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cin start:5:8 end:5:11:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:2 end:5:7:
@@ -207,6 +212,7 @@ Design name:unnamed:
           vpiName: cin
           vpiFullName: top.cin
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:cout start:8:9 end:8:13:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:8:2 end:8:8:
@@ -216,6 +222,7 @@ Design name:unnamed:
           vpiName: cout
           vpiFullName: top.cout
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:10:7 end:10:8:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:10:7 end:10:7:
@@ -225,6 +232,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: top.o
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:x start:3:8 end:3:9:
           vpiParent: Module name:top
@@ -344,6 +352,7 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: middle.x
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:y start:28:8 end:28:9:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:28:2 end:28:7:
@@ -353,6 +362,7 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: middle.y
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:o start:29:9 end:29:10:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec start:29:2 end:29:8:
@@ -362,6 +372,7 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: middle.o
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:x start:27:8 end:27:9:
           vpiParent: Module name:middle
@@ -442,7 +453,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

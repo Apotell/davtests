@@ -20,7 +20,7 @@ n<$Source01/t_param_sel_range.v> u<353> t<Top_level_rule> c<1> l<5:1> el<49:1>
     n<> u<49> t<Description> p<352> c<48> s<351> l<5:1> el<13:10>
       n<> u<48> t<Module_declaration> p<49> c<26> l<5:1> el<13:10>
         n<> u<26> t<Module_ansi_header> p<48> c<4> s<46> l<5:1> el<9:13>
-          n<module> u<4> t<Module_keyword> p<26> s<5> l<5:1> el<5:7>
+          n<module> u<4> t<MODULE> p<26> s<5> l<5:1> el<5:7>
           n<t> u<5> t<SIMPLE_IDENTIFIER> p<26> s<6> l<5:8> el<5:9>
           n<> u<6> t<Package_import_declaration_list> p<26> s<25> l<5:10> el<5:10>
           n<> u<25> t<Port_declaration_list> p<26> c<12> l<5:10> el<9:12>
@@ -66,7 +66,7 @@ n<$Source01/t_param_sel_range.v> u<353> t<Top_level_rule> c<1> l<5:1> el<49:1>
     n<> u<351> t<Description> p<352> c<350> l<15:1> el<48:10>
       n<> u<350> t<Module_declaration> p<351> c<75> l<15:1> el<48:10>
         n<> u<75> t<Module_nonansi_header> p<350> c<50> s<92> l<15:1> el<20:6>
-          n<module> u<50> t<Module_keyword> p<75> s<51> l<15:1> el<15:7>
+          n<module> u<50> t<MODULE> p<75> s<51> l<15:1> el<15:7>
           n<submod> u<51> t<SIMPLE_IDENTIFIER> p<75> s<52> l<15:8> el<15:14>
           n<> u<52> t<Package_import_declaration_list> p<75> s<53> l<15:15> el<15:15>
           n</*AUTOARG*/> u<53> t<BLOCK_COMMENT> p<75> s<54> l<15:15> el<20:5>
@@ -367,6 +367,7 @@ n<$Source01/t_param_sel_range.v> u<353> t<Top_level_rule> c<1> l<5:1> el<49:1>
         n<> u<349> t<ENDMODULE> p<350> l<48:1> el<48:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_param_sel_range.v:5:1: Compile module "t".
+[NTE:CP0309] $Source01/t_param_sel_range.v:8:18: Implicit port type (wire) for "out".
 [INF:CP0303] $Source01/t_param_sel_range.v:15:1: Compile module "submod".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -392,6 +393,7 @@ Design name:unnamed:
           vpiName Identifier name:submod start:11:4 end:11:10:
             vpiParent: ModuleTypespec name:submod
             vpiName: submod
+          vpiModule: Module name:submod
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -409,6 +411,7 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: t.rst_n
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:clk start:7:18 end:7:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:7:11 end:7:16:
@@ -418,6 +421,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:out start:8:18 end:8:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:8:11 end:8:17:
@@ -427,6 +431,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: t.out
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (3 items):
         Port name:rst_n start:6:18 end:6:23:
           vpiParent: Module name:t
@@ -480,6 +485,7 @@ Design name:unnamed:
             ParamAssign start:11:13 end:11:23:
               vpiParent: RefInstance name:u2
               vpiConnByName: true
+              vpiOverridden: true
               vpiLhs RefObj name:STAGES start:11:14 end:11:20:
                 vpiParent: ParamAssign
                 vpiName: STAGES
@@ -598,6 +604,7 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: submod.rst_n
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:clk start:25:12 end:25:15:
           vpiParent: Module name:submod
           vpiTypespec RefTypespec start:25:12 end:25:12:
@@ -607,6 +614,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: submod.clk
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:out start:26:12 end:26:15:
           vpiParent: Module name:submod
           vpiTypespec RefTypespec start:46:9 end:46:9:
@@ -616,6 +624,7 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: submod.out
           vpiNetType: wire (1)
+          vpiScalar: true
           vpiValue BitSelect name:r_rst[STAGES - 1] start:46:15 end:46:30:
             vpiParent: Net name:out
             vpiName: r_rst[STAGES - 1]
@@ -973,7 +982,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

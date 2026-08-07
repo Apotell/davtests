@@ -59,7 +59,7 @@ n<$Source01/t_interface_twod.v> u<360> t<Top_level_rule> c<1> l<6:1> el<48:1>
     n<> u<280> t<Description> p<359> c<279> s<358> l<12:1> el<36:10>
       n<> u<279> t<Module_declaration> p<280> c<55> l<12:1> el<36:10>
         n<> u<55> t<Module_nonansi_header> p<279> c<43> s<62> l<12:1> el<15:6>
-          n<module> u<43> t<Module_keyword> p<55> s<44> l<12:1> el<12:7>
+          n<module> u<43> t<MODULE> p<55> s<44> l<12:1> el<12:7>
           n<t> u<44> t<SIMPLE_IDENTIFIER> p<55> s<45> l<12:8> el<12:9>
           n<> u<45> t<Package_import_declaration_list> p<55> s<46> l<12:10> el<12:10>
           n</*AUTOARG*/> u<46> t<BLOCK_COMMENT> p<55> s<47> l<12:10> el<15:5>
@@ -297,7 +297,7 @@ n<$Source01/t_interface_twod.v> u<360> t<Top_level_rule> c<1> l<6:1> el<48:1>
     n<> u<358> t<Description> p<359> c<357> l<38:1> el<47:10>
       n<> u<357> t<Module_declaration> p<358> c<310> l<38:1> el<47:10>
         n<> u<310> t<Module_ansi_header> p<357> c<281> s<355> l<38:1> el<42:6>
-          n<module> u<281> t<Module_keyword> p<310> s<282> l<38:1> el<38:7>
+          n<module> u<281> t<MODULE> p<310> s<282> l<38:1> el<38:7>
           n<wrapper> u<282> t<SIMPLE_IDENTIFIER> p<310> s<283> l<38:8> el<38:15>
           n<> u<283> t<Package_import_declaration_list> p<310> s<309> l<39:3> el<39:3>
           n<> u<309> t<Port_declaration_list> p<310> c<290> l<39:3> el<42:5>
@@ -376,11 +376,12 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_twod.v:6:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface_twod.v:12:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_twod.v:38:1: Compile module "wrapper".
-[ERR:LN0813] $Source01/t_interface_twod.v:1:1: Found 3 orphan node(s).
+[WRN:CP0310] $Source01/t_interface_twod.v:40:10: Port "isuba" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/t_interface_twod.v:40:17: Port "isubb" definition missing its direction (input, output, inout).
 [WRN:CP0350] $Source01/t_interface_twod.v:30:14: Failed to bind "id:84, name:value".
 [WRN:CP0350] $Source01/t_interface_twod.v:31:14: Failed to bind "id:94, name:value".
-[WRN:CP0350] $Source01/t_interface_twod.v:44:13: Failed to bind "id:132, name:value".
-[WRN:CP0350] $Source01/t_interface_twod.v:45:13: Failed to bind "id:137, name:value".
+[WRN:CP0350] $Source01/t_interface_twod.v:44:13: Failed to bind "id:140, name:value".
+[WRN:CP0350] $Source01/t_interface_twod.v:45:13: Failed to bind "id:145, name:value".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -482,6 +483,7 @@ Design name:unnamed:
           vpiName Identifier name:wrapper start:22:4 end:22:11:
             vpiParent: ModuleTypespec name:wrapper
             vpiName: wrapper
+          vpiModule: Module name:wrapper
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -499,6 +501,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:14:4 end:14:7:
           vpiParent: Module name:t
@@ -761,8 +764,21 @@ Design name:unnamed:
         vpiName: wrapper
       vpiFullName: wrapper
       vpiTypespec (2 items):
-        LogicTypespec:
+        UnsupportedTypespec name:ifc::i start:40:4 end:40:9:
           vpiParent: Module name:wrapper
+          vpiPathElem (2 items):
+            RefObj name:ifc start:40:4 end:40:7:
+              vpiParent: UnsupportedTypespec name:ifc::i
+              vpiName: ifc
+              vpiFullName: wrapper.ifc::i.ifc
+              vpiActual: Interface name:ifc
+            RefObj name:i start:40:8 end:40:9:
+              vpiParent: UnsupportedTypespec name:ifc::i
+              vpiName: i
+              vpiFullName: wrapper.ifc::i.i
+          vpiName Identifier name:ifc::i:
+            vpiParent: UnsupportedTypespec name:ifc::i
+            vpiName: ifc::i
         IntegerTypespec:
           vpiParent: Module name:wrapper
           vpiSigned: true
@@ -773,7 +789,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: wrapper.work
       vpiCell: wrapper
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:i_valuea start:41:18 end:41:26:
           vpiParent: Module name:wrapper
           vpiTypespec RefTypespec start:41:4 end:41:17:
@@ -783,15 +799,41 @@ Design name:unnamed:
           vpiName: i_valuea
           vpiFullName: wrapper.i_valuea
           vpiNetType: wire (1)
+        Net name:i_valueb start:41:28 end:41:36:
+          vpiParent: Module name:wrapper
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:i_valueb
+            vpiFullName: wrapper.i_valueb
+            vpiActual: IntegerTypespec
+          vpiName: i_valueb
+          vpiFullName: wrapper.i_valueb
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:isuba start:40:10 end:40:15:
           vpiParent: Module name:wrapper
           vpiName: isuba
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:isuba start:40:10 end:40:15:
+            vpiParent: Port name:isuba
+            vpiName: isuba
+            vpiFullName: wrapper.isuba.isuba
+            vpiActual: Port name:isuba
+          vpiTypespec RefTypespec start:40:4 end:40:9:
+            vpiParent: Port name:isuba
+            vpiFullName: wrapper.isuba
+            vpiActual: UnsupportedTypespec name:ifc::i
         Port name:isubb start:40:17 end:40:22:
           vpiParent: Module name:wrapper
           vpiName: isubb
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:isubb start:40:17 end:40:22:
+            vpiParent: Port name:isubb
+            vpiName: isubb
+            vpiFullName: wrapper.isubb.isubb
+            vpiActual: Port name:isubb
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:isubb
+            vpiFullName: wrapper.isubb
         Port name:i_valuea start:41:18 end:41:26:
           vpiParent: Module name:wrapper
           vpiName: i_valuea
@@ -808,7 +850,16 @@ Design name:unnamed:
         Port name:i_valueb start:41:28 end:41:36:
           vpiParent: Module name:wrapper
           vpiName: i_valueb
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:i_valueb start:41:28 end:41:36:
+            vpiParent: Port name:i_valueb
+            vpiName: i_valueb
+            vpiFullName: wrapper.i_valueb.i_valueb
+            vpiActual: Net name:i_valueb
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:i_valueb
+            vpiFullName: wrapper.i_valueb
+            vpiActual: IntegerTypespec
       vpiProcess (1 items):
         Always start:43:4 end:46:7:
           vpiParent: Module name:wrapper
@@ -861,7 +912,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: i_valueb
                     vpiFullName: wrapper.i_valueb
-                    vpiActual: Port name:i_valueb
+                    vpiActual: Net name:i_valueb
           vpiAlwaysType: always (1)
   vpiTypespec (5 items):
     InterfaceTypespec name:ifc:
@@ -890,8 +941,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 4
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -906,25 +957,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_twod/mounts.json
 
 
-{'result': {'coverage': 99.07,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_twod.v': {'post_len': 5,
+            'files': {'$Output/lib/work/t_interface_twod.v': {'post_len': 0,
                                                               'pre_len': 540}},
-            'post_len': 5,
+            'post_len': 0,
             'pre_len': 540,
             'test_name': 'Verilator/t_interface_twod'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_interface_twod.v |      540 |         5 |
+| $Output/lib/work/t_interface_twod.v |      540 |         0 |
 +=====================================+==========+===========+
-|                                     |      540 |         5 |
+|                                     |      540 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.07
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -936,10 +987,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       2         2
 Operation                            5       3       0         2
-RefObj                              25      23       0         2
-RefTypespec                         19      19       2         2
+RefObj                              30      28       0         2
+RefTypespec                         23      23       2         2
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                   127     123       4         8
+                                   138     134       4         8
 ===================== END REDUCTION RESULT =====================

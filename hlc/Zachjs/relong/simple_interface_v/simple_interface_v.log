@@ -19,7 +19,7 @@ n<$Source01/relong/simple_interface.v> u<610> t<Top_level_rule> c<1> l<3:1> el<8
     n<> u<240> t<Description> p<609> c<239> s<437> l<3:1> el<40:10>
       n<> u<239> t<Module_declaration> p<240> c<53> l<3:1> el<40:10>
         n<> u<53> t<Module_ansi_header> p<239> c<3> s<54> l<3:1> el<8:3>
-          n<module> u<3> t<Module_keyword> p<53> s<4> l<3:1> el<3:7>
+          n<module> u<3> t<MODULE> p<53> s<4> l<3:1> el<3:7>
           n<Device> u<4> t<SIMPLE_IDENTIFIER> p<53> s<5> l<3:8> el<3:14>
           n<> u<5> t<Package_import_declaration_list> p<53> s<52> l<3:14> el<3:14>
           n<> u<52> t<Port_declaration_list> p<53> c<22> l<3:14> el<8:2>
@@ -257,7 +257,7 @@ n<$Source01/relong/simple_interface.v> u<610> t<Top_level_rule> c<1> l<3:1> el<8
     n<> u<437> t<Description> p<609> c<436> s<608> l<42:1> el<63:10>
       n<> u<436> t<Module_declaration> p<437> c<301> l<42:1> el<63:10>
         n<> u<301> t<Module_ansi_header> p<436> c<241> s<323> l<42:1> el<50:3>
-          n<module> u<241> t<Module_keyword> p<301> s<242> l<42:1> el<42:7>
+          n<module> u<241> t<MODULE> p<301> s<242> l<42:1> el<42:7>
           n<Producer> u<242> t<SIMPLE_IDENTIFIER> p<301> s<243> l<42:8> el<42:16>
           n<> u<243> t<Package_import_declaration_list> p<301> s<244> l<42:16> el<42:16>
           n<// Port direction from SimpleInterface.Producer modport> u<244> t<LINE_COMMENT> p<301> s<300> l<43:5> el<43:60>
@@ -454,7 +454,7 @@ n<$Source01/relong/simple_interface.v> u<610> t<Top_level_rule> c<1> l<3:1> el<8
     n<> u<608> t<Description> p<609> c<607> l<65:1> el<88:10>
       n<> u<607> t<Module_declaration> p<608> c<499> l<65:1> el<88:10>
         n<> u<499> t<Module_ansi_header> p<607> c<438> s<500> l<65:1> el<73:3>
-          n<module> u<438> t<Module_keyword> p<499> s<439> l<65:1> el<65:7>
+          n<module> u<438> t<MODULE> p<499> s<439> l<65:1> el<65:7>
           n<Consumer> u<439> t<SIMPLE_IDENTIFIER> p<499> s<440> l<65:8> el<65:16>
           n<> u<440> t<Package_import_declaration_list> p<499> s<441> l<65:16> el<65:16>
           n<// Port direction from SimpleInterface.Consumer modport> u<441> t<LINE_COMMENT> p<499> s<498> l<66:5> el<66:60>
@@ -624,9 +624,11 @@ n<$Source01/relong/simple_interface.v> u<610> t<Top_level_rule> c<1> l<3:1> el<8
         n<> u<606> t<ENDMODULE> p<607> l<88:1> el<88:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/simple_interface.v:3:1: Compile module "Device".
+[NTE:CP0309] $Source01/relong/simple_interface.v:5:24: Implicit port type (wire) for "dataOut".
 [INF:CP0303] $Source01/relong/simple_interface.v:42:1: Compile module "Producer".
+[NTE:CP0309] $Source01/relong/simple_interface.v:46:24: Implicit port type (wire) for "myInterface_data".
 [INF:CP0303] $Source01/relong/simple_interface.v:65:1: Compile module "Consumer".
-[ERR:LN0813] $Source01/relong/simple_interface.v:1:1: Found 1 orphan node(s).
+[NTE:CP0309] $Source01/relong/simple_interface.v:72:24: Implicit port type (wire) for "dataOut".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -729,11 +731,13 @@ Design name:unnamed:
           vpiName Identifier name:Producer start:20:5 end:20:13:
             vpiParent: ModuleTypespec name:Producer
             vpiName: Producer
+          vpiModule: Module name:Producer
         ModuleTypespec name:Consumer start:30:5 end:30:13:
           vpiParent: Module name:Device
           vpiName Identifier name:Consumer start:30:5 end:30:13:
             vpiParent: ModuleTypespec name:Consumer
             vpiName: Consumer
+          vpiModule: Module name:Consumer
       vpiDefName: Device
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -741,7 +745,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Device.work
       vpiCell: Device
-      vpiNet (7 items):
+      vpiNet (8 items):
         Net name:dataIn start:4:22 end:4:28:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:4:5 end:4:21:
@@ -751,6 +755,7 @@ Design name:unnamed:
           vpiName: dataIn
           vpiFullName: Device.dataIn
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dataOut start:5:24 end:5:31:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:5:5 end:5:23:
@@ -760,6 +765,7 @@ Design name:unnamed:
           vpiName: dataOut
           vpiFullName: Device.dataOut
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:clock start:7:16 end:7:21:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:7:5 end:7:15:
@@ -769,6 +775,17 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: Device.clock
           vpiNetType: wire (1)
+          vpiScalar: true
+        Net name:clear start:7:23 end:7:28:
+          vpiParent: Module name:Device
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clear
+            vpiFullName: Device.clear
+            vpiActual: LogicTypespec
+          vpiName: clear
+          vpiFullName: Device.clear
+          vpiNetType: wire (1)
+          vpiScalar: true
         Net name:theInterface_clock start:11:10 end:11:28:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -778,6 +795,7 @@ Design name:unnamed:
           vpiName: theInterface_clock
           vpiFullName: Device.theInterface_clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:theInterface_clear start:12:10 end:12:28:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:12:10 end:12:10:
@@ -787,6 +805,7 @@ Design name:unnamed:
           vpiName: theInterface_clear
           vpiFullName: Device.theInterface_clear
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:theInterface_data start:13:17 end:13:34:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:13:10 end:13:16:
@@ -796,6 +815,7 @@ Design name:unnamed:
           vpiName: theInterface_data
           vpiFullName: Device.theInterface_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:theInterface_shift start:14:10 end:14:28:
           vpiParent: Module name:Device
           vpiTypespec RefTypespec start:14:10 end:14:10:
@@ -805,6 +825,7 @@ Design name:unnamed:
           vpiName: theInterface_shift
           vpiFullName: Device.theInterface_shift
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:dataIn start:4:22 end:4:28:
           vpiParent: Module name:Device
@@ -848,7 +869,16 @@ Design name:unnamed:
         Port name:clear start:7:23 end:7:28:
           vpiParent: Module name:Device
           vpiName: clear
-          vpiDirection: inout (3)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clear start:7:23 end:7:28:
+            vpiParent: Port name:clear
+            vpiName: clear
+            vpiFullName: Device.clear.clear
+            vpiActual: Net name:clear
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:clear
+            vpiFullName: Device.clear
+            vpiActual: LogicTypespec
       vpiContAssign (2 items):
         ContAssign start:17:12 end:17:38:
           vpiParent: Module name:Device
@@ -873,7 +903,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: clear
             vpiFullName: Device.clear
-            vpiActual: Port name:clear
+            vpiActual: Net name:clear
       vpiRefInstance (2 items):
         RefInstance name:producer start:20:14 end:20:22:
           vpiParent: Module name:Device
@@ -1119,6 +1149,7 @@ Design name:unnamed:
           vpiName: myInterface_clock
           vpiFullName: Producer.myInterface_clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:myInterface_clear start:45:16 end:45:33:
           vpiParent: Module name:Producer
           vpiTypespec RefTypespec start:45:5 end:45:15:
@@ -1128,6 +1159,7 @@ Design name:unnamed:
           vpiName: myInterface_clear
           vpiFullName: Producer.myInterface_clear
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:myInterface_data start:46:24 end:46:40:
           vpiParent: Module name:Producer
           vpiTypespec RefTypespec start:46:5 end:46:23:
@@ -1137,6 +1169,7 @@ Design name:unnamed:
           vpiName: myInterface_data
           vpiFullName: Producer.myInterface_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:myInterface_shift start:47:16 end:47:33:
           vpiParent: Module name:Producer
           vpiTypespec RefTypespec start:47:5 end:47:15:
@@ -1146,6 +1179,7 @@ Design name:unnamed:
           vpiName: myInterface_shift
           vpiFullName: Producer.myInterface_shift
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:dataIn start:49:22 end:49:28:
           vpiParent: Module name:Producer
           vpiTypespec RefTypespec start:49:5 end:49:21:
@@ -1155,6 +1189,7 @@ Design name:unnamed:
           vpiName: dataIn
           vpiFullName: Producer.dataIn
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (5 items):
         Port name:myInterface_clock start:44:16 end:44:33:
           vpiParent: Module name:Producer
@@ -1354,6 +1389,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: myInterface_shift
           vpiFullName: Consumer.myInterface_shift
+          vpiScalar: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:Consumer
@@ -1426,6 +1462,7 @@ Design name:unnamed:
           vpiName: myInterface_clock
           vpiFullName: Consumer.myInterface_clock
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:myInterface_clear start:68:16 end:68:33:
           vpiParent: Module name:Consumer
           vpiTypespec RefTypespec start:68:5 end:68:15:
@@ -1435,6 +1472,7 @@ Design name:unnamed:
           vpiName: myInterface_clear
           vpiFullName: Consumer.myInterface_clear
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:myInterface_data start:69:23 end:69:39:
           vpiParent: Module name:Consumer
           vpiTypespec RefTypespec start:69:5 end:69:22:
@@ -1444,6 +1482,7 @@ Design name:unnamed:
           vpiName: myInterface_data
           vpiFullName: Consumer.myInterface_data
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:dataOut start:72:24 end:72:31:
           vpiParent: Module name:Consumer
           vpiTypespec RefTypespec start:72:5 end:72:23:
@@ -1453,6 +1492,7 @@ Design name:unnamed:
           vpiName: dataOut
           vpiFullName: Consumer.dataOut
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:local_shift start:76:10 end:76:21:
           vpiParent: Module name:Consumer
           vpiTypespec RefTypespec start:76:10 end:76:10:
@@ -1462,6 +1502,7 @@ Design name:unnamed:
           vpiName: local_shift
           vpiFullName: Consumer.local_shift
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (5 items):
         Port name:myInterface_clock start:67:16 end:67:33:
           vpiParent: Module name:Consumer
@@ -1646,9 +1687,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1691,7 +1732,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/simple_interface_v/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             244     244       0         0
+Others                             248     248       0         0
 ----------------------------------------------------------------
-                                   244     244       0         0
+                                   248     248       0         0
 ===================== END REDUCTION RESULT =====================

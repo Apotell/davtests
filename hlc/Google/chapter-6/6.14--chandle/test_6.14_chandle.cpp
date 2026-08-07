@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -104,18 +104,17 @@ TEST_F(ChandleTest, AHasTypespec) {
   EXPECT_NE(a->getTypespec(), nullptr) << "'a' should have a RefTypespec node";
 }
 
-TEST_F(ChandleTest, ATypespecActualIsNull) {
+TEST_F(ChandleTest, ATypespecActualIsNotNull) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getActual(), nullptr) << "chandle typespec vpiActual is unresolved in this HLDB version";
+  ASSERT_NE(rts->getActual(), nullptr) << "chandle variable typespec vpiActual is unresolved";
 }
 
 TEST_F(ChandleTest, ATypespecNameIsChandle) {
-  GTEST_SKIP() << "Compiler doesn't support ChandleTypespec yet";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());

@@ -23,7 +23,7 @@ n<$Source01/t_interface_gen.v> u<638> t<Top_level_rule> c<1> l<15:1> el<88:1>
     n<> u<372> t<Description> p<637> c<371> s<500> l<15:1> el<44:10>
       n<> u<371> t<Module_declaration> p<372> c<19> l<15:1> el<44:10>
         n<> u<19> t<Module_nonansi_header> p<371> c<7> s<26> l<15:1> el<18:6>
-          n<module> u<7> t<Module_keyword> p<19> s<8> l<15:1> el<15:7>
+          n<module> u<7> t<MODULE> p<19> s<8> l<15:1> el<15:7>
           n<t> u<8> t<SIMPLE_IDENTIFIER> p<19> s<9> l<15:8> el<15:9>
           n<> u<9> t<Package_import_declaration_list> p<19> s<10> l<15:10> el<15:10>
           n</*AUTOARG*/> u<10> t<BLOCK_COMMENT> p<19> s<11> l<15:10> el<18:5>
@@ -389,7 +389,7 @@ n<$Source01/t_interface_gen.v> u<638> t<Top_level_rule> c<1> l<15:1> el<88:1>
     n<> u<500> t<Description> p<637> c<499> s<636> l<46:1> el<65:10>
       n<> u<499> t<Module_declaration> p<500> c<405> l<46:1> el<65:10>
         n<> u<405> t<Module_ansi_header> p<499> c<373> s<497> l<46:1> el<51:6>
-          n<module> u<373> t<Module_keyword> p<405> s<374> l<46:1> el<46:7>
+          n<module> u<373> t<MODULE> p<405> s<374> l<46:1> el<46:7>
           n<sub> u<374> t<SIMPLE_IDENTIFIER> p<405> s<375> l<46:8> el<46:11>
           n<> u<375> t<Package_import_declaration_list> p<405> s<388> l<47:3> el<47:3>
           n<> u<388> t<Parameter_port_list> p<405> c<387> s<404> l<47:3> el<47:24>
@@ -654,16 +654,18 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_gen.v:15:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_gen.v:15:1: Multiply defined typedef "sub".
 [INF:CP0303] $Source01/t_interface_gen.v:46:1: Compile module "sub".
+[WRN:CP0310] $Source01/t_interface_gen.v:49:20: Port "isub" definition missing its direction (input, output, inout).
 [INF:CP0304] $Source01/t_interface_gen.v:67:1: Compile interface "ifc".
 [ERR:CP0313] $Source01/t_interface_gen.v:77:15: Illegal modport in generate statement.
 [ERR:CP0311] $Source01/t_interface_gen.v:77:35: Undefined net used in modport: "valuea".
 [ERR:CP0313] $Source01/t_interface_gen.v:82:15: Illegal modport in generate statement.
 [ERR:CP0311] $Source01/t_interface_gen.v:82:35: Undefined net used in modport: "valueb".
-[ERR:LN0813] $Source01/t_interface_gen.v:1:1: Found 1 orphan node(s).
 [WRN:CP0350] $Source01/t_interface_gen.v:34:13: Failed to bind "id:93, name:MODE".
 [WRN:CP0350] $Source01/t_interface_gen.v:35:13: Failed to bind "id:103, name:MODE".
-[WRN:CP0350] $Source01/t_interface_gen.v:60:22: Failed to bind "id:183, name:valueb".
-[WRN:CP0350] $Source01/t_interface_gen.v:57:22: Failed to bind "id:196, name:valuea".
+[WRN:CP0350] $Source01/t_interface_gen.v:38:13: Failed to bind "id:120, name:get_value".
+[WRN:CP0350] $Source01/t_interface_gen.v:39:13: Failed to bind "id:131, name:get_value".
+[WRN:CP0350] $Source01/t_interface_gen.v:60:22: Failed to bind "id:185, name:valueb".
+[WRN:CP0350] $Source01/t_interface_gen.v:57:22: Failed to bind "id:198, name:valuea".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -883,11 +885,13 @@ Design name:unnamed:
           vpiName Identifier name:sub start:26:4 end:26:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
         ModuleTypespec name:sub start:28:4 end:28:7:
           vpiParent: Module name:t
           vpiName Identifier name:sub start:28:4 end:28:7:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -905,6 +909,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:17:4 end:17:7:
           vpiParent: Module name:t
@@ -1089,7 +1094,7 @@ Design name:unnamed:
                           vpiParent: IfStmt
                           vpiOpType: not equal (15)
                           vpiOperand (2 items):
-                            HierPath name:itopa.get_value() start:38:7 end:38:23:
+                            HierPath name:itopa.get_value() start:38:7 end:38:24:
                               vpiParent: Operation
                               vpiName: itopa.get_value()
                               vpiFullName: t.itopa.get_value()
@@ -1125,7 +1130,7 @@ Design name:unnamed:
                           vpiParent: IfStmt
                           vpiOpType: not equal (15)
                           vpiOperand (2 items):
-                            HierPath name:itopb.get_value() start:39:7 end:39:23:
+                            HierPath name:itopb.get_value() start:39:7 end:39:24:
                               vpiParent: Operation
                               vpiName: itopb.get_value()
                               vpiFullName: t.itopb.get_value()
@@ -1189,6 +1194,7 @@ Design name:unnamed:
           vpiParamAssign (1 items):
             ParamAssign start:23:10 end:23:11:
               vpiParent: RefInstance name:itopa
+              vpiOverridden: true
               vpiRhs Constant start:23:10 end:23:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -1210,6 +1216,7 @@ Design name:unnamed:
           vpiParamAssign (1 items):
             ParamAssign start:24:10 end:24:11:
               vpiParent: RefInstance name:itopb
+              vpiOverridden: true
               vpiRhs Constant start:24:10 end:24:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -1231,6 +1238,7 @@ Design name:unnamed:
           vpiParamAssign (1 items):
             ParamAssign start:26:10 end:26:11:
               vpiParent: RefInstance name:ca
+              vpiOverridden: true
               vpiRhs Constant start:26:10 end:26:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -1280,6 +1288,7 @@ Design name:unnamed:
           vpiParamAssign (1 items):
             ParamAssign start:28:10 end:28:11:
               vpiParent: RefInstance name:cb
+              vpiOverridden: true
               vpiRhs Constant start:28:10 end:28:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -1351,9 +1360,24 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:sub
+        UnsupportedTypespec name:ifc::out_modport start:49:4 end:49:19:
+          vpiParent: Module name:sub
+          vpiPathElem (2 items):
+            RefObj name:ifc start:49:4 end:49:7:
+              vpiParent: UnsupportedTypespec name:ifc::out_modport
+              vpiName: ifc
+              vpiFullName: sub.ifc::out_modport.ifc
+              vpiActual: Interface name:ifc
+            RefObj name:out_modport start:49:8 end:49:19:
+              vpiParent: UnsupportedTypespec name:ifc::out_modport
+              vpiName: out_modport
+              vpiFullName: sub.ifc::out_modport.out_modport
+          vpiName Identifier name:ifc::out_modport:
+            vpiParent: UnsupportedTypespec name:ifc::out_modport
+            vpiName: ifc::out_modport
         IntegerTypespec:
           vpiParent: Module name:sub
           vpiSigned: true
@@ -1379,6 +1403,15 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: isub
           vpiDirection: inout (3)
+          vpiLowConn RefObj name:isub start:49:20 end:49:24:
+            vpiParent: Port name:isub
+            vpiName: isub
+            vpiFullName: sub.isub.isub
+            vpiActual: Port name:isub
+          vpiTypespec RefTypespec start:49:4 end:49:19:
+            vpiParent: Port name:isub
+            vpiFullName: sub.isub
+            vpiActual: UnsupportedTypespec name:ifc::out_modport
         Port name:i_value start:50:18 end:50:25:
           vpiParent: Module name:sub
           vpiName: i_value
@@ -1531,8 +1564,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 5
+[  ERROR] : 4
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1547,25 +1580,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen/mounts.json
 
 
-{'result': {'coverage': 98.42,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen.v': {'post_len': 15,
+            'files': {'$Output/lib/work/t_interface_gen.v': {'post_len': 0,
                                                              'pre_len': 947}},
-            'post_len': 15,
+            'post_len': 0,
             'pre_len': 947,
             'test_name': 'Verilator/t_interface_gen'}}
 
 +------------------------------------+----------+-----------+
 | INPUT                              |   PRELEN |   POSTLEN |
 +====================================+==========+===========+
-| $Output/lib/work/t_interface_gen.v |      947 |        15 |
+| $Output/lib/work/t_interface_gen.v |      947 |         0 |
 +====================================+==========+===========+
-|                                    |      947 |        15 |
+|                                    |      947 |         0 |
 +------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.42
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1577,10 +1610,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      20       6         6
 Operation                           11       5       0         6
-RefObj                              35      29       0         6
-RefTypespec                         37      37       6         6
+RefObj                              38      32       0         6
+RefTypespec                         38      38       6         6
 ----------------------------------------------------------------
-Others                             114     114       0         0
+Others                             116     116       0         0
 ----------------------------------------------------------------
-                                   217     205      12        24
+                                   223     211      12        24
 ===================== END REDUCTION RESULT =====================

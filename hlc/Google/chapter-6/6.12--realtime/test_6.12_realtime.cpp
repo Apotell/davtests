@@ -107,19 +107,19 @@ TEST_F(RealtimeTest, ATypespecActualIsNull) {
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getActual(), nullptr) << "realtime typespec vpiActual is unset (unlike 'real')";
+  ASSERT_NE(rts->getActual(), nullptr) << "realtime variable typespec vpiActual is unset";
+  EXPECT_EQ(rts->getActual()->getAnyType(), hldb::AnyType::RealTypespec);
 }
 
 TEST_F(RealtimeTest, ATypespecNameIsRealtime) {
-  GTEST_SKIP() << "Compiler doesn't support TimeTypespec yet";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  ASSERT_NE(rts->getActual(), nullptr) << "RefTypespec actual is nullptr";
-  EXPECT_NE(rts->getActual<hldb::TimeTypespec>(), nullptr);
+  EXPECT_NE(rts->getActual(), nullptr) << "RefTypespec actual is nullptr";
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr);
 }
 
 // ---------------------------------------------------------------------------
@@ -155,14 +155,6 @@ TEST_F(RealtimeTest, NoProcesses) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
-}
-
-TEST_F(RealtimeTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

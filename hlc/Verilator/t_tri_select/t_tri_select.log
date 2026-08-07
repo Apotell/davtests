@@ -20,7 +20,7 @@ n<$Source01/t_tri_select.v> u<611> t<Top_level_rule> c<1> l<6:1> el<42:1>
     n<> u<401> t<Description> p<610> c<400> s<537> l<6:1> el<32:10>
       n<> u<400> t<Module_declaration> p<401> c<158> l<6:1> el<32:10>
         n<> u<158> t<Module_ansi_header> p<400> c<4> s<194> l<6:1> el<14:31>
-          n<module> u<4> t<Module_keyword> p<158> s<5> l<6:1> el<6:7>
+          n<module> u<4> t<MODULE> p<158> s<5> l<6:1> el<6:7>
           n<top> u<5> t<SIMPLE_IDENTIFIER> p<158> s<6> l<6:8> el<6:11>
           n<> u<6> t<Package_import_declaration_list> p<158> s<157> l<6:12> el<6:12>
           n<> u<157> t<Port_declaration_list> p<158> c<12> l<6:12> el<14:30>
@@ -418,7 +418,7 @@ n<$Source01/t_tri_select.v> u<611> t<Top_level_rule> c<1> l<6:1> el<42:1>
     n<> u<537> t<Description> p<610> c<536> s<609> l<34:1> el<36:10>
       n<> u<536> t<Module_declaration> p<537> c<478> l<34:1> el<36:10>
         n<> u<478> t<Module_ansi_header> p<536> c<402> s<534> l<34:1> el<34:96>
-          n<module> u<402> t<Module_keyword> p<478> s<403> l<34:1> el<34:7>
+          n<module> u<402> t<MODULE> p<478> s<403> l<34:1> el<34:7>
           n<io_ring> u<403> t<SIMPLE_IDENTIFIER> p<478> s<404> l<34:8> el<34:15>
           n<> u<404> t<Package_import_declaration_list> p<478> s<477> l<34:16> el<34:16>
           n<> u<477> t<Port_declaration_list> p<478> c<410> l<34:16> el<34:95>
@@ -554,7 +554,7 @@ n<$Source01/t_tri_select.v> u<611> t<Top_level_rule> c<1> l<6:1> el<42:1>
     n<> u<609> t<Description> p<610> c<608> l<38:1> el<41:10>
       n<> u<608> t<Module_declaration> p<609> c<566> l<38:1> el<41:10>
         n<> u<566> t<Module_ansi_header> p<608> c<538> s<581> l<38:1> el<38:52>
-          n<module> u<538> t<Module_keyword> p<566> s<539> l<38:1> el<38:7>
+          n<module> u<538> t<MODULE> p<566> s<539> l<38:1> el<38:7>
           n<io> u<539> t<SIMPLE_IDENTIFIER> p<566> s<540> l<38:8> el<38:10>
           n<> u<540> t<Package_import_declaration_list> p<566> s<565> l<38:11> el<38:11>
           n<> u<565> t<Port_declaration_list> p<566> c<546> l<38:11> el<38:51>
@@ -625,9 +625,17 @@ n<$Source01/t_tri_select.v> u<611> t<Top_level_rule> c<1> l<6:1> el<42:1>
         n<> u<607> t<ENDMODULE> p<608> l<41:1> el<41:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_tri_select.v:6:1: Compile module "top".
+[NTE:CP0309] $Source01/t_tri_select.v:11:25: Implicit port type (wire) for "Y1".
+[NTE:CP0309] $Source01/t_tri_select.v:12:25: Implicit port type (wire) for "Y2".
+[NTE:CP0309] $Source01/t_tri_select.v:13:25: Implicit port type (wire) for "Y3".
+[NTE:CP0309] $Source01/t_tri_select.v:14:28: Implicit port type (wire) for "W".
 [WRN:CP0323] $Source01/t_tri_select.v:6:1: Multiply defined typedef "io_ring".
 [INF:CP0303] $Source01/t_tri_select.v:34:1: Compile module "io_ring".
+[NTE:CP0309] $Source01/t_tri_select.v:34:69: Implicit port type (wire) for "O".
+[NTE:CP0309] $Source01/t_tri_select.v:34:91: Implicit port type (wire) for "PAD".
 [INF:CP0303] $Source01/t_tri_select.v:38:1: Compile module "io".
+[NTE:CP0309] $Source01/t_tri_select.v:38:38: Implicit port type (wire) for "O".
+[NTE:CP0309] $Source01/t_tri_select.v:38:47: Implicit port type (wire) for "PAD".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1057,11 +1065,13 @@ Design name:unnamed:
           vpiName Identifier name:io_ring start:21:4 end:21:11:
             vpiParent: ModuleTypespec name:io_ring
             vpiName: io_ring
+          vpiModule: Module name:io_ring
         ModuleTypespec name:io_ring start:22:4 end:22:11:
           vpiParent: Module name:top
           vpiName Identifier name:io_ring start:22:4 end:22:11:
             vpiParent: ModuleTypespec name:io_ring
             vpiName: io_ring
+          vpiModule: Module name:io_ring
         LogicTypespec:
           vpiParent: Module name:top
           vpiRange (1 items):
@@ -1105,6 +1115,7 @@ Design name:unnamed:
           vpiName: OE1
           vpiFullName: top.OE1
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:OE2 start:8:11 end:8:14:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:8:5 end:8:10:
@@ -1114,6 +1125,7 @@ Design name:unnamed:
           vpiName: OE2
           vpiFullName: top.OE2
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:A1 start:9:24 end:9:26:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:9:5 end:9:23:
@@ -1123,6 +1135,7 @@ Design name:unnamed:
           vpiName: A1
           vpiFullName: top.A1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:A2 start:10:24 end:10:26:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:10:5 end:10:23:
@@ -1132,6 +1145,7 @@ Design name:unnamed:
           vpiName: A2
           vpiFullName: top.A2
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:Y1 start:11:25 end:11:27:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:11:5 end:11:24:
@@ -1141,6 +1155,7 @@ Design name:unnamed:
           vpiName: Y1
           vpiFullName: top.Y1
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:Y2 start:12:25 end:12:27:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:12:5 end:12:24:
@@ -1150,6 +1165,7 @@ Design name:unnamed:
           vpiName: Y2
           vpiFullName: top.Y2
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:Y3 start:13:25 end:13:27:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:13:5 end:13:24:
@@ -1159,6 +1175,7 @@ Design name:unnamed:
           vpiName: Y3
           vpiFullName: top.Y3
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:W start:14:28 end:14:29:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:14:5 end:14:27:
@@ -1168,6 +1185,7 @@ Design name:unnamed:
           vpiName: W
           vpiFullName: top.W
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:PAD start:20:22 end:20:25:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:20:9 end:20:21:
@@ -1177,6 +1195,7 @@ Design name:unnamed:
           vpiName: PAD
           vpiFullName: top.PAD
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:fill start:30:22 end:30:26:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:30:9 end:30:14:
@@ -1186,6 +1205,7 @@ Design name:unnamed:
           vpiName: fill
           vpiFullName: top.fill
           vpiNetType: wire (1)
+          vpiVector: true
           vpiValue Operation start:30:29 end:30:41:
             vpiParent: Net name:fill
             vpiOpType: concatenation (33)
@@ -1736,6 +1756,7 @@ Design name:unnamed:
           vpiName Identifier name:io start:35:4 end:35:6:
             vpiParent: ModuleTypespec name:io
             vpiName: io
+          vpiModule: Module name:io
       vpiDefName: io_ring
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1753,6 +1774,7 @@ Design name:unnamed:
           vpiName: OE
           vpiFullName: io_ring.OE
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:A start:34:46 end:34:47:
           vpiParent: Module name:io_ring
           vpiTypespec RefTypespec start:34:27 end:34:45:
@@ -1762,6 +1784,7 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: io_ring.A
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:O start:34:69 end:34:70:
           vpiParent: Module name:io_ring
           vpiTypespec RefTypespec start:34:49 end:34:68:
@@ -1771,6 +1794,7 @@ Design name:unnamed:
           vpiName: O
           vpiFullName: io_ring.O
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:PAD start:34:91 end:34:94:
           vpiParent: Module name:io_ring
           vpiTypespec RefTypespec start:34:72 end:34:90:
@@ -1780,6 +1804,7 @@ Design name:unnamed:
           vpiName: PAD
           vpiFullName: io_ring.PAD
           vpiNetType: wire (1)
+          vpiVector: true
       vpiPort (4 items):
         Port name:OE start:34:23 end:34:25:
           vpiParent: Module name:io_ring
@@ -1916,6 +1941,7 @@ Design name:unnamed:
           vpiName: OE
           vpiFullName: io.OE
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:I start:38:28 end:38:29:
           vpiParent: Module name:io
           vpiTypespec RefTypespec start:38:22 end:38:27:
@@ -1925,6 +1951,7 @@ Design name:unnamed:
           vpiName: I
           vpiFullName: io.I
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:O start:38:38 end:38:39:
           vpiParent: Module name:io
           vpiTypespec RefTypespec start:38:31 end:38:37:
@@ -1934,6 +1961,7 @@ Design name:unnamed:
           vpiName: O
           vpiFullName: io.O
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:PAD start:38:47 end:38:50:
           vpiParent: Module name:io
           vpiTypespec RefTypespec start:38:41 end:38:46:
@@ -1943,6 +1971,7 @@ Design name:unnamed:
           vpiName: PAD
           vpiFullName: io.PAD
           vpiNetType: wire (1)
+          vpiScalar: true
       vpiPort (4 items):
         Port name:OE start:38:18 end:38:20:
           vpiParent: Module name:io
@@ -2069,7 +2098,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
-[   NOTE] : 0
+[   NOTE] : 8
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

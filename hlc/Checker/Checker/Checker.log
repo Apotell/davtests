@@ -44,7 +44,7 @@ n<$Source01/dut.sv> u<609> t<Top_level_rule> c<1> l<1:1> el<64:1>
                   n<> u<24> t<Data_type_or_implicit> p<25> c<23> l<7:3> el<7:8>
                     n<> u<23> t<Data_type_or_implicit> p<24> c<22> l<7:3> el<7:8>
                       n<> u<22> t<Data_type> p<23> c<21> l<7:3> el<7:8>
-                        n<> u<21> t<Event_type> p<22> l<7:3> el<7:8>
+                        n<> u<21> t<EVENT> p<22> l<7:3> el<7:8>
                 n<clock> u<26> t<SIMPLE_IDENTIFIER> p<38> s<37> l<7:9> el<7:14>
                 n<> u<37> t<Property_actual_arg> p<38> c<36> l<7:17> el<7:32>
                   n<> u<36> t<Property_expr> p<37> c<35> l<7:17> el<7:32>
@@ -80,7 +80,7 @@ n<$Source01/dut.sv> u<609> t<Top_level_rule> c<1> l<1:1> el<64:1>
                   n<> u<60> t<Data_type_or_implicit> p<61> c<59> l<9:3> el<9:9>
                     n<> u<59> t<Data_type_or_implicit> p<60> c<58> l<9:3> el<9:9>
                       n<string> u<58> t<Data_type> p<59> c<57> l<9:3> el<9:9>
-                        n<string> u<57> t<String_type> p<58> l<9:3> el<9:9>
+                        n<string> u<57> t<STRING> p<58> l<9:3> el<9:9>
                 n<error_msg> u<62> t<SIMPLE_IDENTIFIER> p<71> s<70> l<9:10> el<9:19>
                 n<> u<70> t<Property_actual_arg> p<71> c<69> l<9:22> el<9:33>
                   n<> u<69> t<Property_expr> p<70> c<68> l<9:22> el<9:33>
@@ -625,6 +625,7 @@ AST_DEBUG_END
 [INF:CP0307] $Source01/dut.sv:1:9: Compile checker "assert_window1".
 [INF:CP0335] $Source01/dut.sv:36:46: Compile generate block "cover_b".
 [INF:CP0307] $Source01/dut.sv:50:9: Compile checker "op_test".
+[WRN:CP0350] $Source01/dut.sv:59:46: Failed to bind "id:227, name:sample".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1020,6 +1021,204 @@ Design name:unnamed:
             vpiFullName: assert_window1.clevel
             vpiActual: UnsupportedTypespec name:coverage_level
           vpiFormalType: data (1)
+      vpiGenStmt (1 items):
+        GenRegion start:36:3 end:45:15:
+          vpiParent: CheckerDecl name:assert_window1
+          vpiFullName: assert_window1
+          vpiStmt GenIf start:36:12 end:44:19:
+            vpiParent: GenRegion
+            vpiCondition Operation start:36:16 end:36:36:
+              vpiParent: GenIf
+              vpiOpType: not equal (15)
+              vpiOperand (2 items):
+                RefObj name:clevel start:36:16 end:36:22:
+                  vpiParent: Operation
+                  vpiName: clevel
+                  vpiFullName: assert_window1.clevel
+                  vpiActual: CheckerPort name:clevel
+                RefObj name:cover_none start:36:26 end:36:36:
+                  vpiParent: Operation
+                  vpiName: cover_none
+                  vpiFullName: assert_window1.cover_none
+            vpiStmt Begin name:cover_b start:36:38 end:44:19:
+              vpiParent: GenIf
+              vpiName Identifier name:cover_b start:36:46 end:36:53:
+                vpiParent: Begin name:cover_b
+                vpiName: cover_b
+              vpiFullName: assert_window1.cover_b
+              vpiConcurrentAssertions (2 items):
+                Cover start:37:24 end:37:96:
+                  vpiParent: Begin name:cover_b
+                  vpiLabel Identifier name:cover_window_open start:37:5 end:37:22:
+                    vpiParent: Cover
+                    vpiName: cover_window_open
+                  vpiStmt SysTaskCall name:$display start:37:64 end:37:95:
+                    vpiParent: Cover
+                    vpiName Identifier name:$display start:37:64 end:37:72:
+                      vpiParent: SysTaskCall name:$display
+                      vpiName: "$display"
+                    vpiArgument (1 items):
+                      Constant start:37:73 end:37:94:
+                        vpiParent: SysTaskCall name:$display
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: assert_window1.cover_b
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 152
+                        vpiDecompile: "\"window_open covered\""
+                        vpiValue: window_open covered
+                  vpiProperty PropertySpec start:37:40 end:37:62:
+                    vpiParent: Cover
+                    vpiPropertyExpr Operation start:37:40 end:37:62:
+                      vpiParent: PropertySpec
+                      vpiOpType: logical and (26)
+                      vpiOperand (2 items):
+                        RefObj name:start_event start:37:40 end:37:51:
+                          vpiParent: Operation
+                          vpiName: start_event
+                          vpiFullName: assert_window1.cover_b.start_event
+                          vpiActual: CheckerPort name:start_event
+                        Operation start:37:55 end:37:62:
+                          vpiParent: Operation
+                          vpiOpType: not (3)
+                          vpiOperand (1 items):
+                            RefObj name:window start:37:56 end:37:62:
+                              vpiParent: Operation
+                              vpiName: window
+                              vpiFullName: assert_window1.cover_b.window
+                              vpiActual: Variable name:window
+                Cover start:39:19 end:43:36:
+                  vpiParent: Begin name:cover_b
+                  vpiLabel Identifier name:cover_window start:39:5 end:39:17:
+                    vpiParent: Cover
+                    vpiName: cover_window
+                  vpiStmt SysTaskCall name:$display start:43:9 end:43:35:
+                    vpiParent: Cover
+                    vpiName Identifier name:$display start:43:9 end:43:17:
+                      vpiParent: SysTaskCall name:$display
+                      vpiName: "$display"
+                    vpiArgument (1 items):
+                      Constant start:43:18 end:43:34:
+                        vpiParent: SysTaskCall name:$display
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: assert_window1.cover_b
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 112
+                        vpiDecompile: "\"window covered\""
+                        vpiValue: window covered
+                  vpiProperty PropertySpec start:40:7 end:42:30:
+                    vpiParent: Cover
+                    vpiPropertyExpr Operation start:40:7 end:42:30:
+                      vpiParent: PropertySpec
+                      vpiOpType: binary cycle delay (71)
+                      vpiOperand (3 items):
+                        Operation start:40:7 end:40:29:
+                          vpiParent: Operation
+                          vpiOpType: logical and (26)
+                          vpiOperand (2 items):
+                            RefObj name:start_event start:40:7 end:40:18:
+                              vpiParent: Operation
+                              vpiName: start_event
+                              vpiFullName: assert_window1.cover_b.start_event
+                              vpiActual: CheckerPort name:start_event
+                            Operation start:40:22 end:40:29:
+                              vpiParent: Operation
+                              vpiOpType: not (3)
+                              vpiOperand (1 items):
+                                RefObj name:window start:40:23 end:40:29:
+                                  vpiParent: Operation
+                                  vpiName: window
+                                  vpiFullName: assert_window1.cover_b.window
+                                  vpiActual: Variable name:window
+                        Constant start:41:9 end:41:10:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: assert_window1.cover_b
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                        Operation start:41:11 end:42:30:
+                          vpiParent: Operation
+                          vpiOpType: binary cycle delay (71)
+                          vpiOperand (3 items):
+                            Operation start:41:34 end:41:37:
+                              vpiParent: Operation
+                              vpiOpType: consecutive repeat (77)
+                              vpiOperand (2 items):
+                                Operation start:41:12 end:41:32:
+                                  vpiParent: Operation
+                                  vpiOpType: logical and (26)
+                                  vpiOperand (2 items):
+                                    Operation start:41:12 end:41:22:
+                                      vpiParent: Operation
+                                      vpiOpType: not (3)
+                                      vpiOperand (1 items):
+                                        RefObj name:end_event start:41:13 end:41:22:
+                                          vpiParent: Operation
+                                          vpiName: end_event
+                                          vpiFullName: assert_window1.cover_b.end_event
+                                          vpiActual: CheckerPort name:end_event
+                                    RefObj name:window start:41:26 end:41:32:
+                                      vpiParent: Operation
+                                      vpiName: window
+                                      vpiFullName: assert_window1.cover_b.window
+                                      vpiActual: Variable name:window
+                                Range start:41:34 end:41:37:
+                                  vpiParent: Operation
+                                  vpiLeftRange Constant:
+                                    vpiParent: Range
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: assert_window1.cover_b
+                                      vpiActual: IntTypespec
+                                    vpiConstType: int (7)
+                                    vpiDecompile: "0"
+                                    vpiValue: 0
+                                  vpiRightRange Constant:
+                                    vpiParent: Range
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: assert_window1.cover_b
+                                      vpiActual: StringTypespec
+                                    vpiConstType: unbounded (11)
+                                    vpiDecompile: "$"
+                                    vpiValue: "$"
+                            Constant start:42:9 end:42:10:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: assert_window1.cover_b
+                                vpiActual: IntTypespec
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                            Operation start:42:11 end:42:30:
+                              vpiParent: Operation
+                              vpiOpType: logical and (26)
+                              vpiOperand (2 items):
+                                RefObj name:end_event start:42:11 end:42:20:
+                                  vpiParent: Operation
+                                  vpiName: end_event
+                                  vpiFullName: assert_window1.cover_b.end_event
+                                  vpiActual: CheckerPort name:end_event
+                                RefObj name:window start:42:24 end:42:30:
+                                  vpiParent: Operation
+                                  vpiName: window
+                                  vpiFullName: assert_window1.cover_b.window
+                                  vpiActual: Variable name:window
+              vpiStmt (2 items):
+                Cover:
+                Cover:
+              vpiEndLabel Identifier name:cover_b start:44:12 end:44:19:
+                vpiParent: Begin name:cover_b
+                vpiName: cover_b
       vpiDefaultDisableIff RefObj name:reset start:15:23 end:15:28:
         vpiParent: CheckerDecl name:assert_window1
         vpiName: reset
@@ -1077,7 +1276,7 @@ Design name:unnamed:
                       vpiName: vld_2
                       vpiFullName: op_test.op_accept.vld_2
                       vpiActual: CheckerPort name:vld_2
-                    HierPath name:cg_op_1.sample() start:59:38 end:59:53:
+                    HierPath name:cg_op_1.sample() start:59:38 end:59:54:
                       vpiParent: Operation
                       vpiName: cg_op_1.sample()
                       vpiFullName: op_test.op_accept.cg_op_1.sample()
@@ -1286,7 +1485,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1301,25 +1500,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Checker/Checker/mounts.json
 
 
-{'result': {'coverage': 83.79,
+{'result': {'coverage': 98.91,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 209,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 14,
                                                   'pre_len': 1289}},
-            'post_len': 209,
+            'post_len': 14,
             'pre_len': 1289,
             'test_name': 'Checker/Checker'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |     1289 |       209 |
+| $Output/lib/work/dut.sv |     1289 |        14 |
 +=========================+==========+===========+
-|                         |     1289 |       209 |
+|                         |     1289 |        14 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 83.79
+[COVERAGE] : 98.91
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1330,12 +1529,12 @@ COMMAND: ${HLC_DIR}/regression/Checker/Checker/design.hldb ${HLC_DIR}/regression
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 BitTypespec                          3       4       1         0
-Constant                            13      15       2         0
-Operation                           13      11       0         2
-RefObj                              31      29       0         2
-RefTypespec                         27      29       2         0
+Constant                            19      23       4         0
+Operation                           24      20       0         4
+RefObj                              41      37       0         4
+RefTypespec                         33      37       4         0
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                   163     164       5         4
+                                   212     213       9         8
 ===================== END REDUCTION RESULT =====================
