@@ -220,11 +220,14 @@ TEST_F(Chapter3ErrorRulesTest, Row12_MixedTimescaleAndNoTimescaleElementsAreReje
 }
 
 TEST_F(Chapter3ErrorRulesTest, Row13_StepCannotSetTheTimeUnit) {
-  // catalog row 13 | 3.14.3 | PARSE
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.14.3 states that, unlike other time "
-                  "units, 'step' cannot be used to set or modify the time unit or the time "
-                  "precision -- r13_m's 'timeunit 1step' is accepted and treated as if it read 1ps";
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 87, 3), nullptr)
+  // catalog row 13 | 3.14.3 | COMP
+  // 3.14.3 says a 'step' "cannot be used to set or modify" the unit or precision;
+  // unlike 6.19's enum rules it does not call this a syntax error, and the parser
+  // could not raise one anyway -- time_literal accepts any SIMPLE_IDENTIFIER as the
+  // unit, so 1step, 1ns and 1foo are indistinguishable to it. The unit table is
+  // semantic, so this is checked in Phase2 and the row's category is COMP, not
+  // PARSE. ('#1step' as a delay stays legal; it is a separate token.)
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r13_m", 87, 3), nullptr)
       << "'step' cannot set the time unit or precision (IEEE 1800-2023 3.14.3)";
 }
 
