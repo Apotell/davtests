@@ -157,9 +157,10 @@ TEST_F(Chapter3ErrorRulesTest, Row6_PackageNameSpaceReuseIsDiagnosed) {
 
 TEST_F(Chapter3ErrorRulesTest, Row7_AttributeNameIsNotVisibleOutsideAttributeNameSpace) {
   // catalog row 7 | 3.13 | COMP
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.13 confines an attribute name to the "
-                  "attribute name space, so referring to 'r7_fsm_state' as an ordinary identifier "
-                  "inside r7_m must not resolve";
+  // 3.13(h) keeps 'r7_fsm_state' out of the ordinary name space, which HLC
+  // already did -- the reference never resolved to the Attribute. The error
+  // itself comes from 6.10: a $display argument is not one of the three
+  // positions that assume an implicit net, so the name is undeclared.
   EXPECT_NE(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "r7_fsm_state"), nullptr)
       << "an attribute name is not visible as an ordinary identifier (IEEE 1800-2023 3.13)";
 }
