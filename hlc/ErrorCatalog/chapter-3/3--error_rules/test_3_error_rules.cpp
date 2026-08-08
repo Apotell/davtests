@@ -189,10 +189,9 @@ TEST_F(Chapter3ErrorRulesTest, Row9_PrecisionCoarserThanUnitIsRejected) {
 
 TEST_F(Chapter3ErrorRulesTest, Row10_MismatchedRepeatedTimeunitIsRejected) {
   // catalog row 10 | 3.14.2.2 | COMP
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.14.2.2 allows at most one time unit "
-                  "per design element and permits a repeated declaration only if it matches the "
-                  "first -- r10_m declares 'timeunit 1ns' and later 'timeunit 1ps', and the second "
-                  "silently overwrites the first";
+  // A repeat is allowed only if it matches, so Phase2 compares against the value
+  // already on the instance before overwriting it. An inherited `timescale value
+  // is not on the instance at that point, so overriding a directive stays legal.
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r10_m", 73, 3), nullptr)
       << "a repeated timeunit must match the first declaration (IEEE 1800-2023 3.14.2.2)";
 }
