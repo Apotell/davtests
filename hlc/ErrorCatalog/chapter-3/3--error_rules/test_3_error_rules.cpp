@@ -167,9 +167,10 @@ TEST_F(Chapter3ErrorRulesTest, Row7_AttributeNameIsNotVisibleOutsideAttributeNam
 
 TEST_F(Chapter3ErrorRulesTest, Row8_RedeclarationInSameNameSpaceIsRejected) {
   // catalog row 8 | 3.13 | COMP
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.13 makes it illegal to redeclare a "
-                  "name already declared in the same name space -- 'a' is declared twice in r8_m, "
-                  "as logic and then as int";
+  // Phase2 reuses an existing same-named Variable instead of creating a second
+  // one, which is correct only for 3.13(g)'s port reintroduction; any other
+  // redeclaration is now reported. Note the severity gap: the error code is
+  // registered at WARNING while 3.13 says "shall be illegal".
   EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_VARIABLE, "a", 57, 7), nullptr)
       << "'a' is declared twice in the same name space (IEEE 1800-2023 3.13)";
 }
