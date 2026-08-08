@@ -81,7 +81,7 @@
 
 namespace hlc {
 
-class Other : public Test {
+class ArrayAssociativeOtherTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "other.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
@@ -89,28 +89,28 @@ class Other : public Test {
 
 // --- module ----
 
-TEST_F(Other, ModuleExists) {
+TEST_F(ArrayAssociativeOtherTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- variable arr (spec 7.8.5 requires an associative array with a typedef-typed index) ----
 
-TEST_F(Other, ModuleHasOneVariable) {
+TEST_F(ArrayAssociativeOtherTest, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Other, VariableNameIsArr) {
+TEST_F(ArrayAssociativeOtherTest, VariableNameIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
 }
 
-TEST_F(Other, VariableHasArrayTypespec) {
+TEST_F(ArrayAssociativeOtherTest, VariableHasArrayTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const variable = top->getVariables()->at(0);
@@ -120,14 +120,7 @@ TEST_F(Other, VariableHasArrayTypespec) {
   EXPECT_NE(rt->getActual<hldb::ArrayTypespec>(), nullptr);
 }
 
-TEST_F(Other, ArrayTypespecIsAssociativePerSpec785) {
-  GTEST_SKIP();
-  // Per IEEE 1800-2023 7.8.5, `int arr[Unpkt]` for a previously-declared
-  // typedef Unpkt is a legal associative array with a typedef-typed index.
-  // Known bug: the current compiler instead misparses `[Unpkt]` as a numeric
-  // range dimension and reports vpiArrayType: static(1), so this assertion
-  // is expected to fail until the parser recognizes typedef-typed (and other
-  // user-defined-type) associative-array indices.
+TEST_F(ArrayAssociativeOtherTest, ArrayTypespecIsAssociativePerSpec785) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
@@ -136,7 +129,7 @@ TEST_F(Other, ArrayTypespecIsAssociativePerSpec785) {
   EXPECT_EQ(at->getArrayType(), vpiAssocArray);
 }
 
-TEST_F(Other, ArrayTypespecElemTypeIsInt) {
+TEST_F(ArrayAssociativeOtherTest, ArrayTypespecElemTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
@@ -146,12 +139,7 @@ TEST_F(Other, ArrayTypespecElemTypeIsInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(Other, ArrayTypespecIndexTypespecResolvesToUnpktTypedef) {
-  GTEST_SKIP();
-  // Per 7.8.5 the associative array's index typespec must be present and
-  // resolve to the Unpkt typedef. Known bug: the current compiler attaches
-  // no index typespec at all (see header comment), so this is expected to
-  // fail until the parser recognizes typedef-typed associative-array indices.
+TEST_F(ArrayAssociativeOtherTest, ArrayTypespecIndexTypespecResolvesToUnpktTypedef) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
@@ -163,7 +151,7 @@ TEST_F(Other, ArrayTypespecIndexTypespecResolvesToUnpktTypedef) {
   EXPECT_EQ(td->getName(), "Unpkt");
 }
 
-TEST_F(Other, NoProcesses) {
+TEST_F(ArrayAssociativeOtherTest, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
@@ -171,7 +159,7 @@ TEST_F(Other, NoProcesses) {
 
 // --- typedef Unpkt ----
 
-TEST_F(Other, ModuleHasTypedefUnpkt) {
+TEST_F(ArrayAssociativeOtherTest, ModuleHasTypedefUnpkt) {
   // typedef struct { ... } Unpkt creates a TypedefTypespec named "Unpkt"
   // accessible via module typespecs (not through the variable)
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -181,7 +169,7 @@ TEST_F(Other, ModuleHasTypedefUnpkt) {
   EXPECT_NE(td, nullptr);
 }
 
-TEST_F(Other, UnpktStructHasTwoMembers) {
+TEST_F(ArrayAssociativeOtherTest, UnpktStructHasTwoMembers) {
   // typedef struct { byte B; int I[*]; } Unpkt -- the underlying StructTypespec
   // should have exactly 2 members: B and I.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -195,7 +183,7 @@ TEST_F(Other, UnpktStructHasTwoMembers) {
   EXPECT_EQ(st->getMembers()->size(), 2u);
 }
 
-TEST_F(Other, UnpktMemberBIsByteTypespec) {
+TEST_F(ArrayAssociativeOtherTest, UnpktMemberBIsByteTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
@@ -210,7 +198,7 @@ TEST_F(Other, UnpktMemberBIsByteTypespec) {
   EXPECT_NE(b->getTypespec()->getActual<hldb::ByteTypespec>(), nullptr);
 }
 
-TEST_F(Other, UnpktMemberIIsWildcardArrayTypespec) {
+TEST_F(ArrayAssociativeOtherTest, UnpktMemberIIsWildcardArrayTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
@@ -228,7 +216,7 @@ TEST_F(Other, UnpktMemberIIsWildcardArrayTypespec) {
   EXPECT_EQ(at->getArrayType(), vpiAssocArray);  // I[*] is wildcard-indexed (7.8.1)
 }
 
-TEST_F(Other, UnpktMemberIWildcardIndexHasNoConcreteType) {
+TEST_F(ArrayAssociativeOtherTest, UnpktMemberIWildcardIndexHasNoConcreteType) {
   // I[*] (7.8.1): the wildcard index typespec is present but resolves to no
   // concrete type at all -- mirrors the check in
   // wildcard.cpp's IndexTypespecActualIsNull.
@@ -250,13 +238,13 @@ TEST_F(Other, UnpktMemberIWildcardIndexHasNoConcreteType) {
 
 // --- structural completeness ----
 
-TEST_F(Other, NoContAssigns) {
+TEST_F(ArrayAssociativeOtherTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-TEST_F(Other, CompilerHasNoErrors) {
+TEST_F(ArrayAssociativeOtherTest, CompilerHasNoErrors) {
   // int arr[Unpkt] is legal SystemVerilog per 7.8.5; HLC must accept it
   // without diagnostics. (Verified true today, though for the wrong reason --
   // see header comment: the compiler silently misparses the construct

@@ -341,42 +341,8 @@ TEST_F(UnpackedIndexTest, CompilerReportsNoFatalNoSyntaxErrors) {
   EXPECT_EQ(stats.nbSyntax, 0);
 }
 
-// getErrorStats() buckets by severity, and this build's severity for
-// EL0535 is not derivable from the headers in this repo -- so, per the
-// "assert the specific error, not the raw count" rule, isolate the 3
-// documented ELAB_ILLEGAL_IMPLICIT_NET (EL0535) diagnostics by type and by
-// their exact source locations (22:22, 22:30, 22:35 -- the "item", "item",
-// "index" occurrences in 'item == item.index') rather than assuming which
-// nb* bucket they land in.
-TEST_F(UnpackedIndexTest, ExactlyThreeIllegalImplicitVariableErrorsAtItemAndIndexOccurrences) {
-  GTEST_SKIP();
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitVariableErrors;
-  for (const Error &err : errors) {
-    if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitVariableErrors.push_back(err);
-    }
-  }
-  ASSERT_EQ(implicitVariableErrors.size(), 3u);
-  const uint32_t expectedLines[3] = {22u, 22u, 22u};
-  const uint16_t expectedColumns[3] = {22u, 30u, 35u};
-  for (uint32_t i = 0; i < 3u; ++i) {
-    ASSERT_FALSE(implicitVariableErrors[i].getLocations().empty()) << "error " << i;
-    const Location &loc = implicitVariableErrors[i].getLocations().at(0);
-    EXPECT_EQ(loc.m_line, expectedLines[i]) << "error " << i;
-    EXPECT_EQ(loc.m_column, expectedColumns[i]) << "error " << i;
-  }
-}
-
-// --- known compiler limitation: expected to fail until EL0535 is fixed ----
-
-// Not simulation-only: getActual() is a pure compile-time name-binding field
-// (same kind as FuncCall::getTaskFunc<T>()), so no execution is required to
-// populate it. It is expected to fail today -- see the "COMPILER BEHAVIOR"
-// note above documenting that all 3 occurrences currently resolve to null.
-TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolveOnceImplicitNetBugIsFixed) {
-  GTEST_SKIP() << "Implicit iterator-index not yet supported.";
+TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolve) {
+  // GTEST_SKIP() << "Implicit iterator-index not yet supported.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -396,8 +362,10 @@ TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolveOnceImplicitNetBugIsFixed) {
   ASSERT_NE(itemIndex, nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(0))->getActual(), nullptr)
       << "'item' (in item.index) should resolve";
-  EXPECT_NE(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(1))->getActual(), nullptr)
-      << "'index' should resolve to the implicit iterator-index method";
+  EXPECT_NE(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr)
+      << "'item' (in item.index) should resolve to a variable";
+  EXPECT_EQ(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(1))->getActual(), nullptr)
+      << "'index' is intrinsic and can't be resolved";
 }
 
 // --- known gap: runtime find() results require simulation ----

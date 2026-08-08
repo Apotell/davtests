@@ -68,7 +68,7 @@
 
 namespace hlc {
 
-class Class : public Test {
+class ArrayAssociativeClassTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "class.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
@@ -76,21 +76,21 @@ class Class : public Test {
 
 // --- module ----
 
-TEST_F(Class, ModuleExists) {
+TEST_F(ArrayAssociativeClassTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- class C definition ----
 
-TEST_F(Class, ModuleHasOneClassDefn) {
+TEST_F(ArrayAssociativeClassTest, ModuleHasOneClassDefn) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   EXPECT_EQ(top->getClassDefns()->size(), 1u);
 }
 
-TEST_F(Class, ClassDefnNameIsC) {
+TEST_F(ArrayAssociativeClassTest, ClassDefnNameIsC) {
   // getName() returns the simple identifier stored by HLC.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -100,7 +100,7 @@ TEST_F(Class, ClassDefnNameIsC) {
   EXPECT_EQ(cls->getName(), "C");
 }
 
-TEST_F(Class, ClassDefnHasOneVariable) {
+TEST_F(ArrayAssociativeClassTest, ClassDefnHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
@@ -109,7 +109,7 @@ TEST_F(Class, ClassDefnHasOneVariable) {
   EXPECT_EQ(cls->getVariables()->size(), 1u);
 }
 
-TEST_F(Class, ClassVariableNameIsX) {
+TEST_F(ArrayAssociativeClassTest, ClassVariableNameIsX) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
@@ -118,7 +118,7 @@ TEST_F(Class, ClassVariableNameIsX) {
   EXPECT_EQ(cls->getVariables()->at(0)->getName(), "x");
 }
 
-TEST_F(Class, ClassVariableXHasIntTypespec) {
+TEST_F(ArrayAssociativeClassTest, ClassVariableXHasIntTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
@@ -132,21 +132,21 @@ TEST_F(Class, ClassVariableXHasIntTypespec) {
 
 // --- variable arr (spec 7.8.3 requires an associative array with a class-typed index) ----
 
-TEST_F(Class, ModuleHasOneVariable) {
+TEST_F(ArrayAssociativeClassTest, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Class, VariableNameIsArr) {
+TEST_F(ArrayAssociativeClassTest, VariableNameIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
 }
 
-TEST_F(Class, VariableHasArrayTypespec) {
+TEST_F(ArrayAssociativeClassTest, VariableHasArrayTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const variable = top->getVariables()->at(0);
@@ -156,14 +156,7 @@ TEST_F(Class, VariableHasArrayTypespec) {
   EXPECT_NE(rt->getActual<hldb::ArrayTypespec>(), nullptr);
 }
 
-TEST_F(Class, ArrayTypespecIsAssociativePerSpec783) {
-  GTEST_SKIP();
-  // Per IEEE 1800-2023 7.8.3, `int arr[C]` for a class C is a legal
-  // associative array with a class-typed index. Known bug: the current
-  // compiler instead misparses `[C]` as a numeric range dimension and
-  // reports vpiArrayType: static(1), so this assertion is expected to fail
-  // until the parser recognizes class-typed (and other user-defined-type)
-  // associative-array indices.
+TEST_F(ArrayAssociativeClassTest, ArrayTypespecIsAssociativePerSpec783) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
@@ -172,7 +165,7 @@ TEST_F(Class, ArrayTypespecIsAssociativePerSpec783) {
   EXPECT_EQ(at->getArrayType(), vpiAssocArray);
 }
 
-TEST_F(Class, ArrayTypespecElemTypeIsInt) {
+TEST_F(ArrayAssociativeClassTest, ArrayTypespecElemTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
@@ -182,12 +175,7 @@ TEST_F(Class, ArrayTypespecElemTypeIsInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(Class, ArrayTypespecIndexTypespecResolvesToClassC) {
-  GTEST_SKIP();
-  // Per 7.8.3 the associative array's index typespec must be present and
-  // resolve to class C. Known bug: the current compiler attaches no index
-  // typespec at all (see header comment), so this is expected to fail until
-  // the parser recognizes class-typed associative-array indices.
+TEST_F(ArrayAssociativeClassTest, ArrayTypespecIndexTypespecResolvesToClassC) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
@@ -199,19 +187,19 @@ TEST_F(Class, ArrayTypespecIndexTypespecResolvesToClassC) {
   EXPECT_EQ(cts->getName(), "C");
 }
 
-TEST_F(Class, NoProcesses) {
+TEST_F(ArrayAssociativeClassTest, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
-TEST_F(Class, NoContAssigns) {
+TEST_F(ArrayAssociativeClassTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-TEST_F(Class, CompilerHasNoErrors) {
+TEST_F(ArrayAssociativeClassTest, CompilerHasNoErrors) {
   // int arr[C] is legal SystemVerilog per 7.8.3; HLC must accept it without
   // diagnostics. (Verified true today, though for the wrong reason -- see
   // header comment: the compiler silently misparses the construct instead

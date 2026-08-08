@@ -104,7 +104,7 @@
 
 namespace hlc {
 
-class OpSizeTest : public Test {
+class DynamicArrayDynamicArrayOpSizeTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "op-size.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
@@ -112,21 +112,21 @@ class OpSizeTest : public Test {
 
 // --- module ----
 
-TEST_F(OpSizeTest, ModuleExists) {
+TEST_F(DynamicArrayOpSizeTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- variable arr ----
 
-TEST_F(OpSizeTest, ModuleHasOneVariable) {
+TEST_F(DynamicArrayOpSizeTest, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(OpSizeTest, VariableNameIsArr) {
+TEST_F(DynamicArrayOpSizeTest, VariableNameIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
@@ -135,7 +135,7 @@ TEST_F(OpSizeTest, VariableNameIsArr) {
 
 // --- ArrayTypespec ----
 
-TEST_F(OpSizeTest, VariableHasArrayTypespec) {
+TEST_F(DynamicArrayOpSizeTest, VariableHasArrayTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const variable = top->getVariables()->at(0);
@@ -145,7 +145,7 @@ TEST_F(OpSizeTest, VariableHasArrayTypespec) {
   EXPECT_NE(rt->getActual<hldb::ArrayTypespec>(), nullptr);
 }
 
-TEST_F(OpSizeTest, ArrayTypespecIsDynamic) {
+TEST_F(DynamicArrayOpSizeTest, ArrayTypespecIsDynamic) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
@@ -154,7 +154,7 @@ TEST_F(OpSizeTest, ArrayTypespecIsDynamic) {
   EXPECT_EQ(at->getArrayType(), vpiDynamicArray);
 }
 
-TEST_F(OpSizeTest, ArrayTypespecElemIsBitTypespec) {
+TEST_F(DynamicArrayOpSizeTest, ArrayTypespecElemIsBitTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
@@ -164,7 +164,7 @@ TEST_F(OpSizeTest, ArrayTypespecElemIsBitTypespec) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::BitTypespec>(), nullptr);
 }
 
-TEST_F(OpSizeTest, ArrayTypespecHasNoIndexTypespec) {
+TEST_F(DynamicArrayOpSizeTest, ArrayTypespecHasNoIndexTypespec) {
   // Dynamic arrays have no index typespec (only associative arrays do)
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -176,7 +176,7 @@ TEST_F(OpSizeTest, ArrayTypespecHasNoIndexTypespec) {
 
 // --- BitTypespec [7:0] ----
 
-TEST_F(OpSizeTest, BitTypespecIsVector) {
+TEST_F(DynamicArrayOpSizeTest, BitTypespecIsVector) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -189,7 +189,7 @@ TEST_F(OpSizeTest, BitTypespecIsVector) {
   EXPECT_TRUE(bt->getVector());
 }
 
-TEST_F(OpSizeTest, BitTypespecIsNotSigned) {
+TEST_F(DynamicArrayOpSizeTest, BitTypespecIsNotSigned) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -202,7 +202,7 @@ TEST_F(OpSizeTest, BitTypespecIsNotSigned) {
   EXPECT_FALSE(bt->getSigned());
 }
 
-TEST_F(OpSizeTest, RangeLeftIs7) {
+TEST_F(DynamicArrayOpSizeTest, RangeLeftIs7) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -218,7 +218,7 @@ TEST_F(OpSizeTest, RangeLeftIs7) {
   EXPECT_EQ(left->getDecompile(), "7");
 }
 
-TEST_F(OpSizeTest, RangeRightIs0) {
+TEST_F(DynamicArrayOpSizeTest, RangeRightIs0) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -234,7 +234,7 @@ TEST_F(OpSizeTest, RangeRightIs0) {
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
-TEST_F(OpSizeTest, RangeConstTypesAreUInt) {
+TEST_F(DynamicArrayOpSizeTest, RangeConstTypesAreUInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -255,21 +255,21 @@ TEST_F(OpSizeTest, RangeConstTypesAreUInt) {
 
 // --- Initial process ----
 
-TEST_F(OpSizeTest, ModuleHasOneProcess) {
+TEST_F(DynamicArrayOpSizeTest, ModuleHasOneProcess) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
-TEST_F(OpSizeTest, ProcessIsInitial) {
+TEST_F(DynamicArrayOpSizeTest, ProcessIsInitial) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_NE(any_cast<hldb::Initial>(top->getProcesses()->at(0)), nullptr);
 }
 
-TEST_F(OpSizeTest, InitialBodyIsBegin) {
+TEST_F(DynamicArrayOpSizeTest, InitialBodyIsBegin) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -279,7 +279,7 @@ TEST_F(OpSizeTest, InitialBodyIsBegin) {
 
 // --- Begin statements ----
 
-TEST_F(OpSizeTest, BeginHasFourStatements) {
+TEST_F(DynamicArrayOpSizeTest, BeginHasFourStatements) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -292,7 +292,7 @@ TEST_F(OpSizeTest, BeginHasFourStatements) {
 
 // --- Stmt[0]: arr = new [16] ----
 
-TEST_F(OpSizeTest, FirstStmtIsAssignment) {
+TEST_F(DynamicArrayOpSizeTest, FirstStmtIsAssignment) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -301,7 +301,7 @@ TEST_F(OpSizeTest, FirstStmtIsAssignment) {
   EXPECT_NE(any_cast<hldb::Assignment>(begin->getStmts()->at(0)), nullptr);
 }
 
-TEST_F(OpSizeTest, FirstAssignmentIsBlocking) {
+TEST_F(DynamicArrayOpSizeTest, FirstAssignmentIsBlocking) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(
@@ -310,7 +310,7 @@ TEST_F(OpSizeTest, FirstAssignmentIsBlocking) {
   EXPECT_TRUE(assign->getBlocking());
 }
 
-TEST_F(OpSizeTest, FirstAssignmentRhsIsArrayExprSize16) {
+TEST_F(DynamicArrayOpSizeTest, FirstAssignmentRhsIsArrayExprSize16) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(
@@ -328,7 +328,7 @@ TEST_F(OpSizeTest, FirstAssignmentRhsIsArrayExprSize16) {
 
 // --- Stmt[1]: first $display(arr.size) ----
 
-TEST_F(OpSizeTest, SecondStmtIsSysTaskCall) {
+TEST_F(DynamicArrayOpSizeTest, SecondStmtIsSysTaskCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -337,7 +337,7 @@ TEST_F(OpSizeTest, SecondStmtIsSysTaskCall) {
   EXPECT_NE(any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1)), nullptr);
 }
 
-TEST_F(OpSizeTest, FirstDisplayNameAndFormatString) {
+TEST_F(DynamicArrayOpSizeTest, FirstDisplayNameAndFormatString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
@@ -351,7 +351,7 @@ TEST_F(OpSizeTest, FirstDisplayNameAndFormatString) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 16)");
 }
 
-TEST_F(OpSizeTest, FirstDisplaySecondArgIsArrSizeHierPath) {
+TEST_F(DynamicArrayOpSizeTest, FirstDisplaySecondArgIsArrSizeHierPath) {
   // COMPILER BEHAVIOR: arr.size is stored as HierPath, not as a method call
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -371,7 +371,7 @@ TEST_F(OpSizeTest, FirstDisplaySecondArgIsArrSizeHierPath) {
 
 // --- Stmt[2]: arr = new [8] (destructive resize) ----
 
-TEST_F(OpSizeTest, ThirdStmtIsAssignment) {
+TEST_F(DynamicArrayOpSizeTest, ThirdStmtIsAssignment) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -380,7 +380,7 @@ TEST_F(OpSizeTest, ThirdStmtIsAssignment) {
   EXPECT_NE(any_cast<hldb::Assignment>(begin->getStmts()->at(2)), nullptr);
 }
 
-TEST_F(OpSizeTest, ThirdAssignmentIsBlocking) {
+TEST_F(DynamicArrayOpSizeTest, ThirdAssignmentIsBlocking) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(
@@ -389,7 +389,7 @@ TEST_F(OpSizeTest, ThirdAssignmentIsBlocking) {
   EXPECT_TRUE(assign->getBlocking());
 }
 
-TEST_F(OpSizeTest, ThirdAssignmentRhsIsArrayExprSize8) {
+TEST_F(DynamicArrayOpSizeTest, ThirdAssignmentRhsIsArrayExprSize8) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(
@@ -407,7 +407,7 @@ TEST_F(OpSizeTest, ThirdAssignmentRhsIsArrayExprSize8) {
 
 // --- Stmt[3]: second $display(arr.size) ----
 
-TEST_F(OpSizeTest, FourthStmtIsSysTaskCall) {
+TEST_F(DynamicArrayOpSizeTest, FourthStmtIsSysTaskCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -416,7 +416,7 @@ TEST_F(OpSizeTest, FourthStmtIsSysTaskCall) {
   EXPECT_NE(any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3)), nullptr);
 }
 
-TEST_F(OpSizeTest, SecondDisplayNameAndFormatString) {
+TEST_F(DynamicArrayOpSizeTest, SecondDisplayNameAndFormatString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
@@ -430,7 +430,7 @@ TEST_F(OpSizeTest, SecondDisplayNameAndFormatString) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 8)");
 }
 
-TEST_F(OpSizeTest, SecondDisplaySecondArgIsArrSizeHierPath) {
+TEST_F(DynamicArrayOpSizeTest, SecondDisplaySecondArgIsArrSizeHierPath) {
   // COMPILER BEHAVIOR: arr.size is stored as HierPath, not as a method call
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -445,26 +445,26 @@ TEST_F(OpSizeTest, SecondDisplaySecondArgIsArrSizeHierPath) {
 
 // --- design-level typespecs ----
 
-TEST_F(OpSizeTest, DesignHasThreeTypespecs) {
+TEST_F(DynamicArrayOpSizeTest, DesignHasThreeTypespecs) {
   // ModuleTypespec "top" + IntTypespec + StringTypespec (a single shared
   // StringTypespec instance, reused by both $display calls -- see op-delete.sv)
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
-TEST_F(OpSizeTest, DesignHasModuleTypespec) {
+TEST_F(DynamicArrayOpSizeTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
-TEST_F(OpSizeTest, DesignHasIntTypespec) {
+TEST_F(DynamicArrayOpSizeTest, DesignHasIntTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_NE(any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1)), nullptr);
 }
 
-TEST_F(OpSizeTest, DesignHasStringTypespec) {
+TEST_F(DynamicArrayOpSizeTest, DesignHasStringTypespec) {
   // StringTypespec is added because $display uses string literal arguments
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
@@ -472,7 +472,7 @@ TEST_F(OpSizeTest, DesignHasStringTypespec) {
 
 // --- structural completeness ----
 
-TEST_F(OpSizeTest, NoContAssigns) {
+TEST_F(DynamicArrayOpSizeTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);

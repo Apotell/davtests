@@ -361,13 +361,7 @@ TEST_F(AssociativeArrayDeleteTest, CompilerReportsExactlyFourErrorsNoFatalNoWarn
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- known compiler limitation: skipped canary for a future fix ----
-
-TEST_F(AssociativeArrayDeleteTest, SizeAndDeleteRefObjsShouldResolveOnceImplicitVariableBugIsFixed) {
-  GTEST_SKIP() << "Known compiler limitation (EL0535 Illegal implicit variable): HLC never resolves "
-                  "the no-parens '.size' RefObj or the no-parens '.delete' RefObj to a declared "
-                  "object. Re-enable this test once that limitation is fixed.";
-
+TEST_F(AssociativeArrayDeleteTest, ArrRefObjsShouldResolve) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -375,19 +369,25 @@ TEST_F(AssociativeArrayDeleteTest, SizeAndDeleteRefObjsShouldResolveOnceImplicit
   const hldb::Begin *const begin = init->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
 
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
-  ASSERT_NE(size, nullptr);
-  const hldb::RefObj *const sizeRef = any_cast<hldb::RefObj>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeRef, nullptr);
-  EXPECT_NE(sizeRef->getActual(), nullptr) << "map.size (no parens) should resolve to a declared object";
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  ASSERT_NE(hp, nullptr);
+  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  ASSERT_NE(varRef, nullptr);
+  EXPECT_EQ(varRef->getName(), "map");
+  const hldb::Variable *const var = varRef->getActual<hldb::Variable>();
+  ASSERT_NE(var, nullptr);
+  EXPECT_EQ(var->getName(), "map");  
+  const hldb::MethodFuncCall *const sizeMfc = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  ASSERT_NE(sizeMfc, nullptr);
+  EXPECT_EQ(sizeMfc->getTaskFunc(), nullptr) << "map.size is intrinsic and doesn't resolve";
 
   const hldb::HierPath *const bareDelete = any_cast<hldb::HierPath>(begin->getStmts()->at(6));
   ASSERT_NE(bareDelete, nullptr);
-  const hldb::RefObj *const deleteRef = any_cast<hldb::RefObj>(bareDelete->getPathElems()->at(1));
-  ASSERT_NE(deleteRef, nullptr);
-  EXPECT_NE(deleteRef->getActual(), nullptr) << "map.delete (no parens) should resolve to a declared object";
+  const hldb::MethodFuncCall *const deleteMfc = any_cast<hldb::MethodFuncCall>(bareDelete->getPathElems()->at(1));
+  ASSERT_NE(deleteMfc, nullptr);
+  EXPECT_EQ(deleteMfc->getTaskFunc(), nullptr) << "map.delete is intrinsic and doesn't resolve";
 }
 
 TEST_F(AssociativeArrayDeleteTest, DeleteRuntimeEffectOnMapSizeRequiresSimulation) {
