@@ -380,7 +380,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: dut.b
           vpiVector: true
-      vpiTypespec (7 items):
+      vpiTypespec (8 items):
         ImportTypespec name:my_pkg start:12:10 end:12:19:
           vpiParent: Module name:dut
           vpiName Identifier name:my_pkg start:12:10 end:12:16:
@@ -520,6 +520,11 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        UnsupportedTypespec name:my_pkg start:18:17 end:18:23:
+          vpiParent: Module name:dut
+          vpiName Identifier name:my_pkg start:18:17 end:18:23:
+            vpiParent: UnsupportedTypespec name:my_pkg
+            vpiName: my_pkg
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -594,12 +599,10 @@ Design name:unnamed:
                     vpiName: my_pkg::PMP_CFG_W
                     vpiFullName: dut.my_pkg::PMP_CFG_W
                     vpiPathElem (2 items):
-                      UnsupportedScope name:my_pkg start:18:17 end:18:25:
+                      RefTypespec start:18:17 end:18:25:
                         vpiParent: HierPath name:my_pkg::PMP_CFG_W
-                        vpiName Identifier name:my_pkg start:18:17 end:18:23:
-                          vpiParent: UnsupportedScope name:my_pkg
-                          vpiName: my_pkg
-                        vpiFullName: dut.my_pkg::PMP_CFG_W.my_pkg
+                        vpiFullName: dut.my_pkg::PMP_CFG_W
+                        vpiActual: UnsupportedTypespec name:my_pkg
                       RefObj name:PMP_CFG_W start:18:25 end:18:34:
                         vpiParent: HierPath name:my_pkg::PMP_CFG_W
                         vpiName: PMP_CFG_W
@@ -695,7 +698,7 @@ COMMAND: ${HLC_DIR}/regression/OneImport/OneImport/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                              99      99       0         0
 ----------------------------------------------------------------
-                                    98      98       0         0
+                                    99      99       0         0
 ===================== END REDUCTION RESULT =====================

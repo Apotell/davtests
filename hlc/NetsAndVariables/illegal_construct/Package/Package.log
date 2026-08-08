@@ -1,0 +1,122 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/NetsAndVariables/illegal_construct -d ast -d db Package.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/Package
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/Package.sv".
+[INF:PA0201] Parsing source file "$Source01/Package.sv".
+[SNT:PA0207] $Source01/Package.sv:24:2: Syntax error: extraneous input 'assign' expecting {';', 'interface', 'program', 'virtual', 'class', 'endpackage', 'timeunit', 'timeprecision', 'checker', 'type', 'bind', 'const', 'function', 'static', 'constraint', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', 'export', DOLLAR_UNIT, '(*', 'property', 'sequence', 'covergroup', 'let', 'this', 'randomize', 'task', 'sample', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+  assign pkg_wire = pkg_logic; // ILLEGAL: continuous assignment at package scope
+  ^-- $Source01/Package.sv:24:2:.
+[SNT:PA0207] $Source01/Package.sv:24:18: Syntax error: no viable alternative at input 'pkg_wire =',
+  assign pkg_wire = pkg_logic; // ILLEGAL: continuous assignment at package scope
+                  ^-- $Source01/Package.sv:24:18:.
+AST_DEBUG_BEGIN
+Count: 26
+LIB: work
+FILE: f<13>:$Source01/Package.sv
+n<$Source01/Package.sv> u<25> t<Top_level_rule> c<1> l<23:1> el<26:1>
+  n<> u<1> t<Null_rule> p<25> s<2> l<23:1> el<23:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<25> s<3> l<23:1> el<25:11>
+  n<// Illegal construct: a continuous assignment at package scope. Per the LRM,> u<3> t<LINE_COMMENT> p<25> s<4> l<17:1> el<17:77>
+  n<// a package may contain processes only inside a nested checker declaration;> u<4> t<LINE_COMMENT> p<25> s<5> l<18:1> el<18:77>
+  n<// it cannot itself contain module/interface/program/checker instances. A> u<5> t<LINE_COMMENT> p<25> s<6> l<19:1> el<19:74>
+  n<// continuous assignment is a driver that needs a process context to live> u<6> t<LINE_COMMENT> p<25> s<7> l<20:1> el<20:74>
+  n<// in, and a package has none at its own scope.> u<7> t<LINE_COMMENT> p<25> s<24> l<21:1> el<21:48>
+  n<> u<24> t<Source_text> p<25> c<23> l<23:1> el<25:11>
+    n<> u<23> t<Description> p<24> c<22> l<23:1> el<25:11>
+      n<> u<22> t<Package_declaration> p<23> c<8> l<23:1> el<25:11>
+        n<> u<8> t<PACKAGE> p<22> s<9> l<23:1> el<23:8>
+        n<illegal_construct_package_test> u<9> t<SIMPLE_IDENTIFIER> p<22> s<11> l<23:9> el<23:39>
+        n<> u<11> t<Package_item> p<22> c<10> s<13> l<24:10> el<24:10>
+          n<> u<10> t<Package_or_generate_item_declaration> p<11> l<24:10> el<24:10>
+        n<> u<13> t<Package_item> p<22> c<12> s<15> l<24:10> el<24:20>
+          n<> u<12> t<Package_or_generate_item_declaration> p<13> l<24:10> el<24:20>
+        n<> u<15> t<Package_item> p<22> c<14> s<17> l<24:21> el<24:21>
+          n<> u<14> t<Package_or_generate_item_declaration> p<15> l<24:21> el<24:21>
+        n<> u<17> t<Package_item> p<22> c<16> s<19> l<24:21> el<24:30>
+          n<> u<16> t<Package_or_generate_item_declaration> p<17> l<24:21> el<24:30>
+        n<> u<19> t<Package_item> p<22> c<18> s<20> l<24:30> el<24:31>
+          n<> u<18> t<Package_or_generate_item_declaration> p<19> l<24:30> el<24:31>
+        n<// ILLEGAL: continuous assignment at package scope> u<20> t<LINE_COMMENT> p<22> s<21> l<24:32> el<24:82>
+        n<> u<21> t<ENDPACKAGE> p<22> l<25:1> el<25:11>
+AST_DEBUG_END
+[INF:CP0301] $Source01/Package.sv:23:1: Compile package "illegal_construct_package_test".
+[WRN:PA0205] $Source01/Package.sv:23:1: No timescale set for "illegal_construct_package_test".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:Package.sv file:$Source01/Package.sv:
+      vpiParent: Design name:unnamed
+      vpiName: Package.sv
+      vpiPreprocFile: "$Output/lib/work/Package.sv"
+  vpiAllPackages (1 items):
+    Package name:illegal_construct_package_test file:$Source01/Package.sv start:23:1 end:25:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:illegal_construct_package_test start:23:9 end:23:39:
+        vpiParent: Package name:illegal_construct_package_test
+        vpiName: illegal_construct_package_test
+      vpiFullName: illegal_construct_package_test
+      vpiDefName: illegal_construct_package_test
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:illegal_construct_package_test
+        vpiName: work
+        vpiFullName: illegal_construct_package_test::work
+      vpiCell: illegal_construct_package_test
+===================
+[  FATAL] : 0
+[ SYNTAX] : 2
+[  ERROR] : 0
+[WARNING] : 1
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: NetsAndVariables/illegal_construct/Package
+   test-dirpath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/Package
+  hldb-filepath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/Package/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/Package/mounts.json
+
+
+{'result': {'coverage': 76.62,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/Package.sv': {'post_len': 18,
+                                                      'pre_len': 77}},
+            'post_len': 18,
+            'pre_len': 77,
+            'test_name': 'NetsAndVariables/illegal_construct/Package'}}
+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/Package.sv |       77 |        18 |
++=============================+==========+===========+
+|                             |       77 |        18 |
++-----------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 76.62
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/Package/design.hldb ${HLC_DIR}/regression/NetsAndVariables/illegal_construct/Package/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                               5       5       0         0
+----------------------------------------------------------------
+                                     5       5       0         0
+===================== END REDUCTION RESULT =====================

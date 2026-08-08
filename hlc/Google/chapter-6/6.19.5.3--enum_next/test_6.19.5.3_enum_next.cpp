@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,12 @@
 //     end
 //   endmodule
 //
+// What to check and why (IEEE 1800-2023 6.19.5.3 "Next()", p.123):
+// "function enum next(int unsigned N = 1); The next() method returns
+// the Nth next enumeration value ... A wrap to the start of the
+// enumeration occurs when the end ... is reached." "val = val.next();"
+// is exactly this legal method call. No :should_fail_because: tag.
+//
 // Checked:
 //   - design has module top
 //   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
@@ -35,6 +41,7 @@
 //     resolved at simulation runtime)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -56,20 +63,20 @@
 
 namespace hlc {
 
-class EnumNext : public Test {
+class EnumNextTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19.5.3--enum_next.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(EnumNext, ModuleExists) {
+TEST_F(EnumNextTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Module typespec -- TypedefTypespec "e" -> EnumTypespec with 4 consts
-// ----
-TEST_F(EnumNext, TypedefEExists) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNextTest, TypedefEExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -77,7 +84,7 @@ TEST_F(EnumNext, TypedefEExists) {
   EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
-TEST_F(EnumNext, EnumHasFourConsts) {
+TEST_F(EnumNextTest, EnumHasFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
@@ -92,10 +99,10 @@ TEST_F(EnumNext, EnumHasFourConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable "val" -- declared with inline initializer EnumConst "a"
-// ----
-TEST_F(EnumNext, ValVariableDeclaredWithInitA) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNextTest, ValVariableDeclaredWithInitA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -114,10 +121,10 @@ TEST_F(EnumNext, ValVariableDeclaredWithInitA) {
   EXPECT_NE(initVal->getActual<hldb::EnumConst>(), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Assignment: val = val.next() -- rhs is HierPath "val.next()"
-// ----
-TEST_F(EnumNext, AssignmentRhsIsHierPath) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumNextTest, AssignmentRhsIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -135,7 +142,7 @@ TEST_F(EnumNext, AssignmentRhsIsHierPath) {
   EXPECT_EQ(hp->getName(), "val.next");
 }
 
-TEST_F(EnumNext, HierPathReceiverAndFuncCall) {
+TEST_F(EnumNextTest, HierPathReceiverAndFuncCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -157,7 +164,7 @@ TEST_F(EnumNext, HierPathReceiverAndFuncCall) {
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "next() takes no arguments";
 }
 
-TEST_F(EnumNext, HierPathReceiverResolvesToVariable) {
+TEST_F(EnumNextTest, HierPathReceiverResolvesToVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -174,7 +181,7 @@ TEST_F(EnumNext, HierPathReceiverResolvesToVariable) {
       << "receiver RefObj 'val' in val.next() should resolve to the local Variable";
 }
 
-TEST_F(EnumNext, NextCallHasNoStaticReturnTypespec) {
+TEST_F(EnumNextTest, NextCallHasNoStaticReturnTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -189,6 +196,14 @@ TEST_F(EnumNext, NextCallHasNoStaticReturnTypespec) {
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getTypespec(), nullptr)
       << "next() return type is only known at simulation runtime; HLC does not attach a static typespec";
+}
+
+TEST_F(EnumNextTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

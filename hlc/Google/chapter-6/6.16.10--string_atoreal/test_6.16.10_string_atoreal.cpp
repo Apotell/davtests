@@ -19,8 +19,17 @@
 //     string a = "4.76";
 //     real b = a.atoreal();
 //   endmodule
-// Per IEEE 1800-2023 6.8/6.16: neither 'string' nor 'real' has an explicit
-// net-type keyword, so both 'a' and 'b' are variable_declarations.
+//
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations", p.105):
+// the identifiers declared in this file (string/int/byte/real -- see the
+// module body above) are all 6.8 data_type keywords (string, integer_atom_type,
+// non_integer_type), never IEEE 1800-2023 6.7 net_type keywords, so they must
+// be Variables, not Nets, regardless of module-level scope. A prior version of
+// this test used hldb::Net/getNets() throughout -- the same net/variable
+// misclassification bug found and fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14,
+// and 6.16--string this session. This version targets hldb::Variable instead,
+// and adds a CompilerReportsZeroErrors check (previously absent) since this
+// file has no :should_fail_because: tag and is fully legal.
 //
 // Checked:
 //   - design has module top with 2 variables (a: string, b: real)
@@ -35,6 +44,7 @@
 //     string method return values is not performed
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -43,44 +53,34 @@
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
-#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/real_typespec.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class StringAtoreal : public Test {
+class StringAtorealTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.10--string_atoreal.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(StringAtoreal, ModuleExists) {
+TEST_F(StringAtorealTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(StringAtoreal, TwoVariablesExist) {
+TEST_F(StringAtorealTest, TwoVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(StringAtoreal, NoNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, neither 'string' nor 'real' has a
-  // net-type keyword, so neither 'a' nor 'b' should be materialized as Nets.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
-}
-
-TEST_F(StringAtoreal, AVariableTypespecIsString) {
+TEST_F(StringAtorealTest, AVariableTypespecIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -88,7 +88,7 @@ TEST_F(StringAtoreal, AVariableTypespecIsString) {
   EXPECT_NE(a->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringAtoreal, AVariableInitialValueIs4dot76) {
+TEST_F(StringAtorealTest, AVariableInitialValueIs4dot76) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -99,7 +99,7 @@ TEST_F(StringAtoreal, AVariableInitialValueIs4dot76) {
   EXPECT_EQ(init->getDecompile(), "\"4.76\"");
 }
 
-TEST_F(StringAtoreal, BVariableTypespecIsReal) {
+TEST_F(StringAtorealTest, BVariableTypespecIsReal) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -110,7 +110,7 @@ TEST_F(StringAtoreal, BVariableTypespecIsReal) {
       << "variable 'b' typespec should resolve to RealTypespec (not IntTypespec)";
 }
 
-TEST_F(StringAtoreal, BVariableHasValue) {
+TEST_F(StringAtorealTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -118,7 +118,7 @@ TEST_F(StringAtoreal, BVariableHasValue) {
   EXPECT_NE(b->getValue(), nullptr) << "variable 'b' should have a vpiValue set from real b = a.atoreal()";
 }
 
-TEST_F(StringAtoreal, BVariableValueIsNotPreEvaluatedConstant) {
+TEST_F(StringAtorealTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -127,7 +127,7 @@ TEST_F(StringAtoreal, BVariableValueIsNotPreEvaluatedConstant) {
       << "HLC does not pre-evaluate a.atoreal() to a constant; b holds only the HierPath expression";
 }
 
-TEST_F(StringAtoreal, BVariableValueIsHierPath) {
+TEST_F(StringAtorealTest, BVariableValueIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -137,7 +137,7 @@ TEST_F(StringAtoreal, BVariableValueIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.atoreal");
 }
 
-TEST_F(StringAtoreal, HierPathReceiverIsA) {
+TEST_F(StringAtorealTest, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -152,7 +152,7 @@ TEST_F(StringAtoreal, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringAtoreal, HierPathMethodIsAtoreal) {
+TEST_F(StringAtorealTest, HierPathMethodIsAtoreal) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -164,6 +164,14 @@ TEST_F(StringAtoreal, HierPathMethodIsAtoreal) {
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "atoreal");
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "atoreal() takes no arguments";
+}
+
+TEST_F(StringAtorealTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

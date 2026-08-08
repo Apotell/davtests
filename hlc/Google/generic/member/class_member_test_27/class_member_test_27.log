@@ -79,6 +79,7 @@ n<$Source01/class_member_test_27.sv> u<65> t<Top_level_rule> c<1> l<15:1> el<26:
         n<> u<61> t<ENDMODULE> p<62> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/class_member_test_27.sv:24:1: Compile module "test".
+[WRN:CP0350] $Source01/class_member_test_27.sv:20:30: Failed to bind "id:31, name:new".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -137,6 +138,15 @@ Design name:unnamed:
                 vpiName Identifier name:new:
                   vpiParent: MethodFuncCall name:new
                   vpiName: new
+          vpiTypespec (1 items):
+            ClassTypespec name:report_server start:20:3 end:20:16:
+              vpiParent: Function name:starter
+              vpiName Identifier name:report_server start:20:3 end:20:16:
+                vpiParent: ClassTypespec name:report_server
+                vpiName: report_server
+              vpiDefName: report_server
+              vpiClassDefn: ClassDefn name:report_server
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiVirtual: true
           vpiIODecl (1 items):
@@ -177,6 +187,7 @@ Design name:unnamed:
       vpiName Identifier name:report_server:
         vpiParent: ClassTypespec name:report_server
         vpiName: report_server
+      vpiDefName: report_server
       vpiClassDefn: ClassDefn name:report_server
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -195,6 +206,7 @@ Design name:unnamed:
       vpiName Identifier name:myclass:
         vpiParent: ClassTypespec name:myclass
         vpiName: myclass
+      vpiDefName: myclass
       vpiClassDefn: ClassDefn name:myclass
     VoidTypespec start:19:18 end:19:22:
       vpiParent: Design name:unnamed
@@ -208,7 +220,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -252,7 +264,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_27/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              34      34       0         0
 ----------------------------------------------------------------
-                                    32      32       0         0
+                                    34      34       0         0
 ===================== END REDUCTION RESULT =====================

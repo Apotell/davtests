@@ -10,6 +10,7 @@ COMMAND: -wd ../../../tests/ClassParamAsParam -fileunit -writepp -d db -sv dut.s
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 [INF:CP0303] $Source01/dut.sv:17:1: Compile module "top".
+[WRN:CP0350] $Source01/dut.sv:18:40: Failed to bind "id:74, name:new".
 [WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -120,19 +121,21 @@ Design name:unnamed:
             vpiFullName: resource_db
             vpiActual: IntTypespec
       vpiTypespec (3 items):
-        UnsupportedTypespec name:resource #(T) start:9:10 end:9:23:
+        ClassTypespec name:resource #(T) start:9:10 end:9:23:
           vpiParent: ClassDefn name:resource_db
-          vpiName Identifier name:resource #(T) start:9:10 end:9:23:
-            vpiParent: UnsupportedTypespec name:resource #(T)
+          vpiName Identifier name:resource #(T) start:9:10 end:9:18:
+            vpiParent: ClassTypespec name:resource #(T)
             vpiName: resource #(T)
+          vpiDefName: resource
           vpiParamAssign (1 items):
             ParamAssign start:9:21 end:9:22:
-              vpiParent: UnsupportedTypespec name:resource #(T)
+              vpiParent: ClassTypespec name:resource #(T)
               vpiOverridden: true
               vpiRhs RefObj name:T start:9:21 end:9:22:
                 vpiParent: ParamAssign
                 vpiName: T
                 vpiFullName: resource_db::resource #(T)::T
+          vpiClassDefn: ClassDefn name:resource
         TypedefTypespec name:rsrc_t start:9:2 end:9:31:
           vpiParent: ClassDefn name:resource_db
           vpiName Identifier name:rsrc_t start:9:24 end:9:30:
@@ -141,7 +144,7 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:9:10 end:9:23:
             vpiParent: TypedefTypespec name:rsrc_t
             vpiFullName: resource_db::rsrc_t
-            vpiActual: UnsupportedTypespec name:resource #(T)
+            vpiActual: ClassTypespec name:resource #(T)
         TypeParameter name:T:
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -176,9 +179,10 @@ Design name:unnamed:
       vpiTypespec (2 items):
         ClassTypespec name:resource_db #(T) start:14:38 end:14:53:
           vpiParent: ClassDefn name:config_db
-          vpiName Identifier name:resource_db #(T):
+          vpiName Identifier name:resource_db #(T) start:14:38 end:14:49:
             vpiParent: ClassTypespec name:resource_db #(T)
             vpiName: resource_db #(T)
+          vpiDefName: resource_db
           vpiParamAssign (1 items):
             ParamAssign start:14:51 end:14:52:
               vpiParent: ClassTypespec name:resource_db #(T)
@@ -187,6 +191,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: T
                 vpiFullName: config_db::resource_db #(T)::T
+          vpiClassDefn: ClassDefn name:resource_db
         TypeParameter name:T:
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -217,7 +222,7 @@ Design name:unnamed:
             vpiParent: Variable name:misc2
             vpiName: config_db
             vpiFullName: top.misc2.config_db
-            vpiActual: ClassTypespec name:config_db
+            vpiActual: ClassTypespec name:config_db #(object #(longint))
           vpiName: misc2
           vpiFullName: top.misc2
           vpiValue MethodFuncCall name:new start:18:40 end:18:43:
@@ -225,6 +230,37 @@ Design name:unnamed:
             vpiName Identifier name:new:
               vpiParent: MethodFuncCall name:new
               vpiName: new
+      vpiTypespec (2 items):
+        ClassTypespec name:object #(longint) start:18:14 end:18:30:
+          vpiParent: Module name:top
+          vpiName Identifier name:object #(longint) start:18:14 end:18:20:
+            vpiParent: ClassTypespec name:object #(longint)
+            vpiName: object #(longint)
+          vpiDefName: object
+          vpiParamAssign (1 items):
+            ParamAssign start:18:22 end:18:29:
+              vpiParent: ClassTypespec name:object #(longint)
+              vpiOverridden: true
+              vpiRhs RefTypespec start:18:22 end:18:29:
+                vpiParent: ParamAssign
+                vpiFullName: top.object #(longint)
+                vpiActual: LongIntTypespec
+          vpiClassDefn: ClassDefn name:object
+        ClassTypespec name:config_db #(object #(longint)) start:18:3 end:18:31:
+          vpiParent: Module name:top
+          vpiName Identifier name:config_db #(object #(longint)) start:18:3 end:18:12:
+            vpiParent: ClassTypespec name:config_db #(object #(longint))
+            vpiName: config_db #(object #(longint))
+          vpiDefName: config_db
+          vpiParamAssign (1 items):
+            ParamAssign start:18:14 end:18:30:
+              vpiParent: ClassTypespec name:config_db #(object #(longint))
+              vpiOverridden: true
+              vpiRhs RefTypespec start:18:14 end:18:30:
+                vpiParent: ParamAssign
+                vpiFullName: top.config_db #(object #(longint))
+                vpiActual: ClassTypespec name:object #(longint)
+          vpiClassDefn: ClassDefn name:config_db
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -238,6 +274,7 @@ Design name:unnamed:
       vpiName Identifier name:object:
         vpiParent: ClassTypespec name:object
         vpiName: object
+      vpiDefName: object
       vpiClassDefn: ClassDefn name:object
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -247,18 +284,21 @@ Design name:unnamed:
       vpiName Identifier name:resource:
         vpiParent: ClassTypespec name:resource
         vpiName: resource
+      vpiDefName: resource
       vpiClassDefn: ClassDefn name:resource
     ClassTypespec name:resource_db:
       vpiParent: Design name:unnamed
       vpiName Identifier name:resource_db:
         vpiParent: ClassTypespec name:resource_db
         vpiName: resource_db
+      vpiDefName: resource_db
       vpiClassDefn: ClassDefn name:resource_db
     ClassTypespec name:config_db:
       vpiParent: Design name:unnamed
       vpiName Identifier name:config_db:
         vpiParent: ClassTypespec name:config_db
         vpiName: config_db
+      vpiDefName: config_db
       vpiClassDefn: ClassDefn name:config_db
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -273,7 +313,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -317,7 +357,7 @@ COMMAND: ${HLC_DIR}/regression/ClassParamAsParam/ClassParamAsParam/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    64      64       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

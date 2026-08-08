@@ -49,14 +49,14 @@ class SequenceExprTest : public Test {
 
  protected:
   const hldb::Module *getModule() const {
-    return getByName<hldb::Module>("sequence_expr_coverage", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("sequence_expr_coverage", m_design->getAllModules());
   }
 
   // Find a named sequence_decl inside the module.
   const hldb::SequenceDecl *findSeq(std::string_view name) const {
     const hldb::Module *mod = getModule();
     if (mod == nullptr) return nullptr;
-    return getByName<hldb::SequenceDecl>(name, mod->getSequenceDecls());
+    return hldb::findByName<hldb::SequenceDecl>(name, mod->getSequenceDecls());
   }
 
   // Return the expr of a named sequence, cast to Operation.

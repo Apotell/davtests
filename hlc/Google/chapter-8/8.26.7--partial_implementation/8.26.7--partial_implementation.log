@@ -184,6 +184,7 @@ n<$Source01/8.26.7--partial_implementation.sv> u<170> t<Top_level_rule> c<1> l<1
         n<> u<166> t<ENDMODULE> p<167> l<42:1> el<42:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/8.26.7--partial_implementation.sv:15:1: Compile module "class_tb".
+[WRN:CP0350] $Source01/8.26.7--partial_implementation.sv:37:9: Failed to bind "id:67, name:new".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -216,18 +217,21 @@ Design name:unnamed:
           vpiName Identifier name:ihello:
             vpiParent: ClassTypespec name:ihello
             vpiName: ihello
+          vpiDefName: ihello
           vpiClassDefn: ClassDefn name:ihello
         ClassTypespec name:vhello:
           vpiParent: Module name:class_tb
           vpiName Identifier name:vhello:
             vpiParent: ClassTypespec name:vhello
             vpiName: vhello
+          vpiDefName: vhello
           vpiClassDefn: ClassDefn name:vhello
         ClassTypespec name:helloworld:
           vpiParent: Module name:class_tb
           vpiName Identifier name:helloworld:
             vpiParent: ClassTypespec name:helloworld
             vpiName: helloworld
+          vpiDefName: helloworld
           vpiClassDefn: ClassDefn name:helloworld
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
@@ -303,6 +307,7 @@ Design name:unnamed:
                 vpiParent: Function name:hello
                 vpiName: hello
               vpiFullName: class_tb::vhello::hello
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiStmt SysTaskCall name:$display start:23:4 end:23:21:
@@ -348,9 +353,10 @@ Design name:unnamed:
           vpiTypespec (1 items):
             ClassTypespec name:vhello start:28:27 end:28:33:
               vpiParent: ClassDefn name:helloworld
-              vpiName Identifier name:vhello:
+              vpiName Identifier name:vhello start:28:27 end:28:33:
                 vpiParent: ClassTypespec name:vhello
                 vpiName: vhello
+              vpiDefName: vhello
               vpiClassDefn: ClassDefn name:vhello
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -374,6 +380,7 @@ Design name:unnamed:
                 vpiParent: Function name:world
                 vpiName: world
               vpiFullName: class_tb::helloworld::world
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiStmt SysTaskCall name:$display start:30:4 end:30:21:
@@ -463,7 +470,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

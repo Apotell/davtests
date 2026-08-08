@@ -939,7 +939,6 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/svinterface1.sv:31:1: Compile interface "MyInterface".
 [INF:CP0303] $Source01/svinterface1.sv:59:1: Compile module "SubModule1".
 [INF:CP0303] $Source01/svinterface1.sv:94:1: Compile module "SubModule2".
-[ERR:LN0814] Found 2 weak node(s).
 [WRN:CP0350] $Source01/svinterface1.sv:22:40: Failed to bind "id:118, name:mysig_out".
 [WRN:CP0350] $Source01/svinterface1.sv:25:30: Failed to bind "id:122, name:setting".
 [WRN:CP0350] $Source01/svinterface1.sv:70:21: Failed to bind "id:251, name:mysig_out".
@@ -952,8 +951,6 @@ AST_DEBUG_END
 [WRN:CP0350] $Source01/svinterface1.sv:104:31: Failed to bind "id:347, name:mysig_out".
 [WRN:CP0350] $Source01/svinterface1.sv:106:36: Failed to bind "id:369, name:mysig_out".
 [WRN:CP0350] $Source01/svinterface1.sv:108:36: Failed to bind "id:391, name:mysig_out".
-[WRN:CP0350] $Source01/svinterface1.sv:114:32: Failed to bind "id:440, name:passThrough".
-[WRN:CP0350] $Source01/svinterface1.sv:115:32: Failed to bind "id:455, name:passThrough".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -2558,41 +2555,46 @@ Design name:unnamed:
       vpiContAssign (2 items):
         ContAssign start:114:12 end:114:54:
           vpiParent: Module name:SubModule2
-          vpiLhs PartSelect name:passThrough[7:0] start:114:12 end:114:48:
+          vpiLhs HierPath name:u_MyInterfaceInSub2.passThrough[7:0] start:114:12 end:114:48:
             vpiParent: ContAssign
-            vpiName: passThrough[7:0]
-            vpiFullName: SubModule2.passThrough[7:0]
-            vpiPrefix HierPath name:passThrough start:114:31 end:114:48:
-              vpiParent: PartSelect name:passThrough[7:0]
-              vpiName: passThrough
-              vpiFullName: SubModule2.passThrough[7:0].passThrough
-              vpiPathElem (1 items):
-                RefObj name:passThrough start:114:32 end:114:43:
-                  vpiParent: HierPath name:passThrough
+            vpiName: u_MyInterfaceInSub2.passThrough[7:0]
+            vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[7:0]
+            vpiPathElem (2 items):
+              RefObj name:u_MyInterfaceInSub2 start:114:12 end:114:31:
+                vpiParent: HierPath name:u_MyInterfaceInSub2.passThrough[7:0]
+                vpiName: u_MyInterfaceInSub2
+                vpiFullName: SubModule2.u_MyInterfaceInSub2
+                vpiActual: Port name:u_MyInterfaceInSub2
+              PartSelect name:passThrough[7:0] start:114:32 end:114:48:
+                vpiParent: HierPath name:u_MyInterfaceInSub2.passThrough[7:0]
+                vpiName: passThrough[7:0]
+                vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[7:0].passThrough[7:0]
+                vpiPrefix RefObj name:passThrough start:114:32 end:114:43:
+                  vpiParent: PartSelect name:passThrough[7:0]
                   vpiName: passThrough
-                  vpiFullName: SubModule2.passThrough[7:0].passThrough
-            vpiRange Range start:114:44 end:114:47:
-              vpiParent: PartSelect name:passThrough[7:0]
-              vpiLeftRange Constant start:114:44 end:114:45:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: SubModule2.passThrough[7:0]
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "7"
-                vpiValue: 7
-              vpiRightRange Constant start:114:46 end:114:47:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: SubModule2.passThrough[7:0]
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
+                  vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[7:0].passThrough[7:0].passThrough
+                vpiRange Range start:114:44 end:114:47:
+                  vpiParent: PartSelect name:passThrough[7:0]
+                  vpiLeftRange Constant start:114:44 end:114:45:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[7:0].passThrough[7:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "7"
+                    vpiValue: 7
+                  vpiRightRange Constant start:114:46 end:114:47:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[7:0].passThrough[7:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
           vpiRhs Constant start:114:51 end:114:54:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -2605,41 +2607,46 @@ Design name:unnamed:
             vpiValue: 124
         ContAssign start:115:12 end:115:55:
           vpiParent: Module name:SubModule2
-          vpiLhs PartSelect name:passThrough[15:8] start:115:12 end:115:49:
+          vpiLhs HierPath name:u_MyInterfaceInSub2.passThrough[15:8] start:115:12 end:115:49:
             vpiParent: ContAssign
-            vpiName: passThrough[15:8]
-            vpiFullName: SubModule2.passThrough[15:8]
-            vpiPrefix HierPath name:passThrough start:115:31 end:115:49:
-              vpiParent: PartSelect name:passThrough[15:8]
-              vpiName: passThrough
-              vpiFullName: SubModule2.passThrough[15:8].passThrough
-              vpiPathElem (1 items):
-                RefObj name:passThrough start:115:32 end:115:43:
-                  vpiParent: HierPath name:passThrough
+            vpiName: u_MyInterfaceInSub2.passThrough[15:8]
+            vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[15:8]
+            vpiPathElem (2 items):
+              RefObj name:u_MyInterfaceInSub2 start:115:12 end:115:31:
+                vpiParent: HierPath name:u_MyInterfaceInSub2.passThrough[15:8]
+                vpiName: u_MyInterfaceInSub2
+                vpiFullName: SubModule2.u_MyInterfaceInSub2
+                vpiActual: Port name:u_MyInterfaceInSub2
+              PartSelect name:passThrough[15:8] start:115:32 end:115:49:
+                vpiParent: HierPath name:u_MyInterfaceInSub2.passThrough[15:8]
+                vpiName: passThrough[15:8]
+                vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[15:8].passThrough[15:8]
+                vpiPrefix RefObj name:passThrough start:115:32 end:115:43:
+                  vpiParent: PartSelect name:passThrough[15:8]
                   vpiName: passThrough
-                  vpiFullName: SubModule2.passThrough[15:8].passThrough
-            vpiRange Range start:115:44 end:115:48:
-              vpiParent: PartSelect name:passThrough[15:8]
-              vpiLeftRange Constant start:115:44 end:115:46:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: SubModule2.passThrough[15:8]
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "15"
-                vpiValue: 15
-              vpiRightRange Constant start:115:47 end:115:48:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: SubModule2.passThrough[15:8]
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "8"
-                vpiValue: 8
+                  vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[15:8].passThrough[15:8].passThrough
+                vpiRange Range start:115:44 end:115:48:
+                  vpiParent: PartSelect name:passThrough[15:8]
+                  vpiLeftRange Constant start:115:44 end:115:46:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[15:8].passThrough[15:8]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "15"
+                    vpiValue: 15
+                  vpiRightRange Constant start:115:47 end:115:48:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: SubModule2.u_MyInterfaceInSub2.passThrough[15:8].passThrough[15:8]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "8"
+                    vpiValue: 8
           vpiRhs Constant start:115:52 end:115:55:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -2665,6 +2672,7 @@ Design name:unnamed:
       vpiName Identifier name:MyInterface start:31:11 end:31:22:
         vpiParent: InterfaceTypespec name:MyInterface
         vpiName: MyInterface
+      vpiDefName: MyInterface
       vpiInterface: Interface name:MyInterface
     ModuleTypespec name:SubModule1:
       vpiParent: Design name:unnamed
@@ -2683,8 +2691,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 14
+[  ERROR] : 0
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2729,10 +2737,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            44      44       1         1
 Operation                            8       7       0         1
-RefObj                              94      93       0         1
+RefObj                              96      95       0         1
 RefTypespec                         90      90       1         1
 ----------------------------------------------------------------
 Others                             170     170       0         0
 ----------------------------------------------------------------
-                                   406     404       2         4
+                                   408     406       2         4
 ===================== END REDUCTION RESULT =====================

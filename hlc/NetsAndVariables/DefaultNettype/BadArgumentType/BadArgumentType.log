@@ -1,0 +1,193 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/NetsAndVariables/DefaultNettype -d ast -d db BadArgumentType.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/BadArgumentType
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/BadArgumentType.sv".
+[INF:PA0201] Parsing source file "$Source01/BadArgumentType.sv".
+[SNT:PA0207] $Source01/BadArgumentType.sv:22:17: Syntax error: mismatched input 'logic' expecting {'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', SIMPLE_IDENTIFIER},
+`default_nettype logic
+                 ^-- $Source01/BadArgumentType.sv:22:17:.
+[SNT:PA0207] $Source01/BadArgumentType.sv:24: Syntax error: extraneous input 'module' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+module illegal_construct_default_nettype_bad_argument_type_test(input logic a, input logic b, output logic y);
+^-- $Source01/BadArgumentType.sv:24:0:.
+[SNT:PA0207] $Source01/BadArgumentType.sv:24:63: Syntax error: mismatched input '(' expecting ';',
+module illegal_construct_default_nettype_bad_argument_type_test(input logic a, input logic b, output logic y);
+                                                               ^-- $Source01/BadArgumentType.sv:24:63:.
+[SNT:PA0207] $Source01/BadArgumentType.sv:24:79: Syntax error: mismatched input 'input' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+module illegal_construct_default_nettype_bad_argument_type_test(input logic a, input logic b, output logic y);
+                                                                               ^-- $Source01/BadArgumentType.sv:24:79:.
+[SNT:PA0207] $Source01/BadArgumentType.sv:24:94: Syntax error: mismatched input 'output' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+module illegal_construct_default_nettype_bad_argument_type_test(input logic a, input logic b, output logic y);
+                                                                                              ^-- $Source01/BadArgumentType.sv:24:94:.
+[SNT:PA0207] $Source01/BadArgumentType.sv:24:108: Syntax error: extraneous input ')' expecting ';',
+module illegal_construct_default_nettype_bad_argument_type_test(input logic a, input logic b, output logic y);
+                                                                                                            ^-- $Source01/BadArgumentType.sv:24:108:.
+[SNT:PA0207] $Source01/BadArgumentType.sv:25:2: Syntax error: mismatched input 'assign' expecting <EOF>,
+  assign y = a ^ b;
+  ^-- $Source01/BadArgumentType.sv:25:2:.
+AST_DEBUG_BEGIN
+Count: 54
+LIB: work
+FILE: f<13>:$Source01/BadArgumentType.sv
+n<$Source01/BadArgumentType.sv> u<53> t<Top_level_rule> c<1> l<22:1> el<28:22>
+  n<> u<1> t<Null_rule> p<53> s<2> l<22:1> el<22:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<53> s<3> l<22:1> el<24:111>
+  n<// Illegal construct: `default_nettype only accepts a net type keyword> u<3> t<LINE_COMMENT> p<53> s<4> l<17:1> el<17:71>
+  n<// (wire, tri, tri0, tri1, wand, wor, triand, trior, trireg, uwire, supply0,> u<4> t<LINE_COMMENT> p<53> s<5> l<18:1> el<18:77>
+  n<// supply1) or the literal 'none' as its argument. 'logic' is a data type,> u<5> t<LINE_COMMENT> p<53> s<6> l<19:1> el<19:75>
+  n<// not a net type, and so is not a valid argument here.> u<6> t<LINE_COMMENT> p<53> s<52> l<20:1> el<20:56>
+  n<> u<52> t<Source_text> p<53> c<9> l<22:1> el<24:111>
+    n<> u<9> t<Description> p<52> c<8> s<19> l<22:1> el<22:17>
+      n<> u<8> t<Top_directives> p<9> c<7> l<22:1> el<22:17>
+        n<> u<7> t<Default_nettype_directive> p<8> l<22:1> el<22:17>
+    n<> u<19> t<Description> p<52> c<18> s<30> l<22:18> el<24:70>
+      n<> u<18> t<Package_item> p<19> c<17> l<22:18> el<24:70>
+        n<> u<17> t<Package_or_generate_item_declaration> p<18> c<16> l<22:18> el<24:70>
+          n<> u<16> t<Data_declaration> p<17> c<15> l<22:18> el<24:70>
+            n<> u<15> t<Variable_declaration> p<16> c<11> l<22:18> el<24:70>
+              n<> u<11> t<Data_type> p<15> c<10> s<14> l<22:18> el<22:23>
+                n<> u<10> t<LOGIC> p<11> l<22:18> el<22:23>
+              n<> u<14> t<Variable_decl_assignment_list> p<15> c<13> l<24:1> el<24:64>
+                n<> u<13> t<Variable_decl_assignment> p<14> c<12> l<24:1> el<24:64>
+                  n<illegal_construct_default_nettype_bad_argument_type_test> u<12> t<SIMPLE_IDENTIFIER> p<13> l<24:1> el<24:64>
+    n<> u<30> t<Description> p<52> c<29> s<41> l<24:71> el<24:85>
+      n<> u<29> t<Package_item> p<30> c<28> l<24:71> el<24:85>
+        n<> u<28> t<Package_or_generate_item_declaration> p<29> c<27> l<24:71> el<24:85>
+          n<> u<27> t<Data_declaration> p<28> c<26> l<24:71> el<24:85>
+            n<> u<26> t<Variable_declaration> p<27> c<21> l<24:71> el<24:85>
+              n<> u<21> t<Data_type> p<26> c<20> s<25> l<24:71> el<24:76>
+                n<> u<20> t<LOGIC> p<21> l<24:71> el<24:76>
+              n<> u<25> t<Variable_decl_assignment_list> p<26> c<23> l<24:77> el<24:85>
+                n<> u<23> t<Variable_decl_assignment> p<25> c<22> s<24> l<24:77> el<24:78>
+                  n<a> u<22> t<SIMPLE_IDENTIFIER> p<23> l<24:77> el<24:78>
+                n<> u<24> t<Variable_decl_assignment> p<25> l<24:80> el<24:85>
+    n<> u<41> t<Description> p<52> c<40> s<51> l<24:86> el<24:101>
+      n<> u<40> t<Package_item> p<41> c<39> l<24:86> el<24:101>
+        n<> u<39> t<Package_or_generate_item_declaration> p<40> c<38> l<24:86> el<24:101>
+          n<> u<38> t<Data_declaration> p<39> c<37> l<24:86> el<24:101>
+            n<> u<37> t<Variable_declaration> p<38> c<32> l<24:86> el<24:101>
+              n<> u<32> t<Data_type> p<37> c<31> s<36> l<24:86> el<24:91>
+                n<> u<31> t<LOGIC> p<32> l<24:86> el<24:91>
+              n<> u<36> t<Variable_decl_assignment_list> p<37> c<34> l<24:92> el<24:101>
+                n<> u<34> t<Variable_decl_assignment> p<36> c<33> s<35> l<24:92> el<24:93>
+                  n<b> u<33> t<SIMPLE_IDENTIFIER> p<34> l<24:92> el<24:93>
+                n<> u<35> t<Variable_decl_assignment> p<36> l<24:95> el<24:101>
+    n<> u<51> t<Description> p<52> c<50> l<24:102> el<24:111>
+      n<> u<50> t<Package_item> p<51> c<49> l<24:102> el<24:111>
+        n<> u<49> t<Package_or_generate_item_declaration> p<50> c<48> l<24:102> el<24:111>
+          n<> u<48> t<Data_declaration> p<49> c<47> l<24:102> el<24:111>
+            n<> u<47> t<Variable_declaration> p<48> c<43> l<24:102> el<24:111>
+              n<> u<43> t<Data_type> p<47> c<42> s<46> l<24:102> el<24:107>
+                n<> u<42> t<LOGIC> p<43> l<24:102> el<24:107>
+              n<> u<46> t<Variable_decl_assignment_list> p<47> c<45> l<24:108> el<24:109>
+                n<> u<45> t<Variable_decl_assignment> p<46> c<44> l<24:108> el<24:109>
+                  n<y> u<44> t<SIMPLE_IDENTIFIER> p<45> l<24:108> el<24:109>
+AST_DEBUG_END
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:BadArgumentType.sv file:$Source01/BadArgumentType.sv:
+      vpiParent: Design name:unnamed
+      vpiName: BadArgumentType.sv
+      vpiPreprocFile: "$Output/lib/work/BadArgumentType.sv"
+      vpiDirective (1 items):
+        GenericDirective start:22:1 end:22:17:
+          vpiParent: SourceFile name:BadArgumentType.sv
+          vpiDirectiveType: default_nettype (6)
+  vpiTypespec (1 items):
+    LogicTypespec:
+      vpiParent: Design name:unnamed
+  vpiVariable (4 items):
+    Variable name:illegal_construct_default_nettype_bad_argument_type_test start:24:1 end:24:64:
+      vpiParent: Design name:unnamed
+      vpiTypespec RefTypespec start:22:18 end:22:23:
+        vpiParent: Variable name:illegal_construct_default_nettype_bad_argument_type_test
+        vpiFullName: illegal_construct_default_nettype_bad_argument_type_test
+        vpiActual: LogicTypespec
+      vpiName: illegal_construct_default_nettype_bad_argument_type_test
+      vpiFullName: illegal_construct_default_nettype_bad_argument_type_test
+      vpiScalar: true
+    Variable name:a start:24:77 end:24:78:
+      vpiParent: Design name:unnamed
+      vpiTypespec RefTypespec start:24:71 end:24:76:
+        vpiParent: Variable name:a
+        vpiFullName: a
+        vpiActual: LogicTypespec
+      vpiName: a
+      vpiFullName: a
+      vpiScalar: true
+    Variable name:b start:24:92 end:24:93:
+      vpiParent: Design name:unnamed
+      vpiTypespec RefTypespec start:24:86 end:24:91:
+        vpiParent: Variable name:b
+        vpiFullName: b
+        vpiActual: LogicTypespec
+      vpiName: b
+      vpiFullName: b
+      vpiScalar: true
+    Variable name:y start:24:108 end:24:109:
+      vpiParent: Design name:unnamed
+      vpiTypespec RefTypespec start:24:102 end:24:107:
+        vpiParent: Variable name:y
+        vpiFullName: y
+        vpiActual: LogicTypespec
+      vpiName: y
+      vpiFullName: y
+      vpiScalar: true
+===================
+[  FATAL] : 0
+[ SYNTAX] : 7
+[  ERROR] : 0
+[WARNING] : 0
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: NetsAndVariables/DefaultNettype/BadArgumentType
+   test-dirpath: ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/BadArgumentType
+  hldb-filepath: ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/BadArgumentType/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/BadArgumentType/mounts.json
+
+
+{'result': {'coverage': 88.27,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/BadArgumentType.sv': {'post_len': 21,
+                                                              'pre_len': 179}},
+            'post_len': 21,
+            'pre_len': 179,
+            'test_name': 'NetsAndVariables/DefaultNettype/BadArgumentType'}}
+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/BadArgumentType.sv |      179 |        21 |
++=====================================+==========+===========+
+|                                     |      179 |        21 |
++-------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 88.27
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/BadArgumentType/design.hldb ${HLC_DIR}/regression/NetsAndVariables/DefaultNettype/BadArgumentType/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                              12      12       0         0
+----------------------------------------------------------------
+                                    12      12       0         0
+===================== END REDUCTION RESULT =====================

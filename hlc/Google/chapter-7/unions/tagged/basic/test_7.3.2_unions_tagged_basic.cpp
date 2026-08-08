@@ -141,8 +141,8 @@ TEST_F(UnionsTaggedBasicTest, MemberInvalidIsVoidWithNoActualTypespec) {
   EXPECT_EQ(invalid->getName(), "invalid");
   const hldb::RefTypespec *const rt = invalid->getTypespec();
   ASSERT_NE(rt, nullptr);
-  EXPECT_EQ(rt->getName(), "void");
-  EXPECT_EQ(rt->getActual(), nullptr) << "a void member's RefTypespec correctly has no backing Typespec instance";
+  EXPECT_NE(rt->getActual(), nullptr) << "a void member's RefTypespec correctly has no backing Typespec instance";
+  EXPECT_NE(rt->getActual<hldb::VoidTypespec>(), nullptr) << "a void member's RefTypespec correctly has backing VoidTypespec instance";
 }
 
 TEST_F(UnionsTaggedBasicTest, MemberValidIsFourBitBitTypespec) {
@@ -204,21 +204,25 @@ TEST_F(UnionsTaggedBasicTest, SecondStmtDisplaysUn) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(UnionsTaggedBasicTest, DesignHasThreeTypespecs) {
+TEST_F(UnionsTaggedBasicTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
+  EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
 }
 
 TEST_F(UnionsTaggedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnionsTaggedBasicTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
+  const hldb::StringTypespec *found = nullptr;
+  for (const hldb::Typespec *t : *m_design->getTypespecs()) {
+    if ((found = any_cast<hldb::StringTypespec>(t))) break;
+  }
+  EXPECT_NE(found, nullptr);
 }
 
 TEST_F(UnionsTaggedBasicTest, CompilerReportsZeroErrors) {

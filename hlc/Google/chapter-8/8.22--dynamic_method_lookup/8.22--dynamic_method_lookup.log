@@ -319,6 +319,12 @@ n<$Source01/8.22--dynamic_method_lookup.sv> u<305> t<Top_level_rule> c<1> l<15:1
         n<> u<301> t<ENDMODULE> p<302> l<55:1> el<55:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/8.22--dynamic_method_lookup.sv:15:1: Compile module "class_tb".
+[WRN:CP0350] $Source01/8.22--dynamic_method_lookup.sv:44:7: Failed to bind "id:96, name:new".
+[WRN:CP0350] $Source01/8.22--dynamic_method_lookup.sv:45:7: Failed to bind "id:100, name:new".
+[WRN:CP0350] $Source01/8.22--dynamic_method_lookup.sv:46:7: Failed to bind "id:104, name:new".
+[WRN:CP0350] $Source01/8.22--dynamic_method_lookup.sv:51:10: Failed to bind "id:135, name:print".
+[WRN:CP0350] $Source01/8.22--dynamic_method_lookup.sv:52:10: Failed to bind "id:143, name:print".
+[WRN:CP0350] $Source01/8.22--dynamic_method_lookup.sv:53:10: Failed to bind "id:151, name:print".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -378,24 +384,28 @@ Design name:unnamed:
           vpiName Identifier name:base_cls:
             vpiParent: ClassTypespec name:base_cls
             vpiName: base_cls
+          vpiDefName: base_cls
           vpiClassDefn: ClassDefn name:base_cls
         ClassTypespec name:a_cls:
           vpiParent: Module name:class_tb
           vpiName Identifier name:a_cls:
             vpiParent: ClassTypespec name:a_cls
             vpiName: a_cls
+          vpiDefName: a_cls
           vpiClassDefn: ClassDefn name:a_cls
         ClassTypespec name:b_cls:
           vpiParent: Module name:class_tb
           vpiName Identifier name:b_cls:
             vpiParent: ClassTypespec name:b_cls
             vpiName: b_cls
+          vpiDefName: b_cls
           vpiClassDefn: ClassDefn name:b_cls
         ClassTypespec name:c_cls:
           vpiParent: Module name:class_tb
           vpiName Identifier name:c_cls:
             vpiParent: ClassTypespec name:c_cls
             vpiName: c_cls
+          vpiDefName: c_cls
           vpiClassDefn: ClassDefn name:c_cls
         ArrayTypespec:
           vpiParent: Module name:class_tb
@@ -466,9 +476,10 @@ Design name:unnamed:
           vpiTypespec (1 items):
             ClassTypespec name:base_cls start:20:22 end:20:30:
               vpiParent: ClassDefn name:a_cls
-              vpiName Identifier name:base_cls:
+              vpiName Identifier name:base_cls start:20:22 end:20:30:
                 vpiParent: ClassTypespec name:base_cls
                 vpiName: base_cls
+              vpiDefName: base_cls
               vpiClassDefn: ClassDefn name:base_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -492,6 +503,7 @@ Design name:unnamed:
                 vpiParent: Function name:print
                 vpiName: print
               vpiFullName: class_tb::a_cls::print
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiStmt SysTaskCall name:$display start:22:4 end:22:17:
@@ -523,9 +535,10 @@ Design name:unnamed:
           vpiTypespec (1 items):
             ClassTypespec name:base_cls start:26:22 end:26:30:
               vpiParent: ClassDefn name:b_cls
-              vpiName Identifier name:base_cls:
+              vpiName Identifier name:base_cls start:26:22 end:26:30:
                 vpiParent: ClassTypespec name:base_cls
                 vpiName: base_cls
+              vpiDefName: base_cls
               vpiClassDefn: ClassDefn name:base_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -549,6 +562,7 @@ Design name:unnamed:
                 vpiParent: Function name:print
                 vpiName: print
               vpiFullName: class_tb::b_cls::print
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiStmt SysTaskCall name:$display start:28:4 end:28:17:
@@ -580,9 +594,10 @@ Design name:unnamed:
           vpiTypespec (1 items):
             ClassTypespec name:base_cls start:32:22 end:32:30:
               vpiParent: ClassDefn name:c_cls
-              vpiName Identifier name:base_cls:
+              vpiName Identifier name:base_cls start:32:22 end:32:30:
                 vpiParent: ClassTypespec name:base_cls
                 vpiName: base_cls
+              vpiDefName: base_cls
               vpiClassDefn: ClassDefn name:base_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -606,6 +621,7 @@ Design name:unnamed:
                 vpiParent: Function name:print
                 vpiName: print
               vpiFullName: class_tb::c_cls::print
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiStmt SysTaskCall name:$display start:34:4 end:34:17:
@@ -860,7 +876,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -28,6 +28,8 @@ COMMAND: -wd ../../../tests/Escape top.v top1.v -writepp -d 0 -fileunit -wd ${HL
 [WRN:CP0334] Colliding compilation unit name: "bottom1".
 [WRN:CP0334] Colliding compilation unit name: "bottom2".
 [WRN:CP0334] Colliding compilation unit name: "bottom3".
+[WRN:CP0350] $Source01/top.v:13:64: Failed to bind "id:1043, name:get_full_name".
+[WRN:CP0350] $Source01/top.v:13:50: Failed to bind "id:1050, name:read_by_name".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:27:1: No timescale set for "bottom2".
 [WRN:PA0205] $Source01/top1.v:26:1: No timescale set for "bottom2".
@@ -2327,6 +2329,7 @@ Design name:unnamed:
           vpiName Identifier name:mailbox:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
+          vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -2338,6 +2341,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -2369,6 +2373,7 @@ Design name:unnamed:
             vpiParent: Function name:num
             vpiName: num
           vpiFullName: mailbox::num
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:6:12 end:6:15:
             vpiParent: Function name:num
@@ -2383,6 +2388,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
@@ -2404,6 +2410,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
             LogicTypespec:
               vpiParent: Function name:try_put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:12:21 end:12:28:
@@ -2427,6 +2434,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
@@ -2446,6 +2454,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
@@ -2469,6 +2478,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
@@ -2488,6 +2498,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_peek
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
@@ -2557,16 +2568,19 @@ Design name:unnamed:
             vpiName: self
           vpiFullName: process::self
           vpiTypespec (1 items):
-            UnsupportedTypespec name:process start:34:19 end:34:26:
+            ClassTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
               vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: UnsupportedTypespec name:process
+                vpiParent: ClassTypespec name:process
                 vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:34:19 end:34:26:
             vpiParent: Function name:self
             vpiFullName: process::self
-            vpiActual: UnsupportedTypespec name:process
+            vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
@@ -2579,6 +2593,7 @@ Design name:unnamed:
               vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:37:12 end:37:17:
             vpiParent: Function name:status
@@ -2590,6 +2605,7 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
@@ -2597,6 +2613,7 @@ Design name:unnamed:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
@@ -2604,6 +2621,7 @@ Design name:unnamed:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiMethod: true
           vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
@@ -2611,6 +2629,7 @@ Design name:unnamed:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiMethod: true
           vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
@@ -2624,6 +2643,7 @@ Design name:unnamed:
           vpiName Identifier name:semaphore:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
+          vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -2635,6 +2655,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -2666,6 +2687,7 @@ Design name:unnamed:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
@@ -2692,6 +2714,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
@@ -2718,6 +2741,7 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiName: try_get
           vpiFullName: semaphore::try_get
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:66:28 end:66:36:
@@ -2749,10 +2773,10 @@ Design name:unnamed:
         vpiName: env
       vpiFullName: env
       vpiTypespec (1 items):
-        ClassTypespec name:uvm_env start:8:19 end:8:26:
+        UnsupportedTypespec name:uvm_env start:8:19 end:8:26:
           vpiParent: ClassDefn name:env
-          vpiName Identifier name:uvm_env:
-            vpiParent: ClassTypespec name:uvm_env
+          vpiName Identifier name:uvm_env start:8:19 end:8:26:
+            vpiParent: UnsupportedTypespec name:uvm_env
             vpiName: uvm_env
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -2763,7 +2787,7 @@ Design name:unnamed:
             vpiParent: Extends
             vpiName: uvm_env
             vpiFullName: env::uvm_env
-            vpiActual: ClassTypespec name:uvm_env
+            vpiActual: UnsupportedTypespec name:uvm_env
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:env
         vpiName: work
@@ -2776,7 +2800,7 @@ Design name:unnamed:
             vpiParent: Function name:connect_phase
             vpiName: connect_phase
           vpiFullName: env::connect_phase
-          vpiTypespec (2 items):
+          vpiTypespec (3 items):
             UnsupportedTypespec name:uvm_phase start:11:31 end:11:40:
               vpiParent: Function name:connect_phase
               vpiName Identifier name:uvm_phase start:11:31 end:11:40:
@@ -2787,6 +2811,20 @@ Design name:unnamed:
               vpiName Identifier name:add_sub_if start:13:37 end:13:47:
                 vpiParent: UnsupportedTypespec name:add_sub_if
                 vpiName: add_sub_if
+            UnsupportedTypespec name:uvm_resource_db start:13:12 end:13:48:
+              vpiParent: Function name:connect_phase
+              vpiName Identifier name:uvm_resource_db start:13:12 end:13:27:
+                vpiParent: UnsupportedTypespec name:uvm_resource_db
+                vpiName: uvm_resource_db
+              vpiParamAssign (1 items):
+                ParamAssign start:13:29 end:13:47:
+                  vpiParent: UnsupportedTypespec name:uvm_resource_db
+                  vpiOverridden: true
+                  vpiRhs RefTypespec start:13:29 end:13:47:
+                    vpiParent: ParamAssign
+                    vpiFullName: env::connect_phase::uvm_resource_db
+                    vpiActual: UnsupportedTypespec name:add_sub_if
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:phase start:11:41 end:11:46:
@@ -2805,20 +2843,10 @@ Design name:unnamed:
               vpiName: uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
               vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
               vpiPathElem (2 items):
-                UnsupportedScope name:uvm_resource_db start:13:12 end:13:50:
+                RefTypespec start:13:12 end:13:50:
                   vpiParent: "HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if)"
-                  vpiName Identifier name:uvm_resource_db start:13:12 end:13:27:
-                    vpiParent: UnsupportedScope name:uvm_resource_db
-                    vpiName: uvm_resource_db
-                  vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::uvm_resource_db
-                  vpiParamAssign (1 items):
-                    ParamAssign start:13:29 end:13:47:
-                      vpiParent: UnsupportedScope name:uvm_resource_db
-                      vpiOverridden: true
-                      vpiRhs RefTypespec start:13:29 end:13:47:
-                        vpiParent: ParamAssign
-                        vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::uvm_resource_db
-                        vpiActual: UnsupportedTypespec name:add_sub_if
+                  vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
+                  vpiActual: UnsupportedTypespec name:uvm_resource_db
                 SubroutineCall name:read_by_name start:13:50 end:13:100:
                   vpiParent: "HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if)"
                   vpiName Identifier name:read_by_name start:13:50 end:13:62:
@@ -3494,18 +3522,21 @@ Design name:unnamed:
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
+      vpiDefName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
         vpiParent: ClassTypespec name:process
         vpiName: process
+      vpiDefName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
+      vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -3518,6 +3549,7 @@ Design name:unnamed:
       vpiName Identifier name:env:
         vpiParent: ClassTypespec name:env
         vpiName: env
+      vpiDefName: env
       vpiClassDefn: ClassDefn name:env
     ModuleTypespec name:bottom1:
       vpiParent: Design name:unnamed
@@ -3542,6 +3574,7 @@ Design name:unnamed:
       vpiName Identifier name:my_interface start:2:11 end:2:23:
         vpiParent: InterfaceTypespec name:my_interface
         vpiName: my_interface
+      vpiDefName: my_interface
       vpiInterface: Interface name:my_interface
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -3577,7 +3610,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3624,7 +3657,7 @@ COMMAND: ${HLC_DIR}/regression/Escape/Escape/design.hldb ${HLC_DIR}/regression/E
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1023    1023       0         0
+Others                            1024    1024       0         0
 ----------------------------------------------------------------
-                                  1023    1023       0         0
+                                  1024    1024       0         0
 ===================== END REDUCTION RESULT =====================

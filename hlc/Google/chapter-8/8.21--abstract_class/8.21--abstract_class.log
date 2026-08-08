@@ -136,6 +136,7 @@ n<$Source01/8.21--abstract_class.sv> u<122> t<Top_level_rule> c<1> l<15:1> el<35
         n<> u<118> t<ENDMODULE> p<119> l<34:1> el<34:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/8.21--abstract_class.sv:15:1: Compile module "class_tb".
+[WRN:CP0350] $Source01/8.21--abstract_class.sv:30:14: Failed to bind "id:45, name:new".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -168,12 +169,14 @@ Design name:unnamed:
           vpiName Identifier name:base_cls:
             vpiParent: ClassTypespec name:base_cls
             vpiName: base_cls
+          vpiDefName: base_cls
           vpiClassDefn: ClassDefn name:base_cls
         ClassTypespec name:test_cls:
           vpiParent: Module name:class_tb
           vpiName Identifier name:test_cls:
             vpiParent: ClassTypespec name:test_cls
             vpiName: test_cls
+          vpiDefName: test_cls
           vpiClassDefn: ClassDefn name:test_cls
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
@@ -240,9 +243,10 @@ Design name:unnamed:
           vpiTypespec (1 items):
             ClassTypespec name:base_cls start:20:25 end:20:33:
               vpiParent: ClassDefn name:test_cls
-              vpiName Identifier name:base_cls:
+              vpiName Identifier name:base_cls start:20:25 end:20:33:
                 vpiParent: ClassTypespec name:base_cls
                 vpiName: base_cls
+              vpiDefName: base_cls
               vpiClassDefn: ClassDefn name:base_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -266,6 +270,7 @@ Design name:unnamed:
                 vpiParent: Function name:print
                 vpiName: print
               vpiFullName: class_tb::test_cls::print
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiStmt SysTaskCall name:$display start:23:4 end:23:15:
@@ -335,7 +340,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

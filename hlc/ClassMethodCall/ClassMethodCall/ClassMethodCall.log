@@ -12,6 +12,7 @@ COMMAND: -wd ../../../tests/ClassMethodCall -fileunit -writepp -d db -sv dut.sv 
 [INF:CP0301] $Source01/dut.sv:2:1: Compile package "pack".
 [WRN:CP0323] $Source01/dut.sv:21:1: Multiply defined typedef "doorOpen".
 [INF:CP0303] $Source01/dut.sv:43:1: Compile module "door_mod".
+[WRN:CP0350] $Source01/dut.sv:15:5: Failed to bind "id:58, name:f2".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "pack".
 [WRN:PA0205] $Source01/dut.sv:43:1: No timescale set for "door_mod".
 ====== HLDB =======
@@ -35,12 +36,14 @@ Design name:unnamed:
           vpiName Identifier name:door:
             vpiParent: ClassTypespec name:door
             vpiName: door
+          vpiDefName: door
           vpiClassDefn: ClassDefn name:door
         ClassTypespec name:doorOpen:
           vpiParent: Package name:pack
           vpiName Identifier name:doorOpen:
             vpiParent: ClassTypespec name:doorOpen
             vpiName: doorOpen
+          vpiDefName: doorOpen
           vpiClassDefn: ClassDefn name:doorOpen
       vpiDefName: pack
       vpiDefNetType: wire (1)
@@ -203,6 +206,7 @@ Design name:unnamed:
               vpiTypespec (1 items):
                 LogicTypespec start:14:12 end:14:12:
                   vpiParent: Function name:f1
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt SubroutineCall name:f2 start:15:5 end:15:9:
                 vpiParent: Function name:f1
@@ -232,15 +236,17 @@ Design name:unnamed:
           vpiTypespec (2 items):
             ClassTypespec name:door start:21:24 end:21:28:
               vpiParent: ClassDefn name:doorOpen
-              vpiName Identifier name:door:
+              vpiName Identifier name:door start:21:24 end:21:28:
                 vpiParent: ClassTypespec name:door
                 vpiName: door
+              vpiDefName: door
               vpiClassDefn: ClassDefn name:door
             ClassTypespec name:doorOpen:
               vpiParent: ClassDefn name:doorOpen
               vpiName Identifier name:doorOpen:
                 vpiParent: ClassTypespec name:doorOpen
                 vpiName: doorOpen
+              vpiDefName: doorOpen
               vpiClassDefn: ClassDefn name:doorOpen
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -267,6 +273,7 @@ Design name:unnamed:
               vpiTypespec (1 items):
                 LogicTypespec start:25:14 end:25:14:
                   vpiParent: Function name:f2
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt MethodFuncCall name:f1 start:26:7 end:26:11:
                 vpiParent: Function name:f2
@@ -284,6 +291,7 @@ Design name:unnamed:
                 vpiParent: Function name:new
                 vpiName: new
               vpiFullName: pack::doorOpen::new
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:b start:29:23 end:29:24:
@@ -321,6 +329,7 @@ Design name:unnamed:
                 vpiParent: Task name:door_fsm
                 vpiName: door_fsm
               vpiFullName: pack::doorOpen::door_fsm
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiStmt IfStmt start:35:9 end:35:35:
@@ -408,6 +417,7 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                     vpiParent: MethodFuncCall name:new
                     vpiName: new
+                  vpiTaskFunc: Function name:new
               HierPath name:open.door_fsm() start:48:9 end:48:24:
                 vpiParent: Begin
                 vpiName: open.door_fsm()
@@ -456,7 +466,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

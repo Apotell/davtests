@@ -361,7 +361,6 @@ n<$Source01/gen_checker.sv> u<346> t<Top_level_rule> c<1> l<1:1> el<29:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/gen_checker.sv:1:1: Compile module "tb3".
 [INF:CP0307] $Source01/gen_checker.sv:14:11: Compile checker "gen_chk".
-[ERR:LN0814] Found 32 weak node(s).
 [WRN:PA0205] $Source01/gen_checker.sv:1:1: No timescale set for "tb3".
 ====== HLDB =======
 Design name:unnamed:
@@ -533,6 +532,147 @@ Design name:unnamed:
                 vpiFullName: tb3.gen_chk.b
                 vpiActual: LogicTypespec
               vpiFormalType: data (1)
+          vpiGenStmt (1 items):
+            GenRegion start:18:5 end:23:16:
+              vpiParent: CheckerDecl name:gen_chk
+              vpiFullName: tb3.gen_chk
+              vpiStmt GenFor start:19:7 end:22:10:
+                vpiParent: GenRegion
+                vpiFullName: tb3.gen_chk
+                vpiVariable (1 items):
+                  Variable name:i start:19:12 end:19:13:
+                    vpiParent: GenFor
+                    vpiName: i
+                    vpiFullName: tb3.gen_chk.i
+                vpiForInitStmt (1 items):
+                  Assignment start:19:12 end:19:17:
+                    vpiParent: GenFor
+                    vpiLhs: Variable name:i
+                    vpiRhs Constant start:19:16 end:19:17:
+                      vpiParent: Assignment
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb3.gen_chk
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiForIncStmt (1 items):
+                  Operation start:19:26 end:19:29:
+                    vpiParent: GenFor
+                    vpiOpType: post inc (64)
+                    vpiOperand (1 items):
+                      RefObj name:i start:19:26 end:19:27:
+                        vpiParent: Operation
+                        vpiName: i
+                        vpiFullName: tb3.gen_chk.i
+                        vpiActual: Variable name:i
+                vpiCondition Operation start:19:19 end:19:24:
+                  vpiParent: GenFor
+                  vpiOpType: less than (20)
+                  vpiOperand (2 items):
+                    RefObj name:i start:19:19 end:19:20:
+                      vpiParent: Operation
+                      vpiName: i
+                      vpiFullName: tb3.gen_chk.i
+                      vpiActual: Variable name:i
+                    Constant start:19:23 end:19:24:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb3.gen_chk
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "4"
+                      vpiValue: 4
+                vpiStmt Begin start:19:31 end:22:10:
+                  vpiParent: GenFor
+                  vpiFullName: tb3.gen_chk
+                  vpiConcurrentAssertions (1 items):
+                    Assert start:20:9 end:21:44:
+                      vpiParent: Begin
+                      vpiProperty PropertySpec start:20:26 end:20:58:
+                        vpiParent: Assert
+                        vpiClockingEvent Operation start:20:28 end:20:39:
+                          vpiParent: PropertySpec
+                          vpiOpType: posedge (39)
+                          vpiOperand (1 items):
+                            RefObj name:clk start:20:36 end:20:39:
+                              vpiParent: Operation
+                              vpiName: clk
+                              vpiFullName: tb3.gen_chk.clk
+                              vpiActual: CheckerPort name:clk
+                        vpiPropertyExpr Operation start:20:41 end:20:58:
+                          vpiParent: PropertySpec
+                          vpiOpType: overlap imply (52)
+                          vpiOperand (2 items):
+                            BitSelect name:a[i] start:20:41 end:20:45:
+                              vpiParent: Operation
+                              vpiName: a[i]
+                              vpiFullName: tb3.gen_chk.a[i]
+                              vpiPrefix RefObj name:a start:20:41 end:20:42:
+                                vpiParent: BitSelect name:a[i]
+                                vpiName: a
+                                vpiFullName: tb3.gen_chk.a
+                                vpiActual: CheckerPort name:a
+                              vpiIndex RefObj name:i start:20:43 end:20:44:
+                                vpiParent: BitSelect name:a[i]
+                                vpiName: i
+                                vpiFullName: tb3.gen_chk.i
+                                vpiActual: Variable name:i
+                            Operation start:20:50 end:20:58:
+                              vpiParent: Operation
+                              vpiOpType: unary cycle delay (70)
+                              vpiOperand (2 items):
+                                Constant start:20:52 end:20:53:
+                                  vpiParent: Operation
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: tb3.gen_chk
+                                    vpiActual: IntTypespec
+                                  vpiConstType: int (7)
+                                  vpiSize: 32
+                                  vpiDecompile: "1"
+                                  vpiValue: 1
+                                BitSelect name:b[i] start:20:54 end:20:58:
+                                  vpiParent: Operation
+                                  vpiName: b[i]
+                                  vpiFullName: tb3.gen_chk.b[i]
+                                  vpiPrefix RefObj name:b start:20:54 end:20:55:
+                                    vpiParent: BitSelect name:b[i]
+                                    vpiName: b
+                                    vpiFullName: tb3.gen_chk.b
+                                    vpiActual: CheckerPort name:b
+                                  vpiIndex RefObj name:i start:20:56 end:20:57:
+                                    vpiParent: BitSelect name:b[i]
+                                    vpiName: i
+                                    vpiFullName: tb3.gen_chk.i
+                                    vpiActual: Variable name:i
+                      vpiElseStmt SysTaskCall name:$error start:21:16 end:21:43:
+                        vpiParent: Assert
+                        vpiName Identifier name:$error start:21:16 end:21:22:
+                          vpiParent: SysTaskCall name:$error
+                          vpiName: "$error"
+                        vpiArgument (2 items):
+                          Constant start:21:23 end:21:39:
+                            vpiParent: SysTaskCall name:$error
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: tb3.gen_chk
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 112
+                            vpiDecompile: "\"Bit %0d failed\""
+                            vpiValue: Bit %0d failed
+                          RefObj name:i start:21:41 end:21:42:
+                            vpiParent: SysTaskCall name:$error
+                            vpiName: i
+                            vpiFullName: tb3.gen_chk.i
+                            vpiActual: Variable name:i
+                  vpiStmt (1 items):
+                    Assert:
       vpiProcess (2 items):
         Always start:5:3 end:5:24:
           vpiParent: Module name:tb3
@@ -735,7 +875,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -751,25 +891,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Checker/gen_checker/mounts.json
 
 
-{'result': {'coverage': 87.98,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/gen_checker.sv': {'post_len': 47,
+            'files': {'$Output/lib/work/gen_checker.sv': {'post_len': 0,
                                                           'pre_len': 391}},
-            'post_len': 47,
+            'post_len': 0,
             'pre_len': 391,
             'test_name': 'Checker/gen_checker'}}
 
 +---------------------------------+----------+-----------+
 | INPUT                           |   PRELEN |   POSTLEN |
 +=================================+==========+===========+
-| $Output/lib/work/gen_checker.sv |      391 |        47 |
+| $Output/lib/work/gen_checker.sv |      391 |         0 |
 +=================================+==========+===========+
-|                                 |      391 |        47 |
+|                                 |      391 |         0 |
 +---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 87.98
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -779,12 +919,12 @@ COMMAND: ${HLC_DIR}/regression/Checker/gen_checker/design.hldb ${HLC_DIR}/regres
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            13      14       1         0
-Operation                            2       1       0         1
-RefObj                              11      10       0         1
-RefTypespec                         21      22       1         0
+Constant                            17      18       1         0
+Operation                            7       6       0         1
+RefObj                              19      18       0         1
+RefTypespec                         25      26       1         0
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    89      89       2         2
+                                   121     121       2         2
 ===================== END REDUCTION RESULT =====================

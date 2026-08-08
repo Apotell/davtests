@@ -154,6 +154,7 @@ n<$Source01/8.26.4--illegal_forward_def_implements.sv> u<140> t<Top_level_rule> 
         n<> u<136> t<ENDMODULE> p<137> l<37:1> el<37:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/8.26.4--illegal_forward_def_implements.sv:17:1: Compile module "class_tb".
+[WRN:CP0350] $Source01/8.26.4--illegal_forward_def_implements.sv:34:9: Failed to bind "id:60, name:new".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -193,12 +194,14 @@ Design name:unnamed:
           vpiName Identifier name:Hello:
             vpiParent: ClassTypespec name:Hello
             vpiName: Hello
+          vpiDefName: Hello
           vpiClassDefn: ClassDefn name:Hello
         ClassTypespec name:ihello:
           vpiParent: Module name:class_tb
           vpiName Identifier name:ihello:
             vpiParent: ClassTypespec name:ihello
             vpiName: ihello
+          vpiDefName: ihello
           vpiClassDefn: ClassDefn name:ihello
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
@@ -236,6 +239,15 @@ Design name:unnamed:
                 vpiParent: Function name:hello
                 vpiName: hello
               vpiFullName: class_tb::Hello::hello
+              vpiTypespec (1 items):
+                ClassTypespec name:ihello start:21:31 end:21:37:
+                  vpiParent: Function name:hello
+                  vpiName Identifier name:ihello start:21:31 end:21:37:
+                    vpiParent: ClassTypespec name:ihello
+                    vpiName: ihello
+                  vpiDefName: ihello
+                  vpiClassDefn: ClassDefn name:ihello
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiIODecl (1 items):
@@ -372,7 +384,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -416,7 +428,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.26.4--illegal_forward_def_impl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              56      56       0         0
 ----------------------------------------------------------------
-                                    54      54       0         0
+                                    56      56       0         0
 ===================== END REDUCTION RESULT =====================

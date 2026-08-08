@@ -167,6 +167,7 @@ Design name:unnamed:
           vpiName Identifier name:Bar:
             vpiParent: ClassTypespec name:Bar
             vpiName: Bar
+          vpiDefName: Bar
           vpiClassDefn: ClassDefn name:Bar
       vpiDefName: Package
       vpiDefNetType: wire (1)
@@ -274,29 +275,30 @@ Design name:unnamed:
         vpiName: Foo
       vpiFullName: Foo
       vpiTypespec (2 items):
-        ClassTypespec name:Package::Bar #(x, y, z) #(x, y, z) start:20:19 end:20:40:
+        UnsupportedTypespec name:Package::Bar #(x, y, z) start:20:19 end:20:40:
           vpiParent: ClassDefn name:Foo
           vpiPathElem (2 items):
             RefTypespec name:Package start:20:19 end:20:26:
-              vpiParent: ClassTypespec name:Package::Bar #(x, y, z) #(x, y, z)
+              vpiParent: UnsupportedTypespec name:Package::Bar #(x, y, z)
               vpiName: Package
-              vpiFullName: Foo::Package::Bar #(x, y, z) #(x, y, z)::Package
+              vpiFullName: Foo::Package::Bar #(x, y, z)::Package
             RefTypespec name:Bar start:20:28 end:20:31:
-              vpiParent: ClassTypespec name:Package::Bar #(x, y, z) #(x, y, z)
+              vpiParent: UnsupportedTypespec name:Package::Bar #(x, y, z)
               vpiName: Bar
-              vpiFullName: Foo::Package::Bar #(x, y, z) #(x, y, z)::Bar
-              vpiActual: UnsupportedTypespec name:Bar #(x, y, z)
-          vpiName Identifier name:Package::Bar #(x, y, z) #(x, y, z):
-            vpiParent: ClassTypespec name:Package::Bar #(x, y, z) #(x, y, z)
-            vpiName: Package::Bar #(x, y, z) #(x, y, z)
-        UnsupportedTypespec name:Bar #(x, y, z) start:20:28 end:20:40:
+              vpiFullName: Foo::Package::Bar #(x, y, z)::Bar
+              vpiActual: ClassTypespec name:Bar #(x, y, z)
+          vpiName Identifier name:Package::Bar #(x, y, z):
+            vpiParent: UnsupportedTypespec name:Package::Bar #(x, y, z)
+            vpiName: Package::Bar #(x, y, z)
+        ClassTypespec name:Bar #(x, y, z) start:20:28 end:20:40:
           vpiParent: ClassDefn name:Foo
-          vpiName Identifier name:Bar #(x, y, z):
-            vpiParent: UnsupportedTypespec name:Bar #(x, y, z)
+          vpiName Identifier name:Bar #(x, y, z) start:20:28 end:20:31:
+            vpiParent: ClassTypespec name:Bar #(x, y, z)
             vpiName: Bar #(x, y, z)
+          vpiDefName: Bar
           vpiParamAssign (3 items):
             ParamAssign start:20:34 end:20:35:
-              vpiParent: UnsupportedTypespec name:Bar #(x, y, z)
+              vpiParent: ClassTypespec name:Bar #(x, y, z)
               vpiOverridden: true
               vpiRhs RefObj name:x start:20:34 end:20:35:
                 vpiParent: ParamAssign
@@ -304,7 +306,7 @@ Design name:unnamed:
                 vpiFullName: Foo::Bar #(x, y, z)::x
                 vpiActual: Parameter name:x
             ParamAssign start:20:36 end:20:37:
-              vpiParent: UnsupportedTypespec name:Bar #(x, y, z)
+              vpiParent: ClassTypespec name:Bar #(x, y, z)
               vpiOverridden: true
               vpiRhs RefObj name:y start:20:36 end:20:37:
                 vpiParent: ParamAssign
@@ -312,23 +314,24 @@ Design name:unnamed:
                 vpiFullName: Foo::Bar #(x, y, z)::y
                 vpiActual: Parameter name:y
             ParamAssign start:20:38 end:20:39:
-              vpiParent: UnsupportedTypespec name:Bar #(x, y, z)
+              vpiParent: ClassTypespec name:Bar #(x, y, z)
               vpiOverridden: true
               vpiRhs RefObj name:z start:20:38 end:20:39:
                 vpiParent: ParamAssign
                 vpiName: z
                 vpiFullName: Foo::Bar #(x, y, z)::z
                 vpiActual: Parameter name:z
+          vpiClassDefn: ClassDefn name:Bar
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:20:11 end:20:18:
         vpiParent: ClassDefn name:Foo
         vpiClassTypespec (1 items):
-          RefTypespec name:Package::Bar #(x, y, z) #(x, y, z) start:20:19 end:20:40:
+          RefTypespec name:Package::Bar #(x, y, z) start:20:19 end:20:40:
             vpiParent: Extends
-            vpiName: Package::Bar #(x, y, z) #(x, y, z)
-            vpiFullName: Foo::Package::Bar #(x, y, z) #(x, y, z)
-            vpiActual: ClassTypespec name:Package::Bar #(x, y, z) #(x, y, z)
+            vpiName: Package::Bar #(x, y, z)
+            vpiFullName: Foo::Package::Bar #(x, y, z)
+            vpiActual: UnsupportedTypespec name:Package::Bar #(x, y, z)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:Foo
         vpiName: work
@@ -359,6 +362,7 @@ Design name:unnamed:
       vpiName Identifier name:Foo:
         vpiParent: ClassTypespec name:Foo
         vpiName: Foo
+      vpiDefName: Foo
       vpiClassDefn: ClassDefn name:Foo
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed

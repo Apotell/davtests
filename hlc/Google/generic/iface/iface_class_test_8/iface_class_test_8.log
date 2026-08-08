@@ -76,6 +76,7 @@ n<$Source01/iface_class_test_8.sv> u<63> t<Top_level_rule> c<1> l<6:1> el<10:9>
                                 n<1> u<44> t<INTEGRAL_NUMBER> p<45> l<9:32> el<9:33>
             n<> u<57> t<ENDCLASS> p<58> l<10:1> el<10:9>
 AST_DEBUG_END
+[WRN:CP0350] $Source01/iface_class_test_8.sv:9:16: Failed to bind "id:29, name:f".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -165,12 +166,10 @@ Design name:unnamed:
                     vpiName: bhg::arr[N]
                     vpiFullName: base_ic::f::bhg::arr[N]
                     vpiPathElem (2 items):
-                      UnsupportedScope name:bhg start:9:18 end:9:23:
+                      RefTypespec start:9:18 end:9:23:
                         vpiParent: HierPath name:bhg::arr[N]
-                        vpiName Identifier name:bhg start:9:18 end:9:21:
-                          vpiParent: UnsupportedScope name:bhg
-                          vpiName: bhg
-                        vpiFullName: base_ic::f::bhg::arr[N]::bhg
+                        vpiFullName: base_ic::f::bhg::arr[N]
+                        vpiActual: UnsupportedTypespec name:bhg
                       BitSelect name:arr[N] start:9:23 end:9:28:
                         vpiParent: HierPath name:bhg::arr[N]
                         vpiName: arr[N]
@@ -194,11 +193,16 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: ClassDefn name:base_ic
         BitTypespec:
           vpiParent: ClassDefn name:base_ic
+        UnsupportedTypespec name:bhg start:9:18 end:9:21:
+          vpiParent: ClassDefn name:base_ic
+          vpiName Identifier name:bhg start:9:18 end:9:21:
+            vpiParent: UnsupportedTypespec name:bhg
+            vpiName: bhg
         TypeParameter name:T:
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
@@ -212,6 +216,7 @@ Design name:unnamed:
       vpiName Identifier name:base_ic:
         vpiParent: ClassTypespec name:base_ic
         vpiName: base_ic
+      vpiDefName: base_ic
       vpiClassDefn: ClassDefn name:base_ic
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -220,7 +225,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -264,7 +269,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/iface/iface_class_test_8/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              35      35       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    35      35       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

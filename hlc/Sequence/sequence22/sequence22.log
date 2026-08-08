@@ -320,21 +320,27 @@ Design name:unnamed:
               vpiParent: SubroutineCall name:my_seq
               vpiName: my_seq
             vpiArgument (2 items):
-              IODecl name:x start:10:12 end:10:17:
+              NamedArgument start:10:12 end:10:17:
                 vpiParent: SubroutineCall name:my_seq
-                vpiName: x
-                vpiExpr RefObj name:a start:10:15 end:10:16:
-                  vpiParent: IODecl name:x
+                vpiLowConn RefObj name:x start:10:13 end:10:14:
+                  vpiParent: NamedArgument
+                  vpiName: x
+                  vpiFullName: tb.seq_named.my_seq.x
+                vpiHighConn RefObj name:a start:10:15 end:10:16:
+                  vpiParent: NamedArgument
                   vpiName: a
-                  vpiFullName: tb.seq_named.my_seq.x.a
+                  vpiFullName: tb.seq_named.my_seq.a
                   vpiActual: Variable name:a
-              IODecl name:y start:10:19 end:10:24:
+              NamedArgument start:10:19 end:10:24:
                 vpiParent: SubroutineCall name:my_seq
-                vpiName: y
-                vpiExpr RefObj name:b start:10:22 end:10:23:
-                  vpiParent: IODecl name:y
+                vpiLowConn RefObj name:y start:10:20 end:10:21:
+                  vpiParent: NamedArgument
+                  vpiName: y
+                  vpiFullName: tb.seq_named.my_seq.y
+                vpiHighConn RefObj name:b start:10:22 end:10:23:
+                  vpiParent: NamedArgument
                   vpiName: b
-                  vpiFullName: tb.seq_named.my_seq.y.b
+                  vpiFullName: tb.seq_named.my_seq.b
                   vpiActual: Variable name:b
       vpiConcurrentAssertions (1 items):
         Assert start:13:3 end:13:45:
@@ -567,7 +573,7 @@ COMMAND: ${HLC_DIR}/regression/Sequence/sequence22/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

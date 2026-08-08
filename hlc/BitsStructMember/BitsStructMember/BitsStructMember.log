@@ -10,7 +10,7 @@ COMMAND: -wd ../../../tests/BitsStructMember -d db -sv dut.sv -nobuiltin -nocach
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "keymgr_pkg".
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "top".
-[WRN:CP0350] $Source01/dut.sv:22:50: Failed to bind "id:97, name:strb".
+[WRN:CP0350] $Source01/dut.sv:22:50: Failed to bind "id:98, name:strb".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "keymgr_pkg".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "top".
 ====== HLDB =======
@@ -207,16 +207,19 @@ Design name:unnamed:
           vpiName: kmac_mask_o
           vpiFullName: top.kmac_mask_o
           vpiVector: true
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:keymgr_pkg start:16:20 end:16:30:
+          vpiParent: Module name:top
+          vpiName Identifier name:keymgr_pkg start:16:20 end:16:30:
+            vpiParent: UnsupportedTypespec name:keymgr_pkg
+            vpiName: keymgr_pkg
         UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t start:16:20 end:16:47:
           vpiParent: Module name:top
           vpiPathElem (2 items):
-            UnsupportedScope name:keymgr_pkg start:16:20 end:16:32:
+            RefTypespec start:16:20 end:16:32:
               vpiParent: UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t
-              vpiName Identifier name:keymgr_pkg start:16:20 end:16:30:
-                vpiParent: UnsupportedScope name:keymgr_pkg
-                vpiName: keymgr_pkg
-              vpiFullName: top.keymgr_pkg::kmac_data_req_t.keymgr_pkg
+              vpiFullName: top.keymgr_pkg::kmac_data_req_t
+              vpiActual: UnsupportedTypespec name:keymgr_pkg
             RefTypespec name:kmac_data_req_t start:16:32 end:16:47:
               vpiParent: UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t
               vpiName: kmac_data_req_t
@@ -544,9 +547,9 @@ Name                            Before   After   Added   Removed
 Constant                            12      11       2         3
 Operation                            9       6       0         3
 RefObj                              19      17       0         2
-RefTypespec                         24      23       2         3
+RefTypespec                         25      24       2         3
 ----------------------------------------------------------------
 Others                              49      49       0         0
 ----------------------------------------------------------------
-                                   113     106       4        11
+                                   114     107       4        11
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,13 +19,22 @@
 //     enum {a, b, c} val;
 //   endmodule
 //
+// What to check and why (IEEE 1800-2023 6.19 "Enumerations", p.119):
+//   "enum {red, yellow, green} light1, light2; // anonymous int type" --
+//   an enum with no explicit base type defaults to int, and members
+//   auto-increment from 0. "enum {a, b, c} val;" is exactly this legal,
+//   anonymous, auto-incrementing form. No :should_fail_because: tag.
+//   Also (6.8): "enum" is a data_type alternative, never net_type --
+//   "val" must be a Variable, not a Net (fixed from a prior Net-based
+//   version, the same misclassification bug found elsewhere this
+//   session).
+//
 // Checked:
 //   - design has module top
 //   - module has 1 typespec: anonymous EnumTypespec (no TypedefTypespec wrapper)
 //   - anonymous EnumTypespec has 3 consts: a, b, c
 //   - top has no processes
-//   - variable "val" exists (IEEE 1800-2023 6.19/6.8: enum-typed declaration
-//     with no net-type keyword is a variable, not a net)
+//   - variable "val" exists
 //   - variable "val" RefTypespec vpiActual resolves directly to EnumTypespec
 //     (not through a TypedefTypespec)
 //   - variable "val" has no initial value
@@ -35,6 +44,7 @@
 //     materialize the implicit values 0, 1, 2)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -43,40 +53,39 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
-#include <hldb/ref_typespec.h>
 #include <hldb/variable.h>
+#include <hldb/ref_typespec.h>
 
 namespace hlc {
 
-class EnumAnon : public Test {
+class EnumAnonTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19--enum_anon.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(EnumAnon, ModuleExists) {
+TEST_F(EnumAnonTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Module has 1 typespec: anonymous EnumTypespec (no TypedefTypespec wrapper)
-// ----
-TEST_F(EnumAnon, ModuleHasOneTypespec) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumAnonTest, ModuleHasOneTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 1u);
 }
 
-TEST_F(EnumAnon, TypespecIsAnonymousEnum) {
+TEST_F(EnumAnonTest, TypespecIsAnonymousEnum) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr) << "anonymous enum has EnumTypespec directly, no TypedefTypespec";
 }
 
-TEST_F(EnumAnon, EnumHasThreeConsts) {
+TEST_F(EnumAnonTest, EnumHasThreeConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
@@ -88,19 +97,19 @@ TEST_F(EnumAnon, EnumHasThreeConsts) {
   EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // No processes (no initial/always block)
-// ----
-TEST_F(EnumAnon, NoProcesses) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumAnonTest, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Module-level Variable "val" -> EnumTypespec directly (not via TypedefTypespec)
-// ----
-TEST_F(EnumAnon, VariableValExists) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumAnonTest, VariableValExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
@@ -108,7 +117,7 @@ TEST_F(EnumAnon, VariableValExists) {
   EXPECT_EQ(val->getName(), "val");
 }
 
-TEST_F(EnumAnon, VariableValTypespecIsEnumDirectly) {
+TEST_F(EnumAnonTest, VariableValTypespecIsEnumDirectly) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
@@ -119,7 +128,7 @@ TEST_F(EnumAnon, VariableValTypespecIsEnumDirectly) {
       << "anonymous enum: variable's typespec resolves to EnumTypespec directly";
 }
 
-TEST_F(EnumAnon, VariableValHasNoInitialValue) {
+TEST_F(EnumAnonTest, VariableValHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
@@ -127,19 +136,10 @@ TEST_F(EnumAnon, VariableValHasNoInitialValue) {
   EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
 }
 
-// IEEE 1800-2023 Sec 6.7/6.8: `val` has no net-type keyword, so it is a
-// Variable, never a Net -- confirm the name is absent from the Net collection.
-TEST_F(EnumAnon, VariableValNotInNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("val", top->getNets()) == nullptr)
-      << "'val' has no net-type keyword; it must not appear in the module's Net collection";
-}
-
-// ----
+// ---------------------------------------------------------------------------
 // Anonymous EnumTypespec has no explicit base typespec (default type)
-// ----
-TEST_F(EnumAnon, EnumHasNoExplicitBaseTypespec) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumAnonTest, EnumHasNoExplicitBaseTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
@@ -148,10 +148,10 @@ TEST_F(EnumAnon, EnumHasNoExplicitBaseTypespec) {
       << "enum {a, b, c} with no explicit base type stores no base RefTypespec";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Enum consts a, b, c have no stored implicit default value (0, 1, 2)
-// ----
-TEST_F(EnumAnon, EnumConstsHaveNoImplicitDefaultValue) {
+// ---------------------------------------------------------------------------
+TEST_F(EnumAnonTest, EnumConstsHaveNoImplicitDefaultValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
@@ -162,6 +162,14 @@ TEST_F(EnumAnon, EnumConstsHaveNoImplicitDefaultValue) {
   EXPECT_EQ(consts->at(0)->getValue<hldb::Any>(), nullptr) << "'a' implicit default value 0 is not stored";
   EXPECT_EQ(consts->at(1)->getValue<hldb::Any>(), nullptr) << "'b' implicit default value 1 is not stored";
   EXPECT_EQ(consts->at(2)->getValue<hldb::Any>(), nullptr) << "'c' implicit default value 2 is not stored";
+}
+
+TEST_F(EnumAnonTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc

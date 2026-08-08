@@ -111,7 +111,7 @@ n<$Source01/class_member_test_52.sv> u<98> t<Top_level_rule> c<1> l<6:1> el<13:9
                     n<> u<86> t<ENDFUNCTION> p<87> l<12:1> el<12:12>
             n<> u<92> t<ENDCLASS> p<93> l<13:1> el<13:9>
 AST_DEBUG_END
-[WRN:CP0350] $Source01/class_member_test_52.sv:8:17: Failed to bind "id:19, name:foo".
+[WRN:CP0350] $Source01/class_member_test_52.sv:8:17: Failed to bind "id:20, name:foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -142,16 +142,19 @@ Design name:unnamed:
             vpiParent: Function name:apply_all
             vpiName: apply_all
           vpiFullName: myclass::apply_all
-          vpiTypespec (1 items):
+          vpiTypespec (2 items):
+            UnsupportedTypespec name:apkg start:7:10 end:7:14:
+              vpiParent: Function name:apply_all
+              vpiName Identifier name:apkg start:7:10 end:7:14:
+                vpiParent: UnsupportedTypespec name:apkg
+                vpiName: apkg
             UnsupportedTypespec name:apkg::num_t start:7:10 end:7:21:
               vpiParent: Function name:apply_all
               vpiPathElem (2 items):
-                UnsupportedScope name:apkg start:7:10 end:7:16:
+                RefTypespec start:7:10 end:7:16:
                   vpiParent: UnsupportedTypespec name:apkg::num_t
-                  vpiName Identifier name:apkg start:7:10 end:7:14:
-                    vpiParent: UnsupportedScope name:apkg
-                    vpiName: apkg
-                  vpiFullName: myclass::apply_all::apkg::num_t::apkg
+                  vpiFullName: myclass::apply_all::apkg::num_t
+                  vpiActual: UnsupportedTypespec name:apkg
                 RefTypespec name:num_t start:7:16 end:7:21:
                   vpiParent: UnsupportedTypespec name:apkg::num_t
                   vpiName: num_t
@@ -159,6 +162,7 @@ Design name:unnamed:
               vpiName Identifier name:apkg::num_t start:7:10 end:7:21:
                 vpiParent: UnsupportedTypespec name:apkg::num_t
                 vpiName: apkg::num_t
+          vpiMethod: true
           vpiVisibility: public (1)
           vpiStmt ForeachStmt start:8:3 end:11:6:
             vpiParent: Function name:apply_all
@@ -168,18 +172,19 @@ Design name:unnamed:
                 vpiParent: ForeachStmt
                 vpiName: i
                 vpiFullName: myclass::apply_all::i
-            vpiVariable HierPath name:this.foo start:8:12 end:8:16:
+                vpiIsIterator: true
+            vpiVariable HierPath name:this::foo start:8:12 end:8:16:
               vpiParent: ForeachStmt
-              vpiName: this.foo
-              vpiFullName: myclass::apply_all::this.foo
+              vpiName: this::foo
+              vpiFullName: myclass::apply_all::this::foo
               vpiPathElem (2 items):
                 RefObj name:this start:8:12 end:8:16:
-                  vpiParent: HierPath name:this.foo
+                  vpiParent: HierPath name:this::foo
                   vpiName: this
                   vpiFullName: myclass::apply_all::this
                   vpiActual: ClassDefn name:myclass
                 RefObj name:foo start:8:17 end:8:20:
-                  vpiParent: HierPath name:this.foo
+                  vpiParent: HierPath name:this::foo
                   vpiName: foo
                   vpiFullName: myclass::apply_all::foo
             vpiLoopVars (1 items):
@@ -203,28 +208,28 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: y
                         vpiFullName: myclass::apply_all::y
-                      HierPath name:this.foo[i] start:9:13 end:9:24:
+                      HierPath name:this::foo[i] start:9:13 end:9:24:
                         vpiParent: Operation
-                        vpiName: this.foo[i]
-                        vpiFullName: myclass::apply_all::this.foo[i]
+                        vpiName: this::foo[i]
+                        vpiFullName: myclass::apply_all::this::foo[i]
                         vpiPathElem (2 items):
                           RefObj name:this start:9:13 end:9:17:
-                            vpiParent: HierPath name:this.foo[i]
+                            vpiParent: HierPath name:this::foo[i]
                             vpiName: this
                             vpiFullName: myclass::apply_all::this
                             vpiActual: ClassDefn name:myclass
                           BitSelect name:foo[i] start:9:18 end:9:23:
-                            vpiParent: HierPath name:this.foo[i]
+                            vpiParent: HierPath name:this::foo[i]
                             vpiName: foo[i]
-                            vpiFullName: myclass::apply_all::this.foo[i]::foo[i]
+                            vpiFullName: myclass::apply_all::this::foo[i]::foo[i]
                             vpiPrefix RefObj name:foo start:9:18 end:9:21:
                               vpiParent: BitSelect name:foo[i]
                               vpiName: foo
-                              vpiFullName: myclass::apply_all::this.foo[i]::foo
+                              vpiFullName: myclass::apply_all::this::foo[i]::foo
                             vpiIndex RefObj name:i start:9:22 end:9:23:
                               vpiParent: BitSelect name:foo[i]
                               vpiName: i
-                              vpiFullName: myclass::apply_all::this.foo[i]::i
+                              vpiFullName: myclass::apply_all::this::foo[i]::i
                               vpiActual: Variable name:i
                 Assignment start:10:5 end:10:26:
                   vpiParent: Begin
@@ -273,6 +278,7 @@ Design name:unnamed:
       vpiName Identifier name:myclass:
         vpiParent: ClassTypespec name:myclass
         vpiName: myclass
+      vpiDefName: myclass
       vpiClassDefn: ClassDefn name:myclass
 ===================
 [  FATAL] : 0
@@ -322,7 +328,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_52/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================

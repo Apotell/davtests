@@ -109,6 +109,7 @@ n<$Source01/26.3--package-ref.sv> u<94> t<Top_level_rule> c<1> l<17:1> el<30:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/26.3--package-ref.sv:17:1: Compile package "mypkg".
 [INF:CP0303] $Source01/26.3--package-ref.sv:25:1: Compile module "top".
+[WRN:CP0350] $Source01/26.3--package-ref.sv:27:47: Failed to bind "id:40, name:add".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -190,6 +191,12 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiTypespec (1 items):
+        UnsupportedTypespec name:mypkg start:27:40 end:27:45:
+          vpiParent: Module name:top
+          vpiName Identifier name:mypkg start:27:40 end:27:45:
+            vpiParent: UnsupportedTypespec name:mypkg
+            vpiName: mypkg
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -221,12 +228,10 @@ Design name:unnamed:
                 vpiName: mypkg::add(1, 3)
                 vpiFullName: top.mypkg::add(1, 3)
                 vpiPathElem (2 items):
-                  UnsupportedScope name:mypkg start:27:40 end:27:47:
+                  RefTypespec start:27:40 end:27:47:
                     vpiParent: HierPath name:mypkg::add(1, 3)
-                    vpiName Identifier name:mypkg start:27:40 end:27:45:
-                      vpiParent: UnsupportedScope name:mypkg
-                      vpiName: mypkg
-                    vpiFullName: top.mypkg::add(1, 3).mypkg
+                    vpiFullName: top.mypkg::add(1, 3)
+                    vpiActual: UnsupportedTypespec name:mypkg
                   SubroutineCall name:add start:27:47 end:27:56:
                     vpiParent: HierPath name:mypkg::add(1, 3)
                     vpiName Identifier name:add start:27:47 end:27:50:
@@ -269,7 +274,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -313,7 +318,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-26/26.3--package-ref/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================

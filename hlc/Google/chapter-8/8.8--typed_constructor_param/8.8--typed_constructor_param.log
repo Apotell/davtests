@@ -258,12 +258,14 @@ Design name:unnamed:
           vpiName Identifier name:super_cls:
             vpiParent: ClassTypespec name:super_cls
             vpiName: super_cls
+          vpiDefName: super_cls
           vpiClassDefn: ClassDefn name:super_cls
         ClassTypespec name:test_cls:
           vpiParent: Module name:class_tb
           vpiName Identifier name:test_cls:
             vpiParent: ClassTypespec name:test_cls
             vpiName: test_cls
+          vpiDefName: test_cls
           vpiClassDefn: ClassDefn name:test_cls
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
@@ -305,6 +307,7 @@ Design name:unnamed:
               vpiName Identifier name:super_cls:
                 vpiParent: ClassTypespec name:super_cls
                 vpiName: super_cls
+              vpiDefName: super_cls
               vpiClassDefn: ClassDefn name:super_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -320,6 +323,7 @@ Design name:unnamed:
                 vpiParent: Function name:new
                 vpiName: new
               vpiFullName: class_tb::super_cls::new
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:def start:18:20 end:18:23:
@@ -404,15 +408,17 @@ Design name:unnamed:
           vpiTypespec (2 items):
             ClassTypespec name:super_cls start:23:39 end:23:48:
               vpiParent: ClassDefn name:test_cls
-              vpiName Identifier name:super_cls:
+              vpiName Identifier name:super_cls start:23:39 end:23:48:
                 vpiParent: ClassTypespec name:super_cls
                 vpiName: super_cls
+              vpiDefName: super_cls
               vpiClassDefn: ClassDefn name:super_cls
             ClassTypespec name:test_cls:
               vpiParent: ClassDefn name:test_cls
               vpiName Identifier name:test_cls:
                 vpiParent: ClassTypespec name:test_cls
                 vpiName: test_cls
+              vpiDefName: test_cls
               vpiClassDefn: ClassDefn name:test_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -436,6 +442,7 @@ Design name:unnamed:
                 vpiParent: Function name:new
                 vpiName: new
               vpiFullName: class_tb::test_cls::new
+              vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:def start:25:20 end:25:23:
@@ -460,37 +467,37 @@ Design name:unnamed:
                 vpiParent: Function name:new
                 vpiFullName: class_tb::test_cls::new
                 vpiStmt (2 items):
-                  HierPath name:super.new(def + 3) start:26:4 end:26:13:
+                  HierPath name:super::new(def + 3) start:26:4 end:26:13:
                     vpiParent: Begin
-                    vpiName: super.new(def + 3)
-                    vpiFullName: class_tb::test_cls::new::super.new(def + 3)
+                    vpiName: super::new(def + 3)
+                    vpiFullName: class_tb::test_cls::new::super::new(def + 3)
                     vpiPathElem (2 items):
-                      RefObj name:super:
-                        vpiParent: HierPath name:super.new(def + 3)
+                      RefObj name:super start:26:4 end:26:9:
+                        vpiParent: HierPath name:super::new(def + 3)
                         vpiName: super
                         vpiFullName: class_tb::test_cls::new::super
                         vpiActual: ClassDefn name:super_cls
-                      FuncCall name:new:
-                        vpiParent: HierPath name:super.new(def + 3)
+                      MethodFuncCall name:new start:26:10 end:26:21:
+                        vpiParent: HierPath name:super::new(def + 3)
                         vpiName Identifier name:new:
-                          vpiParent: FuncCall name:new
+                          vpiParent: MethodFuncCall name:new
                           vpiName: new
                         vpiTaskFunc: Function name:new
                         vpiArgument (1 items):
                           Operation start:26:14 end:26:21:
-                            vpiParent: FuncCall name:new
+                            vpiParent: MethodFuncCall name:new
                             vpiOpType: add (24)
                             vpiOperand (2 items):
                               RefObj name:def start:26:14 end:26:17:
                                 vpiParent: Operation
                                 vpiName: def
-                                vpiFullName: class_tb::test_cls::new::super.new(def + 3)::def
+                                vpiFullName: class_tb::test_cls::new::super::new(def + 3)::def
                                 vpiActual: IODecl name:def
                               Constant start:26:20 end:26:21:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: class_tb::test_cls::new::super.new(def + 3)
+                                  vpiFullName: class_tb::test_cls::new::super::new(def + 3)
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -529,6 +536,34 @@ Design name:unnamed:
           vpiStmt Begin start:33:10 end:37:5:
             vpiParent: Initial
             vpiFullName: class_tb
+            vpiTypespec (1 items):
+              ClassTypespec name:test_cls #(.t(23)) start:34:22 end:34:39:
+                vpiParent: Begin
+                vpiName Identifier name:test_cls #(.t(23)) start:34:22 end:34:30:
+                  vpiParent: ClassTypespec name:test_cls #(.t(23))
+                  vpiName: test_cls #(.t(23))
+                vpiDefName: test_cls
+                vpiParamAssign (1 items):
+                  ParamAssign start:34:32 end:34:38:
+                    vpiParent: ClassTypespec name:test_cls #(.t(23))
+                    vpiConnByName: true
+                    vpiOverridden: true
+                    vpiLhs RefObj name:t start:34:33 end:34:34:
+                      vpiParent: ParamAssign
+                      vpiName: t
+                      vpiFullName: class_tb.test_cls #(.t(23)).t
+                      vpiActual: Parameter name:t
+                    vpiRhs Constant start:34:35 end:34:37:
+                      vpiParent: ParamAssign
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: class_tb.test_cls #(.t(23))
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "23"
+                      vpiValue: 23
+                vpiClassDefn: ClassDefn name:test_cls
             vpiStmt (2 items):
               Assignment start:34:10 end:34:54:
                 vpiParent: Begin
@@ -543,40 +578,24 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                     vpiParent: MethodFuncCall name:new
                     vpiName: new
-                  vpiScope UnsupportedScope name:test_cls start:34:22 end:34:41:
+                  vpiScope RefTypespec start:34:22 end:34:41:
                     vpiParent: MethodFuncCall name:new
-                    vpiName Identifier name:test_cls start:34:22 end:34:30:
-                      vpiParent: UnsupportedScope name:test_cls
-                      vpiName: test_cls
-                    vpiFullName: class_tb.test_cls
-                    vpiParamAssign (1 items):
-                      ParamAssign start:34:32 end:34:38:
-                        vpiParent: UnsupportedScope name:test_cls
-                        vpiConnByName: true
-                        vpiOverridden: true
-                        vpiLhs RefObj name:t start:34:33 end:34:34:
-                          vpiParent: ParamAssign
-                          vpiName: t
-                          vpiFullName: class_tb.test_cls.t
-                        vpiRhs Constant start:34:35 end:34:37:
-                          vpiParent: ParamAssign
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: class_tb.test_cls
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "23"
-                          vpiValue: 23
+                    vpiFullName: class_tb
+                    vpiActual: ClassTypespec name:test_cls #(.t(23))
+                  vpiTaskFunc: Function name:new
                   vpiArgument (1 items):
-                    IODecl name:def start:34:45 end:34:53:
+                    NamedArgument start:34:45 end:34:53:
                       vpiParent: MethodFuncCall name:new
-                      vpiName: def
-                      vpiExpr Constant start:34:50 end:34:52:
-                        vpiParent: IODecl name:def
+                      vpiLowConn RefObj name:def start:34:46 end:34:49:
+                        vpiParent: NamedArgument
+                        vpiName: def
+                        vpiFullName: class_tb.def
+                        vpiActual: IODecl name:def
+                      vpiHighConn Constant start:34:50 end:34:52:
+                        vpiParent: NamedArgument
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: class_tb.def
+                          vpiFullName: class_tb
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -661,7 +680,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.8--typed_constructor_param/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              91      91       0         0
+Others                              93      93       0         0
 ----------------------------------------------------------------
-                                    91      91       0         0
+                                    93      93       0         0
 ===================== END REDUCTION RESULT =====================

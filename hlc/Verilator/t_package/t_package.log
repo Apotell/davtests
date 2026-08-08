@@ -714,8 +714,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_package.v:27:1: Compile module "t".
 [INF:CP0303] $Source01/t_package.v:54:1: Compile module "t2".
 [WRN:CP0323] $Source01/t_package.v:54:1: Multiply defined typedef "p2".
-[WRN:CP0350] $Source01/t_package.v:43:14: Failed to bind "id:201, name:pi".
-[WRN:CP0350] $Source01/t_package.v:50:14: Failed to bind "id:234, name:pi".
+[WRN:CP0350] $Source01/t_package.v:41:14: Failed to bind "id:186, name:plusone".
+[WRN:CP0350] $Source01/t_package.v:43:14: Failed to bind "id:206, name:pi".
+[WRN:CP0350] $Source01/t_package.v:50:14: Failed to bind "id:240, name:pi".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1031,18 +1032,21 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:package_type_t
           vpiName: vp
           vpiFullName: t.vp
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+        UnsupportedTypespec name:$unit start:33:4 end:33:9:
+          vpiParent: Module name:t
+          vpiName Identifier name:$unit start:33:4 end:33:9:
+            vpiParent: UnsupportedTypespec name:$unit
+            vpiName: "$unit"
         UnsupportedTypespec name:$unit::unit_type_t start:33:4 end:33:22:
           vpiParent: Module name:t
           vpiPathElem (2 items):
-            UnsupportedScope name:$unit start:33:4 end:33:11:
+            RefTypespec start:33:4 end:33:11:
               vpiParent: UnsupportedTypespec name:$unit::unit_type_t
-              vpiName Identifier name:$unit start:33:4 end:33:9:
-                vpiParent: UnsupportedScope name:$unit
-                vpiName: "$unit"
-              vpiFullName: t.$unit::unit_type_t.$unit
+              vpiFullName: t.$unit::unit_type_t
+              vpiActual: UnsupportedTypespec name:$unit
             RefTypespec name:unit_type_t start:33:11 end:33:22:
               vpiParent: UnsupportedTypespec name:$unit::unit_type_t
               vpiName: unit_type_t
@@ -1095,6 +1099,22 @@ Design name:unnamed:
           vpiStmt Begin start:38:12 end:47:7:
             vpiParent: Initial
             vpiFullName: t
+            vpiTypespec (3 items):
+              UnsupportedTypespec name:$unit start:40:11 end:40:16:
+                vpiParent: Begin
+                vpiName Identifier name:$unit start:40:11 end:40:16:
+                  vpiParent: UnsupportedTypespec name:$unit
+                  vpiName: "$unit"
+              UnsupportedTypespec name:p start:41:11 end:41:12:
+                vpiParent: Begin
+                vpiName Identifier name:p start:41:11 end:41:12:
+                  vpiParent: UnsupportedTypespec name:p
+                  vpiName: p
+              UnsupportedTypespec name:p start:43:11 end:43:12:
+                vpiParent: Begin
+                vpiName Identifier name:p start:43:11 end:43:12:
+                  vpiParent: UnsupportedTypespec name:p
+                  vpiName: p
             vpiStmt (7 items):
               IfStmt start:39:7 end:39:40:
                 vpiParent: Begin
@@ -1145,12 +1165,10 @@ Design name:unnamed:
                       vpiName: "$unit::unit_plusone(1)"
                       vpiFullName: t.$unit::unit_plusone(1)
                       vpiPathElem (2 items):
-                        UnsupportedScope name:$unit start:40:11 end:40:18:
+                        RefTypespec start:40:11 end:40:18:
                           vpiParent: HierPath name:$unit::unit_plusone(1)
-                          vpiName Identifier name:$unit start:40:11 end:40:16:
-                            vpiParent: UnsupportedScope name:$unit
-                            vpiName: "$unit"
-                          vpiFullName: t.$unit::unit_plusone(1).$unit
+                          vpiFullName: t.$unit::unit_plusone(1)
+                          vpiActual: UnsupportedTypespec name:$unit
                         FuncCall name:unit_plusone start:40:18 end:40:33:
                           vpiParent: HierPath name:$unit::unit_plusone(1)
                           vpiName Identifier name:unit_plusone start:40:18 end:40:30:
@@ -1194,12 +1212,10 @@ Design name:unnamed:
                       vpiName: p::plusone(1)
                       vpiFullName: t.p::plusone(1)
                       vpiPathElem (2 items):
-                        UnsupportedScope name:p start:41:11 end:41:14:
+                        RefTypespec start:41:11 end:41:14:
                           vpiParent: HierPath name:p::plusone(1)
-                          vpiName Identifier name:p start:41:11 end:41:12:
-                            vpiParent: UnsupportedScope name:p
-                            vpiName: p
-                          vpiFullName: t.p::plusone(1).p
+                          vpiFullName: t.p::plusone(1)
+                          vpiActual: UnsupportedTypespec name:p
                         SubroutineCall name:plusone start:41:14 end:41:24:
                           vpiParent: HierPath name:p::plusone(1)
                           vpiName Identifier name:plusone start:41:14 end:41:21:
@@ -1270,12 +1286,10 @@ Design name:unnamed:
                       vpiName: p::pi
                       vpiFullName: t.p::pi
                       vpiPathElem (2 items):
-                        UnsupportedScope name:p start:43:11 end:43:14:
+                        RefTypespec start:43:11 end:43:14:
                           vpiParent: HierPath name:p::pi
-                          vpiName Identifier name:p start:43:11 end:43:12:
-                            vpiParent: UnsupportedScope name:p
-                            vpiName: p
-                          vpiFullName: t.p::pi.p
+                          vpiFullName: t.p::pi
+                          vpiActual: UnsupportedTypespec name:p
                         RefObj name:pi start:43:14 end:43:16:
                           vpiParent: HierPath name:p::pi
                           vpiName: pi
@@ -1332,6 +1346,12 @@ Design name:unnamed:
             vpiStmt Begin start:48:27 end:51:7:
               vpiParent: EventControl
               vpiFullName: t
+              vpiTypespec (1 items):
+                UnsupportedTypespec name:p start:50:11 end:50:12:
+                  vpiParent: Begin
+                  vpiName Identifier name:p start:50:11 end:50:12:
+                    vpiParent: UnsupportedTypespec name:p
+                    vpiName: p
               vpiStmt (2 items):
                 Assignment start:49:7 end:49:17:
                   vpiParent: Begin
@@ -1391,12 +1411,10 @@ Design name:unnamed:
                         vpiName: p::pi
                         vpiFullName: t.p::pi
                         vpiPathElem (2 items):
-                          UnsupportedScope name:p start:50:11 end:50:14:
+                          RefTypespec start:50:11 end:50:14:
                             vpiParent: HierPath name:p::pi
-                            vpiName Identifier name:p start:50:11 end:50:12:
-                              vpiParent: UnsupportedScope name:p
-                              vpiName: p
-                            vpiFullName: t.p::pi.p
+                            vpiFullName: t.p::pi
+                            vpiActual: UnsupportedTypespec name:p
                           RefObj name:pi start:50:14 end:50:16:
                             vpiParent: HierPath name:p::pi
                             vpiName: pi
@@ -1500,6 +1518,17 @@ Design name:unnamed:
           vpiStmt Begin start:60:12 end:64:7:
             vpiParent: Initial
             vpiFullName: t2
+            vpiTypespec (2 items):
+              UnsupportedTypespec name:p start:63:11 end:63:12:
+                vpiParent: Begin
+                vpiName Identifier name:p start:63:11 end:63:12:
+                  vpiParent: UnsupportedTypespec name:p
+                  vpiName: p
+              UnsupportedTypespec name:p start:63:28 end:63:29:
+                vpiParent: Begin
+                vpiName Identifier name:p start:63:28 end:63:29:
+                  vpiParent: UnsupportedTypespec name:p
+                  vpiName: p
             vpiStmt (3 items):
               IfStmt start:61:7 end:61:35:
                 vpiParent: Begin
@@ -1592,12 +1621,10 @@ Design name:unnamed:
                           vpiName: p::pi
                           vpiFullName: t2.p::pi
                           vpiPathElem (2 items):
-                            UnsupportedScope name:p start:63:11 end:63:14:
+                            RefTypespec start:63:11 end:63:14:
                               vpiParent: HierPath name:p::pi
-                              vpiName Identifier name:p start:63:11 end:63:12:
-                                vpiParent: UnsupportedScope name:p
-                                vpiName: p
-                              vpiFullName: t2.p::pi.p
+                              vpiFullName: t2.p::pi
+                              vpiActual: UnsupportedTypespec name:p
                             RefObj name:pi start:63:14 end:63:16:
                               vpiParent: HierPath name:p::pi
                               vpiName: pi
@@ -1622,12 +1649,10 @@ Design name:unnamed:
                           vpiName: p::pi
                           vpiFullName: t2.p::pi
                           vpiPathElem (2 items):
-                            UnsupportedScope name:p start:63:28 end:63:31:
+                            RefTypespec start:63:28 end:63:31:
                               vpiParent: HierPath name:p::pi
-                              vpiName Identifier name:p start:63:28 end:63:29:
-                                vpiParent: UnsupportedScope name:p
-                                vpiName: p
-                              vpiFullName: t2.p::pi.p
+                              vpiFullName: t2.p::pi
+                              vpiActual: UnsupportedTypespec name:p
                             RefObj name:pi start:63:31 end:63:33:
                               vpiParent: HierPath name:p::pi
                               vpiName: pi
@@ -1780,7 +1805,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1824,7 +1849,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_package/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             263     263       0         0
+Others                             270     270       0         0
 ----------------------------------------------------------------
-                                   263     263       0         0
+                                   270     270       0         0
 ===================== END REDUCTION RESULT =====================

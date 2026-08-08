@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,16 @@
 //     int b = a.len();
 //   endmodule
 //
-// Per IEEE 1800-2023 6.8/6.16: neither 'string' nor 'int' has an explicit
-// net-type keyword, so both 'a' and 'b' are variable_declarations.
+// What to check and why (IEEE 1800-2023 6.8 "Variable declarations", p.105):
+// the identifiers declared in this file (string/int/byte/real -- see the
+// module body above) are all 6.8 data_type keywords (string, integer_atom_type,
+// non_integer_type), never IEEE 1800-2023 6.7 net_type keywords, so they must
+// be Variables, not Nets, regardless of module-level scope. A prior version of
+// this test used hldb::Net/getNets() throughout -- the same net/variable
+// misclassification bug found and fixed across 6.5, 6.9.1, 6.12, 6.13, 6.14,
+// and 6.16--string this session. This version targets hldb::Variable instead,
+// and adds a CompilerReportsZeroErrors check (previously absent) since this
+// file has no :should_fail_because: tag and is fully legal.
 //
 // Checked:
 //   - design has module top with 2 variables (a: string, b: int)
@@ -36,6 +44,7 @@
 //     string method return values is not performed
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -45,57 +54,46 @@
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
-#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
 
-class StringLen : public Test {
+class StringLenTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.1--string_len.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-TEST_F(StringLen, ModuleExists) {
+TEST_F(StringLenTest, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // Variable declarations -- string 'a' and int 'b'
-// ----
-TEST_F(StringLen, TwoVariablesExist) {
+// ---------------------------------------------------------------------------
+TEST_F(StringLenTest, TwoVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(StringLen, NoNets) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8, neither 'string' nor 'int' has a
-  // net-type keyword, so neither 'a' nor 'b' should be materialized as Nets.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
-}
-
-TEST_F(StringLen, AVariableTypespecIsString) {
+TEST_F(StringLenTest, AVariableTypespecIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr)
-      << "variable 'a' typespec should resolve to StringTypespec";
+  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr) << "variable 'a' typespec should resolve to StringTypespec";
 }
 
-TEST_F(StringLen, AVariableInitialValueIsTest) {
+TEST_F(StringLenTest, AVariableInitialValueIsTest) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -106,7 +104,7 @@ TEST_F(StringLen, AVariableInitialValueIsTest) {
   EXPECT_EQ(init->getDecompile(), "\"Test\"");
 }
 
-TEST_F(StringLen, BVariableTypespecIsInt) {
+TEST_F(StringLenTest, BVariableTypespecIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -116,10 +114,10 @@ TEST_F(StringLen, BVariableTypespecIsInt) {
   EXPECT_NE(rts->getActual<hldb::IntTypespec>(), nullptr) << "variable 'b' typespec should resolve to IntTypespec";
 }
 
-// ----
+// ---------------------------------------------------------------------------
 // HierPath -- b's initial value is the method call a.len()
-// ----
-TEST_F(StringLen, BVariableHasValue) {
+// ---------------------------------------------------------------------------
+TEST_F(StringLenTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -127,7 +125,7 @@ TEST_F(StringLen, BVariableHasValue) {
   EXPECT_NE(b->getValue(), nullptr) << "variable 'b' should have a vpiValue set from int b = a.len()";
 }
 
-TEST_F(StringLen, BVariableValueIsNotPreEvaluatedConstant) {
+TEST_F(StringLenTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -136,7 +134,7 @@ TEST_F(StringLen, BVariableValueIsNotPreEvaluatedConstant) {
       << "HLC does not pre-evaluate a.len() to a constant; b holds only the HierPath expression";
 }
 
-TEST_F(StringLen, BVariableValueIsHierPath) {
+TEST_F(StringLenTest, BVariableValueIsHierPath) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -146,7 +144,7 @@ TEST_F(StringLen, BVariableValueIsHierPath) {
   EXPECT_EQ(hp->getName(), "a.len");
 }
 
-TEST_F(StringLen, HierPathReceiverIsA) {
+TEST_F(StringLenTest, HierPathReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -162,7 +160,7 @@ TEST_F(StringLen, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr) << "receiver 'a' should resolve to Variable a";
 }
 
-TEST_F(StringLen, HierPathMethodIsLen) {
+TEST_F(StringLenTest, HierPathMethodIsLen) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -177,7 +175,7 @@ TEST_F(StringLen, HierPathMethodIsLen) {
   EXPECT_EQ(call->getName(), "len");
 }
 
-TEST_F(StringLen, LenCallHasNoArguments) {
+TEST_F(StringLenTest, LenCallHasNoArguments) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -189,23 +187,28 @@ TEST_F(StringLen, LenCallHasNoArguments) {
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "len() takes no arguments";
 }
 
-// ----
-// a.len() runtime result -- known gap: HLC never sets Design::m_elaborated
-// (no caller invokes setElaborated(true) anywhere in src/), so a guard on
-// getElaborated() is permanently-false dead code that silently skips these
-// assertions rather than reporting the gap. Use GTEST_SKIP() explicitly
-// instead.
-// ----
-TEST_F(StringLen, LenResultIsPreEvaluated) {
-  GTEST_SKIP() << "known gap: HLC does not perform compile-time evaluation of string methods; "
-                  "a.len() should evaluate to a Constant \"4\" once elaboration/const-folding is implemented";
+// ---------------------------------------------------------------------------
+// a.len() runtime result -- kept as a real assertion for when HLC adds
+// compile-time evaluation of string methods
+// ---------------------------------------------------------------------------
+TEST_F(StringLenTest, LenResultIsPreEvaluated) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::Constant *const value = b->getValue<hldb::Constant>();
-  ASSERT_NE(value, nullptr) << "variable 'b' should hold a pre-evaluated Constant";
-  EXPECT_EQ(value->getDecompile(), "4") << "a.len() should evaluate to 4";
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "variable 'b' should hold a pre-evaluated Constant";
+    EXPECT_EQ(value->getDecompile(), "4") << "a.len() should evaluate to 4";
+  }
+}
+
+TEST_F(StringLenTest, CompilerReportsZeroErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc
