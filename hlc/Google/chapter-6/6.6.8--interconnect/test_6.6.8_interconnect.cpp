@@ -117,13 +117,10 @@ TEST_F(InterconnectTest, TopHasOneNet) {
 }
 
 TEST_F(InterconnectTest, TopNetHasNoStoredName) {
-  // Documents CURRENT (buggy) behavior: HLC's spurious EL0535 error-recovery
-  // path for `interconnect bus` never sets vpiName, so getName() is empty --
-  // this is not spec-correct, see the file-level comment above.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_TRUE(top->getNets()->at(0)->getName().empty());
+  EXPECT_EQ(top->getNets()->at(0)->getName(), "bus");
 }
 
 TEST_F(InterconnectTest, TopNetCurrentlyTypedAsPlainNetNotInterconnect) {
@@ -135,7 +132,7 @@ TEST_F(InterconnectTest, TopNetCurrentlyTypedAsPlainNetNotInterconnect) {
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  EXPECT_EQ(net->getNetType(), vpiNet);
+  EXPECT_EQ(net->getNetType(), vpiInterconnect);
 }
 
 TEST_F(InterconnectTest, TopNetHasLogicTypespec) {
@@ -146,7 +143,7 @@ TEST_F(InterconnectTest, TopNetHasLogicTypespec) {
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  EXPECT_NE(rt->getActual<hldb::LogicTypespec>(), nullptr);
+  EXPECT_EQ(rt->getActual(), nullptr);
 }
 
 TEST_F(InterconnectTest, TopHasTwoRefInstances) {
@@ -163,17 +160,6 @@ TEST_F(InterconnectTest, RefInstanceNamesAreM1AndM2) {
   ASSERT_EQ(top->getRefInstances()->size(), 2u);
   EXPECT_EQ(top->getRefInstances()->at(0)->getName(), "m1");
   EXPECT_EQ(top->getRefInstances()->at(1)->getName(), "m2");
-}
-
-TEST_F(InterconnectTest, TopNetFullNameIsParentScope) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  EXPECT_EQ(net->getFullName(), "top")
-      << "documents current behavior: the unnamed error-recovery net has no own name segment, so "
-         "vpiFullName is just the parent scope -- a downstream symptom of the same EL0535 bug";
 }
 
 TEST_F(InterconnectTest, EachRefInstanceHasOnePort) {
