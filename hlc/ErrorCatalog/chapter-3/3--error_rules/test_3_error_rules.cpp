@@ -198,9 +198,10 @@ TEST_F(Chapter3ErrorRulesTest, Row10_MismatchedRepeatedTimeunitIsRejected) {
 
 TEST_F(Chapter3ErrorRulesTest, Row11_TimeunitAfterOtherItemsIsRejected) {
   // catalog row 11 | 3.14.2.2 | COMP
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.14.2.2 requires timeunit and "
-                  "timeprecision to precede every other item in their time scope, and r11_m "
-                  "declares 'logic a' before its 'timeunit 1ns'";
+  // The grammar already distinguishes the two placements: a leading declaration is
+  // a direct child of the module, a later one is wrapped as an ordinary module
+  // item, so Phase2 tests the owner's node type rather than tracking what it has
+  // already walked.
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r11_m", 80, 3), nullptr)
       << "timeunit must precede all other items in the time scope (IEEE 1800-2023 3.14.2.2)";
 }
