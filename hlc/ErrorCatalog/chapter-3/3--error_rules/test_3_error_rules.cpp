@@ -145,7 +145,7 @@ TEST_F(Chapter3ErrorRulesTest, Row5_DefinitionsNameSpaceReuseIsRejected) {
 }
 
 TEST_F(Chapter3ErrorRulesTest, Row6_PackageNameSpaceReuseIsDiagnosed) {
-  // catalog row 6 | 3.13 | LINT
+  // catalog row 6 | 3.13 | COMP
   // This is the one name-space rule of the four that HLC does catch. Note the
   // severity gap: ErrorDefinition registers COMP_MULTIPLY_DEFINED_PACKAGE at
   // WARNING level, while 3.13 states the redeclaration is illegal. The
