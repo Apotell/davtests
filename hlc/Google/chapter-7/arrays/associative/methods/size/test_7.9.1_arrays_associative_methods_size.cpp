@@ -267,13 +267,7 @@ TEST_F(AssociativeArraySizeTest, FourthDisplayAssertsSizeEqualsThree) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
 }
 
-// --- known compiler limitation: skipped canary for a future fix ----
-
-TEST_F(AssociativeArraySizeTest, SizeRefObjShouldResolveOnceImplicitVariableBugIsFixed) {
-  GTEST_SKIP() << "Known compiler limitation (EL0535 Illegal implicit variable): HLC never resolves "
-                  "the no-parens '.size' RefObj to a declared object. Re-enable this test once "
-                  "that limitation is fixed.";
-
+TEST_F(AssociativeArraySizeTest, ArrRefObjShouldResolve) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -282,13 +276,20 @@ TEST_F(AssociativeArraySizeTest, SizeRefObjShouldResolveOnceImplicitVariableBugI
   ASSERT_NE(begin, nullptr);
   const size_t displayStmtIndices[4] = {0, 2, 4, 6};
   for (const size_t idx : displayStmtIndices) {
-    const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(idx));
+    const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(idx));
     ASSERT_NE(disp, nullptr);
     const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
     ASSERT_NE(hp, nullptr);
-    const hldb::RefObj *const sizeRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(1));
-    ASSERT_NE(sizeRef, nullptr);
-    EXPECT_NE(sizeRef->getActual(), nullptr) << "arr.size (no parens) should resolve to a declared object";
+    const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+    ASSERT_NE(varRef, nullptr);
+    EXPECT_EQ(varRef->getName(), "arr");
+    const hldb::Variable *const var = varRef->getActual<hldb::Variable>();
+    ASSERT_NE(var, nullptr);
+    EXPECT_EQ(var->getName(), "arr");
+    const hldb::MethodFuncCall *const sizeMfc = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+    ASSERT_NE(sizeMfc, nullptr);
+    EXPECT_EQ(sizeMfc->getName(), "size");
+    EXPECT_EQ(sizeMfc->getTaskFunc(), nullptr) << "arr.size is intrinsic and doesn't resolve";
   }
 }
 

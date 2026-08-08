@@ -304,10 +304,8 @@ TEST_F(ArrayLocatorFindFirstTest, MethodFuncCallWithClauseComparesItemToHello) {
   const hldb::RefObj *const item = any_cast<hldb::RefObj>(with->getOperands()->at(0));
   ASSERT_NE(item, nullptr);
   EXPECT_EQ(item->getName(), "item");
-  // "item" is the implicit with-clause iterator (IEEE 1800-2017 7.12.1); this
-  // build never resolves it to a declared object (see the ELAB_ILLEGAL_IMPLICIT_NET
-  // tests below), so it is always unresolved.
-  EXPECT_EQ(item->getActual(), nullptr);
+  EXPECT_NE(item->getActual(), nullptr);
+  EXPECT_NE(item->getActual<hldb::Variable>(), nullptr);
 
   const hldb::Constant *const hello = any_cast<hldb::Constant>(with->getOperands()->at(1));
   ASSERT_NE(hello, nullptr);
