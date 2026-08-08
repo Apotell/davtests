@@ -129,10 +129,17 @@ TEST_F(Chapter3ErrorRulesTest, Row4_ForwardReferenceInCompilationUnitIsRejected)
 // --- rows 5-8: name spaces (3.13) -------------------------------------------
 
 TEST_F(Chapter3ErrorRulesTest, Row5_DefinitionsNameSpaceReuseIsRejected) {
-  // catalog row 5 | 3.13 | LINT
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.13 makes the definitions name space "
-                  "shared across module, primitive, program and interface definitions, so declaring "
-                  "interface 'r5_dup' after module 'r5_dup' is illegal in any compilation unit";
+  // catalog row 5 | 3.13 | COMP
+  // IEEE 1800-2023 3.13(a) makes the definitions name space shared across
+  // module, primitive, program and interface definitions, so declaring
+  // interface 'r5_dup' after module 'r5_dup' is illegal in any compilation
+  // unit. Diagnosed in Phase2ModelBuilder::leaveDesign, which sees every
+  // file's design elements because Phase 2 walks all files before it fires --
+  // the same place row 6's package-name-space check already lives, which is
+  // why the recorded category moved from LINT to COMP. Note the same severity
+  // gap row 6 documents: COMP_MULTIPLY_DEFINED_DESIGN_UNIT is registered at
+  // WARNING while 3.13 says "shall not"; this asserts the violation is
+  // reported at all.
   EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_DESIGN_UNIT, "r5_dup"), nullptr)
       << "a name in the definitions name space cannot be reused (IEEE 1800-2023 3.13)";
 }
