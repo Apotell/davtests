@@ -104,7 +104,7 @@
 
 namespace hlc {
 
-class DynamicArrayDynamicArrayOpSizeTest : public Test {
+class DynamicArrayOpSizeTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "op-size.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }

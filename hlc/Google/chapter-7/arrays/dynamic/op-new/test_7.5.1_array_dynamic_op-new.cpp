@@ -98,7 +98,7 @@
 
 namespace hlc {
 
-class DynamicArrayDynamicArrayOpNewTest : public Test {
+class DynamicArrayOpNewTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "op-new.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
