@@ -179,9 +179,10 @@ TEST_F(Chapter3ErrorRulesTest, Row8_RedeclarationInSameNameSpaceIsRejected) {
 
 TEST_F(Chapter3ErrorRulesTest, Row9_PrecisionCoarserThanUnitIsRejected) {
   // catalog row 9 | 3.14 | COMP
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.14 requires the time precision to be "
-                  "at least as precise as the time unit, and r9_m declares 'timeunit 1ns / 1us' -- "
-                  "a precision (-6) coarser than its unit (-9)";
+  // Time unit and precision are base-10 exponents of one second, so "at least as
+  // precise" means precision <= unit; r9_m's 'timeunit 1ns / 1us' is -9 / -6.
+  // Checked in Phase2's setDeclarationTimeInfo, which sees both values of the
+  // declaration that states them.
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r9_m"), nullptr)
       << "time precision cannot be coarser than the time unit (IEEE 1800-2023 3.14)";
 }
