@@ -238,6 +238,7 @@ n<$Source01/simple/attrib08_mod_inst.v> u<223> t<Top_level_rule> c<1> l<1:1> el<
 AST_DEBUG_END
 [INF:CP0303] $Source01/simple/attrib08_mod_inst.v:1:1: Compile module "bar".
 [INF:CP0303] $Source01/simple/attrib08_mod_inst.v:13:1: Compile module "foo".
+[ERR:LN0814] Found 3 weak node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -428,20 +429,6 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bar
             vpiName: bar
           vpiModule: Module name:bar
-      vpiAttribute (1 items):
-        Attribute name:my_module_instance start:19:6 end:19:29:
-          vpiParent: Module name:foo
-          vpiName: my_module_instance
-          vpiValue Constant start:19:27 end:19:29:
-            vpiParent: Attribute name:my_module_instance
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: foo.my_module_instance
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "99"
-            vpiValue: 99
       vpiDefName: foo
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -612,7 +599,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -628,25 +615,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Yosys/simple/attrib08_mod_inst.v/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 93.79,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/simple/attrib08_mod_inst.v': {'post_len': 0,
+            'files': {'$Output/lib/work/simple/attrib08_mod_inst.v': {'post_len': 21,
                                                                       'pre_len': 338}},
-            'post_len': 0,
+            'post_len': 21,
             'pre_len': 338,
             'test_name': 'Yosys/simple/attrib08_mod_inst.v'}}
 
 +---------------------------------------------+----------+-----------+
 | INPUT                                       |   PRELEN |   POSTLEN |
 +=============================================+==========+===========+
-| $Output/lib/work/simple/attrib08_mod_inst.v |      338 |         0 |
+| $Output/lib/work/simple/attrib08_mod_inst.v |      338 |        21 |
 +=============================================+==========+===========+
-|                                             |      338 |         0 |
+|                                             |      338 |        21 |
 +---------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 93.79
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -657,7 +644,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/attrib08_mod_inst.v/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              85      85       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                    85      85       0         0
 ===================== END REDUCTION RESULT =====================

@@ -666,6 +666,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/common.v:49:1: Compile module "assert_comb".
 [INF:CP0303] $Source01/issue_00737/top.v:1:1: Compile module "top".
 [NTE:CP0309] $Source01/issue_00737/top.v:3:17: Implicit port type (wire) for "ow".
+[ERR:LN0814] Found 8 weak node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1531,42 +1532,6 @@ Design name:unnamed:
           vpiName Identifier name:SB_LUT4 start:10:5 end:10:12:
             vpiParent: UnsupportedTypespec name:SB_LUT4
             vpiName: SB_LUT4
-      vpiAttribute (2 items):
-        Attribute name:A start:8:8 end:8:11:
-          vpiParent: Module name:top
-          vpiName: A
-          vpiValue Constant start:8:10 end:8:11:
-            vpiParent: Attribute name:A
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top.A
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "2"
-            vpiValue: 2
-        Attribute name:B start:9:8 end:9:13:
-          vpiParent: Module name:top
-          vpiName: B
-          vpiValue Operation start:9:10 end:9:13:
-            vpiParent: Attribute name:B
-            vpiOpType: add (24)
-            vpiOperand (2 items):
-              RefObj name:j start:9:10 end:9:11:
-                vpiParent: Operation
-                vpiName: j
-                vpiFullName: top.B.j
-                vpiActual: Parameter name:j
-              Constant start:9:12 end:9:13:
-                vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.B
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1740,7 +1705,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 1
 ********************************************************************************
@@ -1756,14 +1721,14 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00737/issue_00737/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.18,
             'error_count': 0,
             'file_count': 2,
             'files': {'$Output/lib/work/common.v': {'post_len': 0,
                                                     'pre_len': 812},
-                      '$Output/lib/work/issue_00737/top.v': {'post_len': 0,
+                      '$Output/lib/work/issue_00737/top.v': {'post_len': 8,
                                                              'pre_len': 161}},
-            'post_len': 0,
+            'post_len': 8,
             'pre_len': 973,
             'test_name': 'YosysTests/regression/issue_00737/issue_00737'}}
 
@@ -1771,13 +1736,13 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00737/issue_0
 | INPUT                              |   PRELEN |   POSTLEN |
 +====================================+==========+===========+
 | $Output/lib/work/common.v          |      812 |         0 |
-| $Output/lib/work/issue_00737/top.v |      161 |         0 |
+| $Output/lib/work/issue_00737/top.v |      161 |         8 |
 +====================================+==========+===========+
-|                                    |      973 |         0 |
+|                                    |      973 |         8 |
 +------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.18
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1787,12 +1752,8 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_00737/issue_00737/des
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            19      19       1         1
-Operation                           10       9       0         1
-RefObj                              48      47       0         1
-RefTypespec                         49      49       1         1
 ----------------------------------------------------------------
-Others                             136     136       0         0
+Others                             254     254       0         0
 ----------------------------------------------------------------
-                                   262     260       2         4
+                                   254     254       0         0
 ===================== END REDUCTION RESULT =====================
