@@ -31,8 +31,9 @@
 //     [7:0][31:0]
 //   - variable "arr_b": 1 unpacked dim [0:255] -- ArrayTypespec static(1) range
 //     [0:255] whose elem is BitTypespec with the SAME 2 packed ranges
-//     [7:0][31:0] as arr_a's element type, but stored as its own distinct
-//     BitTypespec instance (not shared/deduplicated)
+//     [7:0][31:0] as arr_a's element type, and IS the same shared BitTypespec
+//     instance as arr_a's element type (deduplicated by
+//     hldb::BuiltInTypespecsPruner)
 //   - module has exactly 4 typespecs: 1 BitTypespec (shared packed-dim
 //     definition, reused by both arr_a and arr_b's element chains per the
 //     comment "Same packed dimensions") + 3 ArrayTypespec (arr_a's 2
@@ -191,11 +192,19 @@ TEST_F(MultiDimMultiDeclarationTest, VariableArrBElemIsBitTypespecWithPackedRang
   EXPECT_EQ(bt->getRanges()->at(1)->getLeftExpr<hldb::Constant>()->getDecompile(), "31");
 }
 
-TEST_F(MultiDimMultiDeclarationTest, ArrAAndArrBElemTypespecsAreDistinctInstances) {
+TEST_F(MultiDimMultiDeclarationTest, ArrAAndArrBElemTypespecsAreSharedInstance) {
   // "Same packed dimensions" (per the source comment) means textually
-  // identical, not the same shared typespec node -- each variable's chain ends in
-  // its own distinct BitTypespec.
-  GTEST_SKIP() << "Need to check the standard on this!";
+  // identical -- IEEE 1800-2023 has no notion of type-descriptor object
+  // identity (only value/structural equivalence, Sec 6.22), so this is a
+  // tool-modeling choice, not a standard requirement. HLC deliberately
+  // merges structurally-identical builtin typespecs post-elaboration via
+  // hldb::BuiltInTypespecsPruner (third_party/hldb/src/Pruner.cpp) -- its
+  // BuiltInTypespecsCollector walks BitTypespecCollection/
+  // ArrayTypespecCollection (among others) and swaps in the first duplicate
+  // found, ignoring source-location fields for builtin typespecs. So
+  // arr_a's and arr_b's identical [7:0][31:0] BitTypespec end up as the
+  // SAME shared instance, matching ModuleHasFourTypespecs's count of 4
+  // above (1 BitTypespec, not 2).
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
@@ -209,7 +218,7 @@ TEST_F(MultiDimMultiDeclarationTest, ArrAAndArrBElemTypespecsAreDistinctInstance
   const hldb::BitTypespec *const btB = atB->getElemTypespec()->getActual<hldb::BitTypespec>();
   ASSERT_NE(btA, nullptr);
   ASSERT_NE(btB, nullptr);
-  EXPECT_NE(btA, btB);
+  EXPECT_EQ(btA, btB);
 }
 
 // --- design-level typespecs / structural completeness ----

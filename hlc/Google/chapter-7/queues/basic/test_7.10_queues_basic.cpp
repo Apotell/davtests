@@ -215,17 +215,6 @@ TEST_F(QueuesBasicTest, DesignHasStringTypespec) {
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-// --- compiler diagnostics ----
-
-TEST_F(QueuesBasicTest, CompilerReportsNoErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

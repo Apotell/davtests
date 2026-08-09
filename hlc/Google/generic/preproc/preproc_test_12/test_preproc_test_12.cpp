@@ -101,17 +101,7 @@ TEST_F(PreprocArgDefaultsTest, LongMacroHasTokens) {
   EXPECT_FALSE(macro->getTokens()->empty()) << "LONG_MACRO body must have tokens (a + b /c +345)";
 }
 
-// sec. 22.5.1: a formal argument may carry a default (`= default_text`); the
-// default is substituted when no actual argument is supplied for that
-// position. 'b=2' and 'c=42' are the default texts for the second and third
-// formal arguments. The HLDB 'argument' field is modeled as a plain
-// 'identifier' (see third_party/hldb/model/preproc_macro_definition.yaml),
-// which has no field to hold the default text at all, so the default values
-// for 'b' and 'c' cannot currently be retrieved from any accessor.
 TEST_F(PreprocArgDefaultsTest, LongMacroArgumentDefaultsAreModeled) {
-  GTEST_SKIP() << "HLDB's preproc_macro_definition.argument is typed as a plain 'identifier' with no default-text "
-                  "field, so 'b=2' and 'c=42' formal-argument defaults (IEEE 1800-2023 sec. 22.5.1) cannot be "
-                  "represented or queried. Fix pending: add a default-text field to the argument model.";
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
   const hldb::SourceFile *const sf =
       hldb::findByName<hldb::SourceFile>("preproc_test_12.sv", m_design->getSourceFiles());
@@ -121,10 +111,15 @@ TEST_F(PreprocArgDefaultsTest, LongMacroArgumentDefaultsAreModeled) {
   ASSERT_NE(macro, nullptr);
   ASSERT_NE(macro->getArguments(), nullptr);
   ASSERT_EQ(macro->getArguments()->size(), 3u);
-  // Standard-correct expectation: the second and third formal arguments must
-  // expose default text "2" and "42" respectively. No such accessor exists
-  // today (see skip reason above).
-  FAIL() << "no accessor exists to retrieve formal-argument default text";
+
+  const hldb::Identifier *const arg_b = any_cast<hldb::Identifier>((*macro->getArguments())[1]);
+  ASSERT_NE(arg_b, nullptr);
+  ASSERT_NE(arg_b->getBuddy(), nullptr);
+  EXPECT_EQ(arg_b->getBuddy()->getName(), "2");
+  const hldb::Identifier *const arg_c = any_cast<hldb::Identifier>((*macro->getArguments())[2]);
+  ASSERT_NE(arg_c, nullptr);
+  ASSERT_NE(arg_c->getBuddy(), nullptr);
+  EXPECT_EQ(arg_c->getBuddy()->getName(), "42");
 }
 
 }  // namespace hlc

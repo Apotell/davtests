@@ -98,9 +98,6 @@ TEST_F(AttributesVariable, VariablesAreNotDuplicatedAsNets) {
 // until that's fixed.
 // ----
 TEST_F(AttributesVariable, ModuleHasNoAttributes) {
-  GTEST_SKIP() << "HLC hoists per-declaration attributes onto the module instead of the "
-                  "individual variable (IEEE 1800-2023 Sec 5.12); fix pending.";
-
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(!top->getAttributes() || top->getAttributes()->empty())
@@ -111,9 +108,6 @@ TEST_F(AttributesVariable, ModuleHasNoAttributes) {
 // (* fsm_state *) -- attribute for variable 'a', flag (no value)
 // ----
 TEST_F(AttributesVariable, VariableAHasFsmStateFlagAttribute) {
-  GTEST_SKIP() << "HLC hoists per-declaration attributes onto the module instead of the "
-                  "individual variable (IEEE 1800-2023 Sec 5.12); fix pending.";
-
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
@@ -133,9 +127,6 @@ TEST_F(AttributesVariable, VariableAHasFsmStateFlagAttribute) {
 // (* fsm_state=1 *) -- attribute for variable 'b', value = 1
 // ----
 TEST_F(AttributesVariable, VariableBHasFsmStateValueOne) {
-  GTEST_SKIP() << "HLC hoists per-declaration attributes onto the module instead of the "
-                  "individual variable (IEEE 1800-2023 Sec 5.12); fix pending.";
-
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
@@ -158,9 +149,6 @@ TEST_F(AttributesVariable, VariableBHasFsmStateValueOne) {
 // (* fsm_state=0 *) -- attribute for variable 'c', value = 0
 // ----
 TEST_F(AttributesVariable, VariableCHasFsmStateValueZero) {
-  GTEST_SKIP() << "HLC hoists per-declaration attributes onto the module instead of the "
-                  "individual variable (IEEE 1800-2023 Sec 5.12); fix pending.";
-
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);

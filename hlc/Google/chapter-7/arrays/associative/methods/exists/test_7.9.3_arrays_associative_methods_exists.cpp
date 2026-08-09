@@ -269,11 +269,11 @@ TEST_F(AssociativeArrayExistsTest, CompilerReportsZeroErrors) {
 TEST_F(AssociativeArrayExistsTest, NoImplicitVariableErrorsUnlikeNoParensSizeDeleteNum) {
   // Confirms the "not applicable" note above: unlike map.size/map.delete/arr.num called
   // without parens elsewhere in this suite, map.exists(...) with an explicit argument never
-  // triggers ELAB_ILLEGAL_IMPLICIT_NET, so there is no unresolved "item"-style RefObj here.
+  // triggers COMP_FAILED_TO_BIND, so there is no unresolved "item"-style RefObj here.
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
   for (const Error &err : errors) {
-    EXPECT_NE(err.getType(), ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET);
+    EXPECT_NE(err.getType(), ErrorDefinition::COMP_FAILED_TO_BIND);
   }
 }
 

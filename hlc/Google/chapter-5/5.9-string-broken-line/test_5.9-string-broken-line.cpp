@@ -165,10 +165,6 @@ TEST_F(StringBrokenLine, Argument_HasStringTypespec) {
 // 27-character string (7 + 1 + 1 + 18 = 27 chars = 216 bits).
 // ----
 TEST_F(StringBrokenLine, Argument_SizePerSpec) {
-  GTEST_SKIP() << "Surelog stores the backslash-newline line continuation verbatim instead of "
-                  "stripping it; IEEE 1800-2023 Sec 5.9 requires the \\ and \\n to be removed, "
-                  "yielding a 25-char (200-bit) string instead of Surelog's 27-char (216-bit) one.";
-
   const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   // Sec 5.9: "broken " (7) + 14 spaces + "line" (4) = 25 chars = 200 bits.
@@ -178,10 +174,6 @@ TEST_F(StringBrokenLine, Argument_SizePerSpec) {
 }
 
 TEST_F(StringBrokenLine, Argument_ValuePerSpec) {
-  GTEST_SKIP() << "Surelog stores the backslash-newline line continuation verbatim instead of "
-                  "stripping it; IEEE 1800-2023 Sec 5.9 requires the \\ and \\n to be removed from "
-                  "the resulting string value.";
-
   const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   // Sec 5.9: "broken " + 14 spaces of continuation indent + "line".
