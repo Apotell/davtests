@@ -45,9 +45,11 @@
 //
 //   IMPORTANT source-file note (same as 12.6.1--case_pattern.sv):
 //   "casex (v)" reads the identifier "v", which is declared nowhere in
-//   this module ("tmp" is the only variable of a compatible type).
-//   Per ordinary identifier-resolution rules this must fail to bind and
-//   be diagnosed -- independent of, and not to be confused with, the
+//   this module ("tmp" is the only variable of a compatible type). Per
+//   Sec 6.5 ("Data shall be declared before they are used, apart from
+//   implicit nets (see 6.10)") and Sec 6.10, whose implicit-net
+//   positions do not include a case expression, this must be diagnosed
+//   -- independent of, and not to be confused with, the
 //   pattern-bound "v"/"v1"/"v2" identifiers legitimately declared by
 //   each case item's own pattern (12.6.1: "this scope extends to...
 //   the statement in the right-hand side of the same case item").
@@ -64,7 +66,7 @@
 //   fail as expected, matching the identical gaps already confirmed in
 //   12.6.1--case_pattern.cpp): (1) getQualifier() comes back 0 instead
 //   of vpiMatchesQualifier; (2) the undeclared case_expression "v"
-//   produces zero diagnostics instead of COMP_FAILED_TO_BIND; (3) the
+//   produces zero diagnostics instead of COMP_UNDEFINED_VARIABLE; (3) the
 //   pattern-bound "v" referenced in case items 1 and 4's $display never
 //   resolves via getActual<hldb::AnyPattern>(). All three kept as
 //   GTEST_SKIP() with the real assertions underneath, per the
@@ -76,9 +78,12 @@
 //   - CaseStmt exists, getCaseType() == vpiCaseX; its qualifier SHOULD
 //     be vpiMatchesQualifier per spec, but this is currently a
 //     confirmed-failing, skipped assertion (see note above)
-//   - the case_expression "v" SHOULD fail to bind and be diagnosed
-//     (findError(COMP_FAILED_TO_BIND, "v")), but this is currently a
-//     confirmed-failing, skipped assertion (see note above)
+//   - the case_expression "v" is undeclared and SHOULD be diagnosed
+//     against the name and its own source location
+//     (findError(COMP_UNDEFINED_VARIABLE, "v", 31, 17)) per IEEE
+//     1800-2023 Sec 6.5, Sec 6.10's implicit-net positions not covering
+//     a case expression; but this is currently a confirmed-failing,
+//     skipped assertion (see note above)
 //   - exactly 4 CaseItems, each with exactly one vpiExpr: a
 //     TaggedPattern whose name/tag matches the source ("a", "a", "b",
 //     "c") and whose nested StructPattern has exactly 2 sub-patterns of
@@ -196,19 +201,24 @@ TEST_F(CasexPatternTest, CaseStmtExistsWithCaseXTypeAndMatchesQualifier) {
 
 TEST_F(CasexPatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
   GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "'casex (v)' reads an identifier declared nowhere in this module, which must fail to bind and "
-                  "be diagnosed, but HLC reports zero diagnostics for it. Same underlying gap as "
-                  "12.6.1--case_pattern.cpp and 6.10--implicit_continuous_assignment.cpp. Tracked, not yet fixed "
-                  "by the compiler.";
+                  "'casex (v)' reads an identifier declared nowhere in this module, which IEEE 1800-2023 Sec 6.5 "
+                  "requires to be diagnosed, but HLC reports zero diagnostics of any kind for this file. "
+                  "COMP_UNDEFINED_VARIABLE is registered in ErrorDefinition.h/.cpp but has no call site anywhere "
+                  "in src/. Same underlying gap as 12.6.1--case_pattern.cpp and "
+                  "6.10--implicit_continuous_assignment.cpp. Tracked, not yet fixed by the compiler.";
   const hldb::CaseStmt *const cs = getCaseStmt();
   ASSERT_NE(cs, nullptr);
   const hldb::RefObj *const cond = cs->getCondition<hldb::RefObj>();
   ASSERT_NE(cond, nullptr) << "case_expression is not a RefObj";
   EXPECT_EQ(cond->getName(), "v");
-  ASSERT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "v"), nullptr)
+  // 12.6.1--casex_pattern.sv:31:17 -- the "v" inside "initial casex (v) matches".
+  ASSERT_NE(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "v", 31, 17), nullptr)
       << "'casex (v)' references an identifier that is declared nowhere in this module (only 'tmp' of a "
-         "compatible type exists); per ordinary identifier-resolution rules this must fail to bind and be "
-         "diagnosed";
+         "compatible type exists). IEEE 1800-2023 Sec 6.5: \"Data shall be declared before they are used, apart "
+         "from implicit nets (see 6.10)\"; Sec 6.10 grants an implicit net only in a port expression declaration, "
+         "a primitive/instance terminal or port connection list, or the left-hand side of a continuous assignment "
+         "-- a case expression inside an initial block is none of those, so no implicit net is created and this "
+         "must be diagnosed against the identifier 'v' at its own source location";
 }
 
 TEST_F(CasexPatternTest, ExactlyFourCaseItems) {

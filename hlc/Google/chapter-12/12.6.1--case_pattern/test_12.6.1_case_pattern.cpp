@@ -70,8 +70,8 @@
 //   instead of vpiMatchesQualifier -- same underlying gap as
 //   12.4.2--priority_if.cpp/unique_if.cpp/unique0_if.cpp, now also
 //   confirmed for case statements; (2) the undeclared case_expression
-//   "v" produces zero diagnostics instead of COMP_FAILED_TO_BIND -- the
-//   same "silently accepts an unresolved reference" pattern already
+//   "v" produces zero diagnostics instead of COMP_UNDEFINED_VARIABLE --
+//   the same "silently accepts an unresolved reference" pattern already
 //   confirmed in 6.10--implicit_continuous_assignment.cpp; (3) the
 //   pattern-bound "v" referenced in case items 1 and 4's $display never
 //   resolves via getActual<hldb::AnyPattern>() -- the AnyPattern node
@@ -87,10 +87,13 @@
 //     "case", not casex/casez); its qualifier SHOULD be
 //     vpiMatchesQualifier per spec, but this is currently a confirmed-
 //     failing, skipped assertion (see note above)
-//   - the case_expression "v" SHOULD fail to bind and be diagnosed
-//     (findError(COMP_FAILED_TO_BIND, "v")) per ordinary identifier-
-//     resolution rules, but this is currently a confirmed-failing,
-//     skipped assertion (see note above)
+//   - the case_expression "v" is undeclared and SHOULD be diagnosed
+//     against the name and its own source location
+//     (findError(COMP_UNDEFINED_VARIABLE, "v", 31, 16)) per IEEE
+//     1800-2023 Sec 6.5 ("Data shall be declared before they are used,
+//     apart from implicit nets (see 6.10)"), Sec 6.10's implicit-net
+//     positions not covering a case expression; but this is currently a
+//     confirmed-failing, skipped assertion (see note above)
 //   - exactly 4 CaseItems, each with exactly one vpiExpr: a
 //     TaggedPattern whose name/tag matches the source ("a", "a", "b",
 //     "c") and whose nested StructPattern has exactly 2 sub-patterns of
@@ -215,18 +218,26 @@ TEST_F(CasePatternTest, CaseStmtExistsWithExactTypeAndMatchesQualifier) {
 
 TEST_F(CasePatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
   GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "'case (v)' reads an identifier declared nowhere in this module, which per ordinary "
-                  "identifier-resolution rules must fail to bind and be diagnosed, but HLC reports zero "
-                  "diagnostics for it -- the same 'silently accepts an unresolved reference' pattern already "
-                  "confirmed in 6.10--implicit_continuous_assignment.cpp. Tracked, not yet fixed by the compiler.";
+                  "'case (v)' reads an identifier declared nowhere in this module, which IEEE 1800-2023 Sec 6.5 "
+                  "requires to be diagnosed, but HLC reports zero diagnostics of any kind for this file. "
+                  "COMP_UNDEFINED_VARIABLE is registered in ErrorDefinition.h/.cpp (ERROR, COMP, "
+                  "'Undefined variable \"%s\"') but has no call site anywhere in src/ -- it is listed as pending "
+                  "work in Phase2ModelBuilder.cpp's TODO(HS) block. Same 'silently accepts an unresolved "
+                  "reference' gap already confirmed in 6.10--implicit_continuous_assignment.cpp. Tracked, not yet "
+                  "fixed by the compiler.";
   const hldb::CaseStmt *const cs = getCaseStmt();
   ASSERT_NE(cs, nullptr);
   const hldb::RefObj *const cond = cs->getCondition<hldb::RefObj>();
   ASSERT_NE(cond, nullptr) << "case_expression is not a RefObj";
   EXPECT_EQ(cond->getName(), "v");
-  ASSERT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "v"), nullptr)
+  // 12.6.1--case_pattern.sv:31:16 -- the "v" inside "initial case (v) matches".
+  ASSERT_NE(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "v", 31, 16), nullptr)
       << "'case (v)' references an identifier that is declared nowhere in this module (only 'tmp' of a compatible "
-         "type exists); per ordinary identifier-resolution rules this must fail to bind and be diagnosed";
+         "type exists). IEEE 1800-2023 Sec 6.5: \"Data shall be declared before they are used, apart from implicit "
+         "nets (see 6.10)\"; Sec 6.10 grants an implicit net only in a port expression declaration, a primitive/"
+         "instance terminal or port connection list, or the left-hand side of a continuous assignment -- a case "
+         "expression inside an initial block is none of those, so no implicit net is created and this must be "
+         "diagnosed against the identifier 'v' at its own source location";
 }
 
 TEST_F(CasePatternTest, ExactlyFourCaseItems) {
