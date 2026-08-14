@@ -222,7 +222,6 @@ TEST_F(CasePatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
                   "requires to be diagnosed, but HLC reports zero diagnostics of any kind for this file. "
                   "COMP_UNDEFINED_VARIABLE is registered in ErrorDefinition.h/.cpp (ERROR, COMP, "
                   "'Undefined variable \"%s\"') but has no call site anywhere in src/ -- it is listed as pending "
-                  "work in Phase2ModelBuilder.cpp's TODO(HS) block. Same 'silently accepts an unresolved "
                   "reference' gap already confirmed in 6.10--implicit_continuous_assignment.cpp. Tracked, not yet "
                   "fixed by the compiler.";
   const hldb::CaseStmt *const cs = getCaseStmt();
