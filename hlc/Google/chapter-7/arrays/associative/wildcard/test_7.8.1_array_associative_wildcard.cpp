@@ -92,17 +92,16 @@ TEST_F(WildcardTest, VariableHasAssociativeArrayTypespec) {
 }
 
 TEST_F(WildcardTest, AssocArrayKeyIsWildcard) {
-  // int arr[*] -- the wildcard index [*] is stored as a RefTypespec with no
-  // resolved actual type (getActual() returns nullptr for any concrete type).
-  // This distinguishes it from string.sv where getActual<StringTypespec>() != nullptr.
+  // int arr[*] -- Sec 7.8: index_type "is the data type to be used as an index or
+  // is *", so a wildcard index names no type at all. Sec 37.25 detail 2 makes that
+  // explicit for the object model: "For the wildcard index type (see 7.8.1),
+  // vpiIndexTypespec shall return NULL" -- not an empty typespec placeholder.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  ASSERT_NE(at->getIndexTypespec(), nullptr);
-  // No concrete type resolved for the wildcard -- getActual<IntTypespec> is null
-  EXPECT_EQ(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
+  EXPECT_EQ(at->getIndexTypespec(), nullptr);
 }
 
 TEST_F(WildcardTest, AssocArrayValueTypeIsInt) {
@@ -136,17 +135,17 @@ TEST_F(WildcardTest, NoContAssigns) {
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-TEST_F(WildcardTest, IndexTypespecActualIsNull) {
-  // Positive confirmation that the wildcard index resolves to no actual type
-  // at all: RefTypespec::getActual() (untemplated) returns the raw Typespec*
-  // and must be null, independent of what concrete type was probed for.
+TEST_F(WildcardTest, WildcardAffectsKeyTypeOnlyNotElementType) {
+  // The wildcard applies to the index only: Sec 37.25 detail 2 requires a NULL
+  // vpiIndexTypespec, while the element type (int) still resolves normally.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  ASSERT_NE(at->getIndexTypespec(), nullptr);
-  EXPECT_EQ(at->getIndexTypespec()->getActual(), nullptr);
+  EXPECT_EQ(at->getIndexTypespec(), nullptr);
+  ASSERT_NE(at->getElemTypespec(), nullptr);
+  EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
 TEST_F(WildcardTest, CompilerHasNoErrors) {
