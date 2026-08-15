@@ -295,7 +295,10 @@ TEST_F(PortTest2Test, PortTestInstantiatesPort3AsDut3) {
 TEST_F(PortTest2Test, PortTestDut3HasSixPositionalConnectionsMatchingPort3) {
   // IEEE 1800-2023 Sec 23.3.2: an empty ordered port connection means no
   // connection is made for that port position, mirroring port_3's own two
-  // empty formal-port positions.
+  // empty formal-port positions. Sec 37.14 detail 10 splits the two handles:
+  // vpiHighConn is NULL when the instance has no connection to the port (these
+  // positions), while vpiLowConn is NULL only when the *port* itself is a null
+  // port (e.g. "module M();"), which is not the case here.
   const hldb::Module *const portTest = getPortTest();
   ASSERT_NE(portTest, nullptr);
   const hldb::RefInstance *const dut3 = hldb::findByName<hldb::RefInstance>("dut_3", portTest->getRefInstances());
@@ -306,8 +309,8 @@ TEST_F(PortTest2Test, PortTestDut3HasSixPositionalConnectionsMatchingPort3) {
   for (const size_t i : {size_t{0}, size_t{1}, size_t{3}, size_t{5}}) {
     const hldb::Port *const conn = any_cast<hldb::Port>(dut3->getPorts()->at(i));
     ASSERT_NE(conn, nullptr) << "connection index " << i;
-    EXPECT_EQ(conn->getLowConn(), nullptr) << "connection index " << i;
     EXPECT_EQ(conn->getHighConn(), nullptr) << "connection index " << i;
+    EXPECT_NE(conn->getLowConn(), nullptr) << "connection index " << i;
   }
 }
 
