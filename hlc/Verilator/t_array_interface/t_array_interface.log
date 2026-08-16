@@ -580,15 +580,16 @@ n<$Source01/t_array_interface.v> u<565> t<Top_level_rule> c<1> l<6:1> el<65:1>
 AST_DEBUG_END
 [INF:CP0304] $Source01/t_array_interface.v:6:1: Compile interface "intf".
 [INF:CP0303] $Source01/t_array_interface.v:12:1: Compile module "modify_interface".
+[WRN:CP0310] $Source01/t_array_interface.v:15:13: Port "intf_inst" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_array_interface.v:24:1: Compile module "t".
 [WRN:CP0323] $Source01/t_array_interface.v:24:1: Multiply defined typedef "modify_interface".
 [WRN:CP0323] $Source01/t_array_interface.v:24:1: Multiply defined typedef "modify_interface".
-[WRN:CP0350] $Source01/t_array_interface.v:17:18: Failed to bind "id:42, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:35:27: Failed to bind "id:136, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:47:21: Failed to bind "id:181, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:54:27: Failed to bind "id:222, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:60:19: Failed to bind "id:238, name:logic_in_intf".
-[WRN:CP0350] $Source01/t_array_interface.v:60:44: Failed to bind "id:245, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:17:18: Failed to bind "id:40, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:35:27: Failed to bind "id:133, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:47:21: Failed to bind "id:178, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:54:27: Failed to bind "id:218, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:60:19: Failed to bind "id:234, name:logic_in_intf".
+[WRN:CP0350] $Source01/t_array_interface.v:60:44: Failed to bind "id:241, name:logic_in_intf".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -614,6 +615,7 @@ Design name:unnamed:
             vpiFullName: intf.logic_in_intf.logic
           vpiName: logic_in_intf
           vpiFullName: intf.logic_in_intf
+      vpiDefName: intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:intf
@@ -631,9 +633,6 @@ Design name:unnamed:
               vpiParent: Modport name:source
               vpiName: logic_in_intf
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:logic_in_intf
-                vpiFullName: intf.source.logic_in_intf
           vpiInterface: Interface name:intf
         Modport name:sink start:9:13 end:9:17:
           vpiParent: Interface name:intf
@@ -645,9 +644,6 @@ Design name:unnamed:
               vpiParent: Modport name:sink
               vpiName: logic_in_intf
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:logic_in_intf
-                vpiFullName: intf.sink.logic_in_intf
           vpiInterface: Interface name:intf
   vpiAllModules (2 items):
     Module name:modify_interface file:$Source01/t_array_interface.v start:12:1 end:18:10:
@@ -1097,6 +1093,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: value
                 vpiFullName: t.m3.value
+                vpiActual: Port name:value
               vpiHighConn BitSelect name:data[return_3()] start:39:16 end:39:32:
                 vpiParent: Port
                 vpiName: data[return_3()]
@@ -1118,6 +1115,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: intf_inst
                 vpiFullName: t.m3.intf_inst
+                vpiActual: Port name:intf_inst
               vpiHighConn BitSelect name:ifs[return_3()] start:40:20 end:40:35:
                 vpiParent: Port
                 vpiName: ifs[return_3()]
@@ -1148,6 +1146,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: value
                 vpiFullName: t.m4.value
+                vpiActual: Port name:value
               vpiHighConn BitSelect name:data[4] start:43:13 end:43:20:
                 vpiParent: Port
                 vpiName: data[4]
@@ -1173,6 +1172,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: intf_inst
                 vpiFullName: t.m4.intf_inst
+                vpiActual: Port name:intf_inst
               vpiHighConn BitSelect name:ifs[4] start:44:17 end:44:23:
                 vpiParent: Port
                 vpiName: ifs[4]
@@ -1207,6 +1207,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: value
                 vpiFullName: t.m5.value
+                vpiActual: Port name:value
               vpiHighConn Operation start:47:13 end:47:34:
                 vpiParent: Port
                 vpiOpType: bitwise negation (4)
@@ -1245,6 +1246,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: intf_inst
                 vpiFullName: t.m5.intf_inst
+                vpiActual: Port name:intf_inst
               vpiHighConn BitSelect name:ifs[5] start:48:17 end:48:23:
                 vpiParent: Port
                 vpiName: ifs[5]
@@ -1274,9 +1276,6 @@ Design name:unnamed:
             vpiVariable (1 items):
               Variable name:i start:33:16 end:33:17:
                 vpiParent: Begin
-                vpiTypespec RefTypespec:
-                  vpiParent: Variable name:i
-                  vpiFullName: t.i
                 vpiName: i
                 vpiFullName: t.i
             vpiStmt (1 items):
@@ -1383,9 +1382,6 @@ Design name:unnamed:
             vpiVariable (1 items):
               Variable name:j start:51:16 end:51:17:
                 vpiParent: Begin
-                vpiTypespec RefTypespec:
-                  vpiParent: Variable name:j
-                  vpiFullName: t.j
                 vpiName: j
                 vpiFullName: t.j
             vpiStmt (1 items):
@@ -1564,7 +1560,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1610,9 +1606,9 @@ Name                            Before   After   Added   Removed
 Constant                            23      18       4         9
 Operation                           12       8       0         4
 RefObj                              46      43       0         3
-RefTypespec                         40      34       3         9
+RefTypespec                         36      30       3         9
 ----------------------------------------------------------------
 Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   235     217       7        25
+                                   231     213       7        25
 ===================== END REDUCTION RESULT =====================

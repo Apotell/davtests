@@ -1064,6 +1064,7 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface2.v:65:1: Compile interface "counter_io".
 [INF:CP0304] $Source01/t_interface2.v:73:1: Compile interface "ifunused".
 [INF:CP0303] $Source01/t_interface2.v:77:1: Compile module "counter_ansi".
+[WRN:CP0310] $Source01/t_interface2.v:80:15: Port "c_data" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_interface2.v:95:1: Compile module "counter_nansi".
 [INF:CP0303] $Source01/t_interface2.v:106:1: Compile module "modunused".
 [WRN:CP0310] $Source01/t_interface2.v:106:28: Port "ifinunused" definition missing its direction (input, output, inout).
@@ -1168,6 +1169,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:counter_io
           vpiSigned: true
+      vpiDefName: counter_io
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:counter_io
@@ -1244,6 +1246,7 @@ Design name:unnamed:
             vpiFullName: ifunused.unused.logic
           vpiName: unused
           vpiFullName: ifunused.unused
+      vpiDefName: ifunused
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifunused
@@ -2032,6 +2035,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clkm
                 vpiFullName: t.c1.clkm
+                vpiActual: Port name:clkm
               vpiHighConn RefObj name:clk start:19:28 end:19:31:
                 vpiParent: Port
                 vpiName: clk
@@ -2043,6 +2047,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: c_data
                 vpiFullName: t.c1.c_data
+                vpiActual: Port name:c_data
               vpiHighConn RefObj name:c1_data start:20:16 end:20:23:
                 vpiParent: Port
                 vpiName: c1_data
@@ -2054,6 +2059,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_value
                 vpiFullName: t.c1.i_value
+                vpiActual: Port name:i_value
               vpiHighConn Constant start:21:17 end:21:21:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
@@ -2079,6 +2085,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clkm
                 vpiFullName: t.c2.clkm
+                vpiActual: Port name:clkm
               vpiHighConn RefObj name:clk start:22:28 end:22:31:
                 vpiParent: Port
                 vpiName: clk
@@ -2090,6 +2097,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: c_data
                 vpiFullName: t.c2.c_data
+                vpiActual: Port name:c_data
               vpiHighConn RefObj name:c2_data start:23:16 end:23:23:
                 vpiParent: Port
                 vpiName: c2_data
@@ -2101,6 +2109,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_value
                 vpiFullName: t.c2.i_value
+                vpiActual: Port name:i_value
               vpiHighConn Constant start:24:17 end:24:21:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
@@ -2126,6 +2135,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clkm
                 vpiFullName: t.c3.clkm
+                vpiActual: Port name:clkm
               vpiHighConn RefObj name:clk start:26:21 end:26:24:
                 vpiParent: Port
                 vpiName: clk
@@ -2137,6 +2147,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: c_data
                 vpiFullName: t.c3.c_data
+                vpiActual: Port name:c_data
               vpiHighConn RefObj name:c3_data start:27:16 end:27:23:
                 vpiParent: Port
                 vpiName: c3_data
@@ -2148,6 +2159,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_value
                 vpiFullName: t.c3.i_value
+                vpiActual: Port name:i_value
               vpiHighConn Constant start:28:17 end:28:21:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
@@ -2521,9 +2533,6 @@ Design name:unnamed:
             vpiName: c_data
             vpiFullName: counter_nansi.c_data.c_data
             vpiActual: Variable name:c_data
-          vpiTypespec RefTypespec:
-            vpiParent: Port name:c_data
-            vpiFullName: counter_nansi.c_data
         Port name:i_value start:95:36 end:95:43:
           vpiParent: Module name:counter_nansi
           vpiName: i_value
@@ -2736,7 +2745,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 21
+[WARNING] : 22
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2782,9 +2791,9 @@ Name                            Before   After   Added   Removed
 Constant                            33      33       5         5
 Operation                           16      11       0         5
 RefObj                              94      89       0         5
-RefTypespec                         66      66       5         5
+RefTypespec                         65      65       5         5
 ----------------------------------------------------------------
 Others                             187     187       0         0
 ----------------------------------------------------------------
-                                   396     386      10        20
+                                   395     385      10        20
 ===================== END REDUCTION RESULT =====================

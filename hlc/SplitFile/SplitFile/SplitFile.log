@@ -51,6 +51,8 @@ COMMAND: -wd ../../../tests/SplitFile top.v top1.v top2.v -writepp -d inst -file
 [WRN:PA0205] $Source01/top2.v:115:1: No timescale set for "gap3".
 [WRN:PA0205] $Source01/top2.v:181:1: No timescale set for "gap4_181".
 [WRN:PA0205] $Source01/top1.v:2:1: No timescale set for "my_interface".
+[ERR:LN0801] Invalid name: id:868, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:871, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2348,6 +2350,7 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+      vpiDefName: my_interface
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:my_interface
@@ -2547,9 +2550,11 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:11:14 end:11:18:
               vpiParent: RefInstance name:u1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:a:
                 vpiParent: Port
-                vpiFullName: bottom1.u1
+                vpiName: a
+                vpiFullName: bottom1.u1.a
+                vpiActual: Port name:a
               vpiHighConn BitSelect name:a[0] start:11:14 end:11:18:
                 vpiParent: Port
                 vpiName: a[0]
@@ -2571,9 +2576,11 @@ Design name:unnamed:
                   vpiValue: 0
             Port start:11:20 end:11:21:
               vpiParent: RefInstance name:u1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:b:
                 vpiParent: Port
-                vpiFullName: bottom1.u1
+                vpiName: b
+                vpiFullName: bottom1.u1.b
+                vpiActual: Port name:b
               vpiHighConn RefObj name:b start:11:20 end:11:21:
                 vpiParent: Port
                 vpiName: b
@@ -2633,9 +2640,10 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:14:28 end:14:30:
               vpiParent: RefInstance name:my_interface
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:.*:
                 vpiParent: Port
-                vpiFullName: bottom1.my_interface
+                vpiName: ".*"
+                vpiFullName: bottom1.my_interface..*
     Module name:bottom2 file:$Source01/top.v start:18:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom2 start:18:8 end:18:15:
@@ -3150,7 +3158,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 17
 [   NOTE] : 0
 ********************************************************************************

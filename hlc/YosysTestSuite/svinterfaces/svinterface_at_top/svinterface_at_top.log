@@ -1003,24 +1003,30 @@ n<$Source01/svinterface_at_top.sv> u<989> t<Top_level_rule> c<1> l<3:1> el<126:1
         n<> u<985> t<ENDMODULE> p<986> l<125:1> el<125:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/svinterface_at_top.sv:3:1: Compile module "TopModule".
+[WRN:CP0310] $Source01/svinterface_at_top.sv:10:28: Port "interfaceInstanceAtTop" definition missing its direction (input, output, inout).
 [INF:CP0304] $Source01/svinterface_at_top.sv:33:1: Compile interface "MyInterface".
 [INF:CP0303] $Source01/svinterface_at_top.sv:61:1: Compile module "SubModule1".
+[WRN:CP0310] $Source01/svinterface_at_top.sv:64:28: Port "u_MyInterface" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/svinterface_at_top.sv:65:28: Port "u_MyInterfaceFromTop" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/svinterface_at_top.sv:99:1: Compile module "SubModule2".
+[WRN:CP0310] $Source01/svinterface_at_top.sv:103:28: Port "u_MyInterfaceInSub2" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/svinterface_at_top.sv:104:28: Port "u_MyInterfaceFromTopDown" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/svinterface_at_top.sv:105:28: Port "u_MyInterfaceInSub3" definition missing its direction (input, output, inout).
 [WRN:CP0350] $Source01/svinterface_at_top.sv:24:40: Failed to bind "id:128, name:mysig_out".
 [WRN:CP0350] $Source01/svinterface_at_top.sv:27:30: Failed to bind "id:132, name:setting".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:74:21: Failed to bind "id:268, name:mysig_out".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:76:24: Failed to bind "id:276, name:setting".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:77:23: Failed to bind "id:279, name:mysig_out".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:79:23: Failed to bind "id:284, name:mysig_out".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:92:48: Failed to bind "id:322, name:other_setting".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:94:37: Failed to bind "id:326, name:setting".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:95:37: Failed to bind "id:333, name:mysig_out".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:109:35: Failed to bind "id:373, name:mysig_out".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:109:47: Failed to bind "id:375, name:u_MyInterfaceFromTop".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:109:68: Failed to bind "id:376, name:setting".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:112:31: Failed to bind "id:388, name:mysig_out".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:114:36: Failed to bind "id:410, name:mysig_out".
-[WRN:CP0350] $Source01/svinterface_at_top.sv:116:36: Failed to bind "id:432, name:mysig_out".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:74:21: Failed to bind "id:260, name:mysig_out".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:76:24: Failed to bind "id:268, name:setting".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:77:23: Failed to bind "id:271, name:mysig_out".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:79:23: Failed to bind "id:276, name:mysig_out".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:92:48: Failed to bind "id:314, name:other_setting".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:94:37: Failed to bind "id:318, name:setting".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:95:37: Failed to bind "id:325, name:mysig_out".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:109:35: Failed to bind "id:365, name:mysig_out".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:109:47: Failed to bind "id:367, name:u_MyInterfaceFromTop".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:109:68: Failed to bind "id:368, name:setting".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:112:31: Failed to bind "id:380, name:mysig_out".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:114:36: Failed to bind "id:402, name:mysig_out".
+[WRN:CP0350] $Source01/svinterface_at_top.sv:116:36: Failed to bind "id:424, name:mysig_out".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1191,6 +1197,7 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+      vpiDefName: MyInterface
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:MyInterface
@@ -1208,30 +1215,18 @@ Design name:unnamed:
               vpiParent: Modport name:submodule1
               vpiName: setting
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:setting
-                vpiFullName: MyInterface.submodule1.setting
             IODecl name:other_setting start:46:16 end:46:29:
               vpiParent: Modport name:submodule1
               vpiName: other_setting
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:other_setting
-                vpiFullName: MyInterface.submodule1.other_setting
             IODecl name:mysig_out start:47:16 end:47:25:
               vpiParent: Modport name:submodule1
               vpiName: mysig_out
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:mysig_out
-                vpiFullName: MyInterface.submodule1.mysig_out
             IODecl name:passThrough start:48:16 end:48:27:
               vpiParent: Modport name:submodule1
               vpiName: passThrough
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:passThrough
-                vpiFullName: MyInterface.submodule1.passThrough
           vpiInterface: Interface name:MyInterface
         Modport name:submodule2 start:51:13 end:51:23:
           vpiParent: Interface name:MyInterface
@@ -1243,30 +1238,18 @@ Design name:unnamed:
               vpiParent: Modport name:submodule2
               vpiName: setting
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:setting
-                vpiFullName: MyInterface.submodule2.setting
             IODecl name:other_setting start:53:16 end:53:29:
               vpiParent: Modport name:submodule2
               vpiName: other_setting
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:other_setting
-                vpiFullName: MyInterface.submodule2.other_setting
             IODecl name:mysig_out start:54:16 end:54:25:
               vpiParent: Modport name:submodule2
               vpiName: mysig_out
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:mysig_out
-                vpiFullName: MyInterface.submodule2.mysig_out
             IODecl name:passThrough start:55:16 end:55:27:
               vpiParent: Modport name:submodule2
               vpiName: passThrough
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:passThrough
-                vpiFullName: MyInterface.submodule2.passThrough
           vpiInterface: Interface name:MyInterface
   vpiAllModules (3 items):
     Module name:TopModule file:$Source01/svinterface_at_top.sv start:3:1 end:31:10:
@@ -1692,7 +1675,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: TopModule.u_SubModule1.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:16:10 end:16:13:
                 vpiParent: Port
                 vpiName: clk
@@ -1704,7 +1687,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: rst
                 vpiFullName: TopModule.u_SubModule1.rst
-                vpiActual: Net name:rst
+                vpiActual: Port name:rst
               vpiHighConn RefObj name:rst start:17:10 end:17:13:
                 vpiParent: Port
                 vpiName: rst
@@ -1716,6 +1699,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: u_MyInterface
                 vpiFullName: TopModule.u_SubModule1.u_MyInterface
+                vpiActual: Port name:u_MyInterface
               vpiHighConn RefObj name:MyInterfaceInstance start:18:20 end:18:39:
                 vpiParent: Port
                 vpiName: MyInterfaceInstance
@@ -1727,6 +1711,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: u_MyInterfaceFromTop
                 vpiFullName: TopModule.u_SubModule1.u_MyInterfaceFromTop
+                vpiActual: Port name:u_MyInterfaceFromTop
               vpiHighConn RefObj name:interfaceInstanceAtTop start:19:27 end:19:49:
                 vpiParent: Port
                 vpiName: interfaceInstanceAtTop
@@ -1738,7 +1723,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: outOther
                 vpiFullName: TopModule.u_SubModule1.outOther
-                vpiActual: Variable name:outOther
+                vpiActual: Port name:outOther
               vpiHighConn RefObj name:outOther start:20:15 end:20:23:
                 vpiParent: Port
                 vpiName: outOther
@@ -1750,7 +1735,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: sig
                 vpiFullName: TopModule.u_SubModule1.sig
-                vpiActual: Net name:sig
+                vpiActual: Port name:sig
               vpiHighConn RefObj name:sig start:21:11 end:21:14:
                 vpiParent: Port
                 vpiName: sig
@@ -2219,7 +2204,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: SubModule1.u_SubModule2.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:85:10 end:85:13:
                 vpiParent: Port
                 vpiName: clk
@@ -2231,7 +2216,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: rst
                 vpiFullName: SubModule1.u_SubModule2.rst
-                vpiActual: Net name:rst
+                vpiActual: Port name:rst
               vpiHighConn RefObj name:rst start:86:10 end:86:13:
                 vpiParent: Port
                 vpiName: rst
@@ -2243,6 +2228,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: u_MyInterfaceFromTopDown
                 vpiFullName: SubModule1.u_SubModule2.u_MyInterfaceFromTopDown
+                vpiActual: Port name:u_MyInterfaceFromTopDown
               vpiHighConn RefObj name:u_MyInterfaceFromTop start:87:31 end:87:51:
                 vpiParent: Port
                 vpiName: u_MyInterfaceFromTop
@@ -2254,6 +2240,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: u_MyInterfaceInSub2
                 vpiFullName: SubModule1.u_SubModule2.u_MyInterfaceInSub2
+                vpiActual: Port name:u_MyInterfaceInSub2
               vpiHighConn RefObj name:u_MyInterface start:88:26 end:88:39:
                 vpiParent: Port
                 vpiName: u_MyInterface
@@ -2265,6 +2252,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: u_MyInterfaceInSub3
                 vpiFullName: SubModule1.u_SubModule2.u_MyInterfaceInSub3
+                vpiActual: Port name:u_MyInterfaceInSub3
               vpiHighConn RefObj name:MyInterfaceInstanceInSub start:89:26 end:89:50:
                 vpiParent: Port
                 vpiName: MyInterfaceInstanceInSub
@@ -2921,7 +2909,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 15
+[WARNING] : 21
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2967,9 +2955,9 @@ Name                            Before   After   Added   Removed
 Constant                            46      46       1         1
 Operation                            9       8       0         1
 RefObj                             113     112       0         1
-RefTypespec                         95      95       1         1
+RefTypespec                         87      87       1         1
 ----------------------------------------------------------------
 Others                             184     184       0         0
 ----------------------------------------------------------------
-                                   447     445       2         4
+                                   439     437       2         4
 ===================== END REDUCTION RESULT =====================

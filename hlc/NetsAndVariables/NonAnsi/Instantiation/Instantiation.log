@@ -475,11 +475,12 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/Instantiation.sv:38:1: Compile interface "nets_and_variables_if_nonansi".
 [ERR:CP0311] $Source01/Instantiation.sv:41:37: Undefined net used in modport: "if_wire".
 [INF:CP0303] $Source01/Instantiation.sv:56:1: Compile module "top_nonansi".
-[WRN:CP0350] $Source01/Instantiation.sv:69:12: Failed to bind "id:177, name:new".
+[WRN:CP0350] $Source01/Instantiation.sv:69:12: Failed to bind "id:175, name:new".
 [WRN:PA0205] $Source01/Instantiation.sv:24:1: No timescale set for "nets_and_variables_nonansi".
 [WRN:PA0205] $Source01/Instantiation.sv:56:1: No timescale set for "top_nonansi".
 [WRN:PA0205] $Source01/Instantiation.sv:38:1: No timescale set for "nets_and_variables_if_nonansi".
 [WRN:PA0205] $Source01/Instantiation.sv:31:1: No timescale set for "nets_and_variables_program".
+[ERR:LN0805] $Source01/Instantiation.sv:69:12: Null Actual: id:175, type:MethodFuncCall, name:new, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -668,6 +669,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:nets_and_variables_if_nonansi
+      vpiDefName: nets_and_variables_if_nonansi
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:nets_and_variables_if_nonansi
@@ -696,16 +698,10 @@ Design name:unnamed:
               vpiParent: Modport name:mp
               vpiName: if_logic
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:if_logic
-                vpiFullName: nets_and_variables_if_nonansi.mp.if_logic
             IODecl name:if_wire start:41:37 end:41:44:
               vpiParent: Modport name:mp
               vpiName: if_wire
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:if_wire
-                vpiFullName: nets_and_variables_if_nonansi.mp.if_wire
           vpiInterface: Interface name:nets_and_variables_if_nonansi
   vpiAllPrograms (1 items):
     Program name:nets_and_variables_program file:$Source01/Instantiation.sv start:31:1 end:36:11:
@@ -727,6 +723,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Program name:nets_and_variables_program
+      vpiDefName: nets_and_variables_program
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Program name:nets_and_variables_program
@@ -1078,9 +1075,11 @@ Design name:unnamed:
           vpiPort (3 items):
             Port start:63:42 end:63:43:
               vpiParent: RefInstance name:mod_nonansi
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:a:
                 vpiParent: Port
-                vpiFullName: top_nonansi.mod_nonansi
+                vpiName: a
+                vpiFullName: top_nonansi.mod_nonansi.a
+                vpiActual: Port name:a
               vpiHighConn RefObj name:a start:63:42 end:63:43:
                 vpiParent: Port
                 vpiName: a
@@ -1088,9 +1087,11 @@ Design name:unnamed:
                 vpiActual: Net name:a
             Port start:63:45 end:63:46:
               vpiParent: RefInstance name:mod_nonansi
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:b:
                 vpiParent: Port
-                vpiFullName: top_nonansi.mod_nonansi
+                vpiName: b
+                vpiFullName: top_nonansi.mod_nonansi.b
+                vpiActual: Port name:b
               vpiHighConn RefObj name:b start:63:45 end:63:46:
                 vpiParent: Port
                 vpiName: b
@@ -1098,9 +1099,11 @@ Design name:unnamed:
                 vpiActual: Net name:b
             Port start:63:48 end:63:50:
               vpiParent: RefInstance name:mod_nonansi
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:y:
                 vpiParent: Port
-                vpiFullName: top_nonansi.mod_nonansi
+                vpiName: y
+                vpiFullName: top_nonansi.mod_nonansi.y
+                vpiActual: Port name:y
               vpiHighConn RefObj name:y1 start:63:48 end:63:50:
                 vpiParent: Port
                 vpiName: y1
@@ -1117,9 +1120,11 @@ Design name:unnamed:
           vpiPort (3 items):
             Port start:64:40 end:64:41:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:a:
                 vpiParent: Port
-                vpiFullName: top_nonansi.prog_inst
+                vpiName: a
+                vpiFullName: top_nonansi.prog_inst.a
+                vpiActual: Port name:a
               vpiHighConn RefObj name:a start:64:40 end:64:41:
                 vpiParent: Port
                 vpiName: a
@@ -1127,9 +1132,11 @@ Design name:unnamed:
                 vpiActual: Net name:a
             Port start:64:43 end:64:44:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:b:
                 vpiParent: Port
-                vpiFullName: top_nonansi.prog_inst
+                vpiName: b
+                vpiFullName: top_nonansi.prog_inst.b
+                vpiActual: Port name:b
               vpiHighConn RefObj name:b start:64:43 end:64:44:
                 vpiParent: Port
                 vpiName: b
@@ -1137,9 +1144,11 @@ Design name:unnamed:
                 vpiActual: Net name:b
             Port start:64:46 end:64:48:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:y:
                 vpiParent: Port
-                vpiFullName: top_nonansi.prog_inst
+                vpiName: y
+                vpiFullName: top_nonansi.prog_inst.y
+                vpiActual: Port name:y
               vpiHighConn RefObj name:y2 start:64:46 end:64:48:
                 vpiParent: Port
                 vpiName: y2
@@ -1194,7 +1203,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 2
 [WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
@@ -1239,7 +1248,7 @@ COMMAND: ${HLC_DIR}/regression/NetsAndVariables/NonAnsi/Instantiation/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             171     171       0         0
+Others                             169     169       0         0
 ----------------------------------------------------------------
-                                   171     171       0         0
+                                   169     169       0         0
 ===================== END REDUCTION RESULT =====================
