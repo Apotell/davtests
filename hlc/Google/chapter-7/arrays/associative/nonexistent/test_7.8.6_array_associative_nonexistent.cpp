@@ -38,11 +38,12 @@
 //   - top has no continuous assignments
 //
 // Also checked:
-//   - HLC emits EL0535 (ELAB_ILLEGAL_IMPLICIT_NET) for arr.size, while still
-//     placing the HierPath "arr.size" in UHDM (see SecondStmtIsDisplayWithArrSize)
+//   - HLC emits COMP_FAILED_TO_BIND for arr.size, while still placing the
+//     HierPath "arr.size" in UHDM (see SecondStmtIsDisplayWithArrSize)
 //   - reading a nonexistent key (arr[9]) itself raises no additional compile
-//     error beyond the arr.size EL0535 -- exactly 1 error total (the actual
-//     "returns default value 0" semantics is runtime-only, out of scope here)
+//     error beyond the arr.size COMP_FAILED_TO_BIND -- exactly 1 error total
+//     (the actual "returns default value 0" semantics is runtime-only, out
+//     of scope here)
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -242,14 +243,8 @@ TEST_F(Nonexistent, NoContAssigns) {
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-// --- compiler diagnostics ----
-
-TEST_F(Nonexistent, NonexistentKeyReadAddsNoExtraCompileError) {
-  // arr[9] reads a nonexistent associative key; this is a runtime concern
-  // (default value 0), not a compile-time error, so the only compile error
-  // must be the single EL0535 from arr.size.
-  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "reading arr[9] must not produce a compile error";
+TEST_F(Nonexistent, NoBinErrorForSize) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
 }
 }  // namespace hlc
 

@@ -367,31 +367,15 @@ TEST_F(ImplicitPortConnectionTest, TestBitOrOperandsAreAAndB) {
 // must not be reported as a binding failure.
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnectionTest, NoFailedToBindErrorReportedForImplicitNetC) {
-  GTEST_SKIP() << "SymbolTable isn't part of HLC release and so this test can't actually compilet yet."
-                  "Either publish SymbolTable or add a function to Test class to do the same";
-  // ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  // SymbolTable *const symbolTable = m_session->getSymbolTable();
-  // ASSERT_NE(symbolTable, nullptr);
-
-  // bool foundBindErrorForC = false;
-  // for (const Error &err : m_session->getErrorContainer()->getErrors()) {
-  //   if (err.getType() != ErrorDefinition::COMP_FAILED_TO_BIND) continue;
-  //   for (const Location &loc : err.getLocations()) {
-  //     const std::string_view text = symbolTable->getSymbol(loc.m_object);
-  //     if (text.find(", name:c") != std::string_view::npos) {
-  //       foundBindErrorForC = true;
-  //     }
-  //   }
-  // }
-  // EXPECT_FALSE(foundBindErrorForC)
-  //     << "IEEE 1800-2023 6.10: 'c' used only in the port connection list of "
-  //        "'test mod(a, b, c)' is a legal implicit-net circumstance, not a binding failure. "
-  //        "ObjectBinder::reportErrors() should skip a plain (non-hierarchical, non-package-scoped) "
-  //        "unresolved RefObj like this one without reporting COMP_FAILED_TO_BIND. (This test used "
-  //        "to check for the now-retired ELAB_ILLEGAL_IMPLICIT_NET, an elaboration-only error that "
-  //        "was wrongly being reported from this non-elaborating compiler; that call site now "
-  //        "reports the correctly-scoped COMP_FAILED_TO_BIND instead, so this checks that error "
-  //        "type directly.)";
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "c"), nullptr)
+      << "IEEE 1800-2023 6.10: 'c' used only in the port connection list of "
+         "'test mod(a, b, c)' is a legal implicit-net circumstance, not a binding failure. "
+         "ObjectBinder::reportErrors() should skip a plain (non-hierarchical, non-package-scoped) "
+         "unresolved RefObj like this one without reporting COMP_FAILED_TO_BIND. (This test used "
+         "to check for the now-retired ELAB_ILLEGAL_IMPLICIT_NET, an elaboration-only error that "
+         "was wrongly being reported from this non-elaborating compiler; that call site now "
+         "reports the correctly-scoped COMP_FAILED_TO_BIND instead, so this checks that error "
+         "type directly.)";
 }
 
 }  // namespace hlc

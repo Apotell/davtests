@@ -62,7 +62,7 @@
 //   with or without parentheses. This HLC build never resolves the
 //   parenthesis-less form: "size" is parsed as a plain, unresolved RefObj
 //   path element (never a MethodFuncCall) and raises a spurious
-//   ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit net") both times it
+//   COMP_FAILED_TO_BIND ("Failed to bind") both times it
 //   appears in this file (same gap tracked for chapter-7/queues/
 //   bounded/bounded.sv, chapter-7/queues/delete/delete.sv,
 //   chapter-7/queues/delete_assign/delete_assign.sv,
@@ -158,14 +158,8 @@ class QueuesMaxSizeTest : public Test {
   }
 
   // Verifies stmt[index] is "$display(fmt, q.size)" and that ".size"
-  // resolves like ".size()" would (IEEE 1800-2017 7.24.4). KNOWN BUG: this
-  // build currently leaves "size" as an unresolved RefObj, so this helper's
-  // assertions FAIL until the parser is fixed. See the file-level comment
-  // above.
+  // resolves like ".size()" would (IEEE 1800-2017 7.24.4).
   static void ExpectDisplayWithResolvedQSize(size_t index, std::string_view fmt) {
-    GTEST_SKIP() << "KNOWN BUG: 'q.size' without parens does not resolve to a MethodFuncCall in this "
-                    "build (IEEE 1800-2017 7.24.4 permits omitting parens on a no-arg built-in method "
-                    "call); fix pending in the parser.";
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
@@ -344,34 +338,10 @@ TEST_F(QueuesMaxSizeTest, DesignHasStringTypespec) {
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-// --- compiler diagnostics: KNOWN BUG, "q.size" wrongly flagged ----
-
-TEST_F(QueuesMaxSizeTest, CompilerReportsNoErrors) {
-  GTEST_SKIP() << "KNOWN BUG: this build raises 2 spurious ELAB_ILLEGAL_IMPLICIT_NET errors, one per "
-                  "'q.size' (IEEE 1800-2017 7.24.4 permits omitting parens on a no-arg built-in method "
-                  "call); see the file-level comment above.";
-  // max-size.sv is valid SystemVerilog; a correct compiler reports zero errors.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
-}
-
-TEST_F(QueuesMaxSizeTest, NoIllegalImplicitNetErrorsForSize) {
-  GTEST_SKIP() << "KNOWN BUG: currently raises 2 ELAB_ILLEGAL_IMPLICIT_NET errors (lines 27 and 31, "
-                  "column 35 -- one per 'q.size'); fix pending in the parser (IEEE 1800-2017 7.24.4 "
-                  "permits parenthesis-less no-arg built-in method calls).";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitNetErrors;
-  for (const Error &err : errors) {
-    if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitNetErrors.push_back(err);
-    }
-  }
-  EXPECT_EQ(implicitNetErrors.size(), 0u);
+TEST_F(QueuesMaxSizeTest, NoBindErrorsForSize) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr)
+      << "'q.size' without parens should not raise COMP_FAILED_TO_BIND (IEEE 1800-2017 7.24.4 permits "
+         "omitting parens on a no-arg built-in method call)";
 }
 
 }  // namespace hlc

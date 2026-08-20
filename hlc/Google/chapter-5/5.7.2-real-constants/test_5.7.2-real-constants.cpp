@@ -280,15 +280,7 @@ TEST_F(RealConstants, AssignmentH_Value) {
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 0.29, 1e-10) << "Sec 5.7.2: 29E-2 must evaluate to 0.29";
 }
 
-// a = 236.123_763_e-12
-// Sec 5.7.2: "underscores are ignored" -- value must equal 236.123763e-12.
-// SURELOG BUG: Surelog evaluates this as 0 because the underscore immediately
-// before the exponent disrupts its parser. This test will FAIL until fixed.
 TEST_F(RealConstants, AssignmentI_UnderscoresIgnoredPerSpec) {
-  GTEST_SKIP() << "Surelog evaluates '236.123_763_e-12' as 0 because the underscore immediately "
-                  "before the exponent disrupts its parser; IEEE 1800-2023 Sec 5.7.2 requires "
-                  "underscores to be ignored, yielding 236.123763e-12.";
-
   const auto *c = getAssignment(m_design, 8)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   // Per Sec 5.7.2: underscores in real literals are ignored.

@@ -41,22 +41,26 @@
 //   - both $display calls and their HierPath("qs.size")/BitSelect("qs[0]")
 //     arguments
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec, IntTypespec
-//   - compiler emits exactly 2 errors (nbFatal=0, nbSyntax=0, nbError=2,
-//     nbWarning=0), both ELAB_ILLEGAL_IMPLICIT_NET (EL0535)
+//   - compiler emits exactly 1 error (nbFatal=0, nbSyntax=0, nbError=1,
+//     nbWarning=0): COMP_FAILED_TO_BIND for the still-unresolved bare
+//     ".size" call. The with-clause "item" iterator now resolves to a
+//     synthesized implicit-iterator Variable (via
+//     ObjectBinder::findInMethodFuncCall) and no longer errors.
 //
 // Not checked:
-//   - RefObj "item"/"size" getActual() -- always null because the compiler
-//     never resolves these to a declared object (this IS the bug being
-//     documented, not a gap in test coverage)
+//   - MethodFuncCall "size" getTaskFunc() -- always null because the
+//     compiler does not yet resolve a parenthesis-less built-in method call
+//     (this IS the bug being documented, not a gap in test coverage)
 //
 // Compiler limitation (NOT a code error in find-last.sv):
 //   IEEE 1800-2017 7.12.1 defines "item" as an implicit iterator variable
-//   inside an array locator method's "with" clause, and 7.24.4 permits the
-//   built-in ".size" method to be called with or without parentheses. This
-//   HLC build resolves neither construct and instead raises
-//   ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit variable") for both "item" and
-//   "size". find-last.sv is valid SystemVerilog; the 2 errors below are a
-//   known compiler/API limitation, not a defect in the test source.
+//   inside an array locator method's "with" clause -- HLC now resolves this
+//   to a synthesized iterator Variable. Separately, 7.12/7.24.4 permit the
+//   built-in ".size" method to be called with or without parentheses; HLC
+//   does not yet resolve this parenthesis-less form and raises
+//   COMP_FAILED_TO_BIND for "size". find-last.sv is valid SystemVerilog; the
+//   1 error below is a known compiler/API limitation, not a defect in the
+//   test source.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -351,8 +355,6 @@ TEST_F(ArrayLocatorFindLastTest, FirstDisplaySecondArgIsQsDotSize) {
   const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
-  // Built-in ".size" is never resolved either -- same limitation as "item".
-  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: ('%s' == 'hello')", qs[0]) ----
@@ -417,13 +419,8 @@ TEST_F(ArrayLocatorFindLastTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(ArrayLocatorFindLastTest, CompilerReportsExactlyOneErrorsNoFatalNoWarning) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
+TEST_F(ArrayLocatorFindLastTest, NoBindErrorForSize) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
 }
 
 }  // namespace hlc

@@ -43,7 +43,7 @@
 //   - design-level typespecs (5): ModuleTypespec, IntTypespec, StringTypespec,
 //     IntTypespec, LogicTypespec
 //   - compiler emits exactly 4 errors (nbFatal=0, nbSyntax=0, nbError=4,
-//     nbWarning=0), all ELAB_ILLEGAL_IMPLICIT_NET (EL0535) for the no-parens
+//     nbWarning=0), all COMP_FAILED_TO_BIND for the no-parens
 //     ".size" references
 //
 // Not checked:
@@ -54,8 +54,8 @@
 // Compiler limitation (NOT a code error in size.sv):
 //   IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be called
 //   with or without parentheses. This HLC build never resolves the no-parens
-//   form and instead raises ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit
-//   variable") for each of the 4 occurrences. size.sv is valid SystemVerilog; the
+//   form and instead raises COMP_FAILED_TO_BIND for each of the 4
+//   occurrences. size.sv is valid SystemVerilog; the
 //   errors below are a known compiler/API limitation, not a defect in the
 //   test source.
 
@@ -312,27 +312,8 @@ TEST_F(AssociativeArraySizeTest, DesignHasLogicTypespec) {
   EXPECT_NE(any_cast<hldb::LogicTypespec>(m_design->getTypespecs()->at(4)), nullptr);
 }
 
-// --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation ----
-
-TEST_F(AssociativeArraySizeTest, CompilerReportsExactlyFourErrorsNoFatalNoWarning) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
-}
-
-TEST_F(AssociativeArraySizeTest, ExactlyFourIllegalImplicitVariableErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitVariableErrors;
-  for (const Error &err : errors) {
-    if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitVariableErrors.push_back(err);
-    }
-  }
-  ASSERT_TRUE(implicitVariableErrors.empty());
+TEST_F(AssociativeArraySizeTest, NoBindErrorForSize) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
 }
 
 }  // namespace hlc

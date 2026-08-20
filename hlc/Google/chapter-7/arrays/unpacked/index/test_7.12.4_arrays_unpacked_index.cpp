@@ -44,42 +44,37 @@
 //     and MethodFuncCall "find" whose vpiWith is an Operation
 //     (vpiOpType=equal(14)) with 2 operands: RefObj "item" and HierPath
 //     "item.index" (path elems RefObj "item" + RefObj "index")
-//   - COMPILER BEHAVIOR: the iterator identifiers "item" (used twice) and
-//     "index" are never resolved to any implicit iterator-argument
-//     declaration -- all 3 RefObj occurrences have getActual()==nullptr,
-//     and HLC raises ELAB_ILLEGAL_IMPLICIT_NET for each of the 3
-//     occurrences (at 22:22, 22:30, 22:35)
+//   - COMPILER BEHAVIOR: "item" (used twice) resolves to a compiler-
+//     synthesized iterator Variable held on MethodFuncCall "find"'s own
+//     loop_var (flagged is_iterator); "index" stays unresolved
+//     (getActual()==nullptr) since it is an intrinsic iterator-index query
+//     with no real declaration to point at, but ObjectBinder recognizes its
+//     prefix is the iterator variable and does not report a binding error
+//     for it
 //   - Stmt[1]: $display with 5 args -- format string + HierPath "q.size()"
 //     (2 path elems: RefObj "q" resolving Net "q", MethodFuncCall "size"
 //     with no arguments) + BitSelect q[0], q[1], q[2] (each prefix RefObj
 //     "q" resolving Net "q")
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
-//   - compiler emits zero nbFatal/nbSyntax; the 3 diagnostics for the
-//     "item"/"item"/"index" occurrences are exactly ELAB_ILLEGAL_IMPLICIT_NET
-//     (EL0535), isolated by Error::getType() and by their exact source
-//     locations (22:22, 22:30, 22:35) rather than by raw nbError/nbWarning
-//     counts, since which severity bucket EL0535 lands in is not derivable
-//     from the headers in this repo
+//   - compiler emits zero errors/warnings of any kind: "item" (both
+//     occurrences) resolves to the synthesized iterator Variable, and
+//     "index"'s binding is intentionally skipped without a diagnostic
 //   - no continuous assignments
 //
 // Not checked:
-//   - RefObj "item"/"index" getActual() -- always null, this IS the
-//     compiler limitation being documented, not a gap in test coverage
-//     (see the skipped canary
-//     ItemAndIndexShouldResolveOnceImplicitNetBugIsFixed below)
 //   - actual runtime contents of q after arr.find(...) -- simulation-only
 //     (see the skipped canary RuntimeFindResultsRequireSimulation below)
 //
-// Compiler limitation (NOT a code error in index.sv):
-//   IEEE 1800-2017 7.12.1/7.12.4 defines "item" (or the array method's
-//   declared iterator name) and, for "with" expression clauses using
-//   ".index", the implicit iterator-index variable as legal within an
-//   array-locator method's "with" clause -- they are not meant to resolve
-//   to module-level declarations. This HLC build's compile/elaborate-only
-//   pass does not special-case these iterator identifiers and instead
-//   treats them as ordinary implicit nets, rejecting each occurrence with
-//   ELAB_ILLEGAL_IMPLICIT_NET.
+// IEEE 1800-2017 7.12.1/7.12.4 defines "item" (or the array method's
+// declared iterator name) and, for "with" expression clauses using
+// ".index", the implicit iterator-index variable as legal within an
+// array-locator method's "with" clause -- they are not meant to resolve to
+// module-level declarations. HLC models "item" as a compiler-synthesized
+// Variable attached to the MethodFuncCall's own loop_var (flagged
+// is_iterator), and ObjectBinder specifically recognizes a trailing
+// ".index" off of that variable as the intrinsic iterator-index query,
+// leaving it unresolved without reporting a binding error.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -236,7 +231,7 @@ TEST_F(UnpackedIndexTest, FirstStmtAssignsQFromArrFindWithClause) {
   ASSERT_EQ(with->getOperands()->size(), 2u);
 }
 
-TEST_F(UnpackedIndexTest, WithClauseFirstOperandIsUnresolvedItemRefObj) {
+TEST_F(UnpackedIndexTest, WithClauseFirstOperandIsItemRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -342,8 +337,6 @@ TEST_F(UnpackedIndexTest, CompilerReportsNoFatalNoSyntaxErrors) {
 }
 
 TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolve) {
-  // GTEST_SKIP() << "Implicit iterator-index not yet supported.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();

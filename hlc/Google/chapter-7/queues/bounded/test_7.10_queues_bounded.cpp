@@ -63,8 +63,8 @@
 //   be called with or without parentheses when it takes no arguments. This
 //   HLC build never resolves the parenthesis-less form: instead of a
 //   MethodFuncCall, "size" in "q.size" is left as an unresolved RefObj, and
-//   the compiler raises a spurious ELAB_ILLEGAL_IMPLICIT_NET ("Illegal
-//   implicit net") error for it. That the parenthesized form works
+//   the compiler raises a spurious COMP_FAILED_TO_BIND ("Failed
+//   to bind") error for it. That the parenthesized form works
 //   correctly is independently verified by
 //   chapter-5/5.13-builtin-methods-arrays.sv ("array.size()") and
 //   chapter-7/queues/persistence/persistence.sv ("q.delete()"): both
@@ -378,9 +378,6 @@ TEST_F(QueuesBoundedTest, FourthDisplayFormatStringIsSizeAssert) {
 }
 
 TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
-  GTEST_SKIP() << "KNOWN BUG: 'size' without parens does not resolve to a MethodFuncCall in this build "
-                  "(IEEE 1800-2017 7.24.4 permits omitting parens on a no-arg built-in method call); "
-                  "fix pending in the parser.";
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(7));
@@ -435,34 +432,10 @@ TEST_F(QueuesBoundedTest, DesignHasStringTypespec) {
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-// --- compiler diagnostics: KNOWN BUG, "q.size" wrongly flagged ----
-
-TEST_F(QueuesBoundedTest, CompilerReportsNoErrors) {
-  GTEST_SKIP() << "KNOWN BUG: this build raises 1 spurious ELAB_ILLEGAL_IMPLICIT_NET for the "
-                  "parenthesis-less 'q.size' (IEEE 1800-2017 7.24.4 permits omitting parens on a "
-                  "no-arg built-in method call); see the file-level comment above.";
-  // bounded.sv is valid SystemVerilog; a correct compiler reports zero errors.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
-}
-
-TEST_F(QueuesBoundedTest, NoIllegalImplicitNetErrorForSize) {
-  GTEST_SKIP() << "KNOWN BUG: currently raises 1 ELAB_ILLEGAL_IMPLICIT_NET for the parenthesis-less "
-                  "'q.size' at line 30, column 33 (IEEE 1800-2017 7.24.4 permits omitting parens on a "
-                  "no-arg built-in method call); fix pending in the parser.";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitNetErrors;
-  for (const Error &err : errors) {
-    if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitNetErrors.push_back(err);
-    }
-  }
-  EXPECT_EQ(implicitNetErrors.size(), 0u);
+TEST_F(QueuesBoundedTest, NoBindErrorForSize) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr)
+      << "'q.size' without parens should not raise COMP_FAILED_TO_BIND (IEEE 1800-2017 7.24.4 permits "
+         "omitting parens on a no-arg built-in method call)";
 }
 
 }  // namespace hlc
