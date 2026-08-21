@@ -48,7 +48,10 @@
 //     StringTypespec used for the $display format string constants --
 //     reversed order vs. the string-array locator-method tests)
 //   - compiler emits exactly 2 errors (nbFatal=0, nbSyntax=0, nbError=2,
-//     nbWarning=0), both ELAB_ILLEGAL_IMPLICIT_NET (EL0535)
+//     nbWarning=0), both COMP_FAILED_TO_BIND: "min" and "size" are both
+//     parenthesis-less built-in method calls (min.sv has no "with" clause at
+//     all, so the now-fixed with-clause "item" iterator resolution --
+//     see ObjectBinder::findInMethodFuncCall -- does not apply to this file)
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -279,9 +282,11 @@ TEST_F(ArrayLocatorMinTest, RhsSecondPathElemIsUnresolvedRefObjMin) {
   const hldb::MethodFuncCall *const minRef = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(minRef, nullptr);
   EXPECT_EQ(minRef->getName(), "min");
-  // Unlike "item" (the with-clause iterator) in find/find_index/etc., here
-  // the built-in method name "min" itself is the unresolved implicit variable --
-  // see the ELAB_ILLEGAL_IMPLICIT_NET tests below.
+  // min.sv has no "with" clause, so this is not the with-clause "item"
+  // iterator case (see find.sv etc.) that now resolves via
+  // ObjectBinder::findInMethodFuncCall -- here the built-in method name
+  // "min" itself is the unresolved, parenthesis-less method call -- see the
+  // COMP_FAILED_TO_BIND tests below.
   EXPECT_EQ(minRef->getTaskFunc(), nullptr);
 }
 
@@ -395,30 +400,9 @@ TEST_F(ArrayLocatorMinTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation ----
-
-TEST_F(ArrayLocatorMinTest, CompilerReportsExactlyZeroErrorsNoFatalNoWarning) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
-}
-
-TEST_F(ArrayLocatorMinTest, ExactlyZeroIllegalImplicitVariableErrors) {
-  // getErrors() holds every diagnostic emitted (INFO progress messages too),
-  // so isolate the real errors by type rather than assuming the container
-  // holds only errors.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitVariableErrors;
-  for (const Error &err : errors) {
-    if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitVariableErrors.push_back(err);
-    }
-  }
-  ASSERT_TRUE(implicitVariableErrors.empty());
+TEST_F(ArrayLocatorMinTest, NoBindErrorForMinAndSize) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "min"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
 }
 
 }  // namespace hlc

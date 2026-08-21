@@ -564,7 +564,7 @@ TEST_F(ClassTypedConstructorParamTest, CompilerReportsNoErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbError, 0) << "8.8: 'test_cls#(.t(23))::new(.def(41))' is legal syntax and should not raise "
-                                 "an ELAB_ILLEGAL_IMPLICIT_NET error (see KNOWN COMPILER BUG #3 above)";
+                                 "a COMP_FAILED_TO_BIND error (see FIXED COMPILER BUG #3 above)";
 }
 
 }  // namespace hlc

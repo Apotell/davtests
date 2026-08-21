@@ -72,7 +72,7 @@
 //   chapter-7/queues/persistence/persistence.sv, "q.delete()" both work.
 //   The parenthesis-less forms "q.delete;" and "q.size" are instead parsed
 //   as plain, unresolved hierarchical references and raise a spurious
-//   ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit net") each. The
+//   COMP_FAILED_TO_BIND ("Failed to bind") each. The
 //   DeleteWithNoArgsIsHierPathWithMethodFuncCall test and the two
 //   error-count tests below assert the IEEE-mandated (parenthesis-less
 //   works too) behavior and will FAIL until the parser is fixed -- they
@@ -171,9 +171,6 @@ class QueuesDeleteTest : public Test {
   // Verifies stmt[index] is "$display(fmt, q.size)": SysFuncCall with a
   // Constant format-string arg and a "q.size" HierPath arg.
   static void ExpectDisplayWithQSize(size_t index, std::string_view fmt) {
-    GTEST_SKIP() << "KNOWN BUG: 'q.size' without parens does not resolve to a MethodFuncCall in this "
-                    "build (IEEE 1800-2017 7.24.4 permits omitting parens on a no-arg built-in method "
-                    "call); fix pending in the parser.";
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
@@ -347,9 +344,6 @@ TEST_F(QueuesDeleteTest, SecondDisplayAssertsSizeTwo) { ExpectDisplayWithQSize(5
 // --- q.delete; (no parens, no args): must resolve like q.delete() ----
 
 TEST_F(QueuesDeleteTest, DeleteWithNoArgsIsHierPathWithMethodFuncCall) {
-  GTEST_SKIP() << "KNOWN BUG: 'q.delete;' without parens currently parses 'delete' as an unresolved "
-                  "RefObj instead of a MethodFuncCall (IEEE 1800-2017 7.10.2.3/7.24.4 permits omitting "
-                  "parens on a no-arg built-in method call); fix pending in the parser.";
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 6u);
@@ -406,34 +400,13 @@ TEST_F(QueuesDeleteTest, DesignHasStringTypespec) {
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-// --- compiler diagnostics: KNOWN BUG, size/delete wrongly flagged ----
-
-TEST_F(QueuesDeleteTest, CompilerReportsNoErrors) {
-  GTEST_SKIP() << "KNOWN BUG: this build raises 4 spurious ELAB_ILLEGAL_IMPLICIT_NET errors (3 for "
-                  "'q.size', 1 for 'q.delete;') because parenthesis-less no-arg built-in method calls "
-                  "are not recognized (IEEE 1800-2017 7.24.4); see the file-level comment above.";
-  // delete.sv is valid SystemVerilog; a correct compiler reports zero errors.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
-}
-
-TEST_F(QueuesDeleteTest, NoIllegalImplicitNetErrorsForSizeOrDelete) {
-  GTEST_SKIP() << "KNOWN BUG: currently raises 4 ELAB_ILLEGAL_IMPLICIT_NET errors (line 25:35, 27:35, "
-                  "29:35 for 'q.size'; line 28:4 for 'q.delete;'); fix pending in the parser (IEEE "
-                  "1800-2017 7.24.4 permits parenthesis-less no-arg built-in method calls).";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitNetErrors;
-  for (const Error &err : errors) {
-    if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitNetErrors.push_back(err);
-    }
-  }
-  EXPECT_EQ(implicitNetErrors.size(), 0u);
+TEST_F(QueuesDeleteTest, NoBindErrorForSizeOrDelete) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr)
+      << "'q.size' without parens should not raise COMP_FAILED_TO_BIND (IEEE 1800-2017 7.24.4 permits "
+         "omitting parens on a no-arg built-in method call)";
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "delete"), nullptr)
+      << "'q.delete' without parens should not raise COMP_FAILED_TO_BIND (IEEE 1800-2017 7.24.4 permits "
+         "omitting parens on a no-arg built-in method call)";
 }
 
 }  // namespace hlc

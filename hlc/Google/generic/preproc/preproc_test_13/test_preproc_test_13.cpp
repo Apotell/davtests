@@ -90,16 +90,14 @@ TEST_F(PreprocArgStringDefaultsTest, LongMacroFormalArgNames) {
   EXPECT_EQ((*macro->getArguments())[0]->getName(), "a") << "first formal argument must be 'a'";
   EXPECT_EQ((*macro->getArguments())[1]->getName(), "b") << "second formal argument must be 'b'";
   EXPECT_EQ((*macro->getArguments())[2]->getName(), "c") << "third formal argument must be 'c'";
-}
-
-// sec. 22.5.1: formal argument defaults may be string literals (b="(3,2)")
-// or parenthesized expressions (c=(3,2)). As noted in preproc_test_12, the
-// HLDB 'argument' field is modeled as a plain 'identifier' with no
-// default-text field, so these default values cannot be retrieved.
-TEST_F(PreprocArgStringDefaultsTest, LongMacroArgumentDefaultsAreModeled) {
-  GTEST_SKIP() << "HLDB's preproc_macro_definition.argument is typed as a plain 'identifier' with no default-text "
-                  "field, so 'b=\"(3,2)\"' and 'c=(3,2)' formal-argument defaults (IEEE 1800-2023 sec. 22.5.1) "
-                  "cannot be represented or queried. Fix pending: add a default-text field to the argument model.";
+  const hldb::Identifier *const arg_b = any_cast<hldb::Identifier>((*macro->getArguments())[1]);
+  ASSERT_NE(arg_b, nullptr);
+  ASSERT_NE(arg_b->getBuddy(), nullptr);
+  EXPECT_EQ(arg_b->getBuddy()->getName(), "\"(3,2)\"");
+  const hldb::Identifier *const arg_c = any_cast<hldb::Identifier>((*macro->getArguments())[2]);
+  ASSERT_NE(arg_c, nullptr);
+  ASSERT_NE(arg_c->getBuddy(), nullptr);
+  EXPECT_EQ(arg_c->getBuddy()->getName(), "(3,2)");
 }
 
 }  // namespace hlc

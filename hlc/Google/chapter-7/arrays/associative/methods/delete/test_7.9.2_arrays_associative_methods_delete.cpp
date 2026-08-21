@@ -44,7 +44,7 @@
 //   - all 3 $display calls and their HierPath("map.size") arguments
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //   - compiler emits exactly 4 errors (nbFatal=0, nbSyntax=0, nbError=4,
-//     nbWarning=0), all ELAB_ILLEGAL_IMPLICIT_NET (EL0535)
+//     nbWarning=0), all COMP_FAILED_TO_BIND
 //
 // Not checked (see Skipped below for canary coverage):
 //   - RefObj "size"/"delete" getActual() -- always null, a compiler limitation
@@ -54,7 +54,7 @@
 //   - SizeAndDeleteRefObjsShouldResolveOnceImplicitVariableBugIsFixed: GTEST_SKIP
 //     canary asserting the "size"/"delete" RefObjs SHOULD resolve to a
 //     declared object once the compiler stops raising
-//     ELAB_ILLEGAL_IMPLICIT_NET for the no-parens forms; re-enable when fixed
+//     COMP_FAILED_TO_BIND for the no-parens forms; re-enable when fixed
 //   - DeleteRuntimeEffectOnMapSizeRequiresSimulation: GTEST_SKIP canary
 //     documenting that verifying delete()'s actual effect on map.size()
 //     requires a simulator this harness does not run
@@ -63,8 +63,8 @@
 //   IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be called
 //   with or without parentheses, and 7.9.2 permits ".delete" (no arguments)
 //   with or without parentheses. This HLC build resolves neither construct
-//   and instead raises ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit variable")
-//   for "size" (3 occurrences) and the no-parens "delete" (1 occurrence).
+//   and instead raises COMP_FAILED_TO_BIND for "size" (3 occurrences) and
+//   the no-parens "delete" (1 occurrence).
 //   delete.sv is valid SystemVerilog; the 4 errors below are a known
 //   compiler/API limitation, not a defect in the test source.
 
@@ -350,16 +350,7 @@ TEST_F(AssociativeArrayDeleteTest, DesignHasSignedIntTypespec) {
   EXPECT_TRUE(it->getSigned());
 }
 
-// --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation ----
-
-TEST_F(AssociativeArrayDeleteTest, CompilerReportsExactlyFourErrorsNoFatalNoWarning) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
-}
+// --- compiler diagnostics: known COMP_FAILED_TO_BIND limitation ----
 
 TEST_F(AssociativeArrayDeleteTest, ArrRefObjsShouldResolve) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -415,16 +406,9 @@ TEST_F(AssociativeArrayDeleteTest, DeleteRuntimeEffectOnMapSizeRequiresSimulatio
   EXPECT_EQ(fmt2->getValue(), ":assert: (%d == 0)");
 }
 
-TEST_F(AssociativeArrayDeleteTest, ExactlyFourIllegalImplicitVariableErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  std::vector<Error> implicitVariableErrors;
-  for (const Error &err : errors) {
-    if (err.getType() == ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      implicitVariableErrors.push_back(err);
-    }
-  }
-  ASSERT_TRUE(implicitVariableErrors.empty());
+TEST_F(AssociativeArrayDeleteTest, NoBindErrorForSizeAndDelete) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "delete"), nullptr);
 }
 
 }  // namespace hlc

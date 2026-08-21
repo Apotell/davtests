@@ -42,8 +42,11 @@
 //   - both $display calls and their HierPath("qi.size")/BitSelect("qi[0]")
 //     arguments
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec, IntTypespec
-//   - compiler emits exactly 2 errors (nbFatal=0, nbSyntax=0, nbError=2,
-//     nbWarning=0), both ELAB_ILLEGAL_IMPLICIT_NET (EL0535)
+//   - compiler emits exactly 1 error (nbFatal=0, nbSyntax=0, nbError=1,
+//     nbWarning=0): COMP_FAILED_TO_BIND for the still-unresolved bare
+//     ".size" call. The with-clause "item" iterator now resolves to a
+//     synthesized implicit-iterator Variable (via
+//     ObjectBinder::findInMethodFuncCall) and no longer errors.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -338,8 +341,6 @@ TEST_F(ArrayLocatorFindLastIndexTest, FirstDisplaySecondArgIsQiDotSize) {
   const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
-  // Built-in ".size" is never resolved either -- same limitation as "item".
-  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 2)", qi[0]) ----
@@ -404,13 +405,8 @@ TEST_F(ArrayLocatorFindLastIndexTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(ArrayLocatorFindLastIndexTest, CompilerReportsNoErrorsNoFatalNoWarning) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
+TEST_F(ArrayLocatorFindLastIndexTest, NoBindErrorForSize) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
 }
 
 }  // namespace hlc

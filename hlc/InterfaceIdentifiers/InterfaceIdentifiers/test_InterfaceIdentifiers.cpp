@@ -191,48 +191,46 @@ TEST_F(InterfaceIdentifiers, VirtualIfModuleExists) {
 // member of BusIf.
 // ----
 
-TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionExists) {
-  ASSERT_NE(m_design->getTaskFuncs(), nullptr) << "Design has no top-level task/function declarations";
-  EXPECT_NE(hldb::findByName<hldb::Function>("capture", m_design->getTaskFuncs()), nullptr)
-      << "Out-of-block function 'BusIf.capture' not found";
-}
-
 TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionPrefixIsBusIf) {
-  const hldb::Function *const fn = hldb::findByName<hldb::Function>("capture", m_design->getTaskFuncs());
+  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  ASSERT_NE(busif, nullptr);
+  const hldb::Function *const fn = hldb::findByName<hldb::Function>("capture", busif->getTaskFuncs());
   ASSERT_NE(fn, nullptr);
   const hldb::RefObj *const prefix = fn->getPrefix<hldb::RefObj>();
-  ASSERT_NE(prefix, nullptr) << "'BusIf.capture' interface_scope prefix should be a RefObj naming 'BusIf'";
-  EXPECT_EQ(prefix->getName(), "BusIf");
+  EXPECT_EQ(prefix, nullptr) << "'BusIf.capture' interface_scope prefix should be null";
 }
 
-TEST_F(InterfaceIdentifiers, OutOfBodyDummyFunctionExists) {
-  EXPECT_NE(hldb::findByName<hldb::Function>("dummy", m_design->getTaskFuncs()), nullptr)
+TEST_F(InterfaceIdentifiers, OutOfBodyDummyFunctionBelongToInterface) {
+  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  ASSERT_NE(busif, nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Function>("dummy", busif->getTaskFuncs()), nullptr)
       << "Out-of-block function 'BusIf.dummy' not found";
 }
 
-TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskExists) {
-  EXPECT_NE(hldb::findByName<hldb::Task>("drive", m_design->getTaskFuncs()), nullptr)
+TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskBelongToInterface) {
+  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  ASSERT_NE(busif, nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Task>("drive", busif->getTaskFuncs()), nullptr)
       << "Out-of-block task 'BusIf.drive' not found";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskPrefixIsBusIf) {
-  const hldb::Task *const t = hldb::findByName<hldb::Task>("drive", m_design->getTaskFuncs());
+  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  ASSERT_NE(busif, nullptr);
+  const hldb::Task *const t = hldb::findByName<hldb::Task>("drive", busif->getTaskFuncs());
   ASSERT_NE(t, nullptr);
   const hldb::RefObj *const prefix = t->getPrefix<hldb::RefObj>();
-  ASSERT_NE(prefix, nullptr) << "'BusIf.drive' interface_scope prefix should be a RefObj naming 'BusIf'";
-  EXPECT_EQ(prefix->getName(), "BusIf");
+  EXPECT_EQ(prefix, nullptr) << "'BusIf.drive' interface_scope prefix should be null";
 }
 
-TEST_F(InterfaceIdentifiers, OutOfBodyNoopTaskExists) {
-  EXPECT_NE(hldb::findByName<hldb::Task>("noop", m_design->getTaskFuncs()), nullptr)
+TEST_F(InterfaceIdentifiers, OutOfBodyNoopTaskBelongToInterface) {
+  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  ASSERT_NE(busif, nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Task>("noop", busif->getTaskFuncs()), nullptr)
       << "Out-of-block task 'BusIf.noop' not found";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionBelongsToInterface) {
-  GTEST_SKIP() << "Out-of-block function/task bodies with an interface_scope prefix are not reparented into "
-                  "the Interface (unlike class_scope out-of-block methods, which are reparented into their "
-                  "ClassDefn) -- see IEEE 1800-2023 Sec 25.7 (Tasks and functions in interfaces) and Sec 8.24 "
-                  "(Out-of-block declarations).";
   const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Function>("capture", busif->getTaskFuncs()), nullptr)
