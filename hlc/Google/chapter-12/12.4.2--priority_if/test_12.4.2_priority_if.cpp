@@ -146,12 +146,6 @@ TEST_F(PriorityIfTest, ModuleHasOneNetAAndOneVariableB) {
 // Outer: priority if(a[0] == 0) b = 1;
 // ---------------------------------------------------------------------------
 TEST_F(PriorityIfTest, OuterStmtIsIfElseWithPriorityQualifier) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected, "
-                  "actual: 0 vs 2): IEEE 1800-2023 12.4.2 requires the 'priority' keyword to be recorded as "
-                  "vpiPriorityQualifier on the IfElse, but HLC leaves getQualifier() at its default 0 "
-                  "(vpiNoQualifier) -- the keyword is parsed (seen in the AST) but never recorded onto the final "
-                  "object, so a plain if and a 'priority if' are currently indistinguishable at this level. "
-                  "Tracked, not yet fixed by the compiler.";
   const hldb::IfElse *const outer = getOuter();
   ASSERT_NE(outer, nullptr) << "outer statement should resolve to IfElse (its else-branch is populated)";
   EXPECT_EQ(outer->getQualifier(), vpiPriorityQualifier);
@@ -167,13 +161,13 @@ TEST_F(PriorityIfTest, OuterConditionIsBitSelectA0EqualsZero) {
   ASSERT_EQ(cond->getOperands()->size(), 2u);
   const hldb::BitSelect *const lhs = any_cast<hldb::BitSelect>(cond->getOperands()->at(0));
   ASSERT_NE(lhs, nullptr) << "first operand should be BitSelect 'a[0]'";
-  EXPECT_EQ(lhs->getName(), "a[0]");
+  EXPECT_EQ(lhs->getName(), std::string_view("a[0]"));
   const hldb::RefObj *const prefix = lhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr);
   EXPECT_NE(prefix->getActual<hldb::Net>(), nullptr) << "'a' should resolve to the Net";
   const hldb::Constant *const rhs = any_cast<hldb::Constant>(cond->getOperands()->at(1));
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "0");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(PriorityIfTest, OuterThenBranchAssignsOneToVariableB) {
@@ -183,11 +177,11 @@ TEST_F(PriorityIfTest, OuterThenBranchAssignsOneToVariableB) {
   ASSERT_NE(thenAssign, nullptr);
   const hldb::RefObj *const lhs = thenAssign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "b");
+  EXPECT_EQ(lhs->getName(), std::string_view("b"));
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const rhs = thenAssign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "1");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("1"));
 }
 
 // ---------------------------------------------------------------------------
@@ -214,7 +208,7 @@ TEST_F(PriorityIfTest, InnerConditionIsBitSelectA1EqualsZero) {
   ASSERT_EQ(cond->getOperands()->size(), 2u);
   const hldb::BitSelect *const lhs = any_cast<hldb::BitSelect>(cond->getOperands()->at(0));
   ASSERT_NE(lhs, nullptr) << "first operand should be BitSelect 'a[1]'";
-  EXPECT_EQ(lhs->getName(), "a[1]");
+  EXPECT_EQ(lhs->getName(), std::string_view("a[1]"));
 }
 
 TEST_F(PriorityIfTest, InnerThenBranchAssignsTwoToVariableB) {
@@ -226,7 +220,7 @@ TEST_F(PriorityIfTest, InnerThenBranchAssignsTwoToVariableB) {
   ASSERT_NE(thenAssign, nullptr);
   const hldb::Constant *const rhs = thenAssign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "2");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("2"));
 }
 
 TEST_F(PriorityIfTest, NoContinuousAssigns) {

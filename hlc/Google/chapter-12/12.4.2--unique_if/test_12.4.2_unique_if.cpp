@@ -142,11 +142,6 @@ TEST_F(UniqueIfTest, ModuleHasOneNetAAndOneVariableB) {
 // Outer: unique if(a == 0) b = 1;
 // ---------------------------------------------------------------------------
 TEST_F(UniqueIfTest, OuterStmtIsIfElseWithUniqueQualifier) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected, "
-                  "actual: 0 vs 1): IEEE 1800-2023 12.4.2 requires the 'unique' keyword to be recorded as "
-                  "vpiUniqueQualifier on the IfElse, but HLC leaves getQualifier() at its default 0 "
-                  "(vpiNoQualifier) -- the keyword is parsed (seen in the AST) but never recorded onto the final "
-                  "object. Tracked, not yet fixed by the compiler.";
   const hldb::IfElse *const outer = getOuter();
   ASSERT_NE(outer, nullptr) << "outer statement should resolve to IfElse (its else-branch is populated)";
   EXPECT_EQ(outer->getQualifier(), vpiUniqueQualifier);
@@ -162,11 +157,11 @@ TEST_F(UniqueIfTest, OuterConditionIsANotResolvedToNetEqualsZero) {
   ASSERT_EQ(cond->getOperands()->size(), 2u);
   const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
   ASSERT_NE(lhs, nullptr) << "first operand should be RefObj 'a'";
-  EXPECT_EQ(lhs->getName(), "a");
+  EXPECT_EQ(lhs->getName(), std::string_view("a"));
   EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr) << "'a' should resolve to the Net";
   const hldb::Constant *const rhs = any_cast<hldb::Constant>(cond->getOperands()->at(1));
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "0");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(UniqueIfTest, OuterThenBranchAssignsOneToVariableB) {
@@ -176,7 +171,7 @@ TEST_F(UniqueIfTest, OuterThenBranchAssignsOneToVariableB) {
   ASSERT_NE(thenAssign, nullptr);
   const hldb::Constant *const rhs = thenAssign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "1");
+  EXPECT_EQ(rhs->getDecompile(), ("1"));
 }
 
 // ---------------------------------------------------------------------------
@@ -203,7 +198,7 @@ TEST_F(UniqueIfTest, InnerConditionIsAEqualsOne) {
   ASSERT_EQ(cond->getOperands()->size(), 2u);
   const hldb::Constant *const rhs = any_cast<hldb::Constant>(cond->getOperands()->at(1));
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "1");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("1"));
 }
 
 TEST_F(UniqueIfTest, InnerThenBranchAssignsTwoToVariableB) {
@@ -215,7 +210,7 @@ TEST_F(UniqueIfTest, InnerThenBranchAssignsTwoToVariableB) {
   ASSERT_NE(thenAssign, nullptr);
   const hldb::Constant *const rhs = thenAssign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "2");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("2"));
 }
 
 TEST_F(UniqueIfTest, NoContinuousAssigns) {
