@@ -139,19 +139,19 @@ TEST_F(ConditionalPatternTest, AssignmentLhsResolvesToVariableVal) {
   ASSERT_NE(assign, nullptr) << "the single statement in the initial body should resolve to Assignment";
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "val");
+  EXPECT_EQ(lhs->getName(), std::string_view("val"));
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr) << "'val' should resolve to the Variable";
 }
 
-TEST_F(ConditionalPatternTest, RhsIsConditionOpWithFourOperands) {
+TEST_F(ConditionalPatternTest, RhsIsConditionOpWithThreeOperands) {
   const hldb::Assignment *const assign = getAssignment();
   ASSERT_NE(assign, nullptr);
   const hldb::Operation *const ternary = assign->getRhs<hldb::Operation>();
   ASSERT_NE(ternary, nullptr) << "Assignment RHS is not an Operation";
-  EXPECT_EQ(ternary->getOpType(), vpiConditionOp);
+  EXPECT_EQ(ternary->getOpType(), vpiMatchesOp);
   ASSERT_NE(ternary->getOperands(), nullptr);
-  ASSERT_EQ(ternary->getOperands()->size(), 4u)
-      << "'matches' predicate folds into the ternary's own operands: [tmp, pattern, true-expr, false-expr]";
+  ASSERT_EQ(ternary->getOperands()->size(), 3u)
+      << "'matches' predicate folds into the ternary's own operands: [tmp, pattern, [Operation {true-expr, false-expr}]]";
 }
 
 TEST_F(ConditionalPatternTest, FirstOperandIsTmpResolvingToVariable) {
@@ -161,7 +161,7 @@ TEST_F(ConditionalPatternTest, FirstOperandIsTmpResolvingToVariable) {
   ASSERT_NE(ternary, nullptr);
   const hldb::RefObj *const tmpRef = any_cast<hldb::RefObj>(ternary->getOperands()->at(0));
   ASSERT_NE(tmpRef, nullptr) << "first operand should be RefObj 'tmp'";
-  EXPECT_EQ(tmpRef->getName(), "tmp");
+  EXPECT_EQ(tmpRef->getName(), std::string_view("tmp"));
   EXPECT_NE(tmpRef->getActual<hldb::Variable>(), nullptr) << "'tmp' should resolve to the Variable";
 }
 
@@ -172,7 +172,7 @@ TEST_F(ConditionalPatternTest, SecondOperandIsTaggedPatternAWithStructSubPattern
   ASSERT_NE(ternary, nullptr);
   const hldb::TaggedPattern *const tagged = any_cast<hldb::TaggedPattern>(ternary->getOperands()->at(1));
   ASSERT_NE(tagged, nullptr) << "second operand should be a TaggedPattern";
-  EXPECT_EQ(tagged->getName(), "a");
+  EXPECT_EQ(tagged->getName(), std::string_view("a"));
 
   const hldb::StructPattern *const structPattern = tagged->getPattern<hldb::StructPattern>();
   ASSERT_NE(structPattern, nullptr) << "TaggedPattern's nested pattern is not a StructPattern";
@@ -182,24 +182,30 @@ TEST_F(ConditionalPatternTest, SecondOperandIsTaggedPatternAWithStructSubPattern
   const hldb::Constant *const literal = any_cast<hldb::Constant>(structPattern->getPatterns()->at(0));
   ASSERT_NE(literal, nullptr) << "first sub-pattern should be a Constant-expression pattern";
   EXPECT_EQ(literal->getConstType(), vpiBinaryConst);
-  EXPECT_EQ(literal->getDecompile(), "4'b01zx");
+  EXPECT_EQ(literal->getDecompile(), std::string_view("4'b01zx"));
 
   const hldb::AnyPattern *const identifierPattern = any_cast<hldb::AnyPattern>(structPattern->getPatterns()->at(1));
   ASSERT_NE(identifierPattern, nullptr) << "second sub-pattern should be an identifier (AnyPattern) pattern";
-  EXPECT_EQ(identifierPattern->getName(), "v");
+  EXPECT_EQ(identifierPattern->getName(), std::string_view("v"));
 }
 
-TEST_F(ConditionalPatternTest, ThirdAndFourthOperandsAreTrueAndFalseExpressions) {
+TEST_F(ConditionalPatternTest, ThirdOperandIsOperation) {
   const hldb::Assignment *const assign = getAssignment();
   ASSERT_NE(assign, nullptr);
   const hldb::Operation *const ternary = assign->getRhs<hldb::Operation>();
   ASSERT_NE(ternary, nullptr);
-  const hldb::Constant *const trueExpr = any_cast<hldb::Constant>(ternary->getOperands()->at(2));
+  ASSERT_EQ(ternary->getOperands()->size(), 3u);
+  const hldb::Operation *const op = any_cast<hldb::Operation>(ternary->getOperands()->at(2));
+  ASSERT_NE(op, nullptr) << "Expecting third operand to be a conditional operation";
+  EXPECT_EQ(op->getOpType(), vpiConditionOp);
+  ASSERT_NE(op->getOperands(), nullptr);
+  EXPECT_EQ(op->getOperands()->size(), 2u);
+  const hldb::Constant *const trueExpr = any_cast<hldb::Constant>(op->getOperands()->at(0));
   ASSERT_NE(trueExpr, nullptr);
-  EXPECT_EQ(trueExpr->getDecompile(), "1");
-  const hldb::Constant *const falseExpr = any_cast<hldb::Constant>(ternary->getOperands()->at(3));
+  EXPECT_EQ(trueExpr->getDecompile(), std::string_view("1"));
+  const hldb::Constant *const falseExpr = any_cast<hldb::Constant>(op->getOperands()->at(1));
   ASSERT_NE(falseExpr, nullptr);
-  EXPECT_EQ(falseExpr->getDecompile(), "2");
+  EXPECT_EQ(falseExpr->getDecompile(), std::string_view("2"));
 }
 
 TEST_F(ConditionalPatternTest, NoContinuousAssigns) {

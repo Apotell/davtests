@@ -153,26 +153,21 @@ TEST_F(IfPatternTest, ConditionIsMatchesOperationOnTmpAndTaggedPatternA) {
   ASSERT_EQ(cond->getOperands()->size(), 2u);
   const hldb::RefObj *const tmpRef = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
   ASSERT_NE(tmpRef, nullptr) << "first operand should be RefObj 'tmp'";
-  EXPECT_EQ(tmpRef->getName(), "tmp");
+  EXPECT_EQ(tmpRef->getName(), std::string_view("tmp"));
   EXPECT_NE(tmpRef->getActual<hldb::Variable>(), nullptr) << "'tmp' should resolve to the Variable";
 }
 
 TEST_F(IfPatternTest, TaggedPatternTagIsAAndResolvesToUnionMember) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "IEEE 1800-2023 12.6.1 says 'the identifier following the tagged keyword is a union member "
-                  "name', so the tag 'a' should resolve to that member declaration, but HLC never binds it -- "
-                  "getActual() comes back null even though the same file's 'tmp' (a plain variable reference) "
-                  "resolves correctly elsewhere in this file. Tracked, not yet fixed by the compiler.";
   const hldb::IfStmt *const ifStmt = getIfStmt();
   ASSERT_NE(ifStmt, nullptr);
   const hldb::Operation *const cond = ifStmt->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
   const hldb::TaggedPattern *const tagged = any_cast<hldb::TaggedPattern>(cond->getOperands()->at(1));
   ASSERT_NE(tagged, nullptr) << "second operand should be a TaggedPattern";
-  EXPECT_EQ(tagged->getName(), "a");
+  EXPECT_EQ(tagged->getName(), std::string_view("a"));
   const hldb::RefObj *const tag = tagged->getTag<hldb::RefObj>();
   ASSERT_NE(tag, nullptr) << "TaggedPattern tag is not a RefObj";
-  EXPECT_EQ(tag->getName(), "a");
+  EXPECT_EQ(tag->getName(), std::string_view("a"));
   EXPECT_NE(tag->getActual(), nullptr) << "tag 'a' should resolve to the union member declaration, per 12.6.1";
 }
 
@@ -191,11 +186,11 @@ TEST_F(IfPatternTest, NestedStructPatternHasConstantAndIdentifierSubPatterns) {
   const hldb::Constant *const literal = any_cast<hldb::Constant>(structPattern->getPatterns()->at(0));
   ASSERT_NE(literal, nullptr) << "first sub-pattern should be a Constant-expression pattern";
   EXPECT_EQ(literal->getConstType(), vpiBinaryConst);
-  EXPECT_EQ(literal->getDecompile(), "4'b01zx");
+  EXPECT_EQ(literal->getDecompile(), std::string_view("4'b01zx"));
 
   const hldb::AnyPattern *const identifierPattern = any_cast<hldb::AnyPattern>(structPattern->getPatterns()->at(1));
   ASSERT_NE(identifierPattern, nullptr) << "second sub-pattern should be an identifier (AnyPattern) pattern";
-  EXPECT_EQ(identifierPattern->getName(), "v");
+  EXPECT_EQ(identifierPattern->getName(), std::string_view("v"));
 }
 
 TEST_F(IfPatternTest, TrueArmDisplayReferencesPatternBoundV) {
@@ -208,15 +203,15 @@ TEST_F(IfPatternTest, TrueArmDisplayReferencesPatternBoundV) {
   ASSERT_NE(ifStmt, nullptr);
   const hldb::SysTaskCall *const display = ifStmt->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(display, nullptr) << "'true' arm should be a plain SysTaskCall";
-  EXPECT_EQ(display->getName(), "$display");
+  EXPECT_EQ(display->getName(), std::string_view("$display"));
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(display->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getDecompile(), "\"a %d\"");
+  EXPECT_EQ(fmt->getDecompile(), std::string_view("\"a %d\""));
   const hldb::RefObj *const vArg = any_cast<hldb::RefObj>(display->getArguments()->at(1));
   ASSERT_NE(vArg, nullptr);
-  EXPECT_EQ(vArg->getName(), "v");
+  EXPECT_EQ(vArg->getName(), std::string_view("v"));
   EXPECT_NE(vArg->getActual<hldb::AnyPattern>(), nullptr)
       << "'v' in the true-arm $display should resolve to the pattern-bound identifier, per 12.6 (pattern "
          "identifiers are implicitly declared new variables whose scope extends to the true arm)";

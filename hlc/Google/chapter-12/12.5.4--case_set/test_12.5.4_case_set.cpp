@@ -150,13 +150,6 @@ TEST_F(CaseSetTest, ModuleHasNoNetsAndTwoVariables) {
 }
 
 TEST_F(CaseSetTest, CaseStmtExistsWithExactTypeAndInsideQualifier) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "IEEE 1800-2023 Annex 37.72 requires the 'inside' keyword to be recorded as vpiInsideQualifier "
-                  "on the CaseStmt, but HLC leaves getQualifier() at its default 0 (vpiNoQualifier) -- the "
-                  "keyword is parsed but never recorded onto the final object. Same underlying gap already "
-                  "confirmed for 'matches' (12.6.1--case_pattern.cpp/casex_pattern.cpp/casez_pattern.cpp) and for "
-                  "'unique'/'unique0'/'priority' on if statements (12.4.2--*.cpp) -- HLC currently drops every "
-                  "case/if qualifier keyword, not just this one. Tracked, not yet fixed by the compiler.";
   const hldb::CaseStmt *const cs = getCaseStmt();
   ASSERT_NE(cs, nullptr) << "the single statement in the always body should resolve to CaseStmt";
   EXPECT_EQ(cs->getCaseType(), vpiCaseExact);
