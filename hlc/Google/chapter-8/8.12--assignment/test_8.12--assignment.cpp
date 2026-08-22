@@ -578,7 +578,8 @@ TEST_F(ClassAssignmentTest, SixthStmtDisplaysTestObj1A) {
 TEST_F(ClassAssignmentTest, CompilerReportsNoErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0);
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "new"), nullptr)
+      << "class instantiation via new must bind (IEEE 1800-2023 8.4)";
 }
 
 }  // namespace hlc

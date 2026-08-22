@@ -21,18 +21,18 @@ COMMAND: -wd ../../../tests/OneNetModPort -fileunit -writepp -d db -sv dut.v tb.
 [INF:CP0303] $Source01/tb.v:15:1: Compile module "TOP".
 [WRN:CP0350] $Source01/dut.v:3:17: Failed to bind "id:38, name:drive".
 [WRN:CP0350] $Source01/dut.v:4:21: Failed to bind "id:44, name:observe".
-[WRN:CP0350] $Source01/dut.v:23:22: Failed to bind "id:88, name:drive".
-[WRN:CP0350] $Source01/dut.v:23:40: Failed to bind "id:93, name:observe".
-[WRN:CP0350] $Source01/tb.v:5:51: Failed to bind "id:142, name:drive".
-[WRN:CP0350] $Source01/tb.v:5:63: Failed to bind "id:145, name:observe".
-[WRN:CP0350] $Source01/tb.v:6:10: Failed to bind "id:150, name:drive".
-[WRN:CP0350] $Source01/tb.v:7:20: Failed to bind "id:161, name:drive".
-[WRN:CP0350] $Source01/tb.v:7:34: Failed to bind "id:164, name:observe".
-[WRN:CP0350] $Source01/tb.v:8:15: Failed to bind "id:186, name:drive".
-[WRN:CP0350] $Source01/tb.v:9:20: Failed to bind "id:197, name:drive".
-[WRN:CP0350] $Source01/tb.v:9:34: Failed to bind "id:200, name:observe".
-[WRN:CP0350] $Source01/tb.v:17:19: Failed to bind "id:230, name:drive".
-[WRN:CP0350] $Source01/tb.v:17:33: Failed to bind "id:235, name:observe".
+[WRN:CP0350] $Source01/dut.v:23:22: Failed to bind "id:84, name:drive".
+[WRN:CP0350] $Source01/dut.v:23:40: Failed to bind "id:89, name:observe".
+[WRN:CP0350] $Source01/tb.v:5:51: Failed to bind "id:138, name:drive".
+[WRN:CP0350] $Source01/tb.v:5:63: Failed to bind "id:141, name:observe".
+[WRN:CP0350] $Source01/tb.v:6:10: Failed to bind "id:146, name:drive".
+[WRN:CP0350] $Source01/tb.v:7:20: Failed to bind "id:157, name:drive".
+[WRN:CP0350] $Source01/tb.v:7:34: Failed to bind "id:160, name:observe".
+[WRN:CP0350] $Source01/tb.v:8:15: Failed to bind "id:182, name:drive".
+[WRN:CP0350] $Source01/tb.v:9:20: Failed to bind "id:193, name:drive".
+[WRN:CP0350] $Source01/tb.v:9:34: Failed to bind "id:196, name:observe".
+[WRN:CP0350] $Source01/tb.v:17:19: Failed to bind "id:226, name:drive".
+[WRN:CP0350] $Source01/tb.v:17:33: Failed to bind "id:231, name:observe".
 [WRN:PA0205] $Source01/dut.v:2:1: No timescale set for "dut".
 [WRN:PA0205] $Source01/dut.v:22:1: No timescale set for "middle".
 [WRN:PA0205] $Source01/dut.v:26:1: No timescale set for "SUB".
@@ -80,6 +80,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:ConnectTB
+      vpiDefName: ConnectTB
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ConnectTB
@@ -97,16 +98,10 @@ Design name:unnamed:
               vpiParent: Modport name:dut
               vpiName: drive
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:drive
-                vpiFullName: ConnectTB.dut.drive
             IODecl name:observe start:14:12 end:14:19:
               vpiParent: Modport name:dut
               vpiName: observe
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:observe
-                vpiFullName: ConnectTB.dut.observe
           vpiInterface: Interface name:ConnectTB
         Modport name:tb start:16:11 end:16:13:
           vpiParent: Interface name:ConnectTB
@@ -118,16 +113,10 @@ Design name:unnamed:
               vpiParent: Modport name:tb
               vpiName: drive
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:drive
-                vpiFullName: ConnectTB.tb.drive
             IODecl name:observe start:18:11 end:18:18:
               vpiParent: Modport name:tb
               vpiName: observe
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:observe
-                vpiFullName: ConnectTB.tb.observe
           vpiInterface: Interface name:ConnectTB
   vpiAllPrograms (1 items):
     Program name:TESTBENCH file:$Source01/tb.v start:1:1 end:12:11:
@@ -152,6 +141,7 @@ Design name:unnamed:
           vpiName Identifier name:ConnectTB::tb:
             vpiParent: UnsupportedTypespec name:ConnectTB::tb
             vpiName: ConnectTB::tb
+      vpiDefName: TESTBENCH
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Program name:TESTBENCH
@@ -642,9 +632,11 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:6:18 end:6:24:
               vpiParent: RefInstance name:middle1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:intf:
                 vpiParent: Port
-                vpiFullName: dut.middle1
+                vpiName: intf
+                vpiFullName: dut.middle1.intf
+                vpiActual: Port name:intf
               vpiHighConn RefObj name:conntb start:6:18 end:6:24:
                 vpiParent: Port
                 vpiName: conntb
@@ -716,6 +708,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: inp
                 vpiFullName: middle.sub1.inp
+                vpiActual: Port name:inp
               vpiHighConn HierPath name:intf.drive start:23:17 end:23:27:
                 vpiParent: Port
                 vpiName: intf.drive
@@ -736,6 +729,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: out
                 vpiFullName: middle.sub1.out
+                vpiActual: Port name:out
               vpiHighConn HierPath name:intf.observe start:23:35 end:23:47:
                 vpiParent: Port
                 vpiName: intf.observe
@@ -867,9 +861,11 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:17:12 end:17:24:
               vpiParent: RefInstance name:dut1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:i:
                 vpiParent: Port
-                vpiFullName: TOP.dut1
+                vpiName: i
+                vpiFullName: TOP.dut1.i
+                vpiActual: Port name:i
               vpiHighConn HierPath name:conntb.drive start:17:12 end:17:24:
                 vpiParent: Port
                 vpiName: conntb.drive
@@ -886,9 +882,11 @@ Design name:unnamed:
                     vpiFullName: TOP.dut1.drive
             Port start:17:26 end:17:40:
               vpiParent: RefInstance name:dut1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:o:
                 vpiParent: Port
-                vpiFullName: TOP.dut1
+                vpiName: o
+                vpiFullName: TOP.dut1.o
+                vpiActual: Port name:o
               vpiHighConn HierPath name:conntb.observe start:17:26 end:17:40:
                 vpiParent: Port
                 vpiName: conntb.observe
@@ -914,9 +912,11 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:18:16 end:18:22:
               vpiParent: RefInstance name:tb
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:intf:
                 vpiParent: Port
-                vpiFullName: TOP.tb
+                vpiName: intf
+                vpiFullName: TOP.tb.intf
+                vpiActual: Port name:intf
               vpiHighConn RefObj name:conntb start:18:16 end:18:22:
                 vpiParent: Port
                 vpiName: conntb
@@ -1014,7 +1014,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetModPort/OneNetModPort/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             227     227       0         0
+Others                             223     223       0         0
 ----------------------------------------------------------------
-                                   227     227       0         0
+                                   223     223       0         0
 ===================== END REDUCTION RESULT =====================

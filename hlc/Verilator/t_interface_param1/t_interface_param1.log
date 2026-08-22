@@ -507,6 +507,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:bType
             vpiFullName: test_if.bType
             vpiActual: StructTypespec
+      vpiDefName: test_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:test_if
@@ -524,16 +525,10 @@ Design name:unnamed:
               vpiParent: Modport name:master
               vpiName: a
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:a
-                vpiFullName: test_if.master.a
             IODecl name:b start:49:36 end:49:37:
               vpiParent: Modport name:master
               vpiName: b
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:b
-                vpiFullName: test_if.master.b
           vpiInterface: Interface name:test_if
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_param1.v start:8:1 end:17:14:
@@ -658,9 +653,11 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:16:24 end:16:29:
               vpiParent: RefInstance name:U_SUB_TEST
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:b:
                 vpiParent: Port
-                vpiFullName: t.U_SUB_TEST
+                vpiName: b
+                vpiFullName: t.U_SUB_TEST.b
+                vpiActual: Port name:b
               vpiHighConn HierPath name:s.a.b start:16:24 end:16:29:
                 vpiParent: Port
                 vpiName: s.a.b
@@ -681,9 +678,11 @@ Design name:unnamed:
                     vpiFullName: t.U_SUB_TEST.b
             Port start:16:31 end:16:37:
               vpiParent: RefInstance name:U_SUB_TEST
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:c:
                 vpiParent: Port
-                vpiFullName: t.U_SUB_TEST
+                vpiName: c
+                vpiFullName: t.U_SUB_TEST.c
+                vpiActual: Port name:c
               vpiHighConn RefObj name:result start:16:31 end:16:37:
                 vpiParent: Port
                 vpiName: result
@@ -890,7 +889,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_param1/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             132     132       0         0
+Others                             130     130       0         0
 ----------------------------------------------------------------
-                                   132     132       0         0
+                                   130     130       0         0
 ===================== END REDUCTION RESULT =====================

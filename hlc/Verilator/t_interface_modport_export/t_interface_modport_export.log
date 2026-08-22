@@ -355,10 +355,11 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_modport_export.v:45:1: Compile module "testmod_callee".
 [WRN:CP0310] $Source01/t_interface_modport_export.v:47:18: Port "ie" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_interface_modport_export.v:58:1: Compile module "testmod_caller".
-[WRN:CP0350] $Source01/t_interface_modport_export.v:39:44: Failed to bind "id:49, name:mp_e".
-[WRN:CP0350] $Source01/t_interface_modport_export.v:41:16: Failed to bind "id:61, name:mp_i".
-[WRN:CP0350] $Source01/t_interface_modport_export.v:65:10: Failed to bind "id:116, name:data".
-[WRN:CP0350] $Source01/t_interface_modport_export.v:66:14: Failed to bind "id:126, name:myfunc".
+[WRN:CP0310] $Source01/t_interface_modport_export.v:61:18: Port "ii" definition missing its direction (input, output, inout).
+[WRN:CP0350] $Source01/t_interface_modport_export.v:39:44: Failed to bind "id:47, name:mp_e".
+[WRN:CP0350] $Source01/t_interface_modport_export.v:41:16: Failed to bind "id:59, name:mp_i".
+[WRN:CP0350] $Source01/t_interface_modport_export.v:65:10: Failed to bind "id:114, name:data".
+[WRN:CP0350] $Source01/t_interface_modport_export.v:66:14: Failed to bind "id:124, name:myfunc".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -392,6 +393,7 @@ Design name:unnamed:
           vpiName Identifier name:logic start:11:34 end:11:39:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
+      vpiDefName: test_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:test_if
@@ -430,9 +432,6 @@ Design name:unnamed:
               vpiParent: Modport name:mp_e
               vpiName: data
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:data
-                vpiFullName: test_if.mp_e.data
           vpiInterface: Interface name:test_if
         Modport name:mp_i start:23:12 end:23:16:
           vpiParent: Interface name:test_if
@@ -444,9 +443,6 @@ Design name:unnamed:
               vpiParent: Modport name:mp_i
               vpiName: data
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:data
-                vpiFullName: test_if.mp_i.data
           vpiInterface: Interface name:test_if
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_interface_modport_export.v start:31:1 end:42:10:
@@ -526,6 +522,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ie
                 vpiFullName: t.testmod_callee_i.ie
+                vpiActual: Port name:ie
               vpiHighConn HierPath name:i.mp_e start:39:42 end:39:48:
                 vpiParent: Port
                 vpiName: i.mp_e
@@ -555,7 +552,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.testmod_caller_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:40:43 end:40:46:
                 vpiParent: Port
                 vpiName: clk
@@ -567,6 +564,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ii
                 vpiFullName: t.testmod_caller_i.ii
+                vpiActual: Port name:ii
               vpiHighConn HierPath name:i.mp_i start:41:14 end:41:20:
                 vpiParent: Port
                 vpiName: i.mp_i
@@ -909,7 +907,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -953,7 +951,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_export/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             137     137       0         0
+Others                             135     135       0         0
 ----------------------------------------------------------------
-                                   137     137       0         0
+                                   135     135       0         0
 ===================== END REDUCTION RESULT =====================

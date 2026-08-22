@@ -127,6 +127,7 @@ n<$Source01/t_interface_top_bad.v> u<112> t<Top_level_rule> c<1> l<6:1> el<22:1>
 AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_top_bad.v:6:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface_top_bad.v:13:1: Compile module "t".
+[WRN:CP0310] $Source01/t_interface_top_bad.v:16:19: Port "c_data" definition missing its direction (input, output, inout).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -198,6 +199,7 @@ Design name:unnamed:
             vpiName: logic
             vpiFullName: ifc.logic
             vpiActual: UnsupportedTypespec name:logic
+      vpiDefName: ifc
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
@@ -215,16 +217,10 @@ Design name:unnamed:
               vpiParent: Modport name:counter_mp
               vpiName: reset
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:reset
-                vpiFullName: ifc.counter_mp.reset
             IODecl name:value start:9:44 end:9:49:
               vpiParent: Modport name:counter_mp
               vpiName: value
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:value
-                vpiFullName: ifc.counter_mp.value
           vpiInterface: Interface name:ifc
         Modport name:core_mp start:10:12 end:10:19:
           vpiParent: Interface name:ifc
@@ -236,16 +232,10 @@ Design name:unnamed:
               vpiParent: Modport name:core_mp
               vpiName: reset
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:reset
-                vpiFullName: ifc.core_mp.reset
             IODecl name:value start:10:41 end:10:46:
               vpiParent: Modport name:core_mp
               vpiName: value
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:value
-                vpiFullName: ifc.core_mp.value
           vpiInterface: Interface name:ifc
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_interface_top_bad.v start:13:1 end:21:10:
@@ -360,7 +350,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -404,7 +394,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_top_bad/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

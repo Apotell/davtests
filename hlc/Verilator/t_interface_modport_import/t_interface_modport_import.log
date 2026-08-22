@@ -283,9 +283,10 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_modport_import.v:8:1: Compile interface "test_if".
 [INF:CP0303] $Source01/t_interface_modport_import.v:28:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_modport_import.v:42:1: Compile module "testmod".
-[WRN:CP0350] $Source01/t_interface_modport_import.v:37:15: Failed to bind "id:54, name:mp".
-[WRN:CP0350] $Source01/t_interface_modport_import.v:49:9: Failed to bind "id:82, name:data".
-[WRN:CP0350] $Source01/t_interface_modport_import.v:50:13: Failed to bind "id:92, name:myfunc".
+[WRN:CP0310] $Source01/t_interface_modport_import.v:45:16: Port "i" definition missing its direction (input, output, inout).
+[WRN:CP0350] $Source01/t_interface_modport_import.v:37:15: Failed to bind "id:53, name:mp".
+[WRN:CP0350] $Source01/t_interface_modport_import.v:49:9: Failed to bind "id:81, name:data".
+[WRN:CP0350] $Source01/t_interface_modport_import.v:50:13: Failed to bind "id:91, name:myfunc".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -311,6 +312,7 @@ Design name:unnamed:
             vpiFullName: test_if.data.logic
           vpiName: data
           vpiFullName: test_if.data
+      vpiDefName: test_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:test_if
@@ -396,9 +398,6 @@ Design name:unnamed:
               vpiParent: Modport name:mp
               vpiName: data
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:data
-                vpiFullName: test_if.mp.data
           vpiInterface: Interface name:test_if
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_modport_import.v start:28:1 end:39:10:
@@ -472,7 +471,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.testmod_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:36:29 end:36:32:
                 vpiParent: Port
                 vpiName: clk
@@ -484,7 +483,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i
                 vpiFullName: t.testmod_i.i
-                vpiActual: RefInstance name:i
+                vpiActual: Port name:i
               vpiHighConn HierPath name:i.mp start:37:13 end:37:17:
                 vpiParent: Port
                 vpiName: i.mp
@@ -705,7 +704,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -749,7 +748,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_import/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             103     103       0         0
+Others                             102     102       0         0
 ----------------------------------------------------------------
-                                   103     103       0         0
+                                   102     102       0         0
 ===================== END REDUCTION RESULT =====================

@@ -67,10 +67,10 @@ n<$Source01/t_lint_mod_paren_bad.v> u<50> t<Top_level_rule> c<1> l<9:1> el<19:1>
         n<> u<46> t<ENDMODULE> p<47> l<18:1> el<18:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_lint_mod_paren_bad.v:9:1: Compile module "t".
-[WRN:CP0310] $Source01/t_lint_mod_paren_bad.v:11:4: Port "FOO" definition missing its direction (input, output, inout).
-[ERR:LN0813] $Source01/t_lint_mod_paren_bad.v:1:1: Found 1 orphan node(s).
-[ERR:LN0814] Found 2 weak node(s).
+[NTE:CP0309] $Source01/t_lint_mod_paren_bad.v:11:4: Implicit port type (wire) for "FOO".
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:LN0801] Invalid name: id:15, type:RefTypespec, name:, relation:vpiTypespec.
+[ERR:LN0801] Invalid name: id:16, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -93,6 +93,25 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
+      vpiNet (1 items):
+        Net name:FOO start:11:4 end:11:9:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:FOO
+            vpiFullName: t.FOO
+          vpiName: FOO
+          vpiFullName: t.FOO
+          vpiNetType: net (36)
+          vpiValue Constant start:11:8 end:11:9:
+            vpiParent: Net name:FOO
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.FOO
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiPort (1 items):
         Port name:FOO start:11:4 end:11:7:
           vpiParent: Module name:t
@@ -102,7 +121,7 @@ Design name:unnamed:
             vpiParent: Port name:FOO
             vpiName: FOO
             vpiFullName: t.FOO.FOO
-            vpiActual: Port name:FOO
+            vpiActual: Net name:FOO
           vpiTypespec RefTypespec:
             vpiParent: Port name:FOO
             vpiFullName: t.FOO
@@ -117,7 +136,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: FOO
             vpiFullName: t.FOO
-            vpiActual: Port name:FOO
+            vpiActual: Net name:FOO
   vpiTypespec (2 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -132,8 +151,8 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 2
-[WARNING] : 1
-[   NOTE] : 0
+[WARNING] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -147,25 +166,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_lint_mod_paren_bad/mounts.json
 
 
-{'result': {'coverage': 92.73,
+{'result': {'coverage': 94.55,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_lint_mod_paren_bad.v': {'post_len': 4,
+            'files': {'$Output/lib/work/t_lint_mod_paren_bad.v': {'post_len': 3,
                                                                   'pre_len': 55}},
-            'post_len': 4,
+            'post_len': 3,
             'pre_len': 55,
             'test_name': 'Verilator/t_lint_mod_paren_bad'}}
 
 +-----------------------------------------+----------+-----------+
 | INPUT                                   |   PRELEN |   POSTLEN |
 +=========================================+==========+===========+
-| $Output/lib/work/t_lint_mod_paren_bad.v |       55 |         4 |
+| $Output/lib/work/t_lint_mod_paren_bad.v |       55 |         3 |
 +=========================================+==========+===========+
-|                                         |       55 |         4 |
+|                                         |       55 |         3 |
 +-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.73
+[COVERAGE] : 94.55
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -176,7 +195,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_mod_paren_bad/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              14      14       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    14      14       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================

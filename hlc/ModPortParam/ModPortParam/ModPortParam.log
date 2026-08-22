@@ -105,6 +105,7 @@ Design name:unnamed:
         vpiParent: Interface name:PerformanceCounterIF
         vpiName: PerformanceCounterIF
       vpiFullName: PerformanceCounterIF
+      vpiDefName: PerformanceCounterIF
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:PerformanceCounterIF
@@ -122,9 +123,6 @@ Design name:unnamed:
               vpiParent: Modport name:CSR
               vpiName: perfCounter
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:perfCounter
-                vpiFullName: PerformanceCounterIF.CSR.perfCounter
           vpiInterface: Interface name:PerformanceCounterIF
   vpiAllModules (2 items):
     Module name:CSR_Unit file:$Source01/dut.sv start:8:1 end:11:10:
@@ -210,9 +208,11 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:16:19 end:16:32:
               vpiParent: RefInstance name:csrUnit
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:perfCounter:
                 vpiParent: Port
-                vpiFullName: Core.csrUnit
+                vpiName: perfCounter
+                vpiFullName: Core.csrUnit.perfCounter
+                vpiActual: Port name:perfCounter
               vpiHighConn RefObj name:perfCounterIF start:16:19 end:16:32:
                 vpiParent: Port
                 vpiName: perfCounterIF
@@ -286,7 +286,7 @@ COMMAND: ${HLC_DIR}/regression/ModPortParam/ModPortParam/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

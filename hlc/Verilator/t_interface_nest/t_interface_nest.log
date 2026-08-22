@@ -580,6 +580,7 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_nest.v:6:1: Compile interface "if1".
 [INF:CP0304] $Source01/t_interface_nest.v:10:1: Compile interface "if2".
 [INF:CP0303] $Source01/t_interface_nest.v:15:1: Compile module "mod1".
+[WRN:CP0310] $Source01/t_interface_nest.v:19:8: Port "foo" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_interface_nest.v:37:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_nest.v:37:1: Multiply defined typedef "mod1".
 [WRN:CP0350] $Source01/t_interface_nest.v:26:18: Failed to bind "id:66, name:i1".
@@ -621,6 +622,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:if1
           vpiSigned: true
+      vpiDefName: if1
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:if1
@@ -646,6 +648,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:if2
           vpiSigned: true
+      vpiDefName: if2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:if2
@@ -1306,6 +1309,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: modnum
                 vpiFullName: t.mod1a.modnum
+                vpiActual: Port name:modnum
               vpiHighConn Constant start:53:16 end:53:17:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
@@ -1322,7 +1326,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.mod1a.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:54:13 end:54:16:
                 vpiParent: Port
                 vpiName: clk
@@ -1334,6 +1338,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: foo
                 vpiFullName: t.mod1a.foo
+                vpiActual: Port name:foo
               vpiHighConn RefObj name:i2a start:55:13 end:55:16:
                 vpiParent: Port
                 vpiName: i2a
@@ -1354,6 +1359,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: modnum
                 vpiFullName: t.mod1b.modnum
+                vpiActual: Port name:modnum
               vpiHighConn Constant start:60:16 end:60:17:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
@@ -1370,7 +1376,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.mod1b.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:61:13 end:61:16:
                 vpiParent: Port
                 vpiName: clk
@@ -1382,6 +1388,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: foo
                 vpiFullName: t.mod1b.foo
+                vpiActual: Port name:foo
               vpiHighConn RefObj name:i2a start:62:13 end:62:16:
                 vpiParent: Port
                 vpiName: i2a
@@ -1423,7 +1430,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 11
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

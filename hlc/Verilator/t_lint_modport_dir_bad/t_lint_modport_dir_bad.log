@@ -219,9 +219,11 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_lint_modport_dir_bad.v:6:1: Compile interface "dummy_if".
 [INF:CP0303] $Source01/t_lint_modport_dir_bad.v:16:1: Compile module "sub".
 [NTE:CP0309] $Source01/t_lint_modport_dir_bad.v:19:16: Implicit port type (wire) for "signal_o".
+[WRN:CP0310] $Source01/t_lint_modport_dir_bad.v:21:20: Port "dummy_in" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/t_lint_modport_dir_bad.v:22:19: Port "dummy_out" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_lint_modport_dir_bad.v:30:1: Compile module "t".
-[WRN:CP0350] $Source01/t_lint_modport_dir_bad.v:25:20: Failed to bind "id:57, name:signal".
-[WRN:CP0350] $Source01/t_lint_modport_dir_bad.v:26:32: Failed to bind "id:63, name:signal".
+[WRN:CP0350] $Source01/t_lint_modport_dir_bad.v:25:20: Failed to bind "id:55, name:signal".
+[WRN:CP0350] $Source01/t_lint_modport_dir_bad.v:26:32: Failed to bind "id:61, name:signal".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -254,6 +256,7 @@ Design name:unnamed:
           vpiName Identifier name:logic start:7:4 end:7:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
+      vpiDefName: dummy_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:dummy_if
@@ -271,9 +274,6 @@ Design name:unnamed:
               vpiParent: Modport name:slave
               vpiName: signal
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:signal
-                vpiFullName: dummy_if.slave.signal
           vpiInterface: Interface name:dummy_if
         Modport name:master start:12:12 end:12:18:
           vpiParent: Interface name:dummy_if
@@ -285,9 +285,6 @@ Design name:unnamed:
               vpiParent: Modport name:master
               vpiName: signal
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:signal
-                vpiFullName: dummy_if.master.signal
           vpiInterface: Interface name:dummy_if
       vpiEndLabel Identifier name:dummy_if start:14:15 end:14:23:
         vpiParent: Interface name:dummy_if
@@ -550,7 +547,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: signal_i
                 vpiFullName: t.sub.signal_i
-                vpiActual: Net name:signal_i
+                vpiActual: Port name:signal_i
               vpiHighConn RefObj name:signal_i start:43:17 end:43:25:
                 vpiParent: Port
                 vpiName: signal_i
@@ -562,7 +559,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: signal_o
                 vpiFullName: t.sub.signal_o
-                vpiActual: Net name:signal_o
+                vpiActual: Port name:signal_o
               vpiHighConn RefObj name:signal_o start:44:17 end:44:25:
                 vpiParent: Port
                 vpiName: signal_o
@@ -574,6 +571,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dummy_in
                 vpiFullName: t.sub.dummy_in
+                vpiActual: Port name:dummy_in
               vpiHighConn RefObj name:dummy_if start:45:17 end:45:25:
                 vpiParent: Port
                 vpiName: dummy_if
@@ -585,6 +583,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dummy_out
                 vpiFullName: t.sub.dummy_out
+                vpiActual: Port name:dummy_out
               vpiHighConn RefObj name:dummy_if start:46:18 end:46:26:
                 vpiParent: Port
                 vpiName: dummy_if
@@ -614,7 +613,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 4
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -658,7 +657,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_modport_dir_bad/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              94      94       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                    94      94       0         0
+                                    92      92       0         0
 ===================== END REDUCTION RESULT =====================

@@ -232,8 +232,9 @@ TEST_F(ArrayAssociativeOtherTest, UnpktMemberIWildcardIndexHasNoConcreteType) {
   ASSERT_NE(i, nullptr);
   const hldb::ArrayTypespec *const at = i->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  ASSERT_NE(at->getIndexTypespec(), nullptr);
-  EXPECT_EQ(at->getIndexTypespec()->getActual(), nullptr);
+  // Sec 37.25 detail 2: "For the wildcard index type (see 7.8.1),
+  // vpiIndexTypespec shall return NULL" -- no empty typespec placeholder.
+  EXPECT_EQ(at->getIndexTypespec(), nullptr);
 }
 
 // --- structural completeness ----
