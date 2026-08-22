@@ -66,8 +66,9 @@
 // disables visiting for all of them. This correctly collapses a bare "()" to
 // zero Port objects, but it *also* incorrectly collapses ",", ",," the same
 // way, when per Annex A.1.3 those should produce 2 and 3 unconnected Port
-// placeholders respectively. The two GTEST_SKIP'd tests below document the
-// standard-correct expectation for "two U7 (,);" and "three Ug (,,);".
+// placeholders respectively. That gap is now CLOSED: "two U7 (,);" and
+// "three Ug (,,);" do produce 2 and 3 unconnected Port placeholders, which the
+// two tests at the end of this file verify.
 //
 // Checked:
 //   - "none"/"empty" both end up with zero formal ports (an omitted port
@@ -80,16 +81,20 @@
 //     connection objects
 //   - ordered connections with at least one real connection (U4, U8, U9, Ua)
 //     get one Port object per position, in source order, with unconnected
-//     positions carrying a null low/high-conn
+//     positions carrying a null high-conn (Sec 37.14 detail 10: vpiHighConn is
+//     NULL when the instance has no connection to the port) but a non-null
+//     low-conn (same detail: vpiLowConn is NULL only for a null *port*, e.g.
+//     "module M();" -- not merely for an unconnected position)
 //   - named connections (U5, Ub, Uc, Ud) get exactly one Port object per
 //     name actually written (never a placeholder for the port left
 //     unmentioned), with the formal port name captured on the low-conn and
 //     the connected signal on the high-conn
 //   - compiler emits zero errors
 //
-// Not checked (known gap, see the two GTEST_SKIP'd tests):
-//   - U7's/Ug's explicit comma-separated blank positions collapsing to zero
-//     Port objects instead of 2/3 unconnected placeholders.
+// Not checked:
+//   - what a blank position's low-conn resolves *to*. Sec 37.14 requires it to
+//     be non-null for a non-null port, which is asserted; binding it to the
+//     formal is elaboration's job and this model is non-elaborated.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -226,8 +231,13 @@ TEST_F(BlankPortTest, U8ConnectsW3ToFirstPositionLeavesSecondBlank) {
 
   const hldb::Port *const second = any_cast<hldb::Port>(u8->getPorts()->at(1));
   ASSERT_NE(second, nullptr);
-  EXPECT_EQ(second->getLowConn(), nullptr);
+  // Sec 23.3.2.1: "A blank port connection shall represent the situation where the
+  // port is not to be connected." Sec 37.14 detail 10 then fixes both handles
+  // independently: vpiHighConn is NULL when the instance has no connection to the
+  // port (this case), while vpiLowConn is NULL only when the *port* is a null port
+  // (e.g. "module M();"). Module "two" has real ports, so its low-conn stays set.
   EXPECT_EQ(second->getHighConn(), nullptr);
+  EXPECT_NE(second->getLowConn(), nullptr);
 }
 
 TEST_F(BlankPortTest, U9LeavesFirstPositionBlankConnectsW4ToSecond) {
@@ -238,8 +248,9 @@ TEST_F(BlankPortTest, U9LeavesFirstPositionBlankConnectsW4ToSecond) {
 
   const hldb::Port *const first = any_cast<hldb::Port>(u9->getPorts()->at(0));
   ASSERT_NE(first, nullptr);
-  EXPECT_EQ(first->getLowConn(), nullptr);
+  // See U8 above (Sec 23.3.2.1 + Sec 37.14 detail 10).
   EXPECT_EQ(first->getHighConn(), nullptr);
+  EXPECT_NE(first->getLowConn(), nullptr);
 
   const hldb::Port *const second = any_cast<hldb::Port>(u9->getPorts()->at(1));
   ASSERT_NE(second, nullptr);
@@ -332,7 +343,7 @@ TEST_F(BlankPortTest, UdConnectsBothNamedPortsInWrittenOrder) {
   EXPECT_EQ(second->getHighConn<hldb::RefObj>()->getName(), "w9");
 }
 
-// --- known gap: explicit blank comma-separated positions --------------------
+// --- explicit blank comma-separated positions -------------------------------
 
 TEST_F(BlankPortTest, U7ReservesTwoUnconnectedPositions) {
   // Annex A.1.3: "two U7 (,);" is a list_of_port_connections of 2 ordered
@@ -345,8 +356,9 @@ TEST_F(BlankPortTest, U7ReservesTwoUnconnectedPositions) {
   for (size_t i = 0; i < 2; ++i) {
     const hldb::Port *const conn = any_cast<hldb::Port>(u7->getPorts()->at(i));
     ASSERT_NE(conn, nullptr) << "connection index " << i;
-    EXPECT_EQ(conn->getLowConn(), nullptr) << "connection index " << i;
+    // See U8 above (Sec 23.3.2.1 + Sec 37.14 detail 10).
     EXPECT_EQ(conn->getHighConn(), nullptr) << "connection index " << i;
+    EXPECT_NE(conn->getLowConn(), nullptr) << "connection index " << i;
   }
 }
 
@@ -358,8 +370,9 @@ TEST_F(BlankPortTest, UgReservesThreeUnconnectedPositions) {
   for (size_t i = 0; i < 3; ++i) {
     const hldb::Port *const conn = any_cast<hldb::Port>(ug->getPorts()->at(i));
     ASSERT_NE(conn, nullptr) << "connection index " << i;
-    EXPECT_EQ(conn->getLowConn(), nullptr) << "connection index " << i;
+    // See U8 above (Sec 23.3.2.1 + Sec 37.14 detail 10).
     EXPECT_EQ(conn->getHighConn(), nullptr) << "connection index " << i;
+    EXPECT_NE(conn->getLowConn(), nullptr) << "connection index " << i;
   }
 }
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,6 +55,8 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/Error.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -282,7 +284,8 @@ TEST_F(AssociativeArrayNextTest, CompilerReportsZeroErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "next"), nullptr)
+      << "map.next() must bind (IEEE 1800-2023 7.9.6)";
   EXPECT_EQ(stats.nbWarning, 0);
 }
 

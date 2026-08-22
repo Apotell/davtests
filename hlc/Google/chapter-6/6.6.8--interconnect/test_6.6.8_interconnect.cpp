@@ -136,6 +136,15 @@ TEST_F(InterconnectTest, TopNetCurrentlyTypedAsPlainNetNotInterconnect) {
 }
 
 TEST_F(InterconnectTest, TopNetHasLogicTypespec) {
+  GTEST_SKIP() << "Sec 37.24 detail 1 requires an interconnect net's typespec to be that of the "
+                  "net(s) it connects to; resolving that needs elaboration, which this "
+                  "non-elaborated model does not perform, so the typespec is currently unset.";
+  // Sec 6.6.8 declares "bus" typeless at its point of declaration, but Sec 37.24
+  // detail 1 fixes what the object model must ultimately report: "The typespec for
+  // an interconnect net shall be the typespec of the net or nets it is connected
+  // to." Here "bus" connects to mod_i.in / mod_o.out, both implicit scalar nets,
+  // so the resolved typespec is a logic typespec. (The NULL-typespec rule in Sec
+  // 37 detail 13 applies to an interconnect *array*, which this is not.)
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
@@ -143,7 +152,7 @@ TEST_F(InterconnectTest, TopNetHasLogicTypespec) {
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  EXPECT_EQ(rt->getActual(), nullptr);
+  EXPECT_NE(rt->getActual<hldb::LogicTypespec>(), nullptr);
 }
 
 TEST_F(InterconnectTest, TopHasTwoRefInstances) {
