@@ -272,6 +272,7 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+      vpiDefName: REG_BUS
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:REG_BUS
@@ -300,9 +301,6 @@ Design name:unnamed:
               vpiParent: Modport name:out
               vpiName: addr
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:addr
-                vpiFullName: REG_BUS.out.addr
           vpiInterface: Interface name:REG_BUS
       vpiPort (1 items):
         Port name:clk_i start:6:15 end:6:20:
@@ -413,9 +411,11 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:25:16 end:25:21:
               vpiParent: RefInstance name:reg_bus
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:clk_i:
                 vpiParent: Port
-                vpiFullName: peripherals.reg_bus
+                vpiName: clk_i
+                vpiFullName: peripherals.reg_bus.clk_i
+                vpiActual: Port name:clk_i
               vpiHighConn RefObj name:clk_i start:25:16 end:25:21:
                 vpiParent: Port
                 vpiName: clk_i
@@ -435,6 +435,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: reg_o
                 vpiFullName: peripherals.i_apb_to_reg.reg_o
+                vpiActual: Port name:reg_o
               vpiHighConn RefObj name:reg_bus start:27:34 end:27:41:
                 vpiParent: Port
                 vpiName: reg_bus
@@ -548,9 +549,9 @@ Name                            Before   After   Added   Removed
 Constant                             4       4       2         2
 Operation                            2       0       0         2
 RefObj                              15      14       0         1
-RefTypespec                         13      13       2         2
+RefTypespec                         12      12       2         2
 ----------------------------------------------------------------
 Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    77      74       4         7
+                                    76      73       4         7
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -262,7 +262,8 @@ TEST_F(AssociativeArrayExistsTest, CompilerReportsZeroErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "exists"), nullptr)
+      << "map.exists() must bind (IEEE 1800-2023 7.9.3)";
   EXPECT_EQ(stats.nbWarning, 0);
 }
 

@@ -904,7 +904,11 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/t_interface_arraymux.v:6:1: Compile package "pkg".
 [INF:CP0304] $Source01/t_interface_arraymux.v:20:1: Compile interface "the_intf".
 [INF:CP0303] $Source01/t_interface_arraymux.v:32:1: Compile module "ThingMuxOH".
+[WRN:CP0310] $Source01/t_interface_arraymux.v:38:16: Port "things_in" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/t_interface_arraymux.v:39:16: Port "thing_out" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_interface_arraymux.v:43:1: Compile module "Thinker".
+[WRN:CP0310] $Source01/t_interface_arraymux.v:51:16: Port "thing_inp" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/t_interface_arraymux.v:52:16: Port "thing_out" definition missing its direction (input, output, inout).
 [WRN:CP0323] $Source01/t_interface_arraymux.v:43:1: Multiply defined typedef "ThingMuxOH".
 [INF:CP0303] $Source01/t_interface_arraymux.v:82:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_arraymux.v:82:1: Multiply defined typedef "Thinker".
@@ -1122,6 +1126,7 @@ Design name:unnamed:
             vpiName: outer_thing_t
             vpiFullName: the_intf.outer_thing_t
             vpiActual: TypedefTypespec name:outer_thing_t
+      vpiDefName: the_intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:the_intf
@@ -1139,16 +1144,10 @@ Design name:unnamed:
               vpiParent: Modport name:i
               vpiName: things
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:things
-                vpiFullName: the_intf.i.things
             IODecl name:valid start:26:16 end:26:21:
               vpiParent: Modport name:i
               vpiName: valid
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:valid
-                vpiFullName: the_intf.i.valid
           vpiInterface: Interface name:the_intf
         Modport name:t start:27:13 end:27:14:
           vpiParent: Interface name:the_intf
@@ -1160,16 +1159,10 @@ Design name:unnamed:
               vpiParent: Modport name:t
               vpiName: things
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:things
-                vpiFullName: the_intf.t.things
             IODecl name:valid start:29:15 end:29:20:
               vpiParent: Modport name:t
               vpiName: valid
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:valid
-                vpiFullName: the_intf.t.valid
           vpiInterface: Interface name:the_intf
   vpiAllModules (3 items):
     Module name:ThingMuxOH file:$Source01/t_interface_arraymux.v start:32:1 end:41:10:
@@ -1936,7 +1929,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: select_oh
                 vpiFullName: Thinker.curr_thing_mux.select_oh
-                vpiActual: Variable name:select_oh
+                vpiActual: Port name:select_oh
               vpiHighConn RefObj name:select_oh start:67:17 end:67:26:
                 vpiParent: Port
                 vpiName: select_oh
@@ -1948,6 +1941,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: things_in
                 vpiFullName: Thinker.curr_thing_mux.things_in
+                vpiActual: Port name:things_in
               vpiHighConn RefObj name:curr_things start:68:17 end:68:28:
                 vpiParent: Port
                 vpiName: curr_things
@@ -2008,7 +2002,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: select_oh
                 vpiFullName: Thinker.prev_thing_mux.select_oh
-                vpiActual: Variable name:select_oh
+                vpiActual: Port name:select_oh
               vpiHighConn RefObj name:select_oh start:76:17 end:76:26:
                 vpiParent: Port
                 vpiName: select_oh
@@ -2020,6 +2014,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: things_in
                 vpiFullName: Thinker.prev_thing_mux.things_in
+                vpiActual: Port name:things_in
               vpiHighConn RefObj name:prev_things start:77:17 end:77:28:
                 vpiParent: Port
                 vpiName: prev_things
@@ -2344,7 +2339,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.thinker.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:100:17 end:100:20:
                 vpiParent: Port
                 vpiName: clk
@@ -2356,7 +2351,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: reset
                 vpiFullName: t.thinker.reset
-                vpiActual: Net name:reset
+                vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:101:17 end:101:22:
                 vpiParent: Port
                 vpiName: reset
@@ -2368,7 +2363,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: uids
                 vpiFullName: t.thinker.uids
-                vpiActual: Variable name:uids
+                vpiActual: Port name:uids
               vpiHighConn RefObj name:uids start:102:17 end:102:21:
                 vpiParent: Port
                 vpiName: uids
@@ -2380,7 +2375,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: thing_inp
                 vpiFullName: t.thinker.thing_inp
-                vpiActual: RefInstance name:thing_inp
+                vpiActual: Port name:thing_inp
               vpiHighConn RefObj name:thing_inp start:103:17 end:103:26:
                 vpiParent: Port
                 vpiName: thing_inp
@@ -2392,7 +2387,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: thing_out
                 vpiFullName: t.thinker.thing_out
-                vpiActual: RefInstance name:thing_out
+                vpiActual: Port name:thing_out
               vpiHighConn RefObj name:thing_out start:104:17 end:104:26:
                 vpiParent: Port
                 vpiName: thing_out
@@ -2488,7 +2483,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.thinker2.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:115:17 end:115:20:
                 vpiParent: Port
                 vpiName: clk
@@ -2500,7 +2495,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: reset
                 vpiFullName: t.thinker2.reset
-                vpiActual: Net name:reset
+                vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:116:17 end:116:22:
                 vpiParent: Port
                 vpiName: reset
@@ -2512,7 +2507,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: uids
                 vpiFullName: t.thinker2.uids
-                vpiActual: Variable name:uids
+                vpiActual: Port name:uids
               vpiHighConn RefObj name:uids start:117:17 end:117:21:
                 vpiParent: Port
                 vpiName: uids
@@ -2524,7 +2519,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: thing_inp
                 vpiFullName: t.thinker2.thing_inp
-                vpiActual: RefInstance name:thing_inp
+                vpiActual: Port name:thing_inp
               vpiHighConn RefObj name:thing_inp2 start:118:17 end:118:27:
                 vpiParent: Port
                 vpiName: thing_inp2
@@ -2536,7 +2531,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: thing_out
                 vpiFullName: t.thinker2.thing_out
-                vpiActual: RefInstance name:thing_out
+                vpiActual: Port name:thing_out
               vpiHighConn RefObj name:thing_out2 start:119:17 end:119:27:
                 vpiParent: Port
                 vpiName: thing_out2
@@ -2580,7 +2575,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2626,9 +2621,9 @@ Name                            Before   After   Added   Removed
 Constant                            26      26       8         8
 Operation                            8       0       0         8
 RefObj                             103      95       0         8
-RefTypespec                         85      85       8         8
+RefTypespec                         81      81       8         8
 ----------------------------------------------------------------
 Others                             174     174       0         0
 ----------------------------------------------------------------
-                                   396     380      16        32
+                                   392     376      16        32
 ===================== END REDUCTION RESULT =====================

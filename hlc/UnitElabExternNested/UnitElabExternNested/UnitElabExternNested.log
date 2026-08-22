@@ -19,9 +19,6 @@ COMMAND: -wd ../../../tests/UnitElabExternNested top.v middle.v -writepp -fileun
 [INF:CP0303] $Source01/top.v:9:1: Compile module "ff1".
 [INF:CP0303] $Source01/top.v:18:1: Compile module "ff2".
 [INF:CP0303] $Source01/top.v:28:1: Compile module "ff3".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff1".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff2".
-[WRN:CP0323] $Source01/top.v:1:1: Multiply defined typedef "ff3".
 [INF:CP0303] $Source01/middle.v:2:1: Compile module "m".
 [INF:CP0303] $Source01/middle.v:3:1: Compile module "a".
 [INF:CP0303] $Source01/middle.v:18:1: Compile module "top".
@@ -1613,7 +1610,6 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
-      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1839,7 +1835,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
-      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1927,7 +1922,6 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
-      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2055,7 +2049,7 @@ Design name:unnamed:
         vpiParent: Module name:dff_nested
         vpiName: dff_nested
       vpiFullName: dff_nested
-      vpiTypespec (7 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:dff_nested
         ModuleTypespec name:ff1:
@@ -2064,33 +2058,18 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:ff1
             vpiName: ff1
           vpiModule: Module name:ff1
-        ModuleTypespec name:ff1 start:16:5 end:16:8:
-          vpiParent: Module name:dff_nested
-          vpiName Identifier name:ff1 start:16:5 end:16:8:
-            vpiParent: ModuleTypespec name:ff1
-            vpiName: ff1
         ModuleTypespec name:ff2:
           vpiParent: Module name:dff_nested
           vpiName Identifier name:ff2 start:19:2 end:19:5:
             vpiParent: ModuleTypespec name:ff2
             vpiName: ff2
           vpiModule: Module name:ff2
-        ModuleTypespec name:ff2 start:27:5 end:27:8:
-          vpiParent: Module name:dff_nested
-          vpiName Identifier name:ff2 start:27:5 end:27:8:
-            vpiParent: ModuleTypespec name:ff2
-            vpiName: ff2
         ModuleTypespec name:ff3:
           vpiParent: Module name:dff_nested
           vpiName Identifier name:ff3 start:29:2 end:29:5:
             vpiParent: ModuleTypespec name:ff3
             vpiName: ff3
           vpiModule: Module name:ff3
-        ModuleTypespec name:ff3 start:35:5 end:35:8:
-          vpiParent: Module name:dff_nested
-          vpiName Identifier name:ff3 start:35:5 end:35:8:
-            vpiParent: ModuleTypespec name:ff3
-            vpiName: ff3
       vpiDefName: dff_nested
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2632,30 +2611,18 @@ Design name:unnamed:
           vpiParent: Module name:m
           vpiName: a
           vpiDirection: no direction (5)
-          vpiTypespec RefTypespec:
-            vpiParent: Port name:a
-            vpiFullName: m.a
         Port name:b start:2:20 end:2:21:
           vpiParent: Module name:m
           vpiName: b
           vpiDirection: no direction (5)
-          vpiTypespec RefTypespec:
-            vpiParent: Port name:b
-            vpiFullName: m.b
         Port name:c start:2:22 end:2:23:
           vpiParent: Module name:m
           vpiName: c
           vpiDirection: no direction (5)
-          vpiTypespec RefTypespec:
-            vpiParent: Port name:c
-            vpiFullName: m.c
         Port name:d start:2:24 end:2:25:
           vpiParent: Module name:m
           vpiName: d
           vpiDirection: no direction (5)
-          vpiTypespec RefTypespec:
-            vpiParent: Port name:d
-            vpiFullName: m.d
     Module name:a file:$Source01/middle.v start:3:1 end:15:8:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a start:3:15 end:3:16:
@@ -2968,9 +2935,10 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:26:7 end:26:9:
               vpiParent: RefInstance name:mm
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:.*:
                 vpiParent: Port
-                vpiFullName: top.mm
+                vpiName: ".*"
+                vpiFullName: top.mm..*
         RefInstance name:aa start:27:3 end:27:5:
           vpiParent: Module name:top
           vpiName: aa
@@ -2982,9 +2950,10 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:27:7 end:27:9:
               vpiParent: RefInstance name:aa
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:.*:
                 vpiParent: Port
-                vpiFullName: top.aa
+                vpiName: ".*"
+                vpiFullName: top.aa..*
   vpiTypespec (11 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3044,7 +3013,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 11
+[WARNING] : 8
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3091,7 +3060,7 @@ COMMAND: ${HLC_DIR}/regression/UnitElabExternNested/UnitElabExternNested/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             818     818       0         0
+Others                             808     808       0         0
 ----------------------------------------------------------------
-                                   818     818       0         0
+                                   808     808       0         0
 ===================== END REDUCTION RESULT =====================

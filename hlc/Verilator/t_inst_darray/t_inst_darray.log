@@ -641,6 +641,7 @@ n<$Source01/t_inst_darray.v> u<626> t<Top_level_rule> c<1> l<6:1> el<86:1>
 AST_DEBUG_END
 [INF:CP0304] $Source01/t_inst_darray.v:9:1: Compile interface "the_intf".
 [INF:CP0303] $Source01/t_inst_darray.v:26:1: Compile module "Contemplator".
+[WRN:CP0310] $Source01/t_inst_darray.v:32:16: Port "out" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_inst_darray.v:44:1: Compile module "DeepThought".
 [WRN:CP0310] $Source01/t_inst_darray.v:47:16: Port "src" definition missing its direction (input, output, inout).
 [WRN:CP0310] $Source01/t_inst_darray.v:48:16: Port "dst" definition missing its direction (input, output, inout).
@@ -759,6 +760,7 @@ Design name:unnamed:
             vpiName: value_t
             vpiFullName: the_intf.value_t
             vpiActual: TypedefTypespec name:value_t
+      vpiDefName: the_intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:the_intf
@@ -776,23 +778,14 @@ Design name:unnamed:
               vpiParent: Modport name:i
               vpiName: valid
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:valid
-                vpiFullName: the_intf.i.valid
             IODecl name:uid start:16:14 end:16:17:
               vpiParent: Modport name:i
               vpiName: uid
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:uid
-                vpiFullName: the_intf.i.uid
             IODecl name:values start:17:14 end:17:20:
               vpiParent: Modport name:i
               vpiName: values
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:values
-                vpiFullName: the_intf.i.values
           vpiInterface: Interface name:the_intf
         Modport name:t start:19:12 end:19:13:
           vpiParent: Interface name:the_intf
@@ -804,23 +797,14 @@ Design name:unnamed:
               vpiParent: Modport name:t
               vpiName: valid
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:valid
-                vpiFullName: the_intf.t.valid
             IODecl name:uid start:21:13 end:21:16:
               vpiParent: Modport name:t
               vpiName: uid
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:uid
-                vpiFullName: the_intf.t.uid
             IODecl name:values start:22:13 end:22:19:
               vpiParent: Modport name:t
               vpiName: values
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:values
-                vpiFullName: the_intf.t.values
           vpiInterface: Interface name:the_intf
   vpiAllModules (3 items):
     Module name:Contemplator file:$Source01/t_inst_darray.v start:26:1 end:42:10:
@@ -1113,6 +1097,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: src
                 vpiFullName: Contemplator.ultimateAnswerer.src
+                vpiActual: Port name:src
               vpiHighConn RefObj name:inp start:40:15 end:40:18:
                 vpiParent: Port
                 vpiName: inp
@@ -1124,6 +1109,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dst
                 vpiFullName: Contemplator.ultimateAnswerer.dst
+                vpiActual: Port name:dst
               vpiHighConn RefObj name:out start:41:15 end:41:18:
                 vpiParent: Port
                 vpiName: out
@@ -1630,7 +1616,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.contemplatorOfTheZerothKind.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:70:19 end:70:22:
                 vpiParent: Port
                 vpiName: clk
@@ -1642,6 +1628,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: out
                 vpiFullName: t.contemplatorOfTheZerothKind.out
+                vpiActual: Port name:out
               vpiHighConn RefObj name:out0 start:71:19 end:71:23:
                 vpiParent: Port
                 vpiName: out0
@@ -1709,7 +1696,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.contemplatorOfTheFirstKind.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:78:18 end:78:21:
                 vpiParent: Port
                 vpiName: clk
@@ -1721,6 +1708,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: out
                 vpiFullName: t.contemplatorOfTheFirstKind.out
+                vpiActual: Port name:out
               vpiHighConn RefObj name:out1 start:79:18 end:79:22:
                 vpiParent: Port
                 vpiName: out1
@@ -1847,7 +1835,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1893,9 +1881,9 @@ Name                            Before   After   Added   Removed
 Constant                            28      28       7         7
 Operation                            7       0       0         7
 RefObj                              59      52       0         7
-RefTypespec                         68      68       7         7
+RefTypespec                         62      62       7         7
 ----------------------------------------------------------------
 Others                             126     126       0         0
 ----------------------------------------------------------------
-                                   288     274      14        28
+                                   282     268      14        28
 ===================== END REDUCTION RESULT =====================

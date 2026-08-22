@@ -42,6 +42,8 @@ COMMAND: -wd ../../../tests/TimeUnit top.v top1.v -writepp -d 0 -fileunit -split
 [WRN:PA0205] $Source01/top1.v:253:1: No timescale set for "splice1".
 [WRN:PA0205] $Source01/top1.v:277:1: No timescale set for "bottom2".
 [WRN:PA0205] $Source01/top1.v:2:1: No timescale set for "my_interface".
+[ERR:LN0801] Invalid name: id:828, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:831, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1626,7 +1628,6 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
-      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1852,7 +1853,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
-      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1940,7 +1940,6 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
-      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2097,6 +2096,7 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+      vpiDefName: my_interface
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:my_interface
@@ -2296,9 +2296,11 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:6:14 end:6:18:
               vpiParent: RefInstance name:u1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:a:
                 vpiParent: Port
-                vpiFullName: bottom1.u1
+                vpiName: a
+                vpiFullName: bottom1.u1.a
+                vpiActual: Port name:a
               vpiHighConn BitSelect name:a[0] start:6:14 end:6:18:
                 vpiParent: Port
                 vpiName: a[0]
@@ -2320,9 +2322,11 @@ Design name:unnamed:
                   vpiValue: 0
             Port start:6:20 end:6:21:
               vpiParent: RefInstance name:u1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:b:
                 vpiParent: Port
-                vpiFullName: bottom1.u1
+                vpiName: b
+                vpiFullName: bottom1.u1.b
+                vpiActual: Port name:b
               vpiHighConn RefObj name:b start:6:20 end:6:21:
                 vpiParent: Port
                 vpiName: b
@@ -2382,9 +2386,10 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:9:28 end:9:30:
               vpiParent: RefInstance name:my_interface
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:.*:
                 vpiParent: Port
-                vpiFullName: bottom1.my_interface
+                vpiName: ".*"
+                vpiFullName: bottom1.my_interface..*
     Module name:bottom2 file:$Source01/top.v start:13:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom2 start:13:8 end:13:15:
@@ -2949,7 +2954,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 14
 [   NOTE] : 0
 ********************************************************************************

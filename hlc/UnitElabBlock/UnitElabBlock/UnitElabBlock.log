@@ -310,7 +310,7 @@ n<$Source01/top.v> u<216> t<Top_level_rule> c<1> l<1:1> el<42:10>
         n<> u<50> t<Module_item> p<52> c<49> s<51> l<6:1> el<7:13>
           n<> u<49> t<Non_port_module_item> p<50> c<48> l<6:1> el<7:13>
             n<> u<48> t<Module_or_generate_item> p<49> c<47> l<6:1> el<7:13>
-              n<> u<47> t<Module_instantiation> p<48> c<28> l<6:1> el<7:13>
+              n<> u<47> t<Unsupported_instantiation> p<48> c<28> l<6:1> el<7:13>
                 n<mod> u<28> t<SIMPLE_IDENTIFIER> p<47> s<37> l<6:1> el<6:4>
                 n<> u<37> t<Hierarchical_instance> p<47> c<30> s<46> l<6:5> el<6:16>
                   n<> u<30> t<Name_of_instance> p<37> c<29> s<36> l<6:5> el<6:9>
@@ -417,7 +417,7 @@ n<$Source01/top.v> u<216> t<Top_level_rule> c<1> l<1:1> el<42:10>
                         n<stim2> u<127> t<SIMPLE_IDENTIFIER> p<128> l<27:9> el<27:14>
         n<> u<153> t<Non_port_module_item> p<213> c<152> s<154> l<28:1> el<28:21>
           n<> u<152> t<Module_or_generate_item> p<153> c<151> l<28:1> el<28:21>
-            n<> u<151> t<Module_instantiation> p<152> c<136> l<28:1> el<28:21>
+            n<> u<151> t<Unsupported_instantiation> p<152> c<136> l<28:1> el<28:21>
               n<cct> u<136> t<SIMPLE_IDENTIFIER> p<151> s<150> l<28:1> el<28:4>
               n<> u<150> t<Hierarchical_instance> p<151> c<138> l<28:5> el<28:20>
                 n<> u<138> t<Name_of_instance> p<150> c<137> s<149> l<28:5> el<28:6>
@@ -2076,7 +2076,6 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
-      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2302,7 +2301,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
-      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2390,7 +2388,6 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
-      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2518,15 +2515,9 @@ Design name:unnamed:
         vpiParent: Module name:cct
         vpiName: cct
       vpiFullName: cct
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:cct
-        ModuleTypespec name:mod start:6:1 end:6:4:
-          vpiParent: Module name:cct
-          vpiName Identifier name:mod start:6:1 end:6:4:
-            vpiParent: ModuleTypespec name:mod
-            vpiName: mod
-          vpiModule: Module name:mod
       vpiDefName: cct
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2594,9 +2585,11 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:6:10 end:6:15:
               vpiParent: RefInstance name:amod
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:in:
                 vpiParent: Port
-                vpiFullName: cct.amod
+                vpiName: in
+                vpiFullName: cct.amod.in
+                vpiActual: Port name:in
               vpiHighConn RefObj name:stim1 start:6:10 end:6:15:
                 vpiParent: Port
                 vpiName: stim1
@@ -2613,9 +2606,11 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:7:6 end:7:11:
               vpiParent: RefInstance name:bmod
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:in:
                 vpiParent: Port
-                vpiFullName: cct.bmod
+                vpiName: in
+                vpiFullName: cct.bmod.in
+                vpiActual: Port name:in
               vpiHighConn RefObj name:stim2 start:7:6 end:7:11:
                 vpiParent: Port
                 vpiName: stim2
@@ -2736,13 +2731,6 @@ Design name:unnamed:
             vpiFullName: wave.stim2.logic
           vpiName: stim2
           vpiFullName: wave.stim2
-      vpiTypespec (1 items):
-        ModuleTypespec name:cct start:28:1 end:28:4:
-          vpiParent: Module name:wave
-          vpiName Identifier name:cct start:28:1 end:28:4:
-            vpiParent: ModuleTypespec name:cct
-            vpiName: cct
-          vpiModule: Module name:cct
       vpiDefName: wave
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2839,9 +2827,11 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:28:7 end:28:12:
               vpiParent: RefInstance name:a
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:stim1:
                 vpiParent: Port
-                vpiFullName: wave.a
+                vpiName: stim1
+                vpiFullName: wave.a.stim1
+                vpiActual: Port name:stim1
               vpiHighConn RefObj name:stim1 start:28:7 end:28:12:
                 vpiParent: Port
                 vpiName: stim1
@@ -2849,9 +2839,11 @@ Design name:unnamed:
                 vpiActual: Variable name:stim1
             Port start:28:14 end:28:19:
               vpiParent: RefInstance name:a
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:stim2:
                 vpiParent: Port
-                vpiFullName: wave.a
+                vpiName: stim2
+                vpiFullName: wave.a.stim2
+                vpiActual: Port name:stim2
               vpiHighConn RefObj name:stim2 start:28:14 end:28:19:
                 vpiParent: Port
                 vpiName: stim2
@@ -2954,7 +2946,7 @@ COMMAND: ${HLC_DIR}/regression/UnitElabBlock/UnitElabBlock/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             679     679       0         0
+Others                             675     675       0         0
 ----------------------------------------------------------------
-                                   679     679       0         0
+                                   675     675       0         0
 ===================== END REDUCTION RESULT =====================

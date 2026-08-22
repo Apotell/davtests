@@ -596,10 +596,12 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_parameter_access.v:8:1: Compile interface "test_if".
 [INF:CP0303] $Source01/t_interface_parameter_access.v:30:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_parameter_access.v:55:1: Compile module "testmod".
-[WRN:CP0350] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "id:77, name:FOO".
-[WRN:CP0350] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "id:124, name:FOO".
-[WRN:CP0350] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "id:174, name:FOO".
-[WRN:CP0350] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "id:185, name:FOO".
+[WRN:CP0310] $Source01/t_interface_parameter_access.v:58:15: Port "intf" definition missing its direction (input, output, inout).
+[WRN:CP0310] $Source01/t_interface_parameter_access.v:59:12: Port "intf_no_mp" definition missing its direction (input, output, inout).
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "id:76, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "id:123, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "id:173, name:FOO".
+[WRN:CP0350] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "id:184, name:FOO".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -656,6 +658,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:test_if
           vpiSigned: true
+      vpiDefName: test_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:test_if
@@ -696,9 +699,6 @@ Design name:unnamed:
               vpiParent: Modport name:mp
               vpiName: data
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:data
-                vpiFullName: test_if.mp.data
           vpiInterface: Interface name:test_if
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_parameter_access.v start:30:1 end:52:10:
@@ -888,7 +888,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.testmod_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:38:29 end:38:32:
                 vpiParent: Port
                 vpiName: clk
@@ -900,6 +900,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: intf
                 vpiFullName: t.testmod_i.intf
+                vpiActual: Port name:intf
               vpiHighConn RefObj name:the_interface start:39:16 end:39:29:
                 vpiParent: Port
                 vpiName: the_interface
@@ -911,6 +912,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: intf_no_mp
                 vpiFullName: t.testmod_i.intf_no_mp
+                vpiActual: Port name:intf_no_mp
               vpiHighConn RefObj name:the_interface start:40:36 end:40:49:
                 vpiParent: Port
                 vpiName: the_interface
@@ -1422,7 +1424,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1466,7 +1468,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             200     200       0         0
+Others                             199     199       0         0
 ----------------------------------------------------------------
-                                   200     200       0         0
+                                   199     199       0         0
 ===================== END REDUCTION RESULT =====================
