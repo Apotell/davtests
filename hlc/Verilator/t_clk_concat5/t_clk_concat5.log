@@ -659,8 +659,10 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_clk_concat5.v:34:1: Compile module "t1".
 [INF:CP0303] $Source01/t_clk_concat5.v:47:1: Compile module "t2".
 [INF:CP0303] $Source01/t_clk_concat5.v:74:1: Compile module "t".
-[WRN:CP0310] $Source01/t_clk_concat5.v:77:3: Port "clk" definition missing its direction (input, output, inout).
+[NTE:CP0309] $Source01/t_clk_concat5.v:77:3: Implicit port type (wire) for "clk".
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:LN0801] Invalid name: id:275, type:RefTypespec, name:, relation:vpiTypespec.
+[ERR:LN0801] Invalid name: id:276, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1138,7 +1140,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_clks
                 vpiFullName: t1.some_module.i_clks
-                vpiActual: Net name:i_clks
+                vpiActual: Port name:i_clks
               vpiHighConn RefObj name:i_clks start:43:11 end:43:17:
                 vpiParent: Port
                 vpiName: i_clks
@@ -1515,7 +1517,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_clks
                 vpiFullName: t2.t1.i_clks
-                vpiActual: Net name:i_clks
+                vpiActual: Port name:i_clks
               vpiHighConn RefObj name:the_clks start:68:16 end:68:24:
                 vpiParent: Port
                 vpiName: the_clks
@@ -1527,7 +1529,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_clk0
                 vpiFullName: t2.t1.i_clk0
-                vpiActual: Net name:i_clk0
+                vpiActual: Port name:i_clk0
               vpiHighConn RefObj name:i_clk0 start:69:16 end:69:22:
                 vpiParent: Port
                 vpiName: i_clk0
@@ -1539,7 +1541,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_clk1
                 vpiFullName: t2.t1.i_clk1
-                vpiActual: Net name:i_clk1
+                vpiActual: Port name:i_clk1
               vpiHighConn RefObj name:i_clk1 start:70:16 end:70:22:
                 vpiParent: Port
                 vpiName: i_clk1
@@ -1615,7 +1617,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (5 items):
         Net name:clk0 start:78:9 end:78:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:78:3 end:78:8:
@@ -1656,6 +1658,14 @@ Design name:unnamed:
           vpiFullName: t.data_in
           vpiNetType: wire (1)
           vpiScalar: true
+        Net name:clk start:77:3 end:77:6:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:clk
+            vpiFullName: t.clk
+          vpiName: clk
+          vpiFullName: t.clk
+          vpiNetType: net (36)
       vpiPort (5 items):
         Port name:clk start:77:3 end:77:6:
           vpiParent: Module name:t
@@ -1665,7 +1675,7 @@ Design name:unnamed:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
-            vpiActual: Port name:clk
+            vpiActual: Net name:clk
           vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
@@ -1769,6 +1779,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_clks
                 vpiFullName: t.t2.i_clks
+                vpiActual: Port name:i_clks
               vpiHighConn RefObj name:clks start:93:11 end:93:15:
                 vpiParent: Port
                 vpiName: clks
@@ -1780,6 +1791,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_clk0
                 vpiFullName: t.t2.i_clk0
+                vpiActual: Port name:i_clk0
               vpiHighConn RefObj name:clk0 start:94:11 end:94:15:
                 vpiParent: Port
                 vpiName: clk0
@@ -1791,17 +1803,19 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_clk1
                 vpiFullName: t.t2.i_clk1
+                vpiActual: Port name:i_clk1
               vpiHighConn RefObj name:clk start:95:11 end:95:14:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.t2.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
             Port start:96:2 end:96:16:
               vpiParent: RefInstance name:t2
               vpiLowConn RefObj name:i_clk2 start:96:3 end:96:9:
                 vpiParent: Port
                 vpiName: i_clk2
                 vpiFullName: t.t2.i_clk2
+                vpiActual: Port name:i_clk2
               vpiHighConn RefObj name:clk2 start:96:11 end:96:15:
                 vpiParent: Port
                 vpiName: clk2
@@ -1813,6 +1827,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_data
                 vpiFullName: t.t2.i_data
+                vpiActual: Port name:i_data
               vpiHighConn RefObj name:data_in start:97:11 end:97:18:
                 vpiParent: Port
                 vpiName: data_in
@@ -1853,9 +1868,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 0
-[WARNING] : 1
-[   NOTE] : 0
+[  ERROR] : 2
+[WARNING] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1898,7 +1913,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_clk_concat5/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             283     283       0         0
+Others                             285     285       0         0
 ----------------------------------------------------------------
-                                   283     283       0         0
+                                   285     285       0         0
 ===================== END REDUCTION RESULT =====================

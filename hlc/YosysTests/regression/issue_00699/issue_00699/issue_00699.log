@@ -1095,6 +1095,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/issue_00699/top.v:1:1: Compile module "top".
 [INF:CP0303] $Source01/issue_00699/testbench.v:1:1: Compile module "testbench".
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:LN0801] Invalid name: id:395, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2520,9 +2521,11 @@ Design name:unnamed:
           vpiPort (3 items):
             Port start:27:11 end:27:14:
               vpiParent: RefInstance name:uut
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:clk:
                 vpiParent: Port
-                vpiFullName: testbench.uut
+                vpiName: clk
+                vpiFullName: testbench.uut.clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:27:11 end:27:14:
                 vpiParent: Port
                 vpiName: clk
@@ -2530,9 +2533,11 @@ Design name:unnamed:
                 vpiActual: Variable name:clk
             Port start:27:15 end:27:16:
               vpiParent: RefInstance name:uut
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:en:
                 vpiParent: Port
-                vpiFullName: testbench.uut
+                vpiName: en
+                vpiFullName: testbench.uut.en
+                vpiActual: Port name:en
               vpiHighConn RefObj name:i start:27:15 end:27:16:
                 vpiParent: Port
                 vpiName: i
@@ -2563,7 +2568,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: testbench.b1_test.clk
-                vpiActual: Variable name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:32:26 end:32:29:
                 vpiParent: Port
                 vpiName: clk
@@ -2575,6 +2580,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: test
                 vpiFullName: testbench.b1_test.test
+                vpiActual: Port name:test
               vpiHighConn RefObj name:b start:32:38 end:32:39:
                 vpiParent: Port
                 vpiName: b
@@ -2586,6 +2592,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: pat
                 vpiFullName: testbench.b1_test.pat
+                vpiActual: Port name:pat
               vpiHighConn RefObj name:out start:32:47 end:32:50:
                 vpiParent: Port
                 vpiName: out
@@ -2644,7 +2651,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

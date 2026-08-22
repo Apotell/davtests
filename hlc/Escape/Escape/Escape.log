@@ -34,6 +34,8 @@ COMMAND: -wd ../../../tests/Escape top.v top1.v -writepp -d 0 -fileunit -wd ${HL
 [WRN:PA0205] $Source01/top.v:27:1: No timescale set for "bottom2".
 [WRN:PA0205] $Source01/top1.v:26:1: No timescale set for "bottom2".
 [WRN:PA0205] $Source01/top1.v:2:1: No timescale set for "my_interface".
+[ERR:LN0801] Invalid name: id:1088, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:1091, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2331,7 +2333,6 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
-      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2557,7 +2558,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
-      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2645,7 +2645,6 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
-      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2778,7 +2777,6 @@ Design name:unnamed:
           vpiName Identifier name:uvm_env start:8:19 end:8:26:
             vpiParent: UnsupportedTypespec name:uvm_env
             vpiName: uvm_env
-      vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:8:11 end:8:18:
         vpiParent: ClassDefn name:env
@@ -2912,6 +2910,7 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+      vpiDefName: my_interface
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:my_interface
@@ -3126,9 +3125,11 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:20:14 end:20:18:
               vpiParent: RefInstance name:u1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:a:
                 vpiParent: Port
-                vpiFullName: bottom1.u1
+                vpiName: a
+                vpiFullName: bottom1.u1.a
+                vpiActual: Port name:a
               vpiHighConn BitSelect name:a[0] start:20:14 end:20:18:
                 vpiParent: Port
                 vpiName: a[0]
@@ -3150,9 +3151,11 @@ Design name:unnamed:
                   vpiValue: 0
             Port start:20:20 end:20:21:
               vpiParent: RefInstance name:u1
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:b:
                 vpiParent: Port
-                vpiFullName: bottom1.u1
+                vpiName: b
+                vpiFullName: bottom1.u1.b
+                vpiActual: Port name:b
               vpiHighConn RefObj name:b start:20:20 end:20:21:
                 vpiParent: Port
                 vpiName: b
@@ -3212,9 +3215,10 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:23:28 end:23:30:
               vpiParent: RefInstance name:my_interface
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:.*:
                 vpiParent: Port
-                vpiFullName: bottom1.my_interface
+                vpiName: ".*"
+                vpiFullName: bottom1.my_interface..*
     Module name:bottom2 file:$Source01/top.v start:27:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom2 start:27:8 end:27:15:
@@ -3609,7 +3613,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************

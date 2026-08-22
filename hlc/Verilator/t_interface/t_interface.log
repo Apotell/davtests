@@ -1405,13 +1405,15 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface.v:6:1: Compile module "t".
 [INF:CP0304] $Source01/t_interface.v:70:1: Compile interface "handshake".
 [INF:CP0303] $Source01/t_interface.v:109:1: Compile module "source".
+[WRN:CP0310] $Source01/t_interface.v:117:19: Port "inf" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_interface.v:141:1: Compile module "drain".
-[WRN:CP0350] $Source01/t_interface.v:132:39: Failed to bind "id:384, name:req".
-[WRN:CP0350] $Source01/t_interface.v:132:49: Failed to bind "id:387, name:grt".
-[WRN:CP0350] $Source01/t_interface.v:135:15: Failed to bind "id:396, name:req".
-[WRN:CP0350] $Source01/t_interface.v:164:39: Failed to bind "id:557, name:req".
-[WRN:CP0350] $Source01/t_interface.v:164:49: Failed to bind "id:560, name:grt".
-[WRN:CP0350] $Source01/t_interface.v:167:15: Failed to bind "id:569, name:grt".
+[WRN:CP0310] $Source01/t_interface.v:149:19: Port "inf" definition missing its direction (input, output, inout).
+[WRN:CP0350] $Source01/t_interface.v:132:39: Failed to bind "id:380, name:req".
+[WRN:CP0350] $Source01/t_interface.v:132:49: Failed to bind "id:383, name:grt".
+[WRN:CP0350] $Source01/t_interface.v:135:15: Failed to bind "id:392, name:req".
+[WRN:CP0350] $Source01/t_interface.v:164:39: Failed to bind "id:553, name:req".
+[WRN:CP0350] $Source01/t_interface.v:164:49: Failed to bind "id:556, name:grt".
+[WRN:CP0350] $Source01/t_interface.v:167:15: Failed to bind "id:565, name:grt".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1504,6 +1506,7 @@ Design name:unnamed:
           vpiSigned: true
         BitTypespec:
           vpiParent: Interface name:handshake
+      vpiDefName: handshake
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:handshake
@@ -1542,16 +1545,10 @@ Design name:unnamed:
               vpiParent: Modport name:src
               vpiName: req
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:req
-                vpiFullName: handshake.src.req
             IODecl name:grt start:88:14 end:88:17:
               vpiParent: Modport name:src
               vpiName: grt
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:grt
-                vpiFullName: handshake.src.grt
           vpiInterface: Interface name:handshake
         Modport name:drn start:92:12 end:92:15:
           vpiParent: Interface name:handshake
@@ -1563,16 +1560,10 @@ Design name:unnamed:
               vpiParent: Modport name:drn
               vpiName: req
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:req
-                vpiFullName: handshake.drn.req
             IODecl name:grt start:94:14 end:94:17:
               vpiParent: Modport name:drn
               vpiName: grt
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:grt
-                vpiFullName: handshake.drn.grt
           vpiInterface: Interface name:handshake
       vpiContAssign (1 items):
         ContAssign start:98:11 end:98:26:
@@ -2037,7 +2028,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.inf.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:40:13 end:40:16:
                 vpiParent: Port
                 vpiName: clk
@@ -2049,7 +2040,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: rst
                 vpiFullName: t.inf.rst
-                vpiActual: Variable name:rst
+                vpiActual: Port name:rst
               vpiHighConn RefObj name:rst start:41:13 end:41:16:
                 vpiParent: Port
                 vpiName: rst
@@ -2107,7 +2098,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.source.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:49:14 end:49:17:
                 vpiParent: Port
                 vpiName: clk
@@ -2119,7 +2110,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: rst
                 vpiFullName: t.source.rst
-                vpiActual: Variable name:rst
+                vpiActual: Port name:rst
               vpiHighConn RefObj name:rst start:50:14 end:50:17:
                 vpiParent: Port
                 vpiName: rst
@@ -2131,7 +2122,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: inf
                 vpiFullName: t.source.inf
-                vpiActual: RefInstance name:inf
+                vpiActual: Port name:inf
               vpiHighConn RefObj name:inf start:51:14 end:51:17:
                 vpiParent: Port
                 vpiName: inf
@@ -2143,7 +2134,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: cnt
                 vpiFullName: t.source.cnt
-                vpiActual: Variable name:cnt
+                vpiActual: Port name:cnt
               vpiHighConn RefObj name:cnt_src start:52:14 end:52:21:
                 vpiParent: Port
                 vpiName: cnt_src
@@ -2201,7 +2192,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.drain.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:60:14 end:60:17:
                 vpiParent: Port
                 vpiName: clk
@@ -2213,7 +2204,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: rst
                 vpiFullName: t.drain.rst
-                vpiActual: Variable name:rst
+                vpiActual: Port name:rst
               vpiHighConn RefObj name:rst start:61:14 end:61:17:
                 vpiParent: Port
                 vpiName: rst
@@ -2225,7 +2216,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: inf
                 vpiFullName: t.drain.inf
-                vpiActual: RefInstance name:inf
+                vpiActual: Port name:inf
               vpiHighConn RefObj name:inf start:62:14 end:62:17:
                 vpiParent: Port
                 vpiName: inf
@@ -2237,7 +2228,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: cnt
                 vpiFullName: t.drain.cnt
-                vpiActual: Variable name:cnt
+                vpiActual: Port name:cnt
               vpiHighConn RefObj name:cnt_drn start:63:14 end:63:21:
                 vpiParent: Port
                 vpiName: cnt_drn
@@ -3617,7 +3608,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3663,9 +3654,9 @@ Name                            Before   After   Added   Removed
 Constant                            46      45      11        12
 Operation                           50      39       0        11
 RefObj                             128     118       0        10
-RefTypespec                         97      96      11        12
+RefTypespec                         93      92      11        12
 ----------------------------------------------------------------
 Others                             208     208       0         0
 ----------------------------------------------------------------
-                                   529     506      22        45
+                                   525     502      22        45
 ===================== END REDUCTION RESULT =====================

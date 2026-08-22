@@ -677,11 +677,13 @@ n<$Source01/t_mod_interface_array.v> u<662> t<Top_level_rule> c<1> l<6:1> el<64:
 AST_DEBUG_END
 [INF:CP0304] $Source01/t_mod_interface_array.v:8:1: Compile interface "a_if".
 [INF:CP0303] $Source01/t_mod_interface_array.v:14:1: Compile module "intf_source".
+[WRN:CP0310] $Source01/t_mod_interface_array.v:17:16: Port "i_intf_source" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_mod_interface_array.v:26:1: Compile module "intf_sink".
 [NTE:CP0309] $Source01/t_mod_interface_array.v:28:19: Implicit port type (wire) for "a_out".
+[WRN:CP0310] $Source01/t_mod_interface_array.v:29:14: Port "i_intf_sink" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/t_mod_interface_array.v:38:1: Compile module "t".
-[WRN:CP0350] $Source01/t_mod_interface_array.v:21:27: Failed to bind "id:100, name:long_name".
-[WRN:CP0350] $Source01/t_mod_interface_array.v:33:36: Failed to bind "id:160, name:long_name".
+[WRN:CP0350] $Source01/t_mod_interface_array.v:21:27: Failed to bind "id:98, name:long_name".
+[WRN:CP0350] $Source01/t_mod_interface_array.v:33:36: Failed to bind "id:158, name:long_name".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -743,6 +745,7 @@ Design name:unnamed:
           vpiName Identifier name:logic start:9:4 end:9:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
+      vpiDefName: a_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:a_if
@@ -760,9 +763,6 @@ Design name:unnamed:
               vpiParent: Modport name:source
               vpiName: long_name
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:long_name
-                vpiFullName: a_if.source.long_name
           vpiInterface: Interface name:a_if
         Modport name:sink start:11:12 end:11:16:
           vpiParent: Interface name:a_if
@@ -774,9 +774,6 @@ Design name:unnamed:
               vpiParent: Modport name:sink
               vpiName: long_name
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:long_name
-                vpiFullName: a_if.sink.long_name
           vpiInterface: Interface name:a_if
   vpiAllModules (3 items):
     Module name:intf_source file:$Source01/t_mod_interface_array.v start:14:1 end:24:10:
@@ -1791,9 +1788,11 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:47:23 end:47:27:
               vpiParent: RefInstance name:source
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:intf_input:
                 vpiParent: Port
-                vpiFullName: t.source
+                vpiName: intf_input
+                vpiFullName: t.source.intf_input
+                vpiActual: Port name:intf_input
               vpiHighConn RefObj name:a_in start:47:23 end:47:27:
                 vpiParent: Port
                 vpiName: a_in
@@ -1801,9 +1800,11 @@ Design name:unnamed:
                 vpiActual: Variable name:a_in
             Port start:47:29 end:47:36:
               vpiParent: RefInstance name:source
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:i_intf_source:
                 vpiParent: Port
-                vpiFullName: t.source
+                vpiName: i_intf_source
+                vpiFullName: t.source.i_intf_source
+                vpiActual: Port name:i_intf_source
               vpiHighConn RefObj name:tl_intf start:47:29 end:47:36:
                 vpiParent: Port
                 vpiName: tl_intf
@@ -1820,9 +1821,11 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:48:21 end:48:26:
               vpiParent: RefInstance name:sink
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:a_out:
                 vpiParent: Port
-                vpiFullName: t.sink
+                vpiName: a_out
+                vpiFullName: t.sink.a_out
+                vpiActual: Port name:a_out
               vpiHighConn RefObj name:a_out start:48:21 end:48:26:
                 vpiParent: Port
                 vpiName: a_out
@@ -1830,9 +1833,11 @@ Design name:unnamed:
                 vpiActual: Variable name:a_out
             Port start:48:28 end:48:35:
               vpiParent: RefInstance name:sink
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:i_intf_sink:
                 vpiParent: Port
-                vpiFullName: t.sink
+                vpiName: i_intf_sink
+                vpiFullName: t.sink.i_intf_sink
+                vpiActual: Port name:i_intf_sink
               vpiHighConn RefObj name:tl_intf start:48:28 end:48:35:
                 vpiParent: Port
                 vpiName: tl_intf
@@ -1901,7 +1906,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 4
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1946,9 +1951,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            29      27       0         2
 Operation                           25      23       0         2
-RefTypespec                         55      53       0         2
+RefTypespec                         53      51       0         2
 ----------------------------------------------------------------
 Others                             183     183       0         0
 ----------------------------------------------------------------
-                                   292     286       0         6
+                                   290     284       0         6
 ===================== END REDUCTION RESULT =====================

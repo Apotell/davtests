@@ -188,6 +188,7 @@ n<$Source01/t_interface_modportlist.v> u<170> t<Top_level_rule> c<1> l<8:1> el<2
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_modportlist.v:8:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_modportlist.v:13:1: Compile module "my_module".
+[WRN:CP0310] $Source01/t_interface_modportlist.v:13:50: Port "iface" definition missing its direction (input, output, inout).
 [INF:CP0304] $Source01/t_interface_modportlist.v:20:1: Compile interface "my_interface".
 [WRN:CP0350] $Source01/t_interface_modportlist.v:15:13: Failed to bind "id:45, name:b".
 [WRN:CP0350] $Source01/t_interface_modportlist.v:15:24: Failed to bind "id:48, name:a".
@@ -234,6 +235,7 @@ Design name:unnamed:
             vpiFullName: my_interface.c.logic
           vpiName: c
           vpiFullName: my_interface.c
+      vpiDefName: my_interface
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:my_interface
@@ -251,23 +253,14 @@ Design name:unnamed:
               vpiParent: Modport name:my_port
               vpiName: a
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:a
-                vpiFullName: my_interface.my_port.a
             IODecl name:b start:22:36 end:22:37:
               vpiParent: Modport name:my_port
               vpiName: b
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:b
-                vpiFullName: my_interface.my_port.b
             IODecl name:c start:22:39 end:22:40:
               vpiParent: Modport name:my_port
               vpiName: c
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:c
-                vpiFullName: my_interface.my_port.c
           vpiInterface: Interface name:my_interface
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_modportlist.v start:8:1 end:11:10:
@@ -492,7 +485,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -536,7 +529,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              71      71       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    71      71       0         0
+                                    68      68       0         0
 ===================== END REDUCTION RESULT =====================

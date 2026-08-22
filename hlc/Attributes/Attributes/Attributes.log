@@ -2525,7 +2525,6 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
-      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2751,7 +2750,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
-      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2839,7 +2837,6 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
-      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2978,7 +2975,6 @@ Design name:unnamed:
         Attribute name:class_attribute start:42:4 end:42:19:
           vpiParent: ClassDefn name:toto
           vpiName: class_attribute
-      vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:toto
@@ -2996,7 +2992,6 @@ Design name:unnamed:
             Attribute name:class_attribute2 start:45:6 end:45:22:
               vpiParent: ClassDefn name:tata
               vpiName: class_attribute2
-          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:tata
@@ -3014,6 +3009,7 @@ Design name:unnamed:
         Attribute name:test_interface start:52:4 end:52:18:
           vpiParent: Interface name:itf
           vpiName: test_interface
+      vpiDefName: itf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:itf
@@ -3031,6 +3027,7 @@ Design name:unnamed:
             Attribute name:test_interface2 start:54:6 end:54:21:
               vpiParent: Interface name:itf2
               vpiName: test_interface2
+          vpiDefName: itf2
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work:
             vpiParent: Interface name:itf2
@@ -3055,56 +3052,32 @@ Design name:unnamed:
           vpiDirection: output (2)
           vpiExpr Variable name:mux start:8:8 end:8:11:
             vpiParent: IODecl name:mux
-            vpiTypespec RefTypespec:
-              vpiParent: Variable name:mux
-              vpiFullName: multiplexer.mux.mux
             vpiName: mux
             vpiFullName: multiplexer.mux.mux
-          vpiTypespec RefTypespec:
-            vpiParent: IODecl name:mux
-            vpiFullName: multiplexer.mux
         IODecl name:control start:7:49 end:7:56:
           vpiParent: UdpDefn name:multiplexer
           vpiName: control
           vpiDirection: input (1)
           vpiExpr Variable name:control start:9:7 end:9:14:
             vpiParent: IODecl name:control
-            vpiTypespec RefTypespec:
-              vpiParent: Variable name:control
-              vpiFullName: multiplexer.control.control
             vpiName: control
             vpiFullName: multiplexer.control.control
-          vpiTypespec RefTypespec:
-            vpiParent: IODecl name:control
-            vpiFullName: multiplexer.control
         IODecl name:dataA start:7:58 end:7:63:
           vpiParent: UdpDefn name:multiplexer
           vpiName: dataA
           vpiDirection: input (1)
           vpiExpr Variable name:dataA start:9:16 end:9:21:
             vpiParent: IODecl name:dataA
-            vpiTypespec RefTypespec:
-              vpiParent: Variable name:dataA
-              vpiFullName: multiplexer.dataA.dataA
             vpiName: dataA
             vpiFullName: multiplexer.dataA.dataA
-          vpiTypespec RefTypespec:
-            vpiParent: IODecl name:dataA
-            vpiFullName: multiplexer.dataA
         IODecl name:dataB start:7:65 end:7:70:
           vpiParent: UdpDefn name:multiplexer
           vpiName: dataB
           vpiDirection: input (1)
           vpiExpr Variable name:dataB start:9:23 end:9:28:
             vpiParent: IODecl name:dataB
-            vpiTypespec RefTypespec:
-              vpiParent: Variable name:dataB
-              vpiFullName: multiplexer.dataB.dataB
             vpiName: dataB
             vpiFullName: multiplexer.dataB.dataB
-          vpiTypespec RefTypespec:
-            vpiParent: IODecl name:dataB
-            vpiFullName: multiplexer.dataB
       vpiTableEntry (14 items):
         TableEntry start:12:1 end:12:12:
           vpiParent: UdpDefn name:multiplexer
@@ -3772,9 +3745,11 @@ Design name:unnamed:
           vpiPort (4 items):
             Port start:19:22 end:19:55:
               vpiParent: RefInstance name:bar_instance
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:clk:
                 vpiParent: Port
-                vpiFullName: foo.bar_instance
+                vpiName: clk
+                vpiFullName: foo.bar_instance.clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:19:52 end:19:55:
                 vpiParent: Port
                 vpiAttribute (1 items):
@@ -3796,9 +3771,11 @@ Design name:unnamed:
                 vpiActual: Net name:clk
             Port start:19:57 end:19:60:
               vpiParent: RefInstance name:bar_instance
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:rst:
                 vpiParent: Port
-                vpiFullName: foo.bar_instance
+                vpiName: rst
+                vpiFullName: foo.bar_instance.rst
+                vpiActual: Port name:rst
               vpiHighConn RefObj name:rst start:19:57 end:19:60:
                 vpiParent: Port
                 vpiName: rst
@@ -3806,9 +3783,11 @@ Design name:unnamed:
                 vpiActual: Net name:rst
             Port start:19:62 end:19:98:
               vpiParent: RefInstance name:bar_instance
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:inp:
                 vpiParent: Port
-                vpiFullName: foo.bar_instance
+                vpiName: inp
+                vpiFullName: foo.bar_instance.inp
+                vpiActual: Port name:inp
               vpiHighConn RefObj name:inp start:19:95 end:19:98:
                 vpiParent: Port
                 vpiAttribute (1 items):
@@ -3830,9 +3809,11 @@ Design name:unnamed:
                 vpiActual: Net name:inp
             Port start:19:100 end:19:103:
               vpiParent: RefInstance name:bar_instance
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:out:
                 vpiParent: Port
-                vpiFullName: foo.bar_instance
+                vpiName: out
+                vpiFullName: foo.bar_instance.out
+                vpiActual: Port name:out
               vpiHighConn RefObj name:out start:19:100 end:19:103:
                 vpiParent: Port
                 vpiName: out
@@ -4008,7 +3989,7 @@ COMMAND: ${HLC_DIR}/regression/Attributes/Attributes/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             831     831       0         0
+Others                             823     823       0         0
 ----------------------------------------------------------------
-                                   831     831       0         0
+                                   823     823       0         0
 ===================== END REDUCTION RESULT =====================

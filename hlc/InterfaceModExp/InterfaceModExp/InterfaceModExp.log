@@ -250,9 +250,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:9:1: Compile module "sub".
 [WRN:CP0310] $Source01/dut.sv:9:23: Port "I" definition missing its direction (input, output, inout).
 [INF:CP0303] $Source01/dut.sv:14:1: Compile module "top".
-[WRN:CP0350] $Source01/dut.sv:11:13: Failed to bind "id:80, name:P".
-[WRN:CP0350] $Source01/dut.sv:16:15: Failed to bind "id:93, name:A".
-[WRN:CP0350] $Source01/dut.sv:18:37: Failed to bind "id:110, name:r".
+[WRN:CP0350] $Source01/dut.sv:11:13: Failed to bind "id:74, name:P".
+[WRN:CP0350] $Source01/dut.sv:16:15: Failed to bind "id:87, name:A".
+[WRN:CP0350] $Source01/dut.sv:18:37: Failed to bind "id:104, name:r".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "sub".
 [WRN:PA0205] $Source01/dut.sv:14:1: No timescale set for "top".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "I".
@@ -338,6 +338,7 @@ Design name:unnamed:
           vpiVector: true
         BitTypespec:
           vpiParent: Interface name:I
+      vpiDefName: I
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:I
@@ -386,9 +387,6 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:P
-                vpiFullName: I.A.P
             IODecl name:Q start:5:38 end:5:39:
               vpiParent: Modport name:A
               vpiName: Q
@@ -398,16 +396,10 @@ Design name:unnamed:
                 vpiName: x
                 vpiFullName: I.A.Q.x
                 vpiActual: Variable name:x
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:Q
-                vpiFullName: I.A.Q
             IODecl name:R start:5:44 end:5:45:
               vpiParent: Modport name:A
               vpiName: R
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:R
-                vpiFullName: I.A.R
           vpiInterface: Interface name:I
         Modport name:B start:6:9 end:6:10:
           vpiParent: Interface name:I
@@ -450,9 +442,6 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "4"
                     vpiValue: 4
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:P
-                vpiFullName: I.B.P
             IODecl name:Q start:6:38 end:6:39:
               vpiParent: Modport name:B
               vpiName: Q
@@ -467,16 +456,10 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:Q
-                vpiFullName: I.B.Q
             IODecl name:R start:6:44 end:6:45:
               vpiParent: Modport name:B
               vpiName: R
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:R
-                vpiFullName: I.B.R
           vpiInterface: Interface name:I
   vpiAllModules (2 items):
     Module name:sub file:$Source01/dut.sv start:9:1 end:12:10:
@@ -488,7 +471,6 @@ Design name:unnamed:
       vpiTypespec (1 items):
         InterfaceTypespec start:9:13 end:9:22:
           vpiParent: Module name:sub
-          vpiInterface: Interface name:I
       vpiDefName: sub
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -625,9 +607,11 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:16:10 end:16:16:
               vpiParent: RefInstance name:s
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:I:
                 vpiParent: Port
-                vpiFullName: top.s
+                vpiName: I
+                vpiFullName: top.s.I
+                vpiActual: Port name:I
               vpiHighConn HierPath name:inst.A start:16:10 end:16:16:
                 vpiParent: Port
                 vpiName: inst.A
@@ -717,7 +701,7 @@ COMMAND: ${HLC_DIR}/regression/InterfaceModExp/InterfaceModExp/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             101     101       0         0
+Others                              95      95       0         0
 ----------------------------------------------------------------
-                                   101     101       0         0
+                                    95      95       0         0
 ===================== END REDUCTION RESULT =====================

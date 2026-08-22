@@ -377,9 +377,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_twod.v:12:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_twod.v:38:1: Compile module "wrapper".
 [WRN:CP0310] $Source01/t_interface_twod.v:40:10: Port "isuba" definition missing its direction (input, output, inout).
-[WRN:CP0310] $Source01/t_interface_twod.v:40:17: Port "isubb" definition missing its direction (input, output, inout).
-[WRN:CP0350] $Source01/t_interface_twod.v:30:14: Failed to bind "id:84, name:value".
-[WRN:CP0350] $Source01/t_interface_twod.v:31:14: Failed to bind "id:94, name:value".
+[NTE:CP0309] $Source01/t_interface_twod.v:40:17: Implicit port type (wire) for "isubb".
+[WRN:CP0350] $Source01/t_interface_twod.v:30:14: Failed to bind "id:82, name:value".
+[WRN:CP0350] $Source01/t_interface_twod.v:31:14: Failed to bind "id:92, name:value".
 [WRN:CP0350] $Source01/t_interface_twod.v:44:13: Failed to bind "id:140, name:value".
 [WRN:CP0350] $Source01/t_interface_twod.v:45:13: Failed to bind "id:145, name:value".
 [INF:CM0029] Using global timescale: "1ns/1ns".
@@ -411,6 +411,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:ifc
           vpiSigned: true
+      vpiDefName: ifc
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
@@ -428,9 +429,6 @@ Design name:unnamed:
               vpiParent: Modport name:i
               vpiName: value
               vpiDirection: output (2)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:value
-                vpiFullName: ifc.i.value
           vpiInterface: Interface name:ifc
         Modport name:o start:9:12 end:9:13:
           vpiParent: Interface name:ifc
@@ -442,9 +440,6 @@ Design name:unnamed:
               vpiParent: Modport name:o
               vpiName: value
               vpiDirection: input (1)
-              vpiTypespec RefTypespec:
-                vpiParent: IODecl name:value
-                vpiFullName: ifc.o.value
           vpiInterface: Interface name:ifc
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_twod.v start:12:1 end:36:10:
@@ -709,6 +704,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: isuba
                 vpiFullName: t.c1.isuba
+                vpiActual: Port name:isuba
               vpiHighConn RefObj name:itop1a start:22:24 end:22:30:
                 vpiParent: Port
                 vpiName: itop1a
@@ -720,6 +716,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: isubb
                 vpiFullName: t.c1.isubb
+                vpiActual: Port name:isubb
               vpiHighConn RefObj name:itop1b start:23:10 end:23:16:
                 vpiParent: Port
                 vpiName: itop1b
@@ -731,6 +728,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_valuea
                 vpiFullName: t.c1.i_valuea
+                vpiActual: Port name:i_valuea
               vpiHighConn Constant start:24:13 end:24:15:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
@@ -747,6 +745,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i_valueb
                 vpiFullName: t.c1.i_valueb
+                vpiActual: Port name:i_valueb
               vpiHighConn Constant start:25:13 end:25:15:
                 vpiParent: Port
                 vpiTypespec RefTypespec:
@@ -763,6 +762,15 @@ Design name:unnamed:
         vpiParent: Module name:wrapper
         vpiName: wrapper
       vpiFullName: wrapper
+      vpiVariable (1 items):
+        Variable name:isubb start:40:17 end:40:22:
+          vpiParent: Module name:wrapper
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:isubb
+            vpiFullName: wrapper.isubb
+            vpiActual: UnsupportedTypespec name:ifc::i
+          vpiName: isubb
+          vpiFullName: wrapper.isubb
       vpiTypespec (2 items):
         UnsupportedTypespec name:ifc::i start:40:4 end:40:9:
           vpiParent: Module name:wrapper
@@ -830,10 +838,11 @@ Design name:unnamed:
             vpiParent: Port name:isubb
             vpiName: isubb
             vpiFullName: wrapper.isubb.isubb
-            vpiActual: Port name:isubb
+            vpiActual: Variable name:isubb
           vpiTypespec RefTypespec:
             vpiParent: Port name:isubb
             vpiFullName: wrapper.isubb
+            vpiActual: UnsupportedTypespec name:ifc::i
         Port name:i_valuea start:41:18 end:41:26:
           vpiParent: Module name:wrapper
           vpiName: i_valuea
@@ -903,7 +912,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:isubb.value
                         vpiName: isubb
                         vpiFullName: wrapper.isubb
-                        vpiActual: Port name:isubb
+                        vpiActual: Variable name:isubb
                       RefObj name:value start:45:13 end:45:18:
                         vpiParent: HierPath name:isubb.value
                         vpiName: value
@@ -943,8 +952,8 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
-[   NOTE] : 0
+[WARNING] : 5
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -989,9 +998,9 @@ Name                            Before   After   Added   Removed
 Constant                             8       8       2         2
 Operation                            5       3       0         2
 RefObj                              30      28       0         2
-RefTypespec                         23      23       2         2
+RefTypespec                         22      22       2         2
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
                                    138     134       4         8
 ===================== END REDUCTION RESULT =====================
