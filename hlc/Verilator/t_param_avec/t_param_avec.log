@@ -4,28 +4,22 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_param_avec.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_param_avec
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -sverilog -d ast -d db t_param_avec.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_param_avec
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_param_avec.v".
 [INF:PA0201] Parsing source file "$Source01/t_param_avec.v".
-[SNT:PA0207] $Source01/t_param_avec.v:35:9: Syntax error: no viable alternative at input 'module sub ();\n   function integer get_element;\n      input integer index;\n      input integer array_arg[7:0];\n      get_element = array_arg[index];\n   endfunction\n\n   parameter integer IDX = 5;\n   parameter integer CHK = 5;\n   localparam integer array[0:7] = '{10, 11, 12, 13, 14, 15, 16, 17};\n   localparam element1 = array[IDX];\n   localparam elementf = get_element(IDX, array);\n   initial begin\n      do if',
-      do if ((element1) !== (CHK)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_param_avec.v",0, (element1), (CHK)); $stop; end while(0);;
-         ^-- $Source01/t_param_avec.v:35:9:.
-[SNT:PA0207] $Source01/t_param_avec.v:34:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_param_avec.v:34:3:.
 AST_DEBUG_BEGIN
-Count: 373
+Count: 548
 LIB: work
 FILE: f<13>:$Source01/t_param_avec.v
-n<$Source01/t_param_avec.v> u<372> t<Top_level_rule> c<1> l<8:1> el<38:10>
-  n<> u<1> t<Null_rule> p<372> s<2> l<8:1> el<8:1>
-  n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<372> s<3> l<1:1> el<1:47>
-  n<//> u<3> t<LINE_COMMENT> p<372> s<4> l<2:1> el<2:3>
-  n<// This file ONLY is placed into the Public Domain, for any use,> u<4> t<LINE_COMMENT> p<372> s<5> l<3:1> el<3:65>
-  n<// without warranty, 2016 by Wilson Snyder.> u<5> t<LINE_COMMENT> p<372> s<371> l<4:1> el<4:44>
-  n<> u<371> t<Source_text> p<372> c<164> l<8:1> el<33:50>
-    n<> u<164> t<Description> p<371> c<163> s<166> l<8:1> el<20:10>
+n<$Source01/t_param_avec.v> u<547> t<Top_level_rule> c<1> l<8:1> el<39:1>
+  n<> u<1> t<Null_rule> p<547> s<2> l<8:1> el<8:1>
+  n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<547> s<3> l<1:1> el<1:47>
+  n<//> u<3> t<LINE_COMMENT> p<547> s<4> l<2:1> el<2:3>
+  n<// This file ONLY is placed into the Public Domain, for any use,> u<4> t<LINE_COMMENT> p<547> s<5> l<3:1> el<3:65>
+  n<// without warranty, 2016 by Wilson Snyder.> u<5> t<LINE_COMMENT> p<547> s<546> l<4:1> el<4:44>
+  n<> u<546> t<Source_text> p<547> c<164> l<8:1> el<38:10>
+    n<> u<164> t<Description> p<546> c<163> s<545> l<8:1> el<20:10>
       n<> u<163> t<Module_declaration> p<164> c<18> l<8:1> el<20:10>
         n<> u<18> t<Module_nonansi_header> p<163> c<6> s<25> l<8:1> el<11:6>
           n<module> u<6> t<MODULE> p<18> s<7> l<8:1> el<8:7>
@@ -184,227 +178,391 @@ n<$Source01/t_param_avec.v> u<372> t<Top_level_rule> c<1> l<8:1> el<38:10>
                                             n<> u<142> t<Bit_select> p<143> l<18:14> el<18:14>
                                 n<> u<149> t<END> p<150> l<19:4> el<19:7>
         n<> u<162> t<ENDMODULE> p<163> l<20:1> el<20:10>
-    n<> u<166> t<Description> p<371> c<165> s<168> l<22:1> el<22:1>
-      n<> u<165> t<Module_declaration> p<166> l<22:1> el<22:1>
-    n<> u<168> t<Description> p<371> c<167> s<171> l<22:1> el<22:7>
-      n<> u<167> t<Module_declaration> p<168> l<22:1> el<22:7>
-    n<> u<171> t<Description> p<371> c<170> s<174> l<22:8> el<22:8>
-      n<> u<170> t<Package_item> p<171> c<169> l<22:8> el<22:8>
-        n<> u<169> t<Package_or_generate_item_declaration> p<170> l<22:8> el<22:8>
-    n<> u<174> t<Description> p<371> c<173> s<177> l<22:8> el<22:14>
-      n<> u<173> t<Package_item> p<174> c<172> l<22:8> el<22:14>
-        n<> u<172> t<Package_or_generate_item_declaration> p<173> l<22:8> el<22:14>
-    n<> u<177> t<Description> p<371> c<176> s<236> l<22:14> el<22:15>
-      n<> u<176> t<Package_item> p<177> c<175> l<22:14> el<22:15>
-        n<> u<175> t<Package_or_generate_item_declaration> p<176> l<22:14> el<22:15>
-    n<> u<236> t<Description> p<371> c<235> s<252> l<23:4> el<27:15>
-      n<> u<235> t<Package_item> p<236> c<234> l<23:4> el<27:15>
-        n<> u<234> t<Package_or_generate_item_declaration> p<235> c<233> l<23:4> el<27:15>
-          n<> u<233> t<Function_declaration> p<234> c<232> l<23:4> el<27:15>
-            n<> u<232> t<Function_body_declaration> p<233> c<181> l<23:13> el<27:15>
-              n<> u<181> t<Function_data_type_or_implicit> p<232> c<180> s<182> l<23:13> el<23:20>
-                n<> u<180> t<Function_data_type> p<181> c<179> l<23:13> el<23:20>
-                  n<> u<179> t<Data_type> p<180> c<178> l<23:13> el<23:20>
-                    n<> u<178> t<INTEGER> p<179> l<23:13> el<23:20>
-              n<get_element> u<182> t<SIMPLE_IDENTIFIER> p<232> s<210> l<23:21> el<23:32>
-              n<> u<210> t<Tf_item_declaration_list> p<232> c<190> s<230> l<24:7> el<25:36>
-                n<> u<190> t<Tf_item_declaration> p<210> c<189> s<209> l<24:7> el<24:27>
-                  n<> u<189> t<Tf_port_declaration> p<190> c<183> l<24:7> el<24:27>
-                    n<> u<183> t<INPUT> p<189> s<186> l<24:7> el<24:12>
-                    n<> u<186> t<Data_type_or_implicit> p<189> c<185> s<188> l<24:13> el<24:20>
-                      n<> u<185> t<Data_type> p<186> c<184> l<24:13> el<24:20>
-                        n<> u<184> t<INTEGER> p<185> l<24:13> el<24:20>
-                    n<> u<188> t<Tf_variable_identifier_list> p<189> c<187> l<24:21> el<24:26>
-                      n<index> u<187> t<SIMPLE_IDENTIFIER> p<188> l<24:21> el<24:26>
-                n<> u<209> t<Tf_item_declaration> p<210> c<208> l<25:7> el<25:36>
-                  n<> u<208> t<Tf_port_declaration> p<209> c<191> l<25:7> el<25:36>
-                    n<> u<191> t<INPUT> p<208> s<194> l<25:7> el<25:12>
-                    n<> u<194> t<Data_type_or_implicit> p<208> c<193> s<207> l<25:13> el<25:20>
-                      n<> u<193> t<Data_type> p<194> c<192> l<25:13> el<25:20>
-                        n<> u<192> t<INTEGER> p<193> l<25:13> el<25:20>
-                    n<> u<207> t<Tf_variable_identifier_list> p<208> c<195> l<25:21> el<25:35>
-                      n<array_arg> u<195> t<SIMPLE_IDENTIFIER> p<207> s<206> l<25:21> el<25:30>
-                      n<> u<206> t<Variable_dimension> p<207> c<205> l<25:30> el<25:35>
-                        n<> u<205> t<Unpacked_dimension> p<206> c<204> l<25:30> el<25:35>
-                          n<> u<204> t<Constant_range> p<205> c<199> l<25:31> el<25:34>
-                            n<> u<199> t<Constant_expression> p<204> c<198> s<203> l<25:31> el<25:32>
-                              n<> u<198> t<Constant_primary> p<199> c<197> l<25:31> el<25:32>
-                                n<> u<197> t<Primary_literal> p<198> c<196> l<25:31> el<25:32>
-                                  n<7> u<196> t<INTEGRAL_NUMBER> p<197> l<25:31> el<25:32>
-                            n<> u<203> t<Constant_expression> p<204> c<202> l<25:33> el<25:34>
-                              n<> u<202> t<Constant_primary> p<203> c<201> l<25:33> el<25:34>
-                                n<> u<201> t<Primary_literal> p<202> c<200> l<25:33> el<25:34>
-                                  n<0> u<200> t<INTEGRAL_NUMBER> p<201> l<25:33> el<25:34>
-              n<> u<230> t<Function_statement_or_null> p<232> c<229> s<231> l<26:7> el<26:38>
-                n<> u<229> t<Statement> p<230> c<228> l<26:7> el<26:38>
-                  n<> u<228> t<Statement_item> p<229> c<227> l<26:7> el<26:38>
-                    n<> u<227> t<Blocking_assignment> p<228> c<226> l<26:7> el<26:37>
-                      n<> u<226> t<Variable_assignment> p<227> c<215> l<26:7> el<26:37>
-                        n<> u<215> t<Variable_lvalue> p<226> c<212> s<225> l<26:7> el<26:18>
-                          n<> u<212> t<Ps_or_hierarchical_identifier> p<215> c<211> s<214> l<26:7> el<26:18>
-                            n<get_element> u<211> t<SIMPLE_IDENTIFIER> p<212> l<26:7> el<26:18>
-                          n<> u<214> t<Select> p<215> c<213> l<26:19> el<26:19>
-                            n<> u<213> t<Bit_select> p<214> l<26:19> el<26:19>
-                        n<> u<225> t<Expression> p<226> c<224> l<26:21> el<26:37>
-                          n<> u<224> t<Primary> p<225> c<223> l<26:21> el<26:37>
-                            n<> u<223> t<Subroutine_call> p<224> c<216> l<26:21> el<26:37>
-                              n<array_arg> u<216> t<SIMPLE_IDENTIFIER> p<223> s<222> l<26:21> el<26:30>
-                              n<> u<222> t<Select> p<223> c<221> l<26:30> el<26:37>
-                                n<> u<221> t<Bit_select> p<222> c<220> l<26:30> el<26:37>
-                                  n<> u<220> t<Expression> p<221> c<219> l<26:31> el<26:36>
-                                    n<> u<219> t<Primary> p<220> c<218> l<26:31> el<26:36>
-                                      n<> u<218> t<Primary_literal> p<219> c<217> l<26:31> el<26:36>
-                                        n<index> u<217> t<SIMPLE_IDENTIFIER> p<218> l<26:31> el<26:36>
-              n<> u<231> t<ENDFUNCTION> p<232> l<27:4> el<27:15>
-    n<> u<252> t<Description> p<371> c<251> s<268> l<29:4> el<29:30>
-      n<> u<251> t<Package_item> p<252> c<250> l<29:4> el<29:30>
-        n<> u<250> t<Package_or_generate_item_declaration> p<251> c<249> l<29:4> el<29:30>
-          n<> u<249> t<Parameter_declaration> p<250> c<239> l<29:4> el<29:29>
-            n<> u<239> t<Data_type_or_implicit> p<249> c<238> s<248> l<29:14> el<29:21>
-              n<> u<238> t<Data_type> p<239> c<237> l<29:14> el<29:21>
-                n<> u<237> t<INTEGER> p<238> l<29:14> el<29:21>
-            n<> u<248> t<Param_assignment_list> p<249> c<247> l<29:22> el<29:29>
-              n<> u<247> t<Param_assignment> p<248> c<240> l<29:22> el<29:29>
-                n<IDX> u<240> t<SIMPLE_IDENTIFIER> p<247> s<246> l<29:22> el<29:25>
-                n<> u<246> t<Constant_param_expression> p<247> c<245> l<29:28> el<29:29>
-                  n<> u<245> t<Constant_mintypmax_expression> p<246> c<244> l<29:28> el<29:29>
-                    n<> u<244> t<Constant_expression> p<245> c<243> l<29:28> el<29:29>
-                      n<> u<243> t<Constant_primary> p<244> c<242> l<29:28> el<29:29>
-                        n<> u<242> t<Primary_literal> p<243> c<241> l<29:28> el<29:29>
-                          n<5> u<241> t<INTEGRAL_NUMBER> p<242> l<29:28> el<29:29>
-    n<> u<268> t<Description> p<371> c<267> s<327> l<30:4> el<30:30>
-      n<> u<267> t<Package_item> p<268> c<266> l<30:4> el<30:30>
-        n<> u<266> t<Package_or_generate_item_declaration> p<267> c<265> l<30:4> el<30:30>
-          n<> u<265> t<Parameter_declaration> p<266> c<255> l<30:4> el<30:29>
-            n<> u<255> t<Data_type_or_implicit> p<265> c<254> s<264> l<30:14> el<30:21>
-              n<> u<254> t<Data_type> p<255> c<253> l<30:14> el<30:21>
-                n<> u<253> t<INTEGER> p<254> l<30:14> el<30:21>
-            n<> u<264> t<Param_assignment_list> p<265> c<263> l<30:22> el<30:29>
-              n<> u<263> t<Param_assignment> p<264> c<256> l<30:22> el<30:29>
-                n<CHK> u<256> t<SIMPLE_IDENTIFIER> p<263> s<262> l<30:22> el<30:25>
-                n<> u<262> t<Constant_param_expression> p<263> c<261> l<30:28> el<30:29>
-                  n<> u<261> t<Constant_mintypmax_expression> p<262> c<260> l<30:28> el<30:29>
-                    n<> u<260> t<Constant_expression> p<261> c<259> l<30:28> el<30:29>
-                      n<> u<259> t<Constant_primary> p<260> c<258> l<30:28> el<30:29>
-                        n<> u<258> t<Primary_literal> p<259> c<257> l<30:28> el<30:29>
-                          n<5> u<257> t<INTEGRAL_NUMBER> p<258> l<30:28> el<30:29>
-    n<> u<327> t<Description> p<371> c<326> s<346> l<31:4> el<31:70>
-      n<> u<326> t<Package_item> p<327> c<325> l<31:4> el<31:70>
-        n<> u<325> t<Package_or_generate_item_declaration> p<326> c<324> l<31:4> el<31:70>
-          n<> u<324> t<Local_parameter_declaration> p<325> c<271> l<31:4> el<31:69>
-            n<> u<271> t<Data_type_or_implicit> p<324> c<270> s<323> l<31:15> el<31:22>
-              n<> u<270> t<Data_type> p<271> c<269> l<31:15> el<31:22>
-                n<> u<269> t<INTEGER> p<270> l<31:15> el<31:22>
-            n<> u<323> t<Param_assignment_list> p<324> c<322> l<31:23> el<31:69>
-              n<> u<322> t<Param_assignment> p<323> c<272> l<31:23> el<31:69>
-                n<array> u<272> t<SIMPLE_IDENTIFIER> p<322> s<282> l<31:23> el<31:28>
-                n<> u<282> t<Unpacked_dimension> p<322> c<281> s<321> l<31:28> el<31:33>
-                  n<> u<281> t<Constant_range> p<282> c<276> l<31:29> el<31:32>
-                    n<> u<276> t<Constant_expression> p<281> c<275> s<280> l<31:29> el<31:30>
-                      n<> u<275> t<Constant_primary> p<276> c<274> l<31:29> el<31:30>
-                        n<> u<274> t<Primary_literal> p<275> c<273> l<31:29> el<31:30>
-                          n<0> u<273> t<INTEGRAL_NUMBER> p<274> l<31:29> el<31:30>
-                    n<> u<280> t<Constant_expression> p<281> c<279> l<31:31> el<31:32>
-                      n<> u<279> t<Constant_primary> p<280> c<278> l<31:31> el<31:32>
-                        n<> u<278> t<Primary_literal> p<279> c<277> l<31:31> el<31:32>
-                          n<7> u<277> t<INTEGRAL_NUMBER> p<278> l<31:31> el<31:32>
-                n<> u<321> t<Constant_param_expression> p<322> c<320> l<31:36> el<31:69>
-                  n<> u<320> t<Constant_mintypmax_expression> p<321> c<319> l<31:36> el<31:69>
-                    n<> u<319> t<Constant_expression> p<320> c<318> l<31:36> el<31:69>
-                      n<> u<318> t<Constant_primary> p<319> c<317> l<31:36> el<31:69>
-                        n<> u<317> t<Constant_assignment_pattern_expression> p<318> c<316> l<31:36> el<31:69>
-                          n<> u<316> t<Assignment_pattern_expression> p<317> c<315> l<31:36> el<31:69>
-                            n<> u<315> t<Assignment_pattern> p<316> c<286> l<31:36> el<31:69>
-                              n<> u<286> t<Expression> p<315> c<285> s<290> l<31:38> el<31:40>
-                                n<> u<285> t<Primary> p<286> c<284> l<31:38> el<31:40>
-                                  n<> u<284> t<Primary_literal> p<285> c<283> l<31:38> el<31:40>
-                                    n<10> u<283> t<INTEGRAL_NUMBER> p<284> l<31:38> el<31:40>
-                              n<> u<290> t<Expression> p<315> c<289> s<294> l<31:42> el<31:44>
-                                n<> u<289> t<Primary> p<290> c<288> l<31:42> el<31:44>
-                                  n<> u<288> t<Primary_literal> p<289> c<287> l<31:42> el<31:44>
-                                    n<11> u<287> t<INTEGRAL_NUMBER> p<288> l<31:42> el<31:44>
-                              n<> u<294> t<Expression> p<315> c<293> s<298> l<31:46> el<31:48>
-                                n<> u<293> t<Primary> p<294> c<292> l<31:46> el<31:48>
-                                  n<> u<292> t<Primary_literal> p<293> c<291> l<31:46> el<31:48>
-                                    n<12> u<291> t<INTEGRAL_NUMBER> p<292> l<31:46> el<31:48>
-                              n<> u<298> t<Expression> p<315> c<297> s<302> l<31:50> el<31:52>
-                                n<> u<297> t<Primary> p<298> c<296> l<31:50> el<31:52>
-                                  n<> u<296> t<Primary_literal> p<297> c<295> l<31:50> el<31:52>
-                                    n<13> u<295> t<INTEGRAL_NUMBER> p<296> l<31:50> el<31:52>
-                              n<> u<302> t<Expression> p<315> c<301> s<306> l<31:54> el<31:56>
-                                n<> u<301> t<Primary> p<302> c<300> l<31:54> el<31:56>
-                                  n<> u<300> t<Primary_literal> p<301> c<299> l<31:54> el<31:56>
-                                    n<14> u<299> t<INTEGRAL_NUMBER> p<300> l<31:54> el<31:56>
-                              n<> u<306> t<Expression> p<315> c<305> s<310> l<31:58> el<31:60>
-                                n<> u<305> t<Primary> p<306> c<304> l<31:58> el<31:60>
-                                  n<> u<304> t<Primary_literal> p<305> c<303> l<31:58> el<31:60>
-                                    n<15> u<303> t<INTEGRAL_NUMBER> p<304> l<31:58> el<31:60>
-                              n<> u<310> t<Expression> p<315> c<309> s<314> l<31:62> el<31:64>
-                                n<> u<309> t<Primary> p<310> c<308> l<31:62> el<31:64>
-                                  n<> u<308> t<Primary_literal> p<309> c<307> l<31:62> el<31:64>
-                                    n<16> u<307> t<INTEGRAL_NUMBER> p<308> l<31:62> el<31:64>
-                              n<> u<314> t<Expression> p<315> c<313> l<31:66> el<31:68>
-                                n<> u<313> t<Primary> p<314> c<312> l<31:66> el<31:68>
-                                  n<> u<312> t<Primary_literal> p<313> c<311> l<31:66> el<31:68>
-                                    n<17> u<311> t<INTEGRAL_NUMBER> p<312> l<31:66> el<31:68>
-    n<> u<346> t<Description> p<371> c<345> s<370> l<32:4> el<32:37>
-      n<> u<345> t<Package_item> p<346> c<344> l<32:4> el<32:37>
-        n<> u<344> t<Package_or_generate_item_declaration> p<345> c<343> l<32:4> el<32:37>
-          n<> u<343> t<Local_parameter_declaration> p<344> c<328> l<32:4> el<32:36>
-            n<> u<328> t<Data_type_or_implicit> p<343> s<342> l<32:15> el<32:15>
-            n<> u<342> t<Param_assignment_list> p<343> c<341> l<32:15> el<32:36>
-              n<> u<341> t<Param_assignment> p<342> c<329> l<32:15> el<32:36>
-                n<element1> u<329> t<SIMPLE_IDENTIFIER> p<341> s<340> l<32:15> el<32:23>
-                n<> u<340> t<Constant_param_expression> p<341> c<339> l<32:26> el<32:36>
-                  n<> u<339> t<Constant_mintypmax_expression> p<340> c<338> l<32:26> el<32:36>
-                    n<> u<338> t<Constant_expression> p<339> c<337> l<32:26> el<32:36>
-                      n<> u<337> t<Constant_primary> p<338> c<330> l<32:26> el<32:36>
-                        n<array> u<330> t<SIMPLE_IDENTIFIER> p<337> s<336> l<32:26> el<32:31>
-                        n<> u<336> t<Constant_select> p<337> c<335> l<32:31> el<32:36>
-                          n<> u<335> t<Constant_bit_select> p<336> c<334> l<32:31> el<32:36>
-                            n<> u<334> t<Constant_expression> p<335> c<333> l<32:32> el<32:35>
-                              n<> u<333> t<Constant_primary> p<334> c<332> l<32:32> el<32:35>
-                                n<> u<332> t<Primary_literal> p<333> c<331> l<32:32> el<32:35>
-                                  n<IDX> u<331> t<SIMPLE_IDENTIFIER> p<332> l<32:32> el<32:35>
-    n<> u<370> t<Description> p<371> c<369> l<33:4> el<33:50>
-      n<> u<369> t<Package_item> p<370> c<368> l<33:4> el<33:50>
-        n<> u<368> t<Package_or_generate_item_declaration> p<369> c<367> l<33:4> el<33:50>
-          n<> u<367> t<Local_parameter_declaration> p<368> c<347> l<33:4> el<33:49>
-            n<> u<347> t<Data_type_or_implicit> p<367> s<366> l<33:15> el<33:15>
-            n<> u<366> t<Param_assignment_list> p<367> c<365> l<33:15> el<33:49>
-              n<> u<365> t<Param_assignment> p<366> c<348> l<33:15> el<33:49>
-                n<elementf> u<348> t<SIMPLE_IDENTIFIER> p<365> s<364> l<33:15> el<33:23>
-                n<> u<364> t<Constant_param_expression> p<365> c<363> l<33:26> el<33:49>
-                  n<> u<363> t<Constant_mintypmax_expression> p<364> c<362> l<33:26> el<33:49>
-                    n<> u<362> t<Constant_expression> p<363> c<361> l<33:26> el<33:49>
-                      n<> u<361> t<Constant_primary> p<362> c<360> l<33:26> el<33:49>
-                        n<> u<360> t<Subroutine_call> p<361> c<349> l<33:26> el<33:49>
-                          n<get_element> u<349> t<SIMPLE_IDENTIFIER> p<360> s<359> l<33:26> el<33:37>
-                          n<> u<359> t<Argument_list> p<360> c<353> l<33:38> el<33:48>
-                            n<> u<353> t<Expression> p<359> c<352> s<358> l<33:38> el<33:41>
-                              n<> u<352> t<Primary> p<353> c<351> l<33:38> el<33:41>
-                                n<> u<351> t<Primary_literal> p<352> c<350> l<33:38> el<33:41>
-                                  n<IDX> u<350> t<SIMPLE_IDENTIFIER> p<351> l<33:38> el<33:41>
-                            n<> u<358> t<Argument> p<359> c<357> l<33:43> el<33:48>
-                              n<> u<357> t<Expression> p<358> c<356> l<33:43> el<33:48>
-                                n<> u<356> t<Primary> p<357> c<355> l<33:43> el<33:48>
-                                  n<> u<355> t<Primary_literal> p<356> c<354> l<33:43> el<33:48>
-                                    n<array> u<354> t<SIMPLE_IDENTIFIER> p<355> l<33:43> el<33:48>
+    n<> u<545> t<Description> p<546> c<544> l<22:1> el<38:10>
+      n<> u<544> t<Module_declaration> p<545> c<169> l<22:1> el<38:10>
+        n<> u<169> t<Module_nonansi_header> p<544> c<165> s<231> l<22:1> el<22:15>
+          n<module> u<165> t<MODULE> p<169> s<166> l<22:1> el<22:7>
+          n<sub> u<166> t<SIMPLE_IDENTIFIER> p<169> s<167> l<22:8> el<22:11>
+          n<> u<167> t<Package_import_declaration_list> p<169> s<168> l<22:12> el<22:12>
+          n<> u<168> t<Port_list> p<169> l<22:12> el<22:14>
+        n<> u<231> t<Module_item> p<544> c<230> s<250> l<23:4> el<27:15>
+          n<> u<230> t<Non_port_module_item> p<231> c<229> l<23:4> el<27:15>
+            n<> u<229> t<Module_or_generate_item> p<230> c<228> l<23:4> el<27:15>
+              n<> u<228> t<Module_common_item> p<229> c<227> l<23:4> el<27:15>
+                n<> u<227> t<Module_or_generate_item_declaration> p<228> c<226> l<23:4> el<27:15>
+                  n<> u<226> t<Package_or_generate_item_declaration> p<227> c<225> l<23:4> el<27:15>
+                    n<> u<225> t<Function_declaration> p<226> c<224> l<23:4> el<27:15>
+                      n<> u<224> t<Function_body_declaration> p<225> c<173> l<23:13> el<27:15>
+                        n<> u<173> t<Function_data_type_or_implicit> p<224> c<172> s<174> l<23:13> el<23:20>
+                          n<> u<172> t<Function_data_type> p<173> c<171> l<23:13> el<23:20>
+                            n<> u<171> t<Data_type> p<172> c<170> l<23:13> el<23:20>
+                              n<> u<170> t<INTEGER> p<171> l<23:13> el<23:20>
+                        n<get_element> u<174> t<SIMPLE_IDENTIFIER> p<224> s<202> l<23:21> el<23:32>
+                        n<> u<202> t<Tf_item_declaration_list> p<224> c<182> s<222> l<24:7> el<25:36>
+                          n<> u<182> t<Tf_item_declaration> p<202> c<181> s<201> l<24:7> el<24:27>
+                            n<> u<181> t<Tf_port_declaration> p<182> c<175> l<24:7> el<24:27>
+                              n<> u<175> t<INPUT> p<181> s<178> l<24:7> el<24:12>
+                              n<> u<178> t<Data_type_or_implicit> p<181> c<177> s<180> l<24:13> el<24:20>
+                                n<> u<177> t<Data_type> p<178> c<176> l<24:13> el<24:20>
+                                  n<> u<176> t<INTEGER> p<177> l<24:13> el<24:20>
+                              n<> u<180> t<Tf_variable_identifier_list> p<181> c<179> l<24:21> el<24:26>
+                                n<index> u<179> t<SIMPLE_IDENTIFIER> p<180> l<24:21> el<24:26>
+                          n<> u<201> t<Tf_item_declaration> p<202> c<200> l<25:7> el<25:36>
+                            n<> u<200> t<Tf_port_declaration> p<201> c<183> l<25:7> el<25:36>
+                              n<> u<183> t<INPUT> p<200> s<186> l<25:7> el<25:12>
+                              n<> u<186> t<Data_type_or_implicit> p<200> c<185> s<199> l<25:13> el<25:20>
+                                n<> u<185> t<Data_type> p<186> c<184> l<25:13> el<25:20>
+                                  n<> u<184> t<INTEGER> p<185> l<25:13> el<25:20>
+                              n<> u<199> t<Tf_variable_identifier_list> p<200> c<187> l<25:21> el<25:35>
+                                n<array_arg> u<187> t<SIMPLE_IDENTIFIER> p<199> s<198> l<25:21> el<25:30>
+                                n<> u<198> t<Variable_dimension> p<199> c<197> l<25:30> el<25:35>
+                                  n<> u<197> t<Unpacked_dimension> p<198> c<196> l<25:30> el<25:35>
+                                    n<> u<196> t<Constant_range> p<197> c<191> l<25:31> el<25:34>
+                                      n<> u<191> t<Constant_expression> p<196> c<190> s<195> l<25:31> el<25:32>
+                                        n<> u<190> t<Constant_primary> p<191> c<189> l<25:31> el<25:32>
+                                          n<> u<189> t<Primary_literal> p<190> c<188> l<25:31> el<25:32>
+                                            n<7> u<188> t<INTEGRAL_NUMBER> p<189> l<25:31> el<25:32>
+                                      n<> u<195> t<Constant_expression> p<196> c<194> l<25:33> el<25:34>
+                                        n<> u<194> t<Constant_primary> p<195> c<193> l<25:33> el<25:34>
+                                          n<> u<193> t<Primary_literal> p<194> c<192> l<25:33> el<25:34>
+                                            n<0> u<192> t<INTEGRAL_NUMBER> p<193> l<25:33> el<25:34>
+                        n<> u<222> t<Function_statement_or_null> p<224> c<221> s<223> l<26:7> el<26:38>
+                          n<> u<221> t<Statement> p<222> c<220> l<26:7> el<26:38>
+                            n<> u<220> t<Statement_item> p<221> c<219> l<26:7> el<26:38>
+                              n<> u<219> t<Blocking_assignment> p<220> c<218> l<26:7> el<26:37>
+                                n<> u<218> t<Variable_assignment> p<219> c<207> l<26:7> el<26:37>
+                                  n<> u<207> t<Variable_lvalue> p<218> c<204> s<217> l<26:7> el<26:18>
+                                    n<> u<204> t<Ps_or_hierarchical_identifier> p<207> c<203> s<206> l<26:7> el<26:18>
+                                      n<get_element> u<203> t<SIMPLE_IDENTIFIER> p<204> l<26:7> el<26:18>
+                                    n<> u<206> t<Select> p<207> c<205> l<26:19> el<26:19>
+                                      n<> u<205> t<Bit_select> p<206> l<26:19> el<26:19>
+                                  n<> u<217> t<Expression> p<218> c<216> l<26:21> el<26:37>
+                                    n<> u<216> t<Primary> p<217> c<215> l<26:21> el<26:37>
+                                      n<> u<215> t<Subroutine_call> p<216> c<208> l<26:21> el<26:37>
+                                        n<array_arg> u<208> t<SIMPLE_IDENTIFIER> p<215> s<214> l<26:21> el<26:30>
+                                        n<> u<214> t<Select> p<215> c<213> l<26:30> el<26:37>
+                                          n<> u<213> t<Bit_select> p<214> c<212> l<26:30> el<26:37>
+                                            n<> u<212> t<Expression> p<213> c<211> l<26:31> el<26:36>
+                                              n<> u<211> t<Primary> p<212> c<210> l<26:31> el<26:36>
+                                                n<> u<210> t<Primary_literal> p<211> c<209> l<26:31> el<26:36>
+                                                  n<index> u<209> t<SIMPLE_IDENTIFIER> p<210> l<26:31> el<26:36>
+                        n<> u<223> t<ENDFUNCTION> p<224> l<27:4> el<27:15>
+        n<> u<250> t<Module_item> p<544> c<249> s<269> l<29:4> el<29:30>
+          n<> u<249> t<Non_port_module_item> p<250> c<248> l<29:4> el<29:30>
+            n<> u<248> t<Module_or_generate_item> p<249> c<247> l<29:4> el<29:30>
+              n<> u<247> t<Module_common_item> p<248> c<246> l<29:4> el<29:30>
+                n<> u<246> t<Module_or_generate_item_declaration> p<247> c<245> l<29:4> el<29:30>
+                  n<> u<245> t<Package_or_generate_item_declaration> p<246> c<244> l<29:4> el<29:30>
+                    n<> u<244> t<Parameter_declaration> p<245> c<234> l<29:4> el<29:29>
+                      n<> u<234> t<Data_type_or_implicit> p<244> c<233> s<243> l<29:14> el<29:21>
+                        n<> u<233> t<Data_type> p<234> c<232> l<29:14> el<29:21>
+                          n<> u<232> t<INTEGER> p<233> l<29:14> el<29:21>
+                      n<> u<243> t<Param_assignment_list> p<244> c<242> l<29:22> el<29:29>
+                        n<> u<242> t<Param_assignment> p<243> c<235> l<29:22> el<29:29>
+                          n<IDX> u<235> t<SIMPLE_IDENTIFIER> p<242> s<241> l<29:22> el<29:25>
+                          n<> u<241> t<Constant_param_expression> p<242> c<240> l<29:28> el<29:29>
+                            n<> u<240> t<Constant_mintypmax_expression> p<241> c<239> l<29:28> el<29:29>
+                              n<> u<239> t<Constant_expression> p<240> c<238> l<29:28> el<29:29>
+                                n<> u<238> t<Constant_primary> p<239> c<237> l<29:28> el<29:29>
+                                  n<> u<237> t<Primary_literal> p<238> c<236> l<29:28> el<29:29>
+                                    n<5> u<236> t<INTEGRAL_NUMBER> p<237> l<29:28> el<29:29>
+        n<> u<269> t<Module_item> p<544> c<268> s<331> l<30:4> el<30:30>
+          n<> u<268> t<Non_port_module_item> p<269> c<267> l<30:4> el<30:30>
+            n<> u<267> t<Module_or_generate_item> p<268> c<266> l<30:4> el<30:30>
+              n<> u<266> t<Module_common_item> p<267> c<265> l<30:4> el<30:30>
+                n<> u<265> t<Module_or_generate_item_declaration> p<266> c<264> l<30:4> el<30:30>
+                  n<> u<264> t<Package_or_generate_item_declaration> p<265> c<263> l<30:4> el<30:30>
+                    n<> u<263> t<Parameter_declaration> p<264> c<253> l<30:4> el<30:29>
+                      n<> u<253> t<Data_type_or_implicit> p<263> c<252> s<262> l<30:14> el<30:21>
+                        n<> u<252> t<Data_type> p<253> c<251> l<30:14> el<30:21>
+                          n<> u<251> t<INTEGER> p<252> l<30:14> el<30:21>
+                      n<> u<262> t<Param_assignment_list> p<263> c<261> l<30:22> el<30:29>
+                        n<> u<261> t<Param_assignment> p<262> c<254> l<30:22> el<30:29>
+                          n<CHK> u<254> t<SIMPLE_IDENTIFIER> p<261> s<260> l<30:22> el<30:25>
+                          n<> u<260> t<Constant_param_expression> p<261> c<259> l<30:28> el<30:29>
+                            n<> u<259> t<Constant_mintypmax_expression> p<260> c<258> l<30:28> el<30:29>
+                              n<> u<258> t<Constant_expression> p<259> c<257> l<30:28> el<30:29>
+                                n<> u<257> t<Constant_primary> p<258> c<256> l<30:28> el<30:29>
+                                  n<> u<256> t<Primary_literal> p<257> c<255> l<30:28> el<30:29>
+                                    n<5> u<255> t<INTEGRAL_NUMBER> p<256> l<30:28> el<30:29>
+        n<> u<331> t<Module_item> p<544> c<330> s<353> l<31:4> el<31:70>
+          n<> u<330> t<Non_port_module_item> p<331> c<329> l<31:4> el<31:70>
+            n<> u<329> t<Module_or_generate_item> p<330> c<328> l<31:4> el<31:70>
+              n<> u<328> t<Module_common_item> p<329> c<327> l<31:4> el<31:70>
+                n<> u<327> t<Module_or_generate_item_declaration> p<328> c<326> l<31:4> el<31:70>
+                  n<> u<326> t<Package_or_generate_item_declaration> p<327> c<325> l<31:4> el<31:70>
+                    n<> u<325> t<Local_parameter_declaration> p<326> c<272> l<31:4> el<31:69>
+                      n<> u<272> t<Data_type_or_implicit> p<325> c<271> s<324> l<31:15> el<31:22>
+                        n<> u<271> t<Data_type> p<272> c<270> l<31:15> el<31:22>
+                          n<> u<270> t<INTEGER> p<271> l<31:15> el<31:22>
+                      n<> u<324> t<Param_assignment_list> p<325> c<323> l<31:23> el<31:69>
+                        n<> u<323> t<Param_assignment> p<324> c<273> l<31:23> el<31:69>
+                          n<array> u<273> t<SIMPLE_IDENTIFIER> p<323> s<283> l<31:23> el<31:28>
+                          n<> u<283> t<Unpacked_dimension> p<323> c<282> s<322> l<31:28> el<31:33>
+                            n<> u<282> t<Constant_range> p<283> c<277> l<31:29> el<31:32>
+                              n<> u<277> t<Constant_expression> p<282> c<276> s<281> l<31:29> el<31:30>
+                                n<> u<276> t<Constant_primary> p<277> c<275> l<31:29> el<31:30>
+                                  n<> u<275> t<Primary_literal> p<276> c<274> l<31:29> el<31:30>
+                                    n<0> u<274> t<INTEGRAL_NUMBER> p<275> l<31:29> el<31:30>
+                              n<> u<281> t<Constant_expression> p<282> c<280> l<31:31> el<31:32>
+                                n<> u<280> t<Constant_primary> p<281> c<279> l<31:31> el<31:32>
+                                  n<> u<279> t<Primary_literal> p<280> c<278> l<31:31> el<31:32>
+                                    n<7> u<278> t<INTEGRAL_NUMBER> p<279> l<31:31> el<31:32>
+                          n<> u<322> t<Constant_param_expression> p<323> c<321> l<31:36> el<31:69>
+                            n<> u<321> t<Constant_mintypmax_expression> p<322> c<320> l<31:36> el<31:69>
+                              n<> u<320> t<Constant_expression> p<321> c<319> l<31:36> el<31:69>
+                                n<> u<319> t<Constant_primary> p<320> c<318> l<31:36> el<31:69>
+                                  n<> u<318> t<Constant_assignment_pattern_expression> p<319> c<317> l<31:36> el<31:69>
+                                    n<> u<317> t<Assignment_pattern_expression> p<318> c<316> l<31:36> el<31:69>
+                                      n<> u<316> t<Assignment_pattern> p<317> c<287> l<31:36> el<31:69>
+                                        n<> u<287> t<Expression> p<316> c<286> s<291> l<31:38> el<31:40>
+                                          n<> u<286> t<Primary> p<287> c<285> l<31:38> el<31:40>
+                                            n<> u<285> t<Primary_literal> p<286> c<284> l<31:38> el<31:40>
+                                              n<10> u<284> t<INTEGRAL_NUMBER> p<285> l<31:38> el<31:40>
+                                        n<> u<291> t<Expression> p<316> c<290> s<295> l<31:42> el<31:44>
+                                          n<> u<290> t<Primary> p<291> c<289> l<31:42> el<31:44>
+                                            n<> u<289> t<Primary_literal> p<290> c<288> l<31:42> el<31:44>
+                                              n<11> u<288> t<INTEGRAL_NUMBER> p<289> l<31:42> el<31:44>
+                                        n<> u<295> t<Expression> p<316> c<294> s<299> l<31:46> el<31:48>
+                                          n<> u<294> t<Primary> p<295> c<293> l<31:46> el<31:48>
+                                            n<> u<293> t<Primary_literal> p<294> c<292> l<31:46> el<31:48>
+                                              n<12> u<292> t<INTEGRAL_NUMBER> p<293> l<31:46> el<31:48>
+                                        n<> u<299> t<Expression> p<316> c<298> s<303> l<31:50> el<31:52>
+                                          n<> u<298> t<Primary> p<299> c<297> l<31:50> el<31:52>
+                                            n<> u<297> t<Primary_literal> p<298> c<296> l<31:50> el<31:52>
+                                              n<13> u<296> t<INTEGRAL_NUMBER> p<297> l<31:50> el<31:52>
+                                        n<> u<303> t<Expression> p<316> c<302> s<307> l<31:54> el<31:56>
+                                          n<> u<302> t<Primary> p<303> c<301> l<31:54> el<31:56>
+                                            n<> u<301> t<Primary_literal> p<302> c<300> l<31:54> el<31:56>
+                                              n<14> u<300> t<INTEGRAL_NUMBER> p<301> l<31:54> el<31:56>
+                                        n<> u<307> t<Expression> p<316> c<306> s<311> l<31:58> el<31:60>
+                                          n<> u<306> t<Primary> p<307> c<305> l<31:58> el<31:60>
+                                            n<> u<305> t<Primary_literal> p<306> c<304> l<31:58> el<31:60>
+                                              n<15> u<304> t<INTEGRAL_NUMBER> p<305> l<31:58> el<31:60>
+                                        n<> u<311> t<Expression> p<316> c<310> s<315> l<31:62> el<31:64>
+                                          n<> u<310> t<Primary> p<311> c<309> l<31:62> el<31:64>
+                                            n<> u<309> t<Primary_literal> p<310> c<308> l<31:62> el<31:64>
+                                              n<16> u<308> t<INTEGRAL_NUMBER> p<309> l<31:62> el<31:64>
+                                        n<> u<315> t<Expression> p<316> c<314> l<31:66> el<31:68>
+                                          n<> u<314> t<Primary> p<315> c<313> l<31:66> el<31:68>
+                                            n<> u<313> t<Primary_literal> p<314> c<312> l<31:66> el<31:68>
+                                              n<17> u<312> t<INTEGRAL_NUMBER> p<313> l<31:66> el<31:68>
+        n<> u<353> t<Module_item> p<544> c<352> s<380> l<32:4> el<32:37>
+          n<> u<352> t<Non_port_module_item> p<353> c<351> l<32:4> el<32:37>
+            n<> u<351> t<Module_or_generate_item> p<352> c<350> l<32:4> el<32:37>
+              n<> u<350> t<Module_common_item> p<351> c<349> l<32:4> el<32:37>
+                n<> u<349> t<Module_or_generate_item_declaration> p<350> c<348> l<32:4> el<32:37>
+                  n<> u<348> t<Package_or_generate_item_declaration> p<349> c<347> l<32:4> el<32:37>
+                    n<> u<347> t<Local_parameter_declaration> p<348> c<332> l<32:4> el<32:36>
+                      n<> u<332> t<Data_type_or_implicit> p<347> s<346> l<32:15> el<32:15>
+                      n<> u<346> t<Param_assignment_list> p<347> c<345> l<32:15> el<32:36>
+                        n<> u<345> t<Param_assignment> p<346> c<333> l<32:15> el<32:36>
+                          n<element1> u<333> t<SIMPLE_IDENTIFIER> p<345> s<344> l<32:15> el<32:23>
+                          n<> u<344> t<Constant_param_expression> p<345> c<343> l<32:26> el<32:36>
+                            n<> u<343> t<Constant_mintypmax_expression> p<344> c<342> l<32:26> el<32:36>
+                              n<> u<342> t<Constant_expression> p<343> c<341> l<32:26> el<32:36>
+                                n<> u<341> t<Constant_primary> p<342> c<334> l<32:26> el<32:36>
+                                  n<array> u<334> t<SIMPLE_IDENTIFIER> p<341> s<340> l<32:26> el<32:31>
+                                  n<> u<340> t<Constant_select> p<341> c<339> l<32:31> el<32:36>
+                                    n<> u<339> t<Constant_bit_select> p<340> c<338> l<32:31> el<32:36>
+                                      n<> u<338> t<Constant_expression> p<339> c<337> l<32:32> el<32:35>
+                                        n<> u<337> t<Constant_primary> p<338> c<336> l<32:32> el<32:35>
+                                          n<> u<336> t<Primary_literal> p<337> c<335> l<32:32> el<32:35>
+                                            n<IDX> u<335> t<SIMPLE_IDENTIFIER> p<336> l<32:32> el<32:35>
+        n<> u<380> t<Module_item> p<544> c<379> s<542> l<33:4> el<33:50>
+          n<> u<379> t<Non_port_module_item> p<380> c<378> l<33:4> el<33:50>
+            n<> u<378> t<Module_or_generate_item> p<379> c<377> l<33:4> el<33:50>
+              n<> u<377> t<Module_common_item> p<378> c<376> l<33:4> el<33:50>
+                n<> u<376> t<Module_or_generate_item_declaration> p<377> c<375> l<33:4> el<33:50>
+                  n<> u<375> t<Package_or_generate_item_declaration> p<376> c<374> l<33:4> el<33:50>
+                    n<> u<374> t<Local_parameter_declaration> p<375> c<354> l<33:4> el<33:49>
+                      n<> u<354> t<Data_type_or_implicit> p<374> s<373> l<33:15> el<33:15>
+                      n<> u<373> t<Param_assignment_list> p<374> c<372> l<33:15> el<33:49>
+                        n<> u<372> t<Param_assignment> p<373> c<355> l<33:15> el<33:49>
+                          n<elementf> u<355> t<SIMPLE_IDENTIFIER> p<372> s<371> l<33:15> el<33:23>
+                          n<> u<371> t<Constant_param_expression> p<372> c<370> l<33:26> el<33:49>
+                            n<> u<370> t<Constant_mintypmax_expression> p<371> c<369> l<33:26> el<33:49>
+                              n<> u<369> t<Constant_expression> p<370> c<368> l<33:26> el<33:49>
+                                n<> u<368> t<Constant_primary> p<369> c<367> l<33:26> el<33:49>
+                                  n<> u<367> t<Subroutine_call> p<368> c<356> l<33:26> el<33:49>
+                                    n<get_element> u<356> t<SIMPLE_IDENTIFIER> p<367> s<366> l<33:26> el<33:37>
+                                    n<> u<366> t<Argument_list> p<367> c<360> l<33:38> el<33:48>
+                                      n<> u<360> t<Expression> p<366> c<359> s<365> l<33:38> el<33:41>
+                                        n<> u<359> t<Primary> p<360> c<358> l<33:38> el<33:41>
+                                          n<> u<358> t<Primary_literal> p<359> c<357> l<33:38> el<33:41>
+                                            n<IDX> u<357> t<SIMPLE_IDENTIFIER> p<358> l<33:38> el<33:41>
+                                      n<> u<365> t<Argument> p<366> c<364> l<33:43> el<33:48>
+                                        n<> u<364> t<Expression> p<365> c<363> l<33:43> el<33:48>
+                                          n<> u<363> t<Primary> p<364> c<362> l<33:43> el<33:48>
+                                            n<> u<362> t<Primary_literal> p<363> c<361> l<33:43> el<33:48>
+                                              n<array> u<361> t<SIMPLE_IDENTIFIER> p<362> l<33:43> el<33:48>
+        n<> u<542> t<Module_item> p<544> c<541> s<543> l<34:4> el<37:7>
+          n<> u<541> t<Non_port_module_item> p<542> c<540> l<34:4> el<37:7>
+            n<> u<540> t<Module_or_generate_item> p<541> c<539> l<34:4> el<37:7>
+              n<> u<539> t<Module_common_item> p<540> c<538> l<34:4> el<37:7>
+                n<> u<538> t<Initial_construct> p<539> c<537> l<34:4> el<37:7>
+                  n<> u<537> t<Statement_or_null> p<538> c<536> l<34:12> el<37:7>
+                    n<> u<536> t<Statement> p<537> c<535> l<34:12> el<37:7>
+                      n<> u<535> t<Statement_item> p<536> c<534> l<34:12> el<37:7>
+                        n<> u<534> t<Seq_block> p<535> c<455> l<34:12> el<37:7>
+                          n<> u<455> t<Statement_or_null> p<534> c<454> s<456> l<6:27> el<6:180>
+                            n<> u<454> t<Statement> p<455> c<453> l<6:27> el<6:180>
+                              n<> u<453> t<Statement_item> p<454> c<452> l<6:27> el<6:180>
+                                n<> u<452> t<Loop_statement> p<453> c<451> l<6:27> el<6:180>
+                                  n<> u<451> t<DO> p<452> s<446> l<6:27> el<6:29>
+                                  n<> u<446> t<Statement_or_null> p<452> c<445> s<450> l<6:30> el<6:170>
+                                    n<> u<445> t<Statement> p<446> c<444> l<6:30> el<6:170>
+                                      n<> u<444> t<Statement_item> p<445> c<443> l<6:30> el<6:170>
+                                        n<> u<443> t<Conditional_statement> p<444> c<394> l<6:30> el<6:170>
+                                          n<> u<394> t<Cond_predicate> p<443> c<393> s<442> l<6:34> el<6:54>
+                                            n<> u<393> t<Expression_or_cond_pattern> p<394> c<392> l<6:34> el<6:54>
+                                              n<> u<392> t<Expression> p<393> c<385> l<6:34> el<6:54>
+                                                n<> u<385> t<Expression> p<392> c<384> s<391> l<6:34> el<6:44>
+                                                  n<> u<384> t<Expression> p<385> c<383> l<6:35> el<6:43>
+                                                    n<> u<383> t<Primary> p<384> c<382> l<6:35> el<6:43>
+                                                      n<> u<382> t<Primary_literal> p<383> c<381> l<6:35> el<6:43>
+                                                        n<element1> u<381> t<SIMPLE_IDENTIFIER> p<382> l<6:35> el<6:43>
+                                                n<> u<391> t<FOUR_STATE_LOGIC_NOTEQUAL> p<392> s<390> l<6:45> el<6:48>
+                                                n<> u<390> t<Expression> p<392> c<389> l<6:49> el<6:54>
+                                                  n<> u<389> t<Expression> p<390> c<388> l<6:50> el<6:53>
+                                                    n<> u<388> t<Primary> p<389> c<387> l<6:50> el<6:53>
+                                                      n<> u<387> t<Primary_literal> p<388> c<386> l<6:50> el<6:53>
+                                                        n<CHK> u<386> t<SIMPLE_IDENTIFIER> p<387> l<6:50> el<6:53>
+                                          n<> u<442> t<Statement_or_null> p<443> c<441> l<6:56> el<6:170>
+                                            n<> u<441> t<Statement> p<442> c<440> l<6:56> el<6:170>
+                                              n<> u<440> t<Statement_item> p<441> c<439> l<6:56> el<6:170>
+                                                n<> u<439> t<Seq_block> p<440> c<428> l<6:56> el<6:170>
+                                                  n<> u<428> t<Statement_or_null> p<439> c<427> s<437> l<6:62> el<6:159>
+                                                    n<> u<427> t<Statement> p<428> c<426> l<6:62> el<6:159>
+                                                      n<> u<426> t<Statement_item> p<427> c<425> l<6:62> el<6:159>
+                                                        n<> u<425> t<Subroutine_call_statement> p<426> c<424> l<6:62> el<6:159>
+                                                          n<> u<424> t<Subroutine_call> p<425> c<395> l<6:62> el<6:158>
+                                                            n<$> u<395> t<DOLLAR> p<424> s<396> l<6:62> el<6:63>
+                                                            n<write> u<396> t<SIMPLE_IDENTIFIER> p<424> s<423> l<6:63> el<6:68>
+                                                            n<> u<423> t<Argument_list> p<424> c<400> l<6:69> el<6:157>
+                                                              n<> u<400> t<Expression> p<423> c<399> s<405> l<6:69> el<6:108>
+                                                                n<> u<399> t<Primary> p<400> c<398> l<6:69> el<6:108>
+                                                                  n<> u<398> t<Primary_literal> p<399> c<397> l<6:69> el<6:108>
+                                                                    n<"%%Error: %s:%0d:  got='h%x exp='h%x\n"> u<397> t<QUOTED_STRING> p<398> l<6:69> el<6:108>
+                                                              n<> u<405> t<Argument> p<423> c<404> s<410> l<6:110> el<6:136>
+                                                                n<> u<404> t<Expression> p<405> c<403> l<6:110> el<6:136>
+                                                                  n<> u<403> t<Primary> p<404> c<402> l<6:110> el<6:136>
+                                                                    n<> u<402> t<Primary_literal> p<403> c<401> l<6:110> el<6:136>
+                                                                      n<"$Source01/t_param_avec.v"> u<401> t<QUOTED_STRING> p<402> l<6:110> el<6:136>
+                                                              n<> u<410> t<Argument> p<423> c<409> s<416> l<6:137> el<6:138>
+                                                                n<> u<409> t<Expression> p<410> c<408> l<6:137> el<6:138>
+                                                                  n<> u<408> t<Primary> p<409> c<407> l<6:137> el<6:138>
+                                                                    n<> u<407> t<Primary_literal> p<408> c<406> l<6:137> el<6:138>
+                                                                      n<0> u<406> t<INTEGRAL_NUMBER> p<407> l<6:137> el<6:138>
+                                                              n<> u<416> t<Argument> p<423> c<415> s<422> l<6:140> el<6:150>
+                                                                n<> u<415> t<Expression> p<416> c<414> l<6:140> el<6:150>
+                                                                  n<> u<414> t<Expression> p<415> c<413> l<6:141> el<6:149>
+                                                                    n<> u<413> t<Primary> p<414> c<412> l<6:141> el<6:149>
+                                                                      n<> u<412> t<Primary_literal> p<413> c<411> l<6:141> el<6:149>
+                                                                        n<element1> u<411> t<SIMPLE_IDENTIFIER> p<412> l<6:141> el<6:149>
+                                                              n<> u<422> t<Argument> p<423> c<421> l<6:152> el<6:157>
+                                                                n<> u<421> t<Expression> p<422> c<420> l<6:152> el<6:157>
+                                                                  n<> u<420> t<Expression> p<421> c<419> l<6:153> el<6:156>
+                                                                    n<> u<419> t<Primary> p<420> c<418> l<6:153> el<6:156>
+                                                                      n<> u<418> t<Primary_literal> p<419> c<417> l<6:153> el<6:156>
+                                                                        n<CHK> u<417> t<SIMPLE_IDENTIFIER> p<418> l<6:153> el<6:156>
+                                                  n<> u<437> t<Statement_or_null> p<439> c<436> s<438> l<6:160> el<6:166>
+                                                    n<> u<436> t<Statement> p<437> c<435> l<6:160> el<6:166>
+                                                      n<> u<435> t<Statement_item> p<436> c<434> l<6:160> el<6:166>
+                                                        n<> u<434> t<Subroutine_call_statement> p<435> c<433> l<6:160> el<6:166>
+                                                          n<> u<433> t<Subroutine_call> p<434> c<429> l<6:160> el<6:165>
+                                                            n<$> u<429> t<DOLLAR> p<433> s<430> l<6:160> el<6:161>
+                                                            n<stop> u<430> t<SIMPLE_IDENTIFIER> p<433> s<432> l<6:161> el<6:165>
+                                                            n<> u<432> t<Select> p<433> c<431> l<6:165> el<6:165>
+                                                              n<> u<431> t<Bit_select> p<432> l<6:165> el<6:165>
+                                                  n<> u<438> t<END> p<439> l<6:167> el<6:170>
+                                  n<> u<450> t<Expression> p<452> c<449> l<6:177> el<6:178>
+                                    n<> u<449> t<Primary> p<450> c<448> l<6:177> el<6:178>
+                                      n<> u<448> t<Primary_literal> p<449> c<447> l<6:177> el<6:178>
+                                        n<0> u<447> t<INTEGRAL_NUMBER> p<448> l<6:177> el<6:178>
+                          n<> u<456> t<Statement_or_null> p<534> s<531> l<35:30> el<35:31>
+                          n<> u<531> t<Statement_or_null> p<534> c<530> s<532> l<6:27> el<6:180>
+                            n<> u<530> t<Statement> p<531> c<529> l<6:27> el<6:180>
+                              n<> u<529> t<Statement_item> p<530> c<528> l<6:27> el<6:180>
+                                n<> u<528> t<Loop_statement> p<529> c<527> l<6:27> el<6:180>
+                                  n<> u<527> t<DO> p<528> s<522> l<6:27> el<6:29>
+                                  n<> u<522> t<Statement_or_null> p<528> c<521> s<526> l<6:30> el<6:170>
+                                    n<> u<521> t<Statement> p<522> c<520> l<6:30> el<6:170>
+                                      n<> u<520> t<Statement_item> p<521> c<519> l<6:30> el<6:170>
+                                        n<> u<519> t<Conditional_statement> p<520> c<470> l<6:30> el<6:170>
+                                          n<> u<470> t<Cond_predicate> p<519> c<469> s<518> l<6:34> el<6:54>
+                                            n<> u<469> t<Expression_or_cond_pattern> p<470> c<468> l<6:34> el<6:54>
+                                              n<> u<468> t<Expression> p<469> c<461> l<6:34> el<6:54>
+                                                n<> u<461> t<Expression> p<468> c<460> s<467> l<6:34> el<6:44>
+                                                  n<> u<460> t<Expression> p<461> c<459> l<6:35> el<6:43>
+                                                    n<> u<459> t<Primary> p<460> c<458> l<6:35> el<6:43>
+                                                      n<> u<458> t<Primary_literal> p<459> c<457> l<6:35> el<6:43>
+                                                        n<elementf> u<457> t<SIMPLE_IDENTIFIER> p<458> l<6:35> el<6:43>
+                                                n<> u<467> t<FOUR_STATE_LOGIC_NOTEQUAL> p<468> s<466> l<6:45> el<6:48>
+                                                n<> u<466> t<Expression> p<468> c<465> l<6:49> el<6:54>
+                                                  n<> u<465> t<Expression> p<466> c<464> l<6:50> el<6:53>
+                                                    n<> u<464> t<Primary> p<465> c<463> l<6:50> el<6:53>
+                                                      n<> u<463> t<Primary_literal> p<464> c<462> l<6:50> el<6:53>
+                                                        n<CHK> u<462> t<SIMPLE_IDENTIFIER> p<463> l<6:50> el<6:53>
+                                          n<> u<518> t<Statement_or_null> p<519> c<517> l<6:56> el<6:170>
+                                            n<> u<517> t<Statement> p<518> c<516> l<6:56> el<6:170>
+                                              n<> u<516> t<Statement_item> p<517> c<515> l<6:56> el<6:170>
+                                                n<> u<515> t<Seq_block> p<516> c<504> l<6:56> el<6:170>
+                                                  n<> u<504> t<Statement_or_null> p<515> c<503> s<513> l<6:62> el<6:159>
+                                                    n<> u<503> t<Statement> p<504> c<502> l<6:62> el<6:159>
+                                                      n<> u<502> t<Statement_item> p<503> c<501> l<6:62> el<6:159>
+                                                        n<> u<501> t<Subroutine_call_statement> p<502> c<500> l<6:62> el<6:159>
+                                                          n<> u<500> t<Subroutine_call> p<501> c<471> l<6:62> el<6:158>
+                                                            n<$> u<471> t<DOLLAR> p<500> s<472> l<6:62> el<6:63>
+                                                            n<write> u<472> t<SIMPLE_IDENTIFIER> p<500> s<499> l<6:63> el<6:68>
+                                                            n<> u<499> t<Argument_list> p<500> c<476> l<6:69> el<6:157>
+                                                              n<> u<476> t<Expression> p<499> c<475> s<481> l<6:69> el<6:108>
+                                                                n<> u<475> t<Primary> p<476> c<474> l<6:69> el<6:108>
+                                                                  n<> u<474> t<Primary_literal> p<475> c<473> l<6:69> el<6:108>
+                                                                    n<"%%Error: %s:%0d:  got='h%x exp='h%x\n"> u<473> t<QUOTED_STRING> p<474> l<6:69> el<6:108>
+                                                              n<> u<481> t<Argument> p<499> c<480> s<486> l<6:110> el<6:136>
+                                                                n<> u<480> t<Expression> p<481> c<479> l<6:110> el<6:136>
+                                                                  n<> u<479> t<Primary> p<480> c<478> l<6:110> el<6:136>
+                                                                    n<> u<478> t<Primary_literal> p<479> c<477> l<6:110> el<6:136>
+                                                                      n<"$Source01/t_param_avec.v"> u<477> t<QUOTED_STRING> p<478> l<6:110> el<6:136>
+                                                              n<> u<486> t<Argument> p<499> c<485> s<492> l<6:137> el<6:138>
+                                                                n<> u<485> t<Expression> p<486> c<484> l<6:137> el<6:138>
+                                                                  n<> u<484> t<Primary> p<485> c<483> l<6:137> el<6:138>
+                                                                    n<> u<483> t<Primary_literal> p<484> c<482> l<6:137> el<6:138>
+                                                                      n<0> u<482> t<INTEGRAL_NUMBER> p<483> l<6:137> el<6:138>
+                                                              n<> u<492> t<Argument> p<499> c<491> s<498> l<6:140> el<6:150>
+                                                                n<> u<491> t<Expression> p<492> c<490> l<6:140> el<6:150>
+                                                                  n<> u<490> t<Expression> p<491> c<489> l<6:141> el<6:149>
+                                                                    n<> u<489> t<Primary> p<490> c<488> l<6:141> el<6:149>
+                                                                      n<> u<488> t<Primary_literal> p<489> c<487> l<6:141> el<6:149>
+                                                                        n<elementf> u<487> t<SIMPLE_IDENTIFIER> p<488> l<6:141> el<6:149>
+                                                              n<> u<498> t<Argument> p<499> c<497> l<6:152> el<6:157>
+                                                                n<> u<497> t<Expression> p<498> c<496> l<6:152> el<6:157>
+                                                                  n<> u<496> t<Expression> p<497> c<495> l<6:153> el<6:156>
+                                                                    n<> u<495> t<Primary> p<496> c<494> l<6:153> el<6:156>
+                                                                      n<> u<494> t<Primary_literal> p<495> c<493> l<6:153> el<6:156>
+                                                                        n<CHK> u<493> t<SIMPLE_IDENTIFIER> p<494> l<6:153> el<6:156>
+                                                  n<> u<513> t<Statement_or_null> p<515> c<512> s<514> l<6:160> el<6:166>
+                                                    n<> u<512> t<Statement> p<513> c<511> l<6:160> el<6:166>
+                                                      n<> u<511> t<Statement_item> p<512> c<510> l<6:160> el<6:166>
+                                                        n<> u<510> t<Subroutine_call_statement> p<511> c<509> l<6:160> el<6:166>
+                                                          n<> u<509> t<Subroutine_call> p<510> c<505> l<6:160> el<6:165>
+                                                            n<$> u<505> t<DOLLAR> p<509> s<506> l<6:160> el<6:161>
+                                                            n<stop> u<506> t<SIMPLE_IDENTIFIER> p<509> s<508> l<6:161> el<6:165>
+                                                            n<> u<508> t<Select> p<509> c<507> l<6:165> el<6:165>
+                                                              n<> u<507> t<Bit_select> p<508> l<6:165> el<6:165>
+                                                  n<> u<514> t<END> p<515> l<6:167> el<6:170>
+                                  n<> u<526> t<Expression> p<528> c<525> l<6:177> el<6:178>
+                                    n<> u<525> t<Primary> p<526> c<524> l<6:177> el<6:178>
+                                      n<> u<524> t<Primary_literal> p<525> c<523> l<6:177> el<6:178>
+                                        n<0> u<523> t<INTEGRAL_NUMBER> p<524> l<6:177> el<6:178>
+                          n<> u<532> t<Statement_or_null> p<534> s<533> l<36:30> el<36:31>
+                          n<> u<533> t<END> p<534> l<37:4> el<37:7>
+        n<> u<543> t<ENDMODULE> p<544> l<38:1> el<38:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_param_avec.v:8:1: Compile module "t".
+[INF:CP0303] $Source01/t_param_avec.v:22:1: Compile module "sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:CP0351] $Source01/t_param_avec.v:13:11: Reference to "IDX" declared later in the compilation unit,
-             $Source01/t_param_avec.v:29:22: declaration.
-[ERR:CP0351] $Source01/t_param_avec.v:13:20: Reference to "CHK" declared later in the compilation unit,
-             $Source01/t_param_avec.v:30:22: declaration.
-[ERR:CP0351] $Source01/t_param_avec.v:14:11: Reference to "IDX" declared later in the compilation unit,
-             $Source01/t_param_avec.v:29:22: declaration.
-[ERR:CP0351] $Source01/t_param_avec.v:14:20: Reference to "CHK" declared later in the compilation unit,
-             $Source01/t_param_avec.v:30:22: declaration.
-[ERR:CP0351] $Source01/t_param_avec.v:15:11: Reference to "IDX" declared later in the compilation unit,
-             $Source01/t_param_avec.v:29:22: declaration.
-[ERR:CP0351] $Source01/t_param_avec.v:15:20: Reference to "CHK" declared later in the compilation unit,
-             $Source01/t_param_avec.v:30:22: declaration.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -620,7 +778,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:do if ((elementf) !== (CHK)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_param_avec.v\",0, (elementf), (CHK)); $stop; end while(0); start:6:27 end:6:180":
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: "do if ((elementf) !== (CHK)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_param_avec.v\",0, (elementf), (CHK)); $stop; end while(0);"
-  vpiAllModules (3 items):
+  vpiAllModules (2 items):
     Module name:t file:$Source01/t_param_avec.v start:8:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
@@ -634,7 +792,7 @@ Design name:unnamed:
             vpiParent: Variable name:i0
             vpiName: sub
             vpiFullName: t.i0.sub
-            vpiActual: UnsupportedTypespec name:sub
+            vpiActual: "ModuleTypespec name: #(.IDX(0), .CHK(10))"
           vpiName: i0
           vpiFullName: t.i0
         Variable name:i2 start:14:29 end:14:31:
@@ -643,7 +801,7 @@ Design name:unnamed:
             vpiParent: Variable name:i2
             vpiName: sub
             vpiFullName: t.i2.sub
-            vpiActual: UnsupportedTypespec name:sub
+            vpiActual: "ModuleTypespec name: #(.IDX(2), .CHK(12))"
           vpiName: i2
           vpiFullName: t.i2
         Variable name:i7 start:15:29 end:15:31:
@@ -652,144 +810,141 @@ Design name:unnamed:
             vpiParent: Variable name:i7
             vpiName: sub
             vpiFullName: t.i7.sub
-            vpiActual: UnsupportedTypespec name:sub
+            vpiActual: "ModuleTypespec name: #(.IDX(7), .CHK(17))"
           vpiName: i7
           vpiFullName: t.i7
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:sub start:13:4 end:13:28:
+        "ModuleTypespec name: #(.IDX(0), .CHK(10)) start:13:4 end:13:28":
           vpiParent: Module name:t
-          vpiName Identifier name:sub start:13:4 end:13:7:
-            vpiParent: UnsupportedTypespec name:sub
-            vpiName: sub
+          "vpiName Identifier name: #(.IDX(0), .CHK(10)) start:13:4 end:13:7":
+            vpiParent: "ModuleTypespec name: #(.IDX(0), .CHK(10))"
+            vpiName: " #(.IDX(0), .CHK(10))"
           vpiParamAssign (2 items):
             ParamAssign start:13:10 end:13:17:
-              vpiParent: UnsupportedTypespec name:sub
+              vpiParent: "ModuleTypespec name: #(.IDX(0), .CHK(10))"
               vpiConnByName: true
               vpiOverridden: true
               vpiLhs RefObj name:IDX start:13:11 end:13:14:
                 vpiParent: ParamAssign
                 vpiName: IDX
-                vpiFullName: t.sub.IDX
-                vpiActual: Parameter name:IDX
+                vpiFullName: t. #(.IDX(0), .CHK(10)).IDX
               vpiRhs Constant start:13:15 end:13:16:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t.sub
+                  vpiFullName: t. #(.IDX(0), .CHK(10))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
             ParamAssign start:13:19 end:13:27:
-              vpiParent: UnsupportedTypespec name:sub
+              vpiParent: "ModuleTypespec name: #(.IDX(0), .CHK(10))"
               vpiConnByName: true
               vpiOverridden: true
               vpiLhs RefObj name:CHK start:13:20 end:13:23:
                 vpiParent: ParamAssign
                 vpiName: CHK
-                vpiFullName: t.sub.CHK
-                vpiActual: Parameter name:CHK
+                vpiFullName: t. #(.IDX(0), .CHK(10)).CHK
               vpiRhs Constant start:13:24 end:13:26:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t.sub
+                  vpiFullName: t. #(.IDX(0), .CHK(10))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "10"
                 vpiValue: 10
-        UnsupportedTypespec name:sub start:14:4 end:14:28:
+          vpiModule: Module name:sub
+        "ModuleTypespec name: #(.IDX(2), .CHK(12)) start:14:4 end:14:28":
           vpiParent: Module name:t
-          vpiName Identifier name:sub start:14:4 end:14:7:
-            vpiParent: UnsupportedTypespec name:sub
-            vpiName: sub
+          "vpiName Identifier name: #(.IDX(2), .CHK(12)) start:14:4 end:14:7":
+            vpiParent: "ModuleTypespec name: #(.IDX(2), .CHK(12))"
+            vpiName: " #(.IDX(2), .CHK(12))"
           vpiParamAssign (2 items):
             ParamAssign start:14:10 end:14:17:
-              vpiParent: UnsupportedTypespec name:sub
+              vpiParent: "ModuleTypespec name: #(.IDX(2), .CHK(12))"
               vpiConnByName: true
               vpiOverridden: true
               vpiLhs RefObj name:IDX start:14:11 end:14:14:
                 vpiParent: ParamAssign
                 vpiName: IDX
-                vpiFullName: t.sub.IDX
-                vpiActual: Parameter name:IDX
+                vpiFullName: t. #(.IDX(2), .CHK(12)).IDX
               vpiRhs Constant start:14:15 end:14:16:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t.sub
+                  vpiFullName: t. #(.IDX(2), .CHK(12))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
             ParamAssign start:14:19 end:14:27:
-              vpiParent: UnsupportedTypespec name:sub
+              vpiParent: "ModuleTypespec name: #(.IDX(2), .CHK(12))"
               vpiConnByName: true
               vpiOverridden: true
               vpiLhs RefObj name:CHK start:14:20 end:14:23:
                 vpiParent: ParamAssign
                 vpiName: CHK
-                vpiFullName: t.sub.CHK
-                vpiActual: Parameter name:CHK
+                vpiFullName: t. #(.IDX(2), .CHK(12)).CHK
               vpiRhs Constant start:14:24 end:14:26:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t.sub
+                  vpiFullName: t. #(.IDX(2), .CHK(12))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "12"
                 vpiValue: 12
-        UnsupportedTypespec name:sub start:15:4 end:15:28:
+          vpiModule: Module name:sub
+        "ModuleTypespec name: #(.IDX(7), .CHK(17)) start:15:4 end:15:28":
           vpiParent: Module name:t
-          vpiName Identifier name:sub start:15:4 end:15:7:
-            vpiParent: UnsupportedTypespec name:sub
-            vpiName: sub
+          "vpiName Identifier name: #(.IDX(7), .CHK(17)) start:15:4 end:15:7":
+            vpiParent: "ModuleTypespec name: #(.IDX(7), .CHK(17))"
+            vpiName: " #(.IDX(7), .CHK(17))"
           vpiParamAssign (2 items):
             ParamAssign start:15:10 end:15:17:
-              vpiParent: UnsupportedTypespec name:sub
+              vpiParent: "ModuleTypespec name: #(.IDX(7), .CHK(17))"
               vpiConnByName: true
               vpiOverridden: true
               vpiLhs RefObj name:IDX start:15:11 end:15:14:
                 vpiParent: ParamAssign
                 vpiName: IDX
-                vpiFullName: t.sub.IDX
-                vpiActual: Parameter name:IDX
+                vpiFullName: t. #(.IDX(7), .CHK(17)).IDX
               vpiRhs Constant start:15:15 end:15:16:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t.sub
+                  vpiFullName: t. #(.IDX(7), .CHK(17))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
             ParamAssign start:15:19 end:15:27:
-              vpiParent: UnsupportedTypespec name:sub
+              vpiParent: "ModuleTypespec name: #(.IDX(7), .CHK(17))"
               vpiConnByName: true
               vpiOverridden: true
               vpiLhs RefObj name:CHK start:15:20 end:15:23:
                 vpiParent: ParamAssign
                 vpiName: CHK
-                vpiFullName: t.sub.CHK
-                vpiActual: Parameter name:CHK
+                vpiFullName: t. #(.IDX(7), .CHK(17)).CHK
               vpiRhs Constant start:15:24 end:15:26:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t.sub
+                  vpiFullName: t. #(.IDX(7), .CHK(17))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "17"
                 vpiValue: 17
+          vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -862,13 +1017,546 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
           vpiAlwaysType: always (1)
-    Module file:$Source01/t_param_avec.v start:22:1 end:22:1:
+    Module name:sub file:$Source01/t_param_avec.v start:22:1 end:38:10:
       vpiParent: Design name:unnamed
+      vpiName Identifier name:sub start:22:8 end:22:11:
+        vpiParent: Module name:sub
+        vpiName: sub
+      vpiFullName: sub
+      vpiParameter (5 items):
+        Parameter name:IDX start:29:22 end:29:25:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:29:14 end:29:21:
+            vpiParent: Parameter name:IDX
+            vpiFullName: sub.IDX
+            vpiActual: IntegerTypespec
+          vpiName: IDX
+          vpiFullName: sub.IDX
+        Parameter name:CHK start:30:22 end:30:25:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:30:14 end:30:21:
+            vpiParent: Parameter name:CHK
+            vpiFullName: sub.CHK
+            vpiActual: IntegerTypespec
+          vpiName: CHK
+          vpiFullName: sub.CHK
+        Parameter name:array start:31:23 end:31:28:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:31:15 end:31:22:
+            vpiParent: Parameter name:array
+            vpiFullName: sub.array
+            vpiActual: ArrayTypespec
+          vpiName: array
+          vpiFullName: sub.array
+          vpiLocalParam: true
+        Parameter name:element1 start:32:15 end:32:23:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:32:15 end:32:15:
+            vpiParent: Parameter name:element1
+            vpiFullName: sub.element1
+            vpiActual: LogicTypespec
+          vpiName: element1
+          vpiFullName: sub.element1
+          vpiLocalParam: true
+        Parameter name:elementf start:33:15 end:33:23:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:33:15 end:33:15:
+            vpiParent: Parameter name:elementf
+            vpiFullName: sub.elementf
+            vpiActual: LogicTypespec
+          vpiName: elementf
+          vpiFullName: sub.elementf
+          vpiLocalParam: true
+      vpiParamAssign (5 items):
+        ParamAssign start:29:22 end:29:29:
+          vpiParent: Module name:sub
+          vpiLhs RefObj name:IDX start:29:22 end:29:25:
+            vpiParent: ParamAssign
+            vpiName: IDX
+            vpiFullName: sub.IDX
+            vpiActual: Parameter name:IDX
+          vpiRhs Constant start:29:28 end:29:29:
+            vpiParent: ParamAssign
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: sub
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "5"
+            vpiValue: 5
+        ParamAssign start:30:22 end:30:29:
+          vpiParent: Module name:sub
+          vpiLhs RefObj name:CHK start:30:22 end:30:25:
+            vpiParent: ParamAssign
+            vpiName: CHK
+            vpiFullName: sub.CHK
+            vpiActual: Parameter name:CHK
+          vpiRhs Constant start:30:28 end:30:29:
+            vpiParent: ParamAssign
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: sub
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "5"
+            vpiValue: 5
+        ParamAssign start:31:23 end:31:69:
+          vpiParent: Module name:sub
+          vpiLhs RefObj name:array start:31:23 end:31:28:
+            vpiParent: ParamAssign
+            vpiName: array
+            vpiFullName: sub.array
+            vpiActual: Parameter name:array
+          vpiRhs Operation start:31:36 end:31:69:
+            vpiParent: ParamAssign
+            vpiOpType: assign pattern (87)
+            vpiOperand (8 items):
+              Constant start:31:38 end:31:40:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "10"
+                vpiValue: 10
+              Constant start:31:42 end:31:44:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "11"
+                vpiValue: 11
+              Constant start:31:46 end:31:48:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "12"
+                vpiValue: 12
+              Constant start:31:50 end:31:52:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "13"
+                vpiValue: 13
+              Constant start:31:54 end:31:56:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "14"
+                vpiValue: 14
+              Constant start:31:58 end:31:60:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "15"
+                vpiValue: 15
+              Constant start:31:62 end:31:64:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "16"
+                vpiValue: 16
+              Constant start:31:66 end:31:68:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "17"
+                vpiValue: 17
+        ParamAssign start:32:15 end:32:36:
+          vpiParent: Module name:sub
+          vpiLhs RefObj name:element1 start:32:15 end:32:23:
+            vpiParent: ParamAssign
+            vpiName: element1
+            vpiFullName: sub.element1
+            vpiActual: Parameter name:element1
+          vpiRhs BitSelect name:array[IDX] start:32:26 end:32:36:
+            vpiParent: ParamAssign
+            vpiName: array[IDX]
+            vpiFullName: sub.array[IDX]
+            vpiPrefix RefObj name:array start:32:26 end:32:31:
+              vpiParent: BitSelect name:array[IDX]
+              vpiName: array
+              vpiFullName: sub.array
+              vpiActual: Parameter name:array
+            vpiIndex RefObj name:IDX start:32:32 end:32:35:
+              vpiParent: BitSelect name:array[IDX]
+              vpiName: IDX
+              vpiFullName: sub.IDX
+              vpiActual: Parameter name:IDX
+        ParamAssign start:33:15 end:33:49:
+          vpiParent: Module name:sub
+          vpiLhs RefObj name:elementf start:33:15 end:33:23:
+            vpiParent: ParamAssign
+            vpiName: elementf
+            vpiFullName: sub.elementf
+            vpiActual: Parameter name:elementf
+          vpiRhs FuncCall name:get_element start:33:26 end:33:49:
+            vpiParent: ParamAssign
+            vpiName Identifier name:get_element start:33:26 end:33:37:
+              vpiParent: FuncCall name:get_element
+              vpiName: get_element
+            vpiTaskFunc: Function name:get_element
+            vpiArgument (2 items):
+              RefObj name:IDX start:33:38 end:33:41:
+                vpiParent: FuncCall name:get_element
+                vpiName: IDX
+                vpiFullName: sub.IDX
+                vpiActual: Parameter name:IDX
+              RefObj name:array start:33:43 end:33:48:
+                vpiParent: FuncCall name:get_element
+                vpiName: array
+                vpiFullName: sub.array
+                vpiActual: Parameter name:array
+      vpiTypespec (3 items):
+        IntegerTypespec:
+          vpiParent: Module name:sub
+          vpiSigned: true
+        ArrayTypespec:
+          vpiParent: Module name:sub
+          vpiArrayType: static (1)
+          vpiRange Range start:31:28 end:31:33:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:31:29 end:31:30:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: sub
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+            vpiRightRange Constant start:31:31 end:31:32:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: sub
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "7"
+              vpiValue: 7
+          vpiElemTypespec RefTypespec start:31:15 end:31:22:
+            vpiParent: ArrayTypespec
+            vpiFullName: sub
+            vpiActual: IntegerTypespec
+        LogicTypespec:
+          vpiParent: Module name:sub
+      vpiDefName: sub
       vpiDefNetType: wire (1)
-    Module file:$Source01/t_param_avec.v start:22:1 end:22:7:
-      vpiParent: Design name:unnamed
-      vpiDefNetType: wire (1)
-  vpiTypespec (8 items):
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:sub
+        vpiName: work
+        vpiFullName: sub.work
+      vpiCell: sub
+      vpiTaskFunc (1 items):
+        Function name:get_element start:23:4 end:27:15:
+          vpiParent: Module name:sub
+          vpiName Identifier name:get_element start:23:21 end:23:32:
+            vpiParent: Function name:get_element
+            vpiName: get_element
+          vpiFullName: sub.get_element
+          vpiVariable (2 items):
+            Variable name:index start:24:21 end:24:26:
+              vpiParent: Function name:get_element
+              vpiTypespec RefTypespec start:24:13 end:24:20:
+                vpiParent: Variable name:index
+                vpiFullName: sub.get_element.index
+                vpiActual: IntegerTypespec
+              vpiName: index
+              vpiFullName: sub.get_element.index
+            Variable name:array_arg start:25:21 end:25:30:
+              vpiParent: Function name:get_element
+              vpiTypespec RefTypespec start:25:13 end:25:20:
+                vpiParent: Variable name:array_arg
+                vpiFullName: sub.get_element.array_arg
+                vpiActual: ArrayTypespec
+              vpiName: array_arg
+              vpiFullName: sub.get_element.array_arg
+          vpiVisibility: public (1)
+          vpiIODecl (2 items):
+            IODecl name:index start:24:21 end:24:26:
+              vpiParent: Function name:get_element
+              vpiName: index
+              vpiTypespec RefTypespec start:24:13 end:24:20:
+                vpiParent: IODecl name:index
+                vpiFullName: sub.get_element.index
+                vpiActual: IntegerTypespec
+            IODecl name:array_arg start:25:21 end:25:30:
+              vpiParent: Function name:get_element
+              vpiName: array_arg
+              vpiTypespec RefTypespec start:25:13 end:25:20:
+                vpiParent: IODecl name:array_arg
+                vpiFullName: sub.get_element.array_arg
+                vpiActual: ArrayTypespec
+          vpiStmt Begin:
+            vpiParent: Function name:get_element
+            vpiFullName: sub.get_element
+            vpiTypespec (2 items):
+              IntegerTypespec:
+                vpiParent: Begin
+                vpiSigned: true
+              ArrayTypespec:
+                vpiParent: Begin
+                vpiArrayType: static (1)
+                vpiRange Range start:25:30 end:25:35:
+                  vpiParent: ArrayTypespec
+                  vpiLeftRange Constant start:25:31 end:25:32:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: sub.get_element
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "7"
+                    vpiValue: 7
+                  vpiRightRange Constant start:25:33 end:25:34:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: sub.get_element
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                vpiElemTypespec RefTypespec start:25:13 end:25:20:
+                  vpiParent: ArrayTypespec
+                  vpiFullName: sub.get_element
+                  vpiActual: IntegerTypespec
+            vpiStmt (1 items):
+              Assignment start:26:7 end:26:37:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:get_element start:26:7 end:26:18:
+                  vpiParent: Assignment
+                  vpiName: get_element
+                  vpiFullName: sub.get_element.get_element
+                  vpiActual: Function name:get_element
+                vpiRhs BitSelect name:array_arg[index] start:26:21 end:26:37:
+                  vpiParent: Assignment
+                  vpiName: array_arg[index]
+                  vpiFullName: sub.get_element.array_arg[index]
+                  vpiPrefix RefObj name:array_arg start:26:21 end:26:30:
+                    vpiParent: BitSelect name:array_arg[index]
+                    vpiName: array_arg
+                    vpiFullName: sub.get_element.array_arg
+                    vpiActual: IODecl name:array_arg
+                  vpiIndex RefObj name:index start:26:31 end:26:36:
+                    vpiParent: BitSelect name:array_arg[index]
+                    vpiName: index
+                    vpiFullName: sub.get_element.index
+                    vpiActual: IODecl name:index
+          vpiReturn RefTypespec start:23:13 end:23:20:
+            vpiParent: Function name:get_element
+            vpiFullName: sub.get_element
+            vpiActual: IntegerTypespec
+      vpiProcess (1 items):
+        Initial start:34:4 end:37:7:
+          vpiParent: Module name:sub
+          vpiStmt Begin start:34:12 end:37:7:
+            vpiParent: Initial
+            vpiFullName: sub
+            vpiStmt (2 items):
+              DoWhile start:6:27 end:6:180:
+                vpiParent: Begin
+                vpiCondition Constant start:6:177 end:6:178:
+                  vpiParent: DoWhile
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: sub
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+                vpiStmt IfStmt start:6:30 end:6:170:
+                  vpiParent: DoWhile
+                  vpiCondition Operation start:6:34 end:6:54:
+                    vpiParent: IfStmt
+                    vpiOpType: case neq (17)
+                    vpiOperand (2 items):
+                      RefObj name:element1 start:6:35 end:6:43:
+                        vpiParent: Operation
+                        vpiName: element1
+                        vpiFullName: sub.element1
+                        vpiActual: Parameter name:element1
+                      RefObj name:CHK start:6:50 end:6:53:
+                        vpiParent: Operation
+                        vpiName: CHK
+                        vpiFullName: sub.CHK
+                        vpiActual: Parameter name:CHK
+                  vpiStmt Begin start:6:56 end:6:170:
+                    vpiParent: IfStmt
+                    vpiFullName: sub
+                    vpiStmt (2 items):
+                      SysTaskCall name:$write start:6:62 end:6:158:
+                        vpiParent: Begin
+                        vpiName Identifier name:$write start:6:62 end:6:68:
+                          vpiParent: SysTaskCall name:$write
+                          vpiName: "$write"
+                        vpiArgument (5 items):
+                          Constant start:6:69 end:6:108:
+                            vpiParent: SysTaskCall name:$write
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 288
+                            vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
+                            vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
+                          Constant start:6:110 end:6:136:
+                            vpiParent: SysTaskCall name:$write
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 192
+                            vpiDecompile: "\"$Source01/t_param_avec.v\""
+                            vpiValue: "$Source01/t_param_avec.v"
+                          Constant start:6:137 end:6:138:
+                            vpiParent: SysTaskCall name:$write
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                          RefObj name:element1 start:6:141 end:6:149:
+                            vpiParent: SysTaskCall name:$write
+                            vpiName: element1
+                            vpiFullName: sub.element1
+                            vpiActual: Parameter name:element1
+                          RefObj name:CHK start:6:153 end:6:156:
+                            vpiParent: SysTaskCall name:$write
+                            vpiName: CHK
+                            vpiFullName: sub.CHK
+                            vpiActual: Parameter name:CHK
+                      SysTaskCall name:$stop start:6:160 end:6:165:
+                        vpiParent: Begin
+                        vpiName Identifier name:$stop start:6:160 end:6:165:
+                          vpiParent: SysTaskCall name:$stop
+                          vpiName: "$stop"
+              DoWhile start:6:27 end:6:180:
+                vpiParent: Begin
+                vpiCondition Constant start:6:177 end:6:178:
+                  vpiParent: DoWhile
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: sub
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+                vpiStmt IfStmt start:6:30 end:6:170:
+                  vpiParent: DoWhile
+                  vpiCondition Operation start:6:34 end:6:54:
+                    vpiParent: IfStmt
+                    vpiOpType: case neq (17)
+                    vpiOperand (2 items):
+                      RefObj name:elementf start:6:35 end:6:43:
+                        vpiParent: Operation
+                        vpiName: elementf
+                        vpiFullName: sub.elementf
+                        vpiActual: Parameter name:elementf
+                      RefObj name:CHK start:6:50 end:6:53:
+                        vpiParent: Operation
+                        vpiName: CHK
+                        vpiFullName: sub.CHK
+                        vpiActual: Parameter name:CHK
+                  vpiStmt Begin start:6:56 end:6:170:
+                    vpiParent: IfStmt
+                    vpiFullName: sub
+                    vpiStmt (2 items):
+                      SysTaskCall name:$write start:6:62 end:6:158:
+                        vpiParent: Begin
+                        vpiName Identifier name:$write start:6:62 end:6:68:
+                          vpiParent: SysTaskCall name:$write
+                          vpiName: "$write"
+                        vpiArgument (5 items):
+                          Constant start:6:69 end:6:108:
+                            vpiParent: SysTaskCall name:$write
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 288
+                            vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
+                            vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
+                          Constant start:6:110 end:6:136:
+                            vpiParent: SysTaskCall name:$write
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 192
+                            vpiDecompile: "\"$Source01/t_param_avec.v\""
+                            vpiValue: "$Source01/t_param_avec.v"
+                          Constant start:6:137 end:6:138:
+                            vpiParent: SysTaskCall name:$write
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                          RefObj name:elementf start:6:141 end:6:149:
+                            vpiParent: SysTaskCall name:$write
+                            vpiName: elementf
+                            vpiFullName: sub.elementf
+                            vpiActual: Parameter name:elementf
+                          RefObj name:CHK start:6:153 end:6:156:
+                            vpiParent: SysTaskCall name:$write
+                            vpiName: CHK
+                            vpiFullName: sub.CHK
+                            vpiActual: Parameter name:CHK
+                      SysTaskCall name:$stop start:6:160 end:6:165:
+                        vpiParent: Begin
+                        vpiName Identifier name:$stop start:6:160 end:6:165:
+                          vpiParent: SysTaskCall name:$stop
+                          vpiName: "$stop"
+  vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
@@ -880,355 +1568,16 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec:
+    ModuleTypespec name:sub:
       vpiParent: Design name:unnamed
-      vpiModule: Module
-    ModuleTypespec:
-      vpiParent: Design name:unnamed
-      vpiModule: Module
-    IntegerTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
-    ArrayTypespec:
-      vpiParent: Design name:unnamed
-      vpiArrayType: static (1)
-      vpiRange Range start:31:28 end:31:33:
-        vpiParent: ArrayTypespec
-        vpiLeftRange Constant start:31:29 end:31:30:
-          vpiParent: Range
-          vpiTypespec RefTypespec:
-            vpiParent: Constant
-            vpiActual: IntTypespec
-          vpiConstType: unsigned int (9)
-          vpiSize: 64
-          vpiDecompile: "0"
-          vpiValue: 0
-        vpiRightRange Constant start:31:31 end:31:32:
-          vpiParent: Range
-          vpiTypespec RefTypespec:
-            vpiParent: Constant
-            vpiActual: IntTypespec
-          vpiConstType: unsigned int (9)
-          vpiSize: 64
-          vpiDecompile: "7"
-          vpiValue: 7
-      vpiElemTypespec RefTypespec start:31:15 end:31:22:
-        vpiParent: ArrayTypespec
-        vpiActual: IntegerTypespec
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-  vpiTaskFunc (1 items):
-    Function name:get_element start:23:4 end:27:15:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:get_element start:23:21 end:23:32:
-        vpiParent: Function name:get_element
-        vpiName: get_element
-      vpiFullName: get_element
-      vpiVariable (2 items):
-        Variable name:index start:24:21 end:24:26:
-          vpiParent: Function name:get_element
-          vpiTypespec RefTypespec start:24:13 end:24:20:
-            vpiParent: Variable name:index
-            vpiFullName: get_element.index
-            vpiActual: IntegerTypespec
-          vpiName: index
-          vpiFullName: get_element.index
-        Variable name:array_arg start:25:21 end:25:30:
-          vpiParent: Function name:get_element
-          vpiTypespec RefTypespec start:25:13 end:25:20:
-            vpiParent: Variable name:array_arg
-            vpiFullName: get_element.array_arg
-            vpiActual: ArrayTypespec
-          vpiName: array_arg
-          vpiFullName: get_element.array_arg
-      vpiVisibility: public (1)
-      vpiIODecl (2 items):
-        IODecl name:index start:24:21 end:24:26:
-          vpiParent: Function name:get_element
-          vpiName: index
-          vpiTypespec RefTypespec start:24:13 end:24:20:
-            vpiParent: IODecl name:index
-            vpiFullName: get_element.index
-            vpiActual: IntegerTypespec
-        IODecl name:array_arg start:25:21 end:25:30:
-          vpiParent: Function name:get_element
-          vpiName: array_arg
-          vpiTypespec RefTypespec start:25:13 end:25:20:
-            vpiParent: IODecl name:array_arg
-            vpiFullName: get_element.array_arg
-            vpiActual: ArrayTypespec
-      vpiStmt Begin:
-        vpiParent: Function name:get_element
-        vpiFullName: get_element
-        vpiTypespec (2 items):
-          IntegerTypespec:
-            vpiParent: Begin
-            vpiSigned: true
-          ArrayTypespec:
-            vpiParent: Begin
-            vpiArrayType: static (1)
-            vpiRange Range start:25:30 end:25:35:
-              vpiParent: ArrayTypespec
-              vpiLeftRange Constant start:25:31 end:25:32:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: get_element
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "7"
-                vpiValue: 7
-              vpiRightRange Constant start:25:33 end:25:34:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: get_element
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-            vpiElemTypespec RefTypespec start:25:13 end:25:20:
-              vpiParent: ArrayTypespec
-              vpiFullName: get_element
-              vpiActual: IntegerTypespec
-        vpiStmt (1 items):
-          Assignment start:26:7 end:26:37:
-            vpiParent: Begin
-            vpiBlocking: true
-            vpiLhs RefObj name:get_element start:26:7 end:26:18:
-              vpiParent: Assignment
-              vpiName: get_element
-              vpiFullName: get_element.get_element
-              vpiActual: Function name:get_element
-            vpiRhs BitSelect name:array_arg[index] start:26:21 end:26:37:
-              vpiParent: Assignment
-              vpiName: array_arg[index]
-              vpiFullName: get_element.array_arg[index]
-              vpiPrefix RefObj name:array_arg start:26:21 end:26:30:
-                vpiParent: BitSelect name:array_arg[index]
-                vpiName: array_arg
-                vpiFullName: get_element.array_arg
-                vpiActual: IODecl name:array_arg
-              vpiIndex RefObj name:index start:26:31 end:26:36:
-                vpiParent: BitSelect name:array_arg[index]
-                vpiName: index
-                vpiFullName: get_element.index
-                vpiActual: IODecl name:index
-      vpiReturn RefTypespec start:23:13 end:23:20:
-        vpiParent: Function name:get_element
-        vpiFullName: get_element
-        vpiActual: IntegerTypespec
-  vpiParameter (5 items):
-    Parameter name:IDX start:29:22 end:29:25:
-      vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:29:14 end:29:21:
-        vpiParent: Parameter name:IDX
-        vpiFullName: IDX
-        vpiActual: IntegerTypespec
-      vpiName: IDX
-      vpiFullName: IDX
-    Parameter name:CHK start:30:22 end:30:25:
-      vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:30:14 end:30:21:
-        vpiParent: Parameter name:CHK
-        vpiFullName: CHK
-        vpiActual: IntegerTypespec
-      vpiName: CHK
-      vpiFullName: CHK
-    Parameter name:array start:31:23 end:31:28:
-      vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:31:15 end:31:22:
-        vpiParent: Parameter name:array
-        vpiFullName: array
-        vpiActual: ArrayTypespec
-      vpiName: array
-      vpiFullName: array
-      vpiLocalParam: true
-    Parameter name:element1 start:32:15 end:32:23:
-      vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:32:15 end:32:15:
-        vpiParent: Parameter name:element1
-        vpiFullName: element1
-        vpiActual: LogicTypespec
-      vpiName: element1
-      vpiFullName: element1
-      vpiLocalParam: true
-    Parameter name:elementf start:33:15 end:33:23:
-      vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:33:15 end:33:15:
-        vpiParent: Parameter name:elementf
-        vpiFullName: elementf
-        vpiActual: LogicTypespec
-      vpiName: elementf
-      vpiFullName: elementf
-      vpiLocalParam: true
-  vpiParamAssign (5 items):
-    ParamAssign start:29:22 end:29:29:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:IDX start:29:22 end:29:25:
-        vpiParent: ParamAssign
-        vpiName: IDX
-        vpiFullName: IDX
-        vpiActual: Parameter name:IDX
-      vpiRhs Constant start:29:28 end:29:29:
-        vpiParent: ParamAssign
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiActual: IntTypespec
-        vpiConstType: unsigned int (9)
-        vpiSize: 64
-        vpiDecompile: "5"
-        vpiValue: 5
-    ParamAssign start:30:22 end:30:29:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:CHK start:30:22 end:30:25:
-        vpiParent: ParamAssign
-        vpiName: CHK
-        vpiFullName: CHK
-        vpiActual: Parameter name:CHK
-      vpiRhs Constant start:30:28 end:30:29:
-        vpiParent: ParamAssign
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiActual: IntTypespec
-        vpiConstType: unsigned int (9)
-        vpiSize: 64
-        vpiDecompile: "5"
-        vpiValue: 5
-    ParamAssign start:31:23 end:31:69:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:array start:31:23 end:31:28:
-        vpiParent: ParamAssign
-        vpiName: array
-        vpiFullName: array
-        vpiActual: Parameter name:array
-      vpiRhs Operation start:31:36 end:31:69:
-        vpiParent: ParamAssign
-        vpiOpType: assign pattern (87)
-        vpiOperand (8 items):
-          Constant start:31:38 end:31:40:
-            vpiParent: Operation
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "10"
-            vpiValue: 10
-          Constant start:31:42 end:31:44:
-            vpiParent: Operation
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "11"
-            vpiValue: 11
-          Constant start:31:46 end:31:48:
-            vpiParent: Operation
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "12"
-            vpiValue: 12
-          Constant start:31:50 end:31:52:
-            vpiParent: Operation
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "13"
-            vpiValue: 13
-          Constant start:31:54 end:31:56:
-            vpiParent: Operation
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "14"
-            vpiValue: 14
-          Constant start:31:58 end:31:60:
-            vpiParent: Operation
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "15"
-            vpiValue: 15
-          Constant start:31:62 end:31:64:
-            vpiParent: Operation
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "16"
-            vpiValue: 16
-          Constant start:31:66 end:31:68:
-            vpiParent: Operation
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "17"
-            vpiValue: 17
-    ParamAssign start:32:15 end:32:36:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:element1 start:32:15 end:32:23:
-        vpiParent: ParamAssign
-        vpiName: element1
-        vpiFullName: element1
-        vpiActual: Parameter name:element1
-      vpiRhs BitSelect name:array[IDX] start:32:26 end:32:36:
-        vpiParent: ParamAssign
-        vpiName: array[IDX]
-        vpiFullName: array[IDX]
-        vpiPrefix RefObj name:array start:32:26 end:32:31:
-          vpiParent: BitSelect name:array[IDX]
-          vpiName: array
-          vpiFullName: array
-          vpiActual: Parameter name:array
-        vpiIndex RefObj name:IDX start:32:32 end:32:35:
-          vpiParent: BitSelect name:array[IDX]
-          vpiName: IDX
-          vpiFullName: IDX
-          vpiActual: Parameter name:IDX
-    ParamAssign start:33:15 end:33:49:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:elementf start:33:15 end:33:23:
-        vpiParent: ParamAssign
-        vpiName: elementf
-        vpiFullName: elementf
-        vpiActual: Parameter name:elementf
-      vpiRhs FuncCall name:get_element start:33:26 end:33:49:
-        vpiParent: ParamAssign
-        vpiName Identifier name:get_element start:33:26 end:33:37:
-          vpiParent: FuncCall name:get_element
-          vpiName: get_element
-        vpiTaskFunc: Function name:get_element
-        vpiArgument (2 items):
-          RefObj name:IDX start:33:38 end:33:41:
-            vpiParent: FuncCall name:get_element
-            vpiName: IDX
-            vpiFullName: IDX
-            vpiActual: Parameter name:IDX
-          RefObj name:array start:33:43 end:33:48:
-            vpiParent: FuncCall name:get_element
-            vpiName: array
-            vpiFullName: array
-            vpiActual: Parameter name:array
+      vpiName Identifier name:sub start:22:8 end:22:11:
+        vpiParent: ModuleTypespec name:sub
+        vpiName: sub
+      vpiModule: Module name:sub
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 2
-[  ERROR] : 6
+[ SYNTAX] : 0
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1244,25 +1593,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_param_avec/mounts.json
 
 
-{'result': {'coverage': 74.36,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_param_avec.v': {'post_len': 219,
+            'files': {'$Output/lib/work/t_param_avec.v': {'post_len': 0,
                                                           'pre_len': 854}},
-            'post_len': 219,
+            'post_len': 0,
             'pre_len': 854,
             'test_name': 'Verilator/t_param_avec'}}
 
 +---------------------------------+----------+-----------+
 | INPUT                           |   PRELEN |   POSTLEN |
 +=================================+==========+===========+
-| $Output/lib/work/t_param_avec.v |      854 |       219 |
+| $Output/lib/work/t_param_avec.v |      854 |         0 |
 +=================================+==========+===========+
-|                                 |      854 |       219 |
+|                                 |      854 |         0 |
 +---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 74.36
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1273,7 +1622,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_avec/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             215     215       0         0
+Others                             258     258       0         0
 ----------------------------------------------------------------
-                                   215     215       0         0
+                                   258     258       0         0
 ===================== END REDUCTION RESULT =====================
