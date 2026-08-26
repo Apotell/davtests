@@ -17,6 +17,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Pattern
 
+from log_compare import logs_equivalent
 from utils import build_filters, is_windows, log, mkdir
 
 _this_filepath = Path(__file__).resolve()
@@ -50,7 +51,7 @@ def _scan(dirpath: Path, filters: list[str|Pattern]):
 
 
 def _extract_worker(params):
-  zip_filepath, archive_name, modes, output_dirpath, test_items = params
+  zip_filepath, archive_name, modes, output_dirpath, test_items, skip_noise = params
 
   result = 0
   with zipfile.ZipFile(zip_filepath, 'r') as zipfile_strm:
@@ -90,13 +91,29 @@ def _extract_worker(params):
                 if src_log_filepath in test_strm.getnames():
                   dst_log_filepath = dst_dirpath / f'{name}{platform_id}.log'
 
-                  log(f'{src_log_filepath} => {dst_log_filepath}')
-
                   try:
                     src_log_strm = test_strm.extractfile(src_log_filepath)
+                    new_bytes = src_log_strm.read() # pyright: ignore[reportOptionalMemberAccess]
+
+                    # Conditionally (only when --skip-noise is passed): if a log already sits at
+                    # dst_log_filepath, compare it against the freshly extracted one using
+                    # log_compare's tolerant comparison (ignores PROFILE timing, AST_DEBUG block
+                    # reordering/id-renumbering, and diagnostic-message reordering -- see
+                    # log_compare.py's own module docstring). If the only differences are exactly
+                    # that kind of run-to-run noise, leave the existing file untouched instead of
+                    # overwriting it -- avoids creating revision history for noise alone.
+                    if skip_noise and dst_log_filepath.is_file():
+                      old_text = dst_log_filepath.read_text(encoding='utf-8', errors='replace')
+                      new_text = new_bytes.decode('utf-8', errors='replace')
+                      equivalent, _diffs = logs_equivalent(old_text, new_text)
+                      if equivalent:
+                        log(f'{src_log_filepath} => {dst_log_filepath} (unchanged: only noise, kept existing)')
+                        continue
+
+                    log(f'{src_log_filepath} => {dst_log_filepath}')
 
                     with dst_log_filepath.open('wb') as dst_log_strm:
-                      dst_log_strm.write(src_log_strm.read()) # pyright: ignore[reportOptionalMemberAccess]
+                      dst_log_strm.write(new_bytes)
                       dst_log_strm.flush()
 
                     # On Windows, fixup the line endings
@@ -155,7 +172,9 @@ def _extract(args, tests):
   # Round-robin distribution: interleaves tests across workers while preserving ascending
   # offset order within each worker's list, so forward-seek invariant is maintained
   chunks = [matched[i::jobs] for i in range(jobs)]
-  worker_params = [(args.zip_filepath, archive_name, args.modes, args.output_dirpath, chunk) for chunk in chunks]
+  worker_params = [
+      (args.zip_filepath, archive_name, args.modes, args.output_dirpath, chunk, args.skip_noise) for chunk in chunks
+  ]
 
   if jobs <= 1:
     results = [_extract_worker(worker_params[0])]
@@ -182,6 +201,12 @@ def _main():
       help='Run tests in parallel, optionally providing max number of concurrent processes. Set 0 to run sequentially.')
   parser.add_argument(
       '--zip-filepath', dest='zip_filepath', required=True, type=str, help='Path to zipfile to extract logs from.')
+  parser.add_argument(
+      '--skip-noise', dest='skip_noise', action='store_true',
+      help='For \'log\' mode: if a log already exists at the destination, keep it instead of overwriting when the '
+           'only differences from the freshly extracted one are PROFILE timing, AST_DEBUG block reordering/'
+           'id-renumbering, or diagnostic message reordering (see log_compare.py). Off by default -- logs are '
+           'always overwritten as before.')
   args = parser.parse_args()
 
   args.modes = sorted(set(args.modes))
@@ -206,6 +231,7 @@ def _main():
   print(f' output-dirpath: {args.output_dirpath}')
   print(f'        filters: {args.filters}')
   print(f'           jobs: {args.jobs}')
+  print(f'     skip-noise: {args.skip_noise}')
   print(f'          tests: {len(tests)}')
   print( '')
 
