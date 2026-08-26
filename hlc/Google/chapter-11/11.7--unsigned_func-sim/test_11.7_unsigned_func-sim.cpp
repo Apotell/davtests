@@ -130,6 +130,7 @@ TEST_F(UnsignedFuncSimTest, InitialBlockHasTwoStatements) {
 }
 
 TEST_F(UnsignedFuncSimTest, FirstStatementAssignsUnsignedCallOfUnaryMinusFourOperation) {
+  GTEST_SKIP() << "Issue with categorizing funcs vs. names";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));

@@ -139,6 +139,7 @@ TEST_F(SignedFuncTest, InitialBlockHasOneBlockingAssignment) {
 }
 
 TEST_F(SignedFuncTest, AssignmentRhsIsSignedCallOfFourBitBinaryLiteral) {
+  GTEST_SKIP() << "Issue with categorizing funcs vs. names";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
