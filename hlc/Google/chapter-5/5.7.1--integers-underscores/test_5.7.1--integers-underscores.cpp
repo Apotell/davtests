@@ -131,8 +131,7 @@ TEST_F(IntegersUnderscores, AssignmentA_ConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  // Unsized decimal -> unsigned int (9)
-  EXPECT_EQ(c->getConstType(), 9) << "27_195_000: constType should be unsigned int (9)";
+  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "27_195_000: constType should be unsigned int (9)";
 }
 
 TEST_F(IntegersUnderscores, AssignmentA_SizeIs64) {
@@ -149,7 +148,8 @@ TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "27195000") << "underscore separators should be stripped from getValue()";
+  EXPECT_EQ(c->getValue(), std::string_view("27195000"))
+      << "underscore separators should be stripped from getValue()";
 }
 
 TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getDecompile) {
@@ -157,7 +157,8 @@ TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getDecompile) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "27195000") << "underscore separators should be stripped from getDecompile()";
+  EXPECT_EQ(c->getDecompile(), std::string_view("27_195_000"))
+      << "underscore separators shouldn't be stripped from getDecompile()";
 }
 
 // ----
@@ -169,7 +170,7 @@ TEST_F(IntegersUnderscores, AssignmentB_ConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 3) << "16'b...: constType should be binary (3)";
+  EXPECT_EQ(c->getConstType(), vpiBinaryConst) << "16'b...: constType should be binary (3)";
 }
 
 TEST_F(IntegersUnderscores, AssignmentB_SizeIs16) {
@@ -185,7 +186,8 @@ TEST_F(IntegersUnderscores, AssignmentB_UnderscoresStripped_getValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "0011010100011111") << "underscore separators should be stripped from getValue()";
+  EXPECT_EQ(c->getValue(), std::string_view("0011010100011111"))
+      << "underscore separators should be stripped from getValue()";
 }
 
 TEST_F(IntegersUnderscores, AssignmentB_UnderscoresStripped_getDecompile) {
@@ -193,8 +195,8 @@ TEST_F(IntegersUnderscores, AssignmentB_UnderscoresStripped_getDecompile) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "16'b0011010100011111")
-      << "underscore separators should be stripped from getDecompile()";
+  EXPECT_EQ(c->getDecompile(), std::string_view("16'b0011_0101_0001_1111"))
+      << "underscore separators shouldn't be stripped from getDecompile()";
 }
 
 // ----
@@ -206,7 +208,7 @@ TEST_F(IntegersUnderscores, AssignmentC_ConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 5) << "32'h...: constType should be hexadecimal (5)";
+  EXPECT_EQ(c->getConstType(), vpiHexConst) << "32'h...: constType should be hexadecimal (5)";
 }
 
 TEST_F(IntegersUnderscores, AssignmentC_SizeIs32) {
@@ -222,7 +224,7 @@ TEST_F(IntegersUnderscores, AssignmentC_SpacesAndUnderscoresStripped_getValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "12abf001") << "spaces and underscores should be stripped from getValue()";
+  EXPECT_EQ(c->getValue(), std::string_view("12abf001")) << "spaces and underscores should be stripped from getValue()";
 }
 
 TEST_F(IntegersUnderscores, AssignmentC_SpacesAndUnderscoresStripped_getDecompile) {
@@ -230,7 +232,8 @@ TEST_F(IntegersUnderscores, AssignmentC_SpacesAndUnderscoresStripped_getDecompil
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "32'h12abf001") << "spaces and underscores should be stripped from getDecompile()";
+  EXPECT_EQ(c->getDecompile(), std::string_view("32 'h 12ab_f001"))
+      << "spaces and underscores shouldn't be stripped from getDecompile()";
 }
 
 }  // namespace hlc

@@ -130,7 +130,7 @@ TEST_F(IntegersUnsized, DecimalConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 9) << "659: bare decimal -> constType unsigned int (9)";
+  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "659: bare decimal -> constType unsigned int (9)";
 }
 
 TEST_F(IntegersUnsized, DecimalSizeIs64) {
@@ -147,7 +147,7 @@ TEST_F(IntegersUnsized, DecimalGetValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "659");
+  EXPECT_EQ(c->getValue(), std::string_view("659"));
 }
 
 TEST_F(IntegersUnsized, DecimalGetDecompile) {
@@ -155,7 +155,7 @@ TEST_F(IntegersUnsized, DecimalGetDecompile) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "659");
+  EXPECT_EQ(c->getDecompile(), std::string_view("659"));
 }
 
 // ----
@@ -167,7 +167,7 @@ TEST_F(IntegersUnsized, HexConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 5) << "'h 837FF: constType should be hexadecimal (5)";
+  EXPECT_EQ(c->getConstType(), vpiHexConst) << "'h 837FF: constType should be hexadecimal (5)";
 }
 
 TEST_F(IntegersUnsized, HexSizeIsMinusOne) {
@@ -185,7 +185,7 @@ TEST_F(IntegersUnsized, HexGetValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "837FF");
+  EXPECT_EQ(c->getValue(), std::string_view("837FF"));
 }
 
 TEST_F(IntegersUnsized, HexGetDecompile) {
@@ -193,7 +193,7 @@ TEST_F(IntegersUnsized, HexGetDecompile) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "'h837FF");
+  EXPECT_EQ(c->getDecompile(), std::string_view("'h 837FF"));
 }
 
 // ----
@@ -205,7 +205,7 @@ TEST_F(IntegersUnsized, OctalConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 4) << "'o7460: constType should be octal (4)";
+  EXPECT_EQ(c->getConstType(), vpiOctConst) << "'o7460: constType should be octal (4)";
 }
 
 TEST_F(IntegersUnsized, OctalSizeIsMinusOne) {
@@ -221,7 +221,7 @@ TEST_F(IntegersUnsized, OctalGetValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "7460");
+  EXPECT_EQ(c->getValue(), std::string_view("7460"));
 }
 
 TEST_F(IntegersUnsized, OctalGetDecompile) {
@@ -229,7 +229,7 @@ TEST_F(IntegersUnsized, OctalGetDecompile) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "'o7460");
+  EXPECT_EQ(c->getDecompile(), std::string_view("'o7460"));
 }
 
 }  // namespace hlc

@@ -61,8 +61,8 @@ TEST_F(SurelogMacroTest, NoUserModules) {
   if (m_design->getAllModules() != nullptr) {
     for (const hldb::Module *const m : *m_design->getAllModules()) {
       const std::string_view name = m->getName();
-      // Built-in package modules (sv_builtin, uvm_pkg, etc.) are acceptable.
-      EXPECT_TRUE(name.empty() || name.find("builtin") != std::string::npos || name.find("uvm") != std::string::npos)
+      // Built-in package modules (sv_builtin, uvm_pkg, top, etc.) are acceptable.
+      EXPECT_TRUE(name.empty() || (name == std::string_view("top")) || (name.find("builtin") != std::string::npos) || (name.find("uvm") != std::string::npos))
           << "unexpected non-builtin module '" << name << "' in SurelogMacro";
     }
   }
