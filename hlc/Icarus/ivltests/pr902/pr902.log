@@ -4,14 +4,14 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr902.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr902
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr902.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr902
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/pr902.v".
 [INF:PA0201] Parsing source file "$Source01/pr902.v".
 AST_DEBUG_BEGIN
 Count: 48
 LIB: work
-FILE: f<13>:$Source01/pr902.v
+FILE: f<15>:$Source01/pr902.v
 n<$Source01/pr902.v> u<47> t<Top_level_rule> c<1> l<8:1> el<12:1>
   n<> u<1> t<Null_rule> p<47> s<2> l<8:1> el<8:1>
   n</*\n * What matters here is the size of the display, which should reflect\n * the size of 20, which is written with an _ character. Weird, but\n * legal.\n */> u<2> t<BLOCK_COMMENT> p<47> s<46> l<8:1> el<11:10>
@@ -111,7 +111,7 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiConstType: binary (3)
                 vpiSize: 20
-                vpiDecompile: "20'b0"
+                vpiDecompile: "2_0'b0"
                 vpiValue: "0"
               Constant start:10:36 end:10:42:
                 vpiParent: SysTaskCall name:$display
@@ -121,7 +121,7 @@ Design name:unnamed:
                   vpiActual: IntTypespec
                 vpiConstType: decimal (1)
                 vpiSize: 20
-                vpiDecompile: "20'd0"
+                vpiDecompile: "2_0'd0"
                 vpiValue: "0"
               Constant start:10:44 end:10:50:
                 vpiParent: SysTaskCall name:$display
@@ -131,7 +131,7 @@ Design name:unnamed:
                   vpiActual: IntTypespec
                 vpiConstType: octal (4)
                 vpiSize: 20
-                vpiDecompile: "20'o0"
+                vpiDecompile: "2_0'o0"
                 vpiValue: "0"
               Constant start:10:52 end:10:58:
                 vpiParent: SysTaskCall name:$display
@@ -141,7 +141,7 @@ Design name:unnamed:
                   vpiActual: IntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 20
-                vpiDecompile: "20'h0"
+                vpiDecompile: "2_0'h0"
                 vpiValue: "0"
   vpiTypespec (5 items):
     ModuleTypespec name:underscore_in_size:

@@ -4,15 +4,63 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v issue_01360/top.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/regression/issue_01360/issue_01360
+COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v issue_01360/top.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/regression/issue_01360/issue_01360
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/common.v".
 [INF:PP0122] Preprocessing source file "$Source01/issue_01360/top.v".
 [INF:PA0201] Parsing source file "$Source01/common.v".
+[INF:PA0201] Parsing source file "$Source01/issue_01360/top.v".
+AST_DEBUG_BEGIN
+Count: 43
+LIB: work
+FILE: f<16>:$Source01/issue_01360/top.v
+n<$Source01/issue_01360/top.v> u<42> t<Top_level_rule> c<1> l<1:1> el<8:1>
+  n<> u<1> t<Null_rule> p<42> s<41> l<1:1>
+  n<> u<41> t<Source_text> p<42> c<25> l<1:1> el<7:13>
+    n<> u<25> t<Description> p<41> c<24> s<40> l<1:1> el<3:10>
+      n<> u<24> t<Module_declaration> p<25> c<12> l<1:1> el<3:10>
+        n<> u<12> t<Module_ansi_header> p<24> c<2> s<22> l<1:1> el<1:23>
+          n<module> u<2> t<MODULE> p<12> s<3> l<1:1> el<1:7>
+          n<top> u<3> t<SIMPLE_IDENTIFIER> p<12> s<4> l<1:8> el<1:11>
+          n<> u<4> t<Package_import_declaration_list> p<12> s<11> l<1:11> el<1:11>
+          n<> u<11> t<Port_declaration_list> p<12> c<10> l<1:11> el<1:22>
+            n<> u<10> t<Ansi_port_declaration> p<11> c<8> l<1:12> el<1:21>
+              n<> u<8> t<Net_port_header> p<10> c<5> s<9> l<1:12> el<1:17>
+                n<> u<5> t<INPUT> p<8> s<7> l<1:12> el<1:17>
+                n<> u<7> t<Net_port_type> p<8> c<6> l<1:18> el<1:18>
+                  n<> u<6> t<Data_type_or_implicit> p<7> l<1:18> el<1:18>
+              n<clk> u<9> t<SIMPLE_IDENTIFIER> p<10> l<1:18> el<1:21>
+        n<> u<22> t<Non_port_module_item> p<24> c<21> s<23> l<2:3> el<2:37>
+          n<> u<21> t<Module_or_generate_item> p<22> c<20> l<2:3> el<2:37>
+            n<> u<20> t<Interface_instantiation> p<21> c<14> l<2:3> el<2:37>
+              n<MyInterface> u<14> t<Interface_identifier> p<20> c<13> s<19> l<2:3> el<2:14>
+                n<MyInterface> u<13> t<SIMPLE_IDENTIFIER> p<14> l<2:3> el<2:14>
+              n<> u<19> t<Hierarchical_instance> p<20> c<16> l<2:15> el<2:36>
+                n<> u<16> t<Name_of_instance> p<19> c<15> s<18> l<2:15> el<2:34>
+                  n<MyInterfaceInstance> u<15> t<SIMPLE_IDENTIFIER> p<16> l<2:15> el<2:34>
+                n<> u<18> t<Port_connection_list> p<19> c<17> l<2:35> el<2:35>
+                  n<> u<17> t<Ordered_port_connection> p<18> l<2:35> el<2:35>
+        n<> u<23> t<ENDMODULE> p<24> l<3:1> el<3:10>
+    n<> u<40> t<Description> p<41> c<39> l<5:1> el<7:13>
+      n<> u<39> t<Interface_declaration> p<40> c<30> l<5:1> el<7:13>
+        n<> u<30> t<Interface_nonansi_header> p<39> c<26> s<37> l<5:1> el<5:25>
+          n<> u<26> t<INTERFACE> p<30> s<27> l<5:1> el<5:10>
+          n<MyInterface> u<27> t<SIMPLE_IDENTIFIER> p<30> s<28> l<5:11> el<5:22>
+          n<> u<28> t<Package_import_declaration_list> p<30> s<29> l<5:22> el<5:22>
+          n<> u<29> t<Port_list> p<30> l<5:22> el<5:24>
+        n<> u<37> t<Interface_item> p<39> c<36> s<38> l<6:3> el<6:32>
+          n<> u<36> t<Port_declaration> p<37> c<35> l<6:3> el<6:31>
+            n<> u<35> t<Interface_port_declaration> p<36> c<32> l<6:3> el<6:31>
+              n<logic> u<32> t<Interface_identifier> p<35> c<31> s<34> l<6:3> el<6:8>
+                n<logic> u<31> t<SIMPLE_IDENTIFIER> p<32> l<6:3> el<6:8>
+              n<> u<34> t<Interface_identifier_list> p<35> c<33> l<6:9> el<6:31>
+                n<not_an_empty_interface> u<33> t<SIMPLE_IDENTIFIER> p<34> l<6:9> el<6:31>
+        n<> u<38> t<ENDINTERFACE> p<39> l<7:1> el<7:13>
+AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 533
 LIB: work
-FILE: f<13>:$Source01/common.v
+FILE: f<15>:$Source01/common.v
 n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
   n<> u<1> t<Null_rule> p<532> s<531> l<1:1>
   n<> u<531> t<Source_text> p<532> c<103> l<1:1> el<59:10>
@@ -545,54 +593,6 @@ n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
                                               n<> u<507> t<END> p<508> l<57:9> el<57:12>
                               n<> u<516> t<END> p<517> l<58:5> el<58:8>
         n<> u<528> t<ENDMODULE> p<529> l<59:1> el<59:10>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/issue_01360/top.v".
-AST_DEBUG_BEGIN
-Count: 43
-LIB: work
-FILE: f<14>:$Source01/issue_01360/top.v
-n<$Source01/issue_01360/top.v> u<42> t<Top_level_rule> c<1> l<1:1> el<8:1>
-  n<> u<1> t<Null_rule> p<42> s<41> l<1:1>
-  n<> u<41> t<Source_text> p<42> c<25> l<1:1> el<7:13>
-    n<> u<25> t<Description> p<41> c<24> s<40> l<1:1> el<3:10>
-      n<> u<24> t<Module_declaration> p<25> c<12> l<1:1> el<3:10>
-        n<> u<12> t<Module_ansi_header> p<24> c<2> s<22> l<1:1> el<1:23>
-          n<module> u<2> t<MODULE> p<12> s<3> l<1:1> el<1:7>
-          n<top> u<3> t<SIMPLE_IDENTIFIER> p<12> s<4> l<1:8> el<1:11>
-          n<> u<4> t<Package_import_declaration_list> p<12> s<11> l<1:11> el<1:11>
-          n<> u<11> t<Port_declaration_list> p<12> c<10> l<1:11> el<1:22>
-            n<> u<10> t<Ansi_port_declaration> p<11> c<8> l<1:12> el<1:21>
-              n<> u<8> t<Net_port_header> p<10> c<5> s<9> l<1:12> el<1:17>
-                n<> u<5> t<INPUT> p<8> s<7> l<1:12> el<1:17>
-                n<> u<7> t<Net_port_type> p<8> c<6> l<1:18> el<1:18>
-                  n<> u<6> t<Data_type_or_implicit> p<7> l<1:18> el<1:18>
-              n<clk> u<9> t<SIMPLE_IDENTIFIER> p<10> l<1:18> el<1:21>
-        n<> u<22> t<Non_port_module_item> p<24> c<21> s<23> l<2:3> el<2:37>
-          n<> u<21> t<Module_or_generate_item> p<22> c<20> l<2:3> el<2:37>
-            n<> u<20> t<Interface_instantiation> p<21> c<14> l<2:3> el<2:37>
-              n<MyInterface> u<14> t<Interface_identifier> p<20> c<13> s<19> l<2:3> el<2:14>
-                n<MyInterface> u<13> t<SIMPLE_IDENTIFIER> p<14> l<2:3> el<2:14>
-              n<> u<19> t<Hierarchical_instance> p<20> c<16> l<2:15> el<2:36>
-                n<> u<16> t<Name_of_instance> p<19> c<15> s<18> l<2:15> el<2:34>
-                  n<MyInterfaceInstance> u<15> t<SIMPLE_IDENTIFIER> p<16> l<2:15> el<2:34>
-                n<> u<18> t<Port_connection_list> p<19> c<17> l<2:35> el<2:35>
-                  n<> u<17> t<Ordered_port_connection> p<18> l<2:35> el<2:35>
-        n<> u<23> t<ENDMODULE> p<24> l<3:1> el<3:10>
-    n<> u<40> t<Description> p<41> c<39> l<5:1> el<7:13>
-      n<> u<39> t<Interface_declaration> p<40> c<30> l<5:1> el<7:13>
-        n<> u<30> t<Interface_nonansi_header> p<39> c<26> s<37> l<5:1> el<5:25>
-          n<> u<26> t<INTERFACE> p<30> s<27> l<5:1> el<5:10>
-          n<MyInterface> u<27> t<SIMPLE_IDENTIFIER> p<30> s<28> l<5:11> el<5:22>
-          n<> u<28> t<Package_import_declaration_list> p<30> s<29> l<5:22> el<5:22>
-          n<> u<29> t<Port_list> p<30> l<5:22> el<5:24>
-        n<> u<37> t<Interface_item> p<39> c<36> s<38> l<6:3> el<6:32>
-          n<> u<36> t<Port_declaration> p<37> c<35> l<6:3> el<6:31>
-            n<> u<35> t<Interface_port_declaration> p<36> c<32> l<6:3> el<6:31>
-              n<logic> u<32> t<Interface_identifier> p<35> c<31> s<34> l<6:3> el<6:8>
-                n<logic> u<31> t<SIMPLE_IDENTIFIER> p<32> l<6:3> el<6:8>
-              n<> u<34> t<Interface_identifier_list> p<35> c<33> l<6:9> el<6:31>
-                n<not_an_empty_interface> u<33> t<SIMPLE_IDENTIFIER> p<34> l<6:9> el<6:31>
-        n<> u<38> t<ENDINTERFACE> p<39> l<7:1> el<7:13>
 AST_DEBUG_END
 [INF:CP0303] $Source01/common.v:1:1: Compile module "assert_dff".
 [INF:CP0303] $Source01/common.v:13:1: Compile module "assert_tri".

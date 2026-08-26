@@ -4,19 +4,21 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/YosysOldTests/simple_spi -fileunit rtl/fifo4.v rtl/simple_spi_top.v +incdir+rtl/+. -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysOldTests/simple_spi/YosysOldSimpleSpi
+COMMAND: -wd ../../../../tests/YosysOldTests/simple_spi -fileunit rtl/fifo4.v rtl/simple_spi_top.v +incdir+rtl/+. -nocache -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysOldTests/simple_spi/YosysOldSimpleSpi
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/fifo4.v".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/simple_spi_top.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/rtl/fifo4.v".
 [INF:PA0201] Parsing source file "$Source01/rtl/simple_spi_top.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0303] $Source01/rtl/fifo4.v:62:1: Compile module "fifo4".
 [INF:CP0303] $Source01/rtl/simple_spi_top.v:77:1: Compile module "simple_spi_top".
 [NTE:CP0309] $Source01/rtl/simple_spi_top.v:92:21: Implicit port type (wire) for "mosi_o".
 [WRN:PA0205] No timescale set for "builtin".
+[WRN:PA0205] $Source01/rtl/fifo4.v:62:1: No timescale set for "fifo4".
+[WRN:PA0205] $Source01/rtl/simple_spi_top.v:77:1: No timescale set for "simple_spi_top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -25,20 +27,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: fifo4.v
       vpiPreprocFile: "$Output/lib/work/rtl/fifo4.v"
-      vpiIncludes (1 items):
-        SourceFile name:timescale.v file:$Source01/rtl/timescale.v start:57:1 end:57:23:
-          vpiParent: SourceFile name:fifo4.v
-          vpiName: timescale.v
-          vpiTimePrecision: -11
-          vpiTimeUnit: -9
     SourceFile name:simple_spi_top.v file:$Source01/rtl/simple_spi_top.v:
       vpiParent: Design name:unnamed
       vpiName: simple_spi_top.v
       vpiPreprocFile: "$Output/lib/work/rtl/simple_spi_top.v"
-      vpiIncludes (1 items):
-        SourceFile name:timescale.v file:$Source01/rtl/timescale.v start:74:1 end:74:23:
-          vpiParent: SourceFile name:simple_spi_top.v
-          vpiName: timescale.v
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1593,7 +1585,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1789,7 +1781,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -1907,7 +1899,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2342,8 +2334,6 @@ Design name:unnamed:
           vpiParent: Module name:fifo4
       vpiDefName: fifo4
       vpiDefNetType: wire (1)
-      vpiTimePrecision: -11
-      vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
         vpiParent: Module name:fifo4
         vpiName: work
@@ -3847,8 +3837,6 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: simple_spi_top
       vpiDefNetType: wire (1)
-      vpiTimePrecision: -11
-      vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
         vpiParent: Module name:simple_spi_top
         vpiName: work
@@ -7698,6 +7686,22 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:fifo4:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:fifo4 start:62:8 end:62:13:
+        vpiParent: ModuleTypespec name:fifo4
+        vpiName: fifo4
+      vpiModule: Module name:fifo4
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    ModuleTypespec name:simple_spi_top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:simple_spi_top start:77:8 end:77:22:
+        vpiParent: ModuleTypespec name:simple_spi_top
+        vpiName: simple_spi_top
+      vpiModule: Module name:simple_spi_top
+    LogicTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -7719,27 +7723,11 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:fifo4:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:fifo4 start:62:8 end:62:13:
-        vpiParent: ModuleTypespec name:fifo4
-        vpiName: fifo4
-      vpiModule: Module name:fifo4
-    IntTypespec:
-      vpiParent: Design name:unnamed
-    ModuleTypespec name:simple_spi_top:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:simple_spi_top start:77:8 end:77:22:
-        vpiParent: ModuleTypespec name:simple_spi_top
-        vpiName: simple_spi_top
-      vpiModule: Module name:simple_spi_top
-    LogicTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 3
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -7754,28 +7742,28 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysOldTests/simple_spi/YosysOldSimpleSpi/mounts.json
 
 
-{'result': {'coverage': 98.97,
+{'result': {'coverage': 99.78,
             'error_count': 0,
             'file_count': 2,
-            'files': {'$Output/lib/work/rtl/fifo4.v': {'post_len': 29,
-                                                       'pre_len': 951},
-                      '$Output/lib/work/rtl/simple_spi_top.v': {'post_len': 19,
-                                                                'pre_len': 3691}},
-            'post_len': 48,
-            'pre_len': 4642,
+            'files': {'$Output/lib/work/rtl/fifo4.v': {'post_len': 10,
+                                                       'pre_len': 930},
+                      '$Output/lib/work/rtl/simple_spi_top.v': {'post_len': 0,
+                                                                'pre_len': 3670}},
+            'post_len': 10,
+            'pre_len': 4600,
             'test_name': 'YosysOldTests/simple_spi/YosysOldSimpleSpi'}}
 
 +---------------------------------------+----------+-----------+
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
-| $Output/lib/work/rtl/fifo4.v          |      951 |        29 |
-| $Output/lib/work/rtl/simple_spi_top.v |     3691 |        19 |
+| $Output/lib/work/rtl/fifo4.v          |      930 |        10 |
+| $Output/lib/work/rtl/simple_spi_top.v |     3670 |         0 |
 +=======================================+==========+===========+
-|                                       |     4642 |        48 |
+|                                       |     4600 |        10 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.97
+[COVERAGE] : 99.78
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -7786,7 +7774,7 @@ COMMAND: ${HLC_DIR}/regression/YosysOldTests/simple_spi/YosysOldSimpleSpi/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1930    1930       0         0
+Others                            1928    1928       0         0
 ----------------------------------------------------------------
-                                  1930    1930       0         0
+                                  1928    1928       0         0
 ===================== END REDUCTION RESULT =====================

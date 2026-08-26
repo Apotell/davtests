@@ -4,27 +4,27 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SimpleClass2 +incdir+. -sverilog -writepp -d inst top.v -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SimpleClass2/SimpleClass2
+COMMAND: -wd ../../../tests/SimpleClass2 +incdir+. -sverilog -writepp -d inst -mt max top.v -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/SimpleClass2/SimpleClass2
 [INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0301] $Source01/top.v:8:1: Compile package "p1".
 [WRN:CP0323] $Source01/top.v:8:1: Multiply defined typedef "c1".
 [INF:CP0301] $Source01/top.v:26:1: Compile package "p3".
 [INF:CP0301] $Source01/top.v:31:1: Compile package "p2".
-[WRN:CP0350] $Source01/top.v:42:11: Failed to bind "id:855, name:foo".
-[WRN:CP0350] $Source01/top.v:44:16: Failed to bind "id:868, name:addq".
-[WRN:CP0350] $Source01/top.v:45:11: Failed to bind "id:872, name:toto".
-[WRN:CP0350] $Source01/top.v:46:16: Failed to bind "id:878, name:toto".
-[WRN:CP0350] $Source01/top.v:46:21: Failed to bind "id:879, name:len1".
+[WRN:CP0350] $Source01/top.v:42:11: Failed to bind "id:729, name:foo".
+[WRN:CP0350] $Source01/top.v:44:16: Failed to bind "id:742, name:addq".
+[WRN:CP0350] $Source01/top.v:45:11: Failed to bind "id:746, name:toto".
+[WRN:CP0350] $Source01/top.v:46:16: Failed to bind "id:752, name:toto".
+[WRN:CP0350] $Source01/top.v:46:21: Failed to bind "id:753, name:len1".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:8:1: No timescale set for "p1".
 [WRN:PA0205] $Source01/top.v:26:1: No timescale set for "p3".
 [WRN:PA0205] $Source01/top.v:31:1: No timescale set for "p2".
-[ERR:LN0805] $Source01/top.v:41:11: Null Actual: id:849, type:MethodFuncCall, name:new, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top.v:45:16: Null Actual: id:873, type:MethodFuncCall, name:len, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.v:41:11: Null Actual: id:723, type:MethodFuncCall, name:new, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.v:45:16: Null Actual: id:747, type:MethodFuncCall, name:len, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2044,7 +2044,36 @@ Design name:unnamed:
                 vpiFullName: p2::c2::new::c2
                 vpiActual: ClassTypespec name:c2
   vpiAllClasses (4 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:uvm_pool file:$Source01/top.v start:2:1 end:6:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:uvm_pool start:2:7 end:2:15:
+        vpiParent: ClassDefn name:uvm_pool
+        vpiName: uvm_pool
+      vpiFullName: uvm_pool
+      vpiAutomatic: true
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:uvm_pool
+        vpiName: work
+        vpiFullName: uvm_pool::work
+      vpiCell: uvm_pool
+      vpiMethod (1 items):
+        Function name:add start:3:3 end:4:14:
+          vpiParent: ClassDefn name:uvm_pool
+          vpiName Identifier name:add start:3:12 end:3:15:
+            vpiParent: Function name:add
+            vpiName: add
+          vpiFullName: uvm_pool::add
+          vpiTypespec (1 items):
+            LogicTypespec start:3:12 end:3:12:
+              vpiParent: Function name:add
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiReturn RefTypespec start:3:12 end:3:12:
+            vpiParent: Function name:add
+            vpiFullName: uvm_pool::add
+            vpiActual: LogicTypespec
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2240,7 +2269,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2358,7 +2387,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2493,35 +2522,6 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
-    ClassDefn name:uvm_pool file:$Source01/top.v start:2:1 end:6:9:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:uvm_pool start:2:7 end:2:15:
-        vpiParent: ClassDefn name:uvm_pool
-        vpiName: uvm_pool
-      vpiFullName: uvm_pool
-      vpiAutomatic: true
-      vpiClassType: userdefined class (3)
-      vpiLibrary RefObj name:work:
-        vpiParent: ClassDefn name:uvm_pool
-        vpiName: work
-        vpiFullName: uvm_pool::work
-      vpiCell: uvm_pool
-      vpiMethod (1 items):
-        Function name:add start:3:3 end:4:14:
-          vpiParent: ClassDefn name:uvm_pool
-          vpiName Identifier name:add start:3:12 end:3:15:
-            vpiParent: Function name:add
-            vpiName: add
-          vpiFullName: uvm_pool::add
-          vpiTypespec (1 items):
-            LogicTypespec start:3:12 end:3:12:
-              vpiParent: Function name:add
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiReturn RefTypespec start:3:12 end:3:12:
-            vpiParent: Function name:add
-            vpiFullName: uvm_pool::add
-            vpiActual: LogicTypespec
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2532,6 +2532,13 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ClassTypespec name:uvm_pool:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:uvm_pool:
+        vpiParent: ClassTypespec name:uvm_pool
+        vpiName: uvm_pool
+      vpiDefName: uvm_pool
+      vpiClassDefn: ClassDefn name:uvm_pool
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -2553,13 +2560,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ClassTypespec name:uvm_pool:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:uvm_pool:
-        vpiParent: ClassTypespec name:uvm_pool
-        vpiName: uvm_pool
-      vpiDefName: uvm_pool
-      vpiClassDefn: ClassDefn name:uvm_pool
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

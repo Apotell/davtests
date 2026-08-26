@@ -4,12 +4,117 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/ErrorCatalog/chapter-3 -d ast -d db -nobuiltin 3--error_rules.sv 3--error_rules_inv2.sv 3--error_rules_inv3.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ErrorCatalog/chapter-3/3--error_rules
+COMMAND: -wd ../../../../tests/ErrorCatalog/chapter-3 -d ast -d db -nobuiltin 3--error_rules.sv 3--error_rules_inv2.sv 3--error_rules_inv3.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ErrorCatalog/chapter-3/3--error_rules
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/3--error_rules.sv".
 [INF:PP0122] Preprocessing source file "$Source01/3--error_rules_inv2.sv".
 [INF:PP0122] Preprocessing source file "$Source01/3--error_rules_inv3.sv".
 [INF:PA0201] Parsing source file "$Source01/3--error_rules.sv".
+[INF:PA0201] Parsing source file "$Source01/3--error_rules_inv2.sv".
+[INF:PA0201] Parsing source file "$Source01/3--error_rules_inv3.sv".
+AST_DEBUG_BEGIN
+Count: 39
+LIB: work
+FILE: f<18>:$Source01/3--error_rules_inv3.sv
+n<$Source01/3--error_rules_inv3.sv> u<38> t<Top_level_rule> c<1> l<18:1> el<25:1>
+  n<> u<1> t<Null_rule> p<38> s<2> l<18:1> el<18:1>
+  n</*\n:name: chapter3_error_rules_inv3\n:description: IEEE 1800-2023 3.14.2.3 -- mixed timescale / no-timescale design elements\n:tags: 3.14.2.3\n:should_fail_because: some design elements have a time unit and precision while others do not\n*/> u<2> t<BLOCK_COMMENT> p<38> s<3> l<18:1> el<24:10>
+  n<// catalog row 12 | 3.14.2.3 | LINT> u<3> t<LINE_COMMENT> p<38> s<4> l<8:1> el<8:36>
+  n<// It shall be an error if some design elements in the design have a time unit> u<4> t<LINE_COMMENT> p<38> s<5> l<9:1> el<9:79>
+  n<// and precision specified and others do not.> u<5> t<LINE_COMMENT> p<38> s<6> l<10:1> el<10:46>
+  n<//> u<6> t<LINE_COMMENT> p<38> s<7> l<11:1> el<11:3>
+  n<// Kept in its own fixture because `timescale / `resetall are file-scoped> u<7> t<LINE_COMMENT> p<38> s<8> l<12:1> el<12:74>
+  n<// directives: placing them in the shared fixture would silently retime every> u<8> t<LINE_COMMENT> p<38> s<9> l<13:1> el<13:78>
+  n<// other scenario in that file.> u<9> t<LINE_COMMENT> p<38> s<10> l<14:1> el<14:32>
+  n<//> u<10> t<LINE_COMMENT> p<38> s<11> l<15:1> el<15:3>
+  n<// r12_a picks up the `timescale; `resetall clears it again, so r12_b has none.> u<11> t<LINE_COMMENT> p<38> s<37> l<16:1> el<16:80>
+  n<> u<37> t<Source_text> p<38> c<20> l<18:1> el<24:10>
+    n<> u<20> t<Description> p<37> c<19> s<27> l<18:1> el<18:19>
+      n<> u<19> t<Top_directives> p<20> c<18> l<18:1> el<18:19>
+        n<> u<18> t<Timescale_directive> p<19> c<14> l<18:1> el<18:19>
+          n<1ns> u<14> t<Time_literal> p<18> c<12> s<17> l<18:12> el<18:15>
+            n<1> u<12> t<INTEGRAL_NUMBER> p<14> s<13> l<18:12> el<18:13>
+            n<ns> u<13> t<SIMPLE_IDENTIFIER> p<14> l<18:13> el<18:15>
+          n<1ps> u<17> t<Time_literal> p<18> c<15> l<18:16> el<18:19>
+            n<1> u<15> t<INTEGRAL_NUMBER> p<17> s<16> l<18:16> el<18:17>
+            n<ps> u<16> t<SIMPLE_IDENTIFIER> p<17> l<18:17> el<18:19>
+    n<> u<27> t<Description> p<37> c<26> s<29> l<19:1> el<20:10>
+      n<> u<26> t<Module_declaration> p<27> c<24> l<19:1> el<20:10>
+        n<> u<24> t<Module_ansi_header> p<26> c<21> s<25> l<19:1> el<19:14>
+          n<module> u<21> t<MODULE> p<24> s<22> l<19:1> el<19:7>
+          n<r12_a> u<22> t<SIMPLE_IDENTIFIER> p<24> s<23> l<19:8> el<19:13>
+          n<> u<23> t<Package_import_declaration_list> p<24> l<19:13> el<19:13>
+        n<> u<25> t<ENDMODULE> p<26> l<20:1> el<20:10>
+    n<> u<29> t<Description> p<37> c<28> s<36> l<22:1> el<22:10>
+      n<> u<28> t<Top_directives> p<29> l<22:1> el<22:10>
+    n<> u<36> t<Description> p<37> c<35> l<23:1> el<24:10>
+      n<> u<35> t<Module_declaration> p<36> c<33> l<23:1> el<24:10>
+        n<> u<33> t<Module_ansi_header> p<35> c<30> s<34> l<23:1> el<23:14>
+          n<module> u<30> t<MODULE> p<33> s<31> l<23:1> el<23:7>
+          n<r12_b> u<31> t<SIMPLE_IDENTIFIER> p<33> s<32> l<23:8> el<23:13>
+          n<> u<32> t<Package_import_declaration_list> p<33> l<23:13> el<23:13>
+        n<> u<34> t<ENDMODULE> p<35> l<24:1> el<24:10>
+AST_DEBUG_END
+[SNT:PA0207] $Source01/3--error_rules_inv2.sv:24:2: Syntax error: extraneous input 'r3_sub' expecting {'input', 'output', 'reg', '(*', 'table', 'initial'},
+  r3_sub u1();
+  ^-- $Source01/3--error_rules_inv2.sv:24:2:.
+[SNT:PA0207] $Source01/3--error_rules_inv2.sv:25:2: Syntax error: mismatched input 'table' expecting <EOF>,
+  table
+  ^-- $Source01/3--error_rules_inv2.sv:25:2:.
+AST_DEBUG_BEGIN
+Count: 50
+LIB: work
+FILE: f<17>:$Source01/3--error_rules_inv2.sv
+n<$Source01/3--error_rules_inv2.sv> u<49> t<Top_level_rule> c<1> l<18:1> el<29:13>
+  n<> u<1> t<Null_rule> p<49> s<2> l<18:1> el<18:1>
+  n</*\n:name: chapter3_error_rules_inv2\n:description: IEEE 1800-2023 3.11 -- a primitive cannot instantiate a building block\n:tags: 3.11\n:should_fail_because: primitives are leaves in the hierarchy and cannot instantiate anything\n*/> u<2> t<BLOCK_COMMENT> p<49> s<3> l<18:1> el<24:15>
+  n<// catalog row 3 | 3.11 | PARSE> u<3> t<LINE_COMMENT> p<49> s<4> l<8:1> el<8:32>
+  n<// Primitives cannot instantiate other building blocks; they are leaves in the> u<4> t<LINE_COMMENT> p<49> s<5> l<9:1> el<9:79>
+  n<// hierarchy tree. A primitive body may not contain module, interface, program,> u<5> t<LINE_COMMENT> p<49> s<6> l<10:1> el<10:80>
+  n<// checker or primitive instances.> u<6> t<LINE_COMMENT> p<49> s<7> l<11:1> el<11:35>
+  n<//> u<7> t<LINE_COMMENT> p<49> s<8> l<12:1> el<12:3>
+  n<// Kept alone in its own fixture: the illegal instantiation desynchronizes the> u<8> t<LINE_COMMENT> p<49> s<9> l<13:1> el<13:79>
+  n<// parser badly enough that it reports "mismatched input 'table' expecting> u<9> t<LINE_COMMENT> p<49> s<10> l<14:1> el<14:75>
+  n<// <EOF>", i.e. everything after it in the same file is lost. Nothing may be> u<10> t<LINE_COMMENT> p<49> s<11> l<15:1> el<15:77>
+  n<// appended below.> u<11> t<LINE_COMMENT> p<49> s<48> l<16:1> el<16:19>
+  n<> u<48> t<Source_text> p<49> c<18> l<18:1> el<24:15>
+    n<> u<18> t<Description> p<48> c<17> s<35> l<18:1> el<19:10>
+      n<> u<17> t<Module_declaration> p<18> c<15> l<18:1> el<19:10>
+        n<> u<15> t<Module_ansi_header> p<17> c<12> s<16> l<18:1> el<18:15>
+          n<module> u<12> t<MODULE> p<15> s<13> l<18:1> el<18:7>
+          n<r3_sub> u<13> t<SIMPLE_IDENTIFIER> p<15> s<14> l<18:8> el<18:14>
+          n<> u<14> t<Package_import_declaration_list> p<15> l<18:14> el<18:14>
+        n<> u<16> t<ENDMODULE> p<17> l<19:1> el<19:10>
+    n<> u<35> t<Description> p<48> c<34> s<38> l<21:1> el<23:12>
+      n<> u<34> t<Udp_declaration> p<35> c<24> l<21:1> el<23:12>
+        n<> u<24> t<Udp_nonansi_declaration> p<34> c<19> s<27> l<21:1> el<21:26>
+          n<> u<19> t<PRIMITIVE> p<24> s<20> l<21:1> el<21:10>
+          n<r3_p> u<20> t<SIMPLE_IDENTIFIER> p<24> s<23> l<21:11> el<21:15>
+          n<> u<23> t<Udp_port_list> p<24> c<21> l<21:17> el<21:24>
+            n<out> u<21> t<SIMPLE_IDENTIFIER> p<23> s<22> l<21:17> el<21:20>
+            n<in> u<22> t<SIMPLE_IDENTIFIER> p<23> l<21:22> el<21:24>
+        n<> u<27> t<Udp_port_declaration> p<34> c<26> s<31> l<22:3> el<22:14>
+          n<> u<26> t<Udp_output_declaration> p<27> c<25> l<22:3> el<22:13>
+            n<out> u<25> t<SIMPLE_IDENTIFIER> p<26> l<22:10> el<22:13>
+        n<> u<31> t<Udp_port_declaration> p<34> c<30> s<32> l<23:3> el<23:12>
+          n<> u<30> t<Udp_input_declaration> p<31> c<29> l<23:3> el<23:11>
+            n<> u<29> t<Identifier_list> p<30> c<28> l<23:9> el<23:11>
+              n<in> u<28> t<SIMPLE_IDENTIFIER> p<29> l<23:9> el<23:11>
+        n<> u<32> t<Udp_body> p<34> s<33> l<24:3> el<24:3>
+        n<> u<33> t<ENDPRIMITIVE> p<34> l<0:0>
+    n<> u<38> t<Description> p<48> c<37> s<41> l<24:3> el<24:3>
+      n<> u<37> t<Package_item> p<38> c<36> l<24:3> el<24:3>
+        n<> u<36> t<Package_or_generate_item_declaration> p<37> l<24:3> el<24:3>
+    n<> u<41> t<Description> p<48> c<40> s<44> l<24:3> el<24:9>
+      n<> u<40> t<Package_item> p<41> c<39> l<24:3> el<24:9>
+        n<> u<39> t<Package_or_generate_item_declaration> p<40> l<24:3> el<24:9>
+    n<> u<44> t<Description> p<48> c<43> s<47> l<24:10> el<24:14>
+      n<> u<43> t<Package_item> p<44> c<42> l<24:10> el<24:14>
+        n<> u<42> t<Package_or_generate_item_declaration> p<43> l<24:10> el<24:14>
+    n<> u<47> t<Description> p<48> c<46> l<24:14> el<24:15>
+      n<> u<46> t<Package_item> p<47> c<45> l<24:14> el<24:15>
+        n<> u<45> t<Package_or_generate_item_declaration> p<46> l<24:14> el<24:15>
+AST_DEBUG_END
 [SNT:PA0207] $Source01/3--error_rules.sv:103:2: Syntax error: no viable alternative at input 'r2_m',
   r2_m u1();
   ^-- $Source01/3--error_rules.sv:103:2:.
@@ -19,7 +124,7 @@ COMMAND: -wd ../../../../tests/ErrorCatalog/chapter-3 -d ast -d db -nobuiltin 3-
 AST_DEBUG_BEGIN
 Count: 323
 LIB: work
-FILE: f<14>:$Source01/3--error_rules.sv
+FILE: f<16>:$Source01/3--error_rules.sv
 n<$Source01/3--error_rules.sv> u<322> t<Top_level_rule> c<1> l<21:1> el<106:1>
   n<> u<1> t<Null_rule> p<322> s<2> l<21:1> el<21:1>
   n</*\n:name: chapter3_error_rules\n:description: IEEE 1800-2023 Clause 3 error scenarios that parse cleanly\n:tags: 3.12.1 3.13 3.14 3.14.2.2 3.14.3\n*/> u<2> t<BLOCK_COMMENT> p<322> s<3> l<21:1> el<105:11>
@@ -342,112 +447,6 @@ n<$Source01/3--error_rules.sv> u<322> t<Top_level_rule> c<1> l<21:1> el<106:1>
           n<> u<316> t<Module_or_generate_item_declaration> p<317> c<315> l<104:13> el<104:14>
             n<> u<315> t<Package_or_generate_item_declaration> p<316> l<104:13> el<104:14>
         n<> u<318> t<ENDPROGRAM> p<319> l<105:1> el<105:11>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/3--error_rules_inv2.sv".
-[SNT:PA0207] $Source01/3--error_rules_inv2.sv:24:2: Syntax error: extraneous input 'r3_sub' expecting {'input', 'output', 'reg', '(*', 'table', 'initial'},
-  r3_sub u1();
-  ^-- $Source01/3--error_rules_inv2.sv:24:2:.
-[SNT:PA0207] $Source01/3--error_rules_inv2.sv:25:2: Syntax error: mismatched input 'table' expecting <EOF>,
-  table
-  ^-- $Source01/3--error_rules_inv2.sv:25:2:.
-AST_DEBUG_BEGIN
-Count: 50
-LIB: work
-FILE: f<15>:$Source01/3--error_rules_inv2.sv
-INCL f<206>: $Output/lib/work/3--error_rules_inv2.sv
-n<$Source01/3--error_rules_inv2.sv> u<49> t<Top_level_rule> c<1> l<18:1> el<29:13>
-  n<> u<1> t<Null_rule> p<49> s<2> l<18:1> el<18:1>
-  n</*\n:name: chapter3_error_rules_inv2\n:description: IEEE 1800-2023 3.11 -- a primitive cannot instantiate a building block\n:tags: 3.11\n:should_fail_because: primitives are leaves in the hierarchy and cannot instantiate anything\n*/> u<2> t<BLOCK_COMMENT> p<49> s<3> l<18:1> el<24:15>
-  n<// catalog row 3 | 3.11 | PARSE> u<3> t<LINE_COMMENT> p<49> s<4> l<8:1> el<8:32>
-  n<// Primitives cannot instantiate other building blocks; they are leaves in the> u<4> t<LINE_COMMENT> p<49> s<5> l<9:1> el<9:79>
-  n<// hierarchy tree. A primitive body may not contain module, interface, program,> u<5> t<LINE_COMMENT> p<49> s<6> l<10:1> el<10:80>
-  n<// checker or primitive instances.> u<6> t<LINE_COMMENT> p<49> s<7> l<11:1> el<11:35>
-  n<//> u<7> t<LINE_COMMENT> p<49> s<8> l<12:1> el<12:3>
-  n<// Kept alone in its own fixture: the illegal instantiation desynchronizes the> u<8> t<LINE_COMMENT> p<49> s<9> l<13:1> el<13:79>
-  n<// parser badly enough that it reports "mismatched input 'table' expecting> u<9> t<LINE_COMMENT> p<49> s<10> l<14:1> el<14:75>
-  n<// <EOF>", i.e. everything after it in the same file is lost. Nothing may be> u<10> t<LINE_COMMENT> p<49> s<11> l<15:1> el<15:77>
-  n<// appended below.> u<11> t<LINE_COMMENT> p<49> s<48> l<16:1> el<16:19>
-  n<> u<48> t<Source_text> p<49> c<18> l<18:1> el<24:15>
-    n<> u<18> t<Description> p<48> c<17> s<35> l<18:1> el<19:10>
-      n<> u<17> t<Module_declaration> p<18> c<15> l<18:1> el<19:10>
-        n<> u<15> t<Module_ansi_header> p<17> c<12> s<16> l<18:1> el<18:15>
-          n<module> u<12> t<MODULE> p<15> s<13> l<18:1> el<18:7>
-          n<r3_sub> u<13> t<SIMPLE_IDENTIFIER> p<15> s<14> l<18:8> el<18:14>
-          n<> u<14> t<Package_import_declaration_list> p<15> l<18:14> el<18:14>
-        n<> u<16> t<ENDMODULE> p<17> l<19:1> el<19:10>
-    n<> u<35> t<Description> p<48> c<34> s<38> l<21:1> el<23:12>
-      n<> u<34> t<Udp_declaration> p<35> c<24> l<21:1> el<23:12>
-        n<> u<24> t<Udp_nonansi_declaration> p<34> c<19> s<27> l<21:1> el<21:26>
-          n<> u<19> t<PRIMITIVE> p<24> s<20> l<21:1> el<21:10>
-          n<r3_p> u<20> t<SIMPLE_IDENTIFIER> p<24> s<23> l<21:11> el<21:15>
-          n<> u<23> t<Udp_port_list> p<24> c<21> l<21:17> el<21:24>
-            n<out> u<21> t<SIMPLE_IDENTIFIER> p<23> s<22> l<21:17> el<21:20>
-            n<in> u<22> t<SIMPLE_IDENTIFIER> p<23> l<21:22> el<21:24>
-        n<> u<27> t<Udp_port_declaration> p<34> c<26> s<31> l<22:3> el<22:14>
-          n<> u<26> t<Udp_output_declaration> p<27> c<25> l<22:3> el<22:13>
-            n<out> u<25> t<SIMPLE_IDENTIFIER> p<26> l<22:10> el<22:13>
-        n<> u<31> t<Udp_port_declaration> p<34> c<30> s<32> l<23:3> el<23:12>
-          n<> u<30> t<Udp_input_declaration> p<31> c<29> l<23:3> el<23:11>
-            n<> u<29> t<Identifier_list> p<30> c<28> l<23:9> el<23:11>
-              n<in> u<28> t<SIMPLE_IDENTIFIER> p<29> l<23:9> el<23:11>
-        n<> u<32> t<Udp_body> p<34> s<33> l<24:3> el<24:3>
-        n<> u<33> t<ENDPRIMITIVE> p<34> f<206> l<0:0>
-    n<> u<38> t<Description> p<48> c<37> s<41> l<24:3> el<24:3>
-      n<> u<37> t<Package_item> p<38> c<36> l<24:3> el<24:3>
-        n<> u<36> t<Package_or_generate_item_declaration> p<37> l<24:3> el<24:3>
-    n<> u<41> t<Description> p<48> c<40> s<44> l<24:3> el<24:9>
-      n<> u<40> t<Package_item> p<41> c<39> l<24:3> el<24:9>
-        n<> u<39> t<Package_or_generate_item_declaration> p<40> l<24:3> el<24:9>
-    n<> u<44> t<Description> p<48> c<43> s<47> l<24:10> el<24:14>
-      n<> u<43> t<Package_item> p<44> c<42> l<24:10> el<24:14>
-        n<> u<42> t<Package_or_generate_item_declaration> p<43> l<24:10> el<24:14>
-    n<> u<47> t<Description> p<48> c<46> l<24:14> el<24:15>
-      n<> u<46> t<Package_item> p<47> c<45> l<24:14> el<24:15>
-        n<> u<45> t<Package_or_generate_item_declaration> p<46> l<24:14> el<24:15>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/3--error_rules_inv3.sv".
-AST_DEBUG_BEGIN
-Count: 39
-LIB: work
-FILE: f<16>:$Source01/3--error_rules_inv3.sv
-n<$Source01/3--error_rules_inv3.sv> u<38> t<Top_level_rule> c<1> l<18:1> el<25:1>
-  n<> u<1> t<Null_rule> p<38> s<2> l<18:1> el<18:1>
-  n</*\n:name: chapter3_error_rules_inv3\n:description: IEEE 1800-2023 3.14.2.3 -- mixed timescale / no-timescale design elements\n:tags: 3.14.2.3\n:should_fail_because: some design elements have a time unit and precision while others do not\n*/> u<2> t<BLOCK_COMMENT> p<38> s<3> l<18:1> el<24:10>
-  n<// catalog row 12 | 3.14.2.3 | LINT> u<3> t<LINE_COMMENT> p<38> s<4> l<8:1> el<8:36>
-  n<// It shall be an error if some design elements in the design have a time unit> u<4> t<LINE_COMMENT> p<38> s<5> l<9:1> el<9:79>
-  n<// and precision specified and others do not.> u<5> t<LINE_COMMENT> p<38> s<6> l<10:1> el<10:46>
-  n<//> u<6> t<LINE_COMMENT> p<38> s<7> l<11:1> el<11:3>
-  n<// Kept in its own fixture because `timescale / `resetall are file-scoped> u<7> t<LINE_COMMENT> p<38> s<8> l<12:1> el<12:74>
-  n<// directives: placing them in the shared fixture would silently retime every> u<8> t<LINE_COMMENT> p<38> s<9> l<13:1> el<13:78>
-  n<// other scenario in that file.> u<9> t<LINE_COMMENT> p<38> s<10> l<14:1> el<14:32>
-  n<//> u<10> t<LINE_COMMENT> p<38> s<11> l<15:1> el<15:3>
-  n<// r12_a picks up the `timescale; `resetall clears it again, so r12_b has none.> u<11> t<LINE_COMMENT> p<38> s<37> l<16:1> el<16:80>
-  n<> u<37> t<Source_text> p<38> c<20> l<18:1> el<24:10>
-    n<> u<20> t<Description> p<37> c<19> s<27> l<18:1> el<18:19>
-      n<> u<19> t<Top_directives> p<20> c<18> l<18:1> el<18:19>
-        n<> u<18> t<Timescale_directive> p<19> c<14> l<18:1> el<18:19>
-          n<1ns> u<14> t<Time_literal> p<18> c<12> s<17> l<18:12> el<18:15>
-            n<1> u<12> t<INTEGRAL_NUMBER> p<14> s<13> l<18:12> el<18:13>
-            n<ns> u<13> t<SIMPLE_IDENTIFIER> p<14> l<18:13> el<18:15>
-          n<1ps> u<17> t<Time_literal> p<18> c<15> l<18:16> el<18:19>
-            n<1> u<15> t<INTEGRAL_NUMBER> p<17> s<16> l<18:16> el<18:17>
-            n<ps> u<16> t<SIMPLE_IDENTIFIER> p<17> l<18:17> el<18:19>
-    n<> u<27> t<Description> p<37> c<26> s<29> l<19:1> el<20:10>
-      n<> u<26> t<Module_declaration> p<27> c<24> l<19:1> el<20:10>
-        n<> u<24> t<Module_ansi_header> p<26> c<21> s<25> l<19:1> el<19:14>
-          n<module> u<21> t<MODULE> p<24> s<22> l<19:1> el<19:7>
-          n<r12_a> u<22> t<SIMPLE_IDENTIFIER> p<24> s<23> l<19:8> el<19:13>
-          n<> u<23> t<Package_import_declaration_list> p<24> l<19:13> el<19:13>
-        n<> u<25> t<ENDMODULE> p<26> l<20:1> el<20:10>
-    n<> u<29> t<Description> p<37> c<28> s<36> l<22:1> el<22:10>
-      n<> u<28> t<Top_directives> p<29> l<22:1> el<22:10>
-    n<> u<36> t<Description> p<37> c<35> l<23:1> el<24:10>
-      n<> u<35> t<Module_declaration> p<36> c<33> l<23:1> el<24:10>
-        n<> u<33> t<Module_ansi_header> p<35> c<30> s<34> l<23:1> el<23:14>
-          n<module> u<30> t<MODULE> p<33> s<31> l<23:1> el<23:7>
-          n<r12_b> u<31> t<SIMPLE_IDENTIFIER> p<33> s<32> l<23:8> el<23:13>
-          n<> u<32> t<Package_import_declaration_list> p<33> l<23:13> el<23:13>
-        n<> u<34> t<ENDMODULE> p<35> l<24:1> el<24:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/3--error_rules.sv:31:1: Compile module "r5_dup".
 [INF:CP0304] $Source01/3--error_rules.sv:33:1: Compile interface "r5_dup".

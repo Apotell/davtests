@@ -4,16 +4,17 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/BlackParrotParam -d db -d ast dut.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/BlackParrotParam/BlackParrotParam
+COMMAND: -wd ../../../tests/BlackParrotParam -d db -d ast dut.sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/BlackParrotParam/BlackParrotParam
 [INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<16>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE: f<18>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -270,11 +271,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 8885
 LIB: work
-FILE: f<13>:$Source01/dut.sv
+FILE: f<15>:$Source01/dut.sv
 n<$Source01/dut.sv> u<8884> t<Top_level_rule> c<1> l<2:1> el<4629:1>
   n<> u<1> t<Null_rule> p<8884> s<8883> l<2:1> el<2:1>
   n<> u<8883> t<Source_text> p<8884> c<873> l<2:1> el<4628:10>
@@ -9166,8 +9166,8 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:2530:1: Compile package "bp_be_pkg".
 [INF:CP0301] $Source01/dut.sv:3365:1: Compile package "bp_be_dcache_pkg".
 [INF:CP0303] $Source01/dut.sv:4371:1: Compile module "bp_be_ptw".
-[WRN:CP0350] $Source01/dut.sv:4625:10: Failed to bind "id:5849, name:tlb_w_entry".
-[WRN:CP0350] $Source01/dut.sv:4625:22: Failed to bind "id:5851, name:ptag".
+[WRN:CP0350] $Source01/dut.sv:4625:10: Failed to bind "id:5723, name:tlb_w_entry".
+[WRN:CP0350] $Source01/dut.sv:4625:22: Failed to bind "id:5725, name:ptag".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "bp_common_pkg".
 [WRN:PA0205] $Source01/dut.sv:927:1: No timescale set for "bp_common_rv64_pkg".
@@ -11229,7 +11229,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h80000000"
+            vpiDecompile: "32'h8000_0000"
             vpiValue: "80000000"
         ParamAssign start:915:14 end:915:55:
           vpiParent: Package name:bp_common_pkg
@@ -11246,7 +11246,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h01??????"
+            vpiDecompile: "32'h01??_????"
             vpiValue: "01??????"
         ParamAssign start:916:14 end:916:55:
           vpiParent: Package name:bp_common_pkg
@@ -11263,7 +11263,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h02??????"
+            vpiDecompile: "32'h02??_????"
             vpiValue: "02??????"
         ParamAssign start:917:14 end:917:55:
           vpiParent: Package name:bp_common_pkg
@@ -11280,7 +11280,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h03??????"
+            vpiDecompile: "32'h03??_????"
             vpiValue: "03??????"
         ParamAssign start:918:14 end:918:55:
           vpiParent: Package name:bp_common_pkg
@@ -11297,7 +11297,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h0c??????"
+            vpiDecompile: "32'h0c??_????"
             vpiValue: "0c??????"
         ParamAssign start:920:14 end:920:55:
           vpiParent: Package name:bp_common_pkg
@@ -11314,7 +11314,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h02000???"
+            vpiDecompile: "32'h0200_0???"
             vpiValue: "02000???"
         ParamAssign start:921:14 end:921:55:
           vpiParent: Package name:bp_common_pkg
@@ -11331,7 +11331,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h02004???"
+            vpiDecompile: "32'h0200_4???"
             vpiValue: "02004???"
         ParamAssign start:922:14 end:922:55:
           vpiParent: Package name:bp_common_pkg
@@ -11348,7 +11348,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h0200bff8"
+            vpiDecompile: "32'h0200_bff8"
             vpiValue: "0200bff8"
         ParamAssign start:923:14 end:923:55:
           vpiParent: Package name:bp_common_pkg
@@ -11365,7 +11365,7 @@ Design name:unnamed:
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 32
-            vpiDecompile: "32'h0c000???"
+            vpiDecompile: "32'h0c00_0???"
             vpiValue: "0c000???"
       vpiTypespec (34 items):
         LogicTypespec:
@@ -23879,7 +23879,7 @@ Design name:unnamed:
         vpiFullName: bp_be_dcache_pkg::work
       vpiCell: bp_be_dcache_pkg
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -24075,7 +24075,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -24193,7 +24193,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -27438,6 +27438,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    LogicTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    ModuleTypespec name:bp_be_ptw:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:bp_be_ptw start:4371:8 end:4371:17:
+        vpiParent: ModuleTypespec name:bp_be_ptw
+        vpiName: bp_be_ptw
+      vpiModule: Module name:bp_be_ptw
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -27459,16 +27469,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-    IntTypespec:
-      vpiParent: Design name:unnamed
-    ModuleTypespec name:bp_be_ptw:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:bp_be_ptw start:4371:8 end:4371:17:
-        vpiParent: ModuleTypespec name:bp_be_ptw
-        vpiName: bp_be_ptw
-      vpiModule: Module name:bp_be_ptw
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

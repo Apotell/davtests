@@ -4,17 +4,19 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/UnitForeach +incdir+. -writepp -d inst top.v top2.v -d ast -d db -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UnitForeach/UnitForeach
+COMMAND: -wd ../../../tests/UnitForeach +incdir+. -writepp -d inst top.v top2.v -d ast -d db -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/UnitForeach/UnitForeach
 [INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.v".
 [INF:PP0122] Preprocessing source file "$Source01/top2.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top2.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<19>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE: f<21>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -271,11 +273,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 300
 LIB: work
-FILE: f<14>:$Source01/top.v
+FILE: f<16>:$Source01/top.v
 n<$Source01/top.v> u<299> t<Top_level_rule> c<1> l<1:1> el<84:1>
   n<> u<1> t<Null_rule> p<299> s<298> l<1:1>
   n<> u<298> t<Source_text> p<299> c<16> l<1:1> el<83:9>
@@ -576,11 +577,10 @@ n<$Source01/top.v> u<299> t<Top_level_rule> c<1> l<1:1> el<84:1>
                     n<> u<287> t<ENDFUNCTION> p<288> l<79:4> el<79:15>
             n<> u<293> t<ENDCLASS> p<294> l<83:1> el<83:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/top2.v".
 AST_DEBUG_BEGIN
 Count: 135
 LIB: work
-FILE: f<15>:$Source01/top2.v
+FILE: f<17>:$Source01/top2.v
 n<$Source01/top2.v> u<134> t<Top_level_rule> c<1> l<3:1> el<15:1>
   n<> u<1> t<Null_rule> p<134> s<133> l<3:1> el<3:1>
   n<> u<133> t<Source_text> p<134> c<132> l<3:1> el<14:11>
@@ -719,24 +719,24 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/top.v:7:1: Multiply defined typedef "moreobj".
 [WRN:CP0323] $Source01/top.v:7:1: Multiply defined typedef "moreobj".
 [INF:CP0301] $Source01/top2.v:3:1: Compile package "uvm_pkg".
-[WRN:CP0350] $Source01/top.v:56:18: Failed to bind "id:831, name:bad1".
-[WRN:CP0350] $Source01/top.v:57:29: Failed to bind "id:837, name:bad2".
-[WRN:CP0350] $Source01/top.v:62:13: Failed to bind "id:851, name:bad3".
-[WRN:CP0350] $Source01/top.v:63:24: Failed to bind "id:857, name:bad4".
-[WRN:CP0350] $Source01/top.v:68:12: Failed to bind "id:871, name:bad5".
-[WRN:CP0350] $Source01/top.v:69:24: Failed to bind "id:877, name:bad6".
-[WRN:CP0350] $Source01/top.v:76:17: Failed to bind "id:895, name:bad6".
-[WRN:CP0350] $Source01/top2.v:6:5: Failed to bind "id:911, name:super".
-[WRN:CP0350] $Source01/top2.v:7:53: Failed to bind "id:919, name:arb_sequence_q".
-[WRN:CP0350] $Source01/top2.v:7:13: Failed to bind "id:924, name:print_array_header".
-[WRN:CP0350] $Source01/top2.v:10:52: Failed to bind "id:941, name:request".
-[WRN:CP0350] $Source01/top2.v:10:85: Failed to bind "id:948, name:sequence_id".
-[WRN:CP0350] $Source01/top2.v:9:15: Failed to bind "id:956, name:print_string".
+[WRN:CP0350] $Source01/top.v:56:18: Failed to bind "id:705, name:bad1".
+[WRN:CP0350] $Source01/top.v:57:29: Failed to bind "id:711, name:bad2".
+[WRN:CP0350] $Source01/top.v:62:13: Failed to bind "id:725, name:bad3".
+[WRN:CP0350] $Source01/top.v:63:24: Failed to bind "id:731, name:bad4".
+[WRN:CP0350] $Source01/top.v:68:12: Failed to bind "id:745, name:bad5".
+[WRN:CP0350] $Source01/top.v:69:24: Failed to bind "id:751, name:bad6".
+[WRN:CP0350] $Source01/top.v:76:17: Failed to bind "id:769, name:bad6".
+[WRN:CP0350] $Source01/top2.v:6:5: Failed to bind "id:785, name:super".
+[WRN:CP0350] $Source01/top2.v:7:53: Failed to bind "id:793, name:arb_sequence_q".
+[WRN:CP0350] $Source01/top2.v:7:13: Failed to bind "id:798, name:print_array_header".
+[WRN:CP0350] $Source01/top2.v:10:52: Failed to bind "id:815, name:request".
+[WRN:CP0350] $Source01/top2.v:10:85: Failed to bind "id:822, name:sequence_id".
+[WRN:CP0350] $Source01/top2.v:9:15: Failed to bind "id:830, name:print_string".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top2.v:3:1: No timescale set for "uvm_pkg".
-[ERR:LN0805] $Source01/top2.v:7:68: Null Actual: id:920, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top2.v:10:60: Null Actual: id:942, type:MethodFuncCall, name:name, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top.v:52:17: Null Actual: id:820, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top2.v:7:68: Null Actual: id:794, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top2.v:10:60: Null Actual: id:816, type:MethodFuncCall, name:name, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.v:52:17: Null Actual: id:694, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2545,455 +2545,6 @@ Design name:unnamed:
             vpiFullName: uvm_pkg::do_print
             vpiActual: VoidTypespec
   vpiAllClasses (5 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:mailbox start:1:7 end:1:14:
-        vpiParent: ClassDefn name:mailbox
-        vpiName: mailbox
-      vpiFullName: mailbox
-      vpiTypespec (1 items):
-        ClassTypespec name:mailbox:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:mailbox:
-            vpiParent: ClassTypespec name:mailbox
-            vpiName: mailbox
-          vpiDefName: mailbox
-          vpiClassDefn: ClassDefn name:mailbox
-      vpiAutomatic: true
-      vpiClassType: mailbox class (1)
-      vpiCell: mailbox
-      vpiMethod (8 items):
-        Function name:new start:3:3 end:4:14:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:new:
-            vpiParent: Function name:new
-            vpiName: new
-          vpiFullName: mailbox::new
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:bound start:3:21 end:3:26:
-              vpiParent: Function name:new
-              vpiName: bound
-              vpiDirection: input (1)
-              vpiExpr Constant start:3:29 end:3:30:
-                vpiParent: IODecl name:bound
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: mailbox::new::bound
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-              vpiTypespec RefTypespec start:3:17 end:3:20:
-                vpiParent: IODecl name:bound
-                vpiFullName: mailbox::new::bound
-                vpiActual: IntTypespec
-          vpiReturn RefTypespec name:mailbox:
-            vpiParent: Function name:new
-            vpiName: mailbox
-            vpiFullName: mailbox::new::mailbox
-            vpiActual: ClassTypespec name:mailbox
-        Function name:num start:6:3 end:7:14:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:num start:6:16 end:6:19:
-            vpiParent: Function name:num
-            vpiName: num
-          vpiFullName: mailbox::num
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiReturn RefTypespec start:6:12 end:6:15:
-            vpiParent: Function name:num
-            vpiFullName: mailbox::num
-            vpiActual: IntTypespec
-        Task name:put start:9:3 end:10:10:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:put start:9:8 end:9:11:
-            vpiParent: Task name:put
-            vpiName: put
-          vpiFullName: mailbox::put
-          vpiTypespec (1 items):
-            LogicTypespec:
-              vpiParent: Task name:put
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:message start:9:13 end:9:20:
-              vpiParent: Task name:put
-              vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
-                vpiParent: IODecl name:message
-                vpiFullName: mailbox::put::message
-                vpiActual: LogicTypespec
-        Function name:try_put start:12:3 end:13:14:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:try_put start:12:12 end:12:19:
-            vpiParent: Function name:try_put
-            vpiName: try_put
-          vpiFullName: mailbox::try_put
-          vpiTypespec (2 items):
-            LogicTypespec start:12:12 end:12:12:
-              vpiParent: Function name:try_put
-            LogicTypespec:
-              vpiParent: Function name:try_put
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:message start:12:21 end:12:28:
-              vpiParent: Function name:try_put
-              vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
-                vpiParent: IODecl name:message
-                vpiFullName: mailbox::try_put::message
-                vpiActual: LogicTypespec
-          vpiReturn RefTypespec start:12:12 end:12:12:
-            vpiParent: Function name:try_put
-            vpiFullName: mailbox::try_put
-            vpiActual: LogicTypespec
-        Task name:get start:15:3 end:16:10:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:get start:15:8 end:15:11:
-            vpiParent: Task name:get
-            vpiName: get
-          vpiFullName: mailbox::get
-          vpiTypespec (1 items):
-            LogicTypespec:
-              vpiParent: Task name:get
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:message start:15:17 end:15:24:
-              vpiParent: Task name:get
-              vpiName: message
-              vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
-                vpiParent: IODecl name:message
-                vpiFullName: mailbox::get::message
-                vpiActual: LogicTypespec
-        Function name:try_get start:18:3 end:19:14:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:try_get start:18:16 end:18:23:
-            vpiParent: Function name:try_get
-            vpiName: try_get
-          vpiFullName: mailbox::try_get
-          vpiTypespec (1 items):
-            LogicTypespec:
-              vpiParent: Function name:try_get
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:message start:18:29 end:18:36:
-              vpiParent: Function name:try_get
-              vpiName: message
-              vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
-                vpiParent: IODecl name:message
-                vpiFullName: mailbox::try_get::message
-                vpiActual: LogicTypespec
-          vpiReturn RefTypespec start:18:12 end:18:15:
-            vpiParent: Function name:try_get
-            vpiFullName: mailbox::try_get
-            vpiActual: IntTypespec
-        Task name:peek start:21:3 end:22:10:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:peek start:21:8 end:21:12:
-            vpiParent: Task name:peek
-            vpiName: peek
-          vpiFullName: mailbox::peek
-          vpiTypespec (1 items):
-            LogicTypespec:
-              vpiParent: Task name:peek
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:message start:21:18 end:21:25:
-              vpiParent: Task name:peek
-              vpiName: message
-              vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
-                vpiParent: IODecl name:message
-                vpiFullName: mailbox::peek::message
-                vpiActual: LogicTypespec
-        Function name:try_peek start:24:3 end:25:14:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:try_peek start:24:16 end:24:24:
-            vpiParent: Function name:try_peek
-            vpiName: try_peek
-          vpiFullName: mailbox::try_peek
-          vpiTypespec (1 items):
-            LogicTypespec:
-              vpiParent: Function name:try_peek
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:message start:24:29 end:24:36:
-              vpiParent: Function name:try_peek
-              vpiName: message
-              vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
-                vpiParent: IODecl name:message
-                vpiFullName: mailbox::try_peek::message
-                vpiActual: LogicTypespec
-          vpiReturn RefTypespec start:24:12 end:24:15:
-            vpiParent: Function name:try_peek
-            vpiFullName: mailbox::try_peek
-            vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:process start:30:7 end:30:14:
-        vpiParent: ClassDefn name:process
-        vpiName: process
-      vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
-          vpiParent: ClassDefn name:process
-          vpiEnumConst (5 items):
-            EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:FINISHED start:32:18 end:32:26:
-                vpiParent: EnumConst name:FINISHED
-                vpiName: FINISHED
-            EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:RUNNING start:32:28 end:32:35:
-                vpiParent: EnumConst name:RUNNING
-                vpiName: RUNNING
-            EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:WAITING start:32:37 end:32:44:
-                vpiParent: EnumConst name:WAITING
-                vpiName: WAITING
-            EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
-                vpiParent: EnumConst name:SUSPENDED
-                vpiName: SUSPENDED
-            EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:KILLED start:32:57 end:32:63:
-                vpiParent: EnumConst name:KILLED
-                vpiName: KILLED
-        TypedefTypespec name:state start:32:3 end:32:72:
-          vpiParent: ClassDefn name:process
-          vpiName Identifier name:state start:32:66 end:32:71:
-            vpiParent: TypedefTypespec name:state
-            vpiName: state
-          vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
-            vpiFullName: process::state
-            vpiActual: EnumTypespec
-      vpiAutomatic: true
-      vpiClassType: process class (4)
-      vpiCell: process
-      vpiMethod (6 items):
-        Function name:self start:34:10 end:35:14:
-          vpiParent: ClassDefn name:process
-          vpiName Identifier name:self start:34:27 end:34:31:
-            vpiParent: Function name:self
-            vpiName: self
-          vpiFullName: process::self
-          vpiTypespec (1 items):
-            ClassTypespec name:process start:34:19 end:34:26:
-              vpiParent: Function name:self
-              vpiName Identifier name:process start:34:19 end:34:26:
-                vpiParent: ClassTypespec name:process
-                vpiName: process
-              vpiDefName: process
-              vpiClassDefn: ClassDefn name:process
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
-            vpiParent: Function name:self
-            vpiFullName: process::self
-            vpiActual: ClassTypespec name:process
-        Function name:status start:37:3 end:38:14:
-          vpiParent: ClassDefn name:process
-          vpiName Identifier name:status start:37:18 end:37:24:
-            vpiParent: Function name:status
-            vpiName: status
-          vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
-                vpiParent: UnsupportedTypespec name:state
-                vpiName: state
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
-            vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
-        Task name:kill start:40:3 end:41:10:
-          vpiParent: ClassDefn name:process
-          vpiName Identifier name:kill start:40:8 end:40:12:
-            vpiParent: Task name:kill
-            vpiName: kill
-          vpiFullName: process::kill
-          vpiMethod: true
-          vpiVisibility: public (1)
-        Task name:await start:43:3 end:44:10:
-          vpiParent: ClassDefn name:process
-          vpiName Identifier name:await start:43:8 end:43:13:
-            vpiParent: Task name:await
-            vpiName: await
-          vpiFullName: process::await
-          vpiMethod: true
-          vpiVisibility: public (1)
-        Task name:suspend start:46:3 end:47:10:
-          vpiParent: ClassDefn name:process
-          vpiName Identifier name:suspend start:46:8 end:46:15:
-            vpiParent: Task name:suspend
-            vpiName: suspend
-          vpiFullName: process::suspend
-          vpiMethod: true
-          vpiVisibility: public (1)
-        Task name:resume start:49:3 end:50:10:
-          vpiParent: ClassDefn name:process
-          vpiName Identifier name:resume start:49:8 end:49:14:
-            vpiParent: Task name:resume
-            vpiName: resume
-          vpiFullName: process::resume
-          vpiMethod: true
-          vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:semaphore start:55:7 end:55:16:
-        vpiParent: ClassDefn name:semaphore
-        vpiName: semaphore
-      vpiFullName: semaphore
-      vpiTypespec (1 items):
-        ClassTypespec name:semaphore:
-          vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:semaphore:
-            vpiParent: ClassTypespec name:semaphore
-            vpiName: semaphore
-          vpiDefName: semaphore
-          vpiClassDefn: ClassDefn name:semaphore
-      vpiAutomatic: true
-      vpiClassType: semaphore class (2)
-      vpiCell: semaphore
-      vpiMethod (4 items):
-        Function name:new start:57:3 end:58:14:
-          vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:new:
-            vpiParent: Function name:new
-            vpiName: new
-          vpiFullName: semaphore::new
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:keyCount start:57:20 end:57:28:
-              vpiParent: Function name:new
-              vpiName: keyCount
-              vpiDirection: input (1)
-              vpiExpr Constant start:57:31 end:57:32:
-                vpiParent: IODecl name:keyCount
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: semaphore::new::keyCount
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-              vpiTypespec RefTypespec start:57:16 end:57:19:
-                vpiParent: IODecl name:keyCount
-                vpiFullName: semaphore::new::keyCount
-                vpiActual: IntTypespec
-          vpiReturn RefTypespec name:semaphore:
-            vpiParent: Function name:new
-            vpiName: semaphore
-            vpiFullName: semaphore::new::semaphore
-            vpiActual: ClassTypespec name:semaphore
-        Task name:put start:60:3 end:61:10:
-          vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:put start:60:8 end:60:11:
-            vpiParent: Task name:put
-            vpiName: put
-          vpiFullName: semaphore::put
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:keyCount start:60:16 end:60:24:
-              vpiParent: Task name:put
-              vpiName: keyCount
-              vpiDirection: input (1)
-              vpiExpr Constant start:60:27 end:60:28:
-                vpiParent: IODecl name:keyCount
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: semaphore::put::keyCount
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
-              vpiTypespec RefTypespec start:60:12 end:60:15:
-                vpiParent: IODecl name:keyCount
-                vpiFullName: semaphore::put::keyCount
-                vpiActual: IntTypespec
-        Task name:get start:63:3 end:64:10:
-          vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:get start:63:8 end:63:11:
-            vpiParent: Task name:get
-            vpiName: get
-          vpiFullName: semaphore::get
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:keyCount start:63:16 end:63:24:
-              vpiParent: Task name:get
-              vpiName: keyCount
-              vpiDirection: input (1)
-              vpiExpr Constant start:63:27 end:63:28:
-                vpiParent: IODecl name:keyCount
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: semaphore::get::keyCount
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
-              vpiTypespec RefTypespec start:63:12 end:63:15:
-                vpiParent: IODecl name:keyCount
-                vpiFullName: semaphore::get::keyCount
-                vpiActual: IntTypespec
-        Function name:try_get start:66:3 end:67:14:
-          vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:try_get start:66:16 end:66:23:
-            vpiParent: Function name:try_get
-            vpiName: try_get
-          vpiFullName: semaphore::try_get
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:keyCount start:66:28 end:66:36:
-              vpiParent: Function name:try_get
-              vpiName: keyCount
-              vpiDirection: input (1)
-              vpiExpr Constant start:66:39 end:66:40:
-                vpiParent: IODecl name:keyCount
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: semaphore::try_get::keyCount
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
-              vpiTypespec RefTypespec start:66:24 end:66:27:
-                vpiParent: IODecl name:keyCount
-                vpiFullName: semaphore::try_get::keyCount
-                vpiActual: IntTypespec
-          vpiReturn RefTypespec start:66:12 end:66:15:
-            vpiParent: Function name:try_get
-            vpiFullName: semaphore::try_get
-            vpiActual: IntTypespec
     ClassDefn name:moreobj file:$Source01/top.v start:1:1 end:4:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:moreobj start:1:7 end:1:14:
@@ -3561,6 +3112,455 @@ Design name:unnamed:
             vpiParent: Function name:set_check_on_read
             vpiFullName: uvm_reg_map::set_check_on_read
             vpiActual: VoidTypespec
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:mailbox start:1:7 end:1:14:
+        vpiParent: ClassDefn name:mailbox
+        vpiName: mailbox
+      vpiFullName: mailbox
+      vpiTypespec (1 items):
+        ClassTypespec name:mailbox:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
+          vpiDefName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
+      vpiClassType: mailbox class (1)
+      vpiCell: mailbox
+      vpiMethod (8 items):
+        Function name:new start:3:3 end:4:14:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:new:
+            vpiParent: Function name:new
+            vpiName: new
+          vpiFullName: mailbox::new
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:bound start:3:21 end:3:26:
+              vpiParent: Function name:new
+              vpiName: bound
+              vpiDirection: input (1)
+              vpiExpr Constant start:3:29 end:3:30:
+                vpiParent: IODecl name:bound
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: mailbox::new::bound
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+              vpiTypespec RefTypespec start:3:17 end:3:20:
+                vpiParent: IODecl name:bound
+                vpiFullName: mailbox::new::bound
+                vpiActual: IntTypespec
+          vpiReturn RefTypespec name:mailbox:
+            vpiParent: Function name:new
+            vpiName: mailbox
+            vpiFullName: mailbox::new::mailbox
+            vpiActual: ClassTypespec name:mailbox
+        Function name:num start:6:3 end:7:14:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:num start:6:16 end:6:19:
+            vpiParent: Function name:num
+            vpiName: num
+          vpiFullName: mailbox::num
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiReturn RefTypespec start:6:12 end:6:15:
+            vpiParent: Function name:num
+            vpiFullName: mailbox::num
+            vpiActual: IntTypespec
+        Task name:put start:9:3 end:10:10:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:put start:9:8 end:9:11:
+            vpiParent: Task name:put
+            vpiName: put
+          vpiFullName: mailbox::put
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:put
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:message start:9:13 end:9:20:
+              vpiParent: Task name:put
+              vpiName: message
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:9:13 end:9:13:
+                vpiParent: IODecl name:message
+                vpiFullName: mailbox::put::message
+                vpiActual: LogicTypespec
+        Function name:try_put start:12:3 end:13:14:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:try_put start:12:12 end:12:19:
+            vpiParent: Function name:try_put
+            vpiName: try_put
+          vpiFullName: mailbox::try_put
+          vpiTypespec (2 items):
+            LogicTypespec start:12:12 end:12:12:
+              vpiParent: Function name:try_put
+            LogicTypespec:
+              vpiParent: Function name:try_put
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:message start:12:21 end:12:28:
+              vpiParent: Function name:try_put
+              vpiName: message
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:12:21 end:12:21:
+                vpiParent: IODecl name:message
+                vpiFullName: mailbox::try_put::message
+                vpiActual: LogicTypespec
+          vpiReturn RefTypespec start:12:12 end:12:12:
+            vpiParent: Function name:try_put
+            vpiFullName: mailbox::try_put
+            vpiActual: LogicTypespec
+        Task name:get start:15:3 end:16:10:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:get start:15:8 end:15:11:
+            vpiParent: Task name:get
+            vpiName: get
+          vpiFullName: mailbox::get
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:get
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:message start:15:17 end:15:24:
+              vpiParent: Task name:get
+              vpiName: message
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:15:17 end:15:17:
+                vpiParent: IODecl name:message
+                vpiFullName: mailbox::get::message
+                vpiActual: LogicTypespec
+        Function name:try_get start:18:3 end:19:14:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:try_get start:18:16 end:18:23:
+            vpiParent: Function name:try_get
+            vpiName: try_get
+          vpiFullName: mailbox::try_get
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Function name:try_get
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:message start:18:29 end:18:36:
+              vpiParent: Function name:try_get
+              vpiName: message
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:18:29 end:18:29:
+                vpiParent: IODecl name:message
+                vpiFullName: mailbox::try_get::message
+                vpiActual: LogicTypespec
+          vpiReturn RefTypespec start:18:12 end:18:15:
+            vpiParent: Function name:try_get
+            vpiFullName: mailbox::try_get
+            vpiActual: IntTypespec
+        Task name:peek start:21:3 end:22:10:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:peek start:21:8 end:21:12:
+            vpiParent: Task name:peek
+            vpiName: peek
+          vpiFullName: mailbox::peek
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:peek
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:message start:21:18 end:21:25:
+              vpiParent: Task name:peek
+              vpiName: message
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:21:18 end:21:18:
+                vpiParent: IODecl name:message
+                vpiFullName: mailbox::peek::message
+                vpiActual: LogicTypespec
+        Function name:try_peek start:24:3 end:25:14:
+          vpiParent: ClassDefn name:mailbox
+          vpiName Identifier name:try_peek start:24:16 end:24:24:
+            vpiParent: Function name:try_peek
+            vpiName: try_peek
+          vpiFullName: mailbox::try_peek
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Function name:try_peek
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:message start:24:29 end:24:36:
+              vpiParent: Function name:try_peek
+              vpiName: message
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:24:29 end:24:29:
+                vpiParent: IODecl name:message
+                vpiFullName: mailbox::try_peek::message
+                vpiActual: LogicTypespec
+          vpiReturn RefTypespec start:24:12 end:24:15:
+            vpiParent: Function name:try_peek
+            vpiFullName: mailbox::try_peek
+            vpiActual: IntTypespec
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:process start:30:7 end:30:14:
+        vpiParent: ClassDefn name:process
+        vpiName: process
+      vpiFullName: process
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnumConst (5 items):
+            EnumConst name:FINISHED start:32:18 end:32:26:
+              vpiParent: EnumTypespec
+              vpiName Identifier name:FINISHED start:32:18 end:32:26:
+                vpiParent: EnumConst name:FINISHED
+                vpiName: FINISHED
+            EnumConst name:RUNNING start:32:28 end:32:35:
+              vpiParent: EnumTypespec
+              vpiName Identifier name:RUNNING start:32:28 end:32:35:
+                vpiParent: EnumConst name:RUNNING
+                vpiName: RUNNING
+            EnumConst name:WAITING start:32:37 end:32:44:
+              vpiParent: EnumTypespec
+              vpiName Identifier name:WAITING start:32:37 end:32:44:
+                vpiParent: EnumConst name:WAITING
+                vpiName: WAITING
+            EnumConst name:SUSPENDED start:32:46 end:32:55:
+              vpiParent: EnumTypespec
+              vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
+                vpiParent: EnumConst name:SUSPENDED
+                vpiName: SUSPENDED
+            EnumConst name:KILLED start:32:57 end:32:63:
+              vpiParent: EnumTypespec
+              vpiName Identifier name:KILLED start:32:57 end:32:63:
+                vpiParent: EnumConst name:KILLED
+                vpiName: KILLED
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+            vpiParent: TypedefTypespec name:state
+            vpiName: state
+          vpiTypedefAlias RefTypespec start:32:11 end:32:65:
+            vpiParent: TypedefTypespec name:state
+            vpiFullName: process::state
+            vpiActual: EnumTypespec
+      vpiAutomatic: true
+      vpiClassType: process class (4)
+      vpiCell: process
+      vpiMethod (6 items):
+        Function name:self start:34:10 end:35:14:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:self start:34:27 end:34:31:
+            vpiParent: Function name:self
+            vpiName: self
+          vpiFullName: process::self
+          vpiTypespec (1 items):
+            ClassTypespec name:process start:34:19 end:34:26:
+              vpiParent: Function name:self
+              vpiName Identifier name:process start:34:19 end:34:26:
+                vpiParent: ClassTypespec name:process
+                vpiName: process
+              vpiDefName: process
+              vpiClassDefn: ClassDefn name:process
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiReturn RefTypespec start:34:19 end:34:26:
+            vpiParent: Function name:self
+            vpiFullName: process::self
+            vpiActual: ClassTypespec name:process
+        Function name:status start:37:3 end:38:14:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:status start:37:18 end:37:24:
+            vpiParent: Function name:status
+            vpiName: status
+          vpiFullName: process::status
+          vpiTypespec (1 items):
+            UnsupportedTypespec name:state start:37:12 end:37:17:
+              vpiParent: Function name:status
+              vpiName Identifier name:state start:37:12 end:37:17:
+                vpiParent: UnsupportedTypespec name:state
+                vpiName: state
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiReturn RefTypespec start:37:12 end:37:17:
+            vpiParent: Function name:status
+            vpiFullName: process::status
+            vpiActual: UnsupportedTypespec name:state
+        Task name:kill start:40:3 end:41:10:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:kill start:40:8 end:40:12:
+            vpiParent: Task name:kill
+            vpiName: kill
+          vpiFullName: process::kill
+          vpiMethod: true
+          vpiVisibility: public (1)
+        Task name:await start:43:3 end:44:10:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:await start:43:8 end:43:13:
+            vpiParent: Task name:await
+            vpiName: await
+          vpiFullName: process::await
+          vpiMethod: true
+          vpiVisibility: public (1)
+        Task name:suspend start:46:3 end:47:10:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:suspend start:46:8 end:46:15:
+            vpiParent: Task name:suspend
+            vpiName: suspend
+          vpiFullName: process::suspend
+          vpiMethod: true
+          vpiVisibility: public (1)
+        Task name:resume start:49:3 end:50:10:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:resume start:49:8 end:49:14:
+            vpiParent: Task name:resume
+            vpiName: resume
+          vpiFullName: process::resume
+          vpiMethod: true
+          vpiVisibility: public (1)
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:semaphore start:55:7 end:55:16:
+        vpiParent: ClassDefn name:semaphore
+        vpiName: semaphore
+      vpiFullName: semaphore
+      vpiTypespec (1 items):
+        ClassTypespec name:semaphore:
+          vpiParent: ClassDefn name:semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
+          vpiDefName: semaphore
+          vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
+      vpiClassType: semaphore class (2)
+      vpiCell: semaphore
+      vpiMethod (4 items):
+        Function name:new start:57:3 end:58:14:
+          vpiParent: ClassDefn name:semaphore
+          vpiName Identifier name:new:
+            vpiParent: Function name:new
+            vpiName: new
+          vpiFullName: semaphore::new
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:keyCount start:57:20 end:57:28:
+              vpiParent: Function name:new
+              vpiName: keyCount
+              vpiDirection: input (1)
+              vpiExpr Constant start:57:31 end:57:32:
+                vpiParent: IODecl name:keyCount
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: semaphore::new::keyCount
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+              vpiTypespec RefTypespec start:57:16 end:57:19:
+                vpiParent: IODecl name:keyCount
+                vpiFullName: semaphore::new::keyCount
+                vpiActual: IntTypespec
+          vpiReturn RefTypespec name:semaphore:
+            vpiParent: Function name:new
+            vpiName: semaphore
+            vpiFullName: semaphore::new::semaphore
+            vpiActual: ClassTypespec name:semaphore
+        Task name:put start:60:3 end:61:10:
+          vpiParent: ClassDefn name:semaphore
+          vpiName Identifier name:put start:60:8 end:60:11:
+            vpiParent: Task name:put
+            vpiName: put
+          vpiFullName: semaphore::put
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:keyCount start:60:16 end:60:24:
+              vpiParent: Task name:put
+              vpiName: keyCount
+              vpiDirection: input (1)
+              vpiExpr Constant start:60:27 end:60:28:
+                vpiParent: IODecl name:keyCount
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: semaphore::put::keyCount
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+              vpiTypespec RefTypespec start:60:12 end:60:15:
+                vpiParent: IODecl name:keyCount
+                vpiFullName: semaphore::put::keyCount
+                vpiActual: IntTypespec
+        Task name:get start:63:3 end:64:10:
+          vpiParent: ClassDefn name:semaphore
+          vpiName Identifier name:get start:63:8 end:63:11:
+            vpiParent: Task name:get
+            vpiName: get
+          vpiFullName: semaphore::get
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:keyCount start:63:16 end:63:24:
+              vpiParent: Task name:get
+              vpiName: keyCount
+              vpiDirection: input (1)
+              vpiExpr Constant start:63:27 end:63:28:
+                vpiParent: IODecl name:keyCount
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: semaphore::get::keyCount
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+              vpiTypespec RefTypespec start:63:12 end:63:15:
+                vpiParent: IODecl name:keyCount
+                vpiFullName: semaphore::get::keyCount
+                vpiActual: IntTypespec
+        Function name:try_get start:66:3 end:67:14:
+          vpiParent: ClassDefn name:semaphore
+          vpiName Identifier name:try_get start:66:16 end:66:23:
+            vpiParent: Function name:try_get
+            vpiName: try_get
+          vpiFullName: semaphore::try_get
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:keyCount start:66:28 end:66:36:
+              vpiParent: Function name:try_get
+              vpiName: keyCount
+              vpiDirection: input (1)
+              vpiExpr Constant start:66:39 end:66:40:
+                vpiParent: IODecl name:keyCount
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: semaphore::try_get::keyCount
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+              vpiTypespec RefTypespec start:66:24 end:66:27:
+                vpiParent: IODecl name:keyCount
+                vpiFullName: semaphore::try_get::keyCount
+                vpiActual: IntTypespec
+          vpiReturn RefTypespec start:66:12 end:66:15:
+            vpiParent: Function name:try_get
+            vpiFullName: semaphore::try_get
+            vpiActual: IntTypespec
   vpiTypespec (9 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3571,6 +3571,20 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ClassTypespec name:moreobj:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:moreobj:
+        vpiParent: ClassTypespec name:moreobj
+        vpiName: moreobj
+      vpiDefName: moreobj
+      vpiClassDefn: ClassDefn name:moreobj
+    ClassTypespec name:uvm_reg_map:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:uvm_reg_map:
+        vpiParent: ClassTypespec name:uvm_reg_map
+        vpiName: uvm_reg_map
+      vpiDefName: uvm_reg_map
+      vpiClassDefn: ClassDefn name:uvm_reg_map
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -3592,20 +3606,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ClassTypespec name:moreobj:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:moreobj:
-        vpiParent: ClassTypespec name:moreobj
-        vpiName: moreobj
-      vpiDefName: moreobj
-      vpiClassDefn: ClassDefn name:moreobj
-    ClassTypespec name:uvm_reg_map:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:uvm_reg_map:
-        vpiParent: ClassTypespec name:uvm_reg_map
-        vpiName: uvm_reg_map
-      vpiDefName: uvm_reg_map
-      vpiClassDefn: ClassDefn name:uvm_reg_map
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

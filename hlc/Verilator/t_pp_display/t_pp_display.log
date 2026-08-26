@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_pp_display.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_pp_display
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_pp_display.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_pp_display
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_pp_display.v".
 [WRN:PP0113] $Source01/t_pp_display.v:20:9: Unused macro argument "left".
@@ -15,32 +15,29 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 [SNT:PA0207] $Source01/t_pp_display.v:23:14: Syntax error: mismatched input '(' expecting ';',
       $display("pre thrupre thrumid thrupost post: #~@"right#~@side#~@"#~");
               ^-- $Source01/t_pp_display.v:23:14:.
-[SNT:PA0207] $Source01/t_pp_display.v:26:32: Syntax error: no viable alternative at input '$display("left_side : #~@"`',
-      $display("left_side : #~@"`rs#~@#~@"#~");
-                                ^-- $Source01/t_pp_display.v:26:32:.
+[SNT:PA0207] $Source01/t_pp_display.v:26:31: Syntax error: no viable alternative at input '$display("left_side: #~@"`',
+      $display("left_side: #~@"`rs\"#~");
+                               ^-- $Source01/t_pp_display.v:26:31:.
 [SNT:PA0207] $Source01/t_pp_display.v:26:14: Syntax error: mismatched input '(' expecting ';',
-      $display("left_side : #~@"`rs#~@#~@"#~");
+      $display("left_side: #~@"`rs\"#~");
               ^-- $Source01/t_pp_display.v:26:14:.
-[SNT:PA0207] $Source01/t_pp_display.v:26:41: Syntax error: no viable alternative at input '#~@#~@"#~"',
-      $display("left_side : #~@"`rs#~@#~@"#~");
-                                         ^-- $Source01/t_pp_display.v:26:41:.
-[SNT:PA0207] $Source01/t_pp_display.v:27:6: Syntax error: mismatched input '$' expecting <EOF>,
-      $display("na : #~@"`rs#~@#~@"#~");
-      ^-- $Source01/t_pp_display.v:27:6:.
+[SNT:PA0207] $Source01/t_pp_display.v:26:34: Syntax error: mismatched input '\' expecting <EOF>,
+      $display("left_side: #~@"`rs\"#~");
+                                  ^-- $Source01/t_pp_display.v:26:34:.
 [WRN:PA0215] Invalid VObject location.
 AST_DEBUG_BEGIN
-Count: 198
+Count: 189
 LIB: work
-FILE: f<13>:$Source01/t_pp_display.v
-n<$Source01/t_pp_display.v> u<197> t<Top_level_rule> c<1> l<6:1> el<67:10>
-  n<> u<1> t<Null_rule> p<197> s<2> l<6:1> el<6:1>
-  n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<197> s<3> l<1:1> el<1:47>
-  n<//> u<3> t<LINE_COMMENT> p<197> s<4> l<2:1> el<2:3>
-  n<// This file ONLY is placed into the Public Domain, for any use,> u<4> t<LINE_COMMENT> p<197> s<5> l<3:1> el<3:65>
-  n<// without warranty, 2008 by Wilson Snyder.> u<5> t<LINE_COMMENT> p<197> s<187> l<4:1> el<4:44>
-  n<> u<187> t<Source_text> p<197> c<175> s<188> l<6:1> el<26:35>
-    n<> u<175> t<Description> p<187> c<174> s<177> l<6:1> el<19:29>
-      n<> u<174> t<Module_declaration> p<175> c<9> l<6:1> el<19:29>
+FILE: f<15>:$Source01/t_pp_display.v
+n<$Source01/t_pp_display.v> u<188> t<Top_level_rule> c<1> l<6:1> el<67:10>
+  n<> u<1> t<Null_rule> p<188> s<2> l<6:1> el<6:1>
+  n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<188> s<3> l<1:1> el<1:47>
+  n<//> u<3> t<LINE_COMMENT> p<188> s<4> l<2:1> el<2:3>
+  n<// This file ONLY is placed into the Public Domain, for any use,> u<4> t<LINE_COMMENT> p<188> s<5> l<3:1> el<3:65>
+  n<// without warranty, 2008 by Wilson Snyder.> u<5> t<LINE_COMMENT> p<188> s<178> l<4:1> el<4:44>
+  n<> u<178> t<Source_text> p<188> c<175> s<179> l<6:1> el<19:37>
+    n<> u<175> t<Description> p<178> c<174> s<177> l<6:1> el<19:34>
+      n<> u<174> t<Module_declaration> p<175> c<9> l<6:1> el<19:34>
         n<> u<9> t<Module_ansi_header> p<174> c<6> s<24> l<6:1> el<6:10>
           n<module> u<6> t<MODULE> p<9> s<7> l<6:1> el<6:7>
           n<t> u<7> t<SIMPLE_IDENTIFIER> p<9> s<8> l<6:8> el<6:9>
@@ -141,33 +138,33 @@ n<$Source01/t_pp_display.v> u<197> t<Top_level_rule> c<1> l<6:1> el<67:10>
                       n<> u<98> t<Primary> p<99> c<97> l<12:18> el<12:20>
                         n<> u<97> t<Primary_literal> p<98> c<96> l<12:18> el<12:20>
                           n<o2> u<96> t<SIMPLE_IDENTIFIER> p<97> l<12:18> el<12:20>
-        n<> u<173> t<Non_port_module_item> p<174> c<172> l<21:4> el<19:29>
-          n<> u<172> t<Module_or_generate_item> p<173> c<171> l<21:4> el<19:29>
-            n<> u<171> t<Module_common_item> p<172> c<170> l<21:4> el<19:29>
-              n<> u<170> t<Initial_construct> p<171> c<169> l<21:4> el<19:29>
-                n<> u<169> t<Statement_or_null> p<170> c<168> l<21:12> el<19:29>
-                  n<> u<168> t<Statement> p<169> c<167> l<21:12> el<19:29>
-                    n<> u<167> t<Statement_item> p<168> c<106> l<21:12> el<19:29>
+        n<> u<173> t<Non_port_module_item> p<174> c<172> l<21:4> el<19:34>
+          n<> u<172> t<Module_or_generate_item> p<173> c<171> l<21:4> el<19:34>
+            n<> u<171> t<Module_common_item> p<172> c<170> l<21:4> el<19:34>
+              n<> u<170> t<Initial_construct> p<171> c<169> l<21:4> el<19:34>
+                n<> u<169> t<Statement_or_null> p<170> c<168> l<21:12> el<19:34>
+                  n<> u<168> t<Statement> p<169> c<167> l<21:12> el<19:34>
+                    n<> u<167> t<Statement_item> p<168> c<106> l<21:12> el<19:34>
                       n<//$display(`msg( \`, \`));  // Illegal> u<106> t<LINE_COMMENT> p<167> s<166> l<22:7> el<22:45>
-                      n<> u<166> t<Seq_block> p<167> c<109> l<21:12> el<19:29>
+                      n<> u<166> t<Seq_block> p<167> c<109> l<21:12> el<19:34>
                         n<> u<109> t<Statement_or_null> p<166> c<108> s<112> l<23:7> el<23:7>
                           n<> u<108> t<Statement> p<109> c<107> l<23:7> el<23:7>
                             n<> u<107> t<Statement_item> p<108> l<23:7> el<23:7>
                         n<> u<112> t<Statement_or_null> p<166> c<111> s<120> l<23:7> el<23:8>
                           n<> u<111> t<Statement> p<112> c<110> l<23:7> el<23:8>
                             n<> u<110> t<Statement_item> p<111> l<23:7> el<23:8>
-                        n<> u<120> t<Statement_or_null> p<166> c<119> s<122> l<23:8> el<19:72>
-                          n<> u<119> t<Statement> p<120> c<118> l<23:8> el<19:72>
-                            n<> u<118> t<Statement_item> p<119> c<117> l<23:8> el<19:72>
-                              n<> u<117> t<Subroutine_call_statement> p<118> c<116> l<23:8> el<19:72>
+                        n<> u<120> t<Statement_or_null> p<166> c<119> s<122> l<23:8> el<19:58>
+                          n<> u<119> t<Statement> p<120> c<118> l<23:8> el<19:58>
+                            n<> u<118> t<Statement_item> p<119> c<117> l<23:8> el<19:58>
+                              n<> u<117> t<Subroutine_call_statement> p<118> c<116> l<23:8> el<19:58>
                                 n<> u<116> t<Subroutine_call> p<117> c<113> l<23:8> el<23:15>
                                   n<display> u<113> t<SIMPLE_IDENTIFIER> p<116> s<115> l<23:8> el<23:15>
                                   n<> u<115> t<Select> p<116> c<114> l<23:15> el<23:15>
                                     n<> u<114> t<Bit_select> p<115> l<23:15> el<23:15>
-                        n<> u<122> t<Statement_or_null> p<166> c<121> s<124> l<19:72> el<19:72>
-                          n<> u<121> t<Statement> p<122> l<19:72> el<19:72>
-                        n<> u<124> t<Statement_or_null> p<166> c<123> s<126> l<19:72> el<19:77>
-                          n<> u<123> t<Statement> p<124> l<19:72> el<19:77>
+                        n<> u<122> t<Statement_or_null> p<166> c<121> s<124> l<19:58> el<19:58>
+                          n<> u<121> t<Statement> p<122> l<19:58> el<19:58>
+                        n<> u<124> t<Statement_or_null> p<166> c<123> s<126> l<19:58> el<19:63>
+                          n<> u<123> t<Statement> p<124> l<19:58> el<19:63>
                         n<> u<126> t<Statement_or_null> p<166> c<125> s<127> l<23:61> el<23:81>
                           n<> u<125> t<Statement> p<126> l<23:61> el<23:81>
                         n<> u<127> t<Statement_or_null> p<166> s<139> l<23:81> el<23:82>
@@ -190,52 +187,43 @@ n<$Source01/t_pp_display.v> u<197> t<Top_level_rule> c<1> l<6:1> el<67:10>
                                 n<> u<147> t<Subroutine_call> p<148> c<140> l<25:7> el<25:47>
                                   n<$> u<140> t<DOLLAR> p<147> s<141> l<25:7> el<25:8>
                                   n<display> u<141> t<SIMPLE_IDENTIFIER> p<147> s<146> l<25:8> el<25:15>
-                                  n<> u<146> t<Argument_list> p<147> c<145> l<19:18> el<19:47>
-                                    n<> u<145> t<Expression> p<146> c<144> l<19:18> el<19:47>
-                                      n<> u<144> t<Primary> p<145> c<143> l<19:18> el<19:47>
-                                        n<> u<143> t<Primary_literal> p<144> c<142> l<19:18> el<19:47>
-                                          n<"left side : \"right side \""> u<142> t<QUOTED_STRING> p<143> l<19:18> el<19:47>
+                                  n<> u<146> t<Argument_list> p<147> c<145> l<19:18> el<19:45>
+                                    n<> u<145> t<Expression> p<146> c<144> l<19:18> el<19:45>
+                                      n<> u<144> t<Primary> p<145> c<143> l<19:18> el<19:45>
+                                        n<> u<143> t<Primary_literal> p<144> c<142> l<19:18> el<19:45>
+                                          n<"left side: \"right side\""> u<142> t<QUOTED_STRING> p<143> l<19:18> el<19:45>
                         n<> u<154> t<Statement_or_null> p<166> c<153> s<157> l<26:7> el<26:7>
                           n<> u<153> t<Statement> p<154> c<152> l<26:7> el<26:7>
                             n<> u<152> t<Statement_item> p<153> l<26:7> el<26:7>
                         n<> u<157> t<Statement_or_null> p<166> c<156> s<165> l<26:7> el<26:8>
                           n<> u<156> t<Statement> p<157> c<155> l<26:7> el<26:8>
                             n<> u<155> t<Statement_item> p<156> l<26:7> el<26:8>
-                        n<> u<165> t<Statement_or_null> p<166> c<164> l<26:8> el<19:29>
-                          n<> u<164> t<Statement> p<165> c<163> l<26:8> el<19:29>
-                            n<> u<163> t<Statement_item> p<164> c<162> l<26:8> el<19:29>
-                              n<> u<162> t<Subroutine_call_statement> p<163> c<161> l<26:8> el<19:29>
+                        n<> u<165> t<Statement_or_null> p<166> c<164> l<26:8> el<19:34>
+                          n<> u<164> t<Statement> p<165> c<163> l<26:8> el<19:34>
+                            n<> u<163> t<Statement_item> p<164> c<162> l<26:8> el<19:34>
+                              n<> u<162> t<Subroutine_call_statement> p<163> c<161> l<26:8> el<19:34>
                                 n<> u<161> t<Subroutine_call> p<162> c<158> l<26:8> el<26:15>
                                   n<display> u<158> t<SIMPLE_IDENTIFIER> p<161> s<160> l<26:8> el<26:15>
                                   n<> u<160> t<Select> p<161> c<159> l<26:15> el<26:15>
                                     n<> u<159> t<Bit_select> p<160> l<26:15> el<26:15>
-    n<> u<177> t<Description> p<187> c<176> s<180> l<19:29> el<19:32>
-      n<> u<176> t<Top_directives> p<177> l<19:29> el<19:32>
-    n<> u<180> t<Description> p<187> c<179> s<183> l<19:32> el<19:32>
-      n<> u<179> t<Package_item> p<180> c<178> l<19:32> el<19:32>
-        n<> u<178> t<Package_or_generate_item_declaration> p<179> l<19:32> el<19:32>
-    n<> u<183> t<Description> p<187> c<182> s<186> l<26:36> el<26:34>
-      n<> u<182> t<Package_item> p<183> c<181> l<26:36> el<26:34>
-        n<> u<181> t<Package_or_generate_item_declaration> p<182> l<26:36> el<26:34>
-    n<> u<186> t<Description> p<187> c<185> l<26:34> el<26:35>
-      n<> u<185> t<Package_item> p<186> c<184> l<26:34> el<26:35>
-        n<> u<184> t<Package_or_generate_item_declaration> p<185> l<26:34> el<26:35>
-  n<// Results vary between simulators> u<188> t<LINE_COMMENT> p<197> s<189> l<30:50> el<30:84>
-  n<// The 'left' as the variable name shouldn't match the "left" in the `" string);> u<189> t<LINE_COMMENT> p<197> s<190> l<20:53> el<31:133>
-  n<//$display(`msg( `"tickquoted_left`", `"tickquoted_right`" ));  // Syntax error> u<190> t<LINE_COMMENT> p<197> s<191> l<32:7> el<32:86>
-  n<// Sim bug - wrong number of arguments, but we're right> u<191> t<LINE_COMMENT> p<197> s<192> l<33:3> el<33:58>
-  n<// Empty> u<192> t<LINE_COMMENT> p<197> s<193> l<34:34> el<34:42>
-  n<//$display(`msg(left side, \ right side \ ));  // Not sure \{space} is legal.> u<193> t<LINE_COMMENT> p<197> s<194> l<51:7> el<51:84>
-  n<// expansion is OK> u<194> t<LINE_COMMENT> p<197> s<195> l<63:19> el<66:37>
-  n<// expansion is bad> u<195> t<LINE_COMMENT> p<197> s<196> l<66:22> el<72:41>
-  n<// `ADD_UP( \d3 , \o3 )  // This really is illegal> u<196> t<LINE_COMMENT> p<197> l<68:1> el<68:51>
+    n<> u<177> t<Description> p<178> c<176> l<19:34> el<19:37>
+      n<> u<176> t<Top_directives> p<177> l<19:34> el<19:37>
+  n<// Results vary between simulators> u<179> t<LINE_COMMENT> p<188> s<180> l<30:50> el<30:84>
+  n<// The 'left' as the variable name shouldn't match the "left" in the `" string);> u<180> t<LINE_COMMENT> p<188> s<181> l<20:53> el<31:133>
+  n<//$display(`msg( `"tickquoted_left`", `"tickquoted_right`" ));  // Syntax error> u<181> t<LINE_COMMENT> p<188> s<182> l<32:7> el<32:86>
+  n<// Sim bug - wrong number of arguments, but we're right> u<182> t<LINE_COMMENT> p<188> s<183> l<33:3> el<33:58>
+  n<// Empty> u<183> t<LINE_COMMENT> p<188> s<184> l<34:34> el<34:42>
+  n<//$display(`msg(left side, \ right side \ ));  // Not sure \{space} is legal.> u<184> t<LINE_COMMENT> p<188> s<185> l<51:7> el<51:84>
+  n<// expansion is OK> u<185> t<LINE_COMMENT> p<188> s<186> l<63:19> el<66:37>
+  n<// expansion is bad> u<186> t<LINE_COMMENT> p<188> s<187> l<66:22> el<72:41>
+  n<// `ADD_UP( \d3 , \o3 )  // This really is illegal> u<187> t<LINE_COMMENT> p<188> l<68:1> el<68:51>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_pp_display.v:6:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:LN0801] Invalid name: id:233, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:236, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:243, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:246, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:193, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:196, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:203, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:206, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -319,9 +307,9 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:msg
               vpiName: y
           vpiPMDToken (8 items):
-            "Identifier name:\" start:19:18 end:19:19":
+            "Identifier name:`\" start:19:18 end:19:20":
               vpiParent: PreprocMacroDefinition name:msg
-              vpiName: "\""
+              vpiName: "`\""
             Identifier name:x start:19:20 end:19:21:
               vpiParent: PreprocMacroDefinition name:msg
               vpiName: x
@@ -331,18 +319,18 @@ Design name:unnamed:
             "Identifier name:  start:19:22 end:19:23":
               vpiParent: PreprocMacroDefinition name:msg
               vpiName: " "
-            "Identifier name:\\\" start:19:23 end:19:25":
+            "Identifier name:`\\`\" start:19:23 end:19:27":
               vpiParent: PreprocMacroDefinition name:msg
-              vpiName: "\\\""
+              vpiName: "`\\`\""
             Identifier name:y start:19:27 end:19:28:
               vpiParent: PreprocMacroDefinition name:msg
               vpiName: y
-            "Identifier name:\\\" start:19:28 end:19:30":
+            "Identifier name:`\\`\" start:19:28 end:19:32":
               vpiParent: PreprocMacroDefinition name:msg
-              vpiName: "\\\""
-            "Identifier name:\" start:19:32 end:19:33":
+              vpiName: "`\\`\""
+            "Identifier name:`\" start:19:32 end:19:34":
               vpiParent: PreprocMacroDefinition name:msg
-              vpiName: "\""
+              vpiName: "`\""
         PreprocMacroDefinition name:left start:20:1 end:21:0:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:left start:20:9 end:20:13:
@@ -523,34 +511,6 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"pre thrupre thrumid thrupost post: #~@\"right#~@side#~@\"#~\" start:19:18 end:19:77":
             vpiParent: PreprocMacroInstance name:msg
             vpiName: "\"pre thrupre thrumid thrupost post: #~@\"right#~@side#~@\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:thru file:$Source01/t_pp_display.v start:19:23 end:19:61 ppstart:23:21 ppend:23:45:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:thru start:19:23 end:19:61:
-                vpiParent: PreprocMacroInstance name:thru
-                vpiName: thru
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:thru
-              vpiArgument (1 items):
-                Identifier name:thrupre `thru(thrumid) thrupost start:1:12 end:1:43:
-                  vpiParent: PreprocMacroInstance name:thru
-                  vpiName: thrupre `thru(thrumid) thrupost
-              vpiPMIBody Identifier name:thrupre thrumid thrupost start:17:17 end:17:41:
-                vpiParent: PreprocMacroInstance name:thru
-                vpiName: thrupre thrumid thrupost
-              vpiPMIItem (1 items):
-                PreprocMacroInstance name:thru file:$Source01/t_pp_display.v start:17:25 end:17:39 ppstart:23:29 ppend:23:36:
-                  vpiParent: PreprocMacroInstance name:thru
-                  vpiName Identifier name:thru start:17:25 end:17:39:
-                    vpiParent: PreprocMacroInstance name:thru
-                    vpiName: thru
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:thru
-                  vpiArgument (1 items):
-                    Identifier name:thrumid start:1:15 end:1:22:
-                      vpiParent: PreprocMacroInstance name:thru
-                      vpiName: thrumid
-                  vpiPMIBody Identifier name:thrumid start:17:17 end:17:24:
-                    vpiParent: PreprocMacroInstance name:thru
-                    vpiName: thrumid
         PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:24:16 end:24:42 ppstart:24:16 ppend:24:43:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:24:16 end:24:42:
@@ -567,100 +527,70 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"left side: \\\"right side\\\"\" start:19:18 end:19:45":
             vpiParent: PreprocMacroInstance name:msg
             vpiName: "\"left side: \\\"right side\\\"\""
-        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:25:16 end:25:46 ppstart:25:16 ppend:25:45:
+        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:25:16 end:25:46 ppstart:25:16 ppend:25:43:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:25:16 end:25:46:
             vpiParent: PreprocMacroInstance name:msg
             vpiName: msg
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiArgument (2 items):
-            Identifier name:left side  start:25:22 end:25:32:
+            Identifier name:left side start:25:22 end:25:31:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: left side
-            Identifier name:right side  start:25:34 end:25:45:
+            Identifier name:right side start:25:34 end:25:44:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: right side
-          "vpiPMIBody Identifier name:\"left side : \\\"right side \\\"\" start:19:18 end:19:47":
+          "vpiPMIBody Identifier name:\"left side: \\\"right side\\\"\" start:19:18 end:19:45":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"left side : \\\"right side \\\"\""
-        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:26:16 end:26:33 ppstart:26:16 ppend:26:46:
+            vpiName: "\"left side: \\\"right side\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:26:16 end:26:33 ppstart:26:16 ppend:26:40:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:26:16 end:26:33:
             vpiParent: PreprocMacroInstance name:msg
             vpiName: msg
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiArgument (2 items):
-            Identifier name:`ls  start:26:22 end:26:26:
+            Identifier name:`ls start:26:22 end:26:25:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`ls "
-            Identifier name:`rs  start:26:28 end:26:32:
+              vpiName: "`ls"
+            Identifier name:`rs start:26:28 end:26:31:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`rs "
-          "vpiPMIBody Identifier name:\"left_side : #~@\"`rs#~@#~@\"#~\" start:19:18 end:19:48":
+              vpiName: "`rs"
+          "vpiPMIBody Identifier name:\"left_side: #~@\"`rs\\\"#~\" start:19:18 end:19:42":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"left_side : #~@\"`rs#~@#~@\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:ls file:$Source01/t_pp_display.v start:19:19 end:19:22 ppstart:26:17 ppend:26:26:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:ls start:19:19 end:19:22:
-                vpiParent: PreprocMacroInstance name:ls
-                vpiName: ls
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:ls
-              vpiPMIBody Identifier name:left_side start:14:12 end:14:21:
-                vpiParent: PreprocMacroInstance name:ls
-                vpiName: left_side
-        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:27:16 end:27:36 ppstart:27:16 ppend:27:39:
+            vpiName: "\"left_side: #~@\"`rs\\\"#~\""
+        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:27:16 end:27:36 ppstart:27:16 ppend:27:33:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:27:16 end:27:36:
             vpiParent: PreprocMacroInstance name:msg
             vpiName: msg
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiArgument (2 items):
-            Identifier name:`noarg  start:27:22 end:27:29:
+            Identifier name:`noarg start:27:22 end:27:28:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`noarg "
-            Identifier name:`rs  start:27:31 end:27:35:
+              vpiName: "`noarg"
+            Identifier name:`rs start:27:31 end:27:34:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`rs "
-          "vpiPMIBody Identifier name:\"na : #~@\"`rs#~@#~@\"#~\" start:19:18 end:19:41":
+              vpiName: "`rs"
+          "vpiPMIBody Identifier name:\"na: #~@\"`rs\\\"#~\" start:19:18 end:19:35":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"na : #~@\"`rs#~@#~@\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:noarg file:$Source01/t_pp_display.v start:19:19 end:19:25 ppstart:27:17 ppend:27:19:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:noarg start:19:19 end:19:25:
-                vpiParent: PreprocMacroInstance name:noarg
-                vpiName: noarg
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:noarg
-              vpiPMIBody Identifier name:na start:16:16 end:16:18:
-                vpiParent: PreprocMacroInstance name:noarg
-                vpiName: na
-        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:28:16 end:28:63 ppstart:28:16 ppend:28:76:
+            vpiName: "\"na: #~@\"`rs\\\"#~\""
+        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:28:16 end:28:63 ppstart:28:16 ppend:28:70:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:28:16 end:28:63:
             vpiParent: PreprocMacroInstance name:msg
             vpiName: msg
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiArgument (2 items):
-            Identifier name:prep ( midp1 `ls midp2 ( outp ) )  start:28:22 end:28:56:
+            Identifier name:prep ( midp1 `ls midp2 ( outp ) ) start:28:22 end:28:55:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: prep ( midp1 `ls midp2 ( outp ) )
-            Identifier name:`rs  start:28:58 end:28:62:
+            Identifier name:`rs start:28:58 end:28:61:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`rs "
-          "vpiPMIBody Identifier name:\"prep ( midp1 left_side midp2 ( outp ) ) : #~@\"`rs#~@#~@\"#~\" start:19:18 end:19:78":
+              vpiName: "`rs"
+          "vpiPMIBody Identifier name:\"prep ( midp1 left_side midp2 ( outp ) ): #~@\"`rs\\\"#~\" start:19:18 end:19:72":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"prep ( midp1 left_side midp2 ( outp ) ) : #~@\"`rs#~@#~@\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:ls file:$Source01/t_pp_display.v start:19:32 end:19:35 ppstart:28:30 ppend:28:39:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:ls start:19:32 end:19:35:
-                vpiParent: PreprocMacroInstance name:ls
-                vpiName: ls
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:ls
-              vpiPMIBody Identifier name:left_side start:14:12 end:14:21:
-                vpiParent: PreprocMacroInstance name:ls
-                vpiName: left_side
+            vpiName: "\"prep ( midp1 left_side midp2 ( outp ) ): #~@\"`rs\\\"#~\""
         PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:29:16 end:29:41 ppstart:29:16 ppend:29:42:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:29:16 end:29:41:
@@ -677,62 +607,23 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"na: #~@\"`noarg`noarg\\\"#~\" start:19:18 end:19:44":
             vpiParent: PreprocMacroInstance name:msg
             vpiName: "\"na: #~@\"`noarg`noarg\\\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:noarg file:$Source01/t_pp_display.v start:19:19 end:19:25 ppstart:29:17 ppend:29:19:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:noarg start:19:19 end:19:25:
-                vpiParent: PreprocMacroInstance name:noarg
-                vpiName: noarg
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:noarg
-              vpiPMIBody Identifier name:na start:16:16 end:16:18:
-                vpiParent: PreprocMacroInstance name:noarg
-                vpiName: na
-        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:30:16 end:30:45 ppstart:30:16 ppend:30:63:
+        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:30:16 end:30:45 ppstart:30:16 ppend:30:57:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:30:16 end:30:45:
             vpiParent: PreprocMacroInstance name:msg
             vpiName: msg
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiArgument (2 items):
-            Identifier name:`thruthru  start:30:22 end:30:32:
+            Identifier name:`thruthru start:30:22 end:30:31:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`thruthru "
-            Identifier name:`thruthru  start:30:34 end:30:44:
+              vpiName: "`thruthru"
+            Identifier name:`thruthru start:30:34 end:30:43:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`thruthru "
-          "vpiPMIBody Identifier name:\"left_side right_side : #~@\"`thruthru#~@#~@\"#~\" start:19:18 end:19:65":
+              vpiName: "`thruthru"
+          "vpiPMIBody Identifier name:\"left_side right_side: #~@\"`thruthru\\\"#~\" start:19:18 end:19:59":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"left_side right_side : #~@\"`thruthru#~@#~@\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:thruthru file:$Source01/t_pp_display.v start:19:19 end:19:28 ppstart:30:17 ppend:30:37:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:thruthru start:19:19 end:19:28:
-                vpiParent: PreprocMacroInstance name:thruthru
-                vpiName: thruthru
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:thruthru
-              vpiPMIBody Identifier name:left_side right_side start:18:18 end:18:38:
-                vpiParent: PreprocMacroInstance name:thruthru
-                vpiName: left_side right_side
-              vpiPMIItem (2 items):
-                PreprocMacroInstance name:ls file:$Source01/t_pp_display.v start:18:18 end:18:21 ppstart:30:17 ppend:30:26:
-                  vpiParent: PreprocMacroInstance name:thruthru
-                  vpiName Identifier name:ls start:18:18 end:18:21:
-                    vpiParent: PreprocMacroInstance name:ls
-                    vpiName: ls
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:ls
-                  vpiPMIBody Identifier name:left_side start:14:12 end:14:21:
-                    vpiParent: PreprocMacroInstance name:ls
-                    vpiName: left_side
-                PreprocMacroInstance name:rs file:$Source01/t_pp_display.v start:18:22 end:18:25 ppstart:30:27 ppend:30:37:
-                  vpiParent: PreprocMacroInstance name:thruthru
-                  vpiName Identifier name:rs start:18:22 end:18:25:
-                    vpiParent: PreprocMacroInstance name:rs
-                    vpiName: rs
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:rs
-                  vpiPMIBody Identifier name:right_side start:15:12 end:15:22:
-                    vpiParent: PreprocMacroInstance name:rs
-                    vpiName: right_side
-        PreprocMacroInstance name:left file:$Source01/t_pp_display.v start:31:16 end:31:68 ppstart:31:16 ppend:31:124:
+            vpiName: "\"left_side right_side: #~@\"`thruthru\\\"#~\""
+        PreprocMacroInstance name:left file:$Source01/t_pp_display.v start:31:16 end:31:68 ppstart:31:16 ppend:31:122:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:left start:31:16 end:31:68:
             vpiParent: PreprocMacroInstance name:left
@@ -745,26 +636,26 @@ Design name:unnamed:
             Identifier name:left_replaced start:31:54 end:31:67:
               vpiParent: PreprocMacroInstance name:left
               vpiName: left_replaced
-          "vpiPMIBody Identifier name:\"left side : \\\"right side \\\"\" // The 'left' as the variable name shouldn't match the \"left\" in the `\" string start:20:22 end:21:130":
+          "vpiPMIBody Identifier name:\"left side: \\\"right side\\\"\" // The 'left' as the variable name shouldn't match the \"left\" in the `\" string start:20:22 end:21:128":
             vpiParent: PreprocMacroInstance name:left
-            vpiName: "\"left side : \\\"right side \\\"\" // The 'left' as the variable name shouldn't match the \"left\" in the `\" string"
+            vpiName: "\"left side: \\\"right side\\\"\" // The 'left' as the variable name shouldn't match the \"left\" in the `\" string"
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:20:22 end:20:52 ppstart:31:16 ppend:31:45:
+            PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:20:22 end:20:52 ppstart:31:16 ppend:31:43:
               vpiParent: PreprocMacroInstance name:left
               vpiName Identifier name:msg start:20:22 end:20:52:
                 vpiParent: PreprocMacroInstance name:msg
                 vpiName: msg
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
               vpiArgument (2 items):
-                Identifier name:left side  start:1:7 end:1:17:
+                Identifier name:left side start:20:28 end:20:37:
                   vpiParent: PreprocMacroInstance name:msg
                   vpiName: left side
-                Identifier name:right side  start:1:19 end:1:30:
+                Identifier name:right side start:20:40 end:20:50:
                   vpiParent: PreprocMacroInstance name:msg
                   vpiName: right side
-              "vpiPMIBody Identifier name:\"left side : \\\"right side \\\"\" start:19:18 end:19:47":
+              "vpiPMIBody Identifier name:\"left side: \\\"right side\\\"\" start:19:18 end:19:45":
                 vpiParent: PreprocMacroInstance name:msg
-                vpiName: "\"left side : \\\"right side \\\"\""
+                vpiName: "\"left side: \\\"right side\\\"\""
         PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:34:16 end:34:30 ppstart:34:16 ppend:34:33:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:34:16 end:34:30:
@@ -780,16 +671,6 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"`thru: #~@\"\\\"#~\" start:19:18 end:19:35":
             vpiParent: PreprocMacroInstance name:msg
             vpiName: "\"`thru: #~@\"\\\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:thru file:$Source01/t_pp_display.v start:19:19 end:19:26 ppstart:34:17 ppend:34:22:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:thru start:19:19 end:19:26:
-                vpiParent: PreprocMacroInstance name:thru
-                vpiName: thru
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:thru
-              vpiPMIBody Identifier name:`thru start:17:17 end:1:6:
-                vpiParent: PreprocMacroInstance name:thru
-                vpiName: "`thru"
         PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:36:16 end:36:56 ppstart:36:16 ppend:36:58:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:36:16 end:36:56:
@@ -806,50 +687,22 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"left side: #~@\"`thru(right#~@side)#~@\"#~\" start:19:18 end:19:60":
             vpiParent: PreprocMacroInstance name:msg
             vpiName: "\"left side: #~@\"`thru(right#~@side)#~@\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:thru file:$Source01/t_pp_display.v start:19:19 end:19:35 ppstart:36:17 ppend:36:26:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:thru start:19:19 end:19:35:
-                vpiParent: PreprocMacroInstance name:thru
-                vpiName: thru
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:thru
-              vpiArgument (1 items):
-                Identifier name:left side start:1:8 end:1:17:
-                  vpiParent: PreprocMacroInstance name:thru
-                  vpiName: left side
-              vpiPMIBody Identifier name:left side start:17:17 end:17:26:
-                vpiParent: PreprocMacroInstance name:thru
-                vpiName: left side
-        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:37:16 end:37:64 ppstart:37:16 ppend:37:63:
+        PreprocMacroInstance name:msg file:$Source01/t_pp_display.v start:37:16 end:37:64 ppstart:37:16 ppend:37:60:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:msg start:37:16 end:37:64:
             vpiParent: PreprocMacroInstance name:msg
             vpiName: msg
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiArgument (2 items):
-            Identifier name:`thru( left side )  start:37:22 end:37:41:
+            Identifier name:`thru( left side ) start:37:22 end:37:40:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`thru( left side ) "
-            Identifier name:`thru( right side )  start:37:43 end:37:63:
+              vpiName: "`thru( left side )"
+            Identifier name:`thru( right side ) start:37:43 end:37:62:
               vpiParent: PreprocMacroInstance name:msg
-              vpiName: "`thru( right side ) "
-          "vpiPMIBody Identifier name:\"left side  : #~@\"`thru(#~@right side ) #~@\"#~\" start:19:18 end:19:65":
+              vpiName: "`thru( right side )"
+          "vpiPMIBody Identifier name:\"left side: #~@\"`thru(#~@right side )#~@\"#~\" start:19:18 end:19:62":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"left side  : #~@\"`thru(#~@right side ) #~@\"#~\""
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:thru file:$Source01/t_pp_display.v start:19:19 end:19:37 ppstart:37:17 ppend:37:27:
-              vpiParent: PreprocMacroInstance name:msg
-              vpiName Identifier name:thru start:19:19 end:19:37:
-                vpiParent: PreprocMacroInstance name:thru
-                vpiName: thru
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:thru
-              vpiArgument (1 items):
-                Identifier name:left side  start:1:9 end:1:19:
-                  vpiParent: PreprocMacroInstance name:thru
-                  vpiName: left side
-              vpiPMIBody Identifier name:left side  start:17:17 end:17:27:
-                vpiParent: PreprocMacroInstance name:thru
-                vpiName: left side
+            vpiName: "\"left side: #~@\"`thru(#~@right side )#~@\"#~\""
         PreprocMacroInstance name:ADD_UP file:$Source01/t_pp_display.v start:63:2 end:63:16 ppstart:63:2 ppend:66:21:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:ADD_UP start:63:2 end:63:16:
@@ -866,24 +719,24 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\nwire  tmp_d1 = d1; \nwire  tmp_o1 = tmp_d1 + 1; \nassign o1 = tmp_o1 ; start:57:30 end:60:21":
             vpiParent: PreprocMacroInstance name:ADD_UP
             vpiName: "\nwire  tmp_d1 = d1; \nwire  tmp_o1 = tmp_d1 + 1; \nassign o1 = tmp_o1 ;"
-        PreprocMacroInstance name:ADD_UP file:$Source01/t_pp_display.v start:66:2 end:66:20 ppstart:69:2 ppend:72:23:
+        PreprocMacroInstance name:ADD_UP file:$Source01/t_pp_display.v start:66:2 end:66:20 ppstart:69:2 ppend:72:21:
           vpiParent: SourceFile name:t_pp_display.v
           vpiName Identifier name:ADD_UP start:66:2 end:66:20:
             vpiParent: PreprocMacroInstance name:ADD_UP
             vpiName: ADD_UP
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:ADD_UP
           vpiArgument (2 items):
-            Identifier name:d2  start:66:11 end:66:14:
+            Identifier name:d2 start:66:11 end:66:13:
               vpiParent: PreprocMacroInstance name:ADD_UP
               vpiName: d2
-            Identifier name:o2  start:66:16 end:66:19:
+            Identifier name:o2 start:66:16 end:66:18:
               vpiParent: PreprocMacroInstance name:ADD_UP
               vpiName: o2
-          "vpiPMIBody Identifier name:\nwire  tmp_d2  = d2 ; \nwire  tmp_o2  = tmp_d2  + 1; \nassign o2  = tmp_o2  ; start:57:30 end:60:23":
+          "vpiPMIBody Identifier name:\nwire  tmp_d2 = d2; \nwire  tmp_o2 = tmp_d2 + 1; \nassign o2 = tmp_o2 ; start:57:30 end:60:21":
             vpiParent: PreprocMacroInstance name:ADD_UP
-            vpiName: "\nwire  tmp_d2  = d2 ; \nwire  tmp_o2  = tmp_d2  + 1; \nassign o2  = tmp_o2  ;"
+            vpiName: "\nwire  tmp_d2 = d2; \nwire  tmp_o2 = tmp_d2 + 1; \nassign o2 = tmp_o2 ;"
   vpiAllModules (1 items):
-    Module name:t file:$Source01/t_pp_display.v start:6:1 end:19:29:
+    Module name:t file:$Source01/t_pp_display.v start:6:1 end:19:34:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
         vpiParent: Module name:t
@@ -1003,9 +856,9 @@ Design name:unnamed:
           vpiNetType: wire (1)
           vpiScalar: true
       vpiProcess (1 items):
-        Initial start:21:4 end:19:29:
+        Initial start:21:4 end:19:34:
           vpiParent: Module name:t
-          vpiStmt Begin start:21:12 end:19:29:
+          vpiStmt Begin start:21:12 end:19:34:
             vpiParent: Initial
             vpiFullName: t
             vpiStmt (4 items):
@@ -1035,16 +888,16 @@ Design name:unnamed:
                   vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
-                  Constant start:19:18 end:19:47:
+                  Constant start:19:18 end:19:45:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: t
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
-                    vpiSize: 200
-                    vpiDecompile: "\"left side : \\\"right side \\\"\""
-                    vpiValue: "left side : \\\"right side \\\""
+                    vpiSize: 184
+                    vpiDecompile: "\"left side: \\\"right side\\\"\""
+                    vpiValue: "left side: \\\"right side\\\""
               RefObj name:display start:26:8 end:26:15:
                 vpiParent: Begin
                 vpiName: display
@@ -1119,7 +972,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 6
+[ SYNTAX] : 5
 [  ERROR] : 4
 [WARNING] : 2
 [   NOTE] : 0
@@ -1136,25 +989,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_pp_display/mounts.json
 
 
-{'result': {'coverage': 42.31,
+{'result': {'coverage': 41.89,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_pp_display.v': {'post_len': 615,
-                                                          'pre_len': 1066}},
-            'post_len': 615,
-            'pre_len': 1066,
+            'files': {'$Output/lib/work/t_pp_display.v': {'post_len': 598,
+                                                          'pre_len': 1029}},
+            'post_len': 598,
+            'pre_len': 1029,
             'test_name': 'Verilator/t_pp_display'}}
 
 +---------------------------------+----------+-----------+
 | INPUT                           |   PRELEN |   POSTLEN |
 +=================================+==========+===========+
-| $Output/lib/work/t_pp_display.v |     1066 |       615 |
+| $Output/lib/work/t_pp_display.v |     1029 |       598 |
 +=================================+==========+===========+
-|                                 |     1066 |       615 |
+|                                 |     1029 |       598 |
 +---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 42.31
+[COVERAGE] : 41.89
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1165,7 +1018,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_pp_display/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             258     258       0         0
+Others                             218     218       0         0
 ----------------------------------------------------------------
-                                   258     258       0         0
+                                   218     218       0         0
 ===================== END REDUCTION RESULT =====================

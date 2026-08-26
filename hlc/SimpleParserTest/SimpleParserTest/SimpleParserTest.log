@@ -4,10 +4,9 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SimpleParserTest another_arbiter.v dff.v encoder.v m_input_mult.v synfifo.v uart.v arbiter_tb.v encoder_case.v full_adder.v lfsr_task.v mux21.v top.v +incdir+. +libext+.v -v jkff_udp.v -fileunit -timescale=1ps/1ps -d db -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SimpleParserTest/SimpleParserTest
+COMMAND: -wd ../../../tests/SimpleParserTest another_arbiter.v dff.v encoder.v m_input_mult.v synfifo.v uart.v arbiter_tb.v encoder_case.v full_adder.v lfsr_task.v mux21.v top.v +incdir+. +libext+.v -v jkff_udp.v -fileunit -timescale=1ps/1ps -d db -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/SimpleParserTest/SimpleParserTest
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/another_arbiter.v".
 [INF:PP0122] Preprocessing source file "$Source01/dff.v".
 [INF:PP0122] Preprocessing source file "$Source01/encoder.v".
@@ -20,8 +19,8 @@ COMMAND: -wd ../../../tests/SimpleParserTest another_arbiter.v dff.v encoder.v m
 [INF:PP0122] Preprocessing source file "$Source01/lfsr_task.v".
 [INF:PP0122] Preprocessing source file "$Source01/mux21.v".
 [INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/jkff_udp.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/another_arbiter.v".
 [INF:PA0201] Parsing source file "$Source01/dff.v".
 [INF:PA0201] Parsing source file "$Source01/encoder.v".
@@ -34,6 +33,7 @@ COMMAND: -wd ../../../tests/SimpleParserTest another_arbiter.v dff.v encoder.v m
 [INF:PA0201] Parsing source file "$Source01/lfsr_task.v".
 [INF:PA0201] Parsing source file "$Source01/mux21.v".
 [INF:PA0201] Parsing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/jkff_udp.v".
 [INF:CP0303] $Source01/another_arbiter.v:2:1: Compile module "arbiter".
 [INF:CP0303] $Source01/dff.v:8:1: Compile module "dff_async_reset".
@@ -54,10 +54,10 @@ COMMAND: -wd ../../../tests/SimpleParserTest another_arbiter.v dff.v encoder.v m
 [WRN:CP0334] Colliding compilation unit name: "arbiter".
 [WRN:CP0334] Colliding compilation unit name: "encoder_using_case".
 [INF:CM0029] Using global timescale: "1ps/1ps".
-[ERR:LN0801] Invalid name: id:4141, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:4144, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:4147, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:4150, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:4015, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:4018, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:4021, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:4024, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1672,7 +1672,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1868,7 +1868,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -1986,7 +1986,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -17404,27 +17404,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
-    ClassTypespec name:mailbox:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:mailbox:
-        vpiParent: ClassTypespec name:mailbox
-        vpiName: mailbox
-      vpiDefName: mailbox
-      vpiClassDefn: ClassDefn name:mailbox
-    ClassTypespec name:process:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:process:
-        vpiParent: ClassTypespec name:process
-        vpiName: process
-      vpiDefName: process
-      vpiClassDefn: ClassDefn name:process
-    ClassTypespec name:semaphore:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:semaphore:
-        vpiParent: ClassTypespec name:semaphore
-        vpiName: semaphore
-      vpiDefName: semaphore
-      vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:arbiter:
       vpiParent: Design name:unnamed
       vpiName Identifier name:arbiter start:2:8 end:2:15:
@@ -17513,6 +17492,27 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:mux21_switch
         vpiName: mux21_switch
       vpiModule: Module name:mux21_switch
+    ClassTypespec name:mailbox:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
+      vpiDefName: mailbox
+      vpiClassDefn: ClassDefn name:mailbox
+    ClassTypespec name:process:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
+      vpiDefName: process
+      vpiClassDefn: ClassDefn name:process
+    ClassTypespec name:semaphore:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
+      vpiDefName: semaphore
+      vpiClassDefn: ClassDefn name:semaphore
     UdpDefnTypespec name:jkff_udp:
       vpiParent: Design name:unnamed
       vpiName: jkff_udp

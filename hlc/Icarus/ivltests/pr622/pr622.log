@@ -4,14 +4,14 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr622.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr622
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr622.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr622
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/pr622.v".
 [INF:PA0201] Parsing source file "$Source01/pr622.v".
 AST_DEBUG_BEGIN
 Count: 37
 LIB: work
-FILE: f<13>:$Source01/pr622.v
+FILE: f<15>:$Source01/pr622.v
 n<$Source01/pr622.v> u<36> t<Top_level_rule> c<1> l<2:1> el<7:1>
   n<> u<1> t<Null_rule> p<36> s<35> l<2:1> el<2:1>
   n<> u<35> t<Source_text> p<36> c<34> l<2:1> el<6:10>
@@ -29,23 +29,23 @@ n<$Source01/pr622.v> u<36> t<Top_level_rule> c<1> l<2:1> el<7:1>
                   n<> u<26> t<Statement> p<27> c<25> l<3:18> el<5:13>
                     n<> u<25> t<Statement_item> p<26> c<24> l<3:18> el<5:13>
                       n<> u<24> t<Seq_block> p<25> c<22> l<3:18> el<5:13>
-                        n<> u<22> t<Statement_or_null> p<24> c<21> s<23> l<4:18> el<4:53>
-                          n<> u<21> t<Statement> p<22> c<20> l<4:18> el<4:53>
-                            n<> u<20> t<Statement_item> p<21> c<19> l<4:18> el<4:53>
-                              n<> u<19> t<Subroutine_call_statement> p<20> c<18> l<4:18> el<4:53>
-                                n<> u<18> t<Subroutine_call> p<19> c<6> l<4:18> el<4:52>
+                        n<> u<22> t<Statement_or_null> p<24> c<21> s<23> l<4:18> el<4:52>
+                          n<> u<21> t<Statement> p<22> c<20> l<4:18> el<4:52>
+                            n<> u<20> t<Statement_item> p<21> c<19> l<4:18> el<4:52>
+                              n<> u<19> t<Subroutine_call_statement> p<20> c<18> l<4:18> el<4:52>
+                                n<> u<18> t<Subroutine_call> p<19> c<6> l<4:18> el<4:51>
                                   n<$> u<6> t<DOLLAR> p<18> s<7> l<4:18> el<4:19>
                                   n<display> u<7> t<SIMPLE_IDENTIFIER> p<18> s<17> l<4:19> el<4:26>
-                                  n<> u<17> t<Argument_list> p<18> c<11> l<4:27> el<4:51>
+                                  n<> u<17> t<Argument_list> p<18> c<11> l<4:27> el<4:50>
                                     n<> u<11> t<Expression> p<17> c<10> s<16> l<4:27> el<4:43>
                                       n<> u<10> t<Primary> p<11> c<9> l<4:27> el<4:43>
                                         n<> u<9> t<Primary_literal> p<10> c<8> l<4:27> el<4:43>
                                           n<"macro FOO = %s"> u<8> t<QUOTED_STRING> p<9> l<4:27> el<4:43>
-                                    n<> u<16> t<Argument> p<17> c<15> l<4:45> el<4:51>
-                                      n<> u<15> t<Expression> p<16> c<14> l<4:45> el<4:51>
-                                        n<> u<14> t<Primary> p<15> c<13> l<4:45> el<4:51>
-                                          n<> u<13> t<Primary_literal> p<14> c<12> l<4:45> el<4:51>
-                                            n<"bar"> u<12> t<QUOTED_STRING> p<13> l<4:45> el<4:51>
+                                    n<> u<16> t<Argument> p<17> c<15> l<4:45> el<4:50>
+                                      n<> u<15> t<Expression> p<16> c<14> l<4:45> el<4:50>
+                                        n<> u<14> t<Primary> p<15> c<13> l<4:45> el<4:50>
+                                          n<> u<13> t<Primary_literal> p<14> c<12> l<4:45> el<4:50>
+                                            n<"bar"> u<12> t<QUOTED_STRING> p<13> l<4:45> el<4:50>
                         n<> u<23> t<END> p<24> l<5:10> el<5:13>
         n<> u<32> t<ENDMODULE> p<33> l<6:1> el<6:10>
 AST_DEBUG_END
@@ -70,16 +70,6 @@ Design name:unnamed:
             Identifier name:bar start:1:13 end:1:16:
               vpiParent: PreprocMacroDefinition name:FOO
               vpiName: bar
-      vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:FOO file:$Source01/pr622.v start:4:46 end:4:50 ppstart:4:46 ppend:4:49:
-          vpiParent: SourceFile name:pr622.v
-          vpiName Identifier name:FOO start:4:46 end:4:50:
-            vpiParent: PreprocMacroInstance name:FOO
-            vpiName: FOO
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:FOO
-          vpiPMIBody Identifier name:bar start:1:13 end:1:16:
-            vpiParent: PreprocMacroInstance name:FOO
-            vpiName: bar
   vpiAllModules (1 items):
     Module name:foo file:$Source01/pr622.v start:2:1 end:6:10:
       vpiParent: Design name:unnamed
@@ -101,7 +91,7 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: foo
             vpiStmt (1 items):
-              SysTaskCall name:$display start:4:18 end:4:52:
+              SysTaskCall name:$display start:4:18 end:4:51:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:4:18 end:4:26:
                   vpiParent: SysTaskCall name:$display
@@ -117,7 +107,7 @@ Design name:unnamed:
                     vpiSize: 112
                     vpiDecompile: "\"macro FOO = %s\""
                     vpiValue: macro FOO = %s
-                  Constant start:4:45 end:4:51:
+                  Constant start:4:45 end:4:50:
                     vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
@@ -184,7 +174,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr622/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              19      19       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    19      19       0         0
 ===================== END REDUCTION RESULT =====================

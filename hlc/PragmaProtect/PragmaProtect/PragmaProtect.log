@@ -4,17 +4,17 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/PragmaProtect top.sv -d 0 +incdir+. +libext+.v -writepp -filterprotected -parse -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PragmaProtect/PragmaProtect
+COMMAND: -wd ../../../tests/PragmaProtect top.sv -d 0 +incdir+. +libext+.v -writepp -filterprotected -parse -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/PragmaProtect/PragmaProtect
 [INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/top.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0303] $Source01/top.sv:2:1: Compile module "sram".
 [INF:CP0303] $Source01/top.sv:74:1: Compile module "sram".
 [WRN:CP0334] Colliding compilation unit name: "sram".
 [WRN:PA0205] No timescale set for "builtin".
-[ERR:LN0801] $Source01/top.sv:79:7: Invalid name: id:1003, type:RefTypespec, name:, relation:vpiTypespec.
+[ERR:LN0801] $Source01/top.sv:79:7: Invalid name: id:877, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1579,7 +1579,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1775,7 +1775,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -1893,7 +1893,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2924,7 +2924,17 @@ Design name:unnamed:
           vpiName: DBUS
           vpiFullName: sram.DBUS
           vpiNetType: wire (1)
-      vpiDirective (1 items):
+      vpiDirective (2 items):
+        PragmaDirective name:protect start:100:1 end:100:30:
+          vpiParent: Module name:sram
+          vpiName Identifier name:protect start:100:9 end:100:16:
+            vpiParent: PragmaDirective name:protect
+            vpiName: protect
+          vpiExpr (1 items):
+            RefObj name:end_protected start:100:17 end:100:30:
+              vpiParent: PragmaDirective name:protect
+              vpiName: end_protected
+              vpiFullName: sram.protect.end_protected
         PragmaDirective name:reset start:101:1 end:101:22:
           vpiParent: Module name:sram
           vpiName Identifier name:reset start:101:9 end:101:14:
@@ -2994,6 +3004,20 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:sram:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:sram start:2:8 end:2:12:
+        vpiParent: ModuleTypespec name:sram
+        vpiName: sram
+      vpiModule: Module name:sram
+    LogicTypespec:
+      vpiParent: Design name:unnamed
+    ModuleTypespec name:sram:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:sram start:74:8 end:74:12:
+        vpiParent: ModuleTypespec name:sram
+        vpiName: sram
+      vpiModule: Module name:sram
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -3015,20 +3039,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:sram:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:sram start:2:8 end:2:12:
-        vpiParent: ModuleTypespec name:sram
-        vpiName: sram
-      vpiModule: Module name:sram
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-    ModuleTypespec name:sram:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:sram start:74:8 end:74:12:
-        vpiParent: ModuleTypespec name:sram
-        vpiName: sram
-      vpiModule: Module name:sram
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -3048,25 +3058,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/mounts.json
 
 
-{'result': {'coverage': 95.03,
+{'result': {'coverage': 93.86,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 44,
-                                                  'pre_len': 886}},
-            'post_len': 44,
-            'pre_len': 886,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 57,
+                                                  'pre_len': 928}},
+            'post_len': 57,
+            'pre_len': 928,
             'test_name': 'PragmaProtect/PragmaProtect'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      886 |        44 |
+| $Output/lib/work/top.sv |      928 |        57 |
 +=========================+==========+===========+
-|                         |      886 |        44 |
+|                         |      928 |        57 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.03
+[COVERAGE] : 93.86
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3077,7 +3087,7 @@ COMMAND: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             818     818       0         0
+Others                             821     821       0         0
 ----------------------------------------------------------------
-                                   818     818       0         0
+                                   821     821       0         0
 ===================== END REDUCTION RESULT =====================

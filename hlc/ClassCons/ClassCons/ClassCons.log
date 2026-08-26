@@ -4,21 +4,24 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/ClassCons -timescale=1ns/1ns +vcs+flush+all +warn=all -sverilog -d ast -d inst +incdir+. -writepp -fileunit definesPkg.pkg definesPkg_1.pkg top.sv -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ClassCons/ClassCons
+COMMAND: -wd ../../../tests/ClassCons -timescale=1ns/1ns +vcs+flush+all +warn=all -sverilog -d ast -d inst +incdir+. -writepp -mt max -fileunit definesPkg.pkg definesPkg_1.pkg top.sv -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ClassCons/ClassCons
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [NTE:CM0009] Command line argument "+vcs+flush+all" ignored.
 [NTE:CM0009] Command line argument "+warn=all" ignored.
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/definesPkg.pkg".
 [INF:PP0122] Preprocessing source file "$Source01/definesPkg_1.pkg".
 [INF:PP0122] Preprocessing source file "$Source01/top.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/definesPkg.pkg".
+[INF:PA0201] Parsing source file "$Source01/definesPkg_1.pkg".
+[INF:PA0201] Parsing source file "$Source01/top.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<23>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE: f<25>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -275,11 +278,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/definesPkg.pkg".
 AST_DEBUG_BEGIN
 Count: 59
 LIB: work
-FILE: f<17>:$Source01/definesPkg.pkg
+FILE: f<19>:$Source01/definesPkg.pkg
 n<$Source01/definesPkg.pkg> u<58> t<Top_level_rule> c<1> l<4:1> el<17:1>
   n<> u<1> t<Null_rule> p<58> s<2> l<4:1> el<4:1>
   n<//+++++++++++++++++++++++++++++++++++++++++++++++++> u<2> t<LINE_COMMENT> p<58> s<3> l<1:1> el<1:52>
@@ -339,11 +341,10 @@ n<$Source01/definesPkg.pkg> u<58> t<Top_level_rule> c<1> l<4:1> el<17:1>
               n<> u<50> t<ENDCLASS> p<51> l<14:4> el<14:12>
         n<> u<54> t<ENDPACKAGE> p<55> l<16:1> el<16:11>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/definesPkg_1.pkg".
 AST_DEBUG_BEGIN
 Count: 59
 LIB: work
-FILE: f<18>:$Source01/definesPkg_1.pkg
+FILE: f<20>:$Source01/definesPkg_1.pkg
 n<$Source01/definesPkg_1.pkg> u<58> t<Top_level_rule> c<1> l<4:1> el<17:1>
   n<> u<1> t<Null_rule> p<58> s<2> l<4:1> el<4:1>
   n<//+++++++++++++++++++++++++++++++++++++++++++++++++> u<2> t<LINE_COMMENT> p<58> s<3> l<1:1> el<1:52>
@@ -403,11 +404,10 @@ n<$Source01/definesPkg_1.pkg> u<58> t<Top_level_rule> c<1> l<4:1> el<17:1>
               n<> u<50> t<ENDCLASS> p<51> l<14:4> el<14:12>
         n<> u<54> t<ENDPACKAGE> p<55> l<16:1> el<16:11>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/top.sv".
 AST_DEBUG_BEGIN
 Count: 402
 LIB: work
-FILE: f<19>:$Source01/top.sv
+FILE: f<21>:$Source01/top.sv
 n<$Source01/top.sv> u<401> t<Top_level_rule> c<1> l<1:1> el<67:1>
   n<> u<1> t<Null_rule> p<401> s<400> l<1:1>
   n<> u<400> t<Source_text> p<401> c<8> l<1:1> el<66:11>
@@ -814,12 +814,12 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/definesPkg_1.pkg:4:1: Compile package "definesPkg".
 [INF:CP0306] $Source01/top.sv:9:9: Compile program "class_t".
 [WRN:CP0314] $Source01/top.sv:9:9: Using programs is discouraged "class_t", programs are obsoleted by UVM.
-[WRN:CP0350] $Source01/top.sv:59:10: Failed to bind "id:981, name:new".
+[WRN:CP0350] $Source01/top.sv:59:10: Failed to bind "id:855, name:new".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:886, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:917, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:945, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top.sv:59:10: Null Actual: id:981, type:MethodFuncCall, name:new, relation:vpiRhs.
+[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:760, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:791, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:819, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.sv:59:10: Null Actual: id:855, type:MethodFuncCall, name:new, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2742,7 +2742,7 @@ Design name:unnamed:
                 vpiFullName: definesPkg::D_PKG::new::D_PKG
                 vpiActual: ClassTypespec name:D_PKG
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2938,7 +2938,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -3056,7 +3056,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -3823,6 +3823,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ImportTypespec name:definesPkg_1 start:1:8 end:1:23:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:definesPkg_1 start:1:8 end:1:20:
+        vpiParent: ImportTypespec name:definesPkg_1
+        vpiName: definesPkg_1
+    ProgramTypespec name:class_t:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:class_t start:9:9 end:9:16:
+        vpiParent: ProgramTypespec name:class_t
+        vpiName: class_t
+      vpiProgram: Program name:class_t
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -3844,17 +3855,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ImportTypespec name:definesPkg_1 start:1:8 end:1:23:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:definesPkg_1 start:1:8 end:1:20:
-        vpiParent: ImportTypespec name:definesPkg_1
-        vpiName: definesPkg_1
-    ProgramTypespec name:class_t:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:class_t start:9:9 end:9:16:
-        vpiParent: ProgramTypespec name:class_t
-        vpiName: class_t
-      vpiProgram: Program name:class_t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

@@ -4,19 +4,20 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SimpleClass -timescale=1ns/1ns +vcs+flush+all +warn=all -sverilog -d ast -d inst +incdir+. -writepp -fileunit top.sv -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SimpleClass/SimpleClass
+COMMAND: -wd ../../../tests/SimpleClass -timescale=1ns/1ns +vcs+flush+all +warn=all -sverilog -d ast -d inst +incdir+. -writepp -mt max -fileunit top.sv -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/SimpleClass/SimpleClass
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [NTE:CM0009] Command line argument "+vcs+flush+all" ignored.
 [NTE:CM0009] Command line argument "+warn=all" ignored.
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/top.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<21>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE: f<23>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -273,11 +274,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/top.sv".
 AST_DEBUG_BEGIN
 Count: 76
 LIB: work
-FILE: f<17>:$Source01/top.sv
+FILE: f<19>:$Source01/top.sv
 n<$Source01/top.sv> u<75> t<Top_level_rule> c<1> l<2:1> el<22:1>
   n<> u<1> t<Null_rule> p<75> s<74> l<2:1> el<2:1>
   n<> u<74> t<Source_text> p<75> c<73> l<2:1> el<21:11>
@@ -356,9 +356,9 @@ n<$Source01/top.sv> u<75> t<Top_level_rule> c<1> l<2:1> el<22:1>
 AST_DEBUG_END
 [INF:CP0306] $Source01/top.sv:2:9: Compile program "class_t".
 [WRN:CP0314] $Source01/top.sv:2:9: Using programs is discouraged "class_t", programs are obsoleted by UVM.
-[WRN:CP0350] $Source01/top.sv:12:9: Failed to bind "id:771, name:payload".
+[WRN:CP0350] $Source01/top.sv:12:9: Failed to bind "id:645, name:payload".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:LN0805] $Source01/top.sv:12:17: Null Actual: id:772, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.sv:12:17: Null Actual: id:646, type:MethodFuncCall, name:size, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1921,7 +1921,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2117,7 +2117,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2235,7 +2235,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2486,6 +2486,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ProgramTypespec name:class_t:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:class_t start:2:9 end:2:16:
+        vpiParent: ProgramTypespec name:class_t
+        vpiName: class_t
+      vpiProgram: Program name:class_t
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -2507,12 +2513,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ProgramTypespec name:class_t:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:class_t start:2:9 end:2:16:
-        vpiParent: ProgramTypespec name:class_t
-        vpiName: class_t
-      vpiProgram: Program name:class_t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

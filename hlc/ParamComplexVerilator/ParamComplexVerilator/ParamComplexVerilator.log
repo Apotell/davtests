@@ -4,16 +4,17 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/ParamComplexVerilator -d db -d ast --disable-feature=parametersubstitution dut.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ParamComplexVerilator/ParamComplexVerilator
+COMMAND: -wd ../../../tests/ParamComplexVerilator -d db -d ast --disable-feature=parametersubstitution dut.sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ParamComplexVerilator/ParamComplexVerilator
 [INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<16>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE: f<18>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -270,11 +271,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 181
 LIB: work
-FILE: f<13>:$Source01/dut.sv
+FILE: f<15>:$Source01/dut.sv
 n<$Source01/dut.sv> u<180> t<Top_level_rule> c<1> l<1:1> el<23:1>
   n<> u<1> t<Null_rule> p<180> s<178> l<1:1>
   n<> u<178> t<Source_text> p<180> c<39> s<179> l<1:1> el<22:10>
@@ -459,7 +459,7 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "pkg".
 [INF:CP0303] $Source01/dut.sv:9:1: Compile module "top".
 [INF:CP0303] $Source01/dut.sv:17:1: Compile module "dut".
-[WRN:CP0350] $Source01/dut.sv:12:26: Failed to bind "id:801, name:complex_t".
+[WRN:CP0350] $Source01/dut.sv:12:26: Failed to bind "id:675, name:complex_t".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "pkg".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "top".
@@ -2095,7 +2095,7 @@ Design name:unnamed:
         vpiFullName: pkg::work
       vpiCell: pkg
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2291,7 +2291,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2409,7 +2409,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2794,6 +2794,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:9:8 end:9:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
+    ModuleTypespec name:dut:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:dut start:17:8 end:17:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -2815,18 +2827,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:top:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:top start:9:8 end:9:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
-      vpiModule: Module name:top
-    ModuleTypespec name:dut:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:17:8 end:17:11:
-        vpiParent: ModuleTypespec name:dut
-        vpiName: dut
-      vpiModule: Module name:dut
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

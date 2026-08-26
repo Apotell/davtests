@@ -4,12 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_foreach.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_foreach
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_foreach.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_foreach
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_foreach.v".
 [INF:PA0201] Parsing source file "$Source01/t_foreach.v".
 [SNT:PA0207] $Source01/t_foreach.v:36:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off LITENDIAN\n   // verilator lint_off WIDTH\n\n   reg [63:0] sum;\n   reg [2:1] [4:3] array [5:6] [7:8];\n   reg [1:2] [3:4] larray [6:5] [8:7];\n   bit [31:0]      depth1_array [0:0];\n\n   function [63:0] crc (input [63:0] sum, input [31:0] a, input [31:0] b, input [31:0] c, input [31:0] d);\n      crc = {sum[62:0],sum[63]} ^ {4'b0,a[7:0], 4'h0,b[7:0], 4'h0,c[7:0], 4'h0,d[7:0]};\n   endfunction\n\n   initial begin\n      sum = 0;\n      // We use 'index_' as the prefix for all loop vars,\n      // this allows t_foreach.pl to confirm that all loops\n      // have been unrolled and flattened away and no loop vars\n      // remain in the generated .cpp\n      foreach (depth1_array[index_a]) begin\n         sum = crc(sum, index_a, 0, 0, 0);\n\n         // Ensure the index never goes out of bounds.\n         // We used to get this wrong for an array of depth 1.\n         assert (index_a != -1);\n         assert (index_a != 1);\n      end\n      do if',
-      do if ((sum) !== (64'h0)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_foreach.v",0, (sum), (64'h0)); $stop; end while(0);;
+      do if ((sum) !== (64'h0)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_foreach.v",36, (sum), (64'h0)); $stop; end while(0);;
          ^-- $Source01/t_foreach.v:36:9:.
 [SNT:PA0207] $Source01/t_foreach.v:22:3: Syntax error: mismatched input 'initial' expecting <EOF>,
    initial begin
@@ -17,7 +17,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 AST_DEBUG_BEGIN
 Count: 399
 LIB: work
-FILE: f<13>:$Source01/t_foreach.v
+FILE: f<15>:$Source01/t_foreach.v
 n<$Source01/t_foreach.v> u<398> t<Top_level_rule> c<1> l<8:1> el<92:10>
   n<> u<1> t<Null_rule> p<398> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<398> s<3> l<1:1> el<1:47>
@@ -601,7 +601,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:checkh
               vpiName: ";"
       vpiPreprocMacroInstance (9 items):
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:36:7 end:36:26 ppstart:36:7 ppend:36:151:
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:36:7 end:36:26 ppstart:36:7 ppend:36:152:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:36:7 end:36:26:
             vpiParent: PreprocMacroInstance name:checkh
@@ -614,10 +614,10 @@ Design name:unnamed:
             "Identifier name:64'h0 start:36:20 end:36:25":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h0"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h0)); $stop; end while(0); start:6:27 end:6:171":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",36, (sum), (64'h0)); $stop; end while(0); start:6:27 end:6:172":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h0)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:42:7 end:42:41 ppstart:42:7 ppend:42:181:
+            vpiName: "do if ((sum) !== (64'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",36, (sum), (64'h0)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:42:7 end:42:41 ppstart:42:7 ppend:42:182:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:42:7 end:42:41:
             vpiParent: PreprocMacroInstance name:checkh
@@ -630,10 +630,10 @@ Design name:unnamed:
             "Identifier name:64'h000000c000000000 start:42:20 end:42:40":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h000000c000000000"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h000000c000000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h000000c000000000)); $stop; end while(0); start:6:27 end:6:201":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h000000c000000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",42, (sum), (64'h000000c000000000)); $stop; end while(0); start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h000000c000000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h000000c000000000)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:48:7 end:48:41 ppstart:48:7 ppend:48:181:
+            vpiName: "do if ((sum) !== (64'h000000c000000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",42, (sum), (64'h000000c000000000)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:48:7 end:48:41 ppstart:48:7 ppend:48:182:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:48:7 end:48:41:
             vpiParent: PreprocMacroInstance name:checkh
@@ -646,10 +646,10 @@ Design name:unnamed:
             "Identifier name:64'h000003601e000000 start:48:20 end:48:40":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h000003601e000000"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h000003601e000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h000003601e000000)); $stop; end while(0); start:6:27 end:6:201":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h000003601e000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",48, (sum), (64'h000003601e000000)); $stop; end while(0); start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h000003601e000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h000003601e000000)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:54:7 end:54:41 ppstart:54:7 ppend:54:181:
+            vpiName: "do if ((sum) !== (64'h000003601e000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",48, (sum), (64'h000003601e000000)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:54:7 end:54:41 ppstart:54:7 ppend:54:182:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:54:7 end:54:41:
             vpiParent: PreprocMacroInstance name:checkh
@@ -662,10 +662,10 @@ Design name:unnamed:
             "Identifier name:64'h00003123fc101000 start:54:20 end:54:40":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h00003123fc101000"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h00003123fc101000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h00003123fc101000)); $stop; end while(0); start:6:27 end:6:201":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h00003123fc101000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",54, (sum), (64'h00003123fc101000)); $stop; end while(0); start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h00003123fc101000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h00003123fc101000)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:60:7 end:60:41 ppstart:60:7 ppend:60:181:
+            vpiName: "do if ((sum) !== (64'h00003123fc101000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",54, (sum), (64'h00003123fc101000)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:60:7 end:60:41 ppstart:60:7 ppend:60:182:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:60:7 end:60:41:
             vpiParent: PreprocMacroInstance name:checkh
@@ -678,10 +678,10 @@ Design name:unnamed:
             "Identifier name:64'h0030128ab2a8e557 start:60:20 end:60:40":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h0030128ab2a8e557"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h0030128ab2a8e557)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h0030128ab2a8e557)); $stop; end while(0); start:6:27 end:6:201":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h0030128ab2a8e557)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",60, (sum), (64'h0030128ab2a8e557)); $stop; end while(0); start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h0030128ab2a8e557)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h0030128ab2a8e557)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:68:7 end:68:41 ppstart:68:7 ppend:68:181:
+            vpiName: "do if ((sum) !== (64'h0030128ab2a8e557)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",60, (sum), (64'h0030128ab2a8e557)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:68:7 end:68:41 ppstart:68:7 ppend:68:182:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:68:7 end:68:41:
             vpiParent: PreprocMacroInstance name:checkh
@@ -694,10 +694,10 @@ Design name:unnamed:
             "Identifier name:64'h0000009000000000 start:68:20 end:68:40":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h0000009000000000"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h0000009000000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h0000009000000000)); $stop; end while(0); start:6:27 end:6:201":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h0000009000000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",68, (sum), (64'h0000009000000000)); $stop; end while(0); start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h0000009000000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h0000009000000000)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:75:7 end:75:41 ppstart:75:7 ppend:75:181:
+            vpiName: "do if ((sum) !== (64'h0000009000000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",68, (sum), (64'h0000009000000000)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:75:7 end:75:41 ppstart:75:7 ppend:75:182:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:75:7 end:75:41:
             vpiParent: PreprocMacroInstance name:checkh
@@ -710,10 +710,10 @@ Design name:unnamed:
             "Identifier name:64'h000002704b057073 start:75:20 end:75:40":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h000002704b057073"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h000002704b057073)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h000002704b057073)); $stop; end while(0); start:6:27 end:6:201":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h000002704b057073)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",75, (sum), (64'h000002704b057073)); $stop; end while(0); start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h000002704b057073)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h000002704b057073)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:81:7 end:81:41 ppstart:81:7 ppend:81:181:
+            vpiName: "do if ((sum) !== (64'h000002704b057073)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",75, (sum), (64'h000002704b057073)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:81:7 end:81:41 ppstart:81:7 ppend:81:182:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:81:7 end:81:41:
             vpiParent: PreprocMacroInstance name:checkh
@@ -726,10 +726,10 @@ Design name:unnamed:
             "Identifier name:64'h00002136f9000000 start:81:20 end:81:40":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h00002136f9000000"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h00002136f9000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h00002136f9000000)); $stop; end while(0); start:6:27 end:6:201":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h00002136f9000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",81, (sum), (64'h00002136f9000000)); $stop; end while(0); start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h00002136f9000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h00002136f9000000)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:87:7 end:87:41 ppstart:87:7 ppend:87:181:
+            vpiName: "do if ((sum) !== (64'h00002136f9000000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",81, (sum), (64'h00002136f9000000)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:87:7 end:87:41 ppstart:87:7 ppend:87:182:
           vpiParent: SourceFile name:t_foreach.v
           vpiName Identifier name:checkh start:87:7 end:87:41:
             vpiParent: PreprocMacroInstance name:checkh
@@ -742,9 +742,9 @@ Design name:unnamed:
             "Identifier name:64'h0020179aa7aa0aaa start:87:20 end:87:40":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h0020179aa7aa0aaa"
-          "vpiPMIBody Identifier name:do if ((sum) !== (64'h0020179aa7aa0aaa)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h0020179aa7aa0aaa)); $stop; end while(0); start:6:27 end:6:201":
+          "vpiPMIBody Identifier name:do if ((sum) !== (64'h0020179aa7aa0aaa)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",87, (sum), (64'h0020179aa7aa0aaa)); $stop; end while(0); start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((sum) !== (64'h0020179aa7aa0aaa)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",0, (sum), (64'h0020179aa7aa0aaa)); $stop; end while(0);"
+            vpiName: "do if ((sum) !== (64'h0020179aa7aa0aaa)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_foreach.v\",87, (sum), (64'h0020179aa7aa0aaa)); $stop; end while(0);"
   vpiAllModules (2 items):
     Module file:$Source01/t_foreach.v start:8:1 end:8:1:
       vpiParent: Design name:unnamed
@@ -1543,25 +1543,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_foreach/mounts.json
 
 
-{'result': {'coverage': 37.94,
+{'result': {'coverage': 37.82,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_foreach.v': {'post_len': 1793,
-                                                       'pre_len': 2889}},
-            'post_len': 1793,
-            'pre_len': 2889,
+            'files': {'$Output/lib/work/t_foreach.v': {'post_len': 1802,
+                                                       'pre_len': 2898}},
+            'post_len': 1802,
+            'pre_len': 2898,
             'test_name': 'Verilator/t_foreach'}}
 
 +------------------------------+----------+-----------+
 | INPUT                        |   PRELEN |   POSTLEN |
 +==============================+==========+===========+
-| $Output/lib/work/t_foreach.v |     2889 |      1793 |
+| $Output/lib/work/t_foreach.v |     2898 |      1802 |
 +==============================+==========+===========+
-|                              |     2889 |      1793 |
+|                              |     2898 |      1802 |
 +------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 37.94
+[COVERAGE] : 37.82
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

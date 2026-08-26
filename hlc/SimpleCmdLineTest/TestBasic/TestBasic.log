@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SimpleCmdLineTest bad command -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SimpleCmdLineTest/TestBasic
+COMMAND: -wd ../../../tests/SimpleCmdLineTest bad command -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/SimpleCmdLineTest/TestBasic
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [FTL:CM0008] Verilog File "$Source01/bad" does not exist.
 [FTL:CM0008] Verilog File "$Source01/command" does not exist.
@@ -14,7 +14,7 @@ COMMAND: -wd ../../../tests/SimpleCmdLineTest bad command -mt 0 -mp 0 -d dbstats
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SimpleCmdLineTest bad command -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SimpleCmdLineTest/TestBasic
+COMMAND: -wd ../../../tests/SimpleCmdLineTest bad command -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/SimpleCmdLineTest/TestBasic
   ------------ HLC HELP --------------
 
 STANDARD VERILOG COMMAND LINE:
@@ -61,9 +61,9 @@ FLOWS OPTIONS:
     Features: parametersubstitution Enables substitution of assignment patterns in parameters
               letexprsubstitution   Enables Let expr substitution (Inlining)
   -mt/--threads <nb_max_threads>
-                        0 up to 512 max threads, 0 or 1 being single threaded, if "max" is given, the program
-                        will use one thread per core on the host
-  -mp <mb_max_process>  0 up to 512 max processes, 0 or 1 being single process
+                        0 up to 512 max threads; 0 (the default) uses multiple threads, up to one per core,
+                        only if there's enough work to justify it; 1 forces single-threaded; "max" always
+                        uses one thread per core on the host
   -split <line number>  Split files or modules larger than specified line number for multi thread compilation
   -timescale=<timescale>
                         Specifies the overall timescale
@@ -83,6 +83,7 @@ OUTPUT OPTIONS:
   -noprecompiledcache   Default allows to read precompiled cache, this option prevents it
   -nowritecache         Default allows writing cache, this option prevents it
   -cache <dir>          Specifies the cache directory, default is 'cache' under output directory
+  -conf <path>          Specifies the hlc.conf file to load, default is next to the executable
   -nohash               Treat cache as always valid (no timestamp/dependancy check)
   -createcache          Create cache for precompiled packages
   -filterdirectives     Filters out simple directives like `default_nettype in pre-processor's output

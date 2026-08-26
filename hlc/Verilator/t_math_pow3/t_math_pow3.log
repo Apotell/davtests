@@ -4,12 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_math_pow3.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_math_pow3
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_math_pow3.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_math_pow3
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_math_pow3.v".
 [INF:PA0201] Parsing source file "$Source01/t_math_pow3.v".
 [SNT:PA0207] $Source01/t_math_pow3.v:27:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   bit fail;\n\n   // IEEE says for ** the size is L(i).  Thus Icarus Verilog is wrong in sizing some of the below.\n\n   initial begin\n      // NC=67b6cfc1b29a21  VCS=c1b29a20(wrong)   IV=67b6cfc1b29a21  Verilator=67b6cfc1b29a21\n      $display("15 ** 14    = %0x  expect 67b6cfc1b29a21", 64'b1111 ** 64'b1110);\n      // NC=1   VCS=0  IV=0   Verilator=1 (wrong,fixed)\n      $display("15 **-4'sd2 = %0x expect 0 (per IEEE negative power)", ((-4'd1 ** -4'sd2)));\n      // NC=1   VCS=0  IV=67b6cfc1b29a21(wrong)  Verilator=1\n      $display("15 ** 14    = %0x expect 1 (LSB 4-bits of 67b6cfc1b29a21)", ((-4'd1 ** -4'd2)));\n      // NC=1   VCS=0  IV=67b6cfc1b29a21(wrong)  Verilator=1\n      $display("15 ** 14    = %0x expect 1 (LSB 4-bits of 67b6cfc1b29a21)", ((4'd15 ** 4'd14)));\n      // NC=8765432187654321  VCS=8765432187654000(wrong) IV=8765432187654321   Verilator=8765432187654321\n      $display("64'big ** 1 = %0x  expect %0x", 64'h8765432187654321 ** 1, 64'h8765432187654321);\n      $display("\n");\n\n      do if',
-      do if (((64'b1111 ** 64'b1110)) !== (64'h67b6cfc1b29a21)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_pow3.v",0, ((64'b1111 ** 64'b1110)), (64'h67b6cfc1b29a21)); fail=1; end while(0);
+      do if (((64'b1111 ** 64'b1110)) !== (64'h67b6cfc1b29a21)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_pow3.v",27, ((64'b1111 ** 64'b1110)), (64'h67b6cfc1b29a21)); fail=1; end while(0);
          ^-- $Source01/t_math_pow3.v:27:9:.
 [SNT:PA0207] $Source01/t_math_pow3.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
    initial begin
@@ -17,7 +17,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 AST_DEBUG_BEGIN
 Count: 76
 LIB: work
-FILE: f<13>:$Source01/t_math_pow3.v
+FILE: f<15>:$Source01/t_math_pow3.v
 n<$Source01/t_math_pow3.v> u<75> t<Top_level_rule> c<1> l<8:1> el<82:10>
   n<> u<1> t<Null_rule> p<75> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<75> s<3> l<1:1> el<1:47>
@@ -278,7 +278,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:checkh
               vpiName: ")"
       vpiPreprocMacroInstance (43 items):
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:27:7 end:27:59 ppstart:27:7 ppend:27:217:
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:27:7 end:27:59 ppstart:27:7 ppend:27:218:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:27:7 end:27:59:
             vpiParent: PreprocMacroInstance name:checkh
@@ -291,10 +291,10 @@ Design name:unnamed:
             "Identifier name:64'h67b6cfc1b29a21 start:27:40 end:27:58":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h67b6cfc1b29a21"
-          "vpiPMIBody Identifier name:do if (((64'b1111 ** 64'b1110)) !== (64'h67b6cfc1b29a21)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((64'b1111 ** 64'b1110)), (64'h67b6cfc1b29a21)); fail=1; end while(0) start:6:27 end:6:237":
+          "vpiPMIBody Identifier name:do if (((64'b1111 ** 64'b1110)) !== (64'h67b6cfc1b29a21)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",27, ((64'b1111 ** 64'b1110)), (64'h67b6cfc1b29a21)); fail=1; end while(0) start:6:27 end:6:238":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((64'b1111 ** 64'b1110)) !== (64'h67b6cfc1b29a21)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((64'b1111 ** 64'b1110)), (64'h67b6cfc1b29a21)); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:28:7 end:28:40 ppstart:28:7 ppend:28:179:
+            vpiName: "do if (((64'b1111 ** 64'b1110)) !== (64'h67b6cfc1b29a21)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",27, ((64'b1111 ** 64'b1110)), (64'h67b6cfc1b29a21)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:28:7 end:28:40 ppstart:28:7 ppend:28:180:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:28:7 end:28:40:
             vpiParent: PreprocMacroInstance name:checkh
@@ -307,10 +307,10 @@ Design name:unnamed:
             "Identifier name:4'h0 start:28:35 end:28:39":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "4'h0"
-          "vpiPMIBody Identifier name:do if (((-4'd1 ** -4'sd2)) !== (4'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-4'd1 ** -4'sd2)), (4'h0)); fail=1; end while(0) start:6:27 end:6:199":
+          "vpiPMIBody Identifier name:do if (((-4'd1 ** -4'sd2)) !== (4'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",28, ((-4'd1 ** -4'sd2)), (4'h0)); fail=1; end while(0) start:6:27 end:6:200":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-4'd1 ** -4'sd2)) !== (4'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-4'd1 ** -4'sd2)), (4'h0)); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:29:7 end:29:40 ppstart:29:7 ppend:29:177:
+            vpiName: "do if (((-4'd1 ** -4'sd2)) !== (4'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",28, ((-4'd1 ** -4'sd2)), (4'h0)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:29:7 end:29:40 ppstart:29:7 ppend:29:178:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:29:7 end:29:40:
             vpiParent: PreprocMacroInstance name:checkh
@@ -323,10 +323,10 @@ Design name:unnamed:
             "Identifier name:4'h1 start:29:35 end:29:39":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "4'h1"
-          "vpiPMIBody Identifier name:do if (((-4'd1 ** -4'd2)) !== (4'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-4'd1 ** -4'd2)), (4'h1)); fail=1; end while(0) start:6:27 end:6:197":
+          "vpiPMIBody Identifier name:do if (((-4'd1 ** -4'd2)) !== (4'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",29, ((-4'd1 ** -4'd2)), (4'h1)); fail=1; end while(0) start:6:27 end:6:198":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-4'd1 ** -4'd2)) !== (4'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-4'd1 ** -4'd2)), (4'h1)); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:30:7 end:30:40 ppstart:30:7 ppend:30:177:
+            vpiName: "do if (((-4'd1 ** -4'd2)) !== (4'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",29, ((-4'd1 ** -4'd2)), (4'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:30:7 end:30:40 ppstart:30:7 ppend:30:178:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:30:7 end:30:40:
             vpiParent: PreprocMacroInstance name:checkh
@@ -339,10 +339,10 @@ Design name:unnamed:
             "Identifier name:4'h1 start:30:35 end:30:39":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "4'h1"
-          "vpiPMIBody Identifier name:do if (((4'd15 ** 4'd14)) !== (4'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((4'd15 ** 4'd14)), (4'h1)); fail=1; end while(0) start:6:27 end:6:197":
+          "vpiPMIBody Identifier name:do if (((4'd15 ** 4'd14)) !== (4'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",30, ((4'd15 ** 4'd14)), (4'h1)); fail=1; end while(0) start:6:27 end:6:198":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((4'd15 ** 4'd14)) !== (4'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((4'd15 ** 4'd14)), (4'h1)); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:31:7 end:31:69 ppstart:31:7 ppend:31:237:
+            vpiName: "do if (((4'd15 ** 4'd14)) !== (4'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",30, ((4'd15 ** 4'd14)), (4'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:31:7 end:31:69 ppstart:31:7 ppend:31:238:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:31:7 end:31:69:
             vpiParent: PreprocMacroInstance name:checkh
@@ -355,154 +355,154 @@ Design name:unnamed:
             "Identifier name:64'h8765432187654321 start:31:48 end:31:68":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "64'h8765432187654321"
-          "vpiPMIBody Identifier name:do if (((64'h8765432187654321 ** 4'h1)) !== (64'h8765432187654321)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((64'h8765432187654321 ** 4'h1)), (64'h8765432187654321)); fail=1; end while(0) start:6:27 end:6:257":
+          "vpiPMIBody Identifier name:do if (((64'h8765432187654321 ** 4'h1)) !== (64'h8765432187654321)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",31, ((64'h8765432187654321 ** 4'h1)), (64'h8765432187654321)); fail=1; end while(0) start:6:27 end:6:258":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((64'h8765432187654321 ** 4'h1)) !== (64'h8765432187654321)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((64'h8765432187654321 ** 4'h1)), (64'h8765432187654321)); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:33:7 end:33:43 ppstart:33:7 ppend:33:185:
+            vpiName: "do if (((64'h8765432187654321 ** 4'h1)) !== (64'h8765432187654321)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",31, ((64'h8765432187654321 ** 4'h1)), (64'h8765432187654321)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:33:7 end:33:43 ppstart:33:7 ppend:33:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:33:7 end:33:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:(-8'sh3 **  8'h3)  start:33:15 end:33:33":
+            "Identifier name:(-8'sh3 **  8'h3) start:33:15 end:33:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "(-8'sh3 **  8'h3) "
-            "Identifier name:8'he5  start:33:36 end:33:42":
+              vpiName: "(-8'sh3 **  8'h3)"
+            "Identifier name:8'he5 start:33:36 end:33:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'he5 "
-          "vpiPMIBody Identifier name:do if (((-8'sh3 **  8'h3) ) !== (8'he5 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 **  8'h3) ), (8'he5 )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'he5"
+          "vpiPMIBody Identifier name:do if (((-8'sh3 **  8'h3)) !== (8'he5)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",33, ((-8'sh3 **  8'h3)), (8'he5)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh3 **  8'h3) ) !== (8'he5 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 **  8'h3) ), (8'he5 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:34:7 end:34:43 ppstart:34:7 ppend:34:185:
+            vpiName: "do if (((-8'sh3 **  8'h3)) !== (8'he5)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",33, ((-8'sh3 **  8'h3)), (8'he5)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:34:7 end:34:43 ppstart:34:7 ppend:34:180:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:34:7 end:34:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:(-8'sh1 **  8'h2)  start:34:15 end:34:33":
+            "Identifier name:(-8'sh1 **  8'h2) start:34:15 end:34:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "(-8'sh1 **  8'h2) "
-            "Identifier name:8'h1\t  start:34:36 end:34:42":
+              vpiName: "(-8'sh1 **  8'h2)"
+            "Identifier name:8'h1 start:34:36 end:34:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1\t "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 **  8'h2) ) !== (8'h1\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 **  8'h2) ), (8'h1\t )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 **  8'h2)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",34, ((-8'sh1 **  8'h2)), (8'h1)); fail=1; end while(0) start:6:27 end:6:200":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 **  8'h2) ) !== (8'h1\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 **  8'h2) ), (8'h1\t )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:35:7 end:35:43 ppstart:35:7 ppend:35:185:
+            vpiName: "do if (((-8'sh1 **  8'h2)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",34, ((-8'sh1 **  8'h2)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:35:7 end:35:43 ppstart:35:7 ppend:35:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:35:7 end:35:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:(-8'sh1 **  8'h3)  start:35:15 end:35:33":
+            "Identifier name:(-8'sh1 **  8'h3) start:35:15 end:35:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "(-8'sh1 **  8'h3) "
-            "Identifier name:8'hff  start:35:36 end:35:42":
+              vpiName: "(-8'sh1 **  8'h3)"
+            "Identifier name:8'hff start:35:36 end:35:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'hff "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 **  8'h3) ) !== (8'hff )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 **  8'h3) ), (8'hff )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'hff"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 **  8'h3)) !== (8'hff)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",35, ((-8'sh1 **  8'h3)), (8'hff)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 **  8'h3) ) !== (8'hff )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 **  8'h3) ), (8'hff )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:36:7 end:36:43 ppstart:36:7 ppend:36:185:
+            vpiName: "do if (((-8'sh1 **  8'h3)) !== (8'hff)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",35, ((-8'sh1 **  8'h3)), (8'hff)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:36:7 end:36:43 ppstart:36:7 ppend:36:180:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:36:7 end:36:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:( 8'h0  **  8'h3)  start:36:15 end:36:33":
+            "Identifier name:( 8'h0  **  8'h3) start:36:15 end:36:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "( 8'h0  **  8'h3) "
-            "Identifier name:8'h0\t  start:36:36 end:36:42":
+              vpiName: "( 8'h0  **  8'h3)"
+            "Identifier name:8'h0 start:36:36 end:36:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h0\t "
-          "vpiPMIBody Identifier name:do if ((( 8'h0  **  8'h3) ) !== (8'h0\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h0  **  8'h3) ), (8'h0\t )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h0"
+          "vpiPMIBody Identifier name:do if ((( 8'h0  **  8'h3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",36, (( 8'h0  **  8'h3)), (8'h0)); fail=1; end while(0) start:6:27 end:6:200":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h0  **  8'h3) ) !== (8'h0\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h0  **  8'h3) ), (8'h0\t )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:37:7 end:37:43 ppstart:37:7 ppend:37:185:
+            vpiName: "do if ((( 8'h0  **  8'h3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",36, (( 8'h0  **  8'h3)), (8'h0)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:37:7 end:37:43 ppstart:37:7 ppend:37:180:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:37:7 end:37:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:( 8'h1  **  8'h3)  start:37:15 end:37:33":
+            "Identifier name:( 8'h1  **  8'h3) start:37:15 end:37:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "( 8'h1  **  8'h3) "
-            "Identifier name:8'h1\t  start:37:36 end:37:42":
+              vpiName: "( 8'h1  **  8'h3)"
+            "Identifier name:8'h1 start:37:36 end:37:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1\t "
-          "vpiPMIBody Identifier name:do if ((( 8'h1  **  8'h3) ) !== (8'h1\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  **  8'h3) ), (8'h1\t )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h1  **  8'h3)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",37, (( 8'h1  **  8'h3)), (8'h1)); fail=1; end while(0) start:6:27 end:6:200":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h1  **  8'h3) ) !== (8'h1\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  **  8'h3) ), (8'h1\t )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:38:7 end:38:43 ppstart:38:7 ppend:38:185:
+            vpiName: "do if ((( 8'h1  **  8'h3)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",37, (( 8'h1  **  8'h3)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:38:7 end:38:43 ppstart:38:7 ppend:38:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:38:7 end:38:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:( 8'h3  **  8'h3)  start:38:15 end:38:33":
+            "Identifier name:( 8'h3  **  8'h3) start:38:15 end:38:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "( 8'h3  **  8'h3) "
-            "Identifier name:8'h1b  start:38:36 end:38:42":
+              vpiName: "( 8'h3  **  8'h3)"
+            "Identifier name:8'h1b start:38:36 end:38:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1b "
-          "vpiPMIBody Identifier name:do if ((( 8'h3  **  8'h3) ) !== (8'h1b )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  **  8'h3) ), (8'h1b )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h1b"
+          "vpiPMIBody Identifier name:do if ((( 8'h3  **  8'h3)) !== (8'h1b)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",38, (( 8'h3  **  8'h3)), (8'h1b)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h3  **  8'h3) ) !== (8'h1b )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  **  8'h3) ), (8'h1b )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:39:7 end:39:43 ppstart:39:7 ppend:39:185:
+            vpiName: "do if ((( 8'h3  **  8'h3)) !== (8'h1b)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",38, (( 8'h3  **  8'h3)), (8'h1b)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:39:7 end:39:43 ppstart:39:7 ppend:39:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:39:7 end:39:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:( 8'sh3 **  8'h3)  start:39:15 end:39:33":
+            "Identifier name:( 8'sh3 **  8'h3) start:39:15 end:39:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "( 8'sh3 **  8'h3) "
-            "Identifier name:8'h1b  start:39:36 end:39:42":
+              vpiName: "( 8'sh3 **  8'h3)"
+            "Identifier name:8'h1b start:39:36 end:39:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1b "
-          "vpiPMIBody Identifier name:do if ((( 8'sh3 **  8'h3) ) !== (8'h1b )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 **  8'h3) ), (8'h1b )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h1b"
+          "vpiPMIBody Identifier name:do if ((( 8'sh3 **  8'h3)) !== (8'h1b)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",39, (( 8'sh3 **  8'h3)), (8'h1b)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'sh3 **  8'h3) ) !== (8'h1b )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 **  8'h3) ), (8'h1b )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:40:7 end:40:43 ppstart:40:7 ppend:40:185:
+            vpiName: "do if ((( 8'sh3 **  8'h3)) !== (8'h1b)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",39, (( 8'sh3 **  8'h3)), (8'h1b)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:40:7 end:40:43 ppstart:40:7 ppend:40:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:40:7 end:40:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:( 8'h6  **  8'h3)  start:40:15 end:40:33":
+            "Identifier name:( 8'h6  **  8'h3) start:40:15 end:40:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "( 8'h6  **  8'h3) "
-            "Identifier name:8'hd8  start:40:36 end:40:42":
+              vpiName: "( 8'h6  **  8'h3)"
+            "Identifier name:8'hd8 start:40:36 end:40:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'hd8 "
-          "vpiPMIBody Identifier name:do if ((( 8'h6  **  8'h3) ) !== (8'hd8 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h6  **  8'h3) ), (8'hd8 )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'hd8"
+          "vpiPMIBody Identifier name:do if ((( 8'h6  **  8'h3)) !== (8'hd8)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",40, (( 8'h6  **  8'h3)), (8'hd8)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h6  **  8'h3) ) !== (8'hd8 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h6  **  8'h3) ), (8'hd8 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:41:7 end:41:43 ppstart:41:7 ppend:41:185:
+            vpiName: "do if ((( 8'h6  **  8'h3)) !== (8'hd8)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",40, (( 8'h6  **  8'h3)), (8'hd8)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:41:7 end:41:43 ppstart:41:7 ppend:41:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:41:7 end:41:43:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            "Identifier name:( 8'sh6 **  8'h3)  start:41:15 end:41:33":
+            "Identifier name:( 8'sh6 **  8'h3) start:41:15 end:41:32":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "( 8'sh6 **  8'h3) "
-            "Identifier name:8'hd8  start:41:36 end:41:42":
+              vpiName: "( 8'sh6 **  8'h3)"
+            "Identifier name:8'hd8 start:41:36 end:41:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'hd8 "
-          "vpiPMIBody Identifier name:do if ((( 8'sh6 **  8'h3) ) !== (8'hd8 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh6 **  8'h3) ), (8'hd8 )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'hd8"
+          "vpiPMIBody Identifier name:do if ((( 8'sh6 **  8'h3)) !== (8'hd8)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",41, (( 8'sh6 **  8'h3)), (8'hd8)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'sh6 **  8'h3) ) !== (8'hd8 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh6 **  8'h3) ), (8'hd8 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:43:7 end:43:43 ppstart:43:7 ppend:43:185:
+            vpiName: "do if ((( 8'sh6 **  8'h3)) !== (8'hd8)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",41, (( 8'sh6 **  8'h3)), (8'hd8)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:43:7 end:43:43 ppstart:43:7 ppend:43:184:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:43:7 end:43:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -512,13 +512,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh3 **  8'sh3) start:43:15 end:43:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh3 **  8'sh3)"
-            "Identifier name:8'he5  start:43:36 end:43:42":
+            "Identifier name:8'he5 start:43:36 end:43:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'he5 "
-          "vpiPMIBody Identifier name:do if (((-8'sh3 **  8'sh3)) !== (8'he5 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 **  8'sh3)), (8'he5 )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'he5"
+          "vpiPMIBody Identifier name:do if (((-8'sh3 **  8'sh3)) !== (8'he5)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",43, ((-8'sh3 **  8'sh3)), (8'he5)); fail=1; end while(0) start:6:27 end:6:204":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh3 **  8'sh3)) !== (8'he5 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 **  8'sh3)), (8'he5 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:44:7 end:44:43 ppstart:44:7 ppend:44:185:
+            vpiName: "do if (((-8'sh3 **  8'sh3)) !== (8'he5)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",43, ((-8'sh3 **  8'sh3)), (8'he5)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:44:7 end:44:43 ppstart:44:7 ppend:44:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:44:7 end:44:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -528,13 +528,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh1 **  8'sh2) start:44:15 end:44:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh1 **  8'sh2)"
-            "Identifier name:8'h1\t  start:44:36 end:44:42":
+            "Identifier name:8'h1 start:44:36 end:44:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1\t "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 **  8'sh2)) !== (8'h1\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 **  8'sh2)), (8'h1\t )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 **  8'sh2)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",44, ((-8'sh1 **  8'sh2)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 **  8'sh2)) !== (8'h1\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 **  8'sh2)), (8'h1\t )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:45:7 end:45:43 ppstart:45:7 ppend:45:185:
+            vpiName: "do if (((-8'sh1 **  8'sh2)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",44, ((-8'sh1 **  8'sh2)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:45:7 end:45:43 ppstart:45:7 ppend:45:184:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:45:7 end:45:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -544,13 +544,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh1 **  8'sh3) start:45:15 end:45:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh1 **  8'sh3)"
-            "Identifier name:8'hff  start:45:36 end:45:42":
+            "Identifier name:8'hff start:45:36 end:45:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'hff "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 **  8'sh3)) !== (8'hff )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 **  8'sh3)), (8'hff )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'hff"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 **  8'sh3)) !== (8'hff)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",45, ((-8'sh1 **  8'sh3)), (8'hff)); fail=1; end while(0) start:6:27 end:6:204":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 **  8'sh3)) !== (8'hff )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 **  8'sh3)), (8'hff )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:46:7 end:46:43 ppstart:46:7 ppend:46:185:
+            vpiName: "do if (((-8'sh1 **  8'sh3)) !== (8'hff)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",45, ((-8'sh1 **  8'sh3)), (8'hff)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:46:7 end:46:43 ppstart:46:7 ppend:46:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:46:7 end:46:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -560,13 +560,13 @@ Design name:unnamed:
             "Identifier name:( 8'h0  **  8'sh3) start:46:15 end:46:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h0  **  8'sh3)"
-            "Identifier name:8'h0\t  start:46:36 end:46:42":
+            "Identifier name:8'h0 start:46:36 end:46:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h0\t "
-          "vpiPMIBody Identifier name:do if ((( 8'h0  **  8'sh3)) !== (8'h0\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h0  **  8'sh3)), (8'h0\t )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h0"
+          "vpiPMIBody Identifier name:do if ((( 8'h0  **  8'sh3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",46, (( 8'h0  **  8'sh3)), (8'h0)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h0  **  8'sh3)) !== (8'h0\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h0  **  8'sh3)), (8'h0\t )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:47:7 end:47:43 ppstart:47:7 ppend:47:185:
+            vpiName: "do if ((( 8'h0  **  8'sh3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",46, (( 8'h0  **  8'sh3)), (8'h0)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:47:7 end:47:43 ppstart:47:7 ppend:47:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:47:7 end:47:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -576,13 +576,13 @@ Design name:unnamed:
             "Identifier name:( 8'h1  **  8'sh3) start:47:15 end:47:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h1  **  8'sh3)"
-            "Identifier name:8'h1\t  start:47:36 end:47:42":
+            "Identifier name:8'h1 start:47:36 end:47:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1\t "
-          "vpiPMIBody Identifier name:do if ((( 8'h1  **  8'sh3)) !== (8'h1\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  **  8'sh3)), (8'h1\t )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h1  **  8'sh3)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",47, (( 8'h1  **  8'sh3)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h1  **  8'sh3)) !== (8'h1\t )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  **  8'sh3)), (8'h1\t )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:48:7 end:48:43 ppstart:48:7 ppend:48:185:
+            vpiName: "do if ((( 8'h1  **  8'sh3)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",47, (( 8'h1  **  8'sh3)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:48:7 end:48:43 ppstart:48:7 ppend:48:184:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:48:7 end:48:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -592,13 +592,13 @@ Design name:unnamed:
             "Identifier name:( 8'h3  **  8'sh3) start:48:15 end:48:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h3  **  8'sh3)"
-            "Identifier name:8'h1b  start:48:36 end:48:42":
+            "Identifier name:8'h1b start:48:36 end:48:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1b "
-          "vpiPMIBody Identifier name:do if ((( 8'h3  **  8'sh3)) !== (8'h1b )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  **  8'sh3)), (8'h1b )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h1b"
+          "vpiPMIBody Identifier name:do if ((( 8'h3  **  8'sh3)) !== (8'h1b)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",48, (( 8'h3  **  8'sh3)), (8'h1b)); fail=1; end while(0) start:6:27 end:6:204":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h3  **  8'sh3)) !== (8'h1b )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  **  8'sh3)), (8'h1b )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:49:7 end:49:43 ppstart:49:7 ppend:49:185:
+            vpiName: "do if ((( 8'h3  **  8'sh3)) !== (8'h1b)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",48, (( 8'h3  **  8'sh3)), (8'h1b)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:49:7 end:49:43 ppstart:49:7 ppend:49:184:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:49:7 end:49:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -608,13 +608,13 @@ Design name:unnamed:
             "Identifier name:( 8'sh3 **  8'sh3) start:49:15 end:49:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'sh3 **  8'sh3)"
-            "Identifier name:8'h1b  start:49:36 end:49:42":
+            "Identifier name:8'h1b start:49:36 end:49:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1b "
-          "vpiPMIBody Identifier name:do if ((( 8'sh3 **  8'sh3)) !== (8'h1b )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 **  8'sh3)), (8'h1b )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'h1b"
+          "vpiPMIBody Identifier name:do if ((( 8'sh3 **  8'sh3)) !== (8'h1b)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",49, (( 8'sh3 **  8'sh3)), (8'h1b)); fail=1; end while(0) start:6:27 end:6:204":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'sh3 **  8'sh3)) !== (8'h1b )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 **  8'sh3)), (8'h1b )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:50:7 end:50:43 ppstart:50:7 ppend:50:185:
+            vpiName: "do if ((( 8'sh3 **  8'sh3)) !== (8'h1b)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",49, (( 8'sh3 **  8'sh3)), (8'h1b)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:50:7 end:50:43 ppstart:50:7 ppend:50:184:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:50:7 end:50:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -624,13 +624,13 @@ Design name:unnamed:
             "Identifier name:( 8'h6  **  8'sh3) start:50:15 end:50:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h6  **  8'sh3)"
-            "Identifier name:8'hd8  start:50:36 end:50:42":
+            "Identifier name:8'hd8 start:50:36 end:50:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'hd8 "
-          "vpiPMIBody Identifier name:do if ((( 8'h6  **  8'sh3)) !== (8'hd8 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h6  **  8'sh3)), (8'hd8 )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'hd8"
+          "vpiPMIBody Identifier name:do if ((( 8'h6  **  8'sh3)) !== (8'hd8)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",50, (( 8'h6  **  8'sh3)), (8'hd8)); fail=1; end while(0) start:6:27 end:6:204":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h6  **  8'sh3)) !== (8'hd8 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h6  **  8'sh3)), (8'hd8 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:51:7 end:51:43 ppstart:51:7 ppend:51:185:
+            vpiName: "do if ((( 8'h6  **  8'sh3)) !== (8'hd8)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",50, (( 8'h6  **  8'sh3)), (8'hd8)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:51:7 end:51:43 ppstart:51:7 ppend:51:184:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:51:7 end:51:43:
             vpiParent: PreprocMacroInstance name:checkh
@@ -640,13 +640,13 @@ Design name:unnamed:
             "Identifier name:( 8'sh6 **  8'sh3) start:51:15 end:51:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'sh6 **  8'sh3)"
-            "Identifier name:8'hd8  start:51:36 end:51:42":
+            "Identifier name:8'hd8 start:51:36 end:51:41":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'hd8 "
-          "vpiPMIBody Identifier name:do if ((( 8'sh6 **  8'sh3)) !== (8'hd8 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh6 **  8'sh3)), (8'hd8 )); fail=1; end while(0) start:6:27 end:6:205":
+              vpiName: "8'hd8"
+          "vpiPMIBody Identifier name:do if ((( 8'sh6 **  8'sh3)) !== (8'hd8)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",51, (( 8'sh6 **  8'sh3)), (8'hd8)); fail=1; end while(0) start:6:27 end:6:204":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'sh6 **  8'sh3)) !== (8'hd8 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh6 **  8'sh3)), (8'hd8 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:53:7 end:53:42 ppstart:53:7 ppend:53:183:
+            vpiName: "do if ((( 8'sh6 **  8'sh3)) !== (8'hd8)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",51, (( 8'sh6 **  8'sh3)), (8'hd8)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:53:7 end:53:42 ppstart:53:7 ppend:53:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:53:7 end:53:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -656,13 +656,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh3 ** -8'sh0) start:53:15 end:53:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh3 ** -8'sh0)"
-            "Identifier name:8'h1  start:53:36 end:53:41":
+            "Identifier name:8'h1 start:53:36 end:53:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if (((-8'sh3 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh3 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",53, ((-8'sh3 ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh3 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:54:7 end:54:42 ppstart:54:7 ppend:54:183:
+            vpiName: "do if (((-8'sh3 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",53, ((-8'sh3 ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:54:7 end:54:42 ppstart:54:7 ppend:54:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:54:7 end:54:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -672,13 +672,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh1 ** -8'sh0) start:54:15 end:54:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh1 ** -8'sh0)"
-            "Identifier name:8'h1  start:54:36 end:54:41":
+            "Identifier name:8'h1 start:54:36 end:54:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",54, ((-8'sh1 ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:55:7 end:55:42 ppstart:55:7 ppend:55:183:
+            vpiName: "do if (((-8'sh1 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",54, ((-8'sh1 ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:55:7 end:55:42 ppstart:55:7 ppend:55:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:55:7 end:55:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -688,13 +688,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh1 ** -8'sh0) start:55:15 end:55:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh1 ** -8'sh0)"
-            "Identifier name:8'h1  start:55:36 end:55:41":
+            "Identifier name:8'h1 start:55:36 end:55:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",55, ((-8'sh1 ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:56:7 end:56:42 ppstart:56:7 ppend:56:183:
+            vpiName: "do if (((-8'sh1 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",55, ((-8'sh1 ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:56:7 end:56:42 ppstart:56:7 ppend:56:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:56:7 end:56:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -704,13 +704,13 @@ Design name:unnamed:
             "Identifier name:( 8'h0  ** -8'sh0) start:56:15 end:56:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h0  ** -8'sh0)"
-            "Identifier name:8'h1  start:56:36 end:56:41":
+            "Identifier name:8'h1 start:56:36 end:56:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'h0  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h0  ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h0  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",56, (( 8'h0  ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h0  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h0  ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:57:7 end:57:42 ppstart:57:7 ppend:57:183:
+            vpiName: "do if ((( 8'h0  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",56, (( 8'h0  ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:57:7 end:57:42 ppstart:57:7 ppend:57:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:57:7 end:57:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -720,13 +720,13 @@ Design name:unnamed:
             "Identifier name:( 8'h1  ** -8'sh0) start:57:15 end:57:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h1  ** -8'sh0)"
-            "Identifier name:8'h1  start:57:36 end:57:41":
+            "Identifier name:8'h1 start:57:36 end:57:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'h1  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h1  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",57, (( 8'h1  ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h1  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:58:7 end:58:42 ppstart:58:7 ppend:58:183:
+            vpiName: "do if ((( 8'h1  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",57, (( 8'h1  ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:58:7 end:58:42 ppstart:58:7 ppend:58:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:58:7 end:58:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -736,13 +736,13 @@ Design name:unnamed:
             "Identifier name:( 8'h3  ** -8'sh0) start:58:15 end:58:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h3  ** -8'sh0)"
-            "Identifier name:8'h1  start:58:36 end:58:41":
+            "Identifier name:8'h1 start:58:36 end:58:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'h3  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h3  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",58, (( 8'h3  ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h3  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:59:7 end:59:42 ppstart:59:7 ppend:59:183:
+            vpiName: "do if ((( 8'h3  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",58, (( 8'h3  ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:59:7 end:59:42 ppstart:59:7 ppend:59:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:59:7 end:59:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -752,13 +752,13 @@ Design name:unnamed:
             "Identifier name:( 8'sh3 ** -8'sh0) start:59:15 end:59:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'sh3 ** -8'sh0)"
-            "Identifier name:8'h1  start:59:36 end:59:41":
+            "Identifier name:8'h1 start:59:36 end:59:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'sh3 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'sh3 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",59, (( 8'sh3 ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'sh3 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:61:7 end:61:42 ppstart:61:7 ppend:61:183:
+            vpiName: "do if ((( 8'sh3 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",59, (( 8'sh3 ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:61:7 end:61:42 ppstart:61:7 ppend:61:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:61:7 end:61:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -768,13 +768,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh3 ** -8'sh0) start:61:15 end:61:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh3 ** -8'sh0)"
-            "Identifier name:8'h1  start:61:36 end:61:41":
+            "Identifier name:8'h1 start:61:36 end:61:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if (((-8'sh3 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh3 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",61, ((-8'sh3 ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh3 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:62:7 end:62:42 ppstart:62:7 ppend:62:183:
+            vpiName: "do if (((-8'sh3 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",61, ((-8'sh3 ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:62:7 end:62:42 ppstart:62:7 ppend:62:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:62:7 end:62:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -784,13 +784,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh1 ** -8'sh0) start:62:15 end:62:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh1 ** -8'sh0)"
-            "Identifier name:8'h1  start:62:36 end:62:41":
+            "Identifier name:8'h1 start:62:36 end:62:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",62, ((-8'sh1 ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:63:7 end:63:42 ppstart:63:7 ppend:63:183:
+            vpiName: "do if (((-8'sh1 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",62, ((-8'sh1 ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:63:7 end:63:42 ppstart:63:7 ppend:63:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:63:7 end:63:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -800,13 +800,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh1 ** -8'sh0) start:63:15 end:63:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh1 ** -8'sh0)"
-            "Identifier name:8'h1  start:63:36 end:63:41":
+            "Identifier name:8'h1 start:63:36 end:63:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",63, ((-8'sh1 ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:64:7 end:64:42 ppstart:64:7 ppend:64:183:
+            vpiName: "do if (((-8'sh1 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",63, ((-8'sh1 ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:64:7 end:64:42 ppstart:64:7 ppend:64:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:64:7 end:64:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -816,13 +816,13 @@ Design name:unnamed:
             "Identifier name:( 8'h0  ** -8'sh0) start:64:15 end:64:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h0  ** -8'sh0)"
-            "Identifier name:8'h1  start:64:36 end:64:41":
+            "Identifier name:8'h1 start:64:36 end:64:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'h0  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h0  ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h0  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",64, (( 8'h0  ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h0  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h0  ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:65:7 end:65:42 ppstart:65:7 ppend:65:183:
+            vpiName: "do if ((( 8'h0  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",64, (( 8'h0  ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:65:7 end:65:42 ppstart:65:7 ppend:65:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:65:7 end:65:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -832,13 +832,13 @@ Design name:unnamed:
             "Identifier name:( 8'h1  ** -8'sh0) start:65:15 end:65:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h1  ** -8'sh0)"
-            "Identifier name:8'h1  start:65:36 end:65:41":
+            "Identifier name:8'h1 start:65:36 end:65:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'h1  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h1  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",65, (( 8'h1  ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h1  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:66:7 end:66:42 ppstart:66:7 ppend:66:183:
+            vpiName: "do if ((( 8'h1  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",65, (( 8'h1  ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:66:7 end:66:42 ppstart:66:7 ppend:66:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:66:7 end:66:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -848,13 +848,13 @@ Design name:unnamed:
             "Identifier name:( 8'h3  ** -8'sh0) start:66:15 end:66:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h3  ** -8'sh0)"
-            "Identifier name:8'h1  start:66:36 end:66:41":
+            "Identifier name:8'h1 start:66:36 end:66:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'h3  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h3  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",66, (( 8'h3  ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h3  ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:67:7 end:67:42 ppstart:67:7 ppend:67:183:
+            vpiName: "do if ((( 8'h3  ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",66, (( 8'h3  ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:67:7 end:67:42 ppstart:67:7 ppend:67:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:67:7 end:67:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -864,13 +864,13 @@ Design name:unnamed:
             "Identifier name:( 8'sh3 ** -8'sh0) start:67:15 end:67:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'sh3 ** -8'sh0)"
-            "Identifier name:8'h1  start:67:36 end:67:41":
+            "Identifier name:8'h1 start:67:36 end:67:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'sh3 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 ** -8'sh0)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'sh3 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",67, (( 8'sh3 ** -8'sh0)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'sh3 ** -8'sh0)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 ** -8'sh0)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:69:7 end:69:42 ppstart:69:7 ppend:69:183:
+            vpiName: "do if ((( 8'sh3 ** -8'sh0)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",67, (( 8'sh3 ** -8'sh0)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:69:7 end:69:42 ppstart:69:7 ppend:69:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:69:7 end:69:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -880,13 +880,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh3 ** -8'sh3) start:69:15 end:69:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh3 ** -8'sh3)"
-            "Identifier name:8'h0  start:69:36 end:69:41":
+            "Identifier name:8'h0 start:69:36 end:69:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h0 "
-          "vpiPMIBody Identifier name:do if (((-8'sh3 ** -8'sh3)) !== (8'h0 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 ** -8'sh3)), (8'h0 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h0"
+          "vpiPMIBody Identifier name:do if (((-8'sh3 ** -8'sh3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",69, ((-8'sh3 ** -8'sh3)), (8'h0)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh3 ** -8'sh3)) !== (8'h0 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh3 ** -8'sh3)), (8'h0 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:70:7 end:70:42 ppstart:70:7 ppend:70:183:
+            vpiName: "do if (((-8'sh3 ** -8'sh3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",69, ((-8'sh3 ** -8'sh3)), (8'h0)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:70:7 end:70:42 ppstart:70:7 ppend:70:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:70:7 end:70:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -896,13 +896,13 @@ Design name:unnamed:
             "Identifier name:(-8'sh1 ** -8'sh2) start:70:15 end:70:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "(-8'sh1 ** -8'sh2)"
-            "Identifier name:8'h1  start:70:36 end:70:41":
+            "Identifier name:8'h1 start:70:36 end:70:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh2)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh2)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh2)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",70, ((-8'sh1 ** -8'sh2)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 ** -8'sh2)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh2)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:71:7 end:71:42 ppstart:71:7 ppend:71:183:
+            vpiName: "do if (((-8'sh1 ** -8'sh2)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",70, ((-8'sh1 ** -8'sh2)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:71:7 end:71:42 ppstart:71:7 ppend:71:184:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:71:7 end:71:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -915,10 +915,10 @@ Design name:unnamed:
             "Identifier name:8'hff start:71:36 end:71:41":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "8'hff"
-          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh3)) !== (8'hff)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh3)), (8'hff)); fail=1; end while(0) start:6:27 end:6:203":
+          "vpiPMIBody Identifier name:do if (((-8'sh1 ** -8'sh3)) !== (8'hff)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",71, ((-8'sh1 ** -8'sh3)), (8'hff)); fail=1; end while(0) start:6:27 end:6:204":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (((-8'sh1 ** -8'sh3)) !== (8'hff)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, ((-8'sh1 ** -8'sh3)), (8'hff)); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:73:7 end:73:42 ppstart:73:7 ppend:73:183:
+            vpiName: "do if (((-8'sh1 ** -8'sh3)) !== (8'hff)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",71, ((-8'sh1 ** -8'sh3)), (8'hff)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:73:7 end:73:42 ppstart:73:7 ppend:73:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:73:7 end:73:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -928,13 +928,13 @@ Design name:unnamed:
             "Identifier name:( 8'h1  ** -8'sh3) start:73:15 end:73:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h1  ** -8'sh3)"
-            "Identifier name:8'h1  start:73:36 end:73:41":
+            "Identifier name:8'h1 start:73:36 end:73:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h1 "
-          "vpiPMIBody Identifier name:do if ((( 8'h1  ** -8'sh3)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  ** -8'sh3)), (8'h1 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h1"
+          "vpiPMIBody Identifier name:do if ((( 8'h1  ** -8'sh3)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",73, (( 8'h1  ** -8'sh3)), (8'h1)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h1  ** -8'sh3)) !== (8'h1 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h1  ** -8'sh3)), (8'h1 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:74:7 end:74:42 ppstart:74:7 ppend:74:183:
+            vpiName: "do if ((( 8'h1  ** -8'sh3)) !== (8'h1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",73, (( 8'h1  ** -8'sh3)), (8'h1)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:74:7 end:74:42 ppstart:74:7 ppend:74:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:74:7 end:74:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -944,13 +944,13 @@ Design name:unnamed:
             "Identifier name:( 8'h3  ** -8'sh3) start:74:15 end:74:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'h3  ** -8'sh3)"
-            "Identifier name:8'h0  start:74:36 end:74:41":
+            "Identifier name:8'h0 start:74:36 end:74:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h0 "
-          "vpiPMIBody Identifier name:do if ((( 8'h3  ** -8'sh3)) !== (8'h0 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  ** -8'sh3)), (8'h0 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h0"
+          "vpiPMIBody Identifier name:do if ((( 8'h3  ** -8'sh3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",74, (( 8'h3  ** -8'sh3)), (8'h0)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'h3  ** -8'sh3)) !== (8'h0 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'h3  ** -8'sh3)), (8'h0 )); fail=1; end while(0)"
-        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:75:7 end:75:42 ppstart:75:7 ppend:75:183:
+            vpiName: "do if ((( 8'h3  ** -8'sh3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",74, (( 8'h3  ** -8'sh3)), (8'h0)); fail=1; end while(0)"
+        PreprocMacroInstance name:checkh file:$Source01/t_math_pow3.v start:75:7 end:75:42 ppstart:75:7 ppend:75:182:
           vpiParent: SourceFile name:t_math_pow3.v
           vpiName Identifier name:checkh start:75:7 end:75:42:
             vpiParent: PreprocMacroInstance name:checkh
@@ -960,12 +960,12 @@ Design name:unnamed:
             "Identifier name:( 8'sh3 ** -8'sh3) start:75:15 end:75:33":
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "( 8'sh3 ** -8'sh3)"
-            "Identifier name:8'h0  start:75:36 end:75:41":
+            "Identifier name:8'h0 start:75:36 end:75:40":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "8'h0 "
-          "vpiPMIBody Identifier name:do if ((( 8'sh3 ** -8'sh3)) !== (8'h0 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 ** -8'sh3)), (8'h0 )); fail=1; end while(0) start:6:27 end:6:203":
+              vpiName: "8'h0"
+          "vpiPMIBody Identifier name:do if ((( 8'sh3 ** -8'sh3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",75, (( 8'sh3 ** -8'sh3)), (8'h0)); fail=1; end while(0) start:6:27 end:6:202":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((( 8'sh3 ** -8'sh3)) !== (8'h0 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",0, (( 8'sh3 ** -8'sh3)), (8'h0 )); fail=1; end while(0)"
+            vpiName: "do if ((( 8'sh3 ** -8'sh3)) !== (8'h0)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_pow3.v\",75, (( 8'sh3 ** -8'sh3)), (8'h0)); fail=1; end while(0)"
   vpiAllModules (2 items):
     Module file:$Source01/t_math_pow3.v start:8:1 end:8:1:
       vpiParent: Design name:unnamed
@@ -1008,25 +1008,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_math_pow3/mounts.json
 
 
-{'result': {'coverage': 34.52,
+{'result': {'coverage': 33.51,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_math_pow3.v': {'post_len': 5425,
-                                                         'pre_len': 8285}},
-            'post_len': 5425,
-            'pre_len': 8285,
+            'files': {'$Output/lib/work/t_math_pow3.v': {'post_len': 5468,
+                                                         'pre_len': 8224}},
+            'post_len': 5468,
+            'pre_len': 8224,
             'test_name': 'Verilator/t_math_pow3'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/t_math_pow3.v |     8285 |      5425 |
+| $Output/lib/work/t_math_pow3.v |     8224 |      5468 |
 +================================+==========+===========+
-|                                |     8285 |      5425 |
+|                                |     8224 |      5468 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 34.52
+[COVERAGE] : 33.51
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

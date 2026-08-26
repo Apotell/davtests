@@ -4,13 +4,13 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/YosysMarlann +incdir+. -writepp -fileunit marlann_compute.v -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysMarlann/YosysMarlann
+COMMAND: -wd ../../../tests/YosysMarlann +incdir+. -writepp -mt max -fileunit marlann_compute.v -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysMarlann/YosysMarlann
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/marlann_compute.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/marlann_compute.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0303] $Source01/marlann_compute.v:18:1: Compile module "marlann_compute".
 [NTE:CP0309] $Source01/marlann_compute.v:25:16: Implicit port type (wire) for "busy".
 [NTE:CP0309] $Source01/marlann_compute.v:28:16: Implicit port type (wire) for "cmd_ready".
@@ -1587,7 +1587,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1783,7 +1783,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -1901,7 +1901,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -4991,14 +4991,14 @@ Design name:unnamed:
             vpiParent: Net name:acc0_shifted
             vpiOpType: arith shift right (42)
             vpiOperand (2 items):
-              SysFuncCall name:$signed start:422:29 end:422:42:
+              SysTaskCall name:$signed start:422:29 end:422:42:
                 vpiParent: Operation
                 vpiName Identifier name:$signed start:422:29 end:422:36:
-                  vpiParent: SysFuncCall name:$signed
+                  vpiParent: SysTaskCall name:$signed
                   vpiName: "$signed"
                 vpiArgument (1 items):
                   RefObj name:acc0 start:422:37 end:422:41:
-                    vpiParent: SysFuncCall name:$signed
+                    vpiParent: SysTaskCall name:$signed
                     vpiName: acc0
                     vpiFullName: marlann_compute.acc0_shifted.acc0
                     vpiActual: Variable name:acc0
@@ -5047,14 +5047,14 @@ Design name:unnamed:
             vpiParent: Net name:acc1_shifted
             vpiOpType: arith shift right (42)
             vpiOperand (2 items):
-              SysFuncCall name:$signed start:423:29 end:423:42:
+              SysTaskCall name:$signed start:423:29 end:423:42:
                 vpiParent: Operation
                 vpiName Identifier name:$signed start:423:29 end:423:36:
-                  vpiParent: SysFuncCall name:$signed
+                  vpiParent: SysTaskCall name:$signed
                   vpiName: "$signed"
                 vpiArgument (1 items):
                   RefObj name:acc1 start:423:37 end:423:41:
-                    vpiParent: SysFuncCall name:$signed
+                    vpiParent: SysTaskCall name:$signed
                     vpiName: acc1
                     vpiFullName: marlann_compute.acc1_shifted.acc1
                     vpiActual: Variable name:acc1
@@ -5822,7 +5822,7 @@ Design name:unnamed:
                 CaseStmt start:150:3 end:152:10:
                   vpiParent: Begin
                   vpiCaseType: exact (1)
-                  vpiCondition Operation start:150:9 end:150:34:
+                  vpiCondition Operation start:150:9 end:150:35:
                     vpiParent: CaseStmt
                     vpiOpType: bitwise and (28)
                     vpiOperand (2 items):
@@ -5857,7 +5857,7 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
-                      Constant start:150:24 end:150:34:
+                      Constant start:150:24 end:150:35:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
@@ -5865,7 +5865,7 @@ Design name:unnamed:
                           vpiActual: LogicTypespec
                         vpiConstType: binary (3)
                         vpiSize: 6
-                        vpiDecompile: "6'b111100"
+                        vpiDecompile: "6'b 1111_00"
                         vpiValue: "111100"
                   vpiCaseItem (1 items):
                     CaseItem start:151:4 end:151:34:
@@ -6103,7 +6103,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiFullName: marlann_compute
               vpiStmt (3 items):
-                Assignment start:167:3 end:167:83:
+                Assignment start:167:3 end:167:84:
                   vpiParent: Begin
                   vpiLhs Operation start:167:3 end:167:32:
                     vpiParent: Assignment
@@ -6119,7 +6119,7 @@ Design name:unnamed:
                         vpiName: memlock_expect
                         vpiFullName: marlann_compute.memlock_expect
                         vpiActual: Variable name:memlock_expect
-                  vpiRhs Operation start:167:36 end:167:83:
+                  vpiRhs Operation start:167:36 end:167:84:
                     vpiParent: Assignment
                     vpiOpType: bitwise or (29)
                     vpiOperand (2 items):
@@ -6128,7 +6128,7 @@ Design name:unnamed:
                         vpiName: memlock_res
                         vpiFullName: marlann_compute.memlock_res
                         vpiActual: Variable name:memlock_res
-                      Operation start:167:51 end:167:82:
+                      Operation start:167:51 end:167:83:
                         vpiParent: Operation
                         vpiOpType: condition (32)
                         vpiOperand (3 items):
@@ -6137,7 +6137,7 @@ Design name:unnamed:
                             vpiName: s1_stall
                             vpiFullName: marlann_compute.s1_stall
                             vpiActual: Net name:s1_stall
-                          Constant start:167:62 end:167:67:
+                          Constant start:167:62 end:167:68:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
@@ -6145,9 +6145,9 @@ Design name:unnamed:
                               vpiActual: LogicTypespec
                             vpiConstType: binary (3)
                             vpiSize: 10
-                            vpiDecompile: "10'b0"
+                            vpiDecompile: "10'b 0"
                             vpiValue: "0"
-                          RefObj name:memlock_mask start:167:70 end:167:82:
+                          RefObj name:memlock_mask start:167:71 end:167:83:
                             vpiParent: Operation
                             vpiName: memlock_mask
                             vpiFullName: marlann_compute.memlock_mask
@@ -7625,14 +7625,14 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                      SysFuncCall name:$signed start:297:44 end:297:72:
+                      SysTaskCall name:$signed start:297:44 end:297:72:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:297:44 end:297:51:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:mem_rdata[0*8+:8] start:297:52 end:297:71:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: mem_rdata[0*8+:8]
                             vpiFullName: marlann_compute.mem_rdata[0*8+:8]
                             vpiPrefix RefObj name:mem_rdata start:297:52 end:297:61:
@@ -7779,14 +7779,14 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                      SysFuncCall name:$signed start:298:44 end:298:72:
+                      SysTaskCall name:$signed start:298:44 end:298:72:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:298:44 end:298:51:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:mem_rdata[1*8+:8] start:298:52 end:298:71:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: mem_rdata[1*8+:8]
                             vpiFullName: marlann_compute.mem_rdata[1*8+:8]
                             vpiPrefix RefObj name:mem_rdata start:298:52 end:298:61:
@@ -7933,14 +7933,14 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                      SysFuncCall name:$signed start:299:44 end:299:72:
+                      SysTaskCall name:$signed start:299:44 end:299:72:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:299:44 end:299:51:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:mem_rdata[2*8+:8] start:299:52 end:299:71:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: mem_rdata[2*8+:8]
                             vpiFullName: marlann_compute.mem_rdata[2*8+:8]
                             vpiPrefix RefObj name:mem_rdata start:299:52 end:299:61:
@@ -8087,14 +8087,14 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                      SysFuncCall name:$signed start:300:44 end:300:72:
+                      SysTaskCall name:$signed start:300:44 end:300:72:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:300:44 end:300:51:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:mem_rdata[3*8+:8] start:300:52 end:300:71:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: mem_rdata[3*8+:8]
                             vpiFullName: marlann_compute.mem_rdata[3*8+:8]
                             vpiPrefix RefObj name:mem_rdata start:300:52 end:300:61:
@@ -8241,14 +8241,14 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                      SysFuncCall name:$signed start:301:44 end:301:72:
+                      SysTaskCall name:$signed start:301:44 end:301:72:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:301:44 end:301:51:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:mem_rdata[4*8+:8] start:301:52 end:301:71:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: mem_rdata[4*8+:8]
                             vpiFullName: marlann_compute.mem_rdata[4*8+:8]
                             vpiPrefix RefObj name:mem_rdata start:301:52 end:301:61:
@@ -8395,14 +8395,14 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                      SysFuncCall name:$signed start:302:44 end:302:72:
+                      SysTaskCall name:$signed start:302:44 end:302:72:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:302:44 end:302:51:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:mem_rdata[5*8+:8] start:302:52 end:302:71:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: mem_rdata[5*8+:8]
                             vpiFullName: marlann_compute.mem_rdata[5*8+:8]
                             vpiPrefix RefObj name:mem_rdata start:302:52 end:302:61:
@@ -8549,14 +8549,14 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                      SysFuncCall name:$signed start:303:44 end:303:72:
+                      SysTaskCall name:$signed start:303:44 end:303:72:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:303:44 end:303:51:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:mem_rdata[6*8+:8] start:303:52 end:303:71:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: mem_rdata[6*8+:8]
                             vpiFullName: marlann_compute.mem_rdata[6*8+:8]
                             vpiPrefix RefObj name:mem_rdata start:303:52 end:303:61:
@@ -8703,14 +8703,14 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                      SysFuncCall name:$signed start:304:44 end:304:72:
+                      SysTaskCall name:$signed start:304:44 end:304:72:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:304:44 end:304:51:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:mem_rdata[7*8+:8] start:304:52 end:304:71:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: mem_rdata[7*8+:8]
                             vpiFullName: marlann_compute.mem_rdata[7*8+:8]
                             vpiPrefix RefObj name:mem_rdata start:304:52 end:304:61:
@@ -9496,14 +9496,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:349:23 end:349:48:
+                          SysTaskCall name:$signed start:349:23 end:349:48:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:349:23 end:349:30:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s5_max[0*9+:9] start:349:31 end:349:47:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s5_max[0*9+:9]
                                 vpiFullName: marlann_compute.s5_max[0*9+:9]
                                 vpiPrefix RefObj name:s5_max start:349:31 end:349:37:
@@ -9546,14 +9546,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:349:51 end:349:76:
+                          SysTaskCall name:$signed start:349:51 end:349:76:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:349:51 end:349:58:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s5_max[1*9+:9] start:349:59 end:349:75:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s5_max[1*9+:9]
                                 vpiFullName: marlann_compute.s5_max[1*9+:9]
                                 vpiPrefix RefObj name:s5_max start:349:59 end:349:65:
@@ -9738,14 +9738,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:350:23 end:350:48:
+                          SysTaskCall name:$signed start:350:23 end:350:48:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:350:23 end:350:30:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s5_max[2*9+:9] start:350:31 end:350:47:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s5_max[2*9+:9]
                                 vpiFullName: marlann_compute.s5_max[2*9+:9]
                                 vpiPrefix RefObj name:s5_max start:350:31 end:350:37:
@@ -9788,14 +9788,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:350:51 end:350:76:
+                          SysTaskCall name:$signed start:350:51 end:350:76:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:350:51 end:350:58:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s5_max[3*9+:9] start:350:59 end:350:75:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s5_max[3*9+:9]
                                 vpiFullName: marlann_compute.s5_max[3*9+:9]
                                 vpiPrefix RefObj name:s5_max start:350:59 end:350:65:
@@ -9980,14 +9980,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:351:23 end:351:48:
+                          SysTaskCall name:$signed start:351:23 end:351:48:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:351:23 end:351:30:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s5_max[4*9+:9] start:351:31 end:351:47:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s5_max[4*9+:9]
                                 vpiFullName: marlann_compute.s5_max[4*9+:9]
                                 vpiPrefix RefObj name:s5_max start:351:31 end:351:37:
@@ -10030,14 +10030,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:351:51 end:351:76:
+                          SysTaskCall name:$signed start:351:51 end:351:76:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:351:51 end:351:58:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s5_max[5*9+:9] start:351:59 end:351:75:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s5_max[5*9+:9]
                                 vpiFullName: marlann_compute.s5_max[5*9+:9]
                                 vpiPrefix RefObj name:s5_max start:351:59 end:351:65:
@@ -10222,14 +10222,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:352:23 end:352:48:
+                          SysTaskCall name:$signed start:352:23 end:352:48:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:352:23 end:352:30:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s5_max[6*9+:9] start:352:31 end:352:47:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s5_max[6*9+:9]
                                 vpiFullName: marlann_compute.s5_max[6*9+:9]
                                 vpiPrefix RefObj name:s5_max start:352:31 end:352:37:
@@ -10272,14 +10272,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:352:51 end:352:76:
+                          SysTaskCall name:$signed start:352:51 end:352:76:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:352:51 end:352:58:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s5_max[7*9+:9] start:352:59 end:352:75:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s5_max[7*9+:9]
                                 vpiFullName: marlann_compute.s5_max[7*9+:9]
                                 vpiPrefix RefObj name:s5_max start:352:59 end:352:65:
@@ -10552,14 +10552,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:375:23 end:375:48:
+                          SysTaskCall name:$signed start:375:23 end:375:48:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:375:23 end:375:30:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s6_max[0*9+:9] start:375:31 end:375:47:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s6_max[0*9+:9]
                                 vpiFullName: marlann_compute.s6_max[0*9+:9]
                                 vpiPrefix RefObj name:s6_max start:375:31 end:375:37:
@@ -10602,14 +10602,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:375:51 end:375:76:
+                          SysTaskCall name:$signed start:375:51 end:375:76:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:375:51 end:375:58:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s6_max[1*9+:9] start:375:59 end:375:75:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s6_max[1*9+:9]
                                 vpiFullName: marlann_compute.s6_max[1*9+:9]
                                 vpiPrefix RefObj name:s6_max start:375:59 end:375:65:
@@ -10794,14 +10794,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:376:23 end:376:48:
+                          SysTaskCall name:$signed start:376:23 end:376:48:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:376:23 end:376:30:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s6_max[2*9+:9] start:376:31 end:376:47:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s6_max[2*9+:9]
                                 vpiFullName: marlann_compute.s6_max[2*9+:9]
                                 vpiPrefix RefObj name:s6_max start:376:31 end:376:37:
@@ -10844,14 +10844,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:376:51 end:376:76:
+                          SysTaskCall name:$signed start:376:51 end:376:76:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:376:51 end:376:58:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s6_max[3*9+:9] start:376:59 end:376:75:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s6_max[3*9+:9]
                                 vpiFullName: marlann_compute.s6_max[3*9+:9]
                                 vpiPrefix RefObj name:s6_max start:376:59 end:376:65:
@@ -11078,7 +11078,7 @@ Design name:unnamed:
                         vpiName: acc0
                         vpiFullName: marlann_compute.acc0
                         vpiActual: Variable name:acc0
-                Assignment start:390:3 end:390:47:
+                Assignment start:390:3 end:390:48:
                   vpiParent: Begin
                   vpiBlocking: true
                   vpiLhs RefObj name:acc0zn start:390:3 end:390:9:
@@ -11086,7 +11086,7 @@ Design name:unnamed:
                     vpiName: acc0zn
                     vpiFullName: marlann_compute.acc0zn
                     vpiActual: Variable name:acc0zn
-                  vpiRhs Operation start:390:12 end:390:47:
+                  vpiRhs Operation start:390:12 end:390:48:
                     vpiParent: Assignment
                     vpiOpType: condition (32)
                     vpiOperand (3 items):
@@ -11109,7 +11109,7 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "2"
                           vpiValue: 2
-                      Constant start:390:25 end:390:38:
+                      Constant start:390:25 end:390:39:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
@@ -11117,9 +11117,9 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h80000000"
+                        vpiDecompile: "32'h 8000_0000"
                         vpiValue: "80000000"
-                      RefObj name:acc0zn start:390:41 end:390:47:
+                      RefObj name:acc0zn start:390:42 end:390:48:
                         vpiParent: Operation
                         vpiName: acc0zn
                         vpiFullName: marlann_compute.acc0zn
@@ -11206,14 +11206,14 @@ Design name:unnamed:
                                             vpiParent: Operation
                                             vpiOpType: add (24)
                                             vpiOperand (2 items):
-                                              SysFuncCall name:$signed start:397:14 end:397:41:
+                                              SysTaskCall name:$signed start:397:14 end:397:41:
                                                 vpiParent: Operation
                                                 vpiName Identifier name:$signed start:397:14 end:397:21:
-                                                  vpiParent: SysFuncCall name:$signed
+                                                  vpiParent: SysTaskCall name:$signed
                                                   vpiName: "$signed"
                                                 vpiArgument (1 items):
                                                   IndexedPartSelect name:s7_prod[0+:16] start:397:22 end:397:40:
-                                                    vpiParent: SysFuncCall name:$signed
+                                                    vpiParent: SysTaskCall name:$signed
                                                     vpiName: s7_prod[0+:16]
                                                     vpiFullName: marlann_compute.s7_prod[0+:16]
                                                     vpiPrefix RefObj name:s7_prod start:397:22 end:397:29:
@@ -11242,14 +11242,14 @@ Design name:unnamed:
                                                       vpiSize: 64
                                                       vpiDecompile: "16"
                                                       vpiValue: 16
-                                              SysFuncCall name:$signed start:397:44 end:397:71:
+                                              SysTaskCall name:$signed start:397:44 end:397:71:
                                                 vpiParent: Operation
                                                 vpiName Identifier name:$signed start:397:44 end:397:51:
-                                                  vpiParent: SysFuncCall name:$signed
+                                                  vpiParent: SysTaskCall name:$signed
                                                   vpiName: "$signed"
                                                 vpiArgument (1 items):
                                                   IndexedPartSelect name:s7_prod[16+:16] start:397:52 end:397:70:
-                                                    vpiParent: SysFuncCall name:$signed
+                                                    vpiParent: SysTaskCall name:$signed
                                                     vpiName: s7_prod[16+:16]
                                                     vpiFullName: marlann_compute.s7_prod[16+:16]
                                                     vpiPrefix RefObj name:s7_prod start:397:52 end:397:59:
@@ -11278,14 +11278,14 @@ Design name:unnamed:
                                                       vpiSize: 64
                                                       vpiDecompile: "16"
                                                       vpiValue: 16
-                                          SysFuncCall name:$signed start:397:74 end:397:101:
+                                          SysTaskCall name:$signed start:397:74 end:397:101:
                                             vpiParent: Operation
                                             vpiName Identifier name:$signed start:397:74 end:397:81:
-                                              vpiParent: SysFuncCall name:$signed
+                                              vpiParent: SysTaskCall name:$signed
                                               vpiName: "$signed"
                                             vpiArgument (1 items):
                                               IndexedPartSelect name:s7_prod[32+:16] start:397:82 end:397:100:
-                                                vpiParent: SysFuncCall name:$signed
+                                                vpiParent: SysTaskCall name:$signed
                                                 vpiName: s7_prod[32+:16]
                                                 vpiFullName: marlann_compute.s7_prod[32+:16]
                                                 vpiPrefix RefObj name:s7_prod start:397:82 end:397:89:
@@ -11314,14 +11314,14 @@ Design name:unnamed:
                                                   vpiSize: 64
                                                   vpiDecompile: "16"
                                                   vpiValue: 16
-                                      SysFuncCall name:$signed start:397:104 end:397:131:
+                                      SysTaskCall name:$signed start:397:104 end:397:131:
                                         vpiParent: Operation
                                         vpiName Identifier name:$signed start:397:104 end:397:111:
-                                          vpiParent: SysFuncCall name:$signed
+                                          vpiParent: SysTaskCall name:$signed
                                           vpiName: "$signed"
                                         vpiArgument (1 items):
                                           IndexedPartSelect name:s7_prod[48+:16] start:397:112 end:397:130:
-                                            vpiParent: SysFuncCall name:$signed
+                                            vpiParent: SysTaskCall name:$signed
                                             vpiName: s7_prod[48+:16]
                                             vpiFullName: marlann_compute.s7_prod[48+:16]
                                             vpiPrefix RefObj name:s7_prod start:397:112 end:397:119:
@@ -11350,14 +11350,14 @@ Design name:unnamed:
                                               vpiSize: 64
                                               vpiDecompile: "16"
                                               vpiValue: 16
-                                  SysFuncCall name:$signed start:398:14 end:398:41:
+                                  SysTaskCall name:$signed start:398:14 end:398:41:
                                     vpiParent: Operation
                                     vpiName Identifier name:$signed start:398:14 end:398:21:
-                                      vpiParent: SysFuncCall name:$signed
+                                      vpiParent: SysTaskCall name:$signed
                                       vpiName: "$signed"
                                     vpiArgument (1 items):
                                       IndexedPartSelect name:s7_prod[64+:16] start:398:22 end:398:40:
-                                        vpiParent: SysFuncCall name:$signed
+                                        vpiParent: SysTaskCall name:$signed
                                         vpiName: s7_prod[64+:16]
                                         vpiFullName: marlann_compute.s7_prod[64+:16]
                                         vpiPrefix RefObj name:s7_prod start:398:22 end:398:29:
@@ -11386,14 +11386,14 @@ Design name:unnamed:
                                           vpiSize: 64
                                           vpiDecompile: "16"
                                           vpiValue: 16
-                              SysFuncCall name:$signed start:398:44 end:398:71:
+                              SysTaskCall name:$signed start:398:44 end:398:71:
                                 vpiParent: Operation
                                 vpiName Identifier name:$signed start:398:44 end:398:51:
-                                  vpiParent: SysFuncCall name:$signed
+                                  vpiParent: SysTaskCall name:$signed
                                   vpiName: "$signed"
                                 vpiArgument (1 items):
                                   IndexedPartSelect name:s7_prod[80+:16] start:398:52 end:398:70:
-                                    vpiParent: SysFuncCall name:$signed
+                                    vpiParent: SysTaskCall name:$signed
                                     vpiName: s7_prod[80+:16]
                                     vpiFullName: marlann_compute.s7_prod[80+:16]
                                     vpiPrefix RefObj name:s7_prod start:398:52 end:398:59:
@@ -11422,14 +11422,14 @@ Design name:unnamed:
                                       vpiSize: 64
                                       vpiDecompile: "16"
                                       vpiValue: 16
-                          SysFuncCall name:$signed start:398:74 end:398:101:
+                          SysTaskCall name:$signed start:398:74 end:398:101:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:398:74 end:398:81:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s7_prod[96+:16] start:398:82 end:398:100:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s7_prod[96+:16]
                                 vpiFullName: marlann_compute.s7_prod[96+:16]
                                 vpiPrefix RefObj name:s7_prod start:398:82 end:398:89:
@@ -11458,14 +11458,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "16"
                                   vpiValue: 16
-                      SysFuncCall name:$signed start:398:104 end:398:131:
+                      SysTaskCall name:$signed start:398:104 end:398:131:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:398:104 end:398:111:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:s7_prod[112+:16] start:398:112 end:398:130:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: s7_prod[112+:16]
                             vpiFullName: marlann_compute.s7_prod[112+:16]
                             vpiPrefix RefObj name:s7_prod start:398:112 end:398:119:
@@ -11529,14 +11529,14 @@ Design name:unnamed:
                                             vpiParent: Operation
                                             vpiOpType: add (24)
                                             vpiOperand (2 items):
-                                              SysFuncCall name:$signed start:400:14 end:400:41:
+                                              SysTaskCall name:$signed start:400:14 end:400:41:
                                                 vpiParent: Operation
                                                 vpiName Identifier name:$signed start:400:14 end:400:21:
-                                                  vpiParent: SysFuncCall name:$signed
+                                                  vpiParent: SysTaskCall name:$signed
                                                   vpiName: "$signed"
                                                 vpiArgument (1 items):
                                                   IndexedPartSelect name:s7_prod[128+:16] start:400:22 end:400:40:
-                                                    vpiParent: SysFuncCall name:$signed
+                                                    vpiParent: SysTaskCall name:$signed
                                                     vpiName: s7_prod[128+:16]
                                                     vpiFullName: marlann_compute.s7_prod[128+:16]
                                                     vpiPrefix RefObj name:s7_prod start:400:22 end:400:29:
@@ -11565,14 +11565,14 @@ Design name:unnamed:
                                                       vpiSize: 64
                                                       vpiDecompile: "16"
                                                       vpiValue: 16
-                                              SysFuncCall name:$signed start:400:44 end:400:71:
+                                              SysTaskCall name:$signed start:400:44 end:400:71:
                                                 vpiParent: Operation
                                                 vpiName Identifier name:$signed start:400:44 end:400:51:
-                                                  vpiParent: SysFuncCall name:$signed
+                                                  vpiParent: SysTaskCall name:$signed
                                                   vpiName: "$signed"
                                                 vpiArgument (1 items):
                                                   IndexedPartSelect name:s7_prod[144+:16] start:400:52 end:400:70:
-                                                    vpiParent: SysFuncCall name:$signed
+                                                    vpiParent: SysTaskCall name:$signed
                                                     vpiName: s7_prod[144+:16]
                                                     vpiFullName: marlann_compute.s7_prod[144+:16]
                                                     vpiPrefix RefObj name:s7_prod start:400:52 end:400:59:
@@ -11601,14 +11601,14 @@ Design name:unnamed:
                                                       vpiSize: 64
                                                       vpiDecompile: "16"
                                                       vpiValue: 16
-                                          SysFuncCall name:$signed start:400:74 end:400:101:
+                                          SysTaskCall name:$signed start:400:74 end:400:101:
                                             vpiParent: Operation
                                             vpiName Identifier name:$signed start:400:74 end:400:81:
-                                              vpiParent: SysFuncCall name:$signed
+                                              vpiParent: SysTaskCall name:$signed
                                               vpiName: "$signed"
                                             vpiArgument (1 items):
                                               IndexedPartSelect name:s7_prod[160+:16] start:400:82 end:400:100:
-                                                vpiParent: SysFuncCall name:$signed
+                                                vpiParent: SysTaskCall name:$signed
                                                 vpiName: s7_prod[160+:16]
                                                 vpiFullName: marlann_compute.s7_prod[160+:16]
                                                 vpiPrefix RefObj name:s7_prod start:400:82 end:400:89:
@@ -11637,14 +11637,14 @@ Design name:unnamed:
                                                   vpiSize: 64
                                                   vpiDecompile: "16"
                                                   vpiValue: 16
-                                      SysFuncCall name:$signed start:400:104 end:400:131:
+                                      SysTaskCall name:$signed start:400:104 end:400:131:
                                         vpiParent: Operation
                                         vpiName Identifier name:$signed start:400:104 end:400:111:
-                                          vpiParent: SysFuncCall name:$signed
+                                          vpiParent: SysTaskCall name:$signed
                                           vpiName: "$signed"
                                         vpiArgument (1 items):
                                           IndexedPartSelect name:s7_prod[176+:16] start:400:112 end:400:130:
-                                            vpiParent: SysFuncCall name:$signed
+                                            vpiParent: SysTaskCall name:$signed
                                             vpiName: s7_prod[176+:16]
                                             vpiFullName: marlann_compute.s7_prod[176+:16]
                                             vpiPrefix RefObj name:s7_prod start:400:112 end:400:119:
@@ -11673,14 +11673,14 @@ Design name:unnamed:
                                               vpiSize: 64
                                               vpiDecompile: "16"
                                               vpiValue: 16
-                                  SysFuncCall name:$signed start:401:14 end:401:41:
+                                  SysTaskCall name:$signed start:401:14 end:401:41:
                                     vpiParent: Operation
                                     vpiName Identifier name:$signed start:401:14 end:401:21:
-                                      vpiParent: SysFuncCall name:$signed
+                                      vpiParent: SysTaskCall name:$signed
                                       vpiName: "$signed"
                                     vpiArgument (1 items):
                                       IndexedPartSelect name:s7_prod[192+:16] start:401:22 end:401:40:
-                                        vpiParent: SysFuncCall name:$signed
+                                        vpiParent: SysTaskCall name:$signed
                                         vpiName: s7_prod[192+:16]
                                         vpiFullName: marlann_compute.s7_prod[192+:16]
                                         vpiPrefix RefObj name:s7_prod start:401:22 end:401:29:
@@ -11709,14 +11709,14 @@ Design name:unnamed:
                                           vpiSize: 64
                                           vpiDecompile: "16"
                                           vpiValue: 16
-                              SysFuncCall name:$signed start:401:44 end:401:71:
+                              SysTaskCall name:$signed start:401:44 end:401:71:
                                 vpiParent: Operation
                                 vpiName Identifier name:$signed start:401:44 end:401:51:
-                                  vpiParent: SysFuncCall name:$signed
+                                  vpiParent: SysTaskCall name:$signed
                                   vpiName: "$signed"
                                 vpiArgument (1 items):
                                   IndexedPartSelect name:s7_prod[208+:16] start:401:52 end:401:70:
-                                    vpiParent: SysFuncCall name:$signed
+                                    vpiParent: SysTaskCall name:$signed
                                     vpiName: s7_prod[208+:16]
                                     vpiFullName: marlann_compute.s7_prod[208+:16]
                                     vpiPrefix RefObj name:s7_prod start:401:52 end:401:59:
@@ -11745,14 +11745,14 @@ Design name:unnamed:
                                       vpiSize: 64
                                       vpiDecompile: "16"
                                       vpiValue: 16
-                          SysFuncCall name:$signed start:401:74 end:401:101:
+                          SysTaskCall name:$signed start:401:74 end:401:101:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:401:74 end:401:81:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s7_prod[224+:16] start:401:82 end:401:100:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s7_prod[224+:16]
                                 vpiFullName: marlann_compute.s7_prod[224+:16]
                                 vpiPrefix RefObj name:s7_prod start:401:82 end:401:89:
@@ -11781,14 +11781,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "16"
                                   vpiValue: 16
-                      SysFuncCall name:$signed start:401:104 end:401:131:
+                      SysTaskCall name:$signed start:401:104 end:401:131:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:401:104 end:401:111:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           IndexedPartSelect name:s7_prod[240+:16] start:401:112 end:401:130:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: s7_prod[240+:16]
                             vpiFullName: marlann_compute.s7_prod[240+:16]
                             vpiPrefix RefObj name:s7_prod start:401:112 end:401:119:
@@ -11832,14 +11832,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:403:13 end:403:38:
+                          SysTaskCall name:$signed start:403:13 end:403:38:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:403:13 end:403:20:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s7_max[0*9+:9] start:403:21 end:403:37:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s7_max[0*9+:9]
                                 vpiFullName: marlann_compute.s7_max[0*9+:9]
                                 vpiPrefix RefObj name:s7_max start:403:21 end:403:27:
@@ -11882,14 +11882,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:403:41 end:403:66:
+                          SysTaskCall name:$signed start:403:41 end:403:66:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:403:41 end:403:48:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s7_max[1*9+:9] start:403:49 end:403:65:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s7_max[1*9+:9]
                                 vpiFullName: marlann_compute.s7_max[1*9+:9]
                                 vpiPrefix RefObj name:s7_max start:403:49 end:403:55:
@@ -12035,14 +12035,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:404:16 end:404:41:
+                          SysTaskCall name:$signed start:404:16 end:404:41:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:404:16 end:404:23:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s7_max[0*9+:9] start:404:24 end:404:40:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s7_max[0*9+:9]
                                 vpiFullName: marlann_compute.s7_max[0*9+:9]
                                 vpiPrefix RefObj name:s7_max start:404:24 end:404:30:
@@ -12085,14 +12085,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:404:44 end:404:59:
+                          SysTaskCall name:$signed start:404:44 end:404:59:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:404:44 end:404:51:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               RefObj name:acc0zn start:404:52 end:404:58:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: acc0zn
                                 vpiFullName: marlann_compute.acc0zn
                                 vpiActual: Variable name:acc0zn
@@ -12100,14 +12100,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiOpType: greater than (18)
                         vpiOperand (2 items):
-                          SysFuncCall name:$signed start:404:65 end:404:90:
+                          SysTaskCall name:$signed start:404:65 end:404:90:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:404:65 end:404:72:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               IndexedPartSelect name:s7_max[1*9+:9] start:404:73 end:404:89:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: s7_max[1*9+:9]
                                 vpiFullName: marlann_compute.s7_max[1*9+:9]
                                 vpiPrefix RefObj name:s7_max start:404:73 end:404:79:
@@ -12150,14 +12150,14 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "9"
                                   vpiValue: 9
-                          SysFuncCall name:$signed start:404:93 end:404:108:
+                          SysTaskCall name:$signed start:404:93 end:404:108:
                             vpiParent: Operation
                             vpiName Identifier name:$signed start:404:93 end:404:100:
-                              vpiParent: SysFuncCall name:$signed
+                              vpiParent: SysTaskCall name:$signed
                               vpiName: "$signed"
                             vpiArgument (1 items):
                               RefObj name:acc0zn start:404:101 end:404:107:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: acc0zn
                                 vpiFullName: marlann_compute.acc0zn
                                 vpiActual: Variable name:acc0zn
@@ -12326,7 +12326,7 @@ Design name:unnamed:
                         vpiName: acc1
                         vpiFullName: marlann_compute.acc1
                         vpiActual: Variable name:acc1
-                Assignment start:435:3 end:435:59:
+                Assignment start:435:3 end:435:60:
                   vpiParent: Begin
                   vpiBlocking: true
                   vpiLhs RefObj name:new_acc0_max start:435:3 end:435:15:
@@ -12334,7 +12334,7 @@ Design name:unnamed:
                     vpiName: new_acc0_max
                     vpiFullName: marlann_compute.new_acc0_max
                     vpiActual: Variable name:new_acc0_max
-                  vpiRhs Operation start:435:18 end:435:59:
+                  vpiRhs Operation start:435:18 end:435:60:
                     vpiParent: Assignment
                     vpiOpType: condition (32)
                     vpiOperand (3 items):
@@ -12357,7 +12357,7 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "2"
                           vpiValue: 2
-                      Constant start:435:31 end:435:44:
+                      Constant start:435:31 end:435:45:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
@@ -12365,9 +12365,9 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h80000000"
+                        vpiDecompile: "32'h 8000_0000"
                         vpiValue: "80000000"
-                      RefObj name:new_acc0_add start:435:47 end:435:59:
+                      RefObj name:new_acc0_add start:435:48 end:435:60:
                         vpiParent: Operation
                         vpiName: new_acc0_add
                         vpiFullName: marlann_compute.new_acc0_add
@@ -12384,25 +12384,25 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiOpType: add (24)
                     vpiOperand (2 items):
-                      SysFuncCall name:$signed start:437:18 end:437:39:
+                      SysTaskCall name:$signed start:437:18 end:437:39:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:437:18 end:437:25:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           RefObj name:new_acc0_add start:437:26 end:437:38:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: new_acc0_add
                             vpiFullName: marlann_compute.new_acc0_add
                             vpiActual: Variable name:new_acc0_add
-                      SysFuncCall name:$signed start:437:42 end:437:58:
+                      SysTaskCall name:$signed start:437:42 end:437:58:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:437:42 end:437:49:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           RefObj name:s8_sum0 start:437:50 end:437:57:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: s8_sum0
                             vpiFullName: marlann_compute.s8_sum0
                             vpiActual: Variable name:s8_sum0
@@ -12418,31 +12418,31 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiOpType: add (24)
                     vpiOperand (2 items):
-                      SysFuncCall name:$signed start:438:18 end:438:39:
+                      SysTaskCall name:$signed start:438:18 end:438:39:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:438:18 end:438:25:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           RefObj name:new_acc1_add start:438:26 end:438:38:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: new_acc1_add
                             vpiFullName: marlann_compute.new_acc1_add
                             vpiActual: Variable name:new_acc1_add
-                      SysFuncCall name:$signed start:438:42 end:438:58:
+                      SysTaskCall name:$signed start:438:42 end:438:58:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:438:42 end:438:49:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           RefObj name:s8_sum1 start:438:50 end:438:57:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: s8_sum1
                             vpiFullName: marlann_compute.s8_sum1
                             vpiActual: Variable name:s8_sum1
                 IfStmt start:440:3 end:441:52:
                   vpiParent: Begin
-                  vpiCondition Operation start:440:7 end:440:23:
+                  vpiCondition Operation start:440:7 end:440:24:
                     vpiParent: IfStmt
                     vpiOpType: not equal (15)
                     vpiOperand (2 items):
@@ -12451,7 +12451,7 @@ Design name:unnamed:
                         vpiName: s8_max
                         vpiFullName: marlann_compute.s8_max
                         vpiActual: Variable name:s8_max
-                      Constant start:440:17 end:440:23:
+                      Constant start:440:17 end:440:24:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
@@ -12459,7 +12459,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 9
-                        vpiDecompile: "9'h100"
+                        vpiDecompile: "9'h 100"
                         vpiValue: "100"
                   vpiStmt Assignment start:441:4 end:441:51:
                     vpiParent: IfStmt
@@ -12632,7 +12632,7 @@ Design name:unnamed:
                           vpiValue: 1
                       IfStmt start:455:4 end:458:7:
                         vpiParent: Begin
-                        vpiCondition Operation start:455:8 end:455:30:
+                        vpiCondition Operation start:455:8 end:455:31:
                           vpiParent: IfStmt
                           vpiOpType: equal (14)
                           vpiOperand (2 items):
@@ -12667,7 +12667,7 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "3"
                                   vpiValue: 3
-                            Constant start:455:24 end:455:30:
+                            Constant start:455:24 end:455:31:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
@@ -12675,9 +12675,9 @@ Design name:unnamed:
                                 vpiActual: LogicTypespec
                               vpiConstType: binary (3)
                               vpiSize: 3
-                              vpiDecompile: "3'b101"
+                              vpiDecompile: "3'b 101"
                               vpiValue: "101"
-                        vpiStmt Begin start:455:32 end:458:7:
+                        vpiStmt Begin start:455:33 end:458:7:
                           vpiParent: IfStmt
                           vpiFullName: marlann_compute
                           vpiStmt (2 items):
@@ -14043,7 +14043,7 @@ Design name:unnamed:
                     vpiStmt (3 items):
                       IfStmt start:523:4 end:525:7:
                         vpiParent: Begin
-                        vpiCondition Operation start:523:8 end:523:30:
+                        vpiCondition Operation start:523:8 end:523:31:
                           vpiParent: IfStmt
                           vpiOpType: equal (14)
                           vpiOperand (2 items):
@@ -14078,7 +14078,7 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "3"
                                   vpiValue: 3
-                            Constant start:523:24 end:523:30:
+                            Constant start:523:24 end:523:31:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
@@ -14086,9 +14086,9 @@ Design name:unnamed:
                                 vpiActual: LogicTypespec
                               vpiConstType: binary (3)
                               vpiSize: 3
-                              vpiDecompile: "3'b010"
+                              vpiDecompile: "3'b 010"
                               vpiValue: "010"
-                        vpiStmt Begin start:523:32 end:525:7:
+                        vpiStmt Begin start:523:33 end:525:7:
                           vpiParent: IfStmt
                           vpiFullName: marlann_compute
                           vpiStmt (1 items):
@@ -14151,7 +14151,7 @@ Design name:unnamed:
                                           vpiValue: 1
                       IfStmt start:528:4 end:531:7:
                         vpiParent: Begin
-                        vpiCondition Operation start:528:8 end:528:31:
+                        vpiCondition Operation start:528:8 end:528:32:
                           vpiParent: IfStmt
                           vpiOpType: equal (14)
                           vpiOperand (2 items):
@@ -14186,7 +14186,7 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "2"
                                   vpiValue: 2
-                            Constant start:528:24 end:528:31:
+                            Constant start:528:24 end:528:32:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
@@ -14194,9 +14194,9 @@ Design name:unnamed:
                                 vpiActual: LogicTypespec
                               vpiConstType: binary (3)
                               vpiSize: 4
-                              vpiDecompile: "4'b0110"
+                              vpiDecompile: "4'b 0110"
                               vpiValue: "0110"
-                        vpiStmt Begin start:528:33 end:531:7:
+                        vpiStmt Begin start:528:34 end:531:7:
                           vpiParent: IfStmt
                           vpiFullName: marlann_compute
                           vpiStmt (2 items):
@@ -15227,14 +15227,14 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiOpType: multiply (25)
                     vpiOperand (2 items):
-                      SysFuncCall name:$signed start:554:10 end:554:25:
+                      SysTaskCall name:$signed start:554:10 end:554:25:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:554:10 end:554:17:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           PartSelect name:A[7:0] start:554:18 end:554:24:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: A[7:0]
                             vpiFullName: marlann_compute_mul2.A[7:0]
                             vpiPrefix RefObj name:A start:554:18 end:554:19:
@@ -15264,14 +15264,14 @@ Design name:unnamed:
                                 vpiSize: 64
                                 vpiDecompile: "0"
                                 vpiValue: 0
-                      SysFuncCall name:$signed start:554:28 end:554:43:
+                      SysTaskCall name:$signed start:554:28 end:554:43:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:554:28 end:554:35:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           PartSelect name:B[7:0] start:554:36 end:554:42:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: B[7:0]
                             vpiFullName: marlann_compute_mul2.B[7:0]
                             vpiPrefix RefObj name:B start:554:36 end:554:37:
@@ -15312,14 +15312,14 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiOpType: multiply (25)
                     vpiOperand (2 items):
-                      SysFuncCall name:$signed start:555:10 end:555:26:
+                      SysTaskCall name:$signed start:555:10 end:555:26:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:555:10 end:555:17:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           PartSelect name:A[15:8] start:555:18 end:555:25:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: A[15:8]
                             vpiFullName: marlann_compute_mul2.A[15:8]
                             vpiPrefix RefObj name:A start:555:18 end:555:19:
@@ -15349,14 +15349,14 @@ Design name:unnamed:
                                 vpiSize: 64
                                 vpiDecompile: "8"
                                 vpiValue: 8
-                      SysFuncCall name:$signed start:555:29 end:555:45:
+                      SysTaskCall name:$signed start:555:29 end:555:45:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:555:29 end:555:36:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           PartSelect name:B[15:8] start:555:37 end:555:44:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: B[15:8]
                             vpiFullName: marlann_compute_mul2.B[15:8]
                             vpiPrefix RefObj name:B start:555:37 end:555:38:
@@ -15467,6 +15467,22 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:marlann_compute:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:marlann_compute start:18:8 end:18:23:
+        vpiParent: ModuleTypespec name:marlann_compute
+        vpiName: marlann_compute
+      vpiModule: Module name:marlann_compute
+    LogicTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    ModuleTypespec name:marlann_compute_mul2:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:marlann_compute_mul2 start:545:8 end:545:28:
+        vpiParent: ModuleTypespec name:marlann_compute_mul2
+        vpiName: marlann_compute_mul2
+      vpiModule: Module name:marlann_compute_mul2
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -15488,22 +15504,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:marlann_compute:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:marlann_compute start:18:8 end:18:23:
-        vpiParent: ModuleTypespec name:marlann_compute
-        vpiName: marlann_compute
-      vpiModule: Module name:marlann_compute
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-    IntTypespec:
-      vpiParent: Design name:unnamed
-    ModuleTypespec name:marlann_compute_mul2:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:marlann_compute_mul2 start:545:8 end:545:28:
-        vpiParent: ModuleTypespec name:marlann_compute_mul2
-        vpiName: marlann_compute_mul2
-      vpiModule: Module name:marlann_compute_mul2
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -15527,17 +15527,17 @@ mounts-filepath: ${HLC_DIR}/regression/YosysMarlann/YosysMarlann/mounts.json
             'error_count': 0,
             'file_count': 1,
             'files': {'$Output/lib/work/marlann_compute.v': {'post_len': 0,
-                                                             'pre_len': 10282}},
+                                                             'pre_len': 10290}},
             'post_len': 0,
-            'pre_len': 10282,
+            'pre_len': 10290,
             'test_name': 'YosysMarlann/YosysMarlann'}}
 
 +------------------------------------+----------+-----------+
 | INPUT                              |   PRELEN |   POSTLEN |
 +====================================+==========+===========+
-| $Output/lib/work/marlann_compute.v |    10282 |         0 |
+| $Output/lib/work/marlann_compute.v |    10290 |         0 |
 +====================================+==========+===========+
-|                                    |    10282 |         0 |
+|                                    |    10290 |         0 |
 +------------------------------------+----------+-----------+
 
 [   ERROR] : 0

@@ -4,14 +4,14 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/ComplexExprSize -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ComplexExprSize/ComplexExprSize
+COMMAND: -wd ../../../tests/ComplexExprSize -d db -d ast dut.sv -nobuiltin -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ComplexExprSize/ComplexExprSize
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 74
 LIB: work
-FILE: f<13>:$Source01/dut.sv
+FILE: f<15>:$Source01/dut.sv
 n<$Source01/dut.sv> u<73> t<Top_level_rule> c<1> l<1:1> el<6:1>
   n<> u<1> t<Null_rule> p<73> s<72> l<1:1>
   n<> u<72> t<Source_text> p<73> c<71> l<1:1> el<5:10>
@@ -170,28 +170,28 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: top.out
             vpiActual: Net name:out
-          vpiRhs SysFuncCall name:$unsigned start:4:16 end:4:55:
+          vpiRhs SysTaskCall name:$unsigned start:4:16 end:4:55:
             vpiParent: ContAssign
             vpiName Identifier name:$unsigned start:4:16 end:4:25:
-              vpiParent: SysFuncCall name:$unsigned
+              vpiParent: SysTaskCall name:$unsigned
               vpiName: "$unsigned"
             vpiArgument (1 items):
               Operation start:4:26 end:4:54:
-                vpiParent: SysFuncCall name:$unsigned
+                vpiParent: SysTaskCall name:$unsigned
                 vpiOpType: concatenation (33)
                 vpiOperand (1 items):
                   Operation start:4:28 end:4:52:
                     vpiParent: Operation
                     vpiOpType: unary xnor (10)
                     vpiOperand (1 items):
-                      SysFuncCall name:$unsigned start:4:30 end:4:52:
+                      SysTaskCall name:$unsigned start:4:30 end:4:52:
                         vpiParent: Operation
                         vpiName Identifier name:$unsigned start:4:30 end:4:39:
-                          vpiParent: SysFuncCall name:$unsigned
+                          vpiParent: SysTaskCall name:$unsigned
                           vpiName: "$unsigned"
                         vpiArgument (1 items):
                           Operation start:4:41 end:4:50:
-                            vpiParent: SysFuncCall name:$unsigned
+                            vpiParent: SysTaskCall name:$unsigned
                             vpiOpType: unary nand (6)
                             vpiOperand (1 items):
                               Constant start:4:44 end:4:49:
@@ -264,12 +264,10 @@ COMMAND: ${HLC_DIR}/regression/ComplexExprSize/ComplexExprSize/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             3       3       1         1
-Identifier                           4       2       0         2
-Operation                            3       0       0         3
-RefTypespec                          5       4       0         1
-SysFuncCall                          2       0       0         2
+Operation                            3       2       0         1
+RefTypespec                          5       5       1         1
 ----------------------------------------------------------------
-Others                              14      14       0         0
+Others                              20      20       0         0
 ----------------------------------------------------------------
-                                    31      23       1         9
+                                    31      30       2         3
 ===================== END REDUCTION RESULT =====================

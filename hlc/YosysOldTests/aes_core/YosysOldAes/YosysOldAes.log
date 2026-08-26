@@ -4,23 +4,23 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/YosysOldTests/aes_core -fileunit rtl/aes_cipher_top.v rtl/aes_inv_cipher_top.v rtl/aes_inv_sbox.v rtl/aes_key_expand_128.v rtl/aes_rcon.v rtl/aes_sbox.v +incdir+rtl/+. -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysOldTests/aes_core/YosysOldAes
+COMMAND: -wd ../../../../tests/YosysOldTests/aes_core -fileunit rtl/aes_cipher_top.v rtl/aes_inv_cipher_top.v rtl/aes_inv_sbox.v rtl/aes_key_expand_128.v rtl/aes_rcon.v rtl/aes_sbox.v +incdir+rtl/+. -nocache -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysOldTests/aes_core/YosysOldAes
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/aes_cipher_top.v".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/aes_inv_cipher_top.v".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/aes_inv_sbox.v".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/aes_key_expand_128.v".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/aes_rcon.v".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/aes_sbox.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/rtl/aes_cipher_top.v".
 [INF:PA0201] Parsing source file "$Source01/rtl/aes_inv_cipher_top.v".
 [INF:PA0201] Parsing source file "$Source01/rtl/aes_inv_sbox.v".
 [INF:PA0201] Parsing source file "$Source01/rtl/aes_key_expand_128.v".
 [INF:PA0201] Parsing source file "$Source01/rtl/aes_rcon.v".
 [INF:PA0201] Parsing source file "$Source01/rtl/aes_sbox.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0303] $Source01/rtl/aes_cipher_top.v:62:1: Compile module "aes_cipher_top".
 [INF:CP0303] $Source01/rtl/aes_inv_cipher_top.v:62:1: Compile module "aes_inv_cipher_top".
 [INF:CP0303] $Source01/rtl/aes_inv_sbox.v:62:1: Compile module "aes_inv_sbox".
@@ -1636,7 +1636,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1832,7 +1832,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -1950,7 +1950,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -29098,7 +29098,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h01000000"
+                        vpiDecompile: "32'h01_00_00_00"
                         vpiValue: "01000000"
                   CaseItem start:83:4 end:83:32:
                     vpiParent: CaseStmt
@@ -29129,7 +29129,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h02000000"
+                        vpiDecompile: "32'h02_00_00_00"
                         vpiValue: "02000000"
                   CaseItem start:84:4 end:84:32:
                     vpiParent: CaseStmt
@@ -29160,7 +29160,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h04000000"
+                        vpiDecompile: "32'h04_00_00_00"
                         vpiValue: "04000000"
                   CaseItem start:85:4 end:85:32:
                     vpiParent: CaseStmt
@@ -29191,7 +29191,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h08000000"
+                        vpiDecompile: "32'h08_00_00_00"
                         vpiValue: "08000000"
                   CaseItem start:86:4 end:86:32:
                     vpiParent: CaseStmt
@@ -29222,7 +29222,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h10000000"
+                        vpiDecompile: "32'h10_00_00_00"
                         vpiValue: "10000000"
                   CaseItem start:87:4 end:87:32:
                     vpiParent: CaseStmt
@@ -29253,7 +29253,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h20000000"
+                        vpiDecompile: "32'h20_00_00_00"
                         vpiValue: "20000000"
                   CaseItem start:88:4 end:88:32:
                     vpiParent: CaseStmt
@@ -29284,7 +29284,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h40000000"
+                        vpiDecompile: "32'h40_00_00_00"
                         vpiValue: "40000000"
                   CaseItem start:89:4 end:89:32:
                     vpiParent: CaseStmt
@@ -29315,7 +29315,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h80000000"
+                        vpiDecompile: "32'h80_00_00_00"
                         vpiValue: "80000000"
                   CaseItem start:90:4 end:90:32:
                     vpiParent: CaseStmt
@@ -29346,7 +29346,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h1b000000"
+                        vpiDecompile: "32'h1b_00_00_00"
                         vpiValue: "1b000000"
                   CaseItem start:91:4 end:91:32:
                     vpiParent: CaseStmt
@@ -29377,7 +29377,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h36000000"
+                        vpiDecompile: "32'h36_00_00_00"
                         vpiValue: "36000000"
                   CaseItem start:92:4 end:92:35:
                     vpiParent: CaseStmt
@@ -29397,7 +29397,7 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
-                        vpiDecompile: "32'h00000000"
+                        vpiDecompile: "32'h00_00_00_00"
                         vpiValue: "00000000"
           vpiReturn RefTypespec start:79:10 end:79:16:
             vpiParent: Function name:frcon
@@ -29508,7 +29508,7 @@ Design name:unnamed:
                       vpiActual: IntTypespec
                     vpiConstType: hexadecimal (5)
                     vpiSize: 32
-                    vpiDecompile: "32'h01000000"
+                    vpiDecompile: "32'h01_00_00_00"
                     vpiValue: "01000000"
                   vpiDelay Constant start:71:19 end:71:20:
                     vpiParent: DelayControl
@@ -37757,27 +37757,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
-    ClassTypespec name:mailbox:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:mailbox:
-        vpiParent: ClassTypespec name:mailbox
-        vpiName: mailbox
-      vpiDefName: mailbox
-      vpiClassDefn: ClassDefn name:mailbox
-    ClassTypespec name:process:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:process:
-        vpiParent: ClassTypespec name:process
-        vpiName: process
-      vpiDefName: process
-      vpiClassDefn: ClassDefn name:process
-    ClassTypespec name:semaphore:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:semaphore:
-        vpiParent: ClassTypespec name:semaphore
-        vpiName: semaphore
-      vpiDefName: semaphore
-      vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:aes_cipher_top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_cipher_top start:62:8 end:62:22:
@@ -37816,6 +37795,27 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:aes_sbox
         vpiName: aes_sbox
       vpiModule: Module name:aes_sbox
+    ClassTypespec name:mailbox:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
+      vpiDefName: mailbox
+      vpiClassDefn: ClassDefn name:mailbox
+    ClassTypespec name:process:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
+      vpiDefName: process
+      vpiClassDefn: ClassDefn name:process
+    ClassTypespec name:semaphore:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
+      vpiDefName: semaphore
+      vpiClassDefn: ClassDefn name:semaphore
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

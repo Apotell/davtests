@@ -4,17 +4,18 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/GenerateModule top.v -writepp -d db -d ast -d inst -fileunit -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/GenerateModule/GenerateModule
+COMMAND: -wd ../../../tests/GenerateModule top.v -writepp -d db -d ast -d inst -fileunit -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/GenerateModule/GenerateModule
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<17>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE: f<19>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -271,11 +272,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 276
 LIB: work
-FILE: f<13>:$Source01/top.v
+FILE: f<15>:$Source01/top.v
 n<$Source01/top.v> u<275> t<Top_level_rule> c<1> l<1:1> el<27:1>
   n<> u<1> t<Null_rule> p<275> s<274> l<1:1>
   n<> u<274> t<Source_text> p<275> c<160> l<1:1> el<26:10>
@@ -2123,7 +2123,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2319,7 +2319,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2437,7 +2437,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -3102,6 +3102,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:small_test:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:small_test start:1:8 end:1:18:
+        vpiParent: ModuleTypespec name:small_test
+        vpiName: small_test
+      vpiModule: Module name:small_test
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:21:8 end:21:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -3123,18 +3135,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:small_test:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:small_test start:1:8 end:1:18:
-        vpiParent: ModuleTypespec name:small_test
-        vpiName: small_test
-      vpiModule: Module name:small_test
-    ModuleTypespec name:top:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:top start:21:8 end:21:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
-      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

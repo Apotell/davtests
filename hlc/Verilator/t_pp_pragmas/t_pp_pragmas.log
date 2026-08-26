@@ -4,12 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_pp_pragmas.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_pp_pragmas
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_pp_pragmas.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_pp_pragmas
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_pp_pragmas.v".
-[ERR:PP0102] $Source01/t_pp_pragmas.v:7:1: Unknown macro "verilog".
-[ERR:PP0102] $Source01/t_pp_pragmas.v:40:1: Unknown macro "remove_gatenames".
-[ERR:PP0102] $Source01/t_pp_pragmas.v:42:1: Unknown macro "remove_netnames".
+[ERR:PP0102] $Source01/t_pp_pragmas.v:7: Unknown macro "verilog".
+[ERR:PP0102] $Source01/t_pp_pragmas.v:40: Unknown macro "remove_gatenames".
+[ERR:PP0102] $Source01/t_pp_pragmas.v:42: Unknown macro "remove_netnames".
 [INF:PA0201] Parsing source file "$Source01/t_pp_pragmas.v".
 [ERR:PA0203] $Source01/t_pp_pragmas.v:7: Unknown macro "verilog".
 [ERR:PA0203] $Source01/t_pp_pragmas.v:40: Unknown macro "remove_gatenames".
@@ -17,8 +17,8 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 AST_DEBUG_BEGIN
 Count: 142
 LIB: work
-FILE: f<13>:$Source01/t_pp_pragmas.v
-INCL f<108>: $Source01/hallo.v
+FILE: f<15>:$Source01/t_pp_pragmas.v
+INCL f<71>: $Source01/hallo.v
 n<$Source01/t_pp_pragmas.v> u<141> t<Top_level_rule> c<1> l<6:1> el<111:1>
   n<> u<1> t<Null_rule> p<141> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<141> s<3> l<1:1> el<1:47>
@@ -121,45 +121,45 @@ n<$Source01/t_pp_pragmas.v> u<141> t<Top_level_rule> c<1> l<6:1> el<111:1>
     n<> u<100> t<Description> p<140> c<99> s<101> l<48:1> el<48:21>
       n<> u<99> t<Top_directives> p<100> c<98> l<48:1> el<48:21>
         n<> u<98> t<Nounconnected_drive_directive> p<99> l<48:1> el<48:21>
-    n<// unsupported: `uselib file=../moto_lib.v> u<101> t<LINE_COMMENT> p<140> s<102> f<108> l<102:1> el<102:43>
-    n<// unsupported: `uselib dir=../lib.dir libext=.v> u<102> t<LINE_COMMENT> p<140> s<139> f<108> l<103:1> el<103:49>
-    n<> u<139> t<Description> p<140> c<138> f<108> l<105:1> el<110:10>
-      n<> u<138> t<Module_declaration> p<139> c<106> f<108> l<105:1> el<110:10>
-        n<> u<106> t<Module_ansi_header> p<138> c<103> s<136> f<108> l<105:1> el<105:10>
-          n<module> u<103> t<MODULE> p<106> s<104> f<108> l<105:1> el<105:7>
-          n<t> u<104> t<SIMPLE_IDENTIFIER> p<106> s<105> f<108> l<105:8> el<105:9>
-          n<> u<105> t<Package_import_declaration_list> p<106> f<108> l<105:9> el<105:9>
-        n<> u<136> t<Non_port_module_item> p<138> c<135> s<137> f<108> l<106:4> el<109:7>
-          n<> u<135> t<Module_or_generate_item> p<136> c<134> f<108> l<106:4> el<109:7>
-            n<> u<134> t<Module_common_item> p<135> c<133> f<108> l<106:4> el<109:7>
-              n<> u<133> t<Initial_construct> p<134> c<132> f<108> l<106:4> el<109:7>
-                n<> u<132> t<Statement_or_null> p<133> c<131> f<108> l<106:12> el<109:7>
-                  n<> u<131> t<Statement> p<132> c<130> f<108> l<106:12> el<109:7>
-                    n<> u<130> t<Statement_item> p<131> c<129> f<108> l<106:12> el<109:7>
-                      n<> u<129> t<Seq_block> p<130> c<118> f<108> l<106:12> el<109:7>
-                        n<> u<118> t<Statement_or_null> p<129> c<117> s<127> f<108> l<107:7> el<107:40>
-                          n<> u<117> t<Statement> p<118> c<116> f<108> l<107:7> el<107:40>
-                            n<> u<116> t<Statement_item> p<117> c<115> f<108> l<107:7> el<107:40>
-                              n<> u<115> t<Subroutine_call_statement> p<116> c<114> f<108> l<107:7> el<107:40>
-                                n<> u<114> t<Subroutine_call> p<115> c<107> f<108> l<107:7> el<107:39>
-                                  n<$> u<107> t<DOLLAR> p<114> s<108> f<108> l<107:7> el<107:8>
-                                  n<write> u<108> t<SIMPLE_IDENTIFIER> p<114> s<113> f<108> l<107:8> el<107:13>
-                                  n<> u<113> t<Argument_list> p<114> c<112> f<108> l<107:14> el<107:38>
-                                    n<> u<112> t<Expression> p<113> c<111> f<108> l<107:14> el<107:38>
-                                      n<> u<111> t<Primary> p<112> c<110> f<108> l<107:14> el<107:38>
-                                        n<> u<110> t<Primary_literal> p<111> c<109> f<108> l<107:14> el<107:38>
-                                          n<"*-* All Finished *-*\n"> u<109> t<QUOTED_STRING> p<110> f<108> l<107:14> el<107:38>
-                        n<> u<127> t<Statement_or_null> p<129> c<126> s<128> f<108> l<108:7> el<108:15>
-                          n<> u<126> t<Statement> p<127> c<125> f<108> l<108:7> el<108:15>
-                            n<> u<125> t<Statement_item> p<126> c<124> f<108> l<108:7> el<108:15>
-                              n<> u<124> t<Subroutine_call_statement> p<125> c<123> f<108> l<108:7> el<108:15>
-                                n<> u<123> t<Subroutine_call> p<124> c<119> f<108> l<108:7> el<108:14>
-                                  n<$> u<119> t<DOLLAR> p<123> s<120> f<108> l<108:7> el<108:8>
-                                  n<finish> u<120> t<SIMPLE_IDENTIFIER> p<123> s<122> f<108> l<108:8> el<108:14>
-                                  n<> u<122> t<Select> p<123> c<121> f<108> l<108:14> el<108:14>
-                                    n<> u<121> t<Bit_select> p<122> f<108> l<108:14> el<108:14>
-                        n<> u<128> t<END> p<129> f<108> l<109:4> el<109:7>
-        n<> u<137> t<ENDMODULE> p<138> f<108> l<110:1> el<110:10>
+    n<// unsupported: `uselib file=../moto_lib.v> u<101> t<LINE_COMMENT> p<140> s<102> f<71> l<102:1> el<102:43>
+    n<// unsupported: `uselib dir=../lib.dir libext=.v> u<102> t<LINE_COMMENT> p<140> s<139> f<71> l<103:1> el<103:49>
+    n<> u<139> t<Description> p<140> c<138> f<71> l<105:1> el<110:10>
+      n<> u<138> t<Module_declaration> p<139> c<106> f<71> l<105:1> el<110:10>
+        n<> u<106> t<Module_ansi_header> p<138> c<103> s<136> f<71> l<105:1> el<105:10>
+          n<module> u<103> t<MODULE> p<106> s<104> f<71> l<105:1> el<105:7>
+          n<t> u<104> t<SIMPLE_IDENTIFIER> p<106> s<105> f<71> l<105:8> el<105:9>
+          n<> u<105> t<Package_import_declaration_list> p<106> f<71> l<105:9> el<105:9>
+        n<> u<136> t<Non_port_module_item> p<138> c<135> s<137> f<71> l<106:4> el<109:7>
+          n<> u<135> t<Module_or_generate_item> p<136> c<134> f<71> l<106:4> el<109:7>
+            n<> u<134> t<Module_common_item> p<135> c<133> f<71> l<106:4> el<109:7>
+              n<> u<133> t<Initial_construct> p<134> c<132> f<71> l<106:4> el<109:7>
+                n<> u<132> t<Statement_or_null> p<133> c<131> f<71> l<106:12> el<109:7>
+                  n<> u<131> t<Statement> p<132> c<130> f<71> l<106:12> el<109:7>
+                    n<> u<130> t<Statement_item> p<131> c<129> f<71> l<106:12> el<109:7>
+                      n<> u<129> t<Seq_block> p<130> c<118> f<71> l<106:12> el<109:7>
+                        n<> u<118> t<Statement_or_null> p<129> c<117> s<127> f<71> l<107:7> el<107:40>
+                          n<> u<117> t<Statement> p<118> c<116> f<71> l<107:7> el<107:40>
+                            n<> u<116> t<Statement_item> p<117> c<115> f<71> l<107:7> el<107:40>
+                              n<> u<115> t<Subroutine_call_statement> p<116> c<114> f<71> l<107:7> el<107:40>
+                                n<> u<114> t<Subroutine_call> p<115> c<107> f<71> l<107:7> el<107:39>
+                                  n<$> u<107> t<DOLLAR> p<114> s<108> f<71> l<107:7> el<107:8>
+                                  n<write> u<108> t<SIMPLE_IDENTIFIER> p<114> s<113> f<71> l<107:8> el<107:13>
+                                  n<> u<113> t<Argument_list> p<114> c<112> f<71> l<107:14> el<107:38>
+                                    n<> u<112> t<Expression> p<113> c<111> f<71> l<107:14> el<107:38>
+                                      n<> u<111> t<Primary> p<112> c<110> f<71> l<107:14> el<107:38>
+                                        n<> u<110> t<Primary_literal> p<111> c<109> f<71> l<107:14> el<107:38>
+                                          n<"*-* All Finished *-*\n"> u<109> t<QUOTED_STRING> p<110> f<71> l<107:14> el<107:38>
+                        n<> u<127> t<Statement_or_null> p<129> c<126> s<128> f<71> l<108:7> el<108:15>
+                          n<> u<126> t<Statement> p<127> c<125> f<71> l<108:7> el<108:15>
+                            n<> u<125> t<Statement_item> p<126> c<124> f<71> l<108:7> el<108:15>
+                              n<> u<124> t<Subroutine_call_statement> p<125> c<123> f<71> l<108:7> el<108:15>
+                                n<> u<123> t<Subroutine_call> p<124> c<119> f<71> l<108:7> el<108:14>
+                                  n<$> u<119> t<DOLLAR> p<123> s<120> f<71> l<108:7> el<108:8>
+                                  n<finish> u<120> t<SIMPLE_IDENTIFIER> p<123> s<122> f<71> l<108:8> el<108:14>
+                                  n<> u<122> t<Select> p<123> c<121> f<71> l<108:14> el<108:14>
+                                    n<> u<121> t<Bit_select> p<122> f<71> l<108:14> el<108:14>
+                        n<> u<128> t<END> p<129> f<71> l<109:4> el<109:7>
+        n<> u<137> t<ENDMODULE> p<138> f<71> l<110:1> el<110:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/hallo.v:105:1: Compile module "t".
 [INF:CM0029] Using global timescale: "1ns/1ns".

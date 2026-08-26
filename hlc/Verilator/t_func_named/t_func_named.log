@@ -4,12 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_func_named.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_func_named
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_func_named.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_func_named
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_func_named.v".
 [INF:PA0201] Parsing source file "$Source01/t_func_named.v".
 [SNT:PA0207] $Source01/t_func_named.v:15:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   function int f( int j = 1, int s = 0 );\n      return (j<<16) | s;\n   endfunction\n\n\n\n   initial begin\n      do if',
-      do if ((f(.j(2), .s(1))	) !== (32'h2_0001 )) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_func_named.v",0, (f(.j(2), .s(1))	), (32'h2_0001 )); $stop; end while(0);;
+      do if ((f(.j(2), .s(1))) !== (32'h2_0001)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_func_named.v",15, (f(.j(2), .s(1))), (32'h2_0001)); $stop; end while(0);;
          ^-- $Source01/t_func_named.v:15:9:.
 [SNT:PA0207] $Source01/t_func_named.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
    initial begin
@@ -17,7 +17,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 AST_DEBUG_BEGIN
 Count: 74
 LIB: work
-FILE: f<13>:$Source01/t_func_named.v
+FILE: f<15>:$Source01/t_func_named.v
 n<$Source01/t_func_named.v> u<73> t<Top_level_rule> c<1> l<6:1> el<28:10>
   n<> u<1> t<Null_rule> p<73> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<73> s<3> l<1:1> el<1:47>
@@ -276,134 +276,134 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:checkh
               vpiName: ";"
       vpiPreprocMacroInstance (8 items):
-        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:15:7 end:15:46 ppstart:15:7 ppend:15:192:
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:15:7 end:15:46 ppstart:15:7 ppend:15:189:
           vpiParent: SourceFile name:t_func_named.v
           vpiName Identifier name:checkh start:15:7 end:15:46:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            Identifier name:f(.j(2), .s(1))	 start:15:16 end:15:32:
+            Identifier name:f(.j(2), .s(1)) start:15:16 end:15:31:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: f(.j(2), .s(1))
-            "Identifier name:32'h2_0001  start:15:34 end:15:45":
+            "Identifier name:32'h2_0001 start:15:34 end:15:44":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "32'h2_0001 "
-          "vpiPMIBody Identifier name:do if ((f(.j(2), .s(1))\t) !== (32'h2_0001 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.j(2), .s(1))\t), (32'h2_0001 )); $stop; end while(0); start:12:27 end:12:212":
+              vpiName: "32'h2_0001"
+          "vpiPMIBody Identifier name:do if ((f(.j(2), .s(1))) !== (32'h2_0001)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",15, (f(.j(2), .s(1))), (32'h2_0001)); $stop; end while(0); start:12:27 end:12:209":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((f(.j(2), .s(1))\t) !== (32'h2_0001 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.j(2), .s(1))\t), (32'h2_0001 )); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:16:7 end:16:40 ppstart:16:7 ppend:16:180:
+            vpiName: "do if ((f(.j(2), .s(1))) !== (32'h2_0001)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",15, (f(.j(2), .s(1))), (32'h2_0001)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:16:7 end:16:40 ppstart:16:7 ppend:16:175:
           vpiParent: SourceFile name:t_func_named.v
           vpiName Identifier name:checkh start:16:7 end:16:40:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            Identifier name:f(.s(1))		 start:16:16 end:16:26:
+            Identifier name:f(.s(1)) start:16:16 end:16:24:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: f(.s(1))
-            "Identifier name:32'h1_0001  start:16:28 end:16:39":
+            "Identifier name:32'h1_0001 start:16:28 end:16:38":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "32'h1_0001 "
-          "vpiPMIBody Identifier name:do if ((f(.s(1))\t\t) !== (32'h1_0001 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.s(1))\t\t), (32'h1_0001 )); $stop; end while(0); start:12:27 end:12:200":
+              vpiName: "32'h1_0001"
+          "vpiPMIBody Identifier name:do if ((f(.s(1))) !== (32'h1_0001)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",16, (f(.s(1))), (32'h1_0001)); $stop; end while(0); start:12:27 end:12:195":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((f(.s(1))\t\t) !== (32'h1_0001 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.s(1))\t\t), (32'h1_0001 )); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:17:7 end:17:38 ppstart:17:7 ppend:17:176:
+            vpiName: "do if ((f(.s(1))) !== (32'h1_0001)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",16, (f(.s(1))), (32'h1_0001)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:17:7 end:17:38 ppstart:17:7 ppend:17:171:
           vpiParent: SourceFile name:t_func_named.v
           vpiName Identifier name:checkh start:17:7 end:17:38:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            Identifier name:f(, 1)		 start:17:16 end:17:24:
+            Identifier name:f(, 1) start:17:16 end:17:22:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: f(, 1)
-            "Identifier name:32'h1_0001  start:17:26 end:17:37":
+            "Identifier name:32'h1_0001 start:17:26 end:17:36":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "32'h1_0001 "
-          "vpiPMIBody Identifier name:do if ((f(, 1)\t\t) !== (32'h1_0001 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(, 1)\t\t), (32'h1_0001 )); $stop; end while(0); start:12:27 end:12:196":
+              vpiName: "32'h1_0001"
+          "vpiPMIBody Identifier name:do if ((f(, 1)) !== (32'h1_0001)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",17, (f(, 1)), (32'h1_0001)); $stop; end while(0); start:12:27 end:12:191":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((f(, 1)\t\t) !== (32'h1_0001 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(, 1)\t\t), (32'h1_0001 )); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:18:7 end:18:40 ppstart:18:7 ppend:18:180:
+            vpiName: "do if ((f(, 1)) !== (32'h1_0001)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",17, (f(, 1)), (32'h1_0001)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:18:7 end:18:40 ppstart:18:7 ppend:18:175:
           vpiParent: SourceFile name:t_func_named.v
           vpiName Identifier name:checkh start:18:7 end:18:40:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            Identifier name:f(.j(2))		 start:18:16 end:18:26:
+            Identifier name:f(.j(2)) start:18:16 end:18:24:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: f(.j(2))
-            "Identifier name:32'h2_0000  start:18:28 end:18:39":
+            "Identifier name:32'h2_0000 start:18:28 end:18:38":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "32'h2_0000 "
-          "vpiPMIBody Identifier name:do if ((f(.j(2))\t\t) !== (32'h2_0000 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.j(2))\t\t), (32'h2_0000 )); $stop; end while(0); start:12:27 end:12:200":
+              vpiName: "32'h2_0000"
+          "vpiPMIBody Identifier name:do if ((f(.j(2))) !== (32'h2_0000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",18, (f(.j(2))), (32'h2_0000)); $stop; end while(0); start:12:27 end:12:195":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((f(.j(2))\t\t) !== (32'h2_0000 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.j(2))\t\t), (32'h2_0000 )); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:19:7 end:19:46 ppstart:19:7 ppend:19:192:
+            vpiName: "do if ((f(.j(2))) !== (32'h2_0000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",18, (f(.j(2))), (32'h2_0000)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:19:7 end:19:46 ppstart:19:7 ppend:19:189:
           vpiParent: SourceFile name:t_func_named.v
           vpiName Identifier name:checkh start:19:7 end:19:46:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            Identifier name:f(.s(1), .j(2))	 start:19:16 end:19:32:
+            Identifier name:f(.s(1), .j(2)) start:19:16 end:19:31:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: f(.s(1), .j(2))
-            "Identifier name:32'h2_0001  start:19:34 end:19:45":
+            "Identifier name:32'h2_0001 start:19:34 end:19:44":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "32'h2_0001 "
-          "vpiPMIBody Identifier name:do if ((f(.s(1), .j(2))\t) !== (32'h2_0001 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.s(1), .j(2))\t), (32'h2_0001 )); $stop; end while(0); start:12:27 end:12:212":
+              vpiName: "32'h2_0001"
+          "vpiPMIBody Identifier name:do if ((f(.s(1), .j(2))) !== (32'h2_0001)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",19, (f(.s(1), .j(2))), (32'h2_0001)); $stop; end while(0); start:12:27 end:12:209":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((f(.s(1), .j(2))\t) !== (32'h2_0001 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.s(1), .j(2))\t), (32'h2_0001 )); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:20:7 end:20:44 ppstart:20:7 ppend:20:188:
+            vpiName: "do if ((f(.s(1), .j(2))) !== (32'h2_0001)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",19, (f(.s(1), .j(2))), (32'h2_0001)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:20:7 end:20:44 ppstart:20:7 ppend:20:185:
           vpiParent: SourceFile name:t_func_named.v
           vpiName Identifier name:checkh start:20:7 end:20:44:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            Identifier name:f(.s(), .j())	 start:20:16 end:20:30:
+            Identifier name:f(.s(), .j()) start:20:16 end:20:29:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: f(.s(), .j())
-            "Identifier name:32'h1_0000  start:20:32 end:20:43":
+            "Identifier name:32'h1_0000 start:20:32 end:20:42":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "32'h1_0000 "
-          "vpiPMIBody Identifier name:do if ((f(.s(), .j())\t) !== (32'h1_0000 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.s(), .j())\t), (32'h1_0000 )); $stop; end while(0); start:12:27 end:12:208":
+              vpiName: "32'h1_0000"
+          "vpiPMIBody Identifier name:do if ((f(.s(), .j())) !== (32'h1_0000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",20, (f(.s(), .j())), (32'h1_0000)); $stop; end while(0); start:12:27 end:12:205":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((f(.s(), .j())\t) !== (32'h1_0000 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(.s(), .j())\t), (32'h1_0000 )); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:21:7 end:21:36 ppstart:21:7 ppend:21:172:
+            vpiName: "do if ((f(.s(), .j())) !== (32'h1_0000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",20, (f(.s(), .j())), (32'h1_0000)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:21:7 end:21:36 ppstart:21:7 ppend:21:167:
           vpiParent: SourceFile name:t_func_named.v
           vpiName Identifier name:checkh start:21:7 end:21:36:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            Identifier name:f(2)		 start:21:16 end:21:22:
+            Identifier name:f(2) start:21:16 end:21:20:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: f(2)
-            "Identifier name:32'h2_0000  start:21:24 end:21:35":
+            "Identifier name:32'h2_0000 start:21:24 end:21:34":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "32'h2_0000 "
-          "vpiPMIBody Identifier name:do if ((f(2)\t\t) !== (32'h2_0000 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(2)\t\t), (32'h2_0000 )); $stop; end while(0); start:12:27 end:12:192":
+              vpiName: "32'h2_0000"
+          "vpiPMIBody Identifier name:do if ((f(2)) !== (32'h2_0000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",21, (f(2)), (32'h2_0000)); $stop; end while(0); start:12:27 end:12:187":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((f(2)\t\t) !== (32'h2_0000 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f(2)\t\t), (32'h2_0000 )); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:22:7 end:22:35 ppstart:22:7 ppend:22:170:
+            vpiName: "do if ((f(2)) !== (32'h2_0000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",21, (f(2)), (32'h2_0000)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:22:7 end:22:35 ppstart:22:7 ppend:22:165:
           vpiParent: SourceFile name:t_func_named.v
           vpiName Identifier name:checkh start:22:7 end:22:35:
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiArgument (2 items):
-            Identifier name:f()		 start:22:16 end:22:21:
+            Identifier name:f() start:22:16 end:22:19:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: f()
-            "Identifier name:32'h1_0000  start:22:23 end:22:34":
+            "Identifier name:32'h1_0000 start:22:23 end:22:33":
               vpiParent: PreprocMacroInstance name:checkh
-              vpiName: "32'h1_0000 "
-          "vpiPMIBody Identifier name:do if ((f()\t\t) !== (32'h1_0000 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f()\t\t), (32'h1_0000 )); $stop; end while(0); start:12:27 end:12:190":
+              vpiName: "32'h1_0000"
+          "vpiPMIBody Identifier name:do if ((f()) !== (32'h1_0000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",22, (f()), (32'h1_0000)); $stop; end while(0); start:12:27 end:12:185":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((f()\t\t) !== (32'h1_0000 )) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",0, (f()\t\t), (32'h1_0000 )); $stop; end while(0);"
+            vpiName: "do if ((f()) !== (32'h1_0000)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_func_named.v\",22, (f()), (32'h1_0000)); $stop; end while(0);"
   vpiAllModules (2 items):
     Module file:$Source01/t_func_named.v start:6:1 end:6:1:
       vpiParent: Design name:unnamed
@@ -519,25 +519,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_func_named/mounts.json
 
 
-{'result': {'coverage': 38.4,
+{'result': {'coverage': 36.5,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_func_named.v': {'post_len': 961,
-                                                          'pre_len': 1560}},
-            'post_len': 961,
-            'pre_len': 1560,
+            'files': {'$Output/lib/work/t_func_named.v': {'post_len': 969,
+                                                          'pre_len': 1526}},
+            'post_len': 969,
+            'pre_len': 1526,
             'test_name': 'Verilator/t_func_named'}}
 
 +---------------------------------+----------+-----------+
 | INPUT                           |   PRELEN |   POSTLEN |
 +=================================+==========+===========+
-| $Output/lib/work/t_func_named.v |     1560 |       961 |
+| $Output/lib/work/t_func_named.v |     1526 |       969 |
 +=================================+==========+===========+
-|                                 |     1560 |       961 |
+|                                 |     1526 |       969 |
 +---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 38.4
+[COVERAGE] : 36.5
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

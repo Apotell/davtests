@@ -4,16 +4,64 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v issue_00128/top.v issue_00128/testbench.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/regression/issue_00128/issue_00128
+COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v issue_00128/top.v issue_00128/testbench.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/regression/issue_00128/issue_00128
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/common.v".
 [INF:PP0122] Preprocessing source file "$Source01/issue_00128/top.v".
 [INF:PP0122] Preprocessing source file "$Source01/issue_00128/testbench.v".
 [INF:PA0201] Parsing source file "$Source01/common.v".
+[INF:PA0201] Parsing source file "$Source01/issue_00128/top.v".
+[INF:PA0201] Parsing source file "$Source01/issue_00128/testbench.v".
+AST_DEBUG_BEGIN
+Count: 42
+LIB: work
+FILE: f<16>:$Source01/issue_00128/top.v
+n<$Source01/issue_00128/top.v> u<41> t<Top_level_rule> c<1> l<1:1> el<6:1>
+  n<> u<1> t<Null_rule> p<41> s<40> l<1:1>
+  n<> u<40> t<Source_text> p<41> c<39> l<1:1> el<4:10>
+    n<> u<39> t<Description> p<40> c<38> l<1:1> el<4:10>
+      n<> u<38> t<Module_declaration> p<39> c<12> l<1:1> el<4:10>
+        n<> u<12> t<Module_nonansi_header> p<38> c<2> s<19> l<1:1> el<1:15>
+          n<module> u<2> t<MODULE> p<12> s<3> l<1:1> el<1:7>
+          n<top> u<3> t<SIMPLE_IDENTIFIER> p<12> s<4> l<1:8> el<1:11>
+          n<> u<4> t<Package_import_declaration_list> p<12> s<11> l<1:11> el<1:11>
+          n<> u<11> t<Port_list> p<12> c<10> l<1:11> el<1:14>
+            n<> u<10> t<Port> p<11> c<9> l<1:12> el<1:13>
+              n<> u<9> t<Port_expression> p<10> c<8> l<1:12> el<1:13>
+                n<> u<8> t<Port_reference> p<9> c<5> l<1:12> el<1:13>
+                  n<b> u<5> t<SIMPLE_IDENTIFIER> p<8> s<7> l<1:12> el<1:13>
+                  n<> u<7> t<Constant_select> p<8> c<6> l<1:13> el<1:13>
+                    n<> u<6> t<Constant_bit_select> p<7> l<1:13> el<1:13>
+        n<> u<19> t<Module_item> p<38> c<18> s<36> l<2:1> el<2:9>
+          n<> u<18> t<Port_declaration> p<19> c<17> l<2:1> el<2:8>
+            n<> u<17> t<Input_declaration> p<18> c<14> l<2:1> el<2:8>
+              n<> u<14> t<Net_port_type> p<17> c<13> s<16> l<2:7> el<2:7>
+                n<> u<13> t<Data_type_or_implicit> p<14> l<2:7> el<2:7>
+              n<> u<16> t<Port_identifier_list> p<17> c<15> l<2:7> el<2:8>
+                n<b> u<15> t<SIMPLE_IDENTIFIER> p<16> l<2:7> el<2:8>
+        n<> u<36> t<Module_item> p<38> c<35> s<37> l<3:1> el<3:24>
+          n<> u<35> t<Non_port_module_item> p<36> c<34> l<3:1> el<3:24>
+            n<> u<34> t<Module_or_generate_item> p<35> c<33> l<3:1> el<3:24>
+              n<> u<33> t<Module_common_item> p<34> c<32> l<3:1> el<3:24>
+                n<> u<32> t<Initial_construct> p<33> c<31> l<3:1> el<3:24>
+                  n<> u<31> t<Statement_or_null> p<32> c<30> l<3:9> el<3:24>
+                    n<> u<30> t<Statement> p<31> c<29> l<3:9> el<3:24>
+                      n<> u<29> t<Statement_item> p<30> c<28> l<3:9> el<3:24>
+                        n<> u<28> t<Subroutine_call_statement> p<29> c<27> l<3:9> el<3:24>
+                          n<> u<27> t<Subroutine_call> p<28> c<20> l<3:9> el<3:23>
+                            n<$> u<20> t<DOLLAR> p<27> s<21> l<3:9> el<3:10>
+                            n<display> u<21> t<SIMPLE_IDENTIFIER> p<27> s<26> l<3:10> el<3:17>
+                            n<> u<26> t<Argument_list> p<27> c<25> l<3:18> el<3:22>
+                              n<> u<25> t<Expression> p<26> c<24> l<3:18> el<3:22>
+                                n<> u<24> t<Primary> p<25> c<23> l<3:18> el<3:22>
+                                  n<> u<23> t<Primary_literal> p<24> c<22> l<3:18> el<3:22>
+                                    n<"%m"> u<22> t<QUOTED_STRING> p<23> l<3:18> el<3:22>
+        n<> u<37> t<ENDMODULE> p<38> l<4:1> el<4:10>
+AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 533
 LIB: work
-FILE: f<13>:$Source01/common.v
+FILE: f<15>:$Source01/common.v
 n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
   n<> u<1> t<Null_rule> p<532> s<531> l<1:1>
   n<> u<531> t<Source_text> p<532> c<103> l<1:1> el<59:10>
@@ -547,58 +595,10 @@ n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
                               n<> u<516> t<END> p<517> l<58:5> el<58:8>
         n<> u<528> t<ENDMODULE> p<529> l<59:1> el<59:10>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/issue_00128/top.v".
-AST_DEBUG_BEGIN
-Count: 42
-LIB: work
-FILE: f<14>:$Source01/issue_00128/top.v
-n<$Source01/issue_00128/top.v> u<41> t<Top_level_rule> c<1> l<1:1> el<6:1>
-  n<> u<1> t<Null_rule> p<41> s<40> l<1:1>
-  n<> u<40> t<Source_text> p<41> c<39> l<1:1> el<4:10>
-    n<> u<39> t<Description> p<40> c<38> l<1:1> el<4:10>
-      n<> u<38> t<Module_declaration> p<39> c<12> l<1:1> el<4:10>
-        n<> u<12> t<Module_nonansi_header> p<38> c<2> s<19> l<1:1> el<1:15>
-          n<module> u<2> t<MODULE> p<12> s<3> l<1:1> el<1:7>
-          n<top> u<3> t<SIMPLE_IDENTIFIER> p<12> s<4> l<1:8> el<1:11>
-          n<> u<4> t<Package_import_declaration_list> p<12> s<11> l<1:11> el<1:11>
-          n<> u<11> t<Port_list> p<12> c<10> l<1:11> el<1:14>
-            n<> u<10> t<Port> p<11> c<9> l<1:12> el<1:13>
-              n<> u<9> t<Port_expression> p<10> c<8> l<1:12> el<1:13>
-                n<> u<8> t<Port_reference> p<9> c<5> l<1:12> el<1:13>
-                  n<b> u<5> t<SIMPLE_IDENTIFIER> p<8> s<7> l<1:12> el<1:13>
-                  n<> u<7> t<Constant_select> p<8> c<6> l<1:13> el<1:13>
-                    n<> u<6> t<Constant_bit_select> p<7> l<1:13> el<1:13>
-        n<> u<19> t<Module_item> p<38> c<18> s<36> l<2:1> el<2:9>
-          n<> u<18> t<Port_declaration> p<19> c<17> l<2:1> el<2:8>
-            n<> u<17> t<Input_declaration> p<18> c<14> l<2:1> el<2:8>
-              n<> u<14> t<Net_port_type> p<17> c<13> s<16> l<2:7> el<2:7>
-                n<> u<13> t<Data_type_or_implicit> p<14> l<2:7> el<2:7>
-              n<> u<16> t<Port_identifier_list> p<17> c<15> l<2:7> el<2:8>
-                n<b> u<15> t<SIMPLE_IDENTIFIER> p<16> l<2:7> el<2:8>
-        n<> u<36> t<Module_item> p<38> c<35> s<37> l<3:1> el<3:24>
-          n<> u<35> t<Non_port_module_item> p<36> c<34> l<3:1> el<3:24>
-            n<> u<34> t<Module_or_generate_item> p<35> c<33> l<3:1> el<3:24>
-              n<> u<33> t<Module_common_item> p<34> c<32> l<3:1> el<3:24>
-                n<> u<32> t<Initial_construct> p<33> c<31> l<3:1> el<3:24>
-                  n<> u<31> t<Statement_or_null> p<32> c<30> l<3:9> el<3:24>
-                    n<> u<30> t<Statement> p<31> c<29> l<3:9> el<3:24>
-                      n<> u<29> t<Statement_item> p<30> c<28> l<3:9> el<3:24>
-                        n<> u<28> t<Subroutine_call_statement> p<29> c<27> l<3:9> el<3:24>
-                          n<> u<27> t<Subroutine_call> p<28> c<20> l<3:9> el<3:23>
-                            n<$> u<20> t<DOLLAR> p<27> s<21> l<3:9> el<3:10>
-                            n<display> u<21> t<SIMPLE_IDENTIFIER> p<27> s<26> l<3:10> el<3:17>
-                            n<> u<26> t<Argument_list> p<27> c<25> l<3:18> el<3:22>
-                              n<> u<25> t<Expression> p<26> c<24> l<3:18> el<3:22>
-                                n<> u<24> t<Primary> p<25> c<23> l<3:18> el<3:22>
-                                  n<> u<23> t<Primary_literal> p<24> c<22> l<3:18> el<3:22>
-                                    n<"%m"> u<22> t<QUOTED_STRING> p<23> l<3:18> el<3:22>
-        n<> u<37> t<ENDMODULE> p<38> l<4:1> el<4:10>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/issue_00128/testbench.v".
 AST_DEBUG_BEGIN
 Count: 139
 LIB: work
-FILE: f<16>:$Source01/issue_00128/testbench.v
+FILE: f<18>:$Source01/issue_00128/testbench.v
 n<$Source01/issue_00128/testbench.v> u<138> t<Top_level_rule> c<1> l<1:1> el<23:1>
   n<> u<1> t<Null_rule> p<138> s<137> l<1:1>
   n<> u<137> t<Source_text> p<138> c<136> l<1:1> el<22:10>

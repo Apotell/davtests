@@ -4,17 +4,34 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SurelogMacro -d db -fileunit -d ast dut.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SurelogMacro/SurelogMacro
+COMMAND: -wd ../../../tests/SurelogMacro -d db -fileunit -d ast dut.sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/SurelogMacro/SurelogMacro
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
+AST_DEBUG_BEGIN
+Count: 12
+LIB: work
+FILE: f<16>:$Source01/dut.sv
+n<$Source01/dut.sv> u<11> t<Top_level_rule> c<1> l<3:1> el<8:1>
+  n<> u<1> t<Null_rule> p<11> s<10> l<3:1> el<3:1>
+  n<> u<10> t<Source_text> p<11> c<9> l<3:1> el<5:10>
+    n<> u<9> t<Description> p<10> c<8> l<3:1> el<5:10>
+      n<> u<8> t<Module_declaration> p<9> c<6> l<3:1> el<5:10>
+        n<> u<6> t<Module_nonansi_header> p<8> c<2> s<7> l<3:1> el<3:14>
+          n<module> u<2> t<MODULE> p<6> s<3> l<3:1> el<3:7>
+          n<top> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<3:8> el<3:11>
+          n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<3:11> el<3:11>
+          n<> u<5> t<Port_list> p<6> l<3:11> el<3:13>
+        n<> u<7> t<ENDMODULE> p<8> l<5:1> el<5:10>
+AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<17>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE: f<19>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -271,16 +288,9 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/dut.sv".
-AST_DEBUG_BEGIN
-Count: 4
-LIB: work
-FILE: f<14>:$Source01/dut.sv
-n<$Source01/dut.sv> u<3> t<Top_level_rule> c<1> l<8:1> el<8:1>
-  n<> u<1> t<Null_rule> p<3> s<2> l<8:1> el<8:1>
-  n<> u<2> t<Source_text> p<3> l<8:1> el<8:1>
-AST_DEBUG_END
+[INF:CP0303] $Source01/dut.sv:3:1: Compile module "top".
 [WRN:PA0205] No timescale set for "builtin".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1843,7 +1853,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2039,7 +2049,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2157,7 +2167,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2292,7 +2302,21 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
-  vpiTypespec (7 items):
+  vpiAllModules (1 items):
+    Module name:top file:$Source01/dut.sv start:3:1 end:5:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:3:8 end:3:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:top
+        vpiName: work
+        vpiFullName: top.work
+      vpiCell: top
+  vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -2302,6 +2326,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:3:8 end:3:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -2327,7 +2357,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2342,24 +2372,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/SurelogMacro/SurelogMacro/mounts.json
 
 
-{'result': {'coverage': 0,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 0, 'pre_len': 0}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 22}},
             'post_len': 0,
-            'pre_len': 0,
+            'pre_len': 22,
             'test_name': 'SurelogMacro/SurelogMacro'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |        0 |         0 |
+| $Output/lib/work/dut.sv |       22 |         0 |
 +=========================+==========+===========+
-|                         |        0 |         0 |
+|                         |       22 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 0
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2370,7 +2401,7 @@ COMMAND: ${HLC_DIR}/regression/SurelogMacro/SurelogMacro/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             589     589       0         0
+Others                             594     594       0         0
 ----------------------------------------------------------------
-                                   589     589       0         0
+                                   594     594       0         0
 ===================== END REDUCTION RESULT =====================

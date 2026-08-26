@@ -4,34 +4,30 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Zachjs +incdir+lex+basic+lib+relong+resolve -nobuiltin -timescale=1ns/1ns -d ast -d db lex/macro.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Zachjs/lex/macro_sv
+COMMAND: -wd ../../../../tests/Zachjs +incdir+lex+basic+lib+relong+resolve -nobuiltin -timescale=1ns/1ns -d ast -d db lex/macro.sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Zachjs/lex/macro_sv
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/lex/macro.sv".
-[ERR:PP0116] $Source01/lex/macro.sv:100:44: Illegal unterminated string: >>");
-<<.
-[ERR:PP0116] $Source01/lex/macro.sv:102:46: Illegal unterminated string: >>");
-<<.
 [ERR:PP0109] $Source01/lex/macro.sv:130: Macro instantiation omits argument 1 (s) for "MACRO_B",
-$Source01/lex/macro.sv:45:9: No default value for argument 1 (s) in macro definition.
+             $Source01/lex/macro.sv:45:9: No default value for argument 1 (s) in macro definition.
 [INF:PA0201] Parsing source file "$Source01/lex/macro.sv".
 [SNT:PA0207] $Source01/lex/macro.sv:130:4: Syntax error: no viable alternative at input '$display("%s%s%s", \n    "t", "e", "st" \n    // FOO);\n\n    `',
-    `MACRO_B;
+    `MACRO_B();
     ^-- $Source01/lex/macro.sv:130:4:.
 [SNT:PA0207] $Source01/lex/macro.sv:130:4: Syntax error: mismatched input '`' expecting ')',
-    `MACRO_B;
+    `MACRO_B();
     ^-- $Source01/lex/macro.sv:130:4:.
-[SNT:PA0207] $Source01/lex/macro.sv:46:4: Syntax error: mismatched input '$' expecting <EOF>,
-    $display("foo", "foo");
-    ^-- $Source01/lex/macro.sv:46:4:.
+[SNT:PA0207] $Source01/lex/macro.sv:130:12: Syntax error: mismatched input '(' expecting <EOF>,
+    `MACRO_B();
+            ^-- $Source01/lex/macro.sv:130:12:.
 [WRN:PA0215] Invalid VObject location.
 AST_DEBUG_BEGIN
-Count: 462
+Count: 459
 LIB: work
-FILE: f<18>:$Source01/lex/macro.sv
-n<$Source01/lex/macro.sv> u<461> t<Top_level_rule> c<1> l<104:1> el<146:10>
-  n<> u<1> t<Null_rule> p<461> s<460> l<104:1> el<104:1>
-  n<> u<460> t<Source_text> p<461> c<453> l<104:1> el<130:16>
-    n<> u<453> t<Description> p<460> c<452> s<454> l<104:1> el<32:19>
+FILE: f<20>:$Source01/lex/macro.sv
+n<$Source01/lex/macro.sv> u<458> t<Top_level_rule> c<1> l<104:1> el<146:10>
+  n<> u<1> t<Null_rule> p<458> s<457> l<104:1> el<104:1>
+  n<> u<457> t<Source_text> p<458> c<453> l<104:1> el<130:13>
+    n<> u<453> t<Description> p<457> c<452> s<454> l<104:1> el<32:19>
       n<> u<452> t<Module_declaration> p<453> c<5> l<104:1> el<32:19>
         n<> u<5> t<Module_ansi_header> p<452> c<2> s<451> l<104:1> el<104:12>
           n<module> u<2> t<MODULE> p<5> s<3> l<104:1> el<104:7>
@@ -483,15 +479,12 @@ n<$Source01/lex/macro.sv> u<461> t<Top_level_rule> c<1> l<104:1> el<146:10>
                                         n<> u<435> t<Primary> p<436> c<434> l<32:15> el<32:19>
                                           n<> u<434> t<Primary_literal> p<435> c<433> l<32:15> el<32:19>
                                             n<"st"> u<433> t<QUOTED_STRING> p<434> l<32:15> el<32:19>
-    n<// FOO);> u<454> t<LINE_COMMENT> p<460> s<456> l<33:5> el<139:13>
-    n<> u<456> t<Description> p<460> c<455> s<459> l<45:21> el<45:29>
-      n<> u<455> t<Top_directives> p<456> l<45:21> el<45:29>
-    n<> u<459> t<Description> p<460> c<458> l<130:15> el<130:16>
-      n<> u<458> t<Package_item> p<459> c<457> l<130:15> el<130:16>
-        n<> u<457> t<Package_or_generate_item_declaration> p<458> l<130:15> el<130:16>
+    n<// FOO);> u<454> t<LINE_COMMENT> p<457> s<456> l<33:5> el<139:13>
+    n<> u<456> t<Description> p<457> c<455> l<130:5> el<130:13>
+      n<> u<455> t<Top_directives> p<456> l<130:5> el<130:13>
 AST_DEBUG_END
 [INF:CP0303] $Source01/lex/macro.sv:104:1: Compile module "top".
-[WRN:CP0350] $Source01/lex/macro.sv:128:6: Failed to bind "id:1174, name:display".
+[WRN:CP0350] $Source01/lex/macro.sv:128:6: Failed to bind "id:1171, name:display".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -2593,9 +2586,9 @@ Design name:unnamed:
             "Identifier name:  start:100:33 end:100:34":
               vpiParent: PreprocMacroDefinition name:MACRO_E
               vpiName: " "
-            "Identifier name:\" start:100:34 end:100:35":
+            "Identifier name:`\" start:100:34 end:100:36":
               vpiParent: PreprocMacroDefinition name:MACRO_E
-              vpiName: "\""
+              vpiName: "`\""
             Identifier name:s start:100:36 end:100:37:
               vpiParent: PreprocMacroDefinition name:MACRO_E
               vpiName: s
@@ -2634,9 +2627,9 @@ Design name:unnamed:
             Identifier name:( start:102:28 end:102:29:
               vpiParent: PreprocMacroDefinition name:MACRO_F
               vpiName: "("
-            "Identifier name:\" start:102:29 end:102:30":
+            "Identifier name:`\" start:102:29 end:102:31":
               vpiParent: PreprocMacroDefinition name:MACRO_F
-              vpiName: "\""
+              vpiName: "`\""
             Identifier name:s start:102:31 end:102:32:
               vpiParent: PreprocMacroDefinition name:MACRO_F
               vpiName: s
@@ -2655,15 +2648,15 @@ Design name:unnamed:
             "Identifier name:  start:102:36 end:102:37":
               vpiParent: PreprocMacroDefinition name:MACRO_F
               vpiName: " "
-            "Identifier name:\\\" start:102:37 end:102:39":
+            "Identifier name:`\\`\" start:102:37 end:102:41":
               vpiParent: PreprocMacroDefinition name:MACRO_F
-              vpiName: "\\\""
+              vpiName: "`\\`\""
             Identifier name:t start:102:41 end:102:42:
               vpiParent: PreprocMacroDefinition name:MACRO_F
               vpiName: t
-            "Identifier name:\\\" start:102:42 end:102:44":
+            "Identifier name:`\\`\" start:102:42 end:102:46":
               vpiParent: PreprocMacroDefinition name:MACRO_F
-              vpiName: "\\\""
+              vpiName: "`\\`\""
             "Identifier name:\" start:102:46 end:102:47":
               vpiParent: PreprocMacroDefinition name:MACRO_F
               vpiName: "\""
@@ -2673,7 +2666,7 @@ Design name:unnamed:
             Identifier name:; start:102:48 end:102:49:
               vpiParent: PreprocMacroDefinition name:MACRO_F
               vpiName: ";"
-      vpiPreprocMacroInstance (30 items):
+      vpiPreprocMacroInstance (29 items):
         PreprocMacroInstance name:NUMBER_01 file:$Source01/lex/macro.sv start:107:20 end:107:30 ppstart:107:20 ppend:107:22:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:NUMBER_01 start:107:20 end:107:30:
@@ -2854,16 +2847,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"%s%s%s\", \n    \"t\", \"e\", \"st\" \n    // FOO start:31:26 end:34:11":
             vpiParent: PreprocMacroInstance name:STRING_COMMAS_05
             vpiName: "\"%s%s%s\", \n    \"t\", \"e\", \"st\" \n    // FOO"
-        PreprocMacroInstance name:MACRO_B file:$Source01/lex/macro.sv start:130:5 end:130:15 ppstart:141:5 ppend:141:13:
-          vpiParent: SourceFile name:macro.sv
-          vpiName Identifier name:MACRO_B start:130:5 end:130:15:
-            vpiParent: PreprocMacroInstance name:MACRO_B
-            vpiName: MACRO_B
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_B
-          vpiPMIBody Identifier name:`MACRO_B start:45:21 end:1:9:
-            vpiParent: PreprocMacroInstance name:MACRO_B
-            vpiName: "`MACRO_B"
-        PreprocMacroInstance name:MACRO_B file:$Source01/lex/macro.sv start:131:5 end:131:20 ppstart:142:5 ppend:191:7:
+        PreprocMacroInstance name:MACRO_B file:$Source01/lex/macro.sv start:131:5 end:131:20 ppstart:142:5 ppend:177:28:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_B start:131:5 end:131:20:
             vpiParent: PreprocMacroInstance name:MACRO_B
@@ -2873,9 +2857,9 @@ Design name:unnamed:
             "Identifier name:\"foo\" start:131:14 end:131:19":
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName: "\"foo\""
-          "vpiPMIBody Identifier name:\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    ); start:45:21 end:94:7":
+          "vpiPMIBody Identifier name:\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\"); start:45:21 end:94:28":
             vpiParent: PreprocMacroInstance name:MACRO_B
-            vpiName: "\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\" , \"foo\" );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );\n    $display(\"foo\"\n    , \"foo\"\n    );"
+            vpiName: "\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");\n    $display(\"foo\", \"foo\");"
           vpiPMIItem (35 items):
             PreprocMacroInstance name:MACRO_A_01 file:$Source01/lex/macro.sv start:46:14 end:46:32 ppstart:143:14 ppend:143:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
@@ -2884,7 +2868,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_01
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_01
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:2:26 end:2:31":
+                "Identifier name:\"foo\" start:46:26 end:46:31":
                   vpiParent: PreprocMacroInstance name:MACRO_A_01
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:35:31 end:35:43":
@@ -2897,7 +2881,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_02
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_02
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:3:26 end:3:31":
+                "Identifier name:\"foo\" start:47:26 end:47:31":
                   vpiParent: PreprocMacroInstance name:MACRO_A_02
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:36:32 end:36:44":
@@ -2910,7 +2894,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_03
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_03
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:4:26 end:4:31":
+                "Identifier name:\"foo\" start:48:26 end:48:31":
                   vpiParent: PreprocMacroInstance name:MACRO_A_03
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:37:33 end:37:45":
@@ -2923,7 +2907,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_04
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_04
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:5:26 end:5:31":
+                "Identifier name:\"foo\" start:49:26 end:49:31":
                   vpiParent: PreprocMacroInstance name:MACRO_A_04
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:38:34 end:38:46":
@@ -2936,7 +2920,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_05
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_05
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:6:26 end:6:31":
+                "Identifier name:\"foo\" start:50:26 end:50:31":
                   vpiParent: PreprocMacroInstance name:MACRO_A_05
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:39:35 end:39:47":
@@ -2949,7 +2933,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_06
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_06
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:7:26 end:7:31":
+                "Identifier name:\"foo\" start:51:26 end:51:31":
                   vpiParent: PreprocMacroInstance name:MACRO_A_06
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:40:11 end:41:23":
@@ -2962,7 +2946,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_07
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_07
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:8:26 end:8:31":
+                "Identifier name:\"foo\" start:52:26 end:52:31":
                   vpiParent: PreprocMacroInstance name:MACRO_A_07
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:42:15 end:43:27":
@@ -2975,7 +2959,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_01
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_01
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:9:27 end:9:32":
+                "Identifier name:\"foo\" start:53:27 end:53:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_01
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:35:31 end:35:43":
@@ -2988,7 +2972,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_02
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_02
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:10:27 end:10:32":
+                "Identifier name:\"foo\" start:54:27 end:54:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_02
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:36:32 end:36:44":
@@ -3001,7 +2985,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_03
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_03
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:11:27 end:11:32":
+                "Identifier name:\"foo\" start:55:27 end:55:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_03
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:37:33 end:37:45":
@@ -3014,7 +2998,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_04
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_04
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:12:27 end:12:32":
+                "Identifier name:\"foo\" start:56:27 end:56:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_04
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:38:34 end:38:46":
@@ -3027,7 +3011,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_05
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_05
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:13:27 end:13:32":
+                "Identifier name:\"foo\" start:57:27 end:57:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_05
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:39:35 end:39:47":
@@ -3040,7 +3024,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_06
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_06
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:14:27 end:14:32":
+                "Identifier name:\"foo\" start:58:27 end:58:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_06
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:40:11 end:41:23":
@@ -3053,7 +3037,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_07
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_07
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:15:27 end:15:32":
+                "Identifier name:\"foo\" start:59:27 end:59:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_07
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:42:15 end:43:27":
@@ -3066,7 +3050,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_01
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_01
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:16:27 end:16:32":
+                "Identifier name:\"foo\" start:60:27 end:60:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_01
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:35:31 end:35:43":
@@ -3079,7 +3063,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_02
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_02
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:17:27 end:17:32":
+                "Identifier name:\"foo\" start:61:27 end:61:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_02
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:36:32 end:36:44":
@@ -3092,7 +3076,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_03
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_03
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:18:27 end:18:32":
+                "Identifier name:\"foo\" start:62:27 end:62:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_03
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:37:33 end:37:45":
@@ -3105,7 +3089,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_04
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_04
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:19:27 end:19:32":
+                "Identifier name:\"foo\" start:63:27 end:63:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_04
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:38:34 end:38:46":
@@ -3118,7 +3102,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_05
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_05
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:20:27 end:20:32":
+                "Identifier name:\"foo\" start:64:27 end:64:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_05
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:39:35 end:39:47":
@@ -3131,7 +3115,7 @@ Design name:unnamed:
                 vpiName: MACRO_A_06
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_06
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:21:27 end:21:32":
+                "Identifier name:\"foo\" start:65:27 end:65:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_06
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:40:11 end:41:23":
@@ -3144,195 +3128,195 @@ Design name:unnamed:
                 vpiName: MACRO_A_07
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_07
               vpiArgument (1 items):
-                "Identifier name:\"foo\" start:22:27 end:22:32":
+                "Identifier name:\"foo\" start:66:27 end:66:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_07
                   vpiName: "\"foo\""
               "vpiPMIBody Identifier name:\"foo\", \"foo\" start:42:15 end:43:27":
                 vpiParent: PreprocMacroInstance name:MACRO_A_07
                 vpiName: "\"foo\", \"foo\""
-            PreprocMacroInstance name:MACRO_A_01 file:$Source01/lex/macro.sv start:67:14 end:67:34 ppstart:164:14 ppend:164:28:
+            PreprocMacroInstance name:MACRO_A_01 file:$Source01/lex/macro.sv start:67:14 end:67:34 ppstart:164:14 ppend:164:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_01 start:67:14 end:67:34:
                 vpiParent: PreprocMacroInstance name:MACRO_A_01
                 vpiName: MACRO_A_01
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_01
               vpiArgument (1 items):
-                "Identifier name:\"foo\"  start:23:27 end:23:33":
+                "Identifier name:\"foo\" start:67:27 end:67:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_01
-                  vpiName: "\"foo\" "
-              "vpiPMIBody Identifier name:\"foo\" , \"foo\"  start:35:31 end:35:45":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:35:31 end:35:43":
                 vpiParent: PreprocMacroInstance name:MACRO_A_01
-                vpiName: "\"foo\" , \"foo\" "
-            PreprocMacroInstance name:MACRO_A_02 file:$Source01/lex/macro.sv start:68:14 end:68:34 ppstart:165:14 ppend:165:28:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_02 file:$Source01/lex/macro.sv start:68:14 end:68:34 ppstart:165:14 ppend:165:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_02 start:68:14 end:68:34:
                 vpiParent: PreprocMacroInstance name:MACRO_A_02
                 vpiName: MACRO_A_02
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_02
               vpiArgument (1 items):
-                "Identifier name:\"foo\"  start:24:27 end:24:33":
+                "Identifier name:\"foo\" start:68:27 end:68:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_02
-                  vpiName: "\"foo\" "
-              "vpiPMIBody Identifier name:\"foo\" , \"foo\"  start:36:32 end:36:46":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:36:32 end:36:44":
                 vpiParent: PreprocMacroInstance name:MACRO_A_02
-                vpiName: "\"foo\" , \"foo\" "
-            PreprocMacroInstance name:MACRO_A_03 file:$Source01/lex/macro.sv start:69:14 end:69:34 ppstart:166:14 ppend:166:28:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_03 file:$Source01/lex/macro.sv start:69:14 end:69:34 ppstart:166:14 ppend:166:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_03 start:69:14 end:69:34:
                 vpiParent: PreprocMacroInstance name:MACRO_A_03
                 vpiName: MACRO_A_03
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_03
               vpiArgument (1 items):
-                "Identifier name:\"foo\"  start:25:27 end:25:33":
+                "Identifier name:\"foo\" start:69:27 end:69:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_03
-                  vpiName: "\"foo\" "
-              "vpiPMIBody Identifier name:\"foo\" , \"foo\"  start:37:33 end:37:47":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:37:33 end:37:45":
                 vpiParent: PreprocMacroInstance name:MACRO_A_03
-                vpiName: "\"foo\" , \"foo\" "
-            PreprocMacroInstance name:MACRO_A_04 file:$Source01/lex/macro.sv start:70:14 end:70:34 ppstart:167:14 ppend:167:28:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_04 file:$Source01/lex/macro.sv start:70:14 end:70:34 ppstart:167:14 ppend:167:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_04 start:70:14 end:70:34:
                 vpiParent: PreprocMacroInstance name:MACRO_A_04
                 vpiName: MACRO_A_04
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_04
               vpiArgument (1 items):
-                "Identifier name:\"foo\"  start:26:27 end:26:33":
+                "Identifier name:\"foo\" start:70:27 end:70:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_04
-                  vpiName: "\"foo\" "
-              "vpiPMIBody Identifier name:\"foo\" , \"foo\"  start:38:34 end:38:48":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:38:34 end:38:46":
                 vpiParent: PreprocMacroInstance name:MACRO_A_04
-                vpiName: "\"foo\" , \"foo\" "
-            PreprocMacroInstance name:MACRO_A_05 file:$Source01/lex/macro.sv start:71:14 end:71:34 ppstart:168:14 ppend:168:28:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_05 file:$Source01/lex/macro.sv start:71:14 end:71:34 ppstart:168:14 ppend:168:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_05 start:71:14 end:71:34:
                 vpiParent: PreprocMacroInstance name:MACRO_A_05
                 vpiName: MACRO_A_05
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_05
               vpiArgument (1 items):
-                "Identifier name:\"foo\"  start:27:27 end:27:33":
+                "Identifier name:\"foo\" start:71:27 end:71:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_05
-                  vpiName: "\"foo\" "
-              "vpiPMIBody Identifier name:\"foo\" , \"foo\"  start:39:35 end:39:49":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:39:35 end:39:47":
                 vpiParent: PreprocMacroInstance name:MACRO_A_05
-                vpiName: "\"foo\" , \"foo\" "
-            PreprocMacroInstance name:MACRO_A_06 file:$Source01/lex/macro.sv start:72:14 end:72:34 ppstart:169:14 ppend:169:28:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_06 file:$Source01/lex/macro.sv start:72:14 end:72:34 ppstart:169:14 ppend:169:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_06 start:72:14 end:72:34:
                 vpiParent: PreprocMacroInstance name:MACRO_A_06
                 vpiName: MACRO_A_06
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_06
               vpiArgument (1 items):
-                "Identifier name:\"foo\"  start:28:27 end:28:33":
+                "Identifier name:\"foo\" start:72:27 end:72:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_06
-                  vpiName: "\"foo\" "
-              "vpiPMIBody Identifier name:\"foo\" , \"foo\"  start:40:11 end:41:25":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:40:11 end:41:23":
                 vpiParent: PreprocMacroInstance name:MACRO_A_06
-                vpiName: "\"foo\" , \"foo\" "
-            PreprocMacroInstance name:MACRO_A_07 file:$Source01/lex/macro.sv start:73:14 end:73:34 ppstart:170:14 ppend:170:28:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_07 file:$Source01/lex/macro.sv start:73:14 end:73:34 ppstart:170:14 ppend:170:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_07 start:73:14 end:73:34:
                 vpiParent: PreprocMacroInstance name:MACRO_A_07
                 vpiName: MACRO_A_07
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_07
               vpiArgument (1 items):
-                "Identifier name:\"foo\"  start:29:27 end:29:33":
+                "Identifier name:\"foo\" start:73:27 end:73:32":
                   vpiParent: PreprocMacroInstance name:MACRO_A_07
-                  vpiName: "\"foo\" "
-              "vpiPMIBody Identifier name:\"foo\" , \"foo\"  start:42:15 end:43:29":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:42:15 end:43:27":
                 vpiParent: PreprocMacroInstance name:MACRO_A_07
-                vpiName: "\"foo\" , \"foo\" "
-            PreprocMacroInstance name:MACRO_A_01 file:$Source01/lex/macro.sv start:74:14 end:76:6 ppstart:171:14 ppend:173:5:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_01 file:$Source01/lex/macro.sv start:74:14 end:76:6 ppstart:171:14 ppend:171:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_01 start:74:14 end:76:6:
                 vpiParent: PreprocMacroInstance name:MACRO_A_01
                 vpiName: MACRO_A_01
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_01
               vpiArgument (1 items):
-                "Identifier name:\"foo\"\n     start:31:9 end:32:5":
+                "Identifier name:\"foo\" start:75:9 end:75:14":
                   vpiParent: PreprocMacroInstance name:MACRO_A_01
-                  vpiName: "\"foo\"\n    "
-              "vpiPMIBody Identifier name:\"foo\"\n    , \"foo\"\n     start:35:31 end:35:5":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:35:31 end:35:43":
                 vpiParent: PreprocMacroInstance name:MACRO_A_01
-                vpiName: "\"foo\"\n    , \"foo\"\n    "
-            PreprocMacroInstance name:MACRO_A_02 file:$Source01/lex/macro.sv start:77:14 end:79:6 ppstart:174:14 ppend:176:5:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_02 file:$Source01/lex/macro.sv start:77:14 end:79:6 ppstart:172:14 ppend:172:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_02 start:77:14 end:79:6:
                 vpiParent: PreprocMacroInstance name:MACRO_A_02
                 vpiName: MACRO_A_02
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_02
               vpiArgument (1 items):
-                "Identifier name:\"foo\"\n     start:34:9 end:35:5":
+                "Identifier name:\"foo\" start:78:9 end:78:14":
                   vpiParent: PreprocMacroInstance name:MACRO_A_02
-                  vpiName: "\"foo\"\n    "
-              "vpiPMIBody Identifier name:\"foo\"\n    , \"foo\"\n     start:36:32 end:36:5":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:36:32 end:36:44":
                 vpiParent: PreprocMacroInstance name:MACRO_A_02
-                vpiName: "\"foo\"\n    , \"foo\"\n    "
-            PreprocMacroInstance name:MACRO_A_03 file:$Source01/lex/macro.sv start:80:14 end:82:6 ppstart:177:14 ppend:179:5:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_03 file:$Source01/lex/macro.sv start:80:14 end:82:6 ppstart:173:14 ppend:173:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_03 start:80:14 end:82:6:
                 vpiParent: PreprocMacroInstance name:MACRO_A_03
                 vpiName: MACRO_A_03
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_03
               vpiArgument (1 items):
-                "Identifier name:\"foo\"\n     start:37:9 end:38:5":
+                "Identifier name:\"foo\" start:81:9 end:81:14":
                   vpiParent: PreprocMacroInstance name:MACRO_A_03
-                  vpiName: "\"foo\"\n    "
-              "vpiPMIBody Identifier name:\"foo\"\n    , \"foo\"\n     start:37:33 end:37:5":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:37:33 end:37:45":
                 vpiParent: PreprocMacroInstance name:MACRO_A_03
-                vpiName: "\"foo\"\n    , \"foo\"\n    "
-            PreprocMacroInstance name:MACRO_A_04 file:$Source01/lex/macro.sv start:83:14 end:85:6 ppstart:180:14 ppend:182:5:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_04 file:$Source01/lex/macro.sv start:83:14 end:85:6 ppstart:174:14 ppend:174:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_04 start:83:14 end:85:6:
                 vpiParent: PreprocMacroInstance name:MACRO_A_04
                 vpiName: MACRO_A_04
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_04
               vpiArgument (1 items):
-                "Identifier name:\"foo\"\n     start:40:9 end:41:5":
+                "Identifier name:\"foo\" start:84:9 end:84:14":
                   vpiParent: PreprocMacroInstance name:MACRO_A_04
-                  vpiName: "\"foo\"\n    "
-              "vpiPMIBody Identifier name:\"foo\"\n    , \"foo\"\n     start:38:34 end:38:5":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:38:34 end:38:46":
                 vpiParent: PreprocMacroInstance name:MACRO_A_04
-                vpiName: "\"foo\"\n    , \"foo\"\n    "
-            PreprocMacroInstance name:MACRO_A_05 file:$Source01/lex/macro.sv start:86:14 end:88:6 ppstart:183:14 ppend:185:5:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_05 file:$Source01/lex/macro.sv start:86:14 end:88:6 ppstart:175:14 ppend:175:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_05 start:86:14 end:88:6:
                 vpiParent: PreprocMacroInstance name:MACRO_A_05
                 vpiName: MACRO_A_05
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_05
               vpiArgument (1 items):
-                "Identifier name:\"foo\"\n     start:43:9 end:44:5":
+                "Identifier name:\"foo\" start:87:9 end:87:14":
                   vpiParent: PreprocMacroInstance name:MACRO_A_05
-                  vpiName: "\"foo\"\n    "
-              "vpiPMIBody Identifier name:\"foo\"\n    , \"foo\"\n     start:39:35 end:39:5":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:39:35 end:39:47":
                 vpiParent: PreprocMacroInstance name:MACRO_A_05
-                vpiName: "\"foo\"\n    , \"foo\"\n    "
-            PreprocMacroInstance name:MACRO_A_06 file:$Source01/lex/macro.sv start:89:14 end:91:6 ppstart:186:14 ppend:188:5:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_06 file:$Source01/lex/macro.sv start:89:14 end:91:6 ppstart:176:14 ppend:176:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_06 start:89:14 end:91:6:
                 vpiParent: PreprocMacroInstance name:MACRO_A_06
                 vpiName: MACRO_A_06
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_06
               vpiArgument (1 items):
-                "Identifier name:\"foo\"\n     start:46:9 end:47:5":
+                "Identifier name:\"foo\" start:90:9 end:90:14":
                   vpiParent: PreprocMacroInstance name:MACRO_A_06
-                  vpiName: "\"foo\"\n    "
-              "vpiPMIBody Identifier name:\"foo\"\n    , \"foo\"\n     start:40:11 end:41:5":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:40:11 end:41:23":
                 vpiParent: PreprocMacroInstance name:MACRO_A_06
-                vpiName: "\"foo\"\n    , \"foo\"\n    "
-            PreprocMacroInstance name:MACRO_A_07 file:$Source01/lex/macro.sv start:92:14 end:94:6 ppstart:189:14 ppend:191:5:
+                vpiName: "\"foo\", \"foo\""
+            PreprocMacroInstance name:MACRO_A_07 file:$Source01/lex/macro.sv start:92:14 end:94:6 ppstart:177:14 ppend:177:26:
               vpiParent: PreprocMacroInstance name:MACRO_B
               vpiName Identifier name:MACRO_A_07 start:92:14 end:94:6:
                 vpiParent: PreprocMacroInstance name:MACRO_A_07
                 vpiName: MACRO_A_07
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MACRO_A_07
               vpiArgument (1 items):
-                "Identifier name:\"foo\"\n     start:49:9 end:50:5":
+                "Identifier name:\"foo\" start:93:9 end:93:14":
                   vpiParent: PreprocMacroInstance name:MACRO_A_07
-                  vpiName: "\"foo\"\n    "
-              "vpiPMIBody Identifier name:\"foo\"\n    , \"foo\"\n     start:42:15 end:43:5":
+                  vpiName: "\"foo\""
+              "vpiPMIBody Identifier name:\"foo\", \"foo\" start:42:15 end:43:27":
                 vpiParent: PreprocMacroInstance name:MACRO_A_07
-                vpiName: "\"foo\"\n    , \"foo\"\n    "
-        PreprocMacroInstance name:MACRO_C file:$Source01/lex/macro.sv start:133:14 end:133:29 ppstart:193:14 ppend:193:22:
+                vpiName: "\"foo\", \"foo\""
+        PreprocMacroInstance name:MACRO_C file:$Source01/lex/macro.sv start:133:14 end:133:29 ppstart:179:14 ppend:179:22:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_C start:133:14 end:133:29:
             vpiParent: PreprocMacroInstance name:MACRO_C
@@ -3345,7 +3329,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"foo\", 1 start:96:25 end:96:33":
             vpiParent: PreprocMacroInstance name:MACRO_C
             vpiName: "\"foo\", 1"
-        PreprocMacroInstance name:MACRO_C file:$Source01/lex/macro.sv start:134:14 end:134:30 ppstart:194:14 ppend:194:22:
+        PreprocMacroInstance name:MACRO_C file:$Source01/lex/macro.sv start:134:14 end:134:30 ppstart:180:14 ppend:180:22:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_C start:134:14 end:134:30:
             vpiParent: PreprocMacroInstance name:MACRO_C
@@ -3360,7 +3344,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"foo\", 1 start:96:25 end:96:33":
             vpiParent: PreprocMacroInstance name:MACRO_C
             vpiName: "\"foo\", 1"
-        PreprocMacroInstance name:MACRO_C file:$Source01/lex/macro.sv start:135:14 end:135:31 ppstart:195:14 ppend:195:22:
+        PreprocMacroInstance name:MACRO_C file:$Source01/lex/macro.sv start:135:14 end:135:31 ppstart:181:14 ppend:181:22:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_C start:135:14 end:135:31:
             vpiParent: PreprocMacroInstance name:MACRO_C
@@ -3376,7 +3360,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"foo\", 2 start:96:25 end:96:33":
             vpiParent: PreprocMacroInstance name:MACRO_C
             vpiName: "\"foo\", 2"
-        PreprocMacroInstance name:MACRO_D file:$Source01/lex/macro.sv start:137:5 end:137:24 ppstart:197:5 ppend:197:27:
+        PreprocMacroInstance name:MACRO_D file:$Source01/lex/macro.sv start:137:5 end:137:24 ppstart:183:5 ppend:183:27:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_D start:137:5 end:137:24:
             vpiParent: PreprocMacroInstance name:MACRO_D
@@ -3389,7 +3373,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:$\"display\"(\"display\"); start:98:26 end:98:48":
             vpiParent: PreprocMacroInstance name:MACRO_D
             vpiName: "$\"display\"(\"display\");"
-        PreprocMacroInstance name:MACRO_E file:$Source01/lex/macro.sv start:139:5 end:139:18 ppstart:199:5 ppend:199:33:
+        PreprocMacroInstance name:MACRO_E file:$Source01/lex/macro.sv start:139:5 end:139:18 ppstart:185:5 ppend:185:33:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_E start:139:5 end:139:18:
             vpiParent: PreprocMacroInstance name:MACRO_E
@@ -3402,7 +3386,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:$display(\"s\", \"foo\", `\"ss\"); start:100:20 end:100:48":
             vpiParent: PreprocMacroInstance name:MACRO_E
             vpiName: "$display(\"s\", \"foo\", `\"ss\");"
-        PreprocMacroInstance name:MACRO_E file:$Source01/lex/macro.sv start:140:5 end:140:22 ppstart:200:5 ppend:200:37:
+        PreprocMacroInstance name:MACRO_E file:$Source01/lex/macro.sv start:140:5 end:140:22 ppstart:186:5 ppend:186:37:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_E start:140:5 end:140:22:
             vpiParent: PreprocMacroInstance name:MACRO_E
@@ -3415,7 +3399,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:$display(\"s\", \"display\", `\"ss\"); start:100:20 end:100:52":
             vpiParent: PreprocMacroInstance name:MACRO_E
             vpiName: "$display(\"s\", \"display\", `\"ss\");"
-        PreprocMacroInstance name:MACRO_F file:$Source01/lex/macro.sv start:142:5 end:142:18 ppstart:202:5 ppend:202:33:
+        PreprocMacroInstance name:MACRO_F file:$Source01/lex/macro.sv start:142:5 end:142:18 ppstart:188:5 ppend:188:33:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_F start:142:5 end:142:18:
             vpiParent: PreprocMacroInstance name:MACRO_F
@@ -3428,7 +3412,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:$display(\"s foo = \\\"foo\\\"\"); start:102:20 end:102:48":
             vpiParent: PreprocMacroInstance name:MACRO_F
             vpiName: "$display(\"s foo = \\\"foo\\\"\");"
-        PreprocMacroInstance name:MACRO_F file:$Source01/lex/macro.sv start:143:5 end:143:22 ppstart:203:5 ppend:203:41:
+        PreprocMacroInstance name:MACRO_F file:$Source01/lex/macro.sv start:143:5 end:143:22 ppstart:189:5 ppend:189:41:
           vpiParent: SourceFile name:macro.sv
           vpiName Identifier name:MACRO_F start:143:5 end:143:22:
             vpiParent: PreprocMacroInstance name:MACRO_F
@@ -4191,7 +4175,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 3
+[  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
@@ -4207,25 +4191,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/lex/macro_sv/mounts.json
 
 
-{'result': {'coverage': 44.18,
+{'result': {'coverage': 43.31,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/lex/macro.sv': {'post_len': 878,
-                                                        'pre_len': 1573}},
-            'post_len': 878,
-            'pre_len': 1573,
+            'files': {'$Output/lib/work/lex/macro.sv': {'post_len': 885,
+                                                        'pre_len': 1561}},
+            'post_len': 885,
+            'pre_len': 1561,
             'test_name': 'Zachjs/lex/macro_sv'}}
 
 +-------------------------------+----------+-----------+
 | INPUT                         |   PRELEN |   POSTLEN |
 +===============================+==========+===========+
-| $Output/lib/work/lex/macro.sv |     1573 |       878 |
+| $Output/lib/work/lex/macro.sv |     1561 |       885 |
 +===============================+==========+===========+
-|                               |     1573 |       878 |
+|                               |     1561 |       885 |
 +-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 44.18
+[COVERAGE] : 43.31
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -4239,7 +4223,7 @@ Constant                            55      44      10        21
 Operation                           11       0       0        11
 RefTypespec                         55      44      10        21
 ----------------------------------------------------------------
-Others                            1001    1001       0         0
+Others                             998     998       0         0
 ----------------------------------------------------------------
-                                  1122    1089      20        53
+                                  1119    1086      20        53
 ===================== END REDUCTION RESULT =====================

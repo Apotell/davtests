@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Google/chapter-22 -timescale=1ns/1ns -d ast -d db -nobuiltin 22.12--line-complex.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-22/22.12--line-complex
+COMMAND: -wd ../../../../tests/Google/chapter-22 -timescale=1ns/1ns -d ast -d db -nobuiltin 22.12--line-complex.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-22/22.12--line-complex
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/22.12--line-complex.sv".
 [INF:PA0201] Parsing source file "$Source01/22.12--line-complex.sv".
@@ -12,10 +12,10 @@ COMMAND: -wd ../../../../tests/Google/chapter-22 -timescale=1ns/1ns -d ast -d db
 AST_DEBUG_BEGIN
 Count: 14
 LIB: work
-FILE: f<14>:$Source01/22.12--line-complex.sv
-INCL f<73>: $Source01/somefile
-n<$Source01/22.12--line-complex.sv> u<13> t<Top_level_rule> c<1> f<73> l<8274:1> el<6:1>
-  n<> u<1> t<Null_rule> p<13> s<2> f<73> l<8274:1> el<8274:1>
+FILE: f<16>:$Source01/22.12--line-complex.sv
+INCL f<33>: $Source01/somefile
+n<$Source01/22.12--line-complex.sv> u<13> t<Top_level_rule> c<1> f<33> l<8274:1> el<6:1>
+  n<> u<1> t<Null_rule> p<13> s<2> f<33> l<8274:1> el<8274:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<13> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<13> s<4> l<2:1> el<2:3>
   n<// Use of this source code is governed by a ISC-style> u<4> t<LINE_COMMENT> p<13> s<5> l<3:1> el<3:54>
@@ -23,10 +23,10 @@ n<$Source01/22.12--line-complex.sv> u<13> t<Top_level_rule> c<1> f<73> l<8274:1>
   n<// https://opensource.org/licenses/ISC> u<6> t<LINE_COMMENT> p<13> s<7> l<5:1> el<5:39>
   n<//> u<7> t<LINE_COMMENT> p<13> s<8> l<6:1> el<6:3>
   n<// SPDX-License-Identifier: ISC> u<8> t<LINE_COMMENT> p<13> s<9> l<7:1> el<7:32>
-  n</*\n:name: 22.12--line-complex\n:description: Test\n:tags: 22.12\n:type: preprocessing\n*/> u<9> t<BLOCK_COMMENT> p<13> s<12> f<73> l<8274:1> el<8274:10>
-  n<> u<12> t<Source_text> p<13> c<11> f<73> l<8274:1> el<8274:10>
-    n<> u<11> t<Description> p<12> c<10> f<73> l<8274:1> el<8274:10>
-      n<> u<10> t<Top_directives> p<11> f<73> l<8274:1> el<8274:10>
+  n</*\n:name: 22.12--line-complex\n:description: Test\n:tags: 22.12\n:type: preprocessing\n*/> u<9> t<BLOCK_COMMENT> p<13> s<12> f<33> l<8274:1> el<8274:10>
+  n<> u<12> t<Source_text> p<13> c<11> f<33> l<8274:1> el<8274:10>
+    n<> u<11> t<Description> p<12> c<10> f<33> l<8274:1> el<8274:10>
+      n<> u<10> t<Top_directives> p<11> f<33> l<8274:1> el<8274:10>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -37,13 +37,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: "22.12--line-complex.sv"
       vpiPreprocFile: "$Output/lib/work/22.12--line-complex.sv"
-      vpiIncludes (3 items):
+      vpiIncludes (4 items):
         SourceFile name:somefile file:$Source01/somefile start:17:0:
           vpiParent: SourceFile name:22.12--line-complex.sv
           vpiName: somefile
         SourceFile name:someother file:$Source01/someother start:18:0:
           vpiParent: SourceFile name:22.12--line-complex.sv
           vpiName: someother
+        SourceFile name:somefile file:$Source01/somefile start:19:0:
+          vpiParent: SourceFile name:22.12--line-complex.sv
+          vpiName: somefile
         SourceFile name:foo file:$Source01/foo start:21:0:
           vpiParent: SourceFile name:22.12--line-complex.sv
           vpiName: foo
@@ -95,7 +98,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-22/22.12--line-complex/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                               5       5       0         0
+Others                               6       6       0         0
 ----------------------------------------------------------------
-                                     5       5       0         0
+                                     6       6       0         0
 ===================== END REDUCTION RESULT =====================

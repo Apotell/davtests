@@ -4,22 +4,22 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Google/chapter-22 -timescale=1ns/1ns -d ast -d db -nobuiltin 22.5.1--define-expansion_6.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-22/22.5.1--define-expansion_6
+COMMAND: -wd ../../../../tests/Google/chapter-22 -timescale=1ns/1ns -d ast -d db -nobuiltin 22.5.1--define-expansion_6.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-22/22.5.1--define-expansion_6
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/22.5.1--define-expansion_6.sv".
 [ERR:PP0109] $Source01/22.5.1--define-expansion_6.sv:19: Macro instantiation omits argument 2 (y) for "D",
-$Source01/22.5.1--define-expansion_6.sv:17:9: No default value for argument 2 (y) in macro definition.
+             $Source01/22.5.1--define-expansion_6.sv:17:9: No default value for argument 2 (y) in macro definition.
 [INF:PA0201] Parsing source file "$Source01/22.5.1--define-expansion_6.sv".
 [SNT:PA0207] $Source01/22.5.1--define-expansion_6.sv:19: Syntax error: no viable alternative at input 'module top ();\n`',
-`D
+`D("msg1")
 ^-- $Source01/22.5.1--define-expansion_6.sv:19:0:.
-[SNT:PA0207] $Source01/22.5.1--define-expansion_6.sv:20: Syntax error: extraneous input 'endmodule' expecting <EOF>,
-endmodule
-^-- $Source01/22.5.1--define-expansion_6.sv:20:0:.
+[SNT:PA0207] $Source01/22.5.1--define-expansion_6.sv:19:2: Syntax error: mismatched input '(' expecting <EOF>,
+`D("msg1")
+  ^-- $Source01/22.5.1--define-expansion_6.sv:19:2:.
 AST_DEBUG_BEGIN
 Count: 27
 LIB: work
-FILE: f<14>:$Source01/22.5.1--define-expansion_6.sv
+FILE: f<16>:$Source01/22.5.1--define-expansion_6.sv
 n<$Source01/22.5.1--define-expansion_6.sv> u<26> t<Top_level_rule> c<1> l<18:1> el<20:10>
   n<> u<1> t<Null_rule> p<26> s<2> l<18:1> el<18:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<26> s<3> l<1:1> el<1:51>
@@ -29,8 +29,8 @@ n<$Source01/22.5.1--define-expansion_6.sv> u<26> t<Top_level_rule> c<1> l<18:1> 
   n<// https://opensource.org/licenses/ISC> u<6> t<LINE_COMMENT> p<26> s<7> l<5:1> el<5:39>
   n<//> u<7> t<LINE_COMMENT> p<26> s<8> l<6:1> el<6:3>
   n<// SPDX-License-Identifier: ISC> u<8> t<LINE_COMMENT> p<26> s<9> l<7:1> el<7:32>
-  n</*\n:name: 22.5.1--define_expansion_6\n:description: Test\n:should_fail_because: If fewer actual arguments are specified than the number of formal arguments and all the remaining formal arguments have defaults, then the defaults are substituted for the additional formal arguments. It shall be an error if any of the remaining formal arguments does not have a default specified.\n:tags: 22.5.1\n:type: preprocessing\n*/> u<9> t<BLOCK_COMMENT> p<26> s<25> l<18:1> el<19:11>
-  n<> u<25> t<Source_text> p<26> c<11> l<18:1> el<19:11>
+  n</*\n:name: 22.5.1--define_expansion_6\n:description: Test\n:should_fail_because: If fewer actual arguments are specified than the number of formal arguments and all the remaining formal arguments have defaults, then the defaults are substituted for the additional formal arguments. It shall be an error if any of the remaining formal arguments does not have a default specified.\n:tags: 22.5.1\n:type: preprocessing\n*/> u<9> t<BLOCK_COMMENT> p<26> s<25> l<18:1> el<19:3>
+  n<> u<25> t<Source_text> p<26> c<11> l<18:1> el<19:3>
     n<> u<11> t<Description> p<25> c<10> s<13> l<18:1> el<18:1>
       n<> u<10> t<Module_declaration> p<11> l<18:1> el<18:1>
     n<> u<13> t<Description> p<25> c<12> s<16> l<18:1> el<18:7>
@@ -44,8 +44,8 @@ n<$Source01/22.5.1--define-expansion_6.sv> u<26> t<Top_level_rule> c<1> l<18:1> 
     n<> u<22> t<Description> p<25> c<21> s<24> l<18:14> el<18:15>
       n<> u<21> t<Package_item> p<22> c<20> l<18:14> el<18:15>
         n<> u<20> t<Package_or_generate_item_declaration> p<21> l<18:14> el<18:15>
-    n<> u<24> t<Description> p<25> c<23> l<17:16> el<17:18>
-      n<> u<23> t<Top_directives> p<24> l<17:16> el<17:18>
+    n<> u<24> t<Description> p<25> c<23> l<19:1> el<19:3>
+      n<> u<23> t<Top_directives> p<24> l<19:1> el<19:3>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -125,20 +125,6 @@ Design name:unnamed:
             Identifier name:; start:17:55 end:17:56:
               vpiParent: PreprocMacroDefinition name:D
               vpiName: ";"
-      vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:D file:$Source01/22.5.1--define-expansion_6.sv start:19:1 end:19:11 ppstart:19:1 ppend:19:3:
-          vpiParent: SourceFile name:22.5.1--define-expansion_6.sv
-          vpiName Identifier name:D start:19:1 end:19:11:
-            vpiParent: PreprocMacroInstance name:D
-            vpiName: D
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:D
-          vpiArgument (1 items):
-            "Identifier name:\"msg1\" start:19:4 end:19:10":
-              vpiParent: PreprocMacroInstance name:D
-              vpiName: "\"msg1\""
-          vpiPMIBody Identifier name:`D start:17:16 end:1:3:
-            vpiParent: PreprocMacroInstance name:D
-            vpiName: "`D"
   vpiAllModules (2 items):
     Module file:$Source01/22.5.1--define-expansion_6.sv start:18:1 end:18:1:
       vpiParent: Design name:unnamed
@@ -172,25 +158,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-22/22.5.1--define-expansion_6/mounts.json
 
 
-{'result': {'coverage': 80.0,
+{'result': {'coverage': 63.64,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/22.5.1--define-expansion_6.sv': {'post_len': 5,
-                                                                         'pre_len': 25}},
-            'post_len': 5,
-            'pre_len': 25,
+            'files': {'$Output/lib/work/22.5.1--define-expansion_6.sv': {'post_len': 12,
+                                                                         'pre_len': 33}},
+            'post_len': 12,
+            'pre_len': 33,
             'test_name': 'Google/chapter-22/22.5.1--define-expansion_6'}}
 
 +------------------------------------------------+----------+-----------+
 | INPUT                                          |   PRELEN |   POSTLEN |
 +================================================+==========+===========+
-| $Output/lib/work/22.5.1--define-expansion_6.sv |       25 |         5 |
+| $Output/lib/work/22.5.1--define-expansion_6.sv |       33 |        12 |
 +================================================+==========+===========+
-|                                                |       25 |         5 |
+|                                                |       33 |        12 |
 +------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 80.0
+[COVERAGE] : 63.64
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -201,7 +187,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-22/22.5.1--define-expansion_6/desi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    32      32       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================
