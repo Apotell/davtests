@@ -141,8 +141,11 @@ TEST_F(Chapter8ErrorRulesTest, Row215_SuperNewWithArgumentsInExtendsIsRejected) 
   //
   // Note the contrast with row 207: this super.new IS the first statement of
   // its constructor, so the grammar accepts it and nothing else objects.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.17 forbids a super.new call when the "
-                  "superclass constructor arguments are already given in the extends specifier";
+  //
+  // The trigger is the argument list on the extends specifier, nothing else --
+  // with a bare "extends Packet", super.new is the legal and often required way
+  // to pass the superclass arguments, so it must stay silent there. Reported at
+  // the whole super.new(...) expression, i.e. at the `super` token.
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SUPER_NEW, "r215_ether", 70, 5), nullptr)
       << "super.new is illegal when the extends specifier already supplies the arguments "
          "(IEEE 1800-2023 8.17)";
