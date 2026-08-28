@@ -52,9 +52,6 @@ TEST_F(Chapter9ErrorRulesTest, Row269_BlockingStatementsInAlwaysCombAreRejected)
   // extends the same restriction to always_latch. Three separate violations in
   // r269_m: an event control on line 14, a delay control on line 15, and a
   // fork-join on line 16.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 9.2.2.2.2 forbids blocking statements, "
-                  "blocking timing or event controls, and fork-join inside always_comb (and, per "
-                  "9.2.2.3, always_latch)";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_STATEMENT_IN_PROCEDURE, "r269_m", 14, 5), nullptr)
       << "an event control cannot appear in always_comb (IEEE 1800-2023 9.2.2.2.2)";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_STATEMENT_IN_PROCEDURE, "r269_m", 15, 5), nullptr)
@@ -73,6 +70,16 @@ TEST_F(Chapter9ErrorRulesTest, Row275_RefFormalInsideForkJoinNoneIsRejected) {
   // block_item_declaration of the fork." The 1800-2023 revision adds the
   // ref static exemption; r275_t's formal is a plain ref, and it is referenced
   // in the fork body on line 28 rather than in an initializer.
+  //
+  // NOT IMPLEMENTED, deliberately. Every other part of the rule is decidable
+  // after binding -- RefObj::getActual() reaches the IODecl, whose direction is
+  // vpiRef, the ForkStmt carries its join type, and a fork-declared variable
+  // holds its initializer -- but the "unless the argument is declared ref
+  // static" exemption cannot be honoured: `ref static` does not parse at all
+  // (the grammar rejects it, "extraneous input 'static'"), so there is no
+  // token, no model field, and no way to tell an exempt formal from a plain
+  // one. Wiring the check would enforce the pre-2023 wording and would start
+  // rejecting legal code the day `ref static` is supported.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 9.3.2 forbids referring to a "
                   "by-reference formal inside fork-join_any / fork-join_none unless the formal is "
                   "declared 'ref static' or the reference is a block_item_declaration initializer";
@@ -88,8 +95,6 @@ TEST_F(Chapter9ErrorRulesTest, Row281_AggregateEventExpressionIsRejected) {
   // used in an event expression only if the expression reduces to a singular
   // value." r281_m's sensitivity list on line 40 names a struct directly, and
   // the expression does not reduce.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 9.4.2 requires an event expression to "
-                  "return a singular value";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EVENT_EXPRESSION, "s", 40, 12), nullptr)
       << "an aggregate event expression that does not reduce to a singular value is illegal "
          "(IEEE 1800-2023 9.4.2)";
@@ -102,8 +107,6 @@ TEST_F(Chapter9ErrorRulesTest, Row284_DisablingAFunctionIsRejected) {
   // "The disable statement can be used to disable named blocks within a
   // function, but cannot be used to disable functions themselves." Line 50
   // names the function f, not a named block inside it.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 9.6.2 permits disable on a named block "
-                  "inside a function but not on the function itself";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DISABLE_TARGET, "f", 50, 19), nullptr)
       << "a function cannot be the target of a disable statement (IEEE 1800-2023 9.6.2)";
 }

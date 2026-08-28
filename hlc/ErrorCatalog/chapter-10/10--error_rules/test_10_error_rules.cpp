@@ -52,8 +52,6 @@ TEST_F(Chapter10ErrorRulesTest, Row290_NonConstantSelectOnContinuousAssignLhsIsR
   // CONSTANT part-select of a vector net or packed variable, or a
   // concatenation of those. r290_m indexes w with the variable idx on line 15,
   // which is none of them.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.2 Table 10-1 allows only a constant "
-                  "bit-select or part-select on the left-hand side of a continuous assignment";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "w", 15, 10), nullptr)
       << "a non-constant bit-select is illegal on the LHS of a continuous assignment "
          "(IEEE 1800-2023 10.2)";
@@ -71,6 +69,16 @@ TEST_F(Chapter10ErrorRulesTest, Row309_AssignmentPatternInPortExpressionIsReject
   // implicit wire type as if the pattern were an ordinary port expression. The
   // Linter's later orphan-node and unnamed-RefTypespec complaints are
   // consequences of that acceptance, not the rule, and are not asserted.
+  //
+  // NOT IMPLEMENTED, deliberately: the model cannot answer the question. A port
+  // expression in a DECLARATION keeps only a bare reference -- verified with
+  // three headers: .p(int'{1}) leaves the Port with no high-connection at all,
+  // while .p({a, b}) and .p(a[1:0]) both reduce to vpiHighConn RefObj "a",
+  // dropping the concatenation and the part-select. So nothing on the Port
+  // records that a pattern was written there. Assignment patterns also have no
+  // object of their own anywhere in the model: at an instantiation site,
+  // .q(s_t'{1'b0, 1'b1}) surfaces as a generic Operation. Both would have to
+  // change before this rule is decidable after binding.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.9 forbids an assignment pattern "
                   "expression in a port expression of a module, interface or program declaration";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "p", 25, 18), nullptr)
