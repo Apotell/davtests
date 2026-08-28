@@ -164,8 +164,6 @@ TEST_F(Chapter8ErrorRulesTest, Row230_AbstractClassCannotBeConstructedDirectly) 
   // warning and a Linter null-actual error -- but both are about the unbound
   // new call, not about the class being abstract, and they fire for
   // non-abstract classes too. Neither is asserted here.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.21 forbids constructing an object of "
-                  "an abstract (virtual) class directly";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRUCTION, "r230_base", 82, 15), nullptr)
       << "an object of an abstract class cannot be constructed (IEEE 1800-2023 8.21)";
 }
@@ -177,6 +175,14 @@ TEST_F(Chapter8ErrorRulesTest, Row239_OutOfBlockDeclarationMustFollowTheClass) {
   // "The out-of-block declaration shall be declared in the same scope as the
   // class declaration and shall follow the class declaration." The body on
   // line 92 precedes class r239_c, which starts on line 94.
+  //
+  // NOT IMPLEMENTED, deliberately: only the "shall follow" half of the
+  // sentence is decidable after binding. The "same scope" half is not --
+  // Phase 2 re-parents an out-of-block body onto its ClassDefn without
+  // recording the scope it was written in, so a body written in the wrong
+  // scope (class at $unit, body inside a package) is indistinguishable from
+  // a legal one. Enforcing half a clause would read as "8.24 is checked"
+  // while the other half silently accepts illegal code, so nothing is wired.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.24 requires an out-of-block method "
                   "declaration to follow the class declaration in the same scope";
   EXPECT_NE(findError(ErrorDefinition::COMP_MISPLACED_EXTERN_DECLARATION, "r239_c", 92, 1), nullptr)
