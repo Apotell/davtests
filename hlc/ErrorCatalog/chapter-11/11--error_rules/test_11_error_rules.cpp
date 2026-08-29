@@ -50,8 +50,6 @@ TEST_F(Chapter11ErrorRulesTest, Row362_ContextFreeTaggedUnionExpressionIsRejecte
   // itself; it shall be known from its context -- an assignment target, a
   // cast, or an enclosing expression whose type is known. A $display argument
   // supplies none of those, so line 13 is illegal.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 11.9 requires the type of a tagged "
-                  "union expression to be known from its context";
   EXPECT_NE(findError(ErrorDefinition::COMP_UNKNOWN_EXPRESSION_TYPE, "Valid", 13, 20), nullptr)
       << "a tagged union expression with no type context is illegal (IEEE 1800-2023 11.9)";
 }
@@ -63,8 +61,6 @@ TEST_F(Chapter11ErrorRulesTest, Row363_UnknownTaggedUnionMemberIsRejected) {
   // "The only member names allowed after the tagged keyword are the member
   // names of the tagged union type of the expression." r363_vint declares
   // Invalid and Valid; line 22 names Bogus.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 11.9 allows only the declared member "
-                  "names of the tagged union type after the 'tagged' keyword";
   EXPECT_NE(findError(ErrorDefinition::COMP_UNDEFINED_MEMBER, "Bogus", 22, 22), nullptr)
       << "Bogus is not a member of the tagged union type (IEEE 1800-2023 11.9)";
 }
