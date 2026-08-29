@@ -49,8 +49,6 @@ TEST_F(Chapter12ErrorRulesTest, Row378_MultipleDefaultCaseItemsAreRejected) {
   // "The default statement shall be optional. Use of multiple default
   // statements in one case statement shall be illegal." r378_m has two, on
   // lines 16 and 17; line 17 is the offending repeat.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 12.5 makes a second default case_item "
-                  "in the same case statement illegal";
   EXPECT_NE(findError(ErrorDefinition::COMP_DUPLICATE_DECLARATION, "r378_m", 17, 7), nullptr)
       << "a case statement may have at most one default item (IEEE 1800-2023 12.5)";
 }
@@ -62,8 +60,6 @@ TEST_F(Chapter12ErrorRulesTest, Row380_NonIntegralConstantLeafPatternIsRejected)
   // "A constant expression used as a leaf pattern shall be of integral type."
   // The pattern on line 28 matches the real member R against the real literal
   // 1.5.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 12.6 requires a constant expression "
-                  "used as a leaf pattern to be of integral type";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_PATTERN, "R", 28, 16), nullptr)
       << "a real constant is not a legal leaf pattern (IEEE 1800-2023 12.6)";
 }
@@ -91,8 +87,6 @@ TEST_F(Chapter12ErrorRulesTest, Row392_NonvoidFunctionReturnWithoutExpressionIsR
   // "In a function, the return statement shall specify an expression of the
   // correct type" -- only a void function, a task or a block may return
   // bare. f is declared to return int, and line 48 returns nothing.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 12.8 requires a return statement in a "
-                  "value-returning function to carry an expression of the correct type";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "f", 48, 5), nullptr)
       << "a nonvoid function cannot return without an expression (IEEE 1800-2023 12.8)";
 }

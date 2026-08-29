@@ -84,8 +84,6 @@ TEST_F(Chapter11ErrorRulesTest, Row373_RecursiveLetIsRejected) {
   // catalog row 373 | 11.12 | COMP
   // "Recursive let instantiations are not permitted." The body of r on line 36
   // instantiates r.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 11.12 forbids recursive let "
-                  "instantiations";
   EXPECT_NE(findError(ErrorDefinition::COMP_RECURSIVE_DEFINITION, "r", 36, 14), nullptr)
       << "a let cannot instantiate itself (IEEE 1800-2023 11.12)";
 }
