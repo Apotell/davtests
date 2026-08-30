@@ -7,25 +7,27 @@ VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-22 -timescale=1ns/1ns -d ast -d db -nobuiltin 22.4--include_two_in_one_line.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-22/22.4--include_two_in_one_line
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/22.4--include_two_in_one_line.sv".
-[SNT:PP0106] $Source01/22.4--include_two_in_one_line.sv:8:9: Syntax error: extraneous input '<' expecting {ESCAPED_IDENTIFIER, MACRO_IDENTIFIER, MACRO_ESCAPED_IDENTIFIER, QUOTED_STRING, SIMPLE_IDENTIFIER},
-`include <dummy_include.sv> `include <dummy_include.sv>
-         ^-- $Source01/22.4--include_two_in_one_line.sv:8:9:.
-[SNT:PP0106] $Source01/22.4--include_two_in_one_line.sv:8:37: Syntax error: extraneous input '<' expecting {ESCAPED_IDENTIFIER, MACRO_IDENTIFIER, MACRO_ESCAPED_IDENTIFIER, QUOTED_STRING, SIMPLE_IDENTIFIER},
-`include <dummy_include.sv> `include <dummy_include.sv>
-                                     ^-- $Source01/22.4--include_two_in_one_line.sv:8:37:.
+[ERR:PP0101] $Source01/22.4--include_two_in_one_line.sv:8:1: Cannot open include file "dummy_include.sv".
+[ERR:PP0101] $Source01/22.4--include_two_in_one_line.sv:8:29: Cannot open include file "dummy_include.sv".
 [INF:PA0201] Parsing source file "$Source01/22.4--include_two_in_one_line.sv".
-[SNT:PA0207] $Source01/22.4--include_two_in_one_line.sv:8: Syntax error: mismatched input '.' expecting <EOF>,
-.sv> .sv>
-^-- $Source01/22.4--include_two_in_one_line.sv:8:0:.
 AST_DEBUG_BEGIN
-Count: 5
+Count: 13
 LIB: work
-FILE: f<16>:$Source01/22.4--include_two_in_one_line.sv
-n<$Source01/22.4--include_two_in_one_line.sv> u<4> t<Top_level_rule> c<1> l<8:1> el<10:10>
-  n<> u<1> t<Null_rule> p<4> s<2> f<0> l<1:1> el<8:1>
-  n<> u<2> t<Source_text> p<4> s<3> f<0> l<1:1> el<8:1>
-  n</*\n:name: 22.4--include_two_in_one_line\n:description: Test\n:should_fail_because: only white space or a comment may appear on the same line as the `include compiler directive\n:tags: 22.4\n:type: preprocessing parsing\n*/> u<3> t<BLOCK_COMMENT> p<4> f<0> l<1:1> el<8:1>
+FILE<0>:$Source01/22.4--include_two_in_one_line.sv
+n<$Source01/22.4--include_two_in_one_line.sv> u<12> t<Top_level_rule> c<1> l<9:1> el<11:1>
+  n<> u<1> t<Null_rule> p<12> s<2> l<9:1> el<9:1>
+  n</*\n:name: 22.4--include_two_in_one_line\n:description: Test\n:should_fail_because: only white space or a comment may appear on the same line as the `include compiler directive\n:tags: 22.4\n:type: preprocessing parsing\n*/> u<2> t<BLOCK_COMMENT> p<12> s<11> l<9:1> el<10:10>
+  n<> u<11> t<Source_text> p<12> c<10> l<9:1> el<10:10>
+    n<> u<10> t<Description> p<11> c<9> l<9:1> el<10:10>
+      n<> u<9> t<Module_declaration> p<10> c<7> l<9:1> el<10:10>
+        n<> u<7> t<Module_nonansi_header> p<9> c<3> s<8> l<9:1> el<9:15>
+          n<module> u<3> t<MODULE> p<7> s<4> l<9:1> el<9:7>
+          n<top> u<4> t<SIMPLE_IDENTIFIER> p<7> s<5> l<9:8> el<9:11>
+          n<> u<5> t<Package_import_declaration_list> p<7> s<6> l<9:12> el<9:12>
+          n<> u<6> t<Port_list> p<7> l<9:12> el<9:14>
+        n<> u<8> t<ENDMODULE> p<9> l<10:1> el<10:10>
 AST_DEBUG_END
+[INF:CP0303] $Source01/22.4--include_two_in_one_line.sv:9:1: Compile module "top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -36,14 +38,37 @@ Design name:unnamed:
       vpiName: "22.4--include_two_in_one_line.sv"
       vpiPreprocFile: "$Output/lib/work/22.4--include_two_in_one_line.sv"
       vpiIncludes (2 items):
-        SourceFile start:8:1 end:8:24:
+        SourceFile name:dummy_include.sv start:8:1 end:8:28:
           vpiParent: SourceFile name:22.4--include_two_in_one_line.sv
-        SourceFile start:8:29 end:8:52:
+          vpiName: dummy_include.sv
+        SourceFile name:dummy_include.sv start:8:29 end:8:56:
           vpiParent: SourceFile name:22.4--include_two_in_one_line.sv
+          vpiName: dummy_include.sv
+  vpiAllModules (1 items):
+    Module name:top file:$Source01/22.4--include_two_in_one_line.sv start:9:1 end:10:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:9:8 end:9:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:top
+        vpiName: work
+        vpiFullName: top.work
+      vpiCell: top
+  vpiTypespec (1 items):
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:9:8 end:9:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 3
-[  ERROR] : 0
+[ SYNTAX] : 0
+[  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -59,25 +84,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-22/22.4--include_two_in_one_line/mounts.json
 
 
-{'result': {'coverage': 75.0,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/22.4--include_two_in_one_line.sv': {'post_len': 8,
-                                                                            'pre_len': 32}},
-            'post_len': 8,
-            'pre_len': 32,
+            'files': {'$Output/lib/work/22.4--include_two_in_one_line.sv': {'post_len': 0,
+                                                                            'pre_len': 23}},
+            'post_len': 0,
+            'pre_len': 23,
             'test_name': 'Google/chapter-22/22.4--include_two_in_one_line'}}
 
 +---------------------------------------------------+----------+-----------+
 | INPUT                                             |   PRELEN |   POSTLEN |
 +===================================================+==========+===========+
-| $Output/lib/work/22.4--include_two_in_one_line.sv |       32 |         8 |
+| $Output/lib/work/22.4--include_two_in_one_line.sv |       23 |         0 |
 +===================================================+==========+===========+
-|                                                   |       32 |         8 |
+|                                                   |       23 |         0 |
 +---------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 75.0
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -88,7 +113,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-22/22.4--include_two_in_one_line/d
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                               4       4       0         0
+Others                               9       9       0         0
 ----------------------------------------------------------------
-                                     4       4       0         0
+                                     9       9       0         0
 ===================== END REDUCTION RESULT =====================

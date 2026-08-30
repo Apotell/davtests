@@ -7,6 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_preproc.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_preproc
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_preproc.v".
+[SNT:PP0106] $Source01/t_preproc.v:187:10: Syntax error: mismatched input 'NOT_DEFINED_INC' expecting {ANGLE_STRING, MACRO_IDENTIFIER, MACRO_ESCAPED_IDENTIFIER, QUOTED_STRING},
+ `include NOT_DEFINED_INC
+          ^-- $Source01/t_preproc.v:187:10:.
 [SNT:PP0106] $Source01/t_preproc.v:245:14: Syntax error: no viable alternative at input '`define\n',
 Not a \`define
               ^-- $Source01/t_preproc.v:245:14:.
@@ -33,7 +36,7 @@ Not a \`define
 [ERR:PP0109] $Source01/t_preproc.v:382: Macro instantiation omits argument 1 (d) for "REPEAT_3",
              $Source01/t_preproc.v:375:9: No default value for argument 1 (d) in macro definition.
 [WRN:PP0103] $Source01/t_preproc.v:386:8: Undefining an unknown macro "T_PREPROC_INC4".
-[WRN:PP0103] $Scratch/74_macro_body_DEFIF_NZ:1:8: Undefining an unknown macro "TEMP".
+[WRN:PP0103] $Scratch/84_macro_body_DEFIF_NZ:1:8: Undefining an unknown macro "TEMP".
 [WRN:PP0114] $Source01/t_preproc.v:418:9: Undefined macro argument "b".
 [ERR:PP0102] $Source01/t_preproc.v:419: Unknown macro "Ab".
 [ERR:PP0102] $Source01/t_preproc.v:428: Unknown macro "XTYPE_frame".
@@ -83,37 +86,37 @@ text.
 	$c("Zap(\"","bug2","\");");;
  ^-- $Source01/t_preproc.v:84:1:.
 AST_DEBUG_BEGIN
-Count: 453
+Count: 452
 LIB: work
-FILE: f<15>:$Source01/t_preproc.v
-INCL f<36>: $Source01/t_preproc_inc2.vh
-INCL f<910>: $Source01/t_preproc_inc4.vh
-n<$Source01/t_preproc.v> u<452> t<Top_level_rule> c<1> f<36> l<4:1> el<650:49>
-  n<> u<1> t<Null_rule> p<452> s<2> f<36> l<4:1> el<10:1>
-  n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<452> s<3> l<1:1> el<1:47>
-  n<// This file ONLY is placed into the Public Domain, for any use,> u<3> t<LINE_COMMENT> p<452> s<4> l<2:1> el<2:65>
-  n<// without warranty, 2000-2011 by Wilson Snyder.> u<4> t<LINE_COMMENT> p<452> s<5> l<3:1> el<3:49>
-  n<//===========================================================================> u<5> t<LINE_COMMENT> p<452> s<6> l<5:1> el<5:78>
-  n<// Includes> u<6> t<LINE_COMMENT> p<452> s<7> l<6:1> el<6:12>
-  n<// DESCRIPTION: Verilog::Preproc: Example source code> u<7> t<LINE_COMMENT> p<452> s<8> f<36> l<1:1> el<7:54>
-  n<// This file ONLY is placed into the Public Domain, for any use,> u<8> t<LINE_COMMENT> p<452> s<9> f<36> l<2:1> el<2:65>
-  n<// without warranty, 2000-2007 by Wilson Snyder.> u<9> t<LINE_COMMENT> p<452> s<318> f<36> l<3:1> el<9:49>
-  n<> u<318> t<Source_text> p<452> c<12> s<319> f<36> l<4:1> el<85:12>
-    n<> u<12> t<Description> p<318> c<11> s<15> f<36> l<4:1> el<10:1>
-      n<> u<11> t<Package_item> p<12> c<10> f<36> l<4:1> el<10:1>
-        n<> u<10> t<Package_or_generate_item_declaration> p<11> f<36> l<4:1> el<10:1>
-    n<> u<15> t<Description> p<318> c<14> s<18> f<36> l<4:1> el<4:3>
-      n<> u<14> t<Package_item> p<15> c<13> f<36> l<4:1> el<4:3>
-        n<> u<13> t<Package_or_generate_item_declaration> p<14> f<36> l<4:1> el<4:3>
-    n<> u<18> t<Description> p<318> c<17> s<21> f<36> l<4:4> el<4:38>
-      n<> u<17> t<Package_item> p<18> c<16> f<36> l<4:4> el<4:38>
-        n<> u<16> t<Package_or_generate_item_declaration> p<17> f<36> l<4:4> el<4:38>
-    n<> u<21> t<Description> p<318> c<20> s<24> f<36> l<4:20> el<4:20>
-      n<> u<20> t<Package_item> p<21> c<19> f<36> l<4:20> el<4:20>
-        n<> u<19> t<Package_or_generate_item_declaration> p<20> f<36> l<4:20> el<4:20>
-    n<> u<24> t<Description> p<318> c<23> s<25> f<36> l<4:20> el<4:26>
-      n<> u<23> t<Package_item> p<24> c<22> f<36> l<4:20> el<4:26>
-        n<> u<22> t<Package_or_generate_item_declaration> p<23> f<36> l<4:20> el<4:26>
+FILE<0>:$Source01/t_preproc.v
+INCL<1>: $Source01/t_preproc_inc2.vh
+INCL<2>: $Source01/t_preproc_inc4.vh
+n<$Source01/t_preproc.v> u<451> t<Top_level_rule> c<1> f<1> l<4:1> el<650:49>
+  n<> u<1> t<Null_rule> p<451> s<2> f<1> l<4:1> el<10:1>
+  n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<451> s<3> l<1:1> el<1:47>
+  n<// This file ONLY is placed into the Public Domain, for any use,> u<3> t<LINE_COMMENT> p<451> s<4> l<2:1> el<2:65>
+  n<// without warranty, 2000-2011 by Wilson Snyder.> u<4> t<LINE_COMMENT> p<451> s<5> l<3:1> el<3:49>
+  n<//===========================================================================> u<5> t<LINE_COMMENT> p<451> s<6> l<5:1> el<5:78>
+  n<// Includes> u<6> t<LINE_COMMENT> p<451> s<7> l<6:1> el<6:12>
+  n<// DESCRIPTION: Verilog::Preproc: Example source code> u<7> t<LINE_COMMENT> p<451> s<8> f<1> l<1:1> el<7:54>
+  n<// This file ONLY is placed into the Public Domain, for any use,> u<8> t<LINE_COMMENT> p<451> s<9> f<1> l<2:1> el<2:65>
+  n<// without warranty, 2000-2007 by Wilson Snyder.> u<9> t<LINE_COMMENT> p<451> s<318> f<1> l<3:1> el<9:49>
+  n<> u<318> t<Source_text> p<451> c<12> s<319> f<1> l<4:1> el<85:12>
+    n<> u<12> t<Description> p<318> c<11> s<15> f<1> l<4:1> el<10:1>
+      n<> u<11> t<Package_item> p<12> c<10> f<1> l<4:1> el<10:1>
+        n<> u<10> t<Package_or_generate_item_declaration> p<11> f<1> l<4:1> el<10:1>
+    n<> u<15> t<Description> p<318> c<14> s<18> f<1> l<4:1> el<4:3>
+      n<> u<14> t<Package_item> p<15> c<13> f<1> l<4:1> el<4:3>
+        n<> u<13> t<Package_or_generate_item_declaration> p<14> f<1> l<4:1> el<4:3>
+    n<> u<18> t<Description> p<318> c<17> s<21> f<1> l<4:4> el<4:38>
+      n<> u<17> t<Package_item> p<18> c<16> f<1> l<4:4> el<4:38>
+        n<> u<16> t<Package_or_generate_item_declaration> p<17> f<1> l<4:4> el<4:38>
+    n<> u<21> t<Description> p<318> c<20> s<24> f<1> l<4:20> el<4:20>
+      n<> u<20> t<Package_item> p<21> c<19> f<1> l<4:20> el<4:20>
+        n<> u<19> t<Package_or_generate_item_declaration> p<20> f<1> l<4:20> el<4:20>
+    n<> u<24> t<Description> p<318> c<23> s<25> f<1> l<4:20> el<4:26>
+      n<> u<23> t<Package_item> p<24> c<22> f<1> l<4:20> el<4:26>
+        n<> u<22> t<Package_or_generate_item_declaration> p<23> f<1> l<4:20> el<4:26>
     n<//===========================================================================> u<25> t<LINE_COMMENT> p<318> s<26> l<9:1> el<9:78>
     n<// Comments> u<26> t<LINE_COMMENT> p<318> s<27> l<10:1> el<10:12>
     n</* verilator pass_thru comment */> u<27> t<BLOCK_COMMENT> p<318> s<28> l<22:4> el<27:8>
@@ -407,139 +410,138 @@ n<$Source01/t_preproc.v> u<452> t<Top_level_rule> c<1> f<36> l<4:1> el<650:49>
     n<> u<317> t<Description> p<318> c<316> l<85:11> el<85:12>
       n<> u<316> t<Package_item> p<317> c<315> l<85:11> el<85:12>
         n<> u<315> t<Package_or_generate_item_declaration> p<316> l<85:11> el<85:12>
-  n</* Define inside comment: `DEEPER and `WITHTICK */> u<319> t<BLOCK_COMMENT> p<452> s<320> f<36> l<4:1> el<85:12>
-  n<// More commentary: `zap(bug1); `zap("bug2");> u<320> t<LINE_COMMENT> p<452> s<321> l<89:1> el<89:46>
-  n<//======================================================================> u<321> t<LINE_COMMENT> p<452> s<322> l<91:1> el<91:73>
-  n<// display passthru> u<322> t<LINE_COMMENT> p<452> s<323> l<92:1> el<92:20>
-  n<//$display(`msg( \`, \`));  // Illegal> u<323> t<LINE_COMMENT> p<452> s<324> l<101:7> el<112:45>
-  n<// Results vary between simulators> u<324> t<LINE_COMMENT> p<452> s<325> l<109:50> el<120:84>
-  n<// Empty> u<325> t<LINE_COMMENT> p<452> s<326> l<110:34> el<121:42>
-  n<// Unspecified when the stringification has multiple lines> u<326> t<LINE_COMMENT> p<452> s<327> l<115:7> el<115:65>
-  n<//$display(`msg(left side, \ right side \ ));  // Not sure \{space} is legal.> u<327> t<LINE_COMMENT> p<452> s<328> l<119:7> el<119:84>
-  n<//======================================================================> u<328> t<LINE_COMMENT> p<452> s<329> l<125:1> el<125:73>
-  n<// rt.cpan.org bug34429> u<329> t<LINE_COMMENT> p<452> s<330> l<126:1> el<126:24>
-  n<// expansion is OK> u<330> t<LINE_COMMENT> p<452> s<331> l<134:19> el<148:37>
-  n<// expansion is bad> u<331> t<LINE_COMMENT> p<452> s<332> l<137:22> el<154:41>
-  n<// parameterized macro with arguments that are macros> u<332> t<LINE_COMMENT> p<452> s<333> l<146:1> el<146:54>
-  n<// ignorecmt> u<333> t<LINE_COMMENT> p<452> s<334> l<151:66> el<172:78>
-  n<//======================================================================> u<334> t<LINE_COMMENT> p<452> s<335> l<153:1> el<153:73>
-  n<// Quotes are legal in protected blocks.  Grr.> u<335> t<LINE_COMMENT> p<452> s<336> l<154:1> el<154:47>
-  n<//"> u<336> t<LINE_COMMENT> p<452> s<337> l<161:1> el<161:4>
-  n<//======================================================================> u<337> t<LINE_COMMENT> p<452> s<338> l<163:1> el<163:73>
-  n<// macro call with define that has comma> u<338> t<LINE_COMMENT> p<452> s<339> l<164:1> el<164:41>
-  n<//======================================================================> u<339> t<LINE_COMMENT> p<452> s<340> l<177:1> el<177:73>
-  n<// include of parameterized file> u<340> t<LINE_COMMENT> p<452> s<341> l<178:1> el<178:33>
-  n<// DESCRIPTION: Verilog::Preproc: Example source code> u<341> t<LINE_COMMENT> p<452> s<342> l<179:17> el<201:70>
-  n<// This file ONLY is placed into the Public Domain, for any use,> u<342> t<LINE_COMMENT> p<452> s<343> f<910> l<2:1> el<2:65>
-  n<// without warranty, 2000-2011 by Wilson Snyder.> u<343> t<LINE_COMMENT> p<452> s<344> f<910> l<3:1> el<3:49>
-  n<//======================================================================> u<344> t<LINE_COMMENT> p<452> s<345> l<190:1> el<190:73>
-  n<// macro call with , in {}> u<345> t<LINE_COMMENT> p<452> s<346> l<191:1> el<191:27>
-  n<//======================================================================> u<346> t<LINE_COMMENT> p<452> s<347> l<199:1> el<199:73>
-  n<// pragma/default net type> u<347> t<LINE_COMMENT> p<452> s<348> l<200:1> el<200:27>
-  n<//======================================================================> u<348> t<LINE_COMMENT> p<452> s<349> l<206:1> el<206:73>
-  n<// Ifdef> u<349> t<LINE_COMMENT> p<452> s<350> l<207:1> el<207:9>
-  n<//======================================================================> u<350> t<LINE_COMMENT> p<452> s<351> l<215:1> el<215:73>
-  n<// bug84> u<351> t<LINE_COMMENT> p<452> s<352> l<216:1> el<216:9>
-  n</*more,,)cmts*/> u<352> t<BLOCK_COMMENT> p<452> s<353> f<36> l<4:1> el<85:12>
-  n<// But newlines ARE legal... who speced THAT?> u<353> t<LINE_COMMENT> p<452> s<354> l<219:22> el<219:67>
-  n<// Hello, comments MIGHT not be legal(p)> u<354> t<LINE_COMMENT> p<452> s<355> l<218:20> el<247:60>
-  n<// Hello, comments MIGHT not be legal(//Here> u<355> t<LINE_COMMENT> p<452> s<356> l<218:20> el<248:64>
-  n<//======================================================================> u<356> t<LINE_COMMENT> p<452> s<357> l<228:1> el<228:73>
-  n<// defines split arguments> u<357> t<LINE_COMMENT> p<452> s<358> l<229:1> el<229:27>
-  n<// 2001 spec doesn't require two tokens, so "beginend" ok> u<358> t<LINE_COMMENT> p<452> s<359> l<235:14> el<259:71>
-  n<// 2001 spec doesn't require two tokens, so "beginend" ok> u<359> t<LINE_COMMENT> p<452> s<360> l<236:14> el<260:71>
-  n<// No space "beginend"> u<360> t<LINE_COMMENT> p<452> s<361> l<237:23> el<261:45>
-  n<//======================================================================> u<361> t<LINE_COMMENT> p<452> s<362> l<239:1> el<239:73>
-  n<// bug106> u<362> t<LINE_COMMENT> p<452> s<363> l<240:1> el<240:10>
-  n<//======================================================================> u<363> t<LINE_COMMENT> p<452> s<364> l<247:1> el<247:73>
-  n<// misparsed comma in submacro> u<364> t<LINE_COMMENT> p<452> s<365> l<248:1> el<248:31>
-  n<//======================================================================> u<365> t<LINE_COMMENT> p<452> s<366> l<255:1> el<255:73>
-  n<// bug191> u<366> t<LINE_COMMENT> p<452> s<367> l<256:1> el<256:10>
-  n<//======================================================================> u<367> t<LINE_COMMENT> p<452> s<368> l<260:1> el<260:73>
-  n<// 1800-2009> u<368> t<LINE_COMMENT> p<452> s<369> l<261:1> el<261:13>
-  n<//======================================================================> u<369> t<LINE_COMMENT> p<452> s<370> l<268:1> el<268:73>
-  n<// bug202> u<370> t<LINE_COMMENT> p<452> s<371> l<269:1> el<269:10>
-  n</* multi	\\n	 line1*/> u<371> t<BLOCK_COMMENT> p<452> s<372> f<36> l<4:1> el<85:12>
-  n</*multi	\\n	   line2*/> u<372> t<BLOCK_COMMENT> p<452> s<373> f<36> l<4:1> el<85:12>
-  n</* multi		\\n      line 3*/> u<373> t<BLOCK_COMMENT> p<452> s<374> f<36> l<4:1> el<85:12>
-  n<//======================================================================> u<374> t<LINE_COMMENT> p<452> s<375> l<295:1> el<295:73>
-  n</* verilator PART OF DEFINE */> u<375> t<BLOCK_COMMENT> p<452> s<376> f<36> l<4:1> el<85:12>
-  n</* verilator NOT PART\n	        OF DEFINE */> u<376> t<BLOCK_COMMENT> p<452> s<377> f<36> l<4:1> el<85:12>
-  n</* verilator PART \n	        OF DEFINE */> u<377> t<BLOCK_COMMENT> p<452> s<378> f<36> l<4:1> el<85:12>
-  n<// CMT NOT > u<378> t<LINE_COMMENT> p<452> s<379> l<303:14> el<347:25>
-  n<// BUT TEXT IS > u<379> t<LINE_COMMENT> p<452> s<380> l<304:12> el<348:27>
-  n<//======================================================================> u<380> t<LINE_COMMENT> p<452> s<381> l<316:1> el<316:73>
-  n</* synopsys translate_off */> u<381> t<BLOCK_COMMENT> p<452> s<382> f<36> l<4:1> el<85:12>
-  n</* synopsys translate_on */> u<382> t<BLOCK_COMMENT> p<452> s<383> f<36> l<4:1> el<85:12>
-  n<//======================================================================> u<383> t<LINE_COMMENT> p<452> s<384> l<342:1> el<342:73>
-  n<//`ifndef def_fooed_2  `error "No def_fooed_2" `endif> u<384> t<LINE_COMMENT> p<452> s<385> l<350:1> el<350:54>
-  n<//======================================================================> u<385> t<LINE_COMMENT> p<452> s<386> l<356:1> el<356:73>
-  n<//======================================================================> u<386> t<LINE_COMMENT> p<452> s<387> l<360:1> el<360:73>
-  n<// It's unclear if the spec allows this; is text_macro_idenitfier before or after substitution?> u<387> t<LINE_COMMENT> p<452> s<388> l<361:1> el<361:96>
-  n<//======================================================================> u<388> t<LINE_COMMENT> p<452> s<389> l<370:1> el<370:73>
-  n<// Metaprogramming> u<389> t<LINE_COMMENT> p<452> s<390> l<371:1> el<371:19>
-  n<//======================================================================> u<390> t<LINE_COMMENT> p<452> s<391> l<384:1> el<384:73>
-  n<// Include from stringification> u<391> t<LINE_COMMENT> p<452> s<392> l<385:1> el<385:32>
-  n<// DESCRIPTION: Verilog::Preproc: Example source code> u<392> t<LINE_COMMENT> p<452> s<393> l<387:25> el<441:78>
-  n<// This file ONLY is placed into the Public Domain, for any use,> u<393> t<LINE_COMMENT> p<452> s<394> f<910> l<2:1> el<2:65>
-  n<// without warranty, 2000-2011 by Wilson Snyder.> u<394> t<LINE_COMMENT> p<452> s<395> f<910> l<3:1> el<3:49>
-  n<//======================================================================> u<395> t<LINE_COMMENT> p<452> s<396> l<390:1> el<390:73>
-  n<// Defines doing defines> u<396> t<LINE_COMMENT> p<452> s<397> l<391:1> el<391:25>
-  n<// Note the newline on the end - required to form the end of a define> u<397> t<LINE_COMMENT> p<452> s<398> l<392:1> el<392:70>
-  n<//======================================================================> u<398> t<LINE_COMMENT> p<452> s<399> l<402:1> el<402:73>
-  n<// Quoted multiline - track line numbers, and insure \\n gets propagated> u<399> t<LINE_COMMENT> p<452> s<400> l<403:1> el<403:73>
-  n<//======================================================================> u<400> t<LINE_COMMENT> p<452> s<401> l<410:1> el<410:73>
-  n<// bug283> u<401> t<LINE_COMMENT> p<452> s<402> l<411:1> el<411:10>
-  n<// EXP: abc> u<402> t<LINE_COMMENT> p<452> s<403> l<416:1> el<416:12>
-  n<//> u<403> t<LINE_COMMENT> p<452> s<404> l<428:1> el<428:3>
-  n<// This result varies between simulators> u<404> t<LINE_COMMENT> p<452> s<405> l<433:1> el<433:41>
-  n<// The existance of non-existance of a base define can make a difference> u<405> t<LINE_COMMENT> p<452> s<406> l<439:1> el<439:73>
-  n<//======================================================================> u<406> t<LINE_COMMENT> p<452> s<407> l<451:1> el<451:73>
-  n<// bug311> u<407> t<LINE_COMMENT> p<452> s<408> l<452:1> el<452:10>
-  n</*NEED_SPACE*/> u<408> t<BLOCK_COMMENT> p<452> s<409> f<36> l<4:1> el<85:12>
-  n<//======================================================================> u<409> t<LINE_COMMENT> p<452> s<410> l<454:1> el<454:73>
-  n<// bug441> u<410> t<LINE_COMMENT> p<452> s<411> l<455:1> el<455:10>
-  n<//-----> u<411> t<LINE_COMMENT> p<452> s<412> l<457:4> el<457:11>
-  n<// case provided> u<412> t<LINE_COMMENT> p<452> s<413> l<458:4> el<458:20>
-  n<// note this does NOT escape as suggested in the mail> u<413> t<LINE_COMMENT> p<452> s<414> l<459:4> el<459:57>
-  n<//-----> u<414> t<LINE_COMMENT> p<452> s<415> l<464:4> el<464:11>
-  n<// SHOULD(simulator-dependant): Backslash doesn't prevent arguments from> u<415> t<LINE_COMMENT> p<452> s<416> l<465:4> el<465:76>
-  n<// substituting and the \ staying in the expansion> u<416> t<LINE_COMMENT> p<452> s<417> l<466:4> el<466:54>
-  n<// Note space after name is important so when substitute it has ending whitespace> u<417> t<LINE_COMMENT> p<452> s<418> l<467:4> el<467:85>
-  n<//-----> u<418> t<LINE_COMMENT> p<452> s<419> l<472:4> el<472:11>
-  n<// RULE: Ignoring backslash does NOT allow an additional expansion level> u<419> t<LINE_COMMENT> p<452> s<420> l<475:4> el<475:76>
-  n<// (Because ESC gets expanded then the \ has it's normal escape meaning)> u<420> t<LINE_COMMENT> p<452> s<421> l<476:4> el<476:76>
-  n<//-----> u<421> t<LINE_COMMENT> p<452> s<422> l<479:4> el<479:11>
-  n<// Similar to above; \ does not allow expansion after substitution> u<422> t<LINE_COMMENT> p<452> s<423> l<483:4> el<546:70>
-  n<//-----> u<423> t<LINE_COMMENT> p<452> s<424> l<486:4> el<486:11>
-  n<// MUST: Unknown macro with backslash escape stays as escaped symbol name> u<424> t<LINE_COMMENT> p<452> s<425> l<489:4> el<553:77>
-  n<//-----> u<425> t<LINE_COMMENT> p<452> s<426> l<492:4> el<492:11>
-  n<// SHOULD(simulator-dependant): Known macro with backslash escape expands> u<426> t<LINE_COMMENT> p<452> s<427> l<496:4> el<561:77>
-  n<// SHOULD(simulator-dependant): Prefix breaks the above> u<427> t<LINE_COMMENT> p<452> s<428> l<498:4> el<564:59>
-  n<//-----> u<428> t<LINE_COMMENT> p<452> s<429> l<501:4> el<501:11>
-  n<// MUST: Unknown macro not under call with backslash escape doesn't expand> u<429> t<LINE_COMMENT> p<452> s<430> l<502:4> el<502:78>
-  n<//-----> u<430> t<LINE_COMMENT> p<452> s<431> l<505:4> el<505:11>
-  n<// MUST: Unknown macro not under call doesn't expand> u<431> t<LINE_COMMENT> p<452> s<432> l<506:4> el<506:56>
-  n<//-----> u<432> t<LINE_COMMENT> p<452> s<433> l<510:4> el<510:11>
-  n<// bug441 derivative> u<433> t<LINE_COMMENT> p<452> s<434> l<511:4> el<511:24>
-  n<// SHOULD(simulator-dependant): Quotes doesn't prevent arguments from expanding (like backslashes above)> u<434> t<LINE_COMMENT> p<452> s<435> l<512:4> el<512:108>
-  n<//-----> u<435> t<LINE_COMMENT> p<452> s<436> l<516:4> el<516:11>
-  n<// RULE: Because there are quotes after substituting STR, the `A does NOT expand> u<436> t<LINE_COMMENT> p<452> s<437> l<517:4> el<517:84>
-  n<//----> u<437> t<LINE_COMMENT> p<452> s<438> l<522:4> el<522:10>
-  n<// bug845> u<438> t<LINE_COMMENT> p<452> s<439> l<523:4> el<523:13>
-  n<//----> u<439> t<LINE_COMMENT> p<452> s<440> l<526:4> el<526:10>
-  n<// bug915> u<440> t<LINE_COMMENT> p<452> s<441> l<527:4> el<527:13>
-  n<//======================================================================> u<441> t<LINE_COMMENT> p<452> s<442> l<533:1> el<533:73>
-  n<//bug1225> u<442> t<LINE_COMMENT> p<452> s<443> l<534:1> el<534:10>
-  n<//====> u<443> t<LINE_COMMENT> p<452> s<444> l<574:1> el<574:7>
-  n<//bug1227> u<444> t<LINE_COMMENT> p<452> s<445> l<609:1> el<609:10>
-  n<//======================================================================> u<445> t<LINE_COMMENT> p<452> s<446> l<613:1> el<613:73>
-  n<// Stringify bug> u<446> t<LINE_COMMENT> p<452> s<447> l<614:1> el<614:17>
-  n<//======================================================================> u<447> t<LINE_COMMENT> p<452> s<448> l<633:1> el<633:73>
-  n<// IEEE mandated predefines> u<448> t<LINE_COMMENT> p<452> s<449> l<634:1> el<634:28>
-  n<// undefineall should have no effect on these> u<449> t<LINE_COMMENT> p<452> s<450> l<635:3> el<635:48>
-  n<//======================================================================> u<450> t<LINE_COMMENT> p<452> s<451> l<651:1> el<651:73>
-  n<// After `undefineall above, for testing --dump-defines> u<451> t<LINE_COMMENT> p<452> l<652:1> el<652:56>
+  n</* Define inside comment: `DEEPER and `WITHTICK */> u<319> t<BLOCK_COMMENT> p<451> s<320> f<1> l<4:1> el<85:12>
+  n<// More commentary: `zap(bug1); `zap("bug2");> u<320> t<LINE_COMMENT> p<451> s<321> l<89:1> el<89:46>
+  n<//======================================================================> u<321> t<LINE_COMMENT> p<451> s<322> l<91:1> el<91:73>
+  n<// display passthru> u<322> t<LINE_COMMENT> p<451> s<323> l<92:1> el<92:20>
+  n<//$display(`msg( \`, \`));  // Illegal> u<323> t<LINE_COMMENT> p<451> s<324> l<101:7> el<112:45>
+  n<// Results vary between simulators> u<324> t<LINE_COMMENT> p<451> s<325> l<109:50> el<120:84>
+  n<// Empty> u<325> t<LINE_COMMENT> p<451> s<326> l<110:34> el<121:42>
+  n<// Unspecified when the stringification has multiple lines> u<326> t<LINE_COMMENT> p<451> s<327> l<115:7> el<115:65>
+  n<//$display(`msg(left side, \ right side \ ));  // Not sure \{space} is legal.> u<327> t<LINE_COMMENT> p<451> s<328> l<119:7> el<119:84>
+  n<//======================================================================> u<328> t<LINE_COMMENT> p<451> s<329> l<125:1> el<125:73>
+  n<// rt.cpan.org bug34429> u<329> t<LINE_COMMENT> p<451> s<330> l<126:1> el<126:24>
+  n<// expansion is OK> u<330> t<LINE_COMMENT> p<451> s<331> l<134:19> el<149:37>
+  n<// expansion is bad> u<331> t<LINE_COMMENT> p<451> s<332> l<137:22> el<155:41>
+  n<// parameterized macro with arguments that are macros> u<332> t<LINE_COMMENT> p<451> s<333> l<146:1> el<146:54>
+  n<// ignorecmt> u<333> t<LINE_COMMENT> p<451> s<334> l<151:66> el<173:78>
+  n<//======================================================================> u<334> t<LINE_COMMENT> p<451> s<335> l<153:1> el<153:73>
+  n<// Quotes are legal in protected blocks.  Grr.> u<335> t<LINE_COMMENT> p<451> s<336> l<154:1> el<154:47>
+  n<//"> u<336> t<LINE_COMMENT> p<451> s<337> l<161:1> el<161:4>
+  n<//======================================================================> u<337> t<LINE_COMMENT> p<451> s<338> l<163:1> el<163:73>
+  n<// macro call with define that has comma> u<338> t<LINE_COMMENT> p<451> s<339> l<164:1> el<164:41>
+  n<//======================================================================> u<339> t<LINE_COMMENT> p<451> s<340> l<177:1> el<177:73>
+  n<// include of parameterized file> u<340> t<LINE_COMMENT> p<451> s<341> l<178:1> el<178:33>
+  n<// DESCRIPTION: Verilog::Preproc: Example source code> u<341> t<LINE_COMMENT> p<451> s<342> l<179:17> el<202:70>
+  n<// This file ONLY is placed into the Public Domain, for any use,> u<342> t<LINE_COMMENT> p<451> s<343> f<2> l<2:1> el<2:65>
+  n<// without warranty, 2000-2011 by Wilson Snyder.> u<343> t<LINE_COMMENT> p<451> s<344> f<2> l<3:1> el<3:49>
+  n<//======================================================================> u<344> t<LINE_COMMENT> p<451> s<345> l<190:1> el<190:73>
+  n<// macro call with , in {}> u<345> t<LINE_COMMENT> p<451> s<346> l<191:1> el<191:27>
+  n<//======================================================================> u<346> t<LINE_COMMENT> p<451> s<347> l<199:1> el<199:73>
+  n<// pragma/default net type> u<347> t<LINE_COMMENT> p<451> s<348> l<200:1> el<200:27>
+  n<//======================================================================> u<348> t<LINE_COMMENT> p<451> s<349> l<206:1> el<206:73>
+  n<// Ifdef> u<349> t<LINE_COMMENT> p<451> s<350> l<207:1> el<207:9>
+  n<//======================================================================> u<350> t<LINE_COMMENT> p<451> s<351> l<215:1> el<215:73>
+  n<// bug84> u<351> t<LINE_COMMENT> p<451> s<352> l<216:1> el<216:9>
+  n</*more,,)cmts*/> u<352> t<BLOCK_COMMENT> p<451> s<353> f<1> l<4:1> el<85:12>
+  n<// But newlines ARE legal... who speced THAT?> u<353> t<LINE_COMMENT> p<451> s<354> l<219:22> el<219:67>
+  n<//Here> u<354> t<LINE_COMMENT> p<451> s<355> l<218:19> el<249:25>
+  n<//======================================================================> u<355> t<LINE_COMMENT> p<451> s<356> l<228:1> el<228:73>
+  n<// defines split arguments> u<356> t<LINE_COMMENT> p<451> s<357> l<229:1> el<229:27>
+  n<// 2001 spec doesn't require two tokens, so "beginend" ok> u<357> t<LINE_COMMENT> p<451> s<358> l<235:14> el<260:71>
+  n<// 2001 spec doesn't require two tokens, so "beginend" ok> u<358> t<LINE_COMMENT> p<451> s<359> l<236:14> el<261:71>
+  n<// No space "beginend"> u<359> t<LINE_COMMENT> p<451> s<360> l<237:23> el<262:45>
+  n<//======================================================================> u<360> t<LINE_COMMENT> p<451> s<361> l<239:1> el<239:73>
+  n<// bug106> u<361> t<LINE_COMMENT> p<451> s<362> l<240:1> el<240:10>
+  n<//======================================================================> u<362> t<LINE_COMMENT> p<451> s<363> l<247:1> el<247:73>
+  n<// misparsed comma in submacro> u<363> t<LINE_COMMENT> p<451> s<364> l<248:1> el<248:31>
+  n<//======================================================================> u<364> t<LINE_COMMENT> p<451> s<365> l<255:1> el<255:73>
+  n<// bug191> u<365> t<LINE_COMMENT> p<451> s<366> l<256:1> el<256:10>
+  n<//======================================================================> u<366> t<LINE_COMMENT> p<451> s<367> l<260:1> el<260:73>
+  n<// 1800-2009> u<367> t<LINE_COMMENT> p<451> s<368> l<261:1> el<261:13>
+  n<//======================================================================> u<368> t<LINE_COMMENT> p<451> s<369> l<268:1> el<268:73>
+  n<// bug202> u<369> t<LINE_COMMENT> p<451> s<370> l<269:1> el<269:10>
+  n</* multi	\\n	 line1*/> u<370> t<BLOCK_COMMENT> p<451> s<371> f<1> l<4:1> el<85:12>
+  n</*multi	\\n	   line2*/> u<371> t<BLOCK_COMMENT> p<451> s<372> f<1> l<4:1> el<85:12>
+  n</* multi		\\n      line 3*/> u<372> t<BLOCK_COMMENT> p<451> s<373> f<1> l<4:1> el<85:12>
+  n<//======================================================================> u<373> t<LINE_COMMENT> p<451> s<374> l<295:1> el<295:73>
+  n</* verilator PART OF DEFINE */> u<374> t<BLOCK_COMMENT> p<451> s<375> f<1> l<4:1> el<85:12>
+  n</* verilator NOT PART\n	        OF DEFINE */> u<375> t<BLOCK_COMMENT> p<451> s<376> f<1> l<4:1> el<85:12>
+  n</* verilator PART \n	        OF DEFINE */> u<376> t<BLOCK_COMMENT> p<451> s<377> f<1> l<4:1> el<85:12>
+  n<// CMT NOT > u<377> t<LINE_COMMENT> p<451> s<378> l<303:14> el<348:25>
+  n<// BUT TEXT IS > u<378> t<LINE_COMMENT> p<451> s<379> l<304:12> el<349:27>
+  n<//======================================================================> u<379> t<LINE_COMMENT> p<451> s<380> l<316:1> el<316:73>
+  n</* synopsys translate_off */> u<380> t<BLOCK_COMMENT> p<451> s<381> f<1> l<4:1> el<85:12>
+  n</* synopsys translate_on */> u<381> t<BLOCK_COMMENT> p<451> s<382> f<1> l<4:1> el<85:12>
+  n<//======================================================================> u<382> t<LINE_COMMENT> p<451> s<383> l<342:1> el<342:73>
+  n<//`ifndef def_fooed_2  `error "No def_fooed_2" `endif> u<383> t<LINE_COMMENT> p<451> s<384> l<350:1> el<350:54>
+  n<//======================================================================> u<384> t<LINE_COMMENT> p<451> s<385> l<356:1> el<356:73>
+  n<//======================================================================> u<385> t<LINE_COMMENT> p<451> s<386> l<360:1> el<360:73>
+  n<// It's unclear if the spec allows this; is text_macro_idenitfier before or after substitution?> u<386> t<LINE_COMMENT> p<451> s<387> l<361:1> el<361:96>
+  n<//======================================================================> u<387> t<LINE_COMMENT> p<451> s<388> l<370:1> el<370:73>
+  n<// Metaprogramming> u<388> t<LINE_COMMENT> p<451> s<389> l<371:1> el<371:19>
+  n<//======================================================================> u<389> t<LINE_COMMENT> p<451> s<390> l<384:1> el<384:73>
+  n<// Include from stringification> u<390> t<LINE_COMMENT> p<451> s<391> l<385:1> el<385:32>
+  n<// DESCRIPTION: Verilog::Preproc: Example source code> u<391> t<LINE_COMMENT> p<451> s<392> l<387:25> el<442:78>
+  n<// This file ONLY is placed into the Public Domain, for any use,> u<392> t<LINE_COMMENT> p<451> s<393> f<2> l<2:1> el<2:65>
+  n<// without warranty, 2000-2011 by Wilson Snyder.> u<393> t<LINE_COMMENT> p<451> s<394> f<2> l<3:1> el<3:49>
+  n<//======================================================================> u<394> t<LINE_COMMENT> p<451> s<395> l<390:1> el<390:73>
+  n<// Defines doing defines> u<395> t<LINE_COMMENT> p<451> s<396> l<391:1> el<391:25>
+  n<// Note the newline on the end - required to form the end of a define> u<396> t<LINE_COMMENT> p<451> s<397> l<392:1> el<392:70>
+  n<//======================================================================> u<397> t<LINE_COMMENT> p<451> s<398> l<402:1> el<402:73>
+  n<// Quoted multiline - track line numbers, and insure \\n gets propagated> u<398> t<LINE_COMMENT> p<451> s<399> l<403:1> el<403:73>
+  n<//======================================================================> u<399> t<LINE_COMMENT> p<451> s<400> l<410:1> el<410:73>
+  n<// bug283> u<400> t<LINE_COMMENT> p<451> s<401> l<411:1> el<411:10>
+  n<// EXP: abc> u<401> t<LINE_COMMENT> p<451> s<402> l<416:1> el<416:12>
+  n<//> u<402> t<LINE_COMMENT> p<451> s<403> l<428:1> el<428:3>
+  n<// This result varies between simulators> u<403> t<LINE_COMMENT> p<451> s<404> l<433:1> el<433:41>
+  n<// The existance of non-existance of a base define can make a difference> u<404> t<LINE_COMMENT> p<451> s<405> l<439:1> el<439:73>
+  n<//======================================================================> u<405> t<LINE_COMMENT> p<451> s<406> l<451:1> el<451:73>
+  n<// bug311> u<406> t<LINE_COMMENT> p<451> s<407> l<452:1> el<452:10>
+  n</*NEED_SPACE*/> u<407> t<BLOCK_COMMENT> p<451> s<408> f<1> l<4:1> el<85:12>
+  n<//======================================================================> u<408> t<LINE_COMMENT> p<451> s<409> l<454:1> el<454:73>
+  n<// bug441> u<409> t<LINE_COMMENT> p<451> s<410> l<455:1> el<455:10>
+  n<//-----> u<410> t<LINE_COMMENT> p<451> s<411> l<457:4> el<457:11>
+  n<// case provided> u<411> t<LINE_COMMENT> p<451> s<412> l<458:4> el<458:20>
+  n<// note this does NOT escape as suggested in the mail> u<412> t<LINE_COMMENT> p<451> s<413> l<459:4> el<459:57>
+  n<//-----> u<413> t<LINE_COMMENT> p<451> s<414> l<464:4> el<464:11>
+  n<// SHOULD(simulator-dependant): Backslash doesn't prevent arguments from> u<414> t<LINE_COMMENT> p<451> s<415> l<465:4> el<465:76>
+  n<// substituting and the \ staying in the expansion> u<415> t<LINE_COMMENT> p<451> s<416> l<466:4> el<466:54>
+  n<// Note space after name is important so when substitute it has ending whitespace> u<416> t<LINE_COMMENT> p<451> s<417> l<467:4> el<467:85>
+  n<//-----> u<417> t<LINE_COMMENT> p<451> s<418> l<472:4> el<472:11>
+  n<// RULE: Ignoring backslash does NOT allow an additional expansion level> u<418> t<LINE_COMMENT> p<451> s<419> l<475:4> el<475:76>
+  n<// (Because ESC gets expanded then the \ has it's normal escape meaning)> u<419> t<LINE_COMMENT> p<451> s<420> l<476:4> el<476:76>
+  n<//-----> u<420> t<LINE_COMMENT> p<451> s<421> l<479:4> el<479:11>
+  n<// Similar to above; \ does not allow expansion after substitution> u<421> t<LINE_COMMENT> p<451> s<422> l<483:4> el<547:70>
+  n<//-----> u<422> t<LINE_COMMENT> p<451> s<423> l<486:4> el<486:11>
+  n<// MUST: Unknown macro with backslash escape stays as escaped symbol name> u<423> t<LINE_COMMENT> p<451> s<424> l<489:4> el<554:77>
+  n<//-----> u<424> t<LINE_COMMENT> p<451> s<425> l<492:4> el<492:11>
+  n<// SHOULD(simulator-dependant): Known macro with backslash escape expands> u<425> t<LINE_COMMENT> p<451> s<426> l<496:4> el<562:77>
+  n<// SHOULD(simulator-dependant): Prefix breaks the above> u<426> t<LINE_COMMENT> p<451> s<427> l<498:4> el<565:59>
+  n<//-----> u<427> t<LINE_COMMENT> p<451> s<428> l<501:4> el<501:11>
+  n<// MUST: Unknown macro not under call with backslash escape doesn't expand> u<428> t<LINE_COMMENT> p<451> s<429> l<502:4> el<502:78>
+  n<//-----> u<429> t<LINE_COMMENT> p<451> s<430> l<505:4> el<505:11>
+  n<// MUST: Unknown macro not under call doesn't expand> u<430> t<LINE_COMMENT> p<451> s<431> l<506:4> el<506:56>
+  n<//-----> u<431> t<LINE_COMMENT> p<451> s<432> l<510:4> el<510:11>
+  n<// bug441 derivative> u<432> t<LINE_COMMENT> p<451> s<433> l<511:4> el<511:24>
+  n<// SHOULD(simulator-dependant): Quotes doesn't prevent arguments from expanding (like backslashes above)> u<433> t<LINE_COMMENT> p<451> s<434> l<512:4> el<512:108>
+  n<//-----> u<434> t<LINE_COMMENT> p<451> s<435> l<516:4> el<516:11>
+  n<// RULE: Because there are quotes after substituting STR, the `A does NOT expand> u<435> t<LINE_COMMENT> p<451> s<436> l<517:4> el<517:84>
+  n<//----> u<436> t<LINE_COMMENT> p<451> s<437> l<522:4> el<522:10>
+  n<// bug845> u<437> t<LINE_COMMENT> p<451> s<438> l<523:4> el<523:13>
+  n<//----> u<438> t<LINE_COMMENT> p<451> s<439> l<526:4> el<526:10>
+  n<// bug915> u<439> t<LINE_COMMENT> p<451> s<440> l<527:4> el<527:13>
+  n<//======================================================================> u<440> t<LINE_COMMENT> p<451> s<441> l<533:1> el<533:73>
+  n<//bug1225> u<441> t<LINE_COMMENT> p<451> s<442> l<534:1> el<534:10>
+  n<//====> u<442> t<LINE_COMMENT> p<451> s<443> l<574:1> el<574:7>
+  n<//bug1227> u<443> t<LINE_COMMENT> p<451> s<444> l<609:1> el<609:10>
+  n<//======================================================================> u<444> t<LINE_COMMENT> p<451> s<445> l<613:1> el<613:73>
+  n<// Stringify bug> u<445> t<LINE_COMMENT> p<451> s<446> l<614:1> el<614:17>
+  n<//======================================================================> u<446> t<LINE_COMMENT> p<451> s<447> l<633:1> el<633:73>
+  n<// IEEE mandated predefines> u<447> t<LINE_COMMENT> p<451> s<448> l<634:1> el<634:28>
+  n<// undefineall should have no effect on these> u<448> t<LINE_COMMENT> p<451> s<449> l<635:3> el<635:48>
+  n<//======================================================================> u<449> t<LINE_COMMENT> p<451> s<450> l<651:1> el<651:73>
+  n<// After `undefineall above, for testing --dump-defines> u<450> t<LINE_COMMENT> p<451> l<652:1> el<652:56>
 AST_DEBUG_END
 [ERR:LN0814] Found 11 weak node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
@@ -682,7 +684,7 @@ Design name:unnamed:
             "Identifier name:  start:36:29 end:36:30":
               vpiParent: PreprocMacroDefinition name:MULTILINE
               vpiName: " "
-            "Identifier name:\\\n start:36:30 end:36:32":
+            "Identifier name:\\\n start:36:30 end:37:1":
               vpiParent: PreprocMacroDefinition name:MULTILINE
               vpiName: "\\\n"
             "Identifier name:  \t\t start:37:1 end:37:5":
@@ -700,7 +702,7 @@ Design name:unnamed:
             "Identifier name:  start:37:16 end:37:17":
               vpiParent: PreprocMacroDefinition name:MULTILINE
               vpiName: " "
-            "Identifier name:\\\n start:37:17 end:37:19":
+            "Identifier name:\\\n start:37:17 end:38:1":
               vpiParent: PreprocMacroDefinition name:MULTILINE
               vpiName: "\\\n"
             "Identifier name:  \t\t start:38:1 end:38:5":
@@ -725,7 +727,7 @@ Design name:unnamed:
             Identifier name:{ start:40:23 end:40:24:
               vpiParent: PreprocMacroDefinition name:MOREMULTILINE
               vpiName: "{"
-            "Identifier name:\\\n start:40:24 end:40:26":
+            "Identifier name:\\\n start:40:24 end:41:1":
               vpiParent: PreprocMacroDefinition name:MOREMULTILINE
               vpiName: "\\\n"
             Identifier name:		        start:41:1 end:41:10:
@@ -737,7 +739,7 @@ Design name:unnamed:
             Identifier name:, start:41:11 end:41:12:
               vpiParent: PreprocMacroDefinition name:MOREMULTILINE
               vpiName: ","
-            "Identifier name:\\\n start:41:12 end:41:14":
+            "Identifier name:\\\n start:41:12 end:42:1":
               vpiParent: PreprocMacroDefinition name:MOREMULTILINE
               vpiName: "\\\n"
             Identifier name:		        start:42:1 end:42:10:
@@ -749,7 +751,7 @@ Design name:unnamed:
             Identifier name:, start:42:11 end:42:12:
               vpiParent: PreprocMacroDefinition name:MOREMULTILINE
               vpiName: ","
-            "Identifier name:\\\n start:42:12 end:42:14":
+            "Identifier name:\\\n start:42:12 end:43:1":
               vpiParent: PreprocMacroDefinition name:MOREMULTILINE
               vpiName: "\\\n"
             Identifier name:		        start:43:1 end:43:10:
@@ -1002,7 +1004,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:zap
               vpiName: which
           vpiPMDToken (12 items):
-            "Identifier name:\\\n start:83:22 end:83:24":
+            "Identifier name:\\\n start:83:22 end:84:1":
               vpiParent: PreprocMacroDefinition name:zap
               vpiName: "\\\n"
             Identifier name:	 start:84:1 end:84:2:
@@ -1149,7 +1151,7 @@ Design name:unnamed:
             "Identifier name:  start:116:22 end:116:23":
               vpiParent: PreprocMacroDefinition name:twoline
               vpiName: " "
-            "Identifier name:\\\n start:116:23 end:116:25":
+            "Identifier name:\\\n start:116:23 end:117:1":
               vpiParent: PreprocMacroDefinition name:twoline
               vpiName: "\\\n"
             "Identifier name:       start:117:1 end:117:7":
@@ -1172,7 +1174,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:ADD_UP
               vpiName: c
           vpiPMDToken (42 items):
-            "Identifier name:\\\n start:128:30 end:128:32":
+            "Identifier name:\\\n start:128:30 end:129:1":
               vpiParent: PreprocMacroDefinition name:ADD_UP
               vpiName: "\\\n"
             Identifier name:wire start:129:1 end:129:5:
@@ -1208,7 +1210,7 @@ Design name:unnamed:
             "Identifier name:  start:129:19 end:129:20":
               vpiParent: PreprocMacroDefinition name:ADD_UP
               vpiName: " "
-            "Identifier name:\\\n start:129:20 end:129:22":
+            "Identifier name:\\\n start:129:20 end:130:1":
               vpiParent: PreprocMacroDefinition name:ADD_UP
               vpiName: "\\\n"
             Identifier name:wire start:130:1 end:130:5:
@@ -1262,7 +1264,7 @@ Design name:unnamed:
             "Identifier name:  start:130:29 end:130:30":
               vpiParent: PreprocMacroDefinition name:ADD_UP
               vpiName: " "
-            "Identifier name:\\\n start:130:30 end:130:32":
+            "Identifier name:\\\n start:130:30 end:131:1":
               vpiParent: PreprocMacroDefinition name:ADD_UP
               vpiName: "\\\n"
             Identifier name:assign start:131:1 end:131:7:
@@ -1321,7 +1323,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:check
               vpiName: path
           vpiPMDToken (135 items):
-            "Identifier name:\\\n start:140:50 end:140:52":
+            "Identifier name:\\\n start:140:50 end:141:1":
               vpiParent: PreprocMacroDefinition name:check
               vpiName: "\\\n"
             "Identifier name:    start:141:1 end:141:4":
@@ -1405,7 +1407,7 @@ Design name:unnamed:
             "Identifier name:  start:141:46 end:141:47":
               vpiParent: PreprocMacroDefinition name:check
               vpiName: " "
-            "Identifier name:\\\n start:141:47 end:141:49":
+            "Identifier name:\\\n start:141:47 end:142:1":
               vpiParent: PreprocMacroDefinition name:check
               vpiName: "\\\n"
             "Identifier name:       start:142:1 end:142:7":
@@ -1558,7 +1560,7 @@ Design name:unnamed:
             "Identifier name:  start:142:102 end:142:103":
               vpiParent: PreprocMacroDefinition name:check
               vpiName: " "
-            "Identifier name:\\\n start:142:103 end:142:105":
+            "Identifier name:\\\n start:142:103 end:143:1":
               vpiParent: PreprocMacroDefinition name:check
               vpiName: "\\\n"
             "Identifier name:       start:143:1 end:143:7":
@@ -1711,7 +1713,7 @@ Design name:unnamed:
             "Identifier name:  start:143:102 end:143:103":
               vpiParent: PreprocMacroDefinition name:check
               vpiName: " "
-            "Identifier name:\\\n start:143:103 end:143:105":
+            "Identifier name:\\\n start:143:103 end:144:1":
               vpiParent: PreprocMacroDefinition name:check
               vpiName: "\\\n"
             "Identifier name:    start:144:1 end:144:4":
@@ -2122,13 +2124,13 @@ Design name:unnamed:
             vpiParent: PreprocMacroDefinition name:EMPTY_TRUE
             vpiName: EMPTY_TRUE
           vpiPMDType: define (1)
-        PreprocMacroDefinition name:ARGPAR start:218:1 end:219:0:
+        PreprocMacroDefinition name:ARGPAR start:218:1 end:218:18:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ARGPAR start:218:9 end:218:15:
             vpiParent: PreprocMacroDefinition name:ARGPAR
             vpiName: ARGPAR
           vpiPMDType: define (1)
-          vpiPMDToken (5 items):
+          vpiPMDToken (3 items):
             Identifier name:( start:218:15 end:218:16:
               vpiParent: PreprocMacroDefinition name:ARGPAR
               vpiName: "("
@@ -2138,12 +2140,6 @@ Design name:unnamed:
             Identifier name:, start:218:17 end:218:18:
               vpiParent: PreprocMacroDefinition name:ARGPAR
               vpiName: ","
-            "Identifier name:   start:218:18 end:218:20":
-              vpiParent: PreprocMacroDefinition name:ARGPAR
-              vpiName: "  "
-            Identifier name:// Hello, comments MIGHT not be legal start:218:20 end:218:57:
-              vpiParent: PreprocMacroDefinition name:ARGPAR
-              vpiName: "// Hello, comments MIGHT not be legal"
         PreprocMacroDefinition name:BEGIN start:231:1 end:231:20:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:BEGIN start:231:9 end:231:14:
@@ -2360,7 +2356,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: in
           vpiPMDToken (97 items):
-            "Identifier name:\\\n start:270:30 end:270:32":
+            "Identifier name:\\\n start:270:30 end:271:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:   start:271:1 end:271:3":
@@ -2378,7 +2374,7 @@ Design name:unnamed:
             Identifier name:							 start:271:12 end:271:19:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\t\t\t\t\t\t\t"
-            "Identifier name:\\\n start:271:19 end:271:21":
+            "Identifier name:\\\n start:271:19 end:272:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:      start:272:1 end:272:6":
@@ -2477,19 +2473,19 @@ Design name:unnamed:
             Identifier name:	 start:272:59 end:272:60:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\t"
-            "Identifier name:\\\n start:272:60 end:272:62":
+            "Identifier name:\\\n start:272:60 end:273:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:       start:273:1 end:273:7":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "      "
-            "Identifier name:/* multi-line comment\t\t\t\t\t\\\n\t multi-line comment */ start:273:7 end:273:58":
+            "Identifier name:/* multi-line comment\t\t\t\t\t\\\n\t multi-line comment */ start:273:7 end:274:24":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "/* multi-line comment\t\t\t\t\t\\\n\t multi-line comment */"
             Identifier name:					 start:274:24 end:274:29:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\t\t\t\t\t"
-            "Identifier name:\\\n start:274:29 end:274:31":
+            "Identifier name:\\\n start:274:29 end:275:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:   start:275:1 end:275:3":
@@ -2501,7 +2497,7 @@ Design name:unnamed:
             Identifier name:								 start:275:8 end:275:16:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\t\t\t\t\t\t\t\t"
-            "Identifier name:\\\n start:275:16 end:275:18":
+            "Identifier name:\\\n start:275:16 end:276:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:     start:276:1 end:276:5":
@@ -2519,7 +2515,7 @@ Design name:unnamed:
             Identifier name:					 start:276:27 end:276:32:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\t\t\t\t\t"
-            "Identifier name:\\\n start:276:32 end:276:34":
+            "Identifier name:\\\n start:276:32 end:277:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:       start:277:1 end:277:7":
@@ -2591,7 +2587,7 @@ Design name:unnamed:
             Identifier name:		 start:277:51 end:277:53:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\t\t"
-            "Identifier name:\\\n start:277:53 end:277:55":
+            "Identifier name:\\\n start:277:53 end:278:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:     start:278:1 end:278:5":
@@ -2603,7 +2599,7 @@ Design name:unnamed:
             Identifier name:							 start:278:11 end:278:18:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\t\t\t\t\t\t\t"
-            "Identifier name:\\\n start:278:18 end:278:20":
+            "Identifier name:\\\n start:278:18 end:279:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:      start:279:1 end:279:6":
@@ -2642,7 +2638,7 @@ Design name:unnamed:
             Identifier name:						 start:279:24 end:279:30:
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\t\t\t\t\t\t"
-            "Identifier name:\\\n start:279:30 end:279:32":
+            "Identifier name:\\\n start:279:30 end:280:1":
               vpiParent: PreprocMacroDefinition name:FC_INV3
               vpiName: "\\\n"
             "Identifier name:   start:280:1 end:280:3":
@@ -2674,7 +2670,7 @@ Design name:unnamed:
             vpiName: CMT3
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
-            "Identifier name:/* verilator NOT PART\n\t        OF DEFINE */ start:299:14 end:299:57":
+            "Identifier name:/* verilator NOT PART\n\t        OF DEFINE */ start:299:14 end:300:22":
               vpiParent: PreprocMacroDefinition name:CMT3
               vpiName: "/* verilator NOT PART\n\t        OF DEFINE */"
         PreprocMacroDefinition name:CMT4 start:301:1 end:302:22:
@@ -2684,7 +2680,7 @@ Design name:unnamed:
             vpiName: CMT4
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
-            "Identifier name:/* verilator PART \\\n\t        OF DEFINE */ start:301:14 end:301:55":
+            "Identifier name:/* verilator PART \\\n\t        OF DEFINE */ start:301:14 end:302:22":
               vpiParent: PreprocMacroDefinition name:CMT4
               vpiName: "/* verilator PART \\\n\t        OF DEFINE */"
         PreprocMacroDefinition name:CMT5 start:303:1 end:305:8:
@@ -2694,7 +2690,7 @@ Design name:unnamed:
             vpiName: CMT5
           vpiPMDType: define (1)
           vpiPMDToken (9 items):
-            "Identifier name:// CMT NOT \\\n start:303:14 end:303:27":
+            "Identifier name:// CMT NOT \\\n start:303:14 end:304:1":
               vpiParent: PreprocMacroDefinition name:CMT5
               vpiName: "// CMT NOT \\\n"
             "Identifier name:   start:304:1 end:304:3":
@@ -2712,7 +2708,7 @@ Design name:unnamed:
             "Identifier name:   start:304:10 end:304:12":
               vpiParent: PreprocMacroDefinition name:CMT5
               vpiName: "  "
-            "Identifier name:// BUT TEXT IS \\\n start:304:12 end:304:29":
+            "Identifier name:// BUT TEXT IS \\\n start:304:12 end:305:1":
               vpiParent: PreprocMacroDefinition name:CMT5
               vpiName: "// BUT TEXT IS \\\n"
             "Identifier name:   start:305:1 end:305:3":
@@ -2746,7 +2742,7 @@ Design name:unnamed:
             "Identifier name:  start:312:21 end:312:22":
               vpiParent: PreprocMacroDefinition name:NL
               vpiName: " "
-            "Identifier name:\\\n start:312:22 end:312:24":
+            "Identifier name:\\\n start:312:22 end:313:1":
               vpiParent: PreprocMacroDefinition name:NL
               vpiName: "\\\n"
             Identifier name:LINE start:313:1 end:313:5:
@@ -2766,7 +2762,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: msg
           vpiPMDToken (63 items):
-            "Identifier name:\\\n start:318:30 end:318:32":
+            "Identifier name:\\\n start:318:30 end:319:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             "Identifier name:    start:319:1 end:319:4":
@@ -2778,7 +2774,7 @@ Design name:unnamed:
             "Identifier name:  start:319:6 end:319:7":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:319:7 end:319:9":
+            "Identifier name:\\\n start:319:7 end:320:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             "Identifier name:       start:320:1 end:320:7":
@@ -2790,7 +2786,7 @@ Design name:unnamed:
             "Identifier name:  start:320:35 end:320:36":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:320:36 end:320:38":
+            "Identifier name:\\\n start:320:36 end:321:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             Identifier name:`ifdef start:321:1 end:321:7:
@@ -2805,7 +2801,7 @@ Design name:unnamed:
             "Identifier name:  start:321:13 end:321:14":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:321:14 end:321:16":
+            "Identifier name:\\\n start:321:14 end:322:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             "Identifier name:   start:322:1 end:322:3":
@@ -2823,7 +2819,7 @@ Design name:unnamed:
             "Identifier name:  start:322:15 end:322:16":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:322:16 end:322:18":
+            "Identifier name:\\\n start:322:16 end:323:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             Identifier name:`else start:323:1 end:323:6:
@@ -2832,7 +2828,7 @@ Design name:unnamed:
             "Identifier name:  start:323:6 end:323:7":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:323:7 end:323:9":
+            "Identifier name:\\\n start:323:7 end:324:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             "Identifier name:       start:324:1 end:324:7":
@@ -2880,7 +2876,7 @@ Design name:unnamed:
             "Identifier name:  start:324:45 end:324:46":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:324:46 end:324:48":
+            "Identifier name:\\\n start:324:46 end:325:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             Identifier name:`endif start:325:1 end:325:7:
@@ -2889,7 +2885,7 @@ Design name:unnamed:
             "Identifier name:  start:325:7 end:325:8":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:325:8 end:325:10":
+            "Identifier name:\\\n start:325:8 end:326:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             Identifier name:	  start:326:1 end:326:3:
@@ -2913,7 +2909,7 @@ Design name:unnamed:
             "Identifier name:  start:326:16 end:326:17":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:326:17 end:326:19":
+            "Identifier name:\\\n start:326:17 end:327:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             "Identifier name:       start:327:1 end:327:7":
@@ -2925,7 +2921,7 @@ Design name:unnamed:
             "Identifier name:  start:327:10 end:327:11":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:327:11 end:327:13":
+            "Identifier name:\\\n start:327:11 end:328:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             "Identifier name:       start:328:1 end:328:7":
@@ -2937,7 +2933,7 @@ Design name:unnamed:
             "Identifier name:  start:328:34 end:328:35":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: " "
-            "Identifier name:\\\n start:328:35 end:328:37":
+            "Identifier name:\\\n start:328:35 end:329:1":
               vpiParent: PreprocMacroDefinition name:msg_fatal
               vpiName: "\\\n"
             "Identifier name:    start:329:1 end:329:4":
@@ -3089,7 +3085,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:makedefine
               vpiName: name
           vpiPMDToken (31 items):
-            "Identifier name:\\\n start:344:26 end:344:28":
+            "Identifier name:\\\n start:344:26 end:345:1":
               vpiParent: PreprocMacroDefinition name:makedefine
               vpiName: "\\\n"
             "Identifier name:    start:345:1 end:345:4":
@@ -3131,7 +3127,7 @@ Design name:unnamed:
             "Identifier name:  start:345:37 end:345:38":
               vpiParent: PreprocMacroDefinition name:makedefine
               vpiName: " "
-            "Identifier name:\\\n start:345:38 end:345:40":
+            "Identifier name:\\\n start:345:38 end:346:1":
               vpiParent: PreprocMacroDefinition name:makedefine
               vpiName: "\\\n"
             "Identifier name:    start:346:1 end:346:4":
@@ -3179,7 +3175,7 @@ Design name:unnamed:
             "Identifier name:  start:346:43 end:346:44":
               vpiParent: PreprocMacroDefinition name:makedefine
               vpiName: " "
-            "Identifier name:\\\n start:346:44 end:346:46":
+            "Identifier name:\\\n start:346:44 end:347:1":
               vpiParent: PreprocMacroDefinition name:makedefine
               vpiName: "\\\n"
         PreprocMacroDefinition name:NOPARAM start:357:1 end:357:21:
@@ -3462,7 +3458,7 @@ Design name:unnamed:
             "Identifier name:  start:393:22 end:393:23":
               vpiParent: PreprocMacroDefinition name:DEFINEIT
               vpiName: " "
-            "Identifier name:\\\n start:393:23 end:393:25":
+            "Identifier name:\\\n start:393:23 end:394:1":
               vpiParent: PreprocMacroDefinition name:DEFINEIT
               vpiName: "\\\n"
         PreprocMacroDefinition name:_DEFIF_Z_0 start:395:1 end:395:21:
@@ -3556,7 +3552,7 @@ Design name:unnamed:
             vpiName: MULQUOTE
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
-            "Identifier name:\"FOO \\\n  BAR \" start:404:18 end:404:32":
+            "Identifier name:\"FOO \\\n  BAR \" start:404:18 end:405:8":
               vpiParent: PreprocMacroDefinition name:MULQUOTE
               vpiName: "\"FOO \\\n  BAR \""
         PreprocMacroDefinition name:MULQUOTE2 start:406:1 end:406:45:
@@ -3847,7 +3843,7 @@ Design name:unnamed:
             Identifier name:\name   start:462:23 end:462:30:
               vpiParent: PreprocMacroDefinition name:LEX_ESC
               vpiName: "\\name  "
-            "Identifier name:\\\n start:462:30 end:462:32":
+            "Identifier name:\\\n start:462:30 end:463:1":
               vpiParent: PreprocMacroDefinition name:LEX_ESC
               vpiName: "\\\n"
         PreprocMacroDefinition name:ESC_CAT start:469:1 end:470:1:
@@ -3867,7 +3863,7 @@ Design name:unnamed:
             Identifier name:\name``_assignment_``name2  start:469:29 end:469:56:
               vpiParent: PreprocMacroDefinition name:ESC_CAT
               vpiName: "\\name``_assignment_``name2 "
-            "Identifier name:\\\n start:469:56 end:469:58":
+            "Identifier name:\\\n start:469:56 end:470:1":
               vpiParent: PreprocMacroDefinition name:ESC_CAT
               vpiName: "\\\n"
         PreprocMacroDefinition name:ESC_CAT start:472:1 end:472:15:
@@ -3948,7 +3944,7 @@ Design name:unnamed:
             Identifier name:\name  start:482:19 end:482:25:
               vpiParent: PreprocMacroDefinition name:ESC
               vpiName: "\\name "
-            "Identifier name:\\\n start:482:25 end:482:27":
+            "Identifier name:\\\n start:482:25 end:483:1":
               vpiParent: PreprocMacroDefinition name:ESC
               vpiName: "\\\n"
         PreprocMacroDefinition name:CAT start:486:1 end:486:11:
@@ -3977,7 +3973,7 @@ Design name:unnamed:
             Identifier name:\name  start:488:19 end:488:25:
               vpiParent: PreprocMacroDefinition name:ESC
               vpiName: "\\name "
-            "Identifier name:\\\n start:488:25 end:488:27":
+            "Identifier name:\\\n start:488:25 end:489:1":
               vpiParent: PreprocMacroDefinition name:ESC
               vpiName: "\\\n"
         PreprocMacroDefinition name:ESC start:492:1 end:492:11:
@@ -4010,7 +4006,7 @@ Design name:unnamed:
             Identifier name:\name  start:495:19 end:495:25:
               vpiParent: PreprocMacroDefinition name:ESC
               vpiName: "\\name "
-            "Identifier name:\\\n start:495:25 end:495:27":
+            "Identifier name:\\\n start:495:25 end:496:1":
               vpiParent: PreprocMacroDefinition name:ESC
               vpiName: "\\\n"
         PreprocMacroDefinition name:FOO start:501:1 end:501:11:
@@ -4146,7 +4142,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:BUG915
               vpiName: c
           vpiPMDToken (15 items):
-            "Identifier name:\\\n start:529:23 end:529:25":
+            "Identifier name:\\\n start:529:23 end:530:1":
               vpiParent: PreprocMacroDefinition name:BUG915
               vpiName: "\\\n"
             "Identifier name:        start:530:1 end:530:8":
@@ -4608,7 +4604,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:svfcov_new
               vpiName: GRP
           vpiPMDToken (34 items):
-            "Identifier name:\\\n start:621:25 end:621:27":
+            "Identifier name:\\\n start:621:25 end:622:1":
               vpiParent: PreprocMacroDefinition name:svfcov_new
               vpiName: "\\\n"
             "Identifier name:    start:622:1 end:622:4":
@@ -4730,7 +4726,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:simple_svfcov_clk
               vpiName: ARG
           vpiPMDToken (55 items):
-            "Identifier name:\\\n start:623:47 end:623:49":
+            "Identifier name:\\\n start:623:47 end:624:1":
               vpiParent: PreprocMacroDefinition name:simple_svfcov_clk
               vpiName: "\\\n"
             "Identifier name:   start:624:1 end:624:3":
@@ -4772,7 +4768,7 @@ Design name:unnamed:
             "Identifier name:  start:624:33 end:624:34":
               vpiParent: PreprocMacroDefinition name:simple_svfcov_clk
               vpiName: " "
-            "Identifier name:\\\n start:624:34 end:624:36":
+            "Identifier name:\\\n start:624:34 end:625:1":
               vpiParent: PreprocMacroDefinition name:simple_svfcov_clk
               vpiName: "\\\n"
             "Identifier name:     start:625:1 end:625:5":
@@ -4850,7 +4846,7 @@ Design name:unnamed:
             "Identifier name:  start:625:53 end:625:54":
               vpiParent: PreprocMacroDefinition name:simple_svfcov_clk
               vpiName: " "
-            "Identifier name:\\\n start:625:54 end:625:56":
+            "Identifier name:\\\n start:625:54 end:626:1":
               vpiParent: PreprocMacroDefinition name:simple_svfcov_clk
               vpiName: "\\\n"
             "Identifier name:       start:626:1 end:626:7":
@@ -5203,7 +5199,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\n\t$c(\"Zap(\\\"\",\"bug2\",\"\\\");\"); start:83:22 end:84:29":
             vpiParent: PreprocMacroInstance name:zap
             vpiName: "\n\t$c(\"Zap(\\\"\",\"bug2\",\"\\\");\");"
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:102:16 end:102:80 ppstart:113:16 ppend:113:75:
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:102:16 end:102:80 ppstart:113:16 ppend:113:67:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:102:16 end:102:80:
             vpiParent: PreprocMacroInstance name:msg
@@ -5216,9 +5212,9 @@ Design name:unnamed:
             Identifier name:right side start:102:69 end:102:79:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: right side
-          "vpiPMIBody Identifier name:\"pre thrupre thrumid thrupost post: #~@\"right#~@side#~@\"#~\" start:99:18 end:99:77":
+          "vpiPMIBody Identifier name:\"pre thrupre thrumid thrupost post: \\\"right side\\\"\" start:99:18 end:99:69":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"pre thrupre thrumid thrupost post: #~@\"right#~@side#~@\"#~\""
+            vpiName: "\"pre thrupre thrumid thrupost post: \\\"right side\\\"\""
         PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:103:16 end:103:42 ppstart:114:16 ppend:114:43:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:103:16 end:103:42:
@@ -5251,7 +5247,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"left side: \\\"right side\\\"\" start:99:18 end:99:45":
             vpiParent: PreprocMacroInstance name:msg
             vpiName: "\"left side: \\\"right side\\\"\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:105:16 end:105:33 ppstart:116:16 ppend:116:40:
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:105:16 end:105:33 ppstart:116:16 ppend:116:43:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:105:16 end:105:33:
             vpiParent: PreprocMacroInstance name:msg
@@ -5264,10 +5260,10 @@ Design name:unnamed:
             Identifier name:`rs start:105:28 end:105:31:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: "`rs"
-          "vpiPMIBody Identifier name:\"left_side: #~@\"`rs\\\"#~\" start:99:18 end:99:42":
+          "vpiPMIBody Identifier name:\"left_side: \\\"right_side\\\"\" start:99:18 end:99:45":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"left_side: #~@\"`rs\\\"#~\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:106:16 end:106:36 ppstart:117:16 ppend:117:33:
+            vpiName: "\"left_side: \\\"right_side\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:106:16 end:106:36 ppstart:117:16 ppend:117:36:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:106:16 end:106:36:
             vpiParent: PreprocMacroInstance name:msg
@@ -5280,10 +5276,10 @@ Design name:unnamed:
             Identifier name:`rs start:106:31 end:106:34:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: "`rs"
-          "vpiPMIBody Identifier name:\"na: #~@\"`rs\\\"#~\" start:99:18 end:99:35":
+          "vpiPMIBody Identifier name:\"na: \\\"right_side\\\"\" start:99:18 end:99:38":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"na: #~@\"`rs\\\"#~\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:107:16 end:107:63 ppstart:118:16 ppend:118:70:
+            vpiName: "\"na: \\\"right_side\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:107:16 end:107:63 ppstart:118:16 ppend:118:73:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:107:16 end:107:63:
             vpiParent: PreprocMacroInstance name:msg
@@ -5296,10 +5292,10 @@ Design name:unnamed:
             Identifier name:`rs start:107:58 end:107:61:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: "`rs"
-          "vpiPMIBody Identifier name:\"prep ( midp1 left_side midp2 ( outp ) ): #~@\"`rs\\\"#~\" start:99:18 end:99:72":
+          "vpiPMIBody Identifier name:\"prep ( midp1 left_side midp2 ( outp ) ): \\\"right_side\\\"\" start:99:18 end:99:75":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"prep ( midp1 left_side midp2 ( outp ) ): #~@\"`rs\\\"#~\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:108:16 end:108:41 ppstart:119:16 ppend:119:42:
+            vpiName: "\"prep ( midp1 left_side midp2 ( outp ) ): \\\"right_side\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:108:16 end:108:41 ppstart:119:16 ppend:119:30:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:108:16 end:108:41:
             vpiParent: PreprocMacroInstance name:msg
@@ -5312,10 +5308,10 @@ Design name:unnamed:
             Identifier name:`noarg`noarg start:108:28 end:108:40:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: "`noarg`noarg"
-          "vpiPMIBody Identifier name:\"na: #~@\"`noarg`noarg\\\"#~\" start:99:18 end:99:44":
+          "vpiPMIBody Identifier name:\"na: \\\"nana\\\"\" start:99:18 end:99:32":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"na: #~@\"`noarg`noarg\\\"#~\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:109:16 end:109:45 ppstart:120:16 ppend:120:57:
+            vpiName: "\"na: \\\"nana\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:109:16 end:109:45 ppstart:120:16 ppend:120:64:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:109:16 end:109:45:
             vpiParent: PreprocMacroInstance name:msg
@@ -5328,10 +5324,10 @@ Design name:unnamed:
             Identifier name:`thruthru start:109:34 end:109:43:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: "`thruthru"
-          "vpiPMIBody Identifier name:\"left_side right_side: #~@\"`thruthru\\\"#~\" start:99:18 end:99:59":
+          "vpiPMIBody Identifier name:\"left_side right_side: \\\"left_side right_side\\\"\" start:99:18 end:99:66":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"left_side right_side: #~@\"`thruthru\\\"#~\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:110:16 end:110:30 ppstart:121:16 ppend:121:33:
+            vpiName: "\"left_side right_side: \\\"left_side right_side\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:110:16 end:110:30 ppstart:121:16 ppend:121:24:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:110:16 end:110:30:
             vpiParent: PreprocMacroInstance name:msg
@@ -5343,10 +5339,10 @@ Design name:unnamed:
               vpiName: "`thru()"
             Identifier start:110:29 end:110:29:
               vpiParent: PreprocMacroInstance name:msg
-          "vpiPMIBody Identifier name:\"`thru: #~@\"\\\"#~\" start:99:18 end:99:35":
+          "vpiPMIBody Identifier name:\": \\\"\\\"\" start:99:18 end:99:26":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"`thru: #~@\"\\\"#~\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:111:16 end:111:56 ppstart:122:16 ppend:122:58:
+            vpiName: "\": \\\"\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:111:16 end:111:56 ppstart:122:16 ppend:122:43:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:111:16 end:111:56:
             vpiParent: PreprocMacroInstance name:msg
@@ -5359,10 +5355,10 @@ Design name:unnamed:
             Identifier name:`thru(right side) start:111:38 end:111:55:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: "`thru(right side)"
-          "vpiPMIBody Identifier name:\"left side: #~@\"`thru(right#~@side)#~@\"#~\" start:99:18 end:99:60":
+          "vpiPMIBody Identifier name:\"left side: \\\"right side\\\"\" start:99:18 end:99:45":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"left side: #~@\"`thru(right#~@side)#~@\"#~\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:112:16 end:112:64 ppstart:123:16 ppend:123:60:
+            vpiName: "\"left side: \\\"right side\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:112:16 end:112:64 ppstart:123:16 ppend:123:43:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:112:16 end:112:64:
             vpiParent: PreprocMacroInstance name:msg
@@ -5375,10 +5371,10 @@ Design name:unnamed:
             Identifier name:`thru( right side ) start:112:43 end:112:62:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: "`thru( right side )"
-          "vpiPMIBody Identifier name:\"left side: #~@\"`thru(#~@right side )#~@\"#~\" start:99:18 end:99:62":
+          "vpiPMIBody Identifier name:\"left side: \\\"right side\\\"\" start:99:18 end:99:45":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"left side: #~@\"`thru(#~@right side )#~@\"#~\""
-        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:118:16 end:118:39 ppstart:129:10 ppend:129:37:
+            vpiName: "\"left side: \\\"right side\\\"\""
+        PreprocMacroInstance name:msg file:$Source01/t_preproc.v start:118:16 end:118:39 ppstart:129:10 ppend:130:16:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg start:118:16 end:118:39:
             vpiParent: PreprocMacroInstance name:msg
@@ -5391,10 +5387,10 @@ Design name:unnamed:
             Identifier name:`twoline start:118:30 end:118:38:
               vpiParent: PreprocMacroInstance name:msg
               vpiName: "`twoline"
-          "vpiPMIBody Identifier name:\"twoline: #~@\"`twoline\\\"#~\" start:99:18 end:99:45":
+          "vpiPMIBody Identifier name:\"twoline: \\\"first \n      second\\\"\" start:99:18 end:99:16":
             vpiParent: PreprocMacroInstance name:msg
-            vpiName: "\"twoline: #~@\"`twoline\\\"#~\""
-        PreprocMacroInstance name:ADD_UP file:$Source01/t_preproc.v start:134:2 end:134:16 ppstart:145:2 ppend:148:21:
+            vpiName: "\"twoline: \\\"first \n      second\\\"\""
+        PreprocMacroInstance name:ADD_UP file:$Source01/t_preproc.v start:134:2 end:134:16 ppstart:146:2 ppend:149:21:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ADD_UP start:134:2 end:134:16:
             vpiParent: PreprocMacroInstance name:ADD_UP
@@ -5410,7 +5406,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\nwire  tmp_d1 = d1; \nwire  tmp_o1 = tmp_d1 + 1; \nassign o1 = tmp_o1 ; start:128:30 end:131:21":
             vpiParent: PreprocMacroInstance name:ADD_UP
             vpiName: "\nwire  tmp_d1 = d1; \nwire  tmp_o1 = tmp_d1 + 1; \nassign o1 = tmp_o1 ;"
-        PreprocMacroInstance name:ADD_UP file:$Source01/t_preproc.v start:137:2 end:137:20 ppstart:151:2 ppend:154:21:
+        PreprocMacroInstance name:ADD_UP file:$Source01/t_preproc.v start:137:2 end:137:20 ppstart:152:2 ppend:155:21:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ADD_UP start:137:2 end:137:20:
             vpiParent: PreprocMacroInstance name:ADD_UP
@@ -5426,7 +5422,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\nwire  tmp_d2 = d2; \nwire  tmp_o2 = tmp_d2 + 1; \nassign o2 = tmp_o2 ; start:128:30 end:131:21":
             vpiParent: PreprocMacroInstance name:ADD_UP
             vpiName: "\nwire  tmp_d2 = d2; \nwire  tmp_o2 = tmp_d2 + 1; \nassign o2 = tmp_o2 ;"
-        PreprocMacroInstance name:check file:$Source01/t_preproc.v start:151:4 end:151:65 ppstart:168:4 ppend:172:19:
+        PreprocMacroInstance name:check file:$Source01/t_preproc.v start:151:4 end:151:65 ppstart:169:4 ppend:173:19:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:check start:151:4 end:151:65:
             vpiParent: PreprocMacroInstance name:check
@@ -5452,114 +5448,9 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:check
             vpiName: "\n   generate for (i=0; i<(3); i=i+1) begin \n      psl cover {  m5k.f .ctl._ctl_mvldx_m1.d[i] & ~m5k.f .ctl._ctl_mvldx_m1.q[i] & !m5k.f .ctl._ctl_mvldx_m1.cond & ((m5k.f .ctl.alive & m5k.f .ctl.alive_m1))} report \"fondNoRise: m5kc_fcl._ctl_mvldx_m1\"; \n      psl cover { ~m5k.f .ctl._ctl_mvldx_m1.d[i] &  m5k.f .ctl._ctl_mvldx_m1.q[i] & !m5k.f .ctl._ctl_mvldx_m1.cond & ((m5k.f .ctl.alive & m5k.f .ctl.alive_m1))} report \"fondNoFall: m5kc_fcl._ctl_mvldx_m1\"; \n   end endgenerate"
           vpiPMIItem (8 items):
-            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:142:20 end:142:23 ppstart:170:20 ppend:170:30:
+            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:142:20 end:142:23 ppstart:171:20 ppend:171:30:
               vpiParent: PreprocMacroInstance name:check
               vpiName Identifier name:MF start:142:20 end:142:23:
-                vpiParent: PreprocMacroInstance name:MF
-                vpiName: MF
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
-              vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
-                vpiParent: PreprocMacroInstance name:MF
-                vpiName: m5k.f .ctl
-              vpiPMIItem (1 items):
-                PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:170:20 ppend:170:25:
-                  vpiParent: PreprocMacroInstance name:MF
-                  vpiName Identifier name:MK start:148:14 end:148:17:
-                    vpiParent: PreprocMacroInstance name:MK
-                    vpiName: MK
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
-                  vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
-                    vpiParent: PreprocMacroInstance name:MK
-                    vpiName: m5k.f
-            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:142:46 end:142:49 ppstart:170:53 ppend:170:63:
-              vpiParent: PreprocMacroInstance name:check
-              vpiName Identifier name:MF start:142:46 end:142:49:
-                vpiParent: PreprocMacroInstance name:MF
-                vpiName: MF
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
-              vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
-                vpiParent: PreprocMacroInstance name:MF
-                vpiName: m5k.f .ctl
-              vpiPMIItem (1 items):
-                PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:170:53 ppend:170:58:
-                  vpiParent: PreprocMacroInstance name:MF
-                  vpiName Identifier name:MK start:148:14 end:148:17:
-                    vpiParent: PreprocMacroInstance name:MK
-                    vpiName: MK
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
-                  vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
-                    vpiParent: PreprocMacroInstance name:MK
-                    vpiName: m5k.f
-            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:142:72 end:142:75 ppstart:170:86 ppend:170:96:
-              vpiParent: PreprocMacroInstance name:check
-              vpiName Identifier name:MF start:142:72 end:142:75:
-                vpiParent: PreprocMacroInstance name:MF
-                vpiName: MF
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
-              vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
-                vpiParent: PreprocMacroInstance name:MF
-                vpiName: m5k.f .ctl
-              vpiPMIItem (1 items):
-                PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:170:86 ppend:170:91:
-                  vpiParent: PreprocMacroInstance name:MF
-                  vpiName Identifier name:MK start:148:14 end:148:17:
-                    vpiParent: PreprocMacroInstance name:MK
-                    vpiName: MK
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
-                  vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
-                    vpiParent: PreprocMacroInstance name:MK
-                    vpiName: m5k.f
-            PreprocMacroInstance name:CK_fr file:$Source01/t_preproc.v start:142:98 end:142:104 ppstart:170:119 ppend:170:159:
-              vpiParent: PreprocMacroInstance name:check
-              vpiName Identifier name:CK_fr start:142:98 end:142:104:
-                vpiParent: PreprocMacroInstance name:CK_fr
-                vpiName: CK_fr
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:CK_fr
-              vpiPMIBody Identifier name:(m5k.f .ctl.alive & m5k.f .ctl.alive_m1) start:149:16 end:149:56:
-                vpiParent: PreprocMacroInstance name:CK_fr
-                vpiName: "(m5k.f .ctl.alive & m5k.f .ctl.alive_m1)"
-              vpiPMIItem (2 items):
-                PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:149:17 end:149:20 ppstart:170:120 ppend:170:130:
-                  vpiParent: PreprocMacroInstance name:CK_fr
-                  vpiName Identifier name:MF start:149:17 end:149:20:
-                    vpiParent: PreprocMacroInstance name:MF
-                    vpiName: MF
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
-                  vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
-                    vpiParent: PreprocMacroInstance name:MF
-                    vpiName: m5k.f .ctl
-                  vpiPMIItem (1 items):
-                    PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:170:120 ppend:170:125:
-                      vpiParent: PreprocMacroInstance name:MF
-                      vpiName Identifier name:MK start:148:14 end:148:17:
-                        vpiParent: PreprocMacroInstance name:MK
-                        vpiName: MK
-                      vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
-                      vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
-                        vpiParent: PreprocMacroInstance name:MK
-                        vpiName: m5k.f
-                PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:149:29 end:149:32 ppstart:170:139 ppend:170:149:
-                  vpiParent: PreprocMacroInstance name:CK_fr
-                  vpiName Identifier name:MF start:149:29 end:149:32:
-                    vpiParent: PreprocMacroInstance name:MF
-                    vpiName: MF
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
-                  vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
-                    vpiParent: PreprocMacroInstance name:MF
-                    vpiName: m5k.f .ctl
-                  vpiPMIItem (1 items):
-                    PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:170:139 ppend:170:144:
-                      vpiParent: PreprocMacroInstance name:MF
-                      vpiName Identifier name:MK start:148:14 end:148:17:
-                        vpiParent: PreprocMacroInstance name:MK
-                        vpiName: MK
-                      vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
-                      vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
-                        vpiParent: PreprocMacroInstance name:MK
-                        vpiName: m5k.f
-            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:143:20 end:143:23 ppstart:171:20 ppend:171:30:
-              vpiParent: PreprocMacroInstance name:check
-              vpiName Identifier name:MF start:143:20 end:143:23:
                 vpiParent: PreprocMacroInstance name:MF
                 vpiName: MF
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
@@ -5576,9 +5467,9 @@ Design name:unnamed:
                   vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
                     vpiParent: PreprocMacroInstance name:MK
                     vpiName: m5k.f
-            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:143:46 end:143:49 ppstart:171:53 ppend:171:63:
+            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:142:46 end:142:49 ppstart:171:53 ppend:171:63:
               vpiParent: PreprocMacroInstance name:check
-              vpiName Identifier name:MF start:143:46 end:143:49:
+              vpiName Identifier name:MF start:142:46 end:142:49:
                 vpiParent: PreprocMacroInstance name:MF
                 vpiName: MF
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
@@ -5595,9 +5486,9 @@ Design name:unnamed:
                   vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
                     vpiParent: PreprocMacroInstance name:MK
                     vpiName: m5k.f
-            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:143:72 end:143:75 ppstart:171:86 ppend:171:96:
+            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:142:72 end:142:75 ppstart:171:86 ppend:171:96:
               vpiParent: PreprocMacroInstance name:check
-              vpiName Identifier name:MF start:143:72 end:143:75:
+              vpiName Identifier name:MF start:142:72 end:142:75:
                 vpiParent: PreprocMacroInstance name:MF
                 vpiName: MF
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
@@ -5614,9 +5505,9 @@ Design name:unnamed:
                   vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
                     vpiParent: PreprocMacroInstance name:MK
                     vpiName: m5k.f
-            PreprocMacroInstance name:CK_fr file:$Source01/t_preproc.v start:143:98 end:143:104 ppstart:171:119 ppend:171:159:
+            PreprocMacroInstance name:CK_fr file:$Source01/t_preproc.v start:142:98 end:142:104 ppstart:171:119 ppend:171:159:
               vpiParent: PreprocMacroInstance name:check
-              vpiName Identifier name:CK_fr start:143:98 end:143:104:
+              vpiName Identifier name:CK_fr start:142:98 end:142:104:
                 vpiParent: PreprocMacroInstance name:CK_fr
                 vpiName: CK_fr
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:CK_fr
@@ -5662,7 +5553,112 @@ Design name:unnamed:
                       vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
                         vpiParent: PreprocMacroInstance name:MK
                         vpiName: m5k.f
-        PreprocMacroInstance name:EX_READ file:$Source01/t_preproc.v start:173:1 end:173:21 ppstart:194:1 ppend:194:55:
+            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:143:20 end:143:23 ppstart:172:20 ppend:172:30:
+              vpiParent: PreprocMacroInstance name:check
+              vpiName Identifier name:MF start:143:20 end:143:23:
+                vpiParent: PreprocMacroInstance name:MF
+                vpiName: MF
+              vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
+              vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
+                vpiParent: PreprocMacroInstance name:MF
+                vpiName: m5k.f .ctl
+              vpiPMIItem (1 items):
+                PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:172:20 ppend:172:25:
+                  vpiParent: PreprocMacroInstance name:MF
+                  vpiName Identifier name:MK start:148:14 end:148:17:
+                    vpiParent: PreprocMacroInstance name:MK
+                    vpiName: MK
+                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
+                  vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
+                    vpiParent: PreprocMacroInstance name:MK
+                    vpiName: m5k.f
+            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:143:46 end:143:49 ppstart:172:53 ppend:172:63:
+              vpiParent: PreprocMacroInstance name:check
+              vpiName Identifier name:MF start:143:46 end:143:49:
+                vpiParent: PreprocMacroInstance name:MF
+                vpiName: MF
+              vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
+              vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
+                vpiParent: PreprocMacroInstance name:MF
+                vpiName: m5k.f .ctl
+              vpiPMIItem (1 items):
+                PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:172:53 ppend:172:58:
+                  vpiParent: PreprocMacroInstance name:MF
+                  vpiName Identifier name:MK start:148:14 end:148:17:
+                    vpiParent: PreprocMacroInstance name:MK
+                    vpiName: MK
+                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
+                  vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
+                    vpiParent: PreprocMacroInstance name:MK
+                    vpiName: m5k.f
+            PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:143:72 end:143:75 ppstart:172:86 ppend:172:96:
+              vpiParent: PreprocMacroInstance name:check
+              vpiName Identifier name:MF start:143:72 end:143:75:
+                vpiParent: PreprocMacroInstance name:MF
+                vpiName: MF
+              vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
+              vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
+                vpiParent: PreprocMacroInstance name:MF
+                vpiName: m5k.f .ctl
+              vpiPMIItem (1 items):
+                PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:172:86 ppend:172:91:
+                  vpiParent: PreprocMacroInstance name:MF
+                  vpiName Identifier name:MK start:148:14 end:148:17:
+                    vpiParent: PreprocMacroInstance name:MK
+                    vpiName: MK
+                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
+                  vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
+                    vpiParent: PreprocMacroInstance name:MK
+                    vpiName: m5k.f
+            PreprocMacroInstance name:CK_fr file:$Source01/t_preproc.v start:143:98 end:143:104 ppstart:172:119 ppend:172:159:
+              vpiParent: PreprocMacroInstance name:check
+              vpiName Identifier name:CK_fr start:143:98 end:143:104:
+                vpiParent: PreprocMacroInstance name:CK_fr
+                vpiName: CK_fr
+              vpiPreprocMacroDefinition: PreprocMacroDefinition name:CK_fr
+              vpiPMIBody Identifier name:(m5k.f .ctl.alive & m5k.f .ctl.alive_m1) start:149:16 end:149:56:
+                vpiParent: PreprocMacroInstance name:CK_fr
+                vpiName: "(m5k.f .ctl.alive & m5k.f .ctl.alive_m1)"
+              vpiPMIItem (2 items):
+                PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:149:17 end:149:20 ppstart:172:120 ppend:172:130:
+                  vpiParent: PreprocMacroInstance name:CK_fr
+                  vpiName Identifier name:MF start:149:17 end:149:20:
+                    vpiParent: PreprocMacroInstance name:MF
+                    vpiName: MF
+                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
+                  vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
+                    vpiParent: PreprocMacroInstance name:MF
+                    vpiName: m5k.f .ctl
+                  vpiPMIItem (1 items):
+                    PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:172:120 ppend:172:125:
+                      vpiParent: PreprocMacroInstance name:MF
+                      vpiName Identifier name:MK start:148:14 end:148:17:
+                        vpiParent: PreprocMacroInstance name:MK
+                        vpiName: MK
+                      vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
+                      vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
+                        vpiParent: PreprocMacroInstance name:MK
+                        vpiName: m5k.f
+                PreprocMacroInstance name:MF file:$Source01/t_preproc.v start:149:29 end:149:32 ppstart:172:139 ppend:172:149:
+                  vpiParent: PreprocMacroInstance name:CK_fr
+                  vpiName Identifier name:MF start:149:29 end:149:32:
+                    vpiParent: PreprocMacroInstance name:MF
+                    vpiName: MF
+                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:MF
+                  vpiPMIBody Identifier name:m5k.f .ctl start:148:14 end:148:24:
+                    vpiParent: PreprocMacroInstance name:MF
+                    vpiName: m5k.f .ctl
+                  vpiPMIItem (1 items):
+                    PreprocMacroInstance name:MK file:$Source01/t_preproc.v start:148:14 end:148:17 ppstart:172:139 ppend:172:144:
+                      vpiParent: PreprocMacroInstance name:MF
+                      vpiName Identifier name:MK start:148:14 end:148:17:
+                        vpiParent: PreprocMacroInstance name:MK
+                        vpiName: MK
+                      vpiPreprocMacroDefinition: PreprocMacroDefinition name:MK
+                      vpiPMIBody Identifier name:m5k.f start:147:14 end:147:19:
+                        vpiParent: PreprocMacroInstance name:MK
+                        vpiName: m5k.f
+        PreprocMacroInstance name:EX_READ file:$Source01/t_preproc.v start:173:1 end:173:21 ppstart:195:1 ppend:195:55:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:EX_READ start:173:1 end:173:21:
             vpiParent: PreprocMacroInstance name:EX_READ
@@ -5676,7 +5672,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:EX_READ
             vpiName: begin addr <= (({regs[6], regs[7]} + 1)); rd <= 1; end
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:_HL file:$Source01/t_preproc.v start:171:47 end:171:51 ppstart:194:17 ppend:194:35:
+            PreprocMacroInstance name:_HL file:$Source01/t_preproc.v start:171:47 end:171:51 ppstart:195:17 ppend:195:35:
               vpiParent: PreprocMacroInstance name:EX_READ
               vpiName Identifier name:_HL start:171:47 end:171:51:
                 vpiParent: PreprocMacroInstance name:_HL
@@ -5686,7 +5682,7 @@ Design name:unnamed:
                 vpiParent: PreprocMacroInstance name:_HL
                 vpiName: "{regs[6], regs[7]}"
               vpiPMIItem (2 items):
-                PreprocMacroInstance name:_H file:$Source01/t_preproc.v start:169:18 end:169:21 ppstart:194:18 ppend:194:25:
+                PreprocMacroInstance name:_H file:$Source01/t_preproc.v start:169:18 end:169:21 ppstart:195:18 ppend:195:25:
                   vpiParent: PreprocMacroInstance name:_HL
                   vpiName Identifier name:_H start:169:18 end:169:21:
                     vpiParent: PreprocMacroInstance name:_H
@@ -5696,7 +5692,7 @@ Design name:unnamed:
                     vpiParent: PreprocMacroInstance name:_H
                     vpiName: regs[6]
                   vpiPMIItem (1 items):
-                    PreprocMacroInstance name:REG_H file:$Source01/t_preproc.v start:167:22 end:167:28 ppstart:194:23 ppend:194:24:
+                    PreprocMacroInstance name:REG_H file:$Source01/t_preproc.v start:167:22 end:167:28 ppstart:195:23 ppend:195:24:
                       vpiParent: PreprocMacroInstance name:_H
                       vpiName Identifier name:REG_H start:167:22 end:167:28:
                         vpiParent: PreprocMacroInstance name:REG_H
@@ -5705,7 +5701,7 @@ Design name:unnamed:
                       vpiPMIBody Identifier name:6 start:165:17 end:165:18:
                         vpiParent: PreprocMacroInstance name:REG_H
                         vpiName: "6"
-                PreprocMacroInstance name:_L file:$Source01/t_preproc.v start:169:23 end:169:26 ppstart:194:27 ppend:194:34:
+                PreprocMacroInstance name:_L file:$Source01/t_preproc.v start:169:23 end:169:26 ppstart:195:27 ppend:195:34:
                   vpiParent: PreprocMacroInstance name:_HL
                   vpiName Identifier name:_L start:169:23 end:169:26:
                     vpiParent: PreprocMacroInstance name:_L
@@ -5715,7 +5711,7 @@ Design name:unnamed:
                     vpiParent: PreprocMacroInstance name:_L
                     vpiName: regs[7]
                   vpiPMIItem (1 items):
-                    PreprocMacroInstance name:REG_L file:$Source01/t_preproc.v start:168:22 end:168:28 ppstart:194:32 ppend:194:33:
+                    PreprocMacroInstance name:REG_L file:$Source01/t_preproc.v start:168:22 end:168:28 ppstart:195:32 ppend:195:33:
                       vpiParent: PreprocMacroInstance name:_L
                       vpiName Identifier name:REG_L start:168:22 end:168:28:
                         vpiParent: PreprocMacroInstance name:REG_L
@@ -5724,7 +5720,7 @@ Design name:unnamed:
                       vpiPMIBody Identifier name:7 start:166:17 end:166:18:
                         vpiParent: PreprocMacroInstance name:REG_L
                         vpiName: "7"
-        PreprocMacroInstance name:EX_WRITE file:$Source01/t_preproc.v start:173:26 end:173:50 ppstart:194:60 ppend:194:128:
+        PreprocMacroInstance name:EX_WRITE file:$Source01/t_preproc.v start:173:26 end:173:50 ppstart:195:60 ppend:195:128:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:EX_WRITE start:173:26 end:173:50:
             vpiParent: PreprocMacroInstance name:EX_WRITE
@@ -5741,7 +5737,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:EX_WRITE
             vpiName: begin addr <= (({regs[6], regs[7]})); wdata <= (rdata); wr <= 1; end
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:_HL file:$Source01/t_preproc.v start:170:47 end:170:51 ppstart:194:76 ppend:194:94:
+            PreprocMacroInstance name:_HL file:$Source01/t_preproc.v start:170:47 end:170:51 ppstart:195:76 ppend:195:94:
               vpiParent: PreprocMacroInstance name:EX_WRITE
               vpiName Identifier name:_HL start:170:47 end:170:51:
                 vpiParent: PreprocMacroInstance name:_HL
@@ -5751,7 +5747,7 @@ Design name:unnamed:
                 vpiParent: PreprocMacroInstance name:_HL
                 vpiName: "{regs[6], regs[7]}"
               vpiPMIItem (2 items):
-                PreprocMacroInstance name:_H file:$Source01/t_preproc.v start:169:18 end:169:21 ppstart:194:77 ppend:194:84:
+                PreprocMacroInstance name:_H file:$Source01/t_preproc.v start:169:18 end:169:21 ppstart:195:77 ppend:195:84:
                   vpiParent: PreprocMacroInstance name:_HL
                   vpiName Identifier name:_H start:169:18 end:169:21:
                     vpiParent: PreprocMacroInstance name:_H
@@ -5761,7 +5757,7 @@ Design name:unnamed:
                     vpiParent: PreprocMacroInstance name:_H
                     vpiName: regs[6]
                   vpiPMIItem (1 items):
-                    PreprocMacroInstance name:REG_H file:$Source01/t_preproc.v start:167:22 end:167:28 ppstart:194:82 ppend:194:83:
+                    PreprocMacroInstance name:REG_H file:$Source01/t_preproc.v start:167:22 end:167:28 ppstart:195:82 ppend:195:83:
                       vpiParent: PreprocMacroInstance name:_H
                       vpiName Identifier name:REG_H start:167:22 end:167:28:
                         vpiParent: PreprocMacroInstance name:REG_H
@@ -5770,7 +5766,7 @@ Design name:unnamed:
                       vpiPMIBody Identifier name:6 start:165:17 end:165:18:
                         vpiParent: PreprocMacroInstance name:REG_H
                         vpiName: "6"
-                PreprocMacroInstance name:_L file:$Source01/t_preproc.v start:169:23 end:169:26 ppstart:194:86 ppend:194:93:
+                PreprocMacroInstance name:_L file:$Source01/t_preproc.v start:169:23 end:169:26 ppstart:195:86 ppend:195:93:
                   vpiParent: PreprocMacroInstance name:_HL
                   vpiName Identifier name:_L start:169:23 end:169:26:
                     vpiParent: PreprocMacroInstance name:_L
@@ -5780,7 +5776,7 @@ Design name:unnamed:
                     vpiParent: PreprocMacroInstance name:_L
                     vpiName: regs[7]
                   vpiPMIItem (1 items):
-                    PreprocMacroInstance name:REG_L file:$Source01/t_preproc.v start:168:22 end:168:28 ppstart:194:91 ppend:194:92:
+                    PreprocMacroInstance name:REG_L file:$Source01/t_preproc.v start:168:22 end:168:28 ppstart:195:91 ppend:195:92:
                       vpiParent: PreprocMacroInstance name:_L
                       vpiName Identifier name:REG_L start:168:22 end:168:28:
                         vpiParent: PreprocMacroInstance name:REG_L
@@ -5789,7 +5785,7 @@ Design name:unnamed:
                       vpiPMIBody Identifier name:7 start:166:17 end:166:18:
                         vpiParent: PreprocMacroInstance name:REG_L
                         vpiName: "7"
-        PreprocMacroInstance name:EX_READ file:$Source01/t_preproc.v start:174:1 end:174:19 ppstart:195:1 ppend:195:53:
+        PreprocMacroInstance name:EX_READ file:$Source01/t_preproc.v start:174:1 end:174:19 ppstart:196:1 ppend:196:53:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:EX_READ start:174:1 end:174:19:
             vpiParent: PreprocMacroInstance name:EX_READ
@@ -5803,74 +5799,9 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:EX_READ
             vpiName: begin addr <= ({regs[6], regs[7]} + 1); rd <= 1; end
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:_HL file:$Source01/t_preproc.v start:171:46 end:171:50 ppstart:195:16 ppend:195:34:
+            PreprocMacroInstance name:_HL file:$Source01/t_preproc.v start:171:46 end:171:50 ppstart:196:16 ppend:196:34:
               vpiParent: PreprocMacroInstance name:EX_READ
               vpiName Identifier name:_HL start:171:46 end:171:50:
-                vpiParent: PreprocMacroInstance name:_HL
-                vpiName: "_HL"
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:_HL
-              vpiPMIBody Identifier name:{regs[6], regs[7]} start:169:17 end:169:35:
-                vpiParent: PreprocMacroInstance name:_HL
-                vpiName: "{regs[6], regs[7]}"
-              vpiPMIItem (2 items):
-                PreprocMacroInstance name:_H file:$Source01/t_preproc.v start:169:18 end:169:21 ppstart:195:17 ppend:195:24:
-                  vpiParent: PreprocMacroInstance name:_HL
-                  vpiName Identifier name:_H start:169:18 end:169:21:
-                    vpiParent: PreprocMacroInstance name:_H
-                    vpiName: "_H"
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:_H
-                  vpiPMIBody Identifier name:regs[6] start:167:17 end:167:24:
-                    vpiParent: PreprocMacroInstance name:_H
-                    vpiName: regs[6]
-                  vpiPMIItem (1 items):
-                    PreprocMacroInstance name:REG_H file:$Source01/t_preproc.v start:167:22 end:167:28 ppstart:195:22 ppend:195:23:
-                      vpiParent: PreprocMacroInstance name:_H
-                      vpiName Identifier name:REG_H start:167:22 end:167:28:
-                        vpiParent: PreprocMacroInstance name:REG_H
-                        vpiName: REG_H
-                      vpiPreprocMacroDefinition: PreprocMacroDefinition name:REG_H
-                      vpiPMIBody Identifier name:6 start:165:17 end:165:18:
-                        vpiParent: PreprocMacroInstance name:REG_H
-                        vpiName: "6"
-                PreprocMacroInstance name:_L file:$Source01/t_preproc.v start:169:23 end:169:26 ppstart:195:26 ppend:195:33:
-                  vpiParent: PreprocMacroInstance name:_HL
-                  vpiName Identifier name:_L start:169:23 end:169:26:
-                    vpiParent: PreprocMacroInstance name:_L
-                    vpiName: "_L"
-                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:_L
-                  vpiPMIBody Identifier name:regs[7] start:168:17 end:168:24:
-                    vpiParent: PreprocMacroInstance name:_L
-                    vpiName: regs[7]
-                  vpiPMIItem (1 items):
-                    PreprocMacroInstance name:REG_L file:$Source01/t_preproc.v start:168:22 end:168:28 ppstart:195:31 ppend:195:32:
-                      vpiParent: PreprocMacroInstance name:_L
-                      vpiName Identifier name:REG_L start:168:22 end:168:28:
-                        vpiParent: PreprocMacroInstance name:REG_L
-                        vpiName: REG_L
-                      vpiPreprocMacroDefinition: PreprocMacroDefinition name:REG_L
-                      vpiPMIBody Identifier name:7 start:166:17 end:166:18:
-                        vpiParent: PreprocMacroInstance name:REG_L
-                        vpiName: "7"
-        PreprocMacroInstance name:EX_WRITE file:$Source01/t_preproc.v start:175:1 end:175:23 ppstart:196:1 ppend:196:67:
-          vpiParent: SourceFile name:t_preproc.v
-          vpiName Identifier name:EX_WRITE start:175:1 end:175:23:
-            vpiParent: PreprocMacroInstance name:EX_WRITE
-            vpiName: EX_WRITE
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:EX_WRITE
-          vpiArgument (2 items):
-            Identifier name:`_HL start:175:11 end:175:15:
-              vpiParent: PreprocMacroInstance name:EX_WRITE
-              vpiName: "`_HL"
-            Identifier name:rdata start:175:17 end:175:22:
-              vpiParent: PreprocMacroInstance name:EX_WRITE
-              vpiName: rdata
-          vpiPMIBody Identifier name:begin addr <= ({regs[6], regs[7]}); wdata <= (rdata); wr <= 1; end start:170:31 end:170:97:
-            vpiParent: PreprocMacroInstance name:EX_WRITE
-            vpiName: begin addr <= ({regs[6], regs[7]}); wdata <= (rdata); wr <= 1; end
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:_HL file:$Source01/t_preproc.v start:170:46 end:170:50 ppstart:196:16 ppend:196:34:
-              vpiParent: PreprocMacroInstance name:EX_WRITE
-              vpiName Identifier name:_HL start:170:46 end:170:50:
                 vpiParent: PreprocMacroInstance name:_HL
                 vpiName: "_HL"
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:_HL
@@ -5916,7 +5847,72 @@ Design name:unnamed:
                       vpiPMIBody Identifier name:7 start:166:17 end:166:18:
                         vpiParent: PreprocMacroInstance name:REG_L
                         vpiName: "7"
-        PreprocMacroInstance name:INCNAME file:$Source01/t_preproc.v start:180:10 end:180:18 ppstart:201:1 ppend:201:20:
+        PreprocMacroInstance name:EX_WRITE file:$Source01/t_preproc.v start:175:1 end:175:23 ppstart:197:1 ppend:197:67:
+          vpiParent: SourceFile name:t_preproc.v
+          vpiName Identifier name:EX_WRITE start:175:1 end:175:23:
+            vpiParent: PreprocMacroInstance name:EX_WRITE
+            vpiName: EX_WRITE
+          vpiPreprocMacroDefinition: PreprocMacroDefinition name:EX_WRITE
+          vpiArgument (2 items):
+            Identifier name:`_HL start:175:11 end:175:15:
+              vpiParent: PreprocMacroInstance name:EX_WRITE
+              vpiName: "`_HL"
+            Identifier name:rdata start:175:17 end:175:22:
+              vpiParent: PreprocMacroInstance name:EX_WRITE
+              vpiName: rdata
+          vpiPMIBody Identifier name:begin addr <= ({regs[6], regs[7]}); wdata <= (rdata); wr <= 1; end start:170:31 end:170:97:
+            vpiParent: PreprocMacroInstance name:EX_WRITE
+            vpiName: begin addr <= ({regs[6], regs[7]}); wdata <= (rdata); wr <= 1; end
+          vpiPMIItem (1 items):
+            PreprocMacroInstance name:_HL file:$Source01/t_preproc.v start:170:46 end:170:50 ppstart:197:16 ppend:197:34:
+              vpiParent: PreprocMacroInstance name:EX_WRITE
+              vpiName Identifier name:_HL start:170:46 end:170:50:
+                vpiParent: PreprocMacroInstance name:_HL
+                vpiName: "_HL"
+              vpiPreprocMacroDefinition: PreprocMacroDefinition name:_HL
+              vpiPMIBody Identifier name:{regs[6], regs[7]} start:169:17 end:169:35:
+                vpiParent: PreprocMacroInstance name:_HL
+                vpiName: "{regs[6], regs[7]}"
+              vpiPMIItem (2 items):
+                PreprocMacroInstance name:_H file:$Source01/t_preproc.v start:169:18 end:169:21 ppstart:197:17 ppend:197:24:
+                  vpiParent: PreprocMacroInstance name:_HL
+                  vpiName Identifier name:_H start:169:18 end:169:21:
+                    vpiParent: PreprocMacroInstance name:_H
+                    vpiName: "_H"
+                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:_H
+                  vpiPMIBody Identifier name:regs[6] start:167:17 end:167:24:
+                    vpiParent: PreprocMacroInstance name:_H
+                    vpiName: regs[6]
+                  vpiPMIItem (1 items):
+                    PreprocMacroInstance name:REG_H file:$Source01/t_preproc.v start:167:22 end:167:28 ppstart:197:22 ppend:197:23:
+                      vpiParent: PreprocMacroInstance name:_H
+                      vpiName Identifier name:REG_H start:167:22 end:167:28:
+                        vpiParent: PreprocMacroInstance name:REG_H
+                        vpiName: REG_H
+                      vpiPreprocMacroDefinition: PreprocMacroDefinition name:REG_H
+                      vpiPMIBody Identifier name:6 start:165:17 end:165:18:
+                        vpiParent: PreprocMacroInstance name:REG_H
+                        vpiName: "6"
+                PreprocMacroInstance name:_L file:$Source01/t_preproc.v start:169:23 end:169:26 ppstart:197:26 ppend:197:33:
+                  vpiParent: PreprocMacroInstance name:_HL
+                  vpiName Identifier name:_L start:169:23 end:169:26:
+                    vpiParent: PreprocMacroInstance name:_L
+                    vpiName: "_L"
+                  vpiPreprocMacroDefinition: PreprocMacroDefinition name:_L
+                  vpiPMIBody Identifier name:regs[7] start:168:17 end:168:24:
+                    vpiParent: PreprocMacroInstance name:_L
+                    vpiName: regs[7]
+                  vpiPMIItem (1 items):
+                    PreprocMacroInstance name:REG_L file:$Source01/t_preproc.v start:168:22 end:168:28 ppstart:197:31 ppend:197:32:
+                      vpiParent: PreprocMacroInstance name:_L
+                      vpiName Identifier name:REG_L start:168:22 end:168:28:
+                        vpiParent: PreprocMacroInstance name:REG_L
+                        vpiName: REG_L
+                      vpiPreprocMacroDefinition: PreprocMacroDefinition name:REG_L
+                      vpiPMIBody Identifier name:7 start:166:17 end:166:18:
+                        vpiParent: PreprocMacroInstance name:REG_L
+                        vpiName: "7"
+        PreprocMacroInstance name:INCNAME file:$Source01/t_preproc.v start:180:10 end:180:18 ppstart:202:1 ppend:202:20:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:INCNAME start:180:10 end:180:18:
             vpiParent: PreprocMacroInstance name:INCNAME
@@ -5925,7 +5921,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"t_preproc_inc4.vh\" start:179:17 end:179:36":
             vpiParent: PreprocMacroInstance name:INCNAME
             vpiName: "\"t_preproc_inc4.vh\""
-        PreprocMacroInstance name:xxerror file:$Source01/t_preproc.v start:194:1 end:194:24 ppstart:220:1 ppend:220:21:
+        PreprocMacroInstance name:xxerror file:$Source01/t_preproc.v start:194:1 end:194:24 ppstart:221:1 ppend:221:21:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:xxerror start:194:1 end:194:24:
             vpiParent: PreprocMacroInstance name:xxerror
@@ -5941,7 +5937,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:$blah(\"ab,cd\",\"e,f\") start:193:31 end:193:51":
             vpiParent: PreprocMacroInstance name:xxerror
             vpiName: "$blah(\"ab,cd\",\"e,f\")"
-        PreprocMacroInstance name:xxerror file:$Source01/t_preproc.v start:195:1 end:195:28 ppstart:221:1 ppend:221:24:
+        PreprocMacroInstance name:xxerror file:$Source01/t_preproc.v start:195:1 end:195:28 ppstart:222:1 ppend:222:24:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:xxerror start:195:1 end:195:28:
             vpiParent: PreprocMacroInstance name:xxerror
@@ -5957,7 +5953,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:$blah(this.logfile,vec) start:193:31 end:193:54:
             vpiParent: PreprocMacroInstance name:xxerror
             vpiName: "$blah(this.logfile,vec)"
-        PreprocMacroInstance name:xxerror file:$Source01/t_preproc.v start:196:1 end:196:35 ppstart:222:1 ppend:222:31:
+        PreprocMacroInstance name:xxerror file:$Source01/t_preproc.v start:196:1 end:196:35 ppstart:223:1 ppend:223:31:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:xxerror start:196:1 end:196:35:
             vpiParent: PreprocMacroInstance name:xxerror
@@ -5973,7 +5969,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:$blah(this.logfile,vec[1,2,3]) start:193:31 end:193:61:
             vpiParent: PreprocMacroInstance name:xxerror
             vpiName: "$blah(this.logfile,vec[1,2,3])"
-        PreprocMacroInstance name:xxerror file:$Source01/t_preproc.v start:197:1 end:197:53 ppstart:223:1 ppend:223:49:
+        PreprocMacroInstance name:xxerror file:$Source01/t_preproc.v start:197:1 end:197:53 ppstart:224:1 ppend:224:49:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:xxerror start:197:1 end:197:53:
             vpiParent: PreprocMacroInstance name:xxerror
@@ -5989,7 +5985,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:$blah(this.logfile,{blah.name(), \" is not foo\"}) start:193:31 end:193:79":
             vpiParent: PreprocMacroInstance name:xxerror
             vpiName: "$blah(this.logfile,{blah.name(), \" is not foo\"})"
-        PreprocMacroInstance name:ARGPAR file:$Source01/t_preproc.v start:221:1 end:221:13 ppstart:247:1 ppend:247:46:
+        PreprocMacroInstance name:ARGPAR file:$Source01/t_preproc.v start:221:1 end:221:13 ppstart:248:1 ppend:248:7:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ARGPAR start:221:1 end:221:13:
             vpiParent: PreprocMacroInstance name:ARGPAR
@@ -6002,10 +5998,10 @@ Design name:unnamed:
             Identifier name:q start:221:11 end:221:12:
               vpiParent: PreprocMacroInstance name:ARGPAR
               vpiName: q
-          vpiPMIBody Identifier name:(a,  // Hello, comments MIGHT not be legal(p) start:218:15 end:219:60:
+          vpiPMIBody Identifier name:(a,(p) start:218:15 end:218:21:
             vpiParent: PreprocMacroInstance name:ARGPAR
-            vpiName: "(a,  // Hello, comments MIGHT not be legal(p)"
-        PreprocMacroInstance name:ARGPAR file:$Source01/t_preproc.v start:222:1 end:225:4 ppstart:248:1 ppend:249:10:
+            vpiName: "(a,(p)"
+        PreprocMacroInstance name:ARGPAR file:$Source01/t_preproc.v start:222:1 end:225:4 ppstart:249:1 ppend:250:10:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ARGPAR start:222:1 end:225:4:
             vpiParent: PreprocMacroInstance name:ARGPAR
@@ -6018,10 +6014,10 @@ Design name:unnamed:
             "Identifier name:y   //Too\n start:224:3 end:225:1":
               vpiParent: PreprocMacroInstance name:ARGPAR
               vpiName: "y   //Too\n"
-          "vpiPMIBody Identifier name:(a,  // Hello, comments MIGHT not be legal(//Here\n\t      x) start:218:15 end:219:10":
+          "vpiPMIBody Identifier name:(a,(//Here\n\t      x) start:218:15 end:218:10":
             vpiParent: PreprocMacroInstance name:ARGPAR
-            vpiName: "(a,  // Hello, comments MIGHT not be legal(//Here\n\t      x)"
-        PreprocMacroInstance name:BEGIN file:$Source01/t_preproc.v start:235:1 end:235:7 ppstart:259:1 ppend:259:6:
+            vpiName: "(a,(//Here\n\t      x)"
+        PreprocMacroInstance name:BEGIN file:$Source01/t_preproc.v start:235:1 end:235:7 ppstart:260:1 ppend:260:6:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:BEGIN start:235:1 end:235:7:
             vpiParent: PreprocMacroInstance name:BEGIN
@@ -6030,7 +6026,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:begin start:231:15 end:231:20:
             vpiParent: PreprocMacroInstance name:BEGIN
             vpiName: begin
-        PreprocMacroInstance name:END file:$Source01/t_preproc.v start:235:7 end:235:11 ppstart:259:6 ppend:259:9:
+        PreprocMacroInstance name:END file:$Source01/t_preproc.v start:235:7 end:235:11 ppstart:260:6 ppend:260:9:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:END start:235:7 end:235:11:
             vpiParent: PreprocMacroInstance name:END
@@ -6039,7 +6035,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:end start:232:13 end:232:16:
             vpiParent: PreprocMacroInstance name:END
             vpiName: end
-        PreprocMacroInstance name:BEGINEND file:$Source01/t_preproc.v start:236:1 end:236:10 ppstart:260:1 ppend:260:9:
+        PreprocMacroInstance name:BEGINEND file:$Source01/t_preproc.v start:236:1 end:236:10 ppstart:261:1 ppend:261:9:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:BEGINEND start:236:1 end:236:10:
             vpiParent: PreprocMacroInstance name:BEGINEND
@@ -6049,7 +6045,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:BEGINEND
             vpiName: beginend
           vpiPMIItem (2 items):
-            PreprocMacroInstance name:BEGIN file:$Source01/t_preproc.v start:233:18 end:233:24 ppstart:260:1 ppend:260:6:
+            PreprocMacroInstance name:BEGIN file:$Source01/t_preproc.v start:233:18 end:233:24 ppstart:261:1 ppend:261:6:
               vpiParent: PreprocMacroInstance name:BEGINEND
               vpiName Identifier name:BEGIN start:233:18 end:233:24:
                 vpiParent: PreprocMacroInstance name:BEGIN
@@ -6058,7 +6054,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:begin start:231:15 end:231:20:
                 vpiParent: PreprocMacroInstance name:BEGIN
                 vpiName: begin
-            PreprocMacroInstance name:END file:$Source01/t_preproc.v start:233:24 end:233:28 ppstart:260:6 ppend:260:9:
+            PreprocMacroInstance name:END file:$Source01/t_preproc.v start:233:24 end:233:28 ppstart:261:6 ppend:261:9:
               vpiParent: PreprocMacroInstance name:BEGINEND
               vpiName Identifier name:END start:233:24 end:233:28:
                 vpiParent: PreprocMacroInstance name:END
@@ -6067,7 +6063,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:end start:232:13 end:232:16:
                 vpiParent: PreprocMacroInstance name:END
                 vpiName: end
-        PreprocMacroInstance name:quoteit file:$Source01/t_preproc.v start:237:1 end:237:21 ppstart:261:1 ppend:261:11:
+        PreprocMacroInstance name:quoteit file:$Source01/t_preproc.v start:237:1 end:237:21 ppstart:262:1 ppend:262:11:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:quoteit start:237:1 end:237:21:
             vpiParent: PreprocMacroInstance name:quoteit
@@ -6080,7 +6076,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"beginend\" start:234:20 end:234:30":
             vpiParent: PreprocMacroInstance name:quoteit
             vpiName: "\"beginend\""
-        PreprocMacroInstance name:esc`def file:$Source01/t_preproc.v start:243:3 end:243:13 ppstart:267:3 ppend:267:14:
+        PreprocMacroInstance name:esc`def file:$Source01/t_preproc.v start:243:3 end:243:13 ppstart:268:3 ppend:268:14:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:esc`def start:243:3 end:243:13:
             vpiParent: PreprocMacroInstance name:esc`def
@@ -6089,7 +6085,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:got_escaped start:241:19 end:241:30:
             vpiParent: PreprocMacroInstance name:esc`def
             vpiName: got_escaped
-        PreprocMacroInstance name:sfoo file:$Source01/t_preproc.v start:253:1 end:253:19 ppstart:277:1 ppend:277:10:
+        PreprocMacroInstance name:sfoo file:$Source01/t_preproc.v start:253:1 end:253:19 ppstart:278:1 ppend:278:10:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:sfoo start:253:1 end:253:19:
             vpiParent: PreprocMacroInstance name:sfoo
@@ -6106,7 +6102,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:sfoo
             vpiName: x,y)--bee
           vpiPMIItem (2 items):
-            PreprocMacroInstance name:sa file:$Source01/t_preproc.v start:252:19 end:252:26 ppstart:277:1 ppend:277:5:
+            PreprocMacroInstance name:sa file:$Source01/t_preproc.v start:252:19 end:252:26 ppstart:278:1 ppend:278:5:
               vpiParent: PreprocMacroInstance name:sfoo
               vpiName Identifier name:sa start:252:19 end:252:26:
                 vpiParent: PreprocMacroInstance name:sa
@@ -6119,7 +6115,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:x,y) start:251:15 end:251:19:
                 vpiParent: PreprocMacroInstance name:sa
                 vpiName: x,y)
-            PreprocMacroInstance name:sb file:$Source01/t_preproc.v start:252:28 end:252:31 ppstart:277:7 ppend:277:10:
+            PreprocMacroInstance name:sb file:$Source01/t_preproc.v start:252:28 end:252:31 ppstart:278:7 ppend:278:10:
               vpiParent: PreprocMacroInstance name:sfoo
               vpiName Identifier name:sb start:252:28 end:252:31:
                 vpiParent: PreprocMacroInstance name:sb
@@ -6128,7 +6124,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:bee start:249:12 end:249:15:
                 vpiParent: PreprocMacroInstance name:sb
                 vpiName: bee
-        PreprocMacroInstance name:bug191 file:$Source01/t_preproc.v start:258:1 end:258:12 ppstart:282:1 ppend:282:38:
+        PreprocMacroInstance name:bug191 file:$Source01/t_preproc.v start:258:1 end:258:12 ppstart:283:1 ppend:283:38:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:bug191 start:258:1 end:258:12:
             vpiParent: PreprocMacroInstance name:bug191
@@ -6141,7 +6137,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:$display(\"bits %d %d\", $10(foo), 10); start:257:22 end:257:59":
             vpiParent: PreprocMacroInstance name:bug191
             vpiName: "$display(\"bits %d %d\", $10(foo), 10);"
-        PreprocMacroInstance name:FC_INV3 file:$Source01/t_preproc.v start:282:1 end:282:16 ppstart:306:1 ppend:316:3:
+        PreprocMacroInstance name:FC_INV3 file:$Source01/t_preproc.v start:282:1 end:282:16 ppstart:307:1 ppend:317:3:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:FC_INV3 start:282:1 end:282:16:
             vpiParent: PreprocMacroInstance name:FC_INV3
@@ -6179,7 +6175,7 @@ Design name:unnamed:
             PreprocMacroCondition start:280:3 end:280:9:
               vpiParent: PreprocMacroInstance name:FC_INV3
               vpiPMCType: endif (5)
-        PreprocMacroInstance name:CMT1 file:$Source01/t_preproc.v start:307:3 end:307:16 ppstart:341:3 ppend:341:10:
+        PreprocMacroInstance name:CMT1 file:$Source01/t_preproc.v start:307:3 end:307:16 ppstart:342:3 ppend:342:10:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:CMT1 start:307:3 end:307:16:
             vpiParent: PreprocMacroInstance name:CMT1
@@ -6192,7 +6188,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:(nodef) start:297:14 end:298:21:
             vpiParent: PreprocMacroInstance name:CMT1
             vpiName: "(nodef)"
-        PreprocMacroInstance name:CMT2 file:$Source01/t_preproc.v start:308:3 end:308:17 ppstart:342:3 ppend:342:41:
+        PreprocMacroInstance name:CMT2 file:$Source01/t_preproc.v start:308:3 end:308:17 ppstart:343:3 ppend:343:41:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:CMT2 start:308:3 end:308:17:
             vpiParent: PreprocMacroInstance name:CMT2
@@ -6205,7 +6201,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:/* verilator PART OF DEFINE */(hasdef) start:298:14 end:298:52:
             vpiParent: PreprocMacroInstance name:CMT2
             vpiName: "/* verilator PART OF DEFINE */(hasdef)"
-        PreprocMacroInstance name:CMT3 file:$Source01/t_preproc.v start:309:3 end:309:16 ppstart:343:3 ppend:344:29:
+        PreprocMacroInstance name:CMT3 file:$Source01/t_preproc.v start:309:3 end:309:16 ppstart:344:3 ppend:345:29:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:CMT3 start:309:3 end:309:16:
             vpiParent: PreprocMacroInstance name:CMT3
@@ -6218,7 +6214,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:/* verilator NOT PART\n\t        OF DEFINE */(nodef) start:299:14 end:300:29":
             vpiParent: PreprocMacroInstance name:CMT3
             vpiName: "/* verilator NOT PART\n\t        OF DEFINE */(nodef)"
-        PreprocMacroInstance name:CMT4 file:$Source01/t_preproc.v start:310:3 end:310:16 ppstart:345:3 ppend:346:29:
+        PreprocMacroInstance name:CMT4 file:$Source01/t_preproc.v start:310:3 end:310:16 ppstart:346:3 ppend:347:29:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:CMT4 start:310:3 end:310:16:
             vpiParent: PreprocMacroInstance name:CMT4
@@ -6231,7 +6227,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:/* verilator PART \n\t        OF DEFINE */(nodef) start:301:14 end:302:29":
             vpiParent: PreprocMacroInstance name:CMT4
             vpiName: "/* verilator PART \n\t        OF DEFINE */(nodef)"
-        PreprocMacroInstance name:CMT5 file:$Source01/t_preproc.v start:311:3 end:311:16 ppstart:347:3 ppend:349:15:
+        PreprocMacroInstance name:CMT5 file:$Source01/t_preproc.v start:311:3 end:311:16 ppstart:348:3 ppend:350:15:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:CMT5 start:311:3 end:311:16:
             vpiParent: PreprocMacroInstance name:CMT5
@@ -6244,7 +6240,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:// CMT NOT \n  also in  // BUT TEXT IS \n  also3(nodef) start:303:14 end:305:15":
             vpiParent: PreprocMacroInstance name:CMT5
             vpiName: "// CMT NOT \n  also in  // BUT TEXT IS \n  also3(nodef)"
-        PreprocMacroInstance name:NL file:$Source01/t_preproc.v start:314:1 end:314:4 ppstart:352:1 ppend:353:5:
+        PreprocMacroInstance name:NL file:$Source01/t_preproc.v start:314:1 end:314:4 ppstart:353:1 ppend:354:5:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:NL start:314:1 end:314:4:
             vpiParent: PreprocMacroInstance name:NL
@@ -6253,7 +6249,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:HAS a NEW \nLINE start:312:12 end:313:5":
             vpiParent: PreprocMacroInstance name:NL
             vpiName: "HAS a NEW \nLINE"
-        PreprocMacroInstance name:msg_scen_ file:$Source01/t_preproc.v start:335:1 end:335:17 ppstart:374:1 ppend:374:10:
+        PreprocMacroInstance name:msg_scen_ file:$Source01/t_preproc.v start:335:1 end:335:17 ppstart:375:1 ppend:375:10:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:msg_scen_ start:335:1 end:335:17:
             vpiParent: PreprocMacroInstance name:msg_scen_
@@ -6266,7 +6262,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:clxx_scen start:331:25 end:331:34:
             vpiParent: PreprocMacroInstance name:msg_scen_
             vpiName: clxx_scen
-        PreprocMacroInstance name:MSG_MACRO_TO_STRING file:$Source01/t_preproc.v start:337:1 end:337:39 ppstart:376:1 ppend:376:12:
+        PreprocMacroInstance name:MSG_MACRO_TO_STRING file:$Source01/t_preproc.v start:337:1 end:337:39 ppstart:377:1 ppend:377:12:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:MSG_MACRO_TO_STRING start:337:1 end:337:39:
             vpiParent: PreprocMacroInstance name:MSG_MACRO_TO_STRING
@@ -6279,7 +6275,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"clxx_scen\" start:332:32 end:332:43":
             vpiParent: PreprocMacroInstance name:MSG_MACRO_TO_STRING
             vpiName: "\"clxx_scen\""
-        PreprocMacroInstance name:mf file:$Source01/t_preproc.v start:340:1 end:340:9 ppstart:379:1 ppend:390:13:
+        PreprocMacroInstance name:mf file:$Source01/t_preproc.v start:340:1 end:340:9 ppstart:380:1 ppend:391:13:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:mf start:340:1 end:340:9:
             vpiParent: PreprocMacroInstance name:mf
@@ -6293,7 +6289,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:mf
             vpiName: "\n   do \n      /* synopsys translate_off */ \n\n\n \n      if (start(\"$Source01/t_preproc.v\", 340)) begin \n \n\t message({\"Blah-\", \"clx_scen\", \" end\"}); \n      end \n      /* synopsys translate_on */ \n   while(0);"
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:msg_fatal file:$Source01/t_preproc.v start:338:17 end:338:95 ppstart:379:1 ppend:390:12:
+            PreprocMacroInstance name:msg_fatal file:$Source01/t_preproc.v start:338:17 end:338:95 ppstart:380:1 ppend:391:12:
               vpiParent: PreprocMacroInstance name:mf
               vpiName Identifier name:msg_fatal start:338:17 end:338:95:
                 vpiParent: PreprocMacroInstance name:msg_fatal
@@ -6322,7 +6318,7 @@ Design name:unnamed:
                 PreprocMacroCondition start:325:1 end:325:7:
                   vpiParent: PreprocMacroInstance name:msg_fatal
                   vpiPMCType: endif (5)
-                PreprocMacroInstance name:MSG_MACRO_TO_STRING file:$Source01/t_preproc.v start:326:21 end:326:58 ppstart:387:21 ppend:387:31:
+                PreprocMacroInstance name:MSG_MACRO_TO_STRING file:$Source01/t_preproc.v start:326:21 end:326:58 ppstart:388:21 ppend:388:31:
                   vpiParent: PreprocMacroInstance name:msg_fatal
                   vpiName Identifier name:MSG_MACRO_TO_STRING start:326:21 end:326:58:
                     vpiParent: PreprocMacroInstance name:MSG_MACRO_TO_STRING
@@ -6335,7 +6331,7 @@ Design name:unnamed:
                   "vpiPMIBody Identifier name:\"clx_scen\" start:332:32 end:332:42":
                     vpiParent: PreprocMacroInstance name:MSG_MACRO_TO_STRING
                     vpiName: "\"clx_scen\""
-        PreprocMacroInstance name:makedefine file:$Source01/t_preproc.v start:348:1 end:348:19 ppstart:398:1 ppend:401:1:
+        PreprocMacroInstance name:makedefine file:$Source01/t_preproc.v start:348:1 end:348:19 ppstart:399:1 ppend:402:1:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:makedefine start:348:1 end:348:19:
             vpiParent: PreprocMacroInstance name:makedefine
@@ -6348,7 +6344,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\n   \n   \n start:344:26 end:347:1":
             vpiParent: PreprocMacroInstance name:makedefine
             vpiName: "\n   \n   \n"
-        PreprocMacroInstance name:def_fooed file:$Source01/t_preproc.v start:352:1 end:352:11 ppstart:405:1 ppend:405:14:
+        PreprocMacroInstance name:def_fooed file:$Source01/t_preproc.v start:352:1 end:352:11 ppstart:406:1 ppend:406:14:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:def_fooed start:352:1 end:352:11:
             vpiParent: PreprocMacroInstance name:def_fooed
@@ -6356,7 +6352,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:This is fooed start:2:24 end:2:37:
             vpiParent: PreprocMacroInstance name:def_fooed
             vpiName: This is fooed
-        PreprocMacroInstance name:def_fooed_2 file:$Source01/t_preproc.v start:354:1 end:354:13 ppstart:407:1 ppend:407:16:
+        PreprocMacroInstance name:def_fooed_2 file:$Source01/t_preproc.v start:354:1 end:354:13 ppstart:408:1 ppend:408:16:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:def_fooed_2 start:354:1 end:354:13:
             vpiParent: PreprocMacroInstance name:def_fooed_2
@@ -6364,25 +6360,31 @@ Design name:unnamed:
           vpiPMIBody Identifier name:This is fooed_2 start:3:24 end:3:39:
             vpiParent: PreprocMacroInstance name:def_fooed_2
             vpiName: This is fooed_2
-        PreprocMacroInstance name:NOPARAM file:$Source01/t_preproc.v start:358:1 end:358:11 ppstart:411:1 ppend:411:3:
+        PreprocMacroInstance name:NOPARAM file:$Source01/t_preproc.v start:358:1 end:358:11 ppstart:412:1 ppend:412:3:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:NOPARAM start:358:1 end:358:11:
             vpiParent: PreprocMacroInstance name:NOPARAM
             vpiName: NOPARAM
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:NOPARAM
+          vpiArgument (1 items):
+            Identifier start:358:10 end:358:10:
+              vpiParent: PreprocMacroInstance name:NOPARAM
           vpiPMIBody Identifier name:np start:357:19 end:357:21:
             vpiParent: PreprocMacroInstance name:NOPARAM
             vpiName: np
-        PreprocMacroInstance name:NOPARAM file:$Source01/t_preproc.v start:359:1 end:359:12 ppstart:412:1 ppend:412:3:
+        PreprocMacroInstance name:NOPARAM file:$Source01/t_preproc.v start:359:1 end:359:12 ppstart:413:1 ppend:413:3:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:NOPARAM start:359:1 end:359:12:
             vpiParent: PreprocMacroInstance name:NOPARAM
             vpiName: NOPARAM
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:NOPARAM
+          vpiArgument (1 items):
+            Identifier start:359:10 end:359:11:
+              vpiParent: PreprocMacroInstance name:NOPARAM
           vpiPMIBody Identifier name:np start:357:19 end:357:21:
             vpiParent: PreprocMacroInstance name:NOPARAM
             vpiName: np
-        PreprocMacroInstance name:REPEATC file:$Source01/t_preproc.v start:382:1 end:382:21 ppstart:435:1 ppend:435:18:
+        PreprocMacroInstance name:REPEATC file:$Source01/t_preproc.v start:382:1 end:382:21 ppstart:436:1 ppend:436:18:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:REPEATC start:382:1 end:382:21:
             vpiParent: PreprocMacroInstance name:REPEATC
@@ -6399,7 +6401,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:REPEATC
             vpiName: "`REPEAT_3(hello3)"
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:CONCAT file:$Source01/t_preproc.v start:379:23 end:379:43 ppstart:435:1 ppend:435:10:
+            PreprocMacroInstance name:CONCAT file:$Source01/t_preproc.v start:379:23 end:379:43 ppstart:436:1 ppend:436:10:
               vpiParent: PreprocMacroInstance name:REPEATC
               vpiName Identifier name:CONCAT start:379:23 end:379:43:
                 vpiParent: PreprocMacroInstance name:CONCAT
@@ -6415,7 +6417,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:`REPEAT_3 start:378:22 end:378:31:
                 vpiParent: PreprocMacroInstance name:CONCAT
                 vpiName: "`REPEAT_3"
-        PreprocMacroInstance name:REPEATT file:$Source01/t_preproc.v start:383:1 end:383:21 ppstart:436:1 ppend:436:25:
+        PreprocMacroInstance name:REPEATT file:$Source01/t_preproc.v start:383:1 end:383:21 ppstart:437:1 ppend:437:25:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:REPEATT start:383:1 end:383:21:
             vpiParent: PreprocMacroInstance name:REPEATT
@@ -6432,7 +6434,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:REPEATT
             vpiName: hello4hello4hello4hello4
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:REPEAT_4 file:$Source01/t_preproc.v start:380:23 end:380:40 ppstart:436:1 ppend:436:25:
+            PreprocMacroInstance name:REPEAT_4 file:$Source01/t_preproc.v start:380:23 end:380:40 ppstart:437:1 ppend:437:25:
               vpiParent: PreprocMacroInstance name:REPEATT
               vpiName Identifier name:REPEAT_4 start:380:23 end:380:40:
                 vpiParent: PreprocMacroInstance name:REPEAT_4
@@ -6446,7 +6448,7 @@ Design name:unnamed:
                 vpiParent: PreprocMacroInstance name:REPEAT_4
                 vpiName: hello4hello4hello4hello4
               vpiPMIItem (1 items):
-                PreprocMacroInstance name:REPEAT_3 file:$Source01/t_preproc.v start:376:21 end:376:38 ppstart:436:1 ppend:436:19:
+                PreprocMacroInstance name:REPEAT_3 file:$Source01/t_preproc.v start:376:21 end:376:38 ppstart:437:1 ppend:437:19:
                   vpiParent: PreprocMacroInstance name:REPEAT_4
                   vpiName Identifier name:REPEAT_3 start:376:21 end:376:38:
                     vpiParent: PreprocMacroInstance name:REPEAT_3
@@ -6460,7 +6462,7 @@ Design name:unnamed:
                     vpiParent: PreprocMacroInstance name:REPEAT_3
                     vpiName: hello4hello4hello4
                   vpiPMIItem (1 items):
-                    PreprocMacroInstance name:REPEAT_2 file:$Source01/t_preproc.v start:375:21 end:375:38 ppstart:436:1 ppend:436:13:
+                    PreprocMacroInstance name:REPEAT_2 file:$Source01/t_preproc.v start:375:21 end:375:38 ppstart:437:1 ppend:437:13:
                       vpiParent: PreprocMacroInstance name:REPEAT_3
                       vpiName Identifier name:REPEAT_2 start:375:21 end:375:38:
                         vpiParent: PreprocMacroInstance name:REPEAT_2
@@ -6474,7 +6476,7 @@ Design name:unnamed:
                         vpiParent: PreprocMacroInstance name:REPEAT_2
                         vpiName: hello4hello4
                       vpiPMIItem (1 items):
-                        PreprocMacroInstance name:REPEAT_1 file:$Source01/t_preproc.v start:374:21 end:374:38 ppstart:436:1 ppend:436:7:
+                        PreprocMacroInstance name:REPEAT_1 file:$Source01/t_preproc.v start:374:21 end:374:38 ppstart:437:1 ppend:437:7:
                           vpiParent: PreprocMacroInstance name:REPEAT_2
                           vpiName Identifier name:REPEAT_1 start:374:21 end:374:38:
                             vpiParent: PreprocMacroInstance name:REPEAT_1
@@ -6487,7 +6489,7 @@ Design name:unnamed:
                           vpiPMIBody Identifier name:hello4 start:373:21 end:373:27:
                             vpiParent: PreprocMacroInstance name:REPEAT_1
                             vpiName: hello4
-        PreprocMacroInstance name:NODS_CONC_VH file:$Source01/t_preproc.v start:388:10 end:388:39 ppstart:441:1 ppend:441:20:
+        PreprocMacroInstance name:NODS_CONC_VH file:$Source01/t_preproc.v start:388:10 end:388:39 ppstart:442:1 ppend:442:20:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:NODS_CONC_VH start:388:10 end:388:39:
             vpiParent: PreprocMacroInstance name:NODS_CONC_VH
@@ -6500,7 +6502,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"t_preproc_inc4.vh\" start:387:25 end:387:44":
             vpiParent: PreprocMacroInstance name:NODS_CONC_VH
             vpiName: "\"t_preproc_inc4.vh\""
-        PreprocMacroInstance name:DEFIF_NZ file:$Source01/t_preproc.v start:397:1 end:397:18 ppstart:455:1 ppend:456:2:
+        PreprocMacroInstance name:DEFIF_NZ file:$Source01/t_preproc.v start:397:1 end:397:18 ppstart:456:1 ppend:457:2:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:DEFIF_NZ start:397:1 end:397:18:
             vpiParent: PreprocMacroInstance name:DEFIF_NZ
@@ -6523,7 +6525,7 @@ Design name:unnamed:
                 vpiParent: PreprocMacroCondition name:_DEFIF_Z_1
                 vpiName: "_DEFIF_Z_1"
               vpiPMCType: ifndef (2)
-            PreprocMacroInstance name:DEFINEIT file:$Source01/t_preproc.v start:396:54 end:396:79 ppstart:455:3 ppend:456:1:
+            PreprocMacroInstance name:DEFINEIT file:$Source01/t_preproc.v start:396:54 end:396:79 ppstart:456:3 ppend:457:1:
               vpiParent: PreprocMacroInstance name:DEFIF_NZ
               vpiName Identifier name:DEFINEIT start:396:54 end:396:79:
                 vpiParent: PreprocMacroInstance name:DEFINEIT
@@ -6539,7 +6541,7 @@ Design name:unnamed:
             PreprocMacroCondition start:396:80 end:396:86:
               vpiParent: PreprocMacroInstance name:DEFIF_NZ
               vpiPMCType: endif (5)
-        PreprocMacroInstance name:DEFIF_NZ file:$Source01/t_preproc.v start:399:1 end:399:18 ppstart:458:1 ppend:458:2:
+        PreprocMacroInstance name:DEFIF_NZ file:$Source01/t_preproc.v start:399:1 end:399:18 ppstart:459:1 ppend:459:2:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:DEFIF_NZ start:399:1 end:399:18:
             vpiParent: PreprocMacroInstance name:DEFIF_NZ
@@ -6565,7 +6567,7 @@ Design name:unnamed:
             PreprocMacroCondition start:396:80 end:396:86:
               vpiParent: PreprocMacroInstance name:DEFIF_NZ
               vpiPMCType: endif (5)
-        PreprocMacroInstance name:MULQUOTE2 file:$Source01/t_preproc.v start:408:1 end:409:14 ppstart:466:1 ppend:469:8:
+        PreprocMacroInstance name:MULQUOTE2 file:$Source01/t_preproc.v start:408:1 end:409:14 ppstart:467:1 ppend:470:8:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:MULQUOTE2 start:408:1 end:409:14:
             vpiParent: PreprocMacroInstance name:MULQUOTE2
@@ -6579,7 +6581,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:MULQUOTE2
             vpiName: "\"FOO \\\n  BAR \" \"arg_line1 \\\n  arg_line2\" \"FOO \\\n  BAR \""
           vpiPMIItem (2 items):
-            PreprocMacroInstance name:MULQUOTE file:$Source01/t_preproc.v start:406:23 end:406:32 ppstart:466:1 ppend:467:8:
+            PreprocMacroInstance name:MULQUOTE file:$Source01/t_preproc.v start:406:23 end:406:32 ppstart:467:1 ppend:468:8:
               vpiParent: PreprocMacroInstance name:MULQUOTE2
               vpiName Identifier name:MULQUOTE start:406:23 end:406:32:
                 vpiParent: PreprocMacroInstance name:MULQUOTE
@@ -6588,7 +6590,7 @@ Design name:unnamed:
               "vpiPMIBody Identifier name:\"FOO \\\n  BAR \" start:404:18 end:405:8":
                 vpiParent: PreprocMacroInstance name:MULQUOTE
                 vpiName: "\"FOO \\\n  BAR \""
-            PreprocMacroInstance name:MULQUOTE file:$Source01/t_preproc.v start:407:14 end:407:23 ppstart:468:14 ppend:469:8:
+            PreprocMacroInstance name:MULQUOTE file:$Source01/t_preproc.v start:407:14 end:407:23 ppstart:469:14 ppend:470:8:
               vpiParent: PreprocMacroInstance name:MULQUOTE2
               vpiName Identifier name:MULQUOTE start:407:14 end:407:23:
                 vpiParent: PreprocMacroInstance name:MULQUOTE
@@ -6597,7 +6599,7 @@ Design name:unnamed:
               "vpiPMIBody Identifier name:\"FOO \\\n  BAR \" start:404:18 end:405:8":
                 vpiParent: PreprocMacroInstance name:MULQUOTE
                 vpiName: "\"FOO \\\n  BAR \""
-        PreprocMacroInstance name:C5 file:$Source01/t_preproc.v start:419:1 end:419:4 ppstart:479:1 ppend:479:29:
+        PreprocMacroInstance name:C5 file:$Source01/t_preproc.v start:419:1 end:419:4 ppstart:480:1 ppend:480:29:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:C5 start:419:1 end:419:4:
             vpiParent: PreprocMacroInstance name:C5
@@ -6607,7 +6609,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:C5
             vpiName: HLC_MACRO_NOT_DEFINED:Ab!!!c
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:C file:$Source01/t_preproc.v start:418:15 end:418:17 ppstart:479:28 ppend:479:29:
+            PreprocMacroInstance name:C file:$Source01/t_preproc.v start:418:15 end:418:17 ppstart:480:28 ppend:480:29:
               vpiParent: PreprocMacroInstance name:C5
               vpiName Identifier name:C start:418:15 end:418:17:
                 vpiParent: PreprocMacroInstance name:C
@@ -6616,7 +6618,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:c start:416:11 end:416:12:
                 vpiParent: PreprocMacroInstance name:C
                 vpiName: c
-        PreprocMacroInstance name:XACTION file:$Source01/t_preproc.v start:428:1 end:428:9 ppstart:488:1 ppend:488:37:
+        PreprocMacroInstance name:XACTION file:$Source01/t_preproc.v start:428:1 end:428:9 ppstart:489:1 ppend:489:37:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:XACTION start:428:1 end:428:9:
             vpiParent: PreprocMacroInstance name:XACTION
@@ -6626,7 +6628,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:XACTION
             vpiName: HLC_MACRO_NOT_DEFINED:XTYPE_frame!!!
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:XJOIN file:$Source01/t_preproc.v start:426:17 end:426:39 ppstart:488:1 ppend:488:37:
+            PreprocMacroInstance name:XJOIN file:$Source01/t_preproc.v start:426:17 end:426:39 ppstart:489:1 ppend:489:37:
               vpiParent: PreprocMacroInstance name:XACTION
               vpiName Identifier name:XJOIN start:426:17 end:426:39:
                 vpiParent: PreprocMacroInstance name:XJOIN
@@ -6642,7 +6644,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:HLC_MACRO_NOT_DEFINED:XTYPE_frame!!! start:425:31 end:425:67:
                 vpiParent: PreprocMacroInstance name:XJOIN
                 vpiName: HLC_MACRO_NOT_DEFINED:XTYPE_frame!!!
-        PreprocMacroInstance name:XACTION2 file:$Source01/t_preproc.v start:433:1 end:433:10 ppstart:493:1 ppend:493:12:
+        PreprocMacroInstance name:XACTION2 file:$Source01/t_preproc.v start:433:1 end:433:10 ppstart:494:1 ppend:494:12:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:XACTION2 start:433:1 end:433:10:
             vpiParent: PreprocMacroInstance name:XACTION2
@@ -6652,7 +6654,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:XACTION2
             vpiName: sonet_frame
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:XJOIN file:$Source01/t_preproc.v start:431:18 end:431:41 ppstart:493:1 ppend:493:12:
+            PreprocMacroInstance name:XJOIN file:$Source01/t_preproc.v start:431:18 end:431:41 ppstart:494:1 ppend:494:12:
               vpiParent: PreprocMacroInstance name:XACTION2
               vpiName Identifier name:XJOIN start:431:18 end:431:41:
                 vpiParent: PreprocMacroInstance name:XJOIN
@@ -6669,7 +6671,7 @@ Design name:unnamed:
                 vpiParent: PreprocMacroInstance name:XJOIN
                 vpiName: sonet_frame
               vpiPMIItem (1 items):
-                PreprocMacroInstance name:XFRAME file:$Source01/t_preproc.v start:425:37 end:425:44 ppstart:493:7 ppend:493:12:
+                PreprocMacroInstance name:XFRAME file:$Source01/t_preproc.v start:425:37 end:425:44 ppstart:494:7 ppend:494:12:
                   vpiParent: PreprocMacroInstance name:XJOIN
                   vpiName Identifier name:XFRAME start:425:37 end:425:44:
                     vpiParent: PreprocMacroInstance name:XFRAME
@@ -6678,7 +6680,7 @@ Design name:unnamed:
                   vpiPMIBody Identifier name:frame start:430:16 end:430:21:
                     vpiParent: PreprocMacroInstance name:XFRAME
                     vpiName: frame
-        PreprocMacroInstance name:XACTION3 file:$Source01/t_preproc.v start:438:1 end:438:10 ppstart:498:1 ppend:498:37:
+        PreprocMacroInstance name:XACTION3 file:$Source01/t_preproc.v start:438:1 end:438:10 ppstart:499:1 ppend:499:37:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:XACTION3 start:438:1 end:438:10:
             vpiParent: PreprocMacroInstance name:XACTION3
@@ -6687,28 +6689,9 @@ Design name:unnamed:
           vpiPMIBody Identifier name:HLC_MACRO_NOT_DEFINED:XTYPE_frame!!! start:436:18 end:436:54:
             vpiParent: PreprocMacroInstance name:XACTION3
             vpiName: HLC_MACRO_NOT_DEFINED:XTYPE_frame!!!
-        PreprocMacroInstance name:Q1 file:$Source01/t_preproc.v start:444:8 end:444:11 ppstart:504:8 ppend:504:11:
+        PreprocMacroInstance name:Q1 file:$Source01/t_preproc.v start:444:8 end:444:11 ppstart:505:8 ppend:505:11:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:Q1 start:444:8 end:444:11:
-            vpiParent: PreprocMacroInstance name:Q1
-            vpiName: Q1
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:Q1
-          vpiPMIBody Identifier name:zzz start:442:12 end:442:15:
-            vpiParent: PreprocMacroInstance name:Q1
-            vpiName: zzz
-          vpiPMIItem (1 items):
-            PreprocMacroInstance name:QA_b file:$Source01/t_preproc.v start:442:12 end:442:17 ppstart:504:8 ppend:504:11:
-              vpiParent: PreprocMacroInstance name:Q1
-              vpiName Identifier name:QA_b start:442:12 end:442:17:
-                vpiParent: PreprocMacroInstance name:QA_b
-                vpiName: QA_b
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:QA_b
-              vpiPMIBody Identifier name:zzz start:441:14 end:441:17:
-                vpiParent: PreprocMacroInstance name:QA_b
-                vpiName: zzz
-        PreprocMacroInstance name:Q1 file:$Source01/t_preproc.v start:445:8 end:445:11 ppstart:505:8 ppend:505:11:
-          vpiParent: SourceFile name:t_preproc.v
-          vpiName Identifier name:Q1 start:445:8 end:445:11:
             vpiParent: PreprocMacroInstance name:Q1
             vpiName: Q1
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:Q1
@@ -6725,9 +6708,9 @@ Design name:unnamed:
               vpiPMIBody Identifier name:zzz start:441:14 end:441:17:
                 vpiParent: PreprocMacroInstance name:QA_b
                 vpiName: zzz
-        PreprocMacroInstance name:Q1 file:$Source01/t_preproc.v start:449:8 end:449:11 ppstart:509:8 ppend:509:11:
+        PreprocMacroInstance name:Q1 file:$Source01/t_preproc.v start:445:8 end:445:11 ppstart:506:8 ppend:506:11:
           vpiParent: SourceFile name:t_preproc.v
-          vpiName Identifier name:Q1 start:449:8 end:449:11:
+          vpiName Identifier name:Q1 start:445:8 end:445:11:
             vpiParent: PreprocMacroInstance name:Q1
             vpiName: Q1
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:Q1
@@ -6735,7 +6718,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:Q1
             vpiName: zzz
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:QA_b file:$Source01/t_preproc.v start:442:12 end:442:17 ppstart:509:8 ppend:509:11:
+            PreprocMacroInstance name:QA_b file:$Source01/t_preproc.v start:442:12 end:442:17 ppstart:506:8 ppend:506:11:
               vpiParent: PreprocMacroInstance name:Q1
               vpiName Identifier name:QA_b start:442:12 end:442:17:
                 vpiParent: PreprocMacroInstance name:QA_b
@@ -6744,9 +6727,9 @@ Design name:unnamed:
               vpiPMIBody Identifier name:zzz start:441:14 end:441:17:
                 vpiParent: PreprocMacroInstance name:QA_b
                 vpiName: zzz
-        PreprocMacroInstance name:Q1 file:$Source01/t_preproc.v start:450:8 end:450:11 ppstart:510:8 ppend:510:11:
+        PreprocMacroInstance name:Q1 file:$Source01/t_preproc.v start:449:8 end:449:11 ppstart:510:8 ppend:510:11:
           vpiParent: SourceFile name:t_preproc.v
-          vpiName Identifier name:Q1 start:450:8 end:450:11:
+          vpiName Identifier name:Q1 start:449:8 end:449:11:
             vpiParent: PreprocMacroInstance name:Q1
             vpiName: Q1
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:Q1
@@ -6763,7 +6746,26 @@ Design name:unnamed:
               vpiPMIBody Identifier name:zzz start:441:14 end:441:17:
                 vpiParent: PreprocMacroInstance name:QA_b
                 vpiName: zzz
-        PreprocMacroInstance name:LEX_ESC file:$Source01/t_preproc.v start:464:20 end:464:58 ppstart:524:20 ppend:525:1:
+        PreprocMacroInstance name:Q1 file:$Source01/t_preproc.v start:450:8 end:450:11 ppstart:511:8 ppend:511:11:
+          vpiParent: SourceFile name:t_preproc.v
+          vpiName Identifier name:Q1 start:450:8 end:450:11:
+            vpiParent: PreprocMacroInstance name:Q1
+            vpiName: Q1
+          vpiPreprocMacroDefinition: PreprocMacroDefinition name:Q1
+          vpiPMIBody Identifier name:zzz start:442:12 end:442:15:
+            vpiParent: PreprocMacroInstance name:Q1
+            vpiName: zzz
+          vpiPMIItem (1 items):
+            PreprocMacroInstance name:QA_b file:$Source01/t_preproc.v start:442:12 end:442:17 ppstart:511:8 ppend:511:11:
+              vpiParent: PreprocMacroInstance name:Q1
+              vpiName Identifier name:QA_b start:442:12 end:442:17:
+                vpiParent: PreprocMacroInstance name:QA_b
+                vpiName: QA_b
+              vpiPreprocMacroDefinition: PreprocMacroDefinition name:QA_b
+              vpiPMIBody Identifier name:zzz start:441:14 end:441:17:
+                vpiParent: PreprocMacroInstance name:QA_b
+                vpiName: zzz
+        PreprocMacroInstance name:LEX_ESC file:$Source01/t_preproc.v start:464:20 end:464:58 ppstart:525:20 ppend:526:1:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:LEX_ESC start:464:20 end:464:58:
             vpiParent: PreprocMacroInstance name:LEX_ESC
@@ -6776,7 +6778,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\\name  \n start:462:23 end:463:1":
             vpiParent: PreprocMacroInstance name:LEX_ESC
             vpiName: "\\name  \n"
-        PreprocMacroInstance name:ESC_CAT file:$Source01/t_preproc.v start:471:20 end:471:41 ppstart:532:20 ppend:533:1:
+        PreprocMacroInstance name:ESC_CAT file:$Source01/t_preproc.v start:471:20 end:471:41 ppstart:533:20 ppend:534:1:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ESC_CAT start:471:20 end:471:41:
             vpiParent: PreprocMacroInstance name:ESC_CAT
@@ -6792,7 +6794,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\\name_assignment_name2 \n start:469:29 end:470:1":
             vpiParent: PreprocMacroInstance name:ESC_CAT
             vpiName: "\\name_assignment_name2 \n"
-        PreprocMacroInstance name:CAT file:$Source01/t_preproc.v start:475:20 end:475:37 ppstart:537:13 ppend:537:23:
+        PreprocMacroInstance name:CAT file:$Source01/t_preproc.v start:475:20 end:475:37 ppstart:538:13 ppend:538:23:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:CAT start:475:20 end:475:37:
             vpiParent: PreprocMacroInstance name:CAT
@@ -6808,7 +6810,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:namesuffix start:474:18 end:474:28:
             vpiParent: PreprocMacroInstance name:CAT
             vpiName: namesuffix
-        PreprocMacroInstance name:ESC file:$Source01/t_preproc.v start:485:20 end:485:39 ppstart:547:20 ppend:548:1:
+        PreprocMacroInstance name:ESC file:$Source01/t_preproc.v start:485:20 end:485:39 ppstart:548:20 ppend:549:1:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ESC start:485:20 end:485:39:
             vpiParent: PreprocMacroInstance name:ESC
@@ -6821,7 +6823,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\\name \n start:482:19 end:483:1":
             vpiParent: PreprocMacroInstance name:ESC
             vpiName: "\\name \n"
-        PreprocMacroInstance name:ESC file:$Source01/t_preproc.v start:491:20 end:491:32 ppstart:554:20 ppend:555:1:
+        PreprocMacroInstance name:ESC file:$Source01/t_preproc.v start:491:20 end:491:32 ppstart:555:20 ppend:556:1:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ESC start:491:20 end:491:32:
             vpiParent: PreprocMacroInstance name:ESC
@@ -6834,7 +6836,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\\name \n start:488:19 end:489:1":
             vpiParent: PreprocMacroInstance name:ESC
             vpiName: "\\name \n"
-        PreprocMacroInstance name:ESC file:$Source01/t_preproc.v start:498:20 end:498:32 ppstart:562:20 ppend:563:1:
+        PreprocMacroInstance name:ESC file:$Source01/t_preproc.v start:498:20 end:498:32 ppstart:563:20 ppend:564:1:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ESC start:498:20 end:498:32:
             vpiParent: PreprocMacroInstance name:ESC
@@ -6847,7 +6849,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\\name \n start:495:19 end:496:1":
             vpiParent: PreprocMacroInstance name:ESC
             vpiName: "\\name \n"
-        PreprocMacroInstance name:ESC file:$Source01/t_preproc.v start:500:20 end:500:34 ppstart:565:20 ppend:566:1:
+        PreprocMacroInstance name:ESC file:$Source01/t_preproc.v start:500:20 end:500:34 ppstart:566:20 ppend:567:1:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:ESC start:500:20 end:500:34:
             vpiParent: PreprocMacroInstance name:ESC
@@ -6860,7 +6862,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\\name \n start:495:19 end:496:1":
             vpiParent: PreprocMacroInstance name:ESC
             vpiName: "\\name \n"
-        PreprocMacroInstance name:STR file:$Source01/t_preproc.v start:515:42 end:515:51 ppstart:581:39 ppend:581:53:
+        PreprocMacroInstance name:STR file:$Source01/t_preproc.v start:515:42 end:515:51 ppstart:582:39 ppend:582:53:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:STR start:515:42 end:515:51:
             vpiParent: PreprocMacroInstance name:STR
@@ -6873,7 +6875,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"foo name baz\" start:514:19 end:514:33":
             vpiParent: PreprocMacroInstance name:STR
             vpiName: "\"foo name baz\""
-        PreprocMacroInstance name:STR file:$Source01/t_preproc.v start:521:42 end:521:55 ppstart:587:39 ppend:587:53:
+        PreprocMacroInstance name:STR file:$Source01/t_preproc.v start:521:42 end:521:55 ppstart:588:39 ppend:588:53:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:STR start:521:42 end:521:55:
             vpiParent: PreprocMacroInstance name:STR
@@ -6886,7 +6888,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"foo name baz\" start:519:19 end:519:33":
             vpiParent: PreprocMacroInstance name:STR
             vpiName: "\"foo name baz\""
-        PreprocMacroInstance name:SLASHED file:$Source01/t_preproc.v start:526:37 end:526:45 ppstart:592:41 ppend:592:49:
+        PreprocMacroInstance name:SLASHED file:$Source01/t_preproc.v start:526:37 end:526:45 ppstart:593:37 ppend:593:45:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:SLASHED start:526:37 end:526:45:
             vpiParent: PreprocMacroInstance name:SLASHED
@@ -6895,7 +6897,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"1//2.3\" start:525:17 end:525:25":
             vpiParent: PreprocMacroInstance name:SLASHED
             vpiName: "\"1//2.3\""
-        PreprocMacroInstance name:BUG915 file:$Source01/t_preproc.v start:531:12 end:531:31 ppstart:597:9 ppend:598:38:
+        PreprocMacroInstance name:BUG915 file:$Source01/t_preproc.v start:531:12 end:531:31 ppstart:598:9 ppend:599:38:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:BUG915 start:531:12 end:531:31:
             vpiParent: PreprocMacroInstance name:BUG915
@@ -6914,7 +6916,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\n       $display(\"%s%s\",\"a1\",\"b2c3\\n\") start:529:23 end:530:38":
             vpiParent: PreprocMacroInstance name:BUG915
             vpiName: "\n       $display(\"%s%s\",\"a1\",\"b2c3\\n\")"
-        PreprocMacroInstance name:X_ITEM file:$Source01/t_preproc.v start:539:10 end:539:24 ppstart:606:10 ppend:606:16:
+        PreprocMacroInstance name:X_ITEM file:$Source01/t_preproc.v start:539:10 end:539:24 ppstart:607:10 ppend:607:16:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:X_ITEM start:539:10 end:539:24:
             vpiParent: PreprocMacroInstance name:X_ITEM
@@ -6931,7 +6933,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:X_ITEM
             vpiName: "\"RAM0\""
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:X_STRING file:$Source01/t_preproc.v start:537:26 end:537:41 ppstart:606:10 ppend:606:16:
+            PreprocMacroInstance name:X_STRING file:$Source01/t_preproc.v start:537:26 end:537:41 ppstart:607:10 ppend:607:16:
               vpiParent: PreprocMacroInstance name:X_ITEM
               vpiName Identifier name:X_STRING start:537:26 end:537:41:
                 vpiParent: PreprocMacroInstance name:X_STRING
@@ -6944,7 +6946,7 @@ Design name:unnamed:
               "vpiPMIBody Identifier name:\"RAM0\" start:538:21 end:538:27":
                 vpiParent: PreprocMacroInstance name:X_STRING
                 vpiName: "\"RAM0\""
-        PreprocMacroInstance name:X_ITEM file:$Source01/t_preproc.v start:540:10 end:540:23 ppstart:607:10 ppend:607:15:
+        PreprocMacroInstance name:X_ITEM file:$Source01/t_preproc.v start:540:10 end:540:23 ppstart:608:10 ppend:608:15:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:X_ITEM start:540:10 end:540:23:
             vpiParent: PreprocMacroInstance name:X_ITEM
@@ -6960,7 +6962,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:X_ITEM
             vpiName: "\"CPU\""
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:X_STRING file:$Source01/t_preproc.v start:537:26 end:537:40 ppstart:607:10 ppend:607:15:
+            PreprocMacroInstance name:X_STRING file:$Source01/t_preproc.v start:537:26 end:537:40 ppstart:608:10 ppend:608:15:
               vpiParent: PreprocMacroInstance name:X_ITEM
               vpiName Identifier name:X_STRING start:537:26 end:537:40:
                 vpiParent: PreprocMacroInstance name:X_STRING
@@ -6973,7 +6975,7 @@ Design name:unnamed:
               "vpiPMIBody Identifier name:\"CPU\" start:538:21 end:538:26":
                 vpiParent: PreprocMacroInstance name:X_STRING
                 vpiName: "\"CPU\""
-        PreprocMacroInstance name:XXE_FAMILY file:$Source01/t_preproc.v start:548:14 end:548:25 ppstart:615:14 ppend:615:18:
+        PreprocMacroInstance name:XXE_FAMILY file:$Source01/t_preproc.v start:548:14 end:548:25 ppstart:616:14 ppend:616:18:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:XXE_FAMILY start:548:14 end:548:25:
             vpiParent: PreprocMacroInstance name:XXE_FAMILY
@@ -6983,7 +6985,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:XXE_FAMILY
             vpiName: XXE_
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:EMPTY file:$Source01/t_preproc.v start:547:24 end:547:30 ppstart:615:18 ppend:615:18:
+            PreprocMacroInstance name:EMPTY file:$Source01/t_preproc.v start:547:24 end:547:30 ppstart:616:18 ppend:616:18:
               vpiParent: PreprocMacroInstance name:XXE_FAMILY
               vpiName Identifier name:EMPTY start:547:24 end:547:30:
                 vpiParent: PreprocMacroInstance name:EMPTY
@@ -6991,7 +6993,7 @@ Design name:unnamed:
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:EMPTY
               vpiPMIBody Identifier start:542:0 end:543:0:
                 vpiParent: PreprocMacroInstance name:EMPTY
-        PreprocMacroInstance name:XYE_FAMILY file:$Source01/t_preproc.v start:555:14 end:555:25 ppstart:622:14 ppend:622:18:
+        PreprocMacroInstance name:XYE_FAMILY file:$Source01/t_preproc.v start:555:14 end:555:25 ppstart:623:14 ppend:623:18:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:XYE_FAMILY start:555:14 end:555:25:
             vpiParent: PreprocMacroInstance name:XYE_FAMILY
@@ -7001,7 +7003,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:XYE_FAMILY
             vpiName: XYE_
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:EMPTYP file:$Source01/t_preproc.v start:554:24 end:554:36 ppstart:622:18 ppend:622:18:
+            PreprocMacroInstance name:EMPTYP file:$Source01/t_preproc.v start:554:24 end:554:36 ppstart:623:18 ppend:623:18:
               vpiParent: PreprocMacroInstance name:XYE_FAMILY
               vpiName Identifier name:EMPTYP start:554:24 end:554:36:
                 vpiParent: PreprocMacroInstance name:EMPTYP
@@ -7013,7 +7015,7 @@ Design name:unnamed:
                   vpiName: foo
               vpiPMIBody Identifier start:543:20 end:544:20:
                 vpiParent: PreprocMacroInstance name:EMPTYP
-        PreprocMacroInstance name:XXS_FAMILY file:$Source01/t_preproc.v start:562:14 end:562:25 ppstart:629:14 ppend:629:22:
+        PreprocMacroInstance name:XXS_FAMILY file:$Source01/t_preproc.v start:562:14 end:562:25 ppstart:630:14 ppend:630:22:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:XXS_FAMILY start:562:14 end:562:25:
             vpiParent: PreprocMacroInstance name:XXS_FAMILY
@@ -7023,7 +7025,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:XXS_FAMILY
             vpiName: XXS_some
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:SOME file:$Source01/t_preproc.v start:561:24 end:561:29 ppstart:629:18 ppend:629:22:
+            PreprocMacroInstance name:SOME file:$Source01/t_preproc.v start:561:24 end:561:29 ppstart:630:18 ppend:630:22:
               vpiParent: PreprocMacroInstance name:XXS_FAMILY
               vpiName Identifier name:SOME start:561:24 end:561:29:
                 vpiParent: PreprocMacroInstance name:SOME
@@ -7032,7 +7034,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:some start:544:14 end:544:18:
                 vpiParent: PreprocMacroInstance name:SOME
                 vpiName: some
-        PreprocMacroInstance name:XYS_FAMILY file:$Source01/t_preproc.v start:569:14 end:569:25 ppstart:636:14 ppend:636:21:
+        PreprocMacroInstance name:XYS_FAMILY file:$Source01/t_preproc.v start:569:14 end:569:25 ppstart:637:14 ppend:637:21:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:XYS_FAMILY start:569:14 end:569:25:
             vpiParent: PreprocMacroInstance name:XYS_FAMILY
@@ -7042,7 +7044,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:XYS_FAMILY
             vpiName: XYS_foo
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:SOMEP file:$Source01/t_preproc.v start:568:24 end:568:35 ppstart:636:18 ppend:636:21:
+            PreprocMacroInstance name:SOMEP file:$Source01/t_preproc.v start:568:24 end:568:35 ppstart:637:18 ppend:637:21:
               vpiParent: PreprocMacroInstance name:XYS_FAMILY
               vpiName Identifier name:SOMEP start:568:24 end:568:35:
                 vpiParent: PreprocMacroInstance name:SOMEP
@@ -7055,7 +7057,7 @@ Design name:unnamed:
               vpiPMIBody Identifier name:foo start:545:20 end:545:23:
                 vpiParent: PreprocMacroInstance name:SOMEP
                 vpiName: foo
-        PreprocMacroInstance name:INSTANCE file:$Source01/t_preproc.v start:612:1 end:612:15 ppstart:679:1 ppend:679:27:
+        PreprocMacroInstance name:INSTANCE file:$Source01/t_preproc.v start:612:1 end:612:15 ppstart:680:1 ppend:680:27:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:INSTANCE start:612:1 end:612:15:
             vpiParent: PreprocMacroInstance name:INSTANCE
@@ -7068,7 +7070,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:(.mySig (myInterface.pa5), start:611:24 end:611:50:
             vpiParent: PreprocMacroInstance name:INSTANCE
             vpiName: "(.mySig (myInterface.pa5),"
-        PreprocMacroInstance name:hack file:$Source01/t_preproc.v start:618:1 end:618:16 ppstart:685:1 ppend:685:34:
+        PreprocMacroInstance name:hack file:$Source01/t_preproc.v start:618:1 end:618:16 ppstart:686:1 ppend:686:34:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:hack start:618:1 end:618:16:
             vpiParent: PreprocMacroInstance name:hack
@@ -7081,7 +7083,7 @@ Design name:unnamed:
           vpiPMIBody Identifier name:HLC_MACRO_NOT_DEFINED:dbg_hdl!!!; start:617:19 end:617:52:
             vpiParent: PreprocMacroInstance name:hack
             vpiName: HLC_MACRO_NOT_DEFINED:dbg_hdl!!!;
-        PreprocMacroInstance name:simple_svfcov_clk file:$Source01/t_preproc.v start:630:4 end:630:34 ppstart:697:4 ppend:701:111:
+        PreprocMacroInstance name:simple_svfcov_clk file:$Source01/t_preproc.v start:630:4 end:630:34 ppstart:698:4 ppend:702:111:
           vpiParent: SourceFile name:t_preproc.v
           vpiName Identifier name:simple_svfcov_clk start:630:4 end:630:34:
             vpiParent: PreprocMacroInstance name:simple_svfcov_clk
@@ -7104,7 +7106,7 @@ Design name:unnamed:
             vpiParent: PreprocMacroInstance name:simple_svfcov_clk
             vpiName: "\n  covergroup a @(posedge b); \n    c: coverpoint d iff ((c) === 1'b1); endgroup \n      a u_a; \n   initial do begin $display (\"DEBUG : %s [%m]\", $sformatf (\"Functional coverage enabled: u_a\")); end while(0)"
           vpiPMIItem (1 items):
-            PreprocMacroInstance name:svfcov_new file:$Source01/t_preproc.v start:626:14 end:626:30 ppstart:700:14 ppend:701:111:
+            PreprocMacroInstance name:svfcov_new file:$Source01/t_preproc.v start:626:14 end:626:30 ppstart:701:14 ppend:702:111:
               vpiParent: PreprocMacroInstance name:simple_svfcov_clk
               vpiName Identifier name:svfcov_new start:626:14 end:626:30:
                 vpiParent: PreprocMacroInstance name:svfcov_new
@@ -7118,7 +7120,7 @@ Design name:unnamed:
                 vpiParent: PreprocMacroInstance name:svfcov_new
                 vpiName: "\n   initial do begin $display (\"DEBUG : %s [%m]\", $sformatf (\"Functional coverage enabled: u_a\")); end while(0)"
               vpiPMIItem (1 items):
-                PreprocMacroInstance name:dbg_hdl file:$Source01/t_preproc.v start:622:21 end:622:76 ppstart:701:21 ppend:701:97:
+                PreprocMacroInstance name:dbg_hdl file:$Source01/t_preproc.v start:622:21 end:622:76 ppstart:702:21 ppend:702:97:
                   vpiParent: PreprocMacroInstance name:svfcov_new
                   vpiName Identifier name:dbg_hdl start:622:21 end:622:76:
                     vpiParent: PreprocMacroInstance name:dbg_hdl
@@ -7166,7 +7168,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 6
+[ SYNTAX] : 7
 [  ERROR] : 30
 [WARNING] : 22
 [   NOTE] : 1
@@ -7183,25 +7185,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_preproc/mounts.json
 
 
-{'result': {'coverage': 22.8,
+{'result': {'coverage': 22.68,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_preproc.v': {'post_len': 4631,
-                                                       'pre_len': 5999}},
-            'post_len': 4631,
-            'pre_len': 5999,
+            'files': {'$Output/lib/work/t_preproc.v': {'post_len': 4566,
+                                                       'pre_len': 5905}},
+            'post_len': 4566,
+            'pre_len': 5905,
             'test_name': 'Verilator/t_preproc'}}
 
 +------------------------------+----------+-----------+
 | INPUT                        |   PRELEN |   POSTLEN |
 +==============================+==========+===========+
-| $Output/lib/work/t_preproc.v |     5999 |      4631 |
+| $Output/lib/work/t_preproc.v |     5905 |      4566 |
 +==============================+==========+===========+
-|                              |     5999 |      4631 |
+|                              |     5905 |      4566 |
 +------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 22.8
+[COVERAGE] : 22.68
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
