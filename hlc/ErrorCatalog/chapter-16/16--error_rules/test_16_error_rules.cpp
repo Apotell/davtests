@@ -49,9 +49,7 @@ TEST_F(Chapter16ErrorRulesTest, Row468_BeginEndActionBlockOnDeferredAssertionIsR
   // subroutine call, so the else branch starting on line 13 is illegal. Note
   // this restriction is specific to the deferred form (assert #0); the same
   // block on a plain immediate assertion would be legal.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 16.4 requires the pass and fail "
-                  "statements of a deferred immediate assertion to each be a single subroutine call";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ACTION_BLOCK, "r468_a1", 13, 33), nullptr)
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ACTION_BLOCK, "r468_a1", 13, 38), nullptr)
       << "a deferred assertion action block must be a single subroutine call "
          "(IEEE 1800-2023 16.4)";
 }

@@ -49,8 +49,6 @@ TEST_F(Chapter29ErrorRulesTest, Row991_OutputPortMustBeFirstInTheUdpPortList) {
   // the input i first on line 9; the directions are only declared afterwards,
   // which is why this cannot be a grammar rule -- the parser has no way to
   // know which port is the output while reading the list.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 29.3.1 requires the output port to be "
-                  "the first port in a UDP port list";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_UDP_DECLARATION, "r991_p", 9, 11), nullptr)
       << "the output port must come first in a UDP port list (IEEE 1800-2023 29.3.1)";
 }

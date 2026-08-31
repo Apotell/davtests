@@ -53,8 +53,6 @@ TEST_F(Chapter21ErrorRulesTest, Row754_FormatSpecifierWithoutAnArgumentIsRejecte
   // one argument follows it. %m, %l and %% take no argument and must not be
   // counted -- that exemption is what separates this rule from a naive
   // percent-count.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 21.2.1 requires one expression "
-                  "argument per format specifier, excluding %m, %l and %%";
   EXPECT_NE(findError(ErrorDefinition::COMP_FORMAT_ARGUMENT_MISMATCH, "r754_m", 13, 11), nullptr)
       << "each format specifier needs a corresponding argument (IEEE 1800-2023 21.2.1)";
 }
@@ -66,8 +64,6 @@ TEST_F(Chapter21ErrorRulesTest, Row755_UndefinedFormatSpecifierIsRejected) {
   // "It shall be an error if an undefined format specifier appears in a string
   // literal argument." Table 21-1 defines the set; %q is not in it. The
   // literal is on line 21.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 21.2.1.1 makes an undefined format "
-                  "specifier in a string literal argument an error";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_FORMAT_SPECIFIER, "r755_m", 21, 11), nullptr)
       << "%q is not a defined format specifier (IEEE 1800-2023 21.2.1.1, Table 21-1)";
 }
