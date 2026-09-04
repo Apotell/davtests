@@ -44,6 +44,7 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Database.h>
 #include <hldb/RTTI.h>
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
@@ -62,6 +63,8 @@
 #include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/typedef_typespec.h>
+#include <hldb/unsupported_typespec.h>
 #include <hldb/variable.h>
 
 namespace hlc {
@@ -111,6 +114,21 @@ class StaticElaborationTest : public Test {
   }
   static const hldb::Package *getPkgDeep() {
     return hldb::findByName<hldb::Package>("pkg_deep", m_design->getAllPackages());
+  }
+  static const hldb::Package *getPkgTd() { return hldb::findByName<hldb::Package>("pkg_td", m_design->getAllPackages()); }
+
+  // TdOuter is declared directly inside `dut` (a Module), not at file/package scope like
+  // param_cls/OuterCls/etc. -- m_design->getAllClasses() does NOT include it (confirmed: that
+  // Design-level aggregate only reflects file-scope class declarations; Phase3ModelBuilder's
+  // own internal m_classes map is unaffected, since it is built from
+  // Database::getObjects<ClassDefn>(), a flat, unconditional sweep of every ClassDefn object
+  // ever created, not from this curated aggregate -- which is why production resolution of
+  // TdOuter through the typedef path still works correctly despite this). Search `owner`'s own
+  // getInstanceItems() instead -- the polymorphic collection a module-local class declaration
+  // actually lands in (scope.yaml's own `instance_item` field, which module.yaml inherits).
+  static const hldb::ClassDefn *getModuleLocalClass(const hldb::Module *owner, std::string_view name) {
+    if ((owner == nullptr) || (owner->getClassDefns() == nullptr)) return nullptr;
+    return hldb::findByName<hldb::ClassDefn>(name, owner->getClassDefns());
   }
 
   // Walks a scoped ClassTypespec's own path_elems[index] and returns that segment's own
@@ -181,6 +199,82 @@ class StaticElaborationTest : public Test {
     const hldb::RefTypespec *const rt = handle->getTypespec<hldb::RefTypespec>();
     if (rt == nullptr) return nullptr;
     return rt->getActual<hldb::ClassTypespec>();
+  }
+
+  // A typedef'd handle's own RefTypespec::actual is the TypedefTypespec itself -- Phase3
+  // deliberately never dereferences through a typedef automatically (see
+  // Phase3ModelBuilder::findTypedefByName()'s own comment: consumers are expected to follow
+  // getTypedefAlias() themselves) -- so getHandleTypespec() (which expects a ClassTypespec
+  // directly) does not apply to a typedef'd handle. This is the typedef analog of it.
+  static const hldb::TypedefTypespec *getHandleTypedefTypespec(std::string_view handleName) {
+    const hldb::Module *const dut = getDut();
+    if ((dut == nullptr) || (dut->getVariables() == nullptr)) return nullptr;
+    const hldb::Variable *const handle = hldb::findByName<hldb::Variable>(handleName, dut->getVariables());
+    if ((handle == nullptr) || (handle->getTypespec() == nullptr)) return nullptr;
+    const hldb::RefTypespec *const rt = handle->getTypespec<hldb::RefTypespec>();
+    if (rt == nullptr) return nullptr;
+    return rt->getActual<hldb::TypedefTypespec>();
+  }
+
+  // Follows a TypedefTypespec's own typedef_alias to whatever ClassTypespec it ultimately
+  // resolved to (the aliased type's own use-site typespec, specialized if it carried an
+  // override) -- nullptr if the alias itself resolved to something else (e.g. another typedef;
+  // see getHandleTypedefTypespec() applied a second time for that case).
+  static const hldb::ClassTypespec *getTypedefAliasClassTypespec(const hldb::TypedefTypespec *td) {
+    if ((td == nullptr) || (td->getTypedefAlias() == nullptr)) return nullptr;
+    return td->getTypedefAlias()->getActual<hldb::ClassTypespec>();
+  }
+
+  // Same idea as getHandleTypedefTypespec(), but for a plain data member of some OTHER class
+  // (not dut itself) -- used to confirm a bare typedef reference resolves via
+  // Phase3ModelBuilder::findTypedefInEnclosingScopes()'s walk up the enclosing-scope chain,
+  // not just the member's own immediate scope.
+  static const hldb::TypedefTypespec *getMemberTypedefTypespec(const hldb::ClassDefn *owner,
+                                                                 std::string_view memberName) {
+    if ((owner == nullptr) || (owner->getVariables() == nullptr)) return nullptr;
+    const hldb::Variable *const member = hldb::findByName<hldb::Variable>(memberName, owner->getVariables());
+    if ((member == nullptr) || (member->getTypespec() == nullptr)) return nullptr;
+    const hldb::RefTypespec *const rt = member->getTypespec<hldb::RefTypespec>();
+    if (rt == nullptr) return nullptr;
+    return rt->getActual<hldb::TypedefTypespec>();
+  }
+
+  // ---- whole-graph counting helpers ----
+  //
+  // Database::getObjects<T>() is a flat, unconditional sweep of every object of that exact
+  // type ever created anywhere in the WHOLE compilation -- unlike m_design->getAllClasses()
+  // (confirmed elsewhere in this file NOT to include module-nested classes), this is the same
+  // registry Phase3ModelBuilder itself reads from, so a count taken this way is a genuine,
+  // ground-truth object-graph census, not a curated aggregate that could itself be incomplete.
+  // Used below to assert exact object counts across the whole StaticElaboration compilation --
+  // a coarser, whole-graph counterpart to the individual dedup/identity checks above: those
+  // confirm a handful of SPECIFIC use sites resolve correctly, but a stray extra (or missing)
+  // object anywhere else in the file -- e.g. exactly the orphaned, wrongly-based duplicate
+  // ClassDefns Task 10's fifth follow-up found -- would slip past every one of them, since none
+  // of them ever inspects the graph as a whole. These counts would have caught that bug
+  // directly (one extra ClassDefn, not reachable via any path_elems chain the other tests
+  // happen to check).
+
+  template <typename T>
+  static size_t countAll() {
+    return m_session->getDatabase().getObjects<T>().size();
+  }
+
+  // Counts only the objects of type T whose own vpiIsSpecialization flag is set -- i.e. the
+  // ones getOrCreateSpecialization() actually minted, not a base definition nor an unspecialized
+  // clone that merely came along for free as part of cloning some OTHER definition's own whole
+  // subtree (e.g. pkg_deep::Level1's own nested Level2/Level3 get cloned when Level1 itself is
+  // specialized, but neither clone is itself is_specialization==true unless ALSO independently
+  // given its own #(...) override at some use site).
+  template <typename T>
+  static size_t countSpecializations() {
+    size_t n = 0;
+    for (hldb::Any *const source : m_session->getDatabase().getObjects<T>()) {
+      if (const T *const t = any_cast<T>(source)) {
+        if (t->getIsSpecialization()) ++n;
+      }
+    }
+    return n;
   }
 
   // ---- generic per-definition helpers (Module/Interface/Program/ClassDefn all share this
@@ -634,6 +728,318 @@ TEST_F(StaticElaborationTest, DeepHandleLastSegmentSelfReferencesTheChainsOwnRes
 }
 
 // =============================================================================================
+// Two independent references to overrides deep_handle above already uses (Task 10 fifth
+// follow-up) -- regression coverage for a real duplicate-specialization bug: a scoped chain's
+// own segment RefTypespec is ALSO independently reachable by resolveUnsupportedTypespecs()'s
+// own flat sweep (Phase2 parents it directly under the enclosing chain, same as any other
+// RefTypespec), and if that sweep resolves it before resolveScopedUnsupportedTypespec()'s own
+// per-segment loop consumes it, the segment's own override is silently lost -- falling back to
+// the UNSPECIALIZED base and corrupting every later segment's own search scope. Confirmed via
+// -d db: Level2 ended up specialized TWICE for deep_handle's own chain alone (once correctly,
+// nested under Level1's own specialization; once wrongly, nested under Level1's own base) --
+// invisible to the tests above, since they only ever inspect the chain's own FINAL, correctly-
+// dispatched path_elems, never the orphaned duplicate the race also produces along the way.
+// level1_alias_handle/level2_alias_handle must dedupe to the EXACT SAME Level1/Level2
+// specializations deep_handle's own chain already resolved to.
+// =============================================================================================
+
+TEST_F(StaticElaborationTest, Level1AliasHandleDedupesWithDeepHandlesOwnLevel1Segment) {
+  const hldb::ClassTypespec *const deepCt = getHandleTypespec("deep_handle");
+  ASSERT_NE(deepCt, nullptr);
+  const hldb::ClassTypespec *const level1Ct = getPathElemClassTypespec(deepCt, 1);
+  ASSERT_NE(level1Ct, nullptr);
+  const hldb::ClassDefn *const expectedLevel1 = level1Ct->getClassDefn();
+  ASSERT_NE(expectedLevel1, nullptr);
+
+  const hldb::ClassTypespec *const aliasCt = getHandleTypespec("level1_alias_handle");
+  ASSERT_NE(aliasCt, nullptr);
+  const hldb::ClassDefn *const actualLevel1 = aliasCt->getClassDefn();
+  ASSERT_NE(actualLevel1, nullptr);
+  EXPECT_EQ(actualLevel1, expectedLevel1)
+      << "pkg_deep::Level1#(11), referenced independently here, must resolve to the exact same "
+         "specialization deep_handle's own chain already produced for the identical override -- "
+         "not a second, separately-minted (and, per the bug this guards against, potentially "
+         "wrongly-based) clone";
+}
+
+TEST_F(StaticElaborationTest, Level2AliasHandleDedupesWithDeepHandlesOwnLevel2Segment) {
+  const hldb::ClassTypespec *const deepCt = getHandleTypespec("deep_handle");
+  ASSERT_NE(deepCt, nullptr);
+  const hldb::ClassTypespec *const level2Ct = getPathElemClassTypespec(deepCt, 2);
+  ASSERT_NE(level2Ct, nullptr);
+  const hldb::ClassDefn *const expectedLevel2 = level2Ct->getClassDefn();
+  ASSERT_NE(expectedLevel2, nullptr);
+
+  const hldb::ClassTypespec *const aliasCt = getHandleTypespec("level2_alias_handle");
+  ASSERT_NE(aliasCt, nullptr);
+  const hldb::ClassDefn *const actualLevel2 = aliasCt->getClassDefn();
+  ASSERT_NE(actualLevel2, nullptr);
+  EXPECT_EQ(actualLevel2, expectedLevel2)
+      << "pkg_deep::Level1#(11)::Level2#(22), referenced independently here, must resolve its "
+         "own Level2 segment to the exact same specialization deep_handle's own chain already "
+         "produced -- this is the concrete case that failed before the fix: the duplicate was "
+         "parented under Level1's own BASE (not its specialization), because the segment's own "
+         "override had already been silently stolen by the flat sweep";
+
+  // Also confirm the intermediate Level1 segment reached THIS WAY dedupes too -- same
+  // specialization as both the direct level1_alias_handle test above and deep_handle's own
+  // chain, regardless of which of the three independent references is resolved first.
+  const hldb::ClassTypespec *const aliasLevel1Ct = getPathElemClassTypespec(aliasCt, 1);
+  ASSERT_NE(aliasLevel1Ct, nullptr);
+  const hldb::ClassTypespec *const deepLevel1Ct = getPathElemClassTypespec(deepCt, 1);
+  ASSERT_NE(deepLevel1Ct, nullptr);
+  EXPECT_EQ(aliasLevel1Ct->getClassDefn(), deepLevel1Ct->getClassDefn());
+}
+
+// =============================================================================================
+// Typedefs in scope resolution (Task 10) plus the order-of-operations fix for resolving them
+// (project_static_elaboration_plan's "Task 10 follow-up"). Three shapes: a typedef reached
+// through a package scope (`pkg_td::pkg_alias_t` -- resolveScopedUnsupportedTypespec()'s own
+// typedef fallback, landed but untested until now), a bare/unscoped typedef referenced with no
+// `::` at all (`bare_alias_t` -- resolveUnsupportedTypespec()'s own flat-case typedef fallback,
+// which previously had NO typedef awareness and would leave the reference permanently
+// unresolved), and a typedef aliasing ANOTHER bare, unscoped typedef in the same scope
+// (`chained_alias_t` -- a typedef-of-typedef chain, regression coverage for
+// resolveUnsupportedTypespecs()'s fixed-point retry across two independent, mutually-adjacent
+// RefTypespec entries in the same sweep).
+//
+// A typedef never carries its own #(...) override -- the override lives on, and is resolved
+// through, the typedef's own underlying type (getTypedefAlias()) instead, so a typedef'd
+// handle's own RefTypespec::actual is the TypedefTypespec itself, never dereferenced
+// automatically; every test below follows getTypedefAlias() explicitly to reach the
+// (possibly specialized) ClassTypespec underneath.
+// =============================================================================================
+
+TEST_F(StaticElaborationTest, PkgTdExistsWithItsOwnAlias) {
+  const hldb::Package *const pkgTd = getPkgTd();
+  ASSERT_NE(pkgTd, nullptr);
+  ASSERT_NE(pkgTd->getTypespecs(), nullptr);
+  bool found = false;
+  for (const hldb::Typespec *const ts : *pkgTd->getTypespecs()) {
+    if (const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(ts)) {
+      if (td->getName() == std::string_view("pkg_alias_t")) found = true;
+    }
+  }
+  EXPECT_TRUE(found);
+}
+
+TEST_F(StaticElaborationTest, PkgAliasHandleResolvesThroughPackageScopedTypedef) {
+  const hldb::TypedefTypespec *const td = getHandleTypedefTypespec("pkg_alias_handle");
+  ASSERT_NE(td, nullptr) << "pkg_td::pkg_alias_t must bind to the TypedefTypespec itself via "
+                             "resolveScopedUnsupportedTypespec()'s own typedef fallback, not "
+                             "leave the reference as an unresolved UnsupportedTypespec";
+  EXPECT_EQ(td->getName(), std::string_view("pkg_alias_t"));
+
+  const hldb::ClassTypespec *const underlying = getTypedefAliasClassTypespec(td);
+  ASSERT_NE(underlying, nullptr) << "the typedef's own underlying type (param_cls#(40)) must "
+                                     "also resolve via the same sweep";
+  const hldb::ClassDefn *const specialized = underlying->getClassDefn();
+  ASSERT_NE(specialized, nullptr);
+  EXPECT_NE(specialized, getParamCls()) << "param_cls#(40) must specialize, not bind to the base";
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("40"));
+}
+
+TEST_F(StaticElaborationTest, BareAliasHandleResolvesThroughFlatCaseTypedefFallback) {
+  const hldb::TypedefTypespec *const td = getHandleTypedefTypespec("bare_alias_handle");
+  ASSERT_NE(td, nullptr) << "a bare, unqualified typedef reference (no '::' at all) must resolve "
+                             "via resolveUnsupportedTypespec()'s own typedef fallback -- before "
+                             "this fix, the flat resolver had no typedef awareness and this "
+                             "would stay permanently unresolved regardless of sweep order";
+  EXPECT_EQ(td->getName(), std::string_view("bare_alias_t"));
+
+  const hldb::ClassTypespec *const underlying = getTypedefAliasClassTypespec(td);
+  ASSERT_NE(underlying, nullptr);
+  const hldb::ClassDefn *const specialized = underlying->getClassDefn();
+  ASSERT_NE(specialized, nullptr);
+  EXPECT_NE(specialized, getParamCls());
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("41"));
+}
+
+TEST_F(StaticElaborationTest, ChainedAliasHandleResolvesThroughTypedefOfTypedef) {
+  const hldb::TypedefTypespec *const chainedTd = getHandleTypedefTypespec("chained_alias_handle");
+  ASSERT_NE(chainedTd, nullptr);
+  EXPECT_EQ(chainedTd->getName(), std::string_view("chained_alias_t"));
+
+  ASSERT_NE(chainedTd->getTypedefAlias(), nullptr);
+  const hldb::TypedefTypespec *const bareTd = chainedTd->getTypedefAlias()->getActual<hldb::TypedefTypespec>();
+  ASSERT_NE(bareTd, nullptr) << "chained_alias_t's own underlying type is bare_alias_t itself -- "
+                                 "another typedef, not a class -- and must resolve to it via the "
+                                 "same flat-case typedef fallback, not stay an unresolved "
+                                 "UnsupportedTypespec";
+  EXPECT_EQ(bareTd->getName(), std::string_view("bare_alias_t"));
+
+  const hldb::ClassTypespec *const underlying = getTypedefAliasClassTypespec(bareTd);
+  ASSERT_NE(underlying, nullptr) << "bare_alias_t's OWN underlying type (param_cls#(41)) must "
+                                     "also be fully resolved -- regardless of which of these two "
+                                     "independent RefTypespec entries the sweep happens to visit "
+                                     "first";
+  const hldb::ClassDefn *const specialized = underlying->getClassDefn();
+  ASSERT_NE(specialized, nullptr);
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("41"));
+}
+
+// =============================================================================================
+// Typedef whose own underlying type is a specialized class with further-parameterized nested
+// classes (Task 10 second follow-up) -- TdOuterAlias::TdMid#(81)::TdInner#(82). This is the
+// concrete scenario a SINGLE PASS genuinely cannot resolve reliably: the segment-0 typedef
+// fallback needs TdOuterAlias's own aliased class (TdOuter#(80)) to already be resolved AND
+// SPECIALIZED before TdMid can even be searched for -- it must be looked up within
+// TdOuter#(80)'s own cloned nested-class list, not TdOuter's base one -- and TdOuter#(80)'s own
+// specialization is itself just another, independent RefTypespec entry in the SAME
+// resolveUnsupportedTypespecs() sweep, resolved by resolveUnsupportedTypespec()'s own inline
+// getOrCreateSpecialization() call. Whichever of these two entries the sweep happens to visit
+// first, the other one must be retried once the first has actually finished -- exactly what
+// the fixed-point retry provides and a single pass cannot guarantee.
+// =============================================================================================
+
+TEST_F(StaticElaborationTest, TdOuterTdMidTdInnerClassesExist) {
+  const hldb::ClassDefn *const tdOuter = getModuleLocalClass(getDut(), "TdOuter");
+  ASSERT_NE(tdOuter, nullptr);
+  const hldb::ClassDefn *const tdMid = getNestedClass(tdOuter, "TdMid");
+  ASSERT_NE(tdMid, nullptr);
+  const hldb::ClassDefn *const tdInner = getNestedClass(tdMid, "TdInner");
+  EXPECT_NE(tdInner, nullptr);
+}
+
+TEST_F(StaticElaborationTest, TdOuterAliasIsATypedefResolvingToSpecializedTdOuter) {
+  const hldb::Module *const dut = getDut();
+  ASSERT_NE(dut, nullptr);
+  ASSERT_NE(dut->getTypespecs(), nullptr);
+  const hldb::TypedefTypespec *aliasTd = nullptr;
+  for (const hldb::Typespec *const ts : *dut->getTypespecs()) {
+    if (const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(ts)) {
+      if (td->getName() == std::string_view("TdOuterAlias")) aliasTd = td;
+    }
+  }
+  ASSERT_NE(aliasTd, nullptr);
+
+  const hldb::ClassTypespec *const underlying = getTypedefAliasClassTypespec(aliasTd);
+  ASSERT_NE(underlying, nullptr) << "TdOuterAlias's own underlying type (TdOuter#(80)) must "
+                                     "resolve -- and specialize -- via "
+                                     "resolveUnsupportedTypespec()'s own inline "
+                                     "getOrCreateSpecialization() call";
+  const hldb::ClassDefn *const specializedOuter = underlying->getClassDefn();
+  ASSERT_NE(specializedOuter, nullptr);
+  EXPECT_NE(specializedOuter, getModuleLocalClass(getDut(), "TdOuter"));
+  const hldb::ParamAssign *const pa = getParamAssignByName(specializedOuter, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("80"));
+}
+
+TEST_F(StaticElaborationTest, TdChainHandleResolvesThroughSpecializedTypedefLeadingSegment) {
+  const hldb::ClassTypespec *const ct = getHandleTypespec("td_chain_handle");
+  ASSERT_NE(ct, nullptr) << "TdOuterAlias::TdMid#(81)::TdInner#(82) must fully resolve -- a "
+                             "single sweep pass is not enough in general for this shape (see "
+                             "the section comment above); this is the concrete regression case "
+                             "for resolveUnsupportedTypespecs()'s fixed-point retry";
+  ASSERT_NE(ct->getPathElems(), nullptr);
+  ASSERT_EQ(ct->getPathElems()->size(), 3u);
+
+  const hldb::ClassDefn *const specializedInner = ct->getClassDefn();
+  ASSERT_NE(specializedInner, nullptr);
+  const hldb::ParamAssign *const pa = getParamAssignByName(specializedInner, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("82"));
+}
+
+TEST_F(StaticElaborationTest, TdChainHandleMidSegmentIsSpecializedWithinTdOuterAliasSpecialization) {
+  const hldb::ClassTypespec *const ct = getHandleTypespec("td_chain_handle");
+  ASSERT_NE(ct, nullptr);
+  // path_elems: [0] = TdOuterAlias (a typedef, not a class -- getPathElemClassTypespec doesn't
+  // apply to it, see TdOuterAliasIsATypedefResolvingToSpecializedTdOuter instead), [1] = TdMid,
+  // [2] = TdInner (== ct itself).
+  const hldb::ClassTypespec *const midCt = getPathElemClassTypespec(ct, 1);
+  ASSERT_NE(midCt, nullptr);
+  const hldb::ClassDefn *const specializedMid = midCt->getClassDefn();
+  ASSERT_NE(specializedMid, nullptr);
+
+  const hldb::ClassDefn *const baseTdOuter = getModuleLocalClass(getDut(), "TdOuter");
+  const hldb::ClassDefn *const baseTdMid = getNestedClass(baseTdOuter, "TdMid");
+  ASSERT_NE(baseTdMid, nullptr);
+  EXPECT_NE(specializedMid, baseTdMid) << "TdMid must be looked up (and re-specialized) within "
+                                          "TdOuterAlias's own specialization's nested class "
+                                          "list, not TdOuter's base one";
+
+  const hldb::ParamAssign *const pa = getParamAssignByName(specializedMid, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("81"));
+}
+
+// =============================================================================================
+// Lexical (walk-up) scoping for a bare, unqualified typedef reference (Task 10 third
+// follow-up) -- Phase3ModelBuilder::findTypedefInEnclosingScopes(). A `::`-qualified segment is
+// bound EXACTLY to its resolved scope (see the tests above), but an unqualified name follows
+// ordinary SV name resolution: visible in its own immediate scope, then every scope enclosing
+// that, all the way out to file/compilation-unit ("$unit") scope. Two shapes: a typedef
+// declared on a class, referenced bare from a NESTED class scope (TdMid seeing TdOuter's own
+// outer_scope_alias_t), and a typedef declared outside any module/package/class at all,
+// referenced bare from deep inside dut (walking all the way out to Design itself, which is NOT
+// a Scope but still holds its own top-level typedefs field for exactly this case).
+// =============================================================================================
+
+TEST_F(StaticElaborationTest, ScopeWalkMemberResolvesTypedefFromEnclosingClassScope) {
+  const hldb::ClassDefn *const tdOuter = getModuleLocalClass(getDut(), "TdOuter");
+  ASSERT_NE(tdOuter, nullptr);
+  const hldb::ClassDefn *const tdMid = getNestedClass(tdOuter, "TdMid");
+  ASSERT_NE(tdMid, nullptr);
+
+  const hldb::TypedefTypespec *const td = getMemberTypedefTypespec(tdMid, "scope_walk_member");
+  ASSERT_NE(td, nullptr) << "outer_scope_alias_t is declared on TdOuter (TdMid's own enclosing "
+                             "scope), not on TdMid itself -- resolving a bare reference to it "
+                             "from within TdMid requires findTypedefInEnclosingScopes() to walk "
+                             "UP the parent chain, not just check TdMid's own immediate scope";
+  EXPECT_EQ(td->getName(), std::string_view("outer_scope_alias_t"));
+
+  const hldb::ClassTypespec *const underlying = getTypedefAliasClassTypespec(td);
+  ASSERT_NE(underlying, nullptr);
+  const hldb::ClassDefn *const specialized = underlying->getClassDefn();
+  ASSERT_NE(specialized, nullptr);
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("95"));
+}
+
+TEST_F(StaticElaborationTest, UnitScopeHandleResolvesTypedefWalkedAllTheWayToDesign) {
+  const hldb::TypedefTypespec *const td = getHandleTypedefTypespec("unit_scope_handle");
+  ASSERT_NE(td, nullptr) << "unit_scope_alias_t is declared outside any module/package/class -- "
+                             "parented directly under Design, not under any Scope -- so "
+                             "resolving a bare reference to it from inside dut requires "
+                             "findTypedefInEnclosingScopes() to walk all the way out to Design's "
+                             "own explicit termination case";
+  EXPECT_EQ(td->getName(), std::string_view("unit_scope_alias_t"));
+
+  const hldb::ClassTypespec *const underlying = getTypedefAliasClassTypespec(td);
+  ASSERT_NE(underlying, nullptr);
+  const hldb::ClassDefn *const specialized = underlying->getClassDefn();
+  ASSERT_NE(specialized, nullptr);
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("96"));
+}
+
+// =============================================================================================
 // Module within module -- a parameterized module instantiated from a non-top-level module.
 // Confirms specialization (and its cross-scope dedup) is independent of hierarchy depth.
 // =============================================================================================
@@ -681,6 +1087,138 @@ TEST_F(StaticElaborationTest, MidNestedDistinctIsItsOwnSpecialization) {
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), std::string_view("24"));
+}
+
+// =============================================================================================
+// Whole-graph object counts. A coarser, complementary check to every dedup/identity assertion
+// above: those each confirm a handful of SPECIFIC use sites resolve to the right (shared, or
+// correctly distinct) object, but none of them notices a stray EXTRA object sitting elsewhere
+// in the database, unreachable from any of the specific paths they happen to check -- exactly
+// the shape of the orphaned, wrongly-based duplicate ClassDefns Task 10's fifth follow-up found
+// (see project_static_elaboration_plan): a second "Level2" specialization existed, parented
+// under Level1's own BASE instead of its specialization, invisible to every test that only
+// ever walks the correctly-dispatched chain's own path_elems. An unexpected total count here
+// would have caught that directly, with no need to already know which specific object to check.
+//
+// Every number below was derived by hand from dut.sv's own declarations, walking through
+// EVERY override-bearing use site and its own getOrCreateSpecialization() call (documented
+// inline per definition kind) -- NOT read back from a prior run's own dump (which would just
+// re-lock in whatever the tool happened to produce, bug included, exactly the anti-pattern
+// davtests.md itself warns against). If a count below ever needs to change, re-derive it by
+// hand against dut.sv's own current declarations first -- never adjust it to match a dump
+// without first confirming the ADDITIONAL declaration/use-site that justifies the new number.
+// =============================================================================================
+
+// ---- Module: 3 base (param_mod, mid_level, dut) + 2 specializations (param_mod#16, shared by
+// inst_wide and mid_level's own inst_nested_same_as_wide; param_mod#24, mid_level's own
+// inst_nested_distinct) = 5 total. param_mod has no nested module declarations of its own, so
+// specializing it clones nothing further. mid_level/dut carry no parameters, so neither is ever
+// itself specialized (module INSTANTIATION, unlike a nested class DECLARATION, never mints a
+// new Module ClassDefn-equivalent of its own).
+
+TEST_F(StaticElaborationTest, TotalModuleCountInGraph) { EXPECT_EQ(countAll<hldb::Module>(), 5u); }
+
+TEST_F(StaticElaborationTest, TotalModuleSpecializationCount) {
+  EXPECT_EQ(countSpecializations<hldb::Module>(), 2u);
+}
+
+// ---- Interface: 1 base (param_if) + 1 specialization (param_if#8, if_wide) = 2 total.
+
+TEST_F(StaticElaborationTest, TotalInterfaceCountInGraph) { EXPECT_EQ(countAll<hldb::Interface>(), 2u); }
+
+TEST_F(StaticElaborationTest, TotalInterfaceSpecializationCount) {
+  EXPECT_EQ(countSpecializations<hldb::Interface>(), 1u);
+}
+
+// ---- Program: 1 base (param_prog) + 1 specialization (param_prog#4, prog_wide) = 2 total.
+
+TEST_F(StaticElaborationTest, TotalProgramCountInGraph) { EXPECT_EQ(countAll<hldb::Program>(), 2u); }
+
+TEST_F(StaticElaborationTest, TotalProgramSpecializationCount) {
+  EXPECT_EQ(countSpecializations<hldb::Program>(), 1u);
+}
+
+// ---- Package: pkg_a, pkg_b, pkg_deep, pkg_td = 4 total. Packages have no parameter mechanism
+// at all in this model -- never specialized, so no companion specialization-count test.
+
+TEST_F(StaticElaborationTest, TotalPackageCountInGraph) { EXPECT_EQ(countAll<hldb::Package>(), 4u); }
+
+// ---- ClassDefn: the complex one -- 13 base declarations, 15 specializations (one per distinct
+// (baseDef, override) pair actually requested anywhere in the file), and 6 further,
+// UNSPECIALIZED clones that come along for free as a byproduct of cloning a WHOLE subtree
+// whenever ITS OWN enclosing class gets specialized (a clone is only counted as one of the 15
+// "specializations" above if it is ITSELF the direct target of its own getOrCreateSpecialization()
+// call -- an intermediate clone reached only by walking INTO an already-specialized parent is
+// not). 13 + 15 + 6 = 34 total.
+//
+// Base declarations (13): param_cls; pkg_a::PkgWidget; pkg_b::PkgWidget; OuterCls;
+// OuterCls::InnerCls; OtherOuterCls; OtherOuterCls::InnerCls; pkg_deep::Level1;
+// pkg_deep::Level1::Level2; pkg_deep::Level1::Level2::Level3; TdOuter; TdOuter::TdMid;
+// TdOuter::TdMid::TdInner.
+//
+// Specializations (15), grouped by base:
+//   param_cls -- 5 distinct override values requested across the file: #(9) (cls_wide_handle),
+//     #(40) (pkg_alias_t's own underlying type), #(41) (bare_alias_t's own underlying type --
+//     chained_alias_t aliases bare_alias_t itself, not param_cls directly, so it dedupes to
+//     this SAME specialization rather than adding a 6th), #(95) (outer_scope_alias_t's own
+//     underlying type), #(96) (unit_scope_alias_t's own underlying type). None of these clone
+//     anything further -- param_cls has no nested classes.
+//   pkg_a::PkgWidget -- #(10) (pkg_a_handle). pkg_b::PkgWidget -- #(20) (pkg_b_handle). Two
+//     DIFFERENT bases (different packages), so two separate specializations despite the shared
+//     name and shared override VALUE -- confirmed already by PkgAHandle.../PkgBHandle... above.
+//   OuterCls::InnerCls -- #(12) (outer_inner_handle). OtherOuterCls::InnerCls -- #(24)
+//     (other_outer_inner_handle). Same shape as PkgWidget above.
+//   pkg_deep's own 3-level chain -- Level1#(11) (shared by deep_handle, level1_alias_handle,
+//     level2_alias_handle); Level2#(22), specializing the CLONE of Level2 that lives inside
+//     Level1#(11)'s own clone (shared by deep_handle, level2_alias_handle); Level3#(33),
+//     specializing the clone of Level3 that lives inside THAT Level2#(22) specialization
+//     (deep_handle only) = 3 specializations.
+//   TdOuter's own 3-level chain, structurally identical to pkg_deep's -- TdOuter#(80) (via
+//     TdOuterAlias's own underlying type); TdMid#(81) (td_chain_handle); TdInner#(82)
+//     (td_chain_handle) = 3 specializations.
+//   5 + 1 + 1 + 1 + 1 + 3 + 3 = 15.
+//
+// Unspecialized transitive clones (6): Level1#(11)'s own clone step clones Level2 AND (nested
+// within that) Level3 = 2; Level2#(22)'s own clone step clones Level3 (a SECOND, independent
+// Level3 clone, nested inside the Level2 specialization rather than inside the bare Level1
+// clone) = 1; Level3#(33) has no nested classes to clone = 0. Same shape for TdOuter's own
+// chain: TdOuter#(80) clones TdMid and (nested) TdInner = 2; TdMid#(81) clones TdInner again
+// (nested inside the TdMid specialization) = 1; TdInner#(82) clones nothing = 0.
+// 2 + 1 + 0 + 2 + 1 + 0 = 6.
+
+TEST_F(StaticElaborationTest, TotalClassDefnCountInGraph) { EXPECT_EQ(countAll<hldb::ClassDefn>(), 34u); }
+
+TEST_F(StaticElaborationTest, TotalClassDefnSpecializationCount) {
+  EXPECT_EQ(countSpecializations<hldb::ClassDefn>(), 15u);
+}
+
+// ---- TypedefTypespec: pkg_alias_t, unit_scope_alias_t, bare_alias_t, chained_alias_t,
+// outer_scope_alias_t, TdOuterAlias = 6 total. Confirmed never cloned regardless of how many
+// times their own enclosing scope gets specialized -- Phase3Cloner explicitly shares (never
+// duplicates) a TypedefTypespec, exactly like every other "reference-shaped" typespec kind, so
+// this count is stable and never multiplied by specialization the way ClassDefn's is.
+
+TEST_F(StaticElaborationTest, TotalTypedefTypespecCountInGraph) {
+  EXPECT_EQ(countAll<hldb::TypedefTypespec>(), 6u);
+}
+
+// ---- Sanity check: every UnsupportedTypespec Phase2 ever built as a placeholder for this file
+// should have been resolved (and orphaned -- setParent(nullptr), per this file's own GC
+// convention) by the time Phase3 finishes. A non-zero count here means something was left
+// unresolved -- exactly the failure mode ObjectBinder's own scope-unaware findType() fallback
+// would otherwise silently paper over (see Task 10's fifth follow-up for a concrete case where
+// that fallback masked a real Phase3 bug). Deliberately checks "still has a live parent", not
+// "count is zero" -- the ORIGINAL placeholder objects still exist (orphaned, not destroyed, per
+// this codebase's leave-orphans-to-GC convention), so a raw total count would never reach zero.
+
+TEST_F(StaticElaborationTest, NoUnresolvedScopedTypespecsRemain) {
+  size_t stillLive = 0;
+  for (hldb::Any *const source : m_session->getDatabase().getObjects<hldb::UnsupportedTypespec>()) {
+    if (const hldb::UnsupportedTypespec *const ut = any_cast<hldb::UnsupportedTypespec>(source)) {
+      if (ut->getParent() != nullptr) ++stillLive;
+    }
+  }
+  EXPECT_EQ(stillLive, 0u);
 }
 
 }  // namespace hlc
