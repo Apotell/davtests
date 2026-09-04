@@ -77,40 +77,76 @@ class StaticElaborationTest : public Test {
  protected:
   // ---- top-level definition lookups ----
 
-  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
   static const hldb::Module *getMidLevel() {
-    return hldb::findByName<hldb::Module>("mid_level", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("mid_level", m_design->getAllModules());
+  }
+
+  // Nested-module/nested-interface shadowing coverage -- the module/interface counterparts of
+  // getOuterCls()/getOtherOuterCls() below.
+  static const hldb::Module *getOuterMod() {
+    return hldb::findByDefName<hldb::Module>("OuterMod", m_design->getAllModules());
+  }
+  static const hldb::Module *getOtherOuterMod() {
+    return hldb::findByDefName<hldb::Module>("OtherOuterMod", m_design->getAllModules());
+  }
+  static const hldb::Module *getOuterModWithIface() {
+    return hldb::findByDefName<hldb::Module>("OuterModWithIface", m_design->getAllModules());
+  }
+  static const hldb::Module *getOtherOuterModWithIface() {
+    return hldb::findByDefName<hldb::Module>("OtherOuterModWithIface", m_design->getAllModules());
+  }
+  static const hldb::Module *getNestedModule(const hldb::Module *outer, std::string_view name) {
+    if ((outer == nullptr) || (outer->getModules() == nullptr)) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, outer->getModules());
+  }
+  static const hldb::Interface *getNestedInterface(const hldb::Module *outer, std::string_view name) {
+    if ((outer == nullptr) || (outer->getInterfaces() == nullptr)) return nullptr;
+    return hldb::findByDefName<hldb::Interface>(name, outer->getInterfaces());
   }
 
   // The template/base definitions -- never mutated by static elaboration; a specialization is
   // always a separate, additional object.
   static const hldb::Module *getParamMod() {
-    return hldb::findByName<hldb::Module>("param_mod", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("param_mod", m_design->getAllModules());
   }
   static const hldb::Interface *getParamIf() {
-    return hldb::findByName<hldb::Interface>("param_if", m_design->getAllInterfaces());
+    return hldb::findByDefName<hldb::Interface>("param_if", m_design->getAllInterfaces());
   }
   static const hldb::Program *getParamProg() {
-    return hldb::findByName<hldb::Program>("param_prog", m_design->getAllPrograms());
+    return hldb::findByDefName<hldb::Program>("param_prog", m_design->getAllPrograms());
   }
   static const hldb::ClassDefn *getParamCls() {
-    return hldb::findByName<hldb::ClassDefn>("param_cls", m_design->getAllClasses());
+    return hldb::findByDefName<hldb::ClassDefn>("param_cls", m_design->getAllClasses());
   }
   static const hldb::Package *getPkgA() { return hldb::findByName<hldb::Package>("pkg_a", m_design->getAllPackages()); }
   static const hldb::Package *getPkgB() { return hldb::findByName<hldb::Package>("pkg_b", m_design->getAllPackages()); }
+
+  // Task 11 (package imports) -- pkg_import_a/pkg_import_b each declare a class of the SAME
+  // name, deliberately, so a bare reference is unresolvable without an import disambiguating
+  // which one is meant; pkg_import_c is the wildcard-import counterpart.
+  static const hldb::Package *getPkgImportA() {
+    return hldb::findByName<hldb::Package>("pkg_import_a", m_design->getAllPackages());
+  }
+  static const hldb::Package *getPkgImportB() {
+    return hldb::findByName<hldb::Package>("pkg_import_b", m_design->getAllPackages());
+  }
+  static const hldb::Package *getPkgImportC() {
+    return hldb::findByName<hldb::Package>("pkg_import_c", m_design->getAllPackages());
+  }
   static const hldb::ClassDefn *getOuterCls() {
-    return hldb::findByName<hldb::ClassDefn>("OuterCls", m_design->getAllClasses());
+    return hldb::findByDefName<hldb::ClassDefn>("OuterCls", m_design->getAllClasses());
   }
   static const hldb::ClassDefn *getOtherOuterCls() {
-    return hldb::findByName<hldb::ClassDefn>("OtherOuterCls", m_design->getAllClasses());
+    return hldb::findByDefName<hldb::ClassDefn>("OtherOuterCls", m_design->getAllClasses());
   }
   static const hldb::ClassDefn *getNestedClass(const hldb::ClassDefn *outer, std::string_view name) {
     if ((outer == nullptr) || (outer->getClassDefns() == nullptr)) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>(name, outer->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>(name, outer->getClassDefns());
   }
   static const hldb::ClassDefn *getPkgClass(const hldb::Package *pkg, std::string_view name) {
     if ((pkg == nullptr) || (pkg->getClassDefns() == nullptr)) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>(name, pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>(name, pkg->getClassDefns());
   }
   static const hldb::Package *getPkgDeep() {
     return hldb::findByName<hldb::Package>("pkg_deep", m_design->getAllPackages());
@@ -128,7 +164,7 @@ class StaticElaborationTest : public Test {
   // actually lands in (scope.yaml's own `instance_item` field, which module.yaml inherits).
   static const hldb::ClassDefn *getModuleLocalClass(const hldb::Module *owner, std::string_view name) {
     if ((owner == nullptr) || (owner->getClassDefns() == nullptr)) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>(name, owner->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>(name, owner->getClassDefns());
   }
 
   // Walks a scoped ClassTypespec's own path_elems[index] and returns that segment's own
@@ -237,6 +273,19 @@ class StaticElaborationTest : public Test {
     const hldb::RefTypespec *const rt = member->getTypespec<hldb::RefTypespec>();
     if (rt == nullptr) return nullptr;
     return rt->getActual<hldb::TypedefTypespec>();
+  }
+
+  // Same idea as getHandleTypespec(), but for a plain data member of some OTHER class (not dut
+  // itself) -- used to confirm a BARE class-name reference resolves via
+  // Phase3ModelBuilder::findClassInEnclosingScopes()'s walk up the enclosing-scope chain
+  // (Task 5's local-shadowing fix), not a flat, global name->ClassDefn sweep.
+  static const hldb::ClassTypespec *getMemberClassTypespec(const hldb::ClassDefn *owner, std::string_view memberName) {
+    if ((owner == nullptr) || (owner->getVariables() == nullptr)) return nullptr;
+    const hldb::Variable *const member = hldb::findByName<hldb::Variable>(memberName, owner->getVariables());
+    if ((member == nullptr) || (member->getTypespec() == nullptr)) return nullptr;
+    const hldb::RefTypespec *const rt = member->getTypespec<hldb::RefTypespec>();
+    if (rt == nullptr) return nullptr;
+    return rt->getActual<hldb::ClassTypespec>();
   }
 
   // ---- whole-graph counting helpers ----
@@ -633,6 +682,84 @@ TEST_F(StaticElaborationTest, OtherOuterInnerHandleResolvesToSpecializationOfOth
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), std::string_view("24"));
+}
+
+// =============================================================================================
+// Local shadowing for a BARE class-name reference (Task 5's OTHER long-standing "hard case" --
+// see Task 10's own findTypedefInEnclosingScopes(), which implemented this same walk-up shape
+// for typedefs first). "InnerCls" is NOT globally unique (OuterCls and OtherOuterCls both
+// declare their own), so a flat, scope-blind lookup can never resolve a BARE reference to it
+// at all -- it must walk outward from the reference's own scope, finding OuterCls's OWN
+// InnerCls directly, without ever needing (or reaching) the ambiguous global name.
+// =============================================================================================
+
+TEST_F(StaticElaborationTest, ShadowTestHandleResolvesToOuterClsOwnInnerClsViaBareReference) {
+  const hldb::ClassTypespec *const ct = getMemberClassTypespec(getOuterCls(), "shadow_test_handle");
+  ASSERT_NE(ct, nullptr) << "a bare (unqualified) 'InnerCls' reference, written from within "
+                             "OuterCls's own scope, must resolve via findClassInEnclosingScopes()'s "
+                             "walk-up -- OuterCls's own InnerCls is declared directly in the "
+                             "current scope, so no `::` qualification is needed to see it";
+  const hldb::ClassDefn *const specialized = ct->getClassDefn();
+  ASSERT_NE(specialized, nullptr);
+  EXPECT_NE(specialized, getNestedClass(getOuterCls(), "InnerCls"))
+      << "an override-bearing use (#(15)) must specialize, not bind straight to the template";
+  EXPECT_NE(specialized, getHandleTypespec("outer_inner_handle")->getClassDefn())
+      << "#(15) and #(12) are different overrides of the same OuterCls::InnerCls base -- must "
+         "be distinct specializations";
+  EXPECT_NE(specialized, getNestedClass(getOtherOuterCls(), "InnerCls"))
+      << "must never be confused with OtherOuterCls's own, identically-named InnerCls -- the "
+         "whole point of walking up from shadow_test_handle's own scope (OuterCls) rather than "
+         "falling back to some global, name-only lookup";
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("15"));
+}
+
+// The module/interface counterparts of the class-shadowing test above -- IEEE 1800-2023 Sec
+// 3.13/3.14.2.3 confirm modules and interfaces can be lexically nested the same way classes can
+// (unlike programs and packages, which cannot), so the identical shadowing hazard applies:
+// OuterMod's own InnerMod must be found before OtherOuterMod's identically-named one, via
+// Phase3ModelBuilder::findModuleInEnclosingScopes()'s walk-up, not a flat/global lookup.
+TEST_F(StaticElaborationTest, ShadowModInstResolvesToOuterModOwnInnerModViaBareReference) {
+  const hldb::ModuleTypespec *const mt = getInstanceTypespec<hldb::ModuleTypespec>("shadow_mod_inst", getOuterMod());
+  ASSERT_NE(mt, nullptr) << "a bare (unqualified) 'InnerMod' reference, written from within "
+                             "OuterMod's own scope, must resolve via findModuleInEnclosingScopes()'s "
+                             "walk-up -- OuterMod's own InnerMod is declared directly in the "
+                             "current scope, so no lookup outside it should ever be needed";
+  const hldb::Module *const specialized = mt->getModule();
+  ASSERT_NE(specialized, nullptr);
+  EXPECT_NE(specialized, getNestedModule(getOuterMod(), "InnerMod"))
+      << "an override-bearing use (#(15)) must specialize, not bind straight to the template";
+  EXPECT_NE(specialized, getNestedModule(getOtherOuterMod(), "InnerMod"))
+      << "must never be confused with OtherOuterMod's own, identically-named InnerMod -- the "
+         "whole point of walking up from shadow_mod_inst's own scope (OuterMod) rather than "
+         "falling back to some global, name-only lookup";
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("15"));
+}
+
+TEST_F(StaticElaborationTest, ShadowIfaceInstResolvesToOuterModWithIfaceOwnInnerIfaceViaBareReference) {
+  const hldb::InterfaceTypespec *const it =
+      getInstanceTypespec<hldb::InterfaceTypespec>("shadow_iface_inst", getOuterModWithIface());
+  ASSERT_NE(it, nullptr) << "a bare (unqualified) 'InnerIface' reference, written from within "
+                             "OuterModWithIface's own scope, must resolve via "
+                             "findInterfaceInEnclosingScopes()'s walk-up";
+  const hldb::Interface *const specialized = it->getInterface();
+  ASSERT_NE(specialized, nullptr);
+  EXPECT_NE(specialized, getNestedInterface(getOuterModWithIface(), "InnerIface"))
+      << "an override-bearing use (#(17)) must specialize, not bind straight to the template";
+  EXPECT_NE(specialized, getNestedInterface(getOtherOuterModWithIface(), "InnerIface"))
+      << "must never be confused with OtherOuterModWithIface's own, identically-named InnerIface";
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("17"));
 }
 
 // =============================================================================================
@@ -1040,6 +1167,58 @@ TEST_F(StaticElaborationTest, UnitScopeHandleResolvesTypedefWalkedAllTheWayToDes
 }
 
 // =============================================================================================
+// Package imports (Task 11) -- IEEE 1800-2023 Sec 26.5. pkg_import_a/pkg_import_b each declare
+// a class of the SAME name ("ImportShadowCls"), so a bare reference from dut's own scope is
+// genuinely unresolvable without an import (neither candidate is visible via ordinary lexical
+// scoping -- dut is not lexically inside either package); the explicit import disambiguates
+// which one is meant. pkg_import_c's own typedef is reachable ONLY via a wildcard import.
+// =============================================================================================
+
+TEST_F(StaticElaborationTest, ImportExplicitHandleResolvesViaExplicitImport) {
+  // Reached through a typedef (import_explicit_alias_t), not a direct class-typed variable
+  // declaration -- see dut.sv's own comment on `import_explicit_alias_t` for why: a direct
+  // `ImportShadowCls #(31) import_explicit_handle;` is genuinely ambiguous at the GRAMMAR level
+  // with a net declaration's own delay-control syntax, and the parser's class-element discovery
+  // does not see into package bodies the way it does into class bodies -- an unrelated, deeper
+  // limitation, not something this test is exercising.
+  const hldb::TypedefTypespec *const td = getHandleTypedefTypespec("import_explicit_handle");
+  ASSERT_NE(td, nullptr) << "'import pkg_import_a::ImportShadowCls;' must disambiguate the "
+                             "otherwise-ambiguous bare 'ImportShadowCls' reference via "
+                             "Phase3ModelBuilder::findClassViaImports()'s explicit-import tier";
+  const hldb::ClassTypespec *const ct = getTypedefAliasClassTypespec(td);
+  ASSERT_NE(ct, nullptr);
+  const hldb::ClassDefn *const specialized = ct->getClassDefn();
+  ASSERT_NE(specialized, nullptr);
+  EXPECT_NE(specialized, getPkgClass(getPkgImportA(), "ImportShadowCls"))
+      << "an override-bearing use (#(31)) must specialize, not bind straight to the template";
+  EXPECT_NE(specialized, getPkgClass(getPkgImportB(), "ImportShadowCls"))
+      << "must never resolve to pkg_import_b's own, identically-named, NOT-imported class";
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("31"));
+}
+
+TEST_F(StaticElaborationTest, ImportWildcardAliasHandleResolvesViaWildcardImport) {
+  const hldb::TypedefTypespec *const td = getHandleTypedefTypespec("import_wildcard_alias_handle");
+  ASSERT_NE(td, nullptr) << "'import pkg_import_c::*;' must make the bare "
+                             "'import_wildcard_alias_t' reference resolvable via "
+                             "Phase3ModelBuilder::findTypedefViaImports()'s wildcard-import "
+                             "tier -- pkg_import_c is otherwise completely unrelated to dut's "
+                             "own lexical scope";
+  const hldb::ClassTypespec *const aliasCt = getTypedefAliasClassTypespec(td);
+  ASSERT_NE(aliasCt, nullptr);
+  const hldb::ClassDefn *const specialized = aliasCt->getClassDefn();
+  ASSERT_NE(specialized, nullptr);
+  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("42"));
+}
+
+// =============================================================================================
 // Module within module -- a parameterized module instantiated from a non-top-level module.
 // Confirms specialization (and its cross-scope dedup) is independent of hierarchy depth.
 // =============================================================================================
@@ -1109,25 +1288,33 @@ TEST_F(StaticElaborationTest, MidNestedDistinctIsItsOwnSpecialization) {
 // without first confirming the ADDITIONAL declaration/use-site that justifies the new number.
 // =============================================================================================
 
-// ---- Module: 3 base (param_mod, mid_level, dut) + 2 specializations (param_mod#16, shared by
+// ---- Module: 3 base (param_mod, mid_level, dut) + 6 base (OuterMod, OuterMod::InnerMod,
+// OtherOuterMod, OtherOuterMod::InnerMod, OuterModWithIface, OtherOuterModWithIface -- the
+// nested-module-declaration shadowing regression) + 3 specializations (param_mod#16, shared by
 // inst_wide and mid_level's own inst_nested_same_as_wide; param_mod#24, mid_level's own
-// inst_nested_distinct) = 5 total. param_mod has no nested module declarations of its own, so
-// specializing it clones nothing further. mid_level/dut carry no parameters, so neither is ever
-// itself specialized (module INSTANTIATION, unlike a nested class DECLARATION, never mints a
-// new Module ClassDefn-equivalent of its own).
+// inst_nested_distinct; OuterMod::InnerMod#15, shadow_mod_inst's own bare, shadow-disambiguated
+// reference) = 12 total. param_mod and InnerMod both have no nested module declarations of
+// their own, so specializing either clones nothing further. mid_level/dut/OuterMod/
+// OtherOuterMod/OuterModWithIface/OtherOuterModWithIface carry no parameters, so none of them is
+// ever itself specialized (module INSTANTIATION, unlike a nested class DECLARATION, never mints
+// a new Module ClassDefn-equivalent of its own).
 
-TEST_F(StaticElaborationTest, TotalModuleCountInGraph) { EXPECT_EQ(countAll<hldb::Module>(), 5u); }
+TEST_F(StaticElaborationTest, TotalModuleCountInGraph) { EXPECT_EQ(countAll<hldb::Module>(), 12u); }
 
 TEST_F(StaticElaborationTest, TotalModuleSpecializationCount) {
-  EXPECT_EQ(countSpecializations<hldb::Module>(), 2u);
+  EXPECT_EQ(countSpecializations<hldb::Module>(), 3u);
 }
 
-// ---- Interface: 1 base (param_if) + 1 specialization (param_if#8, if_wide) = 2 total.
+// ---- Interface: 1 base (param_if) + 2 base (OuterModWithIface::InnerIface,
+// OtherOuterModWithIface::InnerIface -- the nested-interface-declaration shadowing regression) +
+// 2 specializations (param_if#8, if_wide; InnerIface#17, shadow_iface_inst's own bare,
+// shadow-disambiguated reference) = 5 total. InnerIface has no nested interface declarations of
+// its own, so specializing it clones nothing further.
 
-TEST_F(StaticElaborationTest, TotalInterfaceCountInGraph) { EXPECT_EQ(countAll<hldb::Interface>(), 2u); }
+TEST_F(StaticElaborationTest, TotalInterfaceCountInGraph) { EXPECT_EQ(countAll<hldb::Interface>(), 5u); }
 
 TEST_F(StaticElaborationTest, TotalInterfaceSpecializationCount) {
-  EXPECT_EQ(countSpecializations<hldb::Interface>(), 1u);
+  EXPECT_EQ(countSpecializations<hldb::Interface>(), 2u);
 }
 
 // ---- Program: 1 base (param_prog) + 1 specialization (param_prog#4, prog_wide) = 2 total.
@@ -1138,36 +1325,45 @@ TEST_F(StaticElaborationTest, TotalProgramSpecializationCount) {
   EXPECT_EQ(countSpecializations<hldb::Program>(), 1u);
 }
 
-// ---- Package: pkg_a, pkg_b, pkg_deep, pkg_td = 4 total. Packages have no parameter mechanism
-// at all in this model -- never specialized, so no companion specialization-count test.
+// ---- Package: pkg_a, pkg_b, pkg_deep, pkg_td, pkg_import_a, pkg_import_b, pkg_import_c (Task
+// 11's own import-resolution regression coverage) = 7 total. Packages have no parameter
+// mechanism at all in this model -- never specialized, so no companion specialization-count
+// test.
 
-TEST_F(StaticElaborationTest, TotalPackageCountInGraph) { EXPECT_EQ(countAll<hldb::Package>(), 4u); }
+TEST_F(StaticElaborationTest, TotalPackageCountInGraph) { EXPECT_EQ(countAll<hldb::Package>(), 7u); }
 
-// ---- ClassDefn: the complex one -- 13 base declarations, 15 specializations (one per distinct
+// ---- ClassDefn: the complex one -- 15 base declarations, 18 specializations (one per distinct
 // (baseDef, override) pair actually requested anywhere in the file), and 6 further,
 // UNSPECIALIZED clones that come along for free as a byproduct of cloning a WHOLE subtree
-// whenever ITS OWN enclosing class gets specialized (a clone is only counted as one of the 15
+// whenever ITS OWN enclosing class gets specialized (a clone is only counted as one of the 18
 // "specializations" above if it is ITSELF the direct target of its own getOrCreateSpecialization()
 // call -- an intermediate clone reached only by walking INTO an already-specialized parent is
-// not). 13 + 15 + 6 = 34 total.
+// not). 15 + 18 + 6 = 39 total.
 //
-// Base declarations (13): param_cls; pkg_a::PkgWidget; pkg_b::PkgWidget; OuterCls;
+// Base declarations (15): param_cls; pkg_a::PkgWidget; pkg_b::PkgWidget; OuterCls;
 // OuterCls::InnerCls; OtherOuterCls; OtherOuterCls::InnerCls; pkg_deep::Level1;
 // pkg_deep::Level1::Level2; pkg_deep::Level1::Level2::Level3; TdOuter; TdOuter::TdMid;
-// TdOuter::TdMid::TdInner.
+// TdOuter::TdMid::TdInner; pkg_import_a::ImportShadowCls; pkg_import_b::ImportShadowCls (Task
+// 11's own shadowing regression -- pkg_import_b's own copy is declared but never referenced
+// with an override, so it never itself gets specialized).
 //
-// Specializations (15), grouped by base:
-//   param_cls -- 5 distinct override values requested across the file: #(9) (cls_wide_handle),
+// Specializations (18), grouped by base:
+//   param_cls -- 6 distinct override values requested across the file: #(9) (cls_wide_handle),
 //     #(40) (pkg_alias_t's own underlying type), #(41) (bare_alias_t's own underlying type --
 //     chained_alias_t aliases bare_alias_t itself, not param_cls directly, so it dedupes to
-//     this SAME specialization rather than adding a 6th), #(95) (outer_scope_alias_t's own
-//     underlying type), #(96) (unit_scope_alias_t's own underlying type). None of these clone
-//     anything further -- param_cls has no nested classes.
+//     this SAME specialization rather than adding a 7th), #(95) (outer_scope_alias_t's own
+//     underlying type), #(96) (unit_scope_alias_t's own underlying type), #(42)
+//     (import_wildcard_alias_t's own underlying type -- Task 11's wildcard-import regression).
+//     None of these clone anything further -- param_cls has no nested classes.
 //   pkg_a::PkgWidget -- #(10) (pkg_a_handle). pkg_b::PkgWidget -- #(20) (pkg_b_handle). Two
 //     DIFFERENT bases (different packages), so two separate specializations despite the shared
 //     name and shared override VALUE -- confirmed already by PkgAHandle.../PkgBHandle... above.
-//   OuterCls::InnerCls -- #(12) (outer_inner_handle). OtherOuterCls::InnerCls -- #(24)
-//     (other_outer_inner_handle). Same shape as PkgWidget above.
+//   OuterCls::InnerCls -- #(12) (outer_inner_handle) AND #(15) (shadow_test_handle, a BARE
+//     reference to InnerCls written from WITHIN OuterCls's own scope -- regression coverage for
+//     the class-name local-shadowing fix; a different override value from outer_inner_handle's
+//     #(12), so it's its own, separate specialization despite sharing the same base).
+//     OtherOuterCls::InnerCls -- #(24) (other_outer_inner_handle). Same base-disambiguation shape
+//     as PkgWidget above, now with OuterCls::InnerCls itself contributing two specializations.
 //   pkg_deep's own 3-level chain -- Level1#(11) (shared by deep_handle, level1_alias_handle,
 //     level2_alias_handle); Level2#(22), specializing the CLONE of Level2 that lives inside
 //     Level1#(11)'s own clone (shared by deep_handle, level2_alias_handle); Level3#(33),
@@ -1176,30 +1372,39 @@ TEST_F(StaticElaborationTest, TotalPackageCountInGraph) { EXPECT_EQ(countAll<hld
 //   TdOuter's own 3-level chain, structurally identical to pkg_deep's -- TdOuter#(80) (via
 //     TdOuterAlias's own underlying type); TdMid#(81) (td_chain_handle); TdInner#(82)
 //     (td_chain_handle) = 3 specializations.
-//   5 + 1 + 1 + 1 + 1 + 3 + 3 = 15.
+//   pkg_import_a::ImportShadowCls -- #(31) (import_explicit_handle, resolved via the explicit
+//     import -- Task 11) = 1 specialization. pkg_import_b's own, identically-named
+//     ImportShadowCls contributes zero (never referenced with an override anywhere).
+//   6 + 1 + 1 + 2 + 1 + 3 + 3 + 1 = 18.
 //
 // Unspecialized transitive clones (6): Level1#(11)'s own clone step clones Level2 AND (nested
 // within that) Level3 = 2; Level2#(22)'s own clone step clones Level3 (a SECOND, independent
 // Level3 clone, nested inside the Level2 specialization rather than inside the bare Level1
 // clone) = 1; Level3#(33) has no nested classes to clone = 0. Same shape for TdOuter's own
 // chain: TdOuter#(80) clones TdMid and (nested) TdInner = 2; TdMid#(81) clones TdInner again
-// (nested inside the TdMid specialization) = 1; TdInner#(82) clones nothing = 0.
+// (nested inside the TdMid specialization) = 1; TdInner#(82) clones nothing = 0. OuterCls::InnerCls
+// and pkg_import_a::ImportShadowCls both have no nested classes of their own, so none of their
+// specializations (#(12), #(15), #(31)) adds any further transitive clone.
 // 2 + 1 + 0 + 2 + 1 + 0 = 6.
 
-TEST_F(StaticElaborationTest, TotalClassDefnCountInGraph) { EXPECT_EQ(countAll<hldb::ClassDefn>(), 34u); }
+TEST_F(StaticElaborationTest, TotalClassDefnCountInGraph) { EXPECT_EQ(countAll<hldb::ClassDefn>(), 39u); }
 
 TEST_F(StaticElaborationTest, TotalClassDefnSpecializationCount) {
-  EXPECT_EQ(countSpecializations<hldb::ClassDefn>(), 15u);
+  EXPECT_EQ(countSpecializations<hldb::ClassDefn>(), 18u);
 }
 
 // ---- TypedefTypespec: pkg_alias_t, unit_scope_alias_t, bare_alias_t, chained_alias_t,
-// outer_scope_alias_t, TdOuterAlias = 6 total. Confirmed never cloned regardless of how many
-// times their own enclosing scope gets specialized -- Phase3Cloner explicitly shares (never
-// duplicates) a TypedefTypespec, exactly like every other "reference-shaped" typespec kind, so
-// this count is stable and never multiplied by specialization the way ClassDefn's is.
+// outer_scope_alias_t, TdOuterAlias, import_wildcard_alias_t (Task 11's wildcard-import
+// regression), import_explicit_alias_t (Task 11's explicit-import regression -- wrapped in a
+// typedef specifically to sidestep a real, separate grammar-level ambiguity between a
+// class-typed declaration and a net declaration's own delay control; see its own comment in
+// dut.sv) = 8 total. Confirmed never cloned regardless of how many times their own enclosing
+// scope gets specialized -- Phase3Cloner explicitly shares (never duplicates) a TypedefTypespec,
+// exactly like every other "reference-shaped" typespec kind, so this count is stable and never
+// multiplied by specialization the way ClassDefn's is.
 
 TEST_F(StaticElaborationTest, TotalTypedefTypespecCountInGraph) {
-  EXPECT_EQ(countAll<hldb::TypedefTypespec>(), 6u);
+  EXPECT_EQ(countAll<hldb::TypedefTypespec>(), 8u);
 }
 
 // ---- Sanity check: every UnsupportedTypespec Phase2 ever built as a placeholder for this file

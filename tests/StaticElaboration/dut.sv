@@ -57,6 +57,60 @@ program param_prog #(
   int unused_var;
 endprogram
 
+// ---- Nested modules / nested interfaces ----------------------------------------
+//
+// IEEE 1800-2023 Sec 3.13 ("Name spaces") states that when an identifier is referenced, "the
+// nested scope is searched... (including nested module declarations)" before the flat, global
+// definitions name space. Sec 3.14.2.3 confirms the same for interfaces ("if the module or
+// interface definition is nested, then the time unit shall be inherited from the enclosing
+// module or interface") and, in that same sentence, explicitly rules it OUT for programs and
+// packages ("programs and packages cannot be nested"). So a bare, unqualified reference to a
+// nested module/interface follows the exact same lexical-scoping shape already exercised for
+// classes above -- and the same shadowing hazard applies: two different outer modules can each
+// declare their own, identically-named nested module/interface, and a bare reference from
+// within one of them must resolve to ITS OWN nested declaration, never the other's.
+
+module OuterMod;
+  module InnerMod #(parameter int W = 6);
+    int payload;
+  endmodule
+
+  // A BARE (unqualified) reference to "InnerMod", written from WITHIN OuterMod's own scope --
+  // regression coverage for the module-nesting counterpart of the class-shadowing fix above.
+  // "InnerMod" is NOT globally unique (OtherOuterMod below declares its own, identically-named
+  // nested module), so a flat, scope-blind lookup would refuse to resolve this at all; a proper
+  // lexical walk-up must find OuterMod's OWN InnerMod first, since it's declared directly in
+  // the current scope. Module instantiation (unlike a class handle declaration) is the only way
+  // to reference a module by name at all -- a nested module has no other legal use, since it is
+  // visible only for instantiation from within its own enclosing module (Sec 3.13).
+  InnerMod #(15) shadow_mod_inst ();
+endmodule
+
+// A second outer module with a nested module of the SAME name as OuterMod's -- confirms scoped
+// lookup disambiguates by outer module, not by a flat/global module name.
+module OtherOuterMod;
+  module InnerMod #(parameter int W = 60);
+    int payload;
+  endmodule
+endmodule
+
+module OuterModWithIface;
+  interface InnerIface #(parameter int W = 7);
+    logic [W-1:0] data;
+  endinterface
+
+  // Same shadowing shape as InnerMod above, for a nested INTERFACE declaration instead.
+  InnerIface #(17) shadow_iface_inst ();
+endmodule
+
+// A second outer module with a nested interface of the SAME name as OuterModWithIface's --
+// confirms scoped lookup disambiguates by outer module, not by a flat/global interface name.
+module OtherOuterModWithIface;
+  interface InnerIface #(parameter int W = 70);
+    logic [W-1:0] data;
+  endinterface
+endmodule
+
 // ---- Class -- plain (no package/nesting) --------------------------------------
 
 class param_cls #(parameter int W = 3);
@@ -85,6 +139,13 @@ class OuterCls;
   class InnerCls #(parameter int W = 6);
     int value;
   endclass
+
+  // A BARE (unqualified) reference to "InnerCls", written from WITHIN OuterCls's own scope --
+  // regression coverage for Task 5's local-shadowing fix. "InnerCls" is NOT globally unique
+  // (OtherOuterCls below declares its own, identically-named nested class), so a flat, scope-
+  // blind lookup would refuse to resolve this at all; a proper lexical walk-up must find
+  // OuterCls's OWN InnerCls first, since it's declared directly in the current scope.
+  InnerCls #(15) shadow_test_handle;
 endclass
 
 // A second outer class with a nested class of the SAME name as OuterCls's --
@@ -132,6 +193,42 @@ endpackage
 // own getModelOnStack<hldb::Scope, hldb::Design>() call). Referenced by a bare name from deep
 // inside dut below -- exercises findTypedefInEnclosingScopes() walking all the way out to Design.
 typedef param_cls #(96) unit_scope_alias_t;
+
+// ---- Package imports (Task 11) -------------------------------------------------
+//
+// IEEE 1800-2023 Sec 26.5: an import declaration makes a package's own item visible in the
+// importing scope by bare name, without a `::` qualifier -- explicit (`import Pkg::item;`,
+// exactly one name) or wildcard (`import Pkg::*;`, every name the package declares). Imports
+// are NOT transitive (Sec 26.6): importing pkg_import_a::ImportShadowCls does not also bring in
+// anything pkg_import_a itself imported from somewhere else -- not exercised here since neither
+// package below imports anything itself, but worth noting as the property this file does NOT
+// (and structurally cannot, with only one level of import) test.
+//
+// pkg_import_a/pkg_import_b each declare a class of the SAME name -- deliberately, so a bare
+// reference to "ImportShadowCls" is genuinely ambiguous/unresolvable without an import (neither
+// candidate is visible via ordinary lexical scoping from dut's own scope, matching the same
+// "same name, two different scopes" shape as OuterCls/OtherOuterCls's own InnerCls above) --
+// only the explicit import below disambiguates which one is meant.
+package pkg_import_a;
+  class ImportShadowCls #(parameter int W = 30);
+    int payload;
+  endclass
+endpackage
+
+package pkg_import_b;
+  class ImportShadowCls #(parameter int W = 40);
+    int payload;
+  endclass
+endpackage
+
+// A typedef nested in its own package, reachable ONLY via the wildcard import below -- not
+// globally-unique-by-accident (no OTHER package declares this name), but still genuinely
+// unresolvable from dut's own scope without either `::` qualification or an import: nothing in
+// dut's own lexical ancestry (dut, Design) ever sees inside an unrelated package's own
+// typespecs on its own.
+package pkg_import_c;
+  typedef param_cls #(42) import_wildcard_alias_t;
+endpackage
 
 // ---- Top ----------------------------------------------------------------------
 
@@ -234,6 +331,34 @@ module dut;
   // Bare reference to unit_scope_alias_t -- declared outside any module/package/class, above --
   // exercises findTypedefInEnclosingScopes() walking all the way out to Design itself.
   unit_scope_alias_t unit_scope_handle;
+
+  // Task 11: explicit class import -- disambiguates "ImportShadowCls" to pkg_import_a's own
+  // class specifically (pkg_import_b's identically-named one is never even considered), via
+  // Phase3ModelBuilder::findClassViaImports()'s explicit-import tier.
+  //
+  // Wrapped in a typedef, deliberately, rather than referenced directly as
+  // `ImportShadowCls #(31) import_explicit_handle;` -- that shape is genuinely ambiguous at the
+  // GRAMMAR level (a separate, real limitation from Task 11's own scope, found via a -d db
+  // trace): `IDENTIFIER #(...) IDENTIFIER;` parses as EITHER a class-typed variable declaration
+  // with a parameter override, OR a net declaration with a delay control (`wire #10 net_name;`
+  // is legitimate SV), and the parser's own isClassElem-style predicate -- which disambiguates
+  // by checking whether the leading identifier is a KNOWN class name -- apparently does not
+  // discover classes nested inside a PACKAGE the way it discovers classes nested inside another
+  // CLASS (confirmed: this exact shape works for `InnerCls`, nested in OuterCls, above). Without
+  // that, "ImportShadowCls" falls back to the net_declaration parse, and `#(31)` is misread as a
+  // delay control -- confirmed via -d db (`n<> u<1541> t<Net_declaration> ...
+  // n<> u<1537> t<Delay_control> ...`). `typedef` sidesteps this entirely: it commits to a type
+  // declaration at the grammar level before the class-type ambiguity is ever reached, matching
+  // the same pattern pkg_alias_t/bare_alias_t already use above for an analogous reason.
+  import pkg_import_a::ImportShadowCls;
+  typedef ImportShadowCls #(31) import_explicit_alias_t;
+  import_explicit_alias_t import_explicit_handle;
+
+  // Task 11: wildcard typedef import -- makes every item pkg_import_c declares (here, just the
+  // one typedef) visible by bare name, via findClassViaImports()/findTypedefViaImports()'s own
+  // wildcard tier.
+  import pkg_import_c::*;
+  import_wildcard_alias_t import_wildcard_alias_handle;
 
   // Module within module -- a parameterized module instantiated from a
   // non-top-level module.
