@@ -51,9 +51,6 @@ TEST_F(Chapter19ErrorRulesTest, Row688_RealCoverpointWithoutExplicitBinsIsReject
   // Bins are not automatically created for coverpoints of real expressions, so
   // a real coverpoint shall specify at least one explicit bins construct.
   // cpr on line 15 covers the real r with no bins at all.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.5 requires a coverpoint of a real "
-                  "expression to specify at least one explicit bins construct, because no automatic "
-                  "bins are created for it";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_BINS, "cpr", 15, 5), nullptr)
       << "a real coverpoint needs an explicit bins construct (IEEE 1800-2023 19.5)";
 }
