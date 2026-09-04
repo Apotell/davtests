@@ -115,6 +115,24 @@ package pkg_deep;
   endclass
 endpackage
 
+// ---- Typedefs in scope resolution ---------------------------------------------
+//
+// IEEE 1800-2023 Sec 6.18/26.3 make a package's own typedefs equally reachable via `::` as its
+// nested classes. A typedef never carries its own #(...) -- any override lives on (and is
+// resolved through) the typedef's own underlying type instead, so pkg_alias_t below overrides
+// param_cls's W directly on the aliased type, not on the typedef itself.
+
+package pkg_td;
+  typedef param_cls #(40) pkg_alias_t;
+endpackage
+
+// A typedef declared OUTSIDE any module/package/class -- file/compilation-unit ("$unit") scope.
+// Parented directly under Design itself (Design is NOT a Scope, but still needs its own
+// typedefs field for exactly this -- confirmed via Phase2ModelBuilder::leavePA_Type_declaration's
+// own getModelOnStack<hldb::Scope, hldb::Design>() call). Referenced by a bare name from deep
+// inside dut below -- exercises findTypedefInEnclosingScopes() walking all the way out to Design.
+typedef param_cls #(96) unit_scope_alias_t;
+
 // ---- Top ----------------------------------------------------------------------
 
 module dut;
@@ -148,6 +166,74 @@ module dut;
   // individually overridden -- confirms Phase3 walks and specializes every
   // level of an arbitrarily long chain, not just a single Scope::Target pair.
   pkg_deep::Level1#(11)::Level2#(22)::Level3#(33) deep_handle;
+
+  // Two more, INDEPENDENT references to the exact same overrides deep_handle above already
+  // uses (Level1#(11), and Level1#(11)::Level2#(22)) -- regression coverage for a real
+  // duplicate-specialization bug: a scoped chain's own segment RefTypespec (e.g. "Level1"
+  // within deep_handle's own chain) is independently, wrongly reachable by
+  // resolveUnsupportedTypespecs()'s own flat sweep too (Phase2 parents it directly under the
+  // enclosing chain, same as any other RefTypespec), and if that sweep resolves it BEFORE
+  // resolveScopedUnsupportedTypespec()'s own per-segment loop gets to it, the segment's own
+  // override gets silently lost, falling back to the UNSPECIALIZED base -- corrupting every
+  // later segment's own search scope (confirmed via -d db: Level2 ended up specialized TWICE,
+  // once correctly nested under Level1's own specialization, once wrongly nested under
+  // Level1's own base). level1_alias_handle/level2_alias_handle below must dedupe to the exact
+  // same Level1/Level2 specializations deep_handle's own chain already resolved to.
+  pkg_deep::Level1#(11) level1_alias_handle;
+  pkg_deep::Level1#(11)::Level2#(22) level2_alias_handle;
+
+  // Typedef reached through a package scope (Task 10's scoped fallback --
+  // resolveScopedUnsupportedTypespec()'s per-segment typedef lookup).
+  pkg_td::pkg_alias_t pkg_alias_handle;
+
+  // A bare, unqualified typedef -- no `::` at all -- declared directly in this
+  // same scope. Exercises resolveUnsupportedTypespec()'s own flat-case typedef
+  // fallback, which only searches the reference's own immediate enclosing
+  // scope (not yet an outward walk through enclosing scopes -- see
+  // project_static_elaboration_plan), so this is deliberately declared here
+  // rather than at file scope.
+  typedef param_cls #(41) bare_alias_t;
+  bare_alias_t bare_alias_handle;
+
+  // A typedef aliasing ANOTHER bare, unscoped typedef declared in this same
+  // scope -- bare_alias_t itself is just another not-yet-resolved
+  // RefTypespec/UnsupportedTypespec entry in the exact same flat sweep, so
+  // this exercises resolveUnsupportedTypespecs()'s own fixed-point retry.
+  typedef bare_alias_t chained_alias_t;
+  chained_alias_t chained_alias_handle;
+
+  // A typedef whose own underlying type is a SPECIALIZED class that itself
+  // has a chain of further-parameterized nested classes -- TdOuterAlias
+  // aliases TdOuter#(80); TdMid must be looked up (and re-specialized) within
+  // THAT specialization's own nested class list, not TdOuter's base one; and
+  // TdInner must in turn be looked up within TdMid's OWN specialization, not
+  // TdOuter's base TdMid. Resolving TdOuterAlias::TdMid#(81)::TdInner#(82)
+  // this way genuinely REQUIRES resolveUnsupportedTypespecs()'s fixed-point
+  // retry: the segment-0 typedef fallback needs TdOuterAlias's own aliased
+  // class (TdOuter#(80)) already resolved AND specialized, which only
+  // happens once that OTHER, independent RefTypespec entry has itself been
+  // visited by the same sweep -- a single pass would fail whenever the
+  // sweep happens to visit this chain before that one.
+  class TdOuter #(parameter int W = 70);
+    // Declared directly on TdOuter -- referenced by a BARE name from within TdMid below (a
+    // separate, nested scope) to exercise findTypedefInEnclosingScopes()'s own walk-up: a
+    // class member function (or, as here, a nested class's own member declaration) can see a
+    // typedef declared on an ENCLOSING class scope without re-declaring or qualifying it.
+    typedef param_cls #(95) outer_scope_alias_t;
+    class TdMid #(parameter int W = 71);
+      // Bare reference to outer_scope_alias_t -- declared on TdOuter, NOT on TdMid itself.
+      outer_scope_alias_t scope_walk_member;
+      class TdInner #(parameter int W = 72);
+        int payload;
+      endclass
+    endclass
+  endclass
+  typedef TdOuter#(80) TdOuterAlias;
+  TdOuterAlias::TdMid#(81)::TdInner#(82) td_chain_handle;
+
+  // Bare reference to unit_scope_alias_t -- declared outside any module/package/class, above --
+  // exercises findTypedefInEnclosingScopes() walking all the way out to Design itself.
+  unit_scope_alias_t unit_scope_handle;
 
   // Module within module -- a parameterized module instantiated from a
   // non-top-level module.
