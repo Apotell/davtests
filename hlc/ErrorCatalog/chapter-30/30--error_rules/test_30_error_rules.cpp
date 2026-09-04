@@ -51,8 +51,6 @@ TEST_F(Chapter30ErrorRulesTest, Row1010_InternalNetAsModulePathSourceIsRejected)
   // declared, so the check has to look at the port list rather than at the
   // specify block alone; the legal form of this design would name a directly
   // in the path.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 30.4.1 requires a module path source "
-                  "to be a net connected to a module input or inout port";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SPECIFY_PATH, "internal", 15, 6), nullptr)
       << "a module path source must be an input or inout port net (IEEE 1800-2023 30.4.1)";
 }
