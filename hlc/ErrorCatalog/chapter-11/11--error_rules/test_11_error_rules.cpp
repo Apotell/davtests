@@ -69,13 +69,18 @@ TEST_F(Chapter11ErrorRulesTest, Row363_UnknownTaggedUnionMemberIsRejected) {
 
 TEST_F(Chapter11ErrorRulesTest, Row368_IllegalLetFormalArgumentTypeIsRejected) {
   // catalog row 368 | 11.12 | COMP
-  // "If a formal argument is typed, the type shall be event or one of the
-  // types allowed in 16.6." 16.6 admits the integral types and their arrays,
-  // not real. Line 29 declares a real formal.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 11.12 restricts a typed let formal to "
-                  "'event' or one of the types allowed by 16.6, which excludes real";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_FORMAL_TYPE, "x", 29, 13), nullptr)
-      << "real is not a legal let formal argument type (IEEE 1800-2023 11.12)";
+  // "If a formal argument of a let is typed, then the type shall be event or
+  // one of the types allowed in 16.6." 16.6 requires a type cast compatible
+  // with an integral type and bans chandle by name; 6.22.5 makes class handles
+  // type incompatible with everything. Line 29 declares a chandle formal.
+  //
+  // This case was a real formal until 2026-09-04. That was wrong: 16.6's
+  // criterion is cast compatibility, and 6.22.4 counts "all nonequivalent types
+  // that have defined explicit casting rules", which real satisfies via 6.24 --
+  // so a real let formal is legal and asserting an error on it would have
+  // locked in a rejection of valid SystemVerilog.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_FORMAL_TYPE, "x", 29, 9), nullptr)
+      << "chandle is not a legal let formal argument type (IEEE 1800-2023 11.12)";
 }
 
 // --- row 373: lets may not recurse (11.12) ----------------------------------

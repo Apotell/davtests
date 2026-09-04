@@ -26,7 +26,7 @@ endmodule
 // If a formal argument of a let is typed, the type shall be event or one of
 // the types allowed in 16.6; other formal types are illegal.
 module r368_m;
-  let f(real x) = x > 0.0;
+  let f(chandle x) = 1;
 endmodule
 
 // catalog row 373 | 11.12 | COMP
