@@ -79,8 +79,6 @@ TEST_F(Chapter16ErrorRulesTest, Row515_IllegalAssertionVariableTypeIsRejected) {
   // explicitly and shall be one of the types allowed within assertions as
   // defined in 16.6." 16.6 admits the integral types and their arrays; chandle
   // is not among them, so the local declaration on line 35 is illegal.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 16.10 restricts an assertion variable "
-                  "declaration to the types allowed by 16.6, which excludes chandle";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DECLARED_TYPE, "h", 35, 13), nullptr)
       << "chandle is not a legal assertion variable type (IEEE 1800-2023 16.10)";
 }
