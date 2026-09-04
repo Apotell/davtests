@@ -49,8 +49,6 @@ TEST_F(Chapter14ErrorRulesTest, Row439_ReadingAnOutputClockvarIsRejected) {
   // "It shall be illegal to read the value of any clockvar whose
   // clocking_direction is output." cb declares b as output on line 13; line 15
   // reads cb.b.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 14.3 makes reading a clockvar whose "
-                  "clocking direction is output illegal";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_READ, "b", 15, 15), nullptr)
       << "an output clockvar cannot be read (IEEE 1800-2023 14.3)";
 }
