@@ -69,8 +69,6 @@ TEST_F(Chapter13ErrorRulesTest, Row408_ConstantFunctionWithOutputArgumentIsRejec
   // -- shall not have output, inout or ref arguments. cf declares an output on
   // line 25 and is called from a localparam initializer on line 30, which is
   // what makes it a constant function call.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 13.4.3 forbids output, inout and ref "
-                  "arguments on a function used as a constant function";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTANT_FUNCTION, "cf", 30, 18), nullptr)
       << "a constant function cannot have an output argument (IEEE 1800-2023 13.4.3)";
 }
