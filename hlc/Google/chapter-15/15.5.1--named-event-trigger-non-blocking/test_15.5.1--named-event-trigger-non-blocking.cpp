@@ -92,14 +92,6 @@
 //     and does it resume in the same time step per the non-blocking
 //     semantics of Sec 15.5.1) cannot be observed: HLC is a compiler/
 //     elaborator with no simulation.
-//
-// Tests below named "...ShouldBeXButIsNot" assert the EventStmt-based shape
-// Sec 15.5.1 / Table 36-9 requires (getBlocking(), getNamedEvent()) -- the
-// same shape as the blocking file's counterpart tests. Per project
-// convention a test named this way is expected to currently fail and
-// documents an actionable, standard-cited gap without hiding it behind
-// GTEST_SKIP() -- confirm by running this file; if a differently-named test
-// fails, that points to an actual mistake in this file rather than a known gap.
 // ============================================================================
 
 #include <hldb/Utils.h>
@@ -141,17 +133,7 @@ TEST_F(NamedEventTriggerNonBlockingTest, ClassFooExists) {
   ASSERT_NE(foo, nullptr) << "class 'foo' not found";
 }
 
-TEST_F(NamedEventTriggerNonBlockingTest, TopEventDeclarationShouldBeNamedEventButIsNot) {
-  // Verified failing (2026-08-30): "event e;" should be a NamedEvent
-  // (reachable via Scope::getNamedEvents()) per IEEE 1800-2023 Sec 6.7, but
-  // HLC currently represents it as a plain Variable typed with EventTypespec
-  // instead. Skipped per project convention now that a human has personally
-  // checked this specific test; the real assertion is kept below so
-  // removing this skip will fail again for the same documented reason until
-  // HLC's object model for named events is fixed.
-  GTEST_SKIP() << "HLC models 'event e;' as a Variable typed with EventTypespec instead of a NamedEvent; "
-                  "should be a NamedEvent per IEEE 1800-2023 Sec 6.7. Fix pending.";
-
+TEST_F(NamedEventTriggerNonBlockingTest, TopEventDeclarationShouldBeNamedEvent) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::NamedEvent *const e = hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents());
@@ -175,17 +157,7 @@ TEST_F(NamedEventTriggerNonBlockingTest, InnerInitialHasNoBeginWrapper) {
       << "no begin/end was written, so the statement must not be wrapped in a Begin";
 }
 
-TEST_F(NamedEventTriggerNonBlockingTest, InnerTriggerShouldBeNonBlockingEventStmtTargetingTopsEventButIsNot) {
-  // Verified failing (2026-08-30): "->> top.e;" should be an EventStmt with
-  // getBlocking() == false per IEEE 1800-2023 Sec 15.5.1, but HLC currently
-  // wraps it in a generic Operation node instead. Skipped per project
-  // convention now that a human has personally checked this specific test;
-  // the real assertion is kept below so removing this skip will fail again
-  // for the same documented reason until HLC's object model for event
-  // triggers is fixed.
-  GTEST_SKIP() << "HLC models '->> top.e;' as a generic Operation instead of an EventStmt; should be an "
-                  "EventStmt per IEEE 1800-2023 Sec 15.5.1. Fix pending.";
-
+TEST_F(NamedEventTriggerNonBlockingTest, InnerTriggerShouldBeNonBlockingEventStmtTargetingTopsEvent) {
   const hldb::Module *const inner = hldb::findByName<hldb::Module>("inner", m_design->getAllModules());
   ASSERT_NE(inner, nullptr);
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -198,7 +170,13 @@ TEST_F(NamedEventTriggerNonBlockingTest, InnerTriggerShouldBeNonBlockingEventStm
   const hldb::EventStmt *const trigger = any_cast<hldb::EventStmt>(init->getStmt());
   ASSERT_NE(trigger, nullptr) << "'->> top.e;' should be an EventStmt per IEEE 1800-2023 Sec 15.5.1 (see file header)";
   EXPECT_FALSE(trigger->getBlocking()) << "'->>' is the non-blocking trigger form";
-  EXPECT_EQ(trigger->getNamedEvent(), hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents()))
+    const hldb::HierPath *const hp = trigger->getNamedEvent<hldb::HierPath>();
+  ASSERT_NE(hp, nullptr);
+  ASSERT_NE(hp->getPathElems(), nullptr);
+  EXPECT_EQ(hp->getPathElems()->size(), 2);
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(1));
+  ASSERT_NE(ro, nullptr) << "'top.e' should have bound";
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents()))
       << "'top.e' should resolve directly to the NamedEvent declared in module top, even though it is "
          "written as a hierarchical reference";
 }
@@ -219,17 +197,7 @@ TEST_F(NamedEventTriggerNonBlockingTest, TopInitialBeginHasOneStatement) {
   EXPECT_EQ(body->getStmts()->size(), 1u) << "the begin/end block contains exactly one statement: '->> e;'";
 }
 
-TEST_F(NamedEventTriggerNonBlockingTest, TopTriggerShouldBeNonBlockingEventStmtButIsNot) {
-  // Verified failing (2026-08-30): same gap as
-  // InnerTriggerShouldBeNonBlockingEventStmtTargetingTopsEventButIsNot
-  // above, re-confirmed for the non-hierarchical "->> e;" form. Skipped per
-  // project convention now that a human has personally checked this
-  // specific test; the real assertion is kept below so removing this skip
-  // will fail again for the same documented reason until HLC's object model
-  // for event triggers is fixed.
-  GTEST_SKIP() << "HLC models '->> e;' as a generic Operation instead of an EventStmt; should be an "
-                  "EventStmt per IEEE 1800-2023 Sec 15.5.1. Fix pending.";
-
+TEST_F(NamedEventTriggerNonBlockingTest, TopTriggerShouldBeNonBlockingEventStmt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
@@ -243,7 +211,9 @@ TEST_F(NamedEventTriggerNonBlockingTest, TopTriggerShouldBeNonBlockingEventStmtB
   const hldb::EventStmt *const trigger = any_cast<hldb::EventStmt>(stmt);
   ASSERT_NE(trigger, nullptr) << "'->> e;' should be an EventStmt per IEEE 1800-2023 Sec 15.5.1 (see file header)";
   EXPECT_FALSE(trigger->getBlocking());
-  EXPECT_EQ(trigger->getNamedEvent(), hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents()))
+  const hldb::RefObj *const ro = trigger->getNamedEvent<hldb::RefObj>();
+  ASSERT_NE(ro, nullptr) << "'top.e' should have bound";
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents()))
       << "'e' should resolve to the NamedEvent declared earlier in the same module";
 }
 
@@ -255,16 +225,7 @@ TEST_F(NamedEventTriggerNonBlockingTest, ClassFooHasExactlyOneMethodNamedWaitE) 
   EXPECT_EQ(foo->getMethods()->front()->getName(), "wait_e");
 }
 
-TEST_F(NamedEventTriggerNonBlockingTest, ClassFooTaskTriggerShouldBeNonBlockingEventStmtTargetingOwnEventButIsNot) {
-  // Verified failing (2026-08-30): same gap as the module-level trigger
-  // tests above, re-confirmed for "->>e;" inside class foo's wait_e() task.
-  // Skipped per project convention now that a human has personally checked
-  // this specific test; the real assertion is kept below so removing this
-  // skip will fail again for the same documented reason until HLC's object
-  // model for event triggers is fixed.
-  GTEST_SKIP() << "HLC models '->>e;' as a generic Operation instead of an EventStmt; should be an "
-                  "EventStmt per IEEE 1800-2023 Sec 15.5.1. Fix pending.";
-
+TEST_F(NamedEventTriggerNonBlockingTest, ClassFooTaskTriggerShouldBeNonBlockingEventStmtTargetingOwnEvent) {
   const hldb::ClassDefn *const foo = hldb::findByName<hldb::ClassDefn>("foo", m_design->getAllClasses());
   ASSERT_NE(foo, nullptr);
   ASSERT_NE(foo->getMethods(), nullptr);
@@ -277,7 +238,9 @@ TEST_F(NamedEventTriggerNonBlockingTest, ClassFooTaskTriggerShouldBeNonBlockingE
   const hldb::EventStmt *const trigger = any_cast<hldb::EventStmt>(waitE->getStmt());
   ASSERT_NE(trigger, nullptr) << "'->>e;' should be an EventStmt per IEEE 1800-2023 Sec 15.5.1 (see file header)";
   EXPECT_FALSE(trigger->getBlocking());
-  EXPECT_EQ(trigger->getNamedEvent(), hldb::findByName<hldb::NamedEvent>("e", foo->getNamedEvents()))
+  const hldb::RefObj *const ro = trigger->getNamedEvent<hldb::RefObj>();
+  ASSERT_NE(ro, nullptr) << "'top.e' should have bound";
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::NamedEvent>("e", foo->getNamedEvents()))
       << "'e' inside wait_e() should resolve to class foo's own event field, not module top's 'e'";
 }
 

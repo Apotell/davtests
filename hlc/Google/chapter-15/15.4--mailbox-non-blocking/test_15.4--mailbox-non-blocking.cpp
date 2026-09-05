@@ -67,21 +67,6 @@
 // via an int return value). peek() is unchanged -- Sec 15.4 defines only one
 // (blocking) form of peek().
 //
-// ----------------------------------------------------------------------------
-// Every assertion below states only what IEEE 1800-2023 Sec 15.4 requires --
-// none of it is based on reading a .log file or any other tool-output dump.
-// Same construct as the blocking file (test_15.4--mailbox-blocking.cpp):
-// `mailbox m;` is legal with no special import, so module "top" and its
-// full body (construction, try_put/peek/try_get/num, the local string
-// variables) are all expected to exist and to have the shapes asserted
-// below. The blocking file's identical "mailbox m;" declaration was
-// confirmed by an actual build+test run to currently fail at
-// "ASSERT_NE(top, nullptr)"; this file is expected to fail the same way for
-// the same declaration, but has not itself been run yet -- worth confirming.
-// Per project convention, this is left as a plain failing TEST_F (not
-// GTEST_SKIP()) so the whole checklist below starts passing on its own once
-// the underlying issue is fixed, with no test edits required.
-//
 // NOT CHECKED (out of scope regardless of the above):
 //   - The exact object type produced by `new()` for a builtin class: no
 //     header anywhere in build/include/hldb/ models a class-construction
@@ -124,18 +109,6 @@ class MailboxNonBlockingTest : public Test {
 // ... All tests belonging to MailboxNonBlockingTest go here!
 
 TEST_F(MailboxNonBlockingTest, ModuleTopShouldExistButDoesNot) {
-  // Verified failing (2026-08-30), same construct/root cause as
-  // test_15.4--mailbox-blocking.cpp's ModuleTopShouldExistButDoesNot:
-  // 'mailbox m;' is legal per IEEE 1800-2023 Sec 15.4 with no special
-  // import, but HLC's parser currently rejects it with a syntax error, so no
-  // module in the compiled design ends up named 'top'. Skipped per project
-  // convention now that a human has personally checked this specific test;
-  // the real assertion is kept below so removing this skip will fail again
-  // for the same documented reason until HLC's parser accepts 'mailbox' as
-  // the builtin type it should be.
-  GTEST_SKIP() << "HLC's parser rejects 'mailbox m;' with a syntax error, so module 'top' is never found; "
-                  "'mailbox' should be usable directly per IEEE 1800-2023 Sec 15.4. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' should exist -- 'mailbox m;' is legal per IEEE 1800-2023 "
                               "Sec 15.4, but HLC's parser currently rejects it with a syntax error "
@@ -143,15 +116,6 @@ TEST_F(MailboxNonBlockingTest, ModuleTopShouldExistButDoesNot) {
 }
 
 TEST_F(MailboxNonBlockingTest, MailboxVariableShouldHaveMailboxClassTypeButDoesNot) {
-  // Verified failing (2026-08-30): same root cause as
-  // ModuleTopShouldExistButDoesNot above. Skipped per project convention now
-  // that a human has personally checked this specific test; the real
-  // assertion is kept below so removing this skip will fail again for the
-  // same documented reason until HLC's parser accepts 'mailbox' as the
-  // builtin type it should be.
-  GTEST_SKIP() << "HLC's parser rejects 'mailbox m;' with a syntax error, so module 'top' is never found; "
-                  "see ModuleTopShouldExistButDoesNot. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
@@ -169,15 +133,6 @@ TEST_F(MailboxNonBlockingTest, MailboxVariableShouldHaveMailboxClassTypeButDoesN
 }
 
 TEST_F(MailboxNonBlockingTest, ConstructionAssignmentShouldExistButDoesNot) {
-  // Verified failing (2026-08-30): same root cause as
-  // ModuleTopShouldExistButDoesNot above. Skipped per project convention now
-  // that a human has personally checked this specific test; the real
-  // assertion is kept below so removing this skip will fail again for the
-  // same documented reason until HLC's parser accepts 'mailbox' as the
-  // builtin type it should be.
-  GTEST_SKIP() << "HLC's parser rejects 'mailbox m;' with a syntax error, so module 'top' is never found; "
-                  "see ModuleTopShouldExistButDoesNot. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
@@ -212,15 +167,6 @@ TEST_F(MailboxNonBlockingTest, ConstructionAssignmentShouldExistButDoesNot) {
 }
 
 TEST_F(MailboxNonBlockingTest, LocalStringVariablesShouldExistButDoNot) {
-  // Verified failing (2026-08-30): same root cause as
-  // ModuleTopShouldExistButDoesNot above. Skipped per project convention now
-  // that a human has personally checked this specific test; the real
-  // assertion is kept below so removing this skip will fail again for the
-  // same documented reason until HLC's parser accepts 'mailbox' as the
-  // builtin type it should be.
-  GTEST_SKIP() << "HLC's parser rejects 'mailbox m;' with a syntax error, so module 'top' is never found; "
-                  "see ModuleTopShouldExistButDoesNot. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
@@ -237,15 +183,6 @@ TEST_F(MailboxNonBlockingTest, LocalStringVariablesShouldExistButDoNot) {
 }
 
 TEST_F(MailboxNonBlockingTest, TryPutShouldBeNonBlockingMethodFuncCallWithOneArgumentButDoesNot) {
-  // Verified failing (2026-08-30): same root cause as
-  // ModuleTopShouldExistButDoesNot above. Skipped per project convention now
-  // that a human has personally checked this specific test; the real
-  // assertion is kept below so removing this skip will fail again for the
-  // same documented reason until HLC's parser accepts 'mailbox' as the
-  // builtin type it should be.
-  GTEST_SKIP() << "HLC's parser rejects 'mailbox m;' with a syntax error, so module 'top' is never found; "
-                  "see ModuleTopShouldExistButDoesNot. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
@@ -259,7 +196,15 @@ TEST_F(MailboxNonBlockingTest, TryPutShouldBeNonBlockingMethodFuncCallWithOneArg
   // try_put() returns an int status (Sec 15.4), so it should be a
   // MethodFuncCall used as a bare statement (its return value discarded),
   // not a MethodTaskCall like the blocking put().
-  const hldb::MethodFuncCall *const tryPut = any_cast<hldb::MethodFuncCall>(secondStmt);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(secondStmt);
+  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a HierPath";
+  ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
+  EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  ASSERT_NE(ro, nullptr) << "0th element in m.put(msg) should be a reference";
+  EXPECT_NE(ro->getActual(), nullptr);
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
+  const hldb::MethodFuncCall *const tryPut = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(tryPut, nullptr) << "try_put() returns an int status, so this should be a MethodFuncCall";
   EXPECT_EQ(tryPut->getName(), "try_put");
   ASSERT_NE(tryPut->getArguments(), nullptr);
@@ -270,15 +215,6 @@ TEST_F(MailboxNonBlockingTest, TryPutShouldBeNonBlockingMethodFuncCallWithOneArg
 }
 
 TEST_F(MailboxNonBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgumentButDoesNot) {
-  // Verified failing (2026-08-30): same root cause as
-  // ModuleTopShouldExistButDoesNot above. Skipped per project convention now
-  // that a human has personally checked this specific test; the real
-  // assertion is kept below so removing this skip will fail again for the
-  // same documented reason until HLC's parser accepts 'mailbox' as the
-  // builtin type it should be.
-  GTEST_SKIP() << "HLC's parser rejects 'mailbox m;' with a syntax error, so module 'top' is never found; "
-                  "see ModuleTopShouldExistButDoesNot. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
@@ -289,7 +225,15 @@ TEST_F(MailboxNonBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgument
 
   const hldb::Any *const thirdStmt = body->getStmts()->at(2);
   ASSERT_NE(thirdStmt, nullptr) << "'m.peek(r_peek);' should produce some statement";
-  const hldb::MethodTaskCall *const peek = any_cast<hldb::MethodTaskCall>(thirdStmt);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(thirdStmt);
+  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a HierPath";
+  ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
+  EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  ASSERT_NE(ro, nullptr) << "0th element in m.put(msg) should be a reference";
+  EXPECT_NE(ro->getActual(), nullptr);
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
+  const hldb::MethodTaskCall *const peek = any_cast<hldb::MethodTaskCall>(hp->getPathElems()->at(1));
   // Sec 15.4 defines only one (blocking) form of peek() -- there is no
   // "try_peek". peek() does not remove the message from the mailbox; that
   // non-destructive behavior is a runtime effect and cannot be checked here.
@@ -303,15 +247,6 @@ TEST_F(MailboxNonBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgument
 }
 
 TEST_F(MailboxNonBlockingTest, TryGetShouldBeNonBlockingMethodFuncCallWithOneArgumentButDoesNot) {
-  // Verified failing (2026-08-30): same root cause as
-  // ModuleTopShouldExistButDoesNot above. Skipped per project convention now
-  // that a human has personally checked this specific test; the real
-  // assertion is kept below so removing this skip will fail again for the
-  // same documented reason until HLC's parser accepts 'mailbox' as the
-  // builtin type it should be.
-  GTEST_SKIP() << "HLC's parser rejects 'mailbox m;' with a syntax error, so module 'top' is never found; "
-                  "see ModuleTopShouldExistButDoesNot. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
@@ -322,7 +257,15 @@ TEST_F(MailboxNonBlockingTest, TryGetShouldBeNonBlockingMethodFuncCallWithOneArg
 
   const hldb::Any *const fifthStmt = body->getStmts()->at(4);
   ASSERT_NE(fifthStmt, nullptr) << "'m.try_get(r);' should produce some statement";
-  const hldb::MethodFuncCall *const tryGet = any_cast<hldb::MethodFuncCall>(fifthStmt);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(fifthStmt);
+  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a HierPath";
+  ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
+  EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  ASSERT_NE(ro, nullptr) << "0th element in m.put(msg) should be a reference";
+  EXPECT_NE(ro->getActual(), nullptr);
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
+  const hldb::MethodFuncCall *const tryGet = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(tryGet, nullptr) << "try_get() returns an int status, so this should be a MethodFuncCall";
   EXPECT_EQ(tryGet->getName(), "try_get");
   ASSERT_NE(tryGet->getArguments(), nullptr);
@@ -333,15 +276,6 @@ TEST_F(MailboxNonBlockingTest, TryGetShouldBeNonBlockingMethodFuncCallWithOneArg
 }
 
 TEST_F(MailboxNonBlockingTest, NumShouldBeMethodFuncCallUsedAsDisplayArgumentButDoesNot) {
-  // Verified failing (2026-08-30): same root cause as
-  // ModuleTopShouldExistButDoesNot above. Skipped per project convention now
-  // that a human has personally checked this specific test; the real
-  // assertion is kept below so removing this skip will fail again for the
-  // same documented reason until HLC's parser accepts 'mailbox' as the
-  // builtin type it should be.
-  GTEST_SKIP() << "HLC's parser rejects 'mailbox m;' with a syntax error, so module 'top' is never found; "
-                  "see ModuleTopShouldExistButDoesNot. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
@@ -360,7 +294,15 @@ TEST_F(MailboxNonBlockingTest, NumShouldBeMethodFuncCallUsedAsDisplayArgumentBut
 
   const hldb::Any *const secondArg = display->getArguments()->at(1);
   ASSERT_NE(secondArg, nullptr) << "'m.num()' should produce some expression";
-  const hldb::MethodFuncCall *const num = any_cast<hldb::MethodFuncCall>(secondArg);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(secondArg);
+  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a HierPath";
+  ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
+  EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  ASSERT_NE(ro, nullptr) << "0th element in m.put(msg) should be a reference";
+  EXPECT_NE(ro->getActual(), nullptr);
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
+  const hldb::MethodFuncCall *const num = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(num, nullptr) << "num() returns a value (Sec 15.4: the number of queued messages), so this "
                               "should be a MethodFuncCall, not a MethodTaskCall";
   EXPECT_EQ(num->getName(), "num");

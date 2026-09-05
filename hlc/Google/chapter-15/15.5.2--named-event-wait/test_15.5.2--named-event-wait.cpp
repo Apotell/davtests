@@ -92,15 +92,6 @@
 //   - Runtime wait behavior (does execution actually block until "e" fires)
 //     cannot be observed: HLC is a compiler/elaborator with no simulation
 //     capability, so no execution ever happens for this test to check.
-//
-// TopEventDeclarationShouldBeNamedEventButIsNot and
-// ClassFooEventDeclarationShouldBeNamedEventButIsNot assert the NamedEvent
-// object Sec 6.7 requires for "event e;" (reachable via
-// Scope::getNamedEvents(), see hldb/named_event.h). Per project convention a
-// test named "...ShouldBeXButIsNot" is expected to currently fail and
-// documents an actionable, standard-cited gap without hiding it behind
-// GTEST_SKIP() -- confirm by running this file; if a differently-named test
-// fails, that points to an actual mistake in this file rather than a known gap.
 // ============================================================================
 
 #include <hldb/Utils.h>
@@ -144,21 +135,7 @@ TEST_F(NamedEventWaitTest, ClassFooExists) {
   ASSERT_NE(foo, nullptr) << "class 'foo' not found";
 }
 
-TEST_F(NamedEventWaitTest, TopEventDeclarationShouldBeNamedEventButIsNot) {
-  // IEEE 1800-2023 Sec 6.7: "event e;" declares a named event, modeled by the
-  // dedicated NamedEvent class in this object model.
-  //
-  // Verified failing (2026-08-30): "event e;" should be a NamedEvent
-  // (reachable via Scope::getNamedEvents()) per IEEE 1800-2023 Sec 6.7, but
-  // HLC currently represents it as a plain Variable typed with EventTypespec
-  // instead, so getNamedEvents() never finds it and findByName() below
-  // returns null. Skipped per project convention now that a human has
-  // personally checked this specific test; the real assertion is kept below
-  // so removing this skip will fail again for the same documented reason
-  // until HLC's object model for named events is fixed.
-  GTEST_SKIP() << "HLC models 'event e;' as a Variable typed with EventTypespec instead of a NamedEvent; "
-                  "should be a NamedEvent per IEEE 1800-2023 Sec 6.7. Fix pending.";
-
+TEST_F(NamedEventWaitTest, TopEventDeclarationShouldBeNamedEvent) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::NamedEvent *const e = hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents());
@@ -167,17 +144,7 @@ TEST_F(NamedEventWaitTest, TopEventDeclarationShouldBeNamedEventButIsNot) {
                            "so Scope::getNamedEvents() does not find it.";
 }
 
-TEST_F(NamedEventWaitTest, ClassFooEventDeclarationShouldBeNamedEventButIsNot) {
-  // Verified failing (2026-08-30): same gap as
-  // TopEventDeclarationShouldBeNamedEventButIsNot above, re-confirmed for a
-  // named event declared as a class member field rather than at module
-  // scope. Skipped per project convention now that a human has personally
-  // checked this specific test; the real assertion is kept below so
-  // removing this skip will fail again for the same documented reason until
-  // HLC's object model for named events is fixed.
-  GTEST_SKIP() << "HLC models class foo's 'event e;' field as a Variable typed with EventTypespec instead "
-                  "of a NamedEvent; should be a NamedEvent per IEEE 1800-2023 Sec 6.7. Fix pending.";
-
+TEST_F(NamedEventWaitTest, ClassFooEventDeclarationShouldBeNamedEvent) {
   const hldb::ClassDefn *const foo = hldb::findByName<hldb::ClassDefn>("foo", m_design->getAllClasses());
   ASSERT_NE(foo, nullptr);
   const hldb::NamedEvent *const e = hldb::findByName<hldb::NamedEvent>("e", foo->getNamedEvents());
@@ -289,11 +256,10 @@ TEST_F(NamedEventWaitTest, ClassFooWaitETaskBodyIsEventControlOnOwnEventField) {
   // IEEE 1800-2023 Sec 8: a class member reference from within a method
   // resolves to that class's own field, not any module-level declaration of
   // the same name -- confirm the resolved target is scoped to class foo, not
-  // to module top's unrelated "e". (Compared as Variable, not NamedEvent,
-  // to stay independent of the NamedEvent-vs-Variable gap documented above.)
+  // to module top's unrelated "e".
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const topsEvent = hldb::findByName<hldb::Variable>("e", top->getVariables());
+  const hldb::NamedEvent *const topsEvent = hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents());
   ASSERT_NE(topsEvent, nullptr) << "module top's 'e' should be locatable as a Variable (see gap note above)";
   EXPECT_NE(ref->getActual(), static_cast<const hldb::Any *>(topsEvent))
       << "wait_e()'s 'e' must resolve to class foo's own field, not module top's 'e'";
