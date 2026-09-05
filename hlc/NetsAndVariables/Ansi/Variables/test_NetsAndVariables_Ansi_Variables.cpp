@@ -226,14 +226,11 @@ TEST_F(AnsiVariablesTest, VarChandleTypespecActualIsNull) {
   EXPECT_EQ(rts->getActual()->getAnyType(), hldb::AnyType::ChandleTypespec);
 }
 
-TEST_F(AnsiVariablesTest, VarEventIsEventTypespec) {
+TEST_F(AnsiVariablesTest, EventIsNamedEvent) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const v = getVarNoNetDuplicate(top, "var_event");
-  ASSERT_NE(v, nullptr);
-  const hldb::RefTypespec *const rts = v->getTypespec();
-  ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::EventTypespec>(), nullptr);
+  const hldb::NamedEvent *const ne = hldb::findByName<hldb::NamedEvent>("var_event", top->getNamedEvents());
+  ASSERT_NE(ne, nullptr);
 }
 
 // ---------------------------------------------------------------------------
