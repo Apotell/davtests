@@ -121,19 +121,6 @@ TEST_F(AssertFinalTest, AssertIsReachableAsModuleItemNotProcess) {
 }
 
 TEST_F(AssertFinalTest, AssertIsFinalDeferredImmediateAssert) {
-  // Verified failing (2026-09-02): getIsDeferred() correctly comes back true
-  // for 'assert final (...)', but getIsFinal() comes back false -- HLC does
-  // not currently set the "final" flag, so this deferred form is not
-  // distinguished from 'assert #0' via this API, even though IEEE
-  // 1800-2023 Sec 16.4 treats them as distinct deferred forms. Skipped per
-  // project convention now that a human has personally checked this
-  // specific test; the real assertions are kept below (including the
-  // getIsDeferred() check, which does pass today) so removing this skip
-  // will fail again for the same documented reason until HLC sets
-  // getIsFinal() correctly for 'assert final'.
-  GTEST_SKIP() << "HLC sets getIsDeferred() but not getIsFinal() for 'assert final (...)'; should have "
-                  "both true per IEEE 1800-2023 Sec 16.4. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAssertions(), nullptr);

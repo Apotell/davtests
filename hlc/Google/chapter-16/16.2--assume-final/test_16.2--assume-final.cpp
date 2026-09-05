@@ -113,10 +113,6 @@ TEST_F(AssumeFinalTest, AssumeIsReachableAsModuleItemNotProcess) {
 }
 
 TEST_F(AssumeFinalTest, AssumeIsFinalDeferredImmediateAssume) {
-
-  GTEST_SKIP() << "HLC sets getIsDeferred() but not getIsFinal() for 'assume final (...)'; should have "
-                  "both true per IEEE 1800-2023 Sec 16.4. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAssertions(), nullptr);

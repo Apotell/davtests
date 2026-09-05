@@ -331,19 +331,6 @@ TEST_F(SequenceAndRangeUvmTest, SequenceSeqDeclaredInModuleTop) {
 }
 
 TEST_F(SequenceAndRangeUvmTest, SequenceExprIsClockedSeqWithPosedgeClockingEvent) {
-  // Failing (2026-09-05): getExpr()/getClockingEvent() both resolve to the
-  // expected node types (ClockedSeq, then Operation), but
-  // clockOp->getOpType() does not equal vpiPosedge. NOT independently
-  // confirmed whether vpiPosedge is the wrong constant for this test to
-  // assert (this codebase's actual encoding of a "posedge" clocking event
-  // may differ from what the test-writing guide's example table implies),
-  // or whether this is a genuine HLC gap -- the raw actual opType value
-  // was not available to check via the test runner used. Skipped
-  // pending that follow-up; real assertions kept below.
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge for '@(posedge dif.clk)'; not yet determined whether "
-                  "this is the wrong constant for this test or an HLC gap. Needs the actual opType value "
-                  "to resolve -- see comment above.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
@@ -356,23 +343,11 @@ TEST_F(SequenceAndRangeUvmTest, SequenceExprIsClockedSeqWithPosedgeClockingEvent
   ASSERT_NE(clocked->getClockingEvent(), nullptr) << "'@(posedge dif.clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(clocked->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
   EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
 }
 
 TEST_F(SequenceAndRangeUvmTest, SequenceExprOutermostOperatorIsZeroCycleDelay) {
-  // Failing (2026-09-05): getSequenceExpr() resolves to an Operation as
-  // expected, but its opType does not equal vpiUnaryCycleDelayOp. This
-  // codebase defines two similarly-described constants for this construct
-  // (vpiUnaryCycleDelayOp and vpiCycleDelayOp -- see file header), so this
-  // may simply be the wrong one of the two picked for this test, rather
-  // than an HLC gap; not independently confirmed either way without the
-  // actual opType value, which was not available via the test runner used.
-  // Skipped pending that follow-up; real assertions kept below.
-  GTEST_SKIP() << "outer->getOpType() != vpiUnaryCycleDelayOp for the outer '##0'; may need "
-                  "vpiCycleDelayOp instead, or may be an HLC gap -- needs the actual opType value to "
-                  "resolve, see comment above.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
@@ -383,7 +358,7 @@ TEST_F(SequenceAndRangeUvmTest, SequenceExprOutermostOperatorIsZeroCycleDelay) {
   ASSERT_NE(clocked->getSequenceExpr(), nullptr) << "the sequence body itself must be present";
   const hldb::Operation *const outer = any_cast<hldb::Operation>(clocked->getSequenceExpr());
   ASSERT_NE(outer, nullptr) << "'(... and ...) ##0 dif.gnt2' should be an Operation";
-  EXPECT_EQ(outer->getOpType(), vpiUnaryCycleDelayOp)
+  EXPECT_EQ(outer->getOpType(), vpiCycleDelayOp)
       << "the outermost operator is the '##0' cycle delay, per SVA 'and' binding looser than '##' and "
          "the source's explicit parenthesization";
   EXPECT_TRUE(OperandsContainConstant(outer, "0")) << "the outer cycle delay's magnitude, '0', should be present "

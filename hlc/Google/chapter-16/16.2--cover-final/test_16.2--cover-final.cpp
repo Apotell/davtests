@@ -119,13 +119,6 @@ TEST_F(CoverFinalTest, CoverIsReachableAsModuleItemNotProcess) {
 }
 
 TEST_F(CoverFinalTest, CoverIsFinalDeferredImmediateCover) {
-  // Verified failing (2026-09-05): same systemic gap as the assert/assume
-  // "final" variants (test_16.2--assert-final.cpp, -assert-final-uvm.cpp,
-  // -assume-final.cpp) -- getIsDeferred() correctly true, getIsFinal()
-  // incorrectly false. Real assertions kept below.
-  GTEST_SKIP() << "HLC sets getIsDeferred() but not getIsFinal() for 'cover final (...)'; should have "
-                  "both true per IEEE 1800-2023 Sec 16.4. Fix pending.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAssertions(), nullptr);

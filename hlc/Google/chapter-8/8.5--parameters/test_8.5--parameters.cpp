@@ -122,7 +122,7 @@ class ClassParametersTest : public Test {
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getVariableTestObj() {

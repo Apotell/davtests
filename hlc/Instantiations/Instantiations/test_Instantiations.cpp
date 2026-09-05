@@ -52,15 +52,15 @@ class Instantiations : public Test {
 // 1. Top-level definitions are present with correct types
 // ----
 TEST_F(Instantiations, ModuleDefinitions) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("passthru", m_design->getAllModules()), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Module>("adder", m_design->getAllModules()), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Module>("gen_top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("passthru", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("adder", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("gen_top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Instantiations, InterfaceDefinitions) {
-  ASSERT_NE(hldb::findByName<hldb::Interface>("simple_if", m_design->getAllInterfaces()), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Interface>("bus_if", m_design->getAllInterfaces()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Interface>("simple_if", m_design->getAllInterfaces()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces()), nullptr);
 }
 
 TEST_F(Instantiations, ProgramDefinition) {
@@ -206,7 +206,7 @@ TEST_F(Instantiations, GatePrimitives) {
 //                           -> getStmt<Begin>() -> getStmts() -> RefInstances
 // ----
 TEST_F(Instantiations, GenerateBlockInstantiations) {
-  const hldb::Module *const gen_top = hldb::findByName<hldb::Module>("gen_top", m_design->getAllModules());
+  const hldb::Module *const gen_top = hldb::findByDefName<hldb::Module>("gen_top", m_design->getAllModules());
   ASSERT_NE(gen_top, nullptr);
   ASSERT_NE(gen_top->getGenStmts(), nullptr) << "gen_top has no gen statements";
 
