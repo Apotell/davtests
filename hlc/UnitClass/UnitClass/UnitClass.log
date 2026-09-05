@@ -4,17 +4,18 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/UnitClass -writepp -d inst top.v -d incl -d ast -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src/macros -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UnitClass/UnitClass
+COMMAND: -wd ../../../tests/UnitClass -writepp -d inst -mt max top.v -d incl -d ast -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src/macros -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/UnitClass/UnitClass
 [INF:CM0023] Creating log file "$Output/hlc.log".
 Option: incl ignored.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<18>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE<0>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -271,11 +272,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 336
 LIB: work
-FILE: f<14>:$Source01/top.v
+FILE<0>:$Source01/top.v
 n<$Source01/top.v> u<335> t<Top_level_rule> c<1> l<1:1> el<46:1>
   n<> u<1> t<Null_rule> p<335> s<334> l<1:1>
   n<> u<334> t<Source_text> p<335> c<333> l<1:1> el<45:10>
@@ -2183,7 +2183,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2197,6 +2197,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2378,7 +2379,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2422,6 +2423,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2495,7 +2497,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2509,6 +2511,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2665,6 +2668,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:C
             vpiName: C
           vpiFullName: top::C
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:C
@@ -3186,6 +3190,7 @@ Design name:unnamed:
                 vpiName: DD
             LogicTypespec:
               vpiParent: ClassDefn name:A
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiExtends Extends start:6:12 end:6:19:
             vpiParent: ClassDefn name:A
@@ -3313,6 +3318,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "5"
                     vpiValue: 5
+              vpiAutomatic: true
               vpiClassType: userdefined class (3)
               vpiLibrary RefObj name:work:
                 vpiParent: ClassDefn name:B
@@ -3325,6 +3331,7 @@ Design name:unnamed:
                 vpiParent: ClassDefn name:B
                 vpiName: B
               vpiFullName: top::A::B
+              vpiAutomatic: true
               vpiClassType: userdefined class (3)
               vpiLibrary RefObj name:work:
                 vpiParent: ClassDefn name:B
@@ -3341,6 +3348,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -3362,12 +3375,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:top:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
-      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

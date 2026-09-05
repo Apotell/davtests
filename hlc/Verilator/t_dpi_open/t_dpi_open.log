@@ -4,12 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_dpi_open.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_dpi_open
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_dpi_open.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_dpi_open
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_dpi_open.v".
 [INF:PA0201] Parsing source file "$Source01/t_dpi_open.v".
 [SNT:PA0207] $Source01/t_dpi_open.v:135:18: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off UNUSED\n   reg        i_rl_p0_u1 [-2:2];\n   reg        o_rl_p0_u1 [-2:2];\n   reg [1:-1] i_rl_p1_u1 [-2:2];\n   reg [1:-1] o_rl_p1_u1 [-2:2];\n   reg [1:-1] i_rl_p1_u2 [-2:2] [-3:3];\n   reg [1:-1] o_rl_p1_u2 [-2:2] [-3:3];\n   reg [1:-1] i_rl_p1_u3 [-2:2] [-3:3] [-4:4];\n   reg [1:-1] o_rl_p1_u3 [-2:2] [-3:3] [-4:4];\n\n   reg        i_rb_p0_u1 [2:-2];\n   reg        o_rb_p0_u1 [2:-2];\n   reg [1:-1] i_rb_p1_u1 [2:-2];\n   reg [1:-1] o_rb_p1_u1 [2:-2];\n   reg [1:-1] i_rb_p1_u2 [2:-2] [3:-3];\n   reg [1:-1] o_rb_p1_u2 [2:-2] [3:-3];\n   reg [1:-1] i_rb_p1_u3 [2:-2] [3:-3] [4:-4];\n   reg [1:-1] o_rb_p1_u3 [2:-2] [3:-3] [4:-4];\n\n   reg        i_rw_p0_u1 [2:-2];\n   reg        o_rw_p0_u1 [2:-2];\n   reg [95:1] i_rw_p1_u1 [2:-2];\n   reg [95:1] o_rw_p1_u1 [2:-2];\n   reg [95:1] i_rw_p1_u2 [2:-2] [3:-3];\n   reg [95:1] o_rw_p1_u2 [2:-2] [3:-3];\n   reg [95:1] i_rw_p1_u3 [2:-2] [3:-3] [4:-4];\n   reg [95:1] o_rw_p1_u3 [2:-2] [3:-3] [4:-4];\n\n   bit        i_bit [1:0];\n   bit        o_bit [1:0];\n   logic      i_logic [1:0];\n   logic      o_logic [1:0];\n   byte       i_byte [1:0];\n   byte       o_byte [1:0];\n   int        i_int [1:0];\n   int        o_int [1:0];\n   integer    i_integer [1:0];\n   integer    o_integer [1:0];\n   // verilator lint_on UNUSED\n\n   import "DPI-C" function int dpii_failure();\n\n   import "DPI-C" function void dpii_unused(input reg u []);\n\n   // [] on packed arrays is unsupported in VCS & NC, so not supporting this\n\n   import "DPI-C" function void dpii_open_p0_u1(input int c,p,u, input reg i [], output reg o []);\n   import "DPI-C" function void dpii_open_p1_u1(input int c,p,u, input reg [1:-1] i [], output reg [1:-1] o []);\n   import "DPI-C" function void dpii_open_p1_u2(input int c,p,u, input reg [1:-1] i [] [], output reg [1:-1] o [] []);\n   import "DPI-C" function void dpii_open_p1_u3(input int c,p,u, input reg [1:-1] i [] [] [], output reg [1:-1] o [] [] []);\n\n   import "DPI-C" function void dpii_open_pw_u1(input int c,p,u, input reg [95:1] i [], output reg [95:1] o []);\n   import "DPI-C" function void dpii_open_pw_u2(input int c,p,u, input reg [95:1] i [] [], output reg [95:1] o [] []);\n   import "DPI-C" function void dpii_open_pw_u3(input int c,p,u, input reg [95:1] i [] [] [], output reg [95:1] o [] [] []);\n\n   import "DPI-C" function void dpii_open_bit(input bit i [], output bit o []);\n   import "DPI-C" function void dpii_open_logic(input logic i [], output logic o []);\n   import "DPI-C" function void dpii_open_byte(input byte i [], output byte o []);\n   import "DPI-C" function void dpii_open_int(input int i [], output int o []);\n   import "DPI-C" function void dpii_open_integer(input integer i [], output integer o []);\n\n   import "DPI-C" function int dpii_failed();\n\n   reg [95:0] crc;\n\n   initial begin\n      crc = 96'h8a10a572_5aef0c8d_d70a4497;\n\n      for (int a=0; a<2; a=a+1) begin\n         i_bit[a] = crc[0];\n         i_logic[a] = crc[0];\n         i_byte[a] = crc[7:0];\n         i_int[a] = crc[31:0];\n         i_integer[a] = crc[31:0];\n         crc = {crc[94:0], crc[95]^crc[2]^crc[0]};\n      end\n\n      dpii_open_bit(i_bit, o_bit);\n      dpii_open_logic(i_logic, o_logic);\n      dpii_open_byte(i_byte, o_byte);\n      dpii_open_int(i_int, o_int);\n      dpii_open_integer(i_integer, o_integer);\n\n      for (int a=-2; a<=2; a=a+1) begin\n         i_rl_p0_u1[a] = crc[0];\n         i_rb_p0_u1[a] = crc[0];\n         i_rw_p0_u1[a] = crc[0];\n         i_rl_p1_u1[a] = crc[2:0];\n         i_rb_p1_u1[a] = crc[2:0];\n         i_rw_p1_u1[a] = crc[94:0];\n         for (int b=-3; b<=3; b=b+1) begin\n            i_rl_p1_u2[a][b] = crc[2:0];\n            i_rb_p1_u2[a][b] = crc[2:0];\n            i_rw_p1_u2[a][b] = crc[94:0];\n            for (int c=-4; c<=4; c=c+1) begin\n               i_rl_p1_u3[a][b][c] = crc[2:0];\n               i_rb_p1_u3[a][b][c] = crc[2:0];\n               i_rw_p1_u3[a][b][c] = crc[94:0];\n               crc = {crc[94:0], crc[95]^crc[2]^crc[0]};\n            end\n         end\n      end\n\n      dpii_open_p0_u1(0,0,1, i_rl_p0_u1, o_rl_p0_u1);\n      dpii_open_p0_u1(1,0,1, i_rb_p0_u1, o_rb_p0_u1);\n      dpii_open_p0_u1(2,0,1, i_rw_p0_u1, o_rw_p0_u1);\n      dpii_open_p1_u1(0,1,1, i_rl_p1_u1, o_rl_p1_u1);\n      dpii_open_p1_u2(0,1,2, i_rl_p1_u2, o_rl_p1_u2);\n      dpii_open_p1_u3(0,1,3, i_rl_p1_u3, o_rl_p1_u3);\n      dpii_open_p1_u1(1,1,1, i_rb_p1_u1, o_rb_p1_u1);\n      dpii_open_p1_u2(1,1,2, i_rb_p1_u2, o_rb_p1_u2);\n      dpii_open_p1_u3(1,1,3, i_rb_p1_u3, o_rb_p1_u3);\n      dpii_open_pw_u1(2,1,1, i_rw_p1_u1, o_rw_p1_u1);\n      dpii_open_pw_u2(2,1,2, i_rw_p1_u2, o_rw_p1_u2);\n      dpii_open_pw_u3(2,1,3, i_rw_p1_u3, o_rw_p1_u3);\n\n      for (int a=-2; a<=2; a=a+1) begin\n         for (int b=-3; b<=3; b=b+1) begin\n            for (int c=-4; c<=4; c=c+1) begin\n               do if',
-               do if ((o_rw_p1_u3[a][b][c]) !== (~i_rw_p1_u3[a][b][c])) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_dpi_open.v",0, (o_rw_p1_u3[a][b][c]), (~i_rw_p1_u3[a][b][c])); end while(0);
+               do if ((o_rw_p1_u3[a][b][c]) !== (~i_rw_p1_u3[a][b][c])) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_dpi_open.v",135, (o_rw_p1_u3[a][b][c]), (~i_rw_p1_u3[a][b][c])); end while(0);
                   ^-- $Source01/t_dpi_open.v:135:18:.
 [SNT:PA0207] $Source01/t_dpi_open.v:81:3: Syntax error: mismatched input 'initial' expecting <EOF>,
    initial begin
@@ -17,7 +17,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 AST_DEBUG_BEGIN
 Count: 1778
 LIB: work
-FILE: f<13>:$Source01/t_dpi_open.v
+FILE<0>:$Source01/t_dpi_open.v
 n<$Source01/t_dpi_open.v> u<1777> t<Top_level_rule> c<1> l<14:1> el<150:10>
   n<> u<1> t<Null_rule> p<1777> s<2> l<14:1> el<14:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<1777> s<3> l<1:1> el<1:47>
@@ -1965,7 +1965,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:checkh
               vpiName: ")"
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:checkh file:$Source01/t_dpi_open.v start:135:16 end:135:66 ppstart:135:16 ppend:135:215:
+        PreprocMacroInstance name:checkh file:$Source01/t_dpi_open.v start:135:16 end:135:66 ppstart:135:16 ppend:135:217:
           vpiParent: SourceFile name:t_dpi_open.v
           vpiName Identifier name:checkh start:135:16 end:135:66:
             vpiParent: PreprocMacroInstance name:checkh
@@ -1978,9 +1978,9 @@ Design name:unnamed:
             Identifier name:~i_rw_p1_u3[a][b][c] start:135:45 end:135:65:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "~i_rw_p1_u3[a][b][c]"
-          "vpiPMIBody Identifier name:do if ((o_rw_p1_u3[a][b][c]) !== (~i_rw_p1_u3[a][b][c])) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_dpi_open.v\",0, (o_rw_p1_u3[a][b][c]), (~i_rw_p1_u3[a][b][c])); end while(0) start:11:28 end:11:227":
+          "vpiPMIBody Identifier name:do if ((o_rw_p1_u3[a][b][c]) !== (~i_rw_p1_u3[a][b][c])) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_dpi_open.v\",135, (o_rw_p1_u3[a][b][c]), (~i_rw_p1_u3[a][b][c])); end while(0) start:11:28 end:11:229":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if ((o_rw_p1_u3[a][b][c]) !== (~i_rw_p1_u3[a][b][c])) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_dpi_open.v\",0, (o_rw_p1_u3[a][b][c]), (~i_rw_p1_u3[a][b][c])); end while(0)"
+            vpiName: "do if ((o_rw_p1_u3[a][b][c]) !== (~i_rw_p1_u3[a][b][c])) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_dpi_open.v\",135, (o_rw_p1_u3[a][b][c]), (~i_rw_p1_u3[a][b][c])); end while(0)"
   vpiAllModules (2 items):
     Module file:$Source01/t_dpi_open.v start:14:1 end:14:1:
       vpiParent: Design name:unnamed
@@ -5563,25 +5563,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_dpi_open/mounts.json
 
 
-{'result': {'coverage': 67.05,
+{'result': {'coverage': 67.02,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_dpi_open.v': {'post_len': 1421,
-                                                        'pre_len': 4313}},
-            'post_len': 1421,
-            'pre_len': 4313,
+            'files': {'$Output/lib/work/t_dpi_open.v': {'post_len': 1423,
+                                                        'pre_len': 4315}},
+            'post_len': 1423,
+            'pre_len': 4315,
             'test_name': 'Verilator/t_dpi_open'}}
 
 +-------------------------------+----------+-----------+
 | INPUT                         |   PRELEN |   POSTLEN |
 +===============================+==========+===========+
-| $Output/lib/work/t_dpi_open.v |     4313 |      1421 |
+| $Output/lib/work/t_dpi_open.v |     4315 |      1423 |
 +===============================+==========+===========+
-|                               |     4313 |      1421 |
+|                               |     4315 |      1423 |
 +-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 67.05
+[COVERAGE] : 67.02
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

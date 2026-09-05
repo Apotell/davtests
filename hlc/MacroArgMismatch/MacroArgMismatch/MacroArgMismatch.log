@@ -4,14 +4,14 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/MacroArgMismatch -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/MacroArgMismatch/MacroArgMismatch
+COMMAND: -wd ../../../tests/MacroArgMismatch -d db -d ast dut.sv -nobuiltin -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/MacroArgMismatch/MacroArgMismatch
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 65
 LIB: work
-FILE: f<13>:$Source01/dut.sv
+FILE<0>:$Source01/dut.sv
 n<$Source01/dut.sv> u<64> t<Top_level_rule> c<1> l<2:1> el<7:1>
   n<> u<1> t<Null_rule> p<64> s<63> l<2:1> el<2:1>
   n<> u<63> t<Source_text> p<64> c<62> l<2:1> el<6:10>
@@ -68,13 +68,13 @@ n<$Source01/dut.sv> u<64> t<Top_level_rule> c<1> l<2:1> el<7:1>
                               n<> u<41> t<Delay_or_event_control> p<49> c<40> s<48> l<1:11> el<1:13>
                                 n<> u<40> t<Delay_control> p<41> c<39> l<1:11> el<1:13>
                                   n<#1> u<39> t<POUND_DELAY> p<40> l<1:11> el<1:13>
-                              n<> u<48> t<Expression> p<49> c<47> l<1:14> el<1:18>
-                                n<> u<47> t<Expression> p<48> c<46> l<1:15> el<1:17>
-                                  n<> u<46> t<TILDA> p<47> s<45> l<1:15> el<1:16>
-                                  n<> u<45> t<Expression> p<47> c<44> l<1:16> el<1:17>
-                                    n<> u<44> t<Primary> p<45> c<43> l<1:16> el<1:17>
-                                      n<> u<43> t<Primary_literal> p<44> c<42> l<1:16> el<1:17>
-                                        n<d> u<42> t<SIMPLE_IDENTIFIER> p<43> l<1:16> el<1:17>
+                              n<> u<48> t<Expression> p<49> c<47> l<1:13> el<1:17>
+                                n<> u<47> t<Expression> p<48> c<46> l<1:14> el<1:16>
+                                  n<> u<46> t<TILDA> p<47> s<45> l<1:14> el<1:15>
+                                  n<> u<45> t<Expression> p<47> c<44> l<1:15> el<1:16>
+                                    n<> u<44> t<Primary> p<45> c<43> l<1:15> el<1:16>
+                                      n<> u<43> t<Primary_literal> p<44> c<42> l<1:15> el<1:16>
+                                        n<d> u<42> t<SIMPLE_IDENTIFIER> p<43> l<1:15> el<1:16>
         n<> u<60> t<ENDMODULE> p<61> l<6:1> el<6:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:2:1: Compile module "test".
@@ -99,7 +99,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:D
               vpiName: "#1"
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:D file:$Source01/dut.sv start:5:10 end:5:17 ppstart:5:10 ppend:5:17:
+        PreprocMacroInstance name:D file:$Source01/dut.sv start:5:10 end:5:17 ppstart:5:10 ppend:5:16:
           vpiParent: SourceFile name:dut.sv
           vpiName Identifier name:D start:5:10 end:5:17:
             vpiParent: PreprocMacroInstance name:D
@@ -109,9 +109,9 @@ Design name:unnamed:
             Identifier name:~d start:5:14 end:5:16:
               vpiParent: PreprocMacroInstance name:D
               vpiName: "~d"
-          vpiPMIBody Identifier name:#1 (~d) start:1:11 end:1:17:
+          vpiPMIBody Identifier name:#1(~d) start:1:11 end:1:17:
             vpiParent: PreprocMacroInstance name:D
-            vpiName: "#1 (~d)"
+            vpiName: "#1(~d)"
   vpiAllModules (1 items):
     Module name:test file:$Source01/dut.sv start:2:1 end:6:10:
       vpiParent: Design name:unnamed
@@ -187,11 +187,11 @@ Design name:unnamed:
                 vpiActual: Variable name:d
               vpiRhs DelayControl start:1:11 end:1:13:
                 vpiParent: Assignment
-                vpiStmt Operation start:1:15 end:1:17:
+                vpiStmt Operation start:1:14 end:1:16:
                   vpiParent: DelayControl
                   vpiOpType: bitwise negation (4)
                   vpiOperand (1 items):
-                    RefObj name:d start:1:16 end:1:17:
+                    RefObj name:d start:1:15 end:1:16:
                       vpiParent: Operation
                       vpiName: d
                       vpiFullName: test.d
@@ -240,17 +240,17 @@ mounts-filepath: ${HLC_DIR}/regression/MacroArgMismatch/MacroArgMismatch/mounts.
             'error_count': 0,
             'file_count': 1,
             'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
-                                                  'pre_len': 72}},
+                                                  'pre_len': 71}},
             'post_len': 0,
-            'pre_len': 72,
+            'pre_len': 71,
             'test_name': 'MacroArgMismatch/MacroArgMismatch'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |       72 |         0 |
+| $Output/lib/work/dut.sv |       71 |         0 |
 +=========================+==========+===========+
-|                         |       72 |         0 |
+|                         |       71 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0

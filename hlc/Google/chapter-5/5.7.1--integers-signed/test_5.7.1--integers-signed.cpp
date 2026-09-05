@@ -142,8 +142,7 @@ TEST_F(IntegersSigned, AssignmentA_OperationTypeIsMinus) {
   ASSERT_NE(assign, nullptr);
   const auto *op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
-  // vpiMinusOp == 1
-  EXPECT_EQ(op->getOpType(), 1) << "unary minus operation should have opType 1 (minus)";
+  EXPECT_EQ(op->getOpType(), vpiMinusOp) << "unary minus operation should have opType 1 (minus)";
 }
 
 TEST_F(IntegersSigned, AssignmentA_OperandIsDecimalConstant) {
@@ -155,10 +154,9 @@ TEST_F(IntegersSigned, AssignmentA_OperandIsDecimalConstant) {
   ASSERT_EQ(op->getOperands()->size(), 1u);
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
-  // vpiDecConst == 1
-  EXPECT_EQ(c->getConstType(), 1) << "operand of -8'd6 should be a decimal constant";
+  EXPECT_EQ(c->getConstType(), vpiDecConst) << "operand of -8'd6 should be a decimal constant";
   EXPECT_EQ(c->getSize(), 8);
-  EXPECT_EQ(c->getDecompile(), "8'd6");
+  EXPECT_EQ(c->getDecompile(), std::string_view("8'd 6"));
 }
 
 // ----
@@ -178,8 +176,7 @@ TEST_F(IntegersSigned, AssignmentB_ConstTypeIsHex) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  // vpiHexConst == 5; 's' qualifier does not change constType
-  EXPECT_EQ(c->getConstType(), 5) << "4'shf: signed qualifier does not change constType from hex (5)";
+  EXPECT_EQ(c->getConstType(), vpiHexConst) << "4'shf: signed qualifier does not change constType from hex (5)";
 }
 
 TEST_F(IntegersSigned, AssignmentB_SizeAndDecompile) {
@@ -188,7 +185,7 @@ TEST_F(IntegersSigned, AssignmentB_SizeAndDecompile) {
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 4);
-  EXPECT_EQ(c->getDecompile(), "4'shf");
+  EXPECT_EQ(c->getDecompile(), std::string_view("4'shf"));
 }
 
 TEST_F(IntegersSigned, AssignmentB_getValue) {
@@ -196,7 +193,7 @@ TEST_F(IntegersSigned, AssignmentB_getValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "f");
+  EXPECT_EQ(c->getValue(), std::string_view("f"));
 }
 
 // ----
@@ -208,7 +205,7 @@ TEST_F(IntegersSigned, AssignmentC_RhsIsOperation) {
   ASSERT_NE(assign, nullptr);
   const auto *op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "RHS of 'c = -4'sd15' should be an Operation (unary minus)";
-  EXPECT_EQ(op->getOpType(), 1);
+  EXPECT_EQ(op->getOpType(), vpiMinusOp);
 }
 
 TEST_F(IntegersSigned, AssignmentC_OperandIsSignedDecimalConstant) {
@@ -220,9 +217,9 @@ TEST_F(IntegersSigned, AssignmentC_OperandIsSignedDecimalConstant) {
   ASSERT_EQ(op->getOperands()->size(), 1u);
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 1) << "operand of -4'sd15 should be a decimal constant";
+  EXPECT_EQ(c->getConstType(), vpiDecConst) << "operand of -4'sd15 should be a decimal constant";
   EXPECT_EQ(c->getSize(), 4);
-  EXPECT_EQ(c->getDecompile(), "4'sd15");
+  EXPECT_EQ(c->getDecompile(), std::string_view("4'sd15"));
 }
 
 // ----
@@ -242,7 +239,7 @@ TEST_F(IntegersSigned, AssignmentD_ConstTypeIsDecimal) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 1) << "16'sd?: constType should be decimal (1)";
+  EXPECT_EQ(c->getConstType(), vpiDecConst) << "16'sd?: constType should be decimal (1)";
 }
 
 TEST_F(IntegersSigned, AssignmentD_SizeAndDecompile) {
@@ -251,7 +248,7 @@ TEST_F(IntegersSigned, AssignmentD_SizeAndDecompile) {
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 16);
-  EXPECT_EQ(c->getDecompile(), "16'sd?");
+  EXPECT_EQ(c->getDecompile(), std::string_view("16'sd?"));
 }
 
 TEST_F(IntegersSigned, AssignmentD_getValue) {
@@ -260,7 +257,7 @@ TEST_F(IntegersSigned, AssignmentD_getValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "?");
+  EXPECT_EQ(c->getValue(), std::string_view("?"));
 }
 
 }  // namespace hlc

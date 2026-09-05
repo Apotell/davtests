@@ -176,7 +176,7 @@ TEST_F(IntegersLeftPadding, AssignmentA_getValue) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getValue(), "x");
+  EXPECT_EQ(rhs->getValue(), std::string_view("x"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentB_getValue) {
@@ -185,7 +185,7 @@ TEST_F(IntegersLeftPadding, AssignmentB_getValue) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getValue(), "3x");
+  EXPECT_EQ(rhs->getValue(), std::string_view("3x"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentC_getValue) {
@@ -194,7 +194,7 @@ TEST_F(IntegersLeftPadding, AssignmentC_getValue) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getValue(), "z3");
+  EXPECT_EQ(rhs->getValue(), std::string_view("z3"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentD_getValue) {
@@ -203,7 +203,7 @@ TEST_F(IntegersLeftPadding, AssignmentD_getValue) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getValue(), "0z3");
+  EXPECT_EQ(rhs->getValue(), std::string_view("0z3"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentE_getValue) {
@@ -212,7 +212,7 @@ TEST_F(IntegersLeftPadding, AssignmentE_getValue) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getValue(), "5");
+  EXPECT_EQ(rhs->getValue(), std::string_view("5"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentF_getValue) {
@@ -221,7 +221,7 @@ TEST_F(IntegersLeftPadding, AssignmentF_getValue) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getValue(), "x");
+  EXPECT_EQ(rhs->getValue(), std::string_view("x"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentG_getValue) {
@@ -230,7 +230,7 @@ TEST_F(IntegersLeftPadding, AssignmentG_getValue) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getValue(), "z");
+  EXPECT_EQ(rhs->getValue(), std::string_view("z"));
 }
 
 // ----
@@ -241,7 +241,7 @@ TEST_F(IntegersLeftPadding, AssignmentA_getDecompile) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "'hx");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("'h x"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentB_getDecompile) {
@@ -249,7 +249,7 @@ TEST_F(IntegersLeftPadding, AssignmentB_getDecompile) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "'h3x");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("'h 3x"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentC_getDecompile) {
@@ -257,7 +257,7 @@ TEST_F(IntegersLeftPadding, AssignmentC_getDecompile) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "'hz3");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("'h z3"));
 }
 
 TEST_F(IntegersLeftPadding, AssignmentG_getDecompile) {
@@ -265,7 +265,7 @@ TEST_F(IntegersLeftPadding, AssignmentG_getDecompile) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "'hz");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("'hz"));
 }
 
 }  // namespace hlc

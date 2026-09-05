@@ -36,6 +36,9 @@ def _main():
   parser.add_argument(
       '--jobs', nargs='?', required=False, default=multiprocessing.cpu_count(), type=int,
       help='Parallel jobs passed through to each extract.py invocation.')
+  parser.add_argument(
+      '--skip-noise', dest='skip_noise', action='store_true',
+      help='Passed through to each extract.py invocation -- see extract.py --help. Off by default.')
   args = parser.parse_args()
 
   input_path = Path(args.input_path).resolve()
@@ -58,6 +61,7 @@ def _main():
   print(f'     output-dirpath: {args.output_dirpath}')
   print(f'            filters: {args.filters}')
   print(f'               jobs: {args.jobs}')
+  print(f'         skip-noise: {args.skip_noise}')
   print(f'archives to process: {len(zip_files)}')
   for zf in zip_files:
     print(f'    {zf}')
@@ -79,6 +83,9 @@ def _main():
 
     if args.jobs is not None:
       cmd += ['--jobs', str(args.jobs)]
+
+    if args.skip_noise:
+      cmd += ['--skip-noise']
 
     result = subprocess.run(cmd)
     total_failures += result.returncode

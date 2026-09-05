@@ -4,16 +4,40 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../../tests/YosysTests/frontends -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v verilog_lexer_package/top.v verilog_lexer_package/testbench.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/frontends/verilog_lexer_package/verilog_lexer_package
+COMMAND: -wd ../../../../../tests/YosysTests/frontends -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v verilog_lexer_package/top.v verilog_lexer_package/testbench.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/frontends/verilog_lexer_package/verilog_lexer_package
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/common.v".
 [INF:PP0122] Preprocessing source file "$Source01/verilog_lexer_package/top.v".
 [INF:PP0122] Preprocessing source file "$Source01/verilog_lexer_package/testbench.v".
 [INF:PA0201] Parsing source file "$Source01/common.v".
+[INF:PA0201] Parsing source file "$Source01/verilog_lexer_package/top.v".
+[INF:PA0201] Parsing source file "$Source01/verilog_lexer_package/testbench.v".
+[SNT:PA0207] $Source01/verilog_lexer_package/top.v:18: Syntax error: mismatched input '{' expecting <EOF>,
+{* AAA *}
+^-- $Source01/verilog_lexer_package/top.v:18:0:.
+AST_DEBUG_BEGIN
+Count: 15
+LIB: work
+FILE<0>:$Source01/verilog_lexer_package/top.v
+n<$Source01/verilog_lexer_package/top.v> u<14> t<Top_level_rule> c<1> l<1:1> el<138:10>
+  n<> u<1> t<Null_rule> p<14> s<11> l<1:1>
+  n<> u<11> t<Source_text> p<14> c<3> s<12> l<1:1> el<16:11>
+    n<> u<3> t<Description> p<11> c<2> s<10> l<1:1> el<1:10>
+      n<> u<2> t<Top_directives> p<3> l<1:1> el<1:10>
+    n<> u<10> t<Description> p<11> c<9> l<3:1> el<16:11>
+      n<> u<9> t<Package_declaration> p<10> c<4> l<3:1> el<16:11>
+        n<> u<4> t<PACKAGE> p<9> s<5> l<3:1> el<3:8>
+        n<my_pkg> u<5> t<SIMPLE_IDENTIFIER> p<9> s<6> l<3:9> el<3:15>
+        n<// typedef enum bit [1:0] { RED, YELLOW, GREEN, RSVD } e_signal;> u<6> t<LINE_COMMENT> p<9> s<7> l<4:2> el<4:66>
+        n</*  typedef struct { bit [3:0] signal_id;\n                     bit       active;\n                     bit [1:0] timeout;\n                   } e_sig_param;\n\n  function common ();\n      $display ("Called from somewhere");\n     endfunction\n\n    task run ();\n    endtask */> u<7> t<BLOCK_COMMENT> p<9> s<8> l<3:9> el<3:15>
+        n<> u<8> t<ENDPACKAGE> p<9> l<16:1> el<16:11>
+  n<//> u<12> t<LINE_COMMENT> p<14> s<13> l<19:1> el<19:3>
+  n<//import my_pkg::*;> u<13> t<LINE_COMMENT> p<14> l<28:2> el<28:21>
+AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 448
 LIB: work
-FILE: f<13>:$Source01/common.v
+FILE<0>:$Source01/common.v
 n<$Source01/common.v> u<447> t<Top_level_rule> c<1> l<1:1> el<48:1>
   n<> u<1> t<Null_rule> p<447> s<446> l<1:1>
   n<> u<446> t<Source_text> p<447> c<104> l<1:1> el<47:10>
@@ -462,34 +486,10 @@ n<$Source01/common.v> u<447> t<Top_level_rule> c<1> l<1:1> el<48:1>
                               n<> u<431> t<END> p<432> l<46:5> el<46:8>
         n<> u<443> t<ENDMODULE> p<444> l<47:1> el<47:10>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/verilog_lexer_package/top.v".
-[SNT:PA0207] $Source01/verilog_lexer_package/top.v:18: Syntax error: mismatched input '{' expecting <EOF>,
-{* AAA *}
-^-- $Source01/verilog_lexer_package/top.v:18:0:.
-AST_DEBUG_BEGIN
-Count: 15
-LIB: work
-FILE: f<14>:$Source01/verilog_lexer_package/top.v
-n<$Source01/verilog_lexer_package/top.v> u<14> t<Top_level_rule> c<1> l<1:1> el<138:10>
-  n<> u<1> t<Null_rule> p<14> s<11> l<1:1>
-  n<> u<11> t<Source_text> p<14> c<3> s<12> l<1:1> el<16:11>
-    n<> u<3> t<Description> p<11> c<2> s<10> l<1:1> el<1:10>
-      n<> u<2> t<Top_directives> p<3> l<1:1> el<1:10>
-    n<> u<10> t<Description> p<11> c<9> l<3:1> el<16:11>
-      n<> u<9> t<Package_declaration> p<10> c<4> l<3:1> el<16:11>
-        n<> u<4> t<PACKAGE> p<9> s<5> l<3:1> el<3:8>
-        n<my_pkg> u<5> t<SIMPLE_IDENTIFIER> p<9> s<6> l<3:9> el<3:15>
-        n<// typedef enum bit [1:0] { RED, YELLOW, GREEN, RSVD } e_signal;> u<6> t<LINE_COMMENT> p<9> s<7> l<4:2> el<4:66>
-        n</*  typedef struct { bit [3:0] signal_id;\n                     bit       active;\n                     bit [1:0] timeout;\n                   } e_sig_param;\n\n  function common ();\n      $display ("Called from somewhere");\n     endfunction\n\n    task run ();\n    endtask */> u<7> t<BLOCK_COMMENT> p<9> s<8> l<3:9> el<3:15>
-        n<> u<8> t<ENDPACKAGE> p<9> l<16:1> el<16:11>
-  n<//> u<12> t<LINE_COMMENT> p<14> s<13> l<19:1> el<19:3>
-  n<//import my_pkg::*;> u<13> t<LINE_COMMENT> p<14> l<28:2> el<28:21>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/verilog_lexer_package/testbench.v".
 AST_DEBUG_BEGIN
 Count: 524
 LIB: work
-FILE: f<16>:$Source01/verilog_lexer_package/testbench.v
+FILE<0>:$Source01/verilog_lexer_package/testbench.v
 n<$Source01/verilog_lexer_package/testbench.v> u<523> t<Top_level_rule> c<1> l<1:1> el<44:1>
   n<> u<1> t<Null_rule> p<523> s<522> l<1:1>
   n<> u<522> t<Source_text> p<523> c<521> l<1:1> el<43:10>

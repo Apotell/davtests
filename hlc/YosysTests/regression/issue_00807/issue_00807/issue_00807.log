@@ -4,16 +4,89 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v issue_00807/top.v issue_00807/testbench.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/regression/issue_00807/issue_00807
+COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v issue_00807/top.v issue_00807/testbench.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/regression/issue_00807/issue_00807
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/common.v".
 [INF:PP0122] Preprocessing source file "$Source01/issue_00807/top.v".
 [INF:PP0122] Preprocessing source file "$Source01/issue_00807/testbench.v".
 [INF:PA0201] Parsing source file "$Source01/common.v".
+[INF:PA0201] Parsing source file "$Source01/issue_00807/top.v".
+[INF:PA0201] Parsing source file "$Source01/issue_00807/testbench.v".
+[SNT:PA0207] $Source01/issue_00807/top.v:4: Syntax error: mismatched input ')' expecting {'.', 'interface', 'virtual', 'type', 'input', 'output', 'inout', 'ref', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', DOLLAR_UNIT, '(*', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+);
+^-- $Source01/issue_00807/top.v:4:0:.
+AST_DEBUG_BEGIN
+Count: 64
+LIB: work
+FILE<0>:$Source01/issue_00807/top.v
+n<$Source01/issue_00807/top.v> u<63> t<Top_level_rule> c<1> l<1:1> el<9:1>
+  n<> u<1> t<Null_rule> p<63> s<62> l<1:1>
+  n<> u<62> t<Source_text> p<63> c<61> l<1:1> el<8:10>
+    n<> u<61> t<Description> p<62> c<60> l<1:1> el<8:10>
+      n<> u<60> t<Module_declaration> p<61> c<29> l<1:1> el<8:10>
+        n<> u<29> t<Module_ansi_header> p<60> c<2> s<58> l<1:1> el<4:3>
+          n<module> u<2> t<MODULE> p<29> s<3> l<1:1> el<1:7>
+          n<top> u<3> t<SIMPLE_IDENTIFIER> p<29> s<4> l<1:8> el<1:11>
+          n<> u<4> t<Package_import_declaration_list> p<29> s<28> l<1:11> el<1:11>
+          n<> u<28> t<Port_declaration_list> p<29> c<21> l<1:11> el<4:2>
+            n<> u<21> t<Ansi_port_declaration> p<28> c<19> s<27> l<2:2> el<2:22>
+              n<> u<19> t<Net_port_header> p<21> c<5> s<20> l<2:2> el<2:20>
+                n<> u<5> t<INPUT> p<19> s<18> l<2:2> el<2:7>
+                n<> u<18> t<Net_port_type> p<19> c<17> l<2:8> el<2:20>
+                  n<> u<17> t<Data_type_or_implicit> p<18> c<6> l<2:8> el<2:20>
+                    n<> u<6> t<SIGNED> p<17> s<16> l<2:8> el<2:14>
+                    n<> u<16> t<Packed_dimension> p<17> c<15> l<2:15> el<2:20>
+                      n<> u<15> t<Constant_range> p<16> c<10> l<2:16> el<2:19>
+                        n<> u<10> t<Constant_expression> p<15> c<9> s<14> l<2:16> el<2:17>
+                          n<> u<9> t<Constant_primary> p<10> c<8> l<2:16> el<2:17>
+                            n<> u<8> t<Primary_literal> p<9> c<7> l<2:16> el<2:17>
+                              n<7> u<7> t<INTEGRAL_NUMBER> p<8> l<2:16> el<2:17>
+                        n<> u<14> t<Constant_expression> p<15> c<13> l<2:18> el<2:19>
+                          n<> u<13> t<Constant_primary> p<14> c<12> l<2:18> el<2:19>
+                            n<> u<12> t<Primary_literal> p<13> c<11> l<2:18> el<2:19>
+                              n<0> u<11> t<INTEGRAL_NUMBER> p<12> l<2:18> el<2:19>
+              n<x> u<20> t<SIMPLE_IDENTIFIER> p<21> l<2:21> el<2:22>
+            n<> u<27> t<Ansi_port_declaration> p<28> c<25> l<3:2> el<3:10>
+              n<> u<25> t<Net_port_header> p<27> c<22> s<26> l<3:2> el<3:8>
+                n<> u<22> t<OUTPUT> p<25> s<24> l<3:2> el<3:8>
+                n<> u<24> t<Net_port_type> p<25> c<23> l<3:9> el<3:9>
+                  n<> u<23> t<Data_type_or_implicit> p<24> l<3:9> el<3:9>
+              n<y> u<26> t<SIMPLE_IDENTIFIER> p<27> l<3:9> el<3:10>
+        n<> u<58> t<Non_port_module_item> p<60> c<57> s<59> l<6:1> el<6:26>
+          n<> u<57> t<Module_or_generate_item> p<58> c<56> l<6:1> el<6:26>
+            n<> u<56> t<Module_common_item> p<57> c<55> l<6:1> el<6:26>
+              n<> u<55> t<Continuous_assign> p<56> c<54> l<6:1> el<6:26>
+                n<> u<54> t<Net_assignment_list> p<55> c<53> l<6:8> el<6:25>
+                  n<> u<53> t<Net_assignment> p<54> c<34> l<6:8> el<6:25>
+                    n<> u<34> t<Net_lvalue> p<53> c<31> s<52> l<6:8> el<6:9>
+                      n<> u<31> t<Ps_or_hierarchical_identifier> p<34> c<30> s<33> l<6:8> el<6:9>
+                        n<y> u<30> t<SIMPLE_IDENTIFIER> p<31> l<6:8> el<6:9>
+                      n<> u<33> t<Constant_select> p<34> c<32> l<6:10> el<6:10>
+                        n<> u<32> t<Constant_bit_select> p<33> l<6:10> el<6:10>
+                    n<> u<52> t<Expression> p<53> c<38> l<6:12> el<6:25>
+                      n<> u<38> t<Expression> p<52> c<37> s<51> l<6:12> el<6:13>
+                        n<> u<37> t<Primary> p<38> c<36> l<6:12> el<6:13>
+                          n<> u<36> t<Primary_literal> p<37> c<35> l<6:12> el<6:13>
+                            n<x> u<35> t<SIMPLE_IDENTIFIER> p<36> l<6:12> el<6:13>
+                      n<> u<51> t<GREATER> p<52> s<50> l<6:14> el<6:15>
+                      n<> u<50> t<Expression> p<52> c<49> l<6:16> el<6:25>
+                        n<> u<49> t<UnaryOp_Minus> p<50> s<48> l<6:16> el<6:17>
+                        n<> u<48> t<Expression> p<50> c<47> l<6:17> el<6:25>
+                          n<> u<47> t<Primary> p<48> c<46> l<6:17> el<6:25>
+                            n<> u<46> t<Subroutine_call> p<47> c<39> l<6:17> el<6:25>
+                              n<$> u<39> t<DOLLAR> p<46> s<40> l<6:17> el<6:18>
+                              n<sqrt> u<40> t<SIMPLE_IDENTIFIER> p<46> s<45> l<6:18> el<6:22>
+                              n<> u<45> t<Argument_list> p<46> c<44> l<6:23> el<6:24>
+                                n<> u<44> t<Expression> p<45> c<43> l<6:23> el<6:24>
+                                  n<> u<43> t<Primary> p<44> c<42> l<6:23> el<6:24>
+                                    n<> u<42> t<Primary_literal> p<43> c<41> l<6:23> el<6:24>
+                                      n<9> u<41> t<INTEGRAL_NUMBER> p<42> l<6:23> el<6:24>
+        n<> u<59> t<ENDMODULE> p<60> l<8:1> el<8:10>
+AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 533
 LIB: work
-FILE: f<13>:$Source01/common.v
+FILE<0>:$Source01/common.v
 n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
   n<> u<1> t<Null_rule> p<532> s<531> l<1:1>
   n<> u<531> t<Source_text> p<532> c<103> l<1:1> el<59:10>
@@ -547,83 +620,10 @@ n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
                               n<> u<516> t<END> p<517> l<58:5> el<58:8>
         n<> u<528> t<ENDMODULE> p<529> l<59:1> el<59:10>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/issue_00807/top.v".
-[SNT:PA0207] $Source01/issue_00807/top.v:4: Syntax error: mismatched input ')' expecting {'.', 'interface', 'virtual', 'type', 'input', 'output', 'inout', 'ref', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', DOLLAR_UNIT, '(*', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
-);
-^-- $Source01/issue_00807/top.v:4:0:.
-AST_DEBUG_BEGIN
-Count: 64
-LIB: work
-FILE: f<14>:$Source01/issue_00807/top.v
-n<$Source01/issue_00807/top.v> u<63> t<Top_level_rule> c<1> l<1:1> el<9:1>
-  n<> u<1> t<Null_rule> p<63> s<62> l<1:1>
-  n<> u<62> t<Source_text> p<63> c<61> l<1:1> el<8:10>
-    n<> u<61> t<Description> p<62> c<60> l<1:1> el<8:10>
-      n<> u<60> t<Module_declaration> p<61> c<29> l<1:1> el<8:10>
-        n<> u<29> t<Module_ansi_header> p<60> c<2> s<58> l<1:1> el<4:3>
-          n<module> u<2> t<MODULE> p<29> s<3> l<1:1> el<1:7>
-          n<top> u<3> t<SIMPLE_IDENTIFIER> p<29> s<4> l<1:8> el<1:11>
-          n<> u<4> t<Package_import_declaration_list> p<29> s<28> l<1:11> el<1:11>
-          n<> u<28> t<Port_declaration_list> p<29> c<21> l<1:11> el<4:2>
-            n<> u<21> t<Ansi_port_declaration> p<28> c<19> s<27> l<2:2> el<2:22>
-              n<> u<19> t<Net_port_header> p<21> c<5> s<20> l<2:2> el<2:20>
-                n<> u<5> t<INPUT> p<19> s<18> l<2:2> el<2:7>
-                n<> u<18> t<Net_port_type> p<19> c<17> l<2:8> el<2:20>
-                  n<> u<17> t<Data_type_or_implicit> p<18> c<6> l<2:8> el<2:20>
-                    n<> u<6> t<SIGNED> p<17> s<16> l<2:8> el<2:14>
-                    n<> u<16> t<Packed_dimension> p<17> c<15> l<2:15> el<2:20>
-                      n<> u<15> t<Constant_range> p<16> c<10> l<2:16> el<2:19>
-                        n<> u<10> t<Constant_expression> p<15> c<9> s<14> l<2:16> el<2:17>
-                          n<> u<9> t<Constant_primary> p<10> c<8> l<2:16> el<2:17>
-                            n<> u<8> t<Primary_literal> p<9> c<7> l<2:16> el<2:17>
-                              n<7> u<7> t<INTEGRAL_NUMBER> p<8> l<2:16> el<2:17>
-                        n<> u<14> t<Constant_expression> p<15> c<13> l<2:18> el<2:19>
-                          n<> u<13> t<Constant_primary> p<14> c<12> l<2:18> el<2:19>
-                            n<> u<12> t<Primary_literal> p<13> c<11> l<2:18> el<2:19>
-                              n<0> u<11> t<INTEGRAL_NUMBER> p<12> l<2:18> el<2:19>
-              n<x> u<20> t<SIMPLE_IDENTIFIER> p<21> l<2:21> el<2:22>
-            n<> u<27> t<Ansi_port_declaration> p<28> c<25> l<3:2> el<3:10>
-              n<> u<25> t<Net_port_header> p<27> c<22> s<26> l<3:2> el<3:8>
-                n<> u<22> t<OUTPUT> p<25> s<24> l<3:2> el<3:8>
-                n<> u<24> t<Net_port_type> p<25> c<23> l<3:9> el<3:9>
-                  n<> u<23> t<Data_type_or_implicit> p<24> l<3:9> el<3:9>
-              n<y> u<26> t<SIMPLE_IDENTIFIER> p<27> l<3:9> el<3:10>
-        n<> u<58> t<Non_port_module_item> p<60> c<57> s<59> l<6:1> el<6:26>
-          n<> u<57> t<Module_or_generate_item> p<58> c<56> l<6:1> el<6:26>
-            n<> u<56> t<Module_common_item> p<57> c<55> l<6:1> el<6:26>
-              n<> u<55> t<Continuous_assign> p<56> c<54> l<6:1> el<6:26>
-                n<> u<54> t<Net_assignment_list> p<55> c<53> l<6:8> el<6:25>
-                  n<> u<53> t<Net_assignment> p<54> c<34> l<6:8> el<6:25>
-                    n<> u<34> t<Net_lvalue> p<53> c<31> s<52> l<6:8> el<6:9>
-                      n<> u<31> t<Ps_or_hierarchical_identifier> p<34> c<30> s<33> l<6:8> el<6:9>
-                        n<y> u<30> t<SIMPLE_IDENTIFIER> p<31> l<6:8> el<6:9>
-                      n<> u<33> t<Constant_select> p<34> c<32> l<6:10> el<6:10>
-                        n<> u<32> t<Constant_bit_select> p<33> l<6:10> el<6:10>
-                    n<> u<52> t<Expression> p<53> c<38> l<6:12> el<6:25>
-                      n<> u<38> t<Expression> p<52> c<37> s<51> l<6:12> el<6:13>
-                        n<> u<37> t<Primary> p<38> c<36> l<6:12> el<6:13>
-                          n<> u<36> t<Primary_literal> p<37> c<35> l<6:12> el<6:13>
-                            n<x> u<35> t<SIMPLE_IDENTIFIER> p<36> l<6:12> el<6:13>
-                      n<> u<51> t<GREATER> p<52> s<50> l<6:14> el<6:15>
-                      n<> u<50> t<Expression> p<52> c<49> l<6:16> el<6:25>
-                        n<> u<49> t<UnaryOp_Minus> p<50> s<48> l<6:16> el<6:17>
-                        n<> u<48> t<Expression> p<50> c<47> l<6:17> el<6:25>
-                          n<> u<47> t<Primary> p<48> c<46> l<6:17> el<6:25>
-                            n<> u<46> t<Subroutine_call> p<47> c<39> l<6:17> el<6:25>
-                              n<$> u<39> t<DOLLAR> p<46> s<40> l<6:17> el<6:18>
-                              n<sqrt> u<40> t<SIMPLE_IDENTIFIER> p<46> s<45> l<6:18> el<6:22>
-                              n<> u<45> t<Argument_list> p<46> c<44> l<6:23> el<6:24>
-                                n<> u<44> t<Expression> p<45> c<43> l<6:23> el<6:24>
-                                  n<> u<43> t<Primary> p<44> c<42> l<6:23> el<6:24>
-                                    n<> u<42> t<Primary_literal> p<43> c<41> l<6:23> el<6:24>
-                                      n<9> u<41> t<INTEGRAL_NUMBER> p<42> l<6:23> el<6:24>
-        n<> u<59> t<ENDMODULE> p<60> l<8:1> el<8:10>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/issue_00807/testbench.v".
 AST_DEBUG_BEGIN
 Count: 264
 LIB: work
-FILE: f<16>:$Source01/issue_00807/testbench.v
+FILE<0>:$Source01/issue_00807/testbench.v
 n<$Source01/issue_00807/testbench.v> u<263> t<Top_level_rule> c<1> l<1:1> el<32:1>
   n<> u<1> t<Null_rule> p<263> s<262> l<1:1>
   n<> u<262> t<Source_text> p<263> c<261> l<1:1> el<31:10>

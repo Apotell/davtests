@@ -4,15 +4,15 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/UnitElabExternNested top.v middle.v -writepp -fileunit -nocache -wd ${HLC_DIR}/third_party/UVM +incdir+ovm-2.1.2/src +incdir+vmm-1.1.1a/sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UnitElabExternNested/UnitElabExternNested
+COMMAND: -wd ../../../tests/UnitElabExternNested top.v middle.v -writepp -fileunit -nocache -wd ${HLC_DIR}/third_party/UVM +incdir+ovm-2.1.2/src +incdir+vmm-1.1.1a/sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/UnitElabExternNested/UnitElabExternNested
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.v".
 [INF:PP0122] Preprocessing source file "$Source01/middle.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/top.v".
 [INF:PA0201] Parsing source file "$Source01/middle.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0303] $Source01/top.v:1:1: Compile module "dff_nested".
 [NTE:CP0309] $Source01/top.v:6:2: Implicit port type (wire) for "q".
 [NTE:CP0309] $Source01/top.v:6:5: Implicit port type (wire) for "nq".
@@ -1596,7 +1596,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1610,6 +1610,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1791,7 +1792,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -1835,6 +1836,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1908,7 +1910,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -1922,6 +1924,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2964,27 +2967,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
-    ClassTypespec name:mailbox:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:mailbox:
-        vpiParent: ClassTypespec name:mailbox
-        vpiName: mailbox
-      vpiDefName: mailbox
-      vpiClassDefn: ClassDefn name:mailbox
-    ClassTypespec name:process:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:process:
-        vpiParent: ClassTypespec name:process
-        vpiName: process
-      vpiDefName: process
-      vpiClassDefn: ClassDefn name:process
-    ClassTypespec name:semaphore:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:semaphore:
-        vpiParent: ClassTypespec name:semaphore
-        vpiName: semaphore
-      vpiDefName: semaphore
-      vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:dff_nested:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dff_nested start:2:2 end:2:12:
@@ -3009,6 +2991,27 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:top
         vpiName: top
       vpiModule: Module name:top
+    ClassTypespec name:mailbox:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
+      vpiDefName: mailbox
+      vpiClassDefn: ClassDefn name:mailbox
+    ClassTypespec name:process:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
+      vpiDefName: process
+      vpiClassDefn: ClassDefn name:process
+    ClassTypespec name:semaphore:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
+      vpiDefName: semaphore
+      vpiClassDefn: ClassDefn name:semaphore
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

@@ -4,19 +4,18 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit cic5_tb.v cic5.v crc32.v dspmac_16_40_tb.v latch.v pwm256_tb.v pwm256.v -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysSmall/YosysSmall
+COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit cic5_tb.v cic5.v crc32.v dspmac_16_40_tb.v latch.v pwm256_tb.v pwm256.v -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysSmall/YosysSmall
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/cic5_tb.v".
 [INF:PP0122] Preprocessing source file "$Source01/cic5.v".
 [INF:PP0122] Preprocessing source file "$Source01/crc32.v".
 [INF:PP0122] Preprocessing source file "$Source01/dspmac_16_40_tb.v".
-[ERR:PP0101] $Source01/dspmac_16_40_tb.v:4: Cannot open include file "$Source01/constants.vams".
 [INF:PP0122] Preprocessing source file "$Source01/latch.v".
 [INF:PP0122] Preprocessing source file "$Source01/pwm256_tb.v".
 [INF:PP0122] Preprocessing source file "$Source01/pwm256.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[ERR:PP0101] $Source01/dspmac_16_40_tb.v:4:1: Cannot open include file "constants.vams".
 [INF:PA0201] Parsing source file "$Source01/cic5_tb.v".
 [INF:PA0201] Parsing source file "$Source01/cic5.v".
 [INF:PA0201] Parsing source file "$Source01/crc32.v".
@@ -24,6 +23,7 @@ COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit ci
 [INF:PA0201] Parsing source file "$Source01/latch.v".
 [INF:PA0201] Parsing source file "$Source01/pwm256_tb.v".
 [INF:PA0201] Parsing source file "$Source01/pwm256.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0303] $Source01/cic5_tb.v:8:1: Compile module "tb".
 [INF:CP0303] $Source01/cic5.v:6:1: Compile module "cic5".
 [INF:CP0303] $Source01/crc32.v:8:1: Compile module "crc32".
@@ -42,12 +42,12 @@ COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit ci
 [WRN:PA0205] $Source01/latch.v:7:1: No timescale set for "latch".
 [WRN:PA0205] $Source01/pwm256_tb.v:6:1: No timescale set for "tb".
 [WRN:PA0205] $Source01/pwm256.v:6:1: No timescale set for "pwm256".
-[ERR:LN0801] Invalid name: id:3708, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:3711, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:3714, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:3717, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:3720, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:3723, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:3582, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:3585, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:3588, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:3591, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:3594, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:3597, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -69,7 +69,7 @@ Design name:unnamed:
       vpiName: dspmac_16_40_tb.v
       vpiPreprocFile: "$Output/lib/work/dspmac_16_40_tb.v"
       vpiIncludes (1 items):
-        SourceFile name:constants.vams file:$Source01/constants.vams start:4:1 end:4:26:
+        SourceFile name:constants.vams start:4:1 end:4:26:
           vpiParent: SourceFile name:dspmac_16_40_tb.v
           vpiName: constants.vams
     SourceFile name:latch.v file:$Source01/latch.v:
@@ -1638,7 +1638,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1652,6 +1652,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1833,7 +1834,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -1877,6 +1878,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1950,7 +1952,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -1964,6 +1966,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -13602,27 +13605,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
-    ClassTypespec name:mailbox:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:mailbox:
-        vpiParent: ClassTypespec name:mailbox
-        vpiName: mailbox
-      vpiDefName: mailbox
-      vpiClassDefn: ClassDefn name:mailbox
-    ClassTypespec name:process:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:process:
-        vpiParent: ClassTypespec name:process
-        vpiName: process
-      vpiDefName: process
-      vpiClassDefn: ClassDefn name:process
-    ClassTypespec name:semaphore:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:semaphore:
-        vpiParent: ClassTypespec name:semaphore
-        vpiName: semaphore
-      vpiDefName: semaphore
-      vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:tb:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tb start:8:8 end:8:10:
@@ -13669,6 +13651,27 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:pwm256
         vpiName: pwm256
       vpiModule: Module name:pwm256
+    ClassTypespec name:mailbox:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
+      vpiDefName: mailbox
+      vpiClassDefn: ClassDefn name:mailbox
+    ClassTypespec name:process:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
+      vpiDefName: process
+      vpiClassDefn: ClassDefn name:process
+    ClassTypespec name:semaphore:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
+      vpiDefName: semaphore
+      vpiClassDefn: ClassDefn name:semaphore
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

@@ -4,14 +4,14 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr757.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr757
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr757.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr757
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/pr757.v".
 [INF:PA0201] Parsing source file "$Source01/pr757.v".
 AST_DEBUG_BEGIN
 Count: 185
 LIB: work
-FILE: f<13>:$Source01/pr757.v
+FILE<0>:$Source01/pr757.v
 n<$Source01/pr757.v> u<184> t<Top_level_rule> c<1> l<1:1> el<21:1>
   n<> u<1> t<Null_rule> p<184> s<183> l<1:1>
   n<> u<183> t<Source_text> p<184> c<182> l<1:1> el<18:10>
@@ -329,7 +329,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 11
-            vpiDecompile: "11'b11100000000"
+            vpiDecompile: "11'b111_0000_0000"
             vpiValue: "11100000000"
         Net name:b start:5:21 end:5:22:
           vpiParent: Module name:main
@@ -349,7 +349,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 11
-            vpiDecompile: "11'b00000001111"
+            vpiDecompile: "11'b000_0000_1111"
             vpiValue: "00000001111"
       vpiProcess (1 items):
         Initial start:7:5 end:16:8:
@@ -372,25 +372,25 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiOpType: add (24)
                     vpiOperand (2 items):
-                      SysFuncCall name:$signed start:8:19 end:8:29:
+                      SysTaskCall name:$signed start:8:19 end:8:29:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:8:19 end:8:26:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           RefObj name:a start:8:27 end:8:28:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: a
                             vpiFullName: main.a
                             vpiActual: Net name:a
-                      SysFuncCall name:$signed start:8:32 end:8:42:
+                      SysTaskCall name:$signed start:8:32 end:8:42:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:8:32 end:8:39:
-                          vpiParent: SysFuncCall name:$signed
+                          vpiParent: SysTaskCall name:$signed
                           vpiName: "$signed"
                         vpiArgument (1 items):
                           RefObj name:b start:8:40 end:8:41:
-                            vpiParent: SysFuncCall name:$signed
+                            vpiParent: SysTaskCall name:$signed
                             vpiName: b
                             vpiFullName: main.b
                             vpiActual: Net name:b
@@ -423,7 +423,7 @@ Design name:unnamed:
                         vpiActual: LogicTypespec
                       vpiConstType: binary (3)
                       vpiSize: 12
-                      vpiDecompile: "12'b111100001111"
+                      vpiDecompile: "12'b1111_0000_1111"
                       vpiValue: "111100001111"
                 vpiStmt SysTaskCall name:$display start:11:13 end:11:31:
                   vpiParent: IfElse
@@ -528,14 +528,8 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr757/design.hldb ${HLC_DIR}/regr
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            12      13       1         0
-Identifier                           7       5       0         2
-Operation                            2       1       0         1
-RefObj                               6       4       0         2
-RefTypespec                         15      16       1         0
-SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
-Others                              24      24       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    68      63       2         7
+                                    68      68       0         0
 ===================== END REDUCTION RESULT =====================

@@ -4,21 +4,24 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/ClassCons -timescale=1ns/1ns +vcs+flush+all +warn=all -sverilog -d ast -d inst +incdir+. -writepp -fileunit definesPkg.pkg definesPkg_1.pkg top.sv -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ClassCons/ClassCons
+COMMAND: -wd ../../../tests/ClassCons -timescale=1ns/1ns +vcs+flush+all +warn=all -sverilog -d ast -d inst +incdir+. -writepp -mt max -fileunit definesPkg.pkg definesPkg_1.pkg top.sv -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ClassCons/ClassCons
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [NTE:CM0009] Command line argument "+vcs+flush+all" ignored.
 [NTE:CM0009] Command line argument "+warn=all" ignored.
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/definesPkg.pkg".
 [INF:PP0122] Preprocessing source file "$Source01/definesPkg_1.pkg".
 [INF:PP0122] Preprocessing source file "$Source01/top.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/definesPkg.pkg".
+[INF:PA0201] Parsing source file "$Source01/definesPkg_1.pkg".
+[INF:PA0201] Parsing source file "$Source01/top.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<23>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE<0>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -275,75 +278,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/definesPkg.pkg".
 AST_DEBUG_BEGIN
 Count: 59
 LIB: work
-FILE: f<17>:$Source01/definesPkg.pkg
-n<$Source01/definesPkg.pkg> u<58> t<Top_level_rule> c<1> l<4:1> el<17:1>
-  n<> u<1> t<Null_rule> p<58> s<2> l<4:1> el<4:1>
-  n<//+++++++++++++++++++++++++++++++++++++++++++++++++> u<2> t<LINE_COMMENT> p<58> s<3> l<1:1> el<1:52>
-  n<//   Package Declaration> u<3> t<LINE_COMMENT> p<58> s<4> l<2:1> el<2:25>
-  n<//+++++++++++++++++++++++++++++++++++++++++++++++++> u<4> t<LINE_COMMENT> p<58> s<57> l<3:1> el<3:52>
-  n<> u<57> t<Source_text> p<58> c<56> l<4:1> el<16:11>
-    n<> u<56> t<Description> p<57> c<55> l<4:1> el<16:11>
-      n<> u<55> t<Package_declaration> p<56> c<5> l<4:1> el<16:11>
-        n<> u<5> t<PACKAGE> p<55> s<6> l<4:1> el<4:8>
-        n<definesPkg_1> u<6> t<SIMPLE_IDENTIFIER> p<55> s<53> l<4:9> el<4:21>
-        n<> u<53> t<Package_item> p<55> c<52> s<54> l<6:4> el<14:12>
-          n<> u<52> t<Package_or_generate_item_declaration> p<53> c<51> l<6:4> el<14:12>
-            n<> u<51> t<Class_declaration> p<52> c<49> l<6:4> el<14:12>
-              n<> u<49> t<CLASS> p<51> s<7> l<6:4> el<6:9>
-              n<D_PKG1> u<7> t<SIMPLE_IDENTIFIER> p<51> s<16> l<6:10> el<6:16>
-              n<> u<16> t<Class_item> p<51> c<15> s<17> l<7:6> el<7:19>
-                n<> u<15> t<Class_property> p<16> c<14> l<7:6> el<7:19>
-                  n<> u<14> t<Data_declaration> p<15> c<13> l<7:6> el<7:19>
-                    n<> u<13> t<Variable_declaration> p<14> c<9> l<7:6> el<7:19>
-                      n<> u<9> t<Data_type> p<13> c<8> s<12> l<7:6> el<7:13>
-                        n<> u<8> t<INTEGER> p<9> l<7:6> el<7:13>
-                      n<> u<12> t<Variable_decl_assignment_list> p<13> c<11> l<7:14> el<7:18>
-                        n<> u<11> t<Variable_decl_assignment> p<12> c<10> l<7:14> el<7:18>
-                          n<size> u<10> t<SIMPLE_IDENTIFIER> p<11> l<7:14> el<7:18>
-              n<// Constructor> u<17> t<LINE_COMMENT> p<51> s<48> l<8:6> el<8:20>
-              n<> u<48> t<Class_item> p<51> c<47> s<50> l<9:6> el<13:17>
-                n<> u<47> t<Class_method> p<48> c<46> l<9:6> el<13:17>
-                  n<> u<46> t<Class_constructor_declaration> p<47> c<23> l<9:6> el<13:17>
-                    n<> u<23> t<Tf_port_item_list> p<46> c<22> s<44> l<9:19> el<9:33>
-                      n<> u<22> t<Tf_port_item> p<23> c<20> l<9:20> el<9:32>
-                        n<> u<20> t<Data_type_or_implicit> p<22> c<19> s<21> l<9:20> el<9:27>
-                          n<> u<19> t<Data_type> p<20> c<18> l<9:20> el<9:27>
-                            n<> u<18> t<INTEGER> p<19> l<9:20> el<9:27>
-                        n<size> u<21> t<SIMPLE_IDENTIFIER> p<22> l<9:28> el<9:32>
-                    n<> u<44> t<Function_statement_or_null> p<46> c<43> s<45> l<10:8> el<12:11>
-                      n<> u<43> t<Statement> p<44> c<42> l<10:8> el<12:11>
-                        n<> u<42> t<Statement_item> p<43> c<41> l<10:8> el<12:11>
-                          n<> u<41> t<Seq_block> p<42> c<39> l<10:8> el<12:11>
-                            n<> u<39> t<Statement_or_null> p<41> c<38> s<40> l<11:10> el<11:27>
-                              n<> u<38> t<Statement> p<39> c<37> l<11:10> el<11:27>
-                                n<> u<37> t<Statement_item> p<38> c<36> l<11:10> el<11:27>
-                                  n<> u<36> t<Blocking_assignment> p<37> c<35> l<11:10> el<11:26>
-                                    n<> u<35> t<Variable_assignment> p<36> c<30> l<11:10> el<11:26>
-                                      n<> u<30> t<Variable_lvalue> p<35> c<25> s<34> l<11:10> el<11:19>
-                                        n<this> u<25> t<Implicit_class_handle> p<30> c<24> s<27> l<11:10> el<11:14>
-                                          n<this> u<24> t<THIS> p<25> l<11:10> el<11:14>
-                                        n<> u<27> t<Ps_or_hierarchical_identifier> p<30> c<26> s<29> l<11:15> el<11:19>
-                                          n<size> u<26> t<SIMPLE_IDENTIFIER> p<27> l<11:15> el<11:19>
-                                        n<> u<29> t<Select> p<30> c<28> l<11:20> el<11:20>
-                                          n<> u<28> t<Bit_select> p<29> l<11:20> el<11:20>
-                                      n<> u<34> t<Expression> p<35> c<33> l<11:22> el<11:26>
-                                        n<> u<33> t<Primary> p<34> c<32> l<11:22> el<11:26>
-                                          n<> u<32> t<Primary_literal> p<33> c<31> l<11:22> el<11:26>
-                                            n<size> u<31> t<SIMPLE_IDENTIFIER> p<32> l<11:22> el<11:26>
-                            n<> u<40> t<END> p<41> l<12:8> el<12:11>
-                    n<> u<45> t<ENDFUNCTION> p<46> l<13:6> el<13:17>
-              n<> u<50> t<ENDCLASS> p<51> l<14:4> el<14:12>
-        n<> u<54> t<ENDPACKAGE> p<55> l<16:1> el<16:11>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/definesPkg_1.pkg".
-AST_DEBUG_BEGIN
-Count: 59
-LIB: work
-FILE: f<18>:$Source01/definesPkg_1.pkg
+FILE<0>:$Source01/definesPkg_1.pkg
 n<$Source01/definesPkg_1.pkg> u<58> t<Top_level_rule> c<1> l<4:1> el<17:1>
   n<> u<1> t<Null_rule> p<58> s<2> l<4:1> el<4:1>
   n<//+++++++++++++++++++++++++++++++++++++++++++++++++> u<2> t<LINE_COMMENT> p<58> s<3> l<1:1> el<1:52>
@@ -403,11 +341,73 @@ n<$Source01/definesPkg_1.pkg> u<58> t<Top_level_rule> c<1> l<4:1> el<17:1>
               n<> u<50> t<ENDCLASS> p<51> l<14:4> el<14:12>
         n<> u<54> t<ENDPACKAGE> p<55> l<16:1> el<16:11>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/top.sv".
+AST_DEBUG_BEGIN
+Count: 59
+LIB: work
+FILE<0>:$Source01/definesPkg.pkg
+n<$Source01/definesPkg.pkg> u<58> t<Top_level_rule> c<1> l<4:1> el<17:1>
+  n<> u<1> t<Null_rule> p<58> s<2> l<4:1> el<4:1>
+  n<//+++++++++++++++++++++++++++++++++++++++++++++++++> u<2> t<LINE_COMMENT> p<58> s<3> l<1:1> el<1:52>
+  n<//   Package Declaration> u<3> t<LINE_COMMENT> p<58> s<4> l<2:1> el<2:25>
+  n<//+++++++++++++++++++++++++++++++++++++++++++++++++> u<4> t<LINE_COMMENT> p<58> s<57> l<3:1> el<3:52>
+  n<> u<57> t<Source_text> p<58> c<56> l<4:1> el<16:11>
+    n<> u<56> t<Description> p<57> c<55> l<4:1> el<16:11>
+      n<> u<55> t<Package_declaration> p<56> c<5> l<4:1> el<16:11>
+        n<> u<5> t<PACKAGE> p<55> s<6> l<4:1> el<4:8>
+        n<definesPkg_1> u<6> t<SIMPLE_IDENTIFIER> p<55> s<53> l<4:9> el<4:21>
+        n<> u<53> t<Package_item> p<55> c<52> s<54> l<6:4> el<14:12>
+          n<> u<52> t<Package_or_generate_item_declaration> p<53> c<51> l<6:4> el<14:12>
+            n<> u<51> t<Class_declaration> p<52> c<49> l<6:4> el<14:12>
+              n<> u<49> t<CLASS> p<51> s<7> l<6:4> el<6:9>
+              n<D_PKG1> u<7> t<SIMPLE_IDENTIFIER> p<51> s<16> l<6:10> el<6:16>
+              n<> u<16> t<Class_item> p<51> c<15> s<17> l<7:6> el<7:19>
+                n<> u<15> t<Class_property> p<16> c<14> l<7:6> el<7:19>
+                  n<> u<14> t<Data_declaration> p<15> c<13> l<7:6> el<7:19>
+                    n<> u<13> t<Variable_declaration> p<14> c<9> l<7:6> el<7:19>
+                      n<> u<9> t<Data_type> p<13> c<8> s<12> l<7:6> el<7:13>
+                        n<> u<8> t<INTEGER> p<9> l<7:6> el<7:13>
+                      n<> u<12> t<Variable_decl_assignment_list> p<13> c<11> l<7:14> el<7:18>
+                        n<> u<11> t<Variable_decl_assignment> p<12> c<10> l<7:14> el<7:18>
+                          n<size> u<10> t<SIMPLE_IDENTIFIER> p<11> l<7:14> el<7:18>
+              n<// Constructor> u<17> t<LINE_COMMENT> p<51> s<48> l<8:6> el<8:20>
+              n<> u<48> t<Class_item> p<51> c<47> s<50> l<9:6> el<13:17>
+                n<> u<47> t<Class_method> p<48> c<46> l<9:6> el<13:17>
+                  n<> u<46> t<Class_constructor_declaration> p<47> c<23> l<9:6> el<13:17>
+                    n<> u<23> t<Tf_port_item_list> p<46> c<22> s<44> l<9:19> el<9:33>
+                      n<> u<22> t<Tf_port_item> p<23> c<20> l<9:20> el<9:32>
+                        n<> u<20> t<Data_type_or_implicit> p<22> c<19> s<21> l<9:20> el<9:27>
+                          n<> u<19> t<Data_type> p<20> c<18> l<9:20> el<9:27>
+                            n<> u<18> t<INTEGER> p<19> l<9:20> el<9:27>
+                        n<size> u<21> t<SIMPLE_IDENTIFIER> p<22> l<9:28> el<9:32>
+                    n<> u<44> t<Function_statement_or_null> p<46> c<43> s<45> l<10:8> el<12:11>
+                      n<> u<43> t<Statement> p<44> c<42> l<10:8> el<12:11>
+                        n<> u<42> t<Statement_item> p<43> c<41> l<10:8> el<12:11>
+                          n<> u<41> t<Seq_block> p<42> c<39> l<10:8> el<12:11>
+                            n<> u<39> t<Statement_or_null> p<41> c<38> s<40> l<11:10> el<11:27>
+                              n<> u<38> t<Statement> p<39> c<37> l<11:10> el<11:27>
+                                n<> u<37> t<Statement_item> p<38> c<36> l<11:10> el<11:27>
+                                  n<> u<36> t<Blocking_assignment> p<37> c<35> l<11:10> el<11:26>
+                                    n<> u<35> t<Variable_assignment> p<36> c<30> l<11:10> el<11:26>
+                                      n<> u<30> t<Variable_lvalue> p<35> c<25> s<34> l<11:10> el<11:19>
+                                        n<this> u<25> t<Implicit_class_handle> p<30> c<24> s<27> l<11:10> el<11:14>
+                                          n<this> u<24> t<THIS> p<25> l<11:10> el<11:14>
+                                        n<> u<27> t<Ps_or_hierarchical_identifier> p<30> c<26> s<29> l<11:15> el<11:19>
+                                          n<size> u<26> t<SIMPLE_IDENTIFIER> p<27> l<11:15> el<11:19>
+                                        n<> u<29> t<Select> p<30> c<28> l<11:20> el<11:20>
+                                          n<> u<28> t<Bit_select> p<29> l<11:20> el<11:20>
+                                      n<> u<34> t<Expression> p<35> c<33> l<11:22> el<11:26>
+                                        n<> u<33> t<Primary> p<34> c<32> l<11:22> el<11:26>
+                                          n<> u<32> t<Primary_literal> p<33> c<31> l<11:22> el<11:26>
+                                            n<size> u<31> t<SIMPLE_IDENTIFIER> p<32> l<11:22> el<11:26>
+                            n<> u<40> t<END> p<41> l<12:8> el<12:11>
+                    n<> u<45> t<ENDFUNCTION> p<46> l<13:6> el<13:17>
+              n<> u<50> t<ENDCLASS> p<51> l<14:4> el<14:12>
+        n<> u<54> t<ENDPACKAGE> p<55> l<16:1> el<16:11>
+AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 402
 LIB: work
-FILE: f<19>:$Source01/top.sv
+FILE<0>:$Source01/top.sv
 n<$Source01/top.sv> u<401> t<Top_level_rule> c<1> l<1:1> el<67:1>
   n<> u<1> t<Null_rule> p<401> s<400> l<1:1>
   n<> u<400> t<Source_text> p<401> c<8> l<1:1> el<66:11>
@@ -814,12 +814,12 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/definesPkg_1.pkg:4:1: Compile package "definesPkg".
 [INF:CP0306] $Source01/top.sv:9:9: Compile program "class_t".
 [WRN:CP0314] $Source01/top.sv:9:9: Using programs is discouraged "class_t", programs are obsoleted by UVM.
-[WRN:CP0350] $Source01/top.sv:59:10: Failed to bind "id:981, name:new".
+[WRN:CP0350] $Source01/top.sv:59:10: Failed to bind "id:855, name:new".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:886, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:917, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:945, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN0805] $Source01/top.sv:59:10: Null Actual: id:981, type:MethodFuncCall, name:new, relation:vpiRhs.
+[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:760, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:791, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.sv:5:41: Null Actual: id:819, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN0805] $Source01/top.sv:59:10: Null Actual: id:855, type:MethodFuncCall, name:new, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -868,7 +868,7 @@ Design name:unnamed:
             "Identifier name:  start:3:29 end:3:30":
               vpiParent: PreprocMacroDefinition name:PRINT
               vpiName: " "
-            "Identifier name:\\\n start:3:30 end:3:32":
+            "Identifier name:\\\n start:3:30 end:4:1":
               vpiParent: PreprocMacroDefinition name:PRINT
               vpiName: "\\\n"
             "Identifier name:           start:4:1 end:4:11":
@@ -880,7 +880,7 @@ Design name:unnamed:
             "Identifier name:  start:4:16 end:4:17":
               vpiParent: PreprocMacroDefinition name:PRINT
               vpiName: " "
-            "Identifier name:\\\n start:4:17 end:4:19":
+            "Identifier name:\\\n start:4:17 end:5:1":
               vpiParent: PreprocMacroDefinition name:PRINT
               vpiName: "\\\n"
             "Identifier name:             start:5:1 end:5:13":
@@ -919,7 +919,7 @@ Design name:unnamed:
             "Identifier name:  start:5:47 end:5:48":
               vpiParent: PreprocMacroDefinition name:PRINT
               vpiName: " "
-            "Identifier name:\\\n start:5:48 end:5:50":
+            "Identifier name:\\\n start:5:48 end:6:1":
               vpiParent: PreprocMacroDefinition name:PRINT
               vpiName: "\\\n"
             "Identifier name:           start:6:1 end:6:11":
@@ -931,7 +931,7 @@ Design name:unnamed:
             "Identifier name:  start:6:14 end:6:15":
               vpiParent: PreprocMacroDefinition name:PRINT
               vpiName: " "
-            "Identifier name:\\\n start:6:15 end:6:17":
+            "Identifier name:\\\n start:6:15 end:7:1":
               vpiParent: PreprocMacroDefinition name:PRINT
               vpiName: "\\\n"
             "Identifier name:        start:7:1 end:7:8":
@@ -2570,6 +2570,7 @@ Design name:unnamed:
                 vpiName: D_PKG1
               vpiDefName: D_PKG1
               vpiClassDefn: ClassDefn name:D_PKG1
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:D_PKG1
@@ -2679,6 +2680,7 @@ Design name:unnamed:
                 vpiName: D_PKG
               vpiDefName: D_PKG
               vpiClassDefn: ClassDefn name:D_PKG
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:D_PKG
@@ -2740,7 +2742,7 @@ Design name:unnamed:
                 vpiFullName: definesPkg::D_PKG::new::D_PKG
                 vpiActual: ClassTypespec name:D_PKG
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2754,6 +2756,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2935,7 +2938,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2979,6 +2982,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -3052,7 +3056,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -3066,6 +3070,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -3330,6 +3335,7 @@ Design name:unnamed:
                 vpiName: A
               vpiDefName: A
               vpiClassDefn: ClassDefn name:A
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:A
@@ -3452,6 +3458,7 @@ Design name:unnamed:
                 vpiName: B
               vpiDefName: B
               vpiClassDefn: ClassDefn name:B
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:B
@@ -3575,6 +3582,7 @@ Design name:unnamed:
             IntegerTypespec:
               vpiParent: ClassDefn name:C
               vpiSigned: true
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:C
@@ -3815,6 +3823,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ImportTypespec name:definesPkg_1 start:1:8 end:1:23:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:definesPkg_1 start:1:8 end:1:20:
+        vpiParent: ImportTypespec name:definesPkg_1
+        vpiName: definesPkg_1
+    ProgramTypespec name:class_t:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:class_t start:9:9 end:9:16:
+        vpiParent: ProgramTypespec name:class_t
+        vpiName: class_t
+      vpiProgram: Program name:class_t
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -3836,17 +3855,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ImportTypespec name:definesPkg_1 start:1:8 end:1:23:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:definesPkg_1 start:1:8 end:1:20:
-        vpiParent: ImportTypespec name:definesPkg_1
-        vpiName: definesPkg_1
-    ProgramTypespec name:class_t:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:class_t start:9:9 end:9:16:
-        vpiParent: ProgramTypespec name:class_t
-        vpiName: class_t
-      vpiProgram: Program name:class_t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

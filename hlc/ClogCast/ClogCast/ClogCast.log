@@ -4,16 +4,17 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/ClogCast -d db -d ast dut.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ClogCast/ClogCast
+COMMAND: -wd ../../../tests/ClogCast -d db -d ast dut.sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ClogCast/ClogCast
 [INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<16>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE<0>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -270,11 +271,10 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 393
 LIB: work
-FILE: f<13>:$Source01/dut.sv
+FILE<0>:$Source01/dut.sv
 n<$Source01/dut.sv> u<392> t<Top_level_rule> c<1> l<3:2> el<53:1>
   n<> u<1> t<Null_rule> p<392> s<391> l<3:2> el<3:2>
   n<> u<391> t<Source_text> p<392> c<390> l<3:2> el<51:11>
@@ -2233,7 +2233,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2247,6 +2247,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2428,7 +2429,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2472,6 +2473,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2545,7 +2547,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2559,6 +2561,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2718,7 +2721,7 @@ Design name:unnamed:
                   vpiActual: IntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h000000007b200073"
+                vpiDecompile: "64'h00000000_7b200073"
                 vpiValue: "000000007b200073"
               Constant start:14:6 end:14:27:
                 vpiParent: Operation
@@ -2728,7 +2731,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h7b3025737b202473"
+                vpiDecompile: "64'h7b302573_7b202473"
                 vpiValue: "7b3025737b202473"
               Constant start:15:6 end:15:27:
                 vpiParent: Operation
@@ -2738,7 +2741,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h10852423f1402473"
+                vpiDecompile: "64'h10852423_f1402473"
                 vpiValue: "10852423f1402473"
               Constant start:16:6 end:16:27:
                 vpiParent: Operation
@@ -2748,7 +2751,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'ha85ff06f7b302573"
+                vpiDecompile: "64'ha85ff06f_7b302573"
                 vpiValue: a85ff06f7b302573
               Constant start:17:6 end:17:27:
                 vpiParent: Operation
@@ -2758,7 +2761,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h7b20247310052223"
+                vpiDecompile: "64'h7b202473_10052223"
                 vpiValue: "7b20247310052223"
               Constant start:18:6 end:18:27:
                 vpiParent: Operation
@@ -2768,7 +2771,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h001000737b302573"
+                vpiDecompile: "64'h00100073_7b302573"
                 vpiValue: "001000737b302573"
               Constant start:19:6 end:19:27:
                 vpiParent: Operation
@@ -2778,7 +2781,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h7b20247310052623"
+                vpiDecompile: "64'h7b202473_10052623"
                 vpiValue: "7b20247310052623"
               Constant start:20:6 end:20:27:
                 vpiParent: Operation
@@ -2788,7 +2791,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h00c5151300c55513"
+                vpiDecompile: "64'h00c51513_00c55513"
                 vpiValue: "00c5151300c55513"
               Constant start:21:6 end:21:27:
                 vpiParent: Operation
@@ -2798,7 +2801,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h00000517fd5ff06f"
+                vpiDecompile: "64'h00000517_fd5ff06f"
                 vpiValue: "00000517fd5ff06f"
               Constant start:22:6 end:22:27:
                 vpiParent: Operation
@@ -2808,7 +2811,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'hfa041ce300247413"
+                vpiDecompile: "64'hfa041ce3_00247413"
                 vpiValue: fa041ce300247413
               Constant start:23:6 end:23:27:
                 vpiParent: Operation
@@ -2818,7 +2821,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h4004440300a40433"
+                vpiDecompile: "64'h40044403_00a40433"
                 vpiValue: "4004440300a40433"
               Constant start:24:6 end:24:27:
                 vpiParent: Operation
@@ -2828,7 +2831,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'hf140247302041c63"
+                vpiDecompile: "64'hf1402473_02041c63"
                 vpiValue: f140247302041c63
               Constant start:25:6 end:25:27:
                 vpiParent: Operation
@@ -2838,7 +2841,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h0014741340044403"
+                vpiDecompile: "64'h00147413_40044403"
                 vpiValue: "0014741340044403"
               Constant start:26:6 end:26:27:
                 vpiParent: Operation
@@ -2848,7 +2851,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h00a4043310852023"
+                vpiDecompile: "64'h00a40433_10852023"
                 vpiValue: "00a4043310852023"
               Constant start:27:6 end:27:27:
                 vpiParent: Operation
@@ -2858,7 +2861,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'hf140247300c51513"
+                vpiDecompile: "64'hf1402473_00c51513"
                 vpiValue: f140247300c51513
               Constant start:28:6 end:28:27:
                 vpiParent: Operation
@@ -2868,7 +2871,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h00c5551300000517"
+                vpiDecompile: "64'h00c55513_00000517"
                 vpiValue: "00c5551300000517"
               Constant start:29:6 end:29:27:
                 vpiParent: Operation
@@ -2878,7 +2881,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h7b3510737b241073"
+                vpiDecompile: "64'h7b351073_7b241073"
                 vpiValue: "7b3510737b241073"
               Constant start:30:6 end:30:27:
                 vpiParent: Operation
@@ -2888,7 +2891,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h0ff0000f04c0006f"
+                vpiDecompile: "64'h0ff0000f_04c0006f"
                 vpiValue: "0ff0000f04c0006f"
               Constant start:31:6 end:31:27:
                 vpiParent: Operation
@@ -2898,7 +2901,7 @@ Design name:unnamed:
                   vpiActual: LongIntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
-                vpiDecompile: "64'h07c0006f00c0006f"
+                vpiDecompile: "64'h07c0006f_00c0006f"
                 vpiValue: "07c0006f00c0006f"
         Variable name:addr_q start:34:32 end:34:38:
           vpiParent: Module name:debug_rom
@@ -3323,14 +3326,14 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiOpType: cast (81)
                       vpiOperand (2 items):
-                        SysFuncCall name:$clog2 start:46:19 end:46:34:
+                        SysTaskCall name:$clog2 start:46:19 end:46:34:
                           vpiParent: Operation
                           vpiName Identifier name:$clog2 start:46:19 end:46:25:
-                            vpiParent: SysFuncCall name:$clog2
+                            vpiParent: SysTaskCall name:$clog2
                             vpiName: "$clog2"
                           vpiArgument (1 items):
                             RefObj name:RomSize start:46:26 end:46:33:
-                              vpiParent: SysFuncCall name:$clog2
+                              vpiParent: SysTaskCall name:$clog2
                               vpiName: RomSize
                               vpiFullName: debug_rom.p_outmux.RomSize
                               vpiActual: Parameter name:RomSize
@@ -3376,6 +3379,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:debug_rom:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:debug_rom start:3:9 end:3:18:
+        vpiParent: ModuleTypespec name:debug_rom
+        vpiName: debug_rom
+      vpiModule: Module name:debug_rom
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    LongIntTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -3397,16 +3410,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:debug_rom:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:debug_rom start:3:9 end:3:18:
-        vpiParent: ModuleTypespec name:debug_rom
-        vpiName: debug_rom
-      vpiModule: Module name:debug_rom
-    IntTypespec:
-      vpiParent: Design name:unnamed
-    LongIntTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -3454,14 +3457,14 @@ COMMAND: ${HLC_DIR}/regression/ClogCast/ClogCast/design.hldb ${HLC_DIR}/regressi
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            39      21       5        23
-Identifier                         197     194       0         3
+Constant                            39      20       4        23
+Identifier                         197     195       0         2
 Operation                            8       3       0         5
-RefObj                              20      16       0         4
+RefObj                              20      17       0         3
 RefTypespec                        222     202       3        23
-SysFuncCall                          3       0       0         3
+SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
-Others                             258     258       0         0
+Others                             259     259       0         0
 ----------------------------------------------------------------
-                                   747     694       8        61
+                                   747     696       7        58
 ===================== END REDUCTION RESULT =====================

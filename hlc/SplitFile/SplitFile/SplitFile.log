@@ -4,17 +4,17 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SplitFile top.v top1.v top2.v -writepp -d inst -fileunit -wd ${HLC_DIR}/third_party/UVM +incdir+ovm-2.1.2/src +incdir+vmm-1.1.1a/sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SplitFile/SplitFile
+COMMAND: -wd ../../../tests/SplitFile top.v top1.v top2.v -writepp -d inst -mt max -fileunit -wd ${HLC_DIR}/third_party/UVM +incdir+ovm-2.1.2/src +incdir+vmm-1.1.1a/sv -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/SplitFile/SplitFile
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.v".
 [INF:PP0122] Preprocessing source file "$Source01/top1.v".
 [INF:PP0122] Preprocessing source file "$Source01/top2.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/top.v".
 [INF:PA0201] Parsing source file "$Source01/top1.v".
 [INF:PA0201] Parsing source file "$Source01/top2.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0303] $Source01/top.v:8:1: Compile module "bottom1".
 [INF:CP0303] $Source01/top.v:18:1: Compile module "bottom2".
 [INF:CP0303] $Source01/top.v:26:1: Compile module "bottom3".
@@ -51,8 +51,8 @@ COMMAND: -wd ../../../tests/SplitFile top.v top1.v top2.v -writepp -d inst -file
 [WRN:PA0205] $Source01/top2.v:115:1: No timescale set for "gap3".
 [WRN:PA0205] $Source01/top2.v:181:1: No timescale set for "gap4_181".
 [WRN:PA0205] $Source01/top1.v:2:1: No timescale set for "my_interface".
-[ERR:LN0801] Invalid name: id:868, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN0801] Invalid name: id:871, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:742, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN0801] Invalid name: id:745, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1668,6 +1668,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah1
             vpiName: blah1
           vpiFullName: toto1::blah1
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah1
@@ -1680,6 +1681,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah2
             vpiName: blah2
           vpiFullName: toto1::blah2
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah2
@@ -1692,6 +1694,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah3
             vpiName: blah3
           vpiFullName: toto1::blah3
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah3
@@ -1733,6 +1736,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah21
             vpiName: blah21
           vpiFullName: toto2::blah21
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah21
@@ -1745,6 +1749,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah22
             vpiName: blah22
           vpiFullName: toto2::blah22
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah22
@@ -1813,6 +1818,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah31
             vpiName: blah31
           vpiFullName: toto4::blah31
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah31
@@ -1825,6 +1831,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah31
             vpiName: blah31
           vpiFullName: toto4::blah31
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah31
@@ -1837,6 +1844,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah32
             vpiName: blah32
           vpiFullName: toto4::blah32
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah32
@@ -1849,6 +1857,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:blah31_167
             vpiName: blah31_167
           vpiFullName: toto4::blah31_167
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:blah31_167
@@ -1856,7 +1865,7 @@ Design name:unnamed:
             vpiFullName: toto4::blah31_167::work
           vpiCell: blah31_167
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1870,6 +1879,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2051,7 +2061,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2095,6 +2105,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2168,7 +2179,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2182,6 +2193,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2744,7 +2756,7 @@ Design name:unnamed:
         vpiFullName: bottom3.work
       vpiCell: bottom3
       vpiRefInstance (1 items):
-        RefInstance name:g_datapath:0:g_io start:28:6 end:28:29:
+        RefInstance name:g_datapath:0:g_io start:28:6 end:28:31:
           vpiParent: Module name:bottom3
           vpiName: g_datapath:0:g_io
           vpiTypespec RefTypespec name:ddr start:28:2 end:28:5:
@@ -2795,7 +2807,7 @@ Design name:unnamed:
         vpiFullName: bottom4.work
       vpiCell: bottom4
       vpiRefInstance (1 items):
-        RefInstance name:g_datapath:0:g_io start:91:6 end:91:29:
+        RefInstance name:g_datapath:0:g_io start:91:6 end:91:31:
           vpiParent: Module name:bottom4
           vpiName: g_datapath:0:g_io
           vpiTypespec RefTypespec name:ddr start:91:2 end:91:5:
@@ -3037,27 +3049,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
-    ClassTypespec name:mailbox:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:mailbox:
-        vpiParent: ClassTypespec name:mailbox
-        vpiName: mailbox
-      vpiDefName: mailbox
-      vpiClassDefn: ClassDefn name:mailbox
-    ClassTypespec name:process:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:process:
-        vpiParent: ClassTypespec name:process
-        vpiName: process
-      vpiDefName: process
-      vpiClassDefn: ClassDefn name:process
-    ClassTypespec name:semaphore:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:semaphore:
-        vpiParent: ClassTypespec name:semaphore
-        vpiName: semaphore
-      vpiDefName: semaphore
-      vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:bottom1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom1 start:8:8 end:8:15:
@@ -3143,6 +3134,27 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:gap4_181
         vpiName: gap4_181
       vpiModule: Module name:gap4_181
+    ClassTypespec name:mailbox:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
+      vpiDefName: mailbox
+      vpiClassDefn: ClassDefn name:mailbox
+    ClassTypespec name:process:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
+      vpiDefName: process
+      vpiClassDefn: ClassDefn name:process
+    ClassTypespec name:semaphore:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
+      vpiDefName: semaphore
+      vpiClassDefn: ClassDefn name:semaphore
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -3162,31 +3174,31 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/SplitFile/SplitFile/mounts.json
 
 
-{'result': {'coverage': 92.6,
+{'result': {'coverage': 92.62,
             'error_count': 0,
             'file_count': 3,
             'files': {'$Output/lib/work/top.v': {'post_len': 49,
-                                                 'pre_len': 419},
+                                                 'pre_len': 423},
                       '$Output/lib/work/top1.v': {'post_len': 43,
                                                   'pre_len': 442},
                       '$Output/lib/work/top2.v': {'post_len': 0,
                                                   'pre_len': 382}},
             'post_len': 92,
-            'pre_len': 1243,
+            'pre_len': 1247,
             'test_name': 'SplitFile/SplitFile'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.v  |      419 |        49 |
+| $Output/lib/work/top.v  |      423 |        49 |
 | $Output/lib/work/top1.v |      442 |        43 |
 | $Output/lib/work/top2.v |      382 |         0 |
 +=========================+==========+===========+
-|                         |     1243 |        92 |
+|                         |     1247 |        92 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.6
+[COVERAGE] : 92.62
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

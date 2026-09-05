@@ -4,21 +4,24 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/YosysOldTests/i2c -fileunit rtl/i2c_master_bit_ctrl.v rtl/i2c_master_byte_ctrl.v rtl/i2c_master_top.v +incdir+rtl/+. -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysOldTests/i2c/YosysOldI2c
+COMMAND: -wd ../../../../tests/YosysOldTests/i2c -fileunit rtl/i2c_master_bit_ctrl.v rtl/i2c_master_byte_ctrl.v rtl/i2c_master_top.v +incdir+rtl/+. -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysOldTests/i2c/YosysOldI2c
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/i2c_master_bit_ctrl.v".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/i2c_master_byte_ctrl.v".
 [INF:PP0122] Preprocessing source file "$Source01/rtl/i2c_master_top.v".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/rtl/i2c_master_bit_ctrl.v".
 [INF:PA0201] Parsing source file "$Source01/rtl/i2c_master_byte_ctrl.v".
 [INF:PA0201] Parsing source file "$Source01/rtl/i2c_master_top.v".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 [INF:CP0303] $Source01/rtl/i2c_master_bit_ctrl.v:129:1: Compile module "i2c_master_bit_ctrl".
 [INF:CP0303] $Source01/rtl/i2c_master_byte_ctrl.v:75:1: Compile module "i2c_master_byte_ctrl".
 [INF:CP0303] $Source01/rtl/i2c_master_top.v:79:1: Compile module "i2c_master_top".
 [WRN:PA0205] No timescale set for "builtin".
+[WRN:PA0205] $Source01/rtl/i2c_master_bit_ctrl.v:129:1: No timescale set for "i2c_master_bit_ctrl".
+[WRN:PA0205] $Source01/rtl/i2c_master_byte_ctrl.v:75:1: No timescale set for "i2c_master_byte_ctrl".
+[WRN:PA0205] $Source01/rtl/i2c_master_top.v:79:1: No timescale set for "i2c_master_top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -27,12 +30,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: i2c_master_bit_ctrl.v
       vpiPreprocFile: "$Output/lib/work/rtl/i2c_master_bit_ctrl.v"
-      vpiIncludes (2 items):
-        SourceFile name:timescale.v file:$Source01/rtl/timescale.v start:124:1 end:124:23:
-          vpiParent: SourceFile name:i2c_master_bit_ctrl.v
-          vpiName: timescale.v
-          vpiTimePrecision: -11
-          vpiTimeUnit: -9
+      vpiIncludes (1 items):
         SourceFile name:i2c_master_defines.v file:$Source01/rtl/i2c_master_defines.v start:127:1 end:127:32:
           vpiParent: SourceFile name:i2c_master_bit_ctrl.v
           vpiName: i2c_master_defines.v
@@ -88,7 +86,7 @@ Design name:unnamed:
                   vpiParent: PreprocMacroDefinition name:I2C_CMD_READ
                   vpiName: "4'b1000"
       vpiPreprocMacroInstance (5 items):
-        PreprocMacroInstance name:I2C_CMD_STOP file:$Source01/rtl/i2c_master_bit_ctrl.v start:297:28 end:297:41 ppstart:363:28 ppend:363:35:
+        PreprocMacroInstance name:I2C_CMD_STOP file:$Source01/rtl/i2c_master_bit_ctrl.v start:297:28 end:297:41 ppstart:361:28 ppend:361:35:
           vpiParent: SourceFile name:i2c_master_bit_ctrl.v
           vpiName Identifier name:I2C_CMD_STOP start:297:28 end:297:41:
             vpiParent: PreprocMacroInstance name:I2C_CMD_STOP
@@ -97,7 +95,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0010 start:62:23 end:62:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_STOP
             vpiName: "4'b0010"
-        PreprocMacroInstance name:I2C_CMD_START file:$Source01/rtl/i2c_master_bit_ctrl.v start:362:20 end:362:34 ppstart:428:20 ppend:428:27:
+        PreprocMacroInstance name:I2C_CMD_START file:$Source01/rtl/i2c_master_bit_ctrl.v start:362:20 end:362:34 ppstart:426:20 ppend:426:27:
           vpiParent: SourceFile name:i2c_master_bit_ctrl.v
           vpiName Identifier name:I2C_CMD_START start:362:20 end:362:34:
             vpiParent: PreprocMacroInstance name:I2C_CMD_START
@@ -106,7 +104,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0001 start:61:23 end:61:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_START
             vpiName: "4'b0001"
-        PreprocMacroInstance name:I2C_CMD_STOP file:$Source01/rtl/i2c_master_bit_ctrl.v start:365:20 end:365:33 ppstart:431:20 ppend:431:27:
+        PreprocMacroInstance name:I2C_CMD_STOP file:$Source01/rtl/i2c_master_bit_ctrl.v start:365:20 end:365:33 ppstart:429:20 ppend:429:27:
           vpiParent: SourceFile name:i2c_master_bit_ctrl.v
           vpiName Identifier name:I2C_CMD_STOP start:365:20 end:365:33:
             vpiParent: PreprocMacroInstance name:I2C_CMD_STOP
@@ -115,7 +113,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0010 start:62:23 end:62:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_STOP
             vpiName: "4'b0010"
-        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_bit_ctrl.v start:368:20 end:368:34 ppstart:434:20 ppend:434:27:
+        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_bit_ctrl.v start:368:20 end:368:34 ppstart:432:20 ppend:432:27:
           vpiParent: SourceFile name:i2c_master_bit_ctrl.v
           vpiName Identifier name:I2C_CMD_WRITE start:368:20 end:368:34:
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
@@ -124,7 +122,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0100 start:63:23 end:63:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
             vpiName: "4'b0100"
-        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_bit_ctrl.v start:371:20 end:371:33 ppstart:437:20 ppend:437:27:
+        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_bit_ctrl.v start:371:20 end:371:33 ppstart:435:20 ppend:435:27:
           vpiParent: SourceFile name:i2c_master_bit_ctrl.v
           vpiName Identifier name:I2C_CMD_READ start:371:20 end:371:33:
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
@@ -137,10 +135,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: i2c_master_byte_ctrl.v
       vpiPreprocFile: "$Output/lib/work/rtl/i2c_master_byte_ctrl.v"
-      vpiIncludes (2 items):
-        SourceFile name:timescale.v file:$Source01/rtl/timescale.v start:70:1 end:70:23:
-          vpiParent: SourceFile name:i2c_master_byte_ctrl.v
-          vpiName: timescale.v
+      vpiIncludes (1 items):
         SourceFile name:i2c_master_defines.v file:$Source01/rtl/i2c_master_defines.v start:73:1 end:73:32:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName: i2c_master_defines.v
@@ -196,7 +191,7 @@ Design name:unnamed:
                   vpiParent: PreprocMacroDefinition name:I2C_CMD_READ
                   vpiName: "4'b1000"
       vpiPreprocMacroInstance (15 items):
-        PreprocMacroInstance name:I2C_CMD_NOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:204:25 end:204:37 ppstart:270:25 ppend:270:32:
+        PreprocMacroInstance name:I2C_CMD_NOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:204:25 end:204:37 ppstart:268:25 ppend:268:32:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_NOP start:204:25 end:204:37:
             vpiParent: PreprocMacroInstance name:I2C_CMD_NOP
@@ -205,7 +200,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0000 start:60:23 end:60:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_NOP
             vpiName: "4'b0000"
-        PreprocMacroInstance name:I2C_CMD_NOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:214:24 end:214:36 ppstart:280:24 ppend:280:31:
+        PreprocMacroInstance name:I2C_CMD_NOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:214:24 end:214:36 ppstart:278:24 ppend:278:31:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_NOP start:214:24 end:214:36:
             vpiParent: PreprocMacroInstance name:I2C_CMD_NOP
@@ -214,7 +209,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0000 start:60:23 end:60:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_NOP
             vpiName: "4'b0000"
-        PreprocMacroInstance name:I2C_CMD_START file:$Source01/rtl/i2c_master_byte_ctrl.v start:237:39 end:237:53 ppstart:303:39 ppend:303:46:
+        PreprocMacroInstance name:I2C_CMD_START file:$Source01/rtl/i2c_master_byte_ctrl.v start:237:39 end:237:53 ppstart:301:39 ppend:301:46:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_START start:237:39 end:237:53:
             vpiParent: PreprocMacroInstance name:I2C_CMD_START
@@ -223,7 +218,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0001 start:61:23 end:61:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_START
             vpiName: "4'b0001"
-        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_byte_ctrl.v start:242:39 end:242:52 ppstart:308:39 ppend:308:46:
+        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_byte_ctrl.v start:242:39 end:242:52 ppstart:306:39 ppend:306:46:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_READ start:242:39 end:242:52:
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
@@ -232,7 +227,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b1000 start:64:23 end:64:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
             vpiName: "4'b1000"
-        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_byte_ctrl.v start:247:39 end:247:53 ppstart:313:39 ppend:313:46:
+        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_byte_ctrl.v start:247:39 end:247:53 ppstart:311:39 ppend:311:46:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_WRITE start:247:39 end:247:53:
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
@@ -241,7 +236,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0100 start:63:23 end:63:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
             vpiName: "4'b0100"
-        PreprocMacroInstance name:I2C_CMD_STOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:252:39 end:252:52 ppstart:318:39 ppend:318:46:
+        PreprocMacroInstance name:I2C_CMD_STOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:252:39 end:252:52 ppstart:316:39 ppend:316:46:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_STOP start:252:39 end:252:52:
             vpiParent: PreprocMacroInstance name:I2C_CMD_STOP
@@ -250,7 +245,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0010 start:62:23 end:62:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_STOP
             vpiName: "4'b0010"
-        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_byte_ctrl.v start:264:39 end:264:52 ppstart:330:39 ppend:330:46:
+        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_byte_ctrl.v start:264:39 end:264:52 ppstart:328:39 ppend:328:46:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_READ start:264:39 end:264:52:
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
@@ -259,7 +254,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b1000 start:64:23 end:64:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
             vpiName: "4'b1000"
-        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_byte_ctrl.v start:269:39 end:269:53 ppstart:335:39 ppend:335:46:
+        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_byte_ctrl.v start:269:39 end:269:53 ppstart:333:39 ppend:333:46:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_WRITE start:269:39 end:269:53:
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
@@ -268,7 +263,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0100 start:63:23 end:63:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
             vpiName: "4'b0100"
-        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_byte_ctrl.v start:280:35 end:280:48 ppstart:346:35 ppend:346:42:
+        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_byte_ctrl.v start:280:35 end:280:48 ppstart:344:35 ppend:344:42:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_READ start:280:35 end:280:48:
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
@@ -277,7 +272,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b1000 start:64:23 end:64:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
             vpiName: "4'b1000"
-        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_byte_ctrl.v start:285:35 end:285:49 ppstart:351:35 ppend:351:42:
+        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_byte_ctrl.v start:285:35 end:285:49 ppstart:349:35 ppend:349:42:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_WRITE start:285:35 end:285:49:
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
@@ -286,7 +281,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0100 start:63:23 end:63:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
             vpiName: "4'b0100"
-        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_byte_ctrl.v start:295:39 end:295:53 ppstart:361:39 ppend:361:46:
+        PreprocMacroInstance name:I2C_CMD_WRITE file:$Source01/rtl/i2c_master_byte_ctrl.v start:295:39 end:295:53 ppstart:359:39 ppend:359:46:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_WRITE start:295:39 end:295:53:
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
@@ -295,7 +290,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0100 start:63:23 end:63:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_WRITE
             vpiName: "4'b0100"
-        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_byte_ctrl.v start:300:39 end:300:52 ppstart:366:39 ppend:366:46:
+        PreprocMacroInstance name:I2C_CMD_READ file:$Source01/rtl/i2c_master_byte_ctrl.v start:300:39 end:300:52 ppstart:364:39 ppend:364:46:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_READ start:300:39 end:300:52:
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
@@ -304,7 +299,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b1000 start:64:23 end:64:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_READ
             vpiName: "4'b1000"
-        PreprocMacroInstance name:I2C_CMD_STOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:313:38 end:313:51 ppstart:379:38 ppend:379:45:
+        PreprocMacroInstance name:I2C_CMD_STOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:313:38 end:313:51 ppstart:377:38 ppend:377:45:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_STOP start:313:38 end:313:51:
             vpiParent: PreprocMacroInstance name:I2C_CMD_STOP
@@ -313,7 +308,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0010 start:62:23 end:62:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_STOP
             vpiName: "4'b0010"
-        PreprocMacroInstance name:I2C_CMD_NOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:318:38 end:318:50 ppstart:384:38 ppend:384:45:
+        PreprocMacroInstance name:I2C_CMD_NOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:318:38 end:318:50 ppstart:382:38 ppend:382:45:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_NOP start:318:38 end:318:50:
             vpiParent: PreprocMacroInstance name:I2C_CMD_NOP
@@ -322,7 +317,7 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:4'b0000 start:60:23 end:60:30":
             vpiParent: PreprocMacroInstance name:I2C_CMD_NOP
             vpiName: "4'b0000"
-        PreprocMacroInstance name:I2C_CMD_NOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:336:33 end:336:45 ppstart:402:33 ppend:402:40:
+        PreprocMacroInstance name:I2C_CMD_NOP file:$Source01/rtl/i2c_master_byte_ctrl.v start:336:33 end:336:45 ppstart:400:33 ppend:400:40:
           vpiParent: SourceFile name:i2c_master_byte_ctrl.v
           vpiName Identifier name:I2C_CMD_NOP start:336:33 end:336:45:
             vpiParent: PreprocMacroInstance name:I2C_CMD_NOP
@@ -335,10 +330,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: i2c_master_top.v
       vpiPreprocFile: "$Output/lib/work/rtl/i2c_master_top.v"
-      vpiIncludes (2 items):
-        SourceFile name:timescale.v file:$Source01/rtl/timescale.v start:74:1 end:74:23:
-          vpiParent: SourceFile name:i2c_master_top.v
-          vpiName: timescale.v
+      vpiIncludes (1 items):
         SourceFile name:i2c_master_defines.v file:$Source01/rtl/i2c_master_defines.v start:77:1 end:77:32:
           vpiParent: SourceFile name:i2c_master_top.v
           vpiName: i2c_master_defines.v
@@ -1947,7 +1939,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1961,6 +1953,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2142,7 +2135,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2186,6 +2179,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2259,7 +2253,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2273,6 +2267,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2724,7 +2719,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000000000000"
+            vpiDecompile: "17'b0_0000_0000_0000_0000"
             vpiValue: "00000000000000000"
         ParamAssign start:317:19 end:317:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2741,7 +2736,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000000000001"
+            vpiDecompile: "17'b0_0000_0000_0000_0001"
             vpiValue: "00000000000000001"
         ParamAssign start:318:19 end:318:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2758,7 +2753,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000000000010"
+            vpiDecompile: "17'b0_0000_0000_0000_0010"
             vpiValue: "00000000000000010"
         ParamAssign start:319:19 end:319:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2775,7 +2770,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000000000100"
+            vpiDecompile: "17'b0_0000_0000_0000_0100"
             vpiValue: "00000000000000100"
         ParamAssign start:320:19 end:320:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2792,7 +2787,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000000001000"
+            vpiDecompile: "17'b0_0000_0000_0000_1000"
             vpiValue: "00000000000001000"
         ParamAssign start:321:19 end:321:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2809,7 +2804,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000000010000"
+            vpiDecompile: "17'b0_0000_0000_0001_0000"
             vpiValue: "00000000000010000"
         ParamAssign start:322:19 end:322:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2826,7 +2821,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000000100000"
+            vpiDecompile: "17'b0_0000_0000_0010_0000"
             vpiValue: "00000000000100000"
         ParamAssign start:323:19 end:323:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2843,7 +2838,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000001000000"
+            vpiDecompile: "17'b0_0000_0000_0100_0000"
             vpiValue: "00000000001000000"
         ParamAssign start:324:19 end:324:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2860,7 +2855,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000010000000"
+            vpiDecompile: "17'b0_0000_0000_1000_0000"
             vpiValue: "00000000010000000"
         ParamAssign start:325:19 end:325:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2877,7 +2872,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000000100000000"
+            vpiDecompile: "17'b0_0000_0001_0000_0000"
             vpiValue: "00000000100000000"
         ParamAssign start:326:19 end:326:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2894,7 +2889,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000001000000000"
+            vpiDecompile: "17'b0_0000_0010_0000_0000"
             vpiValue: "00000001000000000"
         ParamAssign start:327:19 end:327:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2911,7 +2906,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000010000000000"
+            vpiDecompile: "17'b0_0000_0100_0000_0000"
             vpiValue: "00000010000000000"
         ParamAssign start:328:19 end:328:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2928,7 +2923,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00000100000000000"
+            vpiDecompile: "17'b0_0000_1000_0000_0000"
             vpiValue: "00000100000000000"
         ParamAssign start:329:19 end:329:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2945,7 +2940,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00001000000000000"
+            vpiDecompile: "17'b0_0001_0000_0000_0000"
             vpiValue: "00001000000000000"
         ParamAssign start:330:19 end:330:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2962,7 +2957,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00010000000000000"
+            vpiDecompile: "17'b0_0010_0000_0000_0000"
             vpiValue: "00010000000000000"
         ParamAssign start:331:19 end:331:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2979,7 +2974,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b00100000000000000"
+            vpiDecompile: "17'b0_0100_0000_0000_0000"
             vpiValue: "00100000000000000"
         ParamAssign start:332:19 end:332:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -2996,7 +2991,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b01000000000000000"
+            vpiDecompile: "17'b0_1000_0000_0000_0000"
             vpiValue: "01000000000000000"
         ParamAssign start:333:19 end:333:54:
           vpiParent: Module name:i2c_master_bit_ctrl
@@ -3013,7 +3008,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 17
-            vpiDecompile: "17'b10000000000000000"
+            vpiDecompile: "17'b1_0000_0000_0000_0000"
             vpiValue: "10000000000000000"
       vpiTypespec (24 items):
         LogicTypespec:
@@ -3594,8 +3589,6 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: i2c_master_bit_ctrl
       vpiDefNetType: wire (1)
-      vpiTimePrecision: -11
-      vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
         vpiParent: Module name:i2c_master_bit_ctrl
         vpiName: work
@@ -8684,7 +8677,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 5
-            vpiDecompile: "5'b00000"
+            vpiDecompile: "5'b0_0000"
             vpiValue: "00000"
         ParamAssign start:121:18 end:121:38:
           vpiParent: Module name:i2c_master_byte_ctrl
@@ -8701,7 +8694,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 5
-            vpiDecompile: "5'b00001"
+            vpiDecompile: "5'b0_0001"
             vpiValue: "00001"
         ParamAssign start:122:18 end:122:38:
           vpiParent: Module name:i2c_master_byte_ctrl
@@ -8718,7 +8711,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 5
-            vpiDecompile: "5'b00010"
+            vpiDecompile: "5'b0_0010"
             vpiValue: "00010"
         ParamAssign start:123:18 end:123:38:
           vpiParent: Module name:i2c_master_byte_ctrl
@@ -8735,7 +8728,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 5
-            vpiDecompile: "5'b00100"
+            vpiDecompile: "5'b0_0100"
             vpiValue: "00100"
         ParamAssign start:124:18 end:124:38:
           vpiParent: Module name:i2c_master_byte_ctrl
@@ -8752,7 +8745,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 5
-            vpiDecompile: "5'b01000"
+            vpiDecompile: "5'b0_1000"
             vpiValue: "01000"
         ParamAssign start:125:18 end:125:38:
           vpiParent: Module name:i2c_master_byte_ctrl
@@ -8769,7 +8762,7 @@ Design name:unnamed:
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 5
-            vpiDecompile: "5'b10000"
+            vpiDecompile: "5'b1_0000"
             vpiValue: "10000"
       vpiTypespec (14 items):
         LogicTypespec:
@@ -9114,8 +9107,6 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: i2c_master_byte_ctrl
       vpiDefNetType: wire (1)
-      vpiTimePrecision: -11
-      vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
         vpiParent: Module name:i2c_master_byte_ctrl
         vpiName: work
@@ -12513,8 +12504,6 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: i2c_master_top
       vpiDefNetType: wire (1)
-      vpiTimePrecision: -11
-      vpiTimeUnit: -9
       vpiLibrary RefObj name:work:
         vpiParent: Module name:i2c_master_top
         vpiName: work
@@ -15508,27 +15497,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
-    ClassTypespec name:mailbox:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:mailbox:
-        vpiParent: ClassTypespec name:mailbox
-        vpiName: mailbox
-      vpiDefName: mailbox
-      vpiClassDefn: ClassDefn name:mailbox
-    ClassTypespec name:process:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:process:
-        vpiParent: ClassTypespec name:process
-        vpiName: process
-      vpiDefName: process
-      vpiClassDefn: ClassDefn name:process
-    ClassTypespec name:semaphore:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:semaphore:
-        vpiParent: ClassTypespec name:semaphore
-        vpiName: semaphore
-      vpiDefName: semaphore
-      vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:i2c_master_bit_ctrl:
       vpiParent: Design name:unnamed
       vpiName Identifier name:i2c_master_bit_ctrl start:129:8 end:129:27:
@@ -15551,11 +15519,32 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:i2c_master_top
         vpiName: i2c_master_top
       vpiModule: Module name:i2c_master_top
+    ClassTypespec name:mailbox:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
+      vpiDefName: mailbox
+      vpiClassDefn: ClassDefn name:mailbox
+    ClassTypespec name:process:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
+      vpiDefName: process
+      vpiClassDefn: ClassDefn name:process
+    ClassTypespec name:semaphore:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
+      vpiDefName: semaphore
+      vpiClassDefn: ClassDefn name:semaphore
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -15570,31 +15559,31 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysOldTests/i2c/YosysOldI2c/mounts.json
 
 
-{'result': {'coverage': 98.96,
+{'result': {'coverage': 99.42,
             'error_count': 0,
             'file_count': 3,
-            'files': {'$Output/lib/work/rtl/i2c_master_bit_ctrl.v': {'post_len': 50,
-                                                                     'pre_len': 5342},
-                      '$Output/lib/work/rtl/i2c_master_byte_ctrl.v': {'post_len': 33,
-                                                                      'pre_len': 3465},
-                      '$Output/lib/work/rtl/i2c_master_top.v': {'post_len': 44,
-                                                                'pre_len': 3409}},
-            'post_len': 127,
-            'pre_len': 12216,
+            'files': {'$Output/lib/work/rtl/i2c_master_bit_ctrl.v': {'post_len': 31,
+                                                                     'pre_len': 5321},
+                      '$Output/lib/work/rtl/i2c_master_byte_ctrl.v': {'post_len': 14,
+                                                                      'pre_len': 3444},
+                      '$Output/lib/work/rtl/i2c_master_top.v': {'post_len': 25,
+                                                                'pre_len': 3388}},
+            'post_len': 70,
+            'pre_len': 12153,
             'test_name': 'YosysOldTests/i2c/YosysOldI2c'}}
 
 +---------------------------------------------+----------+-----------+
 | INPUT                                       |   PRELEN |   POSTLEN |
 +=============================================+==========+===========+
-| $Output/lib/work/rtl/i2c_master_bit_ctrl.v  |     5342 |        50 |
-| $Output/lib/work/rtl/i2c_master_byte_ctrl.v |     3465 |        33 |
-| $Output/lib/work/rtl/i2c_master_top.v       |     3409 |        44 |
+| $Output/lib/work/rtl/i2c_master_bit_ctrl.v  |     5321 |        31 |
+| $Output/lib/work/rtl/i2c_master_byte_ctrl.v |     3444 |        14 |
+| $Output/lib/work/rtl/i2c_master_top.v       |     3388 |        25 |
 +=============================================+==========+===========+
-|                                             |    12216 |       127 |
+|                                             |    12153 |        70 |
 +---------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.96
+[COVERAGE] : 99.42
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -15606,7 +15595,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 RefObj                             661     637       0        24
 ----------------------------------------------------------------
-Others                            3197    3197       0         0
+Others                            3194    3194       0         0
 ----------------------------------------------------------------
-                                  3858    3834       0        24
+                                  3855    3831       0        24
 ===================== END REDUCTION RESULT =====================

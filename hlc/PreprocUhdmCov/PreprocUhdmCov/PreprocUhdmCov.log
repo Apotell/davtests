@@ -4,22 +4,23 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/PreprocUhdmCov -I. -d db -d ast dut.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PreprocUhdmCov/PreprocUhdmCov
+COMMAND: -wd ../../../tests/PreprocUhdmCov -I. -d db -d ast dut.sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/PreprocUhdmCov/PreprocUhdmCov
 [INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
-[WRN:PP0113] $Source01/prim_assert.sv:28:9: Unused macro argument "__clk".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
 [WRN:PP0113] $Source01/prim_assert.sv:28:9: Unused macro argument "__name".
 [WRN:PP0113] $Source01/prim_assert.sv:28:9: Unused macro argument "__prop".
+[WRN:PP0113] $Source01/prim_assert.sv:28:9: Unused macro argument "__clk".
 [WRN:PP0113] $Source01/prim_assert.sv:28:9: Unused macro argument "__rst".
-[NTE:PP0105] $Source01/dut.sv:22:6: Multiply defined macro "_N",
+[NTE:PP0105] $Source01/dut.sv:22:14: Multiply defined macro "_N",
              $Source01/dut.sv:18:11: previous definition.
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<16>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE<0>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -276,30 +277,29 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 226
 LIB: work
-FILE: f<13>:$Source01/dut.sv
-INCL f<156>: $Source01/prim_assert.sv
+FILE<0>:$Source01/dut.sv
+INCL<1>: $Source01/prim_assert.sv
 n<$Source01/dut.sv> u<225> t<Top_level_rule> c<1> l<4:1> el<51:1>
   n<> u<1> t<Null_rule> p<225> s<2> l<4:1> el<4:1>
-  n<// Copyright lowRISC contributors.> u<2> t<LINE_COMMENT> p<225> s<3> f<156> l<1:1> el<2:35>
-  n<// Licensed under the Apache License, Version 2.0, see LICENSE for details.> u<3> t<LINE_COMMENT> p<225> s<4> f<156> l<2:1> el<2:76>
-  n<// SPDX-License-Identifier: Apache-2.0> u<4> t<LINE_COMMENT> p<225> s<5> f<156> l<3:1> el<3:39>
-  n<// Macros and helper code for using assertions.> u<5> t<LINE_COMMENT> p<225> s<6> f<156> l<5:1> el<5:48>
-  n<//  - Provides default clk and rst options to simplify code> u<6> t<LINE_COMMENT> p<225> s<7> f<156> l<6:1> el<6:60>
-  n<//  - Provides boiler plate template for common assertions> u<7> t<LINE_COMMENT> p<225> s<8> f<156> l<7:1> el<7:59>
-  n<///////////////////> u<8> t<LINE_COMMENT> p<225> s<9> f<156> l<13:1> el<13:20>
-  n<// Helper macros //> u<9> t<LINE_COMMENT> p<225> s<10> f<156> l<14:1> el<14:20>
-  n<///////////////////> u<10> t<LINE_COMMENT> p<225> s<11> f<156> l<15:1> el<15:20>
-  n<// local helper macro to reduce code clutter. undefined at the end of this file> u<11> t<LINE_COMMENT> p<225> s<12> f<156> l<17:1> el<17:80>
-  n<// Assert a concurrent property directly.> u<12> t<LINE_COMMENT> p<225> s<13> f<156> l<26:1> el<26:42>
-  n<// It can be called as a module (or interface) body item.> u<13> t<LINE_COMMENT> p<225> s<14> f<156> l<27:1> el<27:58>
-  n<// Note: Above we use (__rst !== '0) in the disable iff statements instead of> u<14> t<LINE_COMMENT> p<225> s<15> f<156> l<35:1> el<35:78>
-  n<// (__rst == '1).  This properly disables the assertion in cases when reset is X at> u<15> t<LINE_COMMENT> p<225> s<16> f<156> l<36:1> el<36:84>
-  n<// the beginning of a simulation. For that case, (reset == '1) does not disable the> u<16> t<LINE_COMMENT> p<225> s<17> f<156> l<37:1> el<37:84>
-  n<// assertion.> u<17> t<LINE_COMMENT> p<225> s<224> f<156> l<38:1> el<38:14>
+  n<// Copyright lowRISC contributors.> u<2> t<LINE_COMMENT> p<225> s<3> f<1> l<1:1> el<2:35>
+  n<// Licensed under the Apache License, Version 2.0, see LICENSE for details.> u<3> t<LINE_COMMENT> p<225> s<4> f<1> l<2:1> el<2:76>
+  n<// SPDX-License-Identifier: Apache-2.0> u<4> t<LINE_COMMENT> p<225> s<5> f<1> l<3:1> el<3:39>
+  n<// Macros and helper code for using assertions.> u<5> t<LINE_COMMENT> p<225> s<6> f<1> l<5:1> el<5:48>
+  n<//  - Provides default clk and rst options to simplify code> u<6> t<LINE_COMMENT> p<225> s<7> f<1> l<6:1> el<6:60>
+  n<//  - Provides boiler plate template for common assertions> u<7> t<LINE_COMMENT> p<225> s<8> f<1> l<7:1> el<7:59>
+  n<///////////////////> u<8> t<LINE_COMMENT> p<225> s<9> f<1> l<13:1> el<13:20>
+  n<// Helper macros //> u<9> t<LINE_COMMENT> p<225> s<10> f<1> l<14:1> el<14:20>
+  n<///////////////////> u<10> t<LINE_COMMENT> p<225> s<11> f<1> l<15:1> el<15:20>
+  n<// local helper macro to reduce code clutter. undefined at the end of this file> u<11> t<LINE_COMMENT> p<225> s<12> f<1> l<17:1> el<17:80>
+  n<// Assert a concurrent property directly.> u<12> t<LINE_COMMENT> p<225> s<13> f<1> l<26:1> el<26:42>
+  n<// It can be called as a module (or interface) body item.> u<13> t<LINE_COMMENT> p<225> s<14> f<1> l<27:1> el<27:58>
+  n<// Note: Above we use (__rst !== '0) in the disable iff statements instead of> u<14> t<LINE_COMMENT> p<225> s<15> f<1> l<35:1> el<35:78>
+  n<// (__rst == '1).  This properly disables the assertion in cases when reset is X at> u<15> t<LINE_COMMENT> p<225> s<16> f<1> l<36:1> el<36:84>
+  n<// the beginning of a simulation. For that case, (reset == '1) does not disable the> u<16> t<LINE_COMMENT> p<225> s<17> f<1> l<37:1> el<37:84>
+  n<// assertion.> u<17> t<LINE_COMMENT> p<225> s<224> f<1> l<38:1> el<38:14>
   n<> u<224> t<Source_text> p<225> c<223> l<4:1> el<50:17>
     n<> u<223> t<Description> p<224> c<222> l<4:1> el<50:17>
       n<> u<222> t<Module_declaration> p<223> c<38> l<4:1> el<50:17>
@@ -564,7 +564,7 @@ Design name:unnamed:
                     vpiParent: Identifier name:__rst
                     vpiName: rs
               vpiPMDToken (11 items):
-                "Identifier name:\\\n start:28:56 end:28:58":
+                "Identifier name:\\\n start:28:56 end:29:1":
                   vpiParent: PreprocMacroDefinition name:ASSERT
                   vpiName: "\\\n"
                 Identifier name:`ifdef start:29:1 end:29:7:
@@ -579,13 +579,13 @@ Design name:unnamed:
                 "Identifier name:                                       start:29:18 end:29:56":
                   vpiParent: PreprocMacroDefinition name:ASSERT
                   vpiName: "                                      "
-                "Identifier name:\\\n start:29:56 end:29:58":
+                "Identifier name:\\\n start:29:56 end:30:1":
                   vpiParent: PreprocMacroDefinition name:ASSERT
                   vpiName: "\\\n"
                 "Identifier name:                                                        start:30:1 end:30:56":
                   vpiParent: PreprocMacroDefinition name:ASSERT
                   vpiName: "                                                       "
-                "Identifier name:\\\n start:30:56 end:30:58":
+                "Identifier name:\\\n start:30:56 end:31:1":
                   vpiParent: PreprocMacroDefinition name:ASSERT
                   vpiName: "\\\n"
                 Identifier name:`endif start:31:1 end:31:7:
@@ -594,7 +594,7 @@ Design name:unnamed:
                 "Identifier name:                                                  start:31:7 end:31:56":
                   vpiParent: PreprocMacroDefinition name:ASSERT
                   vpiName: "                                                 "
-                "Identifier name:\\\n start:31:56 end:31:58":
+                "Identifier name:\\\n start:31:56 end:32:1":
                   vpiParent: PreprocMacroDefinition name:ASSERT
                   vpiName: "\\\n"
       vpiPreprocMacroDefinition (2 items):
@@ -2275,7 +2275,7 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -2289,6 +2289,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2470,7 +2471,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2514,6 +2515,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2587,7 +2589,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2601,6 +2603,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -3057,6 +3060,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:4:8 end:4:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
@@ -3078,12 +3087,6 @@ Design name:unnamed:
         vpiName: semaphore
       vpiDefName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:top:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:top start:4:8 end:4:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
-      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

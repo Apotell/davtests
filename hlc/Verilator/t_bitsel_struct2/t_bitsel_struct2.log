@@ -4,12 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_bitsel_struct2.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_bitsel_struct2
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_bitsel_struct2.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_bitsel_struct2
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_bitsel_struct2.v".
 [INF:PA0201] Parsing source file "$Source01/t_bitsel_struct2.v".
 [SNT:PA0207] $Source01/t_bitsel_struct2.v:22:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   typedef struct packed {\n      logic [3:2] a;\n      logic [5:4][3:2] b;\n   } ab_t;\n   typedef ab_t [7:6] c_t;  // array of structs\n   typedef struct packed {\n      c_t [17:16] d;\n   } e_t;\n\n\n\n\n   initial begin\n      e_t e;\n      do if',
-      do if (($bits(ab_t)) !== (6)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_bitsel_struct2.v",0, ($bits(ab_t)), (6)); $stop; end while(0);;
+      do if (($bits(ab_t)) !== (6)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_bitsel_struct2.v",22, ($bits(ab_t)), (6)); $stop; end while(0);;
          ^-- $Source01/t_bitsel_struct2.v:22:9:.
 [SNT:PA0207] $Source01/t_bitsel_struct2.v:20:3: Syntax error: mismatched input 'initial' expecting <EOF>,
    initial begin
@@ -17,7 +17,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 AST_DEBUG_BEGIN
 Count: 124
 LIB: work
-FILE: f<13>:$Source01/t_bitsel_struct2.v
+FILE<0>:$Source01/t_bitsel_struct2.v
 n<$Source01/t_bitsel_struct2.v> u<123> t<Top_level_rule> c<1> l<6:1> el<44:10>
   n<> u<1> t<Null_rule> p<123> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<123> s<3> l<1:1> el<1:47>
@@ -499,7 +499,7 @@ Design name:unnamed:
               vpiParent: PreprocMacroDefinition name:checkh
               vpiName: ";"
       vpiPreprocMacroInstance (12 items):
-        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:22:7 end:22:29 ppstart:22:7 ppend:22:166:
+        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:22:7 end:22:29 ppstart:22:7 ppend:22:167:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkh start:22:7 end:22:29:
             vpiParent: PreprocMacroInstance name:checkh
@@ -512,10 +512,10 @@ Design name:unnamed:
             Identifier name:6 start:22:27 end:22:28:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "6"
-          "vpiPMIBody Identifier name:do if (($bits(ab_t)) !== (6)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(ab_t)), (6)); $stop; end while(0); start:18:27 end:18:186":
+          "vpiPMIBody Identifier name:do if (($bits(ab_t)) !== (6)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",22, ($bits(ab_t)), (6)); $stop; end while(0); start:18:27 end:18:187":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (($bits(ab_t)) !== (6)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(ab_t)), (6)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:23:7 end:23:29 ppstart:23:7 ppend:23:166:
+            vpiName: "do if (($bits(ab_t)) !== (6)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",22, ($bits(ab_t)), (6)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:23:7 end:23:29 ppstart:23:7 ppend:23:167:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkh start:23:7 end:23:29:
             vpiParent: PreprocMacroInstance name:checkh
@@ -528,10 +528,10 @@ Design name:unnamed:
             Identifier name:12 start:23:26 end:23:28:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "12"
-          "vpiPMIBody Identifier name:do if (($bits(c_t)) !== (12)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(c_t)), (12)); $stop; end while(0); start:18:27 end:18:186":
+          "vpiPMIBody Identifier name:do if (($bits(c_t)) !== (12)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",23, ($bits(c_t)), (12)); $stop; end while(0); start:18:27 end:18:187":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (($bits(c_t)) !== (12)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(c_t)), (12)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:24:7 end:24:29 ppstart:24:7 ppend:24:166:
+            vpiName: "do if (($bits(c_t)) !== (12)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",23, ($bits(c_t)), (12)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:24:7 end:24:29 ppstart:24:7 ppend:24:167:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkh start:24:7 end:24:29:
             vpiParent: PreprocMacroInstance name:checkh
@@ -544,10 +544,10 @@ Design name:unnamed:
             Identifier name:24 start:24:26 end:24:28:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "24"
-          "vpiPMIBody Identifier name:do if (($bits(e_t)) !== (24)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e_t)), (24)); $stop; end while(0); start:18:27 end:18:186":
+          "vpiPMIBody Identifier name:do if (($bits(e_t)) !== (24)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",24, ($bits(e_t)), (24)); $stop; end while(0); start:18:27 end:18:187":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (($bits(e_t)) !== (24)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e_t)), (24)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:25:7 end:25:28 ppstart:25:7 ppend:25:162:
+            vpiName: "do if (($bits(e_t)) !== (24)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",24, ($bits(e_t)), (24)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:25:7 end:25:28 ppstart:25:7 ppend:25:163:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkh start:25:7 end:25:28:
             vpiParent: PreprocMacroInstance name:checkh
@@ -560,10 +560,10 @@ Design name:unnamed:
             Identifier name:24 start:25:25 end:25:27:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "24"
-          "vpiPMIBody Identifier name:do if (($bits(e)) !== (24)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e)), (24)); $stop; end while(0); start:18:27 end:18:182":
+          "vpiPMIBody Identifier name:do if (($bits(e)) !== (24)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",25, ($bits(e)), (24)); $stop; end while(0); start:18:27 end:18:183":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (($bits(e)) !== (24)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e)), (24)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:26:7 end:26:33 ppstart:26:7 ppend:26:174:
+            vpiName: "do if (($bits(e)) !== (24)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",25, ($bits(e)), (24)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:26:7 end:26:33 ppstart:26:7 ppend:26:175:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkh start:26:7 end:26:33:
             vpiParent: PreprocMacroInstance name:checkh
@@ -576,10 +576,10 @@ Design name:unnamed:
             Identifier name:12 start:26:30 end:26:32:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "12"
-          "vpiPMIBody Identifier name:do if (($bits(e.d[17])) !== (12)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e.d[17])), (12)); $stop; end while(0); start:18:27 end:18:194":
+          "vpiPMIBody Identifier name:do if (($bits(e.d[17])) !== (12)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",26, ($bits(e.d[17])), (12)); $stop; end while(0); start:18:27 end:18:195":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (($bits(e.d[17])) !== (12)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e.d[17])), (12)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:27:7 end:27:35 ppstart:27:7 ppend:27:178:
+            vpiName: "do if (($bits(e.d[17])) !== (12)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",26, ($bits(e.d[17])), (12)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:27:7 end:27:35 ppstart:27:7 ppend:27:179:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkh start:27:7 end:27:35:
             vpiParent: PreprocMacroInstance name:checkh
@@ -592,10 +592,10 @@ Design name:unnamed:
             Identifier name:6 start:27:33 end:27:34:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "6"
-          "vpiPMIBody Identifier name:do if (($bits(e.d[16][6])) !== (6)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e.d[16][6])), (6)); $stop; end while(0); start:18:27 end:18:198":
+          "vpiPMIBody Identifier name:do if (($bits(e.d[16][6])) !== (6)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",27, ($bits(e.d[16][6])), (6)); $stop; end while(0); start:18:27 end:18:199":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (($bits(e.d[16][6])) !== (6)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e.d[16][6])), (6)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:28:7 end:28:40 ppstart:28:7 ppend:28:188:
+            vpiName: "do if (($bits(e.d[16][6])) !== (6)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",27, ($bits(e.d[16][6])), (6)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:28:7 end:28:40 ppstart:28:7 ppend:28:189:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkh start:28:7 end:28:40:
             vpiParent: PreprocMacroInstance name:checkh
@@ -608,10 +608,10 @@ Design name:unnamed:
             Identifier name:2 start:28:38 end:28:39:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "2"
-          "vpiPMIBody Identifier name:do if (($bits(e.d[16][6].b[5])) !== (2)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e.d[16][6].b[5])), (2)); $stop; end while(0); start:18:27 end:18:208":
+          "vpiPMIBody Identifier name:do if (($bits(e.d[16][6].b[5])) !== (2)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",28, ($bits(e.d[16][6].b[5])), (2)); $stop; end while(0); start:18:27 end:18:209":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (($bits(e.d[16][6].b[5])) !== (2)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e.d[16][6].b[5])), (2)); $stop; end while(0);"
-        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:29:7 end:29:44 ppstart:29:7 ppend:29:194:
+            vpiName: "do if (($bits(e.d[16][6].b[5])) !== (2)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",28, ($bits(e.d[16][6].b[5])), (2)); $stop; end while(0);"
+        PreprocMacroInstance name:checkh file:$Source01/t_bitsel_struct2.v start:29:7 end:29:44 ppstart:29:7 ppend:29:195:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkh start:29:7 end:29:44:
             vpiParent: PreprocMacroInstance name:checkh
@@ -624,10 +624,10 @@ Design name:unnamed:
             Identifier name:1 start:29:42 end:29:43:
               vpiParent: PreprocMacroInstance name:checkh
               vpiName: "1"
-          "vpiPMIBody Identifier name:do if (($bits(e.d[16][6].b[5][2])) !== (1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e.d[16][6].b[5][2])), (1)); $stop; end while(0); start:18:27 end:18:214":
+          "vpiPMIBody Identifier name:do if (($bits(e.d[16][6].b[5][2])) !== (1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",29, ($bits(e.d[16][6].b[5][2])), (1)); $stop; end while(0); start:18:27 end:18:215":
             vpiParent: PreprocMacroInstance name:checkh
-            vpiName: "do if (($bits(e.d[16][6].b[5][2])) !== (1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, ($bits(e.d[16][6].b[5][2])), (1)); $stop; end while(0);"
-        PreprocMacroInstance name:checkb file:$Source01/t_bitsel_struct2.v start:32:7 end:32:47 ppstart:32:7 ppend:32:200:
+            vpiName: "do if (($bits(e.d[16][6].b[5][2])) !== (1)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_bitsel_struct2.v\",29, ($bits(e.d[16][6].b[5][2])), (1)); $stop; end while(0);"
+        PreprocMacroInstance name:checkb file:$Source01/t_bitsel_struct2.v start:32:7 end:32:47 ppstart:32:7 ppend:32:201:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkb start:32:7 end:32:47:
             vpiParent: PreprocMacroInstance name:checkb
@@ -640,10 +640,10 @@ Design name:unnamed:
             "Identifier name:24'b101101010111010110101010 start:32:18 end:32:46":
               vpiParent: PreprocMacroInstance name:checkb
               vpiName: "24'b101101010111010110101010"
-          "vpiPMIBody Identifier name:do if ((e) !== (24'b101101010111010110101010)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, (e), (24'b101101010111010110101010)); $stop; end while(0); start:17:27 end:17:220":
+          "vpiPMIBody Identifier name:do if ((e) !== (24'b101101010111010110101010)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",32, (e), (24'b101101010111010110101010)); $stop; end while(0); start:17:27 end:17:221":
             vpiParent: PreprocMacroInstance name:checkb
-            vpiName: "do if ((e) !== (24'b101101010111010110101010)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, (e), (24'b101101010111010110101010)); $stop; end while(0);"
-        PreprocMacroInstance name:checkb file:$Source01/t_bitsel_struct2.v start:34:7 end:34:47 ppstart:34:7 ppend:34:200:
+            vpiName: "do if ((e) !== (24'b101101010111010110101010)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",32, (e), (24'b101101010111010110101010)); $stop; end while(0);"
+        PreprocMacroInstance name:checkb file:$Source01/t_bitsel_struct2.v start:34:7 end:34:47 ppstart:34:7 ppend:34:201:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkb start:34:7 end:34:47:
             vpiParent: PreprocMacroInstance name:checkb
@@ -656,10 +656,10 @@ Design name:unnamed:
             "Identifier name:24'b111110011011010110101010 start:34:18 end:34:46":
               vpiParent: PreprocMacroInstance name:checkb
               vpiName: "24'b111110011011010110101010"
-          "vpiPMIBody Identifier name:do if ((e) !== (24'b111110011011010110101010)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, (e), (24'b111110011011010110101010)); $stop; end while(0); start:17:27 end:17:220":
+          "vpiPMIBody Identifier name:do if ((e) !== (24'b111110011011010110101010)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",34, (e), (24'b111110011011010110101010)); $stop; end while(0); start:17:27 end:17:221":
             vpiParent: PreprocMacroInstance name:checkb
-            vpiName: "do if ((e) !== (24'b111110011011010110101010)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, (e), (24'b111110011011010110101010)); $stop; end while(0);"
-        PreprocMacroInstance name:checkb file:$Source01/t_bitsel_struct2.v start:36:7 end:36:47 ppstart:36:7 ppend:36:200:
+            vpiName: "do if ((e) !== (24'b111110011011010110101010)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",34, (e), (24'b111110011011010110101010)); $stop; end while(0);"
+        PreprocMacroInstance name:checkb file:$Source01/t_bitsel_struct2.v start:36:7 end:36:47 ppstart:36:7 ppend:36:201:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkb start:36:7 end:36:47:
             vpiParent: PreprocMacroInstance name:checkb
@@ -672,10 +672,10 @@ Design name:unnamed:
             "Identifier name:24'b111110011011010110010101 start:36:18 end:36:46":
               vpiParent: PreprocMacroInstance name:checkb
               vpiName: "24'b111110011011010110010101"
-          "vpiPMIBody Identifier name:do if ((e) !== (24'b111110011011010110010101)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, (e), (24'b111110011011010110010101)); $stop; end while(0); start:17:27 end:17:220":
+          "vpiPMIBody Identifier name:do if ((e) !== (24'b111110011011010110010101)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",36, (e), (24'b111110011011010110010101)); $stop; end while(0); start:17:27 end:17:221":
             vpiParent: PreprocMacroInstance name:checkb
-            vpiName: "do if ((e) !== (24'b111110011011010110010101)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, (e), (24'b111110011011010110010101)); $stop; end while(0);"
-        PreprocMacroInstance name:checkb file:$Source01/t_bitsel_struct2.v start:38:7 end:38:47 ppstart:38:7 ppend:38:200:
+            vpiName: "do if ((e) !== (24'b111110011011010110010101)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",36, (e), (24'b111110011011010110010101)); $stop; end while(0);"
+        PreprocMacroInstance name:checkb file:$Source01/t_bitsel_struct2.v start:38:7 end:38:47 ppstart:38:7 ppend:38:201:
           vpiParent: SourceFile name:t_bitsel_struct2.v
           vpiName Identifier name:checkb start:38:7 end:38:47:
             vpiParent: PreprocMacroInstance name:checkb
@@ -688,9 +688,9 @@ Design name:unnamed:
             "Identifier name:24'b111110011011010110011001 start:38:18 end:38:46":
               vpiParent: PreprocMacroInstance name:checkb
               vpiName: "24'b111110011011010110011001"
-          "vpiPMIBody Identifier name:do if ((e) !== (24'b111110011011010110011001)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, (e), (24'b111110011011010110011001)); $stop; end while(0); start:17:27 end:17:220":
+          "vpiPMIBody Identifier name:do if ((e) !== (24'b111110011011010110011001)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",38, (e), (24'b111110011011010110011001)); $stop; end while(0); start:17:27 end:17:221":
             vpiParent: PreprocMacroInstance name:checkb
-            vpiName: "do if ((e) !== (24'b111110011011010110011001)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",0, (e), (24'b111110011011010110011001)); $stop; end while(0);"
+            vpiName: "do if ((e) !== (24'b111110011011010110011001)) begin $write(\"%%Error: %s:%0d:  got='b%x exp='b%x\\n\", \"$Source01/t_bitsel_struct2.v\",38, (e), (24'b111110011011010110011001)); $stop; end while(0);"
   vpiAllModules (2 items):
     Module file:$Source01/t_bitsel_struct2.v start:6:1 end:6:1:
       vpiParent: Design name:unnamed
@@ -939,25 +939,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_bitsel_struct2/mounts.json
 
 
-{'result': {'coverage': 33.52,
+{'result': {'coverage': 33.36,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_bitsel_struct2.v': {'post_len': 1680,
-                                                              'pre_len': 2527}},
-            'post_len': 1680,
-            'pre_len': 2527,
+            'files': {'$Output/lib/work/t_bitsel_struct2.v': {'post_len': 1692,
+                                                              'pre_len': 2539}},
+            'post_len': 1692,
+            'pre_len': 2539,
             'test_name': 'Verilator/t_bitsel_struct2'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_bitsel_struct2.v |     2527 |      1680 |
+| $Output/lib/work/t_bitsel_struct2.v |     2539 |      1692 |
 +=====================================+==========+===========+
-|                                     |     2527 |      1680 |
+|                                     |     2539 |      1692 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 33.52
+[COVERAGE] : 33.36
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

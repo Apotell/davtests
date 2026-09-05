@@ -244,7 +244,7 @@ def _get_log_statistics(filepath: Path) -> dict[str, Any]:
 
 def _get_run_args(
   test_id: str, filepath: Path, dirpath: Path, binary_filepath: Path,
-  uvm_absdirpath: Path, mp: str, mt: str, tool: str, output_dirpath: Path
+  uvm_absdirpath: Path, mt: str, tool: str, output_dirpath: Path
 ):
   tool_log_filepath = None
   tool_args_list = []
@@ -293,16 +293,12 @@ def _get_run_args(
       cmdline = cmdline.replace('*/*.v', ' '.join(str(p) for p in find_files(src_dirpath, '*.v')))
     if '*/*.sv' in cmdline:
       cmdline = cmdline.replace('*/*.sv', ' '.join(str(p) for p in find_files(src_dirpath, '*.sv')))
-    if '-mt' in cmdline:
-      cmdline = re.sub(r'-mt\s+(max|\d+)', '', cmdline)
 
-    if mp and ((mp == 'max') or (mp.isnumeric() and int(mp) > 0)):
-      cmdline = re.sub(r'-mp\s+(max|\d+)', '', cmdline)  # Option overridden from command prompt
-    if mp or ('-mp' in cmdline):
-      cmdline = cmdline.replace('-nocache', '')
     if '-lowmem' in cmdline:
-      cmdline = re.sub(r'-mp\s+(max|\d+)', '', cmdline)
-      mp = '1'
+      mt = '1'  # Force single threaded
+
+    if mt is not None:
+      cmdline = re.sub(r'-mt\s+(max|\d+)', '', cmdline)
 
     parts = cmdline.split(' ')
     for i in range(0, len(parts)):
@@ -310,11 +306,11 @@ def _get_run_args(
           if parts[i].endswith('.v') or parts[i].endswith('.sv') or parts[i].endswith('.pkg'):
             parts[i] = ' '.join(str(p) for p in find_files(src_dirpath, parts[i]))
 
-    parts += ['-mt', (mt or '0')]
-    if mp or '-mp' not in cmdline:
-      parts += ['-mp', (mp or '0')]
+    if mt or '-mt' not in cmdline:
+      parts += ['-mt', (mt or '0')]
     parts += ['-d', 'dbstats'] # Force print hldb stats
     parts += ['-d', 'cache']
+    parts += ['-writepp']
     if Path(test_id).name not in _blacklisted_dump_hldb_tests:
       parts += ['-d', 'db']
     parts += ['-nostdout']  # Keep this at end so it overrides any '-verbose' flag in the hlc file
@@ -330,7 +326,7 @@ def _get_run_args(
 
 def _run_hlc(
     test_id, filepath, dirpath, hlc_filepath,
-    hlc_log_filepath, uvm_absdirpath, mp, mt, tool, output_dirpath):
+    hlc_log_filepath, uvm_absdirpath, mt, tool, output_dirpath):
   start_dt = datetime.now()
   print(f'start-time: {start_dt}')
 
@@ -338,7 +334,7 @@ def _run_hlc(
 
   args, tool_log_filepath = _get_run_args(
       test_id, filepath, dirpath, hlc_filepath,
-      uvm_absdirpath, mp, mt, tool, output_dirpath)
+      uvm_absdirpath, mt, tool, output_dirpath)
 
   print('Launching hlc with arguments:')
   pprint.pprint(args)
@@ -524,7 +520,7 @@ def _run_reducer(test_dirpath, reducer_filepath, reducer_log_filepath, verbose):
 
 def _run_one(params):
   start_dt = datetime.now()
-  test_id, filepath, hlc_filepath, reducer_filepath, mp, mt, tool, output_dirpath = params
+  test_id, filepath, hlc_filepath, reducer_filepath, mt, tool, output_dirpath = params
 
   log(f'Running {test_id} ...')
 
@@ -577,19 +573,19 @@ def _run_one(params):
       print(f'            test-dirpath: {dirpath}')
       print(f'           test-filepath: {filepath}')
       print(f'       workspace-dirpath: {_workspace_dirpath}')
-      print(f'        hlc-filepath: {hlc_filepath}')
+      print(f'            hlc-filepath: {hlc_filepath}')
       print(f'        reducer-filepath: {reducer_filepath}')
       print(f'          uvm-reldirpath: {uvm_absdirpath}')
       print(f'          output-dirpath: {output_dirpath}')
       print(f'     golden-log-filepath: {golden_log_filepath}')
-      print(f'    hlc-log-filepath: {hlc_log_filepath}')
+      print(f'        hlc-log-filepath: {hlc_log_filepath}')
       print(f'                    tool: {tool}')
       print( '\n')
 
       print('Running Hlc ...', flush=True)
       result.update(_run_hlc(
           test_id, filepath, dirpath, hlc_filepath, hlc_log_filepath,
-          uvm_absdirpath, mp, mt, tool, output_dirpath))
+          uvm_absdirpath, mt, tool, output_dirpath))
       print('\n', flush=True)
 
       print('Running Coverage ...', flush=True)
@@ -765,7 +761,6 @@ def _run(args, tests):
     filepath,
     args.hlc_filepath,
     args.reducer_filepath,
-    args.mp,
     args.mt,
     args.tool,
     args.output_dirpath / test_id
@@ -775,7 +770,16 @@ def _run(args, tests):
     results = [_run_one(param) for param in params]
   else:
     with multiprocessing.Pool(processes=args.jobs) as pool:
-      results = pool.map(_run_one, params)
+      # chunksize=1 is deliberate, not the default: Pool.map()'s default chunksize batches many
+      # tasks into one non-preemptible unit of work per queue entry (divmod(len(params),
+      # len(pool)*4) -- e.g. ~235 tests/batch for 5613 tests over 6 workers). Once all batches are
+      # claimed, an idle worker has nothing left to pull even if another worker's own batch still
+      # has many tests left to run -- exactly the "5 idle workers, 1 busy on a large job, pending
+      # tests not picked up" symptom seen near the end of a sweep, when a late batch happens to
+      # cluster several large/slow tests together. chunksize=1 makes every dispatch unit a single
+      # test, so any idle worker can always claim the next pending one regardless of cost
+      # clustering.
+      results = pool.map(_run_one, params, chunksize=1)
 
   print('')
   _print_report(args.output_dirpath, results)
@@ -817,7 +821,6 @@ def _main():
       '--tool', dest='tool', choices=['ddd', 'valgrind'], required=False, default=None, type=str,
       help='Run regression test using specified tool.')
   parser.add_argument('--mt', dest='mt', default=None, type=str, help='Enable multithreading mode')
-  parser.add_argument('--mp', dest='mp', default=None, type=str, help='Enable multiprocessing mode')
   parser.add_argument('--num_shards', dest='num_shards', required=False,
                       type=int, default=1, help='Number of shards')
   parser.add_argument('--shard', dest='shard', required=False,
@@ -875,12 +878,11 @@ def _main():
   print(f'   current-dirpath: {Path.cwd()}')
   print(f' workspace-dirpath: {_workspace_dirpath}')
   print(f'     build-dirpath: {args.build_dirpath}')
-  print(f'  hlc-filepath: {args.hlc_filepath}')
+  print(f'      hlc-filepath: {args.hlc_filepath}')
   print(f'  reducer-filepath: {args.reducer_filepath}')
   print(f'      test-dirpath: {args.test_dirpath}')
   print(f'    output-dirpath: {args.output_dirpath}')
   print(f'   multi-threading: {args.mt}')
-  print(f'  multi-processing: {args.mp}')
   print(f'          max-jobs: {args.jobs}')
   print(f'         max-tests: {len(all_tests)}')
   print(f' blacklisted-tests: {len(blacklisted_tests)}')

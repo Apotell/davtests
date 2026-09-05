@@ -4,16 +4,18 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../../tests/YosysTests/simple -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v alu/top.v alu/testbench.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/simple/alu/alu
+COMMAND: -wd ../../../../../tests/YosysTests/simple -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v alu/top.v alu/testbench.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/simple/alu/alu
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/common.v".
 [INF:PP0122] Preprocessing source file "$Source01/alu/top.v".
 [INF:PP0122] Preprocessing source file "$Source01/alu/testbench.v".
 [INF:PA0201] Parsing source file "$Source01/common.v".
+[INF:PA0201] Parsing source file "$Source01/alu/top.v".
+[INF:PA0201] Parsing source file "$Source01/alu/testbench.v".
 AST_DEBUG_BEGIN
 Count: 555
 LIB: work
-FILE: f<13>:$Source01/common.v
+FILE<0>:$Source01/common.v
 n<$Source01/common.v> u<554> t<Top_level_rule> c<1> l<1:1> el<60:1>
   n<> u<1> t<Null_rule> p<554> s<553> l<1:1>
   n<> u<553> t<Source_text> p<554> c<104> l<1:1> el<59:10>
@@ -569,11 +571,10 @@ n<$Source01/common.v> u<554> t<Top_level_rule> c<1> l<1:1> el<60:1>
                               n<> u<538> t<END> p<539> l<58:5> el<58:8>
         n<> u<550> t<ENDMODULE> p<551> l<59:1> el<59:10>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/alu/top.v".
 AST_DEBUG_BEGIN
 Count: 302
 LIB: work
-FILE: f<14>:$Source01/alu/top.v
+FILE<0>:$Source01/alu/top.v
 n<$Source01/alu/top.v> u<301> t<Top_level_rule> c<1> l<1:1> el<24:1>
   n<> u<1> t<Null_rule> p<301> s<300> l<1:1>
   n<> u<300> t<Source_text> p<301> c<299> l<1:1> el<23:10>
@@ -876,11 +877,10 @@ n<$Source01/alu/top.v> u<301> t<Top_level_rule> c<1> l<1:1> el<24:1>
                               n<> u<285> t<END> p<286> l<22:2> el<22:5>
         n<> u<297> t<ENDMODULE> p<298> l<23:1> el<23:10>
 AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/alu/testbench.v".
 AST_DEBUG_BEGIN
 Count: 970
 LIB: work
-FILE: f<16>:$Source01/alu/testbench.v
+FILE<0>:$Source01/alu/testbench.v
 n<$Source01/alu/testbench.v> u<969> t<Top_level_rule> c<1> l<1:1> el<86:1>
   n<> u<1> t<Null_rule> p<969> s<968> l<1:1>
   n<> u<968> t<Source_text> p<969> c<967> l<1:1> el<85:10>
@@ -3085,14 +3085,14 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiOpType: arith shift right (42)
                           vpiOperand (2 items):
-                            SysFuncCall name:$signed start:12:14 end:12:27:
+                            SysTaskCall name:$signed start:12:14 end:12:27:
                               vpiParent: Operation
                               vpiName Identifier name:$signed start:12:14 end:12:21:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: "$signed"
                               vpiArgument (1 items):
                                 RefObj name:dinA start:12:22 end:12:26:
-                                  vpiParent: SysFuncCall name:$signed
+                                  vpiParent: SysTaskCall name:$signed
                                   vpiName: dinA
                                   vpiFullName: top.dinA
                                   vpiActual: Net name:dinA
@@ -4104,14 +4104,14 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiOpType: arith shift right (42)
                           vpiOperand (2 items):
-                            SysFuncCall name:$signed start:37:13 end:37:26:
+                            SysTaskCall name:$signed start:37:13 end:37:26:
                               vpiParent: Operation
                               vpiName Identifier name:$signed start:37:13 end:37:20:
-                                vpiParent: SysFuncCall name:$signed
+                                vpiParent: SysTaskCall name:$signed
                                 vpiName: "$signed"
                               vpiArgument (1 items):
                                 RefObj name:dinA start:37:21 end:37:25:
-                                  vpiParent: SysFuncCall name:$signed
+                                  vpiParent: SysTaskCall name:$signed
                                   vpiName: dinA
                                   vpiFullName: testbench.dinA
                                   vpiActual: Variable name:dinA

@@ -4,15 +4,15 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db include2.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/include2
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db include2.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/include2
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/include2.v".
-[ERR:PP0101] $Source01/include2.v:22: Cannot open include file "$Source01/ivltests/include1.v".
+[ERR:PP0101] $Source01/include2.v:22:1: Cannot open include file "ivltests/include1.v".
 [INF:PA0201] Parsing source file "$Source01/include2.v".
 AST_DEBUG_BEGIN
 Count: 24
 LIB: work
-FILE: f<13>:$Source01/include2.v
+FILE<0>:$Source01/include2.v
 n<$Source01/include2.v> u<23> t<Top_level_rule> c<1> l<24:1> el<24:1>
   n<> u<1> t<Null_rule> p<23> s<2> l<24:1> el<24:1>
   n<> u<2> t<Source_text> p<23> s<3> l<24:1> el<24:1>
@@ -47,7 +47,7 @@ Design name:unnamed:
       vpiName: include2.v
       vpiPreprocFile: "$Output/lib/work/include2.v"
       vpiIncludes (1 items):
-        SourceFile name:ivltests/include1.v file:$Source01/ivltests/include1.v start:22:1 end:22:31:
+        SourceFile name:ivltests/include1.v start:22:1 end:22:31:
           vpiParent: SourceFile name:include2.v
           vpiName: ivltests/include1.v
 ===================

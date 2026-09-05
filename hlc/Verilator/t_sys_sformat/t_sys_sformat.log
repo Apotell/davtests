@@ -4,15 +4,15 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_sys_sformat.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_sys_sformat
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_sys_sformat.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_sys_sformat
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_sys_sformat.v".
-[ERR:PP0101] $Source01/t_sys_sformat.v:6: Cannot open include file "$Source01/verilated.v".
+[ERR:PP0101] $Source01/t_sys_sformat.v:6:1: Cannot open include file "verilated.v".
 [INF:PA0201] Parsing source file "$Source01/t_sys_sformat.v".
 AST_DEBUG_BEGIN
 Count: 844
 LIB: work
-FILE: f<13>:$Source01/t_sys_sformat.v
+FILE<0>:$Source01/t_sys_sformat.v
 n<$Source01/t_sys_sformat.v> u<843> t<Top_level_rule> c<1> l<8:1> el<73:1>
   n<> u<1> t<Null_rule> p<843> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<843> s<3> l<1:1> el<1:47>
@@ -868,7 +868,7 @@ Design name:unnamed:
       vpiName: t_sys_sformat.v
       vpiPreprocFile: "$Output/lib/work/t_sys_sformat.v"
       vpiIncludes (1 items):
-        SourceFile name:verilated.v file:$Source01/verilated.v start:6:1 end:6:23:
+        SourceFile name:verilated.v start:6:1 end:6:23:
           vpiParent: SourceFile name:t_sys_sformat.v
           vpiName: verilated.v
   vpiAllModules (1 items):
@@ -1200,7 +1200,7 @@ Design name:unnamed:
                     vpiActual: LongIntTypespec
                   vpiConstType: hexadecimal (5)
                   vpiSize: 64
-                  vpiDecompile: "64'h12345678abcd0123"
+                  vpiDecompile: "64'h1234_5678_abcd_0123"
                   vpiValue: "12345678abcd0123"
               Assignment start:27:7 end:27:32:
                 vpiParent: Begin

@@ -4,17 +4,41 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Guards -d ast rtl1/ast_pkg.sv rtl2/ast_pkg.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Guards/Guards
+COMMAND: -wd ../../../tests/Guards -d ast rtl1/ast_pkg.sv rtl2/ast_pkg.sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Guards/Guards
 [INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/rtl1/ast_pkg.sv".
 [INF:PP0122] Preprocessing source file "$Source01/rtl2/ast_pkg.sv".
-[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/rtl1/ast_pkg.sv".
+[INF:PA0201] Parsing source file "$Source01/rtl2/ast_pkg.sv".
+[INF:PA0201] Parsing source file "$Scratch/0_builtin.sv".
+AST_DEBUG_BEGIN
+Count: 4
+LIB: work
+FILE<0>:$Source01/rtl2/ast_pkg.sv
+n<$Source01/rtl2/ast_pkg.sv> u<3> t<Top_level_rule> c<1> l<9:1> el<9:1>
+  n<> u<1> t<Null_rule> p<3> s<2> l<9:1> el<9:1>
+  n<> u<2> t<Source_text> p<3> l<9:1> el<9:1>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 10
+LIB: work
+FILE<0>:$Source01/rtl1/ast_pkg.sv
+n<$Source01/rtl1/ast_pkg.sv> u<9> t<Top_level_rule> c<1> l<5:1> el<9:1>
+  n<> u<1> t<Null_rule> p<9> s<7> l<5:1> el<5:1>
+  n<> u<7> t<Source_text> p<9> c<6> s<8> l<5:1> el<6:11>
+    n<> u<6> t<Description> p<7> c<5> l<5:1> el<6:11>
+      n<> u<5> t<Package_declaration> p<6> c<2> l<5:1> el<6:11>
+        n<> u<2> t<PACKAGE> p<5> s<3> l<5:1> el<5:8>
+        n<ast_pkg> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<5:9> el<5:16>
+        n<> u<4> t<ENDPACKAGE> p<5> l<6:1> el<6:11>
+  n<// of ast_pkg> u<8> t<LINE_COMMENT> p<9> l<6:13> el<6:26>
+AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: f<19>:$Source00/builtin.sv
-n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
+FILE<0>:$Scratch/0_builtin.sv
+n<$Scratch/0_builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
     n<> u<106> t<Description> p<255> c<105> s<181> l<1:1> el<27:9>
@@ -270,30 +294,6 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
                               n<1> u<238> t<INTEGRAL_NUMBER> p<239> l<66:39> el<66:40>
                     n<> u<244> t<ENDFUNCTION> p<245> l<67:3> el<67:14>
             n<> u<250> t<ENDCLASS> p<251> l<69:1> el<69:9>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/rtl1/ast_pkg.sv".
-AST_DEBUG_BEGIN
-Count: 10
-LIB: work
-FILE: f<13>:$Source01/rtl1/ast_pkg.sv
-n<$Source01/rtl1/ast_pkg.sv> u<9> t<Top_level_rule> c<1> l<5:1> el<9:1>
-  n<> u<1> t<Null_rule> p<9> s<7> l<5:1> el<5:1>
-  n<> u<7> t<Source_text> p<9> c<6> s<8> l<5:1> el<6:11>
-    n<> u<6> t<Description> p<7> c<5> l<5:1> el<6:11>
-      n<> u<5> t<Package_declaration> p<6> c<2> l<5:1> el<6:11>
-        n<> u<2> t<PACKAGE> p<5> s<3> l<5:1> el<5:8>
-        n<ast_pkg> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<5:9> el<5:16>
-        n<> u<4> t<ENDPACKAGE> p<5> l<6:1> el<6:11>
-  n<// of ast_pkg> u<8> t<LINE_COMMENT> p<9> l<6:13> el<6:26>
-AST_DEBUG_END
-[INF:PA0201] Parsing source file "$Source01/rtl2/ast_pkg.sv".
-AST_DEBUG_BEGIN
-Count: 4
-LIB: work
-FILE: f<15>:$Source01/rtl2/ast_pkg.sv
-n<$Source01/rtl2/ast_pkg.sv> u<3> t<Top_level_rule> c<1> l<9:1> el<9:1>
-  n<> u<1> t<Null_rule> p<3> s<2> l<9:1> el<9:1>
-  n<> u<2> t<Source_text> p<3> l<9:1> el<9:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/rtl1/ast_pkg.sv:5:1: Compile package "ast_pkg".
 [WRN:PA0205] No timescale set for "builtin".
@@ -1884,7 +1884,7 @@ Design name:unnamed:
         vpiFullName: ast_pkg::work
       vpiCell: ast_pkg
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Scratch/0_builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
@@ -1898,6 +1898,7 @@ Design name:unnamed:
             vpiName: mailbox
           vpiDefName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2079,7 +2080,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2123,6 +2124,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2196,7 +2198,7 @@ Design name:unnamed:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
@@ -2210,6 +2212,7 @@ Design name:unnamed:
             vpiName: semaphore
           vpiDefName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):

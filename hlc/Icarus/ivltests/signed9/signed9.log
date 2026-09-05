@@ -4,14 +4,14 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db signed9.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/signed9
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db signed9.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/signed9
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/signed9.v".
 [INF:PA0201] Parsing source file "$Source01/signed9.v".
 AST_DEBUG_BEGIN
 Count: 209
 LIB: work
-FILE: f<13>:$Source01/signed9.v
+FILE<0>:$Source01/signed9.v
 n<$Source01/signed9.v> u<208> t<Top_level_rule> c<1> l<20:1> el<36:1>
   n<> u<1> t<Null_rule> p<208> s<2> l<20:1> el<20:1>
   n</*\n * Copyright (c) 2003 Stephen Williams (steve@icarus.com)\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<208> s<207> l<20:1> el<35:10>
@@ -479,14 +479,14 @@ Design name:unnamed:
                 vpiName: bar
                 vpiFullName: assignsigned.bar
                 vpiActual: Variable name:bar
-              SysFuncCall name:$signed start:24:27 end:24:39:
+              SysTaskCall name:$signed start:24:27 end:24:39:
                 vpiParent: Operation
                 vpiName Identifier name:$signed start:24:27 end:24:34:
-                  vpiParent: SysFuncCall name:$signed
+                  vpiParent: SysTaskCall name:$signed
                   vpiName: "$signed"
                 vpiArgument (1 items):
                   RefObj name:foo start:24:35 end:24:38:
-                    vpiParent: SysFuncCall name:$signed
+                    vpiParent: SysTaskCall name:$signed
                     vpiName: foo
                     vpiFullName: assignsigned.foo
                     vpiActual: Parameter name:foo
@@ -549,14 +549,11 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/signed9/design.hldb ${HLC_DIR}/re
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             9      10       2         1
-Identifier                           7       6       0         1
-Operation                            3       1       0         2
-RefObj                              11       9       0         2
-RefTypespec                         12      13       2         1
-SysFuncCall                          1       0       0         1
+Constant                             9       9       1         1
+Operation                            3       2       0         1
+RefTypespec                         12      12       1         1
 ----------------------------------------------------------------
-Others                              24      24       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    67      63       4         8
+                                    67      66       2         3
 ===================== END REDUCTION RESULT =====================
