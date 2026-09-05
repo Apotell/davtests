@@ -39,7 +39,7 @@ class ParamFileMacroTest : public Test {
 
 // LRM 22.5.1: both modules that rely on the PARAM_FILE macro must compile.
 TEST_F(ParamFileMacroTest, DutModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'dut' must compile";
 }
 
@@ -134,7 +134,7 @@ TEST_F(ParamFileMacroTest, ExactlyOnePreprocMacroDefinitionRecorded) {
 // expand using the LATEST definition (the in-file `define PARAM_FILE ""),
 // not the earlier command-line value (-DPARAM_FILE=/toto/blah).
 TEST_F(ParamFileMacroTest, LatestDefinitionPrevailsOverCommandLineValue) {
-  const hldb::Module *const dut = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
+  const hldb::Module *const dut = hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(dut, nullptr);
   ASSERT_NE(dut->getParamAssigns(), nullptr);
   ASSERT_FALSE(dut->getParamAssigns()->empty());

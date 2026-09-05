@@ -58,7 +58,7 @@ TEST_F(InterfaceIdentifiers, BusIfExists) {
 
 TEST_F(InterfaceIdentifiers, SubIfExists) {
   ASSERT_NE(m_design->getAllInterfaces(), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Interface>("SubIf", m_design->getAllInterfaces()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Interface>("SubIf", m_design->getAllInterfaces()), nullptr)
       << "Interface 'SubIf' not found";
 }
 
@@ -102,12 +102,12 @@ TEST_F(InterfaceIdentifiers, BusIfHasTaskFuncDecls) {
 // ----
 
 TEST_F(InterfaceIdentifiers, AnsiPlainPortModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mod_ansi_plain_port", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mod_ansi_plain_port", m_design->getAllModules()), nullptr)
       << "Module 'mod_ansi_plain_port' not found";
 }
 
 TEST_F(InterfaceIdentifiers, AnsiPlainPortModuleHasBusPort) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("mod_ansi_plain_port", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("mod_ansi_plain_port", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getPorts(), nullptr) << "mod_ansi_plain_port has no ports";
 
@@ -122,7 +122,7 @@ TEST_F(InterfaceIdentifiers, AnsiPlainPortModuleHasBusPort) {
 }
 
 TEST_F(InterfaceIdentifiers, AnsiModportPortModuleHasMstAndSlv) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("mod_ansi_modport_port", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("mod_ansi_modport_port", m_design->getAllModules());
   ASSERT_NE(m, nullptr) << "Module 'mod_ansi_modport_port' not found";
   ASSERT_NE(m->getPorts(), nullptr);
 
@@ -136,7 +136,7 @@ TEST_F(InterfaceIdentifiers, AnsiModportPortModuleHasMstAndSlv) {
 }
 
 TEST_F(InterfaceIdentifiers, AnsiArrayPortModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mod_ansi_array_port", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mod_ansi_array_port", m_design->getAllModules()), nullptr)
       << "Module 'mod_ansi_array_port' not found";
 }
 
@@ -145,12 +145,12 @@ TEST_F(InterfaceIdentifiers, AnsiArrayPortModuleExists) {
 // ----
 
 TEST_F(InterfaceIdentifiers, NonAnsiSingleModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mod_nonansi_single", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mod_nonansi_single", m_design->getAllModules()), nullptr)
       << "Module 'mod_nonansi_single' not found";
 }
 
 TEST_F(InterfaceIdentifiers, NonAnsiModportModuleHasMstAndSlv) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("mod_nonansi_modport", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("mod_nonansi_modport", m_design->getAllModules());
   ASSERT_NE(m, nullptr) << "Module 'mod_nonansi_modport' not found";
   ASSERT_NE(m->getPorts(), nullptr);
 
@@ -168,7 +168,7 @@ TEST_F(InterfaceIdentifiers, NonAnsiModportModuleHasMstAndSlv) {
 // ----
 
 TEST_F(InterfaceIdentifiers, VirtualIfModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mod_virtual_ifs", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mod_virtual_ifs", m_design->getAllModules()), nullptr)
       << "Module 'mod_virtual_ifs' not found";
 }
 
@@ -242,12 +242,12 @@ TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionBelongsToInterface) {
 // ----
 
 TEST_F(InterfaceIdentifiers, TopInstantiationExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("top_instantiation", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top_instantiation", m_design->getAllModules()), nullptr)
       << "Module 'top_instantiation' not found";
 }
 
 TEST_F(InterfaceIdentifiers, TopInstantiationHasInterfaceInstances) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("top_instantiation", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("top_instantiation", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_NE(m->getRefInstances(), nullptr) << "top_instantiation has no interface instances";
   EXPECT_NE(hldb::findByName<hldb::RefInstance>("u_bus", m->getRefInstances()), nullptr)
@@ -277,13 +277,13 @@ TEST_F(InterfaceIdentifiers, TopInstantiationHasInterfaceInstances) {
 // ----
 
 TEST_F(InterfaceIdentifiers, SpecifyPathsModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mod_specify_paths", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mod_specify_paths", m_design->getAllModules()), nullptr)
       << "Module 'mod_specify_paths' not found";
 }
 
 TEST_F(InterfaceIdentifiers, SpecifyPathsModuleHasModPaths) {
   GTEST_SKIP() << "ModPath and HierPaths are ambiguous in this context. These need to be resolved post binding.";
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("mod_specify_paths", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("mod_specify_paths", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_NE(m->getModPaths(), nullptr) << "mod_specify_paths has no mod paths (specify block)";
 }

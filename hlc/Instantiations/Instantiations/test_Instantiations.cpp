@@ -64,7 +64,7 @@ TEST_F(Instantiations, InterfaceDefinitions) {
 }
 
 TEST_F(Instantiations, ProgramDefinition) {
-  ASSERT_NE(hldb::findByName<hldb::Program>("my_prog", m_design->getAllPrograms()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Program>("my_prog", m_design->getAllPrograms()), nullptr);
 }
 
 TEST_F(Instantiations, UdpDefinition) {
@@ -82,7 +82,7 @@ static const hldb::RefInstance *findRefInst(std::string_view instName, const hld
 // 2. RefInstances inside 'top' carry the right typespec type
 // ----
 TEST_F(Instantiations, InterfaceInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   // Plain interface instantiation  -- isInterfaceElem("simple_if")
@@ -101,7 +101,7 @@ TEST_F(Instantiations, InterfaceInstantiation) {
 }
 
 TEST_F(Instantiations, ModuleInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   // Plain module instantiation -- isModuleElem("passthru")
@@ -118,7 +118,7 @@ TEST_F(Instantiations, ModuleInstantiation) {
 }
 
 TEST_F(Instantiations, ProgramInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   // Program instantiation -- isProgramElem("my_prog")
@@ -130,7 +130,7 @@ TEST_F(Instantiations, ProgramInstantiation) {
 }
 
 TEST_F(Instantiations, UnsupportedInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   // Unsupported / black-box -- isUnsupportedElem("black_box")
@@ -148,7 +148,7 @@ TEST_F(Instantiations, UnsupportedInstantiation) {
 // return true so the instantiation gets ModuleTypespec (not UnsupportedTypespec).
 // ----
 TEST_F(Instantiations, MacroDefinedModuleInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::RefInstance *const u_macro_mod = findRefInst("u_macro_mod", top);
@@ -163,7 +163,7 @@ TEST_F(Instantiations, MacroDefinedModuleInstantiation) {
 // 3. UDP instantiation -- Udp (extends Primitive) in top's primitives
 // ----
 TEST_F(Instantiations, UdpInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPrimitives(), nullptr) << "top has no primitives";
 
@@ -184,7 +184,7 @@ TEST_F(Instantiations, UdpInstantiation) {
 // 4. Gate primitives are present (keyword-driven, no predicate)
 // ----
 TEST_F(Instantiations, GatePrimitives) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPrimitives(), nullptr) << "top has no primitives";
 
