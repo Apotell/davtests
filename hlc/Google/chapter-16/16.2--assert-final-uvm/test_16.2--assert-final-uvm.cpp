@@ -233,17 +233,6 @@ TEST_F(AssertFinalUvmTest, ConnectPhaseContainsPlainImmediateAssert) {
 }
 
 TEST_F(AssertFinalUvmTest, RunPhaseContainsFinalDeferredImmediateAssert) {
-  // Verified failing (2026-09-02): same gap as
-  // test_16.2--assert-final.cpp's AssertIsFinalDeferredImmediateAssert --
-  // getIsDeferred() correctly comes back true for 'assert final (...)', but
-  // getIsFinal() comes back false. Skipped per project convention now that
-  // a human has personally checked this specific test; the real assertions
-  // are kept below (including the getIsDeferred() check, which does pass
-  // today) so removing this skip will fail again for the same documented
-  // reason until HLC sets getIsFinal() correctly for 'assert final'.
-  GTEST_SKIP() << "HLC sets getIsDeferred() but not getIsFinal() for 'assert final (...)'; should have "
-                  "both true per IEEE 1800-2023 Sec 16.4. Fix pending.";
-
   const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
   ASSERT_NE(env, nullptr);
   const hldb::TaskFunc *const runPhase = hldb::findByName<hldb::TaskFunc>("run_phase", env->getMethods());
