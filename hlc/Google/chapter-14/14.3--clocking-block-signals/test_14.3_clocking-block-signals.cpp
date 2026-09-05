@@ -59,12 +59,7 @@
 //   - module ports: "clk", "a" are Nets (no explicit type); "b", "c" are
 //     Variables (explicit "logic")
 //   - ck1 has exactly 3 ClockingIODecls, in source order: "a" (vpiInput, no
-//     own skew), "b" (vpiOutput, no own skew), "c" (vpiOutput -- CONFIRMED
-//     HLC BUG: "output #3ns c;"'s own "#3ns" skew override is never
-//     recorded onto getOutputSkew(), which comes back null instead of a
-//     DelayControl wrapping "3ns"; GTEST_SKIP()'d below with the real
-//     assertion preserved, direction/name are both correctly recorded so
-//     this is not a mistake in this test)
+//     own skew), "b" (vpiOutput, no own skew), "c" (vpiOutput, #3ns skew)
 //   - the always_ff block: getAlwaysType() == vpiAlwaysFF, body reached via
 //     EventControl(@(posedge clk))->getStmt() is a Begin with 2 statements:
 //     "b <= a;" (non-blocking, lhs Variable "b", rhs Net "a") and
@@ -182,22 +177,6 @@ TEST_F(ClockingBlockSignalsTest, ClockvarBIsOutputWithNoOwnSkew) {
 }
 
 TEST_F(ClockingBlockSignalsTest, ClockvarCIsOutputWithOwnSkewOfThree) {
-  // CONFIRMED HLC BUG (user-verified real build/run): getDirection() and
-  // getName() for "c" are both correctly recorded (this test's earlier
-  // EXPECT_EQ(c->getDirection(), vpiOutput) passes), but the per-signal
-  // skew override itself -- "#3ns" written directly on "output #3ns c;" --
-  // is never recorded onto ClockingIODecl::getOutputSkew(), which comes
-  // back null. This matches the same systemic pattern already confirmed
-  // repeatedly elsewhere in this codebase (see e.g. chapter-12's
-  // unique/priority qualifiers and chapter-13's task 'automatic' keyword):
-  // HLC's parser recognizes the construct but fails to record it onto the
-  // final compiled object.
-  GTEST_SKIP() << "HLC parses 'output #3ns c;' (direction and name both correctly recorded) but "
-                  "never records the per-signal skew override onto "
-                  "ClockingIODecl::getOutputSkew(), which comes back null instead of a DelayControl "
-                  "wrapping '3ns'. Confirmed compiler bug -- same "
-                  "'construct-parsed-but-not-recorded' pattern already found elsewhere in this "
-                  "codebase, not a mistake in this test.";
   const hldb::ClockingBlock *const ck1 = getCk1();
   ASSERT_NE(ck1, nullptr);
   ASSERT_NE(ck1->getClockingIODecls(), nullptr);
