@@ -56,10 +56,7 @@
 //   - module top has exactly 1 TaskFunc, a Task named "mytask", with
 //     no IODecls (no formal arguments)
 //   - mytask's own lifetime SHOULD be automatic per the explicit
-//     "automatic" keyword (getAutomatic() == true); CONFIRMED BY
-//     RUNNING THIS TEST WITH THE SKIP BELOW REMOVED (fails as
-//     expected) -- see the "What is NOT checked" note below for the
-//     full explanation
+//     "automatic" keyword (getAutomatic() == true)
 //   - mytask's body is a Begin whose own scope has exactly 1 Variable
 //     "a" (initial value Constant "0"), and whose getStmts() has
 //     exactly 3 entries: the Variable "a" declaration itself, an
@@ -73,19 +70,6 @@
 //   - no continuous assignments exist in the module
 //
 // What is NOT checked and why:
-//   - the exact numeric value backing getAutomatic() -- CONFIRMED BY
-//     RUNNING THIS TEST WITH THE SKIP BELOW REMOVED: the raw AST dump
-//     for this file shows the parser recognizing the AUTOMATIC token
-//     (confirming HLC reads the keyword), but the compiled HLDB dump
-//     never prints "vpiAutomatic: true" for this Task object the way
-//     it does for the analogous Function objects in
-//     13.4.2--function-automatic.sv/function-recursive.sv. HLC
-//     currently drops the automatic-lifetime flag for tasks
-//     specifically (parsed but not recorded) -- the same class of gap
-//     already confirmed elsewhere in this suite for qualifier
-//     keywords, now confirmed here too. Kept as GTEST_SKIP() with the
-//     real assertion underneath, per the established gating rule
-//     (skips only added after personal verification).
 //   - the runtime per-invocation re-initialization behavior of
 //     automatic storage (that each of the 4 calls sees "a" freshly
 //     re-declared as 0) is a simulation-time concept, not a static/
@@ -139,13 +123,6 @@ TEST_F(TaskAutomaticTest, MytaskExistsWithNoIODecls) {
 }
 
 TEST_F(TaskAutomaticTest, MytaskLifetimeIsAutomatic) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "IEEE 1800-2023 13.3.1 requires the 'automatic' keyword to be recorded onto the Task, but HLC "
-                  "leaves getAutomatic() false -- the keyword is parsed (seen in the AST) but never recorded onto "
-                  "the final object, unlike the analogous Function case in "
-                  "13.4.2--function-automatic.cpp/function-recursive.cpp, where it IS recorded. Same class of "
-                  "'keyword parsed but dropped' gap already confirmed elsewhere in this suite for qualifier "
-                  "keywords. Tracked, not yet fixed by the compiler.";
   const hldb::Task *const mytask = getMytask();
   ASSERT_NE(mytask, nullptr);
   EXPECT_TRUE(mytask->getAutomatic()) << "'task automatic mytask;' should record automatic lifetime, per 13.3.1";
