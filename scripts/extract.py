@@ -105,7 +105,9 @@ def _extract_worker(params):
                     if skip_noise and dst_log_filepath.is_file():
                       old_text = dst_log_filepath.read_text(encoding='utf-8', errors='replace')
                       new_text = new_bytes.decode('utf-8', errors='replace')
+                      log(f'Compare Begin: {src_log_filepath}')
                       equivalent, _diffs = logs_equivalent(old_text, new_text)
+                      log(f'Compare End: {src_log_filepath}')
                       if equivalent:
                         log(f'{src_log_filepath} => {dst_log_filepath} (unchanged: only noise, kept existing)')
                         continue
@@ -179,8 +181,15 @@ def _extract(args, tests):
   if jobs <= 1:
     results = [_extract_worker(worker_params[0])]
   else:
+    # chunksize=1: worker_params already has exactly `jobs` entries, one pre-chunked (round-robin)
+    # workload per worker -- each entry IS a complete task for one process, not a further-batchable
+    # unit. pool.map()'s own chunksize groups elements of the ITERABLE into single dispatched tasks;
+    # any chunksize > 1 here bundles multiple whole worker payloads into one task, so only
+    # ceil(jobs / chunksize) of the `jobs` pool processes ever receive a task and the rest sit idle
+    # regardless of how much work is inside each chunk (confirmed: chunksize=2 with jobs=6 left 3
+    # of 6 processes permanently idle).
     with multiprocessing.Pool(processes=jobs) as pool:
-      results = pool.map(_extract_worker, worker_params)
+      results = pool.map(_extract_worker, worker_params, chunksize=1)
 
   return sum(results)
 
