@@ -11,7 +11,7 @@ COMMAND: -wd ../../../tests/Instantiations -d db -d ast dut.sv -nobuiltin -mt 0 
 AST_DEBUG_BEGIN
 Count: 956
 LIB: work
-FILE: f<15>:$Source01/dut.sv
+FILE<0>:$Source01/dut.sv
 n<$Source01/dut.sv> u<955> t<Top_level_rule> c<1> l<22:1> el<152:1>
   n<> u<1> t<Null_rule> p<955> s<2> l<22:1> el<22:1>
   n<// InstDisambig: single SV file validating that grammar predicates correctly> u<2> t<LINE_COMMENT> p<955> s<3> l<1:1> el<1:77>
@@ -934,7 +934,7 @@ n<$Source01/dut.sv> u<955> t<Top_level_rule> c<1> l<22:1> el<152:1>
                                   n<> u<903> t<Ordered_port_connection> p<904> l<147:22> el<147:22>
                         n<> u<940> t<Generate_item> p<942> c<939> s<941> l<148:7> el<148:71>
                           n<> u<939> t<Module_or_generate_item> p<940> c<938> l<148:7> el<148:71>
-                            n<> u<938> t<Unsupported_instantiation> p<939> c<909> l<148:7> el<148:71>
+                            n<> u<938> t<Module_instantiation> p<939> c<909> l<148:7> el<148:71>
                               n<passthru> u<909> t<SIMPLE_IDENTIFIER> p<938> s<937> l<148:7> el<148:15>
                               n<> u<937> t<Hierarchical_instance> p<938> c<911> l<148:17> el<148:70>
                                 n<> u<911> t<Name_of_instance> p<937> c<910> s<936> l<148:17> el<148:21>
@@ -2466,9 +2466,15 @@ Design name:unnamed:
                 vpiParent: Begin name:gen_lane
                 vpiName: gen_lane
               vpiFullName: gen_top.gen_lane
-              vpiTypespec (1 items):
+              vpiTypespec (2 items):
                 BitTypespec:
                   vpiParent: Begin name:gen_lane
+                ModuleTypespec name:passthru start:148:7 end:148:15:
+                  vpiParent: Begin name:gen_lane
+                  vpiName Identifier name:passthru start:148:7 end:148:15:
+                    vpiParent: ModuleTypespec name:passthru
+                    vpiName: passthru
+                  vpiModule: Module name:passthru
               vpiStmt (2 items):
                 RefInstance name:u_if start:147:17 end:147:21:
                   vpiParent: Begin name:gen_lane
@@ -2685,7 +2691,7 @@ Operation                           12       8       0         4
 RefObj                              79      75       0         4
 RefTypespec                         61      61       4         4
 ----------------------------------------------------------------
-Others                             224     224       0         0
+Others                             226     226       0         0
 ----------------------------------------------------------------
-                                   398     390       8        16
+                                   400     392       8        16
 ===================== END REDUCTION RESULT =====================
