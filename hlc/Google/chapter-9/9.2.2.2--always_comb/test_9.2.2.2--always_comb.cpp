@@ -184,19 +184,6 @@ TEST_F(AlwaysCombTest, NetATypespecHasNoDeclaredRanges) {
       << "'wire a' declares no '[msb:lsb]' -- it is an implicit scalar bit";
 }
 
-// CONFIRMED COMPILER BUG (not a defect in always_comb.sv):
-//   6.7.1: "wire a = 0" is a net_decl_assignment, distinct from a
-//   Variable's plain initial value. getNetDeclAssign() exists specifically
-//   to flag this, but this build never sets it to true -- confirmed by
-//   cross-checking chapter-6/6.9.2--vector_scalared.sv's identical shape
-//   ("tri1 scalared [15:0] a = 0"): its net's own value is likewise
-//   correctly captured (see 6.9.2--vector_scalared.log's "vpiValue
-//   Constant ... vpiDecompile: '0'"), yet the dumper -- which does print
-//   other true boolean flags on that same net, e.g. "vpiExplicitScalared:
-//   true" -- never prints "vpiNetDeclAssign: true" either. The value
-//   itself is captured correctly in both cases (see NetAValueIsConstantZero
-//   below); only the companion flag is never set. This assertion is
-//   intentionally left failing to track the gap, not tolerating it.
 TEST_F(AlwaysCombTest, NetAIsMarkedAsNetDeclAssign) {
   const hldb::Net *const a = getNetA();
   ASSERT_NE(a, nullptr);

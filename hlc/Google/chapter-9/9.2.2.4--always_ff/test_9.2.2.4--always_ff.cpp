@@ -218,12 +218,6 @@ TEST_F(AlwaysFfTest, NetBTypespecHasNoDeclaredRanges) {
       << "'wire b' declares no '[msb:lsb]' -- it is an implicit scalar bit";
 }
 
-// CONFIRMED COMPILER BUG (not a defect in always_ff.sv): see
-// 9.2.2.2--always_comb.cpp's NetAIsMarkedAsNetDeclAssign for the original
-// cross-checked evidence, further confirmed across a vector net with a
-// sized/based initializer, a multi-net declaration, and a "tri" net type
-// (none ever set this flag). Sec 6.7.1 requires it for "wire a = 0"/
-// "wire b = 0"; asserted anyway, intentionally failing.
 TEST_F(AlwaysFfTest, NetsAreMarkedAsNetDeclAssign) {
   const hldb::Net *const a = getNet("a");
   const hldb::Net *const b = getNet("b");

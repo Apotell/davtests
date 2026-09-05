@@ -219,11 +219,6 @@ TEST_F(AlwaysLatchTest, NetBTypespecHasNoDeclaredRanges) {
       << "'wire b' declares no '[msb:lsb]' -- it is an implicit scalar bit";
 }
 
-// CONFIRMED COMPILER BUG (not a defect in always_latch.sv): see
-// 9.2.2.2--always_comb.cpp's NetAIsMarkedAsNetDeclAssign for the
-// cross-checked evidence (chapter-6/6.9.2--vector_scalared.sv's identical
-// "net = value" shape also never sets this flag). Sec 6.7.1 requires it
-// for "wire a = 0"/"wire b = 0"; asserted anyway, intentionally failing.
 TEST_F(AlwaysLatchTest, NetsAreMarkedAsNetDeclAssign) {
   const hldb::Net *const a = getNet("a");
   const hldb::Net *const b = getNet("b");
