@@ -44,7 +44,7 @@ TEST_F(ParamFileMacroTest, DutModuleCompiles) {
 }
 
 TEST_F(ParamFileMacroTest, Ram1pModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("ram_1p", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("ram_1p", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'ram_1p' must compile";
 }
 

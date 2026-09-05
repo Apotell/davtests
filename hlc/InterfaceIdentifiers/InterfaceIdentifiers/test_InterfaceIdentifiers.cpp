@@ -52,7 +52,7 @@ class InterfaceIdentifiers : public Test {
 
 TEST_F(InterfaceIdentifiers, BusIfExists) {
   ASSERT_NE(m_design->getAllInterfaces(), nullptr) << "Design has no interfaces";
-  EXPECT_NE(hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces()), nullptr)
       << "Interface 'BusIf' not found";
 }
 
@@ -67,14 +67,14 @@ TEST_F(InterfaceIdentifiers, SubIfExists) {
 // ----
 
 TEST_F(InterfaceIdentifiers, BusIfHasModports) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   ASSERT_NE(busif->getModports(), nullptr) << "BusIf has no modports";
   EXPECT_EQ(busif->getModports()->size(), 2u) << "BusIf should have exactly 2 modports (master, slave)";
 }
 
 TEST_F(InterfaceIdentifiers, BusIfModportNames) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   ASSERT_NE(busif->getModports(), nullptr);
 
@@ -92,7 +92,7 @@ TEST_F(InterfaceIdentifiers, BusIfModportNames) {
 // ----
 
 TEST_F(InterfaceIdentifiers, BusIfHasTaskFuncDecls) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   EXPECT_NE(busif->getTaskFuncDecls(), nullptr) << "BusIf has no extern task/function declarations";
 }
@@ -192,7 +192,7 @@ TEST_F(InterfaceIdentifiers, VirtualIfModuleExists) {
 // ----
 
 TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionPrefixIsBusIf) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("capture", busif->getTaskFuncs());
   ASSERT_NE(fn, nullptr);
@@ -201,21 +201,21 @@ TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionPrefixIsBusIf) {
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyDummyFunctionBelongToInterface) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Function>("dummy", busif->getTaskFuncs()), nullptr)
       << "Out-of-block function 'BusIf.dummy' not found";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskBelongToInterface) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Task>("drive", busif->getTaskFuncs()), nullptr)
       << "Out-of-block task 'BusIf.drive' not found";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskPrefixIsBusIf) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   const hldb::Task *const t = hldb::findByName<hldb::Task>("drive", busif->getTaskFuncs());
   ASSERT_NE(t, nullptr);
@@ -224,14 +224,14 @@ TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskPrefixIsBusIf) {
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyNoopTaskBelongToInterface) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Task>("noop", busif->getTaskFuncs()), nullptr)
       << "Out-of-block task 'BusIf.noop' not found";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionBelongsToInterface) {
-  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Function>("capture", busif->getTaskFuncs()), nullptr)
       << "Out-of-block function 'capture' should be a member of interface BusIf";

@@ -147,19 +147,19 @@ class ClassTypedConstructorParamTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getSuperClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("super_cls", top->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("super_cls", top->getClassDefns());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getSuperPropertyS() {
