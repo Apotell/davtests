@@ -230,8 +230,6 @@ Design name:unnamed:
     Package name:foo_pkg file:$Source01/dut.sv start:1:1 end:3:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo_pkg start:1:9 end:1:16:
-        vpiParent: Package name:foo_pkg
-        vpiName: foo_pkg
       vpiFullName: foo_pkg
       vpiParameter (1 items):
         Parameter name:VALUE_TEMP start:2:17 end:2:27:
@@ -281,8 +279,6 @@ Design name:unnamed:
     Module name:bottom file:$Source01/dut.sv start:5:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom start:5:8 end:5:14:
-        vpiParent: Module name:bottom
-        vpiName: bottom
       vpiFullName: bottom
       vpiParameter (1 items):
         Parameter name:VALUE start:6:17 end:6:22:
@@ -321,8 +317,6 @@ Design name:unnamed:
     Module name:lower file:$Source01/dut.sv start:9:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:lower start:9:8 end:9:13:
-        vpiParent: Module name:lower
-        vpiName: lower
       vpiFullName: lower
       vpiParameter (1 items):
         Parameter name:VALUE start:11:17 end:11:22:
@@ -364,13 +358,25 @@ Design name:unnamed:
         ImportTypespec name:foo_pkg start:10:10 end:10:20:
           vpiParent: Module name:lower
           vpiName Identifier name:foo_pkg start:10:10 end:10:17:
-            vpiParent: ImportTypespec name:foo_pkg
-            vpiName: foo_pkg
         ModuleTypespec name:bottom start:12:3 end:12:9:
           vpiParent: Module name:lower
           vpiName Identifier name:bottom start:12:3 end:12:9:
-            vpiParent: ModuleTypespec name:bottom
-            vpiName: bottom
+          vpiDefName: bottom
+          vpiParamAssign (1 items):
+            ParamAssign start:13:5 end:13:18:
+              vpiParent: ModuleTypespec name:bottom
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:VALUE start:13:6 end:13:11:
+                vpiParent: ParamAssign
+                vpiName: VALUE
+                vpiFullName: lower.bottom.VALUE
+                vpiActual: Parameter name:VALUE
+              vpiRhs RefObj name:VALUE start:13:12 end:13:17:
+                vpiParent: ParamAssign
+                vpiName: VALUE
+                vpiFullName: lower.bottom.VALUE
+                vpiActual: Parameter name:VALUE
           vpiModule: Module name:bottom
       vpiDefName: lower
       vpiDefNetType: wire (1)
@@ -388,26 +394,9 @@ Design name:unnamed:
             vpiName: bottom
             vpiFullName: lower.bottom_u.bottom
             vpiActual: ModuleTypespec name:bottom
-          vpiParamAssign (1 items):
-            ParamAssign start:13:5 end:13:18:
-              vpiParent: RefInstance name:bottom_u
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:VALUE start:13:6 end:13:11:
-                vpiParent: ParamAssign
-                vpiName: VALUE
-                vpiFullName: lower.bottom_u.VALUE
-                vpiActual: Parameter name:VALUE
-              vpiRhs RefObj name:VALUE start:13:12 end:13:17:
-                vpiParent: ParamAssign
-                vpiName: VALUE
-                vpiFullName: lower.bottom_u.VALUE
-                vpiActual: Parameter name:VALUE
     Module name:upper file:$Source01/dut.sv start:17:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:upper start:17:8 end:17:13:
-        vpiParent: Module name:upper
-        vpiName: upper
       vpiFullName: upper
       vpiParameter (1 items):
         Parameter name:VALUE start:18:17 end:18:22:
@@ -440,8 +429,7 @@ Design name:unnamed:
         ModuleTypespec name:lower start:19:3 end:19:8:
           vpiParent: Module name:upper
           vpiName Identifier name:lower start:19:3 end:19:8:
-            vpiParent: ModuleTypespec name:lower
-            vpiName: lower
+          vpiDefName: lower
           vpiModule: Module name:lower
       vpiDefName: upper
       vpiDefNetType: wire (1)
@@ -462,8 +450,6 @@ Design name:unnamed:
     Module name:top file:$Source01/dut.sv start:22:1 end:25:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:22:8 end:22:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiParameter (1 items):
         Parameter name:VALUE start:23:17 end:23:22:
@@ -496,8 +482,7 @@ Design name:unnamed:
         ModuleTypespec name:upper start:24:3 end:24:8:
           vpiParent: Module name:top
           vpiName Identifier name:upper start:24:3 end:24:8:
-            vpiParent: ModuleTypespec name:upper
-            vpiName: upper
+          vpiDefName: upper
           vpiModule: Module name:upper
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -522,26 +507,18 @@ Design name:unnamed:
     ModuleTypespec name:bottom:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom start:5:8 end:5:14:
-        vpiParent: ModuleTypespec name:bottom
-        vpiName: bottom
       vpiModule: Module name:bottom
     ModuleTypespec name:lower:
       vpiParent: Design name:unnamed
       vpiName Identifier name:lower start:9:8 end:9:13:
-        vpiParent: ModuleTypespec name:lower
-        vpiName: lower
       vpiModule: Module name:lower
     ModuleTypespec name:upper:
       vpiParent: Design name:unnamed
       vpiName Identifier name:upper start:17:8 end:17:13:
-        vpiParent: ModuleTypespec name:upper
-        vpiName: upper
       vpiModule: Module name:upper
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:22:8 end:22:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0

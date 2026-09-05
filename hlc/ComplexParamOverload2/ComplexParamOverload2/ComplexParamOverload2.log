@@ -378,8 +378,6 @@ Design name:unnamed:
     Package name:pinmux_pkg file:$Source01/dut.sv start:1:1 end:17:24:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pinmux_pkg start:1:9 end:1:19:
-        vpiParent: Package name:pinmux_pkg
-        vpiName: pinmux_pkg
       vpiFullName: pinmux_pkg
       vpiTypespec (8 items):
         EnumTypespec start:2:12 end:4:5:
@@ -392,8 +390,6 @@ Design name:unnamed:
             EnumConst name:A start:3:7 end:3:12:
               vpiParent: EnumTypespec
               vpiName Identifier name:A start:3:7 end:3:8:
-                vpiParent: EnumConst name:A
-                vpiName: A
               vpiValue Constant start:3:11 end:3:12:
                 vpiParent: EnumConst name:A
                 vpiTypespec RefTypespec:
@@ -407,8 +403,6 @@ Design name:unnamed:
         TypedefTypespec name:enum1_e start:2:4 end:4:14:
           vpiParent: Package name:pinmux_pkg
           vpiName Identifier name:enum1_e start:4:6 end:4:13:
-            vpiParent: TypedefTypespec name:enum1_e
-            vpiName: enum1_e
           vpiTypedefAlias RefTypespec start:2:12 end:4:5:
             vpiParent: TypedefTypespec name:enum1_e
             vpiFullName: pinmux_pkg::enum1_e
@@ -428,8 +422,6 @@ Design name:unnamed:
         TypedefTypespec name:struct1_t start:6:4 end:8:16:
           vpiParent: Package name:pinmux_pkg
           vpiName Identifier name:struct1_t start:8:6 end:8:15:
-            vpiParent: TypedefTypespec name:struct1_t
-            vpiName: struct1_t
           vpiTypedefAlias RefTypespec start:6:12 end:8:5:
             vpiParent: TypedefTypespec name:struct1_t
             vpiFullName: pinmux_pkg::struct1_t
@@ -444,8 +436,6 @@ Design name:unnamed:
             EnumConst name:B start:11:7 end:11:12:
               vpiParent: EnumTypespec
               vpiName Identifier name:B start:11:7 end:11:8:
-                vpiParent: EnumConst name:B
-                vpiName: B
               vpiValue Constant start:11:11 end:11:12:
                 vpiParent: EnumConst name:B
                 vpiTypespec RefTypespec:
@@ -459,8 +449,6 @@ Design name:unnamed:
         TypedefTypespec name:enum2_e start:10:4 end:12:14:
           vpiParent: Package name:pinmux_pkg
           vpiName Identifier name:enum2_e start:12:6 end:12:13:
-            vpiParent: TypedefTypespec name:enum2_e
-            vpiName: enum2_e
           vpiTypedefAlias RefTypespec start:10:12 end:12:5:
             vpiParent: TypedefTypespec name:enum2_e
             vpiFullName: pinmux_pkg::enum2_e
@@ -480,8 +468,6 @@ Design name:unnamed:
         TypedefTypespec name:struct2_t start:14:4 end:16:16:
           vpiParent: Package name:pinmux_pkg
           vpiName Identifier name:struct2_t start:16:6 end:16:15:
-            vpiParent: TypedefTypespec name:struct2_t
-            vpiName: struct2_t
           vpiTypedefAlias RefTypespec start:14:12 end:16:5:
             vpiParent: TypedefTypespec name:struct2_t
             vpiFullName: pinmux_pkg::struct2_t
@@ -494,14 +480,10 @@ Design name:unnamed:
         vpiFullName: pinmux_pkg::work
       vpiCell: pinmux_pkg
       vpiEndLabel Identifier name:pinmux_pkg start:17:14 end:17:24:
-        vpiParent: Package name:pinmux_pkg
-        vpiName: pinmux_pkg
   vpiAllModules (5 items):
     Module name:prim_generic_pad_attr file:$Source01/dut.sv start:19:1 end:22:34:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_generic_pad_attr start:19:8 end:19:29:
-        vpiParent: Module name:prim_generic_pad_attr
-        vpiName: prim_generic_pad_attr
       vpiFullName: prim_generic_pad_attr
       vpiVariable (1 items):
         Variable name:o start:19:41 end:19:42:
@@ -574,13 +556,9 @@ Design name:unnamed:
             vpiFullName: prim_generic_pad_attr.PadTypeInGeneric
             vpiActual: Parameter name:PadTypeInGeneric
       vpiEndLabel Identifier name:prim_generic_pad_attr start:22:13 end:22:34:
-        vpiParent: Module name:prim_generic_pad_attr
-        vpiName: prim_generic_pad_attr
     Module name:prim_submodule file:$Source01/dut.sv start:24:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_submodule start:24:8 end:24:22:
-        vpiParent: Module name:prim_submodule
-        vpiName: prim_submodule
       vpiFullName: prim_submodule
       vpiVariable (1 items):
         Variable name:o start:24:34 end:24:35:
@@ -622,8 +600,21 @@ Design name:unnamed:
         ModuleTypespec name:prim_generic_pad_attr start:27:4 end:27:25:
           vpiParent: Module name:prim_submodule
           vpiName Identifier name:prim_generic_pad_attr start:27:4 end:27:25:
-            vpiParent: ModuleTypespec name:prim_generic_pad_attr
-            vpiName: prim_generic_pad_attr
+          vpiDefName: prim_generic_pad_attr
+          vpiParamAssign (1 items):
+            ParamAssign start:28:8 end:28:34:
+              vpiParent: ModuleTypespec name:prim_generic_pad_attr
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PadTypeInGeneric start:28:9 end:28:25:
+                vpiParent: ParamAssign
+                vpiName: PadTypeInGeneric
+                vpiFullName: prim_submodule.prim_generic_pad_attr.PadTypeInGeneric
+              vpiRhs RefObj name:PadType start:28:26 end:28:33:
+                vpiParent: ParamAssign
+                vpiName: PadType
+                vpiFullName: prim_submodule.prim_generic_pad_attr.PadType
+                vpiActual: Parameter name:PadType
           vpiModule: Module name:prim_generic_pad_attr
       vpiDefName: prim_submodule
       vpiDefNetType: wire (1)
@@ -655,20 +646,6 @@ Design name:unnamed:
             vpiName: prim_generic_pad_attr
             vpiFullName: prim_submodule.u_impl_generic.prim_generic_pad_attr
             vpiActual: ModuleTypespec name:prim_generic_pad_attr
-          vpiParamAssign (1 items):
-            ParamAssign start:28:8 end:28:34:
-              vpiParent: RefInstance name:u_impl_generic
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:PadTypeInGeneric start:28:9 end:28:25:
-                vpiParent: ParamAssign
-                vpiName: PadTypeInGeneric
-                vpiFullName: prim_submodule.u_impl_generic.PadTypeInGeneric
-              vpiRhs RefObj name:PadType start:28:26 end:28:33:
-                vpiParent: ParamAssign
-                vpiName: PadType
-                vpiFullName: prim_submodule.u_impl_generic.PadType
-                vpiActual: Parameter name:PadType
           vpiPort (1 items):
             Port start:30:7 end:30:12:
               vpiParent: RefInstance name:u_impl_generic
@@ -685,8 +662,6 @@ Design name:unnamed:
     Module name:prim_pad_attr file:$Source01/dut.sv start:35:1 end:44:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_pad_attr start:35:8 end:35:21:
-        vpiParent: Module name:prim_pad_attr
-        vpiName: prim_pad_attr
       vpiFullName: prim_pad_attr
       vpiParameter (1 items):
         Parameter name:PadType start:36:18 end:36:25:
@@ -719,8 +694,22 @@ Design name:unnamed:
         ModuleTypespec name:prim_submodule start:38:4 end:38:18:
           vpiParent: Module name:prim_pad_attr
           vpiName Identifier name:prim_submodule start:38:4 end:38:18:
-            vpiParent: ModuleTypespec name:prim_submodule
-            vpiName: prim_submodule
+          vpiDefName: prim_submodule
+          vpiParamAssign (1 items):
+            ParamAssign start:39:7 end:39:24:
+              vpiParent: ModuleTypespec name:prim_submodule
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PadType start:39:8 end:39:15:
+                vpiParent: ParamAssign
+                vpiName: PadType
+                vpiFullName: prim_pad_attr.prim_submodule.PadType
+                vpiActual: Parameter name:PadType
+              vpiRhs RefObj name:PadType start:39:16 end:39:23:
+                vpiParent: ParamAssign
+                vpiName: PadType
+                vpiFullName: prim_pad_attr.prim_submodule.PadType
+                vpiActual: Parameter name:PadType
           vpiModule: Module name:prim_submodule
       vpiDefName: prim_pad_attr
       vpiDefNetType: wire (1)
@@ -738,21 +727,6 @@ Design name:unnamed:
             vpiName: prim_submodule
             vpiFullName: prim_pad_attr.u_submodule.prim_submodule
             vpiActual: ModuleTypespec name:prim_submodule
-          vpiParamAssign (1 items):
-            ParamAssign start:39:7 end:39:24:
-              vpiParent: RefInstance name:u_submodule
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:PadType start:39:8 end:39:15:
-                vpiParent: ParamAssign
-                vpiName: PadType
-                vpiFullName: prim_pad_attr.u_submodule.PadType
-                vpiActual: Parameter name:PadType
-              vpiRhs RefObj name:PadType start:39:16 end:39:23:
-                vpiParent: ParamAssign
-                vpiName: PadType
-                vpiFullName: prim_pad_attr.u_submodule.PadType
-                vpiActual: Parameter name:PadType
           vpiPort (1 items):
             Port start:41:7 end:41:12:
               vpiParent: RefInstance name:u_submodule
@@ -768,8 +742,6 @@ Design name:unnamed:
     Module name:almost_top file:$Source01/dut.sv start:46:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:almost_top start:46:8 end:46:18:
-        vpiParent: Module name:almost_top
-        vpiName: almost_top
       vpiFullName: almost_top
       vpiParameter (1 items):
         Parameter name:TargetCfg start:48:24 end:48:33:
@@ -803,13 +775,34 @@ Design name:unnamed:
         ImportTypespec name:pinmux_pkg start:47:11 end:47:24:
           vpiParent: Module name:almost_top
           vpiName Identifier name:pinmux_pkg start:47:11 end:47:21:
-            vpiParent: ImportTypespec name:pinmux_pkg
-            vpiName: pinmux_pkg
         ModuleTypespec name:prim_pad_attr start:50:4 end:50:17:
           vpiParent: Module name:almost_top
           vpiName Identifier name:prim_pad_attr start:50:4 end:50:17:
-            vpiParent: ModuleTypespec name:prim_pad_attr
-            vpiName: prim_pad_attr
+          vpiDefName: prim_pad_attr
+          vpiParamAssign (1 items):
+            ParamAssign start:51:7 end:51:39:
+              vpiParent: ModuleTypespec name:prim_pad_attr
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PadType start:51:8 end:51:15:
+                vpiParent: ParamAssign
+                vpiName: PadType
+                vpiFullName: almost_top.prim_pad_attr.PadType
+              vpiRhs HierPath name:TargetCfg.dio_pad_type start:51:16 end:51:38:
+                vpiParent: ParamAssign
+                vpiName: TargetCfg.dio_pad_type
+                vpiFullName: almost_top.prim_pad_attr.TargetCfg.dio_pad_type
+                vpiPathElem (2 items):
+                  RefObj name:TargetCfg start:51:16 end:51:25:
+                    vpiParent: HierPath name:TargetCfg.dio_pad_type
+                    vpiName: TargetCfg
+                    vpiFullName: almost_top.prim_pad_attr.TargetCfg
+                    vpiActual: Parameter name:TargetCfg
+                  RefObj name:dio_pad_type start:51:26 end:51:38:
+                    vpiParent: HierPath name:TargetCfg.dio_pad_type
+                    vpiName: dio_pad_type
+                    vpiFullName: almost_top.prim_pad_attr.dio_pad_type
+                    vpiActual: TypespecMember name:dio_pad_type
           vpiModule: Module name:prim_pad_attr
       vpiDefName: almost_top
       vpiDefNetType: wire (1)
@@ -827,35 +820,9 @@ Design name:unnamed:
             vpiName: prim_pad_attr
             vpiFullName: almost_top.u_prim_pad_attr.prim_pad_attr
             vpiActual: ModuleTypespec name:prim_pad_attr
-          vpiParamAssign (1 items):
-            ParamAssign start:51:7 end:51:39:
-              vpiParent: RefInstance name:u_prim_pad_attr
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:PadType start:51:8 end:51:15:
-                vpiParent: ParamAssign
-                vpiName: PadType
-                vpiFullName: almost_top.u_prim_pad_attr.PadType
-              vpiRhs HierPath name:TargetCfg.dio_pad_type start:51:16 end:51:38:
-                vpiParent: ParamAssign
-                vpiName: TargetCfg.dio_pad_type
-                vpiFullName: almost_top.u_prim_pad_attr.TargetCfg.dio_pad_type
-                vpiPathElem (2 items):
-                  RefObj name:TargetCfg start:51:16 end:51:25:
-                    vpiParent: HierPath name:TargetCfg.dio_pad_type
-                    vpiName: TargetCfg
-                    vpiFullName: almost_top.u_prim_pad_attr.TargetCfg
-                    vpiActual: Parameter name:TargetCfg
-                  RefObj name:dio_pad_type start:51:26 end:51:38:
-                    vpiParent: HierPath name:TargetCfg.dio_pad_type
-                    vpiName: dio_pad_type
-                    vpiFullName: almost_top.u_prim_pad_attr.dio_pad_type
-                    vpiActual: TypespecMember name:dio_pad_type
     Module name:top file:$Source01/dut.sv start:57:1 end:66:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:57:8 end:57:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiParameter (1 items):
         Parameter name:TargetCfg start:59:24 end:59:33:
@@ -889,13 +856,10 @@ Design name:unnamed:
         ImportTypespec name:pinmux_pkg start:58:11 end:58:24:
           vpiParent: Module name:top
           vpiName Identifier name:pinmux_pkg start:58:11 end:58:21:
-            vpiParent: ImportTypespec name:pinmux_pkg
-            vpiName: pinmux_pkg
         ModuleTypespec name:almost_top start:61:4 end:61:14:
           vpiParent: Module name:top
           vpiName Identifier name:almost_top start:61:4 end:61:14:
-            vpiParent: ModuleTypespec name:almost_top
-            vpiName: almost_top
+          vpiDefName: almost_top
           vpiModule: Module name:almost_top
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -920,32 +884,22 @@ Design name:unnamed:
     ModuleTypespec name:prim_generic_pad_attr:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_generic_pad_attr start:19:8 end:19:29:
-        vpiParent: ModuleTypespec name:prim_generic_pad_attr
-        vpiName: prim_generic_pad_attr
       vpiModule: Module name:prim_generic_pad_attr
     ModuleTypespec name:prim_submodule:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_submodule start:24:8 end:24:22:
-        vpiParent: ModuleTypespec name:prim_submodule
-        vpiName: prim_submodule
       vpiModule: Module name:prim_submodule
     ModuleTypespec name:prim_pad_attr:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_pad_attr start:35:8 end:35:21:
-        vpiParent: ModuleTypespec name:prim_pad_attr
-        vpiName: prim_pad_attr
       vpiModule: Module name:prim_pad_attr
     ModuleTypespec name:almost_top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:almost_top start:46:8 end:46:18:
-        vpiParent: ModuleTypespec name:almost_top
-        vpiName: almost_top
       vpiModule: Module name:almost_top
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:57:8 end:57:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0

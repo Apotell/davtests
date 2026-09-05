@@ -1402,29 +1402,19 @@ Design name:unnamed:
         PreprocMacroDefinition name:EXPECTED_SUM start:52:1 end:52:42:
           vpiParent: SourceFile name:t_mod_recurse.v
           vpiName Identifier name:EXPECTED_SUM start:52:9 end:52:21:
-            vpiParent: PreprocMacroDefinition name:EXPECTED_SUM
-            vpiName: EXPECTED_SUM
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
             "Identifier name:64'hc5fc632f816568fb start:52:22 end:52:42":
-              vpiParent: PreprocMacroDefinition name:EXPECTED_SUM
-              vpiName: "64'hc5fc632f816568fb"
       vpiPreprocMacroInstance (1 items):
         PreprocMacroInstance name:EXPECTED_SUM file:$Source01/t_mod_recurse.v start:53:15 end:53:28 ppstart:53:15 ppend:53:35:
           vpiParent: SourceFile name:t_mod_recurse.v
           vpiName Identifier name:EXPECTED_SUM start:53:15 end:53:28:
-            vpiParent: PreprocMacroInstance name:EXPECTED_SUM
-            vpiName: EXPECTED_SUM
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:EXPECTED_SUM
           "vpiPMIBody Identifier name:64'hc5fc632f816568fb start:52:22 end:52:42":
-            vpiParent: PreprocMacroInstance name:EXPECTED_SUM
-            vpiName: "64'hc5fc632f816568fb"
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_mod_recurse.v start:6:1 end:59:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (3 items):
         Variable name:cyc start:12:13 end:12:16:
@@ -1590,8 +1580,26 @@ Design name:unnamed:
         ModuleTypespec name:PriorityChoice start:24:4 end:24:18:
           vpiParent: Module name:t
           vpiName Identifier name:PriorityChoice start:24:4 end:24:18:
-            vpiParent: ModuleTypespec name:PriorityChoice
-            vpiName: PriorityChoice
+          vpiDefName: PriorityChoice
+          vpiParamAssign (1 items):
+            ParamAssign start:24:21 end:24:35:
+              vpiParent: ModuleTypespec name:PriorityChoice
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:OCODEWIDTH start:24:22 end:24:32:
+                vpiParent: ParamAssign
+                vpiName: OCODEWIDTH
+                vpiFullName: t.PriorityChoice.OCODEWIDTH
+              vpiRhs Constant start:24:33 end:24:34:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.PriorityChoice
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "3"
+                vpiValue: 3
           vpiModule: Module name:PriorityChoice
         LogicTypespec:
           vpiParent: Module name:t
@@ -1645,6 +1653,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: tripline
           vpiFullName: t.tripline
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue PartSelect name:crc[7:0] start:17:27 end:17:35:
@@ -1686,6 +1695,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: valid
           vpiFullName: t.valid
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:value start:22:17 end:22:22:
@@ -1696,6 +1706,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: value
           vpiFullName: t.value
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
         Net name:result start:28:16 end:28:22:
@@ -1706,6 +1717,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: t.result
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Operation start:28:25 end:28:46:
@@ -2166,8 +2178,6 @@ Design name:unnamed:
                             SysTaskCall name:$write start:49:3 end:49:64:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:49:3 end:49:9:
-                                vpiParent: SysTaskCall name:$write
-                                vpiName: "$write"
                               vpiArgument (5 items):
                                 Constant start:49:10 end:49:42:
                                   vpiParent: SysTaskCall name:$write
@@ -2182,8 +2192,6 @@ Design name:unnamed:
                                 SysFuncCall name:$time start:49:43 end:49:48:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName Identifier name:$time start:49:43 end:49:48:
-                                    vpiParent: SysFuncCall name:$time
-                                    vpiName: "$time"
                                 RefObj name:cyc start:49:50 end:49:53:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName: cyc
@@ -2223,8 +2231,6 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:50:37 end:50:42:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:50:37 end:50:42:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             IfStmt start:53:3 end:53:36:
                               vpiParent: Begin
                               vpiCondition Operation start:53:7 end:53:28:
@@ -2249,13 +2255,9 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:53:30 end:53:35:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:53:30 end:53:35:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             SysTaskCall name:$write start:54:3 end:54:35:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:54:3 end:54:9:
-                                vpiParent: SysTaskCall name:$write
-                                vpiName: "$write"
                               vpiArgument (1 items):
                                 Constant start:54:10 end:54:34:
                                   vpiParent: SysTaskCall name:$write
@@ -2270,8 +2272,6 @@ Design name:unnamed:
                             SysTaskCall name:$finish start:55:3 end:55:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:55:3 end:55:10:
-                                vpiParent: SysTaskCall name:$finish
-                                vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:pe start:25:4 end:25:6:
@@ -2282,25 +2282,6 @@ Design name:unnamed:
             vpiName: PriorityChoice
             vpiFullName: t.pe.PriorityChoice
             vpiActual: ModuleTypespec name:PriorityChoice
-          vpiParamAssign (1 items):
-            ParamAssign start:24:21 end:24:35:
-              vpiParent: RefInstance name:pe
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:OCODEWIDTH start:24:22 end:24:32:
-                vpiParent: ParamAssign
-                vpiName: OCODEWIDTH
-                vpiFullName: t.pe.OCODEWIDTH
-              vpiRhs Constant start:24:33 end:24:34:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.pe
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "3"
-                vpiValue: 3
           vpiPort (3 items):
             Port start:25:8 end:25:19:
               vpiParent: RefInstance name:pe
@@ -2367,8 +2348,6 @@ Design name:unnamed:
     Module name:PriorityChoice file:$Source01/t_mod_recurse.v start:61:1 end:110:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:PriorityChoice start:61:8 end:61:22:
-        vpiParent: Module name:PriorityChoice
-        vpiName: PriorityChoice
       vpiFullName: PriorityChoice
       vpiVariable (2 items):
         Variable name:out start:66:27 end:66:30:
@@ -2688,6 +2667,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: left
           vpiFullName: PriorityChoice.left
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:leftN start:70:31 end:70:36:
@@ -2698,6 +2678,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: leftN
           vpiFullName: PriorityChoice.leftN
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
         Net name:right start:71:16 end:71:21:
@@ -2708,6 +2689,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: right
           vpiFullName: PriorityChoice.right
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:rightN start:72:31 end:72:37:
@@ -2718,6 +2700,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rightN
           vpiFullName: PriorityChoice.rightN
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (3 items):
@@ -2944,14 +2927,70 @@ Design name:unnamed:
                 ModuleTypespec name:PriorityChoice start:85:3 end:85:17:
                   vpiParent: Begin
                   vpiName Identifier name:PriorityChoice start:85:3 end:85:17:
-                    vpiParent: ModuleTypespec name:PriorityChoice
-                    vpiName: PriorityChoice
+                  vpiDefName: PriorityChoice
+                  vpiParamAssign (1 items):
+                    ParamAssign start:85:20 end:85:45:
+                      vpiParent: ModuleTypespec name:PriorityChoice
+                      vpiConnByName: true
+                      vpiOverridden: true
+                      vpiLhs RefObj name:OCODEWIDTH start:85:21 end:85:31:
+                        vpiParent: ParamAssign
+                        vpiName: OCODEWIDTH
+                        vpiFullName: PriorityChoice.PriorityChoice.OCODEWIDTH
+                        vpiActual: Parameter name:OCODEWIDTH
+                      vpiRhs Operation start:85:32 end:85:44:
+                        vpiParent: ParamAssign
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          RefObj name:OCODEWIDTH start:85:32 end:85:42:
+                            vpiParent: Operation
+                            vpiName: OCODEWIDTH
+                            vpiFullName: PriorityChoice.PriorityChoice.OCODEWIDTH
+                            vpiActual: Parameter name:OCODEWIDTH
+                          Constant start:85:43 end:85:44:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: PriorityChoice.PriorityChoice
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
                   vpiModule: Module name:PriorityChoice
                 ModuleTypespec name:PriorityChoice start:92:3 end:92:17:
                   vpiParent: Begin
                   vpiName Identifier name:PriorityChoice start:92:3 end:92:17:
-                    vpiParent: ModuleTypespec name:PriorityChoice
-                    vpiName: PriorityChoice
+                  vpiDefName: PriorityChoice
+                  vpiParamAssign (1 items):
+                    ParamAssign start:92:20 end:92:45:
+                      vpiParent: ModuleTypespec name:PriorityChoice
+                      vpiConnByName: true
+                      vpiOverridden: true
+                      vpiLhs RefObj name:OCODEWIDTH start:92:21 end:92:31:
+                        vpiParent: ParamAssign
+                        vpiName: OCODEWIDTH
+                        vpiFullName: PriorityChoice.PriorityChoice.OCODEWIDTH
+                        vpiActual: Parameter name:OCODEWIDTH
+                      vpiRhs Operation start:92:32 end:92:44:
+                        vpiParent: ParamAssign
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          RefObj name:OCODEWIDTH start:92:32 end:92:42:
+                            vpiParent: Operation
+                            vpiName: OCODEWIDTH
+                            vpiFullName: PriorityChoice.PriorityChoice.OCODEWIDTH
+                            vpiActual: Parameter name:OCODEWIDTH
+                          Constant start:92:43 end:92:44:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: PriorityChoice.PriorityChoice
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
                   vpiModule: Module name:PriorityChoice
               vpiStmt (3 items):
                 RefInstance name:leftMap start:86:3 end:86:10:
@@ -2962,35 +3001,6 @@ Design name:unnamed:
                     vpiName: PriorityChoice
                     vpiFullName: PriorityChoice.leftMap.PriorityChoice
                     vpiActual: ModuleTypespec name:PriorityChoice
-                  vpiParamAssign (1 items):
-                    ParamAssign start:85:20 end:85:45:
-                      vpiParent: RefInstance name:leftMap
-                      vpiConnByName: true
-                      vpiOverridden: true
-                      vpiLhs RefObj name:OCODEWIDTH start:85:21 end:85:31:
-                        vpiParent: ParamAssign
-                        vpiName: OCODEWIDTH
-                        vpiFullName: PriorityChoice.leftMap.OCODEWIDTH
-                        vpiActual: Parameter name:OCODEWIDTH
-                      vpiRhs Operation start:85:32 end:85:44:
-                        vpiParent: ParamAssign
-                        vpiOpType: subtract (11)
-                        vpiOperand (2 items):
-                          RefObj name:OCODEWIDTH start:85:32 end:85:42:
-                            vpiParent: Operation
-                            vpiName: OCODEWIDTH
-                            vpiFullName: PriorityChoice.leftMap.OCODEWIDTH
-                            vpiActual: Parameter name:OCODEWIDTH
-                          Constant start:85:43 end:85:44:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: PriorityChoice.leftMap
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "1"
-                            vpiValue: 1
                   vpiPort (3 items):
                     Port start:88:6 end:88:16:
                       vpiParent: RefInstance name:leftMap
@@ -3094,35 +3104,6 @@ Design name:unnamed:
                     vpiName: PriorityChoice
                     vpiFullName: PriorityChoice.rightMap.PriorityChoice
                     vpiActual: ModuleTypespec name:PriorityChoice
-                  vpiParamAssign (1 items):
-                    ParamAssign start:92:20 end:92:45:
-                      vpiParent: RefInstance name:rightMap
-                      vpiConnByName: true
-                      vpiOverridden: true
-                      vpiLhs RefObj name:OCODEWIDTH start:92:21 end:92:31:
-                        vpiParent: ParamAssign
-                        vpiName: OCODEWIDTH
-                        vpiFullName: PriorityChoice.rightMap.OCODEWIDTH
-                        vpiActual: Parameter name:OCODEWIDTH
-                      vpiRhs Operation start:92:32 end:92:44:
-                        vpiParent: ParamAssign
-                        vpiOpType: subtract (11)
-                        vpiOperand (2 items):
-                          RefObj name:OCODEWIDTH start:92:32 end:92:42:
-                            vpiParent: Operation
-                            vpiName: OCODEWIDTH
-                            vpiFullName: PriorityChoice.rightMap.OCODEWIDTH
-                            vpiActual: Parameter name:OCODEWIDTH
-                          Constant start:92:43 end:92:44:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: PriorityChoice.rightMap
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "1"
-                            vpiValue: 1
                   vpiPort (3 items):
                     Port start:95:6 end:95:17:
                       vpiParent: RefInstance name:rightMap
@@ -3393,8 +3374,6 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3408,8 +3387,6 @@ Design name:unnamed:
     ModuleTypespec name:PriorityChoice:
       vpiParent: Design name:unnamed
       vpiName Identifier name:PriorityChoice start:61:8 end:61:22:
-        vpiParent: ModuleTypespec name:PriorityChoice
-        vpiName: PriorityChoice
       vpiModule: Module name:PriorityChoice
 ===================
 [  FATAL] : 0

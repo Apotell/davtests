@@ -91,8 +91,6 @@ Design name:unnamed:
     Module name:dut file:$Source01/dut.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
-        vpiParent: Module name:dut
-        vpiName: dut
       vpiFullName: dut
       vpiParameter (1 items):
         Parameter name:RESVAL start:2:26 end:2:32:
@@ -148,15 +146,35 @@ Design name:unnamed:
     Module name:top file:$Source01/dut.sv start:5:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:5:8 end:5:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiTypespec (1 items):
         ModuleTypespec name:dut start:6:4 end:6:7:
           vpiParent: Module name:top
           vpiName Identifier name:dut start:6:4 end:6:7:
-            vpiParent: ModuleTypespec name:dut
-            vpiName: dut
+          vpiDefName: dut
+          vpiParamAssign (1 items):
+            ParamAssign start:7:7 end:7:23:
+              vpiParent: ModuleTypespec name:dut
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:RESVAL start:7:8 end:7:14:
+                vpiParent: ParamAssign
+                vpiName: RESVAL
+                vpiFullName: top.dut.RESVAL
+              vpiRhs Operation start:7:15 end:7:22:
+                vpiParent: ParamAssign
+                vpiOpType: bitwise negation (4)
+                vpiOperand (1 items):
+                  Constant start:7:17 end:7:21:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.dut
+                      vpiActual: IntTypespec
+                    vpiConstType: hexadecimal (5)
+                    vpiSize: 2
+                    vpiDecompile: "2'h0"
+                    vpiValue: "0"
           vpiModule: Module name:dut
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -174,35 +192,10 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: top.u_dut.dut
             vpiActual: ModuleTypespec name:dut
-          vpiParamAssign (1 items):
-            ParamAssign start:7:7 end:7:23:
-              vpiParent: RefInstance name:u_dut
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:RESVAL start:7:8 end:7:14:
-                vpiParent: ParamAssign
-                vpiName: RESVAL
-                vpiFullName: top.u_dut.RESVAL
-              vpiRhs Operation start:7:15 end:7:22:
-                vpiParent: ParamAssign
-                vpiOpType: bitwise negation (4)
-                vpiOperand (1 items):
-                  Constant start:7:17 end:7:21:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top.u_dut
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 2
-                    vpiDecompile: "2'h0"
-                    vpiValue: "0"
   vpiTypespec (4 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:dut
-        vpiName: dut
       vpiModule: Module name:dut
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -210,8 +203,6 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:5:8 end:5:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed

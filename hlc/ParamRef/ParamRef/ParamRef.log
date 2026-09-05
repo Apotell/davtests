@@ -229,8 +229,6 @@ Design name:unnamed:
     Package name:tl_main_pkg file:$Source01/dut.sv start:1:1 end:3:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tl_main_pkg start:1:9 end:1:20:
-        vpiParent: Package name:tl_main_pkg
-        vpiName: tl_main_pkg
       vpiFullName: tl_main_pkg
       vpiParameter (1 items):
         Parameter name:ADDR_SPACE_DEBUG_MEM start:2:19 end:2:39:
@@ -270,8 +268,6 @@ Design name:unnamed:
     Package name:dm file:$Source01/dut.sv start:5:1 end:8:16:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dm start:5:9 end:5:11:
-        vpiParent: Package name:dm
-        vpiName: dm
       vpiFullName: dm
       vpiParameter (2 items):
         Parameter name:HaltAddress start:6:19 end:6:30:
@@ -371,31 +367,53 @@ Design name:unnamed:
         vpiFullName: dm::work
       vpiCell: dm
       vpiEndLabel Identifier name:dm start:8:14 end:8:16:
-        vpiParent: Package name:dm
-        vpiName: dm
   vpiAllModules (3 items):
     Module name:top_earlgrey file:$Source01/dut.sv start:10:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top_earlgrey start:10:8 end:10:20:
-        vpiParent: Module name:top_earlgrey
-        vpiName: top_earlgrey
       vpiFullName: top_earlgrey
       vpiTypespec (3 items):
         ImportTypespec name:tl_main_pkg start:11:10 end:11:24:
           vpiParent: Module name:top_earlgrey
           vpiName Identifier name:tl_main_pkg start:11:10 end:11:21:
-            vpiParent: ImportTypespec name:tl_main_pkg
-            vpiName: tl_main_pkg
         UnsupportedTypespec name:dm start:14:46 end:14:48:
           vpiParent: Module name:top_earlgrey
           vpiName Identifier name:dm start:14:46 end:14:48:
-            vpiParent: UnsupportedTypespec name:dm
-            vpiName: dm
         ModuleTypespec name:rv_core_ibex start:13:3 end:13:15:
           vpiParent: Module name:top_earlgrey
           vpiName Identifier name:rv_core_ibex start:13:3 end:13:15:
-            vpiParent: ModuleTypespec name:rv_core_ibex
-            vpiName: rv_core_ibex
+          vpiDefName: rv_core_ibex
+          vpiParamAssign (1 items):
+            ParamAssign start:14:6 end:14:67:
+              vpiParent: ModuleTypespec name:rv_core_ibex
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:DmExceptionAddr start:14:7 end:14:22:
+                vpiParent: ParamAssign
+                vpiName: DmExceptionAddr
+                vpiFullName: top_earlgrey.rv_core_ibex.DmExceptionAddr
+              vpiRhs Operation start:14:23 end:14:66:
+                vpiParent: ParamAssign
+                vpiOpType: add (24)
+                vpiOperand (2 items):
+                  RefObj name:ADDR_SPACE_DEBUG_MEM start:14:23 end:14:43:
+                    vpiParent: Operation
+                    vpiName: ADDR_SPACE_DEBUG_MEM
+                    vpiFullName: top_earlgrey.rv_core_ibex.ADDR_SPACE_DEBUG_MEM
+                    vpiActual: Parameter name:ADDR_SPACE_DEBUG_MEM
+                  HierPath name:dm::ExceptionAddress start:14:46 end:14:66:
+                    vpiParent: Operation
+                    vpiName: dm::ExceptionAddress
+                    vpiFullName: top_earlgrey.rv_core_ibex.dm::ExceptionAddress
+                    vpiPathElem (2 items):
+                      RefTypespec start:14:46 end:14:50:
+                        vpiParent: HierPath name:dm::ExceptionAddress
+                        vpiFullName: top_earlgrey.rv_core_ibex.dm::ExceptionAddress
+                        vpiActual: UnsupportedTypespec name:dm
+                      RefObj name:ExceptionAddress start:14:50 end:14:66:
+                        vpiParent: HierPath name:dm::ExceptionAddress
+                        vpiName: ExceptionAddress
+                        vpiFullName: top_earlgrey.rv_core_ibex.ExceptionAddress
           vpiModule: Module name:rv_core_ibex
       vpiDefName: top_earlgrey
       vpiDefNetType: wire (1)
@@ -413,42 +431,9 @@ Design name:unnamed:
             vpiName: rv_core_ibex
             vpiFullName: top_earlgrey.u_rv_core_ibex.rv_core_ibex
             vpiActual: ModuleTypespec name:rv_core_ibex
-          vpiParamAssign (1 items):
-            ParamAssign start:14:6 end:14:67:
-              vpiParent: RefInstance name:u_rv_core_ibex
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:DmExceptionAddr start:14:7 end:14:22:
-                vpiParent: ParamAssign
-                vpiName: DmExceptionAddr
-                vpiFullName: top_earlgrey.u_rv_core_ibex.DmExceptionAddr
-              vpiRhs Operation start:14:23 end:14:66:
-                vpiParent: ParamAssign
-                vpiOpType: add (24)
-                vpiOperand (2 items):
-                  RefObj name:ADDR_SPACE_DEBUG_MEM start:14:23 end:14:43:
-                    vpiParent: Operation
-                    vpiName: ADDR_SPACE_DEBUG_MEM
-                    vpiFullName: top_earlgrey.u_rv_core_ibex.ADDR_SPACE_DEBUG_MEM
-                    vpiActual: Parameter name:ADDR_SPACE_DEBUG_MEM
-                  HierPath name:dm::ExceptionAddress start:14:46 end:14:66:
-                    vpiParent: Operation
-                    vpiName: dm::ExceptionAddress
-                    vpiFullName: top_earlgrey.u_rv_core_ibex.dm::ExceptionAddress
-                    vpiPathElem (2 items):
-                      RefTypespec start:14:46 end:14:50:
-                        vpiParent: HierPath name:dm::ExceptionAddress
-                        vpiFullName: top_earlgrey.u_rv_core_ibex.dm::ExceptionAddress
-                        vpiActual: UnsupportedTypespec name:dm
-                      RefObj name:ExceptionAddress start:14:50 end:14:66:
-                        vpiParent: HierPath name:dm::ExceptionAddress
-                        vpiName: ExceptionAddress
-                        vpiFullName: top_earlgrey.u_rv_core_ibex.ExceptionAddress
     Module name:rv_core_ibex file:$Source01/dut.sv start:18:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:rv_core_ibex start:18:8 end:18:20:
-        vpiParent: Module name:rv_core_ibex
-        vpiName: rv_core_ibex
       vpiFullName: rv_core_ibex
       vpiParameter (1 items):
         Parameter name:DmExceptionAddr start:19:27 end:19:42:
@@ -481,8 +466,22 @@ Design name:unnamed:
         ModuleTypespec name:ibex_core start:20:4 end:20:13:
           vpiParent: Module name:rv_core_ibex
           vpiName Identifier name:ibex_core start:20:4 end:20:13:
-            vpiParent: ModuleTypespec name:ibex_core
-            vpiName: ibex_core
+          vpiDefName: ibex_core
+          vpiParamAssign (1 items):
+            ParamAssign start:21:7 end:21:40:
+              vpiParent: ModuleTypespec name:ibex_core
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:DmExceptionAddr start:21:8 end:21:23:
+                vpiParent: ParamAssign
+                vpiName: DmExceptionAddr
+                vpiFullName: rv_core_ibex.ibex_core.DmExceptionAddr
+                vpiActual: Parameter name:DmExceptionAddr
+              vpiRhs RefObj name:DmExceptionAddr start:21:24 end:21:39:
+                vpiParent: ParamAssign
+                vpiName: DmExceptionAddr
+                vpiFullName: rv_core_ibex.ibex_core.DmExceptionAddr
+                vpiActual: Parameter name:DmExceptionAddr
           vpiModule: Module name:ibex_core
       vpiDefName: rv_core_ibex
       vpiDefNetType: wire (1)
@@ -500,26 +499,9 @@ Design name:unnamed:
             vpiName: ibex_core
             vpiFullName: rv_core_ibex.u_core.ibex_core
             vpiActual: ModuleTypespec name:ibex_core
-          vpiParamAssign (1 items):
-            ParamAssign start:21:7 end:21:40:
-              vpiParent: RefInstance name:u_core
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:DmExceptionAddr start:21:8 end:21:23:
-                vpiParent: ParamAssign
-                vpiName: DmExceptionAddr
-                vpiFullName: rv_core_ibex.u_core.DmExceptionAddr
-                vpiActual: Parameter name:DmExceptionAddr
-              vpiRhs RefObj name:DmExceptionAddr start:21:24 end:21:39:
-                vpiParent: ParamAssign
-                vpiName: DmExceptionAddr
-                vpiFullName: rv_core_ibex.u_core.DmExceptionAddr
-                vpiActual: Parameter name:DmExceptionAddr
     Module name:ibex_core file:$Source01/dut.sv start:25:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ibex_core start:25:8 end:25:17:
-        vpiParent: Module name:ibex_core
-        vpiName: ibex_core
       vpiFullName: ibex_core
       vpiParameter (1 items):
         Parameter name:DmExceptionAddr start:26:27 end:26:42:
@@ -562,22 +544,16 @@ Design name:unnamed:
     ModuleTypespec name:top_earlgrey:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top_earlgrey start:10:8 end:10:20:
-        vpiParent: ModuleTypespec name:top_earlgrey
-        vpiName: top_earlgrey
       vpiModule: Module name:top_earlgrey
     ModuleTypespec name:rv_core_ibex:
       vpiParent: Design name:unnamed
       vpiName Identifier name:rv_core_ibex start:18:8 end:18:20:
-        vpiParent: ModuleTypespec name:rv_core_ibex
-        vpiName: rv_core_ibex
       vpiModule: Module name:rv_core_ibex
     IntTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:ibex_core:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ibex_core start:25:8 end:25:17:
-        vpiParent: ModuleTypespec name:ibex_core
-        vpiName: ibex_core
       vpiModule: Module name:ibex_core
 ===================
 [  FATAL] : 0

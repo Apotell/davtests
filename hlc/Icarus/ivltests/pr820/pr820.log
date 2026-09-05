@@ -1007,8 +1007,6 @@ Design name:unnamed:
     Module name:main file:$Source01/pr820.v start:4:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:main start:4:8 end:4:12:
-        vpiParent: Module name:main
-        vpiName: main
       vpiFullName: main
       vpiVariable (3 items):
         Variable name:waddr start:7:13 end:7:18:
@@ -1122,16 +1120,41 @@ Design name:unnamed:
         ModuleTypespec name:clk_reset_gen start:11:3 end:11:16:
           vpiParent: Module name:main
           vpiName Identifier name:clk_reset_gen start:11:3 end:11:16:
-            vpiParent: ModuleTypespec name:clk_reset_gen
-            vpiName: clk_reset_gen
+          vpiDefName: clk_reset_gen
           vpiModule: Module name:clk_reset_gen
         BitTypespec:
           vpiParent: Module name:main
         ModuleTypespec name:ram_rw start:13:3 end:13:9:
           vpiParent: Module name:main
           vpiName Identifier name:ram_rw start:13:3 end:13:9:
-            vpiParent: ModuleTypespec name:ram_rw
-            vpiName: ram_rw
+          vpiDefName: ram_rw
+          vpiParamAssign (2 items):
+            ParamAssign start:13:12 end:13:13:
+              vpiParent: ModuleTypespec name:ram_rw
+              vpiOverridden: true
+              vpiRhs Constant start:13:12 end:13:13:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: main.ram_rw
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "8"
+                vpiValue: 8
+            ParamAssign start:13:14 end:13:15:
+              vpiParent: ModuleTypespec name:ram_rw
+              vpiOverridden: true
+              vpiRhs Constant start:13:14 end:13:15:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: main.ram_rw
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "4"
+                vpiValue: 4
           vpiModule: Module name:ram_rw
       vpiDefName: main
       vpiDefNetType: wire (1)
@@ -1149,6 +1172,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: main.clk
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:reset start:6:8 end:6:13:
@@ -1159,6 +1183,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset
           vpiFullName: main.reset
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:rdata start:9:14 end:9:19:
@@ -1169,6 +1194,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rdata
           vpiFullName: main.rdata
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
       vpiProcess (3 items):
@@ -1247,8 +1273,6 @@ Design name:unnamed:
               SysTaskCall name:$finish start:20:5 end:20:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:5 end:20:12:
-                  vpiParent: SysTaskCall name:$finish
-                  vpiName: "$finish"
         Always start:23:3 end:27:6:
           vpiParent: Module name:main
           vpiStmt EventControl start:23:10 end:27:6:
@@ -1397,14 +1421,10 @@ Design name:unnamed:
             vpiStmt SysTaskCall name:$display start:30:5 end:30:86:
               vpiParent: EventControl
               vpiName Identifier name:$display start:30:5 end:30:13:
-                vpiParent: SysTaskCall name:$display
-                vpiName: "$display"
               vpiArgument (6 items):
                 SysFuncCall name:$time start:30:14 end:30:19:
                   vpiParent: SysTaskCall name:$display
                   vpiName Identifier name:$time start:30:14 end:30:19:
-                    vpiParent: SysFuncCall name:$time
-                    vpiName: "$time"
                 Constant start:30:21 end:30:61:
                   vpiParent: SysTaskCall name:$display
                   vpiTypespec RefTypespec:
@@ -1478,33 +1498,6 @@ Design name:unnamed:
             vpiName: ram_rw
             vpiFullName: main.r.ram_rw
             vpiActual: ModuleTypespec name:ram_rw
-          vpiParamAssign (2 items):
-            ParamAssign start:13:12 end:13:13:
-              vpiParent: RefInstance name:r
-              vpiOverridden: true
-              vpiRhs Constant start:13:12 end:13:13:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: main.r
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "8"
-                vpiValue: 8
-            ParamAssign start:13:14 end:13:15:
-              vpiParent: RefInstance name:r
-              vpiOverridden: true
-              vpiRhs Constant start:13:14 end:13:15:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: main.r
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "4"
-                vpiValue: 4
           vpiPort (6 items):
             Port start:13:19 end:13:22:
               vpiParent: RefInstance name:r
@@ -1586,8 +1579,6 @@ Design name:unnamed:
     Module name:ram_rw file:$Source01/pr820.v start:34:1 end:59:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ram_rw start:34:8 end:34:14:
-        vpiParent: Module name:ram_rw
-        vpiName: ram_rw
       vpiFullName: ram_rw
       vpiVariable (2 items):
         Variable name:mem start:48:21 end:48:24:
@@ -2180,8 +2171,6 @@ Design name:unnamed:
     Module name:clk_reset_gen file:$Source01/pr820.v start:61:1 end:78:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:clk_reset_gen start:61:8 end:61:21:
-        vpiParent: Module name:clk_reset_gen
-        vpiName: clk_reset_gen
       vpiFullName: clk_reset_gen
       vpiVariable (2 items):
         Variable name:clk start:62:10 end:62:13:
@@ -2417,8 +2406,6 @@ Design name:unnamed:
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
       vpiName Identifier name:main start:4:8 end:4:12:
-        vpiParent: ModuleTypespec name:main
-        vpiName: main
       vpiModule: Module name:main
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2428,14 +2415,10 @@ Design name:unnamed:
     ModuleTypespec name:ram_rw:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ram_rw start:34:8 end:34:14:
-        vpiParent: ModuleTypespec name:ram_rw
-        vpiName: ram_rw
       vpiModule: Module name:ram_rw
     ModuleTypespec name:clk_reset_gen:
       vpiParent: Design name:unnamed
       vpiName Identifier name:clk_reset_gen start:61:8 end:61:21:
-        vpiParent: ModuleTypespec name:clk_reset_gen
-        vpiName: clk_reset_gen
       vpiModule: Module name:clk_reset_gen
 ===================
 [  FATAL] : 0

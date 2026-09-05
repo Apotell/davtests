@@ -179,7 +179,7 @@ n<$Source01/dut.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
 [INF:CP0303] $Source01/dut.sv:9:1: Compile module "top".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut #(.Width())".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -190,32 +190,30 @@ Design name:unnamed:
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
   vpiAllModules (2 items):
-    Module name:dut file:$Source01/dut.sv start:1:1 end:7:10:
+    Module name:dut #(.Width()) file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:1:8 end:1:11:
-        vpiParent: Module name:dut
-        vpiName: dut
-      vpiFullName: dut
+      vpiName Identifier name:dut #(.Width()) start:1:8 end:1:11:
+      vpiFullName: dut #(.Width())
       vpiParameter (1 items):
         Parameter name:Width start:3:18 end:3:23:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.Width())
           vpiTypespec RefTypespec start:3:14 end:3:17:
             vpiParent: Parameter name:Width
-            vpiFullName: dut.Width
+            vpiFullName: dut #(.Width()).Width
             vpiActual: IntTypespec
           vpiName: Width
-          vpiFullName: dut.Width
+          vpiFullName: dut #(.Width()).Width
       vpiParamAssign (1 items):
         ParamAssign start:3:18 end:3:23:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.Width())
           vpiLhs RefObj name:Width start:3:18 end:3:23:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: dut.Width
+            vpiFullName: dut #(.Width()).Width
             vpiActual: Parameter name:Width
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.Width())
           vpiRange (1 items):
             Range start:5:10 end:5:21:
               vpiParent: LogicTypespec
@@ -226,13 +224,13 @@ Design name:unnamed:
                   RefObj name:Width start:5:11 end:5:16:
                     vpiParent: Operation
                     vpiName: Width
-                    vpiFullName: dut.Width
+                    vpiFullName: dut #(.Width()).Width
                     vpiActual: Parameter name:Width
                   Constant start:5:17 end:5:18:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: dut
+                      vpiFullName: dut #(.Width())
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -242,7 +240,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: dut
+                  vpiFullName: dut #(.Width())
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -252,40 +250,38 @@ Design name:unnamed:
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:dut
+        vpiParent: Module name:dut #(.Width())
         vpiName: work
-        vpiFullName: dut.work
+        vpiFullName: dut #(.Width()).work
       vpiCell: dut
       vpiNet (1 items):
         Net name:wmask_i start:5:22 end:5:29:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.Width())
           vpiTypespec RefTypespec start:5:4 end:5:21:
             vpiParent: Net name:wmask_i
-            vpiFullName: dut.wmask_i
+            vpiFullName: dut #(.Width()).wmask_i
             vpiActual: LogicTypespec
           vpiName: wmask_i
-          vpiFullName: dut.wmask_i
+          vpiFullName: dut #(.Width()).wmask_i
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (1 items):
         Port name:wmask_i start:5:22 end:5:29:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.Width())
           vpiName: wmask_i
           vpiDirection: input (1)
           vpiLowConn RefObj name:wmask_i start:5:22 end:5:29:
             vpiParent: Port name:wmask_i
             vpiName: wmask_i
-            vpiFullName: dut.wmask_i.wmask_i
+            vpiFullName: dut #(.Width()).wmask_i.wmask_i
             vpiActual: Net name:wmask_i
           vpiTypespec RefTypespec start:5:4 end:5:21:
             vpiParent: Port name:wmask_i
-            vpiFullName: dut.wmask_i
+            vpiFullName: dut #(.Width()).wmask_i
             vpiActual: LogicTypespec
     Module name:top file:$Source01/dut.sv start:9:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:9:8 end:9:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiParameter (3 items):
         Parameter name:Width start:10:18 end:10:23:
@@ -392,9 +388,32 @@ Design name:unnamed:
         ModuleTypespec name:dut start:13:4 end:13:7:
           vpiParent: Module name:top
           vpiName Identifier name:dut start:13:4 end:13:7:
-            vpiParent: ModuleTypespec name:dut
-            vpiName: dut
-          vpiModule: Module name:dut
+          vpiDefName: dut
+          vpiParamAssign (1 items):
+            ParamAssign start:14:7 end:14:31:
+              vpiParent: ModuleTypespec name:dut
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:Width start:14:8 end:14:13:
+                vpiParent: ParamAssign
+                vpiName: Width
+                vpiFullName: top.dut.Width
+                vpiActual: Parameter name:Width
+              vpiRhs Operation start:14:14 end:14:30:
+                vpiParent: ParamAssign
+                vpiOpType: add (24)
+                vpiOperand (2 items):
+                  RefObj name:Width start:14:14 end:14:19:
+                    vpiParent: Operation
+                    vpiName: Width
+                    vpiFullName: top.dut.Width
+                    vpiActual: Parameter name:Width
+                  RefObj name:EccWidth start:14:22 end:14:30:
+                    vpiParent: Operation
+                    vpiName: EccWidth
+                    vpiFullName: top.dut.EccWidth
+                    vpiActual: Parameter name:EccWidth
+          vpiModule: Module name:dut #(.Width())
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -411,30 +430,6 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: top.u_dut.dut
             vpiActual: ModuleTypespec name:dut
-          vpiParamAssign (1 items):
-            ParamAssign start:14:7 end:14:31:
-              vpiParent: RefInstance name:u_dut
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:Width start:14:8 end:14:13:
-                vpiParent: ParamAssign
-                vpiName: Width
-                vpiFullName: top.u_dut.Width
-                vpiActual: Parameter name:Width
-              vpiRhs Operation start:14:14 end:14:30:
-                vpiParent: ParamAssign
-                vpiOpType: add (24)
-                vpiOperand (2 items):
-                  RefObj name:Width start:14:14 end:14:19:
-                    vpiParent: Operation
-                    vpiName: Width
-                    vpiFullName: top.u_dut.Width
-                    vpiActual: Parameter name:Width
-                  RefObj name:EccWidth start:14:22 end:14:30:
-                    vpiParent: Operation
-                    vpiName: EccWidth
-                    vpiFullName: top.u_dut.EccWidth
-                    vpiActual: Parameter name:EccWidth
           vpiPort (1 items):
             Port start:16:7 end:16:41:
               vpiParent: RefInstance name:u_dut
@@ -479,17 +474,13 @@ Design name:unnamed:
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:dut
-        vpiName: dut
-      vpiModule: Module name:dut
+      vpiModule: Module name:dut #(.Width())
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:9:8 end:9:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0

@@ -167,8 +167,6 @@ Design name:unnamed:
     Module name:submodule file:$Source01/dut.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:submodule start:1:8 end:1:17:
-        vpiParent: Module name:submodule
-        vpiName: submodule
       vpiFullName: submodule
       vpiParameter (2 items):
         Parameter name:X start:2:18 end:2:19:
@@ -262,8 +260,6 @@ Design name:unnamed:
         TypedefTypespec name:my_type_t start:3:4 end:3:36:
           vpiParent: Module name:submodule
           vpiName Identifier name:my_type_t start:3:26 end:3:35:
-            vpiParent: TypedefTypespec name:my_type_t
-            vpiName: my_type_t
           vpiTypedefAlias RefTypespec start:3:12 end:3:25:
             vpiParent: TypedefTypespec name:my_type_t
             vpiFullName: submodule.my_type_t
@@ -300,21 +296,36 @@ Design name:unnamed:
     Module name:top file:$Source01/dut.sv start:8:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:8:8 end:8:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiTypespec (2 items):
         ModuleTypespec name:submodule start:9:4 end:9:13:
           vpiParent: Module name:top
           vpiName Identifier name:submodule start:9:4 end:9:13:
-            vpiParent: ModuleTypespec name:submodule
-            vpiName: submodule
+          vpiDefName: submodule
           vpiModule: Module name:submodule
         ModuleTypespec name:submodule start:10:4 end:10:13:
           vpiParent: Module name:top
           vpiName Identifier name:submodule start:10:4 end:10:13:
-            vpiParent: ModuleTypespec name:submodule
-            vpiName: submodule
+          vpiDefName: submodule
+          vpiParamAssign (1 items):
+            ParamAssign start:10:16 end:10:21:
+              vpiParent: ModuleTypespec name:submodule
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:X start:10:17 end:10:18:
+                vpiParent: ParamAssign
+                vpiName: X
+                vpiFullName: top.submodule.X
+              vpiRhs Constant start:10:19 end:10:20:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.submodule
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "5"
+                vpiValue: 5
           vpiModule: Module name:submodule
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -340,31 +351,10 @@ Design name:unnamed:
             vpiName: submodule
             vpiFullName: top.u_sub_5.submodule
             vpiActual: ModuleTypespec name:submodule
-          vpiParamAssign (1 items):
-            ParamAssign start:10:16 end:10:21:
-              vpiParent: RefInstance name:u_sub_5
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:X start:10:17 end:10:18:
-                vpiParent: ParamAssign
-                vpiName: X
-                vpiFullName: top.u_sub_5.X
-              vpiRhs Constant start:10:19 end:10:20:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.u_sub_5
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "5"
-                vpiValue: 5
   vpiTypespec (3 items):
     ModuleTypespec name:submodule:
       vpiParent: Design name:unnamed
       vpiName Identifier name:submodule start:1:8 end:1:17:
-        vpiParent: ModuleTypespec name:submodule
-        vpiName: submodule
       vpiModule: Module name:submodule
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -372,8 +362,6 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:8:8 end:8:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0

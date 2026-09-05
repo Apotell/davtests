@@ -682,8 +682,6 @@ Design name:unnamed:
     Module name:t file:$Source01/t_tri_inout2.v start:6:1 end:57:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (1 items):
         Variable name:in start:12:14 end:12:16:
@@ -727,8 +725,7 @@ Design name:unnamed:
         ModuleTypespec name:ChildA start:22:4 end:22:10:
           vpiParent: Module name:t
           vpiName Identifier name:ChildA start:22:4 end:22:10:
-            vpiParent: ModuleTypespec name:ChildA
-            vpiName: ChildA
+          vpiDefName: ChildA
           vpiModule: Module name:ChildA
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -756,6 +753,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: t.a
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:y start:15:11 end:15:12:
@@ -766,6 +764,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: t.y
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:y_fixed start:15:13 end:15:20:
@@ -776,6 +775,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y_fixed
           vpiFullName: t.y_fixed
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:b start:16:9 end:16:10:
@@ -786,6 +786,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: t.b
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
           vpiValue BitSelect name:in[0] start:16:13 end:16:18:
@@ -815,6 +816,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: en
           vpiFullName: t.en
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
           vpiValue BitSelect name:in[1] start:17:14 end:17:19:
@@ -917,8 +919,6 @@ Design name:unnamed:
                 SysTaskCall name:$display start:32:7 end:32:74:
                   vpiParent: Begin
                   vpiName Identifier name:$display start:32:7 end:32:15:
-                    vpiParent: SysTaskCall name:$display
-                    vpiName: "$display"
                   vpiArgument (6 items):
                     Constant start:32:18 end:32:50:
                       vpiParent: SysTaskCall name:$display
@@ -1025,8 +1025,6 @@ Design name:unnamed:
                             SysTaskCall name:$display start:38:13 end:38:69:
                               vpiParent: Begin
                               vpiName Identifier name:$display start:38:13 end:38:21:
-                                vpiParent: SysTaskCall name:$display
-                                vpiName: "$display"
                               vpiArgument (4 items):
                                 Constant start:38:24 end:38:52:
                                   vpiParent: SysTaskCall name:$display
@@ -1056,8 +1054,6 @@ Design name:unnamed:
                             SysTaskCall name:$stop start:39:13 end:39:18:
                               vpiParent: Begin
                               vpiName Identifier name:$stop start:39:13 end:39:18:
-                                vpiParent: SysTaskCall name:$stop
-                                vpiName: "$stop"
                   vpiElseStmt Begin start:42:16 end:50:10:
                     vpiParent: IfElse
                     vpiFullName: t
@@ -1136,8 +1132,6 @@ Design name:unnamed:
                             SysTaskCall name:$display start:47:13 end:47:48:
                               vpiParent: Begin
                               vpiName Identifier name:$display start:47:13 end:47:21:
-                                vpiParent: SysTaskCall name:$display
-                                vpiName: "$display"
                               vpiArgument (1 items):
                                 Constant start:47:23 end:47:47:
                                   vpiParent: SysTaskCall name:$display
@@ -1152,8 +1146,6 @@ Design name:unnamed:
                             SysTaskCall name:$stop start:48:13 end:48:18:
                               vpiParent: Begin
                               vpiName Identifier name:$stop start:48:13 end:48:18:
-                                vpiParent: SysTaskCall name:$stop
-                                vpiName: "$stop"
                 IfStmt start:52:7 end:55:10:
                   vpiParent: Begin
                   vpiCondition Operation start:52:11 end:52:16:
@@ -1182,8 +1174,6 @@ Design name:unnamed:
                       SysTaskCall name:$write start:53:10 end:53:42:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:53:10 end:53:16:
-                          vpiParent: SysTaskCall name:$write
-                          vpiName: "$write"
                         vpiArgument (1 items):
                           Constant start:53:17 end:53:41:
                             vpiParent: SysTaskCall name:$write
@@ -1198,16 +1188,12 @@ Design name:unnamed:
                       SysTaskCall name:$finish start:54:10 end:54:17:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:54:10 end:54:17:
-                          vpiParent: SysTaskCall name:$finish
-                          vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiPrimitive (1 items):
         Gate:
           vpiParent: Module name:t
-          vpiFullName: t.work@pullup
+          vpiFullName: t
           vpiDefName Identifier name:work@pullup start:20:4 end:20:10:
-            vpiParent: Gate
-            vpiName: work@pullup
           vpiPrimType: pullup (25)
           vpiPrimTerm (1 items):
             PrimTerm start:20:11 end:20:12:
@@ -1216,7 +1202,7 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:20:11 end:20:12:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: t.work@pullup.a
+                vpiFullName: t.a
                 vpiActual: Net name:a
       vpiRefInstance (1 items):
         RefInstance name:childa start:22:11 end:22:17:
@@ -1291,8 +1277,6 @@ Design name:unnamed:
     Module name:ChildA file:$Source01/t_tri_inout2.v start:59:1 end:71:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ChildA start:59:8 end:59:14:
-        vpiParent: Module name:ChildA
-        vpiName: ChildA
       vpiFullName: ChildA
       vpiTypespec (3 items):
         LogicTypespec:
@@ -1300,14 +1284,12 @@ Design name:unnamed:
         ModuleTypespec name:ChildB start:64:4 end:64:10:
           vpiParent: Module name:ChildA
           vpiName Identifier name:ChildB start:64:4 end:64:10:
-            vpiParent: ModuleTypespec name:ChildB
-            vpiName: ChildB
+          vpiDefName: ChildB
           vpiModule: Module name:ChildB
         ModuleTypespec name:ChildB start:68:4 end:68:10:
           vpiParent: Module name:ChildA
           vpiName Identifier name:ChildB start:68:4 end:68:10:
-            vpiParent: ModuleTypespec name:ChildB
-            vpiName: ChildB
+          vpiDefName: ChildB
           vpiModule: Module name:ChildB
       vpiDefName: ChildA
       vpiDefNetType: wire (1)
@@ -1375,6 +1357,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a_in
           vpiFullName: ChildA.a_in
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
           vpiValue RefObj name:A start:62:16 end:62:17:
@@ -1550,8 +1533,6 @@ Design name:unnamed:
     Module name:ChildB file:$Source01/t_tri_inout2.v start:73:1 end:75:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ChildB start:73:8 end:73:14:
-        vpiParent: Module name:ChildB
-        vpiName: ChildB
       vpiFullName: ChildB
       vpiTypespec (1 items):
         LogicTypespec:
@@ -1628,8 +1609,6 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1639,16 +1618,12 @@ Design name:unnamed:
     ModuleTypespec name:ChildA:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ChildA start:59:8 end:59:14:
-        vpiParent: ModuleTypespec name:ChildA
-        vpiName: ChildA
       vpiModule: Module name:ChildA
     LogicTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:ChildB:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ChildB start:73:8 end:73:14:
-        vpiParent: ModuleTypespec name:ChildB
-        vpiName: ChildB
       vpiModule: Module name:ChildB
 ===================
 [  FATAL] : 0

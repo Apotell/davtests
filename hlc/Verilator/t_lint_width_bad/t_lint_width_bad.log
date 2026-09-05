@@ -447,8 +447,6 @@ Design name:unnamed:
     Module name:t file:$Source01/t_lint_width_bad.v start:6:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiParameter (2 items):
         Parameter name:XS start:16:25 end:16:27:
@@ -508,15 +506,53 @@ Design name:unnamed:
         ModuleTypespec name:p start:12:4 end:12:5:
           vpiParent: Module name:t
           vpiName Identifier name:p start:12:4 end:12:5:
-            vpiParent: ModuleTypespec name:p
-            vpiName: p
-          vpiModule: Module name:p
+          vpiDefName: p
+          vpiParamAssign (1 items):
+            ParamAssign start:12:8 end:12:17:
+              vpiParent: ModuleTypespec name:p
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:WIDTH start:12:9 end:12:14:
+                vpiParent: ParamAssign
+                vpiName: WIDTH
+                vpiFullName: t.p.WIDTH
+                vpiActual: Parameter name:WIDTH
+              vpiRhs Constant start:12:15 end:12:16:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.p
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "4"
+                vpiValue: 4
+          vpiModule: Module name:p #(.WIDTH(64))
         ModuleTypespec name:p start:13:4 end:13:5:
           vpiParent: Module name:t
           vpiName Identifier name:p start:13:4 end:13:5:
-            vpiParent: ModuleTypespec name:p
-            vpiName: p
-          vpiModule: Module name:p
+          vpiDefName: p
+          vpiParamAssign (1 items):
+            ParamAssign start:13:8 end:13:17:
+              vpiParent: ModuleTypespec name:p
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:WIDTH start:13:9 end:13:14:
+                vpiParent: ParamAssign
+                vpiName: WIDTH
+                vpiFullName: t.p.WIDTH
+                vpiActual: Parameter name:WIDTH
+              vpiRhs Constant start:13:15 end:13:16:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.p
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "5"
+                vpiValue: 5
+          vpiModule: Module name:p #(.WIDTH(64))
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -702,6 +738,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: c
           vpiFullName: t.c
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Operation start:19:19 end:19:28:
@@ -736,6 +773,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d
           vpiFullName: t.d
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Operation start:20:19 end:20:37:
@@ -784,6 +822,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: one_bit
           vpiFullName: t.one_bit
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:shifter start:25:25 end:25:32:
@@ -794,6 +833,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: shifter
           vpiFullName: t.shifter
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Constant start:25:35 end:25:36:
@@ -814,6 +854,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: masked
           vpiFullName: t.masked
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Operation start:26:35 end:26:74:
@@ -865,6 +906,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: one
           vpiFullName: t.one
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
           vpiValue Constant start:30:31 end:30:32:
@@ -885,6 +927,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: cnt
           vpiFullName: t.cnt
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Operation start:31:33 end:31:54:
@@ -928,26 +971,6 @@ Design name:unnamed:
             vpiName: p
             vpiFullName: t.p4.p
             vpiActual: ModuleTypespec name:p
-          vpiParamAssign (1 items):
-            ParamAssign start:12:8 end:12:17:
-              vpiParent: RefInstance name:p4
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:WIDTH start:12:9 end:12:14:
-                vpiParent: ParamAssign
-                vpiName: WIDTH
-                vpiFullName: t.p4.WIDTH
-                vpiActual: Parameter name:WIDTH
-              vpiRhs Constant start:12:15 end:12:16:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.p4
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "4"
-                vpiValue: 4
           vpiPort (1 items):
             Port start:12:23 end:12:32:
               vpiParent: RefInstance name:p4
@@ -974,26 +997,6 @@ Design name:unnamed:
             vpiName: p
             vpiFullName: t.p5.p
             vpiActual: ModuleTypespec name:p
-          vpiParamAssign (1 items):
-            ParamAssign start:13:8 end:13:17:
-              vpiParent: RefInstance name:p5
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:WIDTH start:13:9 end:13:14:
-                vpiParent: ParamAssign
-                vpiName: WIDTH
-                vpiFullName: t.p5.WIDTH
-                vpiActual: Parameter name:WIDTH
-              vpiRhs Constant start:13:15 end:13:16:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.p5
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "5"
-                vpiValue: 5
           vpiPort (1 items):
             Port start:13:23 end:13:32:
               vpiParent: RefInstance name:p5
@@ -1012,34 +1015,32 @@ Design name:unnamed:
                 vpiSize: 5
                 vpiDecompile: "5'd0"
                 vpiValue: "0"
-    Module name:p file:$Source01/t_lint_width_bad.v start:35:1 end:39:10:
+    Module name:p #(.WIDTH(64)) file:$Source01/t_lint_width_bad.v start:35:1 end:39:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:p start:35:8 end:35:9:
-        vpiParent: Module name:p
-        vpiName: p
-      vpiFullName: p
+      vpiName Identifier name:p #(.WIDTH(64)) start:35:8 end:35:9:
+      vpiFullName: p #(.WIDTH(64))
       vpiParameter (1 items):
         Parameter name:WIDTH start:36:15 end:36:20:
-          vpiParent: Module name:p
+          vpiParent: Module name:p #(.WIDTH(64))
           vpiTypespec RefTypespec start:36:15 end:36:15:
             vpiParent: Parameter name:WIDTH
-            vpiFullName: p.WIDTH
+            vpiFullName: p #(.WIDTH(64)).WIDTH
             vpiActual: LogicTypespec
           vpiName: WIDTH
-          vpiFullName: p.WIDTH
+          vpiFullName: p #(.WIDTH(64)).WIDTH
       vpiParamAssign (1 items):
         ParamAssign start:36:15 end:36:23:
-          vpiParent: Module name:p
+          vpiParent: Module name:p #(.WIDTH(64))
           vpiLhs RefObj name:WIDTH start:36:15 end:36:20:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: p.WIDTH
+            vpiFullName: p #(.WIDTH(64)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:36:21 end:36:23:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: p
+              vpiFullName: p #(.WIDTH(64))
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -1047,9 +1048,9 @@ Design name:unnamed:
             vpiValue: 64
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:p
+          vpiParent: Module name:p #(.WIDTH(64))
         LogicTypespec:
-          vpiParent: Module name:p
+          vpiParent: Module name:p #(.WIDTH(64))
           vpiRange (1 items):
             Range start:37:11 end:37:22:
               vpiParent: LogicTypespec
@@ -1060,13 +1061,13 @@ Design name:unnamed:
                   RefObj name:WIDTH start:37:12 end:37:17:
                     vpiParent: Operation
                     vpiName: WIDTH
-                    vpiFullName: p.WIDTH
+                    vpiFullName: p #(.WIDTH(64)).WIDTH
                     vpiActual: Parameter name:WIDTH
                   Constant start:37:18 end:37:19:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: p
+                      vpiFullName: p #(.WIDTH(64))
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1076,7 +1077,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: p
+                  vpiFullName: p #(.WIDTH(64))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1084,7 +1085,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:p
+          vpiParent: Module name:p #(.WIDTH(64))
           vpiRange (1 items):
             Range start:38:9 end:38:14:
               vpiParent: LogicTypespec
@@ -1092,7 +1093,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: p
+                  vpiFullName: p #(.WIDTH(64))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1102,7 +1103,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: p
+                  vpiFullName: p #(.WIDTH(64))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1112,56 +1113,55 @@ Design name:unnamed:
       vpiDefName: p
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:p
+        vpiParent: Module name:p #(.WIDTH(64))
         vpiName: work
-        vpiFullName: p.work
+        vpiFullName: p #(.WIDTH(64)).work
       vpiCell: p
       vpiNet (2 items):
         Net name:in start:37:23 end:37:25:
-          vpiParent: Module name:p
+          vpiParent: Module name:p #(.WIDTH(64))
           vpiTypespec RefTypespec start:37:5 end:37:22:
             vpiParent: Net name:in
-            vpiFullName: p.in
+            vpiFullName: p #(.WIDTH(64)).in
             vpiActual: LogicTypespec
           vpiName: in
-          vpiFullName: p.in
+          vpiFullName: p #(.WIDTH(64)).in
           vpiNetType: wire (1)
           vpiVector: true
         Net name:out start:38:15 end:38:18:
-          vpiParent: Module name:p
+          vpiParent: Module name:p #(.WIDTH(64))
           vpiTypespec RefTypespec start:38:9 end:38:14:
             vpiParent: Net name:out
-            vpiFullName: p.out
+            vpiFullName: p #(.WIDTH(64)).out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: p.out
+          vpiFullName: p #(.WIDTH(64)).out
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue RefObj name:in start:38:21 end:38:23:
             vpiParent: Net name:out
             vpiName: in
-            vpiFullName: p.out.in
+            vpiFullName: p #(.WIDTH(64)).out.in
             vpiActual: Net name:in
       vpiPort (1 items):
         Port name:in start:37:23 end:37:25:
-          vpiParent: Module name:p
+          vpiParent: Module name:p #(.WIDTH(64))
           vpiName: in
           vpiDirection: input (1)
           vpiLowConn RefObj name:in start:37:23 end:37:25:
             vpiParent: Port name:in
             vpiName: in
-            vpiFullName: p.in.in
+            vpiFullName: p #(.WIDTH(64)).in.in
             vpiActual: Net name:in
           vpiTypespec RefTypespec start:37:5 end:37:22:
             vpiParent: Port name:in
-            vpiFullName: p.in
+            vpiFullName: p #(.WIDTH(64)).in
             vpiActual: LogicTypespec
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1173,9 +1173,7 @@ Design name:unnamed:
     ModuleTypespec name:p:
       vpiParent: Design name:unnamed
       vpiName Identifier name:p start:35:8 end:35:9:
-        vpiParent: ModuleTypespec name:p
-        vpiName: p
-      vpiModule: Module name:p
+      vpiModule: Module name:p #(.WIDTH(64))
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

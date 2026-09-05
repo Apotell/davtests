@@ -402,8 +402,6 @@ Design name:unnamed:
     Module name:t file:$Source01/t_param_module.v start:18:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:18:8 end:18:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiParameter (1 items):
         Parameter name:WID start:24:25 end:24:28:
@@ -440,8 +438,6 @@ Design name:unnamed:
         UnsupportedTypespec name:logic start:24:14 end:24:19:
           vpiParent: Module name:t
           vpiName Identifier name:logic start:24:14 end:24:19:
-            vpiParent: UnsupportedTypespec name:logic
-            vpiName: logic
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -502,8 +498,16 @@ Design name:unnamed:
         ModuleTypespec name:test start:28:3 end:28:7:
           vpiParent: Module name:t
           vpiName Identifier name:test start:28:3 end:28:7:
-            vpiParent: ModuleTypespec name:test
-            vpiName: test
+          vpiDefName: test
+          vpiParamAssign (1 items):
+            ParamAssign start:28:10 end:28:13:
+              vpiParent: ModuleTypespec name:test
+              vpiOverridden: true
+              vpiRhs RefObj name:WID start:28:10 end:28:13:
+                vpiParent: ParamAssign
+                vpiName: WID
+                vpiFullName: t.test.WID
+                vpiActual: Parameter name:WID
           vpiModule: Module name:test
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -531,6 +535,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b33
           vpiFullName: t.b33
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (1 items):
@@ -556,15 +561,6 @@ Design name:unnamed:
             vpiName: test
             vpiFullName: t.i_test_33.test
             vpiActual: ModuleTypespec name:test
-          vpiParamAssign (1 items):
-            ParamAssign start:28:10 end:28:13:
-              vpiParent: RefInstance name:i_test_33
-              vpiOverridden: true
-              vpiRhs RefObj name:WID start:28:10 end:28:13:
-                vpiParent: ParamAssign
-                vpiName: WID
-                vpiFullName: t.i_test_33.WID
-                vpiActual: Parameter name:WID
           vpiPort (2 items):
             Port start:28:25 end:28:35:
               vpiParent: RefInstance name:i_test_33
@@ -593,8 +589,6 @@ Design name:unnamed:
     Module name:test file:$Source01/t_param_module.v start:34:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:34:8 end:34:12:
-        vpiParent: Module name:test
-        vpiName: test
       vpiFullName: test
       vpiParameter (2 items):
         Parameter name:WIDTH start:40:15 end:40:20:
@@ -739,6 +733,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: test.a
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (2 items):
@@ -784,8 +779,6 @@ Design name:unnamed:
                     SysFuncCall name:$bits start:50:11 end:50:23:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:50:11 end:50:16:
-                        vpiParent: SysFuncCall name:$bits
-                        vpiName: "$bits"
                       vpiArgument (1 items):
                         RefObj name:WIDTH start:50:17 end:50:22:
                           vpiParent: SysFuncCall name:$bits
@@ -805,8 +798,6 @@ Design name:unnamed:
                 vpiStmt SysTaskCall name:$stop start:50:28 end:50:33:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:50:28 end:50:33:
-                    vpiParent: SysTaskCall name:$stop
-                    vpiName: "$stop"
               IfStmt start:51:7 end:51:33:
                 vpiParent: Begin
                 vpiCondition Operation start:51:11 end:51:25:
@@ -816,8 +807,6 @@ Design name:unnamed:
                     SysFuncCall name:$bits start:51:11 end:51:21:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:51:11 end:51:16:
-                        vpiParent: SysFuncCall name:$bits
-                        vpiName: "$bits"
                       vpiArgument (1 items):
                         RefObj name:MSB start:51:17 end:51:20:
                           vpiParent: SysFuncCall name:$bits
@@ -837,13 +826,9 @@ Design name:unnamed:
                 vpiStmt SysTaskCall name:$stop start:51:27 end:51:32:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:51:27 end:51:32:
-                    vpiParent: SysTaskCall name:$stop
-                    vpiName: "$stop"
               SysTaskCall name:$write start:52:7 end:52:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:52:7 end:52:13:
-                  vpiParent: SysTaskCall name:$write
-                  vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:52:14 end:52:38:
                     vpiParent: SysTaskCall name:$write
@@ -858,8 +843,6 @@ Design name:unnamed:
               SysTaskCall name:$finish start:53:7 end:53:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:53:7 end:53:14:
-                  vpiParent: SysTaskCall name:$finish
-                  vpiName: "$finish"
       vpiContAssign (1 items):
         ContAssign start:47:11 end:47:33:
           vpiParent: Module name:test
@@ -925,8 +908,6 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:18:8 end:18:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -934,8 +915,6 @@ Design name:unnamed:
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:34:8 end:34:12:
-        vpiParent: ModuleTypespec name:test
-        vpiName: test
       vpiModule: Module name:test
     StringTypespec:
       vpiParent: Design name:unnamed

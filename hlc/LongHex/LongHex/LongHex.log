@@ -166,8 +166,6 @@ Design name:unnamed:
     Package name:aes_pkg file:$Source01/dut.sv start:1:1 end:4:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_pkg start:1:9 end:1:16:
-        vpiParent: Package name:aes_pkg
-        vpiName: aes_pkg
       vpiFullName: aes_pkg
       vpiParameter (1 items):
         Parameter name:RndCnstMaskingLfsrSeedDefault start:2:28 end:2:57:
@@ -234,8 +232,6 @@ Design name:unnamed:
     Module name:aes_cipher_core file:$Source01/dut.sv start:6:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_cipher_core start:6:8 end:6:23:
-        vpiParent: Module name:aes_cipher_core
-        vpiName: aes_cipher_core
       vpiFullName: aes_cipher_core
       vpiParameter (1 items):
         Parameter name:RndCnstMaskingLfsrSeed start:7:28 end:7:50:
@@ -268,8 +264,6 @@ Design name:unnamed:
         ImportTypespec name:aes_pkg start:6:31 end:6:41:
           vpiParent: Module name:aes_cipher_core
           vpiName Identifier name:aes_pkg start:6:31 end:6:38:
-            vpiParent: ImportTypespec name:aes_pkg
-            vpiName: aes_pkg
         LogicTypespec:
           vpiParent: Module name:aes_cipher_core
           vpiRange (1 items):
@@ -344,20 +338,29 @@ Design name:unnamed:
     Module name:aes_core file:$Source01/dut.sv start:11:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_core start:11:8 end:11:16:
-        vpiParent: Module name:aes_core
-        vpiName: aes_core
       vpiFullName: aes_core
       vpiTypespec (2 items):
         ImportTypespec name:aes_pkg start:11:24 end:11:34:
           vpiParent: Module name:aes_core
           vpiName Identifier name:aes_pkg start:11:24 end:11:31:
-            vpiParent: ImportTypespec name:aes_pkg
-            vpiName: aes_pkg
         ModuleTypespec name:aes_cipher_core start:12:4 end:12:19:
           vpiParent: Module name:aes_core
           vpiName Identifier name:aes_cipher_core start:12:4 end:12:19:
-            vpiParent: ModuleTypespec name:aes_cipher_core
-            vpiName: aes_cipher_core
+          vpiDefName: aes_cipher_core
+          vpiParamAssign (1 items):
+            ParamAssign start:13:7 end:13:61:
+              vpiParent: ModuleTypespec name:aes_cipher_core
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:RndCnstMaskingLfsrSeed start:13:8 end:13:30:
+                vpiParent: ParamAssign
+                vpiName: RndCnstMaskingLfsrSeed
+                vpiFullName: aes_core.aes_cipher_core.RndCnstMaskingLfsrSeed
+              vpiRhs RefObj name:RndCnstMaskingLfsrSeedDefault start:13:31 end:13:60:
+                vpiParent: ParamAssign
+                vpiName: RndCnstMaskingLfsrSeedDefault
+                vpiFullName: aes_core.aes_cipher_core.RndCnstMaskingLfsrSeedDefault
+                vpiActual: Parameter name:RndCnstMaskingLfsrSeedDefault
           vpiModule: Module name:aes_cipher_core
       vpiDefName: aes_core
       vpiDefNetType: wire (1)
@@ -375,20 +378,6 @@ Design name:unnamed:
             vpiName: aes_cipher_core
             vpiFullName: aes_core.u_aes_cipher_core.aes_cipher_core
             vpiActual: ModuleTypespec name:aes_cipher_core
-          vpiParamAssign (1 items):
-            ParamAssign start:13:7 end:13:61:
-              vpiParent: RefInstance name:u_aes_cipher_core
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:RndCnstMaskingLfsrSeed start:13:8 end:13:30:
-                vpiParent: ParamAssign
-                vpiName: RndCnstMaskingLfsrSeed
-                vpiFullName: aes_core.u_aes_cipher_core.RndCnstMaskingLfsrSeed
-              vpiRhs RefObj name:RndCnstMaskingLfsrSeedDefault start:13:31 end:13:60:
-                vpiParent: ParamAssign
-                vpiName: RndCnstMaskingLfsrSeedDefault
-                vpiFullName: aes_core.u_aes_cipher_core.RndCnstMaskingLfsrSeedDefault
-                vpiActual: Parameter name:RndCnstMaskingLfsrSeedDefault
   vpiTypespec (4 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -398,14 +387,10 @@ Design name:unnamed:
     ModuleTypespec name:aes_cipher_core:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_cipher_core start:6:8 end:6:23:
-        vpiParent: ModuleTypespec name:aes_cipher_core
-        vpiName: aes_cipher_core
       vpiModule: Module name:aes_cipher_core
     ModuleTypespec name:aes_core:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_core start:11:8 end:11:16:
-        vpiParent: ModuleTypespec name:aes_core
-        vpiName: aes_core
       vpiModule: Module name:aes_core
 ===================
 [  FATAL] : 0

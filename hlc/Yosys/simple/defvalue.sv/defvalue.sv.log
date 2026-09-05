@@ -247,8 +247,6 @@ Design name:unnamed:
     Module name:top file:$Source01/simple/defvalue.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiTypespec (5 items):
         LogicTypespec:
@@ -308,15 +306,41 @@ Design name:unnamed:
         ModuleTypespec name:cnt start:2:2 end:2:5:
           vpiParent: Module name:top
           vpiName Identifier name:cnt start:2:2 end:2:5:
-            vpiParent: ModuleTypespec name:cnt
-            vpiName: cnt
-          vpiModule: Module name:cnt
+          vpiDefName: cnt
+          vpiParamAssign (1 items):
+            ParamAssign start:2:8 end:2:9:
+              vpiParent: ModuleTypespec name:cnt
+              vpiOverridden: true
+              vpiRhs Constant start:2:8 end:2:9:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.cnt
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+          vpiModule: Module name:cnt #(.initval(0))
         ModuleTypespec name:cnt start:3:2 end:3:5:
           vpiParent: Module name:top
           vpiName Identifier name:cnt start:3:2 end:3:5:
-            vpiParent: ModuleTypespec name:cnt
-            vpiName: cnt
-          vpiModule: Module name:cnt
+          vpiDefName: cnt
+          vpiParamAssign (1 items):
+            ParamAssign start:3:8 end:3:9:
+              vpiParent: ModuleTypespec name:cnt
+              vpiOverridden: true
+              vpiRhs Constant start:3:8 end:3:9:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.cnt
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
+          vpiModule: Module name:cnt #(.initval(0))
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -427,20 +451,6 @@ Design name:unnamed:
             vpiName: cnt
             vpiFullName: top.foo.cnt
             vpiActual: ModuleTypespec name:cnt
-          vpiParamAssign (1 items):
-            ParamAssign start:2:8 end:2:9:
-              vpiParent: RefInstance name:foo
-              vpiOverridden: true
-              vpiRhs Constant start:2:8 end:2:9:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.foo
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
           vpiPort (3 items):
             Port start:2:16 end:2:22:
               vpiParent: RefInstance name:foo
@@ -476,20 +486,6 @@ Design name:unnamed:
             vpiName: cnt
             vpiFullName: top.bar.cnt
             vpiActual: ModuleTypespec name:cnt
-          vpiParamAssign (1 items):
-            ParamAssign start:3:8 end:3:9:
-              vpiParent: RefInstance name:bar
-              vpiOverridden: true
-              vpiRhs Constant start:3:8 end:3:9:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.bar
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
           vpiPort (2 items):
             Port start:3:16 end:3:22:
               vpiParent: RefInstance name:bar
@@ -510,49 +506,47 @@ Design name:unnamed:
                 vpiName: cnt2
                 vpiFullName: top.bar.cnt2
                 vpiActual: Net name:cnt2
-    Module name:cnt file:$Source01/simple/defvalue.sv start:6:1 end:22:10:
+    Module name:cnt #(.initval(0)) file:$Source01/simple/defvalue.sv start:6:1 end:22:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:cnt start:6:8 end:6:11:
-        vpiParent: Module name:cnt
-        vpiName: cnt
-      vpiFullName: cnt
+      vpiName Identifier name:cnt #(.initval(0)) start:6:8 end:6:11:
+      vpiFullName: cnt #(.initval(0))
       vpiVariable (1 items):
         Variable name:cnt start:10:21 end:10:24:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiTypespec RefTypespec start:10:2 end:10:20:
             vpiParent: Variable name:cnt
-            vpiFullName: cnt.cnt
+            vpiFullName: cnt #(.initval(0)).cnt
             vpiActual: LogicTypespec
           vpiName: cnt
-          vpiFullName: cnt.cnt
+          vpiFullName: cnt #(.initval(0)).cnt
           vpiVector: true
           vpiValue RefObj name:initval start:10:27 end:10:34:
             vpiParent: Variable name:cnt
             vpiName: initval
-            vpiFullName: cnt.cnt.initval
+            vpiFullName: cnt #(.initval(0)).cnt.initval
             vpiActual: Parameter name:initval
       vpiParameter (1 items):
         Parameter name:initval start:7:20 end:7:27:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiTypespec RefTypespec start:7:12 end:7:19:
             vpiParent: Parameter name:initval
-            vpiFullName: cnt.initval
+            vpiFullName: cnt #(.initval(0)).initval
             vpiActual: IntegerTypespec
           vpiName: initval
-          vpiFullName: cnt.initval
+          vpiFullName: cnt #(.initval(0)).initval
       vpiParamAssign (1 items):
         ParamAssign start:7:20 end:7:31:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiLhs RefObj name:initval start:7:20 end:7:27:
             vpiParent: ParamAssign
             vpiName: initval
-            vpiFullName: cnt.initval
+            vpiFullName: cnt #(.initval(0)).initval
             vpiActual: Parameter name:initval
           vpiRhs Constant start:7:30 end:7:31:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: cnt
+              vpiFullName: cnt #(.initval(0))
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -560,12 +554,12 @@ Design name:unnamed:
             vpiValue: 0
       vpiTypespec (4 items):
         IntegerTypespec:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiSigned: true
         LogicTypespec:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
         LogicTypespec:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiRange (1 items):
             Range start:10:15 end:10:20:
               vpiParent: LogicTypespec
@@ -573,7 +567,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: cnt
+                  vpiFullName: cnt #(.initval(0))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -583,7 +577,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: cnt
+                  vpiFullName: cnt #(.initval(0))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -591,7 +585,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiRange (1 items):
             Range start:14:8 end:14:13:
               vpiParent: LogicTypespec
@@ -599,7 +593,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: cnt
+                  vpiFullName: cnt #(.initval(0))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -609,7 +603,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: cnt
+                  vpiFullName: cnt #(.initval(0))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -619,36 +613,36 @@ Design name:unnamed:
       vpiDefName: cnt
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:cnt
+        vpiParent: Module name:cnt #(.initval(0))
         vpiName: work
-        vpiFullName: cnt.work
+        vpiFullName: cnt #(.initval(0)).work
       vpiCell: cnt
       vpiNet (2 items):
         Net name:clock start:9:8 end:9:13:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiTypespec RefTypespec start:9:2 end:9:7:
             vpiParent: Net name:clock
-            vpiFullName: cnt.clock
+            vpiFullName: cnt #(.initval(0)).clock
             vpiActual: LogicTypespec
           vpiName: clock
-          vpiFullName: cnt.clock
+          vpiFullName: cnt #(.initval(0)).clock
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:delta start:14:14 end:14:19:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiTypespec RefTypespec start:14:2 end:14:13:
             vpiParent: Net name:delta
-            vpiFullName: cnt.delta
+            vpiFullName: cnt #(.initval(0)).delta
             vpiActual: LogicTypespec
           vpiName: delta
-          vpiFullName: cnt.delta
+          vpiFullName: cnt #(.initval(0)).delta
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Constant start:14:22 end:14:24:
             vpiParent: Net name:delta
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: cnt.delta
+              vpiFullName: cnt #(.initval(0)).delta
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -656,47 +650,47 @@ Design name:unnamed:
             vpiValue: 10
       vpiPort (3 items):
         Port name:clock start:9:8 end:9:13:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiName: clock
           vpiDirection: input (1)
           vpiLowConn RefObj name:clock start:9:8 end:9:13:
             vpiParent: Port name:clock
             vpiName: clock
-            vpiFullName: cnt.clock.clock
+            vpiFullName: cnt #(.initval(0)).clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:9:2 end:9:7:
             vpiParent: Port name:clock
-            vpiFullName: cnt.clock
+            vpiFullName: cnt #(.initval(0)).clock
             vpiActual: LogicTypespec
         Port name:cnt start:10:21 end:10:24:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiName: cnt
           vpiDirection: output (2)
           vpiLowConn RefObj name:cnt start:10:21 end:10:24:
             vpiParent: Port name:cnt
             vpiName: cnt
-            vpiFullName: cnt.cnt.cnt
+            vpiFullName: cnt #(.initval(0)).cnt.cnt
             vpiActual: Variable name:cnt
           vpiTypespec RefTypespec start:10:2 end:10:20:
             vpiParent: Port name:cnt
-            vpiFullName: cnt.cnt
+            vpiFullName: cnt #(.initval(0)).cnt
             vpiActual: LogicTypespec
         Port name:delta start:14:14 end:14:19:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiName: delta
           vpiDirection: input (1)
           vpiLowConn RefObj name:delta start:14:14 end:14:19:
             vpiParent: Port name:delta
             vpiName: delta
-            vpiFullName: cnt.delta.delta
+            vpiFullName: cnt #(.initval(0)).delta.delta
             vpiActual: Net name:delta
           vpiTypespec RefTypespec start:14:2 end:14:13:
             vpiParent: Port name:delta
-            vpiFullName: cnt.delta
+            vpiFullName: cnt #(.initval(0)).delta
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:20:2 end:21:22:
-          vpiParent: Module name:cnt
+          vpiParent: Module name:cnt #(.initval(0))
           vpiStmt EventControl start:20:9 end:21:22:
             vpiParent: Always
             vpiCondition Operation start:20:11 end:20:24:
@@ -706,14 +700,14 @@ Design name:unnamed:
                 RefObj name:clock start:20:19 end:20:24:
                   vpiParent: Operation
                   vpiName: clock
-                  vpiFullName: cnt.clock
+                  vpiFullName: cnt #(.initval(0)).clock
                   vpiActual: Net name:clock
             vpiStmt Assignment start:21:3 end:21:21:
               vpiParent: EventControl
               vpiLhs RefObj name:cnt start:21:3 end:21:6:
                 vpiParent: Assignment
                 vpiName: cnt
-                vpiFullName: cnt.cnt
+                vpiFullName: cnt #(.initval(0)).cnt
                 vpiActual: Variable name:cnt
               vpiRhs Operation start:21:10 end:21:21:
                 vpiParent: Assignment
@@ -722,20 +716,18 @@ Design name:unnamed:
                   RefObj name:cnt start:21:10 end:21:13:
                     vpiParent: Operation
                     vpiName: cnt
-                    vpiFullName: cnt.cnt
-                    vpiActual: Module name:cnt
+                    vpiFullName: cnt #(.initval(0)).cnt
+                    vpiActual: Variable name:cnt
                   RefObj name:delta start:21:16 end:21:21:
                     vpiParent: Operation
                     vpiName: delta
-                    vpiFullName: cnt.delta
+                    vpiFullName: cnt #(.initval(0)).delta
                     vpiActual: Net name:delta
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -743,9 +735,7 @@ Design name:unnamed:
     ModuleTypespec name:cnt:
       vpiParent: Design name:unnamed
       vpiName Identifier name:cnt start:6:8 end:6:11:
-        vpiParent: ModuleTypespec name:cnt
-        vpiName: cnt
-      vpiModule: Module name:cnt
+      vpiModule: Module name:cnt #(.initval(0))
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -793,8 +783,12 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/defvalue.sv/design.hldb ${HLC_DIR}/r
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                            12      13       1         0
+Operation                            2       1       0         1
+RefObj                              22      20       0         2
+RefTypespec                         29      30       1         0
 ----------------------------------------------------------------
-Others                             119     119       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                   119     119       0         0
+                                   119     118       2         3
 ===================== END REDUCTION RESULT =====================

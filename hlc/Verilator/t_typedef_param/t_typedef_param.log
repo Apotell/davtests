@@ -980,29 +980,19 @@ Design name:unnamed:
         PreprocMacroDefinition name:EXPECTED_SUM start:67:1 end:67:42:
           vpiParent: SourceFile name:t_typedef_param.v
           vpiName Identifier name:EXPECTED_SUM start:67:9 end:67:21:
-            vpiParent: PreprocMacroDefinition name:EXPECTED_SUM
-            vpiName: EXPECTED_SUM
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
             "Identifier name:64'h018decfea0a8828a start:67:22 end:67:42":
-              vpiParent: PreprocMacroDefinition name:EXPECTED_SUM
-              vpiName: "64'h018decfea0a8828a"
       vpiPreprocMacroInstance (1 items):
         PreprocMacroInstance name:EXPECTED_SUM file:$Source01/t_typedef_param.v start:68:15 end:68:28 ppstart:68:15 ppend:68:35:
           vpiParent: SourceFile name:t_typedef_param.v
           vpiName Identifier name:EXPECTED_SUM start:68:15 end:68:28:
-            vpiParent: PreprocMacroInstance name:EXPECTED_SUM
-            vpiName: EXPECTED_SUM
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:EXPECTED_SUM
           "vpiPMIBody Identifier name:64'h018decfea0a8828a start:67:22 end:67:42":
-            vpiParent: PreprocMacroInstance name:EXPECTED_SUM
-            vpiName: "64'h018decfea0a8828a"
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_typedef_param.v start:8:1 end:74:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (5 items):
         Variable name:cyc start:14:13 end:14:16:
@@ -1169,8 +1159,6 @@ Design name:unnamed:
         UnsupportedTypespec name:type start:21:15 end:21:19:
           vpiParent: Module name:t
           vpiName Identifier name:type start:21:15 end:21:19:
-            vpiParent: UnsupportedTypespec name:type
-            vpiName: type
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1200,13 +1188,9 @@ Design name:unnamed:
         UnsupportedTypespec name:three_t start:23:4 end:23:11:
           vpiParent: Module name:t
           vpiName Identifier name:three_t start:23:4 end:23:11:
-            vpiParent: UnsupportedTypespec name:three_t
-            vpiName: three_t
         UnsupportedTypespec name:three_t start:24:4 end:24:11:
           vpiParent: Module name:t
           vpiName Identifier name:three_t start:24:4 end:24:11:
-            vpiParent: UnsupportedTypespec name:three_t
-            vpiName: three_t
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1236,8 +1220,20 @@ Design name:unnamed:
         ModuleTypespec name:TestNonAnsi start:26:4 end:26:15:
           vpiParent: Module name:t
           vpiName Identifier name:TestNonAnsi start:26:4 end:26:15:
-            vpiParent: ModuleTypespec name:TestNonAnsi
-            vpiName: TestNonAnsi
+          vpiDefName: TestNonAnsi
+          vpiParamAssign (1 items):
+            ParamAssign start:26:19 end:26:35:
+              vpiParent: ModuleTypespec name:TestNonAnsi
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:p_t start:26:20 end:26:23:
+                vpiParent: ParamAssign
+                vpiName: p_t
+                vpiFullName: t.TestNonAnsi.p_t
+              vpiRhs RefTypespec start:26:25 end:26:34:
+                vpiParent: ParamAssign
+                vpiFullName: t.TestNonAnsi
+                vpiActual: LogicTypespec
           vpiModule: Module name:TestNonAnsi
         LogicTypespec:
           vpiParent: Module name:t
@@ -1268,9 +1264,21 @@ Design name:unnamed:
         ModuleTypespec name:TestAnsi start:34:4 end:34:12:
           vpiParent: Module name:t
           vpiName Identifier name:TestAnsi start:34:4 end:34:12:
-            vpiParent: ModuleTypespec name:TestAnsi
-            vpiName: TestAnsi
-          vpiModule: Module name:TestAnsi
+          vpiDefName: TestAnsi
+          vpiParamAssign (1 items):
+            ParamAssign start:34:16 end:34:32:
+              vpiParent: ModuleTypespec name:TestAnsi
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:p_t start:34:17 end:34:20:
+                vpiParent: ParamAssign
+                vpiName: p_t
+                vpiFullName: t.TestAnsi.p_t
+              vpiRhs RefTypespec start:34:22 end:34:31:
+                vpiParent: ParamAssign
+                vpiFullName: t.TestAnsi
+                vpiActual: LogicTypespec
+          vpiModule: Module name:TestAnsi #(.p_t(shortint))
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1325,6 +1333,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: t.in
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue PartSelect name:crc[2:0] start:19:21 end:19:29:
@@ -1366,6 +1375,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: t.result
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Operation start:43:25 end:43:51:
@@ -1836,8 +1846,6 @@ Design name:unnamed:
                             SysTaskCall name:$write start:64:3 end:64:64:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:64:3 end:64:9:
-                                vpiParent: SysTaskCall name:$write
-                                vpiName: "$write"
                               vpiArgument (5 items):
                                 Constant start:64:10 end:64:42:
                                   vpiParent: SysTaskCall name:$write
@@ -1852,8 +1860,6 @@ Design name:unnamed:
                                 SysFuncCall name:$time start:64:43 end:64:48:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName Identifier name:$time start:64:43 end:64:48:
-                                    vpiParent: SysFuncCall name:$time
-                                    vpiName: "$time"
                                 RefObj name:cyc start:64:50 end:64:53:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName: cyc
@@ -1893,8 +1899,6 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:65:37 end:65:42:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:65:37 end:65:42:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             IfStmt start:68:3 end:68:36:
                               vpiParent: Begin
                               vpiCondition Operation start:68:7 end:68:28:
@@ -1919,13 +1923,9 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:68:30 end:68:35:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:68:30 end:68:35:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             SysTaskCall name:$write start:69:3 end:69:35:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:69:3 end:69:9:
-                                vpiParent: SysTaskCall name:$write
-                                vpiName: "$write"
                               vpiArgument (1 items):
                                 Constant start:69:10 end:69:34:
                                   vpiParent: SysTaskCall name:$write
@@ -1940,8 +1940,6 @@ Design name:unnamed:
                             SysTaskCall name:$finish start:70:3 end:70:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:70:3 end:70:10:
-                                vpiParent: SysTaskCall name:$finish
-                                vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiRefInstance (2 items):
         RefInstance name:test start:27:4 end:27:8:
@@ -1952,19 +1950,6 @@ Design name:unnamed:
             vpiName: TestNonAnsi
             vpiFullName: t.test.TestNonAnsi
             vpiActual: ModuleTypespec name:TestNonAnsi
-          vpiParamAssign (1 items):
-            ParamAssign start:26:19 end:26:35:
-              vpiParent: RefInstance name:test
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:p_t start:26:20 end:26:23:
-                vpiParent: ParamAssign
-                vpiName: p_t
-                vpiFullName: t.test.p_t
-              vpiRhs RefTypespec start:26:25 end:26:34:
-                vpiParent: ParamAssign
-                vpiFullName: t.test
-                vpiActual: LogicTypespec
           vpiPort (3 items):
             Port start:28:3 end:28:16:
               vpiParent: RefInstance name:test
@@ -2036,19 +2021,6 @@ Design name:unnamed:
             vpiName: TestAnsi
             vpiFullName: t.testa.TestAnsi
             vpiActual: ModuleTypespec name:TestAnsi
-          vpiParamAssign (1 items):
-            ParamAssign start:34:16 end:34:32:
-              vpiParent: RefInstance name:testa
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:p_t start:34:17 end:34:20:
-                vpiParent: ParamAssign
-                vpiName: p_t
-                vpiFullName: t.testa.p_t
-              vpiRhs RefTypespec start:34:22 end:34:31:
-                vpiParent: ParamAssign
-                vpiFullName: t.testa
-                vpiActual: LogicTypespec
           vpiPort (3 items):
             Port start:36:4 end:36:17:
               vpiParent: RefInstance name:testa
@@ -2115,8 +2087,6 @@ Design name:unnamed:
     Module name:TestNonAnsi file:$Source01/t_typedef_param.v start:76:1 end:91:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:TestNonAnsi start:76:8 end:76:19:
-        vpiParent: Module name:TestNonAnsi
-        vpiName: TestNonAnsi
       vpiFullName: TestNonAnsi
       vpiVariable (1 items):
         Variable name:out start:86:15 end:86:18:
@@ -2154,20 +2124,14 @@ Design name:unnamed:
         UnsupportedTypespec name:type start:82:14 end:82:18:
           vpiParent: Module name:TestNonAnsi
           vpiName Identifier name:type start:82:14 end:82:18:
-            vpiParent: UnsupportedTypespec name:type
-            vpiName: type
         LogicTypespec:
           vpiParent: Module name:TestNonAnsi
         UnsupportedTypespec name:p_t start:85:10 end:85:13:
           vpiParent: Module name:TestNonAnsi
           vpiName Identifier name:p_t start:85:10 end:85:13:
-            vpiParent: UnsupportedTypespec name:p_t
-            vpiName: p_t
         UnsupportedTypespec name:p_t start:86:11 end:86:14:
           vpiParent: Module name:TestNonAnsi
           vpiName Identifier name:p_t start:86:11 end:86:14:
-            vpiParent: UnsupportedTypespec name:p_t
-            vpiName: p_t
       vpiDefName: TestNonAnsi
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2273,135 +2237,127 @@ Design name:unnamed:
                         vpiFullName: TestNonAnsi.in
                         vpiActual: Net name:in
           vpiAlwaysType: always (1)
-    Module name:TestAnsi file:$Source01/t_typedef_param.v start:93:1 end:103:10:
+    Module name:TestAnsi #(.p_t(shortint)) file:$Source01/t_typedef_param.v start:93:1 end:103:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:TestAnsi start:93:8 end:93:16:
-        vpiParent: Module name:TestAnsi
-        vpiName: TestAnsi
-      vpiFullName: TestAnsi
+      vpiName Identifier name:TestAnsi #(.p_t(shortint)) start:93:8 end:93:16:
+      vpiFullName: TestAnsi #(.p_t(shortint))
       vpiVariable (1 items):
         Variable name:out start:98:16 end:98:19:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiTypespec RefTypespec name:p_t start:98:12 end:98:15:
             vpiParent: Variable name:out
             vpiName: p_t
-            vpiFullName: TestAnsi.out.p_t
+            vpiFullName: TestAnsi #(.p_t(shortint)).out.p_t
             vpiActual: UnsupportedTypespec name:p_t
           vpiName: out
-          vpiFullName: TestAnsi.out
+          vpiFullName: TestAnsi #(.p_t(shortint)).out
       vpiParameter (1 items):
         Parameter name:p_t start:94:21 end:94:24:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiTypespec RefTypespec name:type start:94:16 end:94:20:
             vpiParent: Parameter name:p_t
             vpiName: type
-            vpiFullName: TestAnsi.p_t.type
+            vpiFullName: TestAnsi #(.p_t(shortint)).p_t.type
             vpiActual: UnsupportedTypespec name:type
           vpiName: p_t
-          vpiFullName: TestAnsi.p_t
+          vpiFullName: TestAnsi #(.p_t(shortint)).p_t
       vpiParamAssign (1 items):
         ParamAssign start:94:21 end:94:35:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiLhs RefObj name:p_t start:94:21 end:94:24:
             vpiParent: ParamAssign
             vpiName: p_t
-            vpiFullName: TestAnsi.p_t
+            vpiFullName: TestAnsi #(.p_t(shortint)).p_t
             vpiActual: Parameter name:p_t
           vpiRhs RefTypespec start:94:27 end:94:35:
             vpiParent: ParamAssign
-            vpiFullName: TestAnsi
+            vpiFullName: TestAnsi #(.p_t(shortint))
             vpiActual: ShortIntTypespec
       vpiTypespec (4 items):
         UnsupportedTypespec name:type start:94:16 end:94:20:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiName Identifier name:type start:94:16 end:94:20:
-            vpiParent: UnsupportedTypespec name:type
-            vpiName: type
         LogicTypespec:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
         UnsupportedTypespec name:p_t start:97:11 end:97:14:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiName Identifier name:p_t start:97:11 end:97:14:
-            vpiParent: UnsupportedTypespec name:p_t
-            vpiName: p_t
         UnsupportedTypespec name:p_t start:98:12 end:98:15:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiName Identifier name:p_t start:98:12 end:98:15:
-            vpiParent: UnsupportedTypespec name:p_t
-            vpiName: p_t
       vpiDefName: TestAnsi
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:TestAnsi
+        vpiParent: Module name:TestAnsi #(.p_t(shortint))
         vpiName: work
-        vpiFullName: TestAnsi.work
+        vpiFullName: TestAnsi #(.p_t(shortint)).work
       vpiCell: TestAnsi
       vpiNet (2 items):
         Net name:clk start:96:11 end:96:14:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiTypespec RefTypespec start:96:5 end:96:10:
             vpiParent: Net name:clk
-            vpiFullName: TestAnsi.clk
+            vpiFullName: TestAnsi #(.p_t(shortint)).clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: TestAnsi.clk
+          vpiFullName: TestAnsi #(.p_t(shortint)).clk
           vpiNetType: wire (1)
           vpiScalar: true
         Net name:in start:97:15 end:97:17:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiTypespec RefTypespec name:p_t start:97:11 end:97:14:
             vpiParent: Net name:in
             vpiName: p_t
-            vpiFullName: TestAnsi.in.p_t
+            vpiFullName: TestAnsi #(.p_t(shortint)).in.p_t
             vpiActual: UnsupportedTypespec name:p_t
           vpiName: in
-          vpiFullName: TestAnsi.in
+          vpiFullName: TestAnsi #(.p_t(shortint)).in
           vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:clk start:96:11 end:96:14:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiName: clk
           vpiDirection: input (1)
           vpiLowConn RefObj name:clk start:96:11 end:96:14:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: TestAnsi.clk.clk
+            vpiFullName: TestAnsi #(.p_t(shortint)).clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:96:5 end:96:10:
             vpiParent: Port name:clk
-            vpiFullName: TestAnsi.clk
+            vpiFullName: TestAnsi #(.p_t(shortint)).clk
             vpiActual: LogicTypespec
         Port name:in start:97:15 end:97:17:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiName: in
           vpiDirection: input (1)
           vpiLowConn RefObj name:in start:97:15 end:97:17:
             vpiParent: Port name:in
             vpiName: in
-            vpiFullName: TestAnsi.in.in
+            vpiFullName: TestAnsi #(.p_t(shortint)).in.in
             vpiActual: Net name:in
           vpiTypespec RefTypespec name:p_t start:97:11 end:97:14:
             vpiParent: Port name:in
             vpiName: p_t
-            vpiFullName: TestAnsi.in.p_t
+            vpiFullName: TestAnsi #(.p_t(shortint)).in.p_t
             vpiActual: UnsupportedTypespec name:p_t
         Port name:out start:98:16 end:98:19:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiName: out
           vpiDirection: output (2)
           vpiLowConn RefObj name:out start:98:16 end:98:19:
             vpiParent: Port name:out
             vpiName: out
-            vpiFullName: TestAnsi.out.out
+            vpiFullName: TestAnsi #(.p_t(shortint)).out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec name:p_t start:98:12 end:98:15:
             vpiParent: Port name:out
             vpiName: p_t
-            vpiFullName: TestAnsi.out.p_t
+            vpiFullName: TestAnsi #(.p_t(shortint)).out.p_t
             vpiActual: UnsupportedTypespec name:p_t
       vpiProcess (1 items):
         Always start:100:4 end:102:7:
-          vpiParent: Module name:TestAnsi
+          vpiParent: Module name:TestAnsi #(.p_t(shortint))
           vpiStmt EventControl start:100:11 end:102:7:
             vpiParent: Always
             vpiCondition Operation start:100:13 end:100:24:
@@ -2411,18 +2367,18 @@ Design name:unnamed:
                 RefObj name:clk start:100:21 end:100:24:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: TestAnsi.clk
+                  vpiFullName: TestAnsi #(.p_t(shortint)).clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:100:26 end:102:7:
               vpiParent: EventControl
-              vpiFullName: TestAnsi
+              vpiFullName: TestAnsi #(.p_t(shortint))
               vpiStmt (1 items):
                 Assignment start:101:7 end:101:17:
                   vpiParent: Begin
                   vpiLhs RefObj name:out start:101:7 end:101:10:
                     vpiParent: Assignment
                     vpiName: out
-                    vpiFullName: TestAnsi.out
+                    vpiFullName: TestAnsi #(.p_t(shortint)).out
                     vpiActual: Variable name:out
                   vpiRhs Operation start:101:14 end:101:17:
                     vpiParent: Assignment
@@ -2431,7 +2387,7 @@ Design name:unnamed:
                       RefObj name:in start:101:15 end:101:17:
                         vpiParent: Operation
                         vpiName: in
-                        vpiFullName: TestAnsi.in
+                        vpiFullName: TestAnsi #(.p_t(shortint)).in
                         vpiActual: Net name:in
           vpiAlwaysType: always (1)
   vpiTypespec (10 items):
@@ -2465,8 +2421,6 @@ Design name:unnamed:
     TypedefTypespec name:threeansi_t start:6:1 end:6:31:
       vpiParent: Design name:unnamed
       vpiName Identifier name:threeansi_t start:6:19 end:6:30:
-        vpiParent: TypedefTypespec name:threeansi_t
-        vpiName: threeansi_t
       vpiTypedefAlias RefTypespec start:6:9 end:6:18:
         vpiParent: TypedefTypespec name:threeansi_t
         vpiFullName: threeansi_t
@@ -2474,8 +2428,6 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2486,8 +2438,6 @@ Design name:unnamed:
     ModuleTypespec name:TestNonAnsi:
       vpiParent: Design name:unnamed
       vpiName Identifier name:TestNonAnsi start:76:8 end:76:19:
-        vpiParent: ModuleTypespec name:TestNonAnsi
-        vpiName: TestNonAnsi
       vpiModule: Module name:TestNonAnsi
     ShortIntTypespec:
       vpiParent: Design name:unnamed
@@ -2495,9 +2445,7 @@ Design name:unnamed:
     ModuleTypespec name:TestAnsi:
       vpiParent: Design name:unnamed
       vpiName Identifier name:TestAnsi start:93:8 end:93:16:
-        vpiParent: ModuleTypespec name:TestAnsi
-        vpiName: TestAnsi
-      vpiModule: Module name:TestAnsi
+      vpiModule: Module name:TestAnsi #(.p_t(shortint))
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

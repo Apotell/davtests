@@ -15,7 +15,7 @@ COMMAND: -wd ../../../../tests/Zachjs +incdir+resolve+basic+lex+lib+relong -nobu
 [SNT:PA0207] $Source01/resolve/module.sv:8:16: Syntax error: mismatched input '(' expecting ';',
         $display(HLC_MACRO_NOT_DEFINED:FANCY_SEEING_YOU!!!);
                 ^-- $Source01/resolve/module.sv:8:16:.
-[SNT:PA0207] $Source01/resolve/module.sv:8:58: Syntax error: extraneous input ')' expecting {POUND_POUND_DELAY, POUND_ONESTEP, POUND_DELAY, ATSTAR, AT_PARENS_STAR, ';', 'type', 'local', 'super', '{', '->', 'if', 'foreach', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'void', '$', '++', '--', DOLLAR_UNIT, '(*', 'assert', 'assume', 'cover', 'expect', 'disable', '##', '#', 'begin', 'end', 'case', 'for', 'assign', 'deassign', 'force', 'release', 'fork', 'repeat', '@', 'return', 'break', 'continue', 'wait', 'wait_order', 'unique', 'unique0', 'priority', 'casez', 'casex', 'randcase', 'forever', 'while', 'do', 'restrict', ''', 'randsequence', 'this', DOLLAR_ROOT, 'randomize', 'sample', '->>', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, HLC_MACRO_NOT_DEFINED},
+[SNT:PA0207] $Source01/resolve/module.sv:8:58: Syntax error: extraneous input ')' expecting {POUND_POUND_DELAY, POUND_ONESTEP, POUND_DELAY, ATSTAR, AT_PARENS_STAR, ';', 'virtual', 'type', 'bind', 'const', 'static', 'local', 'super', '{', '->', 'if', 'foreach', 'automatic', 'localparam', 'parameter', 'import', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'signed', 'unsigned', 'var', 'void', '$', '++', '--', DOLLAR_UNIT, '(*', 'assert', 'assume', 'cover', 'expect', 'disable', '##', '#', 'begin', 'end', 'case', 'for', 'assign', 'deassign', 'force', 'release', 'fork', 'repeat', '@', 'return', 'break', 'continue', 'wait', 'wait_order', 'unique', 'unique0', 'priority', 'casez', 'casex', 'randcase', 'forever', 'while', 'do', 'restrict', 'let', ''', 'randsequence', 'this', DOLLAR_ROOT, 'randomize', 'sample', '->>', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, HLC_MACRO_NOT_DEFINED},
         $display(HLC_MACRO_NOT_DEFINED:FANCY_SEEING_YOU!!!);
                                                           ^-- $Source01/resolve/module.sv:8:58:.
 [ERR:PA0203] $Source01/resolve/module.sv:8: Unknown macro "FANCY_SEEING_YOU".
@@ -174,41 +174,37 @@ Design name:unnamed:
       vpiName: module.sv
       vpiPreprocFile: "$Output/lib/work/resolve/module.sv"
   vpiAllModules (1 items):
-    Module name:top file:$Source01/resolve/module.sv start:1:1 end:10:10:
+    Module name:top #(.width(width_calc(2))) file:$Source01/resolve/module.sv start:1:1 end:10:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:top start:1:8 end:1:11:
-        vpiParent: Module name:top
-        vpiName: top
-      vpiFullName: top
+      vpiName Identifier name:top #(.width(width_calc(2))) start:1:8 end:1:11:
+      vpiFullName: top #(.width(width_calc(2)))
       vpiParameter (1 items):
         Parameter name:width start:3:18 end:3:23:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiTypespec RefTypespec start:3:18 end:3:18:
             vpiParent: Parameter name:width
-            vpiFullName: top.width
+            vpiFullName: top #(.width(width_calc(2))).width
             vpiActual: LogicTypespec
           vpiName: width
-          vpiFullName: top.width
+          vpiFullName: top #(.width(width_calc(2))).width
           vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:3:18 end:3:39:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiLhs RefObj name:width start:3:18 end:3:23:
             vpiParent: ParamAssign
             vpiName: width
-            vpiFullName: top.width
+            vpiFullName: top #(.width(width_calc(2))).width
             vpiActual: Parameter name:width
           vpiRhs SubroutineCall name:width_calc start:3:26 end:3:39:
             vpiParent: ParamAssign
             vpiName Identifier name:width_calc start:3:26 end:3:36:
-              vpiParent: SubroutineCall name:width_calc
-              vpiName: width_calc
             vpiArgument (1 items):
               Constant start:3:37 end:3:38:
                 vpiParent: SubroutineCall name:width_calc
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top.width_calc
+                  vpiFullName: top #(.width(width_calc(2))).width_calc
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -216,14 +212,12 @@ Design name:unnamed:
                 vpiValue: 2
       vpiTypespec (5 items):
         ImportTypespec name:pkg start:2:12 end:2:18:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiName Identifier name:pkg start:2:12 end:2:15:
-            vpiParent: ImportTypespec name:pkg
-            vpiName: pkg
         LogicTypespec:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
         LogicTypespec:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiRange (1 items):
             Range start:4:12 end:4:23:
               vpiParent: LogicTypespec
@@ -234,13 +228,13 @@ Design name:unnamed:
                   RefObj name:width start:4:13 end:4:18:
                     vpiParent: Operation
                     vpiName: width
-                    vpiFullName: top.width
+                    vpiFullName: top #(.width(width_calc(2))).width
                     vpiActual: Parameter name:width
                   Constant start:4:19 end:4:20:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: top
+                      vpiFullName: top #(.width(width_calc(2)))
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -250,7 +244,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top
+                  vpiFullName: top #(.width(width_calc(2)))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -258,7 +252,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiRange (1 items):
             Range start:4:34 end:4:45:
               vpiParent: LogicTypespec
@@ -269,13 +263,13 @@ Design name:unnamed:
                   RefObj name:width start:4:35 end:4:40:
                     vpiParent: Operation
                     vpiName: width
-                    vpiFullName: top.width
+                    vpiFullName: top #(.width(width_calc(2))).width
                     vpiActual: Parameter name:width
                   Constant start:4:41 end:4:42:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: top
+                      vpiFullName: top #(.width(width_calc(2)))
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -285,7 +279,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top
+                  vpiFullName: top #(.width(width_calc(2)))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -293,91 +287,89 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         BitTypespec:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:top
+        vpiParent: Module name:top #(.width(width_calc(2)))
         vpiName: work
-        vpiFullName: top.work
+        vpiFullName: top #(.width(width_calc(2))).work
       vpiCell: top
       vpiNet (2 items):
         Net name:i start:4:24 end:4:25:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiTypespec RefTypespec start:4:6 end:4:23:
             vpiParent: Net name:i
-            vpiFullName: top.i
+            vpiFullName: top #(.width(width_calc(2))).i
             vpiActual: LogicTypespec
           vpiName: i
-          vpiFullName: top.i
+          vpiFullName: top #(.width(width_calc(2))).i
           vpiNetType: wire (1)
           vpiVector: true
         Net name:o start:4:46 end:4:47:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiTypespec RefTypespec start:4:27 end:4:45:
             vpiParent: Net name:o
-            vpiFullName: top.o
+            vpiFullName: top #(.width(width_calc(2))).o
             vpiActual: LogicTypespec
           vpiName: o
-          vpiFullName: top.o
+          vpiFullName: top #(.width(width_calc(2))).o
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (2 items):
         Port name:i start:4:24 end:4:25:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiName: i
           vpiDirection: input (1)
           vpiLowConn RefObj name:i start:4:24 end:4:25:
             vpiParent: Port name:i
             vpiName: i
-            vpiFullName: top.i.i
+            vpiFullName: top #(.width(width_calc(2))).i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec start:4:6 end:4:23:
             vpiParent: Port name:i
-            vpiFullName: top.i
+            vpiFullName: top #(.width(width_calc(2))).i
             vpiActual: LogicTypespec
         Port name:o start:4:46 end:4:47:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiName: o
           vpiDirection: output (2)
           vpiLowConn RefObj name:o start:4:46 end:4:47:
             vpiParent: Port name:o
             vpiName: o
-            vpiFullName: top.o.o
+            vpiFullName: top #(.width(width_calc(2))).o.o
             vpiActual: Net name:o
           vpiTypespec RefTypespec start:4:27 end:4:45:
             vpiParent: Port name:o
-            vpiFullName: top.o
+            vpiFullName: top #(.width(width_calc(2))).o
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Initial start:6:5 end:9:8:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiStmt Begin start:6:13 end:9:8:
             vpiParent: Initial
-            vpiFullName: top
+            vpiFullName: top #(.width(width_calc(2)))
             vpiStmt (2 items):
               SysTaskCall name:$display start:7:9 end:7:24:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:7:9 end:7:17:
-                  vpiParent: SysTaskCall name:$display
-                  vpiName: "$display"
                 vpiArgument (1 items):
                   RefObj name:width start:7:18 end:7:23:
                     vpiParent: SysTaskCall name:$display
                     vpiName: width
-                    vpiFullName: top.width
+                    vpiFullName: top #(.width(width_calc(2))).width
                     vpiActual: Parameter name:width
               RefObj name:display start:8:10 end:8:17:
                 vpiParent: Begin
                 vpiName: display
-                vpiFullName: top.display
+                vpiFullName: top #(.width(width_calc(2))).display
       vpiContAssign (1 items):
         ContAssign start:5:12 end:5:24:
-          vpiParent: Module name:top
+          vpiParent: Module name:top #(.width(width_calc(2)))
           vpiLhs RefObj name:o start:5:12 end:5:13:
             vpiParent: ContAssign
             vpiName: o
-            vpiFullName: top.o
+            vpiFullName: top #(.width(width_calc(2))).o
             vpiActual: Net name:o
           vpiRhs Operation start:5:16 end:5:24:
             vpiParent: ContAssign
@@ -386,13 +378,13 @@ Design name:unnamed:
               RefObj name:i start:5:16 end:5:17:
                 vpiParent: Operation
                 vpiName: i
-                vpiFullName: top.i
+                vpiFullName: top #(.width(width_calc(2))).i
                 vpiActual: Net name:i
               Constant start:5:20 end:5:24:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top
+                  vpiFullName: top #(.width(width_calc(2)))
                   vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
@@ -402,9 +394,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
-      vpiModule: Module name:top
+      vpiModule: Module name:top #(.width(width_calc(2)))
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true

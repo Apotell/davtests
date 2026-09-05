@@ -132,8 +132,6 @@ Design name:unnamed:
     Module name:class_tb file:$Source01/8.5--parameters.sv start:16:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:class_tb start:16:8 end:16:16:
-        vpiParent: Module name:class_tb
-        vpiName: class_tb
       vpiFullName: class_tb
       vpiVariable (1 items):
         Variable name:test_obj start:20:17 end:20:25:
@@ -149,15 +147,11 @@ Design name:unnamed:
         ClassTypespec name:test_cls:
           vpiParent: Module name:class_tb
           vpiName Identifier name:test_cls:
-            vpiParent: ClassTypespec name:test_cls
-            vpiName: test_cls
           vpiDefName: test_cls
-          vpiClassDefn: ClassDefn name:test_cls
+          vpiClassDefn: ClassDefn name:test_cls #(.a(12))
         ClassTypespec name:test_cls #(34) start:20:2 end:20:16:
           vpiParent: Module name:class_tb
           vpiName Identifier name:test_cls #(34) start:20:2 end:20:10:
-            vpiParent: ClassTypespec name:test_cls #(34)
-            vpiName: test_cls #(34)
           vpiDefName: test_cls
           vpiParamAssign (1 items):
             ParamAssign start:20:13 end:20:15:
@@ -173,7 +167,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "34"
                 vpiValue: 34
-          vpiClassDefn: ClassDefn name:test_cls
+          vpiClassDefn: ClassDefn name:test_cls #(.a(12))
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -182,34 +176,32 @@ Design name:unnamed:
         vpiFullName: class_tb.work
       vpiCell: class_tb
       vpiClassDefn (1 items):
-        ClassDefn name:test_cls file:$Source01/8.5--parameters.sv start:17:2 end:18:10:
+        ClassDefn name:test_cls #(.a(12)) file:$Source01/8.5--parameters.sv start:17:2 end:18:10:
           vpiParent: Module name:class_tb
-          vpiName Identifier name:test_cls start:17:8 end:17:16:
-            vpiParent: ClassDefn name:test_cls
-            vpiName: test_cls
-          vpiFullName: class_tb::test_cls
+          vpiName Identifier name:test_cls #(.a(12)) start:17:8 end:17:16:
+          vpiFullName: class_tb::test_cls #(.a(12))
           vpiParameter (1 items):
             Parameter name:a start:17:29 end:17:30:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:test_cls #(.a(12))
               vpiTypespec RefTypespec start:17:29 end:17:29:
                 vpiParent: Parameter name:a
-                vpiFullName: class_tb::test_cls::a
+                vpiFullName: class_tb::test_cls #(.a(12))::a
                 vpiActual: LogicTypespec
               vpiName: a
-              vpiFullName: class_tb::test_cls::a
+              vpiFullName: class_tb::test_cls #(.a(12))::a
           vpiParamAssign (1 items):
             ParamAssign start:17:29 end:17:35:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:test_cls #(.a(12))
               vpiLhs RefObj name:a start:17:29 end:17:30:
                 vpiParent: ParamAssign
                 vpiName: a
-                vpiFullName: class_tb::test_cls::a
+                vpiFullName: class_tb::test_cls #(.a(12))::a
                 vpiActual: Parameter name:a
               vpiRhs Constant start:17:33 end:17:35:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: class_tb::test_cls
+                  vpiFullName: class_tb::test_cls #(.a(12))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -217,13 +209,14 @@ Design name:unnamed:
                 vpiValue: 12
           vpiTypespec (1 items):
             LogicTypespec:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:test_cls #(.a(12))
+          vpiDefName: test_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
-            vpiParent: ClassDefn name:test_cls
+            vpiParent: ClassDefn name:test_cls #(.a(12))
             vpiName: work
-            vpiFullName: class_tb::test_cls::work
+            vpiFullName: class_tb::test_cls #(.a(12))::work
           vpiCell: test_cls
       vpiProcess (1 items):
         Initial start:22:2 end:25:5:
@@ -243,13 +236,9 @@ Design name:unnamed:
                 vpiRhs MethodFuncCall name:new start:23:14 end:23:17:
                   vpiParent: Assignment
                   vpiName Identifier name:new:
-                    vpiParent: MethodFuncCall name:new
-                    vpiName: new
               SysTaskCall name:$display start:24:3 end:24:45:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:3 end:24:11:
-                  vpiParent: SysTaskCall name:$display
-                  vpiName: "$display"
                 vpiArgument (2 items):
                   Constant start:24:12 end:24:32:
                     vpiParent: SysTaskCall name:$display
@@ -280,8 +269,6 @@ Design name:unnamed:
     ModuleTypespec name:class_tb:
       vpiParent: Design name:unnamed
       vpiName Identifier name:class_tb start:16:8 end:16:16:
-        vpiParent: ModuleTypespec name:class_tb
-        vpiName: class_tb
       vpiModule: Module name:class_tb
     IntTypespec:
       vpiParent: Design name:unnamed

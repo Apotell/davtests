@@ -398,8 +398,6 @@ Design name:unnamed:
     Module name:t file:$Source01/t_param_ceil.v start:6:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiTypespec (2 items):
         LogicTypespec:
@@ -431,8 +429,7 @@ Design name:unnamed:
         ModuleTypespec name:Test start:13:4 end:13:8:
           vpiParent: Module name:t
           vpiName Identifier name:Test start:13:4 end:13:8:
-            vpiParent: ModuleTypespec name:Test
-            vpiName: Test
+          vpiDefName: Test
           vpiModule: Module name:Test
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -450,6 +447,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: O_out
           vpiFullName: t.O_out
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
       vpiProcess (1 items):
@@ -483,13 +481,9 @@ Design name:unnamed:
                 vpiStmt SysTaskCall name:$stop start:18:27 end:18:32:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:18:27 end:18:32:
-                    vpiParent: SysTaskCall name:$stop
-                    vpiName: "$stop"
               SysTaskCall name:$write start:19:7 end:19:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:19:7 end:19:13:
-                  vpiParent: SysTaskCall name:$write
-                  vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:19:14 end:19:38:
                     vpiParent: SysTaskCall name:$write
@@ -504,8 +498,6 @@ Design name:unnamed:
               SysTaskCall name:$finish start:20:7 end:20:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
-                  vpiParent: SysTaskCall name:$finish
-                  vpiName: "$finish"
       vpiRefInstance (1 items):
         RefInstance name:test start:13:9 end:13:13:
           vpiParent: Module name:t
@@ -557,8 +549,6 @@ Design name:unnamed:
     Module name:Test file:$Source01/t_param_ceil.v start:25:1 end:38:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Test start:25:8 end:25:12:
-        vpiParent: Module name:Test
-        vpiName: Test
       vpiFullName: Test
       vpiTypespec (2 items):
         LogicTypespec:
@@ -590,9 +580,45 @@ Design name:unnamed:
         ModuleTypespec name:test start:30:4 end:30:8:
           vpiParent: Module name:Test
           vpiName Identifier name:test start:30:4 end:30:8:
-            vpiParent: ModuleTypespec name:test
-            vpiName: test
-          vpiModule: Module name:test
+          vpiDefName: test
+          vpiParamAssign (2 items):
+            ParamAssign start:32:8 end:32:16:
+              vpiParent: ModuleTypespec name:test
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:pFOO start:32:9 end:32:13:
+                vpiParent: ParamAssign
+                vpiName: pFOO
+                vpiFullName: Test.test.pFOO
+              vpiRhs Constant start:32:14 end:32:15:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: Test.test
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "5"
+                vpiValue: 5
+            ParamAssign start:33:8 end:33:16:
+              vpiParent: ModuleTypespec name:test
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:pBAR start:33:9 end:33:13:
+                vpiParent: ParamAssign
+                vpiName: pBAR
+                vpiFullName: Test.test.pBAR
+              vpiRhs Constant start:33:14 end:33:15:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: Test.test
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
+          vpiModule: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
       vpiDefName: Test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -634,43 +660,6 @@ Design name:unnamed:
             vpiName: test
             vpiFullName: Test.U_test.test
             vpiActual: ModuleTypespec name:test
-          vpiParamAssign (2 items):
-            ParamAssign start:32:8 end:32:16:
-              vpiParent: RefInstance name:U_test
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:pFOO start:32:9 end:32:13:
-                vpiParent: ParamAssign
-                vpiName: pFOO
-                vpiFullName: Test.U_test.pFOO
-              vpiRhs Constant start:32:14 end:32:15:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: Test.U_test
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "5"
-                vpiValue: 5
-            ParamAssign start:33:8 end:33:16:
-              vpiParent: RefInstance name:U_test
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:pBAR start:33:9 end:33:13:
-                vpiParent: ParamAssign
-                vpiName: pBAR
-                vpiFullName: Test.U_test.pBAR
-              vpiRhs Constant start:33:14 end:33:15:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: Test.U_test
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
           vpiPort (1 items):
             Port start:36:2 end:36:15:
               vpiParent: RefInstance name:U_test
@@ -684,101 +673,97 @@ Design name:unnamed:
                 vpiName: O_out
                 vpiFullName: Test.U_test.O_out
                 vpiActual: Net name:O_out
-    Module name:test file:$Source01/t_param_ceil.v start:40:1 end:55:10:
+    Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))) file:$Source01/t_param_ceil.v start:40:1 end:55:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:40:8 end:40:12:
-        vpiParent: Module name:test
-        vpiName: test
-      vpiFullName: test
+      vpiName Identifier name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))) start:40:8 end:40:12:
+      vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
       vpiParameter (3 items):
         Parameter name:pFOO start:41:15 end:41:19:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiTypespec RefTypespec start:41:15 end:41:15:
             vpiParent: Parameter name:pFOO
-            vpiFullName: test.pFOO
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pFOO
             vpiActual: LogicTypespec
           vpiName: pFOO
-          vpiFullName: test.pFOO
+          vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pFOO
         Parameter name:pBAR start:42:15 end:42:19:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiTypespec RefTypespec start:42:15 end:42:15:
             vpiParent: Parameter name:pBAR
-            vpiFullName: test.pBAR
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAR
             vpiActual: LogicTypespec
           vpiName: pBAR
-          vpiFullName: test.pBAR
+          vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAR
         Parameter name:pBAZ start:43:15 end:43:19:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiTypespec RefTypespec start:43:15 end:43:15:
             vpiParent: Parameter name:pBAZ
-            vpiFullName: test.pBAZ
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAZ
             vpiActual: LogicTypespec
           vpiName: pBAZ
-          vpiFullName: test.pBAZ
+          vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAZ
       vpiParamAssign (3 items):
         ParamAssign start:41:15 end:41:23:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiLhs RefObj name:pFOO start:41:15 end:41:19:
             vpiParent: ParamAssign
             vpiName: pFOO
-            vpiFullName: test.pFOO
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pFOO
             vpiActual: Parameter name:pFOO
           vpiRhs Constant start:41:22 end:41:23:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test
+              vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "7"
             vpiValue: 7
         ParamAssign start:42:15 end:42:23:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiLhs RefObj name:pBAR start:42:15 end:42:19:
             vpiParent: ParamAssign
             vpiName: pBAR
-            vpiFullName: test.pBAR
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAR
             vpiActual: Parameter name:pBAR
           vpiRhs Constant start:42:22 end:42:23:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test
+              vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
         ParamAssign start:43:15 end:43:41:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiLhs RefObj name:pBAZ start:43:15 end:43:19:
             vpiParent: ParamAssign
             vpiName: pBAZ
-            vpiFullName: test.pBAZ
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAZ
             vpiActual: Parameter name:pBAZ
           vpiRhs FuncCall name:ceiling start:43:22 end:43:41:
             vpiParent: ParamAssign
             vpiName Identifier name:ceiling start:43:22 end:43:29:
-              vpiParent: FuncCall name:ceiling
-              vpiName: ceiling
             vpiTaskFunc: Function name:ceiling
             vpiArgument (2 items):
               RefObj name:pFOO start:43:30 end:43:34:
                 vpiParent: FuncCall name:ceiling
                 vpiName: pFOO
-                vpiFullName: test.pFOO
+                vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pFOO
                 vpiActual: Parameter name:pFOO
               RefObj name:pBAR start:43:36 end:43:40:
                 vpiParent: FuncCall name:ceiling
                 vpiName: pBAR
-                vpiFullName: test.pBAR
+                vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAR
                 vpiActual: Parameter name:pBAR
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
         LogicTypespec:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiRange (1 items):
             Range start:46:12 end:46:18:
               vpiParent: LogicTypespec
@@ -786,7 +771,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test
+                  vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -796,7 +781,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test
+                  vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -806,34 +791,32 @@ Design name:unnamed:
       vpiDefName: test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:test
+        vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
         vpiName: work
-        vpiFullName: test.work
+        vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).work
       vpiCell: test
       vpiTaskFunc (1 items):
         Function name:ceiling start:51:4 end:54:15:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiName Identifier name:ceiling start:51:21 end:51:28:
-            vpiParent: Function name:ceiling
-            vpiName: ceiling
-          vpiFullName: test.ceiling
+          vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling
           vpiVariable (2 items):
             Variable name:x start:52:20 end:52:21:
               vpiParent: Function name:ceiling
               vpiTypespec RefTypespec start:52:13 end:52:19:
                 vpiParent: Variable name:x
-                vpiFullName: test.ceiling.x
+                vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.x
                 vpiActual: LogicTypespec
               vpiName: x
-              vpiFullName: test.ceiling.x
+              vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.x
             Variable name:y start:52:23 end:52:24:
               vpiParent: Function name:ceiling
               vpiTypespec RefTypespec start:52:13 end:52:19:
                 vpiParent: Variable name:y
-                vpiFullName: test.ceiling.y
+                vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.y
                 vpiActual: LogicTypespec
               vpiName: y
-              vpiFullName: test.ceiling.y
+              vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.y
           vpiVisibility: public (1)
           vpiIODecl (2 items):
             IODecl name:x start:52:20 end:52:21:
@@ -841,18 +824,18 @@ Design name:unnamed:
               vpiName: x
               vpiTypespec RefTypespec start:52:13 end:52:19:
                 vpiParent: IODecl name:x
-                vpiFullName: test.ceiling.x
+                vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.x
                 vpiActual: LogicTypespec
             IODecl name:y start:52:23 end:52:24:
               vpiParent: Function name:ceiling
               vpiName: y
               vpiTypespec RefTypespec start:52:13 end:52:19:
                 vpiParent: IODecl name:y
-                vpiFullName: test.ceiling.y
+                vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.y
                 vpiActual: LogicTypespec
           vpiStmt Begin:
             vpiParent: Function name:ceiling
-            vpiFullName: test.ceiling
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling
             vpiTypespec (2 items):
               IntegerTypespec:
                 vpiParent: Begin
@@ -866,7 +849,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: test.ceiling
+                        vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -876,7 +859,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: test.ceiling
+                        vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -890,7 +873,7 @@ Design name:unnamed:
                 vpiLhs RefObj name:ceiling start:53:7 end:53:14:
                   vpiParent: Assignment
                   vpiName: ceiling
-                  vpiFullName: test.ceiling.ceiling
+                  vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.ceiling
                   vpiActual: Function name:ceiling
                 vpiRhs Operation start:53:17 end:53:49:
                   vpiParent: Assignment
@@ -911,18 +894,18 @@ Design name:unnamed:
                                 RefObj name:x start:53:19 end:53:20:
                                   vpiParent: Operation
                                   vpiName: x
-                                  vpiFullName: test.ceiling.x
+                                  vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.x
                                   vpiActual: IODecl name:x
                                 RefObj name:y start:53:21 end:53:22:
                                   vpiParent: Operation
                                   vpiName: y
-                                  vpiFullName: test.ceiling.y
+                                  vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.y
                                   vpiActual: IODecl name:y
                             Constant start:53:26 end:53:27:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: test.ceiling
+                                vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -935,12 +918,12 @@ Design name:unnamed:
                             RefObj name:x start:53:31 end:53:32:
                               vpiParent: Operation
                               vpiName: x
-                              vpiFullName: test.ceiling.x
+                              vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.x
                               vpiActual: IODecl name:x
                             RefObj name:y start:53:33 end:53:34:
                               vpiParent: Operation
                               vpiName: y
-                              vpiFullName: test.ceiling.y
+                              vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.y
                               vpiActual: IODecl name:y
                         Operation start:53:37 end:53:44:
                           vpiParent: Operation
@@ -953,18 +936,18 @@ Design name:unnamed:
                                 RefObj name:x start:53:38 end:53:39:
                                   vpiParent: Operation
                                   vpiName: x
-                                  vpiFullName: test.ceiling.x
+                                  vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.x
                                   vpiActual: IODecl name:x
                                 RefObj name:y start:53:40 end:53:41:
                                   vpiParent: Operation
                                   vpiName: y
-                                  vpiFullName: test.ceiling.y
+                                  vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.y
                                   vpiActual: IODecl name:y
                             Constant start:53:43 end:53:44:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: test.ceiling
+                                vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -974,7 +957,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: test.ceiling
+                        vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -982,52 +965,50 @@ Design name:unnamed:
                       vpiValue: 1
           vpiReturn RefTypespec start:51:13 end:51:20:
             vpiParent: Function name:ceiling
-            vpiFullName: test.ceiling
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling
             vpiActual: IntegerTypespec
       vpiNet (1 items):
         Net name:O_out start:46:19 end:46:24:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiTypespec RefTypespec start:46:5 end:46:18:
             vpiParent: Net name:O_out
-            vpiFullName: test.O_out
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).O_out
             vpiActual: LogicTypespec
           vpiName: O_out
-          vpiFullName: test.O_out
+          vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).O_out
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (1 items):
         Port name:O_out start:46:19 end:46:24:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiName: O_out
           vpiDirection: output (2)
           vpiLowConn RefObj name:O_out start:46:19 end:46:24:
             vpiParent: Port name:O_out
             vpiName: O_out
-            vpiFullName: test.O_out.O_out
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).O_out.O_out
             vpiActual: Net name:O_out
           vpiTypespec RefTypespec start:46:5 end:46:18:
             vpiParent: Port name:O_out
-            vpiFullName: test.O_out
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).O_out
             vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:49:11 end:49:23:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiLhs RefObj name:O_out start:49:11 end:49:16:
             vpiParent: ContAssign
             vpiName: O_out
-            vpiFullName: test.O_out
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).O_out
             vpiActual: Net name:O_out
           vpiRhs RefObj name:pBAZ start:49:19 end:49:23:
             vpiParent: ContAssign
             vpiName: pBAZ
-            vpiFullName: test.pBAZ
+            vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAZ
             vpiActual: Parameter name:pBAZ
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1039,15 +1020,11 @@ Design name:unnamed:
     ModuleTypespec name:Test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Test start:25:8 end:25:12:
-        vpiParent: ModuleTypespec name:Test
-        vpiName: Test
       vpiModule: Module name:Test
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:40:8 end:40:12:
-        vpiParent: ModuleTypespec name:test
-        vpiName: test
-      vpiModule: Module name:test
+      vpiModule: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

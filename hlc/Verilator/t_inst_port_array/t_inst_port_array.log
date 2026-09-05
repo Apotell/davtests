@@ -414,8 +414,6 @@ Design name:unnamed:
     Module name:t file:$Source01/t_inst_port_array.v start:6:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (1 items):
         Variable name:foo start:12:18 end:12:21:
@@ -432,8 +430,6 @@ Design name:unnamed:
         UnsupportedTypespec name:logic start:12:4 end:12:9:
           vpiParent: Module name:t
           vpiName Identifier name:logic start:12:4 end:12:9:
-            vpiParent: UnsupportedTypespec name:logic
-            vpiName: logic
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -526,9 +522,45 @@ Design name:unnamed:
         ModuleTypespec name:dut start:19:4 end:19:7:
           vpiParent: Module name:t
           vpiName Identifier name:dut start:19:4 end:19:7:
-            vpiParent: ModuleTypespec name:dut
-            vpiName: dut
-          vpiModule: Module name:dut
+          vpiDefName: dut
+          vpiParamAssign (2 items):
+            ParamAssign start:19:10 end:19:15:
+              vpiParent: ModuleTypespec name:dut
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:W start:19:11 end:19:12:
+                vpiParent: ParamAssign
+                vpiName: W
+                vpiFullName: t.dut.W
+              vpiRhs Constant start:19:13 end:19:14:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.dut
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "6"
+                vpiValue: 6
+            ParamAssign start:20:10 end:20:15:
+              vpiParent: ModuleTypespec name:dut
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:D start:20:11 end:20:12:
+                vpiParent: ParamAssign
+                vpiName: D
+                vpiFullName: t.dut.D
+              vpiRhs Constant start:20:13 end:20:14:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.dut
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "4"
+                vpiValue: 4
+          vpiModule: Module name:dut #(.W(1), .D(1))
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -570,43 +602,6 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: t.udut.dut
             vpiActual: ModuleTypespec name:dut
-          vpiParamAssign (2 items):
-            ParamAssign start:19:10 end:19:15:
-              vpiParent: RefInstance name:udut
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:W start:19:11 end:19:12:
-                vpiParent: ParamAssign
-                vpiName: W
-                vpiFullName: t.udut.W
-              vpiRhs Constant start:19:13 end:19:14:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.udut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "6"
-                vpiValue: 6
-            ParamAssign start:20:10 end:20:15:
-              vpiParent: RefInstance name:udut
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:D start:20:11 end:20:12:
-                vpiParent: ParamAssign
-                vpiName: D
-                vpiFullName: t.udut.D
-              vpiRhs Constant start:20:13 end:20:14:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.udut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "4"
-                vpiValue: 4
           vpiPort (2 items):
             Port start:20:22 end:20:31:
               vpiParent: RefInstance name:udut
@@ -672,68 +667,66 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-    Module name:dut file:$Source01/t_inst_port_array.v start:24:1 end:38:10:
+    Module name:dut #(.W(1), .D(1)) file:$Source01/t_inst_port_array.v start:24:1 end:38:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:24:8 end:24:11:
-        vpiParent: Module name:dut
-        vpiName: dut
-      vpiFullName: dut
+      vpiName Identifier name:dut #(.W(1), .D(1)) start:24:8 end:24:11:
+      vpiFullName: dut #(.W(1), .D(1))
       vpiVariable (2 items):
         Variable name:i start:30:12 end:30:13:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiName: i
-          vpiFullName: dut.i
+          vpiFullName: dut #(.W(1), .D(1)).i
         Variable name:j start:30:15 end:30:16:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiName: j
-          vpiFullName: dut.j
+          vpiFullName: dut #(.W(1), .D(1)).j
       vpiParameter (2 items):
         Parameter name:W start:25:17 end:25:18:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiTypespec RefTypespec start:25:17 end:25:17:
             vpiParent: Parameter name:W
-            vpiFullName: dut.W
+            vpiFullName: dut #(.W(1), .D(1)).W
             vpiActual: LogicTypespec
           vpiName: W
-          vpiFullName: dut.W
+          vpiFullName: dut #(.W(1), .D(1)).W
         Parameter name:D start:26:17 end:26:18:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiTypespec RefTypespec start:26:17 end:26:17:
             vpiParent: Parameter name:D
-            vpiFullName: dut.D
+            vpiFullName: dut #(.W(1), .D(1)).D
             vpiActual: LogicTypespec
           vpiName: D
-          vpiFullName: dut.D
+          vpiFullName: dut #(.W(1), .D(1)).D
       vpiParamAssign (2 items):
         ParamAssign start:25:17 end:25:22:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiLhs RefObj name:W start:25:17 end:25:18:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: dut.W
+            vpiFullName: dut #(.W(1), .D(1)).W
             vpiActual: Parameter name:W
           vpiRhs Constant start:25:21 end:25:22:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dut
+              vpiFullName: dut #(.W(1), .D(1))
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
         ParamAssign start:26:17 end:26:22:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiLhs RefObj name:D start:26:17 end:26:18:
             vpiParent: ParamAssign
             vpiName: D
-            vpiFullName: dut.D
+            vpiFullName: dut #(.W(1), .D(1)).D
             vpiActual: Parameter name:D
           vpiRhs Constant start:26:21 end:26:22:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dut
+              vpiFullName: dut #(.W(1), .D(1))
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -741,19 +734,15 @@ Design name:unnamed:
             vpiValue: 1
       vpiTypespec (5 items):
         LogicTypespec:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
         UnsupportedTypespec name:logic start:27:12 end:27:17:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiName Identifier name:logic start:27:12 end:27:17:
-            vpiParent: UnsupportedTypespec name:logic
-            vpiName: logic
         UnsupportedTypespec name:logic start:28:12 end:28:17:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiName Identifier name:logic start:28:12 end:28:17:
-            vpiParent: UnsupportedTypespec name:logic
-            vpiName: logic
         ArrayTypespec:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:28:18 end:28:25:
@@ -765,13 +754,13 @@ Design name:unnamed:
                 RefObj name:W start:28:19 end:28:20:
                   vpiParent: Operation
                   vpiName: W
-                  vpiFullName: dut.W
+                  vpiFullName: dut #(.W(1), .D(1)).W
                   vpiActual: Parameter name:W
                 Constant start:28:21 end:28:22:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: dut
+                    vpiFullName: dut #(.W(1), .D(1))
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -781,7 +770,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: dut
+                vpiFullName: dut #(.W(1), .D(1))
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -790,10 +779,10 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:logic:
             vpiParent: ArrayTypespec
             vpiName: logic
-            vpiFullName: dut.logic
+            vpiFullName: dut #(.W(1), .D(1)).logic
             vpiActual: UnsupportedTypespec name:logic
         ArrayTypespec:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiArrayType: static (1)
           vpiRange Range start:28:29 end:28:36:
             vpiParent: ArrayTypespec
@@ -804,13 +793,13 @@ Design name:unnamed:
                 RefObj name:D start:28:30 end:28:31:
                   vpiParent: Operation
                   vpiName: D
-                  vpiFullName: dut.D
+                  vpiFullName: dut #(.W(1), .D(1)).D
                   vpiActual: Parameter name:D
                 Constant start:28:32 end:28:33:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: dut
+                    vpiFullName: dut #(.W(1), .D(1))
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -820,7 +809,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: dut
+                vpiFullName: dut #(.W(1), .D(1))
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -828,77 +817,77 @@ Design name:unnamed:
               vpiValue: 0
           vpiElemTypespec RefTypespec start:28:6 end:28:25:
             vpiParent: ArrayTypespec
-            vpiFullName: dut
+            vpiFullName: dut #(.W(1), .D(1))
             vpiActual: ArrayTypespec
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:dut
+        vpiParent: Module name:dut #(.W(1), .D(1))
         vpiName: work
-        vpiFullName: dut.work
+        vpiFullName: dut #(.W(1), .D(1)).work
       vpiCell: dut
       vpiNet (2 items):
         Net name:clk start:27:18 end:27:21:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiTypespec RefTypespec name:logic start:27:12 end:27:17:
             vpiParent: Net name:clk
             vpiName: logic
-            vpiFullName: dut.clk.logic
+            vpiFullName: dut #(.W(1), .D(1)).clk.logic
             vpiActual: UnsupportedTypespec name:logic
           vpiName: clk
-          vpiFullName: dut.clk
+          vpiFullName: dut #(.W(1), .D(1)).clk
           vpiNetType: wire (1)
         Net name:foo start:28:26 end:28:29:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiTypespec RefTypespec name:logic start:28:12 end:28:17:
             vpiParent: Net name:foo
             vpiName: logic
-            vpiFullName: dut.foo.logic
+            vpiFullName: dut #(.W(1), .D(1)).foo.logic
             vpiActual: ArrayTypespec
           vpiName: foo
-          vpiFullName: dut.foo
+          vpiFullName: dut #(.W(1), .D(1)).foo
           vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:clk start:27:18 end:27:21:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiName: clk
           vpiDirection: input (1)
           vpiLowConn RefObj name:clk start:27:18 end:27:21:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: dut.clk.clk
+            vpiFullName: dut #(.W(1), .D(1)).clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec name:logic start:27:12 end:27:17:
             vpiParent: Port name:clk
             vpiName: logic
-            vpiFullName: dut.clk.logic
+            vpiFullName: dut #(.W(1), .D(1)).clk.logic
             vpiActual: UnsupportedTypespec name:logic
         Port name:foo start:28:26 end:28:29:
-          vpiParent: Module name:dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
           vpiName: foo
           vpiDirection: input (1)
           vpiLowConn RefObj name:foo start:28:26 end:28:29:
             vpiParent: Port name:foo
             vpiName: foo
-            vpiFullName: dut.foo.foo
+            vpiFullName: dut #(.W(1), .D(1)).foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec name:logic start:28:12 end:28:17:
             vpiParent: Port name:foo
             vpiName: logic
-            vpiFullName: dut.foo.logic
+            vpiFullName: dut #(.W(1), .D(1)).foo.logic
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:31:5 end:37:16:
-          vpiParent: Module name:dut
-          vpiFullName: dut
+          vpiParent: Module name:dut #(.W(1), .D(1))
+          vpiFullName: dut #(.W(1), .D(1))
           vpiStmt GenFor start:32:8 end:36:11:
             vpiParent: GenRegion
-            vpiFullName: dut
+            vpiFullName: dut #(.W(1), .D(1))
             vpiVariable (1 items):
               Variable name:j start:32:13 end:32:14:
                 vpiParent: GenFor
                 vpiName: j
-                vpiFullName: dut.j
+                vpiFullName: dut #(.W(1), .D(1)).j
             vpiForInitStmt (1 items):
               Assignment start:32:13 end:32:18:
                 vpiParent: GenFor
@@ -907,7 +896,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: dut
+                    vpiFullName: dut #(.W(1), .D(1))
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -921,7 +910,7 @@ Design name:unnamed:
                   RefObj name:j start:32:27 end:32:28:
                     vpiParent: Operation
                     vpiName: j
-                    vpiFullName: dut.j
+                    vpiFullName: dut #(.W(1), .D(1)).j
                     vpiActual: Variable name:j
             vpiCondition Operation start:32:20 end:32:25:
               vpiParent: GenFor
@@ -930,25 +919,25 @@ Design name:unnamed:
                 RefObj name:j start:32:20 end:32:21:
                   vpiParent: Operation
                   vpiName: j
-                  vpiFullName: dut.j
+                  vpiFullName: dut #(.W(1), .D(1)).j
                   vpiActual: Variable name:j
                 RefObj name:D start:32:24 end:32:25:
                   vpiParent: Operation
                   vpiName: D
-                  vpiFullName: dut.D
+                  vpiFullName: dut #(.W(1), .D(1)).D
                   vpiActual: Parameter name:D
             vpiStmt Begin start:32:32 end:36:11:
               vpiParent: GenFor
-              vpiFullName: dut
+              vpiFullName: dut #(.W(1), .D(1))
               vpiStmt (1 items):
                 GenFor start:33:11 end:35:14:
                   vpiParent: Begin
-                  vpiFullName: dut
+                  vpiFullName: dut #(.W(1), .D(1))
                   vpiVariable (1 items):
                     Variable name:i start:33:16 end:33:17:
                       vpiParent: GenFor
                       vpiName: i
-                      vpiFullName: dut.i
+                      vpiFullName: dut #(.W(1), .D(1)).i
                   vpiForInitStmt (1 items):
                     Assignment start:33:16 end:33:21:
                       vpiParent: GenFor
@@ -957,7 +946,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: dut
+                          vpiFullName: dut #(.W(1), .D(1))
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -971,7 +960,7 @@ Design name:unnamed:
                         RefObj name:i start:33:30 end:33:31:
                           vpiParent: Operation
                           vpiName: i
-                          vpiFullName: dut.i
+                          vpiFullName: dut #(.W(1), .D(1)).i
                           vpiActual: Variable name:i
                   vpiCondition Operation start:33:23 end:33:28:
                     vpiParent: GenFor
@@ -980,22 +969,21 @@ Design name:unnamed:
                       RefObj name:i start:33:23 end:33:24:
                         vpiParent: Operation
                         vpiName: i
-                        vpiFullName: dut.i
+                        vpiFullName: dut #(.W(1), .D(1)).i
                         vpiActual: Variable name:i
                       RefObj name:W start:33:27 end:33:28:
                         vpiParent: Operation
                         vpiName: W
-                        vpiFullName: dut.W
+                        vpiFullName: dut #(.W(1), .D(1)).W
                         vpiActual: Parameter name:W
                   vpiStmt Begin start:33:35 end:35:14:
                     vpiParent: GenFor
-                    vpiFullName: dut
+                    vpiFullName: dut #(.W(1), .D(1))
                     vpiTypespec (1 items):
                       ModuleTypespec name:suba start:34:14 end:34:18:
                         vpiParent: Begin
                         vpiName Identifier name:suba start:34:14 end:34:18:
-                          vpiParent: ModuleTypespec name:suba
-                          vpiName: suba
+                        vpiDefName: suba
                         vpiModule: Module name:suba
                     vpiStmt (1 items):
                       RefInstance name:ua start:34:19 end:34:21:
@@ -1004,7 +992,7 @@ Design name:unnamed:
                         vpiTypespec RefTypespec name:suba start:34:14 end:34:18:
                           vpiParent: RefInstance name:ua
                           vpiName: suba
-                          vpiFullName: dut.ua.suba
+                          vpiFullName: dut #(.W(1), .D(1)).ua.suba
                           vpiActual: ModuleTypespec name:suba
                         vpiPort (2 items):
                           Port start:34:22 end:34:31:
@@ -1012,60 +1000,54 @@ Design name:unnamed:
                             vpiLowConn RefObj name:clk start:34:23 end:34:26:
                               vpiParent: Port
                               vpiName: clk
-                              vpiFullName: dut.ua.clk
+                              vpiFullName: dut #(.W(1), .D(1)).ua.clk
                               vpiActual: Port name:clk
                             vpiHighConn RefObj name:clk start:34:27 end:34:30:
                               vpiParent: Port
                               vpiName: clk
-                              vpiFullName: dut.ua.clk
+                              vpiFullName: dut #(.W(1), .D(1)).ua.clk
                               vpiActual: Net name:clk
                           Port start:34:33 end:34:48:
                             vpiParent: RefInstance name:ua
                             vpiLowConn RefObj name:foo start:34:34 end:34:37:
                               vpiParent: Port
                               vpiName: foo
-                              vpiFullName: dut.ua.foo
+                              vpiFullName: dut #(.W(1), .D(1)).ua.foo
                               vpiActual: Port name:foo
                             vpiHighConn BitSelect name:foo[j][i] start:34:38 end:34:47:
                               vpiParent: Port
                               vpiName: foo[j][i]
-                              vpiFullName: dut.ua.foo[j][i]
+                              vpiFullName: dut #(.W(1), .D(1)).ua.foo[j][i]
                               vpiPrefix BitSelect name:foo[j] start:34:38 end:34:43:
                                 vpiParent: BitSelect name:foo[j][i]
                                 vpiName: foo[j]
-                                vpiFullName: dut.ua.foo[j][i].foo[j]
+                                vpiFullName: dut #(.W(1), .D(1)).ua.foo[j][i].foo[j]
                                 vpiPrefix RefObj name:foo start:34:38 end:34:41:
                                   vpiParent: BitSelect name:foo[j]
                                   vpiName: foo
-                                  vpiFullName: dut.ua.foo[j][i].foo
+                                  vpiFullName: dut #(.W(1), .D(1)).ua.foo[j][i].foo
                                   vpiActual: Net name:foo
                                 vpiIndex RefObj name:j start:34:42 end:34:43:
                                   vpiParent: BitSelect name:foo[j]
                                   vpiName: j
-                                  vpiFullName: dut.ua.foo[j][i].j
+                                  vpiFullName: dut #(.W(1), .D(1)).ua.foo[j][i].j
                                   vpiActual: Variable name:j
                               vpiIndex RefObj name:i start:34:45 end:34:46:
                                 vpiParent: BitSelect name:foo[j][i]
                                 vpiName: i
-                                vpiFullName: dut.ua.i
+                                vpiFullName: dut #(.W(1), .D(1)).ua.i
                                 vpiActual: Variable name:i
     Module name:suba file:$Source01/t_inst_port_array.v start:40:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:suba start:40:8 end:40:12:
-        vpiParent: Module name:suba
-        vpiName: suba
       vpiFullName: suba
       vpiTypespec (2 items):
         UnsupportedTypespec name:logic start:41:10 end:41:15:
           vpiParent: Module name:suba
           vpiName Identifier name:logic start:41:10 end:41:15:
-            vpiParent: UnsupportedTypespec name:logic
-            vpiName: logic
         UnsupportedTypespec name:logic start:42:10 end:42:15:
           vpiParent: Module name:suba
           vpiName Identifier name:logic start:42:10 end:42:15:
-            vpiParent: UnsupportedTypespec name:logic
-            vpiName: logic
       vpiDefName: suba
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1144,8 +1126,6 @@ Design name:unnamed:
                 SysTaskCall name:$write start:45:7 end:45:39:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:45:7 end:45:13:
-                    vpiParent: SysTaskCall name:$write
-                    vpiName: "$write"
                   vpiArgument (1 items):
                     Constant start:45:14 end:45:38:
                       vpiParent: SysTaskCall name:$write
@@ -1160,15 +1140,11 @@ Design name:unnamed:
                 SysTaskCall name:$finish start:46:7 end:46:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:46:7 end:46:14:
-                    vpiParent: SysTaskCall name:$finish
-                    vpiName: "$finish"
           vpiAlwaysType: always (1)
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1176,14 +1152,10 @@ Design name:unnamed:
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:24:8 end:24:11:
-        vpiParent: ModuleTypespec name:dut
-        vpiName: dut
-      vpiModule: Module name:dut
+      vpiModule: Module name:dut #(.W(1), .D(1))
     ModuleTypespec name:suba:
       vpiParent: Design name:unnamed
       vpiName Identifier name:suba start:40:8 end:40:12:
-        vpiParent: ModuleTypespec name:suba
-        vpiName: suba
       vpiModule: Module name:suba
     StringTypespec:
       vpiParent: Design name:unnamed

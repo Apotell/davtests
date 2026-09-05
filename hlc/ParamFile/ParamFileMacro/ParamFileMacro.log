@@ -221,7 +221,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:3:1: Compile module "dut".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "ram_1p".
 [WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "dut".
-[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "ram_1p".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "ram_1p #(.MemInitFile(""))".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -234,29 +234,19 @@ Design name:unnamed:
         PreprocMacroDefinition name:PARAM_FILE start:1:1 end:1:22:
           vpiParent: SourceFile name:dut.sv
           vpiName Identifier name:PARAM_FILE start:1:9 end:1:19:
-            vpiParent: PreprocMacroDefinition name:PARAM_FILE
-            vpiName: PARAM_FILE
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
             "Identifier name:\"\" start:1:20 end:1:22":
-              vpiParent: PreprocMacroDefinition name:PARAM_FILE
-              vpiName: "\"\""
       vpiPreprocMacroInstance (1 items):
         PreprocMacroInstance name:PARAM_FILE file:$Source01/dut.sv start:4:29 end:4:40 ppstart:4:29 ppend:4:31:
           vpiParent: SourceFile name:dut.sv
           vpiName Identifier name:PARAM_FILE start:4:29 end:4:40:
-            vpiParent: PreprocMacroInstance name:PARAM_FILE
-            vpiName: PARAM_FILE
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:PARAM_FILE
           "vpiPMIBody Identifier name:\"\" start:1:20 end:1:22":
-            vpiParent: PreprocMacroInstance name:PARAM_FILE
-            vpiName: "\"\""
   vpiAllModules (2 items):
     Module name:dut file:$Source01/dut.sv start:3:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:3:8 end:3:11:
-        vpiParent: Module name:dut
-        vpiName: dut
       vpiFullName: dut
       vpiVariable (1 items):
         Variable name:o start:3:26 end:3:27:
@@ -300,9 +290,22 @@ Design name:unnamed:
         ModuleTypespec name:ram_1p start:5:4 end:5:10:
           vpiParent: Module name:dut
           vpiName Identifier name:ram_1p start:5:4 end:5:10:
-            vpiParent: ModuleTypespec name:ram_1p
-            vpiName: ram_1p
-          vpiModule: Module name:ram_1p
+          vpiDefName: ram_1p
+          vpiParamAssign (1 items):
+            ParamAssign start:6:6 end:6:32:
+              vpiParent: ModuleTypespec name:ram_1p
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:MemInitFile start:6:7 end:6:18:
+                vpiParent: ParamAssign
+                vpiName: MemInitFile
+                vpiFullName: dut.ram_1p.MemInitFile
+              vpiRhs RefObj name:SRAMInitFile start:6:19 end:6:31:
+                vpiParent: ParamAssign
+                vpiName: SRAMInitFile
+                vpiFullName: dut.ram_1p.SRAMInitFile
+                vpiActual: Parameter name:SRAMInitFile
+          vpiModule: "Module name:ram_1p #(.MemInitFile(\"\"))"
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -333,20 +336,6 @@ Design name:unnamed:
             vpiName: ram_1p
             vpiFullName: dut.u_ram.ram_1p
             vpiActual: ModuleTypespec name:ram_1p
-          vpiParamAssign (1 items):
-            ParamAssign start:6:6 end:6:32:
-              vpiParent: RefInstance name:u_ram
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:MemInitFile start:6:7 end:6:18:
-                vpiParent: ParamAssign
-                vpiName: MemInitFile
-                vpiFullName: dut.u_ram.MemInitFile
-              vpiRhs RefObj name:SRAMInitFile start:6:19 end:6:31:
-                vpiParent: ParamAssign
-                vpiName: SRAMInitFile
-                vpiFullName: dut.u_ram.SRAMInitFile
-                vpiActual: Parameter name:SRAMInitFile
           vpiPort (1 items):
             Port start:8:12 end:8:19:
               vpiParent: RefInstance name:u_ram
@@ -360,78 +349,76 @@ Design name:unnamed:
                 vpiName: o
                 vpiFullName: dut.u_ram.o
                 vpiActual: Variable name:o
-    Module name:ram_1p file:$Source01/dut.sv start:12:1 end:30:10:
+    "Module name:ram_1p #(.MemInitFile(\"\")) file:$Source01/dut.sv start:12:1 end:30:10":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:ram_1p start:12:8 end:12:14:
-        vpiParent: Module name:ram_1p
-        vpiName: ram_1p
-      vpiFullName: ram_1p
+      "vpiName Identifier name:ram_1p #(.MemInitFile(\"\")) start:12:8 end:12:14":
+      vpiFullName: ram_1p #(.MemInitFile(""))
       vpiVariable (1 items):
         Variable name:out start:15:22 end:15:25:
-          vpiParent: Module name:ram_1p
+          vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
           vpiTypespec RefTypespec start:15:9 end:15:21:
             vpiParent: Variable name:out
-            vpiFullName: ram_1p.out
+            vpiFullName: ram_1p #(.MemInitFile("")).out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: ram_1p.out
+          vpiFullName: ram_1p #(.MemInitFile("")).out
           vpiScalar: true
       vpiParameter (1 items):
         Parameter name:MemInitFile start:13:23 end:13:34:
-          vpiParent: Module name:ram_1p
+          vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
           vpiTypespec RefTypespec start:13:23 end:13:23:
             vpiParent: Parameter name:MemInitFile
-            vpiFullName: ram_1p.MemInitFile
+            vpiFullName: ram_1p #(.MemInitFile("")).MemInitFile
             vpiActual: LogicTypespec
           vpiName: MemInitFile
-          vpiFullName: ram_1p.MemInitFile
+          vpiFullName: ram_1p #(.MemInitFile("")).MemInitFile
       vpiParamAssign (1 items):
         ParamAssign start:13:23 end:13:39:
-          vpiParent: Module name:ram_1p
+          vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
           vpiLhs RefObj name:MemInitFile start:13:23 end:13:34:
             vpiParent: ParamAssign
             vpiName: MemInitFile
-            vpiFullName: ram_1p.MemInitFile
+            vpiFullName: ram_1p #(.MemInitFile("")).MemInitFile
             vpiActual: Parameter name:MemInitFile
           vpiRhs Constant start:13:37 end:13:39:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ram_1p
+              vpiFullName: ram_1p #(.MemInitFile(""))
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiDecompile: "\"\""
             vpiValue: ""
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:ram_1p
+          vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
       vpiDefName: ram_1p
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:ram_1p
+        vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
         vpiName: work
-        vpiFullName: ram_1p.work
+        vpiFullName: ram_1p #(.MemInitFile("")).work
       vpiCell: ram_1p
       vpiPort (1 items):
         Port name:out start:15:22 end:15:25:
-          vpiParent: Module name:ram_1p
+          vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
           vpiName: out
           vpiDirection: output (2)
           vpiLowConn RefObj name:out start:15:22 end:15:25:
             vpiParent: Port name:out
             vpiName: out
-            vpiFullName: ram_1p.out.out
+            vpiFullName: ram_1p #(.MemInitFile("")).out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:15:9 end:15:21:
             vpiParent: Port name:out
-            vpiFullName: ram_1p.out
+            vpiFullName: ram_1p #(.MemInitFile("")).out
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Initial start:18:1 end:28:4:
-          vpiParent: Module name:ram_1p
+          vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
           vpiStmt Begin start:18:9 end:28:4:
             vpiParent: Initial
-            vpiFullName: ram_1p
+            vpiFullName: ram_1p #(.MemInitFile(""))
             vpiStmt (2 items):
               IfStmt start:19:3 end:22:6:
                 vpiParent: Begin
@@ -442,13 +429,13 @@ Design name:unnamed:
                     RefObj name:MemInitFile start:19:7 end:19:18:
                       vpiParent: Operation
                       vpiName: MemInitFile
-                      vpiFullName: ram_1p.MemInitFile
+                      vpiFullName: ram_1p #(.MemInitFile("")).MemInitFile
                       vpiActual: Parameter name:MemInitFile
                     Constant start:19:22 end:19:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: ram_1p
+                        vpiFullName: ram_1p #(.MemInitFile(""))
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiDecompile: "\"\""
@@ -456,9 +443,7 @@ Design name:unnamed:
                 vpiStmt Begin name:gen_meminit start:19:26 end:22:6:
                   vpiParent: IfStmt
                   vpiName Identifier name:gen_meminit start:19:34 end:19:45:
-                    vpiParent: Begin name:gen_meminit
-                    vpiName: gen_meminit
-                  vpiFullName: ram_1p.gen_meminit
+                  vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit
                   vpiTypespec (1 items):
                     BitTypespec:
                       vpiParent: Begin name:gen_meminit
@@ -466,14 +451,12 @@ Design name:unnamed:
                     SysTaskCall name:$display start:20:7 end:20:70:
                       vpiParent: Begin name:gen_meminit
                       vpiName Identifier name:$display start:20:7 end:20:15:
-                        vpiParent: SysTaskCall name:$display
-                        vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:20:16 end:20:56:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: ram_1p.gen_meminit
+                            vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 304
@@ -482,20 +465,20 @@ Design name:unnamed:
                         RefObj name:MemInitFile start:20:58 end:20:69:
                           vpiParent: SysTaskCall name:$display
                           vpiName: MemInitFile
-                          vpiFullName: ram_1p.gen_meminit.MemInitFile
+                          vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit.MemInitFile
                           vpiActual: Parameter name:MemInitFile
                     AssignStmt start:21:7 end:21:24:
                       vpiParent: Begin name:gen_meminit
                       vpiLhs RefObj name:out start:21:14 end:21:17:
                         vpiParent: AssignStmt
                         vpiName: out
-                        vpiFullName: ram_1p.gen_meminit.out
+                        vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit.out
                         vpiActual: Variable name:out
                       vpiRhs Constant start:21:20 end:21:24:
                         vpiParent: AssignStmt
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: ram_1p.gen_meminit
+                          vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -510,13 +493,13 @@ Design name:unnamed:
                     RefObj name:MemInitFile start:24:7 end:24:18:
                       vpiParent: Operation
                       vpiName: MemInitFile
-                      vpiFullName: ram_1p.MemInitFile
+                      vpiFullName: ram_1p #(.MemInitFile("")).MemInitFile
                       vpiActual: Parameter name:MemInitFile
                     Constant start:24:22 end:24:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: ram_1p
+                        vpiFullName: ram_1p #(.MemInitFile(""))
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiDecompile: "\"\""
@@ -524,9 +507,7 @@ Design name:unnamed:
                 vpiStmt Begin name:gen_nomeminit start:24:26 end:27:6:
                   vpiParent: IfStmt
                   vpiName Identifier name:gen_nomeminit start:24:34 end:24:47:
-                    vpiParent: Begin name:gen_nomeminit
-                    vpiName: gen_nomeminit
-                  vpiFullName: ram_1p.gen_nomeminit
+                  vpiFullName: ram_1p #(.MemInitFile("")).gen_nomeminit
                   vpiTypespec (1 items):
                     BitTypespec:
                       vpiParent: Begin name:gen_nomeminit
@@ -534,14 +515,12 @@ Design name:unnamed:
                     SysTaskCall name:$display start:25:7 end:25:53:
                       vpiParent: Begin name:gen_nomeminit
                       vpiName Identifier name:$display start:25:7 end:25:15:
-                        vpiParent: SysTaskCall name:$display
-                        vpiName: "$display"
                       vpiArgument (1 items):
                         Constant start:25:16 end:25:52:
                           vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: ram_1p.gen_nomeminit
+                            vpiFullName: ram_1p #(.MemInitFile("")).gen_nomeminit
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 272
@@ -552,13 +531,13 @@ Design name:unnamed:
                       vpiLhs RefObj name:out start:26:14 end:26:17:
                         vpiParent: AssignStmt
                         vpiName: out
-                        vpiFullName: ram_1p.gen_nomeminit.out
+                        vpiFullName: ram_1p #(.MemInitFile("")).gen_nomeminit.out
                         vpiActual: Variable name:out
                       vpiRhs Constant start:26:20 end:26:24:
                         vpiParent: AssignStmt
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: ram_1p.gen_nomeminit
+                          vpiFullName: ram_1p #(.MemInitFile("")).gen_nomeminit
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -568,17 +547,13 @@ Design name:unnamed:
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:3:8 end:3:11:
-        vpiParent: ModuleTypespec name:dut
-        vpiName: dut
       vpiModule: Module name:dut
     StringTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:ram_1p:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ram_1p start:12:8 end:12:14:
-        vpiParent: ModuleTypespec name:ram_1p
-        vpiName: ram_1p
-      vpiModule: Module name:ram_1p
+      vpiModule: "Module name:ram_1p #(.MemInitFile(\"\"))"
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

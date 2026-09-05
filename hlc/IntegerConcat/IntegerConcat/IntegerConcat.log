@@ -240,7 +240,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "test".
 [INF:CP0303] $Source01/dut.sv:22:1: Compile module "dut".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "pkg".
-[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "test".
+[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "test #(.p())".
 [WRN:PA0205] $Source01/dut.sv:22:1: No timescale set for "dut".
 ====== HLDB =======
 Design name:unnamed:
@@ -254,8 +254,6 @@ Design name:unnamed:
     Package name:pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:1:9 end:1:12:
-        vpiParent: Package name:pkg
-        vpiName: pkg
       vpiFullName: pkg
       vpiParameter (7 items):
         Parameter name:FLASH_INFO_PER_BANK start:2:16 end:2:35:
@@ -355,8 +353,6 @@ Design name:unnamed:
           vpiRhs SysFuncCall name:$clog2 start:4:33 end:4:53:
             vpiParent: ParamAssign
             vpiName Identifier name:$clog2 start:4:33 end:4:39:
-              vpiParent: SysFuncCall name:$clog2
-              vpiName: "$clog2"
             vpiArgument (1 items):
               RefObj name:InfosPerBank start:4:40 end:4:52:
                 vpiParent: SysFuncCall name:$clog2
@@ -510,32 +506,30 @@ Design name:unnamed:
         vpiFullName: pkg::work
       vpiCell: pkg
   vpiAllModules (2 items):
-    Module name:test file:$Source01/dut.sv start:16:1 end:20:10:
+    Module name:test #(.p()) file:$Source01/dut.sv start:16:1 end:20:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:16:8 end:16:12:
-        vpiParent: Module name:test
-        vpiName: test
-      vpiFullName: test
+      vpiName Identifier name:test #(.p()) start:16:8 end:16:12:
+      vpiFullName: test #(.p())
       vpiParameter (1 items):
         Parameter name:p start:17:25 end:17:26:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.p())
           vpiTypespec RefTypespec start:17:13 end:17:24:
             vpiParent: Parameter name:p
-            vpiFullName: test.p
+            vpiFullName: test #(.p()).p
             vpiActual: LogicTypespec
           vpiName: p
-          vpiFullName: test.p
+          vpiFullName: test #(.p()).p
       vpiParamAssign (1 items):
         ParamAssign start:17:25 end:17:26:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.p())
           vpiLhs RefObj name:p start:17:25 end:17:26:
             vpiParent: ParamAssign
             vpiName: p
-            vpiFullName: test.p
+            vpiFullName: test #(.p()).p
             vpiActual: Parameter name:p
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:test
+          vpiParent: Module name:test #(.p())
           vpiRange (1 items):
             Range start:17:19 end:17:24:
               vpiParent: LogicTypespec
@@ -543,7 +537,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test
+                  vpiFullName: test #(.p())
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -553,7 +547,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test
+                  vpiFullName: test #(.p())
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -563,28 +557,37 @@ Design name:unnamed:
       vpiDefName: test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:test
+        vpiParent: Module name:test #(.p())
         vpiName: work
-        vpiFullName: test.work
+        vpiFullName: test #(.p()).work
       vpiCell: test
     Module name:dut file:$Source01/dut.sv start:22:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:22:8 end:22:11:
-        vpiParent: Module name:dut
-        vpiName: dut
       vpiFullName: dut
       vpiTypespec (2 items):
         ImportTypespec name:pkg start:23:8 end:23:14:
           vpiParent: Module name:dut
           vpiName Identifier name:pkg start:23:8 end:23:11:
-            vpiParent: ImportTypespec name:pkg
-            vpiName: pkg
         ModuleTypespec name:test start:25:1 end:25:5:
           vpiParent: Module name:dut
           vpiName Identifier name:test start:25:1 end:25:5:
-            vpiParent: ModuleTypespec name:test
-            vpiName: test
-          vpiModule: Module name:test
+          vpiDefName: test
+          vpiParamAssign (1 items):
+            ParamAssign start:25:8 end:25:27:
+              vpiParent: ModuleTypespec name:test
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:p start:25:9 end:25:10:
+                vpiParent: ParamAssign
+                vpiName: p
+                vpiFullName: dut.test.p
+              vpiRhs RefObj name:SeedInfoPageSel start:25:11 end:25:26:
+                vpiParent: ParamAssign
+                vpiName: SeedInfoPageSel
+                vpiFullName: dut.test.SeedInfoPageSel
+                vpiActual: Parameter name:SeedInfoPageSel
+          vpiModule: Module name:test #(.p())
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -601,20 +604,6 @@ Design name:unnamed:
             vpiName: test
             vpiFullName: dut.t.test
             vpiActual: ModuleTypespec name:test
-          vpiParamAssign (1 items):
-            ParamAssign start:25:8 end:25:27:
-              vpiParent: RefInstance name:t
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:p start:25:9 end:25:10:
-                vpiParent: ParamAssign
-                vpiName: p
-                vpiFullName: dut.t.p
-              vpiRhs RefObj name:SeedInfoPageSel start:25:11 end:25:26:
-                vpiParent: ParamAssign
-                vpiName: SeedInfoPageSel
-                vpiFullName: dut.t.SeedInfoPageSel
-                vpiActual: Parameter name:SeedInfoPageSel
   vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -622,14 +611,10 @@ Design name:unnamed:
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:16:8 end:16:12:
-        vpiParent: ModuleTypespec name:test
-        vpiName: test
-      vpiModule: Module name:test
+      vpiModule: Module name:test #(.p())
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:22:8 end:22:11:
-        vpiParent: ModuleTypespec name:dut
-        vpiName: dut
       vpiModule: Module name:dut
 ===================
 [  FATAL] : 0
