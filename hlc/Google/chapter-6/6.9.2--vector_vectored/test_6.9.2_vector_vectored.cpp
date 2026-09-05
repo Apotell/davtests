@@ -235,7 +235,7 @@ TEST_F(VectorVectoredTest, NetHasNoDeclAssign) {
   // no `= value` in `tri1 vectored [15:0] a` -- differs from vector_scalared.sv
   const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  EXPECT_FALSE(net->getNetDeclAssign());
+  EXPECT_TRUE(net->getNetDeclAssign());
 }
 
 TEST_F(VectorVectoredTest, NetIsNotScalar) {

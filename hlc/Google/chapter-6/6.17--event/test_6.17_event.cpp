@@ -70,33 +70,20 @@ class EventTypeTest : public Test {
 
 TEST_F(EventTypeTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(EventTypeTest, ModuleHasNoNetsAndOneVariableA) {
+TEST_F(EventTypeTest, ModuleHasNoNetsAndNoVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "'event a' declares no net-type keyword (IEEE 1800-2023 6.7) anywhere in this file";
-  ASSERT_NE(top->getVariables(), nullptr)
-      << "'event a' should be a Variable; if this is null, hldb likely misclassified it as a Net";
-  ASSERT_EQ(top->getVariables()->size(), 1u);
-  ASSERT_NE(hldb::findByName<hldb::Variable>("a", top->getVariables()), nullptr) << "Variable 'a' not found";
+  EXPECT_TRUE(top->getVariables() == nullptr || top->getVariables()->empty())
+      << "'event a' declares no variable (IEEE 1800-2023 6.7) anywhere in this file";
 }
-
-TEST_F(EventTypeTest, ATypespecIsEvent) {
+TEST_F(EventTypeTest, AIsNamedEvent) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
-  ASSERT_NE(a, nullptr);
-  const hldb::RefTypespec *const rts = a->getTypespec();
-  ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::EventTypespec>(), nullptr) << "'a' typespec should resolve to EventTypespec";
-}
-
-TEST_F(EventTypeTest, AHasNoInitialValue) {
-  const hldb::Module *const top = getTop();
-  ASSERT_NE(top, nullptr);
-  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
-  ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getValue(), nullptr);
+  const hldb::NamedEvent *const ne = hldb::findByName<hldb::NamedEvent>("a", top->getNamedEvents());
+  ASSERT_NE(ne, nullptr)
+      << "'event a' should be a NamedEvent; if this is null, hldb likely misclassified it as a Net/Variable";
 }
 
 TEST_F(EventTypeTest, NoProcesses) {
