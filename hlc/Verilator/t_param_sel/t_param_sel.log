@@ -967,29 +967,19 @@ Design name:unnamed:
         PreprocMacroDefinition name:EXPECTED_SUM start:55:1 end:55:42:
           vpiParent: SourceFile name:t_param_sel.v
           vpiName Identifier name:EXPECTED_SUM start:55:9 end:55:21:
-            vpiParent: PreprocMacroDefinition name:EXPECTED_SUM
-            vpiName: EXPECTED_SUM
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
             "Identifier name:64'hf9b3a5000165ed38 start:55:22 end:55:42":
-              vpiParent: PreprocMacroDefinition name:EXPECTED_SUM
-              vpiName: "64'hf9b3a5000165ed38"
       vpiPreprocMacroInstance (1 items):
         PreprocMacroInstance name:EXPECTED_SUM file:$Source01/t_param_sel.v start:56:15 end:56:28 ppstart:56:15 ppend:56:35:
           vpiParent: SourceFile name:t_param_sel.v
           vpiName Identifier name:EXPECTED_SUM start:56:15 end:56:28:
-            vpiParent: PreprocMacroInstance name:EXPECTED_SUM
-            vpiName: EXPECTED_SUM
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:EXPECTED_SUM
           "vpiPMIBody Identifier name:64'hf9b3a5000165ed38 start:55:22 end:55:42":
-            vpiParent: PreprocMacroInstance name:EXPECTED_SUM
-            vpiName: "64'hf9b3a5000165ed38"
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_param_sel.v start:5:1 end:62:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:5:8 end:5:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (3 items):
         Variable name:cyc start:11:13 end:11:16:
@@ -1141,8 +1131,34 @@ Design name:unnamed:
         ModuleTypespec name:Test start:23:4 end:23:8:
           vpiParent: Module name:t
           vpiName Identifier name:Test start:23:4 end:23:8:
-            vpiParent: ModuleTypespec name:Test
-            vpiName: Test
+          vpiDefName: Test
+          vpiParamAssign (2 items):
+            ParamAssign start:23:11 end:23:13:
+              vpiParent: ModuleTypespec name:Test
+              vpiOverridden: true
+              vpiRhs Constant start:23:11 end:23:13:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.Test
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "16"
+                vpiValue: 16
+            ParamAssign start:23:14 end:23:15:
+              vpiParent: ModuleTypespec name:Test
+              vpiOverridden: true
+              vpiRhs Constant start:23:14 end:23:15:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.Test
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
           vpiModule: Module name:Test
         LogicTypespec:
           vpiParent: Module name:t
@@ -1196,6 +1212,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: t.in
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue PartSelect name:crc[31:0] start:16:22 end:16:31:
@@ -1237,6 +1254,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: t.out
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
         Net name:result start:31:16 end:31:22:
@@ -1247,6 +1265,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: t.result
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue Operation start:31:25 end:31:37:
@@ -1702,8 +1721,6 @@ Design name:unnamed:
                             SysTaskCall name:$write start:52:3 end:52:64:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:52:3 end:52:9:
-                                vpiParent: SysTaskCall name:$write
-                                vpiName: "$write"
                               vpiArgument (5 items):
                                 Constant start:52:10 end:52:42:
                                   vpiParent: SysTaskCall name:$write
@@ -1718,8 +1735,6 @@ Design name:unnamed:
                                 SysFuncCall name:$time start:52:43 end:52:48:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName Identifier name:$time start:52:43 end:52:48:
-                                    vpiParent: SysFuncCall name:$time
-                                    vpiName: "$time"
                                 RefObj name:cyc start:52:50 end:52:53:
                                   vpiParent: SysTaskCall name:$write
                                   vpiName: cyc
@@ -1759,8 +1774,6 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:53:37 end:53:42:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:53:37 end:53:42:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             IfStmt start:56:3 end:56:36:
                               vpiParent: Begin
                               vpiCondition Operation start:56:7 end:56:28:
@@ -1785,13 +1798,9 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:56:30 end:56:35:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:56:30 end:56:35:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             SysTaskCall name:$write start:57:3 end:57:35:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:57:3 end:57:9:
-                                vpiParent: SysTaskCall name:$write
-                                vpiName: "$write"
                               vpiArgument (1 items):
                                 Constant start:57:10 end:57:34:
                                   vpiParent: SysTaskCall name:$write
@@ -1806,8 +1815,6 @@ Design name:unnamed:
                             SysTaskCall name:$finish start:58:3 end:58:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:58:3 end:58:10:
-                                vpiParent: SysTaskCall name:$finish
-                                vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:test start:23:17 end:23:21:
@@ -1818,33 +1825,6 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: t.test.Test
             vpiActual: ModuleTypespec name:Test
-          vpiParamAssign (2 items):
-            ParamAssign start:23:11 end:23:13:
-              vpiParent: RefInstance name:test
-              vpiOverridden: true
-              vpiRhs Constant start:23:11 end:23:13:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.test
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "16"
-                vpiValue: 16
-            ParamAssign start:23:14 end:23:15:
-              vpiParent: RefInstance name:test
-              vpiOverridden: true
-              vpiRhs Constant start:23:14 end:23:15:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.test
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
           vpiPort (3 items):
             Port start:25:9 end:25:26:
               vpiParent: RefInstance name:test
@@ -1937,8 +1917,6 @@ Design name:unnamed:
     Module name:Test file:$Source01/t_param_sel.v start:64:1 end:81:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Test start:64:8 end:64:12:
-        vpiParent: Module name:Test
-        vpiName: Test
       vpiFullName: Test
       vpiParameter (2 items):
         Parameter name:N start:75:15 end:75:16:
@@ -2050,8 +2028,16 @@ Design name:unnamed:
         ModuleTypespec name:add start:78:4 end:78:7:
           vpiParent: Module name:Test
           vpiName Identifier name:add start:78:4 end:78:7:
-            vpiParent: ModuleTypespec name:add
-            vpiName: add
+          vpiDefName: add
+          vpiParamAssign (1 items):
+            ParamAssign start:78:10 end:78:18:
+              vpiParent: ModuleTypespec name:add
+              vpiOverridden: true
+              vpiRhs RefObj name:PASSDOWN start:78:10 end:78:18:
+                vpiParent: ParamAssign
+                vpiName: PASSDOWN
+                vpiFullName: Test.add.PASSDOWN
+                vpiActual: Parameter name:PASSDOWN
           vpiModule: Module name:add
       vpiDefName: Test
       vpiDefNetType: wire (1)
@@ -2140,15 +2126,6 @@ Design name:unnamed:
             vpiName: add
             vpiFullName: Test.add.add
             vpiActual: ModuleTypespec name:add
-          vpiParamAssign (1 items):
-            ParamAssign start:78:10 end:78:18:
-              vpiParent: RefInstance name:add
-              vpiOverridden: true
-              vpiRhs RefObj name:PASSDOWN start:78:10 end:78:18:
-                vpiParent: ParamAssign
-                vpiName: PASSDOWN
-                vpiFullName: Test.add.PASSDOWN
-                vpiActual: Parameter name:PASSDOWN
           vpiPort (2 items):
             Port start:78:25 end:78:49:
               vpiParent: RefInstance name:add
@@ -2235,8 +2212,6 @@ Design name:unnamed:
     Module name:add file:$Source01/t_param_sel.v start:83:1 end:93:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:add start:83:8 end:83:11:
-        vpiParent: Module name:add
-        vpiName: add
       vpiFullName: add
       vpiParameter (1 items):
         Parameter name:PASSDOWN start:89:14 end:89:22:
@@ -2346,6 +2321,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: add.out
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
           vpiValue Operation start:92:17 end:92:30:
@@ -2389,8 +2365,6 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:5:8 end:5:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2404,14 +2378,10 @@ Design name:unnamed:
     ModuleTypespec name:Test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Test start:64:8 end:64:12:
-        vpiParent: ModuleTypespec name:Test
-        vpiName: Test
       vpiModule: Module name:Test
     ModuleTypespec name:add:
       vpiParent: Design name:unnamed
       vpiName Identifier name:add start:83:8 end:83:11:
-        vpiParent: ModuleTypespec name:add
-        vpiName: add
       vpiModule: Module name:add
 ===================
 [  FATAL] : 0

@@ -179,31 +179,23 @@ Design name:unnamed:
     Package name:pkg file:$Source01/dut.sv start:1:1 end:25:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:1:9 end:1:12:
-        vpiParent: Package name:pkg
-        vpiName: pkg
       vpiFullName: pkg
       vpiTypespec (3 items):
         ClassTypespec name:uvm_object:
           vpiParent: Package name:pkg
           vpiName Identifier name:uvm_object:
-            vpiParent: ClassTypespec name:uvm_object
-            vpiName: uvm_object
           vpiDefName: uvm_object
           vpiClassDefn: ClassDefn name:uvm_object
         ClassTypespec name:uvm_callback:
           vpiParent: Package name:pkg
           vpiName Identifier name:uvm_callback:
-            vpiParent: ClassTypespec name:uvm_callback
-            vpiName: uvm_callback
           vpiDefName: uvm_callback
           vpiClassDefn: ClassDefn name:uvm_callback
         ClassTypespec name:uvm_callbacks:
           vpiParent: Package name:pkg
           vpiName Identifier name:uvm_callbacks:
-            vpiParent: ClassTypespec name:uvm_callbacks
-            vpiName: uvm_callbacks
           vpiDefName: uvm_callbacks
-          vpiClassDefn: ClassDefn name:uvm_callbacks
+          vpiClassDefn: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
       vpiDefName: pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -215,9 +207,8 @@ Design name:unnamed:
         ClassDefn name:uvm_object file:$Source01/dut.sv start:3:3 end:4:11:
           vpiParent: Package name:pkg
           vpiName Identifier name:uvm_object start:3:9 end:3:19:
-            vpiParent: ClassDefn name:uvm_object
-            vpiName: uvm_object
           vpiFullName: pkg::uvm_object
+          vpiDefName: uvm_object
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
@@ -228,8 +219,6 @@ Design name:unnamed:
         ClassDefn name:uvm_callback file:$Source01/dut.sv start:6:3 end:8:11:
           vpiParent: Package name:pkg
           vpiName Identifier name:uvm_callback start:6:9 end:6:21:
-            vpiParent: ClassDefn name:uvm_callback
-            vpiName: uvm_callback
           vpiFullName: pkg::uvm_callback
           vpiVariable (1 items):
             Variable name:get_inst_id start:7:8 end:7:19:
@@ -241,6 +230,7 @@ Design name:unnamed:
               vpiName: get_inst_id
               vpiFullName: pkg::uvm_callback::get_inst_id
               vpiVisibility: public (1)
+          vpiDefName: uvm_callback
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
@@ -248,106 +238,99 @@ Design name:unnamed:
             vpiName: work
             vpiFullName: pkg::uvm_callback::work
           vpiCell: uvm_callback
-        ClassDefn name:uvm_callbacks file:$Source01/dut.sv start:10:1 end:23:9:
+        ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback)) file:$Source01/dut.sv start:10:1 end:23:9:
           vpiParent: Package name:pkg
-          vpiName Identifier name:uvm_callbacks start:10:7 end:10:20:
-            vpiParent: ClassDefn name:uvm_callbacks
-            vpiName: uvm_callbacks
-          vpiFullName: pkg::uvm_callbacks
+          vpiName Identifier name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback)) start:10:7 end:10:20:
+          vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
           vpiParameter (2 items):
             TypeParameter name:T start:10:28 end:10:29:
-              vpiParent: ClassDefn name:uvm_callbacks
+              vpiParent: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
               vpiName: T
-              vpiFullName: pkg::uvm_callbacks::T
+              vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::T
             TypeParameter name:CB start:10:47 end:10:49:
-              vpiParent: ClassDefn name:uvm_callbacks
+              vpiParent: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
               vpiName: CB
-              vpiFullName: pkg::uvm_callbacks::CB
+              vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::CB
           vpiParamAssign (2 items):
             ParamAssign start:10:28 end:10:40:
-              vpiParent: ClassDefn name:uvm_callbacks
+              vpiParent: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
               vpiLhs RefTypespec name:T start:10:28 end:10:29:
                 vpiParent: ParamAssign
                 vpiName: T
-                vpiFullName: pkg::uvm_callbacks::T
+                vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::T
                 vpiActual: TypeParameter name:T
               vpiRhs RefTypespec start:10:30 end:10:40:
                 vpiParent: ParamAssign
-                vpiFullName: pkg::uvm_callbacks
+                vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
                 vpiActual: ClassTypespec name:uvm_object
             ParamAssign start:10:47 end:10:62:
-              vpiParent: ClassDefn name:uvm_callbacks
+              vpiParent: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
               vpiLhs RefTypespec name:CB start:10:47 end:10:49:
                 vpiParent: ParamAssign
                 vpiName: CB
-                vpiFullName: pkg::uvm_callbacks::CB
+                vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::CB
                 vpiActual: TypeParameter name:CB
               vpiRhs RefTypespec start:10:50 end:10:62:
                 vpiParent: ParamAssign
-                vpiFullName: pkg::uvm_callbacks
+                vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
                 vpiActual: ClassTypespec name:uvm_callback
           vpiTypespec (4 items):
             ClassTypespec name:uvm_object start:10:30 end:10:40:
-              vpiParent: ClassDefn name:uvm_callbacks
+              vpiParent: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
               vpiName Identifier name:uvm_object start:10:30 end:10:40:
-                vpiParent: ClassTypespec name:uvm_object
-                vpiName: uvm_object
               vpiDefName: uvm_object
               vpiClassDefn: ClassDefn name:uvm_object
             ClassTypespec name:uvm_callback start:10:50 end:10:62:
-              vpiParent: ClassDefn name:uvm_callbacks
+              vpiParent: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
               vpiName Identifier name:uvm_callback start:10:50 end:10:62:
-                vpiParent: ClassTypespec name:uvm_callback
-                vpiName: uvm_callback
               vpiDefName: uvm_callback
               vpiClassDefn: ClassDefn name:uvm_callback
             TypeParameter name:T:
             TypeParameter name:CB:
+          vpiDefName: uvm_callbacks
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
-            vpiParent: ClassDefn name:uvm_callbacks
+            vpiParent: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
             vpiName: work
-            vpiFullName: pkg::uvm_callbacks::work
+            vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::work
           vpiCell: uvm_callbacks
           vpiMethod (1 items):
             Function name:get_all start:12:2 end:21:12:
-              vpiParent: ClassDefn name:uvm_callbacks
+              vpiParent: ClassDefn name:uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))
               vpiName Identifier name:get_all start:12:16 end:12:23:
-                vpiParent: Function name:get_all
-                vpiName: get_all
-              vpiFullName: pkg::uvm_callbacks::get_all
+              vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all
               vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt Begin:
                 vpiParent: Function name:get_all
-                vpiFullName: pkg::uvm_callbacks::get_all
+                vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all
                 vpiVariable (3 items):
                   Variable name:cb start:14:6 end:14:8:
                     vpiParent: Begin
                     vpiTypespec RefTypespec name:CB start:14:3 end:14:5:
                       vpiParent: Variable name:cb
                       vpiName: CB
-                      vpiFullName: pkg::uvm_callbacks::get_all::cb::CB
+                      vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::cb::CB
                       vpiActual: TypeParameter name:CB
                     vpiName: cb
-                    vpiFullName: pkg::uvm_callbacks::get_all::cb
+                    vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::cb
                   Variable name:callbacks_to_append start:15:6 end:15:25:
                     vpiParent: Begin
                     vpiTypespec RefTypespec:
                       vpiParent: Variable name:callbacks_to_append
-                      vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append
+                      vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append
                       vpiActual: ArrayTypespec
                     vpiName: callbacks_to_append
-                    vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append
+                    vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append
                   Variable name:unique_callbacks_to_append start:16:6 end:16:32:
                     vpiParent: Begin
                     vpiTypespec RefTypespec:
                       vpiParent: Variable name:unique_callbacks_to_append
-                      vpiFullName: pkg::uvm_callbacks::get_all::unique_callbacks_to_append
+                      vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::unique_callbacks_to_append
                       vpiActual: ArrayTypespec
                     vpiName: unique_callbacks_to_append
-                    vpiFullName: pkg::uvm_callbacks::get_all::unique_callbacks_to_append
+                    vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::unique_callbacks_to_append
                 vpiTypespec (2 items):
                   ArrayTypespec:
                     vpiParent: Begin
@@ -358,7 +341,7 @@ Design name:unnamed:
                         vpiParent: Range
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: pkg::uvm_callbacks::get_all
+                          vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all
                           vpiActual: StringTypespec
                         vpiConstType: unbounded (11)
                         vpiDecompile: "$"
@@ -366,7 +349,7 @@ Design name:unnamed:
                     vpiElemTypespec RefTypespec name:CB start:15:3 end:15:5:
                       vpiParent: ArrayTypespec
                       vpiName: CB
-                      vpiFullName: pkg::uvm_callbacks::get_all::CB
+                      vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::CB
                       vpiActual: TypeParameter name:CB
                   ArrayTypespec:
                     vpiParent: Begin
@@ -377,7 +360,7 @@ Design name:unnamed:
                         vpiParent: Range
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: pkg::uvm_callbacks::get_all
+                          vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all
                           vpiActual: StringTypespec
                         vpiConstType: unbounded (11)
                         vpiDecompile: "$"
@@ -385,7 +368,7 @@ Design name:unnamed:
                     vpiElemTypespec RefTypespec name:CB start:16:3 end:16:5:
                       vpiParent: ArrayTypespec
                       vpiName: CB
-                      vpiFullName: pkg::uvm_callbacks::get_all::CB
+                      vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::CB
                       vpiActual: TypeParameter name:CB
                 vpiStmt (4 items):
                   Variable name:cb:
@@ -397,56 +380,52 @@ Design name:unnamed:
                     vpiLhs RefObj name:unique_callbacks_to_append start:19:3 end:19:29:
                       vpiParent: Assignment
                       vpiName: unique_callbacks_to_append
-                      vpiFullName: pkg::uvm_callbacks::get_all::unique_callbacks_to_append
+                      vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::unique_callbacks_to_append
                       vpiActual: Variable name:unique_callbacks_to_append
                     vpiRhs HierPath name:callbacks_to_append.unique(cb_) start:19:32 end:19:90:
                       vpiParent: Assignment
                       vpiName: callbacks_to_append.unique(cb_)
-                      vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append.unique(cb_)
+                      vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append.unique(cb_)
                       vpiPathElem (2 items):
                         RefObj name:callbacks_to_append start:19:32 end:19:51:
                           vpiParent: HierPath name:callbacks_to_append.unique(cb_)
                           vpiName: callbacks_to_append
-                          vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append
+                          vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append
                           vpiActual: Variable name:callbacks_to_append
                         MethodFuncCall name:unique start:19:52 end:19:90:
                           vpiParent: HierPath name:callbacks_to_append.unique(cb_)
                           vpiName Identifier name:unique start:19:52 end:19:58:
-                            vpiParent: MethodFuncCall name:unique
-                            vpiName: unique
                           vpiArgument (1 items):
                             RefObj name:cb_ start:19:60 end:19:63:
                               vpiParent: MethodFuncCall name:unique
                               vpiName: cb_
-                              vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append.unique(cb_)::cb_
+                              vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append.unique(cb_)::cb_
                           vpiWith HierPath name:cb_.get_inst_id start:19:73 end:19:88:
                             vpiParent: MethodFuncCall name:unique
                             vpiName: cb_.get_inst_id
-                            vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append.unique(cb_)::cb_.get_inst_id
+                            vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append.unique(cb_)::cb_.get_inst_id
                             vpiPathElem (2 items):
                               RefObj name:cb_ start:19:73 end:19:76:
                                 vpiParent: HierPath name:cb_.get_inst_id
                                 vpiName: cb_
-                                vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append.unique(cb_)::cb_
+                                vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append.unique(cb_)::cb_
                               RefObj name:get_inst_id start:19:77 end:19:88:
                                 vpiParent: HierPath name:cb_.get_inst_id
                                 vpiName: get_inst_id
-                                vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append.unique(cb_)::get_inst_id
+                                vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append.unique(cb_)::get_inst_id
                           vpiLoopVars Variable name:item start:19:73 end:19:88:
                             vpiParent: MethodFuncCall name:unique
                             vpiName: item
-                            vpiFullName: pkg::uvm_callbacks::get_all::callbacks_to_append.unique(cb_)::item
+                            vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::callbacks_to_append.unique(cb_)::item
                             vpiIsIterator: true
               vpiReturn RefTypespec start:12:11 end:12:15:
                 vpiParent: Function name:get_all
-                vpiFullName: pkg::uvm_callbacks::get_all
+                vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all
                 vpiActual: VoidTypespec
   vpiAllModules (1 items):
     Module name:top file:$Source01/dut.sv start:27:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:27:8 end:27:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiVariable (1 items):
         Variable name:c1 start:29:20 end:29:22:
@@ -476,8 +455,6 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:27:8 end:27:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0

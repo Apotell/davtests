@@ -191,48 +191,30 @@ Design name:unnamed:
         PreprocMacroDefinition name:ONE start:24:1 end:24:14:
           vpiParent: SourceFile name:param_times.v
           vpiName Identifier name:ONE start:24:9 end:24:12:
-            vpiParent: PreprocMacroDefinition name:ONE
-            vpiName: ONE
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
             Identifier name:1 start:24:13 end:24:14:
-              vpiParent: PreprocMacroDefinition name:ONE
-              vpiName: "1"
         PreprocMacroDefinition name:TWO start:25:1 end:25:14:
           vpiParent: SourceFile name:param_times.v
           vpiName Identifier name:TWO start:25:9 end:25:12:
-            vpiParent: PreprocMacroDefinition name:TWO
-            vpiName: TWO
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
             Identifier name:2 start:25:13 end:25:14:
-              vpiParent: PreprocMacroDefinition name:TWO
-              vpiName: "2"
       vpiPreprocMacroInstance (2 items):
         PreprocMacroInstance name:ONE file:$Source01/param_times.v start:46:8 end:46:12 ppstart:46:8 ppend:46:9:
           vpiParent: SourceFile name:param_times.v
           vpiName Identifier name:ONE start:46:8 end:46:12:
-            vpiParent: PreprocMacroInstance name:ONE
-            vpiName: ONE
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:ONE
           vpiPMIBody Identifier name:1 start:24:13 end:24:14:
-            vpiParent: PreprocMacroInstance name:ONE
-            vpiName: "1"
         PreprocMacroInstance name:TWO file:$Source01/param_times.v start:46:19 end:46:23 ppstart:46:16 ppend:46:17:
           vpiParent: SourceFile name:param_times.v
           vpiName Identifier name:TWO start:46:19 end:46:23:
-            vpiParent: PreprocMacroInstance name:TWO
-            vpiName: TWO
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:TWO
           vpiPMIBody Identifier name:2 start:25:13 end:25:14:
-            vpiParent: PreprocMacroInstance name:TWO
-            vpiName: "2"
   vpiAllModules (2 items):
     Module name:foo file:$Source01/param_times.v start:27:1 end:42:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:27:8 end:27:11:
-        vpiParent: Module name:foo
-        vpiName: foo
       vpiFullName: foo
       vpiParameter (1 items):
         Parameter name:blah start:28:14 end:28:18:
@@ -354,8 +336,6 @@ Design name:unnamed:
                     SysTaskCall name:$display start:35:3 end:35:68:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:35:3 end:35:11:
-                        vpiParent: SysTaskCall name:$display
-                        vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:35:12 end:35:61:
                           vpiParent: SysTaskCall name:$display
@@ -375,13 +355,9 @@ Design name:unnamed:
                     SysTaskCall name:$finish start:36:3 end:36:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:36:3 end:36:10:
-                        vpiParent: SysTaskCall name:$finish
-                        vpiName: "$finish"
               SysTaskCall name:$display start:39:7 end:39:25:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:39:7 end:39:15:
-                  vpiParent: SysTaskCall name:$display
-                  vpiName: "$display"
                 vpiArgument (1 items):
                   Constant start:39:16 end:39:24:
                     vpiParent: SysTaskCall name:$display
@@ -396,15 +372,54 @@ Design name:unnamed:
     Module name:bar file:$Source01/param_times.v start:44:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:44:8 end:44:11:
-        vpiParent: Module name:bar
-        vpiName: bar
       vpiFullName: bar
       vpiTypespec (1 items):
         ModuleTypespec name:foo start:46:2 end:46:5:
           vpiParent: Module name:bar
           vpiName Identifier name:foo start:46:2 end:46:5:
-            vpiParent: ModuleTypespec name:foo
-            vpiName: foo
+          vpiDefName: foo
+          vpiParamAssign (1 items):
+            ParamAssign start:46:8 end:46:23:
+              vpiParent: ModuleTypespec name:foo
+              vpiOverridden: true
+              vpiRhs Operation start:46:8 end:46:23:
+                vpiParent: ParamAssign
+                vpiOpType: add (24)
+                vpiOperand (2 items):
+                  Operation start:46:8 end:46:16:
+                    vpiParent: Operation
+                    vpiOpType: multiply (25)
+                    vpiOperand (2 items):
+                      Constant start:24:13 end:24:14:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: bar.foo
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                      Constant start:46:15 end:46:16:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: bar.foo
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "2"
+                        vpiValue: 2
+                  Constant start:25:13 end:25:14:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: bar.foo
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "2"
+                    vpiValue: 2
           vpiModule: Module name:foo
       vpiDefName: bar
       vpiDefNetType: wire (1)
@@ -422,48 +437,6 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: bar.yak.foo
             vpiActual: ModuleTypespec name:foo
-          vpiParamAssign (1 items):
-            ParamAssign start:46:8 end:46:23:
-              vpiParent: RefInstance name:yak
-              vpiOverridden: true
-              vpiRhs Operation start:46:8 end:46:23:
-                vpiParent: ParamAssign
-                vpiOpType: add (24)
-                vpiOperand (2 items):
-                  Operation start:46:8 end:46:16:
-                    vpiParent: Operation
-                    vpiOpType: multiply (25)
-                    vpiOperand (2 items):
-                      Constant start:24:13 end:24:14:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: bar.yak
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                      Constant start:46:15 end:46:16:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: bar.yak
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "2"
-                        vpiValue: 2
-                  Constant start:25:13 end:25:14:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: bar.yak
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "2"
-                    vpiValue: 2
           vpiPort (2 items):
             Port start:46:30 end:46:30:
               vpiParent: RefInstance name:yak
@@ -483,8 +456,6 @@ Design name:unnamed:
     ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:27:8 end:27:11:
-        vpiParent: ModuleTypespec name:foo
-        vpiName: foo
       vpiModule: Module name:foo
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -494,8 +465,6 @@ Design name:unnamed:
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:44:8 end:44:11:
-        vpiParent: ModuleTypespec name:bar
-        vpiName: bar
       vpiModule: Module name:bar
 ===================
 [  FATAL] : 0

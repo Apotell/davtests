@@ -329,38 +329,24 @@ Design name:unnamed:
         PreprocMacroDefinition name:MAX_SIZE start:10:1 end:10:20:
           vpiParent: SourceFile name:t_gen_cond_const.v
           vpiName Identifier name:MAX_SIZE start:10:9 end:10:17:
-            vpiParent: PreprocMacroDefinition name:MAX_SIZE
-            vpiName: MAX_SIZE
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
             Identifier name:4 start:10:19 end:10:20:
-              vpiParent: PreprocMacroDefinition name:MAX_SIZE
-              vpiName: "4"
       vpiPreprocMacroInstance (2 items):
         PreprocMacroInstance name:MAX_SIZE file:$Source01/t_gen_cond_const.v start:49:13 end:49:22 ppstart:49:13 ppend:49:14:
           vpiParent: SourceFile name:t_gen_cond_const.v
           vpiName Identifier name:MAX_SIZE start:49:13 end:49:22:
-            vpiParent: PreprocMacroInstance name:MAX_SIZE
-            vpiName: MAX_SIZE
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:MAX_SIZE
           vpiPMIBody Identifier name:4 start:10:19 end:10:20:
-            vpiParent: PreprocMacroInstance name:MAX_SIZE
-            vpiName: "4"
         PreprocMacroInstance name:MAX_SIZE file:$Source01/t_gen_cond_const.v start:50:13 end:50:22 ppstart:50:13 ppend:50:14:
           vpiParent: SourceFile name:t_gen_cond_const.v
           vpiName Identifier name:MAX_SIZE start:50:13 end:50:22:
-            vpiParent: PreprocMacroInstance name:MAX_SIZE
-            vpiName: MAX_SIZE
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:MAX_SIZE
           vpiPMIBody Identifier name:4 start:10:19 end:10:20:
-            vpiParent: PreprocMacroInstance name:MAX_SIZE
-            vpiName: "4"
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_gen_cond_const.v start:13:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:13:8 end:13:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (1 items):
         Variable name:count start:27:12 end:27:17:
@@ -377,9 +363,45 @@ Design name:unnamed:
         ModuleTypespec name:test_gen start:20:4 end:20:12:
           vpiParent: Module name:t
           vpiName Identifier name:test_gen start:20:4 end:20:12:
-            vpiParent: ModuleTypespec name:test_gen
-            vpiName: test_gen
-          vpiModule: Module name:test_gen
+          vpiDefName: test_gen
+          vpiParamAssign (2 items):
+            ParamAssign start:21:8 end:21:17:
+              vpiParent: ModuleTypespec name:test_gen
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:SIZE start:21:9 end:21:13:
+                vpiParent: ParamAssign
+                vpiName: SIZE
+                vpiFullName: t.test_gen.SIZE
+              vpiRhs Constant start:21:15 end:21:16:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.test_gen
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
+            ParamAssign start:22:8 end:22:23:
+              vpiParent: ModuleTypespec name:test_gen
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:MASK start:22:9 end:22:13:
+                vpiParent: ParamAssign
+                vpiName: MASK
+                vpiFullName: t.test_gen.MASK
+              vpiRhs Constant start:22:15 end:22:22:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.test_gen
+                  vpiActual: LogicTypespec
+                vpiConstType: binary (3)
+                vpiSize: 4
+                vpiDecompile: "4'b1111"
+                vpiValue: "1111"
+          vpiModule: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -485,8 +507,6 @@ Design name:unnamed:
                       SysTaskCall name:$write start:35:3 end:35:35:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:35:3 end:35:9:
-                          vpiParent: SysTaskCall name:$write
-                          vpiName: "$write"
                         vpiArgument (1 items):
                           Constant start:35:10 end:35:34:
                             vpiParent: SysTaskCall name:$write
@@ -501,8 +521,6 @@ Design name:unnamed:
                       SysTaskCall name:$finish start:36:3 end:36:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:36:3 end:36:10:
-                          vpiParent: SysTaskCall name:$finish
-                          vpiName: "$finish"
                   vpiElseStmt Begin start:38:12 end:40:10:
                     vpiParent: IfElse
                     vpiFullName: t
@@ -544,43 +562,6 @@ Design name:unnamed:
             vpiName: test_gen
             vpiFullName: t.i_test_gen.test_gen
             vpiActual: ModuleTypespec name:test_gen
-          vpiParamAssign (2 items):
-            ParamAssign start:21:8 end:21:17:
-              vpiParent: RefInstance name:i_test_gen
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:SIZE start:21:9 end:21:13:
-                vpiParent: ParamAssign
-                vpiName: SIZE
-                vpiFullName: t.i_test_gen.SIZE
-              vpiRhs Constant start:21:15 end:21:16:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.i_test_gen
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
-            ParamAssign start:22:8 end:22:23:
-              vpiParent: RefInstance name:i_test_gen
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:MASK start:22:9 end:22:13:
-                vpiParent: ParamAssign
-                vpiName: MASK
-                vpiFullName: t.i_test_gen.MASK
-              vpiRhs Constant start:22:15 end:22:22:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.i_test_gen
-                  vpiActual: LogicTypespec
-                vpiConstType: binary (3)
-                vpiSize: 4
-                vpiDecompile: "4'b1111"
-                vpiValue: "1111"
           vpiPort (1 items):
             Port start:23:18 end:23:28:
               vpiParent: RefInstance name:i_test_gen
@@ -594,59 +575,57 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: t.i_test_gen.clk
                 vpiActual: Net name:clk
-    Module name:test_gen file:$Source01/t_gen_cond_const.v start:46:1 end:71:10:
+    "Module name:test_gen #(.SIZE(4), .MASK(4'b0)) file:$Source01/t_gen_cond_const.v start:46:1 end:71:10":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test_gen start:46:8 end:46:16:
-        vpiParent: Module name:test_gen
-        vpiName: test_gen
-      vpiFullName: test_gen
+      "vpiName Identifier name:test_gen #(.SIZE(4), .MASK(4'b0)) start:46:8 end:46:16":
+      vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
       vpiParameter (2 items):
         Parameter name:SIZE start:49:6 end:49:10:
-          vpiParent: Module name:test_gen
+          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiTypespec RefTypespec start:49:6 end:49:6:
             vpiParent: Parameter name:SIZE
-            vpiFullName: test_gen.SIZE
+            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
             vpiActual: LogicTypespec
           vpiName: SIZE
-          vpiFullName: test_gen.SIZE
+          vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
         Parameter name:MASK start:50:6 end:50:10:
-          vpiParent: Module name:test_gen
+          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiTypespec RefTypespec start:49:6 end:49:6:
             vpiParent: Parameter name:MASK
-            vpiFullName: test_gen.MASK
+            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
             vpiActual: LogicTypespec
           vpiName: MASK
-          vpiFullName: test_gen.MASK
+          vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
       vpiParamAssign (2 items):
         ParamAssign start:49:6 end:49:22:
-          vpiParent: Module name:test_gen
+          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiLhs RefObj name:SIZE start:49:6 end:49:10:
             vpiParent: ParamAssign
             vpiName: SIZE
-            vpiFullName: test_gen.SIZE
+            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
             vpiActual: Parameter name:SIZE
           vpiRhs Constant start:10:19 end:10:20:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test_gen
+              vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
         ParamAssign start:50:6 end:50:25:
-          vpiParent: Module name:test_gen
+          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiLhs RefObj name:MASK start:50:6 end:50:10:
             vpiParent: ParamAssign
             vpiName: MASK
-            vpiFullName: test_gen.MASK
+            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
             vpiActual: Parameter name:MASK
           vpiRhs Constant start:50:13 end:50:25:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test_gen
+              vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 4
@@ -654,43 +633,43 @@ Design name:unnamed:
             vpiValue: "0"
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:test_gen
+          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
       vpiDefName: test_gen
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:test_gen
+        vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
         vpiName: work
-        vpiFullName: test_gen.work
+        vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).work"
       vpiCell: test_gen
       vpiNet (1 items):
         Net name:clk start:57:10 end:57:13:
-          vpiParent: Module name:test_gen
+          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiTypespec RefTypespec start:57:10 end:57:10:
             vpiParent: Net name:clk
-            vpiFullName: test_gen.clk
+            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).clk"
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: test_gen.clk
+          vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).clk"
           vpiNetType: wire (1)
           vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:54:4 end:54:7:
-          vpiParent: Module name:test_gen
+          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiName: clk
           vpiDirection: input (1)
           vpiLowConn RefObj name:clk start:57:10 end:57:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: test_gen.clk.clk
+            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).clk.clk"
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:57:10 end:57:10:
             vpiParent: Port name:clk
-            vpiFullName: test_gen.clk
+            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).clk"
             vpiActual: LogicTypespec
       vpiGenStmt (1 items):
         GenRegion start:61:4 end:69:15:
-          vpiParent: Module name:test_gen
-          vpiFullName: test_gen
+          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
+          vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiStmt GenIf start:62:7 end:68:10:
             vpiParent: GenRegion
             vpiCondition Operation start:62:11 end:62:36:
@@ -704,13 +683,13 @@ Design name:unnamed:
                     RefObj name:SIZE start:62:12 end:62:16:
                       vpiParent: Operation
                       vpiName: SIZE
-                      vpiFullName: test_gen.SIZE
+                      vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
                       vpiActual: Parameter name:SIZE
                     Constant start:62:19 end:62:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: test_gen
+                        vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
                         vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
@@ -719,17 +698,17 @@ Design name:unnamed:
                 BitSelect name:MASK[0] start:62:29 end:62:36:
                   vpiParent: Operation
                   vpiName: MASK[0]
-                  vpiFullName: test_gen.MASK[0]
+                  vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK[0]"
                   vpiPrefix RefObj name:MASK start:62:29 end:62:33:
                     vpiParent: BitSelect name:MASK[0]
                     vpiName: MASK
-                    vpiFullName: test_gen.MASK
+                    vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
                     vpiActual: Parameter name:MASK
                   vpiIndex Constant start:62:34 end:62:35:
                     vpiParent: BitSelect name:MASK[0]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: test_gen.MASK[0]
+                      vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK[0]"
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -737,7 +716,7 @@ Design name:unnamed:
                     vpiValue: 0
             vpiStmt Begin start:62:38 end:68:10:
               vpiParent: GenIf
-              vpiFullName: test_gen
+              vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
               vpiStmt (1 items):
                 Always start:63:3 end:67:6:
                   vpiParent: Begin
@@ -750,18 +729,16 @@ Design name:unnamed:
                         RefObj name:clk start:63:20 end:63:23:
                           vpiParent: Operation
                           vpiName: clk
-                          vpiFullName: test_gen.clk
+                          vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).clk"
                           vpiActual: Net name:clk
                     vpiStmt Begin start:63:25 end:67:6:
                       vpiParent: EventControl
-                      vpiFullName: test_gen
+                      vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
                   vpiAlwaysType: always (1)
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:13:8 end:13:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -773,9 +750,7 @@ Design name:unnamed:
     ModuleTypespec name:test_gen:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test_gen start:46:8 end:46:16:
-        vpiParent: ModuleTypespec name:test_gen
-        vpiName: test_gen
-      vpiModule: Module name:test_gen
+      vpiModule: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================

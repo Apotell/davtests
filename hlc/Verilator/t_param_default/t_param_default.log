@@ -137,49 +137,58 @@ Design name:unnamed:
       vpiName: t_param_default.v
       vpiPreprocFile: "$Output/lib/work/t_param_default.v"
   vpiAllModules (2 items):
-    Module name:m file:$Source01/t_param_default.v start:6:1 end:7:10:
+    Module name:m #(.Foo()) file:$Source01/t_param_default.v start:6:1 end:7:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:m start:6:8 end:6:9:
-        vpiParent: Module name:m
-        vpiName: m
-      vpiFullName: m
+      vpiName Identifier name:m #(.Foo()) start:6:8 end:6:9:
+      vpiFullName: m #(.Foo())
       vpiParameter (1 items):
         Parameter name:Foo start:6:26 end:6:29:
-          vpiParent: Module name:m
+          vpiParent: Module name:m #(.Foo())
           vpiTypespec RefTypespec start:6:22 end:6:25:
             vpiParent: Parameter name:Foo
-            vpiFullName: m.Foo
+            vpiFullName: m #(.Foo()).Foo
             vpiActual: IntTypespec
           vpiName: Foo
-          vpiFullName: m.Foo
+          vpiFullName: m #(.Foo()).Foo
       vpiParamAssign (1 items):
         ParamAssign start:6:26 end:6:29:
-          vpiParent: Module name:m
+          vpiParent: Module name:m #(.Foo())
           vpiLhs RefObj name:Foo start:6:26 end:6:29:
             vpiParent: ParamAssign
             vpiName: Foo
-            vpiFullName: m.Foo
+            vpiFullName: m #(.Foo()).Foo
             vpiActual: Parameter name:Foo
       vpiDefName: m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:m
+        vpiParent: Module name:m #(.Foo())
         vpiName: work
-        vpiFullName: m.work
+        vpiFullName: m #(.Foo()).work
       vpiCell: m
     Module name:t file:$Source01/t_param_default.v start:9:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:9:8 end:9:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiTypespec (1 items):
         ModuleTypespec name:m start:11:4 end:11:5:
           vpiParent: Module name:t
           vpiName Identifier name:m start:11:4 end:11:5:
-            vpiParent: ModuleTypespec name:m
-            vpiName: m
-          vpiModule: Module name:m
+          vpiDefName: m
+          vpiParamAssign (1 items):
+            ParamAssign start:11:8 end:11:10:
+              vpiParent: ModuleTypespec name:m
+              vpiOverridden: true
+              vpiRhs Constant start:11:8 end:11:10:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.m
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "10"
+                vpiValue: 10
+          vpiModule: Module name:m #(.Foo())
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -227,13 +236,9 @@ Design name:unnamed:
                 vpiStmt SysTaskCall name:$stop start:14:24 end:14:29:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:14:24 end:14:29:
-                    vpiParent: SysTaskCall name:$stop
-                    vpiName: "$stop"
               SysTaskCall name:$write start:15:5 end:15:37:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:15:5 end:15:11:
-                  vpiParent: SysTaskCall name:$write
-                  vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:15:12 end:15:36:
                     vpiParent: SysTaskCall name:$write
@@ -248,8 +253,6 @@ Design name:unnamed:
               SysTaskCall name:$finish start:16:5 end:16:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:16:5 end:16:12:
-                  vpiParent: SysTaskCall name:$finish
-                  vpiName: "$finish"
       vpiRefInstance (1 items):
         RefInstance name:foo start:11:12 end:11:15:
           vpiParent: Module name:t
@@ -259,35 +262,17 @@ Design name:unnamed:
             vpiName: m
             vpiFullName: t.foo.m
             vpiActual: ModuleTypespec name:m
-          vpiParamAssign (1 items):
-            ParamAssign start:11:8 end:11:10:
-              vpiParent: RefInstance name:foo
-              vpiOverridden: true
-              vpiRhs Constant start:11:8 end:11:10:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.foo
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "10"
-                vpiValue: 10
   vpiTypespec (4 items):
     ModuleTypespec name:m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:m
-        vpiName: m
-      vpiModule: Module name:m
+      vpiModule: Module name:m #(.Foo())
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:9:8 end:9:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed

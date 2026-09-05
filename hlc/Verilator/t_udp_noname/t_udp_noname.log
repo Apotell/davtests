@@ -340,8 +340,6 @@ Design name:unnamed:
     UdpDefn name:udp start:35:1 end:47:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:udp start:35:11 end:35:14:
-        vpiParent: UdpDefn name:udp
-        vpiName: udp
       vpiFullName: udp
       vpiIODecl (2 items):
         IODecl name:o start:35:15 end:35:16:
@@ -389,8 +387,6 @@ Design name:unnamed:
     Module name:t file:$Source01/t_udp_noname.v start:6:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (2 items):
         Variable name:a start:12:9 end:12:10:
@@ -445,6 +441,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: t.o
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiScalar: true
       vpiPort (1 items):
@@ -637,8 +634,6 @@ Design name:unnamed:
                           vpiStmt SysTaskCall name:$stop start:25:21 end:25:26:
                             vpiParent: IfStmt
                             vpiName Identifier name:$stop start:25:21 end:25:26:
-                              vpiParent: SysTaskCall name:$stop
-                              vpiName: "$stop"
                     vpiElseStmt IfStmt start:27:12 end:30:10:
                       vpiParent: IfElse
                       vpiCondition Operation start:27:16 end:27:23:
@@ -667,8 +662,6 @@ Design name:unnamed:
                           SysTaskCall name:$write start:28:3 end:28:35:
                             vpiParent: Begin
                             vpiName Identifier name:$write start:28:3 end:28:9:
-                              vpiParent: SysTaskCall name:$write
-                              vpiName: "$write"
                             vpiArgument (1 items):
                               Constant start:28:10 end:28:34:
                                 vpiParent: SysTaskCall name:$write
@@ -683,16 +676,12 @@ Design name:unnamed:
                           SysTaskCall name:$finish start:29:3 end:29:10:
                             vpiParent: Begin
                             vpiName Identifier name:$finish start:29:3 end:29:10:
-                              vpiParent: SysTaskCall name:$finish
-                              vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiPrimitive (1 items):
         Udp:
           vpiParent: Module name:t
-          vpiFullName: t.udp
+          vpiFullName: t
           vpiDefName Identifier name:udp start:14:4 end:14:7:
-            vpiParent: Udp
-            vpiName: udp
           vpiPrimTerm (2 items):
             PrimTerm start:14:9 end:14:10:
               vpiParent: Udp
@@ -700,7 +689,7 @@ Design name:unnamed:
               vpiExpr RefObj name:o start:14:9 end:14:10:
                 vpiParent: PrimTerm
                 vpiName: o
-                vpiFullName: t.udp.o
+                vpiFullName: t.o
                 vpiActual: Net name:o
             PrimTerm start:14:12 end:14:13:
               vpiParent: Udp
@@ -709,14 +698,12 @@ Design name:unnamed:
               vpiExpr RefObj name:a start:14:12 end:14:13:
                 vpiParent: PrimTerm
                 vpiName: a
-                vpiFullName: t.udp.a
+                vpiFullName: t.a
                 vpiActual: Variable name:a
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed

@@ -249,8 +249,6 @@ Design name:unnamed:
     Module name:t file:$Source01/t_param_local.v start:6:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiTypespec (3 items):
         LogicTypespec:
@@ -308,9 +306,27 @@ Design name:unnamed:
         ModuleTypespec name:Test start:14:4 end:14:8:
           vpiParent: Module name:t
           vpiName Identifier name:Test start:14:4 end:14:8:
-            vpiParent: ModuleTypespec name:Test
-            vpiName: Test
-          vpiModule: Module name:Test
+          vpiDefName: Test
+          vpiParamAssign (1 items):
+            ParamAssign start:14:11 end:14:16:
+              vpiParent: ModuleTypespec name:Test
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:C start:14:12 end:14:13:
+                vpiParent: ParamAssign
+                vpiName: C
+                vpiFullName: t.Test.C
+              vpiRhs Constant start:14:14 end:14:15:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.Test
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
+          vpiModule: Module name:Test #(.C(3), .O(1 << C))
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -375,25 +391,6 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: t.test.Test
             vpiActual: ModuleTypespec name:Test
-          vpiParamAssign (1 items):
-            ParamAssign start:14:11 end:14:16:
-              vpiParent: RefInstance name:test
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:C start:14:12 end:14:13:
-                vpiParent: ParamAssign
-                vpiName: C
-                vpiFullName: t.test.C
-              vpiRhs Constant start:14:14 end:14:15:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.test
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
           vpiPort (1 items):
             Port start:15:13 end:15:15:
               vpiParent: RefInstance name:test
@@ -401,60 +398,58 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ".*"
                 vpiFullName: t.test..*
-    Module name:Test file:$Source01/t_param_local.v start:18:1 end:28:10:
+    Module name:Test #(.C(3), .O(1 << C)) file:$Source01/t_param_local.v start:18:1 end:28:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Test start:18:8 end:18:12:
-        vpiParent: Module name:Test
-        vpiName: Test
-      vpiFullName: Test
+      vpiName Identifier name:Test #(.C(3), .O(1 << C)) start:18:8 end:18:12:
+      vpiFullName: Test #(.C(3), .O(1 << C))
       vpiVariable (1 items):
         Variable name:y start:22:24 end:22:25:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiTypespec RefTypespec start:22:5 end:22:23:
             vpiParent: Variable name:y
-            vpiFullName: Test.y
+            vpiFullName: Test #(.C(3), .O(1 << C)).y
             vpiActual: LogicTypespec
           vpiName: y
-          vpiFullName: Test.y
+          vpiFullName: Test #(.C(3), .O(1 << C)).y
           vpiVector: true
       vpiParameter (2 items):
         Parameter name:C start:19:5 end:19:6:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiName: C
-          vpiFullName: Test.C
+          vpiFullName: Test #(.C(3), .O(1 << C)).C
         Parameter name:O start:20:16 end:20:17:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiTypespec RefTypespec start:20:16 end:20:16:
             vpiParent: Parameter name:O
-            vpiFullName: Test.O
+            vpiFullName: Test #(.C(3), .O(1 << C)).O
             vpiActual: LogicTypespec
           vpiName: O
-          vpiFullName: Test.O
+          vpiFullName: Test #(.C(3), .O(1 << C)).O
           vpiLocalParam: true
       vpiParamAssign (2 items):
         ParamAssign start:19:5 end:19:10:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiLhs RefObj name:C start:19:5 end:19:6:
             vpiParent: ParamAssign
             vpiName: C
-            vpiFullName: Test.C
+            vpiFullName: Test #(.C(3), .O(1 << C)).C
             vpiActual: Parameter name:C
           vpiRhs Constant start:19:9 end:19:10:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Test
+              vpiFullName: Test #(.C(3), .O(1 << C))
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
         ParamAssign start:20:16 end:20:26:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiLhs RefObj name:O start:20:16 end:20:17:
             vpiParent: ParamAssign
             vpiName: O
-            vpiFullName: Test.O
+            vpiFullName: Test #(.C(3), .O(1 << C)).O
             vpiActual: Parameter name:O
           vpiRhs Operation start:20:20 end:20:26:
             vpiParent: ParamAssign
@@ -464,7 +459,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: Test
+                  vpiFullName: Test #(.C(3), .O(1 << C))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -473,13 +468,13 @@ Design name:unnamed:
               RefObj name:C start:20:25 end:20:26:
                 vpiParent: Operation
                 vpiName: C
-                vpiFullName: Test.C
+                vpiFullName: Test #(.C(3), .O(1 << C)).C
                 vpiActual: Parameter name:C
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
         LogicTypespec:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiRange (1 items):
             Range start:21:11 end:21:18:
               vpiParent: LogicTypespec
@@ -490,13 +485,13 @@ Design name:unnamed:
                   RefObj name:C start:21:12 end:21:13:
                     vpiParent: Operation
                     vpiName: C
-                    vpiFullName: Test.C
+                    vpiFullName: Test #(.C(3), .O(1 << C)).C
                     vpiActual: Parameter name:C
                   Constant start:21:14 end:21:15:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: Test
+                      vpiFullName: Test #(.C(3), .O(1 << C))
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -506,7 +501,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: Test
+                  vpiFullName: Test #(.C(3), .O(1 << C))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -514,7 +509,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiRange (1 items):
             Range start:22:16 end:22:23:
               vpiParent: LogicTypespec
@@ -525,13 +520,13 @@ Design name:unnamed:
                   RefObj name:O start:22:17 end:22:18:
                     vpiParent: Operation
                     vpiName: O
-                    vpiFullName: Test.O
+                    vpiFullName: Test #(.C(3), .O(1 << C)).O
                     vpiActual: Parameter name:O
                   Constant start:22:19 end:22:20:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: Test
+                      vpiFullName: Test #(.C(3), .O(1 << C))
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -541,7 +536,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: Test
+                  vpiFullName: Test #(.C(3), .O(1 << C))
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -551,54 +546,54 @@ Design name:unnamed:
       vpiDefName: Test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:Test
+        vpiParent: Module name:Test #(.C(3), .O(1 << C))
         vpiName: work
-        vpiFullName: Test.work
+        vpiFullName: Test #(.C(3), .O(1 << C)).work
       vpiCell: Test
       vpiNet (1 items):
         Net name:a start:21:19 end:21:20:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiTypespec RefTypespec start:21:5 end:21:18:
             vpiParent: Net name:a
-            vpiFullName: Test.a
+            vpiFullName: Test #(.C(3), .O(1 << C)).a
             vpiActual: LogicTypespec
           vpiName: a
-          vpiFullName: Test.a
+          vpiFullName: Test #(.C(3), .O(1 << C)).a
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (2 items):
         Port name:a start:21:19 end:21:20:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiName: a
           vpiDirection: input (1)
           vpiLowConn RefObj name:a start:21:19 end:21:20:
             vpiParent: Port name:a
             vpiName: a
-            vpiFullName: Test.a.a
+            vpiFullName: Test #(.C(3), .O(1 << C)).a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:21:5 end:21:18:
             vpiParent: Port name:a
-            vpiFullName: Test.a
+            vpiFullName: Test #(.C(3), .O(1 << C)).a
             vpiActual: LogicTypespec
         Port name:y start:22:24 end:22:25:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiName: y
           vpiDirection: output (2)
           vpiLowConn RefObj name:y start:22:24 end:22:25:
             vpiParent: Port name:y
             vpiName: y
-            vpiFullName: Test.y.y
+            vpiFullName: Test #(.C(3), .O(1 << C)).y.y
             vpiActual: Variable name:y
           vpiTypespec RefTypespec start:22:5 end:22:23:
             vpiParent: Port name:y
-            vpiFullName: Test.y
+            vpiFullName: Test #(.C(3), .O(1 << C)).y
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Initial start:23:4 end:27:7:
-          vpiParent: Module name:Test
+          vpiParent: Module name:Test #(.C(3), .O(1 << C))
           vpiStmt Begin start:23:12 end:27:7:
             vpiParent: Initial
-            vpiFullName: Test
+            vpiFullName: Test #(.C(3), .O(1 << C))
             vpiStmt (3 items):
               IfStmt start:24:7 end:24:25:
                 vpiParent: Begin
@@ -609,13 +604,13 @@ Design name:unnamed:
                     RefObj name:O start:24:11 end:24:12:
                       vpiParent: Operation
                       vpiName: O
-                      vpiFullName: Test.O
+                      vpiFullName: Test #(.C(3), .O(1 << C)).O
                       vpiActual: Parameter name:O
                     Constant start:24:16 end:24:17:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: Test
+                        vpiFullName: Test #(.C(3), .O(1 << C))
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -624,19 +619,15 @@ Design name:unnamed:
                 vpiStmt SysTaskCall name:$stop start:24:19 end:24:24:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:24:19 end:24:24:
-                    vpiParent: SysTaskCall name:$stop
-                    vpiName: "$stop"
               SysTaskCall name:$write start:25:7 end:25:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:25:7 end:25:13:
-                  vpiParent: SysTaskCall name:$write
-                  vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:25:14 end:25:38:
                     vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: Test
+                      vpiFullName: Test #(.C(3), .O(1 << C))
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 168
@@ -645,14 +636,10 @@ Design name:unnamed:
               SysTaskCall name:$finish start:26:7 end:26:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:26:7 end:26:14:
-                  vpiParent: SysTaskCall name:$finish
-                  vpiName: "$finish"
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -660,9 +647,7 @@ Design name:unnamed:
     ModuleTypespec name:Test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Test start:18:8 end:18:12:
-        vpiParent: ModuleTypespec name:Test
-        vpiName: Test
-      vpiModule: Module name:Test
+      vpiModule: Module name:Test #(.C(3), .O(1 << C))
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================

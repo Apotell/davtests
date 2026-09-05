@@ -159,8 +159,6 @@ Design name:unnamed:
     Module name:Foo file:$Source01/dut.sv start:1:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Foo start:1:8 end:1:11:
-        vpiParent: Module name:Foo
-        vpiName: Foo
       vpiFullName: Foo
       vpiParameter (2 items):
         Parameter name:P1 start:2:12 end:2:14:
@@ -231,8 +229,6 @@ Design name:unnamed:
     Module name:top file:$Source01/dut.sv start:8:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:8:8 end:8:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiParameter (3 items):
         Parameter name:P3 start:9:13 end:9:15:
@@ -302,8 +298,22 @@ Design name:unnamed:
         ModuleTypespec name:Foo start:12:1 end:12:4:
           vpiParent: Module name:top
           vpiName Identifier name:Foo start:12:1 end:12:4:
-            vpiParent: ModuleTypespec name:Foo
-            vpiName: Foo
+          vpiDefName: Foo
+          vpiParamAssign (1 items):
+            ParamAssign start:12:7 end:12:14:
+              vpiParent: ModuleTypespec name:Foo
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:P1 start:12:8 end:12:10:
+                vpiParent: ParamAssign
+                vpiName: P1
+                vpiFullName: top.Foo.P1
+                vpiActual: Parameter name:P1
+              vpiRhs RefObj name:P2 start:12:11 end:12:13:
+                vpiParent: ParamAssign
+                vpiName: P2
+                vpiFullName: top.Foo.P2
+                vpiActual: Parameter name:P2
           vpiModule: Module name:Foo
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -321,27 +331,10 @@ Design name:unnamed:
             vpiName: Foo
             vpiFullName: top.sub.Foo
             vpiActual: ModuleTypespec name:Foo
-          vpiParamAssign (1 items):
-            ParamAssign start:12:7 end:12:14:
-              vpiParent: RefInstance name:sub
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:P1 start:12:8 end:12:10:
-                vpiParent: ParamAssign
-                vpiName: P1
-                vpiFullName: top.sub.P1
-                vpiActual: Parameter name:P1
-              vpiRhs RefObj name:P2 start:12:11 end:12:13:
-                vpiParent: ParamAssign
-                vpiName: P2
-                vpiFullName: top.sub.P2
-                vpiActual: Parameter name:P2
   vpiTypespec (3 items):
     ModuleTypespec name:Foo:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Foo start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:Foo
-        vpiName: Foo
       vpiModule: Module name:Foo
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -349,8 +342,6 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:8:8 end:8:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0

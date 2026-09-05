@@ -395,11 +395,11 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/dut.sv:52:43: Compile generate block "gen_alert_tx".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "alert_handler_reg_pkg".
 [WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "test".
-[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "prim_alert_sender".
+[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))".
 [WRN:PA0205] $Source01/dut.sv:28:1: No timescale set for "GOOD".
-[WRN:PA0205] $Source01/dut.sv:31:1: No timescale set for "prim_diff_decode".
+[WRN:PA0205] $Source01/dut.sv:31:1: No timescale set for "prim_diff_decode #(.AsyncOn(1'b0))".
 [WRN:PA0205] $Source01/dut.sv:41:1: No timescale set for "top".
-[WRN:PA0205] $Source01/dut.sv:49:1: No timescale set for "aes".
+[WRN:PA0205] $Source01/dut.sv:49:1: No timescale set for "aes #(.AlertAsyncOn({4{{1'b1}}}))".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -412,8 +412,6 @@ Design name:unnamed:
     Package name:alert_handler_reg_pkg file:$Source01/dut.sv start:2:1 end:5:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:alert_handler_reg_pkg start:2:9 end:2:30:
-        vpiParent: Package name:alert_handler_reg_pkg
-        vpiName: alert_handler_reg_pkg
       vpiFullName: alert_handler_reg_pkg
       vpiParameter (2 items):
         Parameter name:NAlerts start:3:17 end:3:24:
@@ -514,8 +512,6 @@ Design name:unnamed:
     Module name:test file:$Source01/dut.sv start:7:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:7:8 end:7:12:
-        vpiParent: Module name:test
-        vpiName: test
       vpiFullName: test
       vpiParameter (1 items):
         Parameter name:Toto start:9:12 end:9:16:
@@ -585,59 +581,57 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-    Module name:prim_alert_sender file:$Source01/dut.sv start:13:1 end:26:11:
+    "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)) file:$Source01/dut.sv start:13:1 end:26:11":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prim_alert_sender start:13:8 end:13:25:
-        vpiParent: Module name:prim_alert_sender
-        vpiName: prim_alert_sender
-      vpiFullName: prim_alert_sender
+      "vpiName Identifier name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)) start:13:8 end:13:25":
+      vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
       vpiParameter (2 items):
         Parameter name:AsyncOn start:15:17 end:15:24:
-          vpiParent: Module name:prim_alert_sender
+          vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
           vpiTypespec RefTypespec start:15:13 end:15:16:
             vpiParent: Parameter name:AsyncOn
-            vpiFullName: prim_alert_sender.AsyncOn
+            vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).AsyncOn"
             vpiActual: BitTypespec
           vpiName: AsyncOn
-          vpiFullName: prim_alert_sender.AsyncOn
+          vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).AsyncOn"
         Parameter name:IsFatal start:16:17 end:16:24:
-          vpiParent: Module name:prim_alert_sender
+          vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
           vpiTypespec RefTypespec start:16:13 end:16:16:
             vpiParent: Parameter name:IsFatal
-            vpiFullName: prim_alert_sender.IsFatal
+            vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).IsFatal"
             vpiActual: BitTypespec
           vpiName: IsFatal
-          vpiFullName: prim_alert_sender.IsFatal
+          vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).IsFatal"
       vpiParamAssign (2 items):
         ParamAssign start:15:17 end:15:31:
-          vpiParent: Module name:prim_alert_sender
+          vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
           vpiLhs RefObj name:AsyncOn start:15:17 end:15:24:
             vpiParent: ParamAssign
             vpiName: AsyncOn
-            vpiFullName: prim_alert_sender.AsyncOn
+            vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).AsyncOn"
             vpiActual: Parameter name:AsyncOn
           vpiRhs Constant start:15:27 end:15:31:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prim_alert_sender
+              vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
             vpiValue: "1"
         ParamAssign start:16:17 end:16:31:
-          vpiParent: Module name:prim_alert_sender
+          vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
           vpiLhs RefObj name:IsFatal start:16:17 end:16:24:
             vpiParent: ParamAssign
             vpiName: IsFatal
-            vpiFullName: prim_alert_sender.IsFatal
+            vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).IsFatal"
             vpiActual: Parameter name:IsFatal
           vpiRhs Constant start:16:27 end:16:31:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prim_alert_sender
+              vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
@@ -645,63 +639,58 @@ Design name:unnamed:
             vpiValue: "0"
       vpiTypespec (2 items):
         BitTypespec:
-          vpiParent: Module name:prim_alert_sender
+          vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
         ModuleTypespec name:prim_diff_decode start:19:3 end:19:19:
-          vpiParent: Module name:prim_alert_sender
+          vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
           vpiName Identifier name:prim_diff_decode start:19:3 end:19:19:
-            vpiParent: ModuleTypespec name:prim_diff_decode
-            vpiName: prim_diff_decode
-          vpiModule: Module name:prim_diff_decode
-      vpiDefName: prim_alert_sender
-      vpiDefNetType: wire (1)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:prim_alert_sender
-        vpiName: work
-        vpiFullName: prim_alert_sender.work
-      vpiCell: prim_alert_sender
-      vpiRefInstance (1 items):
-        RefInstance name:dec_ack start:21:5 end:21:12:
-          vpiParent: Module name:prim_alert_sender
-          vpiName: dec_ack
-          vpiTypespec RefTypespec name:prim_diff_decode start:19:3 end:19:19:
-            vpiParent: RefInstance name:dec_ack
-            vpiName: prim_diff_decode
-            vpiFullName: prim_alert_sender.dec_ack.prim_diff_decode
-            vpiActual: ModuleTypespec name:prim_diff_decode
+          vpiDefName: prim_diff_decode
           vpiParamAssign (1 items):
             ParamAssign start:20:5 end:20:22:
-              vpiParent: RefInstance name:dec_ack
+              vpiParent: ModuleTypespec name:prim_diff_decode
               vpiConnByName: true
               vpiOverridden: true
               vpiLhs RefObj name:AsyncOn start:20:6 end:20:13:
                 vpiParent: ParamAssign
                 vpiName: AsyncOn
-                vpiFullName: prim_alert_sender.dec_ack.AsyncOn
+                vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).prim_diff_decode.AsyncOn"
                 vpiActual: Parameter name:AsyncOn
               vpiRhs RefObj name:AsyncOn start:20:14 end:20:21:
                 vpiParent: ParamAssign
                 vpiName: AsyncOn
-                vpiFullName: prim_alert_sender.dec_ack.AsyncOn
+                vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).prim_diff_decode.AsyncOn"
                 vpiActual: Parameter name:AsyncOn
+          vpiModule: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
+      vpiDefName: prim_alert_sender
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
+        vpiName: work
+        vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).work"
+      vpiCell: prim_alert_sender
+      vpiRefInstance (1 items):
+        RefInstance name:dec_ack start:21:5 end:21:12:
+          vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
+          vpiName: dec_ack
+          vpiTypespec RefTypespec name:prim_diff_decode start:19:3 end:19:19:
+            vpiParent: RefInstance name:dec_ack
+            vpiName: prim_diff_decode
+            vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).dec_ack.prim_diff_decode"
+            vpiActual: ModuleTypespec name:prim_diff_decode
       vpiGenStmt (1 items):
         GenIf start:23:5 end:24:8:
-          vpiParent: Module name:prim_alert_sender
+          vpiParent: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
           vpiCondition RefObj name:AsyncOn start:23:9 end:23:16:
             vpiParent: GenIf
             vpiName: AsyncOn
-            vpiFullName: prim_alert_sender.AsyncOn
+            vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).AsyncOn"
             vpiActual: Parameter name:AsyncOn
           vpiStmt Begin name:gen_async_assert start:23:18 end:24:8:
             vpiParent: GenIf
             vpiName Identifier name:gen_async_assert start:23:26 end:23:42:
-              vpiParent: Begin name:gen_async_assert
-              vpiName: gen_async_assert
-            vpiFullName: prim_alert_sender.gen_async_assert
+            vpiFullName: "prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0)).gen_async_assert"
     Module name:GOOD file:$Source01/dut.sv start:28:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:GOOD start:28:8 end:28:12:
-        vpiParent: Module name:GOOD
-        vpiName: GOOD
       vpiFullName: GOOD
       vpiDefName: GOOD
       vpiDefNetType: wire (1)
@@ -710,34 +699,32 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: GOOD.work
       vpiCell: GOOD
-    Module name:prim_diff_decode file:$Source01/dut.sv start:31:1 end:39:10:
+    "Module name:prim_diff_decode #(.AsyncOn(1'b0)) file:$Source01/dut.sv start:31:1 end:39:10":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prim_diff_decode start:31:8 end:31:24:
-        vpiParent: Module name:prim_diff_decode
-        vpiName: prim_diff_decode
-      vpiFullName: prim_diff_decode
+      "vpiName Identifier name:prim_diff_decode #(.AsyncOn(1'b0)) start:31:8 end:31:24":
+      vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0))"
       vpiParameter (1 items):
         Parameter name:AsyncOn start:32:17 end:32:24:
-          vpiParent: Module name:prim_diff_decode
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
           vpiTypespec RefTypespec start:32:13 end:32:16:
             vpiParent: Parameter name:AsyncOn
-            vpiFullName: prim_diff_decode.AsyncOn
+            vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0)).AsyncOn"
             vpiActual: BitTypespec
           vpiName: AsyncOn
-          vpiFullName: prim_diff_decode.AsyncOn
+          vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0)).AsyncOn"
       vpiParamAssign (1 items):
         ParamAssign start:32:17 end:32:31:
-          vpiParent: Module name:prim_diff_decode
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
           vpiLhs RefObj name:AsyncOn start:32:17 end:32:24:
             vpiParent: ParamAssign
             vpiName: AsyncOn
-            vpiFullName: prim_diff_decode.AsyncOn
+            vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0)).AsyncOn"
             vpiActual: Parameter name:AsyncOn
           vpiRhs Constant start:32:27 end:32:31:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prim_diff_decode
+              vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0))"
               vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
@@ -745,34 +732,31 @@ Design name:unnamed:
             vpiValue: "0"
       vpiTypespec (1 items):
         BitTypespec:
-          vpiParent: Module name:prim_diff_decode
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
       vpiDefName: prim_diff_decode
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:prim_diff_decode
+        vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
         vpiName: work
-        vpiFullName: prim_diff_decode.work
+        vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0)).work"
       vpiCell: prim_diff_decode
       vpiGenStmt (1 items):
         GenIf start:35:3 end:37:6:
-          vpiParent: Module name:prim_diff_decode
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
           vpiCondition RefObj name:AsyncOn start:35:7 end:35:14:
             vpiParent: GenIf
             vpiName: AsyncOn
-            vpiFullName: prim_diff_decode.AsyncOn
+            vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0)).AsyncOn"
             vpiActual: Parameter name:AsyncOn
           vpiStmt Begin name:gen_async start:35:16 end:37:6:
             vpiParent: GenIf
             vpiName Identifier name:gen_async start:35:24 end:35:33:
-              vpiParent: Begin name:gen_async
-              vpiName: gen_async
-            vpiFullName: prim_diff_decode.gen_async
+            vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0)).gen_async"
             vpiTypespec (1 items):
               ModuleTypespec name:GOOD start:36:6 end:36:10:
                 vpiParent: Begin name:gen_async
                 vpiName Identifier name:GOOD start:36:6 end:36:10:
-                  vpiParent: ModuleTypespec name:GOOD
-                  vpiName: GOOD
+                vpiDefName: GOOD
                 vpiModule: Module name:GOOD
             vpiStmt (1 items):
               RefInstance name:good start:36:11 end:36:15:
@@ -781,26 +765,69 @@ Design name:unnamed:
                 vpiTypespec RefTypespec name:GOOD start:36:6 end:36:10:
                   vpiParent: RefInstance name:good
                   vpiName: GOOD
-                  vpiFullName: prim_diff_decode.gen_async.good.GOOD
+                  vpiFullName: "prim_diff_decode #(.AsyncOn(1'b0)).gen_async.good.GOOD"
                   vpiActual: ModuleTypespec name:GOOD
     Module name:top file:$Source01/dut.sv start:41:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:41:8 end:41:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiTypespec (2 items):
         UnsupportedTypespec name:alert_handler_reg_pkg start:44:19 end:44:40:
           vpiParent: Module name:top
           vpiName Identifier name:alert_handler_reg_pkg start:44:19 end:44:40:
-            vpiParent: UnsupportedTypespec name:alert_handler_reg_pkg
-            vpiName: alert_handler_reg_pkg
         ModuleTypespec name:aes start:43:3 end:43:6:
           vpiParent: Module name:top
           vpiName Identifier name:aes start:43:3 end:43:6:
-            vpiParent: ModuleTypespec name:aes
-            vpiName: aes
-          vpiModule: Module name:aes
+          vpiDefName: aes
+          vpiParamAssign (1 items):
+            ParamAssign start:44:5 end:44:57:
+              vpiParent: ModuleTypespec name:aes
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:AlertAsyncOn start:44:6 end:44:18:
+                vpiParent: ParamAssign
+                vpiName: AlertAsyncOn
+                vpiFullName: top.aes.AlertAsyncOn
+              vpiRhs HierPath name:alert_handler_reg_pkg::AsyncOn[22:21] start:44:19 end:44:56:
+                vpiParent: ParamAssign
+                vpiName: alert_handler_reg_pkg::AsyncOn[22:21]
+                vpiFullName: top.aes.alert_handler_reg_pkg::AsyncOn[22:21]
+                vpiPathElem (2 items):
+                  RefTypespec start:44:19 end:44:42:
+                    vpiParent: HierPath name:alert_handler_reg_pkg::AsyncOn[22:21]
+                    vpiFullName: top.aes.alert_handler_reg_pkg::AsyncOn[22:21]
+                    vpiActual: UnsupportedTypespec name:alert_handler_reg_pkg
+                  PartSelect name:AsyncOn[22:21] start:44:42 end:44:56:
+                    vpiParent: HierPath name:alert_handler_reg_pkg::AsyncOn[22:21]
+                    vpiName: AsyncOn[22:21]
+                    vpiFullName: top.aes.alert_handler_reg_pkg::AsyncOn[22:21].AsyncOn[22:21]
+                    vpiPrefix RefObj name:AsyncOn start:44:42 end:44:49:
+                      vpiParent: PartSelect name:AsyncOn[22:21]
+                      vpiName: AsyncOn
+                      vpiFullName: top.aes.alert_handler_reg_pkg::AsyncOn[22:21].AsyncOn[22:21].AsyncOn
+                    vpiRange Range start:44:50 end:44:55:
+                      vpiParent: PartSelect name:AsyncOn[22:21]
+                      vpiLeftRange Constant start:44:50 end:44:52:
+                        vpiParent: Range
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top.aes.alert_handler_reg_pkg::AsyncOn[22:21].AsyncOn[22:21]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "22"
+                        vpiValue: 22
+                      vpiRightRange Constant start:44:53 end:44:55:
+                        vpiParent: Range
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top.aes.alert_handler_reg_pkg::AsyncOn[22:21].AsyncOn[22:21]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "21"
+                        vpiValue: 21
+          vpiModule: "Module name:aes #(.AlertAsyncOn({4{{1'b1}}}))"
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -817,76 +844,26 @@ Design name:unnamed:
             vpiName: aes
             vpiFullName: top.u_aes.aes
             vpiActual: ModuleTypespec name:aes
-          vpiParamAssign (1 items):
-            ParamAssign start:44:5 end:44:57:
-              vpiParent: RefInstance name:u_aes
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:AlertAsyncOn start:44:6 end:44:18:
-                vpiParent: ParamAssign
-                vpiName: AlertAsyncOn
-                vpiFullName: top.u_aes.AlertAsyncOn
-              vpiRhs HierPath name:alert_handler_reg_pkg::AsyncOn[22:21] start:44:19 end:44:56:
-                vpiParent: ParamAssign
-                vpiName: alert_handler_reg_pkg::AsyncOn[22:21]
-                vpiFullName: top.u_aes.alert_handler_reg_pkg::AsyncOn[22:21]
-                vpiPathElem (2 items):
-                  RefTypespec start:44:19 end:44:42:
-                    vpiParent: HierPath name:alert_handler_reg_pkg::AsyncOn[22:21]
-                    vpiFullName: top.u_aes.alert_handler_reg_pkg::AsyncOn[22:21]
-                    vpiActual: UnsupportedTypespec name:alert_handler_reg_pkg
-                  PartSelect name:AsyncOn[22:21] start:44:42 end:44:56:
-                    vpiParent: HierPath name:alert_handler_reg_pkg::AsyncOn[22:21]
-                    vpiName: AsyncOn[22:21]
-                    vpiFullName: top.u_aes.alert_handler_reg_pkg::AsyncOn[22:21].AsyncOn[22:21]
-                    vpiPrefix RefObj name:AsyncOn start:44:42 end:44:49:
-                      vpiParent: PartSelect name:AsyncOn[22:21]
-                      vpiName: AsyncOn
-                      vpiFullName: top.u_aes.alert_handler_reg_pkg::AsyncOn[22:21].AsyncOn[22:21].AsyncOn
-                    vpiRange Range start:44:50 end:44:55:
-                      vpiParent: PartSelect name:AsyncOn[22:21]
-                      vpiLeftRange Constant start:44:50 end:44:52:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: top.u_aes.alert_handler_reg_pkg::AsyncOn[22:21].AsyncOn[22:21]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "22"
-                        vpiValue: 22
-                      vpiRightRange Constant start:44:53 end:44:55:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: top.u_aes.alert_handler_reg_pkg::AsyncOn[22:21].AsyncOn[22:21]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "21"
-                        vpiValue: 21
-    Module name:aes file:$Source01/dut.sv start:49:1 end:60:10:
+    "Module name:aes #(.AlertAsyncOn({4{{1'b1}}})) file:$Source01/dut.sv start:49:1 end:60:10":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:aes start:49:8 end:49:11:
-        vpiParent: Module name:aes
-        vpiName: aes
-      vpiFullName: aes
+      "vpiName Identifier name:aes #(.AlertAsyncOn({4{{1'b1}}})) start:49:8 end:49:11":
+      vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
       vpiParameter (1 items):
         Parameter name:AlertAsyncOn start:50:28 end:50:40:
-          vpiParent: Module name:aes
+          vpiParent: "Module name:aes #(.AlertAsyncOn({4{{1'b1}}}))"
           vpiTypespec RefTypespec start:50:14 end:50:27:
             vpiParent: Parameter name:AlertAsyncOn
-            vpiFullName: aes.AlertAsyncOn
+            vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).AlertAsyncOn"
             vpiActual: LogicTypespec
           vpiName: AlertAsyncOn
-          vpiFullName: aes.AlertAsyncOn
+          vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).AlertAsyncOn"
       vpiParamAssign (1 items):
         ParamAssign start:50:28 end:50:52:
-          vpiParent: Module name:aes
+          vpiParent: "Module name:aes #(.AlertAsyncOn({4{{1'b1}}}))"
           vpiLhs RefObj name:AlertAsyncOn start:50:28 end:50:40:
             vpiParent: ParamAssign
             vpiName: AlertAsyncOn
-            vpiFullName: aes.AlertAsyncOn
+            vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).AlertAsyncOn"
             vpiActual: Parameter name:AlertAsyncOn
           vpiRhs Operation start:50:43 end:50:52:
             vpiParent: ParamAssign
@@ -896,7 +873,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: aes
+                  vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -910,7 +887,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: aes
+                      vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
@@ -918,7 +895,7 @@ Design name:unnamed:
                     vpiValue: "1"
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:aes
+          vpiParent: "Module name:aes #(.AlertAsyncOn({4{{1'b1}}}))"
           vpiRange (1 items):
             Range start:50:20 end:50:27:
               vpiParent: LogicTypespec
@@ -930,7 +907,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: aes
+                      vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -940,7 +917,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: aes
+                      vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -950,7 +927,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: aes
+                  vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -958,23 +935,23 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         BitTypespec:
-          vpiParent: Module name:aes
+          vpiParent: "Module name:aes #(.AlertAsyncOn({4{{1'b1}}}))"
       vpiDefName: aes
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:aes
+        vpiParent: "Module name:aes #(.AlertAsyncOn({4{{1'b1}}}))"
         vpiName: work
-        vpiFullName: aes.work
+        vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).work"
       vpiCell: aes
       vpiGenStmt (1 items):
         GenFor start:52:4 end:58:6:
-          vpiParent: Module name:aes
-          vpiFullName: aes
+          vpiParent: "Module name:aes #(.AlertAsyncOn({4{{1'b1}}}))"
+          vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
           vpiVariable (1 items):
             Variable name:i start:52:16 end:52:17:
               vpiParent: GenFor
               vpiName: i
-              vpiFullName: aes.i
+              vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).i"
           vpiForInitStmt (1 items):
             Assignment start:52:16 end:52:21:
               vpiParent: GenFor
@@ -983,7 +960,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: aes
+                  vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -997,7 +974,7 @@ Design name:unnamed:
                 RefObj name:i start:52:30 end:52:31:
                   vpiParent: Operation
                   vpiName: i
-                  vpiFullName: aes.i
+                  vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).i"
                   vpiActual: Variable name:i
           vpiCondition Operation start:52:23 end:52:28:
             vpiParent: GenFor
@@ -1006,13 +983,13 @@ Design name:unnamed:
               RefObj name:i start:52:23 end:52:24:
                 vpiParent: Operation
                 vpiName: i
-                vpiFullName: aes.i
+                vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).i"
                 vpiActual: Variable name:i
               Constant start:52:27 end:52:28:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: aes
+                  vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}}))"
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1021,16 +998,49 @@ Design name:unnamed:
           vpiStmt Begin name:gen_alert_tx start:52:35 end:58:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_alert_tx start:52:43 end:52:55:
-              vpiParent: Begin name:gen_alert_tx
-              vpiName: gen_alert_tx
-            vpiFullName: aes.gen_alert_tx
+            vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx"
             vpiTypespec (1 items):
               ModuleTypespec name:prim_alert_sender start:53:5 end:53:22:
                 vpiParent: Begin name:gen_alert_tx
                 vpiName Identifier name:prim_alert_sender start:53:5 end:53:22:
-                  vpiParent: ModuleTypespec name:prim_alert_sender
-                  vpiName: prim_alert_sender
-                vpiModule: Module name:prim_alert_sender
+                vpiDefName: prim_alert_sender
+                vpiParamAssign (2 items):
+                  ParamAssign start:54:7 end:54:32:
+                    vpiParent: ModuleTypespec name:prim_alert_sender
+                    vpiConnByName: true
+                    vpiOverridden: true
+                    vpiLhs RefObj name:AsyncOn start:54:8 end:54:15:
+                      vpiParent: ParamAssign
+                      vpiName: AsyncOn
+                      vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx.prim_alert_sender.AsyncOn"
+                    vpiRhs BitSelect name:AlertAsyncOn[i] start:54:16 end:54:31:
+                      vpiParent: ParamAssign
+                      vpiName: AlertAsyncOn[i]
+                      vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx.prim_alert_sender.AlertAsyncOn[i]"
+                      vpiPrefix RefObj name:AlertAsyncOn start:54:16 end:54:28:
+                        vpiParent: BitSelect name:AlertAsyncOn[i]
+                        vpiName: AlertAsyncOn
+                        vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx.prim_alert_sender.AlertAsyncOn"
+                        vpiActual: Parameter name:AlertAsyncOn
+                      vpiIndex RefObj name:i start:54:29 end:54:30:
+                        vpiParent: BitSelect name:AlertAsyncOn[i]
+                        vpiName: i
+                        vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx.prim_alert_sender.i"
+                        vpiActual: Variable name:i
+                  ParamAssign start:55:7 end:55:18:
+                    vpiParent: ModuleTypespec name:prim_alert_sender
+                    vpiConnByName: true
+                    vpiOverridden: true
+                    vpiLhs RefObj name:IsFatal start:55:8 end:55:15:
+                      vpiParent: ParamAssign
+                      vpiName: IsFatal
+                      vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx.prim_alert_sender.IsFatal"
+                    vpiRhs RefObj name:i start:55:16 end:55:17:
+                      vpiParent: ParamAssign
+                      vpiName: i
+                      vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx.prim_alert_sender.i"
+                      vpiActual: Variable name:i
+                vpiModule: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
             vpiStmt (1 items):
               RefInstance name:alert_sender start:56:7 end:56:19:
                 vpiParent: Begin name:gen_alert_tx
@@ -1038,44 +1048,8 @@ Design name:unnamed:
                 vpiTypespec RefTypespec name:prim_alert_sender start:53:5 end:53:22:
                   vpiParent: RefInstance name:alert_sender
                   vpiName: prim_alert_sender
-                  vpiFullName: aes.gen_alert_tx.alert_sender.prim_alert_sender
+                  vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx.alert_sender.prim_alert_sender"
                   vpiActual: ModuleTypespec name:prim_alert_sender
-                vpiParamAssign (2 items):
-                  ParamAssign start:54:7 end:54:32:
-                    vpiParent: RefInstance name:alert_sender
-                    vpiConnByName: true
-                    vpiOverridden: true
-                    vpiLhs RefObj name:AsyncOn start:54:8 end:54:15:
-                      vpiParent: ParamAssign
-                      vpiName: AsyncOn
-                      vpiFullName: aes.gen_alert_tx.alert_sender.AsyncOn
-                    vpiRhs BitSelect name:AlertAsyncOn[i] start:54:16 end:54:31:
-                      vpiParent: ParamAssign
-                      vpiName: AlertAsyncOn[i]
-                      vpiFullName: aes.gen_alert_tx.alert_sender.AlertAsyncOn[i]
-                      vpiPrefix RefObj name:AlertAsyncOn start:54:16 end:54:28:
-                        vpiParent: BitSelect name:AlertAsyncOn[i]
-                        vpiName: AlertAsyncOn
-                        vpiFullName: aes.gen_alert_tx.alert_sender.AlertAsyncOn
-                        vpiActual: Parameter name:AlertAsyncOn
-                      vpiIndex RefObj name:i start:54:29 end:54:30:
-                        vpiParent: BitSelect name:AlertAsyncOn[i]
-                        vpiName: i
-                        vpiFullName: aes.gen_alert_tx.alert_sender.i
-                        vpiActual: Variable name:i
-                  ParamAssign start:55:7 end:55:18:
-                    vpiParent: RefInstance name:alert_sender
-                    vpiConnByName: true
-                    vpiOverridden: true
-                    vpiLhs RefObj name:IsFatal start:55:8 end:55:15:
-                      vpiParent: ParamAssign
-                      vpiName: IsFatal
-                      vpiFullName: aes.gen_alert_tx.alert_sender.IsFatal
-                    vpiRhs RefObj name:i start:55:16 end:55:17:
-                      vpiParent: ParamAssign
-                      vpiName: i
-                      vpiFullName: aes.gen_alert_tx.alert_sender.i
-                      vpiActual: Variable name:i
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1085,39 +1059,27 @@ Design name:unnamed:
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:7:8 end:7:12:
-        vpiParent: ModuleTypespec name:test
-        vpiName: test
       vpiModule: Module name:test
     ModuleTypespec name:prim_alert_sender:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_alert_sender start:13:8 end:13:25:
-        vpiParent: ModuleTypespec name:prim_alert_sender
-        vpiName: prim_alert_sender
-      vpiModule: Module name:prim_alert_sender
+      vpiModule: "Module name:prim_alert_sender #(.AsyncOn(1'b1), .IsFatal(1'b0))"
     ModuleTypespec name:GOOD:
       vpiParent: Design name:unnamed
       vpiName Identifier name:GOOD start:28:8 end:28:12:
-        vpiParent: ModuleTypespec name:GOOD
-        vpiName: GOOD
       vpiModule: Module name:GOOD
     ModuleTypespec name:prim_diff_decode:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_diff_decode start:31:8 end:31:24:
-        vpiParent: ModuleTypespec name:prim_diff_decode
-        vpiName: prim_diff_decode
-      vpiModule: Module name:prim_diff_decode
+      vpiModule: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:41:8 end:41:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
     ModuleTypespec name:aes:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes start:49:8 end:49:11:
-        vpiParent: ModuleTypespec name:aes
-        vpiName: aes
-      vpiModule: Module name:aes
+      vpiModule: "Module name:aes #(.AlertAsyncOn({4{{1'b1}}}))"
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

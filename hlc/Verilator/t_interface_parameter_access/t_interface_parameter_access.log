@@ -612,43 +612,41 @@ Design name:unnamed:
       vpiName: t_interface_parameter_access.v
       vpiPreprocFile: "$Output/lib/work/t_interface_parameter_access.v"
   vpiAllInterfaces (1 items):
-    Interface name:test_if file:$Source01/t_interface_parameter_access.v start:8:1 end:23:13:
+    Interface name:test_if #(.FOO(1)) file:$Source01/t_interface_parameter_access.v start:8:1 end:23:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test_if start:8:11 end:8:18:
-        vpiParent: Interface name:test_if
-        vpiName: test_if
-      vpiFullName: test_if
+      vpiName Identifier name:test_if #(.FOO(1)) start:8:11 end:8:18:
+      vpiFullName: test_if #(.FOO(1))
       vpiVariable (1 items):
         Variable name:data start:11:11 end:11:15:
-          vpiParent: Interface name:test_if
+          vpiParent: Interface name:test_if #(.FOO(1))
           vpiTypespec RefTypespec name:logic start:11:4 end:11:9:
             vpiParent: Variable name:data
             vpiName: logic
-            vpiFullName: test_if.data.logic
+            vpiFullName: test_if #(.FOO(1)).data.logic
           vpiName: data
-          vpiFullName: test_if.data
+          vpiFullName: test_if #(.FOO(1)).data
       vpiParameter (1 items):
         Parameter name:FOO start:8:39 end:8:42:
-          vpiParent: Interface name:test_if
+          vpiParent: Interface name:test_if #(.FOO(1))
           vpiTypespec RefTypespec start:8:31 end:8:38:
             vpiParent: Parameter name:FOO
-            vpiFullName: test_if.FOO
+            vpiFullName: test_if #(.FOO(1)).FOO
             vpiActual: IntegerTypespec
           vpiName: FOO
-          vpiFullName: test_if.FOO
+          vpiFullName: test_if #(.FOO(1)).FOO
       vpiParamAssign (1 items):
         ParamAssign start:8:39 end:8:46:
-          vpiParent: Interface name:test_if
+          vpiParent: Interface name:test_if #(.FOO(1))
           vpiLhs RefObj name:FOO start:8:39 end:8:42:
             vpiParent: ParamAssign
             vpiName: FOO
-            vpiFullName: test_if.FOO
+            vpiFullName: test_if #(.FOO(1)).FOO
             vpiActual: Parameter name:FOO
           vpiRhs Constant start:8:45 end:8:46:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test_if
+              vpiFullName: test_if #(.FOO(1))
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -656,22 +654,20 @@ Design name:unnamed:
             vpiValue: 1
       vpiTypespec (1 items):
         IntegerTypespec:
-          vpiParent: Interface name:test_if
+          vpiParent: Interface name:test_if #(.FOO(1))
           vpiSigned: true
       vpiDefName: test_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Interface name:test_if
+        vpiParent: Interface name:test_if #(.FOO(1))
         vpiName: work
-        vpiFullName: test_if.work
+        vpiFullName: test_if #(.FOO(1)).work
       vpiCell: test_if
       vpiTaskFunc (1 items):
         Function name:getFoo start:19:4 end:21:15:
-          vpiParent: Interface name:test_if
+          vpiParent: Interface name:test_if #(.FOO(1))
           vpiName Identifier name:getFoo start:19:21 end:19:27:
-            vpiParent: Function name:getFoo
-            vpiName: getFoo
-          vpiFullName: test_if.getFoo
+          vpiFullName: test_if #(.FOO(1)).getFoo
           vpiTypespec (1 items):
             IntegerTypespec:
               vpiParent: Function name:getFoo
@@ -682,30 +678,26 @@ Design name:unnamed:
             vpiCondition RefObj name:FOO start:20:14 end:20:17:
               vpiParent: ReturnStmt
               vpiName: FOO
-              vpiFullName: test_if.getFoo.FOO
+              vpiFullName: test_if #(.FOO(1)).getFoo.FOO
               vpiActual: Parameter name:FOO
           vpiReturn RefTypespec start:19:13 end:19:20:
             vpiParent: Function name:getFoo
-            vpiFullName: test_if.getFoo
+            vpiFullName: test_if #(.FOO(1)).getFoo
             vpiActual: IntegerTypespec
       vpiModport (1 items):
         Modport name:mp start:14:12 end:14:14:
-          vpiParent: Interface name:test_if
+          vpiParent: Interface name:test_if #(.FOO(1))
           vpiName Identifier name:mp:
-            vpiParent: Modport name:mp
-            vpiName: mp
           vpiIODecl (1 items):
             IODecl name:data start:16:16 end:16:20:
               vpiParent: Modport name:mp
               vpiName: data
               vpiDirection: output (2)
-          vpiInterface: Interface name:test_if
+          vpiInterface: Interface name:test_if #(.FOO(1))
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_parameter_access.v start:30:1 end:52:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:30:8 end:30:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiParameter (1 items):
         Parameter name:THE_TOP_FOO start:43:15 end:43:26:
@@ -745,8 +737,7 @@ Design name:unnamed:
         ModuleTypespec name:testmod start:38:4 end:38:11:
           vpiParent: Module name:t
           vpiName Identifier name:testmod start:38:4 end:38:11:
-            vpiParent: ModuleTypespec name:testmod
-            vpiName: testmod
+          vpiDefName: testmod
           vpiModule: Module name:testmod
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -815,8 +806,6 @@ Design name:unnamed:
                     SysTaskCall name:$display start:47:10 end:47:61:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:47:10 end:47:18:
-                        vpiParent: SysTaskCall name:$display
-                        vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:47:19 end:47:47:
                           vpiParent: SysTaskCall name:$display
@@ -836,8 +825,6 @@ Design name:unnamed:
                     SysTaskCall name:$stop start:48:3 end:48:8:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:48:3 end:48:8:
-                        vpiParent: SysTaskCall name:$stop
-                        vpiName: "$stop"
       vpiRefInstance (2 items):
         RefInstance name:the_interface start:36:36 end:36:49:
           vpiParent: Module name:t
@@ -847,32 +834,6 @@ Design name:unnamed:
             vpiName: test_if
             vpiFullName: t.the_interface.test_if
             vpiActual: InterfaceTypespec name:test_if
-          vpiParamAssign (1 items):
-            ParamAssign start:36:15 end:36:33:
-              vpiParent: RefInstance name:the_interface
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:FOO start:36:16 end:36:19:
-                vpiParent: ParamAssign
-                vpiName: FOO
-                vpiFullName: t.the_interface.FOO
-              vpiRhs FuncCall name:identity start:36:21 end:36:32:
-                vpiParent: ParamAssign
-                vpiName Identifier name:identity start:36:21 end:36:29:
-                  vpiParent: FuncCall name:identity
-                  vpiName: identity
-                vpiTaskFunc: Function name:identity
-                vpiArgument (1 items):
-                  Constant start:36:30 end:36:31:
-                    vpiParent: FuncCall name:identity
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t.the_interface
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "5"
-                    vpiValue: 5
         RefInstance name:testmod_i start:38:12 end:38:21:
           vpiParent: Module name:t
           vpiName: testmod_i
@@ -921,8 +882,6 @@ Design name:unnamed:
     Module name:testmod file:$Source01/t_interface_parameter_access.v start:55:1 end:89:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testmod start:55:8 end:55:15:
-        vpiParent: Module name:testmod
-        vpiName: testmod
       vpiFullName: testmod
       vpiParameter (2 items):
         Parameter name:THE_FOO start:62:15 end:62:22:
@@ -997,21 +956,16 @@ Design name:unnamed:
               vpiParent: UnsupportedTypespec name:test_if::mp
               vpiName: test_if
               vpiFullName: testmod.test_if::mp.test_if
-              vpiActual: Interface name:test_if
             RefObj name:mp start:58:12 end:58:14:
               vpiParent: UnsupportedTypespec name:test_if::mp
               vpiName: mp
               vpiFullName: testmod.test_if::mp.mp
           vpiName Identifier name:test_if::mp:
-            vpiParent: UnsupportedTypespec name:test_if::mp
-            vpiName: test_if::mp
         InterfaceTypespec name:test_if start:59:4 end:59:11:
           vpiParent: Module name:testmod
           vpiName Identifier name:test_if start:59:4 end:59:11:
-            vpiParent: InterfaceTypespec name:test_if
-            vpiName: test_if
           vpiDefName: test_if
-          vpiInterface: Interface name:test_if
+          vpiInterface: Interface name:test_if #(.FOO(1))
       vpiDefName: testmod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1127,8 +1081,6 @@ Design name:unnamed:
                       SysTaskCall name:$display start:67:10 end:67:53:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:67:10 end:67:18:
-                          vpiParent: SysTaskCall name:$display
-                          vpiName: "$display"
                         vpiArgument (2 items):
                           Constant start:67:19 end:67:43:
                             vpiParent: SysTaskCall name:$display
@@ -1148,8 +1100,6 @@ Design name:unnamed:
                       SysTaskCall name:$stop start:68:3 end:68:8:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:68:3 end:68:8:
-                          vpiParent: SysTaskCall name:$stop
-                          vpiName: "$stop"
                 IfStmt start:70:7 end:73:10:
                   vpiParent: Begin
                   vpiCondition Operation start:70:11 end:70:29:
@@ -1178,8 +1128,6 @@ Design name:unnamed:
                       SysTaskCall name:$display start:71:10 end:71:65:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:71:10 end:71:18:
-                          vpiParent: SysTaskCall name:$display
-                          vpiName: "$display"
                         vpiArgument (2 items):
                           Constant start:71:19 end:71:49:
                             vpiParent: SysTaskCall name:$display
@@ -1199,8 +1147,6 @@ Design name:unnamed:
                       SysTaskCall name:$stop start:72:10 end:72:15:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:72:10 end:72:15:
-                          vpiParent: SysTaskCall name:$stop
-                          vpiName: "$stop"
                 IfStmt start:74:7 end:77:10:
                   vpiParent: Begin
                   vpiCondition Operation start:74:11 end:74:24:
@@ -1238,8 +1184,6 @@ Design name:unnamed:
                       SysTaskCall name:$display start:75:10 end:75:55:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:75:10 end:75:18:
-                          vpiParent: SysTaskCall name:$display
-                          vpiName: "$display"
                         vpiArgument (2 items):
                           Constant start:75:19 end:75:44:
                             vpiParent: SysTaskCall name:$display
@@ -1268,8 +1212,6 @@ Design name:unnamed:
                       SysTaskCall name:$stop start:76:3 end:76:8:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:76:3 end:76:8:
-                          vpiParent: SysTaskCall name:$stop
-                          vpiName: "$stop"
                 IfStmt start:78:7 end:81:10:
                   vpiParent: Begin
                   vpiCondition Operation start:78:11 end:78:30:
@@ -1308,8 +1250,6 @@ Design name:unnamed:
                       SysTaskCall name:$display start:79:10 end:79:67:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:79:10 end:79:18:
-                          vpiParent: SysTaskCall name:$display
-                          vpiName: "$display"
                         vpiArgument (2 items):
                           Constant start:79:19 end:79:50:
                             vpiParent: SysTaskCall name:$display
@@ -1339,13 +1279,9 @@ Design name:unnamed:
                       SysTaskCall name:$stop start:80:10 end:80:15:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:80:10 end:80:15:
-                          vpiParent: SysTaskCall name:$stop
-                          vpiName: "$stop"
                 SysTaskCall name:$write start:86:7 end:86:39:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:86:7 end:86:13:
-                    vpiParent: SysTaskCall name:$write
-                    vpiName: "$write"
                   vpiArgument (1 items):
                     Constant start:86:14 end:86:38:
                       vpiParent: SysTaskCall name:$write
@@ -1360,40 +1296,30 @@ Design name:unnamed:
                 SysTaskCall name:$finish start:87:7 end:87:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:87:7 end:87:14:
-                    vpiParent: SysTaskCall name:$finish
-                    vpiName: "$finish"
           vpiAlwaysType: always (1)
   vpiTypespec (5 items):
     InterfaceTypespec name:test_if:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test_if start:8:11 end:8:18:
-        vpiParent: InterfaceTypespec name:test_if
-        vpiName: test_if
       vpiDefName: test_if
-      vpiInterface: Interface name:test_if
+      vpiInterface: Interface name:test_if #(.FOO(1))
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:30:8 end:30:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:testmod:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testmod start:55:8 end:55:15:
-        vpiParent: ModuleTypespec name:testmod
-        vpiName: testmod
       vpiModule: Module name:testmod
   vpiTaskFunc (1 items):
     Function name:identity start:25:1 end:27:12:
       vpiParent: Design name:unnamed
       vpiName Identifier name:identity start:25:18 end:25:26:
-        vpiParent: Function name:identity
-        vpiName: identity
       vpiFullName: identity
       vpiTypespec (1 items):
         IntegerTypespec:
@@ -1439,25 +1365,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/mounts.json
 
 
-{'result': {'coverage': 99.45,
+{'result': {'coverage': 98.17,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 6,
+            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 20,
                                                                           'pre_len': 1094}},
-            'post_len': 6,
+            'post_len': 20,
             'pre_len': 1094,
             'test_name': 'Verilator/t_interface_parameter_access'}}
 
 +-------------------------------------------------+----------+-----------+
 | INPUT                                           |   PRELEN |   POSTLEN |
 +=================================================+==========+===========+
-| $Output/lib/work/t_interface_parameter_access.v |     1094 |         6 |
+| $Output/lib/work/t_interface_parameter_access.v |     1094 |        20 |
 +=================================================+==========+===========+
-|                                                 |     1094 |         6 |
+|                                                 |     1094 |        20 |
 +-------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.45
+[COVERAGE] : 98.17
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1468,7 +1394,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             199     199       0         0
+Others                             193     193       0         0
 ----------------------------------------------------------------
-                                   199     199       0         0
+                                   193     193       0         0
 ===================== END REDUCTION RESULT =====================

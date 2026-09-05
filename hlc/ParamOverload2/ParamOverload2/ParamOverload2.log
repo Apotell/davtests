@@ -151,8 +151,6 @@ Design name:unnamed:
     Package name:keymgr_pkg file:$Source01/dut.sv start:1:1 end:7:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:keymgr_pkg start:1:9 end:1:19:
-        vpiParent: Package name:keymgr_pkg
-        vpiName: keymgr_pkg
       vpiFullName: keymgr_pkg
       vpiParameter (1 items):
         Parameter name:RndCnstLfsrPermDefault start:3:26 end:3:48:
@@ -248,8 +246,6 @@ Design name:unnamed:
         TypedefTypespec name:lfsr_perm_t start:2:4 end:2:42:
           vpiParent: Package name:keymgr_pkg
           vpiName Identifier name:lfsr_perm_t start:2:30 end:2:41:
-            vpiParent: TypedefTypespec name:lfsr_perm_t
-            vpiName: lfsr_perm_t
           vpiTypedefAlias RefTypespec start:2:12 end:2:29:
             vpiParent: TypedefTypespec name:lfsr_perm_t
             vpiFullName: keymgr_pkg::lfsr_perm_t
@@ -265,8 +261,6 @@ Design name:unnamed:
     Module name:keymgr file:$Source01/dut.sv start:9:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:keymgr start:9:8 end:9:14:
-        vpiParent: Module name:keymgr
-        vpiName: keymgr
       vpiFullName: keymgr
       vpiParameter (1 items):
         Parameter name:RndCnstLfsrPerm start:11:26 end:11:41:
@@ -295,8 +289,6 @@ Design name:unnamed:
         ImportTypespec name:keymgr_pkg start:10:11 end:10:24:
           vpiParent: Module name:keymgr
           vpiName Identifier name:keymgr_pkg start:10:11 end:10:21:
-            vpiParent: ImportTypespec name:keymgr_pkg
-            vpiName: keymgr_pkg
       vpiDefName: keymgr
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -307,15 +299,31 @@ Design name:unnamed:
     Module name:top file:$Source01/dut.sv start:14:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:14:8 end:14:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiTypespec (1 items):
         ModuleTypespec name:keymgr start:15:4 end:15:10:
           vpiParent: Module name:top
           vpiName Identifier name:keymgr start:15:4 end:15:10:
-            vpiParent: ModuleTypespec name:keymgr
-            vpiName: keymgr
+          vpiDefName: keymgr
+          vpiParamAssign (1 items):
+            ParamAssign start:16:7 end:16:31:
+              vpiParent: ModuleTypespec name:keymgr
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:RndCnstLfsrPerm start:16:8 end:16:23:
+                vpiParent: ParamAssign
+                vpiName: RndCnstLfsrPerm
+                vpiFullName: top.keymgr.RndCnstLfsrPerm
+              vpiRhs Constant start:16:24 end:16:30:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.keymgr
+                  vpiActual: LogicTypespec
+                vpiConstType: binary (3)
+                vpiSize: 384
+                vpiDecompile: "384'b1"
+                vpiValue: "1"
           vpiModule: Module name:keymgr
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -333,25 +341,6 @@ Design name:unnamed:
             vpiName: keymgr
             vpiFullName: top.u_keymgr.keymgr
             vpiActual: ModuleTypespec name:keymgr
-          vpiParamAssign (1 items):
-            ParamAssign start:16:7 end:16:31:
-              vpiParent: RefInstance name:u_keymgr
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:RndCnstLfsrPerm start:16:8 end:16:23:
-                vpiParent: ParamAssign
-                vpiName: RndCnstLfsrPerm
-                vpiFullName: top.u_keymgr.RndCnstLfsrPerm
-              vpiRhs Constant start:16:24 end:16:30:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.u_keymgr
-                  vpiActual: LogicTypespec
-                vpiConstType: binary (3)
-                vpiSize: 384
-                vpiDecompile: "384'b1"
-                vpiValue: "1"
   vpiTypespec (5 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -361,14 +350,10 @@ Design name:unnamed:
     ModuleTypespec name:keymgr:
       vpiParent: Design name:unnamed
       vpiName Identifier name:keymgr start:9:8 end:9:14:
-        vpiParent: ModuleTypespec name:keymgr
-        vpiName: keymgr
       vpiModule: Module name:keymgr
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:14:8 end:14:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
     LogicTypespec:
       vpiParent: Design name:unnamed

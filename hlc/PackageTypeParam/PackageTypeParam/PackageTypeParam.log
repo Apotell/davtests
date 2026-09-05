@@ -169,7 +169,7 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "new_package".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "module_a".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "new_package".
-[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "module_a".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "module_a #(.TYPE_PARAMETER(new_package::zzz))".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -182,8 +182,6 @@ Design name:unnamed:
     Package name:new_package file:$Source01/dut.sv start:1:1 end:9:25:
       vpiParent: Design name:unnamed
       vpiName Identifier name:new_package start:1:9 end:1:20:
-        vpiParent: Package name:new_package
-        vpiName: new_package
       vpiFullName: new_package
       vpiTypespec (5 items):
         LogicTypespec:
@@ -282,8 +280,6 @@ Design name:unnamed:
         TypedefTypespec name:zzz start:2:1 end:8:7:
           vpiParent: Package name:new_package
           vpiName Identifier name:zzz start:8:3 end:8:6:
-            vpiParent: TypedefTypespec name:zzz
-            vpiName: zzz
           vpiTypedefAlias RefTypespec start:2:9 end:8:2:
             vpiParent: TypedefTypespec name:zzz
             vpiFullName: new_package::zzz
@@ -296,138 +292,130 @@ Design name:unnamed:
         vpiFullName: new_package::work
       vpiCell: new_package
       vpiEndLabel Identifier name:new_package start:9:14 end:9:25:
-        vpiParent: Package name:new_package
-        vpiName: new_package
   vpiAllModules (1 items):
-    Module name:module_a file:$Source01/dut.sv start:12:1 end:28:21:
+    Module name:module_a #(.TYPE_PARAMETER(new_package::zzz)) file:$Source01/dut.sv start:12:1 end:28:21:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:module_a start:12:8 end:12:16:
-        vpiParent: Module name:module_a
-        vpiName: module_a
-      vpiFullName: module_a
+      vpiName Identifier name:module_a #(.TYPE_PARAMETER(new_package::zzz)) start:12:8 end:12:16:
+      vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz))
       vpiVariable (1 items):
         Variable name:output_struct start:18:26 end:18:39:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiTypespec RefTypespec name:TYPE_PARAMETER start:18:11 end:18:25:
             vpiParent: Variable name:output_struct
             vpiName: TYPE_PARAMETER
-            vpiFullName: module_a.output_struct.TYPE_PARAMETER
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).output_struct.TYPE_PARAMETER
             vpiActual: TypeParameter name:TYPE_PARAMETER
           vpiName: output_struct
-          vpiFullName: module_a.output_struct
+          vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).output_struct
       vpiParameter (1 items):
         TypeParameter name:TYPE_PARAMETER start:14:20 end:14:34:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiName: TYPE_PARAMETER
-          vpiFullName: module_a.TYPE_PARAMETER
+          vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).TYPE_PARAMETER
       vpiParamAssign (1 items):
         ParamAssign start:14:20 end:14:53:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiLhs RefTypespec name:TYPE_PARAMETER start:14:20 end:14:34:
             vpiParent: ParamAssign
             vpiName: TYPE_PARAMETER
-            vpiFullName: module_a.TYPE_PARAMETER
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).TYPE_PARAMETER
             vpiActual: TypeParameter name:TYPE_PARAMETER
           vpiRhs RefTypespec start:14:37 end:14:53:
             vpiParent: ParamAssign
-            vpiFullName: module_a
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz))
             vpiActual: UnsupportedTypespec name:new_package::zzz
       vpiTypespec (4 items):
         UnsupportedTypespec name:new_package start:14:37 end:14:48:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiName Identifier name:new_package start:14:37 end:14:48:
-            vpiParent: UnsupportedTypespec name:new_package
-            vpiName: new_package
         UnsupportedTypespec name:new_package::zzz start:14:37 end:14:53:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiPathElem (2 items):
             RefTypespec start:14:37 end:14:50:
               vpiParent: UnsupportedTypespec name:new_package::zzz
-              vpiFullName: module_a.new_package::zzz
+              vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).new_package::zzz
               vpiActual: UnsupportedTypespec name:new_package
             RefTypespec name:zzz start:14:50 end:14:53:
               vpiParent: UnsupportedTypespec name:new_package::zzz
               vpiName: zzz
-              vpiFullName: module_a.new_package::zzz.zzz
+              vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).new_package::zzz.zzz
           vpiName Identifier name:new_package::zzz start:14:37 end:14:53:
-            vpiParent: UnsupportedTypespec name:new_package::zzz
-            vpiName: new_package::zzz
         LogicTypespec:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
         TypeParameter name:TYPE_PARAMETER:
       vpiDefName: module_a
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:module_a
+        vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
         vpiName: work
-        vpiFullName: module_a.work
+        vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).work
       vpiCell: module_a
       vpiNet (2 items):
         Net name:input_struct start:17:25 end:17:37:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiTypespec RefTypespec name:TYPE_PARAMETER start:17:10 end:17:24:
             vpiParent: Net name:input_struct
             vpiName: TYPE_PARAMETER
-            vpiFullName: module_a.input_struct.TYPE_PARAMETER
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).input_struct.TYPE_PARAMETER
             vpiActual: TypeParameter name:TYPE_PARAMETER
           vpiName: input_struct
-          vpiFullName: module_a.input_struct
+          vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).input_struct
           vpiNetType: wire (1)
         Net name:clk start:19:10 end:19:13:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiTypespec RefTypespec start:19:4 end:19:9:
             vpiParent: Net name:clk
-            vpiFullName: module_a.clk
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: module_a.clk
+          vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).clk
           vpiNetType: wire (1)
           vpiScalar: true
       vpiPort (3 items):
         Port name:input_struct start:17:25 end:17:37:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiName: input_struct
           vpiDirection: input (1)
           vpiLowConn RefObj name:input_struct start:17:25 end:17:37:
             vpiParent: Port name:input_struct
             vpiName: input_struct
-            vpiFullName: module_a.input_struct.input_struct
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).input_struct.input_struct
             vpiActual: Net name:input_struct
           vpiTypespec RefTypespec name:TYPE_PARAMETER start:17:10 end:17:24:
             vpiParent: Port name:input_struct
             vpiName: TYPE_PARAMETER
-            vpiFullName: module_a.input_struct.TYPE_PARAMETER
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).input_struct.TYPE_PARAMETER
             vpiActual: TypeParameter name:TYPE_PARAMETER
         Port name:output_struct start:18:26 end:18:39:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiName: output_struct
           vpiDirection: output (2)
           vpiLowConn RefObj name:output_struct start:18:26 end:18:39:
             vpiParent: Port name:output_struct
             vpiName: output_struct
-            vpiFullName: module_a.output_struct.output_struct
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).output_struct.output_struct
             vpiActual: Variable name:output_struct
           vpiTypespec RefTypespec name:TYPE_PARAMETER start:18:11 end:18:25:
             vpiParent: Port name:output_struct
             vpiName: TYPE_PARAMETER
-            vpiFullName: module_a.output_struct.TYPE_PARAMETER
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).output_struct.TYPE_PARAMETER
             vpiActual: TypeParameter name:TYPE_PARAMETER
         Port name:clk start:19:10 end:19:13:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiName: clk
           vpiDirection: input (1)
           vpiLowConn RefObj name:clk start:19:10 end:19:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: module_a.clk.clk
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:19:4 end:19:9:
             vpiParent: Port name:clk
-            vpiFullName: module_a.clk
+            vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).clk
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:23:3 end:25:6:
-          vpiParent: Module name:module_a
+          vpiParent: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
           vpiStmt EventControl start:23:13 end:25:6:
             vpiParent: Always
             vpiCondition Operation start:23:15 end:23:26:
@@ -437,28 +425,26 @@ Design name:unnamed:
                 RefObj name:clk start:23:23 end:23:26:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: module_a.clk
+                  vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:23:28 end:25:6:
               vpiParent: EventControl
-              vpiFullName: module_a
+              vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz))
               vpiStmt (1 items):
                 Assignment start:24:5 end:24:34:
                   vpiParent: Begin
                   vpiLhs RefObj name:output_struct start:24:5 end:24:18:
                     vpiParent: Assignment
                     vpiName: output_struct
-                    vpiFullName: module_a.output_struct
+                    vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).output_struct
                     vpiActual: Variable name:output_struct
                   vpiRhs RefObj name:input_struct start:24:22 end:24:34:
                     vpiParent: Assignment
                     vpiName: input_struct
-                    vpiFullName: module_a.input_struct
+                    vpiFullName: module_a #(.TYPE_PARAMETER(new_package::zzz)).input_struct
                     vpiActual: Net name:input_struct
           vpiAlwaysType: ff (3)
       vpiEndLabel Identifier name:module_a start:28:13 end:28:21:
-        vpiParent: Module name:module_a
-        vpiName: module_a
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -466,9 +452,7 @@ Design name:unnamed:
     ModuleTypespec name:module_a:
       vpiParent: Design name:unnamed
       vpiName Identifier name:module_a start:12:8 end:12:16:
-        vpiParent: ModuleTypespec name:module_a
-        vpiName: module_a
-      vpiModule: Module name:module_a
+      vpiModule: Module name:module_a #(.TYPE_PARAMETER(new_package::zzz))
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

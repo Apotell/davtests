@@ -927,29 +927,19 @@ Design name:unnamed:
         PreprocMacroDefinition name:INLINE_MODULE start:58:2 end:58:51:
           vpiParent: SourceFile name:t_inst_comma.v
           vpiName Identifier name:INLINE_MODULE start:58:10 end:58:23:
-            vpiParent: PreprocMacroDefinition name:INLINE_MODULE
-            vpiName: INLINE_MODULE
           vpiPMDType: define (1)
           vpiPMDToken (1 items):
             Identifier name:/*verilator public_module*/ start:58:24 end:58:51:
-              vpiParent: PreprocMacroDefinition name:INLINE_MODULE
-              vpiName: "/*verilator public_module*/"
       vpiPreprocMacroInstance (1 items):
         PreprocMacroInstance name:INLINE_MODULE file:$Source01/t_inst_comma.v start:62:4 end:62:18 ppstart:62:4 ppend:62:31:
           vpiParent: SourceFile name:t_inst_comma.v
           vpiName Identifier name:INLINE_MODULE start:62:4 end:62:18:
-            vpiParent: PreprocMacroInstance name:INLINE_MODULE
-            vpiName: INLINE_MODULE
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:INLINE_MODULE
           vpiPMIBody Identifier name:/*verilator public_module*/ start:58:24 end:58:51:
-            vpiParent: PreprocMacroInstance name:INLINE_MODULE
-            vpiName: "/*verilator public_module*/"
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_inst_comma.v start:6:1 end:53:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (4 items):
         Variable name:cyc start:12:12 end:12:15:
@@ -1100,8 +1090,21 @@ Design name:unnamed:
         ModuleTypespec name:sub start:19:4 end:19:7:
           vpiParent: Module name:t
           vpiName Identifier name:sub start:19:4 end:19:7:
-            vpiParent: ModuleTypespec name:sub
-            vpiName: sub
+          vpiDefName: sub
+          vpiParamAssign (1 items):
+            ParamAssign start:19:10 end:19:11:
+              vpiParent: ModuleTypespec name:sub
+              vpiOverridden: true
+              vpiRhs Constant start:19:10 end:19:11:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.sub
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiModule: Module name:sub
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -1129,6 +1132,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: bitout
           vpiFullName: t.bitout
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (1 items):
@@ -1342,8 +1346,6 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:40:28 end:40:33:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:40:28 end:40:33:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             Assignment start:41:6 end:41:22:
                               vpiParent: Begin
                               vpiLhs RefObj name:allbits start:41:6 end:41:13:
@@ -1430,8 +1432,6 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:45:28 end:45:33:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:45:28 end:45:33:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             IfStmt start:46:6 end:46:38:
                               vpiParent: Begin
                               vpiCondition Operation start:46:10 end:46:30:
@@ -1466,8 +1466,6 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:46:32 end:46:37:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:46:32 end:46:37:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             IfStmt start:47:6 end:47:38:
                               vpiParent: Begin
                               vpiCondition Operation start:47:10 end:47:30:
@@ -1502,13 +1500,9 @@ Design name:unnamed:
                               vpiStmt SysTaskCall name:$stop start:47:32 end:47:37:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:47:32 end:47:37:
-                                  vpiParent: SysTaskCall name:$stop
-                                  vpiName: "$stop"
                             SysTaskCall name:$write start:48:6 end:48:38:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:48:6 end:48:12:
-                                vpiParent: SysTaskCall name:$write
-                                vpiName: "$write"
                               vpiArgument (1 items):
                                 Constant start:48:13 end:48:37:
                                   vpiParent: SysTaskCall name:$write
@@ -1523,8 +1517,6 @@ Design name:unnamed:
                             SysTaskCall name:$finish start:49:6 end:49:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:49:6 end:49:13:
-                                vpiParent: SysTaskCall name:$finish
-                                vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiRefInstance (8 items):
         RefInstance name:sub0 start:20:6 end:20:10:
@@ -1535,20 +1527,6 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.sub0.sub
             vpiActual: ModuleTypespec name:sub
-          vpiParamAssign (1 items):
-            ParamAssign start:19:10 end:19:11:
-              vpiParent: RefInstance name:sub0
-              vpiOverridden: true
-              vpiRhs Constant start:19:10 end:19:11:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.sub0
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
           vpiPort (3 items):
             Port start:20:12 end:20:19:
               vpiParent: RefInstance name:sub0
@@ -2224,8 +2202,6 @@ Design name:unnamed:
     Module name:sub file:$Source01/t_inst_comma.v start:61:1 end:66:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:61:8 end:61:11:
-        vpiParent: Module name:sub
-        vpiName: sub
       vpiFullName: sub
       vpiParameter (1 items):
         Parameter name:P start:63:24 end:63:25:
@@ -2417,8 +2393,6 @@ Design name:unnamed:
             vpiStmt SysTaskCall name:$stop start:64:24 end:64:29:
               vpiParent: IfStmt
               vpiName Identifier name:$stop start:64:24 end:64:29:
-                vpiParent: SysTaskCall name:$stop
-                vpiName: "$stop"
       vpiContAssign (1 items):
         ContAssign start:65:11 end:65:44:
           vpiParent: Module name:sub
@@ -2453,8 +2427,6 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2466,8 +2438,6 @@ Design name:unnamed:
     ModuleTypespec name:sub:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:61:8 end:61:11:
-        vpiParent: ModuleTypespec name:sub
-        vpiName: sub
       vpiModule: Module name:sub
 ===================
 [  FATAL] : 0

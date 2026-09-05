@@ -933,8 +933,6 @@ Design name:unnamed:
     Module name:t file:$Source01/t_inst_mnpipe.v start:6:1 end:40:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: Module name:t
-        vpiName: t
       vpiFullName: t
       vpiVariable (3 items):
         Variable name:cyc start:12:12 end:12:15:
@@ -1076,8 +1074,7 @@ Design name:unnamed:
         ModuleTypespec name:MxN_pipeline start:19:4 end:19:16:
           vpiParent: Module name:t
           vpiName Identifier name:MxN_pipeline start:19:4 end:19:16:
-            vpiParent: ModuleTypespec name:MxN_pipeline
-            vpiName: MxN_pipeline
+          vpiDefName: MxN_pipeline
           vpiModule: Module name:MxN_pipeline
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -1105,6 +1102,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: t.in
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
           vpiValue PartSelect name:crc[2:0] start:16:20 end:16:28:
@@ -1146,6 +1144,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: t.out
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (1 items):
@@ -1578,8 +1577,6 @@ Design name:unnamed:
                             vpiStmt SysTaskCall name:$stop start:34:28 end:34:33:
                               vpiParent: IfStmt
                               vpiName Identifier name:$stop start:34:28 end:34:33:
-                                vpiParent: SysTaskCall name:$stop
-                                vpiName: "$stop"
                           IfStmt start:35:3 end:35:27:
                             vpiParent: Begin
                             vpiCondition Operation start:35:7 end:35:19:
@@ -1604,13 +1601,9 @@ Design name:unnamed:
                             vpiStmt SysTaskCall name:$stop start:35:21 end:35:26:
                               vpiParent: IfStmt
                               vpiName Identifier name:$stop start:35:21 end:35:26:
-                                vpiParent: SysTaskCall name:$stop
-                                vpiName: "$stop"
                           SysTaskCall name:$write start:36:3 end:36:35:
                             vpiParent: Begin
                             vpiName Identifier name:$write start:36:3 end:36:9:
-                              vpiParent: SysTaskCall name:$write
-                              vpiName: "$write"
                             vpiArgument (1 items):
                               Constant start:36:10 end:36:34:
                                 vpiParent: SysTaskCall name:$write
@@ -1625,8 +1618,6 @@ Design name:unnamed:
                           SysTaskCall name:$finish start:37:3 end:37:10:
                             vpiParent: Begin
                             vpiName Identifier name:$finish start:37:3 end:37:10:
-                              vpiParent: SysTaskCall name:$finish
-                              vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:pipe start:19:17 end:19:21:
@@ -1677,8 +1668,6 @@ Design name:unnamed:
     Module name:dffn file:$Source01/t_inst_mnpipe.v start:42:1 end:53:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dffn start:42:8 end:42:12:
-        vpiParent: Module name:dffn
-        vpiName: dffn
       vpiFullName: dffn
       vpiVariable (1 items):
         Variable name:q start:46:26 end:46:27:
@@ -1892,8 +1881,6 @@ Design name:unnamed:
     Module name:MxN_pipeline file:$Source01/t_inst_mnpipe.v start:55:1 end:71:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MxN_pipeline start:55:8 end:55:20:
-        vpiParent: Module name:MxN_pipeline
-        vpiName: MxN_pipeline
       vpiFullName: MxN_pipeline
       vpiParameter (2 items):
         Parameter name:M start:56:14 end:56:15:
@@ -2122,8 +2109,16 @@ Design name:unnamed:
         ModuleTypespec name:dffn start:68:4 end:68:8:
           vpiParent: Module name:MxN_pipeline
           vpiName Identifier name:dffn start:68:4 end:68:8:
-            vpiParent: ModuleTypespec name:dffn
-            vpiName: dffn
+          vpiDefName: dffn
+          vpiParamAssign (1 items):
+            ParamAssign start:68:11 end:68:12:
+              vpiParent: ModuleTypespec name:dffn
+              vpiOverridden: true
+              vpiRhs RefObj name:M start:68:11 end:68:12:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: MxN_pipeline.dffn.M
+                vpiActual: Parameter name:M
           vpiModule: Module name:dffn
       vpiDefName: MxN_pipeline
       vpiDefNetType: wire (1)
@@ -2171,6 +2166,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: w
           vpiFullName: MxN_pipeline.w
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
         Net name:q start:67:17 end:67:18:
@@ -2181,6 +2177,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: MxN_pipeline.q
+          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiVector: true
       vpiPort (3 items):
@@ -2254,15 +2251,6 @@ Design name:unnamed:
             vpiName: dffn
             vpiFullName: MxN_pipeline.p.dffn
             vpiActual: ArrayTypespec
-          vpiParamAssign (1 items):
-            ParamAssign start:68:11 end:68:12:
-              vpiParent: RefInstance name:p
-              vpiOverridden: true
-              vpiRhs RefObj name:M start:68:11 end:68:12:
-                vpiParent: ParamAssign
-                vpiName: M
-                vpiFullName: MxN_pipeline.p.M
-                vpiActual: Parameter name:M
           vpiPort (3 items):
             Port start:68:22 end:68:23:
               vpiParent: RefInstance name:p
@@ -2307,8 +2295,6 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
-        vpiParent: ModuleTypespec name:t
-        vpiName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2322,14 +2308,10 @@ Design name:unnamed:
     ModuleTypespec name:dffn:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dffn start:42:8 end:42:12:
-        vpiParent: ModuleTypespec name:dffn
-        vpiName: dffn
       vpiModule: Module name:dffn
     ModuleTypespec name:MxN_pipeline:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MxN_pipeline start:55:8 end:55:20:
-        vpiParent: ModuleTypespec name:MxN_pipeline
-        vpiName: MxN_pipeline
       vpiModule: Module name:MxN_pipeline
 ===================
 [  FATAL] : 0

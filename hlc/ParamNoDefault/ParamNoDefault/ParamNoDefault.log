@@ -154,8 +154,6 @@ Design name:unnamed:
     Module name:dut file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
-        vpiParent: Module name:dut
-        vpiName: dut
       vpiFullName: dut
       vpiParameter (1 items):
         Parameter name:A start:2:26 end:2:27:
@@ -211,8 +209,6 @@ Design name:unnamed:
     Module name:top file:$Source01/dut.sv start:6:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:6:8 end:6:11:
-        vpiParent: Module name:top
-        vpiName: top
       vpiFullName: top
       vpiParameter (1 items):
         Parameter name:X start:14:23 end:14:24:
@@ -309,8 +305,6 @@ Design name:unnamed:
         TypedefTypespec name:struct_1 start:7:4 end:10:15:
           vpiParent: Module name:top
           vpiName Identifier name:struct_1 start:10:6 end:10:14:
-            vpiParent: TypedefTypespec name:struct_1
-            vpiName: struct_1
           vpiTypedefAlias RefTypespec start:7:12 end:10:5:
             vpiParent: TypedefTypespec name:struct_1
             vpiFullName: top.struct_1
@@ -320,8 +314,21 @@ Design name:unnamed:
         ModuleTypespec name:dut start:17:4 end:17:7:
           vpiParent: Module name:top
           vpiName Identifier name:dut start:17:4 end:17:7:
-            vpiParent: ModuleTypespec name:dut
-            vpiName: dut
+          vpiDefName: dut
+          vpiParamAssign (1 items):
+            ParamAssign start:17:10 end:17:15:
+              vpiParent: ModuleTypespec name:dut
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:A start:17:11 end:17:12:
+                vpiParent: ParamAssign
+                vpiName: A
+                vpiFullName: top.dut.A
+              vpiRhs RefObj name:X start:17:13 end:17:14:
+                vpiParent: ParamAssign
+                vpiName: X
+                vpiFullName: top.dut.X
+                vpiActual: Parameter name:X
           vpiModule: Module name:dut
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -339,26 +346,10 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: top.u_dut.dut
             vpiActual: ModuleTypespec name:dut
-          vpiParamAssign (1 items):
-            ParamAssign start:17:10 end:17:15:
-              vpiParent: RefInstance name:u_dut
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:A start:17:11 end:17:12:
-                vpiParent: ParamAssign
-                vpiName: A
-                vpiFullName: top.u_dut.A
-              vpiRhs RefObj name:X start:17:13 end:17:14:
-                vpiParent: ParamAssign
-                vpiName: X
-                vpiFullName: top.u_dut.X
-                vpiActual: Parameter name:X
   vpiTypespec (3 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:dut
-        vpiName: dut
       vpiModule: Module name:dut
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -366,8 +357,6 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:6:8 end:6:11:
-        vpiParent: ModuleTypespec name:top
-        vpiName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0

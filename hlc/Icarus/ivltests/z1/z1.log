@@ -182,8 +182,6 @@ Design name:unnamed:
     Module name:bar file:$Source01/z1.v start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
-        vpiParent: Module name:bar
-        vpiName: bar
       vpiFullName: bar
       vpiParameter (1 items):
         Parameter name:P start:2:13 end:2:14:
@@ -225,8 +223,6 @@ Design name:unnamed:
     Module name:baz file:$Source01/z1.v start:5:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:baz start:5:8 end:5:11:
-        vpiParent: Module name:baz
-        vpiName: baz
       vpiFullName: baz
       vpiParameter (2 items):
         Parameter name:P start:6:13 end:6:14:
@@ -293,33 +289,68 @@ Design name:unnamed:
     Module name:foo file:$Source01/z1.v start:10:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:10:8 end:10:11:
-        vpiParent: Module name:foo
-        vpiName: foo
       vpiFullName: foo
       vpiTypespec (4 items):
         ModuleTypespec name:bar start:11:3 end:11:6:
           vpiParent: Module name:foo
           vpiName Identifier name:bar start:11:3 end:11:6:
-            vpiParent: ModuleTypespec name:bar
-            vpiName: bar
+          vpiDefName: bar
           vpiModule: Module name:bar
         ModuleTypespec name:bar start:12:3 end:12:6:
           vpiParent: Module name:foo
           vpiName Identifier name:bar start:12:3 end:12:6:
-            vpiParent: ModuleTypespec name:bar
-            vpiName: bar
+          vpiDefName: bar
+          vpiParamAssign (1 items):
+            ParamAssign start:12:9 end:12:12:
+              vpiParent: ModuleTypespec name:bar
+              vpiOverridden: true
+              vpiRhs Constant start:12:9 end:12:12:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.bar
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "456"
+                vpiValue: 456
           vpiModule: Module name:bar
         ModuleTypespec name:baz start:13:3 end:13:6:
           vpiParent: Module name:foo
           vpiName Identifier name:baz start:13:3 end:13:6:
-            vpiParent: ModuleTypespec name:baz
-            vpiName: baz
+          vpiDefName: baz
           vpiModule: Module name:baz
         ModuleTypespec name:baz start:14:3 end:14:6:
           vpiParent: Module name:foo
           vpiName Identifier name:baz start:14:3 end:14:6:
-            vpiParent: ModuleTypespec name:baz
-            vpiName: baz
+          vpiDefName: baz
+          vpiParamAssign (2 items):
+            ParamAssign start:14:9 end:14:12:
+              vpiParent: ModuleTypespec name:baz
+              vpiOverridden: true
+              vpiRhs Constant start:14:9 end:14:12:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.baz
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "888"
+                vpiValue: 888
+            ParamAssign start:14:13 end:14:16:
+              vpiParent: ModuleTypespec name:baz
+              vpiOverridden: true
+              vpiRhs Constant start:14:13 end:14:16:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.baz
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "999"
+                vpiValue: 999
           vpiModule: Module name:baz
       vpiDefName: foo
       vpiDefNetType: wire (1)
@@ -334,8 +365,6 @@ Design name:unnamed:
           vpiStmt SysTaskCall name:$display start:17:5 end:17:23:
             vpiParent: Initial
             vpiName Identifier name:$display start:17:5 end:17:13:
-              vpiParent: SysTaskCall name:$display
-              vpiName: "$display"
             vpiArgument (1 items):
               Constant start:17:14 end:17:22:
                 vpiParent: SysTaskCall name:$display
@@ -374,20 +403,6 @@ Design name:unnamed:
             vpiName: bar
             vpiFullName: foo.bar2.bar
             vpiActual: ModuleTypespec name:bar
-          vpiParamAssign (1 items):
-            ParamAssign start:12:9 end:12:12:
-              vpiParent: RefInstance name:bar2
-              vpiOverridden: true
-              vpiRhs Constant start:12:9 end:12:12:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: foo.bar2
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "456"
-                vpiValue: 456
         RefInstance name:baz1 start:13:7 end:13:11:
           vpiParent: Module name:foo
           vpiName: baz1
@@ -404,39 +419,10 @@ Design name:unnamed:
             vpiName: baz
             vpiFullName: foo.baz2.baz
             vpiActual: ModuleTypespec name:baz
-          vpiParamAssign (2 items):
-            ParamAssign start:14:9 end:14:12:
-              vpiParent: RefInstance name:baz2
-              vpiOverridden: true
-              vpiRhs Constant start:14:9 end:14:12:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: foo.baz2
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "888"
-                vpiValue: 888
-            ParamAssign start:14:13 end:14:16:
-              vpiParent: RefInstance name:baz2
-              vpiOverridden: true
-              vpiRhs Constant start:14:13 end:14:16:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: foo.baz2
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "999"
-                vpiValue: 999
   vpiTypespec (5 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:bar
-        vpiName: bar
       vpiModule: Module name:bar
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -444,14 +430,10 @@ Design name:unnamed:
     ModuleTypespec name:baz:
       vpiParent: Design name:unnamed
       vpiName Identifier name:baz start:5:8 end:5:11:
-        vpiParent: ModuleTypespec name:baz
-        vpiName: baz
       vpiModule: Module name:baz
     ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:10:8 end:10:11:
-        vpiParent: ModuleTypespec name:foo
-        vpiName: foo
       vpiModule: Module name:foo
     StringTypespec:
       vpiParent: Design name:unnamed
