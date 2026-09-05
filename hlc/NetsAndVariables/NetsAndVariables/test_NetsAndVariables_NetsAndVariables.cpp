@@ -939,7 +939,14 @@ TEST_F(NetsAndVariablesTest, Section5_HasTwentyThreeVariables) {
   const hldb::Module *const mod = getModule("all_var_types");
   ASSERT_NE(mod, nullptr);
   ASSERT_NE(mod->getVariables(), nullptr);
-  EXPECT_EQ(mod->getVariables()->size(), 23u);
+  EXPECT_EQ(mod->getVariables()->size(), 22u);
+}
+
+TEST_F(NetsAndVariablesTest, Section5_HasOneNamedEvent) {
+  const hldb::Module *const mod = getModule("all_var_types");
+  ASSERT_NE(mod, nullptr);
+  ASSERT_NE(mod->getNamedEvents(), nullptr);
+  EXPECT_EQ(mod->getNamedEvents()->size(), 1u);
 }
 
 TEST_F(NetsAndVariablesTest, Section5_SimpleVariableTypesAreCorrectlyClassified) {
@@ -960,7 +967,6 @@ TEST_F(NetsAndVariablesTest, Section5_SimpleVariableTypesAreCorrectlyClassified)
       {"v_shortreal", hldb::AnyType::ShortRealTypespec, -1, -1, -1, -1},
       {"v_string", hldb::AnyType::StringTypespec, -1, -1, -1, -1},
       {"v_chandle", hldb::AnyType::ChandleTypespec, -1, -1, -1, -1},
-      {"v_event", hldb::AnyType::EventTypespec, -1, -1, -1, -1},
       {"v_vector", hldb::AnyType::LogicTypespec, 0, 3, 0, -1},
       {"v_reg_vector", hldb::AnyType::LogicTypespec, 0, 7, 0, -1},
       {"v_var_logic", hldb::AnyType::LogicTypespec, 0, -1, -1, -1},
@@ -1132,7 +1138,7 @@ TEST_F(NetsAndVariablesTest, Section5_PrintExpectedVariables) {
   ASSERT_NE(mod, nullptr);
   ReportVarPresence(mod, "all_var_types",
                      {"v_logic", "v_reg", "v_bit", "v_byte", "v_shortint", "v_int", "v_longint", "v_integer",
-                      "v_time", "v_real", "v_realtime", "v_shortreal", "v_string", "v_chandle", "v_event", "v_enum",
+                      "v_time", "v_real", "v_realtime", "v_shortreal", "v_string", "v_chandle", "v_enum",
                       "v_struct", "v_vector", "v_reg_vector", "v_packed_2d", "v_unpacked_array", "v_var_logic",
                       "v_var_implicit"});
 }
