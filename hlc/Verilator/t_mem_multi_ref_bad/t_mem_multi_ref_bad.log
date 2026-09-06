@@ -5,13 +5,13 @@ Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_mem_multi_ref_bad.v -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_mem_multi_ref_bad
-[INF:CM0023] Creating log file "$Output/hlc.log".
-[INF:PP0122] Preprocessing source file "$Source01/t_mem_multi_ref_bad.v".
-[INF:PA0201] Parsing source file "$Source01/t_mem_multi_ref_bad.v".
-[SNT:PA0207] $Source01/t_mem_multi_ref_bad.v:18:20: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n   reg       dimn;\n   reg [1:0] dim0;\n   reg [1:0] dim1 [1:0];\n   reg [1:0] dim2 [1:0][1:0];\n   reg       dim0nv[1:0];\n\n   initial begin\n      dimn[1:0] = 0;            // Bad: Not ranged\n      dim0[1][1] = 0;           // Bad: Not arrayed\n      dim1[1][1][1] = 0;        // Bad: Not arrayed to right depth\n      dim2[1][1][1] = 0;        // OK\n      dim2[0 +: 1][1]',
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/t_mem_multi_ref_bad.v".
+[INF:PA5502] Parsing source file "$Source01/t_mem_multi_ref_bad.v".
+[SNT:PA5508] $Source01/t_mem_multi_ref_bad.v:18:20: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n   reg       dimn;\n   reg [1:0] dim0;\n   reg [1:0] dim1 [1:0];\n   reg [1:0] dim2 [1:0][1:0];\n   reg       dim0nv[1:0];\n\n   initial begin\n      dimn[1:0] = 0;            // Bad: Not ranged\n      dim0[1][1] = 0;           // Bad: Not arrayed\n      dim1[1][1][1] = 0;        // Bad: Not arrayed to right depth\n      dim2[1][1][1] = 0;        // OK\n      dim2[0 +: 1][1]',
       dim2[0 +: 1][1] = 0;      // Bad: Range on non-bits
                     ^-- $Source01/t_mem_multi_ref_bad.v:18:20:.
-[SNT:PA0207] $Source01/t_mem_multi_ref_bad.v:13:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+[SNT:PA5508] $Source01/t_mem_multi_ref_bad.v:13:3: Syntax error: mismatched input 'initial' expecting <EOF>,
    initial begin
    ^-- $Source01/t_mem_multi_ref_bad.v:13:3:.
 AST_DEBUG_BEGIN
@@ -173,7 +173,7 @@ n<$Source01/t_mem_multi_ref_bad.v> u<154> t<Top_level_rule> c<1> l<6:1> el<25:10
   n<// Bad: Not vectored> u<152> t<LINE_COMMENT> p<154> s<153> l<21:33> el<21:53>
   n<// Bad: Not arrayed to right depth> u<153> t<LINE_COMMENT> p<154> l<22:33> el<22:67>
 AST_DEBUG_END
-[INF:CM0029] Using global timescale: "1ns/1ns".
+[INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed

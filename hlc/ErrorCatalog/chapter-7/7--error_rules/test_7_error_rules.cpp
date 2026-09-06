@@ -82,7 +82,7 @@ TEST_F(Chapter7ErrorRulesTest, Row34_PackedArrayOfRealIsRejected) {
   // dimension, so the grammar rejects "real [3:0] v" outright, and the
   // parser's recovery leaves a malformed typespec behind (a follow-on
   // "invalid name" report on the orphaned RefTypespec node).
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 20, 7), nullptr)
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 34, 7), nullptr)
       << "a packed array cannot be made of a non-single-bit type such as real (IEEE 1800-2023 "
          "7.4.1), currently as a syntax error rather than a dedicated diagnostic";
 }
@@ -108,7 +108,7 @@ TEST_F(Chapter7ErrorRulesTest, Row36_NewOnNonDynamicArrayIsRejected) {
   // an initializer in this multi-dimensional declaration shape at all, so
   // this reflects a parser limitation rather than a deliberate
   // implementation of the 7.5 rule.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 19, 26), nullptr)
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 56, 26), nullptr)
       << "new[] cannot construct an array whose leftmost unpacked dimension is fixed-size "
          "(IEEE 1800-2023 7.5), currently as a syntax error rather than a dedicated diagnostic";
 }
