@@ -53,9 +53,9 @@
 //       scenarios here share one ErrorType.
 //   (b) HLC does not diagnose it yet -- the assertion the standard requires is
 //       written out in full, with GTEST_SKIP() as the first statement citing
-//       the clause. Eight of the twelve rows are in this state; that is the
-//       point of the catalog. No test here asserts the absence of a
-//       diagnostic, which would lock the gap in.
+//       the clause. Two of the twelve rows are in this state as of 2026-09-01
+//       (row 7 and row 12); that is the point of the catalog. No test here
+//       asserts the absence of a diagnostic, which would lock the gap in.
 //
 // Behaviour observed while writing this file, none of it diagnosed today and
 // none of it asserted below (recorded here so the skip messages have context;
