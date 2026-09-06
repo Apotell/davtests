@@ -1,0 +1,1444 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/ErrorCatalog/chapter-7 -d ast -d db -nobuiltin 7--error_rules.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/7--error_rules.sv".
+[INF:PA5502] Parsing source file "$Source01/7--error_rules.sv".
+[SNT:PA5508] $Source01/7--error_rules.sv:34:7: Syntax error: missing {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER} at '[',
+  real [3:0] v; // illegal - packed array of real
+       ^-- $Source01/7--error_rules.sv:34:7:.
+[SNT:PA5508] $Source01/7--error_rules.sv:34:13: Syntax error: extraneous input 'v' expecting ';',
+  real [3:0] v; // illegal - packed array of real
+             ^-- $Source01/7--error_rules.sv:34:13:.
+[SNT:PA5508] $Source01/7--error_rules.sv:56:26: Syntax error: mismatched input 'new' expecting {''b0', ''b1', ''B0', ''B1', ''0', ''1', ''x', ''X', ''z', ''Z', '1'b0', '1'b1', '1'bx', '1'bX', '1'B0', '1'B1', '1'Bx', '1'BX', INTEGRAL_NUMBER, REAL_NUMBER, QUOTED_STRING, '(', 'type', 'const', 'local', 'super', '{', 'string', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'signed', 'unsigned', '$', '++', '+', '--', '-', DOLLAR_UNIT, '!', 'tagged', ''', 'null', 'this', DOLLAR_ROOT, 'randomize', 'sample', '&', '|', '~|', '~&', '^~', ESCAPED_IDENTIFIER, '~', '^', '~^', SIMPLE_IDENTIFIER},
+  int r36_arr3 [1][2][] = new [4]; // illegal - arr3 is not a dynamic array
+                          ^-- $Source01/7--error_rules.sv:56:26:.
+[SNT:PA5508] $Source01/7--error_rules.sv:56:32: Syntax error: mismatched input ']' expecting ':',
+  int r36_arr3 [1][2][] = new [4]; // illegal - arr3 is not a dynamic array
+                                ^-- $Source01/7--error_rules.sv:56:32:.
+[SNT:PA5508] $Source01/7--error_rules.sv:56:33: Syntax error: extraneous input ';' expecting {'[', 'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+  int r36_arr3 [1][2][] = new [4]; // illegal - arr3 is not a dynamic array
+                                 ^-- $Source01/7--error_rules.sv:56:33:.
+AST_DEBUG_BEGIN
+Count: 527
+LIB: work
+FILE<0>:$Source01/7--error_rules.sv
+n<$Source01/7--error_rules.sv> u<526> t<Top_level_rule> c<1> l<20:1> el<105:1>
+  n<> u<1> t<Null_rule> p<526> s<2> l<20:1> el<20:1>
+  n</*\n:name: chapter7_error_rules\n:description: IEEE 1800-2023 Clause 7 error scenarios that parse cleanly\n:tags: 7.3.1 7.4.5 7.7 7.8.1 7.12.2\n*/> u<2> t<BLOCK_COMMENT> p<526> s<3> l<20:1> el<104:10>
+  n<// Every scenario below is derived from one row of the SV error catalog> u<3> t<LINE_COMMENT> p<526> s<4> l<7:1> el<7:72>
+  n<// (filtered set). The "catalog row N" comment is the link back to that row;> u<4> t<LINE_COMMENT> p<526> s<5> l<8:1> el<8:77>
+  n<// the matching gtest is named RowN_...> u<5> t<LINE_COMMENT> p<526> s<6> l<9:1> el<9:40>
+  n<//> u<6> t<LINE_COMMENT> p<526> s<7> l<10:1> el<10:3>
+  n<// This file holds only the scenarios that parse without a syntax error, so a> u<7> t<LINE_COMMENT> p<526> s<8> l<11:1> el<11:78>
+  n<// single compilation observes all of them at once. Rows 34, 36 and 40 raise> u<8> t<LINE_COMMENT> p<526> s<9> l<12:1> el<12:77>
+  n<// syntax/internal errors and live in the sibling _inv*.sv fixtures instead --> u<9> t<LINE_COMMENT> p<526> s<10> l<13:1> el<13:79>
+  n<// see those files for why each is kept separate.> u<10> t<LINE_COMMENT> p<526> s<11> l<14:1> el<14:50>
+  n<// catalog row 33 | 7.3.1 | COMP> u<11> t<LINE_COMMENT> p<526> s<12> l<16:1> el<16:33>
+  n<// When the packed qualifier is used without the soft qualifier on an> u<12> t<LINE_COMMENT> p<526> s<13> l<17:1> el<17:70>
+  n<// untagged union (hard packed), all members of that union shall be the same> u<13> t<LINE_COMMENT> p<526> s<14> l<18:1> el<18:77>
+  n<// size.> u<14> t<LINE_COMMENT> p<526> s<525> l<19:1> el<19:9>
+  n<> u<525> t<Source_text> p<526> c<58> l<20:1> el<104:10>
+    n<> u<58> t<Description> p<525> c<57> s<59> l<20:1> el<20:60>
+      n<> u<57> t<Package_item> p<58> c<56> l<20:1> el<20:60>
+        n<> u<56> t<Package_or_generate_item_declaration> p<57> c<55> l<20:1> el<20:60>
+          n<> u<55> t<Data_declaration> p<56> c<54> l<20:1> el<20:60>
+            n<> u<54> t<Type_declaration> p<55> c<52> l<20:1> el<20:60>
+              n<> u<52> t<Data_type> p<54> c<16> s<53> l<20:9> el<20:51>
+                n<> u<16> t<Struct_union> p<52> c<15> s<17> l<20:9> el<20:14>
+                  n<> u<15> t<UNION> p<16> l<20:9> el<20:14>
+                n<> u<17> t<PACKED> p<52> s<34> l<20:15> el<20:21>
+                n<> u<34> t<Struct_union_member> p<52> c<30> s<51> l<20:24> el<20:36>
+                  n<> u<30> t<Data_type_or_void> p<34> c<29> s<33> l<20:24> el<20:33>
+                    n<> u<29> t<Data_type> p<30> c<18> l<20:24> el<20:33>
+                      n<> u<18> t<BIT> p<29> s<28> l<20:24> el<20:27>
+                      n<> u<28> t<Packed_dimension> p<29> c<27> l<20:28> el<20:33>
+                        n<> u<27> t<Constant_range> p<28> c<22> l<20:29> el<20:32>
+                          n<> u<22> t<Constant_expression> p<27> c<21> s<26> l<20:29> el<20:30>
+                            n<> u<21> t<Constant_primary> p<22> c<20> l<20:29> el<20:30>
+                              n<> u<20> t<Primary_literal> p<21> c<19> l<20:29> el<20:30>
+                                n<7> u<19> t<INTEGRAL_NUMBER> p<20> l<20:29> el<20:30>
+                          n<> u<26> t<Constant_expression> p<27> c<25> l<20:31> el<20:32>
+                            n<> u<25> t<Constant_primary> p<26> c<24> l<20:31> el<20:32>
+                              n<> u<24> t<Primary_literal> p<25> c<23> l<20:31> el<20:32>
+                                n<0> u<23> t<INTEGRAL_NUMBER> p<24> l<20:31> el<20:32>
+                  n<> u<33> t<Variable_decl_assignment_list> p<34> c<32> l<20:34> el<20:35>
+                    n<> u<32> t<Variable_decl_assignment> p<33> c<31> l<20:34> el<20:35>
+                      n<a> u<31> t<SIMPLE_IDENTIFIER> p<32> l<20:34> el<20:35>
+                n<> u<51> t<Struct_union_member> p<52> c<47> l<20:37> el<20:49>
+                  n<> u<47> t<Data_type_or_void> p<51> c<46> s<50> l<20:37> el<20:46>
+                    n<> u<46> t<Data_type> p<47> c<35> l<20:37> el<20:46>
+                      n<> u<35> t<BIT> p<46> s<45> l<20:37> el<20:40>
+                      n<> u<45> t<Packed_dimension> p<46> c<44> l<20:41> el<20:46>
+                        n<> u<44> t<Constant_range> p<45> c<39> l<20:42> el<20:45>
+                          n<> u<39> t<Constant_expression> p<44> c<38> s<43> l<20:42> el<20:43>
+                            n<> u<38> t<Constant_primary> p<39> c<37> l<20:42> el<20:43>
+                              n<> u<37> t<Primary_literal> p<38> c<36> l<20:42> el<20:43>
+                                n<3> u<36> t<INTEGRAL_NUMBER> p<37> l<20:42> el<20:43>
+                          n<> u<43> t<Constant_expression> p<44> c<42> l<20:44> el<20:45>
+                            n<> u<42> t<Constant_primary> p<43> c<41> l<20:44> el<20:45>
+                              n<> u<41> t<Primary_literal> p<42> c<40> l<20:44> el<20:45>
+                                n<0> u<40> t<INTEGRAL_NUMBER> p<41> l<20:44> el<20:45>
+                  n<> u<50> t<Variable_decl_assignment_list> p<51> c<49> l<20:47> el<20:48>
+                    n<> u<49> t<Variable_decl_assignment> p<50> c<48> l<20:47> el<20:48>
+                      n<b> u<48> t<SIMPLE_IDENTIFIER> p<49> l<20:47> el<20:48>
+              n<r33_u_t> u<53> t<SIMPLE_IDENTIFIER> p<54> l<20:52> el<20:59>
+    n<// illegal - members differ in size> u<59> t<LINE_COMMENT> p<525> s<60> l<20:61> el<20:96>
+    n<// catalog row 34 | 7.4.1 | COMP> u<60> t<LINE_COMMENT> p<525> s<61> l<22:1> el<22:33>
+    n<// Packed arrays can be made of only the single-bit data types (bit, logic,> u<61> t<LINE_COMMENT> p<525> s<62> l<23:1> el<23:76>
+    n<// reg), enumerated types, and recursively other packed arrays and packed> u<62> t<LINE_COMMENT> p<525> s<63> l<24:1> el<24:74>
+    n<// structures.> u<63> t<LINE_COMMENT> p<525> s<64> l<25:1> el<25:15>
+    n<//> u<64> t<LINE_COMMENT> p<525> s<65> l<26:1> el<26:3>
+    n<// Kept in its own fixture: HLC's grammar does not accept a dimension> u<65> t<LINE_COMMENT> p<525> s<66> l<27:1> el<27:70>
+    n<// directly after 'real' at all ("missing {...} at '['" then "extraneous> u<66> t<LINE_COMMENT> p<525> s<67> l<28:1> el<28:73>
+    n<// input 'v'") -- 'real' has no bit-vector form for a trailing dimension to> u<67> t<LINE_COMMENT> p<525> s<68> l<29:1> el<29:76>
+    n<// attach to, so this is a PARSE-level rejection, and the parser's recovery> u<68> t<LINE_COMMENT> p<525> s<69> l<30:1> el<30:76>
+    n<// leaves a malformed typespec behind (a follow-on "invalid name" report on> u<69> t<LINE_COMMENT> p<525> s<70> l<31:1> el<31:76>
+    n<// the orphaned RefTypespec). See Row34.> u<70> t<LINE_COMMENT> p<525> s<100> l<32:1> el<32:41>
+    n<> u<100> t<Description> p<525> c<99> s<101> l<33:1> el<35:10>
+      n<> u<99> t<Module_declaration> p<100> c<74> l<33:1> el<35:10>
+        n<> u<74> t<Module_ansi_header> p<99> c<71> s<96> l<33:1> el<33:14>
+          n<module> u<71> t<MODULE> p<74> s<72> l<33:1> el<33:7>
+          n<r34_m> u<72> t<SIMPLE_IDENTIFIER> p<74> s<73> l<33:8> el<33:13>
+          n<> u<73> t<Package_import_declaration_list> p<74> l<33:13> el<33:13>
+        n<> u<96> t<Non_port_module_item> p<99> c<95> s<97> l<34:3> el<34:16>
+          n<> u<95> t<Module_or_generate_item> p<96> c<94> l<34:3> el<34:16>
+            n<> u<94> t<Module_common_item> p<95> c<93> l<34:3> el<34:16>
+              n<> u<93> t<Module_or_generate_item_declaration> p<94> c<92> l<34:3> el<34:16>
+                n<> u<92> t<Package_or_generate_item_declaration> p<93> c<91> l<34:3> el<34:16>
+                  n<> u<91> t<Data_declaration> p<92> c<90> l<34:3> el<34:16>
+                    n<> u<90> t<Variable_declaration> p<91> c<76> l<34:3> el<34:16>
+                      n<> u<76> t<Data_type> p<90> c<75> s<89> l<34:3> el<34:7>
+                        n<> u<75> t<REAL> p<76> l<34:3> el<34:7>
+                      n<> u<89> t<Variable_decl_assignment_list> p<90> c<88> l<34:8> el<34:13>
+                        n<> u<88> t<Variable_decl_assignment> p<89> c<87> l<34:8> el<34:13>
+                          n<> u<87> t<Variable_dimension> p<88> c<86> l<34:8> el<34:13>
+                            n<> u<86> t<Unpacked_dimension> p<87> c<85> l<34:8> el<34:13>
+                              n<> u<85> t<Constant_range> p<86> c<80> l<34:9> el<34:12>
+                                n<> u<80> t<Constant_expression> p<85> c<79> s<84> l<34:9> el<34:10>
+                                  n<> u<79> t<Constant_primary> p<80> c<78> l<34:9> el<34:10>
+                                    n<> u<78> t<Primary_literal> p<79> c<77> l<34:9> el<34:10>
+                                      n<3> u<77> t<INTEGRAL_NUMBER> p<78> l<34:9> el<34:10>
+                                n<> u<84> t<Constant_expression> p<85> c<83> l<34:11> el<34:12>
+                                  n<> u<83> t<Constant_primary> p<84> c<82> l<34:11> el<34:12>
+                                    n<> u<82> t<Primary_literal> p<83> c<81> l<34:11> el<34:12>
+                                      n<0> u<81> t<INTEGRAL_NUMBER> p<82> l<34:11> el<34:12>
+        n<// illegal - packed array of real> u<97> t<LINE_COMMENT> p<99> s<98> l<34:17> el<34:50>
+        n<> u<98> t<ENDMODULE> p<99> l<35:1> el<35:10>
+    n<// catalog row 35 | 7.4.5 | COMP> u<101> t<LINE_COMMENT> p<525> s<102> l<37:1> el<37:33>
+    n<// Slices of an array can only be applied to one dimension; other dimensions> u<102> t<LINE_COMMENT> p<525> s<103> l<38:1> el<38:77>
+    n<// may only have single index values in the expression.> u<103> t<LINE_COMMENT> p<525> s<209> l<39:1> el<39:56>
+    n<> u<209> t<Description> p<525> c<208> s<210> l<40:1> el<43:10>
+      n<> u<208> t<Module_declaration> p<209> c<107> l<40:1> el<43:10>
+        n<> u<107> t<Module_ansi_header> p<208> c<104> s<165> l<40:1> el<40:14>
+          n<module> u<104> t<MODULE> p<107> s<105> l<40:1> el<40:7>
+          n<r35_m> u<105> t<SIMPLE_IDENTIFIER> p<107> s<106> l<40:8> el<40:13>
+          n<> u<106> t<Package_import_declaration_list> p<107> l<40:13> el<40:13>
+        n<> u<165> t<Non_port_module_item> p<208> c<164> s<205> l<41:3> el<41:40>
+          n<> u<164> t<Module_or_generate_item> p<165> c<163> l<41:3> el<41:40>
+            n<> u<163> t<Module_common_item> p<164> c<162> l<41:3> el<41:40>
+              n<> u<162> t<Module_or_generate_item_declaration> p<163> c<161> l<41:3> el<41:40>
+                n<> u<161> t<Package_or_generate_item_declaration> p<162> c<160> l<41:3> el<41:40>
+                  n<> u<160> t<Data_declaration> p<161> c<159> l<41:3> el<41:40>
+                    n<> u<159> t<Variable_declaration> p<160> c<109> l<41:3> el<41:40>
+                      n<> u<109> t<Data_type> p<159> c<108> s<158> l<41:3> el<41:6>
+                        n<> u<108> t<INT> p<109> l<41:3> el<41:6>
+                      n<> u<158> t<Variable_decl_assignment_list> p<159> c<133> l<41:7> el<41:39>
+                        n<> u<133> t<Variable_decl_assignment> p<158> c<110> s<157> l<41:7> el<41:22>
+                          n<r35_a> u<110> t<SIMPLE_IDENTIFIER> p<133> s<121> l<41:7> el<41:12>
+                          n<> u<121> t<Variable_dimension> p<133> c<120> s<132> l<41:12> el<41:17>
+                            n<> u<120> t<Unpacked_dimension> p<121> c<119> l<41:12> el<41:17>
+                              n<> u<119> t<Constant_range> p<120> c<114> l<41:13> el<41:16>
+                                n<> u<114> t<Constant_expression> p<119> c<113> s<118> l<41:13> el<41:14>
+                                  n<> u<113> t<Constant_primary> p<114> c<112> l<41:13> el<41:14>
+                                    n<> u<112> t<Primary_literal> p<113> c<111> l<41:13> el<41:14>
+                                      n<0> u<111> t<INTEGRAL_NUMBER> p<112> l<41:13> el<41:14>
+                                n<> u<118> t<Constant_expression> p<119> c<117> l<41:15> el<41:16>
+                                  n<> u<117> t<Constant_primary> p<118> c<116> l<41:15> el<41:16>
+                                    n<> u<116> t<Primary_literal> p<117> c<115> l<41:15> el<41:16>
+                                      n<7> u<115> t<INTEGRAL_NUMBER> p<116> l<41:15> el<41:16>
+                          n<> u<132> t<Variable_dimension> p<133> c<131> l<41:17> el<41:22>
+                            n<> u<131> t<Unpacked_dimension> p<132> c<130> l<41:17> el<41:22>
+                              n<> u<130> t<Constant_range> p<131> c<125> l<41:18> el<41:21>
+                                n<> u<125> t<Constant_expression> p<130> c<124> s<129> l<41:18> el<41:19>
+                                  n<> u<124> t<Constant_primary> p<125> c<123> l<41:18> el<41:19>
+                                    n<> u<123> t<Primary_literal> p<124> c<122> l<41:18> el<41:19>
+                                      n<0> u<122> t<INTEGRAL_NUMBER> p<123> l<41:18> el<41:19>
+                                n<> u<129> t<Constant_expression> p<130> c<128> l<41:20> el<41:21>
+                                  n<> u<128> t<Constant_primary> p<129> c<127> l<41:20> el<41:21>
+                                    n<> u<127> t<Primary_literal> p<128> c<126> l<41:20> el<41:21>
+                                      n<7> u<126> t<INTEGRAL_NUMBER> p<127> l<41:20> el<41:21>
+                        n<> u<157> t<Variable_decl_assignment> p<158> c<134> l<41:24> el<41:39>
+                          n<r35_b> u<134> t<SIMPLE_IDENTIFIER> p<157> s<145> l<41:24> el<41:29>
+                          n<> u<145> t<Variable_dimension> p<157> c<144> s<156> l<41:29> el<41:34>
+                            n<> u<144> t<Unpacked_dimension> p<145> c<143> l<41:29> el<41:34>
+                              n<> u<143> t<Constant_range> p<144> c<138> l<41:30> el<41:33>
+                                n<> u<138> t<Constant_expression> p<143> c<137> s<142> l<41:30> el<41:31>
+                                  n<> u<137> t<Constant_primary> p<138> c<136> l<41:30> el<41:31>
+                                    n<> u<136> t<Primary_literal> p<137> c<135> l<41:30> el<41:31>
+                                      n<0> u<135> t<INTEGRAL_NUMBER> p<136> l<41:30> el<41:31>
+                                n<> u<142> t<Constant_expression> p<143> c<141> l<41:32> el<41:33>
+                                  n<> u<141> t<Constant_primary> p<142> c<140> l<41:32> el<41:33>
+                                    n<> u<140> t<Primary_literal> p<141> c<139> l<41:32> el<41:33>
+                                      n<1> u<139> t<INTEGRAL_NUMBER> p<140> l<41:32> el<41:33>
+                          n<> u<156> t<Variable_dimension> p<157> c<155> l<41:34> el<41:39>
+                            n<> u<155> t<Unpacked_dimension> p<156> c<154> l<41:34> el<41:39>
+                              n<> u<154> t<Constant_range> p<155> c<149> l<41:35> el<41:38>
+                                n<> u<149> t<Constant_expression> p<154> c<148> s<153> l<41:35> el<41:36>
+                                  n<> u<148> t<Constant_primary> p<149> c<147> l<41:35> el<41:36>
+                                    n<> u<147> t<Primary_literal> p<148> c<146> l<41:35> el<41:36>
+                                      n<0> u<146> t<INTEGRAL_NUMBER> p<147> l<41:35> el<41:36>
+                                n<> u<153> t<Constant_expression> p<154> c<152> l<41:37> el<41:38>
+                                  n<> u<152> t<Constant_primary> p<153> c<151> l<41:37> el<41:38>
+                                    n<> u<151> t<Primary_literal> p<152> c<150> l<41:37> el<41:38>
+                                      n<1> u<150> t<INTEGRAL_NUMBER> p<151> l<41:37> el<41:38>
+        n<> u<205> t<Non_port_module_item> p<208> c<204> s<206> l<42:3> el<42:35>
+          n<> u<204> t<Module_or_generate_item> p<205> c<203> l<42:3> el<42:35>
+            n<> u<203> t<Module_common_item> p<204> c<202> l<42:3> el<42:35>
+              n<> u<202> t<Initial_construct> p<203> c<201> l<42:3> el<42:35>
+                n<> u<201> t<Statement_or_null> p<202> c<200> l<42:11> el<42:35>
+                  n<> u<200> t<Statement> p<201> c<199> l<42:11> el<42:35>
+                    n<> u<199> t<Statement_item> p<200> c<198> l<42:11> el<42:35>
+                      n<> u<198> t<Blocking_assignment> p<199> c<197> l<42:11> el<42:34>
+                        n<> u<197> t<Variable_assignment> p<198> c<170> l<42:11> el<42:34>
+                          n<> u<170> t<Variable_lvalue> p<197> c<167> s<196> l<42:11> el<42:16>
+                            n<> u<167> t<Ps_or_hierarchical_identifier> p<170> c<166> s<169> l<42:11> el<42:16>
+                              n<r35_b> u<166> t<SIMPLE_IDENTIFIER> p<167> l<42:11> el<42:16>
+                            n<> u<169> t<Select> p<170> c<168> l<42:17> el<42:17>
+                              n<> u<168> t<Bit_select> p<169> l<42:17> el<42:17>
+                          n<> u<196> t<Expression> p<197> c<195> l<42:19> el<42:34>
+                            n<> u<195> t<Primary> p<196> c<194> l<42:19> el<42:34>
+                              n<> u<194> t<Subroutine_call> p<195> c<171> l<42:19> el<42:34>
+                                n<r35_a> u<171> t<SIMPLE_IDENTIFIER> p<194> s<193> l<42:19> el<42:24>
+                                n<> u<193> t<Select> p<194> c<172> l<42:24> el<42:34>
+                                  n<> u<172> t<Bit_select> p<193> s<182> l<42:24> el<42:24>
+                                  n<> u<182> t<Part_select_range> p<193> c<181> s<192> l<42:25> el<42:28>
+                                    n<> u<181> t<Constant_range> p<182> c<176> l<42:25> el<42:28>
+                                      n<> u<176> t<Constant_expression> p<181> c<175> s<180> l<42:25> el<42:26>
+                                        n<> u<175> t<Constant_primary> p<176> c<174> l<42:25> el<42:26>
+                                          n<> u<174> t<Primary_literal> p<175> c<173> l<42:25> el<42:26>
+                                            n<0> u<173> t<INTEGRAL_NUMBER> p<174> l<42:25> el<42:26>
+                                      n<> u<180> t<Constant_expression> p<181> c<179> l<42:27> el<42:28>
+                                        n<> u<179> t<Constant_primary> p<180> c<178> l<42:27> el<42:28>
+                                          n<> u<178> t<Primary_literal> p<179> c<177> l<42:27> el<42:28>
+                                            n<1> u<177> t<INTEGRAL_NUMBER> p<178> l<42:27> el<42:28>
+                                  n<> u<192> t<Part_select_range> p<193> c<191> l<42:30> el<42:33>
+                                    n<> u<191> t<Constant_range> p<192> c<186> l<42:30> el<42:33>
+                                      n<> u<186> t<Constant_expression> p<191> c<185> s<190> l<42:30> el<42:31>
+                                        n<> u<185> t<Constant_primary> p<186> c<184> l<42:30> el<42:31>
+                                          n<> u<184> t<Primary_literal> p<185> c<183> l<42:30> el<42:31>
+                                            n<0> u<183> t<INTEGRAL_NUMBER> p<184> l<42:30> el<42:31>
+                                      n<> u<190> t<Constant_expression> p<191> c<189> l<42:32> el<42:33>
+                                        n<> u<189> t<Constant_primary> p<190> c<188> l<42:32> el<42:33>
+                                          n<> u<188> t<Primary_literal> p<189> c<187> l<42:32> el<42:33>
+                                            n<1> u<187> t<INTEGRAL_NUMBER> p<188> l<42:32> el<42:33>
+        n<// illegal - slice applied to more than one dimension> u<206> t<LINE_COMMENT> p<208> s<207> l<42:36> el<42:89>
+        n<> u<207> t<ENDMODULE> p<208> l<43:1> el<43:10>
+    n<// catalog row 36 | 7.5 | COMP> u<210> t<LINE_COMMENT> p<525> s<211> l<45:1> el<45:31>
+    n<// For an identifier to represent a dynamic array it shall be declared with a> u<211> t<LINE_COMMENT> p<525> s<212> l<46:1> el<46:78>
+    n<// dynamic array dimension as the leftmost unpacked dimension; using the> u<212> t<LINE_COMMENT> p<525> s<213> l<47:1> el<47:73>
+    n<// new[] constructor on an array that is not itself a dynamic array is an> u<213> t<LINE_COMMENT> p<525> s<214> l<48:1> el<48:74>
+    n<// error.> u<214> t<LINE_COMMENT> p<525> s<215> l<49:1> el<49:10>
+    n<//> u<215> t<LINE_COMMENT> p<525> s<216> l<50:1> el<50:3>
+    n<// Kept in its own fixture: HLC's grammar does not accept 'new [4]' as an> u<216> t<LINE_COMMENT> p<525> s<217> l<51:1> el<51:74>
+    n<// initializer in this multi-dimensional declaration shape at all> u<217> t<LINE_COMMENT> p<525> s<218> l<52:1> el<52:66>
+    n<// ("mismatched input 'new' expecting <expression>") -- a PARSE-level> u<218> t<LINE_COMMENT> p<525> s<219> l<53:1> el<53:70>
+    n<// rejection rather than the semantic one this row names. See Row36.> u<219> t<LINE_COMMENT> p<525> s<269> l<54:1> el<54:69>
+    n<> u<269> t<Description> p<525> c<268> s<270> l<55:1> el<57:10>
+      n<> u<268> t<Module_declaration> p<269> c<223> l<55:1> el<57:10>
+        n<> u<223> t<Module_ansi_header> p<268> c<220> s<250> l<55:1> el<55:14>
+          n<module> u<220> t<MODULE> p<223> s<221> l<55:1> el<55:7>
+          n<r36_m> u<221> t<SIMPLE_IDENTIFIER> p<223> s<222> l<55:8> el<55:13>
+          n<> u<222> t<Package_import_declaration_list> p<223> l<55:13> el<55:13>
+        n<> u<250> t<Non_port_module_item> p<268> c<249> s<265> l<56:3> el<56:30>
+          n<> u<249> t<Module_or_generate_item> p<250> c<248> l<56:3> el<56:30>
+            n<> u<248> t<Module_common_item> p<249> c<247> l<56:3> el<56:30>
+              n<> u<247> t<Module_or_generate_item_declaration> p<248> c<246> l<56:3> el<56:30>
+                n<> u<246> t<Package_or_generate_item_declaration> p<247> c<245> l<56:3> el<56:30>
+                  n<> u<245> t<Data_declaration> p<246> c<244> l<56:3> el<56:30>
+                    n<> u<244> t<Variable_declaration> p<245> c<225> l<56:3> el<56:30>
+                      n<> u<225> t<Data_type> p<244> c<224> s<243> l<56:3> el<56:6>
+                        n<> u<224> t<INT> p<225> l<56:3> el<56:6>
+                      n<> u<243> t<Variable_decl_assignment_list> p<244> c<242> l<56:7> el<56:30>
+                        n<> u<242> t<Variable_decl_assignment> p<243> c<226> l<56:7> el<56:30>
+                          n<r36_arr3> u<226> t<SIMPLE_IDENTIFIER> p<242> s<232> l<56:7> el<56:15>
+                          n<> u<232> t<Variable_dimension> p<242> c<231> s<238> l<56:16> el<56:19>
+                            n<> u<231> t<Unpacked_dimension> p<232> c<230> l<56:16> el<56:19>
+                              n<> u<230> t<Constant_expression> p<231> c<229> l<56:17> el<56:18>
+                                n<> u<229> t<Constant_primary> p<230> c<228> l<56:17> el<56:18>
+                                  n<> u<228> t<Primary_literal> p<229> c<227> l<56:17> el<56:18>
+                                    n<1> u<227> t<INTEGRAL_NUMBER> p<228> l<56:17> el<56:18>
+                          n<> u<238> t<Variable_dimension> p<242> c<237> s<240> l<56:19> el<56:22>
+                            n<> u<237> t<Unpacked_dimension> p<238> c<236> l<56:19> el<56:22>
+                              n<> u<236> t<Constant_expression> p<237> c<235> l<56:20> el<56:21>
+                                n<> u<235> t<Constant_primary> p<236> c<234> l<56:20> el<56:21>
+                                  n<> u<234> t<Primary_literal> p<235> c<233> l<56:20> el<56:21>
+                                    n<2> u<233> t<INTEGRAL_NUMBER> p<234> l<56:20> el<56:21>
+                          n<> u<240> t<Variable_dimension> p<242> c<239> s<241> l<56:22> el<56:24>
+                            n<> u<239> t<Unsized_dimension> p<240> l<56:22> el<56:24>
+                          n<> u<241> t<Expression> p<242> l<56:27> el<56:30>
+        n<> u<265> t<Non_port_module_item> p<268> c<264> s<266> l<56:31> el<56:35>
+          n<> u<264> t<Module_or_generate_item> p<265> c<263> l<56:31> el<56:35>
+            n<> u<263> t<Module_common_item> p<264> c<262> l<56:31> el<56:35>
+              n<> u<262> t<Module_or_generate_item_declaration> p<263> c<261> l<56:31> el<56:35>
+                n<> u<261> t<Package_or_generate_item_declaration> p<262> c<260> l<56:31> el<56:35>
+                  n<> u<260> t<Data_declaration> p<261> c<259> l<56:31> el<56:35>
+                    n<> u<259> t<Variable_declaration> p<260> c<256> l<56:31> el<56:35>
+                      n<> u<256> t<Packed_dimension> p<259> c<255> s<258> l<56:31> el<56:34>
+                        n<> u<255> t<Constant_range> p<256> c<254> l<56:32> el<56:33>
+                          n<> u<254> t<Constant_expression> p<255> c<253> l<56:32> el<56:33>
+                            n<> u<253> t<Constant_primary> p<254> c<252> l<56:32> el<56:33>
+                              n<> u<252> t<Primary_literal> p<253> c<251> l<56:32> el<56:33>
+                                n<4> u<251> t<INTEGRAL_NUMBER> p<252> l<56:32> el<56:33>
+                      n<> u<258> t<Variable_decl_assignment_list> p<259> c<257> l<56:34> el<56:34>
+                        n<> u<257> t<Variable_decl_assignment> p<258> l<56:34> el<56:34>
+        n<// illegal - arr3 is not a dynamic array> u<266> t<LINE_COMMENT> p<268> s<267> l<56:36> el<56:76>
+        n<> u<267> t<ENDMODULE> p<268> l<57:1> el<57:10>
+    n<// catalog row 37 | 7.7 | COMP> u<270> t<LINE_COMMENT> p<525> s<271> l<59:1> el<59:31>
+    n<// A dynamic array or queue shall not be passed as an actual argument if the> u<271> t<LINE_COMMENT> p<525> s<272> l<60:1> el<60:77>
+    n<// DPI formal argument has unsized dimensions and an output direction mode.> u<272> t<LINE_COMMENT> p<525> s<291> l<61:1> el<61:76>
+    n<> u<291> t<Description> p<525> c<290> s<329> l<62:1> el<62:54>
+      n<> u<290> t<Package_item> p<291> c<289> l<62:1> el<62:54>
+        n<> u<289> t<Package_or_generate_item_declaration> p<290> c<288> l<62:1> el<62:54>
+          n<> u<288> t<Dpi_import_export> p<289> c<287> l<62:1> el<62:54>
+            n<> u<287> t<IMPORT> p<288> s<273> l<62:1> el<62:7>
+            n<"DPI-C"> u<273> t<QUOTED_STRING> p<288> s<286> l<62:8> el<62:15>
+            n<> u<286> t<Function_prototype> p<288> c<275> l<62:16> el<62:53>
+              n<> u<275> t<Function_data_type_or_implicit> p<286> c<274> s<276> l<62:25> el<62:29>
+                n<> u<274> t<Function_data_type> p<275> l<62:25> el<62:29>
+              n<r37_f> u<276> t<SIMPLE_IDENTIFIER> p<286> s<285> l<62:30> el<62:35>
+              n<> u<285> t<Tf_port_item_list> p<286> c<284> l<62:35> el<62:53>
+                n<> u<284> t<Tf_port_item> p<285> c<277> l<62:36> el<62:52>
+                  n<> u<277> t<OUTPUT> p<284> s<280> l<62:36> el<62:42>
+                  n<> u<280> t<Data_type_or_implicit> p<284> c<279> s<281> l<62:43> el<62:46>
+                    n<> u<279> t<Data_type> p<280> c<278> l<62:43> el<62:46>
+                      n<> u<278> t<INT> p<279> l<62:43> el<62:46>
+                  n<arr> u<281> t<SIMPLE_IDENTIFIER> p<284> s<283> l<62:47> el<62:50>
+                  n<> u<283> t<Variable_dimension> p<284> c<282> l<62:50> el<62:52>
+                    n<> u<282> t<Unsized_dimension> p<283> l<62:50> el<62:52>
+    n<> u<329> t<Description> p<525> c<328> s<330> l<63:1> el<66:10>
+      n<> u<328> t<Module_declaration> p<329> c<295> l<63:1> el<66:10>
+        n<> u<295> t<Module_ansi_header> p<328> c<292> s<310> l<63:1> el<63:14>
+          n<module> u<292> t<MODULE> p<295> s<293> l<63:1> el<63:7>
+          n<r37_m> u<293> t<SIMPLE_IDENTIFIER> p<295> s<294> l<63:8> el<63:13>
+          n<> u<294> t<Package_import_declaration_list> p<295> l<63:13> el<63:13>
+        n<> u<310> t<Non_port_module_item> p<328> c<309> s<325> l<64:3> el<64:16>
+          n<> u<309> t<Module_or_generate_item> p<310> c<308> l<64:3> el<64:16>
+            n<> u<308> t<Module_common_item> p<309> c<307> l<64:3> el<64:16>
+              n<> u<307> t<Module_or_generate_item_declaration> p<308> c<306> l<64:3> el<64:16>
+                n<> u<306> t<Package_or_generate_item_declaration> p<307> c<305> l<64:3> el<64:16>
+                  n<> u<305> t<Data_declaration> p<306> c<304> l<64:3> el<64:16>
+                    n<> u<304> t<Variable_declaration> p<305> c<297> l<64:3> el<64:16>
+                      n<> u<297> t<Data_type> p<304> c<296> s<303> l<64:3> el<64:6>
+                        n<> u<296> t<INT> p<297> l<64:3> el<64:6>
+                      n<> u<303> t<Variable_decl_assignment_list> p<304> c<302> l<64:7> el<64:15>
+                        n<> u<302> t<Variable_decl_assignment> p<303> c<298> l<64:7> el<64:15>
+                          n<r37_q> u<298> t<SIMPLE_IDENTIFIER> p<302> s<301> l<64:7> el<64:12>
+                          n<> u<301> t<Variable_dimension> p<302> c<300> l<64:12> el<64:15>
+                            n<> u<300> t<Queue_dimension> p<301> c<299> l<64:12> el<64:15>
+                              n<> u<299> t<DOLLAR> p<300> l<64:13> el<64:14>
+        n<> u<325> t<Non_port_module_item> p<328> c<324> s<326> l<65:3> el<65:24>
+          n<> u<324> t<Module_or_generate_item> p<325> c<323> l<65:3> el<65:24>
+            n<> u<323> t<Module_common_item> p<324> c<322> l<65:3> el<65:24>
+              n<> u<322> t<Initial_construct> p<323> c<321> l<65:3> el<65:24>
+                n<> u<321> t<Statement_or_null> p<322> c<320> l<65:11> el<65:24>
+                  n<> u<320> t<Statement> p<321> c<319> l<65:11> el<65:24>
+                    n<> u<319> t<Statement_item> p<320> c<318> l<65:11> el<65:24>
+                      n<> u<318> t<Subroutine_call_statement> p<319> c<317> l<65:11> el<65:24>
+                        n<> u<317> t<Subroutine_call> p<318> c<311> l<65:11> el<65:23>
+                          n<r37_f> u<311> t<SIMPLE_IDENTIFIER> p<317> s<316> l<65:11> el<65:16>
+                          n<> u<316> t<Argument_list> p<317> c<315> l<65:17> el<65:22>
+                            n<> u<315> t<Expression> p<316> c<314> l<65:17> el<65:22>
+                              n<> u<314> t<Primary> p<315> c<313> l<65:17> el<65:22>
+                                n<> u<313> t<Primary_literal> p<314> c<312> l<65:17> el<65:22>
+                                  n<r37_q> u<312> t<SIMPLE_IDENTIFIER> p<313> l<65:17> el<65:22>
+        n<// illegal - queue passed to an unsized output DPI open array formal> u<326> t<LINE_COMMENT> p<328> s<327> l<65:25> el<65:93>
+        n<> u<327> t<ENDMODULE> p<328> l<66:1> el<66:10>
+    n<// catalog row 38 | 7.8.1 | COMP> u<330> t<LINE_COMMENT> p<525> s<331> l<68:1> el<68:33>
+    n<// For an associative array with a wildcard index type, nonintegral index> u<331> t<LINE_COMMENT> p<525> s<332> l<69:1> el<69:74>
+    n<// values are illegal and shall result in an error.> u<332> t<LINE_COMMENT> p<525> s<407> l<70:1> el<70:52>
+    n<> u<407> t<Description> p<525> c<406> s<408> l<71:1> el<76:10>
+      n<> u<406> t<Module_declaration> p<407> c<336> l<71:1> el<76:10>
+        n<> u<336> t<Module_ansi_header> p<406> c<333> s<351> l<71:1> el<71:14>
+          n<module> u<333> t<MODULE> p<336> s<334> l<71:1> el<71:7>
+          n<r38_m> u<334> t<SIMPLE_IDENTIFIER> p<336> s<335> l<71:8> el<71:13>
+          n<> u<335> t<Package_import_declaration_list> p<336> l<71:13> el<71:13>
+        n<> u<351> t<Non_port_module_item> p<406> c<350> s<367> l<72:3> el<72:17>
+          n<> u<350> t<Module_or_generate_item> p<351> c<349> l<72:3> el<72:17>
+            n<> u<349> t<Module_common_item> p<350> c<348> l<72:3> el<72:17>
+              n<> u<348> t<Module_or_generate_item_declaration> p<349> c<347> l<72:3> el<72:17>
+                n<> u<347> t<Package_or_generate_item_declaration> p<348> c<346> l<72:3> el<72:17>
+                  n<> u<346> t<Data_declaration> p<347> c<345> l<72:3> el<72:17>
+                    n<> u<345> t<Variable_declaration> p<346> c<338> l<72:3> el<72:17>
+                      n<> u<338> t<Data_type> p<345> c<337> s<344> l<72:3> el<72:6>
+                        n<> u<337> t<INT> p<338> l<72:3> el<72:6>
+                      n<> u<344> t<Variable_decl_assignment_list> p<345> c<343> l<72:7> el<72:16>
+                        n<> u<343> t<Variable_decl_assignment> p<344> c<339> l<72:7> el<72:16>
+                          n<r38_aa> u<339> t<SIMPLE_IDENTIFIER> p<343> s<342> l<72:7> el<72:13>
+                          n<> u<342> t<Variable_dimension> p<343> c<341> l<72:13> el<72:16>
+                            n<> u<341> t<Associative_dimension> p<342> c<340> l<72:13> el<72:16>
+                              n<> u<340> t<STAR> p<341> l<72:13> el<72:16>
+        n<> u<367> t<Non_port_module_item> p<406> c<366> s<379> l<73:3> el<73:20>
+          n<> u<366> t<Module_or_generate_item> p<367> c<365> l<73:3> el<73:20>
+            n<> u<365> t<Module_common_item> p<366> c<364> l<73:3> el<73:20>
+              n<> u<364> t<Module_or_generate_item_declaration> p<365> c<363> l<73:3> el<73:20>
+                n<> u<363> t<Package_or_generate_item_declaration> p<364> c<362> l<73:3> el<73:20>
+                  n<> u<362> t<Data_declaration> p<363> c<361> l<73:3> el<73:20>
+                    n<> u<361> t<Variable_declaration> p<362> c<353> l<73:3> el<73:20>
+                      n<> u<353> t<Data_type> p<361> c<352> s<360> l<73:3> el<73:7>
+                        n<> u<352> t<REAL> p<353> l<73:3> el<73:7>
+                      n<> u<360> t<Variable_decl_assignment_list> p<361> c<359> l<73:8> el<73:19>
+                        n<> u<359> t<Variable_decl_assignment> p<360> c<354> l<73:8> el<73:19>
+                          n<r38_r> u<354> t<SIMPLE_IDENTIFIER> p<359> s<358> l<73:8> el<73:13>
+                          n<> u<358> t<Expression> p<359> c<357> l<73:16> el<73:19>
+                            n<> u<357> t<Primary> p<358> c<356> l<73:16> el<73:19>
+                              n<> u<356> t<Primary_literal> p<357> c<355> l<73:16> el<73:19>
+                                n<1.0> u<355> t<REAL_NUMBER> p<356> l<73:16> el<73:19>
+        n<> u<379> t<Non_port_module_item> p<406> c<378> s<403> l<74:3> el<74:13>
+          n<> u<378> t<Module_or_generate_item> p<379> c<377> l<74:3> el<74:13>
+            n<> u<377> t<Module_common_item> p<378> c<376> l<74:3> el<74:13>
+              n<> u<376> t<Module_or_generate_item_declaration> p<377> c<375> l<74:3> el<74:13>
+                n<> u<375> t<Package_or_generate_item_declaration> p<376> c<374> l<74:3> el<74:13>
+                  n<> u<374> t<Data_declaration> p<375> c<373> l<74:3> el<74:13>
+                    n<> u<373> t<Variable_declaration> p<374> c<369> l<74:3> el<74:13>
+                      n<> u<369> t<Data_type> p<373> c<368> s<372> l<74:3> el<74:6>
+                        n<> u<368> t<INT> p<369> l<74:3> el<74:6>
+                      n<> u<372> t<Variable_decl_assignment_list> p<373> c<371> l<74:7> el<74:12>
+                        n<> u<371> t<Variable_decl_assignment> p<372> c<370> l<74:7> el<74:12>
+                          n<r38_v> u<370> t<SIMPLE_IDENTIFIER> p<371> l<74:7> el<74:12>
+        n<> u<403> t<Non_port_module_item> p<406> c<402> s<404> l<75:3> el<75:33>
+          n<> u<402> t<Module_or_generate_item> p<403> c<401> l<75:3> el<75:33>
+            n<> u<401> t<Module_common_item> p<402> c<400> l<75:3> el<75:33>
+              n<> u<400> t<Initial_construct> p<401> c<399> l<75:3> el<75:33>
+                n<> u<399> t<Statement_or_null> p<400> c<398> l<75:11> el<75:33>
+                  n<> u<398> t<Statement> p<399> c<397> l<75:11> el<75:33>
+                    n<> u<397> t<Statement_item> p<398> c<396> l<75:11> el<75:33>
+                      n<> u<396> t<Blocking_assignment> p<397> c<395> l<75:11> el<75:32>
+                        n<> u<395> t<Variable_assignment> p<396> c<384> l<75:11> el<75:32>
+                          n<> u<384> t<Variable_lvalue> p<395> c<381> s<394> l<75:11> el<75:16>
+                            n<> u<381> t<Ps_or_hierarchical_identifier> p<384> c<380> s<383> l<75:11> el<75:16>
+                              n<r38_v> u<380> t<SIMPLE_IDENTIFIER> p<381> l<75:11> el<75:16>
+                            n<> u<383> t<Select> p<384> c<382> l<75:17> el<75:17>
+                              n<> u<382> t<Bit_select> p<383> l<75:17> el<75:17>
+                          n<> u<394> t<Expression> p<395> c<393> l<75:19> el<75:32>
+                            n<> u<393> t<Primary> p<394> c<392> l<75:19> el<75:32>
+                              n<> u<392> t<Subroutine_call> p<393> c<385> l<75:19> el<75:32>
+                                n<r38_aa> u<385> t<SIMPLE_IDENTIFIER> p<392> s<391> l<75:19> el<75:25>
+                                n<> u<391> t<Select> p<392> c<390> l<75:25> el<75:32>
+                                  n<> u<390> t<Bit_select> p<391> c<389> l<75:25> el<75:32>
+                                    n<> u<389> t<Expression> p<390> c<388> l<75:26> el<75:31>
+                                      n<> u<388> t<Primary> p<389> c<387> l<75:26> el<75:31>
+                                        n<> u<387> t<Primary_literal> p<388> c<386> l<75:26> el<75:31>
+                                          n<r38_r> u<386> t<SIMPLE_IDENTIFIER> p<387> l<75:26> el<75:31>
+        n<// illegal - nonintegral index into a wildcard-index array> u<404> t<LINE_COMMENT> p<406> s<405> l<75:34> el<75:92>
+        n<> u<405> t<ENDMODULE> p<406> l<76:1> el<76:10>
+    n<// catalog row 39 | 7.8.1 | COMP> u<408> t<LINE_COMMENT> p<525> s<409> l<78:1> el<78:33>
+    n<// Associative arrays that specify a wildcard index type shall not be used in> u<409> t<LINE_COMMENT> p<525> s<410> l<79:1> el<79:78>
+    n<// a foreach loop, nor with an array manipulation method that returns an> u<410> t<LINE_COMMENT> p<525> s<411> l<80:1> el<80:73>
+    n<// index value or an array of index values.> u<411> t<LINE_COMMENT> p<525> s<412> l<81:1> el<81:44>
+    n<//> u<412> t<LINE_COMMENT> p<525> s<413> l<82:1> el<82:3>
+    n<// NOTE: the catalog's own source used a bare ';' as the foreach body> u<413> t<LINE_COMMENT> p<525> s<414> l<83:1> el<83:70>
+    n<// ("foreach (aa[i]) ;"), which HLC's grammar rejects on its own (a syntax> u<414> t<LINE_COMMENT> p<525> s<415> l<84:1> el<84:75>
+    n<// error unrelated to the wildcard-index rule this row tests); rewritten> u<415> t<LINE_COMMENT> p<525> s<416> l<85:1> el<85:73>
+    n<// below with an empty begin/end block so the wildcard-index use is the only> u<416> t<LINE_COMMENT> p<525> s<417> l<86:1> el<86:77>
+    n<// thing under test.> u<417> t<LINE_COMMENT> p<525> s<457> l<87:1> el<87:21>
+    n<> u<457> t<Description> p<525> c<456> s<458> l<88:1> el<91:10>
+      n<> u<456> t<Module_declaration> p<457> c<421> l<88:1> el<91:10>
+        n<> u<421> t<Module_ansi_header> p<456> c<418> s<436> l<88:1> el<88:14>
+          n<module> u<418> t<MODULE> p<421> s<419> l<88:1> el<88:7>
+          n<r39_m> u<419> t<SIMPLE_IDENTIFIER> p<421> s<420> l<88:8> el<88:13>
+          n<> u<420> t<Package_import_declaration_list> p<421> l<88:13> el<88:13>
+        n<> u<436> t<Non_port_module_item> p<456> c<435> s<453> l<89:3> el<89:17>
+          n<> u<435> t<Module_or_generate_item> p<436> c<434> l<89:3> el<89:17>
+            n<> u<434> t<Module_common_item> p<435> c<433> l<89:3> el<89:17>
+              n<> u<433> t<Module_or_generate_item_declaration> p<434> c<432> l<89:3> el<89:17>
+                n<> u<432> t<Package_or_generate_item_declaration> p<433> c<431> l<89:3> el<89:17>
+                  n<> u<431> t<Data_declaration> p<432> c<430> l<89:3> el<89:17>
+                    n<> u<430> t<Variable_declaration> p<431> c<423> l<89:3> el<89:17>
+                      n<> u<423> t<Data_type> p<430> c<422> s<429> l<89:3> el<89:6>
+                        n<> u<422> t<INT> p<423> l<89:3> el<89:6>
+                      n<> u<429> t<Variable_decl_assignment_list> p<430> c<428> l<89:7> el<89:16>
+                        n<> u<428> t<Variable_decl_assignment> p<429> c<424> l<89:7> el<89:16>
+                          n<r39_aa> u<424> t<SIMPLE_IDENTIFIER> p<428> s<427> l<89:7> el<89:13>
+                          n<> u<427> t<Variable_dimension> p<428> c<426> l<89:13> el<89:16>
+                            n<> u<426> t<Associative_dimension> p<427> c<425> l<89:13> el<89:16>
+                              n<> u<425> t<STAR> p<426> l<89:13> el<89:16>
+        n<> u<453> t<Non_port_module_item> p<456> c<452> s<454> l<90:3> el<90:40>
+          n<> u<452> t<Module_or_generate_item> p<453> c<451> l<90:3> el<90:40>
+            n<> u<451> t<Module_common_item> p<452> c<450> l<90:3> el<90:40>
+              n<> u<450> t<Initial_construct> p<451> c<449> l<90:3> el<90:40>
+                n<> u<449> t<Statement_or_null> p<450> c<448> l<90:11> el<90:40>
+                  n<> u<448> t<Statement> p<449> c<447> l<90:11> el<90:40>
+                    n<> u<447> t<Statement_item> p<448> c<446> l<90:11> el<90:40>
+                      n<> u<446> t<Loop_statement> p<447> c<445> l<90:11> el<90:40>
+                        n<> u<445> t<FOREACH> p<446> s<438> l<90:11> el<90:18>
+                        n<> u<438> t<Ps_or_hierarchical_array_identifier> p<446> c<437> s<440> l<90:20> el<90:26>
+                          n<r39_aa> u<437> t<SIMPLE_IDENTIFIER> p<438> l<90:20> el<90:26>
+                        n<> u<440> t<Loop_variables> p<446> c<439> s<444> l<90:27> el<90:28>
+                          n<i> u<439> t<SIMPLE_IDENTIFIER> p<440> l<90:27> el<90:28>
+                        n<> u<444> t<Statement> p<446> c<443> l<90:31> el<90:40>
+                          n<> u<443> t<Statement_item> p<444> c<442> l<90:31> el<90:40>
+                            n<> u<442> t<Seq_block> p<443> c<441> l<90:31> el<90:40>
+                              n<> u<441> t<END> p<442> l<90:37> el<90:40>
+        n<// illegal - foreach over a wildcard-index associative array> u<454> t<LINE_COMMENT> p<456> s<455> l<90:41> el<90:101>
+        n<> u<455> t<ENDMODULE> p<456> l<91:1> el<91:10>
+    n<// catalog row 40 | 7.12.2 | COMP> u<458> t<LINE_COMMENT> p<525> s<459> l<93:1> el<93:34>
+    n<// Specifying a with clause on the reverse() array ordering method shall be a> u<459> t<LINE_COMMENT> p<525> s<460> l<94:1> el<94:78>
+    n<// compiler error.> u<460> t<LINE_COMMENT> p<525> s<461> l<95:1> el<95:19>
+    n<//> u<461> t<LINE_COMMENT> p<525> s<462> l<96:1> el<96:3>
+    n<// Kept in its own fixture: HLC does not model 'with' on reverse() at all --> u<462> t<LINE_COMMENT> p<525> s<463> l<97:1> el<97:77>
+    n<// the call resolves to a MethodFuncCall with no actual, which the linter> u<463> t<LINE_COMMENT> p<525> s<464> l<98:1> el<98:74>
+    n<// separately reports as "Null Actual" (LN7705). Isolated so that internal> u<464> t<LINE_COMMENT> p<525> s<465> l<99:1> el<99:75>
+    n<// diagnostic does not appear alongside unrelated rows.> u<465> t<LINE_COMMENT> p<525> s<524> l<100:1> el<100:56>
+    n<> u<524> t<Description> p<525> c<523> l<101:1> el<104:10>
+      n<> u<523> t<Module_declaration> p<524> c<469> l<101:1> el<104:10>
+        n<> u<469> t<Module_ansi_header> p<523> c<466> s<499> l<101:1> el<101:14>
+          n<module> u<466> t<MODULE> p<469> s<467> l<101:1> el<101:7>
+          n<r40_m> u<467> t<SIMPLE_IDENTIFIER> p<469> s<468> l<101:8> el<101:13>
+          n<> u<468> t<Package_import_declaration_list> p<469> l<101:13> el<101:13>
+        n<> u<499> t<Non_port_module_item> p<523> c<498> s<520> l<102:3> el<102:28>
+          n<> u<498> t<Module_or_generate_item> p<499> c<497> l<102:3> el<102:28>
+            n<> u<497> t<Module_common_item> p<498> c<496> l<102:3> el<102:28>
+              n<> u<496> t<Module_or_generate_item_declaration> p<497> c<495> l<102:3> el<102:28>
+                n<> u<495> t<Package_or_generate_item_declaration> p<496> c<494> l<102:3> el<102:28>
+                  n<> u<494> t<Data_declaration> p<495> c<493> l<102:3> el<102:28>
+                    n<> u<493> t<Variable_declaration> p<494> c<471> l<102:3> el<102:28>
+                      n<> u<471> t<Data_type> p<493> c<470> s<492> l<102:3> el<102:6>
+                        n<> u<470> t<INT> p<471> l<102:3> el<102:6>
+                      n<> u<492> t<Variable_decl_assignment_list> p<493> c<491> l<102:7> el<102:27>
+                        n<> u<491> t<Variable_decl_assignment> p<492> c<472> l<102:7> el<102:27>
+                          n<r40_q> u<472> t<SIMPLE_IDENTIFIER> p<491> s<475> l<102:7> el<102:12>
+                          n<> u<475> t<Variable_dimension> p<491> c<474> s<490> l<102:12> el<102:15>
+                            n<> u<474> t<Queue_dimension> p<475> c<473> l<102:12> el<102:15>
+                              n<> u<473> t<DOLLAR> p<474> l<102:13> el<102:14>
+                          n<> u<490> t<Expression> p<491> c<489> l<102:18> el<102:27>
+                            n<> u<489> t<Primary> p<490> c<488> l<102:18> el<102:27>
+                              n<> u<488> t<Concatenation> p<489> c<479> l<102:18> el<102:27>
+                                n<> u<479> t<Expression> p<488> c<478> s<483> l<102:19> el<102:20>
+                                  n<> u<478> t<Primary> p<479> c<477> l<102:19> el<102:20>
+                                    n<> u<477> t<Primary_literal> p<478> c<476> l<102:19> el<102:20>
+                                      n<1> u<476> t<INTEGRAL_NUMBER> p<477> l<102:19> el<102:20>
+                                n<> u<483> t<Expression> p<488> c<482> s<487> l<102:22> el<102:23>
+                                  n<> u<482> t<Primary> p<483> c<481> l<102:22> el<102:23>
+                                    n<> u<481> t<Primary_literal> p<482> c<480> l<102:22> el<102:23>
+                                      n<2> u<480> t<INTEGRAL_NUMBER> p<481> l<102:22> el<102:23>
+                                n<> u<487> t<Expression> p<488> c<486> l<102:25> el<102:26>
+                                  n<> u<486> t<Primary> p<487> c<485> l<102:25> el<102:26>
+                                    n<> u<485> t<Primary_literal> p<486> c<484> l<102:25> el<102:26>
+                                      n<3> u<484> t<INTEGRAL_NUMBER> p<485> l<102:25> el<102:26>
+        n<> u<520> t<Non_port_module_item> p<523> c<519> s<521> l<103:3> el<103:37>
+          n<> u<519> t<Module_or_generate_item> p<520> c<518> l<103:3> el<103:37>
+            n<> u<518> t<Module_common_item> p<519> c<517> l<103:3> el<103:37>
+              n<> u<517> t<Initial_construct> p<518> c<516> l<103:3> el<103:37>
+                n<> u<516> t<Statement_or_null> p<517> c<515> l<103:11> el<103:37>
+                  n<> u<515> t<Statement> p<516> c<514> l<103:11> el<103:37>
+                    n<> u<514> t<Statement_item> p<515> c<513> l<103:11> el<103:37>
+                      n<> u<513> t<Subroutine_call_statement> p<514> c<512> l<103:11> el<103:37>
+                        n<> u<512> t<Subroutine_call> p<513> c<500> l<103:11> el<103:36>
+                          n<r40_q> u<500> t<SIMPLE_IDENTIFIER> p<512> s<502> l<103:11> el<103:16>
+                          n<> u<502> t<Select> p<512> c<501> s<511> l<103:16> el<103:16>
+                            n<> u<501> t<Bit_select> p<502> l<103:16> el<103:16>
+                          n<> u<511> t<Method_call_body> p<512> c<510> l<103:17> el<103:36>
+                            n<> u<510> t<Built_in_method_call> p<511> c<509> l<103:17> el<103:36>
+                              n<> u<509> t<Array_manipulation_call> p<510> c<504> l<103:17> el<103:36>
+                                n<> u<504> t<Array_method_name> p<509> c<503> s<508> l<103:17> el<103:24>
+                                  n<reverse> u<503> t<SIMPLE_IDENTIFIER> p<504> l<103:17> el<103:24>
+                                n<> u<508> t<Expression> p<509> c<507> l<103:31> el<103:35>
+                                  n<> u<507> t<Primary> p<508> c<506> l<103:31> el<103:35>
+                                    n<> u<506> t<Primary_literal> p<507> c<505> l<103:31> el<103:35>
+                                      n<item> u<505> t<SIMPLE_IDENTIFIER> p<506> l<103:31> el<103:35>
+        n<// illegal - with clause on reverse()> u<521> t<LINE_COMMENT> p<523> s<522> l<103:38> el<103:75>
+        n<> u<522> t<ENDMODULE> p<523> l<104:1> el<104:10>
+AST_DEBUG_END
+[INF:CP5804] $Source01/7--error_rules.sv:33:1: Compile module "r34_m".
+[INF:CP5804] $Source01/7--error_rules.sv:40:1: Compile module "r35_m".
+[INF:CP5804] $Source01/7--error_rules.sv:55:1: Compile module "r36_m".
+[INF:CP5804] $Source01/7--error_rules.sv:63:1: Compile module "r37_m".
+[INF:CP5804] $Source01/7--error_rules.sv:71:1: Compile module "r38_m".
+[INF:CP5804] $Source01/7--error_rules.sv:88:1: Compile module "r39_m".
+[INF:CP5804] $Source01/7--error_rules.sv:101:1: Compile module "r40_m".
+[ERR:LN7713] $Source01/7--error_rules.sv:1:1: Found 1 orphan node(s).
+[WRN:PA5506] $Source01/7--error_rules.sv:33:1: No timescale set for "r34_m".
+[WRN:PA5506] $Source01/7--error_rules.sv:40:1: No timescale set for "r35_m".
+[WRN:PA5506] $Source01/7--error_rules.sv:55:1: No timescale set for "r36_m".
+[WRN:PA5506] $Source01/7--error_rules.sv:63:1: No timescale set for "r37_m".
+[WRN:PA5506] $Source01/7--error_rules.sv:71:1: No timescale set for "r38_m".
+[WRN:PA5506] $Source01/7--error_rules.sv:88:1: No timescale set for "r39_m".
+[WRN:PA5506] $Source01/7--error_rules.sv:101:1: No timescale set for "r40_m".
+[ERR:LN7701] Invalid name: id:59, type:RefTypespec, name:, relation:vpiElemTypespec.
+[ERR:CP5898] $Source01/7--error_rules.sv:42:19: Illegal array slice: r35_a.
+[ERR:CP5900] $Source01/7--error_rules.sv:65:17: Illegal DPI argument: r37_q.
+[ERR:CP5902] $Source01/7--error_rules.sv:75:19: Illegal index expression type: r38_aa.
+[ERR:CP5903] $Source01/7--error_rules.sv:90:11: Illegal use of wildcard-index associative array r39_aa.
+[ERR:LN7705] $Source01/7--error_rules.sv:103:17: Null Actual: id:246, type:MethodFuncCall, name:reverse, relation:vpiPathElem.
+[ERR:CP5896] $Source01/7--error_rules.sv:20:9: Packed union members must be the same size: r33_u_t.
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:7--error_rules.sv file:$Source01/7--error_rules.sv:
+      vpiParent: Design name:unnamed
+      vpiName: "7--error_rules.sv"
+      vpiPreprocFile: "$Output/lib/work/7--error_rules.sv"
+  vpiAllModules (7 items):
+    Module name:r34_m file:$Source01/7--error_rules.sv start:33:1 end:35:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r34_m start:33:8 end:33:13:
+      vpiFullName: r34_m
+      vpiTypespec (1 items):
+        ArrayTypespec:
+          vpiParent: Module name:r34_m
+          vpiArrayType: static (1)
+          vpiRange Range start:34:8 end:34:13:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:34:9 end:34:10:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r34_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+            vpiRightRange Constant start:34:11 end:34:12:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r34_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: r34_m
+      vpiDefName: r34_m
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:r34_m
+        vpiName: work
+        vpiFullName: r34_m.work
+      vpiCell: r34_m
+    Module name:r35_m file:$Source01/7--error_rules.sv start:40:1 end:43:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r35_m start:40:8 end:40:13:
+      vpiFullName: r35_m
+      vpiVariable (2 items):
+        Variable name:r35_a start:41:7 end:41:12:
+          vpiParent: Module name:r35_m
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:r35_a
+            vpiFullName: r35_m.r35_a
+            vpiActual: ArrayTypespec
+          vpiName: r35_a
+          vpiFullName: r35_m.r35_a
+        Variable name:r35_b start:41:24 end:41:29:
+          vpiParent: Module name:r35_m
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:r35_b
+            vpiFullName: r35_m.r35_b
+            vpiActual: ArrayTypespec
+          vpiName: r35_b
+          vpiFullName: r35_m.r35_b
+      vpiTypespec (4 items):
+        ArrayTypespec:
+          vpiParent: Module name:r35_m
+          vpiArrayType: static (1)
+          vpiRange Range start:41:12 end:41:17:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:41:13 end:41:14:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r35_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+            vpiRightRange Constant start:41:15 end:41:16:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r35_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "7"
+              vpiValue: 7
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: r35_m
+            vpiActual: ArrayTypespec
+        ArrayTypespec:
+          vpiParent: Module name:r35_m
+          vpiArrayType: static (1)
+          vpiRange Range start:41:17 end:41:22:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:41:18 end:41:19:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r35_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+            vpiRightRange Constant start:41:20 end:41:21:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r35_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "7"
+              vpiValue: 7
+          vpiElemTypespec RefTypespec start:41:3 end:41:6:
+            vpiParent: ArrayTypespec
+            vpiFullName: r35_m
+            vpiActual: IntTypespec
+        ArrayTypespec:
+          vpiParent: Module name:r35_m
+          vpiArrayType: static (1)
+          vpiRange Range start:41:29 end:41:34:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:41:30 end:41:31:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r35_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+            vpiRightRange Constant start:41:32 end:41:33:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r35_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "1"
+              vpiValue: 1
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: r35_m
+            vpiActual: ArrayTypespec
+        ArrayTypespec:
+          vpiParent: Module name:r35_m
+          vpiArrayType: static (1)
+          vpiRange Range start:41:34 end:41:39:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:41:35 end:41:36:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r35_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+            vpiRightRange Constant start:41:37 end:41:38:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r35_m
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "1"
+              vpiValue: 1
+          vpiElemTypespec RefTypespec start:41:3 end:41:6:
+            vpiParent: ArrayTypespec
+            vpiFullName: r35_m
+            vpiActual: IntTypespec
+      vpiDefName: r35_m
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:r35_m
+        vpiName: work
+        vpiFullName: r35_m.work
+      vpiCell: r35_m
+      vpiProcess (1 items):
+        Initial start:42:3 end:42:35:
+          vpiParent: Module name:r35_m
+          vpiStmt Assignment start:42:11 end:42:34:
+            vpiParent: Initial
+            vpiBlocking: true
+            vpiLhs RefObj name:r35_b start:42:11 end:42:16:
+              vpiParent: Assignment
+              vpiName: r35_b
+              vpiFullName: r35_m.r35_b
+              vpiActual: Variable name:r35_b
+            vpiRhs PartSelect name:r35_a[0:1][0:1] start:42:19 end:42:34:
+              vpiParent: Assignment
+              vpiName: r35_a[0:1][0:1]
+              vpiFullName: r35_m.r35_a[0:1][0:1]
+              vpiPrefix PartSelect name:r35_a[0:1] start:42:19 end:42:34:
+                vpiParent: PartSelect name:r35_a[0:1][0:1]
+                vpiName: r35_a[0:1]
+                vpiFullName: r35_m.r35_a[0:1][0:1].r35_a[0:1]
+                vpiPrefix RefObj name:r35_a start:42:19 end:42:24:
+                  vpiParent: PartSelect name:r35_a[0:1]
+                  vpiName: r35_a
+                  vpiFullName: r35_m.r35_a[0:1][0:1].r35_a[0:1].r35_a
+                  vpiActual: Variable name:r35_a
+                vpiRange Range start:42:25 end:42:28:
+                  vpiParent: PartSelect name:r35_a[0:1]
+                  vpiLeftRange Constant start:42:25 end:42:26:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: r35_m.r35_a[0:1][0:1].r35_a[0:1]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                  vpiRightRange Constant start:42:27 end:42:28:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: r35_m.r35_a[0:1][0:1].r35_a[0:1]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+              vpiRange Range start:42:30 end:42:33:
+                vpiParent: PartSelect name:r35_a[0:1][0:1]
+                vpiLeftRange Constant start:42:30 end:42:31:
+                  vpiParent: Range
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: r35_m.r35_a[0:1][0:1]
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+                vpiRightRange Constant start:42:32 end:42:33:
+                  vpiParent: Range
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: r35_m.r35_a[0:1][0:1]
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "1"
+                  vpiValue: 1
+    Module name:r36_m file:$Source01/7--error_rules.sv start:55:1 end:57:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r36_m start:55:8 end:55:13:
+      vpiFullName: r36_m
+      vpiVariable (1 items):
+        Variable name:r36_arr3 start:56:7 end:56:15:
+          vpiParent: Module name:r36_m
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:r36_arr3
+            vpiFullName: r36_m.r36_arr3
+            vpiActual: ArrayTypespec
+          vpiName: r36_arr3
+          vpiFullName: r36_m.r36_arr3
+      vpiTypespec (4 items):
+        ArrayTypespec:
+          vpiParent: Module name:r36_m
+          vpiArrayType: static (1)
+          vpiRange Range start:56:16 end:56:19:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Operation:
+              vpiParent: Range
+              vpiOpType: subtract (11)
+              vpiOperand (1 items):
+                Constant start:56:17 end:56:18:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: r36_m
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "1"
+                  vpiValue: 1
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: r36_m
+            vpiActual: ArrayTypespec
+        ArrayTypespec:
+          vpiParent: Module name:r36_m
+          vpiArrayType: static (1)
+          vpiRange Range start:56:19 end:56:22:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Operation:
+              vpiParent: Range
+              vpiOpType: subtract (11)
+              vpiOperand (1 items):
+                Constant start:56:20 end:56:21:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: r36_m
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "2"
+                  vpiValue: 2
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: r36_m
+            vpiActual: ArrayTypespec
+        ArrayTypespec:
+          vpiParent: Module name:r36_m
+          vpiArrayType: dynamic (2)
+          vpiRange Range start:56:22 end:56:24:
+            vpiParent: ArrayTypespec
+          vpiElemTypespec RefTypespec start:56:3 end:56:6:
+            vpiParent: ArrayTypespec
+            vpiFullName: r36_m
+            vpiActual: IntTypespec
+        LogicTypespec:
+          vpiParent: Module name:r36_m
+          vpiRange (1 items):
+            Range start:56:31 end:56:34:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:56:32 end:56:33:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: r36_m
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "4"
+                vpiValue: 4
+          vpiVector: true
+      vpiDefName: r36_m
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:r36_m
+        vpiName: work
+        vpiFullName: r36_m.work
+      vpiCell: r36_m
+    Module name:r37_m file:$Source01/7--error_rules.sv start:63:1 end:66:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r37_m start:63:8 end:63:13:
+      vpiFullName: r37_m
+      vpiVariable (1 items):
+        Variable name:r37_q start:64:7 end:64:12:
+          vpiParent: Module name:r37_m
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:r37_q
+            vpiFullName: r37_m.r37_q
+            vpiActual: ArrayTypespec
+          vpiName: r37_q
+          vpiFullName: r37_m.r37_q
+      vpiTypespec (1 items):
+        ArrayTypespec:
+          vpiParent: Module name:r37_m
+          vpiArrayType: queue (4)
+          vpiRange Range start:64:12 end:64:15:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:64:13 end:64:14:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r37_m
+                vpiActual: StringTypespec
+              vpiConstType: unbounded (11)
+              vpiDecompile: "$"
+              vpiValue: "$"
+          vpiElemTypespec RefTypespec start:64:3 end:64:6:
+            vpiParent: ArrayTypespec
+            vpiFullName: r37_m
+            vpiActual: IntTypespec
+      vpiDefName: r37_m
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:r37_m
+        vpiName: work
+        vpiFullName: r37_m.work
+      vpiCell: r37_m
+      vpiProcess (1 items):
+        Initial start:65:3 end:65:24:
+          vpiParent: Module name:r37_m
+          vpiStmt SubroutineCall name:r37_f start:65:11 end:65:23:
+            vpiParent: Initial
+            vpiName Identifier name:r37_f start:65:11 end:65:16:
+            vpiArgument (1 items):
+              RefObj name:r37_q start:65:17 end:65:22:
+                vpiParent: SubroutineCall name:r37_f
+                vpiName: r37_q
+                vpiFullName: r37_m.r37_f.r37_q
+                vpiActual: Variable name:r37_q
+    Module name:r38_m file:$Source01/7--error_rules.sv start:71:1 end:76:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r38_m start:71:8 end:71:13:
+      vpiFullName: r38_m
+      vpiVariable (3 items):
+        Variable name:r38_aa start:72:7 end:72:13:
+          vpiParent: Module name:r38_m
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:r38_aa
+            vpiFullName: r38_m.r38_aa
+            vpiActual: ArrayTypespec
+          vpiName: r38_aa
+          vpiFullName: r38_m.r38_aa
+        Variable name:r38_r start:73:8 end:73:13:
+          vpiParent: Module name:r38_m
+          vpiTypespec RefTypespec start:73:3 end:73:7:
+            vpiParent: Variable name:r38_r
+            vpiFullName: r38_m.r38_r
+            vpiActual: RealTypespec
+          vpiName: r38_r
+          vpiFullName: r38_m.r38_r
+          vpiValue Constant start:73:16 end:73:19:
+            vpiParent: Variable name:r38_r
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: r38_m.r38_r
+              vpiActual: RealTypespec
+            vpiConstType: real (2)
+            vpiSize: 64
+            vpiDecompile: "1.0"
+            vpiValue: 1
+        Variable name:r38_v start:74:7 end:74:12:
+          vpiParent: Module name:r38_m
+          vpiTypespec RefTypespec start:74:3 end:74:6:
+            vpiParent: Variable name:r38_v
+            vpiFullName: r38_m.r38_v
+            vpiActual: IntTypespec
+          vpiName: r38_v
+          vpiFullName: r38_m.r38_v
+      vpiTypespec (1 items):
+        ArrayTypespec:
+          vpiParent: Module name:r38_m
+          vpiArrayType: associative (3)
+          vpiRange Range start:72:13 end:72:16:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r38_m
+                vpiActual: IntTypespec
+              vpiConstType: int (7)
+              vpiDecompile: "0"
+              vpiValue: 0
+            vpiRightRange Constant:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r38_m
+                vpiActual: StringTypespec
+              vpiConstType: unbounded (11)
+              vpiDecompile: "$"
+              vpiValue: "$"
+          vpiElemTypespec RefTypespec start:72:3 end:72:6:
+            vpiParent: ArrayTypespec
+            vpiFullName: r38_m
+            vpiActual: IntTypespec
+      vpiDefName: r38_m
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:r38_m
+        vpiName: work
+        vpiFullName: r38_m.work
+      vpiCell: r38_m
+      vpiProcess (1 items):
+        Initial start:75:3 end:75:33:
+          vpiParent: Module name:r38_m
+          vpiStmt Assignment start:75:11 end:75:32:
+            vpiParent: Initial
+            vpiBlocking: true
+            vpiLhs RefObj name:r38_v start:75:11 end:75:16:
+              vpiParent: Assignment
+              vpiName: r38_v
+              vpiFullName: r38_m.r38_v
+              vpiActual: Variable name:r38_v
+            vpiRhs BitSelect name:r38_aa[r38_r] start:75:19 end:75:32:
+              vpiParent: Assignment
+              vpiName: r38_aa[r38_r]
+              vpiFullName: r38_m.r38_aa[r38_r]
+              vpiPrefix RefObj name:r38_aa start:75:19 end:75:25:
+                vpiParent: BitSelect name:r38_aa[r38_r]
+                vpiName: r38_aa
+                vpiFullName: r38_m.r38_aa
+                vpiActual: Variable name:r38_aa
+              vpiIndex RefObj name:r38_r start:75:26 end:75:31:
+                vpiParent: BitSelect name:r38_aa[r38_r]
+                vpiName: r38_r
+                vpiFullName: r38_m.r38_r
+                vpiActual: Variable name:r38_r
+    Module name:r39_m file:$Source01/7--error_rules.sv start:88:1 end:91:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r39_m start:88:8 end:88:13:
+      vpiFullName: r39_m
+      vpiVariable (1 items):
+        Variable name:r39_aa start:89:7 end:89:13:
+          vpiParent: Module name:r39_m
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:r39_aa
+            vpiFullName: r39_m.r39_aa
+            vpiActual: ArrayTypespec
+          vpiName: r39_aa
+          vpiFullName: r39_m.r39_aa
+      vpiTypespec (1 items):
+        ArrayTypespec:
+          vpiParent: Module name:r39_m
+          vpiArrayType: associative (3)
+          vpiRange Range start:89:13 end:89:16:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r39_m
+                vpiActual: IntTypespec
+              vpiConstType: int (7)
+              vpiDecompile: "0"
+              vpiValue: 0
+            vpiRightRange Constant:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r39_m
+                vpiActual: StringTypespec
+              vpiConstType: unbounded (11)
+              vpiDecompile: "$"
+              vpiValue: "$"
+          vpiElemTypespec RefTypespec start:89:3 end:89:6:
+            vpiParent: ArrayTypespec
+            vpiFullName: r39_m
+            vpiActual: IntTypespec
+      vpiDefName: r39_m
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:r39_m
+        vpiName: work
+        vpiFullName: r39_m.work
+      vpiCell: r39_m
+      vpiProcess (1 items):
+        Initial start:90:3 end:90:40:
+          vpiParent: Module name:r39_m
+          vpiStmt ForeachStmt start:90:11 end:90:40:
+            vpiParent: Initial
+            vpiFullName: r39_m
+            vpiVariable (1 items):
+              Variable name:i start:90:27 end:90:28:
+                vpiParent: ForeachStmt
+                vpiName: i
+                vpiFullName: r39_m.i
+                vpiIsIterator: true
+            vpiVariable RefObj name:r39_aa start:90:20 end:90:26:
+              vpiParent: ForeachStmt
+              vpiName: r39_aa
+              vpiFullName: r39_m.r39_aa
+              vpiActual: Variable name:r39_aa
+            vpiLoopVars (1 items):
+              Variable name:i:
+            vpiStmt Begin start:90:31 end:90:40:
+              vpiParent: ForeachStmt
+              vpiFullName: r39_m
+    Module name:r40_m file:$Source01/7--error_rules.sv start:101:1 end:104:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r40_m start:101:8 end:101:13:
+      vpiFullName: r40_m
+      vpiVariable (1 items):
+        Variable name:r40_q start:102:7 end:102:12:
+          vpiParent: Module name:r40_m
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:r40_q
+            vpiFullName: r40_m.r40_q
+            vpiActual: ArrayTypespec
+          vpiName: r40_q
+          vpiFullName: r40_m.r40_q
+          vpiValue Operation start:102:18 end:102:27:
+            vpiParent: Variable name:r40_q
+            vpiOpType: concatenation (33)
+            vpiOperand (3 items):
+              Constant start:102:19 end:102:20:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: r40_m.r40_q
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+              Constant start:102:22 end:102:23:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: r40_m.r40_q
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
+              Constant start:102:25 end:102:26:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: r40_m.r40_q
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "3"
+                vpiValue: 3
+      vpiTypespec (1 items):
+        ArrayTypespec:
+          vpiParent: Module name:r40_m
+          vpiArrayType: queue (4)
+          vpiRange Range start:102:12 end:102:15:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:102:13 end:102:14:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: r40_m
+                vpiActual: StringTypespec
+              vpiConstType: unbounded (11)
+              vpiDecompile: "$"
+              vpiValue: "$"
+          vpiElemTypespec RefTypespec start:102:3 end:102:6:
+            vpiParent: ArrayTypespec
+            vpiFullName: r40_m
+            vpiActual: IntTypespec
+      vpiDefName: r40_m
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:r40_m
+        vpiName: work
+        vpiFullName: r40_m.work
+      vpiCell: r40_m
+      vpiProcess (1 items):
+        Initial start:103:3 end:103:37:
+          vpiParent: Module name:r40_m
+          vpiStmt HierPath name:r40_q.reverse start:103:11 end:103:36:
+            vpiParent: Initial
+            vpiName: r40_q.reverse
+            vpiFullName: r40_m.r40_q.reverse
+            vpiPathElem (2 items):
+              RefObj name:r40_q start:103:11 end:103:16:
+                vpiParent: HierPath name:r40_q.reverse
+                vpiName: r40_q
+                vpiFullName: r40_m.r40_q
+                vpiActual: Variable name:r40_q
+              MethodFuncCall name:reverse start:103:17 end:103:36:
+                vpiParent: HierPath name:r40_q.reverse
+                vpiName Identifier name:reverse start:103:17 end:103:24:
+                vpiWith RefObj name:item start:103:31 end:103:35:
+                  vpiParent: MethodFuncCall name:reverse
+                  vpiName: item
+                  vpiFullName: r40_m.r40_q.reverse.item
+                  vpiActual: Variable name:item
+                vpiLoopVars Variable name:item start:103:31 end:103:35:
+                  vpiParent: MethodFuncCall name:reverse
+                  vpiName: item
+                  vpiFullName: r40_m.r40_q.reverse.item
+                  vpiIsIterator: true
+  vpiTypespec (16 items):
+    BitTypespec:
+      vpiParent: Design name:unnamed
+      vpiRange (1 items):
+        Range start:20:28 end:20:33:
+          vpiParent: BitTypespec
+          vpiLeftRange Constant start:20:29 end:20:30:
+            vpiParent: Range
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "7"
+            vpiValue: 7
+          vpiRightRange Constant start:20:31 end:20:32:
+            vpiParent: Range
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+      vpiVector: true
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    BitTypespec:
+      vpiParent: Design name:unnamed
+      vpiRange (1 items):
+        Range start:20:41 end:20:46:
+          vpiParent: BitTypespec
+          vpiLeftRange Constant start:20:42 end:20:43:
+            vpiParent: Range
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "3"
+            vpiValue: 3
+          vpiRightRange Constant start:20:44 end:20:45:
+            vpiParent: Range
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+      vpiVector: true
+    UnionTypespec start:20:9 end:20:51:
+      vpiParent: Design name:unnamed
+      vpiPacked: true
+      vpiTypespecMember (2 items):
+        TypespecMember name:a start:20:34 end:20:35:
+          vpiParent: UnionTypespec
+          vpiName: a
+          vpiTypespec RefTypespec start:20:24 end:20:33:
+            vpiParent: TypespecMember name:a
+            vpiFullName: a
+            vpiActual: BitTypespec
+        TypespecMember name:b start:20:47 end:20:48:
+          vpiParent: UnionTypespec
+          vpiName: b
+          vpiTypespec RefTypespec start:20:37 end:20:46:
+            vpiParent: TypespecMember name:b
+            vpiFullName: b
+            vpiActual: BitTypespec
+    TypedefTypespec name:r33_u_t start:20:1 end:20:60:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r33_u_t start:20:52 end:20:59:
+      vpiTypedefAlias RefTypespec start:20:9 end:20:51:
+        vpiParent: TypedefTypespec name:r33_u_t
+        vpiFullName: r33_u_t
+        vpiActual: UnionTypespec
+    ModuleTypespec name:r34_m:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r34_m start:33:8 end:33:13:
+      vpiModule: Module name:r34_m
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ModuleTypespec name:r35_m:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r35_m start:40:8 end:40:13:
+      vpiModule: Module name:r35_m
+    ModuleTypespec name:r36_m:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r36_m start:55:8 end:55:13:
+      vpiModule: Module name:r36_m
+    VoidTypespec start:62:25 end:62:29:
+      vpiParent: Design name:unnamed
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: dynamic (2)
+      vpiRange Range start:62:50 end:62:52:
+        vpiParent: ArrayTypespec
+      vpiElemTypespec RefTypespec start:62:43 end:62:46:
+        vpiParent: ArrayTypespec
+        vpiActual: IntTypespec
+    ModuleTypespec name:r37_m:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r37_m start:63:8 end:63:13:
+      vpiModule: Module name:r37_m
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    ModuleTypespec name:r38_m:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r38_m start:71:8 end:71:13:
+      vpiModule: Module name:r38_m
+    ModuleTypespec name:r39_m:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r39_m start:88:8 end:88:13:
+      vpiModule: Module name:r39_m
+    ModuleTypespec name:r40_m:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r40_m start:101:8 end:101:13:
+      vpiModule: Module name:r40_m
+  vpiTaskFuncDecl (1 items):
+    FunctionDecl name:r37_f start:62:1 end:62:54:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r37_f start:62:30 end:62:35:
+      vpiFullName: r37_f
+      vpiDPICStr: <<invalid>> (1)
+      vpiIODecl (1 items):
+        IODecl name:arr start:62:47 end:62:50:
+          vpiParent: FunctionDecl name:r37_f
+          vpiName: arr
+          vpiDirection: output (2)
+          vpiTypespec RefTypespec start:62:43 end:62:46:
+            vpiParent: IODecl name:arr
+            vpiFullName: r37_f.arr
+            vpiActual: ArrayTypespec
+      vpiReturn RefTypespec start:62:25 end:62:29:
+        vpiParent: FunctionDecl name:r37_f
+        vpiFullName: r37_f
+        vpiActual: VoidTypespec
+===================
+[  FATAL] : 0
+[ SYNTAX] : 5
+[  ERROR] : 8
+[WARNING] : 7
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: ErrorCatalog/chapter-7/7--error_rules
+   test-dirpath: ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules
+  hldb-filepath: ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules/mounts.json
+
+
+{'result': {'coverage': 99.83,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/7--error_rules.sv': {'post_len': 1,
+                                                             'pre_len': 595}},
+            'post_len': 1,
+            'pre_len': 595,
+            'test_name': 'ErrorCatalog/chapter-7/7--error_rules'}}
+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/7--error_rules.sv |      595 |         1 |
++====================================+==========+===========+
+|                                    |      595 |         1 |
++------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 99.83
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules/design.hldb ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+Constant                            31      29       1         3
+Operation                            3       2       0         1
+RefTypespec                         58      55       0         3
+----------------------------------------------------------------
+Others                             120     120       0         0
+----------------------------------------------------------------
+                                   212     206       1         7
+===================== END REDUCTION RESULT =====================
