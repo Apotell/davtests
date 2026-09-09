@@ -11,12 +11,12 @@ COMMAND: -wd ../../../tests/YosysIce40 +incdir+. -writepp -fileunit design01.v d
 [INF:PP5223] Preprocessing source file "$Source01/design02.v".
 [INF:PP5223] Preprocessing source file "$Source01/design03.v".
 [INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
+[WRN:PP5214] $Source01/design01.v:417:11: Unused macro argument "debug_command".
+[WRN:PP5214] $Source01/design01.v:429:11: Unused macro argument "assert_expr".
 [NTE:PP5206] $Source01/design02.v:969:9: Multiply defined macro "WIDTH",
              $Source01/design02.v:10:9: previous definition.
 [NTE:PP5206] $Source01/design02.v:1095:9: Multiply defined macro "WIDTH",
              $Source01/design02.v:969:9: previous definition.
-[WRN:PP5214] $Source01/design01.v:417:11: Unused macro argument "debug_command".
-[WRN:PP5214] $Source01/design01.v:429:11: Unused macro argument "assert_expr".
 [INF:PA5502] Parsing source file "$Source01/design01.v".
 [INF:PA5502] Parsing source file "$Source01/design02.v".
 [INF:PA5502] Parsing source file "$Source01/design03.v".
@@ -325995,6 +325995,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:26:8 end:26:11:
+      vpiDefName: top
       vpiModule: Module name:top
     LogicTypespec:
       vpiParent: Design name:unnamed
@@ -326003,388 +326004,484 @@ Design name:unnamed:
     ModuleTypespec name:picosoc:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picosoc start:174:8 end:174:15:
+      vpiDefName: picosoc
       vpiModule: Module name:picosoc
     ModuleTypespec name:picosoc_regs:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picosoc_regs start:350:8 end:350:20:
+      vpiDefName: picosoc_regs
       vpiModule: Module name:picosoc_regs
     ModuleTypespec name:picosoc_mem:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picosoc_mem start:368:8 end:368:19:
+      vpiDefName: picosoc_mem
       vpiModule: Module name:picosoc_mem #(.WORDS(256))
     ModuleTypespec name:picorv32:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picorv32 start:444:8 end:444:16:
+      vpiDefName: picorv32
       vpiModule: "Module name:picorv32 #(.ENABLE_COUNTERS(1), .ENABLE_COUNTERS64(1), .ENABLE_REGS_16_31(1), .ENABLE_REGS_DUALPORT(1), .LATCHED_MEM_RDATA(0), .TWO_STAGE_SHIFT(1), .BARREL_SHIFTER(0), .TWO_CYCLE_COMPARE(0), .TWO_CYCLE_ALU(0), .COMPRESSED_ISA(0), .CATCH_MISALIGN(1), .CATCH_ILLINSN(1), .ENABLE_PCPI(0), .ENABLE_MUL(0), .ENABLE_FAST_MUL(0), .ENABLE_DIV(0), .ENABLE_IRQ(0), .ENABLE_IRQ_QREGS(1), .ENABLE_IRQ_TIMER(1), .ENABLE_TRACE(0), .REGS_INIT_ZERO(0), .MASKED_IRQ(32'h 0000_0000), .LATCHED_IRQ(32'h ffff_ffff), .PROGADDR_RESET(32'h 0000_0000), .PROGADDR_IRQ(32'h 0000_0010), .STACKADDR(32'h ffff_ffff))"
     ModuleTypespec name:picorv32_regs:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picorv32_regs start:2489:8 end:2489:21:
+      vpiDefName: picorv32_regs
       vpiModule: Module name:picorv32_regs
     ModuleTypespec name:picorv32_pcpi_mul:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picorv32_pcpi_mul start:2512:8 end:2512:25:
+      vpiDefName: picorv32_pcpi_mul
       vpiModule: Module name:picorv32_pcpi_mul #(.STEPS_AT_ONCE(1), .CARRY_CHAIN(4))
     ModuleTypespec name:picorv32_pcpi_fast_mul:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picorv32_pcpi_fast_mul start:2633:8 end:2633:30:
+      vpiDefName: picorv32_pcpi_fast_mul
       vpiModule: Module name:picorv32_pcpi_fast_mul #(.EXTRA_MUL_FFS(0), .EXTRA_INSN_FFS(0), .MUL_CLKGATE(0))
     ModuleTypespec name:picorv32_pcpi_div:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picorv32_pcpi_div start:2735:8 end:2735:25:
+      vpiDefName: picorv32_pcpi_div
       vpiModule: Module name:picorv32_pcpi_div
     ModuleTypespec name:picorv32_axi:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picorv32_axi start:2832:8 end:2832:20:
+      vpiDefName: picorv32_axi
       vpiModule: "Module name:picorv32_axi #(.ENABLE_COUNTERS(1), .ENABLE_COUNTERS64(1), .ENABLE_REGS_16_31(1), .ENABLE_REGS_DUALPORT(1), .TWO_STAGE_SHIFT(1), .BARREL_SHIFTER(0), .TWO_CYCLE_COMPARE(0), .TWO_CYCLE_ALU(0), .COMPRESSED_ISA(0), .CATCH_MISALIGN(1), .CATCH_ILLINSN(1), .ENABLE_PCPI(0), .ENABLE_MUL(0), .ENABLE_FAST_MUL(0), .ENABLE_DIV(0), .ENABLE_IRQ(0), .ENABLE_IRQ_QREGS(1), .ENABLE_IRQ_TIMER(1), .ENABLE_TRACE(0), .REGS_INIT_ZERO(0), .MASKED_IRQ(32'h 0000_0000), .LATCHED_IRQ(32'h ffff_ffff), .PROGADDR_RESET(32'h 0000_0000), .PROGADDR_IRQ(32'h 0000_0010), .STACKADDR(32'h ffff_ffff))"
     ModuleTypespec name:picorv32_axi_adapter:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picorv32_axi_adapter start:3046:8 end:3046:28:
+      vpiDefName: picorv32_axi_adapter
       vpiModule: Module name:picorv32_axi_adapter
     ModuleTypespec name:picorv32_wb:
       vpiParent: Design name:unnamed
       vpiName Identifier name:picorv32_wb start:3130:8 end:3130:19:
+      vpiDefName: picorv32_wb
       vpiModule: "Module name:picorv32_wb #(.ENABLE_COUNTERS(1), .ENABLE_COUNTERS64(1), .ENABLE_REGS_16_31(1), .ENABLE_REGS_DUALPORT(1), .TWO_STAGE_SHIFT(1), .BARREL_SHIFTER(0), .TWO_CYCLE_COMPARE(0), .TWO_CYCLE_ALU(0), .COMPRESSED_ISA(0), .CATCH_MISALIGN(1), .CATCH_ILLINSN(1), .ENABLE_PCPI(0), .ENABLE_MUL(0), .ENABLE_FAST_MUL(0), .ENABLE_DIV(0), .ENABLE_IRQ(0), .ENABLE_IRQ_QREGS(1), .ENABLE_IRQ_TIMER(1), .ENABLE_TRACE(0), .REGS_INIT_ZERO(0), .MASKED_IRQ(32'h 0000_0000), .LATCHED_IRQ(32'h ffff_ffff), .PROGADDR_RESET(32'h 0000_0000), .PROGADDR_IRQ(32'h 0000_0010), .STACKADDR(32'h ffff_ffff))"
     ModuleTypespec name:simpleuart:
       vpiParent: Design name:unnamed
       vpiName Identifier name:simpleuart start:3385:8 end:3385:18:
+      vpiDefName: simpleuart
       vpiModule: Module name:simpleuart
     ModuleTypespec name:spimemio:
       vpiParent: Design name:unnamed
       vpiName Identifier name:spimemio start:3523:8 end:3523:16:
+      vpiDefName: spimemio
       vpiModule: Module name:spimemio
     ModuleTypespec name:spimemio_xfer:
       vpiParent: Design name:unnamed
       vpiName Identifier name:spimemio_xfer start:3881:8 end:3881:21:
+      vpiDefName: spimemio_xfer
       vpiModule: Module name:spimemio_xfer
     ModuleTypespec name:SB_RAM2048x2:
       vpiParent: Design name:unnamed
       vpiName Identifier name:SB_RAM2048x2 start:12:8 end:12:20:
+      vpiDefName: SB_RAM2048x2
       vpiModule: Module name:SB_RAM2048x2
     ModuleTypespec name:ioport:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ioport start:71:8 end:71:14:
+      vpiDefName: ioport
       vpiModule: Module name:ioport
     ModuleTypespec name:outpin:
       vpiParent: Design name:unnamed
       vpiName Identifier name:outpin start:96:8 end:96:14:
+      vpiDefName: outpin
       vpiModule: Module name:outpin
     ModuleTypespec name:inpin:
       vpiParent: Design name:unnamed
       vpiName Identifier name:inpin start:111:8 end:111:13:
+      vpiDefName: inpin
       vpiModule: Module name:inpin
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:122:8 end:122:11:
+      vpiDefName: top
       vpiModule: Module name:top
     LongIntTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:baudgen:
       vpiParent: Design name:unnamed
       vpiName Identifier name:baudgen start:790:8 end:790:15:
+      vpiDefName: baudgen
       vpiModule: Module name:baudgen
     ModuleTypespec name:baudgen2:
       vpiParent: Design name:unnamed
       vpiName Identifier name:baudgen2 start:810:8 end:810:16:
+      vpiDefName: baudgen2
       vpiModule: Module name:baudgen2
     ModuleTypespec name:uart:
       vpiParent: Design name:unnamed
       vpiName Identifier name:uart start:839:8 end:839:12:
+      vpiDefName: uart
       vpiModule: Module name:uart
     ModuleTypespec name:rxuart:
       vpiParent: Design name:unnamed
       vpiName Identifier name:rxuart start:880:8 end:880:14:
+      vpiDefName: rxuart
       vpiModule: Module name:rxuart
     ModuleTypespec name:buart:
       vpiParent: Design name:unnamed
       vpiName Identifier name:buart start:941:8 end:941:13:
+      vpiDefName: buart
       vpiModule: Module name:buart
     ModuleTypespec name:j1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:j1 start:971:8 end:971:10:
+      vpiDefName: j1
       vpiModule: Module name:j1
     ModuleTypespec name:stack2:
       vpiParent: Design name:unnamed
       vpiName Identifier name:stack2 start:1097:8 end:1097:14:
+      vpiDefName: stack2
       vpiModule: Module name:stack2
     ModuleTypespec name:up_spram:
       vpiParent: Design name:unnamed
       vpiName Identifier name:up_spram start:7:8 end:7:16:
+      vpiDefName: up_spram
       vpiModule: Module name:up_spram
     ModuleTypespec name:scan_double:
       vpiParent: Design name:unnamed
       vpiName Identifier name:scan_double start:81:8 end:81:19:
+      vpiDefName: scan_double
       vpiModule: Module name:scan_double
     ModuleTypespec name:pll:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pll start:128:8 end:128:11:
+      vpiDefName: pll
       vpiModule: Module name:pll
     ModuleTypespec name:main_mem:
       vpiParent: Design name:unnamed
       vpiName Identifier name:main_mem start:154:8 end:154:16:
+      vpiDefName: main_mem
       vpiModule: Module name:main_mem
     ModuleTypespec name:LoopyGen:
       vpiParent: Design name:unnamed
       vpiName Identifier name:LoopyGen start:266:8 end:266:16:
+      vpiDefName: LoopyGen
       vpiModule: Module name:LoopyGen
     ModuleTypespec name:ClockGen:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ClockGen start:361:8 end:361:16:
+      vpiDefName: ClockGen
       vpiModule: Module name:ClockGen
     ModuleTypespec name:Sprite:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Sprite start:415:8 end:415:14:
+      vpiDefName: Sprite
       vpiModule: Module name:Sprite
     ModuleTypespec name:SpriteSet:
       vpiParent: Design name:unnamed
       vpiName Identifier name:SpriteSet start:449:8 end:449:17:
+      vpiDefName: SpriteSet
       vpiModule: Module name:SpriteSet
     ModuleTypespec name:SpriteRAM:
       vpiParent: Design name:unnamed
       vpiName Identifier name:SpriteRAM start:478:8 end:478:17:
+      vpiDefName: SpriteRAM
       vpiModule: Module name:SpriteRAM
     ModuleTypespec name:SpriteAddressGen:
       vpiParent: Design name:unnamed
       vpiName Identifier name:SpriteAddressGen start:598:8 end:598:24:
+      vpiDefName: SpriteAddressGen
       vpiModule: Module name:SpriteAddressGen
     ModuleTypespec name:BgPainter:
       vpiParent: Design name:unnamed
       vpiName Identifier name:BgPainter start:649:8 end:649:17:
+      vpiDefName: BgPainter
       vpiModule: Module name:BgPainter
     ModuleTypespec name:PixelMuxer:
       vpiParent: Design name:unnamed
       vpiName Identifier name:PixelMuxer start:704:8 end:704:18:
+      vpiDefName: PixelMuxer
       vpiModule: Module name:PixelMuxer
     ModuleTypespec name:PaletteRam:
       vpiParent: Design name:unnamed
       vpiName Identifier name:PaletteRam start:712:8 end:712:18:
+      vpiDefName: PaletteRam
       vpiModule: Module name:PaletteRam
     ModuleTypespec name:PPU:
       vpiParent: Design name:unnamed
       vpiName Identifier name:PPU start:727:8 end:727:11:
+      vpiDefName: PPU
       vpiModule: Module name:PPU
     ModuleTypespec name:DmaController:
       vpiParent: Design name:unnamed
       vpiName Identifier name:DmaController start:1016:8 end:1016:21:
+      vpiDefName: DmaController
       vpiModule: Module name:DmaController
     ModuleTypespec name:MemoryMultiplex:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MemoryMultiplex start:1066:8 end:1066:23:
+      vpiDefName: MemoryMultiplex
       vpiModule: Module name:MemoryMultiplex
     ModuleTypespec name:NES:
       vpiParent: Design name:unnamed
       vpiName Identifier name:NES start:1096:8 end:1096:11:
+      vpiDefName: NES
       vpiModule: Module name:NES
     ModuleTypespec name:MyAddSub:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MyAddSub start:1285:8 end:1285:16:
+      vpiDefName: MyAddSub
       vpiModule: Module name:MyAddSub
     ModuleTypespec name:NewAlu:
       vpiParent: Design name:unnamed
       vpiName Identifier name:NewAlu start:1311:8 end:1311:14:
+      vpiDefName: NewAlu
       vpiModule: Module name:NewAlu
     ModuleTypespec name:AddressGenerator:
       vpiParent: Design name:unnamed
       vpiName Identifier name:AddressGenerator start:1386:8 end:1386:24:
+      vpiDefName: AddressGenerator
       vpiModule: Module name:AddressGenerator
     ModuleTypespec name:ProgramCounter:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ProgramCounter start:1428:8 end:1428:22:
+      vpiDefName: ProgramCounter
       vpiModule: Module name:ProgramCounter
     ModuleTypespec name:CPU:
       vpiParent: Design name:unnamed
       vpiName Identifier name:CPU start:1452:8 end:1452:11:
+      vpiDefName: CPU
       vpiModule: Module name:CPU
     ModuleTypespec name:LenCtr_Lookup:
       vpiParent: Design name:unnamed
       vpiName Identifier name:LenCtr_Lookup start:1640:8 end:1640:21:
+      vpiDefName: LenCtr_Lookup
       vpiModule: Module name:LenCtr_Lookup
     ModuleTypespec name:SquareChan:
       vpiParent: Design name:unnamed
       vpiName Identifier name:SquareChan start:1682:8 end:1682:18:
+      vpiDefName: SquareChan
       vpiModule: Module name:SquareChan
     ModuleTypespec name:TriangleChan:
       vpiParent: Design name:unnamed
       vpiName Identifier name:TriangleChan start:1834:8 end:1834:20:
+      vpiDefName: TriangleChan
       vpiModule: Module name:TriangleChan
     ModuleTypespec name:NoiseChan:
       vpiParent: Design name:unnamed
       vpiName Identifier name:NoiseChan start:1923:8 end:1923:17:
+      vpiDefName: NoiseChan
       vpiModule: Module name:NoiseChan
     ModuleTypespec name:DmcChan:
       vpiParent: Design name:unnamed
       vpiName Identifier name:DmcChan start:2041:8 end:2041:15:
+      vpiDefName: DmcChan
       vpiModule: Module name:DmcChan
     ModuleTypespec name:ApuLookupTable:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ApuLookupTable start:2188:8 end:2188:22:
+      vpiDefName: ApuLookupTable
       vpiModule: Module name:ApuLookupTable
     ModuleTypespec name:APU:
       vpiParent: Design name:unnamed
       vpiName Identifier name:APU start:2260:8 end:2260:11:
+      vpiDefName: APU
       vpiModule: Module name:APU
     ModuleTypespec name:MUXCY:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MUXCY start:2445:8 end:2445:13:
+      vpiDefName: MUXCY
       vpiModule: Module name:MUXCY
     ModuleTypespec name:MUXCY_L:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MUXCY_L start:2448:8 end:2448:15:
+      vpiDefName: MUXCY_L
       vpiModule: Module name:MUXCY_L
     ModuleTypespec name:MUXCY_D:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MUXCY_D start:2451:8 end:2451:15:
+      vpiDefName: MUXCY_D
       vpiModule: Module name:MUXCY_D
     ModuleTypespec name:XORCY:
       vpiParent: Design name:unnamed
       vpiName Identifier name:XORCY start:2455:8 end:2455:13:
+      vpiDefName: XORCY
       vpiModule: Module name:XORCY
     ModuleTypespec name:XOR2:
       vpiParent: Design name:unnamed
       vpiName Identifier name:XOR2 start:2458:8 end:2458:12:
+      vpiDefName: XOR2
       vpiModule: Module name:XOR2
     ModuleTypespec name:generic_ram:
       vpiParent: Design name:unnamed
       vpiName Identifier name:generic_ram start:2462:8 end:2462:19:
+      vpiDefName: generic_ram
       vpiModule: Module name:generic_ram
     ModuleTypespec name:icosoc_flashmem:
       vpiParent: Design name:unnamed
       vpiName Identifier name:icosoc_flashmem start:2499:8 end:2499:23:
+      vpiDefName: icosoc_flashmem
       vpiModule: Module name:icosoc_flashmem
     ModuleTypespec name:MicroCodeTableInner:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MicroCodeTableInner start:2583:8 end:2583:27:
+      vpiDefName: MicroCodeTableInner
       vpiModule: Module name:MicroCodeTableInner
     ModuleTypespec name:MicroCodeTable:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MicroCodeTable start:4642:8 end:4642:22:
+      vpiDefName: MicroCodeTable
       vpiModule: Module name:MicroCodeTable
     ModuleTypespec name:sigma_delta_dac:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sigma_delta_dac start:4957:8 end:4957:23:
+      vpiDefName: sigma_delta_dac
       vpiModule: Module name:sigma_delta_dac
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:4992:8 end:4992:11:
+      vpiDefName: top
       vpiModule: Module name:top
     ModuleTypespec name:MMC0:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MMC0 start:5182:8 end:5182:12:
+      vpiDefName: MMC0
       vpiModule: Module name:MMC0
     ModuleTypespec name:MMC1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MMC1 start:5202:8 end:5202:12:
+      vpiDefName: MMC1
       vpiModule: Module name:MMC1
     ModuleTypespec name:MMC2:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MMC2 start:5326:8 end:5326:12:
+      vpiDefName: MMC2
       vpiModule: Module name:MMC2
     ModuleTypespec name:MMC3:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MMC3 start:5445:8 end:5445:12:
+      vpiDefName: MMC3
       vpiModule: Module name:MMC3
     ModuleTypespec name:MMC4:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MMC4 start:5590:8 end:5590:12:
+      vpiDefName: MMC4
       vpiModule: Module name:MMC4
     ModuleTypespec name:MMC5:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MMC5 start:5716:8 end:5716:12:
+      vpiDefName: MMC5
       vpiModule: Module name:MMC5
     ModuleTypespec name:Rambo1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Rambo1 start:6032:8 end:6032:14:
+      vpiDefName: Rambo1
       vpiModule: Module name:Rambo1
     ModuleTypespec name:Mapper13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper13 start:6176:8 end:6176:16:
+      vpiDefName: Mapper13
       vpiModule: Module name:Mapper13
     ModuleTypespec name:Mapper15:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper15 start:6202:8 end:6202:16:
+      vpiDefName: Mapper15
       vpiModule: Module name:Mapper15
     ModuleTypespec name:Mapper16:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper16 start:6264:8 end:6264:16:
+      vpiDefName: Mapper16
       vpiModule: Module name:Mapper16
     ModuleTypespec name:Mapper28:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper28 start:6373:8 end:6373:16:
+      vpiDefName: Mapper28
       vpiModule: Module name:Mapper28
     ModuleTypespec name:Mapper42:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper42 start:6469:8 end:6469:16:
+      vpiDefName: Mapper42
       vpiModule: Module name:Mapper42
     ModuleTypespec name:Mapper66:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper66 start:6541:8 end:6541:16:
+      vpiDefName: Mapper66
       vpiModule: Module name:Mapper66
     ModuleTypespec name:Mapper34:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper34 start:6574:8 end:6574:16:
+      vpiDefName: Mapper34
       vpiModule: Module name:Mapper34
     ModuleTypespec name:Mapper41:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper41 start:6620:8 end:6620:16:
+      vpiDefName: Mapper41
       vpiModule: Module name:Mapper41
     ModuleTypespec name:Mapper68:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper68 start:6657:8 end:6657:16:
+      vpiDefName: Mapper68
       vpiModule: Module name:Mapper68
     ModuleTypespec name:Mapper69:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper69 start:6720:8 end:6720:16:
+      vpiDefName: Mapper69
       vpiModule: Module name:Mapper69
     ModuleTypespec name:Mapper71:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper71 start:6811:8 end:6811:16:
+      vpiDefName: Mapper71
       vpiModule: Module name:Mapper71
     ModuleTypespec name:Mapper79:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper79 start:6857:8 end:6857:16:
+      vpiDefName: Mapper79
       vpiModule: Module name:Mapper79
     ModuleTypespec name:NesEvent:
       vpiParent: Design name:unnamed
       vpiName Identifier name:NesEvent start:6889:8 end:6889:16:
+      vpiDefName: NesEvent
       vpiModule: Module name:NesEvent
     ModuleTypespec name:Mapper165:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper165 start:6946:8 end:6946:17:
+      vpiDefName: Mapper165
       vpiModule: Module name:Mapper165
     ModuleTypespec name:Mapper228:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper228 start:7076:8 end:7076:17:
+      vpiDefName: Mapper228
       vpiModule: Module name:Mapper228
     ModuleTypespec name:Mapper234:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Mapper234 start:7110:8 end:7110:17:
+      vpiDefName: Mapper234
       vpiModule: Module name:Mapper234
     ModuleTypespec name:MultiMapper:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MultiMapper start:7150:8 end:7150:19:
+      vpiDefName: MultiMapper
       vpiModule: Module name:MultiMapper
     ModuleTypespec name:DiffCheck:
       vpiParent: Design name:unnamed
       vpiName Identifier name:DiffCheck start:7418:8 end:7418:17:
+      vpiDefName: DiffCheck
       vpiModule: Module name:DiffCheck
     ModuleTypespec name:InnerBlend:
       vpiParent: Design name:unnamed
       vpiName Identifier name:InnerBlend start:7436:8 end:7436:18:
+      vpiDefName: InnerBlend
       vpiModule: Module name:InnerBlend
     ModuleTypespec name:Blend:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Blend start:7448:8 end:7448:13:
+      vpiDefName: Blend
       vpiModule: Module name:Blend
     ModuleTypespec name:Hq2x:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Hq2x start:7514:8 end:7514:12:
+      vpiDefName: Hq2x
       vpiModule: Module name:Hq2x
     ModuleTypespec name:video:
       vpiParent: Design name:unnamed
       vpiName Identifier name:video start:7687:8 end:7687:13:
+      vpiDefName: video
       vpiModule: Module name:video
     ModuleTypespec name:cart_mem:
       vpiParent: Design name:unnamed
       vpiName Identifier name:cart_mem start:7790:8 end:7790:16:
+      vpiDefName: cart_mem
       vpiModule: Module name:cart_mem
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
