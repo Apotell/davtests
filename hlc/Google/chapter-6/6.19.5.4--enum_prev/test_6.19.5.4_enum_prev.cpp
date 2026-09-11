@@ -52,6 +52,7 @@
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
+#include <hldb/class_defn.h>
 #include <hldb/design.h>
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
@@ -61,6 +62,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/scope.h>
+#include <hldb/task_func.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/variable.h>
 
@@ -190,7 +192,7 @@ TEST_F(EnumPrevTest, RefObjReceiverResolvesToVariable) {
       << "receiver RefObj 'val' in val.prev() should resolve to the local Variable";
 }
 
-TEST_F(EnumPrevTest, PrevCallHasNoStaticReturnTypespec) {
+TEST_F(EnumPrevTest, PrevCallBindsToBuiltinEnumerationIterator) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -203,8 +205,14 @@ TEST_F(EnumPrevTest, PrevCallHasNoStaticReturnTypespec) {
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getTypespec(), nullptr)
-      << "prev() return type is only known at simulation runtime; HLC does not attach a static typespec";
+  // IEEE 1800-2023 Sec 6.19.5.4: "prev()" is an enumerated-type method. It is declared in
+  // no user scope, so it can only resolve to the builtin "enumeration_iterator" class.
+  const hldb::TaskFunc *const tf = call->getTaskFunc();
+  ASSERT_NE(tf, nullptr) << "enum.prev() must bind (IEEE 1800-2023 Sec 6.19.5.4)";
+  EXPECT_EQ(tf->getName(), "prev");
+  const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
+  ASSERT_NE(owner, nullptr);
+  EXPECT_EQ(owner->getName(), "enumeration_iterator");
 }
 
 TEST_F(EnumPrevTest, CompilerReportsZeroErrors) {
@@ -212,8 +220,10 @@ TEST_F(EnumPrevTest, CompilerReportsZeroErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view("prev")), nullptr)
-      << "enum.prev() must bind (IEEE 1800-2023 6.19.5.4)";
+  // COMP_FAILED_TO_BIND does not fire for an unresolved enumerated-type method; the Linter
+  // reports LINT_NULL_ACTUAL instead, so check that (see Sec 6.19.5.4).
+  EXPECT_EQ(findError(ErrorDefinition::LINT_NULL_ACTUAL), nullptr)
+      << "enum.prev() must bind (IEEE 1800-2023 Sec 6.19.5.4)";
 }
 
 }  // namespace hlc
