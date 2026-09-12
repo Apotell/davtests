@@ -87,51 +87,59 @@ TEST_F(EnumSequenceTest, EVariableTypespecIsEnum) {
 TEST_F(EnumSequenceTest, EnumHasTwoConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const e = hldb::findByName<hldb::Variable>("e", top->getVariables());
-  ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::EnumTypespec *const enumTs = v->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 2u);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 2u);
 }
 
 TEST_F(EnumSequenceTest, FirstConstIsStart) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const e = hldb::findByName<hldb::Variable>("e", top->getVariables());
-  ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::EnumTypespec *const enumTs = v->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  const hldb::EnumConst *const ec = enumTs->getEnumConsts()->at(0);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::EnumConst *const ec = e->getEnumConsts()->at(0);
   ASSERT_NE(ec, nullptr);
-  EXPECT_EQ(ec->getName(), "start");
+  EXPECT_EQ(ec->getName(), std::string_view("start"));
 }
 
 TEST_F(EnumSequenceTest, StartConstValueIs10) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const e = hldb::findByName<hldb::Variable>("e", top->getVariables());
-  ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::EnumTypespec *const enumTs = v->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  const hldb::EnumConst *const ec = enumTs->getEnumConsts()->at(0);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::EnumConst *const ec = e->getEnumConsts()->at(0);
   ASSERT_NE(ec, nullptr);
   const hldb::Constant *const val = ec->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'start' EnumConst should have an explicit value";
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
-  EXPECT_EQ(val->getDecompile(), "10");
+  EXPECT_EQ(val->getDecompile(), std::string_view("10"));
 }
 
 TEST_F(EnumSequenceTest, SecondConstIsStep) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const e = hldb::findByName<hldb::Variable>("e", top->getVariables());
-  ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::EnumTypespec *const enumTs = v->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  const hldb::EnumConst *const ec = enumTs->getEnumConsts()->at(1);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::EnumConst *const ec = e->getEnumConsts()->at(1);
   ASSERT_NE(ec, nullptr);
-  EXPECT_EQ(ec->getName(), "step") << "step[10] sequence base EnumConst is named 'step'";
+  EXPECT_EQ(ec->getName(), std::string_view("step")) << "step[10] sequence base EnumConst is named 'step'";
 }
 
 TEST_F(EnumSequenceTest, NoProcesses) {
@@ -143,11 +151,13 @@ TEST_F(EnumSequenceTest, NoProcesses) {
 TEST_F(EnumSequenceTest, StepConstHasNoExplicitValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const e = hldb::findByName<hldb::Variable>("e", top->getVariables());
-  ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::EnumTypespec *const enumTs = v->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  const hldb::EnumConst *const ec = enumTs->getEnumConsts()->at(1);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::EnumConst *const ec = e->getEnumConsts()->at(1);
   ASSERT_NE(ec, nullptr);
   EXPECT_EQ(ec->getValue<hldb::Constant>(), nullptr)
       << "step[10] sequence base has no explicit value stored on the EnumConst";

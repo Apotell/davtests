@@ -98,8 +98,12 @@ TEST_F(ArraysKeyIndex, TripleAliasesIntArray) {
     }
   }
   ASSERT_NE(triple, nullptr);
-  ASSERT_NE(triple->getTypedefAlias(), nullptr) << "triple has no typedefAlias";
-  EXPECT_NE(any_cast<hldb::ArrayTypespec>(triple->getTypedefAlias()->getActual()), nullptr)
+
+  const hldb::Typedef *const td = triple->getTypedef();
+  ASSERT_NE(td, nullptr);
+
+  ASSERT_NE(td->getAlias(), nullptr) << "triple has no alias";
+  EXPECT_NE(any_cast<hldb::ArrayTypespec>(td->getAlias()->getActual()), nullptr)
       << "triple should alias an ArrayTypespec";
 }
 
@@ -118,7 +122,11 @@ TEST_F(ArraysKeyIndex, TripleArrayHasRangeOneToThree) {
     }
   }
   ASSERT_NE(triple, nullptr);
-  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(triple->getTypedefAlias()->getActual());
+
+  const hldb::Typedef *const td = triple->getTypedef();
+  ASSERT_NE(td, nullptr);
+
+  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(td->getAlias()->getActual());
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr) << "triple ArrayTypespec has no range";
 
@@ -126,8 +134,8 @@ TEST_F(ArraysKeyIndex, TripleArrayHasRangeOneToThree) {
   const hldb::Constant *const right = at->getRange()->getRightExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr) << "range left bound is not a Constant";
   ASSERT_NE(right, nullptr) << "range right bound is not a Constant";
-  EXPECT_EQ(left->getDecompile(), "1") << "range left should be 1";
-  EXPECT_EQ(right->getDecompile(), "3") << "range right should be 3";
+  EXPECT_EQ(left->getDecompile(), std::string_view("1")) << "range left should be 1";
+  EXPECT_EQ(right->getDecompile(), std::string_view("3")) << "range right should be 3";
 }
 
 // ----
@@ -155,7 +163,7 @@ TEST_F(ArraysKeyIndex, VariableBTypespecIsTriple) {
 
   const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(b->getTypespec()->getActual());
   ASSERT_NE(tdt, nullptr) << "variable 'b' typespec does not resolve to a TypedefTypespec";
-  EXPECT_EQ(tdt->getName(), "triple");
+  EXPECT_EQ(tdt->getName(), std::string_view("triple"));
 }
 
 // ----
@@ -194,7 +202,7 @@ TEST_F(ArraysKeyIndex, FirstTagIsIntegerConstant) {
   // Array index key 1 -> tag is a Constant, not a RefObj or RefTypespec
   const hldb::Constant *const tag = tp0->getTag<hldb::Constant>();
   ASSERT_NE(tag, nullptr) << "first tag should be a Constant (integer index key '1')";
-  EXPECT_EQ(tag->getDecompile(), "1") << "first index key should be 1";
+  EXPECT_EQ(tag->getDecompile(), std::string_view("1")) << "first index key should be 1";
 }
 
 TEST_F(ArraysKeyIndex, FirstPatternValueIsOne) {
@@ -210,7 +218,7 @@ TEST_F(ArraysKeyIndex, FirstPatternValueIsOne) {
 
   const hldb::Constant *const pattern = tp0->getPattern<hldb::Constant>();
   ASSERT_NE(pattern, nullptr) << "first pattern value should be a Constant";
-  EXPECT_EQ(pattern->getDecompile(), "1") << "first pattern value should be 1";
+  EXPECT_EQ(pattern->getDecompile(), std::string_view("1")) << "first pattern value should be 1";
 }
 
 // ----
@@ -230,7 +238,7 @@ TEST_F(ArraysKeyIndex, SecondTagIsDefaultRefObj) {
   // default key -> tag is a RefObj named "default"
   const hldb::RefObj *const tag = tp1->getTag<hldb::RefObj>();
   ASSERT_NE(tag, nullptr) << "second tag should be a RefObj (the 'default' keyword)";
-  EXPECT_EQ(tag->getName(), "default");
+  EXPECT_EQ(tag->getName(), std::string_view("default"));
 }
 
 TEST_F(ArraysKeyIndex, SecondPatternValueIsZero) {
@@ -246,7 +254,7 @@ TEST_F(ArraysKeyIndex, SecondPatternValueIsZero) {
 
   const hldb::Constant *const pattern = tp1->getPattern<hldb::Constant>();
   ASSERT_NE(pattern, nullptr) << "second pattern value should be a Constant";
-  EXPECT_EQ(pattern->getDecompile(), "0") << "default pattern value should be 0";
+  EXPECT_EQ(pattern->getDecompile(), std::string_view("0")) << "default pattern value should be 0";
 }
 
 }  // namespace hlc

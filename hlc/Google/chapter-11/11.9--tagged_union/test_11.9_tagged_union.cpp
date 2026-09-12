@@ -119,7 +119,9 @@ class TaggedUnionTest : public Test {
 TEST_F(TaggedUnionTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
 TEST_F(TaggedUnionTest, UnionTypespecIsTaggedWithInvalidAndValidMembers) {
-  const hldb::UnionTypespec *const u = getUnion();
+  const hldb::UnionTypespec *const ut = getUnion();
+  ASSERT_NE(ut, nullptr);
+  const hldb::Union *const u = ut->getUnion();
   ASSERT_NE(u, nullptr);
   EXPECT_TRUE(u->getTagged());
   ASSERT_NE(u->getMembers(), nullptr);
@@ -150,9 +152,11 @@ TEST_F(TaggedUnionTest, TypedefUIntAliasesTheUnion) {
     if (typedefTs != nullptr) break;
   }
   ASSERT_NE(typedefTs, nullptr);
-  EXPECT_EQ(typedefTs->getName(), "u_int");
-  ASSERT_NE(typedefTs->getTypedefAlias(), nullptr);
-  EXPECT_EQ(typedefTs->getTypedefAlias()->getActual<hldb::UnionTypespec>(), getUnion());
+  EXPECT_EQ(typedefTs->getName(), std::string_view("u_int"));
+  const hldb::Typedef *const td = typedefTs->getTypedef();
+  ASSERT_NE(td, nullptr);
+  ASSERT_NE(td->getAlias(), nullptr);
+  EXPECT_EQ(td->getAlias()->getActual<hldb::UnionTypespec>(), getUnion());
 }
 
 // --- variables ---------------------------------------------------------------
@@ -171,7 +175,7 @@ TEST_F(TaggedUnionTest, ModuleHasTwoUIntVariablesNeitherDeclAssigned) {
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr);
 
   ASSERT_NE(a->getTypespec<hldb::RefTypespec>(), nullptr);
-  EXPECT_EQ(a->getTypespec<hldb::RefTypespec>()->getName(), "u_int");
+  EXPECT_EQ(a->getTypespec<hldb::RefTypespec>()->getName(), std::string_view("u_int"));
   EXPECT_NE(a->getTypespec<hldb::RefTypespec>()->getActual<hldb::TypedefTypespec>(), nullptr);
   ASSERT_NE(b->getTypespec<hldb::RefTypespec>(), nullptr);
   EXPECT_NE(b->getTypespec<hldb::RefTypespec>()->getActual<hldb::TypedefTypespec>(), nullptr);
@@ -201,11 +205,11 @@ TEST_F(TaggedUnionTest, FirstStatementAssignsTaggedInvalidWithNoTagValue) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "a");
+  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("a"));
 
   const hldb::TaggedPattern *const pat = assign->getRhs<hldb::TaggedPattern>();
   ASSERT_NE(pat, nullptr);
-  EXPECT_EQ(pat->getName(), "Invalid");
+  EXPECT_EQ(pat->getName(), std::string_view("Invalid"));
   EXPECT_EQ(pat->getTag(), nullptr) << "the void member carries no tag expression";
 }
 
@@ -218,13 +222,13 @@ TEST_F(TaggedUnionTest, SecondStatementAssignsTaggedValidWithTagFortyTwo) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "b");
+  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("b"));
 
   const hldb::TaggedPattern *const pat = assign->getRhs<hldb::TaggedPattern>();
   ASSERT_NE(pat, nullptr);
-  EXPECT_EQ(pat->getName(), "Valid");
+  EXPECT_EQ(pat->getName(), std::string_view("Valid"));
   ASSERT_NE(pat->getTag<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pat->getTag<hldb::Constant>()->getDecompile(), "42");
+  EXPECT_EQ(pat->getTag<hldb::Constant>()->getDecompile(), std::string_view("42"));
 }
 
 // --- design-level typespecs / compiler diagnostics --------------------------

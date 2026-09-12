@@ -94,24 +94,30 @@ TEST_F(EnumNumericalExprNoCastTest, ModuleExists) {
 TEST_F(EnumNumericalExprNoCastTest, TypedefEExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
+  EXPECT_NE(td->getAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
 TEST_F(EnumNumericalExprNoCastTest, EnumHasFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = td->getAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 4u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "a");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "b");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 4u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(e->getEnumConsts()->at(2)->getName(), std::string_view("c"));
+  EXPECT_EQ(e->getEnumConsts()->at(3)->getName(), std::string_view("d"));
 }
 
 // ---------------------------------------------------------------------------
@@ -126,7 +132,7 @@ TEST_F(EnumNumericalExprNoCastTest, BeginHasVariableVal) {
   ASSERT_NE(blk, nullptr);
   ASSERT_NE(blk->getVariables(), nullptr);
   ASSERT_EQ(blk->getVariables()->size(), 1u);
-  EXPECT_EQ(blk->getVariables()->at(0)->getName(), "val");
+  EXPECT_EQ(blk->getVariables()->at(0)->getName(), std::string_view("val"));
 }
 
 // ---------------------------------------------------------------------------
@@ -178,10 +184,10 @@ TEST_F(EnumNumericalExprNoCastTest, AddOperandsAreValAnd1) {
   ASSERT_EQ(addOp->getOperands()->size(), 2u);
   const hldb::RefObj *const lhsOp = any_cast<hldb::RefObj>(addOp->getOperands()->at(0));
   ASSERT_NE(lhsOp, nullptr);
-  EXPECT_EQ(lhsOp->getName(), "val");
+  EXPECT_EQ(lhsOp->getName(), std::string_view("val"));
   const hldb::Constant *const rhsOp = any_cast<hldb::Constant>(addOp->getOperands()->at(1));
   ASSERT_NE(rhsOp, nullptr);
-  EXPECT_EQ(rhsOp->getDecompile(), "1");
+  EXPECT_EQ(rhsOp->getDecompile(), std::string_view("1"));
 }
 
 // ---------------------------------------------------------------------------
@@ -198,7 +204,7 @@ TEST_F(EnumNumericalExprNoCastTest, FirstAssignmentRhsIsEnumConstA) {
   ASSERT_NE(assign, nullptr);
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), "a");
+  EXPECT_EQ(rhs->getName(), std::string_view("a"));
   EXPECT_NE(rhs->getActual<hldb::EnumConst>(), nullptr);
 }
 

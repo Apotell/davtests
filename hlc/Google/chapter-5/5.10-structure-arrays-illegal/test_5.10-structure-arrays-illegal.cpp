@@ -87,10 +87,16 @@ TEST_F(StructuredArraysIllegal, StructHasTwoMembers) {
   }
   ASSERT_NE(msT, nullptr);
 
-  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
+  const hldb::Typedef *const td = msT->getTypedef();
+  ASSERT_NE(td, nullptr);
+
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(td->getAlias()->getActual());
   ASSERT_NE(st, nullptr) << "ms_t alias does not resolve to a StructTypespec";
-  ASSERT_NE(st->getMembers(), nullptr) << "StructTypespec has no members";
-  EXPECT_EQ(st->getMembers()->size(), 2u) << "expected 2 struct members (a, b)";
+  
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr) << "StructTypespec has no members";
+  EXPECT_EQ(s->getMembers()->size(), 2u) << "expected 2 struct members (a, b)";
 }
 
 // ----

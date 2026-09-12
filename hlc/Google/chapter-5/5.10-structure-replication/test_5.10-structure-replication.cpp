@@ -95,8 +95,12 @@ TEST_F(StructureReplication, XYZTypespecHasThreeMembers) {
 
   const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(xyz->getTypespec()->getActual());
   ASSERT_NE(st, nullptr) << "XYZ typespec is not a StructTypespec";
-  ASSERT_NE(st->getMembers(), nullptr) << "XYZ StructTypespec has no members";
-  EXPECT_EQ(st->getMembers()->size(), 3u) << "expected 3 members: X, Y, Z";
+
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+
+  ASSERT_NE(s->getMembers(), nullptr) << "XYZ StructTypespec has no members";
+  EXPECT_EQ(s->getMembers()->size(), 3u) << "expected 3 members: X, Y, Z";
 }
 
 TEST_F(StructureReplication, XYZMemberNames) {
@@ -115,11 +119,15 @@ TEST_F(StructureReplication, XYZMemberNames) {
 
   const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(xyz->getTypespec()->getActual());
   ASSERT_NE(st, nullptr);
-  ASSERT_EQ(st->getMembers()->size(), 3u);
 
-  EXPECT_EQ((*st->getMembers())[0]->getName(), "X");
-  EXPECT_EQ((*st->getMembers())[1]->getName(), "Y");
-  EXPECT_EQ((*st->getMembers())[2]->getName(), "Z");
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+
+  ASSERT_EQ(s->getMembers()->size(), 3u);
+
+  EXPECT_EQ((*s->getMembers())[0]->getName(), std::string_view("X"));
+  EXPECT_EQ((*s->getMembers())[1]->getName(), std::string_view("Y"));
+  EXPECT_EQ((*s->getMembers())[2]->getName(), std::string_view("Z"));
 }
 
 TEST_F(StructureReplication, XYZInitializerIsAssignPattern) {
@@ -199,10 +207,17 @@ TEST_F(StructureReplication, AbTStructHasTwoMembers) {
   }
   ASSERT_NE(abT, nullptr);
 
-  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(abT->getTypedefAlias()->getActual());
+  const hldb::Typedef *const td = abT->getTypedef();
+  ASSERT_NE(td, nullptr);
+
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(td->getAlias()->getActual());
   ASSERT_NE(st, nullptr) << "ab_t alias does not resolve to StructTypespec";
-  ASSERT_NE(st->getMembers(), nullptr);
-  EXPECT_EQ(st->getMembers()->size(), 2u) << "expected 2 members: a, b";
+
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+
+  ASSERT_NE(s->getMembers(), nullptr);
+  EXPECT_EQ(s->getMembers()->size(), 2u) << "expected 2 members: a, b";
 }
 
 // ----
@@ -393,7 +408,7 @@ TEST_F(StructureReplication, NestedReplicationLevelsAreAssignPatterns) {
   // Level 2, first operand must be a RefObj to "a"
   const hldb::RefObj *const refA = any_cast<hldb::RefObj>((*l2->getOperands())[0]);
   ASSERT_NE(refA, nullptr) << "level-2 first operand is not a RefObj (expected 'a')";
-  EXPECT_EQ(refA->getName(), "a");
+  EXPECT_EQ(refA->getName(), std::string_view("a"));
 
   // Level 3: '{2{b,c}}        -> [Const "2", RefObj "b", RefObj "c"]
   const hldb::Operation *const l3 = any_cast<hldb::Operation>((*l2->getOperands())[1]);
@@ -403,11 +418,11 @@ TEST_F(StructureReplication, NestedReplicationLevelsAreAssignPatterns) {
 
   const hldb::RefObj *const refB = any_cast<hldb::RefObj>((*l3->getOperands())[1]);
   ASSERT_NE(refB, nullptr) << "innermost second operand is not a RefObj (expected 'b')";
-  EXPECT_EQ(refB->getName(), "b");
+  EXPECT_EQ(refB->getName(), std::string_view("b"));
 
   const hldb::RefObj *const refC = any_cast<hldb::RefObj>((*l3->getOperands())[2]);
   ASSERT_NE(refC, nullptr) << "innermost third operand is not a RefObj (expected 'c')";
-  EXPECT_EQ(refC->getName(), "c");
+  EXPECT_EQ(refC->getName(), std::string_view("c"));
 }
 
 }  // namespace hlc

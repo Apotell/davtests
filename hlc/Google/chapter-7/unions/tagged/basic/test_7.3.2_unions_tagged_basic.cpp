@@ -126,17 +126,21 @@ TEST_F(UnionsTaggedBasicTest, ModuleHasOneNet) {
 TEST_F(UnionsTaggedBasicTest, UnIsTaggedUntaggedPackedUnionWithTwoMembers) {
   const hldb::UnionTypespec *const ut = getUnUnionTypespec();
   ASSERT_NE(ut, nullptr);
-  EXPECT_TRUE(ut->getTagged());
-  EXPECT_FALSE(ut->getPacked());
-  ASSERT_NE(ut->getMembers(), nullptr);
-  EXPECT_EQ(ut->getMembers()->size(), 2u);
+  const hldb::Union *const u = ut->getUnion();
+  ASSERT_NE(u, nullptr);
+  EXPECT_TRUE(u->getTagged());
+  EXPECT_FALSE(u->getPacked());
+  ASSERT_NE(u->getMembers(), nullptr);
+  EXPECT_EQ(u->getMembers()->size(), 2u);
 }
 
 TEST_F(UnionsTaggedBasicTest, MemberInvalidIsVoidWithNoActualTypespec) {
   const hldb::UnionTypespec *const ut = getUnUnionTypespec();
   ASSERT_NE(ut, nullptr);
-  ASSERT_NE(ut->getMembers(), nullptr);
-  const hldb::TypespecMember *const invalid = ut->getMembers()->at(0);
+  const hldb::Union *const u = ut->getUnion();
+  ASSERT_NE(u, nullptr);
+  ASSERT_NE(u->getMembers(), nullptr);
+  const hldb::TypespecMember *const invalid = u->getMembers()->at(0);
   ASSERT_NE(invalid, nullptr);
   EXPECT_EQ(invalid->getName(), "invalid");
   const hldb::RefTypespec *const rt = invalid->getTypespec();
@@ -148,8 +152,10 @@ TEST_F(UnionsTaggedBasicTest, MemberInvalidIsVoidWithNoActualTypespec) {
 TEST_F(UnionsTaggedBasicTest, MemberValidIsFourBitBitTypespec) {
   const hldb::UnionTypespec *const ut = getUnUnionTypespec();
   ASSERT_NE(ut, nullptr);
-  ASSERT_NE(ut->getMembers(), nullptr);
-  const hldb::TypespecMember *const valid = ut->getMembers()->at(1);
+  const hldb::Union *const u = ut->getUnion();
+  ASSERT_NE(u, nullptr);
+  ASSERT_NE(u->getMembers(), nullptr);
+  const hldb::TypespecMember *const valid = u->getMembers()->at(1);
   ASSERT_NE(valid, nullptr);
   EXPECT_EQ(valid->getName(), "valid");
   const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(valid);

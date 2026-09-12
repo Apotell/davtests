@@ -95,7 +95,7 @@ TEST_F(NettypeTest, NettypeIsTypedefTypespecNamedRealNet) {
   ASSERT_NE(top->getTypespecs(), nullptr);
   const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr) << "nettype declaration creates a TypedefTypespec";
-  EXPECT_EQ(td->getName(), "real_net");
+  EXPECT_EQ(td->getName(), std::string_view("real_net"));
 }
 
 // ---------------------------------------------------------------------------
@@ -104,9 +104,11 @@ TEST_F(NettypeTest, NettypeIsTypedefTypespecNamedRealNet) {
 TEST_F(NettypeTest, NettypeAliasIsRealTypespec) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
+  const hldb::TypedefTypespec *const tt = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::RefTypespec *const alias = td->getTypedefAlias();
+  const hldb::RefTypespec *const alias = td->getAlias();
   ASSERT_NE(alias, nullptr);
   EXPECT_NE(alias->getActual<hldb::RealTypespec>(), nullptr)
       << "nettype real real_net: alias base type is RealTypespec, a spec-listed valid nettype "
@@ -119,7 +121,9 @@ TEST_F(NettypeTest, NettypeAliasIsRealTypespec) {
 TEST_F(NettypeTest, NettypeHasNoResolutionFunction) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
+  const hldb::TypedefTypespec *const tt = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
   EXPECT_EQ(td->getResolutionFunc(), nullptr) << "nettype without 'with' clause has no resolution function";
 }

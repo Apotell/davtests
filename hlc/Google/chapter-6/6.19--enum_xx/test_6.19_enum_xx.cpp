@@ -69,7 +69,9 @@ TEST_F(EnumXxTest, EnumBaseTypeIsInteger) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::RefTypespec *const base = enumTs->getBaseTypespec();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::RefTypespec *const base = e->getBaseTypespec();
   ASSERT_NE(base, nullptr);
   EXPECT_NE(base->getActual<hldb::IntegerTypespec>(), nullptr);
 }
@@ -85,11 +87,13 @@ TEST_F(EnumXxTest, EnumHasThreeConsts) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 3u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "a");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "b");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 3u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(e->getEnumConsts()->at(2)->getName(), std::string_view("c"));
 }
 
 TEST_F(EnumXxTest, ConstAValueIsZero) {
@@ -100,10 +104,12 @@ TEST_F(EnumXxTest, ConstAValueIsZero) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::Constant *const val = enumTs->getEnumConsts()->at(0)->getValue<hldb::Constant>();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::Constant *const val = e->getEnumConsts()->at(0)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
-  EXPECT_EQ(val->getDecompile(), "0");
+  EXPECT_EQ(val->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(EnumXxTest, ConstBValueIsMultiConcatOperation) {
@@ -114,14 +120,16 @@ TEST_F(EnumXxTest, ConstBValueIsMultiConcatOperation) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::Operation *const op = enumTs->getEnumConsts()->at(1)->getValue<hldb::Operation>();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::Operation *const op = e->getEnumConsts()->at(1)->getValue<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "b = {32{1'bx}} should be stored as an Operation";
   EXPECT_EQ(op->getOpType(), vpiMultiConcatOp) << "vpiMultiConcatOp=34: multi-concatenation {N{val}}";
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
   const hldb::Constant *const count = any_cast<hldb::Constant>(op->getOperands()->at(0));
   ASSERT_NE(count, nullptr);
-  EXPECT_EQ(count->getDecompile(), "32");
+  EXPECT_EQ(count->getDecompile(), std::string_view("32"));
   const hldb::Operation *const concat = any_cast<hldb::Operation>(op->getOperands()->at(1));
   ASSERT_NE(concat, nullptr);
   EXPECT_EQ(concat->getOpType(), vpiConcatOp);
@@ -130,7 +138,7 @@ TEST_F(EnumXxTest, ConstBValueIsMultiConcatOperation) {
   const hldb::Constant *const xbit = any_cast<hldb::Constant>(concat->getOperands()->at(0));
   ASSERT_NE(xbit, nullptr);
   EXPECT_EQ(xbit->getConstType(), vpiBinaryConst);
-  EXPECT_EQ(xbit->getDecompile(), "1'bx");
+  EXPECT_EQ(xbit->getDecompile(), std::string_view("1'bx"));
 }
 
 TEST_F(EnumXxTest, ConstCValueIsOne) {
@@ -141,10 +149,12 @@ TEST_F(EnumXxTest, ConstCValueIsOne) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::Constant *const val = enumTs->getEnumConsts()->at(2)->getValue<hldb::Constant>();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::Constant *const val = e->getEnumConsts()->at(2)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
-  EXPECT_EQ(val->getDecompile(), "1");
+  EXPECT_EQ(val->getDecompile(), std::string_view("1"));
 }
 
 // ---------------------------------------------------------------------------

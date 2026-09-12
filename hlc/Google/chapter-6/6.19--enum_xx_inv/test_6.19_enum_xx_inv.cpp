@@ -98,7 +98,9 @@ TEST_F(EnumXxInvTest, EnumBaseTypeIsBit) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::RefTypespec *const base = enumTs->getBaseTypespec();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::RefTypespec *const base = e->getBaseTypespec();
   ASSERT_NE(base, nullptr);
   EXPECT_NE(base->getActual<hldb::BitTypespec>(), nullptr)
       << "enum bit[1:0] base type should resolve to BitTypespec (2-state)";
@@ -115,11 +117,13 @@ TEST_F(EnumXxInvTest, EnumHasThreeConsts) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 3u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "a");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "b");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 3u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(e->getEnumConsts()->at(2)->getName(), std::string_view("c"));
 }
 
 TEST_F(EnumXxInvTest, ConstAValueIsZero) {
@@ -130,10 +134,12 @@ TEST_F(EnumXxInvTest, ConstAValueIsZero) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::Constant *const val = enumTs->getEnumConsts()->at(0)->getValue<hldb::Constant>();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::Constant *const val = e->getEnumConsts()->at(0)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
-  EXPECT_EQ(val->getDecompile(), "0");
+  EXPECT_EQ(val->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(EnumXxInvTest, ConstBValueIsBinaryXx) {
@@ -144,11 +150,13 @@ TEST_F(EnumXxInvTest, ConstBValueIsBinaryXx) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
   // b = 2'bxx is stored as a binary Constant (not an Operation like {32{1'bx}})
-  const hldb::Constant *const val = enumTs->getEnumConsts()->at(1)->getValue<hldb::Constant>();
+  const hldb::Constant *const val = e->getEnumConsts()->at(1)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "b = 2'bxx should be stored as a Constant, not an Operation";
   EXPECT_EQ(val->getConstType(), vpiBinaryConst) << "vpiBinaryConst=3: 2'bxx is a binary-format constant";
-  EXPECT_EQ(val->getDecompile(), "2'bxx");
+  EXPECT_EQ(val->getDecompile(), std::string_view("2'bxx"));
 }
 
 TEST_F(EnumXxInvTest, ConstCValueIsOne) {
@@ -159,10 +167,12 @@ TEST_F(EnumXxInvTest, ConstCValueIsOne) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::Constant *const val = enumTs->getEnumConsts()->at(2)->getValue<hldb::Constant>();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::Constant *const val = e->getEnumConsts()->at(2)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
-  EXPECT_EQ(val->getDecompile(), "1");
+  EXPECT_EQ(val->getDecompile(), std::string_view("1"));
 }
 
 // ---------------------------------------------------------------------------

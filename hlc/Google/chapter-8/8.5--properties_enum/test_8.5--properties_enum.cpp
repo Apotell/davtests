@@ -170,9 +170,11 @@ class ClassPropertiesEnumTest : public Test {
   static void ExpectEnumConst(size_t index, std::string_view name, std::string_view value) {
     const hldb::EnumTypespec *const et = getEnumTypespec();
     ASSERT_NE(et, nullptr);
-    ASSERT_NE(et->getEnumConsts(), nullptr);
-    ASSERT_GT(et->getEnumConsts()->size(), index);
-    const hldb::EnumConst *const ec = et->getEnumConsts()->at(index);
+    const hldb::Enum *const e = et->getEnum();
+    ASSERT_NE(e, nullptr);
+    ASSERT_NE(e->getEnumConsts(), nullptr);
+    ASSERT_GT(e->getEnumConsts()->size(), index);
+    const hldb::EnumConst *const ec = e->getEnumConsts()->at(index);
     ASSERT_NE(ec, nullptr);
     EXPECT_EQ(ec->getName(), name);
     const hldb::Constant *const val = ec->getValue<hldb::Constant>();
@@ -230,8 +232,10 @@ TEST_F(ClassPropertiesEnumTest, EnumTypespecExists) { EXPECT_NE(getEnumTypespec(
 TEST_F(ClassPropertiesEnumTest, EnumTypespecHasFourEnumConsts) {
   const hldb::EnumTypespec *const et = getEnumTypespec();
   ASSERT_NE(et, nullptr);
-  ASSERT_NE(et->getEnumConsts(), nullptr);
-  EXPECT_EQ(et->getEnumConsts()->size(), 4u);
+  const hldb::Enum *const e = et->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 4u);
 }
 
 TEST_F(ClassPropertiesEnumTest, EnumConstAIsTen) { ExpectEnumConst(0, "A", "10"); }
@@ -242,7 +246,9 @@ TEST_F(ClassPropertiesEnumTest, EnumConstDIsOne) { ExpectEnumConst(3, "D", "1");
 TEST_F(ClassPropertiesEnumTest, EnumTypespecHasNoExplicitBaseType) {
   const hldb::EnumTypespec *const et = getEnumTypespec();
   ASSERT_NE(et, nullptr);
-  EXPECT_EQ(et->getBaseTypespec(), nullptr)
+  const hldb::Enum *const e = et->getEnum();
+  ASSERT_NE(e, nullptr);
+  EXPECT_EQ(e->getBaseTypespec(), nullptr)
       << "6.19: 'typedef enum {...} e_type' with no explicit base data type stores no base RefTypespec "
          "(mirrors chapter-6/6.19--enum_anon/test_6.19_enum_anon.cpp)";
 }
@@ -263,14 +269,16 @@ TEST_F(ClassPropertiesEnumTest, TypedefETypeExists) { EXPECT_NE(getTypedefTypesp
 TEST_F(ClassPropertiesEnumTest, TypedefETypeNameIsEType) {
   const hldb::TypedefTypespec *const tt = getTypedefTypespec();
   ASSERT_NE(tt, nullptr);
-  EXPECT_EQ(tt->getName(), "e_type");
+  EXPECT_EQ(tt->getName(), std::string_view("e_type"));
 }
 
 TEST_F(ClassPropertiesEnumTest, TypedefETypeAliasesTheEnumTypespec) {
   const hldb::TypedefTypespec *const tt = getTypedefTypespec();
   ASSERT_NE(tt, nullptr);
-  ASSERT_NE(tt->getTypedefAlias(), nullptr);
-  EXPECT_EQ(tt->getTypedefAlias<hldb::RefTypespec>()->getActual<hldb::EnumTypespec>(), getEnumTypespec())
+  const hldb::Typedef *const td = tt->getTypedef();
+  ASSERT_NE(td, nullptr);
+  ASSERT_NE(td->getAlias(), nullptr);
+  EXPECT_EQ(td->getAlias<hldb::RefTypespec>()->getActual<hldb::EnumTypespec>(), getEnumTypespec())
       << "'typedef enum {...} e_type' must alias the SAME EnumTypespec declared alongside it";
 }
 
@@ -341,7 +349,7 @@ TEST_F(ClassPropertiesEnumTest, AssignmentLhsIsTestObjHandle) {
   ASSERT_NE(assign, nullptr);
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "test_obj");
+  EXPECT_EQ(lhs->getName(), std::string_view("test_obj"));
   EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableTestObj());
 }
 
@@ -350,7 +358,7 @@ TEST_F(ClassPropertiesEnumTest, AssignmentRhsIsNewMethodFuncCall) {
   ASSERT_NE(assign, nullptr);
   const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(newCall, nullptr) << "'new' should resolve to a MethodFuncCall";
-  EXPECT_EQ(newCall->getName(), "new");
+  EXPECT_EQ(newCall->getName(), std::string_view("new"));
   EXPECT_EQ(newCall->getArguments(), nullptr);
 }
 
@@ -359,7 +367,7 @@ TEST_F(ClassPropertiesEnumTest, AssignmentRhsIsNewMethodFuncCall) {
 TEST_F(ClassPropertiesEnumTest, DisplayExistsWithOneArgument) {
   const hldb::SysTaskCall *const disp = getDisplayStmt();
   ASSERT_NE(disp, nullptr) << "stmt[1] should be a $display SysFuncCall";
-  EXPECT_EQ(disp->getName(), "$display");
+  EXPECT_EQ(disp->getName(), std::string_view("$display"));
   ASSERT_NE(disp->getArguments(), nullptr);
   EXPECT_EQ(disp->getArguments()->size(), 1u) << "'$display(test_obj.C)' takes no format string, just the reference";
 }
@@ -376,17 +384,19 @@ TEST_F(ClassPropertiesEnumTest, DisplayArgIsTestObjDotC) {
 
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(testObjRef, nullptr);
-  EXPECT_EQ(testObjRef->getName(), "test_obj");
+  EXPECT_EQ(testObjRef->getName(), std::string_view("test_obj"));
   EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
 
   const hldb::RefObj *const cRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(cRef, nullptr);
-  EXPECT_EQ(cRef->getName(), "C");
+  EXPECT_EQ(cRef->getName(), std::string_view("C"));
   const hldb::EnumTypespec *const et = getEnumTypespec();
   ASSERT_NE(et, nullptr);
-  ASSERT_NE(et->getEnumConsts(), nullptr);
-  ASSERT_GT(et->getEnumConsts()->size(), 2u);
-  EXPECT_EQ(cRef->getActual<hldb::EnumConst>(), et->getEnumConsts()->at(2))
+  const hldb::Enum *const e = et->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  ASSERT_GT(e->getEnumConsts()->size(), 2u);
+  EXPECT_EQ(cRef->getActual<hldb::EnumConst>(), e->getEnumConsts()->at(2))
       << "'test_obj.C' must resolve back to the SAME EnumConst 'C' declared on the class's enum";
 }
 
@@ -395,7 +405,7 @@ TEST_F(ClassPropertiesEnumTest, DisplayArgIsTestObjDotC) {
 TEST_F(ClassPropertiesEnumTest, CompilerReportsNoErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "new"), nullptr)
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view("new")), nullptr)
       << "class instantiation via new must bind (IEEE 1800-2023 8.4)";
 }
 

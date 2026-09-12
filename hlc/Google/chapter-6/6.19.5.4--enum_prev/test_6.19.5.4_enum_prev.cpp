@@ -83,24 +83,30 @@ TEST_F(EnumPrevTest, ModuleExists) {
 TEST_F(EnumPrevTest, TypedefEExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
+  EXPECT_NE(td->getAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
 TEST_F(EnumPrevTest, EnumHasFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = td->getAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 4u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "a");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "b");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 4u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(e->getEnumConsts()->at(2)->getName(), std::string_view("c"));
+  EXPECT_EQ(e->getEnumConsts()->at(3)->getName(), std::string_view("d"));
 }
 
 // ---------------------------------------------------------------------------
@@ -117,11 +123,11 @@ TEST_F(EnumPrevTest, ValVariableDeclaredWithInitB) {
   ASSERT_EQ(blk->getVariables()->size(), 1u);
   const hldb::Variable *const val = blk->getVariables()->at(0);
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getName(), "val");
+  EXPECT_EQ(val->getName(), std::string_view("val"));
   EXPECT_NE(val->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr);
   const hldb::RefObj *const initVal = val->getValue<hldb::RefObj>();
   ASSERT_NE(initVal, nullptr) << "val inline initializer should be RefObj -> EnumConst";
-  EXPECT_EQ(initVal->getName(), "b") << "prev() test uses 'b' as the initial value (not 'a')";
+  EXPECT_EQ(initVal->getName(), std::string_view("b")) << "prev() test uses 'b' as the initial value (not 'a')";
   EXPECT_NE(initVal->getActual<hldb::EnumConst>(), nullptr);
 }
 
@@ -140,10 +146,10 @@ TEST_F(EnumPrevTest, AssignmentRhsIsHierPath) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "val");
+  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("val"));
   const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "val.prev() rhs should be a HierPath";
-  EXPECT_EQ(hp->getName(), "val.prev");
+  EXPECT_EQ(hp->getName(), std::string_view("val.prev"));
 }
 
 TEST_F(EnumPrevTest, HierPathReceiverAndFuncCall) {
@@ -161,10 +167,10 @@ TEST_F(EnumPrevTest, HierPathReceiverAndFuncCall) {
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
-  EXPECT_EQ(receiver->getName(), "val");
+  EXPECT_EQ(receiver->getName(), std::string_view("val"));
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "prev");
+  EXPECT_EQ(call->getName(), std::string_view("prev"));
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "prev() takes no arguments";
 }
 
@@ -207,7 +213,7 @@ TEST_F(EnumPrevTest, CompilerReportsZeroErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "prev"), nullptr)
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view("prev")), nullptr)
       << "enum.prev() must bind (IEEE 1800-2023 6.19.5.4)";
 }
 

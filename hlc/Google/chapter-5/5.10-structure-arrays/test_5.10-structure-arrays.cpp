@@ -88,10 +88,17 @@ TEST_F(StructuredArrays, StructHasTwoMembers) {
   }
   ASSERT_NE(msT, nullptr);
 
-  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
+  const hldb::Typedef *const td = msT->getTypedef();
+  ASSERT_NE(td, nullptr);
+
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(td->getAlias()->getActual());
   ASSERT_NE(st, nullptr) << "ms_t alias does not resolve to a StructTypespec";
-  ASSERT_NE(st->getMembers(), nullptr) << "StructTypespec has no members";
-  EXPECT_EQ(st->getMembers()->size(), 2u) << "expected 2 struct members (a, b)";
+
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+
+  ASSERT_NE(s->getMembers(), nullptr) << "StructTypespec has no members";
+  EXPECT_EQ(s->getMembers()->size(), 2u) << "expected 2 struct members (a, b)";
 }
 
 TEST_F(StructuredArrays, StructMemberNamesAreAandB) {
@@ -110,13 +117,20 @@ TEST_F(StructuredArrays, StructMemberNamesAreAandB) {
   }
   ASSERT_NE(msT, nullptr);
 
-  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
-  ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  ASSERT_EQ(st->getMembers()->size(), 2u);
+  const hldb::Typedef *const td = msT->getTypedef();
+  ASSERT_NE(td, nullptr);
 
-  EXPECT_EQ((*st->getMembers())[0]->getName(), "a") << "first member should be 'a'";
-  EXPECT_EQ((*st->getMembers())[1]->getName(), "b") << "second member should be 'b'";
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(td->getAlias()->getActual());
+  ASSERT_NE(st, nullptr);
+
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+
+  ASSERT_NE(s->getMembers(), nullptr);
+  ASSERT_EQ(s->getMembers()->size(), 2u);
+
+  EXPECT_EQ((*s->getMembers())[0]->getName(), std::string_view("a")) << "first member should be 'a'";
+  EXPECT_EQ((*s->getMembers())[1]->getName(), std::string_view("b")) << "second member should be 'b'";
 }
 
 // ----
@@ -168,7 +182,7 @@ TEST_F(StructuredArrays, ArrayElemTypespecReferencesMsT) {
   const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(ms->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr) << "ArrayTypespec has no element typespec";
-  EXPECT_EQ(at->getElemTypespec()->getName(), "ms_t") << "array element typespec does not reference 'ms_t'";
+  EXPECT_EQ(at->getElemTypespec()->getName(), std::string_view("ms_t")) << "array element typespec does not reference 'ms_t'";
 }
 
 TEST_F(StructuredArrays, ArrayHasRange) {

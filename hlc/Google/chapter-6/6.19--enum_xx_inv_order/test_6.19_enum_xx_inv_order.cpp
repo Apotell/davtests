@@ -96,7 +96,9 @@ TEST_F(EnumXxInvOrderTest, EnumBaseTypeIsInteger) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::RefTypespec *const base = enumTs->getBaseTypespec();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::RefTypespec *const base = e->getBaseTypespec();
   ASSERT_NE(base, nullptr);
   EXPECT_NE(base->getActual<hldb::IntegerTypespec>(), nullptr);
 }
@@ -112,11 +114,13 @@ TEST_F(EnumXxInvOrderTest, EnumHasThreeConsts) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 3u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "a");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "b");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 3u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(e->getEnumConsts()->at(2)->getName(), std::string_view("c"));
 }
 
 TEST_F(EnumXxInvOrderTest, ConstAValueIsZero) {
@@ -127,10 +131,12 @@ TEST_F(EnumXxInvOrderTest, ConstAValueIsZero) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::Constant *const val = enumTs->getEnumConsts()->at(0)->getValue<hldb::Constant>();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::Constant *const val = e->getEnumConsts()->at(0)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
-  EXPECT_EQ(val->getDecompile(), "0");
+  EXPECT_EQ(val->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(EnumXxInvOrderTest, ConstBValueIsMultiConcatOperation) {
@@ -141,7 +147,9 @@ TEST_F(EnumXxInvOrderTest, ConstBValueIsMultiConcatOperation) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::Operation *const op = enumTs->getEnumConsts()->at(1)->getValue<hldb::Operation>();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::Operation *const op = e->getEnumConsts()->at(1)->getValue<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiMultiConcatOp);
 }
@@ -154,9 +162,11 @@ TEST_F(EnumXxInvOrderTest, ConstCHasNoValue) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::EnumConst *const c = enumTs->getEnumConsts()->at(2);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::EnumConst *const c = e->getEnumConsts()->at(2);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getName(), "c");
+  EXPECT_EQ(c->getName(), std::string_view("c"));
   EXPECT_EQ(c->getValue<hldb::Any>(), nullptr) << "c is unassigned after an x-value -- it has no vpiValue in UHDM";
 }
 
