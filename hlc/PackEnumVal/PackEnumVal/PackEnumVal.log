@@ -123,7 +123,7 @@ n<$Source01/dut.sv> u<108> t<Top_level_rule> c<1> l<2:1> el<20:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:2:1: Compile package "test_package".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:17:28: Failed to bind "id:58, name:test_true".
+[WRN:CP5851] $Source01/dut.sv:17:28: Failed to bind "id:61, name:test_true".
 [WRN:PA5506] $Source01/dut.sv:2:1: No timescale set for "test_package".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "top".
 ====== HLDB =======
@@ -139,18 +139,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test_package start:2:9 end:2:21:
       vpiFullName: test_package
-      vpiTypespec (3 items):
-        LogicTypespec:
-          vpiParent: Package name:test_package
-        EnumTypespec start:4:11 end:7:4:
+      vpiEnum (1 items):
+        Enum start:4:11 end:7:4:
           vpiParent: Package name:test_package
           vpiBaseTypespec RefTypespec start:4:16 end:4:21:
-            vpiParent: EnumTypespec
+            vpiParent: Enum
             vpiFullName: test_package
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:On start:5:5 end:5:12:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:On start:5:5 end:5:7:
               vpiValue Constant start:5:11 end:5:12:
                 vpiParent: EnumConst name:On
@@ -163,7 +161,7 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
             EnumConst name:Off start:6:5 end:6:12:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:Off start:6:5 end:6:8:
               vpiValue Constant start:6:11 end:6:12:
                 vpiParent: EnumConst name:Off
@@ -175,13 +173,25 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
-        TypedefTypespec name:lc_tx_t start:4:3 end:7:13:
+      vpiTypedef (1 items):
+        Typedef name:lc_tx_t start:4:3 end:7:13:
           vpiParent: Package name:test_package
           vpiName Identifier name:lc_tx_t start:7:5 end:7:12:
           vpiTypedefAlias RefTypespec start:4:11 end:7:4:
-            vpiParent: TypedefTypespec name:lc_tx_t
+            vpiParent: Typedef name:lc_tx_t
             vpiFullName: test_package::lc_tx_t
             vpiActual: EnumTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Package name:test_package
+        EnumTypespec start:4:11 end:7:4:
+          vpiParent: Package name:test_package
+          vpiEnum: Enum
+        TypedefTypespec name:lc_tx_t start:4:3 end:7:13:
+          vpiParent: Package name:test_package
+          vpiName Identifier name:lc_tx_t start:7:5 end:7:12:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:lc_tx_t
       vpiDefName: test_package
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -379,7 +389,7 @@ COMMAND: ${HLC_DIR}/regression/PackEnumVal/PackEnumVal/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

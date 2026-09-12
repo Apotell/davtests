@@ -314,6 +314,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:7:8 end:7:11:
       vpiFullName: top
+      vpiStruct (1 items):
+        Struct start:8:12 end:10:5:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:x start:9:11 end:9:12:
+              vpiParent: Struct
+              vpiName: x
+              vpiTypespec RefTypespec start:9:7 end:9:10:
+                vpiParent: TypespecMember name:x
+                vpiFullName: top.x
+                vpiActual: IntTypespec
+      vpiTypedef (1 items):
+        Typedef name:part_info_t start:8:4 end:10:18:
+          vpiParent: Module name:top
+          vpiName Identifier name:part_info_t start:10:6 end:10:17:
+          vpiTypedefAlias RefTypespec start:8:12 end:10:5:
+            vpiParent: Typedef name:part_info_t
+            vpiFullName: top.part_info_t
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:o start:7:23 end:7:24:
           vpiParent: Module name:top
@@ -393,22 +413,12 @@ Design name:unnamed:
       vpiTypespec (4 items):
         StructTypespec start:8:12 end:10:5:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:x start:9:11 end:9:12:
-              vpiParent: StructTypespec
-              vpiName: x
-              vpiTypespec RefTypespec start:9:7 end:9:10:
-                vpiParent: TypespecMember name:x
-                vpiFullName: top.x
-                vpiActual: IntTypespec
+          vpiStruct: Struct
         TypedefTypespec name:part_info_t start:8:4 end:10:18:
           vpiParent: Module name:top
           vpiName Identifier name:part_info_t start:10:6 end:10:17:
-          vpiTypedefAlias RefTypespec start:8:12 end:10:5:
-            vpiParent: TypedefTypespec name:part_info_t
-            vpiFullName: top.part_info_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:part_info_t
         UnsupportedTypespec name:part_info_t start:12:33 end:12:44:
           vpiParent: Module name:top
           vpiName Identifier name:part_info_t:
@@ -537,11 +547,11 @@ COMMAND: ${HLC_DIR}/regression/ClogParam/ClogParam/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             2       3       1         0
-Identifier                          10       9       0         1
+Identifier                          11      10       0         1
 RefObj                              17      16       0         1
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              46      46       0         0
 ----------------------------------------------------------------
-                                    74      72       1         3
+                                    77      75       1         3
 ===================== END REDUCTION RESULT =====================

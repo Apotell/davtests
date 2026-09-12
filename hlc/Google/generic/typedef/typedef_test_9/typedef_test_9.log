@@ -130,10 +130,7 @@ Design name:unnamed:
     TypedefTypespec name:data_t start:17:1 end:17:20:
       vpiParent: Design name:unnamed
       vpiName Identifier name:data_t start:17:13 end:17:19:
-      vpiTypedefAlias RefTypespec start:17:9 end:17:12:
-        vpiParent: TypedefTypespec name:data_t
-        vpiFullName: data_t
-        vpiActual: BitTypespec
+      vpiTypedef: Typedef name:data_t
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -183,10 +180,8 @@ Design name:unnamed:
     TypedefTypespec name:my_array_t start:19:1 end:19:38:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_array_t start:19:16 end:19:26:
-      vpiTypedefAlias RefTypespec start:19:9 end:19:15:
-        vpiParent: TypedefTypespec name:my_array_t
-        vpiFullName: my_array_t
-        vpiActual: ArrayTypespec
+      vpiTypedefKind: unsupported (7)
+      vpiTypedef: Typedef name:my_array_t
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:21:8 end:21:12:
@@ -242,6 +237,21 @@ Design name:unnamed:
         vpiSize: 64
         vpiDecompile: "2"
         vpiValue: 2
+  vpiTypedef (2 items):
+    Typedef name:data_t start:17:1 end:17:20:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:data_t start:17:13 end:17:19:
+      vpiTypedefAlias RefTypespec start:17:9 end:17:12:
+        vpiParent: Typedef name:data_t
+        vpiFullName: data_t
+        vpiActual: BitTypespec
+    Typedef name:my_array_t start:19:1 end:19:38:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:my_array_t start:19:16 end:19:26:
+      vpiTypedefAlias RefTypespec start:19:9 end:19:15:
+        vpiParent: Typedef name:my_array_t
+        vpiFullName: my_array_t
+        vpiActual: ArrayTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -290,7 +300,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_9/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              44      44       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    44      44       0         0
 ===================== END REDUCTION RESULT =====================

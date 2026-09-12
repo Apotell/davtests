@@ -1833,32 +1833,42 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2047,6 +2057,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiFullName: top
+      vpiUnion (1 items):
+        Union start:3:2 end:6:3:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTagged: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:v1 start:4:13 end:4:15:
+              vpiParent: Union
+              vpiName: v1
+              vpiTypespec RefTypespec start:4:3 end:4:12:
+                vpiParent: TypespecMember name:v1
+                vpiFullName: top.v1
+                vpiActual: BitTypespec
+            TypespecMember name:v2 start:5:13 end:5:15:
+              vpiParent: Union
+              vpiName: v2
+              vpiTypespec RefTypespec start:5:3 end:5:12:
+                vpiParent: TypespecMember name:v2
+                vpiFullName: top.v2
+                vpiActual: BitTypespec
       vpiVariable (1 items):
         Variable name:un start:6:4 end:6:6:
           vpiParent: Module name:top
@@ -2111,23 +2141,7 @@ Design name:unnamed:
           vpiVector: true
         UnionTypespec start:3:2 end:6:3:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTagged: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:v1 start:4:13 end:4:15:
-              vpiParent: UnionTypespec
-              vpiName: v1
-              vpiTypespec RefTypespec start:4:3 end:4:12:
-                vpiParent: TypespecMember name:v1
-                vpiFullName: top.v1
-                vpiActual: BitTypespec
-            TypespecMember name:v2 start:5:13 end:5:15:
-              vpiParent: UnionTypespec
-              vpiName: v2
-              vpiTypespec RefTypespec start:5:3 end:5:12:
-                vpiParent: TypespecMember name:v2
-                vpiFullName: top.v2
-                vpiActual: BitTypespec
+          vpiUnion: Union
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2281,7 +2295,7 @@ COMMAND: ${HLC_DIR}/regression/TaggedPattern/TaggedPattern/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             632     632       0         0
+Others                             636     636       0         0
 ----------------------------------------------------------------
-                                   632     632       0         0
+                                   636     636       0         0
 ===================== END REDUCTION RESULT =====================

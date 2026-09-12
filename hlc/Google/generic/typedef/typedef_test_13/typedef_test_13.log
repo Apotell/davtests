@@ -165,10 +165,7 @@ Design name:unnamed:
     TypedefTypespec name:data_t start:15:1 end:15:20:
       vpiParent: Design name:unnamed
       vpiName Identifier name:data_t start:15:13 end:15:19:
-      vpiTypedefAlias RefTypespec start:15:9 end:15:12:
-        vpiParent: TypedefTypespec name:data_t
-        vpiFullName: data_t
-        vpiActual: BitTypespec
+      vpiTypedef: Typedef name:data_t
     LogicTypespec:
       vpiParent: Design name:unnamed
     IntTypespec:
@@ -273,10 +270,8 @@ Design name:unnamed:
     TypedefTypespec name:my_ar_t start:20:1 end:20:56:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_ar_t start:20:16 end:20:23:
-      vpiTypedefAlias RefTypespec start:20:9 end:20:15:
-        vpiParent: TypedefTypespec name:my_ar_t
-        vpiFullName: my_ar_t
-        vpiActual: ArrayTypespec
+      vpiTypedefKind: unsupported (7)
+      vpiTypedef: Typedef name:my_ar_t
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:22:8 end:22:12:
@@ -356,6 +351,21 @@ Design name:unnamed:
         vpiSize: 64
         vpiDecompile: "2"
         vpiValue: 2
+  vpiTypedef (2 items):
+    Typedef name:data_t start:15:1 end:15:20:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:data_t start:15:13 end:15:19:
+      vpiTypedefAlias RefTypespec start:15:9 end:15:12:
+        vpiParent: Typedef name:data_t
+        vpiFullName: data_t
+        vpiActual: BitTypespec
+    Typedef name:my_ar_t start:20:1 end:20:56:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:my_ar_t start:20:16 end:20:23:
+      vpiTypedefAlias RefTypespec start:20:9 end:20:15:
+        vpiParent: Typedef name:my_ar_t
+        vpiFullName: my_ar_t
+        vpiActual: ArrayTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -404,7 +414,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_13/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    63      63       0         0
 ===================== END REDUCTION RESULT =====================

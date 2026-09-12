@@ -386,6 +386,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
       vpiFullName: t
+      vpiStruct (1 items):
+        Struct start:8:12 end:11:5:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:_foo start:9:19 end:9:23:
+              vpiParent: Struct
+              vpiName: "_foo"
+              vpiTypespec RefTypespec name:logic start:9:7 end:9:18:
+                vpiParent: TypespecMember name:_foo
+                vpiName: logic
+                vpiFullName: t._foo.logic
+                vpiActual: ArrayTypespec
+            TypespecMember name:_bar start:10:19 end:10:23:
+              vpiParent: Struct
+              vpiName: "_bar"
+              vpiTypespec RefTypespec name:logic start:10:7 end:10:18:
+                vpiParent: TypespecMember name:_bar
+                vpiName: logic
+                vpiFullName: t._bar.logic
+                vpiActual: ArrayTypespec
+      vpiTypedef (1 items):
+        Typedef name:struct_t start:8:4 end:11:15:
+          vpiParent: Module name:t
+          vpiName Identifier name:struct_t start:11:6 end:11:14:
+          vpiTypedefAlias RefTypespec start:8:12 end:11:5:
+            vpiParent: Typedef name:struct_t
+            vpiFullName: t.struct_t
+            vpiActual: StructTypespec
       vpiVariable (2 items):
         Variable name:meh start:13:16 end:13:19:
           vpiParent: Module name:t
@@ -506,31 +535,12 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:8:12 end:11:5:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:_foo start:9:19 end:9:23:
-              vpiParent: StructTypespec
-              vpiName: "_foo"
-              vpiTypespec RefTypespec name:logic start:9:7 end:9:18:
-                vpiParent: TypespecMember name:_foo
-                vpiName: logic
-                vpiFullName: t._foo.logic
-                vpiActual: ArrayTypespec
-            TypespecMember name:_bar start:10:19 end:10:23:
-              vpiParent: StructTypespec
-              vpiName: "_bar"
-              vpiTypespec RefTypespec name:logic start:10:7 end:10:18:
-                vpiParent: TypespecMember name:_bar
-                vpiName: logic
-                vpiFullName: t._bar.logic
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:struct_t start:8:4 end:11:15:
           vpiParent: Module name:t
           vpiName Identifier name:struct_t start:11:6 end:11:14:
-          vpiTypedefAlias RefTypespec start:8:12 end:11:5:
-            vpiParent: TypedefTypespec name:struct_t
-            vpiFullName: t.struct_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:struct_t
         UnsupportedTypespec name:logic start:13:4 end:13:9:
           vpiParent: Module name:t
           vpiName Identifier name:logic start:13:4 end:13:9:
@@ -947,7 +957,7 @@ Operation                           12       6       0         6
 RefObj                              17      14       0         3
 RefTypespec                         29      26       3         6
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                   135     120       6        21
+                                   138     123       6        21
 ===================== END REDUCTION RESULT =====================

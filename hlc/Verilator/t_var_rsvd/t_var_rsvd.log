@@ -187,6 +187,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
       vpiFullName: t
+      vpiStruct (1 items):
+        Struct start:18:12 end:20:5:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:vector start:19:20 end:19:26:
+              vpiParent: Struct
+              vpiName: vector
+              vpiTypespec RefTypespec name:logic start:19:7 end:19:19:
+                vpiParent: TypespecMember name:vector
+                vpiName: logic
+                vpiFullName: t.vector.logic
+                vpiActual: ArrayTypespec
+      vpiTypedef (1 items):
+        Typedef name:test start:18:4 end:20:11:
+          vpiParent: Module name:t
+          vpiName Identifier name:test start:20:6 end:20:10:
+          vpiTypedefAlias RefTypespec start:18:12 end:20:5:
+            vpiParent: Typedef name:test
+            vpiFullName: t.test
+            vpiActual: StructTypespec
       vpiVariable (4 items):
         Variable name:vector start:15:9 end:15:15:
           vpiParent: Module name:t
@@ -263,23 +284,12 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:18:12 end:20:5:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:vector start:19:20 end:19:26:
-              vpiParent: StructTypespec
-              vpiName: vector
-              vpiTypespec RefTypespec name:logic start:19:7 end:19:19:
-                vpiParent: TypespecMember name:vector
-                vpiName: logic
-                vpiFullName: t.vector.logic
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:test start:18:4 end:20:11:
           vpiParent: Module name:t
           vpiName Identifier name:test start:20:6 end:20:10:
-          vpiTypedefAlias RefTypespec start:18:12 end:20:5:
-            vpiParent: TypedefTypespec name:test
-            vpiFullName: t.test
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:test
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -423,7 +433,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_rsvd/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                    52      52       0         0
+                                    55      55       0         0
 ===================== END REDUCTION RESULT =====================

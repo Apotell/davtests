@@ -214,7 +214,7 @@ n<$Source01/dut.sv> u<199> t<Top_level_rule> c<1> l<1:1> el<24:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "rvfi_pkg".
 [INF:CP5804] $Source01/dut.sv:11:1: Compile module "rvfi_tracer".
-[WRN:CP5851] $Source01/dut.sv:18:19: Failed to bind "id:97, name:trap".
+[WRN:CP5851] $Source01/dut.sv:18:19: Failed to bind "id:100, name:trap".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "rvfi_pkg".
 [WRN:PA5506] $Source01/dut.sv:11:1: No timescale set for "rvfi_tracer #(.NR_COMMIT_PORTS(2))".
 ====== HLDB =======
@@ -230,6 +230,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:rvfi_pkg start:1:9 end:1:17:
       vpiFullName: rvfi_pkg
+      vpiStruct (1 items):
+        Struct start:5:9 end:7:2:
+          vpiParent: Package name:rvfi_pkg
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:trap start:6:36 end:6:40:
+              vpiParent: Struct
+              vpiName: trap
+              vpiTypespec RefTypespec start:6:3 end:6:19:
+                vpiParent: TypespecMember name:trap
+                vpiFullName: rvfi_pkg::trap
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:rvfi_instr_t start:5:1 end:7:16:
+          vpiParent: Package name:rvfi_pkg
+          vpiName Identifier name:rvfi_instr_t start:7:3 end:7:15:
+          vpiTypedefAlias RefTypespec start:5:9 end:7:2:
+            vpiParent: Typedef name:rvfi_instr_t
+            vpiFullName: rvfi_pkg::rvfi_instr_t
+            vpiActual: StructTypespec
       vpiParameter (2 items):
         Parameter name:NRET start:2:12 end:2:16:
           vpiParent: Package name:rvfi_pkg
@@ -324,22 +344,12 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:5:9 end:7:2:
           vpiParent: Package name:rvfi_pkg
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:trap start:6:36 end:6:40:
-              vpiParent: StructTypespec
-              vpiName: trap
-              vpiTypespec RefTypespec start:6:3 end:6:19:
-                vpiParent: TypespecMember name:trap
-                vpiFullName: rvfi_pkg::trap
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:rvfi_instr_t start:5:1 end:7:16:
           vpiParent: Package name:rvfi_pkg
           vpiName Identifier name:rvfi_instr_t start:7:3 end:7:15:
-          vpiTypedefAlias RefTypespec start:5:9 end:7:2:
-            vpiParent: TypedefTypespec name:rvfi_instr_t
-            vpiFullName: rvfi_pkg::rvfi_instr_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:rvfi_instr_t
       vpiDefName: rvfi_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -634,7 +644,7 @@ Operation                            5       3       0         2
 RefObj                              15      13       0         2
 RefTypespec                         19      19       2         2
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    91      87       4         8
+                                    94      90       4         8
 ===================== END REDUCTION RESULT =====================

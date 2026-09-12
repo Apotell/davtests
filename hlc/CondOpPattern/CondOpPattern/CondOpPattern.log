@@ -141,6 +141,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Example start:1:8 end:1:15:
       vpiFullName: Example
+      vpiStruct (1 items):
+        Struct start:2:9 end:4:2:
+          vpiParent: Module name:Example
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:a start:3:11 end:3:12:
+              vpiParent: Struct
+              vpiName: a
+              vpiTypespec RefTypespec start:3:5 end:3:10:
+                vpiParent: TypespecMember name:a
+                vpiFullName: Example.a
+                vpiActual: LogicTypespec
+            TypespecMember name:b start:3:14 end:3:15:
+              vpiParent: Struct
+              vpiName: b
+              vpiTypespec RefTypespec start:3:5 end:3:10:
+                vpiParent: TypespecMember name:b
+                vpiFullName: Example.b
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:T start:2:1 end:4:5:
+          vpiParent: Module name:Example
+          vpiName Identifier name:T start:4:3 end:4:4:
+          vpiTypedefAlias RefTypespec start:2:9 end:4:2:
+            vpiParent: Typedef name:T
+            vpiFullName: Example.T
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:out start:5:10 end:5:13:
           vpiParent: Module name:Example
@@ -156,29 +183,12 @@ Design name:unnamed:
           vpiParent: Module name:Example
         StructTypespec start:2:9 end:4:2:
           vpiParent: Module name:Example
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:a start:3:11 end:3:12:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec start:3:5 end:3:10:
-                vpiParent: TypespecMember name:a
-                vpiFullName: Example.a
-                vpiActual: LogicTypespec
-            TypespecMember name:b start:3:14 end:3:15:
-              vpiParent: StructTypespec
-              vpiName: b
-              vpiTypespec RefTypespec start:3:5 end:3:10:
-                vpiParent: TypespecMember name:b
-                vpiFullName: Example.b
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:T start:2:1 end:4:5:
           vpiParent: Module name:Example
           vpiName Identifier name:T start:4:3 end:4:4:
-          vpiTypedefAlias RefTypespec start:2:9 end:4:2:
-            vpiParent: TypedefTypespec name:T
-            vpiFullName: Example.T
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:T
         BitTypespec:
           vpiParent: Module name:Example
       vpiDefName: Example
@@ -370,7 +380,7 @@ COMMAND: ${HLC_DIR}/regression/CondOpPattern/CondOpPattern/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    49      49       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

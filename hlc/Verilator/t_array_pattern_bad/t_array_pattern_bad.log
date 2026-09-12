@@ -141,6 +141,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
       vpiFullName: t
+      vpiStruct (1 items):
+        Struct start:15:13 end:17:6:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:port_num start:16:21 end:16:29:
+              vpiParent: Struct
+              vpiName: port_num
+              vpiTypespec RefTypespec name:logic start:16:9 end:16:20:
+                vpiParent: TypespecMember name:port_num
+                vpiName: logic
+                vpiFullName: t.port_num.logic
+                vpiActual: ArrayTypespec
+      vpiTypedef (1 items):
+        Typedef name:info_t start:15:5 end:17:14:
+          vpiParent: Module name:t
+          vpiName Identifier name:info_t start:17:7 end:17:13:
+          vpiTypedefAlias RefTypespec start:15:13 end:17:6:
+            vpiParent: Typedef name:info_t
+            vpiFullName: t.info_t
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:myinfo start:19:12 end:19:18:
           vpiParent: Module name:t
@@ -190,23 +211,12 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:15:13 end:17:6:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:port_num start:16:21 end:16:29:
-              vpiParent: StructTypespec
-              vpiName: port_num
-              vpiTypespec RefTypespec name:logic start:16:9 end:16:20:
-                vpiParent: TypespecMember name:port_num
-                vpiName: logic
-                vpiFullName: t.port_num.logic
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:info_t start:15:5 end:17:14:
           vpiParent: Module name:t
           vpiName Identifier name:info_t start:17:7 end:17:13:
-          vpiTypedefAlias RefTypespec start:15:13 end:17:6:
-            vpiParent: TypedefTypespec name:info_t
-            vpiFullName: t.info_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:info_t
         BitTypespec:
           vpiParent: Module name:t
       vpiDefName: t
@@ -369,7 +379,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_array_pattern_bad/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    49      49       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

@@ -646,7 +646,7 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/t_gen_self_return.v:31:15: Compile generate block "ram_dataout_gen".
 [INF:CP5804] $Source01/t_gen_self_return.v:46:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7722] $Source01/t_gen_self_return.v:33:37: Select name does not match pretty-printed expression: id:222, type:BitSelect, name:RAM_BLOCK_INDEX[i + 1], relation:vpiOperand.
+[ERR:LN7722] $Source01/t_gen_self_return.v:33:37: Select name does not match pretty-printed expression: id:224, type:BitSelect, name:RAM_BLOCK_INDEX[i + 1], relation:vpiOperand.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -660,6 +660,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)) start:6:8 end:6:11:
       vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
+      vpiTypedef (1 items):
+        Typedef name:block_index_t start:18:4 end:18:57:
+          vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
+          vpiName Identifier name:block_index_t start:18:43 end:18:56:
+          vpiTypedefAlias RefTypespec start:18:12 end:18:42:
+            vpiParent: Typedef name:block_index_t
+            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).block_index_t
+            vpiActual: ArrayTypespec
       vpiVariable (1 items):
         Variable name:ram_dataout start:13:30 end:13:41:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
@@ -988,10 +996,7 @@ Design name:unnamed:
         TypedefTypespec name:block_index_t start:18:4 end:18:57:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
           vpiName Identifier name:block_index_t start:18:43 end:18:56:
-          vpiTypedefAlias RefTypespec start:18:12 end:18:42:
-            vpiParent: TypedefTypespec name:block_index_t
-            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).block_index_t
-            vpiActual: ArrayTypespec
+          vpiTypedef: Typedef name:block_index_t
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1754,14 +1759,14 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_gen_self_return/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            28      26       4         6
-Identifier                          17      16       0         1
+Identifier                          18      17       0         1
 LogicTypespec                        3       4       1         0
 Operation                           25      18       0         7
 RefObj                              51      45       0         6
 RefTypespec                         51      47       2         6
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              82      82       0         0
+Others                              83      83       0         0
 ----------------------------------------------------------------
-                                   258     238       7        27
+                                   260     240       7        27
 ===================== END REDUCTION RESULT =====================

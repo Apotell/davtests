@@ -156,6 +156,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
       vpiFullName: top
+      vpiTypedef (1 items):
+        Typedef name:u_int start:18:1 end:21:9:
+          vpiParent: Module name:top
+          vpiName Identifier name:u_int start:21:3 end:21:8:
+          vpiTypedefAlias RefTypespec start:18:9 end:21:2:
+            vpiParent: Typedef name:u_int
+            vpiFullName: top.u_int
+            vpiActual: UnionTypespec
+      vpiUnion (1 items):
+        Union start:18:9 end:21:2:
+          vpiParent: Module name:top
+          vpiTagged: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:Invalid start:19:7 end:19:14:
+              vpiParent: Union
+              vpiName: Invalid
+              vpiTypespec RefTypespec start:19:2 end:19:6:
+                vpiParent: TypespecMember name:Invalid
+                vpiFullName: top.Invalid
+                vpiActual: VoidTypespec
+            TypespecMember name:Valid start:20:6 end:20:11:
+              vpiParent: Union
+              vpiName: Valid
+              vpiTypespec RefTypespec start:20:2 end:20:5:
+                vpiParent: TypespecMember name:Valid
+                vpiFullName: top.Valid
+                vpiActual: IntTypespec
       vpiVariable (2 items):
         Variable name:a start:23:7 end:23:8:
           vpiParent: Module name:top
@@ -177,29 +204,12 @@ Design name:unnamed:
       vpiTypespec (2 items):
         UnionTypespec start:18:9 end:21:2:
           vpiParent: Module name:top
-          vpiTagged: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:Invalid start:19:7 end:19:14:
-              vpiParent: UnionTypespec
-              vpiName: Invalid
-              vpiTypespec RefTypespec start:19:2 end:19:6:
-                vpiParent: TypespecMember name:Invalid
-                vpiFullName: top.Invalid
-                vpiActual: VoidTypespec
-            TypespecMember name:Valid start:20:6 end:20:11:
-              vpiParent: UnionTypespec
-              vpiName: Valid
-              vpiTypespec RefTypespec start:20:2 end:20:5:
-                vpiParent: TypespecMember name:Valid
-                vpiFullName: top.Valid
-                vpiActual: IntTypespec
+          vpiUnion: Union
         TypedefTypespec name:u_int start:18:1 end:21:9:
           vpiParent: Module name:top
           vpiName Identifier name:u_int start:21:3 end:21:8:
-          vpiTypedefAlias RefTypespec start:18:9 end:21:2:
-            vpiParent: TypedefTypespec name:u_int
-            vpiFullName: top.u_int
-            vpiActual: UnionTypespec
+          vpiTypedefKind: union (6)
+          vpiTypedef: Typedef name:u_int
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -338,7 +348,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-11/11.9--tagged_union_member_acces
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

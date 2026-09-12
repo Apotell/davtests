@@ -1623,6 +1623,30 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:otp_ctrl_part_pkg start:1:10 end:1:27:
       vpiFullName: otp_ctrl_part_pkg
+      vpiEnum (1 items):
+        Enum start:3:9 end:8:4:
+          vpiParent: Package name:otp_ctrl_part_pkg
+          vpiEnumConst (4 items):
+            EnumConst name:CreatorSwCfgIdx start:4:5 end:4:20:
+              vpiParent: Enum
+              vpiName Identifier name:CreatorSwCfgIdx start:4:5 end:4:20:
+            EnumConst name:Blah start:5:5 end:5:9:
+              vpiParent: Enum
+              vpiName Identifier name:Blah start:5:5 end:5:9:
+            EnumConst name:Boo start:6:5 end:6:8:
+              vpiParent: Enum
+              vpiName Identifier name:Boo start:6:5 end:6:8:
+            EnumConst name:NumAgentsIdx start:7:5 end:7:17:
+              vpiParent: Enum
+              vpiName Identifier name:NumAgentsIdx start:7:5 end:7:17:
+      vpiTypedef (1 items):
+        Typedef name:part_idx_e start:3:1 end:8:16:
+          vpiParent: Package name:otp_ctrl_part_pkg
+          vpiName Identifier name:part_idx_e start:8:5 end:8:15:
+          vpiTypedefAlias RefTypespec start:3:9 end:8:4:
+            vpiParent: Typedef name:part_idx_e
+            vpiFullName: otp_ctrl_part_pkg::part_idx_e
+            vpiActual: EnumTypespec
       vpiParameter (1 items):
         Parameter name:NumAgents start:10:16 end:10:25:
           vpiParent: Package name:otp_ctrl_part_pkg
@@ -1656,26 +1680,12 @@ Design name:unnamed:
       vpiTypespec (2 items):
         EnumTypespec start:3:9 end:8:4:
           vpiParent: Package name:otp_ctrl_part_pkg
-          vpiEnumConst (4 items):
-            EnumConst name:CreatorSwCfgIdx start:4:5 end:4:20:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:CreatorSwCfgIdx start:4:5 end:4:20:
-            EnumConst name:Blah start:5:5 end:5:9:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:Blah start:5:5 end:5:9:
-            EnumConst name:Boo start:6:5 end:6:8:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:Boo start:6:5 end:6:8:
-            EnumConst name:NumAgentsIdx start:7:5 end:7:17:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:NumAgentsIdx start:7:5 end:7:17:
+          vpiEnum: Enum
         TypedefTypespec name:part_idx_e start:3:1 end:8:16:
           vpiParent: Package name:otp_ctrl_part_pkg
           vpiName Identifier name:part_idx_e start:8:5 end:8:15:
-          vpiTypedefAlias RefTypespec start:3:9 end:8:4:
-            vpiParent: TypedefTypespec name:part_idx_e
-            vpiFullName: otp_ctrl_part_pkg::part_idx_e
-            vpiActual: EnumTypespec
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:part_idx_e
       vpiDefName: otp_ctrl_part_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1865,32 +1875,42 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2213,7 +2233,7 @@ COMMAND: ${HLC_DIR}/regression/ParamCast/ParamCast/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             628     628       0         0
+Others                             634     634       0         0
 ----------------------------------------------------------------
-                                   628     628       0         0
+                                   634     634       0         0
 ===================== END REDUCTION RESULT =====================

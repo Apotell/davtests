@@ -143,8 +143,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_param_up_bad.v:12:1: Compile module "child".
 [INF:CP5804] $Source01/t_param_up_bad.v:18:1: Compile module "parent".
 [INF:CP5804] $Source01/t_param_up_bad.v:28:1: Compile module "t".
-[WRN:CP5851] $Source01/t_param_up_bad.v:15:19: Failed to bind "id:28, name:bar".
-[WRN:CP5851] $Source01/t_param_up_bad.v:15:23: Failed to bind "id:29, name:foo".
+[WRN:CP5851] $Source01/t_param_up_bad.v:15:19: Failed to bind "id:31, name:bar".
+[WRN:CP5851] $Source01/t_param_up_bad.v:15:23: Failed to bind "id:32, name:foo".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -312,23 +312,12 @@ Design name:unnamed:
       vpiName Identifier name:logic start:9:4 end:9:9:
     StructTypespec start:8:9 end:10:2:
       vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (1 items):
-        TypespecMember name:foo start:9:16 end:9:19:
-          vpiParent: StructTypespec
-          vpiName: foo
-          vpiTypespec RefTypespec name:logic start:9:4 end:9:9:
-            vpiParent: TypespecMember name:foo
-            vpiName: logic
-            vpiFullName: foo.logic
-            vpiActual: UnsupportedTypespec name:logic
+      vpiStruct: Struct
     TypedefTypespec name:some_struct_t start:8:1 end:10:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:some_struct_t start:10:3 end:10:16:
-      vpiTypedefAlias RefTypespec start:8:9 end:10:2:
-        vpiParent: TypedefTypespec name:some_struct_t
-        vpiFullName: some_struct_t
-        vpiActual: StructTypespec
+      vpiTypedefKind: struct (4)
+      vpiTypedef: Typedef name:some_struct_t
     ModuleTypespec name:child:
       vpiParent: Design name:unnamed
       vpiName Identifier name:child start:12:8 end:12:13:
@@ -347,6 +336,27 @@ Design name:unnamed:
       vpiName Identifier name:t start:28:8 end:28:9:
       vpiDefName: t
       vpiModule: Module name:t
+  vpiStruct (1 items):
+    Struct start:8:9 end:10:2:
+      vpiParent: Design name:unnamed
+      vpiPacked: true
+      vpiTypespecMember (1 items):
+        TypespecMember name:foo start:9:16 end:9:19:
+          vpiParent: Struct
+          vpiName: foo
+          vpiTypespec RefTypespec name:logic start:9:4 end:9:9:
+            vpiParent: TypespecMember name:foo
+            vpiName: logic
+            vpiFullName: foo.logic
+            vpiActual: UnsupportedTypespec name:logic
+  vpiTypedef (1 items):
+    Typedef name:some_struct_t start:8:1 end:10:17:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:some_struct_t start:10:3 end:10:16:
+      vpiTypedefAlias RefTypespec start:8:9 end:10:2:
+        vpiParent: Typedef name:some_struct_t
+        vpiFullName: some_struct_t
+        vpiActual: StructTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -395,7 +405,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_up_bad/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    58      58       0         0
 ===================== END REDUCTION RESULT =====================

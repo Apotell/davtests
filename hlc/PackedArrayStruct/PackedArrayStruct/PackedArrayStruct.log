@@ -115,6 +115,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiFullName: top
+      vpiStruct (1 items):
+        Struct start:2:12 end:4:12:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:x start:3:13 end:3:14:
+              vpiParent: Struct
+              vpiName: x
+              vpiTypespec RefTypespec start:3:7 end:3:12:
+                vpiParent: TypespecMember name:x
+                vpiFullName: top.x
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:struct_array_t start:2:4 end:4:28:
+          vpiParent: Module name:top
+          vpiName Identifier name:struct_array_t start:4:13 end:4:27:
+          vpiTypedefAlias RefTypespec start:2:12 end:4:12:
+            vpiParent: Typedef name:struct_array_t
+            vpiFullName: top.struct_array_t
+            vpiActual: ArrayTypespec
       vpiVariable (2 items):
         Variable name:o start:1:32 end:1:33:
           vpiParent: Module name:top
@@ -175,15 +195,7 @@ Design name:unnamed:
           vpiParent: Module name:top
         StructTypespec start:2:12 end:4:12:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:x start:3:13 end:3:14:
-              vpiParent: StructTypespec
-              vpiName: x
-              vpiTypespec RefTypespec start:3:7 end:3:12:
-                vpiParent: TypespecMember name:x
-                vpiFullName: top.x
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         ArrayTypespec:
           vpiParent: Module name:top
           vpiArrayType: static (1)
@@ -217,10 +229,7 @@ Design name:unnamed:
         TypedefTypespec name:struct_array_t start:2:4 end:4:28:
           vpiParent: Module name:top
           vpiName Identifier name:struct_array_t start:4:13 end:4:27:
-          vpiTypedefAlias RefTypespec start:2:12 end:4:12:
-            vpiParent: TypedefTypespec name:struct_array_t
-            vpiFullName: top.struct_array_t
-            vpiActual: ArrayTypespec
+          vpiTypedef: Typedef name:struct_array_t
         BitTypespec:
           vpiParent: Module name:top
       vpiDefName: top
@@ -314,7 +323,7 @@ COMMAND: ${HLC_DIR}/regression/PackedArrayStruct/PackedArrayStruct/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              44      44       0         0
 ----------------------------------------------------------------
-                                    41      41       0         0
+                                    44      44       0         0
 ===================== END REDUCTION RESULT =====================

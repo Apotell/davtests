@@ -92,7 +92,7 @@ n<$Source01/t_struct_notfound_bad.v> u<78> t<Top_level_rule> c<1> l<6:1> el<16:1
         n<> u<74> t<ENDMODULE> p<75> l<15:1> el<15:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_struct_notfound_bad.v:6:1: Compile module "t".
-[WRN:CP5851] $Source01/t_struct_notfound_bad.v:12:9: Failed to bind "id:24, name:nfmember".
+[WRN:CP5851] $Source01/t_struct_notfound_bad.v:12:9: Failed to bind "id:27, name:nfmember".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -107,6 +107,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
       vpiFullName: t
+      vpiStruct (1 items):
+        Struct start:8:12 end:8:36:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:m start:8:32 end:8:33:
+              vpiParent: Struct
+              vpiName: m
+              vpiTypespec RefTypespec name:bit start:8:28 end:8:31:
+                vpiParent: TypespecMember name:m
+                vpiName: bit
+                vpiFullName: t.m.bit
+                vpiActual: UnsupportedTypespec name:bit
+      vpiTypedef (1 items):
+        Typedef name:struct_t start:8:4 end:8:46:
+          vpiParent: Module name:t
+          vpiName Identifier name:struct_t start:8:37 end:8:45:
+          vpiTypedefAlias RefTypespec start:8:12 end:8:36:
+            vpiParent: Typedef name:struct_t
+            vpiFullName: t.struct_t
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:s start:9:13 end:9:14:
           vpiParent: Module name:t
@@ -123,23 +144,12 @@ Design name:unnamed:
           vpiName Identifier name:bit start:8:28 end:8:31:
         StructTypespec start:8:12 end:8:36:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:m start:8:32 end:8:33:
-              vpiParent: StructTypespec
-              vpiName: m
-              vpiTypespec RefTypespec name:bit start:8:28 end:8:31:
-                vpiParent: TypespecMember name:m
-                vpiName: bit
-                vpiFullName: t.m.bit
-                vpiActual: UnsupportedTypespec name:bit
+          vpiStruct: Struct
         TypedefTypespec name:struct_t start:8:4 end:8:46:
           vpiParent: Module name:t
           vpiName Identifier name:struct_t start:8:37 end:8:45:
-          vpiTypedefAlias RefTypespec start:8:12 end:8:36:
-            vpiParent: TypedefTypespec name:struct_t
-            vpiFullName: t.struct_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:struct_t
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -241,7 +251,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_struct_notfound_bad/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    31      31       0         0
 ===================== END REDUCTION RESULT =====================

@@ -147,22 +147,22 @@ COMMAND: -wd ../../../tests/SimpleIncludeAndMacros top.v top_1.v top_2.v top_3.v
 [INF:PA5502] Parsing source file "$Source01/top_4.v".
 [INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/lib.v".
+[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
+initial $display("start", "msg1" , "msg2", "end");
+^-- $Source01/mode.vh:26:0:.
+[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
+initial $display("start", "msg1" , "msg2", "end");
+^-- $Source01/mode.vh:26:0:.
 [SNT:PA5508] $Source01/top_3.v:5: Syntax error: mismatched input '1' expecting <EOF>,
 1 + 1 + 42 + 100 + c
 ^-- $Source01/top_3.v:5:0:.
-[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
-initial $display("start", "msg1" , "msg2", "end");
-^-- $Source01/mode.vh:26:0:.
-[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
-initial $display("start", "msg1" , "msg2", "end");
-^-- $Source01/mode.vh:26:0:.
-[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
-initial $display("start", "msg1" , "msg2", "end");
-^-- $Source01/mode.vh:26:0:.
-[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
-initial $display("start", "msg1" , "msg2", "end");
-^-- $Source01/mode.vh:26:0:.
 [WRN:PA5516] Invalid VObject location.
+[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
+initial $display("start", "msg1" , "msg2", "end");
+^-- $Source01/mode.vh:26:0:.
+[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
+initial $display("start", "msg1" , "msg2", "end");
+^-- $Source01/mode.vh:26:0:.
 [INF:CP5804] $Source01/lib.v:2:1: Compile module "FAKELIB_NAND2".
 [NTE:CP5810] $Source01/lib.v:2:29: Implicit port type (wire) for "OUT".
 [INF:CP5804] $Source01/lib.v:5:1: Compile module "FAKELIB_NAND4".
@@ -4504,32 +4504,42 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -5770,7 +5780,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2797    2797       0         0
+Others                            2800    2800       0         0
 ----------------------------------------------------------------
-                                  2797    2797       0         0
+                                  2800    2800       0         0
 ===================== END REDUCTION RESULT =====================

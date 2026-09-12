@@ -10,11 +10,11 @@ COMMAND: -wd ../../../tests/ClassTypeParam -fileunit -writepp -d db -sv dut.sv -
 [INF:PP5223] Preprocessing source file "$Source01/dut.sv".
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:CP5804] $Source01/dut.sv:22:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:24:33: Failed to bind "id:84, name:new".
-[WRN:CP5851] $Source01/dut.sv:26:46: Failed to bind "id:95, name:new".
+[WRN:CP5851] $Source01/dut.sv:24:33: Failed to bind "id:88, name:new".
+[WRN:CP5851] $Source01/dut.sv:26:46: Failed to bind "id:99, name:new".
 [WRN:PA5506] $Source01/dut.sv:22:1: No timescale set for "top".
-[ERR:LN7705] $Source01/dut.sv:24:33: Null Actual: id:84, type:MethodFuncCall, name:new, relation:vpiValue.
-[ERR:LN7705] $Source01/dut.sv:26:46: Null Actual: id:95, type:MethodFuncCall, name:new, relation:vpiValue.
+[ERR:LN7705] $Source01/dut.sv:24:33: Null Actual: id:88, type:MethodFuncCall, name:new, relation:vpiValue.
+[ERR:LN7705] $Source01/dut.sv:26:46: Null Actual: id:99, type:MethodFuncCall, name:new, relation:vpiValue.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -72,6 +72,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:uvm_resource_db #(.T(int)) start:7:7 end:7:22:
       vpiFullName: uvm_resource_db #(.T(int))
+      vpiTypedef (1 items):
+        Typedef name:rsrc_t start:9:2 end:9:35:
+          vpiParent: ClassDefn name:uvm_resource_db #(.T(int))
+          vpiName Identifier name:rsrc_t start:9:28 end:9:34:
+          vpiTypedefAlias RefTypespec start:9:10 end:9:27:
+            vpiParent: Typedef name:rsrc_t
+            vpiFullName: uvm_resource_db #(.T(int))::rsrc_t
+            vpiActual: ClassTypespec name:uvm_resource #(T)
       vpiVariable (1 items):
         Variable name:rsrc start:10:9 end:10:13:
           vpiParent: ClassDefn name:uvm_resource_db #(.T(int))
@@ -117,10 +125,8 @@ Design name:unnamed:
         TypedefTypespec name:rsrc_t start:9:2 end:9:35:
           vpiParent: ClassDefn name:uvm_resource_db #(.T(int))
           vpiName Identifier name:rsrc_t start:9:28 end:9:34:
-          vpiTypedefAlias RefTypespec start:9:10 end:9:27:
-            vpiParent: TypedefTypespec name:rsrc_t
-            vpiFullName: uvm_resource_db #(.T(int))::rsrc_t
-            vpiActual: ClassTypespec name:uvm_resource #(T)
+          vpiTypedefKind: class (1)
+          vpiTypedef: Typedef name:rsrc_t
         TypeParameter name:T:
       vpiDefName: uvm_resource_db
       vpiAutomatic: true
@@ -331,15 +337,21 @@ Design name:unnamed:
     TypedefTypespec name:m_uvm_config_obj_misc start:20:1 end:20:66:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m_uvm_config_obj_misc start:20:44 end:20:65:
-      vpiTypedefAlias RefTypespec start:20:9 end:20:43:
-        vpiParent: TypedefTypespec name:m_uvm_config_obj_misc
-        vpiFullName: m_uvm_config_obj_misc
-        vpiActual: ClassTypespec name:uvm_config_db #(uvm_object, string)
+      vpiTypedefKind: class (1)
+      vpiTypedef: Typedef name:m_uvm_config_obj_misc
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:22:8 end:22:11:
       vpiDefName: top
       vpiModule: Module name:top
+  vpiTypedef (1 items):
+    Typedef name:m_uvm_config_obj_misc start:20:1 end:20:66:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:m_uvm_config_obj_misc start:20:44 end:20:65:
+      vpiTypedefAlias RefTypespec start:20:9 end:20:43:
+        vpiParent: Typedef name:m_uvm_config_obj_misc
+        vpiFullName: m_uvm_config_obj_misc
+        vpiActual: ClassTypespec name:uvm_config_db #(uvm_object, string)
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -388,7 +400,7 @@ COMMAND: ${HLC_DIR}/regression/ClassTypeParam/ClassTypeParam/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                              93      93       0         0
 ----------------------------------------------------------------
-                                    89      89       0         0
+                                    93      93       0         0
 ===================== END REDUCTION RESULT =====================

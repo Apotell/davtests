@@ -926,6 +926,61 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:6:9 end:6:12:
       vpiFullName: pkg
+      vpiStruct (2 items):
+        Struct start:8:12 end:10:5:
+          vpiParent: Package name:pkg
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:foo start:9:19 end:9:22:
+              vpiParent: Struct
+              vpiName: foo
+              vpiTypespec RefTypespec name:unique_id_t start:9:7 end:9:18:
+                vpiParent: TypespecMember name:foo
+                vpiName: unique_id_t
+                vpiFullName: pkg::foo::unique_id_t
+                vpiActual: TypedefTypespec name:unique_id_t
+        Struct start:11:12 end:14:5:
+          vpiParent: Package name:pkg
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:bar start:12:21 end:12:24:
+              vpiParent: Struct
+              vpiName: bar
+              vpiTypespec RefTypespec name:inner_thing_t start:12:7 end:12:20:
+                vpiParent: TypespecMember name:bar
+                vpiName: inner_thing_t
+                vpiFullName: pkg::bar::inner_thing_t
+                vpiActual: TypedefTypespec name:inner_thing_t
+            TypespecMember name:baz start:13:21 end:13:24:
+              vpiParent: Struct
+              vpiName: baz
+              vpiTypespec RefTypespec name:inner_thing_t start:13:7 end:13:20:
+                vpiParent: TypespecMember name:baz
+                vpiName: inner_thing_t
+                vpiFullName: pkg::baz::inner_thing_t
+                vpiActual: TypedefTypespec name:inner_thing_t
+      vpiTypedef (3 items):
+        Typedef name:unique_id_t start:7:4 end:7:37:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:unique_id_t start:7:25 end:7:36:
+          vpiTypedefAlias RefTypespec start:7:12 end:7:24:
+            vpiParent: Typedef name:unique_id_t
+            vpiFullName: pkg::unique_id_t
+            vpiActual: ArrayTypespec
+        Typedef name:inner_thing_t start:8:4 end:10:20:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:inner_thing_t start:10:6 end:10:19:
+          vpiTypedefAlias RefTypespec start:8:12 end:10:5:
+            vpiParent: Typedef name:inner_thing_t
+            vpiFullName: pkg::inner_thing_t
+            vpiActual: StructTypespec
+        Typedef name:outer_thing_t start:11:4 end:14:20:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:outer_thing_t start:14:6 end:14:19:
+          vpiTypedefAlias RefTypespec start:11:12 end:14:5:
+            vpiParent: Typedef name:outer_thing_t
+            vpiFullName: pkg::outer_thing_t
+            vpiActual: StructTypespec
       vpiTypespec (7 items):
         UnsupportedTypespec name:logic start:7:12 end:7:17:
           vpiParent: Package name:pkg
@@ -964,56 +1019,23 @@ Design name:unnamed:
         TypedefTypespec name:unique_id_t start:7:4 end:7:37:
           vpiParent: Package name:pkg
           vpiName Identifier name:unique_id_t start:7:25 end:7:36:
-          vpiTypedefAlias RefTypespec start:7:12 end:7:24:
-            vpiParent: TypedefTypespec name:unique_id_t
-            vpiFullName: pkg::unique_id_t
-            vpiActual: ArrayTypespec
+          vpiTypedef: Typedef name:unique_id_t
         StructTypespec start:8:12 end:10:5:
           vpiParent: Package name:pkg
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:foo start:9:19 end:9:22:
-              vpiParent: StructTypespec
-              vpiName: foo
-              vpiTypespec RefTypespec name:unique_id_t start:9:7 end:9:18:
-                vpiParent: TypespecMember name:foo
-                vpiName: unique_id_t
-                vpiFullName: pkg::foo::unique_id_t
-                vpiActual: TypedefTypespec name:unique_id_t
+          vpiStruct: Struct
         TypedefTypespec name:inner_thing_t start:8:4 end:10:20:
           vpiParent: Package name:pkg
           vpiName Identifier name:inner_thing_t start:10:6 end:10:19:
-          vpiTypedefAlias RefTypespec start:8:12 end:10:5:
-            vpiParent: TypedefTypespec name:inner_thing_t
-            vpiFullName: pkg::inner_thing_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:inner_thing_t
         StructTypespec start:11:12 end:14:5:
           vpiParent: Package name:pkg
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:bar start:12:21 end:12:24:
-              vpiParent: StructTypespec
-              vpiName: bar
-              vpiTypespec RefTypespec name:inner_thing_t start:12:7 end:12:20:
-                vpiParent: TypespecMember name:bar
-                vpiName: inner_thing_t
-                vpiFullName: pkg::bar::inner_thing_t
-                vpiActual: TypedefTypespec name:inner_thing_t
-            TypespecMember name:baz start:13:21 end:13:24:
-              vpiParent: StructTypespec
-              vpiName: baz
-              vpiTypespec RefTypespec name:inner_thing_t start:13:7 end:13:20:
-                vpiParent: TypespecMember name:baz
-                vpiName: inner_thing_t
-                vpiFullName: pkg::baz::inner_thing_t
-                vpiActual: TypedefTypespec name:inner_thing_t
+          vpiStruct: Struct
         TypedefTypespec name:outer_thing_t start:11:4 end:14:20:
           vpiParent: Package name:pkg
           vpiName Identifier name:outer_thing_t start:14:6 end:14:19:
-          vpiTypedefAlias RefTypespec start:11:12 end:14:5:
-            vpiParent: TypedefTypespec name:outer_thing_t
-            vpiFullName: pkg::outer_thing_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:outer_thing_t
       vpiDefName: pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2446,7 +2468,7 @@ Operation                            8       0       0         8
 RefObj                              87      79       0         8
 RefTypespec                         81      81       8         8
 ----------------------------------------------------------------
-Others                             166     166       0         0
+Others                             174     174       0         0
 ----------------------------------------------------------------
-                                   368     352      16        32
+                                   376     360      16        32
 ===================== END REDUCTION RESULT =====================
