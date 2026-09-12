@@ -100,18 +100,18 @@ TEST_F(NettypeResolutionFnTest, ModuleExists) {
 // ---------------------------------------------------------------------------
 // TypedefTypespec "real_net" with alias -> RealTypespec
 // ---------------------------------------------------------------------------
-TEST_F(NettypeResolutionFnTest, ModuleHasOneTypespec) {
+TEST_F(NettypeResolutionFnTest, ModuleHasOneTypedef) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getTypespecs(), nullptr);
-  EXPECT_EQ(top->getTypespecs()->size(), 1u);
+  ASSERT_NE(top->getTypedefs(), nullptr);
+  EXPECT_EQ(top->getTypedefs()->size(), 1u);
 }
 
-TEST_F(NettypeResolutionFnTest, NettypeIsTypedefTypespecNamedRealNet) {
+TEST_F(NettypeResolutionFnTest, NettypeIsTypedefNamedRealNet) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getTypespecs(), nullptr);
-  const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
+  ASSERT_NE(top->getTypedefs(), nullptr);
+  const hldb::Typedef *const td = any_cast<hldb::Typedef>(top->getTypedefs()->at(0));
   ASSERT_NE(td, nullptr);
   EXPECT_EQ(td->getName(), std::string_view("real_net"));
 }
@@ -119,9 +119,7 @@ TEST_F(NettypeResolutionFnTest, NettypeIsTypedefTypespecNamedRealNet) {
 TEST_F(NettypeResolutionFnTest, NettypeAliasIsRealTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const tt = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
-  ASSERT_NE(tt, nullptr);
-  const hldb::Typedef *const td = tt->getTypedef();
+  const hldb::Typedef *const td = any_cast<hldb::Typedef>(top->getTypedefs()->at(0));
   ASSERT_NE(td, nullptr);
   const hldb::RefTypespec *const alias = td->getAlias();
   ASSERT_NE(alias, nullptr);
@@ -135,9 +133,7 @@ TEST_F(NettypeResolutionFnTest, NettypeAliasIsRealTypespec) {
 TEST_F(NettypeResolutionFnTest, NettypeHasResolutionFunction) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const tt = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
-  ASSERT_NE(tt, nullptr);
-  const hldb::Typedef *const td = tt->getTypedef();
+  const hldb::Typedef *const td = any_cast<hldb::Typedef>(top->getTypedefs()->at(0));
   ASSERT_NE(td, nullptr);
   const hldb::RefObj *const fnRef = td->getResolutionFunc();
   ASSERT_NE(fnRef, nullptr) << "nettype with 'with' clause stores resolution function as RefObj";
@@ -147,9 +143,7 @@ TEST_F(NettypeResolutionFnTest, NettypeHasResolutionFunction) {
 TEST_F(NettypeResolutionFnTest, ResolutionFunctionRefersToFunction) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const tt = any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
-  ASSERT_NE(tt, nullptr);
-  const hldb::Typedef *const td = tt->getTypedef();
+  const hldb::Typedef *const td = any_cast<hldb::Typedef>(top->getTypedefs()->at(0));
   ASSERT_NE(td, nullptr);
   const hldb::RefObj *const fnRef = td->getResolutionFunc();
   ASSERT_NE(fnRef, nullptr);
