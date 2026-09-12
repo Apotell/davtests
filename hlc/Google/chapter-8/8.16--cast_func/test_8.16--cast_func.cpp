@@ -148,11 +148,13 @@ TEST_F(ClassCastFuncTest, ModuleHasTwoTypespecs) {
 TEST_F(ClassCastFuncTest, EnumTypespecHasFiveEnumConstsInOrder) {
   const hldb::EnumTypespec *const et = getEnumTypespec();
   ASSERT_NE(et, nullptr);
-  ASSERT_NE(et->getEnumConsts(), nullptr);
-  ASSERT_EQ(et->getEnumConsts()->size(), 5u);
+  const hldb::Enum *const e = et->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  ASSERT_EQ(e->getEnumConsts()->size(), 5u);
   const char *const expected[5] = {"aaa", "bbb", "ccc", "ddd", "eee"};
   for (size_t i = 0; i < 5; ++i) {
-    const hldb::EnumConst *const ec = et->getEnumConsts()->at(i);
+    const hldb::EnumConst *const ec = e->getEnumConsts()->at(i);
     ASSERT_NE(ec, nullptr);
     EXPECT_EQ(ec->getName(), expected[i]);
   }
@@ -161,9 +163,11 @@ TEST_F(ClassCastFuncTest, EnumTypespecHasFiveEnumConstsInOrder) {
 TEST_F(ClassCastFuncTest, EnumConstsHaveNoExplicitValue) {
   const hldb::EnumTypespec *const et = getEnumTypespec();
   ASSERT_NE(et, nullptr);
-  ASSERT_NE(et->getEnumConsts(), nullptr);
-  for (size_t i = 0; i < et->getEnumConsts()->size(); ++i) {
-    const hldb::EnumConst *const ec = et->getEnumConsts()->at(i);
+  const hldb::Enum *const e = et->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  for (size_t i = 0; i < e->getEnumConsts()->size(); ++i) {
+    const hldb::EnumConst *const ec = e->getEnumConsts()->at(i);
     ASSERT_NE(ec, nullptr);
     EXPECT_EQ(ec->getValue(), nullptr) << "enumerator '" << ec->getName()
                                        << "' declares no '= <value>', so it should attach no value Expr";
@@ -178,19 +182,23 @@ TEST_F(ClassCastFuncTest, EnumTypespecBaseTypeDefaultsToInt) {
                   "stays permanently null instead of resolving to an implicit signed 32-bit int.";
   const hldb::EnumTypespec *const et = getEnumTypespec();
   ASSERT_NE(et, nullptr);
-  ASSERT_NE(et->getBaseTypespec(), nullptr) << "enum with no explicit base type should still get an implicit "
+  const hldb::Enum *const e = et->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getBaseTypespec(), nullptr) << "enum with no explicit base type should still get an implicit "
                                                 "'int' RefTypespec (IEEE 1800-2023 6.19)";
-  const hldb::IntTypespec *const base = et->getBaseTypespec()->getActual<hldb::IntTypespec>();
+  const hldb::IntTypespec *const base = e->getBaseTypespec()->getActual<hldb::IntTypespec>();
   ASSERT_NE(base, nullptr) << "the implicit enum base type should resolve to IntTypespec ('int')";
   EXPECT_TRUE(base->getSigned());
 }
 
 TEST_F(ClassCastFuncTest, ValuesTypedefAliasesEnumTypespec) {
-  const hldb::TypedefTypespec *const td = getValuesTypedef();
+  const hldb::TypedefTypespec *const tt = getValuesTypedef();
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  EXPECT_EQ(td->getName(), "values");
-  ASSERT_NE(td->getTypedefAlias(), nullptr);
-  EXPECT_EQ(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), getEnumTypespec());
+  EXPECT_EQ(td->getName(), std::string_view("values"));
+  ASSERT_NE(td->getAlias(), nullptr);
+  EXPECT_EQ(td->getAlias()->getActual<hldb::EnumTypespec>(), getEnumTypespec());
 }
 
 // --- design shape: no classes at all -------------------------------------------
@@ -225,7 +233,7 @@ TEST_F(ClassCastFuncTest, InitialBeginHasOneLocalVariableVal) {
   ASSERT_EQ(begin->getVariables()->size(), 1u);
   const hldb::Variable *const val = getVariableVal();
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getName(), "val");
+  EXPECT_EQ(val->getName(), std::string_view("val"));
   ASSERT_NE(val->getTypespec(), nullptr);
   EXPECT_EQ(val->getTypespec<hldb::RefTypespec>()->getActual<hldb::TypedefTypespec>(), getValuesTypedef());
 }
@@ -265,25 +273,25 @@ TEST_F(ClassCastFuncTest, FirstStmtIsIfNotCastValFive) {
   const hldb::SysFuncCall *const cast = any_cast<hldb::SysFuncCall>(notOp->getOperands()->at(0));
   ASSERT_NE(cast, nullptr) << "'$cast(val, 5)' should be a SysFuncCall (expression context, unlike $display's "
                               "SysTaskCall usage elsewhere)";
-  EXPECT_EQ(cast->getName(), "$cast");
+  EXPECT_EQ(cast->getName(), std::string_view("$cast"));
   ASSERT_NE(cast->getArguments(), nullptr);
   ASSERT_EQ(cast->getArguments()->size(), 2u);
   const hldb::RefObj *const valArg = any_cast<hldb::RefObj>(cast->getArguments()->at(0));
   ASSERT_NE(valArg, nullptr);
-  EXPECT_EQ(valArg->getName(), "val");
+  EXPECT_EQ(valArg->getName(), std::string_view("val"));
   EXPECT_EQ(valArg->getActual<hldb::Variable>(), getVariableVal());
   const hldb::Constant *const fiveArg = any_cast<hldb::Constant>(cast->getArguments()->at(1));
   ASSERT_NE(fiveArg, nullptr);
-  EXPECT_EQ(fiveArg->getDecompile(), "5");
+  EXPECT_EQ(fiveArg->getDecompile(), std::string_view("5"));
 
   const hldb::SysTaskCall *const thenBranch = ifStmt->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(thenBranch, nullptr) << "the then-branch '$display(\"$cast failed\");' should be a bare SysTaskCall";
-  EXPECT_EQ(thenBranch->getName(), "$display");
+  EXPECT_EQ(thenBranch->getName(), std::string_view("$display"));
   ASSERT_NE(thenBranch->getArguments(), nullptr);
   ASSERT_EQ(thenBranch->getArguments()->size(), 1u);
   const hldb::Constant *const msg = any_cast<hldb::Constant>(thenBranch->getArguments()->at(0));
   ASSERT_NE(msg, nullptr);
-  EXPECT_EQ(msg->getDecompile(), "\"$cast failed\"");
+  EXPECT_EQ(msg->getDecompile(), std::string_view("\"$cast failed\""));
 }
 
 // --- $display(val); (stmt[1]) ------------------------------------------------------
@@ -294,12 +302,12 @@ TEST_F(ClassCastFuncTest, SecondStmtDisplaysVal) {
   ASSERT_GT(begin->getStmts()->size(), 1u);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr) << "stmt[1] should be a $display SysTaskCall";
-  EXPECT_EQ(disp->getName(), "$display");
+  EXPECT_EQ(disp->getName(), std::string_view("$display"));
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
   const hldb::RefObj *const valArg = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
   ASSERT_NE(valArg, nullptr);
-  EXPECT_EQ(valArg->getName(), "val");
+  EXPECT_EQ(valArg->getName(), std::string_view("val"));
   EXPECT_EQ(valArg->getActual<hldb::Variable>(), getVariableVal());
 }
 

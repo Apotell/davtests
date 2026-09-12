@@ -90,11 +90,13 @@ TEST_F(EnumAnonTest, EnumHasThreeConsts) {
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 3u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "a");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "b");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 3u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(e->getEnumConsts()->at(2)->getName(), std::string_view("c"));
 }
 
 // ---------------------------------------------------------------------------
@@ -114,7 +116,7 @@ TEST_F(EnumAnonTest, VariableValExists) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getName(), "val");
+  EXPECT_EQ(val->getName(), std::string_view("val"));
 }
 
 TEST_F(EnumAnonTest, VariableValTypespecIsEnumDirectly) {
@@ -144,7 +146,9 @@ TEST_F(EnumAnonTest, EnumHasNoExplicitBaseTypespec) {
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr);
-  EXPECT_EQ(enumTs->getBaseTypespec(), nullptr)
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  EXPECT_EQ(e->getBaseTypespec(), nullptr)
       << "enum {a, b, c} with no explicit base type stores no base RefTypespec";
 }
 
@@ -156,7 +160,9 @@ TEST_F(EnumAnonTest, EnumConstsHaveNoImplicitDefaultValue) {
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr);
-  const auto *consts = enumTs->getEnumConsts();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const auto *consts = e->getEnumConsts();
   ASSERT_NE(consts, nullptr);
   ASSERT_EQ(consts->size(), 3u);
   EXPECT_EQ(consts->at(0)->getValue<hldb::Any>(), nullptr) << "'a' implicit default value 0 is not stored";

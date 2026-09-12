@@ -116,35 +116,41 @@ TEST_F(BitstreamCastTest, ModuleHasNoNetsAndTwoVariables) {
 TEST_F(BitstreamCastTest, SIsPackedStruct) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
-  ASSERT_NE(s, nullptr);
-  const hldb::StructTypespec *const structTs = s->getTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("s", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::StructTypespec *const structTs = v->getTypespec()->getActual<hldb::StructTypespec>();
   ASSERT_NE(structTs, nullptr);
-  EXPECT_TRUE(structTs->getPacked());
+  const hldb::Struct *const s = structTs->getStruct();
+  ASSERT_NE(s, nullptr);
+  EXPECT_TRUE(s->getPacked());
 }
 
 TEST_F(BitstreamCastTest, StructHasThreeMembers) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
-  ASSERT_NE(s, nullptr);
-  const hldb::StructTypespec *const structTs = s->getTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("s", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::StructTypespec *const structTs = v->getTypespec()->getActual<hldb::StructTypespec>();
   ASSERT_NE(structTs, nullptr);
-  ASSERT_NE(structTs->getMembers(), nullptr);
-  EXPECT_EQ(structTs->getMembers()->size(), 3u);
-  EXPECT_EQ(structTs->getMembers()->at(0)->getName(), "a");
-  EXPECT_EQ(structTs->getMembers()->at(1)->getName(), "b");
-  EXPECT_EQ(structTs->getMembers()->at(2)->getName(), "c");
+  const hldb::Struct *const s = structTs->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  EXPECT_EQ(s->getMembers()->size(), 3u);
+  EXPECT_EQ(s->getMembers()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(s->getMembers()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(s->getMembers()->at(2)->getName(), std::string_view("c"));
 }
 
 TEST_F(BitstreamCastTest, StructMembersHaveLogicTypespec) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
-  ASSERT_NE(s, nullptr);
-  const hldb::StructTypespec *const structTs = s->getTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("s", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::StructTypespec *const structTs = v->getTypespec()->getActual<hldb::StructTypespec>();
   ASSERT_NE(structTs, nullptr);
-  for (const auto *member : *structTs->getMembers()) {
+  const hldb::Struct *const s = structTs->getStruct();
+  ASSERT_NE(s, nullptr);
+  for (const auto *member : *s->getMembers()) {
     EXPECT_NE(member->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
         << "struct member " << member->getName() << " should be LogicTypespec";
   }
@@ -198,7 +204,7 @@ TEST_F(BitstreamCastTest, CastOperandIsRefToVariableS) {
   ASSERT_EQ(castOp->getOperands()->size(), 1u);
   const hldb::RefObj *const s = any_cast<hldb::RefObj>(castOp->getOperands()->at(0));
   ASSERT_NE(s, nullptr);
-  EXPECT_EQ(s->getName(), "s");
+  EXPECT_EQ(s->getName(), std::string_view("s"));
   EXPECT_NE(s->getActual<hldb::Variable>(), nullptr);
 }
 
@@ -226,12 +232,14 @@ TEST_F(BitstreamCastTest, NoContAssigns) {
 TEST_F(BitstreamCastTest, MembersAAndBAreEightBitsWide) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
-  ASSERT_NE(s, nullptr);
-  const hldb::StructTypespec *const structTs = s->getTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("s", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::StructTypespec *const structTs = v->getTypespec()->getActual<hldb::StructTypespec>();
   ASSERT_NE(structTs, nullptr);
+  const hldb::Struct *const s = structTs->getStruct();
+  ASSERT_NE(s, nullptr);
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::LogicTypespec *const lts = structTs->getMembers()->at(i)->getTypespec()->getActual<hldb::LogicTypespec>();
+    const hldb::LogicTypespec *const lts = s->getMembers()->at(i)->getTypespec()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(lts, nullptr);
     ASSERT_NE(lts->getRanges(), nullptr);
     ASSERT_EQ(lts->getRanges()->size(), 1u);
@@ -239,21 +247,23 @@ TEST_F(BitstreamCastTest, MembersAAndBAreEightBitsWide) {
     ASSERT_NE(range, nullptr);
     const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
     ASSERT_NE(left, nullptr);
-    EXPECT_EQ(left->getDecompile(), "7");
+    EXPECT_EQ(left->getDecompile(), std::string_view("7"));
     const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
     ASSERT_NE(right, nullptr);
-    EXPECT_EQ(right->getDecompile(), "0");
+    EXPECT_EQ(right->getDecompile(), std::string_view("0"));
   }
 }
 
 TEST_F(BitstreamCastTest, MemberCIsSixteenBitsWide) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
-  ASSERT_NE(s, nullptr);
-  const hldb::StructTypespec *const structTs = s->getTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("s", top->getVariables());
+  ASSERT_NE(v, nullptr);
+  const hldb::StructTypespec *const structTs = v->getTypespec()->getActual<hldb::StructTypespec>();
   ASSERT_NE(structTs, nullptr);
-  const hldb::LogicTypespec *const lts = structTs->getMembers()->at(2)->getTypespec()->getActual<hldb::LogicTypespec>();
+  const hldb::Struct *const s = structTs->getStruct();
+  ASSERT_NE(s, nullptr);
+  const hldb::LogicTypespec *const lts = s->getMembers()->at(2)->getTypespec()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(lts, nullptr);
   ASSERT_NE(lts->getRanges(), nullptr);
   ASSERT_EQ(lts->getRanges()->size(), 1u);
@@ -261,10 +271,10 @@ TEST_F(BitstreamCastTest, MemberCIsSixteenBitsWide) {
   ASSERT_NE(range, nullptr);
   const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
-  EXPECT_EQ(left->getDecompile(), "15");
+  EXPECT_EQ(left->getDecompile(), std::string_view("15"));
   const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(right->getDecompile(), "0");
+  EXPECT_EQ(right->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(BitstreamCastTest, CompilerReportsZeroErrors) {

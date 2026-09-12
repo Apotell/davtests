@@ -104,7 +104,7 @@ TEST_F(PackedStructDefaultValueTest, ModuleHasOneParameterNamedC) {
   ASSERT_EQ(top->getParameters()->size(), 1u);
   const hldb::Parameter *const c = any_cast<hldb::Parameter>(top->getParameters()->at(0));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getName(), "c");
+  EXPECT_EQ(c->getName(), std::string_view("c"));
   EXPECT_NE(c->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
 }
 
@@ -117,12 +117,12 @@ TEST_F(PackedStructDefaultValueTest, ParamAssignSetsCToHexFive) {
   ASSERT_NE(pa, nullptr);
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "c");
+  EXPECT_EQ(lhs->getName(), std::string_view("c"));
   EXPECT_NE(lhs->getActual<hldb::Parameter>(), nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "4'h5");
-  EXPECT_EQ(rhs->getValue(), "5");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("4'h5"));
+  EXPECT_EQ(rhs->getValue(), std::string_view("5"));
 }
 
 // --- net / struct typespec / illegal per-member default value ----
@@ -137,37 +137,43 @@ TEST_F(PackedStructDefaultValueTest, ModuleHasOneNet) {
 TEST_F(PackedStructDefaultValueTest, P1IsPackedStructWithTwoMembers) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
-  EXPECT_TRUE(st->getPacked());
-  ASSERT_NE(st->getMembers(), nullptr);
-  EXPECT_EQ(st->getMembers()->size(), 2u);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  EXPECT_TRUE(s->getPacked());
+  ASSERT_NE(s->getMembers(), nullptr);
+  EXPECT_EQ(s->getMembers()->size(), 2u);
 }
 
 TEST_F(PackedStructDefaultValueTest, MemberLoHasIllegalDefaultValueResolvingToParameterC) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  const hldb::TypespecMember *const lo = st->getMembers()->at(0);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  const hldb::TypespecMember *const lo = s->getMembers()->at(0);
   ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(lo->getName(), "lo");
+  EXPECT_EQ(lo->getName(), std::string_view("lo"));
   const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(lo);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);
-  EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "3");
-  EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
+  EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), std::string_view("3"));
+  EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), std::string_view("0"));
   const hldb::RefObj *const defaultValue = lo->getDefaultValue<hldb::RefObj>();
   ASSERT_NE(defaultValue, nullptr) << "'lo = c' should still be captured structurally, even though it is illegal";
-  EXPECT_EQ(defaultValue->getName(), "c");
+  EXPECT_EQ(defaultValue->getName(), std::string_view("c"));
   EXPECT_NE(defaultValue->getActual<hldb::Parameter>(), nullptr);
 }
 
 TEST_F(PackedStructDefaultValueTest, MemberHiHasNoDefaultValue) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  const hldb::TypespecMember *const hi = st->getMembers()->at(1);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  const hldb::TypespecMember *const hi = s->getMembers()->at(1);
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(hi->getName(), "hi");
+  EXPECT_EQ(hi->getName(), std::string_view("hi"));
   EXPECT_EQ(hi->getDefaultValue(), nullptr);
 }
 
@@ -183,7 +189,7 @@ TEST_F(PackedStructDefaultValueTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "top");
+  EXPECT_EQ(mt->getName(), std::string_view("top"));
 }
 
 TEST_F(PackedStructDefaultValueTest, DesignHasSignedIntTypespec) {

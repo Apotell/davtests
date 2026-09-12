@@ -79,16 +79,20 @@ TEST_F(EnumNumericalExprTest, ModuleExists) {
 TEST_F(EnumNumericalExprTest, TypedefEWithFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = td->getAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 4u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "a");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "b");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 4u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(e->getEnumConsts()->at(2)->getName(), std::string_view("c"));
+  EXPECT_EQ(e->getEnumConsts()->at(3)->getName(), std::string_view("d"));
 }
 
 // ---------------------------------------------------------------------------
@@ -114,7 +118,7 @@ TEST_F(EnumNumericalExprTest, IVariableIsIntegerType) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const i = blk->getVariables()->at(0);
   ASSERT_NE(i, nullptr);
-  EXPECT_EQ(i->getName(), "i");
+  EXPECT_EQ(i->getName(), std::string_view("i"));
   EXPECT_NE(i->getTypespec()->getActual<hldb::IntegerTypespec>(), nullptr);
 }
 
@@ -127,7 +131,7 @@ TEST_F(EnumNumericalExprTest, ValVariableIsTypedefType) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const val = blk->getVariables()->at(1);
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getName(), "val");
+  EXPECT_EQ(val->getName(), std::string_view("val"));
   EXPECT_NE(val->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr);
 }
 
@@ -154,10 +158,10 @@ TEST_F(EnumNumericalExprTest, FirstAssignmentValEqualsA) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "val");
+  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("val"));
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), "a");
+  EXPECT_EQ(rhs->getName(), std::string_view("a"));
   EXPECT_NE(rhs->getActual<hldb::EnumConst>(), nullptr);
 }
 
@@ -173,7 +177,7 @@ TEST_F(EnumNumericalExprTest, SecondAssignmentRhsIsMultiplyOp) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "i");
+  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("i"));
   const hldb::Operation *const op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "i = val*4 rhs should be an Operation";
   EXPECT_EQ(op->getOpType(), vpiMultOp);
@@ -194,10 +198,10 @@ TEST_F(EnumNumericalExprTest, MultiplyOperandsAreValAnd4) {
   ASSERT_EQ(op->getOperands()->size(), 2u);
   const hldb::RefObj *const lhsOp = any_cast<hldb::RefObj>(op->getOperands()->at(0));
   ASSERT_NE(lhsOp, nullptr);
-  EXPECT_EQ(lhsOp->getName(), "val");
+  EXPECT_EQ(lhsOp->getName(), std::string_view("val"));
   const hldb::Constant *const rhsOp = any_cast<hldb::Constant>(op->getOperands()->at(1));
   ASSERT_NE(rhsOp, nullptr);
-  EXPECT_EQ(rhsOp->getDecompile(), "4");
+  EXPECT_EQ(rhsOp->getDecompile(), std::string_view("4"));
 }
 
 TEST_F(EnumNumericalExprTest, MultiplyConstant4IsUIntConst) {

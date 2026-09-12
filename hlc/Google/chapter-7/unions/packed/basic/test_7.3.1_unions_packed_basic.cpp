@@ -124,28 +124,32 @@ TEST_F(UnionsPackedBasicTest, ModuleHasOneNet) {
 TEST_F(UnionsPackedBasicTest, UnIsPackedUntaggedUnionWithTwoMembers) {
   const hldb::UnionTypespec *const ut = getUnUnionTypespec();
   ASSERT_NE(ut, nullptr);
-  EXPECT_TRUE(ut->getPacked());
-  EXPECT_FALSE(ut->getTagged());
-  ASSERT_NE(ut->getMembers(), nullptr);
-  EXPECT_EQ(ut->getMembers()->size(), 2u);
+  const hldb::Union *const u = ut->getUnion();
+  ASSERT_NE(u, nullptr);
+  EXPECT_TRUE(u->getPacked());
+  EXPECT_FALSE(u->getTagged());
+  ASSERT_NE(u->getMembers(), nullptr);
+  EXPECT_EQ(u->getMembers()->size(), 2u);
 }
 
 TEST_F(UnionsPackedBasicTest, MembersV1AndV2AreBothEightBitBitTypespecs) {
   const hldb::UnionTypespec *const ut = getUnUnionTypespec();
   ASSERT_NE(ut, nullptr);
-  ASSERT_NE(ut->getMembers(), nullptr);
-  ASSERT_EQ(ut->getMembers()->size(), 2u);
+  const hldb::Union *const u = ut->getUnion();
+  ASSERT_NE(u, nullptr);
+  ASSERT_NE(u->getMembers(), nullptr);
+  ASSERT_EQ(u->getMembers()->size(), 2u);
   const char *const names[2] = {"v1", "v2"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::TypespecMember *const member = ut->getMembers()->at(i);
+    const hldb::TypespecMember *const member = u->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
     const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
     ASSERT_NE(bt, nullptr) << "member " << i;
     ASSERT_NE(bt->getRanges(), nullptr);
     ASSERT_EQ(bt->getRanges()->size(), 1u);
-    EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "7");
-    EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
+    EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), std::string_view("7"));
+    EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), std::string_view("0"));
   }
 }
 
@@ -166,11 +170,11 @@ TEST_F(UnionsPackedBasicTest, FirstStmtAssignsDecimalOneFourZeroToUnV1) {
   EXPECT_TRUE(assign->getBlocking());
   const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "un.v1");
+  EXPECT_EQ(lhs->getName(), std::string_view("un.v1"));
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "8'd140");
-  EXPECT_EQ(rhs->getValue(), "140");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("8'd140"));
+  EXPECT_EQ(rhs->getValue(), std::string_view("140"));
 }
 
 TEST_F(UnionsPackedBasicTest, SecondStmtDisplaysUnV1) {
@@ -180,8 +184,8 @@ TEST_F(UnionsPackedBasicTest, SecondStmtDisplaysUnV1) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (%d == 140)");
-  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), "un.v1");
+  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"));
+  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), std::string_view("un.v1"));
 }
 
 TEST_F(UnionsPackedBasicTest, ThirdStmtDisplaysUnV2ExpectingSameValueAsV1) {
@@ -191,8 +195,8 @@ TEST_F(UnionsPackedBasicTest, ThirdStmtDisplaysUnV2ExpectingSameValueAsV1) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (%d == 140)");
-  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), "un.v2");
+  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"));
+  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), std::string_view("un.v2"));
 }
 
 // --- design-level typespecs / compiler diagnostics ----
@@ -206,7 +210,7 @@ TEST_F(UnionsPackedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "top");
+  EXPECT_EQ(mt->getName(), std::string_view("top"));
 }
 
 TEST_F(UnionsPackedBasicTest, DesignHasStringTypespec) {
@@ -241,11 +245,11 @@ TEST_F(UnionsPackedBasicTest, RuntimeUnionOverlapValuesRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const v1Display = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(v1Display, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(v1Display->getArguments()->at(0))->getValue(), ":assert: (%d == 140)")
+  EXPECT_EQ(any_cast<hldb::Constant>(v1Display->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"))
       << "expected un.v1 == 140 immediately after 'un.v1 = 8'd140'";
   const hldb::SysFuncCall *const v2Display = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
   ASSERT_NE(v2Display, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(v2Display->getArguments()->at(0))->getValue(), ":assert: (%d == 140)")
+  EXPECT_EQ(any_cast<hldb::Constant>(v2Display->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"))
       << "expected un.v2 == 140 too, since a packed union's members fully overlap the same 8 bits";
 }
 

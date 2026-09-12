@@ -90,24 +90,30 @@ TEST_F(EnumTypeCheckingInvTest, ModuleExists) {
 TEST_F(EnumTypeCheckingInvTest, TypedefEExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
+  EXPECT_NE(td->getAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
 TEST_F(EnumTypeCheckingInvTest, EnumHasFourConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = td->getAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 4u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "a");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "b");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(2)->getName(), "c");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(3)->getName(), "d");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 4u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(e->getEnumConsts()->at(2)->getName(), std::string_view("c"));
+  EXPECT_EQ(e->getEnumConsts()->at(3)->getName(), std::string_view("d"));
 }
 
 // ---------------------------------------------------------------------------
@@ -122,7 +128,7 @@ TEST_F(EnumTypeCheckingInvTest, BeginHasVariableVal) {
   ASSERT_NE(blk, nullptr);
   ASSERT_NE(blk->getVariables(), nullptr);
   ASSERT_EQ(blk->getVariables()->size(), 1u);
-  EXPECT_EQ(blk->getVariables()->at(0)->getName(), "val");
+  EXPECT_EQ(blk->getVariables()->at(0)->getName(), std::string_view("val"));
 }
 
 // ---------------------------------------------------------------------------
@@ -142,12 +148,12 @@ TEST_F(EnumTypeCheckingInvTest, AssignmentRhsIsIntegerConstant) {
   EXPECT_TRUE(assign->getBlocking());
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "val");
+  EXPECT_EQ(lhs->getName(), std::string_view("val"));
   // rhs is a Constant "1" -- NOT a RefObj -> EnumConst
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "invalid assignment rhs should be stored as Constant in UHDM";
   EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
-  EXPECT_EQ(rhs->getDecompile(), "1");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("1"));
   EXPECT_EQ(assign->getRhs<hldb::RefObj>(), nullptr) << "rhs is an integer literal, not a RefObj -> EnumConst";
 }
 

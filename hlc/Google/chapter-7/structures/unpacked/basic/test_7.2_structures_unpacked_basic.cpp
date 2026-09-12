@@ -121,19 +121,23 @@ TEST_F(UnpackedStructBasicTest, ModuleHasOneNet) {
 TEST_F(UnpackedStructBasicTest, P1IsUnpackedStructWithTwoMembers) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
-  EXPECT_FALSE(st->getPacked());
-  ASSERT_NE(st->getMembers(), nullptr);
-  EXPECT_EQ(st->getMembers()->size(), 2u);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  EXPECT_FALSE(s->getPacked());
+  ASSERT_NE(s->getMembers(), nullptr);
+  EXPECT_EQ(s->getMembers()->size(), 2u);
 }
 
 TEST_F(UnpackedStructBasicTest, MembersLoAndHiAreFourBitBitTypespecs) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  ASSERT_EQ(st->getMembers()->size(), 2u);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  ASSERT_EQ(s->getMembers()->size(), 2u);
   const char *const names[2] = {"lo", "hi"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::TypespecMember *const member = st->getMembers()->at(i);
+    const hldb::TypespecMember *const member = s->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
     const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
@@ -141,8 +145,8 @@ TEST_F(UnpackedStructBasicTest, MembersLoAndHiAreFourBitBitTypespecs) {
     EXPECT_TRUE(bt->getVector());
     ASSERT_NE(bt->getRanges(), nullptr);
     ASSERT_EQ(bt->getRanges()->size(), 1u);
-    EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "3");
-    EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
+    EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), std::string_view("3"));
+    EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), std::string_view("0"));
   }
 }
 
@@ -163,15 +167,15 @@ TEST_F(UnpackedStructBasicTest, FirstStmtAssignsHexFiveToPOneLo) {
   EXPECT_TRUE(assign->getBlocking());
   const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "p1.lo");
+  EXPECT_EQ(lhs->getName(), std::string_view("p1.lo"));
   ASSERT_NE(lhs->getPathElems(), nullptr);
   ASSERT_EQ(lhs->getPathElems()->size(), 2u);
   EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "4'h5");
-  EXPECT_EQ(rhs->getValue(), "5");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("4'h5"));
+  EXPECT_EQ(rhs->getValue(), std::string_view("5"));
 }
 
 TEST_F(UnpackedStructBasicTest, SecondStmtAssignsHexAToPOneHi) {
@@ -182,15 +186,15 @@ TEST_F(UnpackedStructBasicTest, SecondStmtAssignsHexAToPOneHi) {
   EXPECT_TRUE(assign->getBlocking());
   const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "p1.hi");
+  EXPECT_EQ(lhs->getName(), std::string_view("p1.hi"));
   ASSERT_NE(lhs->getPathElems(), nullptr);
   ASSERT_EQ(lhs->getPathElems()->size(), 2u);
   EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "4'ha");
-  EXPECT_EQ(rhs->getValue(), "a");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("4'ha"));
+  EXPECT_EQ(rhs->getValue(), std::string_view("a"));
 }
 
 TEST_F(UnpackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
@@ -198,19 +202,19 @@ TEST_F(UnpackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(disp->getName(), "$display");
+  EXPECT_EQ(disp->getName(), std::string_view("$display"));
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getValue(), ":assert: (('%h' == 'a') and ('%h' == '5'))");
+  EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (('%h' == 'a') and ('%h' == '5'))"));
 
   const hldb::HierPath *const hi = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(hi->getName(), "p1.hi");
+  EXPECT_EQ(hi->getName(), std::string_view("p1.hi"));
   const hldb::HierPath *const lo = any_cast<hldb::HierPath>(disp->getArguments()->at(2));
   ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(lo->getName(), "p1.lo");
+  EXPECT_EQ(lo->getName(), std::string_view("p1.lo"));
 }
 
 // --- design-level typespecs / compiler diagnostics ----
@@ -224,7 +228,7 @@ TEST_F(UnpackedStructBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "top");
+  EXPECT_EQ(mt->getName(), std::string_view("top"));
 }
 
 TEST_F(UnpackedStructBasicTest, DesignHasStringTypespec) {
