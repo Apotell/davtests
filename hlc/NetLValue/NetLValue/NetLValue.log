@@ -143,6 +143,25 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:1:8 end:1:9:
       vpiFullName: t
+      vpiStruct (1 items):
+        Struct start:2:12 end:2:29:
+          vpiParent: Module name:t
+          vpiTypespecMember (1 items):
+            TypespecMember name:x start:2:25 end:2:26:
+              vpiParent: Struct
+              vpiName: x
+              vpiTypespec RefTypespec start:2:21 end:2:24:
+                vpiParent: TypespecMember name:x
+                vpiFullName: t.x
+                vpiActual: IntTypespec
+      vpiTypedef (1 items):
+        Typedef name:S start:2:4 end:2:32:
+          vpiParent: Module name:t
+          vpiName Identifier name:S start:2:30 end:2:31:
+          vpiTypedefAlias RefTypespec start:2:12 end:2:29:
+            vpiParent: Typedef name:S
+            vpiFullName: t.S
+            vpiActual: StructTypespec
       vpiVariable (2 items):
         Variable name:s start:3:11 end:3:12:
           vpiParent: Module name:t
@@ -164,21 +183,11 @@ Design name:unnamed:
       vpiTypespec (3 items):
         StructTypespec start:2:12 end:2:29:
           vpiParent: Module name:t
-          vpiTypespecMember (1 items):
-            TypespecMember name:x start:2:25 end:2:26:
-              vpiParent: StructTypespec
-              vpiName: x
-              vpiTypespec RefTypespec start:2:21 end:2:24:
-                vpiParent: TypespecMember name:x
-                vpiFullName: t.x
-                vpiActual: IntTypespec
+          vpiStruct: Struct
         TypedefTypespec name:S start:2:4 end:2:32:
           vpiParent: Module name:t
           vpiName Identifier name:S start:2:30 end:2:31:
-          vpiTypedefAlias RefTypespec start:2:12 end:2:29:
-            vpiParent: TypedefTypespec name:S
-            vpiFullName: t.S
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:S
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -361,7 +370,7 @@ COMMAND: ${HLC_DIR}/regression/NetLValue/NetLValue/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

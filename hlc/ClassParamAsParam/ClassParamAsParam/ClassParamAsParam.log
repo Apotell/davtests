@@ -10,9 +10,9 @@ COMMAND: -wd ../../../tests/ClassParamAsParam -fileunit -writepp -d db -sv dut.s
 [INF:PP5223] Preprocessing source file "$Source01/dut.sv".
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:CP5804] $Source01/dut.sv:17:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:18:40: Failed to bind "id:74, name:new".
+[WRN:CP5851] $Source01/dut.sv:18:40: Failed to bind "id:76, name:new".
 [WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "top".
-[ERR:LN7705] $Source01/dut.sv:18:40: Null Actual: id:74, type:MethodFuncCall, name:new, relation:vpiValue.
+[ERR:LN7705] $Source01/dut.sv:18:40: Null Actual: id:76, type:MethodFuncCall, name:new, relation:vpiValue.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -89,6 +89,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:resource_db #(.T(int)) start:7:7 end:7:18:
       vpiFullName: resource_db #(.T(int))
+      vpiTypedef (1 items):
+        Typedef name:rsrc_t start:9:2 end:9:31:
+          vpiParent: ClassDefn name:resource_db #(.T(int))
+          vpiName Identifier name:rsrc_t start:9:24 end:9:30:
+          vpiTypedefAlias RefTypespec start:9:10 end:9:23:
+            vpiParent: Typedef name:rsrc_t
+            vpiFullName: resource_db #(.T(int))::rsrc_t
+            vpiActual: ClassTypespec name:resource #(T)
       vpiVariable (1 items):
         Variable name:rsrc start:10:9 end:10:13:
           vpiParent: ClassDefn name:resource_db #(.T(int))
@@ -134,10 +142,7 @@ Design name:unnamed:
         TypedefTypespec name:rsrc_t start:9:2 end:9:31:
           vpiParent: ClassDefn name:resource_db #(.T(int))
           vpiName Identifier name:rsrc_t start:9:24 end:9:30:
-          vpiTypedefAlias RefTypespec start:9:10 end:9:23:
-            vpiParent: TypedefTypespec name:rsrc_t
-            vpiFullName: resource_db #(.T(int))::rsrc_t
-            vpiActual: ClassTypespec name:resource #(T)
+          vpiTypedef: Typedef name:rsrc_t
         TypeParameter name:T:
       vpiDefName: resource_db
       vpiAutomatic: true
@@ -331,7 +336,7 @@ COMMAND: ${HLC_DIR}/regression/ClassParamAsParam/ClassParamAsParam/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

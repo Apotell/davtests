@@ -14,21 +14,21 @@ COMMAND: -wd ../../../tests/SimpleClass2 +incdir+. -sverilog -writepp -d inst -m
 [ERR:CP5824] $Source01/top.v:8:1: Multiply defined typedef "c1".
 [INF:CP5802] $Source01/top.v:26:1: Compile package "p3".
 [INF:CP5802] $Source01/top.v:31:1: Compile package "p2".
-[WRN:CP5851] $Source01/top.v:42:11: Failed to bind "id:729, name:foo".
-[WRN:CP5851] $Source01/top.v:43:25: Failed to bind "id:733, name:id".
-[WRN:CP5851] $Source01/top.v:43:29: Failed to bind "id:734, name:action".
-[WRN:CP5851] $Source01/top.v:44:21: Failed to bind "id:738, name:id".
-[WRN:CP5851] $Source01/top.v:44:25: Failed to bind "id:739, name:action".
-[WRN:CP5851] $Source01/top.v:44:16: Failed to bind "id:742, name:addq".
-[WRN:CP5851] $Source01/top.v:45:11: Failed to bind "id:746, name:toto".
-[WRN:CP5851] $Source01/top.v:46:16: Failed to bind "id:752, name:toto".
-[WRN:CP5851] $Source01/top.v:46:21: Failed to bind "id:753, name:len1".
+[WRN:CP5851] $Source01/top.v:42:11: Failed to bind "id:733, name:foo".
+[WRN:CP5851] $Source01/top.v:43:25: Failed to bind "id:737, name:id".
+[WRN:CP5851] $Source01/top.v:43:29: Failed to bind "id:738, name:action".
+[WRN:CP5851] $Source01/top.v:44:21: Failed to bind "id:742, name:id".
+[WRN:CP5851] $Source01/top.v:44:25: Failed to bind "id:743, name:action".
+[WRN:CP5851] $Source01/top.v:44:16: Failed to bind "id:746, name:addq".
+[WRN:CP5851] $Source01/top.v:45:11: Failed to bind "id:750, name:toto".
+[WRN:CP5851] $Source01/top.v:46:16: Failed to bind "id:756, name:toto".
+[WRN:CP5851] $Source01/top.v:46:21: Failed to bind "id:757, name:len1".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/top.v:8:1: No timescale set for "p1".
 [WRN:PA5506] $Source01/top.v:26:1: No timescale set for "p3".
 [WRN:PA5506] $Source01/top.v:31:1: No timescale set for "p2".
-[ERR:LN7705] $Source01/top.v:41:11: Null Actual: id:723, type:MethodFuncCall, name:new, relation:vpiPathElem.
-[ERR:LN7705] $Source01/top.v:45:16: Null Actual: id:747, type:MethodFuncCall, name:len, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:41:11: Null Actual: id:727, type:MethodFuncCall, name:new, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:45:16: Null Actual: id:751, type:MethodFuncCall, name:len, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1280,6 +1280,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:p1 start:8:9 end:8:11:
       vpiFullName: p1
+      vpiTypedef (1 items):
+        Typedef name:c3 start:22:1 end:22:15:
+          vpiParent: Package name:p1
+          vpiName Identifier name:c3 start:22:12 end:22:14:
+          vpiTypedefAlias RefTypespec start:22:9 end:22:11:
+            vpiParent: Typedef name:c3
+            vpiFullName: p1::c3
+            vpiActual: ClassTypespec name:c1
       vpiTypespec (3 items):
         ClassTypespec name:c1:
           vpiParent: Package name:p1
@@ -1294,10 +1302,7 @@ Design name:unnamed:
         TypedefTypespec name:c3 start:22:1 end:22:15:
           vpiParent: Package name:p1
           vpiName Identifier name:c3 start:22:12 end:22:14:
-          vpiTypedefAlias RefTypespec start:22:9 end:22:11:
-            vpiParent: TypedefTypespec name:c3
-            vpiFullName: p1::c3
-            vpiActual: ClassTypespec name:c1
+          vpiTypedef: Typedef name:c3
       vpiDefName: p1
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1455,6 +1460,14 @@ Design name:unnamed:
           vpiParent: Package name:p2
           vpiName Identifier name:c2 start:35:7 end:35:9:
           vpiFullName: p2::c2
+          vpiTypedef (1 items):
+            Typedef name:uvm_id_actions_array start:36:4 end:36:63:
+              vpiParent: ClassDefn name:c2
+              vpiName Identifier name:uvm_id_actions_array start:36:42 end:36:62:
+              vpiTypedefAlias RefTypespec start:36:12 end:36:41:
+                vpiParent: Typedef name:uvm_id_actions_array
+                vpiFullName: p2::c2::uvm_id_actions_array
+                vpiActual: ClassTypespec name:uvm_pool #(string, uvm_action)
           vpiVariable (2 items):
             Variable name:id_actions start:37:26 end:37:36:
               vpiParent: ClassDefn name:c2
@@ -1500,10 +1513,7 @@ Design name:unnamed:
             TypedefTypespec name:uvm_id_actions_array start:36:4 end:36:63:
               vpiParent: ClassDefn name:c2
               vpiName Identifier name:uvm_id_actions_array start:36:42 end:36:62:
-              vpiTypedefAlias RefTypespec start:36:12 end:36:41:
-                vpiParent: TypedefTypespec name:uvm_id_actions_array
-                vpiFullName: p2::c2::uvm_id_actions_array
-                vpiActual: ClassTypespec name:uvm_pool #(string, uvm_action)
+              vpiTypedef: Typedef name:uvm_id_actions_array
             ClassTypespec name:c2:
               vpiParent: ClassDefn name:c2
               vpiName Identifier name:c2:
@@ -1892,32 +1902,41 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2179,7 +2198,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleClass2/SimpleClass2/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             709     709       0         0
+Others                             716     716       0         0
 ----------------------------------------------------------------
-                                   709     709       0         0
+                                   716     716       0         0
 ===================== END REDUCTION RESULT =====================

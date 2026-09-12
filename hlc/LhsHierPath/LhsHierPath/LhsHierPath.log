@@ -167,27 +167,55 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_pkg start:1:9 end:1:15:
       vpiFullName: my_pkg
-      vpiTypespec (6 items):
-        LogicTypespec:
-          vpiParent: Package name:my_pkg
-        StructTypespec start:2:12 end:4:5:
+      vpiStruct (2 items):
+        Struct start:2:12 end:4:5:
           vpiParent: Package name:my_pkg
           vpiPacked: true
           vpiTypespecMember (1 items):
             TypespecMember name:p start:3:13 end:3:14:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: p
               vpiTypespec RefTypespec start:3:7 end:3:12:
                 vpiParent: TypespecMember name:p
                 vpiFullName: my_pkg::p
                 vpiActual: LogicTypespec
-        TypedefTypespec name:ast_dif_t start:2:4 end:4:16:
+        Struct start:6:12 end:8:5:
+          vpiParent: Package name:my_pkg
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:alerts_ack start:7:23 end:7:33:
+              vpiParent: Struct
+              vpiName: alerts_ack
+              vpiTypespec RefTypespec name:ast_dif_t start:7:7 end:7:22:
+                vpiParent: TypespecMember name:alerts_ack
+                vpiName: ast_dif_t
+                vpiFullName: my_pkg::alerts_ack::ast_dif_t
+                vpiActual: ArrayTypespec
+      vpiTypedef (2 items):
+        Typedef name:ast_dif_t start:2:4 end:4:16:
           vpiParent: Package name:my_pkg
           vpiName Identifier name:ast_dif_t start:4:6 end:4:15:
           vpiTypedefAlias RefTypespec start:2:12 end:4:5:
-            vpiParent: TypedefTypespec name:ast_dif_t
+            vpiParent: Typedef name:ast_dif_t
             vpiFullName: my_pkg::ast_dif_t
             vpiActual: StructTypespec
+        Typedef name:ast_alert_rsp_t start:6:4 end:8:22:
+          vpiParent: Package name:my_pkg
+          vpiName Identifier name:ast_alert_rsp_t start:8:6 end:8:21:
+          vpiTypedefAlias RefTypespec start:6:12 end:8:5:
+            vpiParent: Typedef name:ast_alert_rsp_t
+            vpiFullName: my_pkg::ast_alert_rsp_t
+            vpiActual: StructTypespec
+      vpiTypespec (6 items):
+        LogicTypespec:
+          vpiParent: Package name:my_pkg
+        StructTypespec start:2:12 end:4:5:
+          vpiParent: Package name:my_pkg
+          vpiStruct: Struct
+        TypedefTypespec name:ast_dif_t start:2:4 end:4:16:
+          vpiParent: Package name:my_pkg
+          vpiName Identifier name:ast_dif_t start:4:6 end:4:15:
+          vpiTypedef: Typedef name:ast_dif_t
         ArrayTypespec:
           vpiParent: Package name:my_pkg
           vpiArrayType: static (1)
@@ -221,23 +249,11 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:ast_dif_t
         StructTypespec start:6:12 end:8:5:
           vpiParent: Package name:my_pkg
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:alerts_ack start:7:23 end:7:33:
-              vpiParent: StructTypespec
-              vpiName: alerts_ack
-              vpiTypespec RefTypespec name:ast_dif_t start:7:7 end:7:22:
-                vpiParent: TypespecMember name:alerts_ack
-                vpiName: ast_dif_t
-                vpiFullName: my_pkg::alerts_ack::ast_dif_t
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:ast_alert_rsp_t start:6:4 end:8:22:
           vpiParent: Package name:my_pkg
           vpiName Identifier name:ast_alert_rsp_t start:8:6 end:8:21:
-          vpiTypedefAlias RefTypespec start:6:12 end:8:5:
-            vpiParent: TypedefTypespec name:ast_alert_rsp_t
-            vpiFullName: my_pkg::ast_alert_rsp_t
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:ast_alert_rsp_t
       vpiDefName: my_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -452,7 +468,7 @@ COMMAND: ${HLC_DIR}/regression/LhsHierPath/LhsHierPath/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              61      61       0         0
+Others                              67      67       0         0
 ----------------------------------------------------------------
-                                    61      61       0         0
+                                    67      67       0         0
 ===================== END REDUCTION RESULT =====================

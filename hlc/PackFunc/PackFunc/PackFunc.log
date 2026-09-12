@@ -158,6 +158,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:b start:1:9 end:1:10:
       vpiFullName: b
+      vpiStruct (1 items):
+        Struct start:2:11 end:4:4:
+          vpiParent: Package name:b
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:vc start:3:26 end:3:28:
+              vpiParent: Struct
+              vpiName: vc
+              vpiTypespec RefTypespec start:3:5 end:3:17:
+                vpiParent: TypespecMember name:vc
+                vpiFullName: b::vc
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:foo_bar_t start:2:3 end:4:15:
+          vpiParent: Package name:b
+          vpiName Identifier name:foo_bar_t start:4:5 end:4:14:
+          vpiTypedefAlias RefTypespec start:2:11 end:4:4:
+            vpiParent: Typedef name:foo_bar_t
+            vpiFullName: b::foo_bar_t
+            vpiActual: StructTypespec
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Package name:b
@@ -187,22 +207,11 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:2:11 end:4:4:
           vpiParent: Package name:b
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:vc start:3:26 end:3:28:
-              vpiParent: StructTypespec
-              vpiName: vc
-              vpiTypespec RefTypespec start:3:5 end:3:17:
-                vpiParent: TypespecMember name:vc
-                vpiFullName: b::vc
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:foo_bar_t start:2:3 end:4:15:
           vpiParent: Package name:b
           vpiName Identifier name:foo_bar_t start:4:5 end:4:14:
-          vpiTypedefAlias RefTypespec start:2:11 end:4:4:
-            vpiParent: TypedefTypespec name:foo_bar_t
-            vpiFullName: b::foo_bar_t
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:foo_bar_t
       vpiDefName: b
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -413,7 +422,7 @@ COMMAND: ${HLC_DIR}/regression/PackFunc/PackFunc/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

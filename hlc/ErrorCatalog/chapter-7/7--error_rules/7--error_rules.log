@@ -569,12 +569,12 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/7--error_rules.sv:71:1: No timescale set for "r38_m".
 [WRN:PA5506] $Source01/7--error_rules.sv:88:1: No timescale set for "r39_m".
 [WRN:PA5506] $Source01/7--error_rules.sv:101:1: No timescale set for "r40_m".
-[ERR:LN7701] Invalid name: id:59, type:RefTypespec, name:, relation:vpiElemTypespec.
+[ERR:LN7701] Invalid name: id:62, type:RefTypespec, name:, relation:vpiElemTypespec.
 [ERR:CP5898] $Source01/7--error_rules.sv:42:19: Illegal array slice: r35_a.
 [ERR:CP5900] $Source01/7--error_rules.sv:65:17: Illegal DPI argument: r37_q.
 [ERR:CP5902] $Source01/7--error_rules.sv:75:19: Illegal index expression type: r38_aa.
 [ERR:CP5903] $Source01/7--error_rules.sv:90:11: Illegal use of wildcard-index associative array r39_aa.
-[ERR:LN7705] $Source01/7--error_rules.sv:103:17: Null Actual: id:246, type:MethodFuncCall, name:reverse, relation:vpiPathElem.
+[ERR:LN7705] $Source01/7--error_rules.sv:103:17: Null Actual: id:249, type:MethodFuncCall, name:reverse, relation:vpiPathElem.
 [ERR:CP5896] $Source01/7--error_rules.sv:20:9: Packed union members must be the same size: r33_u_t.
 ====== HLDB =======
 Design name:unnamed:
@@ -1303,29 +1303,11 @@ Design name:unnamed:
       vpiVector: true
     UnionTypespec start:20:9 end:20:51:
       vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (2 items):
-        TypespecMember name:a start:20:34 end:20:35:
-          vpiParent: UnionTypespec
-          vpiName: a
-          vpiTypespec RefTypespec start:20:24 end:20:33:
-            vpiParent: TypespecMember name:a
-            vpiFullName: a
-            vpiActual: BitTypespec
-        TypespecMember name:b start:20:47 end:20:48:
-          vpiParent: UnionTypespec
-          vpiName: b
-          vpiTypespec RefTypespec start:20:37 end:20:46:
-            vpiParent: TypespecMember name:b
-            vpiFullName: b
-            vpiActual: BitTypespec
+      vpiUnion: Union
     TypedefTypespec name:r33_u_t start:20:1 end:20:60:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r33_u_t start:20:52 end:20:59:
-      vpiTypedefAlias RefTypespec start:20:9 end:20:51:
-        vpiParent: TypedefTypespec name:r33_u_t
-        vpiFullName: r33_u_t
-        vpiActual: UnionTypespec
+      vpiTypedef: Typedef name:r33_u_t
     ModuleTypespec name:r34_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r34_m start:33:8 end:33:13:
@@ -1394,6 +1376,33 @@ Design name:unnamed:
         vpiParent: FunctionDecl name:r37_f
         vpiFullName: r37_f
         vpiActual: VoidTypespec
+  vpiTypedef (1 items):
+    Typedef name:r33_u_t start:20:1 end:20:60:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r33_u_t start:20:52 end:20:59:
+      vpiTypedefAlias RefTypespec start:20:9 end:20:51:
+        vpiParent: Typedef name:r33_u_t
+        vpiFullName: r33_u_t
+        vpiActual: UnionTypespec
+  vpiUnion (1 items):
+    Union start:20:9 end:20:51:
+      vpiParent: Design name:unnamed
+      vpiPacked: true
+      vpiTypespecMember (2 items):
+        TypespecMember name:a start:20:34 end:20:35:
+          vpiParent: Union
+          vpiName: a
+          vpiTypespec RefTypespec start:20:24 end:20:33:
+            vpiParent: TypespecMember name:a
+            vpiFullName: a
+            vpiActual: BitTypespec
+        TypespecMember name:b start:20:47 end:20:48:
+          vpiParent: Union
+          vpiName: b
+          vpiTypespec RefTypespec start:20:37 end:20:46:
+            vpiParent: TypespecMember name:b
+            vpiFullName: b
+            vpiActual: BitTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 5
@@ -1445,7 +1454,7 @@ Constant                            31      29       1         3
 Operation                            3       2       0         1
 RefTypespec                         58      55       0         3
 ----------------------------------------------------------------
-Others                             120     120       0         0
+Others                             123     123       0         0
 ----------------------------------------------------------------
-                                   212     206       1         7
+                                   215     209       1         7
 ===================== END REDUCTION RESULT =====================

@@ -104,27 +104,36 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo_flags start:1:9 end:1:18:
       vpiFullName: foo_flags
-      vpiTypespec (3 items):
-        LogicTypespec:
-          vpiParent: Package name:foo_flags
-        StructTypespec start:2:11 end:4:4:
+      vpiStruct (1 items):
+        Struct start:2:11 end:4:4:
           vpiParent: Package name:foo_flags
           vpiPacked: true
           vpiTypespecMember (1 items):
             TypespecMember name:a start:3:11 end:3:12:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: a
               vpiTypespec RefTypespec start:3:5 end:3:10:
                 vpiParent: TypespecMember name:a
                 vpiFullName: foo_flags::a
                 vpiActual: LogicTypespec
-        TypedefTypespec name:common_flags_t start:2:3 end:4:20:
+      vpiTypedef (1 items):
+        Typedef name:common_flags_t start:2:3 end:4:20:
           vpiParent: Package name:foo_flags
           vpiName Identifier name:common_flags_t start:4:5 end:4:19:
           vpiTypedefAlias RefTypespec start:2:11 end:4:4:
-            vpiParent: TypedefTypespec name:common_flags_t
+            vpiParent: Typedef name:common_flags_t
             vpiFullName: foo_flags::common_flags_t
             vpiActual: StructTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Package name:foo_flags
+        StructTypespec start:2:11 end:4:4:
+          vpiParent: Package name:foo_flags
+          vpiStruct: Struct
+        TypedefTypespec name:common_flags_t start:2:3 end:4:20:
+          vpiParent: Package name:foo_flags
+          vpiName Identifier name:common_flags_t start:4:5 end:4:19:
+          vpiTypedef: Typedef name:common_flags_t
       vpiDefName: foo_flags
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -137,6 +146,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:goog start:17:9 end:17:13:
       vpiFullName: goog
+      vpiTypedef (1 items):
+        Typedef name:top_flag_t start:26:1 end:29:14:
+          vpiParent: Package name:goog
+          vpiName Identifier name:top_flag_t start:29:3 end:29:13:
+          vpiTypedefAlias RefTypespec start:26:9 end:29:2:
+            vpiParent: Typedef name:top_flag_t
+            vpiFullName: goog::top_flag_t
+            vpiActual: UnionTypespec
+      vpiUnion (1 items):
+        Union start:26:9 end:29:2:
+          vpiParent: Package name:goog
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:atype_t start:27:40 end:27:47:
+              vpiParent: Union
+              vpiName: atype_t
+              vpiTypespec RefTypespec name:foo_flags::common_flags_t start:27:2 end:27:39:
+                vpiParent: TypespecMember name:atype_t
+                vpiName: foo_flags::common_flags_t
+                vpiFullName: goog::atype_t::foo_flags::common_flags_t
+                vpiActual: TypedefTypespec name:common_flags_t
       vpiTypespec (5 items):
         UnsupportedTypespec name:common_flags_t start:27:13 end:27:34:
           vpiParent: Package name:goog
@@ -203,23 +233,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:common_flags_t
         UnionTypespec start:26:9 end:29:2:
           vpiParent: Package name:goog
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:atype_t start:27:40 end:27:47:
-              vpiParent: UnionTypespec
-              vpiName: atype_t
-              vpiTypespec RefTypespec name:foo_flags::common_flags_t start:27:2 end:27:39:
-                vpiParent: TypespecMember name:atype_t
-                vpiName: foo_flags::common_flags_t
-                vpiFullName: goog::atype_t::foo_flags::common_flags_t
-                vpiActual: TypedefTypespec name:common_flags_t
+          vpiUnion: Union
         TypedefTypespec name:top_flag_t start:26:1 end:29:14:
           vpiParent: Package name:goog
           vpiName Identifier name:top_flag_t start:29:3 end:29:13:
-          vpiTypedefAlias RefTypespec start:26:9 end:29:2:
-            vpiParent: TypedefTypespec name:top_flag_t
-            vpiFullName: goog::top_flag_t
-            vpiActual: UnionTypespec
+          vpiTypedef: Typedef name:top_flag_t
       vpiDefName: goog
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -280,7 +298,7 @@ COMMAND: ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/desig
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              46      46       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    46      46       0         0
 ===================== END REDUCTION RESULT =====================

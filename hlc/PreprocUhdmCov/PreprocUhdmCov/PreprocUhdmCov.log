@@ -2046,32 +2046,41 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2260,6 +2269,37 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:4:8 end:4:11:
       vpiFullName: top
+      vpiStruct (2 items):
+        Struct start:40:2 end:42:9:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:q start:41:23 end:41:24:
+              vpiParent: Struct
+              vpiName: q
+              vpiTypespec RefTypespec start:41:10 end:41:15:
+                vpiParent: TypespecMember name:q
+                vpiFullName: top.q
+                vpiActual: LogicTypespec
+        Struct start:38:9 end:43:5:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:txunderflow start:42:10 end:42:21:
+              vpiParent: Struct
+              vpiName: txunderflow
+              vpiTypespec RefTypespec start:40:2 end:42:9:
+                vpiParent: TypespecMember name:txunderflow
+                vpiFullName: top.txunderflow
+                vpiActual: StructTypespec
+      vpiTypedef (1 items):
+        Typedef name:spi_device_reg2hw_intr_enable_reg_t start:38:1 end:43:42:
+          vpiParent: Module name:top
+          vpiName Identifier name:spi_device_reg2hw_intr_enable_reg_t start:43:6 end:43:41:
+          vpiTypedefAlias RefTypespec start:38:9 end:43:5:
+            vpiParent: Typedef name:spi_device_reg2hw_intr_enable_reg_t
+            vpiFullName: top.spi_device_reg2hw_intr_enable_reg_t
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:a start:4:41 end:4:42:
           vpiParent: Module name:top
@@ -2297,33 +2337,14 @@ Design name:unnamed:
                 vpiValue: 1
         StructTypespec start:40:2 end:42:9:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:q start:41:23 end:41:24:
-              vpiParent: StructTypespec
-              vpiName: q
-              vpiTypespec RefTypespec start:41:10 end:41:15:
-                vpiParent: TypespecMember name:q
-                vpiFullName: top.q
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         StructTypespec start:38:9 end:43:5:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:txunderflow start:42:10 end:42:21:
-              vpiParent: StructTypespec
-              vpiName: txunderflow
-              vpiTypespec RefTypespec start:40:2 end:42:9:
-                vpiParent: TypespecMember name:txunderflow
-                vpiFullName: top.txunderflow
-                vpiActual: StructTypespec
+          vpiStruct: Struct
         TypedefTypespec name:spi_device_reg2hw_intr_enable_reg_t start:38:1 end:43:42:
           vpiParent: Module name:top
           vpiName Identifier name:spi_device_reg2hw_intr_enable_reg_t start:43:6 end:43:41:
-          vpiTypedefAlias RefTypespec start:38:9 end:43:5:
-            vpiParent: TypedefTypespec name:spi_device_reg2hw_intr_enable_reg_t
-            vpiFullName: top.spi_device_reg2hw_intr_enable_reg_t
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:spi_device_reg2hw_intr_enable_reg_t
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2647,7 +2668,7 @@ COMMAND: ${HLC_DIR}/regression/PreprocUhdmCov/PreprocUhdmCov/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             731     731       0         0
+Others                             738     738       0         0
 ----------------------------------------------------------------
-                                   731     731       0         0
+                                   738     738       0         0
 ===================== END REDUCTION RESULT =====================

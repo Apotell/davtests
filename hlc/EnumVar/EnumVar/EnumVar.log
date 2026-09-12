@@ -109,6 +109,38 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:1:9 end:1:12:
       vpiFullName: pkg
+      vpiEnum (1 items):
+        Enum start:2:11 end:6:4:
+          vpiParent: Package name:pkg
+          vpiBaseTypespec RefTypespec start:2:16 end:2:26:
+            vpiParent: Enum
+            vpiFullName: pkg
+            vpiActual: LogicTypespec
+          vpiEnumConst (3 items):
+            EnumConst name:ONE start:3:5 end:3:8:
+              vpiParent: Enum
+              vpiName Identifier name:ONE start:3:5 end:3:8:
+            EnumConst name:TWO start:4:5 end:4:8:
+              vpiParent: Enum
+              vpiName Identifier name:TWO start:4:5 end:4:8:
+            EnumConst name:THREE start:5:5 end:5:10:
+              vpiParent: Enum
+              vpiName Identifier name:THREE start:5:5 end:5:10:
+      vpiTypedef (2 items):
+        Typedef name:enum_t start:2:3 end:6:12:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:enum_t start:6:5 end:6:11:
+          vpiTypedefAlias RefTypespec start:2:11 end:6:4:
+            vpiParent: Typedef name:enum_t
+            vpiFullName: pkg::enum_t
+            vpiActual: EnumTypespec
+        Typedef name:alias_t start:8:3 end:8:26:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:alias_t start:8:18 end:8:25:
+          vpiTypedefAlias RefTypespec start:8:11 end:8:17:
+            vpiParent: Typedef name:alias_t
+            vpiFullName: pkg::alias_t
+            vpiActual: UnsupportedTypespec name:enum_t
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Package name:pkg
@@ -138,37 +170,18 @@ Design name:unnamed:
           vpiVector: true
         EnumTypespec start:2:11 end:6:4:
           vpiParent: Package name:pkg
-          vpiBaseTypespec RefTypespec start:2:16 end:2:26:
-            vpiParent: EnumTypespec
-            vpiFullName: pkg
-            vpiActual: LogicTypespec
-          vpiEnumConst (3 items):
-            EnumConst name:ONE start:3:5 end:3:8:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:ONE start:3:5 end:3:8:
-            EnumConst name:TWO start:4:5 end:4:8:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:TWO start:4:5 end:4:8:
-            EnumConst name:THREE start:5:5 end:5:10:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:THREE start:5:5 end:5:10:
+          vpiEnum: Enum
         TypedefTypespec name:enum_t start:2:3 end:6:12:
           vpiParent: Package name:pkg
           vpiName Identifier name:enum_t start:6:5 end:6:11:
-          vpiTypedefAlias RefTypespec start:2:11 end:6:4:
-            vpiParent: TypedefTypespec name:enum_t
-            vpiFullName: pkg::enum_t
-            vpiActual: EnumTypespec
+          vpiTypedef: Typedef name:enum_t
         UnsupportedTypespec name:enum_t start:8:11 end:8:17:
           vpiParent: Package name:pkg
           vpiName Identifier name:enum_t start:8:11 end:8:17:
         TypedefTypespec name:alias_t start:8:3 end:8:26:
           vpiParent: Package name:pkg
           vpiName Identifier name:alias_t start:8:18 end:8:25:
-          vpiTypedefAlias RefTypespec start:8:11 end:8:17:
-            vpiParent: TypedefTypespec name:alias_t
-            vpiFullName: pkg::alias_t
-            vpiActual: UnsupportedTypespec name:enum_t
+          vpiTypedef: Typedef name:alias_t
       vpiDefName: pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -264,7 +277,7 @@ COMMAND: ${HLC_DIR}/regression/EnumVar/EnumVar/design.hldb ${HLC_DIR}/regression
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

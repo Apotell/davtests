@@ -146,27 +146,43 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:1:9 end:1:12:
       vpiFullName: pkg
-      vpiTypespec (5 items):
-        LogicTypespec:
-          vpiParent: Package name:pkg
-        StructTypespec start:2:12 end:4:5:
+      vpiStruct (1 items):
+        Struct start:2:12 end:4:5:
           vpiParent: Package name:pkg
           vpiPacked: true
           vpiTypespecMember (1 items):
             TypespecMember name:x start:3:19 end:3:20:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: x
               vpiTypespec RefTypespec start:3:7 end:3:12:
                 vpiParent: TypespecMember name:x
                 vpiFullName: pkg::x
                 vpiActual: LogicTypespec
-        TypedefTypespec name:a start:2:4 end:4:8:
+      vpiTypedef (2 items):
+        Typedef name:a start:2:4 end:4:8:
           vpiParent: Package name:pkg
           vpiName Identifier name:a start:4:6 end:4:7:
           vpiTypedefAlias RefTypespec start:2:12 end:4:5:
-            vpiParent: TypedefTypespec name:a
+            vpiParent: Typedef name:a
             vpiFullName: pkg::a
             vpiActual: StructTypespec
+        Typedef name:b start:5:4 end:5:21:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:b start:5:19 end:5:20:
+          vpiTypedefAlias RefTypespec start:5:12 end:5:18:
+            vpiParent: Typedef name:b
+            vpiFullName: pkg::b
+            vpiActual: ArrayTypespec
+      vpiTypespec (5 items):
+        LogicTypespec:
+          vpiParent: Package name:pkg
+        StructTypespec start:2:12 end:4:5:
+          vpiParent: Package name:pkg
+          vpiStruct: Struct
+        TypedefTypespec name:a start:2:4 end:4:8:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:a start:4:6 end:4:7:
+          vpiTypedef: Typedef name:a
         ArrayTypespec:
           vpiParent: Package name:pkg
           vpiArrayType: static (1)
@@ -201,10 +217,7 @@ Design name:unnamed:
         TypedefTypespec name:b start:5:4 end:5:21:
           vpiParent: Package name:pkg
           vpiName Identifier name:b start:5:19 end:5:20:
-          vpiTypedefAlias RefTypespec start:5:12 end:5:18:
-            vpiParent: TypedefTypespec name:b
-            vpiFullName: pkg::b
-            vpiActual: ArrayTypespec
+          vpiTypedef: Typedef name:b
       vpiDefName: pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -397,7 +410,7 @@ COMMAND: ${HLC_DIR}/regression/HierPathTypespec/HierPathTypespec/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              53      53       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                    53      53       0         0
+                                    58      58       0         0
 ===================== END REDUCTION RESULT =====================

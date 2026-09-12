@@ -11,12 +11,12 @@ COMMAND: -wd ../../../tests/YosysIce40 +incdir+. -writepp -fileunit design01.v d
 [INF:PP5223] Preprocessing source file "$Source01/design02.v".
 [INF:PP5223] Preprocessing source file "$Source01/design03.v".
 [INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
-[WRN:PP5214] $Source01/design01.v:417:11: Unused macro argument "debug_command".
-[WRN:PP5214] $Source01/design01.v:429:11: Unused macro argument "assert_expr".
 [NTE:PP5206] $Source01/design02.v:969:9: Multiply defined macro "WIDTH",
              $Source01/design02.v:10:9: previous definition.
 [NTE:PP5206] $Source01/design02.v:1095:9: Multiply defined macro "WIDTH",
              $Source01/design02.v:969:9: previous definition.
+[WRN:PP5214] $Source01/design01.v:417:11: Unused macro argument "debug_command".
+[WRN:PP5214] $Source01/design01.v:429:11: Unused macro argument "assert_expr".
 [INF:PA5502] Parsing source file "$Source01/design01.v".
 [INF:PA5502] Parsing source file "$Source01/design02.v".
 [INF:PA5502] Parsing source file "$Source01/design03.v".
@@ -2591,32 +2591,41 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -326553,14 +326562,14 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 BitTypespec                         88      89       1         0
 Constant                         14211   14214     140       137
-Identifier                         770     767       0         3
+Identifier                         771     768       0         3
 LogicTypespec                     1199    1200       1         0
 Operation                         3200    3038       0       162
 RefObj                           14983   14833       0       150
 RefTypespec                      18377   18342     102       137
 SysFuncCall                          3       0       0         3
 ----------------------------------------------------------------
-Others                           21493   21493       0         0
+Others                           21495   21495       0         0
 ----------------------------------------------------------------
-                                 74324   73976     244       592
+                                 74327   73979     244       592
 ===================== END REDUCTION RESULT =====================

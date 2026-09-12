@@ -106,7 +106,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/dut.sv:11:1: Compile interface "PerformanceCounterIF".
 [INF:CP5804] $Source01/dut.sv:20:1: Compile module "CSR_Unit".
 [WRN:CP5811] $Source01/dut.sv:21:30: Port "perfCounter" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/dut.sv:25:42: Failed to bind "id:43, name:numLoadMiss".
+[WRN:CP5851] $Source01/dut.sv:25:42: Failed to bind "id:48, name:numLoadMiss".
 [WRN:PA5506] $Source01/dut.sv:20:1: No timescale set for "CSR_Unit".
 [WRN:PA5506] $Source01/dut.sv:11:1: No timescale set for "PerformanceCounterIF".
 ====== HLDB =======
@@ -222,29 +222,14 @@ Design name:unnamed:
     TypedefTypespec name:DataPath start:2:1 end:2:22:
       vpiParent: Design name:unnamed
       vpiName Identifier name:DataPath start:2:13 end:2:21:
-      vpiTypedefAlias RefTypespec start:2:9 end:2:12:
-        vpiParent: TypedefTypespec name:DataPath
-        vpiFullName: DataPath
-        vpiActual: IntTypespec
+      vpiTypedef: Typedef name:DataPath
     StructTypespec start:4:9 end:8:2:
       vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (1 items):
-        TypespecMember name:numLoadMiss start:6:10 end:6:21:
-          vpiParent: StructTypespec
-          vpiName: numLoadMiss
-          vpiTypespec RefTypespec name:DataPath start:6:1 end:6:9:
-            vpiParent: TypespecMember name:numLoadMiss
-            vpiName: DataPath
-            vpiFullName: numLoadMiss.DataPath
-            vpiActual: TypedefTypespec name:DataPath
+      vpiStruct: Struct
     TypedefTypespec name:PerfCounterPath start:4:1 end:8:19:
       vpiParent: Design name:unnamed
       vpiName Identifier name:PerfCounterPath start:8:3 end:8:18:
-      vpiTypedefAlias RefTypespec start:4:9 end:8:2:
-        vpiParent: TypedefTypespec name:PerfCounterPath
-        vpiFullName: PerfCounterPath
-        vpiActual: StructTypespec
+      vpiTypedef: Typedef name:PerfCounterPath
     InterfaceTypespec name:PerformanceCounterIF:
       vpiParent: Design name:unnamed
       vpiName Identifier name:PerformanceCounterIF start:11:11 end:11:31:
@@ -255,6 +240,34 @@ Design name:unnamed:
       vpiName Identifier name:CSR_Unit start:20:8 end:20:16:
       vpiDefName: CSR_Unit
       vpiModule: Module name:CSR_Unit
+  vpiStruct (1 items):
+    Struct start:4:9 end:8:2:
+      vpiParent: Design name:unnamed
+      vpiPacked: true
+      vpiTypespecMember (1 items):
+        TypespecMember name:numLoadMiss start:6:10 end:6:21:
+          vpiParent: Struct
+          vpiName: numLoadMiss
+          vpiTypespec RefTypespec name:DataPath start:6:1 end:6:9:
+            vpiParent: TypespecMember name:numLoadMiss
+            vpiName: DataPath
+            vpiFullName: numLoadMiss.DataPath
+            vpiActual: TypedefTypespec name:DataPath
+  vpiTypedef (2 items):
+    Typedef name:DataPath start:2:1 end:2:22:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:DataPath start:2:13 end:2:21:
+      vpiTypedefAlias RefTypespec start:2:9 end:2:12:
+        vpiParent: Typedef name:DataPath
+        vpiFullName: DataPath
+        vpiActual: IntTypespec
+    Typedef name:PerfCounterPath start:4:1 end:8:19:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:PerfCounterPath start:8:3 end:8:18:
+      vpiTypedefAlias RefTypespec start:4:9 end:8:2:
+        vpiParent: Typedef name:PerfCounterPath
+        vpiFullName: PerfCounterPath
+        vpiActual: StructTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -303,7 +316,7 @@ COMMAND: ${HLC_DIR}/regression/NameCollisionBind/NameCollisionBind/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

@@ -206,27 +206,36 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:SchedulerTypes start:1:9 end:1:23:
       vpiFullName: SchedulerTypes
-      vpiTypespec (3 items):
-        LogicTypespec:
-          vpiParent: Package name:SchedulerTypes
-        StructTypespec start:3:9 end:6:2:
+      vpiStruct (1 items):
+        Struct start:3:9 end:6:2:
           vpiParent: Package name:SchedulerTypes
           vpiPacked: true
           vpiTypespecMember (1 items):
             TypespecMember name:a start:5:11 end:5:12:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: a
               vpiTypespec RefTypespec start:5:5 end:5:10:
                 vpiParent: TypespecMember name:a
                 vpiFullName: SchedulerTypes::a
                 vpiActual: LogicTypespec
-        TypedefTypespec name:IntIssueQueueEntry start:3:1 end:6:22:
+      vpiTypedef (1 items):
+        Typedef name:IntIssueQueueEntry start:3:1 end:6:22:
           vpiParent: Package name:SchedulerTypes
           vpiName Identifier name:IntIssueQueueEntry start:6:3 end:6:21:
           vpiTypedefAlias RefTypespec start:3:9 end:6:2:
-            vpiParent: TypedefTypespec name:IntIssueQueueEntry
+            vpiParent: Typedef name:IntIssueQueueEntry
             vpiFullName: SchedulerTypes::IntIssueQueueEntry
             vpiActual: StructTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Package name:SchedulerTypes
+        StructTypespec start:3:9 end:6:2:
+          vpiParent: Package name:SchedulerTypes
+          vpiStruct: Struct
+        TypedefTypespec name:IntIssueQueueEntry start:3:1 end:6:22:
+          vpiParent: Package name:SchedulerTypes
+          vpiName Identifier name:IntIssueQueueEntry start:6:3 end:6:21:
+          vpiTypedef: Typedef name:IntIssueQueueEntry
       vpiDefName: SchedulerTypes
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -239,6 +248,48 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:12:8 end:12:11:
       vpiFullName: top
+      vpiStruct (1 items):
+        Struct start:14:10 end:22:6:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (4 items):
+            TypespecMember name:intValid start:16:23 end:16:31:
+              vpiParent: Struct
+              vpiName: intValid
+              vpiTypespec RefTypespec start:16:9 end:16:22:
+                vpiParent: TypespecMember name:intValid
+                vpiFullName: top.intValid
+                vpiActual: LogicTypespec
+            TypespecMember name:intData start:17:36 end:17:43:
+              vpiParent: Struct
+              vpiName: intData
+              vpiTypespec RefTypespec name:IntIssueQueueEntry start:17:9 end:17:35:
+                vpiParent: TypespecMember name:intData
+                vpiName: IntIssueQueueEntry
+                vpiFullName: top.intData.IntIssueQueueEntry
+                vpiActual: ArrayTypespec
+            TypespecMember name:memValid start:20:23 end:20:31:
+              vpiParent: Struct
+              vpiName: memValid
+              vpiTypespec RefTypespec start:20:9 end:20:22:
+                vpiParent: TypespecMember name:memValid
+                vpiFullName: top.memValid
+                vpiActual: LogicTypespec
+            TypespecMember name:memAddrHit start:21:22 end:21:32:
+              vpiParent: Struct
+              vpiName: memAddrHit
+              vpiTypespec RefTypespec start:21:9 end:21:21:
+                vpiParent: TypespecMember name:memAddrHit
+                vpiFullName: top.memAddrHit
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:ReplayQueueEntry start:14:2 end:22:24:
+          vpiParent: Module name:top
+          vpiName Identifier name:ReplayQueueEntry start:22:7 end:22:23:
+          vpiTypedefAlias RefTypespec start:14:10 end:22:6:
+            vpiParent: Typedef name:ReplayQueueEntry
+            vpiFullName: top.ReplayQueueEntry
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:b start:26:15 end:26:16:
           vpiParent: Module name:top
@@ -270,11 +321,11 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$bits start:24:15 end:24:20:
             vpiArgument (1 items):
-              RefTypespec name:ReplayQueueEntry start:24:21 end:24:37:
+              RefObj name:ReplayQueueEntry start:24:21 end:24:37:
                 vpiParent: SysFuncCall name:$bits
                 vpiName: ReplayQueueEntry
                 vpiFullName: top.ReplayQueueEntry
-                vpiActual: TypedefTypespec name:ReplayQueueEntry
+                vpiActual: Typedef name:ReplayQueueEntry
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -387,44 +438,11 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:14:10 end:22:6:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (4 items):
-            TypespecMember name:intValid start:16:23 end:16:31:
-              vpiParent: StructTypespec
-              vpiName: intValid
-              vpiTypespec RefTypespec start:16:9 end:16:22:
-                vpiParent: TypespecMember name:intValid
-                vpiFullName: top.intValid
-                vpiActual: LogicTypespec
-            TypespecMember name:intData start:17:36 end:17:43:
-              vpiParent: StructTypespec
-              vpiName: intData
-              vpiTypespec RefTypespec name:IntIssueQueueEntry start:17:9 end:17:35:
-                vpiParent: TypespecMember name:intData
-                vpiName: IntIssueQueueEntry
-                vpiFullName: top.intData.IntIssueQueueEntry
-                vpiActual: ArrayTypespec
-            TypespecMember name:memValid start:20:23 end:20:31:
-              vpiParent: StructTypespec
-              vpiName: memValid
-              vpiTypespec RefTypespec start:20:9 end:20:22:
-                vpiParent: TypespecMember name:memValid
-                vpiFullName: top.memValid
-                vpiActual: LogicTypespec
-            TypespecMember name:memAddrHit start:21:22 end:21:32:
-              vpiParent: StructTypespec
-              vpiName: memAddrHit
-              vpiTypespec RefTypespec start:21:9 end:21:21:
-                vpiParent: TypespecMember name:memAddrHit
-                vpiFullName: top.memAddrHit
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:ReplayQueueEntry start:14:2 end:22:24:
           vpiParent: Module name:top
           vpiName Identifier name:ReplayQueueEntry start:22:7 end:22:23:
-          vpiTypedefAlias RefTypespec start:14:10 end:22:6:
-            vpiParent: TypedefTypespec name:ReplayQueueEntry
-            vpiFullName: top.ReplayQueueEntry
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:ReplayQueueEntry
         LogicTypespec:
           vpiParent: Module name:top
         LogicTypespec:
@@ -529,7 +547,7 @@ COMMAND: ${HLC_DIR}/regression/BitsLogic/BitsLogic/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              75      75       0         0
+Others                              81      81       0         0
 ----------------------------------------------------------------
-                                    75      75       0         0
+                                    81      81       0         0
 ===================== END REDUCTION RESULT =====================

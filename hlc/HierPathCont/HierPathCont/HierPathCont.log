@@ -449,22 +449,11 @@ Design name:unnamed:
       vpiSigned: true
     StructTypespec start:1:9 end:1:39:
       vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (1 items):
-        TypespecMember name:a start:1:36 end:1:37:
-          vpiParent: StructTypespec
-          vpiName: a
-          vpiTypespec RefTypespec start:1:24 end:1:35:
-            vpiParent: TypespecMember name:a
-            vpiFullName: a
-            vpiActual: LogicTypespec
+      vpiStruct: Struct
     TypedefTypespec name:my_struct_packed_t start:1:1 end:1:59:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_struct_packed_t start:1:40 end:1:58:
-      vpiTypedefAlias RefTypespec start:1:9 end:1:39:
-        vpiParent: TypedefTypespec name:my_struct_packed_t
-        vpiFullName: my_struct_packed_t
-        vpiActual: StructTypespec
+      vpiTypedef: Typedef name:my_struct_packed_t
     ModuleTypespec name:unsized_single_bit_1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:unsized_single_bit_1 start:3:8 end:3:28:
@@ -472,6 +461,26 @@ Design name:unnamed:
       vpiModule: Module name:unsized_single_bit_1
     LogicTypespec:
       vpiParent: Design name:unnamed
+  vpiStruct (1 items):
+    Struct start:1:9 end:1:39:
+      vpiParent: Design name:unnamed
+      vpiPacked: true
+      vpiTypespecMember (1 items):
+        TypespecMember name:a start:1:36 end:1:37:
+          vpiParent: Struct
+          vpiName: a
+          vpiTypespec RefTypespec start:1:24 end:1:35:
+            vpiParent: TypespecMember name:a
+            vpiFullName: a
+            vpiActual: LogicTypespec
+  vpiTypedef (1 items):
+    Typedef name:my_struct_packed_t start:1:1 end:1:59:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:my_struct_packed_t start:1:40 end:1:58:
+      vpiTypedefAlias RefTypespec start:1:9 end:1:39:
+        vpiParent: Typedef name:my_struct_packed_t
+        vpiFullName: my_struct_packed_t
+        vpiActual: StructTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -520,7 +529,7 @@ COMMAND: ${HLC_DIR}/regression/HierPathCont/HierPathCont/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

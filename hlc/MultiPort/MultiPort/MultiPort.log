@@ -95,6 +95,32 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_pkg start:1:9 end:1:15:
       vpiFullName: my_pkg
+      vpiStruct (1 items):
+        Struct start:2:13 end:5:6:
+          vpiParent: Package name:my_pkg
+          vpiTypespecMember (2 items):
+            TypespecMember name:first start:3:20 end:3:25:
+              vpiParent: Struct
+              vpiName: first
+              vpiTypespec RefTypespec start:3:9 end:3:19:
+                vpiParent: TypespecMember name:first
+                vpiFullName: my_pkg::first
+                vpiActual: LogicTypespec
+            TypespecMember name:second start:4:13 end:4:19:
+              vpiParent: Struct
+              vpiName: second
+              vpiTypespec RefTypespec start:4:9 end:4:12:
+                vpiParent: TypespecMember name:second
+                vpiFullName: my_pkg::second
+                vpiActual: IntTypespec
+      vpiTypedef (1 items):
+        Typedef name:variable_type start:2:5 end:5:21:
+          vpiParent: Package name:my_pkg
+          vpiName Identifier name:variable_type start:5:7 end:5:20:
+          vpiTypedefAlias RefTypespec start:2:13 end:5:6:
+            vpiParent: Typedef name:variable_type
+            vpiFullName: my_pkg::variable_type
+            vpiActual: StructTypespec
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Package name:my_pkg
@@ -124,28 +150,11 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:2:13 end:5:6:
           vpiParent: Package name:my_pkg
-          vpiTypespecMember (2 items):
-            TypespecMember name:first start:3:20 end:3:25:
-              vpiParent: StructTypespec
-              vpiName: first
-              vpiTypespec RefTypespec start:3:9 end:3:19:
-                vpiParent: TypespecMember name:first
-                vpiFullName: my_pkg::first
-                vpiActual: LogicTypespec
-            TypespecMember name:second start:4:13 end:4:19:
-              vpiParent: StructTypespec
-              vpiName: second
-              vpiTypespec RefTypespec start:4:9 end:4:12:
-                vpiParent: TypespecMember name:second
-                vpiFullName: my_pkg::second
-                vpiActual: IntTypespec
+          vpiStruct: Struct
         TypedefTypespec name:variable_type start:2:5 end:5:21:
           vpiParent: Package name:my_pkg
           vpiName Identifier name:variable_type start:5:7 end:5:20:
-          vpiTypedefAlias RefTypespec start:2:13 end:5:6:
-            vpiParent: TypedefTypespec name:variable_type
-            vpiFullName: my_pkg::variable_type
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:variable_type
       vpiDefName: my_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -289,7 +298,7 @@ COMMAND: ${HLC_DIR}/regression/MultiPort/MultiPort/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

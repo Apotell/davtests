@@ -481,8 +481,8 @@ n<$Source01/dut.sv> u<203> t<Top_level_rule> c<1> l<1:1> el<20:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "top_pkg".
 [INF:CP5804] $Source01/dut.sv:11:2: Compile module "dut".
-[WRN:CP5851] $Source01/dut.sv:16:27: Failed to bind "id:709, name:PMP_CFG_W".
-[WRN:CP5851] $Source01/dut.sv:17:34: Failed to bind "id:719, name:OPCODE_LOAD".
+[WRN:CP5851] $Source01/dut.sv:16:27: Failed to bind "id:712, name:PMP_CFG_W".
+[WRN:CP5851] $Source01/dut.sv:17:34: Failed to bind "id:722, name:OPCODE_LOAD".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top_pkg".
 [WRN:PA5506] $Source01/dut.sv:11:2: No timescale set for "dut".
@@ -1737,6 +1737,48 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top_pkg start:1:9 end:1:16:
       vpiFullName: top_pkg
+      vpiEnum (1 items):
+        Enum start:2:12 end:5:5:
+          vpiParent: Package name:top_pkg
+          vpiBaseTypespec RefTypespec start:2:17 end:2:28:
+            vpiParent: Enum
+            vpiFullName: top_pkg
+            vpiActual: LogicTypespec
+          vpiEnumConst (2 items):
+            EnumConst name:OPCODE_LOAD start:3:6 end:3:29:
+              vpiParent: Enum
+              vpiName Identifier name:OPCODE_LOAD start:3:6 end:3:17:
+              vpiValue Constant start:3:24 end:3:29:
+                vpiParent: EnumConst name:OPCODE_LOAD
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top_pkg::OPCODE_LOAD
+                  vpiActual: LogicTypespec
+                vpiConstType: hexadecimal (5)
+                vpiSize: 6
+                vpiDecompile: "6'h03"
+                vpiValue: "03"
+            EnumConst name:OPCODE_STORE start:4:6 end:4:29:
+              vpiParent: Enum
+              vpiName Identifier name:OPCODE_STORE start:4:6 end:4:18:
+              vpiValue Constant start:4:24 end:4:29:
+                vpiParent: EnumConst name:OPCODE_STORE
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top_pkg::OPCODE_STORE
+                  vpiActual: LogicTypespec
+                vpiConstType: hexadecimal (5)
+                vpiSize: 6
+                vpiDecompile: "6'h13"
+                vpiValue: "13"
+      vpiTypedef (1 items):
+        Typedef name:opcode_e start:2:4 end:5:15:
+          vpiParent: Package name:top_pkg
+          vpiName Identifier name:opcode_e start:5:6 end:5:14:
+          vpiTypedefAlias RefTypespec start:2:12 end:5:5:
+            vpiParent: Typedef name:opcode_e
+            vpiFullName: top_pkg::opcode_e
+            vpiActual: EnumTypespec
       vpiParameter (1 items):
         Parameter name:PMP_CFG_W start:7:25 end:7:34:
           vpiParent: Package name:top_pkg
@@ -1793,44 +1835,11 @@ Design name:unnamed:
           vpiVector: true
         EnumTypespec start:2:12 end:5:5:
           vpiParent: Package name:top_pkg
-          vpiBaseTypespec RefTypespec start:2:17 end:2:28:
-            vpiParent: EnumTypespec
-            vpiFullName: top_pkg
-            vpiActual: LogicTypespec
-          vpiEnumConst (2 items):
-            EnumConst name:OPCODE_LOAD start:3:6 end:3:29:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:OPCODE_LOAD start:3:6 end:3:17:
-              vpiValue Constant start:3:24 end:3:29:
-                vpiParent: EnumConst name:OPCODE_LOAD
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top_pkg::OPCODE_LOAD
-                  vpiActual: LogicTypespec
-                vpiConstType: hexadecimal (5)
-                vpiSize: 6
-                vpiDecompile: "6'h03"
-                vpiValue: "03"
-            EnumConst name:OPCODE_STORE start:4:6 end:4:29:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:OPCODE_STORE start:4:6 end:4:18:
-              vpiValue Constant start:4:24 end:4:29:
-                vpiParent: EnumConst name:OPCODE_STORE
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top_pkg::OPCODE_STORE
-                  vpiActual: LogicTypespec
-                vpiConstType: hexadecimal (5)
-                vpiSize: 6
-                vpiDecompile: "6'h13"
-                vpiValue: "13"
+          vpiEnum: Enum
         TypedefTypespec name:opcode_e start:2:4 end:5:15:
           vpiParent: Package name:top_pkg
           vpiName Identifier name:opcode_e start:5:6 end:5:14:
-          vpiTypedefAlias RefTypespec start:2:12 end:5:5:
-            vpiParent: TypedefTypespec name:opcode_e
-            vpiFullName: top_pkg::opcode_e
-            vpiActual: EnumTypespec
+          vpiTypedef: Typedef name:opcode_e
       vpiDefName: top_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2020,32 +2029,41 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2548,7 +2566,7 @@ COMMAND: ${HLC_DIR}/regression/ElabParam/ElabParam/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             676     676       0         0
+Others                             682     682       0         0
 ----------------------------------------------------------------
-                                   676     676       0         0
+                                   682     682       0         0
 ===================== END REDUCTION RESULT =====================

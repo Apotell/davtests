@@ -162,6 +162,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiFullName: top
+      vpiStruct (1 items):
+        Struct start:2:12 end:4:5:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:data start:3:20 end:3:24:
+              vpiParent: Struct
+              vpiName: data
+              vpiTypespec RefTypespec start:3:7 end:3:19:
+                vpiParent: TypespecMember name:data
+                vpiFullName: top.data
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:dmi_t start:2:4 end:4:12:
+          vpiParent: Module name:top
+          vpiName Identifier name:dmi_t start:4:6 end:4:11:
+          vpiTypedefAlias RefTypespec start:2:12 end:4:5:
+            vpiParent: Typedef name:dmi_t
+            vpiFullName: top.dmi_t
+            vpiActual: StructTypespec
       vpiVariable (2 items):
         Variable name:o start:1:32 end:1:33:
           vpiParent: Module name:top
@@ -236,22 +256,11 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:2:12 end:4:5:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:data start:3:20 end:3:24:
-              vpiParent: StructTypespec
-              vpiName: data
-              vpiTypespec RefTypespec start:3:7 end:3:19:
-                vpiParent: TypespecMember name:data
-                vpiFullName: top.data
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:dmi_t start:2:4 end:4:12:
           vpiParent: Module name:top
           vpiName Identifier name:dmi_t start:4:6 end:4:11:
-          vpiTypedefAlias RefTypespec start:2:12 end:4:5:
-            vpiParent: TypedefTypespec name:dmi_t
-            vpiFullName: top.dmi_t
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:dmi_t
         LogicTypespec:
           vpiParent: Module name:top
           vpiRange (1 items):
@@ -265,11 +274,11 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName Identifier name:$bits start:6:10 end:6:15:
                     vpiArgument (1 items):
-                      RefTypespec name:dmi_t start:6:16 end:6:21:
+                      RefObj name:dmi_t start:6:16 end:6:21:
                         vpiParent: SysFuncCall name:$bits
                         vpiName: dmi_t
                         vpiFullName: top.dmi_t
-                        vpiActual: TypedefTypespec name:dmi_t
+                        vpiActual: Typedef name:dmi_t
                   Constant start:6:23 end:6:24:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -424,7 +433,7 @@ COMMAND: ${HLC_DIR}/regression/DollarBitsUnary/DollarBitsUnary/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              57      57       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                    57      57       0         0
+                                    60      60       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1190,7 +1190,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/top.v:78:25: Failed to bind "id:882, name:we_mem".
 [WRN:CP5851] $Source01/top.v:79:8: Failed to bind "id:888, name:datao_mem".
 [WRN:CP5851] $Source01/top.v:79:29: Failed to bind "id:891, name:addr_mem".
-[WRN:CP5851] $Source01/top.v:102:11: Failed to bind "id:933, name:reset".
+[WRN:CP5851] $Source01/top.v:102:11: Failed to bind "id:936, name:reset".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5867] $Source01/top.v:1:35: Illegal data type for net clock.
 ====== HLDB =======
@@ -2622,32 +2622,41 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -3874,6 +3883,30 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:memory_ctrl start:87:8 end:87:19:
       vpiFullName: memory_ctrl
+      vpiEnum (1 items):
+        Enum start:89:10 end:89:37:
+          vpiParent: Module name:memory_ctrl
+          vpiEnumConst (4 items):
+            EnumConst name:IDLE start:89:16 end:89:20:
+              vpiParent: Enum
+              vpiName Identifier name:IDLE start:89:16 end:89:20:
+            EnumConst name:WRITE start:89:21 end:89:26:
+              vpiParent: Enum
+              vpiName Identifier name:WRITE start:89:21 end:89:26:
+            EnumConst name:READ start:89:27 end:89:31:
+              vpiParent: Enum
+              vpiName Identifier name:READ start:89:27 end:89:31:
+            EnumConst name:DONE start:89:32 end:89:36:
+              vpiParent: Enum
+              vpiName Identifier name:DONE start:89:32 end:89:36:
+      vpiTypedef (1 items):
+        Typedef name:fsm_t start:89:1 end:89:44:
+          vpiParent: Module name:memory_ctrl
+          vpiName Identifier name:fsm_t start:89:38 end:89:43:
+          vpiTypedefAlias RefTypespec start:89:10 end:89:37:
+            vpiParent: Typedef name:fsm_t
+            vpiFullName: memory_ctrl.fsm_t
+            vpiActual: EnumTypespec
       vpiVariable (1 items):
         Variable name:state start:91:7 end:91:12:
           vpiParent: Module name:memory_ctrl
@@ -3900,26 +3933,11 @@ Design name:unnamed:
           vpiName Identifier name:mem_if::system:
         EnumTypespec start:89:10 end:89:37:
           vpiParent: Module name:memory_ctrl
-          vpiEnumConst (4 items):
-            EnumConst name:IDLE start:89:16 end:89:20:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:IDLE start:89:16 end:89:20:
-            EnumConst name:WRITE start:89:21 end:89:26:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:WRITE start:89:21 end:89:26:
-            EnumConst name:READ start:89:27 end:89:31:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:READ start:89:27 end:89:31:
-            EnumConst name:DONE start:89:32 end:89:36:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:DONE start:89:32 end:89:36:
+          vpiEnum: Enum
         TypedefTypespec name:fsm_t start:89:1 end:89:44:
           vpiParent: Module name:memory_ctrl
           vpiName Identifier name:fsm_t start:89:38 end:89:43:
-          vpiTypedefAlias RefTypespec start:89:10 end:89:37:
-            vpiParent: TypedefTypespec name:fsm_t
-            vpiFullName: memory_ctrl.fsm_t
-            vpiActual: EnumTypespec
+          vpiTypedef: Typedef name:fsm_t
       vpiDefName: memory_ctrl
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -4209,7 +4227,7 @@ Operation                            7       6       0         1
 RefObj                              55      54       0         1
 RefTypespec                        234     235       1         0
 ----------------------------------------------------------------
-Others                             595     595       0         0
+Others                             601     601       0         0
 ----------------------------------------------------------------
-                                   920     920       2         2
+                                   926     926       2         2
 ===================== END REDUCTION RESULT =====================

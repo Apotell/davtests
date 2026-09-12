@@ -162,6 +162,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo_pkg start:5:9 end:5:16:
       vpiFullName: foo_pkg
+      vpiStruct (1 items):
+        Struct start:6:13 end:9:6:
+          vpiParent: Package name:foo_pkg
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:valid start:7:33 end:7:38:
+              vpiParent: Struct
+              vpiName: valid
+              vpiTypespec RefTypespec start:7:9 end:7:14:
+                vpiParent: TypespecMember name:valid
+                vpiFullName: foo_pkg::valid
+                vpiActual: LogicTypespec
+            TypespecMember name:user start:8:33 end:8:37:
+              vpiParent: Struct
+              vpiName: user
+              vpiTypespec RefTypespec start:8:9 end:8:32:
+                vpiParent: TypespecMember name:user
+                vpiFullName: foo_pkg::user
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:boo_t start:6:5 end:9:13:
+          vpiParent: Package name:foo_pkg
+          vpiName Identifier name:boo_t start:9:7 end:9:12:
+          vpiTypedefAlias RefTypespec start:6:13 end:9:6:
+            vpiParent: Typedef name:boo_t
+            vpiFullName: foo_pkg::boo_t
+            vpiActual: StructTypespec
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Package name:foo_pkg
@@ -212,29 +239,11 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:6:13 end:9:6:
           vpiParent: Package name:foo_pkg
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:valid start:7:33 end:7:38:
-              vpiParent: StructTypespec
-              vpiName: valid
-              vpiTypespec RefTypespec start:7:9 end:7:14:
-                vpiParent: TypespecMember name:valid
-                vpiFullName: foo_pkg::valid
-                vpiActual: LogicTypespec
-            TypespecMember name:user start:8:33 end:8:37:
-              vpiParent: StructTypespec
-              vpiName: user
-              vpiTypespec RefTypespec start:8:9 end:8:32:
-                vpiParent: TypespecMember name:user
-                vpiFullName: foo_pkg::user
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:boo_t start:6:5 end:9:13:
           vpiParent: Package name:foo_pkg
           vpiName Identifier name:boo_t start:9:7 end:9:12:
-          vpiTypedefAlias RefTypespec start:6:13 end:9:6:
-            vpiParent: TypedefTypespec name:boo_t
-            vpiFullName: foo_pkg::boo_t
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:boo_t
       vpiDefName: foo_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -321,7 +330,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/basic/package_typedef_sv/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

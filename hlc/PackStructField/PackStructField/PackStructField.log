@@ -153,10 +153,10 @@ n<$Source01/dut.sv> u<138> t<Top_level_rule> c<1> l<2:1> el<24:22>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:2:1: Compile package "my_package".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "my_module".
-[WRN:CP5851] $Source01/dut.sv:21:24: Failed to bind "id:71, name:my_parameter".
-[WRN:CP5851] $Source01/dut.sv:21:37: Failed to bind "id:72, name:a".
-[WRN:CP5851] $Source01/dut.sv:22:24: Failed to bind "id:79, name:my_parameter".
-[WRN:CP5851] $Source01/dut.sv:22:37: Failed to bind "id:80, name:b".
+[WRN:CP5851] $Source01/dut.sv:21:24: Failed to bind "id:74, name:my_parameter".
+[WRN:CP5851] $Source01/dut.sv:21:37: Failed to bind "id:75, name:a".
+[WRN:CP5851] $Source01/dut.sv:22:24: Failed to bind "id:82, name:my_parameter".
+[WRN:CP5851] $Source01/dut.sv:22:37: Failed to bind "id:83, name:b".
 [WRN:PA5506] $Source01/dut.sv:2:1: No timescale set for "my_package".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "my_module".
 ====== HLDB =======
@@ -172,6 +172,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_package start:2:9 end:2:19:
       vpiFullName: my_package
+      vpiStruct (1 items):
+        Struct start:4:11 end:7:4:
+          vpiParent: Package name:my_package
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:a start:5:11 end:5:12:
+              vpiParent: Struct
+              vpiName: a
+              vpiTypespec RefTypespec start:5:5 end:5:10:
+                vpiParent: TypespecMember name:a
+                vpiFullName: my_package::a
+                vpiActual: LogicTypespec
+            TypespecMember name:b start:6:11 end:6:12:
+              vpiParent: Struct
+              vpiName: b
+              vpiTypespec RefTypespec start:6:5 end:6:10:
+                vpiParent: TypespecMember name:b
+                vpiFullName: my_package::b
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:my_struct start:4:3 end:7:15:
+          vpiParent: Package name:my_package
+          vpiName Identifier name:my_struct start:7:5 end:7:14:
+          vpiTypedefAlias RefTypespec start:4:11 end:7:4:
+            vpiParent: Typedef name:my_struct
+            vpiFullName: my_package::my_struct
+            vpiActual: StructTypespec
       vpiParameter (1 items):
         Parameter name:my_parameter start:9:35 end:9:47:
           vpiParent: Package name:my_package
@@ -231,29 +258,11 @@ Design name:unnamed:
           vpiParent: Package name:my_package
         StructTypespec start:4:11 end:7:4:
           vpiParent: Package name:my_package
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:a start:5:11 end:5:12:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec start:5:5 end:5:10:
-                vpiParent: TypespecMember name:a
-                vpiFullName: my_package::a
-                vpiActual: LogicTypespec
-            TypespecMember name:b start:6:11 end:6:12:
-              vpiParent: StructTypespec
-              vpiName: b
-              vpiTypespec RefTypespec start:6:5 end:6:10:
-                vpiParent: TypespecMember name:b
-                vpiFullName: my_package::b
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:my_struct start:4:3 end:7:15:
           vpiParent: Package name:my_package
           vpiName Identifier name:my_struct start:7:5 end:7:14:
-          vpiTypedefAlias RefTypespec start:4:11 end:7:4:
-            vpiParent: TypedefTypespec name:my_struct
-            vpiFullName: my_package::my_struct
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:my_struct
         BitTypespec:
           vpiParent: Package name:my_package
       vpiDefName: my_package
@@ -465,7 +474,7 @@ COMMAND: ${HLC_DIR}/regression/PackStructField/PackStructField/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              76      76       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    76      76       0         0
 ===================== END REDUCTION RESULT =====================

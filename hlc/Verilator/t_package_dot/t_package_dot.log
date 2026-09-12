@@ -176,8 +176,8 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/t_package_dot.v:6:1: Compile package "pkg".
 [INF:CP5802] $Source01/t_package_dot.v:13:1: Compile package "csr_pkg".
 [INF:CP5804] $Source01/t_package_dot.v:18:1: Compile module "t".
-[WRN:CP5851] $Source01/t_package_dot.v:20:20: Failed to bind "id:68, name:REG_RST".
-[WRN:CP5851] $Source01/t_package_dot.v:20:28: Failed to bind "id:69, name:msk".
+[WRN:CP5851] $Source01/t_package_dot.v:20:20: Failed to bind "id:73, name:REG_RST".
+[WRN:CP5851] $Source01/t_package_dot.v:20:28: Failed to bind "id:74, name:msk".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -192,6 +192,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:6:9 end:6:12:
       vpiFullName: pkg
+      vpiStruct (1 items):
+        Struct start:7:12 end:10:5:
+          vpiParent: Package name:pkg
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:msk start:8:19 end:8:22:
+              vpiParent: Struct
+              vpiName: msk
+              vpiTypespec RefTypespec name:logic start:8:7 end:8:18:
+                vpiParent: TypespecMember name:msk
+                vpiName: logic
+                vpiFullName: pkg::msk::logic
+                vpiActual: ArrayTypespec
+            TypespecMember name:dat start:9:19 end:9:22:
+              vpiParent: Struct
+              vpiName: dat
+              vpiTypespec RefTypespec name:logic start:9:7 end:9:18:
+                vpiParent: TypespecMember name:dat
+                vpiName: logic
+                vpiFullName: pkg::dat::logic
+                vpiActual: ArrayTypespec
+      vpiTypedef (1 items):
+        Typedef name:STR_t start:7:4 end:10:12:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:STR_t start:10:6 end:10:11:
+          vpiTypedefAlias RefTypespec start:7:12 end:10:5:
+            vpiParent: Typedef name:STR_t
+            vpiFullName: pkg::STR_t
+            vpiActual: StructTypespec
       vpiTypespec (6 items):
         UnsupportedTypespec name:logic start:8:7 end:8:12:
           vpiParent: Package name:pkg
@@ -263,31 +292,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:7:12 end:10:5:
           vpiParent: Package name:pkg
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:msk start:8:19 end:8:22:
-              vpiParent: StructTypespec
-              vpiName: msk
-              vpiTypespec RefTypespec name:logic start:8:7 end:8:18:
-                vpiParent: TypespecMember name:msk
-                vpiName: logic
-                vpiFullName: pkg::msk::logic
-                vpiActual: ArrayTypespec
-            TypespecMember name:dat start:9:19 end:9:22:
-              vpiParent: StructTypespec
-              vpiName: dat
-              vpiTypespec RefTypespec name:logic start:9:7 end:9:18:
-                vpiParent: TypespecMember name:dat
-                vpiName: logic
-                vpiFullName: pkg::dat::logic
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:STR_t start:7:4 end:10:12:
           vpiParent: Package name:pkg
           vpiName Identifier name:STR_t start:10:6 end:10:11:
-          vpiTypedefAlias RefTypespec start:7:12 end:10:5:
-            vpiParent: TypedefTypespec name:STR_t
-            vpiFullName: pkg::STR_t
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:STR_t
       vpiDefName: pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -299,6 +308,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:csr_pkg start:13:9 end:13:16:
       vpiFullName: csr_pkg
+      vpiTypedef (1 items):
+        Typedef name:reg_t start:14:4 end:14:29:
+          vpiParent: Package name:csr_pkg
+          vpiName Identifier name:reg_t start:14:23 end:14:28:
+          vpiTypedefAlias RefTypespec start:14:12 end:14:22:
+            vpiParent: Typedef name:reg_t
+            vpiFullName: csr_pkg::reg_t
+            vpiActual: UnsupportedTypespec name:pkg::STR_t
       vpiParameter (1 items):
         Parameter name:REG_RST start:15:21 end:15:28:
           vpiParent: Package name:csr_pkg
@@ -347,10 +364,7 @@ Design name:unnamed:
         TypedefTypespec name:reg_t start:14:4 end:14:29:
           vpiParent: Package name:csr_pkg
           vpiName Identifier name:reg_t start:14:23 end:14:28:
-          vpiTypedefAlias RefTypespec start:14:12 end:14:22:
-            vpiParent: TypedefTypespec name:reg_t
-            vpiFullName: csr_pkg::reg_t
-            vpiActual: UnsupportedTypespec name:pkg::STR_t
+          vpiTypedef: Typedef name:reg_t
       vpiDefName: csr_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -495,7 +509,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_package_dot/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              77      77       0         0
+Others                              82      82       0         0
 ----------------------------------------------------------------
-                                    77      77       0         0
+                                    82      82       0         0
 ===================== END REDUCTION RESULT =====================

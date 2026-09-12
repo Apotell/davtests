@@ -459,7 +459,7 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "pkg".
 [INF:CP5804] $Source01/dut.sv:9:1: Compile module "top".
 [INF:CP5804] $Source01/dut.sv:17:1: Compile module "dut".
-[WRN:CP5851] $Source01/dut.sv:12:26: Failed to bind "id:675, name:complex_t".
+[WRN:CP5851] $Source01/dut.sv:12:26: Failed to bind "id:678, name:complex_t".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "pkg".
 [WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "top".
@@ -1715,6 +1715,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:1:9 end:1:12:
       vpiFullName: pkg
+      vpiStruct (1 items):
+        Struct start:2:11 end:5:4:
+          vpiParent: Package name:pkg
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:a start:3:11 end:3:12:
+              vpiParent: Struct
+              vpiName: a
+              vpiTypespec RefTypespec start:3:5 end:3:10:
+                vpiParent: TypespecMember name:a
+                vpiFullName: pkg::a
+                vpiActual: LogicTypespec
+            TypespecMember name:b start:4:17 end:4:18:
+              vpiParent: Struct
+              vpiName: b
+              vpiTypespec RefTypespec start:4:5 end:4:16:
+                vpiParent: TypespecMember name:b
+                vpiFullName: pkg::b
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:complex_t start:2:3 end:5:15:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:complex_t start:5:5 end:5:14:
+          vpiTypedefAlias RefTypespec start:2:11 end:5:4:
+            vpiParent: Typedef name:complex_t
+            vpiFullName: pkg::complex_t
+            vpiActual: StructTypespec
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Package name:pkg
@@ -1746,29 +1773,11 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:2:11 end:5:4:
           vpiParent: Package name:pkg
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:a start:3:11 end:3:12:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec start:3:5 end:3:10:
-                vpiParent: TypespecMember name:a
-                vpiFullName: pkg::a
-                vpiActual: LogicTypespec
-            TypespecMember name:b start:4:17 end:4:18:
-              vpiParent: StructTypespec
-              vpiName: b
-              vpiTypespec RefTypespec start:4:5 end:4:16:
-                vpiParent: TypespecMember name:b
-                vpiFullName: pkg::b
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:complex_t start:2:3 end:5:15:
           vpiParent: Package name:pkg
           vpiName Identifier name:complex_t start:5:5 end:5:14:
-          vpiTypedefAlias RefTypespec start:2:11 end:5:4:
-            vpiParent: TypedefTypespec name:complex_t
-            vpiFullName: pkg::complex_t
-            vpiActual: StructTypespec
+          vpiTypedef: Typedef name:complex_t
       vpiDefName: pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1958,32 +1967,41 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2485,7 +2503,7 @@ Operation                            3       2       0         1
 RefObj                              13      12       0         1
 RefTypespec                        193     193       1         1
 ----------------------------------------------------------------
-Others                             447     447       0         0
+Others                             453     453       0         0
 ----------------------------------------------------------------
-                                   669     667       2         4
+                                   675     673       2         4
 ===================== END REDUCTION RESULT =====================

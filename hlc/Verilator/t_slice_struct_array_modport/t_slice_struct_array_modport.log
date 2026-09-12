@@ -449,23 +449,11 @@ Design name:unnamed:
       vpiName Identifier name:logic start:7:3 end:7:8:
     StructTypespec start:6:9 end:8:2:
       vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (1 items):
-        TypespecMember name:p start:7:10 end:7:11:
-          vpiParent: StructTypespec
-          vpiName: p
-          vpiTypespec RefTypespec name:logic start:7:3 end:7:8:
-            vpiParent: TypespecMember name:p
-            vpiName: logic
-            vpiFullName: p.logic
-            vpiActual: UnsupportedTypespec name:logic
+      vpiStruct: Struct
     TypedefTypespec name:s_data start:6:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:s_data start:8:3 end:8:9:
-      vpiTypedefAlias RefTypespec start:6:9 end:8:2:
-        vpiParent: TypedefTypespec name:s_data
-        vpiFullName: s_data
-        vpiActual: StructTypespec
+      vpiTypedef: Typedef name:s_data
     ModuleTypespec name:m1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m1 start:10:8 end:10:10:
@@ -479,6 +467,27 @@ Design name:unnamed:
       vpiName Identifier name:top start:15:8 end:15:11:
       vpiDefName: top
       vpiModule: Module name:top
+  vpiStruct (1 items):
+    Struct start:6:9 end:8:2:
+      vpiParent: Design name:unnamed
+      vpiPacked: true
+      vpiTypespecMember (1 items):
+        TypespecMember name:p start:7:10 end:7:11:
+          vpiParent: Struct
+          vpiName: p
+          vpiTypespec RefTypespec name:logic start:7:3 end:7:8:
+            vpiParent: TypespecMember name:p
+            vpiName: logic
+            vpiFullName: p.logic
+            vpiActual: UnsupportedTypespec name:logic
+  vpiTypedef (1 items):
+    Typedef name:s_data start:6:1 end:8:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:s_data start:8:3 end:8:9:
+      vpiTypedefAlias RefTypespec start:6:9 end:8:2:
+        vpiParent: Typedef name:s_data
+        vpiFullName: s_data
+        vpiActual: StructTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -527,7 +536,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_slice_struct_array_modport/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              79      79       0         0
 ----------------------------------------------------------------
-                                    76      76       0         0
+                                    79      79       0         0
 ===================== END REDUCTION RESULT =====================

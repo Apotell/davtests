@@ -249,6 +249,31 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_pkg start:29:9 end:29:15:
       vpiFullName: my_pkg
+      vpiEnum (1 items):
+        Enum start:30:9 end:30:44:
+          vpiParent: Package name:my_pkg
+          vpiBaseTypespec RefTypespec start:30:14 end:30:25:
+            vpiParent: Enum
+            vpiFullName: my_pkg
+            vpiActual: LogicTypespec
+          vpiEnumConst (3 items):
+            EnumConst name:IDLE start:30:27 end:30:31:
+              vpiParent: Enum
+              vpiName Identifier name:IDLE start:30:27 end:30:31:
+            EnumConst name:BUSY start:30:33 end:30:37:
+              vpiParent: Enum
+              vpiName Identifier name:BUSY start:30:33 end:30:37:
+            EnumConst name:DONE start:30:39 end:30:43:
+              vpiParent: Enum
+              vpiName Identifier name:DONE start:30:39 end:30:43:
+      vpiTypedef (1 items):
+        Typedef name:state_t start:30:1 end:30:53:
+          vpiParent: Package name:my_pkg
+          vpiName Identifier name:state_t start:30:45 end:30:52:
+          vpiTypedefAlias RefTypespec start:30:9 end:30:44:
+            vpiParent: Typedef name:state_t
+            vpiFullName: my_pkg::state_t
+            vpiActual: EnumTypespec
       vpiParameter (1 items):
         Parameter name:MY_PARAM start:31:15 end:31:23:
           vpiParent: Package name:my_pkg
@@ -305,27 +330,11 @@ Design name:unnamed:
           vpiVector: true
         EnumTypespec start:30:9 end:30:44:
           vpiParent: Package name:my_pkg
-          vpiBaseTypespec RefTypespec start:30:14 end:30:25:
-            vpiParent: EnumTypespec
-            vpiFullName: my_pkg
-            vpiActual: LogicTypespec
-          vpiEnumConst (3 items):
-            EnumConst name:IDLE start:30:27 end:30:31:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:IDLE start:30:27 end:30:31:
-            EnumConst name:BUSY start:30:33 end:30:37:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:BUSY start:30:33 end:30:37:
-            EnumConst name:DONE start:30:39 end:30:43:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:DONE start:30:39 end:30:43:
+          vpiEnum: Enum
         TypedefTypespec name:state_t start:30:1 end:30:53:
           vpiParent: Package name:my_pkg
           vpiName Identifier name:state_t start:30:45 end:30:52:
-          vpiTypedefAlias RefTypespec start:30:9 end:30:44:
-            vpiParent: TypedefTypespec name:state_t
-            vpiFullName: my_pkg::state_t
-            vpiActual: EnumTypespec
+          vpiTypedef: Typedef name:state_t
       vpiDefName: my_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -439,7 +448,7 @@ COMMAND: ${HLC_DIR}/regression/Directives/Directives/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              82      82       0         0
+Others                              85      85       0         0
 ----------------------------------------------------------------
-                                    82      82       0         0
+                                    85      85       0         0
 ===================== END REDUCTION RESULT =====================
