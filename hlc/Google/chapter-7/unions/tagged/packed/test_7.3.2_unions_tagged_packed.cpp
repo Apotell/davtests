@@ -126,28 +126,32 @@ TEST_F(UnionsTaggedPackedTest, ModuleHasOneNet) {
 TEST_F(UnionsTaggedPackedTest, UnIsTaggedPackedUnionWithTwoMembers) {
   const hldb::UnionTypespec *const ut = getUnUnionTypespec();
   ASSERT_NE(ut, nullptr);
-  EXPECT_TRUE(ut->getPacked());
-  EXPECT_TRUE(ut->getTagged());
-  ASSERT_NE(ut->getMembers(), nullptr);
-  EXPECT_EQ(ut->getMembers()->size(), 2u);
+  const hldb::Union *const u = ut->getUnion();
+  ASSERT_NE(u, nullptr);
+  EXPECT_TRUE(u->getPacked());
+  EXPECT_TRUE(u->getTagged());
+  ASSERT_NE(u->getMembers(), nullptr);
+  EXPECT_EQ(u->getMembers()->size(), 2u);
 }
 
 TEST_F(UnionsTaggedPackedTest, MembersV1AndV2AreBothSevenBitBitTypespecs) {
   const hldb::UnionTypespec *const ut = getUnUnionTypespec();
   ASSERT_NE(ut, nullptr);
-  ASSERT_NE(ut->getMembers(), nullptr);
-  ASSERT_EQ(ut->getMembers()->size(), 2u);
+  const hldb::Union *const u = ut->getUnion();
+  ASSERT_NE(u, nullptr);
+  ASSERT_NE(u->getMembers(), nullptr);
+  ASSERT_EQ(u->getMembers()->size(), 2u);
   const char *const names[2] = {"v1", "v2"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::TypespecMember *const member = ut->getMembers()->at(i);
+    const hldb::TypespecMember *const member = u->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
     const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
     ASSERT_NE(bt, nullptr) << "member " << i;
     ASSERT_NE(bt->getRanges(), nullptr);
     ASSERT_EQ(bt->getRanges()->size(), 1u);
-    EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "6");
-    EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
+    EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), std::string_view("6"));
+    EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), std::string_view("0"));
   }
 }
 
@@ -168,15 +172,15 @@ TEST_F(UnionsTaggedPackedTest, FirstStmtAssignsWholeUnFromTenLiteral) {
   EXPECT_TRUE(assign->getBlocking());
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "un");
+  EXPECT_EQ(lhs->getName(), std::string_view("un"));
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::TaggedPattern *const rhs = assign->getRhs<hldb::TaggedPattern>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), "v2");
+  EXPECT_EQ(rhs->getName(), std::string_view("v2"));
   const hldb::Constant *const tag = rhs->getTag<hldb::Constant>();
   ASSERT_NE(tag, nullptr);
-  EXPECT_EQ(tag->getDecompile(), "10");
-  EXPECT_EQ(tag->getValue(), "10");
+  EXPECT_EQ(tag->getDecompile(), std::string_view("10"));
+  EXPECT_EQ(tag->getValue(), std::string_view("10"));
 }
 
 TEST_F(UnionsTaggedPackedTest, SecondStmtAssignsWholeUnFromEightyFiveLiteral) {
@@ -187,14 +191,14 @@ TEST_F(UnionsTaggedPackedTest, SecondStmtAssignsWholeUnFromEightyFiveLiteral) {
   EXPECT_TRUE(assign->getBlocking());
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "un");
+  EXPECT_EQ(lhs->getName(), std::string_view("un"));
   const hldb::TaggedPattern *const rhs = assign->getRhs<hldb::TaggedPattern>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), "v1");
+  EXPECT_EQ(rhs->getName(), std::string_view("v1"));
   const hldb::Constant *const tag = rhs->getTag<hldb::Constant>();
   ASSERT_NE(tag, nullptr);
-  EXPECT_EQ(tag->getDecompile(), "85");
-  EXPECT_EQ(tag->getValue(), "85");
+  EXPECT_EQ(tag->getDecompile(), std::string_view("85"));
+  EXPECT_EQ(tag->getValue(), std::string_view("85"));
 }
 
 TEST_F(UnionsTaggedPackedTest, ThirdStmtDisplaysUn) {
@@ -204,10 +208,10 @@ TEST_F(UnionsTaggedPackedTest, ThirdStmtDisplaysUn) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: ('%b' == 'v1:1010101'");
+  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), std::string_view(":assert: ('%b' == 'v1:1010101'"));
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getName(), "un");
+  EXPECT_EQ(arg->getName(), std::string_view("un"));
 }
 
 // --- design-level typespecs / compiler diagnostics ----
@@ -221,7 +225,7 @@ TEST_F(UnionsTaggedPackedTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "top");
+  EXPECT_EQ(mt->getName(), std::string_view("top"));
 }
 
 TEST_F(UnionsTaggedPackedTest, DesignHasStringTypespec) {
@@ -256,7 +260,7 @@ TEST_F(UnionsTaggedPackedTest, FirstStmtRhsShouldCaptureTaggedMemberButDoesNot) 
       << "'un = tagged v2 (10)' should elaborate its rhs as a TaggedPattern (tagged_pattern.h) so the "
          "tagged member name ('v2') is preserved, instead of collapsing to a bare Constant('10'). See "
          "chapter-7/unions/tagged/basic.sv for the same gap.";
-  if (tagged != nullptr) EXPECT_EQ(tagged->getName(), "v2");
+  if (tagged != nullptr) EXPECT_EQ(tagged->getName(), std::string_view("v2"));
 }
 
 TEST_F(UnionsTaggedPackedTest, SecondStmtRhsShouldCaptureTaggedMemberButDoesNot) {
@@ -268,7 +272,7 @@ TEST_F(UnionsTaggedPackedTest, SecondStmtRhsShouldCaptureTaggedMemberButDoesNot)
   ASSERT_NE(tagged, nullptr)
       << "'un = tagged v1 (85)' should elaborate its rhs as a TaggedPattern (tagged_pattern.h) so the "
          "tagged member name ('v1') is preserved, instead of collapsing to a bare Constant('85').";
-  if (tagged != nullptr) EXPECT_EQ(tagged->getName(), "v1");
+  if (tagged != nullptr) EXPECT_EQ(tagged->getName(), std::string_view("v1"));
 }
 
 // --- known gap: runtime union display requires simulation ----
@@ -282,7 +286,7 @@ TEST_F(UnionsTaggedPackedTest, RuntimeTaggedUnionDisplayRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: ('%b' == 'v1:1010101'")
+  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), std::string_view(":assert: ('%b' == 'v1:1010101'"))
       << "expected un to display as tag 'v1' holding the 7-bit pattern 1010101 (== 85), after 'un = "
          "tagged v1 (85)' overwrote the earlier 'tagged v2 (10)'";
 }

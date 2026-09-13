@@ -210,6 +210,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:6:8 end:6:11:
       vpiFullName: top
+      vpiStruct (1 items):
+        Struct start:7:12 end:10:5:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:a start:8:19 end:8:20:
+              vpiParent: Struct
+              vpiName: a
+              vpiTypespec RefTypespec start:8:7 end:8:18:
+                vpiParent: TypespecMember name:a
+                vpiFullName: top.a
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:struct_1 start:7:4 end:10:15:
+          vpiParent: Module name:top
+          vpiName Identifier name:struct_1 start:10:6 end:10:14:
+          vpiTypedefAlias RefTypespec start:7:12 end:10:5:
+            vpiParent: Typedef name:struct_1
+            vpiFullName: top.struct_1
+            vpiActual: StructTypespec
       vpiParameter (1 items):
         Parameter name:X start:14:23 end:14:24:
           vpiParent: Module name:top
@@ -293,22 +313,12 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:7:12 end:10:5:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:a start:8:19 end:8:20:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec start:8:7 end:8:18:
-                vpiParent: TypespecMember name:a
-                vpiFullName: top.a
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:struct_1 start:7:4 end:10:15:
           vpiParent: Module name:top
           vpiName Identifier name:struct_1 start:10:6 end:10:14:
-          vpiTypedefAlias RefTypespec start:7:12 end:10:5:
-            vpiParent: TypedefTypespec name:struct_1
-            vpiFullName: top.struct_1
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:struct_1
         BitTypespec:
           vpiParent: Module name:top
         ModuleTypespec name:dut start:17:4 end:17:7:
@@ -350,6 +360,7 @@ Design name:unnamed:
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
+      vpiDefName: dut
       vpiModule: Module name:dut
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -357,6 +368,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:6:8 end:6:11:
+      vpiDefName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0
@@ -406,7 +418,7 @@ COMMAND: ${HLC_DIR}/regression/ParamNoDefault/ParamNoDefault/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

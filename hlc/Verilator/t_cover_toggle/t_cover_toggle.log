@@ -1086,6 +1086,55 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
       vpiFullName: t
+      vpiStruct (1 items):
+        Struct start:13:12 end:19:5:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:u start:17:9 end:17:10:
+              vpiParent: Struct
+              vpiName: u
+              vpiTypespec RefTypespec start:14:7 end:17:8:
+                vpiParent: TypespecMember name:u
+                vpiFullName: t.u
+                vpiActual: UnionTypespec
+            TypespecMember name:b start:18:13 end:18:14:
+              vpiParent: Struct
+              vpiName: b
+              vpiTypespec RefTypespec name:logic start:18:7 end:18:12:
+                vpiParent: TypespecMember name:b
+                vpiName: logic
+                vpiFullName: t.b.logic
+                vpiActual: UnsupportedTypespec name:logic
+      vpiTypedef (1 items):
+        Typedef name:str_t start:13:4 end:19:12:
+          vpiParent: Module name:t
+          vpiName Identifier name:str_t start:19:6 end:19:11:
+          vpiTypedefAlias RefTypespec start:13:12 end:19:5:
+            vpiParent: Typedef name:str_t
+            vpiFullName: t.str_t
+            vpiActual: StructTypespec
+      vpiUnion (1 items):
+        Union start:14:7 end:17:8:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:ua start:15:12 end:15:14:
+              vpiParent: Union
+              vpiName: ua
+              vpiTypespec RefTypespec name:logic start:15:3 end:15:8:
+                vpiParent: TypespecMember name:ua
+                vpiName: logic
+                vpiFullName: t.ua.logic
+                vpiActual: UnsupportedTypespec name:logic
+            TypespecMember name:ub start:16:12 end:16:14:
+              vpiParent: Union
+              vpiName: ub
+              vpiTypespec RefTypespec name:logic start:16:3 end:16:8:
+                vpiParent: TypespecMember name:ub
+                vpiName: logic
+                vpiFullName: t.ub.logic
+                vpiActual: UnsupportedTypespec name:logic
       vpiVariable (7 items):
         Variable name:toggle start:21:10 end:21:16:
           vpiParent: Module name:t
@@ -1171,53 +1220,18 @@ Design name:unnamed:
           vpiName Identifier name:logic start:16:3 end:16:8:
         UnionTypespec start:14:7 end:17:8:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:ua start:15:12 end:15:14:
-              vpiParent: UnionTypespec
-              vpiName: ua
-              vpiTypespec RefTypespec name:logic start:15:3 end:15:8:
-                vpiParent: TypespecMember name:ua
-                vpiName: logic
-                vpiFullName: t.ua.logic
-                vpiActual: UnsupportedTypespec name:logic
-            TypespecMember name:ub start:16:12 end:16:14:
-              vpiParent: UnionTypespec
-              vpiName: ub
-              vpiTypespec RefTypespec name:logic start:16:3 end:16:8:
-                vpiParent: TypespecMember name:ub
-                vpiName: logic
-                vpiFullName: t.ub.logic
-                vpiActual: UnsupportedTypespec name:logic
+          vpiUnion: Union
         UnsupportedTypespec name:logic start:18:7 end:18:12:
           vpiParent: Module name:t
           vpiName Identifier name:logic start:18:7 end:18:12:
         StructTypespec start:13:12 end:19:5:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:u start:17:9 end:17:10:
-              vpiParent: StructTypespec
-              vpiName: u
-              vpiTypespec RefTypespec start:14:7 end:17:8:
-                vpiParent: TypespecMember name:u
-                vpiFullName: t.u
-                vpiActual: UnionTypespec
-            TypespecMember name:b start:18:13 end:18:14:
-              vpiParent: StructTypespec
-              vpiName: b
-              vpiTypespec RefTypespec name:logic start:18:7 end:18:12:
-                vpiParent: TypespecMember name:b
-                vpiName: logic
-                vpiFullName: t.b.logic
-                vpiActual: UnsupportedTypespec name:logic
+          vpiStruct: Struct
         TypedefTypespec name:str_t start:13:4 end:19:12:
           vpiParent: Module name:t
           vpiName Identifier name:str_t start:19:6 end:19:11:
-          vpiTypedefAlias RefTypespec start:13:12 end:19:5:
-            vpiParent: TypedefTypespec name:str_t
-            vpiFullName: t.str_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:str_t
         BitTypespec:
           vpiParent: Module name:t
         LogicTypespec:
@@ -2531,6 +2545,7 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
+      vpiDefName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2542,14 +2557,17 @@ Design name:unnamed:
     ModuleTypespec name:alpha:
       vpiParent: Design name:unnamed
       vpiName Identifier name:alpha start:86:8 end:86:13:
+      vpiDefName: alpha
       vpiModule: Module name:alpha
     ModuleTypespec name:beta:
       vpiParent: Design name:unnamed
       vpiName Identifier name:beta start:125:8 end:125:12:
+      vpiDefName: beta
       vpiModule: Module name:beta
     ModuleTypespec name:off:
       vpiParent: Design name:unnamed
       vpiName Identifier name:off start:142:8 end:142:11:
+      vpiDefName: off
       vpiModule: Module name:off
 ===================
 [  FATAL] : 0
@@ -2599,7 +2617,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_cover_toggle/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             363     363       0         0
+Others                             367     367       0         0
 ----------------------------------------------------------------
-                                   363     363       0         0
+                                   367     367       0         0
 ===================== END REDUCTION RESULT =====================

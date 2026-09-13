@@ -236,7 +236,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_xml_tag.v:6:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_xml_tag.v:11:1: Compile module "m".
 [NTE:CP5810] $Source01/t_xml_tag.v:15:11: Implicit port type (wire) for "foo_op".
-[WRN:CP5851] $Source01/t_xml_tag.v:32:30: Failed to bind "id:80, name:value".
+[WRN:CP5851] $Source01/t_xml_tag.v:32:30: Failed to bind "id:83, name:value".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -286,6 +286,51 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m start:11:8 end:11:9:
       vpiFullName: m
+      vpiStruct (1 items):
+        Struct start:19:12 end:24:5:
+          vpiParent: Module name:m
+          vpiPacked: true
+          vpiTypespecMember (4 items):
+            TypespecMember name:clk start:20:16 end:20:19:
+              vpiParent: Struct
+              vpiName: clk
+              vpiTypespec RefTypespec name:logic start:20:7 end:20:12:
+                vpiParent: TypespecMember name:clk
+                vpiName: logic
+                vpiFullName: m.clk.logic
+                vpiActual: UnsupportedTypespec name:logic
+            TypespecMember name:k start:21:16 end:21:17:
+              vpiParent: Struct
+              vpiName: k
+              vpiTypespec RefTypespec name:logic start:21:7 end:21:12:
+                vpiParent: TypespecMember name:k
+                vpiName: logic
+                vpiFullName: m.k.logic
+                vpiActual: UnsupportedTypespec name:logic
+            TypespecMember name:enable start:22:16 end:22:22:
+              vpiParent: Struct
+              vpiName: enable
+              vpiTypespec RefTypespec name:logic start:22:7 end:22:12:
+                vpiParent: TypespecMember name:enable
+                vpiName: logic
+                vpiFullName: m.enable.logic
+                vpiActual: UnsupportedTypespec name:logic
+            TypespecMember name:data start:23:16 end:23:20:
+              vpiParent: Struct
+              vpiName: data
+              vpiTypespec RefTypespec name:logic start:23:7 end:23:12:
+                vpiParent: TypespecMember name:data
+                vpiName: logic
+                vpiFullName: m.data.logic
+                vpiActual: UnsupportedTypespec name:logic
+      vpiTypedef (1 items):
+        Typedef name:my_struct start:19:4 end:24:16:
+          vpiParent: Module name:m
+          vpiName Identifier name:my_struct start:24:6 end:24:15:
+          vpiTypedefAlias RefTypespec start:19:12 end:24:5:
+            vpiParent: Typedef name:my_struct
+            vpiFullName: m.my_struct
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:this_struct start:30:14 end:30:25:
           vpiParent: Module name:m
@@ -312,47 +357,12 @@ Design name:unnamed:
           vpiName Identifier name:logic start:23:7 end:23:12:
         StructTypespec start:19:12 end:24:5:
           vpiParent: Module name:m
-          vpiPacked: true
-          vpiTypespecMember (4 items):
-            TypespecMember name:clk start:20:16 end:20:19:
-              vpiParent: StructTypespec
-              vpiName: clk
-              vpiTypespec RefTypespec name:logic start:20:7 end:20:12:
-                vpiParent: TypespecMember name:clk
-                vpiName: logic
-                vpiFullName: m.clk.logic
-                vpiActual: UnsupportedTypespec name:logic
-            TypespecMember name:k start:21:16 end:21:17:
-              vpiParent: StructTypespec
-              vpiName: k
-              vpiTypespec RefTypespec name:logic start:21:7 end:21:12:
-                vpiParent: TypespecMember name:k
-                vpiName: logic
-                vpiFullName: m.k.logic
-                vpiActual: UnsupportedTypespec name:logic
-            TypespecMember name:enable start:22:16 end:22:22:
-              vpiParent: StructTypespec
-              vpiName: enable
-              vpiTypespec RefTypespec name:logic start:22:7 end:22:12:
-                vpiParent: TypespecMember name:enable
-                vpiName: logic
-                vpiFullName: m.enable.logic
-                vpiActual: UnsupportedTypespec name:logic
-            TypespecMember name:data start:23:16 end:23:20:
-              vpiParent: StructTypespec
-              vpiName: data
-              vpiTypespec RefTypespec name:logic start:23:7 end:23:12:
-                vpiParent: TypespecMember name:data
-                vpiName: logic
-                vpiFullName: m.data.logic
-                vpiActual: UnsupportedTypespec name:logic
+          vpiStruct: Struct
         TypedefTypespec name:my_struct start:19:4 end:24:16:
           vpiParent: Module name:m
           vpiName Identifier name:my_struct start:24:6 end:24:15:
-          vpiTypedefAlias RefTypespec start:19:12 end:24:5:
-            vpiParent: TypedefTypespec name:my_struct
-            vpiFullName: m.my_struct
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:my_struct
         ArrayTypespec:
           vpiParent: Module name:m
           vpiArrayType: static (1)
@@ -588,6 +598,7 @@ Design name:unnamed:
     ModuleTypespec name:m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m start:11:8 end:11:9:
+      vpiDefName: m
       vpiModule: Module name:m
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -642,7 +653,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_xml_tag/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              94      94       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                    94      94       0         0
+                                    97      97       0         0
 ===================== END REDUCTION RESULT =====================

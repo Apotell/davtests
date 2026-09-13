@@ -165,6 +165,44 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:x start:6:8 end:6:9:
       vpiFullName: x
+      vpiStruct (2 items):
+        Struct start:9:12 end:11:5:
+          vpiParent: Module name:x
+          vpiTypespecMember (1 items):
+            TypespecMember name:a start:10:19 end:10:20:
+              vpiParent: Struct
+              vpiName: a
+              vpiTypespec RefTypespec start:10:7 end:10:10:
+                vpiParent: TypespecMember name:a
+                vpiFullName: x.a
+                vpiActual: IntTypespec
+        Struct start:14:12 end:16:5:
+          vpiParent: Module name:x
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:b start:15:19 end:15:20:
+              vpiParent: Struct
+              vpiName: b
+              vpiTypespec RefTypespec name:notpacked_t start:15:7 end:15:18:
+                vpiParent: TypespecMember name:b
+                vpiName: notpacked_t
+                vpiFullName: x.b.notpacked_t
+                vpiActual: TypedefTypespec name:notpacked_t
+      vpiTypedef (2 items):
+        Typedef name:notpacked_t start:9:4 end:11:18:
+          vpiParent: Module name:x
+          vpiName Identifier name:notpacked_t start:11:6 end:11:17:
+          vpiTypedefAlias RefTypespec start:9:12 end:11:5:
+            vpiParent: Typedef name:notpacked_t
+            vpiFullName: x.notpacked_t
+            vpiActual: StructTypespec
+        Typedef name:ispacked_t start:14:4 end:16:17:
+          vpiParent: Module name:x
+          vpiName Identifier name:ispacked_t start:16:6 end:16:16:
+          vpiTypedefAlias RefTypespec start:14:12 end:16:5:
+            vpiParent: Typedef name:ispacked_t
+            vpiFullName: x.ispacked_t
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:p start:18:15 end:18:16:
           vpiParent: Module name:x
@@ -178,40 +216,20 @@ Design name:unnamed:
       vpiTypespec (4 items):
         StructTypespec start:9:12 end:11:5:
           vpiParent: Module name:x
-          vpiTypespecMember (1 items):
-            TypespecMember name:a start:10:19 end:10:20:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec start:10:7 end:10:10:
-                vpiParent: TypespecMember name:a
-                vpiFullName: x.a
-                vpiActual: IntTypespec
+          vpiStruct: Struct
         TypedefTypespec name:notpacked_t start:9:4 end:11:18:
           vpiParent: Module name:x
           vpiName Identifier name:notpacked_t start:11:6 end:11:17:
-          vpiTypedefAlias RefTypespec start:9:12 end:11:5:
-            vpiParent: TypedefTypespec name:notpacked_t
-            vpiFullName: x.notpacked_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:notpacked_t
         StructTypespec start:14:12 end:16:5:
           vpiParent: Module name:x
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:b start:15:19 end:15:20:
-              vpiParent: StructTypespec
-              vpiName: b
-              vpiTypespec RefTypespec name:notpacked_t start:15:7 end:15:18:
-                vpiParent: TypespecMember name:b
-                vpiName: notpacked_t
-                vpiFullName: x.b.notpacked_t
-                vpiActual: TypedefTypespec name:notpacked_t
+          vpiStruct: Struct
         TypedefTypespec name:ispacked_t start:14:4 end:16:17:
           vpiParent: Module name:x
           vpiName Identifier name:ispacked_t start:16:6 end:16:16:
-          vpiTypedefAlias RefTypespec start:14:12 end:16:5:
-            vpiParent: TypedefTypespec name:ispacked_t
-            vpiFullName: x.ispacked_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:ispacked_t
       vpiDefName: x
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -309,6 +327,7 @@ Design name:unnamed:
     ModuleTypespec name:x:
       vpiParent: Design name:unnamed
       vpiName Identifier name:x start:6:8 end:6:9:
+      vpiDefName: x
       vpiModule: Module name:x
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -363,7 +382,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_struct_unpacked/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    46      46       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

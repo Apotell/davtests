@@ -131,7 +131,7 @@ n<$Source01/t_enum_name3.v> u<116> t<Top_level_rule> c<1> l<7:1> el<24:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_enum_name3.v:7:1: Compile module "our".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_enum_name3.v:18:30: Null Actual: id:40, type:MethodFuncCall, name:name, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_enum_name3.v:18:30: Null Actual: id:46, type:MethodFuncCall, name:name, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -145,6 +145,48 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:our start:7:8 end:7:11:
       vpiFullName: our
+      vpiEnum (1 items):
+        Enum start:9:12 end:9:28:
+          vpiParent: Module name:our
+          vpiBaseTypespec RefTypespec start:9:17 end:9:22:
+            vpiParent: Enum
+            vpiFullName: our
+            vpiActual: UnsupportedTypespec name:logic
+          vpiEnumConst (2 items):
+            EnumConst name:n start:9:24 end:9:25:
+              vpiParent: Enum
+              vpiName Identifier name:n start:9:24 end:9:25:
+            EnumConst name:N start:9:26 end:9:27:
+              vpiParent: Enum
+              vpiName Identifier name:N start:9:26 end:9:27:
+      vpiStruct (1 items):
+        Struct start:11:12 end:13:5:
+          vpiParent: Module name:our
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:N start:12:15 end:12:16:
+              vpiParent: Struct
+              vpiName: N
+              vpiTypespec RefTypespec name:T_Flg_N start:12:7 end:12:14:
+                vpiParent: TypespecMember name:N
+                vpiName: T_Flg_N
+                vpiFullName: our.N.T_Flg_N
+                vpiActual: TypedefTypespec name:T_Flg_N
+      vpiTypedef (2 items):
+        Typedef name:T_Flg_N start:9:4 end:9:37:
+          vpiParent: Module name:our
+          vpiName Identifier name:T_Flg_N start:9:29 end:9:36:
+          vpiTypedefAlias RefTypespec start:9:12 end:9:28:
+            vpiParent: Typedef name:T_Flg_N
+            vpiFullName: our.T_Flg_N
+            vpiActual: EnumTypespec
+        Typedef name:T_PS_Reg start:11:4 end:13:15:
+          vpiParent: Module name:our
+          vpiName Identifier name:T_PS_Reg start:13:6 end:13:14:
+          vpiTypedefAlias RefTypespec start:11:12 end:13:5:
+            vpiParent: Typedef name:T_PS_Reg
+            vpiFullName: our.T_PS_Reg
+            vpiActual: StructTypespec
       vpiVariable (1 items):
         Variable name:PS start:15:13 end:15:15:
           vpiParent: Module name:our
@@ -171,43 +213,20 @@ Design name:unnamed:
           vpiName Identifier name:logic start:9:17 end:9:22:
         EnumTypespec start:9:12 end:9:28:
           vpiParent: Module name:our
-          vpiBaseTypespec RefTypespec start:9:17 end:9:22:
-            vpiParent: EnumTypespec
-            vpiFullName: our
-            vpiActual: UnsupportedTypespec name:logic
-          vpiEnumConst (2 items):
-            EnumConst name:n start:9:24 end:9:25:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:n start:9:24 end:9:25:
-            EnumConst name:N start:9:26 end:9:27:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:N start:9:26 end:9:27:
+          vpiEnum: Enum
         TypedefTypespec name:T_Flg_N start:9:4 end:9:37:
           vpiParent: Module name:our
           vpiName Identifier name:T_Flg_N start:9:29 end:9:36:
-          vpiTypedefAlias RefTypespec start:9:12 end:9:28:
-            vpiParent: TypedefTypespec name:T_Flg_N
-            vpiFullName: our.T_Flg_N
-            vpiActual: EnumTypespec
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:T_Flg_N
         StructTypespec start:11:12 end:13:5:
           vpiParent: Module name:our
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:N start:12:15 end:12:16:
-              vpiParent: StructTypespec
-              vpiName: N
-              vpiTypespec RefTypespec name:T_Flg_N start:12:7 end:12:14:
-                vpiParent: TypespecMember name:N
-                vpiName: T_Flg_N
-                vpiFullName: our.N.T_Flg_N
-                vpiActual: TypedefTypespec name:T_Flg_N
+          vpiStruct: Struct
         TypedefTypespec name:T_PS_Reg start:11:4 end:13:15:
           vpiParent: Module name:our
           vpiName Identifier name:T_PS_Reg start:13:6 end:13:14:
-          vpiTypedefAlias RefTypespec start:11:12 end:13:5:
-            vpiParent: TypedefTypespec name:T_PS_Reg
-            vpiFullName: our.T_PS_Reg
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:T_PS_Reg
         BitTypespec:
           vpiParent: Module name:our
       vpiDefName: our
@@ -277,6 +296,7 @@ Design name:unnamed:
     ModuleTypespec name:our:
       vpiParent: Design name:unnamed
       vpiName Identifier name:our start:7:8 end:7:11:
+      vpiDefName: our
       vpiModule: Module name:our
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -328,7 +348,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_name3/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              47      47       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    47      47       0         0
+                                    53      53       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1806,32 +1806,42 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2082,6 +2092,21 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:UVMC_set_config_object
             vpiFullName: dut.UVMC_set_config_object
+            vpiTypedef (2 items):
+              Typedef name:converter1 start:8:1 end:8:57:
+                vpiParent: Begin
+                vpiName Identifier name:converter1 start:8:46 end:8:56:
+                vpiTypedefAlias RefTypespec start:8:9 end:8:45:
+                  vpiParent: Typedef name:converter1
+                  vpiFullName: dut.UVMC_set_config_object.converter1
+                  vpiActual: UnsupportedTypespec name:uvmc_default_converter
+              Typedef name:converter2 start:9:1 end:9:26:
+                vpiParent: Begin
+                vpiName Identifier name:converter2 start:9:15 end:9:25:
+                vpiTypedefAlias RefTypespec start:9:9 end:9:14:
+                  vpiParent: Typedef name:converter2
+                  vpiFullName: dut.UVMC_set_config_object.converter2
+                  vpiActual: LogicTypespec
             vpiVariable (2 items):
               Variable name:obj start:11:12 end:11:15:
                 vpiParent: Begin
@@ -2119,19 +2144,14 @@ Design name:unnamed:
               TypedefTypespec name:converter1 start:8:1 end:8:57:
                 vpiParent: Begin
                 vpiName Identifier name:converter1 start:8:46 end:8:56:
-                vpiTypedefAlias RefTypespec start:8:9 end:8:45:
-                  vpiParent: TypedefTypespec name:converter1
-                  vpiFullName: dut.UVMC_set_config_object.converter1
-                  vpiActual: UnsupportedTypespec name:uvmc_default_converter
+                vpiTypedefKind: unsupported (7)
+                vpiTypedef: Typedef name:converter1
               LogicTypespec:
                 vpiParent: Begin
               TypedefTypespec name:converter2 start:9:1 end:9:26:
                 vpiParent: Begin
                 vpiName Identifier name:converter2 start:9:15 end:9:25:
-                vpiTypedefAlias RefTypespec start:9:9 end:9:14:
-                  vpiParent: TypedefTypespec name:converter2
-                  vpiFullName: dut.UVMC_set_config_object.converter2
-                  vpiActual: LogicTypespec
+                vpiTypedef: Typedef name:converter2
               UnsupportedTypespec name:uvm_object start:11:1 end:11:11:
                 vpiParent: Begin
                 vpiName Identifier name:uvm_object start:11:1 end:11:11:
@@ -2167,6 +2187,7 @@ Design name:unnamed:
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
+      vpiDefName: dut
       vpiModule: Module name:dut
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
@@ -2231,7 +2252,7 @@ COMMAND: ${HLC_DIR}/regression/TypeDefScope/TypeDefScope/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             631     631       0         0
+Others                             638     638       0         0
 ----------------------------------------------------------------
-                                   631     631       0         0
+                                   638     638       0         0
 ===================== END REDUCTION RESULT =====================

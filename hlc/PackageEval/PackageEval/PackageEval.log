@@ -24,6 +24,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test_pkg start:1:9 end:1:17:
       vpiFullName: test_pkg
+      vpiStruct (1 items):
+        Struct start:7:9 end:10:2:
+          vpiParent: Package name:test_pkg
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:valid start:8:11 end:8:16:
+              vpiParent: Struct
+              vpiName: valid
+              vpiTypespec RefTypespec start:8:5 end:8:10:
+                vpiParent: TypespecMember name:valid
+                vpiFullName: test_pkg::valid
+                vpiActual: LogicTypespec
+            TypespecMember name:data start:9:18 end:9:22:
+              vpiParent: Struct
+              vpiName: data
+              vpiTypespec RefTypespec start:9:5 end:9:17:
+                vpiParent: TypespecMember name:data
+                vpiFullName: test_pkg::data
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:t_test start:7:1 end:10:10:
+          vpiParent: Package name:test_pkg
+          vpiName Identifier name:t_test start:10:3 end:10:9:
+          vpiTypedefAlias RefTypespec start:7:9 end:10:2:
+            vpiParent: Typedef name:t_test
+            vpiFullName: test_pkg::t_test
+            vpiActual: StructTypespec
       vpiParameter (3 items):
         Parameter name:NStraps start:3:16 end:3:23:
           vpiParent: Package name:test_pkg
@@ -109,11 +136,11 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$bits start:11:23 end:11:28:
             vpiArgument (1 items):
-              RefTypespec name:t_test start:11:29 end:11:35:
+              RefObj name:t_test start:11:29 end:11:35:
                 vpiParent: SysFuncCall name:$bits
                 vpiName: t_test
                 vpiFullName: test_pkg::t_test
-                vpiActual: TypedefTypespec name:t_test
+                vpiActual: Typedef name:t_test
       vpiTypespec (5 items):
         ArrayTypespec:
           vpiParent: Package name:test_pkg
@@ -183,29 +210,12 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:7:9 end:10:2:
           vpiParent: Package name:test_pkg
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:valid start:8:11 end:8:16:
-              vpiParent: StructTypespec
-              vpiName: valid
-              vpiTypespec RefTypespec start:8:5 end:8:10:
-                vpiParent: TypespecMember name:valid
-                vpiFullName: test_pkg::valid
-                vpiActual: LogicTypespec
-            TypespecMember name:data start:9:18 end:9:22:
-              vpiParent: StructTypespec
-              vpiName: data
-              vpiTypespec RefTypespec start:9:5 end:9:17:
-                vpiParent: TypespecMember name:data
-                vpiFullName: test_pkg::data
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:t_test start:7:1 end:10:10:
           vpiParent: Package name:test_pkg
           vpiName Identifier name:t_test start:10:3 end:10:9:
-          vpiTypedefAlias RefTypespec start:7:9 end:10:2:
-            vpiParent: TypedefTypespec name:t_test
-            vpiFullName: test_pkg::t_test
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:t_test
       vpiDefName: test_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -266,10 +276,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       1         1
 Operation                            2       1       0         1
-RefObj                               5       4       0         1
-RefTypespec                         15      15       1         1
+RefObj                               6       5       0         1
+RefTypespec                         14      14       1         1
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    52      50       2         4
+                                    55      53       2         4
 ===================== END REDUCTION RESULT =====================

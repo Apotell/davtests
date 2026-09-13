@@ -255,10 +255,12 @@ TEST_F(AnsiVariablesTest, VarEnumHasIdleAndBusyConsts) {
   ASSERT_NE(rts, nullptr);
   const hldb::EnumTypespec *const enumTs = rts->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  ASSERT_EQ(enumTs->getEnumConsts()->size(), 2u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "IDLE");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "BUSY");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  ASSERT_EQ(e->getEnumConsts()->size(), 2u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("IDLE"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("BUSY"));
 }
 
 TEST_F(AnsiVariablesTest, VarEnumHasExplicitBaseTypespec) {
@@ -272,7 +274,9 @@ TEST_F(AnsiVariablesTest, VarEnumHasExplicitBaseTypespec) {
   ASSERT_NE(rts, nullptr);
   const hldb::EnumTypespec *const enumTs = rts->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  EXPECT_NE(enumTs->getBaseTypespec(), nullptr) << "enum logic [1:0] {...} has an explicit base type";
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  EXPECT_NE(e->getBaseTypespec(), nullptr) << "enum logic [1:0] {...} has an explicit base type";
 }
 
 // ---------------------------------------------------------------------------
@@ -290,8 +294,8 @@ TEST_F(AnsiVariablesTest, VarVectorIsThreeToZero) {
   EXPECT_TRUE(ls->getVector());
   ASSERT_NE(ls->getRanges(), nullptr);
   ASSERT_EQ(ls->getRanges()->size(), 1u);
-  EXPECT_EQ(ls->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "3");
-  EXPECT_EQ(ls->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
+  EXPECT_EQ(ls->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), std::string_view("3"));
+  EXPECT_EQ(ls->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(AnsiVariablesTest, VarRegVectorIsSevenToZero) {
@@ -306,8 +310,8 @@ TEST_F(AnsiVariablesTest, VarRegVectorIsSevenToZero) {
   EXPECT_TRUE(ls->getVector());
   ASSERT_NE(ls->getRanges(), nullptr);
   ASSERT_EQ(ls->getRanges()->size(), 1u);
-  EXPECT_EQ(ls->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "7");
-  EXPECT_EQ(ls->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
+  EXPECT_EQ(ls->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), std::string_view("7"));
+  EXPECT_EQ(ls->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), std::string_view("0"));
 }
 
 }  // namespace hlc

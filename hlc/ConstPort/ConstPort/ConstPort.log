@@ -27,20 +27,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_pkg start:1:9 end:1:16:
       vpiFullName: aes_pkg
-      vpiTypespec (4 items):
-        LogicTypespec:
-          vpiParent: Package name:aes_pkg
-        BitTypespec:
-          vpiParent: Package name:aes_pkg
-        EnumTypespec start:2:9 end:5:2:
+      vpiEnum (1 items):
+        Enum start:2:9 end:5:2:
           vpiParent: Package name:aes_pkg
           vpiBaseTypespec RefTypespec start:2:14 end:2:19:
-            vpiParent: EnumTypespec
+            vpiParent: Enum
             vpiFullName: aes_pkg
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:CIPH_FWD start:3:3 end:3:18:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:CIPH_FWD start:3:3 end:3:11:
               vpiValue Constant start:3:14 end:3:18:
                 vpiParent: EnumConst name:CIPH_FWD
@@ -53,7 +49,7 @@ Design name:unnamed:
                 vpiDecompile: "1'b0"
                 vpiValue: "0"
             EnumConst name:CIPH_INV start:4:3 end:4:18:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:CIPH_INV start:4:3 end:4:11:
               vpiValue Constant start:4:14 end:4:18:
                 vpiParent: EnumConst name:CIPH_INV
@@ -65,13 +61,27 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
-        TypedefTypespec name:ciph_op_e start:2:1 end:5:13:
+      vpiTypedef (1 items):
+        Typedef name:ciph_op_e start:2:1 end:5:13:
           vpiParent: Package name:aes_pkg
           vpiName Identifier name:ciph_op_e start:5:3 end:5:12:
           vpiTypedefAlias RefTypespec start:2:9 end:5:2:
-            vpiParent: TypedefTypespec name:ciph_op_e
+            vpiParent: Typedef name:ciph_op_e
             vpiFullName: aes_pkg::ciph_op_e
             vpiActual: EnumTypespec
+      vpiTypespec (4 items):
+        LogicTypespec:
+          vpiParent: Package name:aes_pkg
+        BitTypespec:
+          vpiParent: Package name:aes_pkg
+        EnumTypespec start:2:9 end:5:2:
+          vpiParent: Package name:aes_pkg
+          vpiEnum: Enum
+        TypedefTypespec name:ciph_op_e start:2:1 end:5:13:
+          vpiParent: Package name:aes_pkg
+          vpiName Identifier name:ciph_op_e start:5:3 end:5:12:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:ciph_op_e
       vpiDefName: aes_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -205,10 +215,12 @@ Design name:unnamed:
     ModuleTypespec name:mix_columns:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mix_columns start:8:8 end:8:19:
+      vpiDefName: mix_columns
       vpiModule: Module name:mix_columns
     ModuleTypespec name:cipher_core:
       vpiParent: Design name:unnamed
       vpiName Identifier name:cipher_core start:13:8 end:13:19:
+      vpiDefName: cipher_core
       vpiModule: Module name:cipher_core
 ===================
 [  FATAL] : 0
@@ -258,7 +270,7 @@ COMMAND: ${HLC_DIR}/regression/ConstPort/ConstPort/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    58      58       0         0
 ===================== END REDUCTION RESULT =====================

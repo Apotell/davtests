@@ -1410,6 +1410,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/6--error_rules.sv:131:1: Compile module "r18_sub".
 [INF:CP5804] $Source01/6--error_rules.sv:132:1: Compile module "r18_top".
 [INF:CP5804] $Source01/6--error_rules.sv:141:1: Compile module "r19_m".
+[ERR:CP5824] $Source01/6--error_rules.sv:141:1: Multiply defined typedef "r19_e_t".
 [INF:CP5804] $Source01/6--error_rules.sv:159:1: Compile module "r20_m".
 [INF:CP5804] $Source01/6--error_rules.sv:169:1: Compile module "r21_sub".
 [INF:CP5804] $Source01/6--error_rules.sv:170:1: Compile module "r21_m".
@@ -1425,8 +1426,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/6--error_rules.sv:266:1: Compile module "r30_m".
 [INF:CP5804] $Source01/6--error_rules.sv:275:1: Compile module "r31_m".
 [INF:CP5804] $Source01/6--error_rules.sv:289:1: Compile module "r32_m".
-[WRN:CP5851] $Source01/6--error_rules.sv:173:19: Failed to bind "id:306, name:P".
-[WRN:CP5851] $Source01/6--error_rules.sv:231:13: Failed to bind "id:402, name:r26_v".
+[WRN:CP5851] $Source01/6--error_rules.sv:173:19: Failed to bind "id:318, name:P".
+[WRN:CP5851] $Source01/6--error_rules.sv:231:13: Failed to bind "id:415, name:r26_v".
 [WRN:PA5506] $Source01/6--error_rules.sv:20:1: No timescale set for "r8_m".
 [WRN:PA5506] $Source01/6--error_rules.sv:43:1: No timescale set for "r11_m".
 [WRN:PA5506] $Source01/6--error_rules.sv:54:1: No timescale set for "r12_m".
@@ -1489,14 +1490,19 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r20_c start:163:7 end:163:12:
       vpiFullName: r20_c
+      vpiTypedef (1 items):
+        Typedef name:T start:163:14 end:163:28:
+          vpiParent: ClassDefn name:r20_c
+          vpiName Identifier name:T start:163:26 end:163:27:
+          vpiTypedefAlias RefTypespec start:163:22 end:163:25:
+            vpiParent: Typedef name:T
+            vpiFullName: r20_c::T
+            vpiActual: IntTypespec
       vpiTypespec (1 items):
         TypedefTypespec name:T start:163:14 end:163:28:
           vpiParent: ClassDefn name:r20_c
           vpiName Identifier name:T start:163:26 end:163:27:
-          vpiTypedefAlias RefTypespec start:163:22 end:163:25:
-            vpiParent: TypedefTypespec name:T
-            vpiFullName: r20_c::T
-            vpiActual: IntTypespec
+          vpiTypedef: Typedef name:T
       vpiDefName: r20_c
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -1976,14 +1982,19 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r18_sub start:131:8 end:131:15:
       vpiFullName: r18_sub
+      vpiTypedef (1 items):
+        Typedef name:r18_data_t start:131:17 end:131:40:
+          vpiParent: Module name:r18_sub
+          vpiName Identifier name:r18_data_t start:131:29 end:131:39:
+          vpiTypedefAlias RefTypespec start:131:25 end:131:28:
+            vpiParent: Typedef name:r18_data_t
+            vpiFullName: r18_sub.r18_data_t
+            vpiActual: IntTypespec
       vpiTypespec (1 items):
         TypedefTypespec name:r18_data_t start:131:17 end:131:40:
           vpiParent: Module name:r18_sub
           vpiName Identifier name:r18_data_t start:131:29 end:131:39:
-          vpiTypedefAlias RefTypespec start:131:25 end:131:28:
-            vpiParent: TypedefTypespec name:r18_data_t
-            vpiFullName: r18_sub.r18_data_t
-            vpiActual: IntTypespec
+          vpiTypedef: Typedef name:r18_data_t
       vpiDefName: r18_sub
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2030,31 +2041,38 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r19_m start:141:8 end:141:13:
       vpiFullName: r19_m
-      vpiTypespec (3 items):
-        TypedefTypespec start:142:3 end:142:24:
-          vpiParent: Module name:r19_m
-          vpiTypedefAlias RefTypespec name:r19_e_t start:142:16 end:142:23:
-            vpiParent: TypedefTypespec
-            vpiName: r19_e_t
-            vpiFullName: r19_m.r19_e_t
-            vpiActual: TypedefTypespec name:r19_e_t
-        StructTypespec start:143:11 end:143:28:
+      vpiStruct (1 items):
+        Struct start:143:11 end:143:28:
           vpiParent: Module name:r19_m
           vpiTypespecMember (1 items):
             TypespecMember name:a start:143:24 end:143:25:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: a
               vpiTypespec RefTypespec start:143:20 end:143:23:
                 vpiParent: TypespecMember name:a
                 vpiFullName: r19_m.a
                 vpiActual: IntTypespec
-        TypedefTypespec name:r19_e_t start:143:3 end:143:37:
+      vpiTypedef (1 items):
+        Typedef name:r19_e_t start:143:3 end:143:37:
           vpiParent: Module name:r19_m
           vpiName Identifier name:r19_e_t start:143:29 end:143:36:
           vpiTypedefAlias RefTypespec start:143:11 end:143:28:
-            vpiParent: TypedefTypespec name:r19_e_t
+            vpiParent: Typedef name:r19_e_t
             vpiFullName: r19_m.r19_e_t
             vpiActual: StructTypespec
+      vpiTypespec (3 items):
+        TypedefTypespec name:r19_e_t start:142:3 end:142:24:
+          vpiParent: Module name:r19_m
+          vpiName Identifier name:r19_e_t start:142:16 end:142:23:
+          vpiTypedefKind: enum (2)
+        StructTypespec start:143:11 end:143:28:
+          vpiParent: Module name:r19_m
+          vpiStruct: Struct
+        TypedefTypespec name:r19_e_t start:143:3 end:143:37:
+          vpiParent: Module name:r19_m
+          vpiName Identifier name:r19_e_t start:143:29 end:143:36:
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:r19_e_t
       vpiDefName: r19_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2066,6 +2084,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r20_m start:159:8 end:159:13:
       vpiFullName: r20_m
+      vpiTypedef (1 items):
+        Typedef name:r20_ct start:161:3 end:161:27:
+          vpiParent: Module name:r20_m
+          vpiName Identifier name:r20_ct start:161:20 end:161:26:
+          vpiTypedefAlias RefTypespec start:161:11 end:161:19:
+            vpiParent: Typedef name:r20_ct
+            vpiFullName: r20_m.r20_ct
+            vpiActual: UnsupportedTypespec name:r20_c::T
       vpiVariable (1 items):
         Variable name:x start:160:12 end:160:13:
           vpiParent: Module name:r20_m
@@ -2095,10 +2121,8 @@ Design name:unnamed:
         TypedefTypespec name:r20_ct start:161:3 end:161:27:
           vpiParent: Module name:r20_m
           vpiName Identifier name:r20_ct start:161:20 end:161:26:
-          vpiTypedefAlias RefTypespec start:161:11 end:161:19:
-            vpiParent: TypedefTypespec name:r20_ct
-            vpiFullName: r20_m.r20_ct
-            vpiActual: UnsupportedTypespec name:r20_c::T
+          vpiTypedefKind: unsupported (7)
+          vpiTypedef: Typedef name:r20_ct
       vpiDefName: r20_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2151,6 +2175,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r21_m start:170:8 end:170:13:
       vpiFullName: r21_m
+      vpiEnum (1 items):
+        Enum start:173:3 end:173:37:
+          vpiParent: Module name:r21_m
+          vpiEnumConst (2 items):
+            EnumConst name:r21_a start:173:9 end:173:20:
+              vpiParent: Enum
+              vpiName Identifier name:r21_a start:173:9 end:173:14:
+              vpiValue HierPath name:u.P start:173:17 end:173:20:
+                vpiParent: EnumConst name:r21_a
+                vpiName: u.P
+                vpiFullName: r21_m.r21_a.u.P
+                vpiPathElem (2 items):
+                  RefObj name:u start:173:17 end:173:18:
+                    vpiParent: HierPath name:u.P
+                    vpiName: u
+                    vpiFullName: r21_m.r21_a.u
+                    vpiActual: RefInstance name:u
+                  RefObj name:P start:173:19 end:173:20:
+                    vpiParent: HierPath name:u.P
+                    vpiName: P
+                    vpiFullName: r21_m.r21_a.P
+            EnumConst name:r21_b start:173:22 end:173:36:
+              vpiParent: Enum
+              vpiName Identifier name:r21_b start:173:22 end:173:27:
+              vpiValue RefObj name:r21_cv start:173:30 end:173:36:
+                vpiParent: EnumConst name:r21_b
+                vpiName: r21_cv
+                vpiFullName: r21_m.r21_b.r21_cv
+                vpiActual: Variable name:r21_cv
       vpiVariable (2 items):
         Variable name:r21_cv start:172:13 end:172:19:
           vpiParent: Module name:r21_m
@@ -2187,32 +2240,7 @@ Design name:unnamed:
           vpiModule: Module name:r21_sub
         EnumTypespec start:173:3 end:173:37:
           vpiParent: Module name:r21_m
-          vpiEnumConst (2 items):
-            EnumConst name:r21_a start:173:9 end:173:20:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:r21_a start:173:9 end:173:14:
-              vpiValue HierPath name:u.P start:173:17 end:173:20:
-                vpiParent: EnumConst name:r21_a
-                vpiName: u.P
-                vpiFullName: r21_m.r21_a.u.P
-                vpiPathElem (2 items):
-                  RefObj name:u start:173:17 end:173:18:
-                    vpiParent: HierPath name:u.P
-                    vpiName: u
-                    vpiFullName: r21_m.r21_a.u
-                    vpiActual: RefInstance name:u
-                  RefObj name:P start:173:19 end:173:20:
-                    vpiParent: HierPath name:u.P
-                    vpiName: P
-                    vpiFullName: r21_m.r21_a.P
-            EnumConst name:r21_b start:173:22 end:173:36:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:r21_b start:173:22 end:173:27:
-              vpiValue RefObj name:r21_cv start:173:30 end:173:36:
-                vpiParent: EnumConst name:r21_b
-                vpiName: r21_cv
-                vpiFullName: r21_m.r21_b.r21_cv
-                vpiActual: Variable name:r21_cv
+          vpiEnum: Enum
       vpiDefName: r21_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2857,6 +2885,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r31_m start:275:8 end:275:13:
       vpiFullName: r31_m
+      vpiTypedef (1 items):
+        Typedef name:r31_aa_t start:276:3 end:276:32:
+          vpiParent: Module name:r31_m
+          vpiName Identifier name:r31_aa_t start:276:15 end:276:23:
+          vpiTypedefAlias RefTypespec start:276:11 end:276:14:
+            vpiParent: Typedef name:r31_aa_t
+            vpiFullName: r31_m.r31_aa_t
+            vpiActual: ArrayTypespec
       vpiVariable (1 items):
         Variable name:r31_src start:277:7 end:277:14:
           vpiParent: Module name:r31_m
@@ -2881,10 +2917,7 @@ Design name:unnamed:
         TypedefTypespec name:r31_aa_t start:276:3 end:276:32:
           vpiParent: Module name:r31_m
           vpiName Identifier name:r31_aa_t start:276:15 end:276:23:
-          vpiTypedefAlias RefTypespec start:276:11 end:276:14:
-            vpiParent: TypedefTypespec name:r31_aa_t
-            vpiFullName: r31_m.r31_aa_t
-            vpiActual: ArrayTypespec
+          vpiTypedef: Typedef name:r31_aa_t
       vpiDefName: r31_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -2926,6 +2959,24 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r32_m start:289:8 end:289:13:
       vpiFullName: r32_m
+      vpiStruct (1 items):
+        Struct start:290:3 end:290:36:
+          vpiParent: Module name:r32_m
+          vpiTypespecMember (2 items):
+            TypespecMember name:a start:290:21 end:290:22:
+              vpiParent: Struct
+              vpiName: a
+              vpiTypespec RefTypespec start:290:11 end:290:20:
+                vpiParent: TypespecMember name:a
+                vpiFullName: r32_m.a
+                vpiActual: BitTypespec
+            TypespecMember name:b start:290:33 end:290:34:
+              vpiParent: Struct
+              vpiName: b
+              vpiTypespec RefTypespec start:290:24 end:290:32:
+                vpiParent: TypespecMember name:b
+                vpiFullName: r32_m.b
+                vpiActual: ShortIntTypespec
       vpiVariable (2 items):
         Variable name:r32_s start:290:37 end:290:42:
           vpiParent: Module name:r32_m
@@ -2985,21 +3036,7 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:290:3 end:290:36:
           vpiParent: Module name:r32_m
-          vpiTypespecMember (2 items):
-            TypespecMember name:a start:290:21 end:290:22:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec start:290:11 end:290:20:
-                vpiParent: TypespecMember name:a
-                vpiFullName: r32_m.a
-                vpiActual: BitTypespec
-            TypespecMember name:b start:290:33 end:290:34:
-              vpiParent: StructTypespec
-              vpiName: b
-              vpiTypespec RefTypespec start:290:24 end:290:32:
-                vpiParent: TypespecMember name:b
-                vpiFullName: r32_m.b
-                vpiActual: ShortIntTypespec
+          vpiStruct: Struct
       vpiDefName: r32_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -3007,104 +3044,86 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: r32_m.work
       vpiCell: r32_m
-  vpiTypespec (37 items):
+  vpiTypespec (35 items):
     ModuleTypespec name:r8_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r8_m start:20:8 end:20:12:
+      vpiDefName: r8_m
       vpiModule: Module name:r8_m
     StringTypespec:
       vpiParent: Design name:unnamed
-    TypedefTypespec name:r9_badnet start:30:1 end:30:26:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:r9_badnet start:30:16 end:30:25:
-      vpiTypedefAlias RefTypespec start:30:9 end:30:15:
-        vpiParent: TypedefTypespec name:r9_badnet
-        vpiFullName: r9_badnet
-        vpiActual: StringTypespec
-      vpiIsNettype: true
     RealTypespec:
       vpiParent: Design name:unnamed
     StructTypespec start:36:9 end:36:27:
       vpiParent: Design name:unnamed
-      vpiTypespecMember (1 items):
-        TypespecMember name:f start:36:23 end:36:24:
-          vpiParent: StructTypespec
-          vpiName: f
-          vpiTypespec RefTypespec start:36:18 end:36:22:
-            vpiParent: TypespecMember name:f
-            vpiFullName: f
-            vpiActual: RealTypespec
+      vpiStruct: Struct
     TypedefTypespec name:r10_t start:36:1 end:36:34:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r10_t start:36:28 end:36:33:
-      vpiTypedefAlias RefTypespec start:36:9 end:36:27:
-        vpiParent: TypedefTypespec name:r10_t
-        vpiFullName: r10_t
-        vpiActual: StructTypespec
+      vpiTypedefKind: struct (4)
+      vpiTypedef: Typedef name:r10_t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     UnsupportedTypespec name:r10_t start:38:9 end:38:14:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r10_t start:38:9 end:38:14:
-    TypedefTypespec name:r10_wt start:38:1 end:38:35:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:r10_wt start:38:15 end:38:21:
-      vpiTypedefAlias RefTypespec start:38:9 end:38:14:
-        vpiParent: TypedefTypespec name:r10_wt
-        vpiFullName: r10_wt
-        vpiActual: UnsupportedTypespec name:r10_t
-      vpiFunction RefObj name:r10_bad start:38:27 end:38:34:
-        vpiParent: TypedefTypespec name:r10_wt
-        vpiName: r10_bad
-        vpiFullName: r10_wt.r10_bad
-        vpiActual: Function name:r10_bad
-      vpiIsNettype: true
     ModuleTypespec name:r11_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r11_m start:43:8 end:43:13:
+      vpiDefName: r11_m
       vpiModule: Module name:r11_m
     ModuleTypespec name:r12_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r12_m start:54:8 end:54:13:
+      vpiDefName: r12_m
       vpiModule: Module name:r12_m
     ModuleTypespec name:r13_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r13_m start:79:8 end:79:13:
+      vpiDefName: r13_m
       vpiModule: Module name:r13_m
     ModuleTypespec name:r14_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r14_m start:89:8 end:89:13:
+      vpiDefName: r14_m
       vpiModule: Module name:r14_m
     ModuleTypespec name:r15_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r15_m start:99:8 end:99:13:
+      vpiDefName: r15_m
       vpiModule: Module name:r15_m
     ModuleTypespec name:r16_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r16_m start:108:8 end:108:13:
+      vpiDefName: r16_m
       vpiModule: Module name:r16_m
     ModuleTypespec name:r17_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r17_m start:115:8 end:115:13:
+      vpiDefName: r17_m
       vpiModule: Module name:r17_m
     ModuleTypespec name:r18_sub:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r18_sub start:131:8 end:131:15:
+      vpiDefName: r18_sub
       vpiModule: Module name:r18_sub
     ModuleTypespec name:r18_top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r18_top start:132:8 end:132:15:
+      vpiDefName: r18_top
       vpiModule: Module name:r18_top
     ModuleTypespec name:r19_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r19_m start:141:8 end:141:13:
+      vpiDefName: r19_m
       vpiModule: Module name:r19_m
     TypedefTypespec start:158:1 end:158:15:
       vpiParent: Design name:unnamed
     ModuleTypespec name:r20_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r20_m start:159:8 end:159:13:
+      vpiDefName: r20_m
       vpiModule: Module name:r20_m
     ClassTypespec name:r20_c:
       vpiParent: Design name:unnamed
@@ -3114,58 +3133,72 @@ Design name:unnamed:
     ModuleTypespec name:r21_sub:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r21_sub start:169:8 end:169:15:
+      vpiDefName: r21_sub
       vpiModule: Module name:r21_sub
     ModuleTypespec name:r21_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r21_m start:170:8 end:170:13:
+      vpiDefName: r21_m
       vpiModule: Module name:r21_m
     ModuleTypespec name:r22_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r22_m start:179:8 end:179:13:
+      vpiDefName: r22_m
       vpiModule: Module name:r22_m
     ModuleTypespec name:r23_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r23_m start:188:8 end:188:13:
+      vpiDefName: r23_m
       vpiModule: Module name:r23_m
     ModuleTypespec name:r24_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r24_m start:198:8 end:198:13:
+      vpiDefName: r24_m
       vpiModule: Module name:r24_m
     ModuleTypespec name:r25_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r25_m start:214:8 end:214:13:
+      vpiDefName: r25_m
       vpiModule: Module name:r25_m
     ModuleTypespec name:r26_sub:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r26_sub start:224:8 end:224:15:
+      vpiDefName: r26_sub
       vpiModule: Module name:r26_sub
     ModuleTypespec name:r26_top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r26_top start:229:8 end:229:15:
+      vpiDefName: r26_top
       vpiModule: Module name:r26_top
     ModuleTypespec name:r27_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r27_m start:239:8 end:239:13:
+      vpiDefName: r27_m
       vpiModule: Module name:r27_m
     ModuleTypespec name:r28_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r28_m start:249:8 end:249:13:
+      vpiDefName: r28_m
       vpiModule: Module name:r28_m
     ModuleTypespec name:r29_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r29_m start:258:8 end:258:13:
+      vpiDefName: r29_m
       vpiModule: Module name:r29_m
     ModuleTypespec name:r30_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r30_m start:266:8 end:266:13:
+      vpiDefName: r30_m
       vpiModule: Module name:r30_m
     ModuleTypespec name:r31_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r31_m start:275:8 end:275:13:
+      vpiDefName: r31_m
       vpiModule: Module name:r31_m
     ModuleTypespec name:r32_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r32_m start:289:8 end:289:13:
+      vpiDefName: r32_m
       vpiModule: Module name:r32_m
     ShortIntTypespec:
       vpiParent: Design name:unnamed
@@ -3214,10 +3247,50 @@ Design name:unnamed:
         vpiParent: Function name:r10_bad
         vpiFullName: r10_bad
         vpiActual: IntTypespec
+  vpiStruct (1 items):
+    Struct start:36:9 end:36:27:
+      vpiParent: Design name:unnamed
+      vpiTypespecMember (1 items):
+        TypespecMember name:f start:36:23 end:36:24:
+          vpiParent: Struct
+          vpiName: f
+          vpiTypespec RefTypespec start:36:18 end:36:22:
+            vpiParent: TypespecMember name:f
+            vpiFullName: f
+            vpiActual: RealTypespec
+  vpiTypedef (3 items):
+    Typedef name:r9_badnet start:30:1 end:30:26:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r9_badnet start:30:16 end:30:25:
+      vpiTypedefAlias RefTypespec start:30:9 end:30:15:
+        vpiParent: Typedef name:r9_badnet
+        vpiFullName: r9_badnet
+        vpiActual: StringTypespec
+      vpiIsNettype: true
+    Typedef name:r10_t start:36:1 end:36:34:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r10_t start:36:28 end:36:33:
+      vpiTypedefAlias RefTypespec start:36:9 end:36:27:
+        vpiParent: Typedef name:r10_t
+        vpiFullName: r10_t
+        vpiActual: StructTypespec
+    Typedef name:r10_wt start:38:1 end:38:35:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:r10_wt start:38:15 end:38:21:
+      vpiTypedefAlias RefTypespec start:38:9 end:38:14:
+        vpiParent: Typedef name:r10_wt
+        vpiFullName: r10_wt
+        vpiActual: UnsupportedTypespec name:r10_t
+      vpiFunction RefObj name:r10_bad start:38:27 end:38:34:
+        vpiParent: Typedef name:r10_wt
+        vpiName: r10_bad
+        vpiFullName: r10_wt.r10_bad
+        vpiActual: Function name:r10_bad
+      vpiIsNettype: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 1
-[  ERROR] : 22
+[  ERROR] : 23
 [WARNING] : 29
 [   NOTE] : 0
 ********************************************************************************
@@ -3262,7 +3335,7 @@ COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-6/6--error_rules/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             466     466       0         0
+Others                             482     482       0         0
 ----------------------------------------------------------------
-                                   466     466       0         0
+                                   482     482       0         0
 ===================== END REDUCTION RESULT =====================

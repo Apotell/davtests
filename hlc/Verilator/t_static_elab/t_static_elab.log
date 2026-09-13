@@ -360,6 +360,54 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
       vpiFullName: t
+      vpiEnum (1 items):
+        Enum start:12:12 end:15:5:
+          vpiParent: Module name:t
+          vpiEnumConst (2 items):
+            EnumConst name:LOW_FIVE start:13:8 end:13:31:
+              vpiParent: Enum
+              vpiName Identifier name:LOW_FIVE start:13:8 end:13:16:
+              vpiValue Constant start:13:19 end:13:31:
+                vpiParent: EnumConst name:LOW_FIVE
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.LOW_FIVE
+                  vpiActual: IntTypespec
+                vpiConstType: hexadecimal (5)
+                vpiSize: 32
+                vpiDecompile: "32'hdeadbeef"
+                vpiValue: deadbeef
+            EnumConst name:HIGH_FIVE start:14:8 end:14:17:
+              vpiParent: Enum
+              vpiName Identifier name:HIGH_FIVE start:14:8 end:14:17:
+      vpiStruct (1 items):
+        Struct start:8:12 end:10:5:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:_five start:9:24 end:9:29:
+              vpiParent: Struct
+              vpiName: "_five"
+              vpiTypespec RefTypespec name:logic start:9:7 end:9:23:
+                vpiParent: TypespecMember name:_five
+                vpiName: logic
+                vpiFullName: t._five.logic
+                vpiActual: ArrayTypespec
+      vpiTypedef (2 items):
+        Typedef name:five_t start:8:4 end:10:13:
+          vpiParent: Module name:t
+          vpiName Identifier name:five_t start:10:6 end:10:12:
+          vpiTypedefAlias RefTypespec start:8:12 end:10:5:
+            vpiParent: Typedef name:five_t
+            vpiFullName: t.five_t
+            vpiActual: StructTypespec
+        Typedef name:five_style_t start:12:4 end:15:19:
+          vpiParent: Module name:t
+          vpiName Identifier name:five_style_t start:15:6 end:15:18:
+          vpiTypedefAlias RefTypespec start:12:12 end:15:5:
+            vpiParent: Typedef name:five_style_t
+            vpiFullName: t.five_style_t
+            vpiActual: EnumTypespec
       vpiParameter (2 items):
         Parameter name:FIVE start:33:22 end:33:26:
           vpiParent: Module name:t
@@ -441,49 +489,20 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:8:12 end:10:5:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:_five start:9:24 end:9:29:
-              vpiParent: StructTypespec
-              vpiName: "_five"
-              vpiTypespec RefTypespec name:logic start:9:7 end:9:23:
-                vpiParent: TypespecMember name:_five
-                vpiName: logic
-                vpiFullName: t._five.logic
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:five_t start:8:4 end:10:13:
           vpiParent: Module name:t
           vpiName Identifier name:five_t start:10:6 end:10:12:
-          vpiTypedefAlias RefTypespec start:8:12 end:10:5:
-            vpiParent: TypedefTypespec name:five_t
-            vpiFullName: t.five_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:five_t
         EnumTypespec start:12:12 end:15:5:
           vpiParent: Module name:t
-          vpiEnumConst (2 items):
-            EnumConst name:LOW_FIVE start:13:8 end:13:31:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:LOW_FIVE start:13:8 end:13:16:
-              vpiValue Constant start:13:19 end:13:31:
-                vpiParent: EnumConst name:LOW_FIVE
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.LOW_FIVE
-                  vpiActual: IntTypespec
-                vpiConstType: hexadecimal (5)
-                vpiSize: 32
-                vpiDecompile: "32'hdeadbeef"
-                vpiValue: deadbeef
-            EnumConst name:HIGH_FIVE start:14:8 end:14:17:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:HIGH_FIVE start:14:8 end:14:17:
+          vpiEnum: Enum
         TypedefTypespec name:five_style_t start:12:4 end:15:19:
           vpiParent: Module name:t
           vpiName Identifier name:five_style_t start:15:6 end:15:18:
-          vpiTypedefAlias RefTypespec start:12:12 end:15:5:
-            vpiParent: TypedefTypespec name:five_style_t
-            vpiFullName: t.five_style_t
-            vpiActual: EnumTypespec
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:five_style_t
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -742,6 +761,7 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
+      vpiDefName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -798,7 +818,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_static_elab/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             113     113       0         0
+Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   113     113       0         0
+                                   119     119       0         0
 ===================== END REDUCTION RESULT =====================

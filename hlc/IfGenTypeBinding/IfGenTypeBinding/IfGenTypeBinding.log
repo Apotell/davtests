@@ -1672,48 +1672,58 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ibex_pkg start:1:9 end:1:17:
       vpiFullName: ibex_pkg
-      vpiTypespec (3 items):
-        LogicTypespec:
-          vpiParent: Package name:ibex_pkg
-        StructTypespec start:3:11 end:8:4:
+      vpiStruct (1 items):
+        Struct start:3:11 end:8:4:
           vpiParent: Package name:ibex_pkg
           vpiPacked: true
           vpiTypespecMember (4 items):
             TypespecMember name:lock start:4:20 end:4:24:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: lock
               vpiTypespec RefTypespec start:4:5 end:4:10:
                 vpiParent: TypespecMember name:lock
                 vpiFullName: ibex_pkg::lock
                 vpiActual: LogicTypespec
             TypespecMember name:exec start:5:20 end:5:24:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: exec
               vpiTypespec RefTypespec start:5:5 end:5:10:
                 vpiParent: TypespecMember name:exec
                 vpiFullName: ibex_pkg::exec
                 vpiActual: LogicTypespec
             TypespecMember name:write start:6:20 end:6:25:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: write
               vpiTypespec RefTypespec start:6:5 end:6:10:
                 vpiParent: TypespecMember name:write
                 vpiFullName: ibex_pkg::write
                 vpiActual: LogicTypespec
             TypespecMember name:read start:7:20 end:7:24:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: read
               vpiTypespec RefTypespec start:7:5 end:7:10:
                 vpiParent: TypespecMember name:read
                 vpiFullName: ibex_pkg::read
                 vpiActual: LogicTypespec
-        TypedefTypespec name:pmp_cfg_t start:3:3 end:8:15:
+      vpiTypedef (1 items):
+        Typedef name:pmp_cfg_t start:3:3 end:8:15:
           vpiParent: Package name:ibex_pkg
           vpiName Identifier name:pmp_cfg_t start:8:5 end:8:14:
           vpiTypedefAlias RefTypespec start:3:11 end:8:4:
-            vpiParent: TypedefTypespec name:pmp_cfg_t
+            vpiParent: Typedef name:pmp_cfg_t
             vpiFullName: ibex_pkg::pmp_cfg_t
             vpiActual: StructTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Package name:ibex_pkg
+        StructTypespec start:3:11 end:8:4:
+          vpiParent: Package name:ibex_pkg
+          vpiStruct: Struct
+        TypedefTypespec name:pmp_cfg_t start:3:3 end:8:15:
+          vpiParent: Package name:ibex_pkg
+          vpiName Identifier name:pmp_cfg_t start:8:5 end:8:14:
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:pmp_cfg_t
       vpiDefName: ibex_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -1903,32 +1913,42 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2266,6 +2286,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:13:8 end:13:11:
+      vpiDefName: top
       vpiModule: Module name:top #(.PMPEnable(1))
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
@@ -2330,7 +2351,7 @@ COMMAND: ${HLC_DIR}/regression/IfGenTypeBinding/IfGenTypeBinding/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             643     643       0         0
+Others                             649     649       0         0
 ----------------------------------------------------------------
-                                   643     643       0         0
+                                   649     649       0         0
 ===================== END REDUCTION RESULT =====================

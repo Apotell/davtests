@@ -181,6 +181,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top #(.W(4)) start:2:8 end:2:11:
       vpiFullName: top #(.W(4))
+      vpiTypedef (1 items):
+        Typedef name:sheet_t start:4:1 end:4:39:
+          vpiParent: Module name:top #(.W(4))
+          vpiName Identifier name:sheet_t start:4:31 end:4:38:
+          vpiTypedefAlias RefTypespec start:4:9 end:4:30:
+            vpiParent: Typedef name:sheet_t
+            vpiFullName: top #(.W(4)).sheet_t
+            vpiActual: LogicTypespec
       vpiVariable (1 items):
         Variable name:c0 start:6:28 end:6:30:
           vpiParent: Module name:top #(.W(4))
@@ -291,10 +299,7 @@ Design name:unnamed:
         TypedefTypespec name:sheet_t start:4:1 end:4:39:
           vpiParent: Module name:top #(.W(4))
           vpiName Identifier name:sheet_t start:4:31 end:4:38:
-          vpiTypedefAlias RefTypespec start:4:9 end:4:30:
-            vpiParent: TypedefTypespec name:sheet_t
-            vpiFullName: top #(.W(4)).sheet_t
-            vpiActual: LogicTypespec
+          vpiTypedef: Typedef name:sheet_t
         LogicTypespec:
           vpiParent: Module name:top #(.W(4))
           vpiRange (1 items):
@@ -308,11 +313,11 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName Identifier name:$bits start:6:8 end:6:13:
                     vpiArgument (1 items):
-                      RefTypespec name:sheet_t start:6:14 end:6:21:
+                      RefObj name:sheet_t start:6:14 end:6:21:
                         vpiParent: SysFuncCall name:$bits
                         vpiName: sheet_t
                         vpiFullName: top #(.W(4)).sheet_t
-                        vpiActual: TypedefTypespec name:sheet_t
+                        vpiActual: Typedef name:sheet_t
                   Constant start:6:23 end:6:24:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -402,24 +407,25 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName Identifier name:$bits start:7:22 end:7:27:
                   vpiArgument (1 items):
-                    RefTypespec name:sheet_t start:7:28 end:7:35:
+                    RefObj name:sheet_t start:7:28 end:7:35:
                       vpiParent: SysFuncCall name:$bits
                       vpiName: sheet_t
                       vpiFullName: top #(.W(4)).rand_i[1*$bits(sheet_t)+:$bits(sheet_t)].sheet_t
-                      vpiActual: TypedefTypespec name:sheet_t
+                      vpiActual: Typedef name:sheet_t
             vpiWidthExpr SysFuncCall name:$bits start:7:38 end:7:52:
               vpiParent: IndexedPartSelect name:rand_i[1*$bits(sheet_t)+:$bits(sheet_t)]
               vpiName Identifier name:$bits start:7:38 end:7:43:
               vpiArgument (1 items):
-                RefTypespec name:sheet_t start:7:44 end:7:51:
+                RefObj name:sheet_t start:7:44 end:7:51:
                   vpiParent: SysFuncCall name:$bits
                   vpiName: sheet_t
                   vpiFullName: top #(.W(4)).rand_i[1*$bits(sheet_t)+:$bits(sheet_t)].sheet_t
-                  vpiActual: TypedefTypespec name:sheet_t
+                  vpiActual: Typedef name:sheet_t
   vpiTypespec (2 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:2:8 end:2:11:
+      vpiDefName: top
       vpiModule: Module name:top #(.W(4))
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -472,7 +478,7 @@ COMMAND: ${HLC_DIR}/regression/TypespecBits/TypespecBits/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                    63      63       0         0
+                                    65      65       0         0
 ===================== END REDUCTION RESULT =====================

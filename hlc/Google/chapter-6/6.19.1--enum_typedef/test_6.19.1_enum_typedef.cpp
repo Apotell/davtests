@@ -86,7 +86,7 @@ TEST_F(EnumTypedefTest, ValVariableTypespecNameIsE) {
   ASSERT_NE(val, nullptr);
   const hldb::RefTypespec *const rts = val->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getName(), "e");
+  EXPECT_EQ(rts->getName(), std::string_view("e"));
 }
 
 TEST_F(EnumTypedefTest, ValVariableTypespecActualIsLogic) {
@@ -105,15 +105,17 @@ TEST_F(EnumTypedefTest, ModuleHasTypedefTypespecE) {
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr) << "module should own a TypedefTypespec named 'e'";
-  EXPECT_EQ(td->getName(), "e");
+  EXPECT_EQ(td->getName(), std::string_view("e"));
 }
 
 TEST_F(EnumTypedefTest, TypedefEAliasIsEnumTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::RefTypespec *const alias = td->getTypedefAlias();
+  const hldb::RefTypespec *const alias = td->getAlias();
   ASSERT_NE(alias, nullptr);
   EXPECT_NE(alias->getActual<hldb::EnumTypespec>(), nullptr) << "typedef 'e' alias should point to the EnumTypespec";
 }
@@ -124,27 +126,35 @@ TEST_F(EnumTypedefTest, TypedefEAliasIsEnumTypespec) {
 TEST_F(EnumTypedefTest, EnumHasThreeConsts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = td->getAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 3u);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 3u);
 }
 
 TEST_F(EnumTypedefTest, EnumConstsAreABC) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = td->getAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  const auto *consts = enumTs->getEnumConsts();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const auto *consts = e->getEnumConsts();
   ASSERT_NE(consts, nullptr);
   ASSERT_EQ(consts->size(), 3u);
-  EXPECT_EQ(consts->at(0)->getName(), "a");
-  EXPECT_EQ(consts->at(1)->getName(), "b");
-  EXPECT_EQ(consts->at(2)->getName(), "c");
+  EXPECT_EQ(consts->at(0)->getName(), std::string_view("a"));
+  EXPECT_EQ(consts->at(1)->getName(), std::string_view("b"));
+  EXPECT_EQ(consts->at(2)->getName(), std::string_view("c"));
 }
 
 TEST_F(EnumTypedefTest, ValVariableHasNoInitialValue) {
@@ -161,11 +171,15 @@ TEST_F(EnumTypedefTest, ValVariableHasNoInitialValue) {
 TEST_F(EnumTypedefTest, EnumConstsHaveNoImplicitDefaultValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = td->getAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
-  const auto *consts = enumTs->getEnumConsts();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const auto *consts = e->getEnumConsts();
   ASSERT_NE(consts, nullptr);
   ASSERT_EQ(consts->size(), 3u);
   EXPECT_EQ(consts->at(0)->getValue<hldb::Constant>(), nullptr) << "'a' implicit default value 0 is not stored";

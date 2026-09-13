@@ -70,12 +70,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
       vpiFullName: t
-      vpiTypespec (2 items):
-        EnumTypespec start:10:12 end:10:35:
+      vpiEnum (1 items):
+        Enum start:10:12 end:10:35:
           vpiParent: Module name:t
           vpiEnumConst (1 items):
             EnumConst name:HIDE_VALUE start:10:19 end:10:33:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:HIDE_VALUE start:10:19 end:10:29:
               vpiValue Constant start:10:32 end:10:33:
                 vpiParent: EnumConst name:HIDE_VALUE
@@ -87,13 +87,23 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
-        TypedefTypespec name:hide_enum_t start:10:4 end:10:48:
+      vpiTypedef (1 items):
+        Typedef name:hide_enum_t start:10:4 end:10:48:
           vpiParent: Module name:t
           vpiName Identifier name:hide_enum_t start:10:36 end:10:47:
           vpiTypedefAlias RefTypespec start:10:12 end:10:35:
-            vpiParent: TypedefTypespec name:hide_enum_t
+            vpiParent: Typedef name:hide_enum_t
             vpiFullName: t.hide_enum_t
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:10:12 end:10:35:
+          vpiParent: Module name:t
+          vpiEnum: Enum
+        TypedefTypespec name:hide_enum_t start:10:4 end:10:48:
+          vpiParent: Module name:t
+          vpiName Identifier name:hide_enum_t start:10:36 end:10:47:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:hide_enum_t
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -107,9 +117,23 @@ Design name:unnamed:
       vpiSigned: true
     EnumTypespec start:6:9 end:6:32:
       vpiParent: Design name:unnamed
+      vpiEnum: Enum
+    TypedefTypespec name:hide_enum_t start:6:1 end:6:45:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:hide_enum_t start:6:33 end:6:44:
+      vpiTypedefKind: enum (2)
+      vpiTypedef: Typedef name:hide_enum_t
+    ModuleTypespec name:t:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t start:8:8 end:8:9:
+      vpiDefName: t
+      vpiModule: Module name:t
+  vpiEnum (1 items):
+    Enum start:6:9 end:6:32:
+      vpiParent: Design name:unnamed
       vpiEnumConst (1 items):
         EnumConst name:HIDE_VALUE start:6:16 end:6:30:
-          vpiParent: EnumTypespec
+          vpiParent: Enum
           vpiName Identifier name:HIDE_VALUE start:6:16 end:6:26:
           vpiValue Constant start:6:29 end:6:30:
             vpiParent: EnumConst name:HIDE_VALUE
@@ -121,17 +145,14 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-    TypedefTypespec name:hide_enum_t start:6:1 end:6:45:
+  vpiTypedef (1 items):
+    Typedef name:hide_enum_t start:6:1 end:6:45:
       vpiParent: Design name:unnamed
       vpiName Identifier name:hide_enum_t start:6:33 end:6:44:
       vpiTypedefAlias RefTypespec start:6:9 end:6:32:
-        vpiParent: TypedefTypespec name:hide_enum_t
+        vpiParent: Typedef name:hide_enum_t
         vpiFullName: hide_enum_t
         vpiActual: EnumTypespec
-    ModuleTypespec name:t:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:t start:8:8 end:8:9:
-      vpiModule: Module name:t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -180,7 +201,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_bad_hide/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              24      24       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    24      24       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

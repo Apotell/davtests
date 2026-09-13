@@ -123,10 +123,7 @@ Design name:unnamed:
     TypedefTypespec name:num_t start:15:1 end:15:24:
       vpiParent: Design name:unnamed
       vpiName Identifier name:num_t start:15:18 end:15:23:
-      vpiTypedefAlias RefTypespec start:15:9 end:15:17:
-        vpiParent: TypedefTypespec name:num_t
-        vpiFullName: num_t
-        vpiActual: BitTypespec
+      vpiTypedef: Typedef name:num_t
     UnsupportedTypespec name:num_t start:16:14 end:16:19:
       vpiParent: Design name:unnamed
       vpiName Identifier name:num_t start:16:14 end:16:19:
@@ -134,12 +131,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     EnumTypespec start:16:9 end:19:2:
       vpiParent: Design name:unnamed
+      vpiEnum: Enum
+    TypedefTypespec name:myenum_fwd start:16:1 end:19:14:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:myenum_fwd start:19:3 end:19:13:
+      vpiTypedefKind: enum (2)
+      vpiTypedef: Typedef name:myenum_fwd
+    ModuleTypespec name:test:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:test start:21:8 end:21:12:
+      vpiDefName: test
+      vpiModule: Module name:test
+  vpiEnum (1 items):
+    Enum start:16:9 end:19:2:
+      vpiParent: Design name:unnamed
       vpiBaseTypespec RefTypespec start:16:14 end:16:19:
-        vpiParent: EnumTypespec
+        vpiParent: Enum
         vpiActual: UnsupportedTypespec name:num_t
       vpiEnumConst (2 items):
         EnumConst name:Global start:17:3 end:17:16:
-          vpiParent: EnumTypespec
+          vpiParent: Enum
           vpiName Identifier name:Global start:17:3 end:17:9:
           vpiValue Constant start:17:12 end:17:16:
             vpiParent: EnumConst name:Global
@@ -152,7 +163,7 @@ Design name:unnamed:
             vpiDecompile: "4'h2"
             vpiValue: "2"
         EnumConst name:Local start:18:3 end:18:15:
-          vpiParent: EnumTypespec
+          vpiParent: Enum
           vpiName Identifier name:Local start:18:3 end:18:8:
           vpiValue Constant start:18:11 end:18:15:
             vpiParent: EnumConst name:Local
@@ -164,17 +175,21 @@ Design name:unnamed:
             vpiSize: 4
             vpiDecompile: "4'h3"
             vpiValue: "3"
-    TypedefTypespec name:myenum_fwd start:16:1 end:19:14:
+  vpiTypedef (2 items):
+    Typedef name:num_t start:15:1 end:15:24:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:num_t start:15:18 end:15:23:
+      vpiTypedefAlias RefTypespec start:15:9 end:15:17:
+        vpiParent: Typedef name:num_t
+        vpiFullName: num_t
+        vpiActual: BitTypespec
+    Typedef name:myenum_fwd start:16:1 end:19:14:
       vpiParent: Design name:unnamed
       vpiName Identifier name:myenum_fwd start:19:3 end:19:13:
       vpiTypedefAlias RefTypespec start:16:9 end:19:2:
-        vpiParent: TypedefTypespec name:myenum_fwd
+        vpiParent: Typedef name:myenum_fwd
         vpiFullName: myenum_fwd
         vpiActual: EnumTypespec
-    ModuleTypespec name:test:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:21:8 end:21:12:
-      vpiModule: Module name:test
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -223,7 +238,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_23/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    33      33       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

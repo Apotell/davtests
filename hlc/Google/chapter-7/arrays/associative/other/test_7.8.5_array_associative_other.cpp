@@ -107,7 +107,7 @@ TEST_F(ArrayAssociativeOtherTest, VariableNameIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
-  EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
+  EXPECT_EQ(top->getVariables()->at(0)->getName(), std::string_view("arr"));
 }
 
 TEST_F(ArrayAssociativeOtherTest, VariableHasArrayTypespec) {
@@ -148,7 +148,7 @@ TEST_F(ArrayAssociativeOtherTest, ArrayTypespecIndexTypespecResolvesToUnpktTyped
   ASSERT_NE(at->getIndexTypespec(), nullptr);
   const hldb::TypedefTypespec *const td = at->getIndexTypespec()->getActual<hldb::TypedefTypespec>();
   ASSERT_NE(td, nullptr);
-  EXPECT_EQ(td->getName(), "Unpkt");
+  EXPECT_EQ(td->getName(), std::string_view("Unpkt"));
 }
 
 TEST_F(ArrayAssociativeOtherTest, NoProcesses) {
@@ -174,26 +174,34 @@ TEST_F(ArrayAssociativeOtherTest, UnpktStructHasTwoMembers) {
   // should have exactly 2 members: B and I.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  ASSERT_NE(td->getTypedefAlias(), nullptr);
-  const hldb::StructTypespec *const st = td->getTypedefAlias()->getActual<hldb::StructTypespec>();
+  ASSERT_NE(td->getAlias(), nullptr);
+  const hldb::StructTypespec *const st = td->getAlias()->getActual<hldb::StructTypespec>();
   ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  EXPECT_EQ(st->getMembers()->size(), 2u);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  EXPECT_EQ(s->getMembers()->size(), 2u);
 }
 
 TEST_F(ArrayAssociativeOtherTest, UnpktMemberBIsByteTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::StructTypespec *const st = td->getTypedefAlias()->getActual<hldb::StructTypespec>();
+  const hldb::StructTypespec *const st = td->getAlias()->getActual<hldb::StructTypespec>();
   ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  const hldb::TypespecMember *const b = st->getMembers()->at(0);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  const hldb::TypespecMember *const b = s->getMembers()->at(0);
   ASSERT_NE(b, nullptr);
-  EXPECT_EQ(b->getName(), "B");
+  EXPECT_EQ(b->getName(), std::string_view("B"));
   ASSERT_NE(b->getTypespec(), nullptr);
   EXPECT_NE(b->getTypespec()->getActual<hldb::ByteTypespec>(), nullptr);
 }
@@ -201,15 +209,19 @@ TEST_F(ArrayAssociativeOtherTest, UnpktMemberBIsByteTypespec) {
 TEST_F(ArrayAssociativeOtherTest, UnpktMemberIIsWildcardArrayTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::StructTypespec *const st = td->getTypedefAlias()->getActual<hldb::StructTypespec>();
+  const hldb::StructTypespec *const st = td->getAlias()->getActual<hldb::StructTypespec>();
   ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  ASSERT_EQ(st->getMembers()->size(), 2u);
-  const hldb::TypespecMember *const i = st->getMembers()->at(1);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  ASSERT_EQ(s->getMembers()->size(), 2u);
+  const hldb::TypespecMember *const i = s->getMembers()->at(1);
   ASSERT_NE(i, nullptr);
-  EXPECT_EQ(i->getName(), "I");
+  EXPECT_EQ(i->getName(), std::string_view("I"));
   ASSERT_NE(i->getTypespec(), nullptr);
   const hldb::ArrayTypespec *const at = i->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -222,13 +234,17 @@ TEST_F(ArrayAssociativeOtherTest, UnpktMemberIWildcardIndexHasNoConcreteType) {
   // wildcard.cpp's IndexTypespecActualIsNull.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::StructTypespec *const st = td->getTypedefAlias()->getActual<hldb::StructTypespec>();
+  const hldb::StructTypespec *const st = td->getAlias()->getActual<hldb::StructTypespec>();
   ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  ASSERT_EQ(st->getMembers()->size(), 2u);
-  const hldb::TypespecMember *const i = st->getMembers()->at(1);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  ASSERT_EQ(s->getMembers()->size(), 2u);
+  const hldb::TypespecMember *const i = s->getMembers()->at(1);
   ASSERT_NE(i, nullptr);
   const hldb::ArrayTypespec *const at = i->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);

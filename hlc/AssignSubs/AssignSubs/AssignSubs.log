@@ -192,6 +192,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:1:9 end:1:12:
       vpiFullName: pkg
+      vpiEnum (1 items):
+        Enum start:2:10 end:4:4:
+          vpiParent: Package name:pkg
+          vpiBaseTypespec RefTypespec start:2:15 end:2:26:
+            vpiParent: Enum
+            vpiFullName: pkg
+            vpiActual: LogicTypespec
+          vpiEnumConst (1 items):
+            EnumConst name:PRIV_LVL_M start:3:3 end:3:21:
+              vpiParent: Enum
+              vpiName Identifier name:PRIV_LVL_M start:3:3 end:3:13:
+              vpiValue Constant start:3:16 end:3:21:
+                vpiParent: EnumConst name:PRIV_LVL_M
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: pkg::PRIV_LVL_M
+                  vpiActual: LogicTypespec
+                vpiConstType: binary (3)
+                vpiSize: 4
+                vpiDecompile: "4'b11"
+                vpiValue: "11"
+      vpiTypedef (1 items):
+        Typedef name:priv_lvl_e start:2:2 end:4:16:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:priv_lvl_e start:4:5 end:4:15:
+          vpiTypedefAlias RefTypespec start:2:10 end:4:4:
+            vpiParent: Typedef name:priv_lvl_e
+            vpiFullName: pkg::priv_lvl_e
+            vpiActual: EnumTypespec
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Package name:pkg
@@ -221,31 +250,12 @@ Design name:unnamed:
           vpiVector: true
         EnumTypespec start:2:10 end:4:4:
           vpiParent: Package name:pkg
-          vpiBaseTypespec RefTypespec start:2:15 end:2:26:
-            vpiParent: EnumTypespec
-            vpiFullName: pkg
-            vpiActual: LogicTypespec
-          vpiEnumConst (1 items):
-            EnumConst name:PRIV_LVL_M start:3:3 end:3:21:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:PRIV_LVL_M start:3:3 end:3:13:
-              vpiValue Constant start:3:16 end:3:21:
-                vpiParent: EnumConst name:PRIV_LVL_M
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: pkg::PRIV_LVL_M
-                  vpiActual: LogicTypespec
-                vpiConstType: binary (3)
-                vpiSize: 4
-                vpiDecompile: "4'b11"
-                vpiValue: "11"
+          vpiEnum: Enum
         TypedefTypespec name:priv_lvl_e start:2:2 end:4:16:
           vpiParent: Package name:pkg
           vpiName Identifier name:priv_lvl_e start:4:5 end:4:15:
-          vpiTypedefAlias RefTypespec start:2:10 end:4:4:
-            vpiParent: TypedefTypespec name:priv_lvl_e
-            vpiFullName: pkg::priv_lvl_e
-            vpiActual: EnumTypespec
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:priv_lvl_e
       vpiDefName: pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -464,6 +474,7 @@ Design name:unnamed:
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:7:8 end:7:11:
+      vpiDefName: dut
       vpiModule: Module name:dut
 ===================
 [  FATAL] : 0
@@ -515,7 +526,7 @@ Name                            Before   After   Added   Removed
 Operation                            5       4       0         1
 RefObj                               9       8       0         1
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    72      70       0         2
+                                    75      73       0         2
 ===================== END REDUCTION RESULT =====================

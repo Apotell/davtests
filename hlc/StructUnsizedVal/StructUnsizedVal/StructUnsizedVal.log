@@ -267,6 +267,34 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pkg start:1:9 end:1:12:
       vpiFullName: pkg
+      vpiStruct (1 items):
+        Struct start:4:11 end:6:4:
+          vpiParent: Package name:pkg
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:key start:5:11 end:5:14:
+              vpiParent: Struct
+              vpiName: key
+              vpiTypespec RefTypespec name:key start:5:5 end:5:8:
+                vpiParent: TypespecMember name:key
+                vpiName: key
+                vpiFullName: pkg::key::key
+                vpiActual: TypedefTypespec name:key
+      vpiTypedef (2 items):
+        Typedef name:key start:3:3 end:3:35:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:key start:3:31 end:3:34:
+          vpiTypedefAlias RefTypespec start:3:11 end:3:28:
+            vpiParent: Typedef name:key
+            vpiFullName: pkg::key
+            vpiActual: LogicTypespec
+        Typedef name:init_t start:4:3 end:6:12:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:init_t start:6:5 end:6:11:
+          vpiTypedefAlias RefTypespec start:4:11 end:6:4:
+            vpiParent: Typedef name:init_t
+            vpiFullName: pkg::init_t
+            vpiActual: StructTypespec
       vpiParameter (2 items):
         Parameter name:Width start:2:17 end:2:22:
           vpiParent: Package name:pkg
@@ -360,29 +388,15 @@ Design name:unnamed:
         TypedefTypespec name:key start:3:3 end:3:35:
           vpiParent: Package name:pkg
           vpiName Identifier name:key start:3:31 end:3:34:
-          vpiTypedefAlias RefTypespec start:3:11 end:3:28:
-            vpiParent: TypedefTypespec name:key
-            vpiFullName: pkg::key
-            vpiActual: LogicTypespec
+          vpiTypedef: Typedef name:key
         StructTypespec start:4:11 end:6:4:
           vpiParent: Package name:pkg
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:key start:5:11 end:5:14:
-              vpiParent: StructTypespec
-              vpiName: key
-              vpiTypespec RefTypespec name:key start:5:5 end:5:8:
-                vpiParent: TypespecMember name:key
-                vpiName: key
-                vpiFullName: pkg::key::key
-                vpiActual: TypedefTypespec name:key
+          vpiStruct: Struct
         TypedefTypespec name:init_t start:4:3 end:6:12:
           vpiParent: Package name:pkg
           vpiName Identifier name:init_t start:6:5 end:6:11:
-          vpiTypedefAlias RefTypespec start:4:11 end:6:4:
-            vpiParent: TypedefTypespec name:init_t
-            vpiFullName: pkg::init_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:init_t
         BitTypespec:
           vpiParent: Package name:pkg
       vpiDefName: pkg
@@ -665,18 +679,22 @@ Design name:unnamed:
     ModuleTypespec name:foo2:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo2 start:10:8 end:10:12:
+      vpiDefName: foo2
       vpiModule: "Module name:foo2 #(.ResetValue('0))"
     ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:13:8 end:13:11:
+      vpiDefName: foo
       vpiModule: "Module name:foo #(.ResetValue('0))"
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:17:8 end:17:11:
+      vpiDefName: dut
       vpiModule: Module name:dut #(.Init(InitDefault))
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:21:8 end:21:11:
+      vpiDefName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0
@@ -730,7 +748,7 @@ Operation                            1       0       0         1
 RefObj                              17      16       0         1
 RefTypespec                         21      21       1         1
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                   109     107       2         4
+                                   114     112       2         4
 ===================== END REDUCTION RESULT =====================

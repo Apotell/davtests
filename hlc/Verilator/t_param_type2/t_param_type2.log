@@ -257,6 +257,34 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tt_pkg start:6:9 end:6:15:
       vpiFullName: tt_pkg
+      vpiEnum (1 items):
+        Enum start:7:12 end:7:45:
+          vpiParent: Package name:tt_pkg
+          vpiBaseTypespec RefTypespec start:7:17 end:7:28:
+            vpiParent: Enum
+            vpiFullName: tt_pkg
+            vpiActual: ArrayTypespec
+          vpiEnumConst (4 items):
+            EnumConst name:L0 start:7:30 end:7:32:
+              vpiParent: Enum
+              vpiName Identifier name:L0 start:7:30 end:7:32:
+            EnumConst name:L1 start:7:34 end:7:36:
+              vpiParent: Enum
+              vpiName Identifier name:L1 start:7:34 end:7:36:
+            EnumConst name:L2 start:7:38 end:7:40:
+              vpiParent: Enum
+              vpiName Identifier name:L2 start:7:38 end:7:40:
+            EnumConst name:L3 start:7:42 end:7:44:
+              vpiParent: Enum
+              vpiName Identifier name:L3 start:7:42 end:7:44:
+      vpiTypedef (1 items):
+        Typedef name:test_t start:7:4 end:7:53:
+          vpiParent: Package name:tt_pkg
+          vpiName Identifier name:test_t start:7:46 end:7:52:
+          vpiTypedefAlias RefTypespec start:7:12 end:7:45:
+            vpiParent: Typedef name:test_t
+            vpiFullName: tt_pkg::test_t
+            vpiActual: EnumTypespec
       vpiTypespec (4 items):
         UnsupportedTypespec name:logic start:7:17 end:7:22:
           vpiParent: Package name:tt_pkg
@@ -294,30 +322,12 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         EnumTypespec start:7:12 end:7:45:
           vpiParent: Package name:tt_pkg
-          vpiBaseTypespec RefTypespec start:7:17 end:7:28:
-            vpiParent: EnumTypespec
-            vpiFullName: tt_pkg
-            vpiActual: ArrayTypespec
-          vpiEnumConst (4 items):
-            EnumConst name:L0 start:7:30 end:7:32:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:L0 start:7:30 end:7:32:
-            EnumConst name:L1 start:7:34 end:7:36:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:L1 start:7:34 end:7:36:
-            EnumConst name:L2 start:7:38 end:7:40:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:L2 start:7:38 end:7:40:
-            EnumConst name:L3 start:7:42 end:7:44:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:L3 start:7:42 end:7:44:
+          vpiEnum: Enum
         TypedefTypespec name:test_t start:7:4 end:7:53:
           vpiParent: Package name:tt_pkg
           vpiName Identifier name:test_t start:7:46 end:7:52:
-          vpiTypedefAlias RefTypespec start:7:12 end:7:45:
-            vpiParent: TypedefTypespec name:test_t
-            vpiFullName: tt_pkg::test_t
-            vpiActual: EnumTypespec
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:test_t
       vpiDefName: tt_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -396,6 +406,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: test_t
                 vpiFullName: t.tt_buf.test_t
+                vpiActual: Typedef name:test_t
           vpiModule: Module name:tt_buf #(.T_t(logic[0:0]))
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -627,10 +638,12 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:10:8 end:10:9:
+      vpiDefName: t
       vpiModule: Module name:t
     ModuleTypespec name:tt_buf:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tt_buf start:31:8 end:31:14:
+      vpiDefName: tt_buf
       vpiModule: Module name:tt_buf #(.T_t(logic[0:0]))
 ===================
 [  FATAL] : 0
@@ -680,7 +693,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_type2/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             104     104       0         0
+Others                             107     107       0         0
 ----------------------------------------------------------------
-                                   104     104       0         0
+                                   107     107       0         0
 ===================== END REDUCTION RESULT =====================

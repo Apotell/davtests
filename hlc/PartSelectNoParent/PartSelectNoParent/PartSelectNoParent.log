@@ -251,6 +251,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_pkg start:1:9 end:1:15:
       vpiFullName: my_pkg
+      vpiStruct (1 items):
+        Struct start:6:12 end:8:5:
+          vpiParent: Package name:my_pkg
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:key start:7:40 end:7:43:
+              vpiParent: Struct
+              vpiName: key
+              vpiTypespec RefTypespec start:7:7 end:7:39:
+                vpiParent: TypespecMember name:key
+                vpiFullName: my_pkg::key
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:hw_key_req_t start:6:4 end:8:19:
+          vpiParent: Package name:my_pkg
+          vpiName Identifier name:hw_key_req_t start:8:6 end:8:18:
+          vpiTypedefAlias RefTypespec start:6:12 end:8:5:
+            vpiParent: Typedef name:hw_key_req_t
+            vpiFullName: my_pkg::hw_key_req_t
+            vpiActual: StructTypespec
       vpiParameter (3 items):
         Parameter name:Shares start:2:18 end:2:24:
           vpiParent: Package name:my_pkg
@@ -397,22 +417,12 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:6:12 end:8:5:
           vpiParent: Package name:my_pkg
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:key start:7:40 end:7:43:
-              vpiParent: StructTypespec
-              vpiName: key
-              vpiTypespec RefTypespec start:7:7 end:7:39:
-                vpiParent: TypespecMember name:key
-                vpiFullName: my_pkg::key
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:hw_key_req_t start:6:4 end:8:19:
           vpiParent: Package name:my_pkg
           vpiName Identifier name:hw_key_req_t start:8:6 end:8:18:
-          vpiTypedefAlias RefTypespec start:6:12 end:8:5:
-            vpiParent: TypedefTypespec name:hw_key_req_t
-            vpiFullName: my_pkg::hw_key_req_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:hw_key_req_t
       vpiDefName: my_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -612,6 +622,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:11:8 end:11:11:
+      vpiDefName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0
@@ -665,7 +676,7 @@ Operation                            4       2       0         2
 RefObj                              14      12       0         2
 RefTypespec                         21      21       2         2
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    91      87       4         8
+                                    94      90       4         8
 ===================== END REDUCTION RESULT =====================

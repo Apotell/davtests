@@ -1752,10 +1752,10 @@ n<$Source01/t_func_const.v> u<1737> t<Top_level_rule> c<1> l<6:1> el<130:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/t_func_const.v:6:1: Compile package "testpackage".
 [INF:CP5804] $Source01/t_func_const.v:11:1: Compile module "t".
-[WRN:CP5851] $Source01/t_func_const.v:118:24: Failed to bind "id:656, name:data".
-[WRN:CP5851] $Source01/t_func_const.v:119:24: Failed to bind "id:671, name:data".
+[WRN:CP5851] $Source01/t_func_const.v:118:24: Failed to bind "id:664, name:data".
+[WRN:CP5851] $Source01/t_func_const.v:119:24: Failed to bind "id:679, name:data".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_func_const.v:48:20: Null Actual: id:285, type:MethodFuncCall, name:first, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_func_const.v:48:20: Null Actual: id:293, type:MethodFuncCall, name:first, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1826,6 +1826,69 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:11:8 end:11:9:
       vpiFullName: t
+      vpiStruct (2 items):
+        Struct start:22:12 end:24:5:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:data start:23:19 end:23:23:
+              vpiParent: Struct
+              vpiName: data
+              vpiTypespec RefTypespec name:logic start:23:7 end:23:18:
+                vpiParent: TypespecMember name:data
+                vpiName: logic
+                vpiFullName: t.data.logic
+                vpiActual: ArrayTypespec
+        Struct start:28:12 end:32:5:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (3 items):
+            TypespecMember name:first start:29:13 end:29:18:
+              vpiParent: Struct
+              vpiName: first
+              vpiTypespec RefTypespec name:logic start:29:7 end:29:12:
+                vpiParent: TypespecMember name:first
+                vpiName: logic
+                vpiFullName: t.first.logic
+                vpiActual: UnsupportedTypespec name:logic
+            TypespecMember name:second start:30:13 end:30:19:
+              vpiParent: Struct
+              vpiName: second
+              vpiTypespec RefTypespec name:logic start:30:7 end:30:12:
+                vpiParent: TypespecMember name:second
+                vpiName: logic
+                vpiFullName: t.second.logic
+                vpiActual: UnsupportedTypespec name:logic
+            TypespecMember name:data start:31:20 end:31:24:
+              vpiParent: Struct
+              vpiName: data
+              vpiTypespec RefTypespec name:logic start:31:7 end:31:19:
+                vpiParent: TypespecMember name:data
+                vpiName: logic
+                vpiFullName: t.data.logic
+                vpiActual: ArrayTypespec
+      vpiTypedef (3 items):
+        Typedef name:type_t start:22:4 end:24:13:
+          vpiParent: Module name:t
+          vpiName Identifier name:type_t start:24:6 end:24:12:
+          vpiTypedefAlias RefTypespec start:22:12 end:24:5:
+            vpiParent: Typedef name:type_t
+            vpiFullName: t.type_t
+            vpiActual: StructTypespec
+        Typedef name:flist start:25:4 end:25:31:
+          vpiParent: Module name:t
+          vpiName Identifier name:flist start:25:25 end:25:30:
+          vpiTypedefAlias RefTypespec start:25:12 end:25:24:
+            vpiParent: Typedef name:flist
+            vpiFullName: t.flist
+            vpiActual: ArrayTypespec
+        Typedef name:bigstruct_t start:28:4 end:32:18:
+          vpiParent: Module name:t
+          vpiName Identifier name:bigstruct_t start:32:6 end:32:17:
+          vpiTypedefAlias RefTypespec start:28:12 end:32:5:
+            vpiParent: Typedef name:bigstruct_t
+            vpiFullName: t.bigstruct_t
+            vpiActual: StructTypespec
       vpiParameter (11 items):
         Parameter name:P4 start:13:15 end:13:17:
           vpiParent: Module name:t
@@ -2234,23 +2297,12 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:22:12 end:24:5:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:data start:23:19 end:23:23:
-              vpiParent: StructTypespec
-              vpiName: data
-              vpiTypespec RefTypespec name:logic start:23:7 end:23:18:
-                vpiParent: TypespecMember name:data
-                vpiName: logic
-                vpiFullName: t.data.logic
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:type_t start:22:4 end:24:13:
           vpiParent: Module name:t
           vpiName Identifier name:type_t start:24:6 end:24:12:
-          vpiTypedefAlias RefTypespec start:22:12 end:24:5:
-            vpiParent: TypedefTypespec name:type_t
-            vpiFullName: t.type_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:type_t
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -2285,10 +2337,7 @@ Design name:unnamed:
         TypedefTypespec name:flist start:25:4 end:25:31:
           vpiParent: Module name:t
           vpiName Identifier name:flist start:25:25 end:25:30:
-          vpiTypedefAlias RefTypespec start:25:12 end:25:24:
-            vpiParent: TypedefTypespec name:flist
-            vpiFullName: t.flist
-            vpiActual: ArrayTypespec
+          vpiTypedef: Typedef name:flist
         UnsupportedTypespec name:logic start:29:7 end:29:12:
           vpiParent: Module name:t
           vpiName Identifier name:logic start:29:7 end:29:12:
@@ -2331,39 +2380,12 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:28:12 end:32:5:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (3 items):
-            TypespecMember name:first start:29:13 end:29:18:
-              vpiParent: StructTypespec
-              vpiName: first
-              vpiTypespec RefTypespec name:logic start:29:7 end:29:12:
-                vpiParent: TypespecMember name:first
-                vpiName: logic
-                vpiFullName: t.first.logic
-                vpiActual: UnsupportedTypespec name:logic
-            TypespecMember name:second start:30:13 end:30:19:
-              vpiParent: StructTypespec
-              vpiName: second
-              vpiTypespec RefTypespec name:logic start:30:7 end:30:12:
-                vpiParent: TypespecMember name:second
-                vpiName: logic
-                vpiFullName: t.second.logic
-                vpiActual: UnsupportedTypespec name:logic
-            TypespecMember name:data start:31:20 end:31:24:
-              vpiParent: StructTypespec
-              vpiName: data
-              vpiTypespec RefTypespec name:logic start:31:7 end:31:19:
-                vpiParent: TypespecMember name:data
-                vpiName: logic
-                vpiFullName: t.data.logic
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:bigstruct_t start:28:4 end:32:18:
           vpiParent: Module name:t
           vpiName Identifier name:bigstruct_t start:32:6 end:32:17:
-          vpiTypedefAlias RefTypespec start:28:12 end:32:5:
-            vpiParent: TypedefTypespec name:bigstruct_t
-            vpiFullName: t.bigstruct_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:bigstruct_t
         BitTypespec:
           vpiParent: Module name:t
       vpiDefName: t
@@ -4196,6 +4218,7 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:11:8 end:11:9:
+      vpiDefName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -4253,7 +4276,7 @@ Operation                           28      22       0         6
 RefObj                              95      91       0         4
 RefTypespec                        133     129       4         8
 ----------------------------------------------------------------
-Others                             279     279       0         0
+Others                             287     287       0         0
 ----------------------------------------------------------------
-                                   619     603      10        26
+                                   627     611      10        26
 ===================== END REDUCTION RESULT =====================

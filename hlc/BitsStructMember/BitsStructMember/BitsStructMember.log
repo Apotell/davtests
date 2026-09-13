@@ -10,7 +10,7 @@ COMMAND: -wd ../../../tests/BitsStructMember -d db -sv dut.sv -nobuiltin -nocach
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "keymgr_pkg".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:22:50: Failed to bind "id:98, name:strb".
+[WRN:CP5851] $Source01/dut.sv:22:50: Failed to bind "id:101, name:strb".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "keymgr_pkg".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "top".
 ====== HLDB =======
@@ -26,6 +26,47 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:keymgr_pkg start:1:9 end:1:19:
       vpiFullName: keymgr_pkg
+      vpiStruct (1 items):
+        Struct start:5:11 end:12:4:
+          vpiParent: Package name:keymgr_pkg
+          vpiPacked: true
+          vpiTypespecMember (4 items):
+            TypespecMember name:valid start:6:11 end:6:16:
+              vpiParent: Struct
+              vpiName: valid
+              vpiTypespec RefTypespec start:6:5 end:6:10:
+                vpiParent: TypespecMember name:valid
+                vpiFullName: keymgr_pkg::valid
+                vpiActual: LogicTypespec
+            TypespecMember name:data start:7:33 end:7:37:
+              vpiParent: Struct
+              vpiName: data
+              vpiTypespec RefTypespec start:7:5 end:7:32:
+                vpiParent: TypespecMember name:data
+                vpiFullName: keymgr_pkg::data
+                vpiActual: LogicTypespec
+            TypespecMember name:strb start:8:35 end:8:39:
+              vpiParent: Struct
+              vpiName: strb
+              vpiTypespec RefTypespec start:8:5 end:8:34:
+                vpiParent: TypespecMember name:strb
+                vpiFullName: keymgr_pkg::strb
+                vpiActual: LogicTypespec
+            TypespecMember name:last start:11:11 end:11:15:
+              vpiParent: Struct
+              vpiName: last
+              vpiTypespec RefTypespec start:11:5 end:11:10:
+                vpiParent: TypespecMember name:last
+                vpiFullName: keymgr_pkg::last
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:kmac_data_req_t start:5:3 end:12:21:
+          vpiParent: Package name:keymgr_pkg
+          vpiName Identifier name:kmac_data_req_t start:12:5 end:12:20:
+          vpiTypedefAlias RefTypespec start:5:11 end:12:4:
+            vpiParent: Typedef name:kmac_data_req_t
+            vpiFullName: keymgr_pkg::kmac_data_req_t
+            vpiActual: StructTypespec
       vpiParameter (1 items):
         Parameter name:KmacDataIfWidth start:3:17 end:3:32:
           vpiParent: Package name:keymgr_pkg
@@ -142,43 +183,12 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:5:11 end:12:4:
           vpiParent: Package name:keymgr_pkg
-          vpiPacked: true
-          vpiTypespecMember (4 items):
-            TypespecMember name:valid start:6:11 end:6:16:
-              vpiParent: StructTypespec
-              vpiName: valid
-              vpiTypespec RefTypespec start:6:5 end:6:10:
-                vpiParent: TypespecMember name:valid
-                vpiFullName: keymgr_pkg::valid
-                vpiActual: LogicTypespec
-            TypespecMember name:data start:7:33 end:7:37:
-              vpiParent: StructTypespec
-              vpiName: data
-              vpiTypespec RefTypespec start:7:5 end:7:32:
-                vpiParent: TypespecMember name:data
-                vpiFullName: keymgr_pkg::data
-                vpiActual: LogicTypespec
-            TypespecMember name:strb start:8:35 end:8:39:
-              vpiParent: StructTypespec
-              vpiName: strb
-              vpiTypespec RefTypespec start:8:5 end:8:34:
-                vpiParent: TypespecMember name:strb
-                vpiFullName: keymgr_pkg::strb
-                vpiActual: LogicTypespec
-            TypespecMember name:last start:11:11 end:11:15:
-              vpiParent: StructTypespec
-              vpiName: last
-              vpiTypespec RefTypespec start:11:5 end:11:10:
-                vpiParent: TypespecMember name:last
-                vpiFullName: keymgr_pkg::last
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:kmac_data_req_t start:5:3 end:12:21:
           vpiParent: Package name:keymgr_pkg
           vpiName Identifier name:kmac_data_req_t start:12:5 end:12:20:
-          vpiTypedefAlias RefTypespec start:5:11 end:12:4:
-            vpiParent: TypedefTypespec name:kmac_data_req_t
-            vpiFullName: keymgr_pkg::kmac_data_req_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:kmac_data_req_t
       vpiDefName: keymgr_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -482,6 +492,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
+      vpiDefName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0
@@ -535,7 +546,7 @@ Operation                            9       6       0         3
 RefObj                              19      17       0         2
 RefTypespec                         25      24       2         3
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                   114     107       4        11
+                                   117     110       4        11
 ===================== END REDUCTION RESULT =====================

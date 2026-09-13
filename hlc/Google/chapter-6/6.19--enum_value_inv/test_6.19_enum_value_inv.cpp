@@ -112,7 +112,9 @@ TEST_F(EnumValueInvTest, EnumBaseTypeIsLogic) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::RefTypespec *const base = enumTs->getBaseTypespec();
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::RefTypespec *const base = e->getBaseTypespec();
   ASSERT_NE(base, nullptr) << "enum logic[2:0] should have an explicit base typespec";
   EXPECT_NE(base->getActual<hldb::LogicTypespec>(), nullptr);
 }
@@ -128,10 +130,12 @@ TEST_F(EnumValueInvTest, EnumHasTwoConsts) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  ASSERT_NE(enumTs->getEnumConsts(), nullptr);
-  EXPECT_EQ(enumTs->getEnumConsts()->size(), 2u);
-  EXPECT_EQ(enumTs->getEnumConsts()->at(0)->getName(), "Global");
-  EXPECT_EQ(enumTs->getEnumConsts()->at(1)->getName(), "Local");
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  EXPECT_EQ(e->getEnumConsts()->size(), 2u);
+  EXPECT_EQ(e->getEnumConsts()->at(0)->getName(), std::string_view("Global"));
+  EXPECT_EQ(e->getEnumConsts()->at(1)->getName(), std::string_view("Local"));
 }
 
 TEST_F(EnumValueInvTest, GlobalValueIsHex4h2) {
@@ -142,13 +146,15 @@ TEST_F(EnumValueInvTest, GlobalValueIsHex4h2) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::EnumConst *const global = enumTs->getEnumConsts()->at(0);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::EnumConst *const global = e->getEnumConsts()->at(0);
   ASSERT_NE(global, nullptr);
-  EXPECT_EQ(global->getName(), "Global");
+  EXPECT_EQ(global->getName(), std::string_view("Global"));
   const hldb::Constant *const val = global->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiHexConst);
-  EXPECT_EQ(val->getDecompile(), "4'h2");
+  EXPECT_EQ(val->getDecompile(), std::string_view("4'h2"));
 }
 
 TEST_F(EnumValueInvTest, LocalValueIsHex4h3) {
@@ -159,13 +165,15 @@ TEST_F(EnumValueInvTest, LocalValueIsHex4h3) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::EnumConst *const local = enumTs->getEnumConsts()->at(1);
+  const hldb::Enum *const e = enumTs->getEnum();
+  ASSERT_NE(e, nullptr);
+  const hldb::EnumConst *const local = e->getEnumConsts()->at(1);
   ASSERT_NE(local, nullptr);
-  EXPECT_EQ(local->getName(), "Local");
+  EXPECT_EQ(local->getName(), std::string_view("Local"));
   const hldb::Constant *const val = local->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiHexConst);
-  EXPECT_EQ(val->getDecompile(), "4'h3");
+  EXPECT_EQ(val->getDecompile(), std::string_view("4'h3"));
 }
 
 // ---------------------------------------------------------------------------

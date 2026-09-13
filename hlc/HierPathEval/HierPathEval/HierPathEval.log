@@ -312,18 +312,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_pad_wrapper_pkg start:1:9 end:1:29:
       vpiFullName: prim_pad_wrapper_pkg
-      vpiTypespec (3 items):
-        LogicTypespec:
-          vpiParent: Package name:prim_pad_wrapper_pkg
-        EnumTypespec start:2:12 end:4:5:
+      vpiEnum (1 items):
+        Enum start:2:12 end:4:5:
           vpiParent: Package name:prim_pad_wrapper_pkg
           vpiBaseTypespec RefTypespec start:2:17 end:2:22:
-            vpiParent: EnumTypespec
+            vpiParent: Enum
             vpiFullName: prim_pad_wrapper_pkg
             vpiActual: LogicTypespec
           vpiEnumConst (1 items):
             EnumConst name:BidirStd start:3:7 end:3:22:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:BidirStd start:3:7 end:3:15:
               vpiValue Constant start:3:18 end:3:22:
                 vpiParent: EnumConst name:BidirStd
@@ -335,13 +333,25 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'h1"
                 vpiValue: "1"
-        TypedefTypespec name:pad_type_e start:2:4 end:4:17:
+      vpiTypedef (1 items):
+        Typedef name:pad_type_e start:2:4 end:4:17:
           vpiParent: Package name:prim_pad_wrapper_pkg
           vpiName Identifier name:pad_type_e start:4:6 end:4:16:
           vpiTypedefAlias RefTypespec start:2:12 end:4:5:
-            vpiParent: TypedefTypespec name:pad_type_e
+            vpiParent: Typedef name:pad_type_e
             vpiFullName: prim_pad_wrapper_pkg::pad_type_e
             vpiActual: EnumTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Package name:prim_pad_wrapper_pkg
+        EnumTypespec start:2:12 end:4:5:
+          vpiParent: Package name:prim_pad_wrapper_pkg
+          vpiEnum: Enum
+        TypedefTypespec name:pad_type_e start:2:4 end:4:17:
+          vpiParent: Package name:prim_pad_wrapper_pkg
+          vpiName Identifier name:pad_type_e start:4:6 end:4:16:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:pad_type_e
       vpiDefName: prim_pad_wrapper_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -354,6 +364,34 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:pinmux_pkg start:7:9 end:7:19:
       vpiFullName: pinmux_pkg
+      vpiStruct (1 items):
+        Struct start:9:12 end:12:5:
+          vpiParent: Package name:pinmux_pkg
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:a start:10:13 end:10:14:
+              vpiParent: Struct
+              vpiName: a
+              vpiTypespec RefTypespec start:10:7 end:10:12:
+                vpiParent: TypespecMember name:a
+                vpiFullName: pinmux_pkg::a
+                vpiActual: LogicTypespec
+            TypespecMember name:dio_pad_type start:11:18 end:11:30:
+              vpiParent: Struct
+              vpiName: dio_pad_type
+              vpiTypespec RefTypespec name:pad_type_e start:11:7 end:11:17:
+                vpiParent: TypespecMember name:dio_pad_type
+                vpiName: pad_type_e
+                vpiFullName: pinmux_pkg::dio_pad_type::pad_type_e
+                vpiActual: TypedefTypespec name:pad_type_e
+      vpiTypedef (1 items):
+        Typedef name:target_cfg_t start:9:4 end:12:19:
+          vpiParent: Package name:pinmux_pkg
+          vpiName Identifier name:target_cfg_t start:12:6 end:12:18:
+          vpiTypedefAlias RefTypespec start:9:12 end:12:5:
+            vpiParent: Typedef name:target_cfg_t
+            vpiFullName: pinmux_pkg::target_cfg_t
+            vpiActual: StructTypespec
       vpiTypespec (4 items):
         ImportTypespec name:prim_pad_wrapper_pkg start:8:11 end:8:34:
           vpiParent: Package name:pinmux_pkg
@@ -362,30 +400,12 @@ Design name:unnamed:
           vpiParent: Package name:pinmux_pkg
         StructTypespec start:9:12 end:12:5:
           vpiParent: Package name:pinmux_pkg
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:a start:10:13 end:10:14:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec start:10:7 end:10:12:
-                vpiParent: TypespecMember name:a
-                vpiFullName: pinmux_pkg::a
-                vpiActual: LogicTypespec
-            TypespecMember name:dio_pad_type start:11:18 end:11:30:
-              vpiParent: StructTypespec
-              vpiName: dio_pad_type
-              vpiTypespec RefTypespec name:pad_type_e start:11:7 end:11:17:
-                vpiParent: TypespecMember name:dio_pad_type
-                vpiName: pad_type_e
-                vpiFullName: pinmux_pkg::dio_pad_type::pad_type_e
-                vpiActual: TypedefTypespec name:pad_type_e
+          vpiStruct: Struct
         TypedefTypespec name:target_cfg_t start:9:4 end:12:19:
           vpiParent: Package name:pinmux_pkg
           vpiName Identifier name:target_cfg_t start:12:6 end:12:18:
-          vpiTypedefAlias RefTypespec start:9:12 end:12:5:
-            vpiParent: TypedefTypespec name:target_cfg_t
-            vpiFullName: pinmux_pkg::target_cfg_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:target_cfg_t
       vpiDefName: pinmux_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -671,10 +691,12 @@ Design name:unnamed:
     ModuleTypespec name:GOOD:
       vpiParent: Design name:unnamed
       vpiName Identifier name:GOOD start:16:8 end:16:12:
+      vpiDefName: GOOD
       vpiModule: Module name:GOOD
     ModuleTypespec name:prim_generic_pad_attr:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_generic_pad_attr start:19:8 end:19:29:
+      vpiDefName: prim_generic_pad_attr
       vpiModule: Module name:prim_generic_pad_attr
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -682,10 +704,12 @@ Design name:unnamed:
     ModuleTypespec name:prim_pad_attr:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_pad_attr start:33:8 end:33:21:
+      vpiDefName: prim_pad_attr
       vpiModule: Module name:prim_pad_attr
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:46:8 end:46:11:
+      vpiDefName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0
@@ -739,7 +763,7 @@ Operation                            1       0       0         1
 RefObj                              15      14       0         1
 RefTypespec                         17      17       1         1
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              79      79       0         0
 ----------------------------------------------------------------
-                                   112     110       2         4
+                                   118     116       2         4
 ===================== END REDUCTION RESULT =====================

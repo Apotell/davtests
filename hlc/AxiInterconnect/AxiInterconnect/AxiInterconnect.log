@@ -1733,32 +1733,42 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -60944,6 +60954,7 @@ Design name:unnamed:
     ModuleTypespec name:axi_interconnect_wrapper:
       vpiParent: Design name:unnamed
       vpiName Identifier name:axi_interconnect_wrapper start:22:8 end:22:32:
+      vpiDefName: axi_interconnect_wrapper
       vpiModule: Module name:axi_interconnect_wrapper
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
@@ -60965,16 +60976,19 @@ Design name:unnamed:
     ModuleTypespec name:arbiter:
       vpiParent: Design name:unnamed
       vpiName Identifier name:arbiter start:34:8 end:34:15:
+      vpiDefName: arbiter
       vpiModule: Module name:arbiter #(.PORTS(4), .ARB_TYPE_ROUND_ROBIN(0), .ARB_BLOCK(0), .ARB_BLOCK_ACK(1), .ARB_LSB_HIGH_PRIORITY(0))
     ModuleTypespec name:axi_interconnect:
       vpiParent: Design name:unnamed
       vpiName Identifier name:axi_interconnect start:34:8 end:34:24:
+      vpiDefName: axi_interconnect
       vpiModule: "Module name:axi_interconnect #(.S_COUNT(4), .M_COUNT(4), .DATA_WIDTH(32), .ADDR_WIDTH(32), .STRB_WIDTH(DATA_WIDTH / 8), .ID_WIDTH(8), .AWUSER_ENABLE(0), .AWUSER_WIDTH(1), .WUSER_ENABLE(0), .WUSER_WIDTH(1), .BUSER_ENABLE(0), .BUSER_WIDTH(1), .ARUSER_ENABLE(0), .ARUSER_WIDTH(1), .RUSER_ENABLE(0), .RUSER_WIDTH(1), .FORWARD_ID(0), .M_REGIONS(1), .M_BASE_ADDR(0), .M_ADDR_WIDTH({M_COUNT{{{M_REGIONS{{32'd24}}}}}}), .M_CONNECT_READ({M_COUNT{{{S_COUNT{{1'b1}}}}}}), .M_CONNECT_WRITE({M_COUNT{{{S_COUNT{{1'b1}}}}}}), .M_SECURE({M_COUNT{{1'b0}}}))"
     LogicTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:priority_encoder:
       vpiParent: Design name:unnamed
       vpiName Identifier name:priority_encoder start:34:8 end:34:24:
+      vpiDefName: priority_encoder
       vpiModule: Module name:priority_encoder #(.WIDTH(4), .LSB_HIGH_PRIORITY(0))
 ===================
 [  FATAL] : 0
@@ -61034,14 +61048,14 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 BitTypespec                         44      45       1         0
 Constant                          1723    1737     300       286
-Identifier                         228     220       0         8
+Identifier                         229     221       0         8
 LogicTypespec                      631     632       1         0
 Operation                          879     413       0       466
 RefObj                            3213    2798       0       415
 RefTypespec                       3423    3363     226       286
 SysFuncCall                          8       0       0         8
 ----------------------------------------------------------------
-Others                            3671    3671       0         0
+Others                            3673    3673       0         0
 ----------------------------------------------------------------
-                                 13820   12879     528      1469
+                                 13823   12882     528      1469
 ===================== END REDUCTION RESULT =====================

@@ -124,19 +124,23 @@ TEST_F(PackedStructUnsignedTest, ModuleHasOneNet) {
 TEST_F(PackedStructUnsignedTest, P1IsPackedStructWithTwoMembers) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
-  EXPECT_TRUE(st->getPacked());
-  ASSERT_NE(st->getMembers(), nullptr);
-  EXPECT_EQ(st->getMembers()->size(), 2u);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  EXPECT_TRUE(s->getPacked());
+  ASSERT_NE(s->getMembers(), nullptr);
+  EXPECT_EQ(s->getMembers()->size(), 2u);
 }
 
 TEST_F(PackedStructUnsignedTest, MembersLoAndHiAreFourBitBitTypespecs) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
-  ASSERT_NE(st->getMembers(), nullptr);
-  ASSERT_EQ(st->getMembers()->size(), 2u);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getMembers(), nullptr);
+  ASSERT_EQ(s->getMembers()->size(), 2u);
   const char *const names[2] = {"lo", "hi"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::TypespecMember *const member = st->getMembers()->at(i);
+    const hldb::TypespecMember *const member = s->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
     const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
@@ -144,8 +148,8 @@ TEST_F(PackedStructUnsignedTest, MembersLoAndHiAreFourBitBitTypespecs) {
     EXPECT_TRUE(bt->getVector());
     ASSERT_NE(bt->getRanges(), nullptr);
     ASSERT_EQ(bt->getRanges()->size(), 1u);
-    EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "3");
-    EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
+    EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), std::string_view("3"));
+    EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), std::string_view("0"));
   }
 }
 
@@ -166,12 +170,12 @@ TEST_F(PackedStructUnsignedTest, FirstStmtAssignsDecimalTwoHundredToP1) {
   EXPECT_TRUE(assign->getBlocking());
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "p1");
+  EXPECT_EQ(lhs->getName(), std::string_view("p1"));
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "8'd200");
-  EXPECT_EQ(rhs->getValue(), "200");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("8'd200"));
+  EXPECT_EQ(rhs->getValue(), std::string_view("200"));
 }
 
 TEST_F(PackedStructUnsignedTest, SecondStmtDisplaysP1AsHex) {
@@ -183,10 +187,10 @@ TEST_F(PackedStructUnsignedTest, SecondStmtDisplaysP1AsHex) {
   ASSERT_EQ(disp->getArguments()->size(), 2u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getValue(), ":assert: ('%h' == 'c8')");
+  EXPECT_EQ(fmt->getValue(), std::string_view(":assert: ('%h' == 'c8')"));
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getName(), "p1");
+  EXPECT_EQ(arg->getName(), std::string_view("p1"));
 }
 
 TEST_F(PackedStructUnsignedTest, ThirdStmtDisplaysP1AsUnsignedDecimal) {
@@ -198,10 +202,10 @@ TEST_F(PackedStructUnsignedTest, ThirdStmtDisplaysP1AsUnsignedDecimal) {
   ASSERT_EQ(disp->getArguments()->size(), 2u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 200)");
+  EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (%d == 200)"));
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getName(), "p1");
+  EXPECT_EQ(arg->getName(), std::string_view("p1"));
 }
 
 // --- design-level typespecs / compiler diagnostics ----
@@ -215,7 +219,7 @@ TEST_F(PackedStructUnsignedTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "top");
+  EXPECT_EQ(mt->getName(), std::string_view("top"));
 }
 
 TEST_F(PackedStructUnsignedTest, DesignHasStringTypespec) {
@@ -249,11 +253,11 @@ TEST_F(PackedStructUnsignedTest, RuntimePackedUnsignedValueRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const hexDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(hexDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(hexDisplay->getArguments()->at(0))->getValue(), ":assert: ('%h' == 'c8')")
+  EXPECT_EQ(any_cast<hldb::Constant>(hexDisplay->getArguments()->at(0))->getValue(), std::string_view(":assert: ('%h' == 'c8')"))
       << "expected p1 == 8'hc8 (== 8'd200)";
   const hldb::SysFuncCall *const decDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
   ASSERT_NE(decDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(decDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 200)")
+  EXPECT_EQ(any_cast<hldb::Constant>(decDisplay->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 200)"))
       << "expected p1 read back as 200, unchanged, since the packed struct's 'unsigned' qualifier does "
          "not reinterpret the bit pattern the way 'signed' does";
 }

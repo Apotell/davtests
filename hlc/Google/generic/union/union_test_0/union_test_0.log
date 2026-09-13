@@ -84,43 +84,51 @@ Design name:unnamed:
         vpiFullName: test.work
       vpiCell: test
   vpiTypespec (5 items):
-    TypedefTypespec start:15:1 end:15:27:
+    TypedefTypespec name:myunion_fwd start:15:1 end:15:27:
       vpiParent: Design name:unnamed
-      vpiTypedefAlias RefTypespec name:myunion_fwd start:15:15 end:15:26:
-        vpiParent: TypedefTypespec
-        vpiName: myunion_fwd
-        vpiFullName: myunion_fwd
-        vpiActual: TypedefTypespec name:myunion_fwd
+      vpiName Identifier name:myunion_fwd start:15:15 end:15:26:
+      vpiTypedefKind: union (6)
     LogicTypespec:
       vpiParent: Design name:unnamed
     UnionTypespec start:17:9 end:17:36:
       vpiParent: Design name:unnamed
+      vpiUnion: Union
+    TypedefTypespec name:myunion_fwd start:17:1 end:17:49:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:myunion_fwd start:17:37 end:17:48:
+      vpiTypedefKind: union (6)
+      vpiTypedef: Typedef name:myunion_fwd
+    ModuleTypespec name:test:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:test start:19:8 end:19:12:
+      vpiDefName: test
+      vpiModule: Module name:test
+  vpiTypedef (1 items):
+    Typedef name:myunion_fwd start:17:1 end:17:49:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:myunion_fwd start:17:37 end:17:48:
+      vpiTypedefAlias RefTypespec start:17:9 end:17:36:
+        vpiParent: Typedef name:myunion_fwd
+        vpiFullName: myunion_fwd
+        vpiActual: UnionTypespec
+  vpiUnion (1 items):
+    Union start:17:9 end:17:36:
+      vpiParent: Design name:unnamed
       vpiTypespecMember (2 items):
         TypespecMember name:a start:17:23 end:17:24:
-          vpiParent: UnionTypespec
+          vpiParent: Union
           vpiName: a
           vpiTypespec RefTypespec start:17:17 end:17:22:
             vpiParent: TypespecMember name:a
             vpiFullName: a
             vpiActual: LogicTypespec
         TypespecMember name:b start:17:32 end:17:33:
-          vpiParent: UnionTypespec
+          vpiParent: Union
           vpiName: b
           vpiTypespec RefTypespec start:17:26 end:17:31:
             vpiParent: TypespecMember name:b
             vpiFullName: b
             vpiActual: LogicTypespec
-    TypedefTypespec name:myunion_fwd start:17:1 end:17:49:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:myunion_fwd start:17:37 end:17:48:
-      vpiTypedefAlias RefTypespec start:17:9 end:17:36:
-        vpiParent: TypedefTypespec name:myunion_fwd
-        vpiFullName: myunion_fwd
-        vpiActual: UnionTypespec
-    ModuleTypespec name:test:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:19:8 end:19:12:
-      vpiModule: Module name:test
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -169,7 +177,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/union/union_test_0/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              18      18       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    18      18       0         0
+                                    21      21       0         0
 ===================== END REDUCTION RESULT =====================

@@ -142,7 +142,7 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "fpnew_pkg".
 [INF:CP5804] $Source01/dut.sv:10:2: Compile module "fpnew_top".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "fpu_wrap".
-[WRN:CP5851] $Source01/dut.sv:12:73: Failed to bind "id:31, name:RV64D_Xsflt".
+[WRN:CP5851] $Source01/dut.sv:12:73: Failed to bind "id:34, name:RV64D_Xsflt".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "fpnew_pkg".
 [WRN:PA5506] $Source01/dut.sv:10:2: No timescale set for "fpnew_top #(.Features(fpnew_pkg.RV64D_Xsflt))".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "fpu_wrap".
@@ -159,34 +159,44 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:fpnew_pkg start:1:9 end:1:18:
       vpiFullName: fpnew_pkg
-      vpiTypespec (3 items):
-        LogicTypespec:
-          vpiParent: Package name:fpnew_pkg
-        StructTypespec start:3:9 end:6:4:
+      vpiStruct (1 items):
+        Struct start:3:9 end:6:4:
           vpiParent: Package name:fpnew_pkg
           vpiPacked: true
           vpiTypespecMember (2 items):
             TypespecMember name:Width start:4:18 end:4:23:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: Width
               vpiTypespec RefTypespec start:4:5 end:4:17:
                 vpiParent: TypespecMember name:Width
                 vpiFullName: fpnew_pkg::Width
                 vpiActual: IntTypespec
             TypespecMember name:EnableNanBox start:5:18 end:5:30:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: EnableNanBox
               vpiTypespec RefTypespec start:5:5 end:5:10:
                 vpiParent: TypespecMember name:EnableNanBox
                 vpiFullName: fpnew_pkg::EnableNanBox
                 vpiActual: LogicTypespec
-        TypedefTypespec name:fpu_features_t start:3:1 end:6:20:
+      vpiTypedef (1 items):
+        Typedef name:fpu_features_t start:3:1 end:6:20:
           vpiParent: Package name:fpnew_pkg
           vpiName Identifier name:fpu_features_t start:6:5 end:6:19:
           vpiTypedefAlias RefTypespec start:3:9 end:6:4:
-            vpiParent: TypedefTypespec name:fpu_features_t
+            vpiParent: Typedef name:fpu_features_t
             vpiFullName: fpnew_pkg::fpu_features_t
             vpiActual: StructTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Package name:fpnew_pkg
+        StructTypespec start:3:9 end:6:4:
+          vpiParent: Package name:fpnew_pkg
+          vpiStruct: Struct
+        TypedefTypespec name:fpu_features_t start:3:1 end:6:20:
+          vpiParent: Package name:fpnew_pkg
+          vpiName Identifier name:fpu_features_t start:6:5 end:6:19:
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:fpu_features_t
       vpiDefName: fpnew_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -341,10 +351,12 @@ Design name:unnamed:
     ModuleTypespec name:fpnew_top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:fpnew_top start:10:9 end:10:18:
+      vpiDefName: fpnew_top
       vpiModule: Module name:fpnew_top #(.Features(fpnew_pkg.RV64D_Xsflt))
     ModuleTypespec name:fpu_wrap:
       vpiParent: Design name:unnamed
       vpiName Identifier name:fpu_wrap start:16:8 end:16:16:
+      vpiDefName: fpu_wrap
       vpiModule: Module name:fpu_wrap
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -397,7 +409,7 @@ COMMAND: ${HLC_DIR}/regression/TaggedParam/TaggedParam/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    54      54       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

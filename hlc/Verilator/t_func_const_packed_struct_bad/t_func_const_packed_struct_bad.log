@@ -409,6 +409,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
       vpiFullName: t
+      vpiStruct (1 items):
+        Struct start:8:12 end:11:5:
+          vpiParent: Module name:t
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:a start:9:24 end:9:25:
+              vpiParent: Struct
+              vpiName: a
+              vpiTypespec RefTypespec name:logic start:9:7 end:9:23:
+                vpiParent: TypespecMember name:a
+                vpiName: logic
+                vpiFullName: t.a.logic
+                vpiActual: ArrayTypespec
+            TypespecMember name:b start:10:24 end:10:25:
+              vpiParent: Struct
+              vpiName: b
+              vpiTypespec RefTypespec name:logic start:10:7 end:10:23:
+                vpiParent: TypespecMember name:b
+                vpiName: logic
+                vpiFullName: t.b.logic
+                vpiActual: ArrayTypespec
+      vpiTypedef (1 items):
+        Typedef name:params_t start:8:4 end:11:15:
+          vpiParent: Module name:t
+          vpiName Identifier name:params_t start:11:6 end:11:14:
+          vpiTypedefAlias RefTypespec start:8:12 end:11:5:
+            vpiParent: Typedef name:params_t
+            vpiFullName: t.params_t
+            vpiActual: StructTypespec
       vpiParameter (1 items):
         Parameter name:P24 start:13:15 end:13:18:
           vpiParent: Module name:t
@@ -533,31 +562,12 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:8:12 end:11:5:
           vpiParent: Module name:t
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:a start:9:24 end:9:25:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec name:logic start:9:7 end:9:23:
-                vpiParent: TypespecMember name:a
-                vpiName: logic
-                vpiFullName: t.a.logic
-                vpiActual: ArrayTypespec
-            TypespecMember name:b start:10:24 end:10:25:
-              vpiParent: StructTypespec
-              vpiName: b
-              vpiTypespec RefTypespec name:logic start:10:7 end:10:23:
-                vpiParent: TypespecMember name:b
-                vpiName: logic
-                vpiFullName: t.b.logic
-                vpiActual: ArrayTypespec
+          vpiStruct: Struct
         TypedefTypespec name:params_t start:8:4 end:11:15:
           vpiParent: Module name:t
           vpiName Identifier name:params_t start:11:6 end:11:14:
-          vpiTypedefAlias RefTypespec start:8:12 end:11:5:
-            vpiParent: TypedefTypespec name:params_t
-            vpiFullName: t.params_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:params_t
         LogicTypespec:
           vpiParent: Module name:t
       vpiDefName: t
@@ -1068,6 +1078,7 @@ Design name:unnamed:
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
+      vpiDefName: t
       vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1122,7 +1133,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_const_packed_struct_bad/design.h
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             167     167       0         0
+Others                             170     170       0         0
 ----------------------------------------------------------------
-                                   167     167       0         0
+                                   170     170       0         0
 ===================== END REDUCTION RESULT =====================

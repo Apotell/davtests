@@ -141,6 +141,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiFullName: top
+      vpiStruct (1 items):
+        Struct start:2:12 end:4:5:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:min_v start:3:19 end:3:24:
+              vpiParent: Struct
+              vpiName: min_v
+              vpiTypespec RefTypespec start:3:7 end:3:18:
+                vpiParent: TypespecMember name:min_v
+                vpiFullName: top.min_v
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:filter_ctl_t start:2:4 end:4:19:
+          vpiParent: Module name:top
+          vpiName Identifier name:filter_ctl_t start:4:6 end:4:18:
+          vpiTypedefAlias RefTypespec start:2:12 end:4:5:
+            vpiParent: Typedef name:filter_ctl_t
+            vpiFullName: top.filter_ctl_t
+            vpiActual: StructTypespec
       vpiVariable (2 items):
         Variable name:o start:1:31 end:1:32:
           vpiParent: Module name:top
@@ -239,22 +259,12 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:2:12 end:4:5:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:min_v start:3:19 end:3:24:
-              vpiParent: StructTypespec
-              vpiName: min_v
-              vpiTypespec RefTypespec start:3:7 end:3:18:
-                vpiParent: TypespecMember name:min_v
-                vpiFullName: top.min_v
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:filter_ctl_t start:2:4 end:4:19:
           vpiParent: Module name:top
           vpiName Identifier name:filter_ctl_t start:4:6 end:4:18:
-          vpiTypedefAlias RefTypespec start:2:12 end:4:5:
-            vpiParent: TypedefTypespec name:filter_ctl_t
-            vpiFullName: top.filter_ctl_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:filter_ctl_t
         ArrayTypespec:
           vpiParent: Module name:top
           vpiArrayType: static (1)
@@ -338,6 +348,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
+      vpiDefName: top
       vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -390,7 +401,7 @@ COMMAND: ${HLC_DIR}/regression/PackedArrayAssign/PackedArrayAssign/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

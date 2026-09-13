@@ -321,29 +321,12 @@ Design name:unnamed:
       vpiVector: true
     StructTypespec start:1:9 end:4:2:
       vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (2 items):
-        TypespecMember name:foo start:2:16 end:2:19:
-          vpiParent: StructTypespec
-          vpiName: foo
-          vpiTypespec RefTypespec start:2:3 end:2:15:
-            vpiParent: TypespecMember name:foo
-            vpiFullName: foo
-            vpiActual: LogicTypespec
-        TypespecMember name:bar start:3:16 end:3:19:
-          vpiParent: StructTypespec
-          vpiName: bar
-          vpiTypespec RefTypespec start:3:3 end:3:15:
-            vpiParent: TypespecMember name:bar
-            vpiFullName: bar
-            vpiActual: LogicTypespec
+      vpiStruct: Struct
     TypedefTypespec name:fourty_two_t start:1:1 end:4:16:
       vpiParent: Design name:unnamed
       vpiName Identifier name:fourty_two_t start:4:3 end:4:15:
-      vpiTypedefAlias RefTypespec start:1:9 end:4:2:
-        vpiParent: TypedefTypespec name:fourty_two_t
-        vpiFullName: fourty_two_t
-        vpiActual: StructTypespec
+      vpiTypedefKind: struct (4)
+      vpiTypedef: Typedef name:fourty_two_t
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -375,29 +358,65 @@ Design name:unnamed:
         vpiActual: TypedefTypespec name:fourty_two_t
     StructTypespec start:6:9 end:8:2:
       vpiParent: Design name:unnamed
+      vpiStruct: Struct
+    TypedefTypespec name:foo_t start:6:1 end:8:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo_t start:8:3 end:8:8:
+      vpiTypedefKind: struct (4)
+      vpiTypedef: Typedef name:foo_t
+    ModuleTypespec name:some_mod:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:some_mod start:10:8 end:10:16:
+      vpiDefName: some_mod
+      vpiModule: Module name:some_mod
+    StringTypespec:
+      vpiParent: Design name:unnamed
+  vpiStruct (2 items):
+    Struct start:1:9 end:4:2:
+      vpiParent: Design name:unnamed
+      vpiPacked: true
+      vpiTypespecMember (2 items):
+        TypespecMember name:foo start:2:16 end:2:19:
+          vpiParent: Struct
+          vpiName: foo
+          vpiTypespec RefTypespec start:2:3 end:2:15:
+            vpiParent: TypespecMember name:foo
+            vpiFullName: foo
+            vpiActual: LogicTypespec
+        TypespecMember name:bar start:3:16 end:3:19:
+          vpiParent: Struct
+          vpiName: bar
+          vpiTypespec RefTypespec start:3:3 end:3:15:
+            vpiParent: TypespecMember name:bar
+            vpiFullName: bar
+            vpiActual: LogicTypespec
+    Struct start:6:9 end:8:2:
+      vpiParent: Design name:unnamed
       vpiPacked: true
       vpiTypespecMember (1 items):
         TypespecMember name:pair start:7:22 end:7:26:
-          vpiParent: StructTypespec
+          vpiParent: Struct
           vpiName: pair
           vpiTypespec RefTypespec name:fourty_two_t start:7:3 end:7:21:
             vpiParent: TypespecMember name:pair
             vpiName: fourty_two_t
             vpiFullName: pair.fourty_two_t
             vpiActual: ArrayTypespec
-    TypedefTypespec name:foo_t start:6:1 end:8:9:
+  vpiTypedef (2 items):
+    Typedef name:fourty_two_t start:1:1 end:4:16:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:fourty_two_t start:4:3 end:4:15:
+      vpiTypedefAlias RefTypespec start:1:9 end:4:2:
+        vpiParent: Typedef name:fourty_two_t
+        vpiFullName: fourty_two_t
+        vpiActual: StructTypespec
+    Typedef name:foo_t start:6:1 end:8:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo_t start:8:3 end:8:8:
       vpiTypedefAlias RefTypespec start:6:9 end:8:2:
-        vpiParent: TypedefTypespec name:foo_t
+        vpiParent: Typedef name:foo_t
         vpiFullName: foo_t
         vpiActual: StructTypespec
-    ModuleTypespec name:some_mod:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:some_mod start:10:8 end:10:16:
-      vpiModule: Module name:some_mod
-    StringTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -446,7 +465,7 @@ COMMAND: ${HLC_DIR}/regression/HierPathPackedStruct/HierPathPackedStruct/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                    64      64       0         0
+                                    70      70       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1912,32 +1912,42 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
-      vpiTypespec (2 items):
-        EnumTypespec start:32:11 end:32:65:
+      vpiEnum (1 items):
+        Enum start:32:11 end:32:65:
           vpiParent: ClassDefn name:process
           vpiEnumConst (5 items):
             EnumConst name:FINISHED start:32:18 end:32:26:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:FINISHED start:32:18 end:32:26:
             EnumConst name:RUNNING start:32:28 end:32:35:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:RUNNING start:32:28 end:32:35:
             EnumConst name:WAITING start:32:37 end:32:44:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:WAITING start:32:37 end:32:44:
             EnumConst name:SUSPENDED start:32:46 end:32:55:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:SUSPENDED start:32:46 end:32:55:
             EnumConst name:KILLED start:32:57 end:32:63:
-              vpiParent: EnumTypespec
+              vpiParent: Enum
               vpiName Identifier name:KILLED start:32:57 end:32:63:
-        TypedefTypespec name:state start:32:3 end:32:72:
+      vpiTypedef (1 items):
+        Typedef name:state start:32:3 end:32:72:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:state start:32:66 end:32:71:
           vpiTypedefAlias RefTypespec start:32:11 end:32:65:
-            vpiParent: TypedefTypespec name:state
+            vpiParent: Typedef name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiTypespec (2 items):
+        EnumTypespec start:32:11 end:32:65:
+          vpiParent: ClassDefn name:process
+          vpiEnum: Enum
+        TypedefTypespec name:state start:32:3 end:32:72:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:state start:32:66 end:32:71:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:state
       vpiDefName: process
       vpiAutomatic: true
       vpiClassType: process class (4)
@@ -2167,14 +2177,19 @@ Design name:unnamed:
           vpiParent: Module name:toto
           vpiName Identifier name:c2 start:8:7 end:8:9:
           vpiFullName: toto::c2
+          vpiTypedef (1 items):
+            Typedef name:this_type start:10:1 end:10:23:
+              vpiParent: ClassDefn name:c2
+              vpiName Identifier name:this_type start:10:13 end:10:22:
+              vpiTypedefAlias RefTypespec start:10:9 end:10:12:
+                vpiParent: Typedef name:this_type
+                vpiFullName: toto::c2::this_type
+                vpiActual: IntTypespec
           vpiTypespec (1 items):
             TypedefTypespec name:this_type start:10:1 end:10:23:
               vpiParent: ClassDefn name:c2
               vpiName Identifier name:this_type start:10:13 end:10:22:
-              vpiTypedefAlias RefTypespec start:10:9 end:10:12:
-                vpiParent: TypedefTypespec name:this_type
-                vpiFullName: toto::c2::this_type
-                vpiActual: IntTypespec
+              vpiTypedef: Typedef name:this_type
           vpiDefName: c2
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -2213,6 +2228,44 @@ Design name:unnamed:
           vpiParent: Module name:toto
           vpiName Identifier name:c1 start:18:7 end:18:9:
           vpiFullName: toto::c1
+          vpiEnum (1 items):
+            Enum start:21:9 end:27:2:
+              vpiParent: ClassDefn name:c1
+              vpiBaseTypespec RefTypespec start:21:14 end:21:23:
+                vpiParent: Enum
+                vpiFullName: toto::c1
+                vpiActual: ArrayTypespec
+              vpiEnumConst (4 items):
+                EnumConst name:UVM_INFO start:23:3 end:23:11:
+                  vpiParent: Enum
+                  vpiName Identifier name:UVM_INFO start:23:3 end:23:11:
+                EnumConst name:UVM_WARNING start:24:3 end:24:14:
+                  vpiParent: Enum
+                  vpiName Identifier name:UVM_WARNING start:24:3 end:24:14:
+                EnumConst name:UVM_ERROR start:25:3 end:25:21:
+                  vpiParent: Enum
+                  vpiName Identifier name:UVM_ERROR start:25:3 end:25:12:
+                  vpiValue Constant start:25:15 end:25:21:
+                    vpiParent: EnumConst name:UVM_ERROR
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: toto::c1::UVM_ERROR
+                      vpiActual: ArrayTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 32
+                    vpiDecompile: "\"toto\""
+                    vpiValue: toto
+                EnumConst name:UVM_FATAL start:26:3 end:26:12:
+                  vpiParent: Enum
+                  vpiName Identifier name:UVM_FATAL start:26:3 end:26:12:
+          vpiTypedef (1 items):
+            Typedef name:uvm_severity start:21:1 end:27:16:
+              vpiParent: ClassDefn name:c1
+              vpiName Identifier name:uvm_severity start:27:3 end:27:15:
+              vpiTypedefAlias RefTypespec start:21:9 end:27:2:
+                vpiParent: Typedef name:uvm_severity
+                vpiFullName: toto::c1::uvm_severity
+                vpiActual: EnumTypespec
           vpiTypespec (5 items):
             ClassTypespec name:c3 start:18:18 end:18:20:
               vpiParent: ClassDefn name:c1
@@ -2255,40 +2308,12 @@ Design name:unnamed:
                 vpiActual: UnsupportedTypespec name:bit
             EnumTypespec start:21:9 end:27:2:
               vpiParent: ClassDefn name:c1
-              vpiBaseTypespec RefTypespec start:21:14 end:21:23:
-                vpiParent: EnumTypespec
-                vpiFullName: toto::c1
-                vpiActual: ArrayTypespec
-              vpiEnumConst (4 items):
-                EnumConst name:UVM_INFO start:23:3 end:23:11:
-                  vpiParent: EnumTypespec
-                  vpiName Identifier name:UVM_INFO start:23:3 end:23:11:
-                EnumConst name:UVM_WARNING start:24:3 end:24:14:
-                  vpiParent: EnumTypespec
-                  vpiName Identifier name:UVM_WARNING start:24:3 end:24:14:
-                EnumConst name:UVM_ERROR start:25:3 end:25:21:
-                  vpiParent: EnumTypespec
-                  vpiName Identifier name:UVM_ERROR start:25:3 end:25:12:
-                  vpiValue Constant start:25:15 end:25:21:
-                    vpiParent: EnumConst name:UVM_ERROR
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: toto::c1::UVM_ERROR
-                      vpiActual: ArrayTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 32
-                    vpiDecompile: "\"toto\""
-                    vpiValue: toto
-                EnumConst name:UVM_FATAL start:26:3 end:26:12:
-                  vpiParent: EnumTypespec
-                  vpiName Identifier name:UVM_FATAL start:26:3 end:26:12:
+              vpiEnum: Enum
             TypedefTypespec name:uvm_severity start:21:1 end:27:16:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:uvm_severity start:27:3 end:27:15:
-              vpiTypedefAlias RefTypespec start:21:9 end:27:2:
-                vpiParent: TypedefTypespec name:uvm_severity
-                vpiFullName: toto::c1::uvm_severity
-                vpiActual: EnumTypespec
+              vpiTypedefKind: enum (2)
+              vpiTypedef: Typedef name:uvm_severity
           vpiDefName: c1
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -2508,6 +2533,7 @@ Design name:unnamed:
     ModuleTypespec name:toto:
       vpiParent: Design name:unnamed
       vpiName Identifier name:toto start:6:8 end:6:12:
+      vpiDefName: toto
       vpiModule: Module name:toto
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
@@ -2572,7 +2598,7 @@ COMMAND: ${HLC_DIR}/regression/ClassFuncProto/ClassFuncProto/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             699     699       0         0
+Others                             707     707       0         0
 ----------------------------------------------------------------
-                                   699     699       0         0
+                                   707     707       0         0
 ===================== END REDUCTION RESULT =====================

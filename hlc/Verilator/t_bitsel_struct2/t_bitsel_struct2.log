@@ -481,31 +481,12 @@ Design name:unnamed:
         vpiActual: UnsupportedTypespec name:logic
     StructTypespec start:8:12 end:11:5:
       vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (2 items):
-        TypespecMember name:a start:9:19 end:9:20:
-          vpiParent: StructTypespec
-          vpiName: a
-          vpiTypespec RefTypespec name:logic start:9:7 end:9:18:
-            vpiParent: TypespecMember name:a
-            vpiName: logic
-            vpiFullName: a.logic
-            vpiActual: ArrayTypespec
-        TypespecMember name:b start:10:24 end:10:25:
-          vpiParent: StructTypespec
-          vpiName: b
-          vpiTypespec RefTypespec name:logic start:10:7 end:10:23:
-            vpiParent: TypespecMember name:b
-            vpiName: logic
-            vpiFullName: b.logic
-            vpiActual: ArrayTypespec
+      vpiStruct: Struct
     TypedefTypespec name:ab_t start:8:4 end:11:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ab_t start:11:6 end:11:10:
-      vpiTypedefAlias RefTypespec start:8:12 end:11:5:
-        vpiParent: TypedefTypespec name:ab_t
-        vpiFullName: ab_t
-        vpiActual: StructTypespec
+      vpiTypedefKind: struct (4)
+      vpiTypedef: Typedef name:ab_t
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -538,10 +519,7 @@ Design name:unnamed:
     TypedefTypespec name:c_t start:12:4 end:12:27:
       vpiParent: Design name:unnamed
       vpiName Identifier name:c_t start:12:23 end:12:26:
-      vpiTypedefAlias RefTypespec start:12:12 end:12:22:
-        vpiParent: TypedefTypespec name:c_t
-        vpiFullName: c_t
-        vpiActual: ArrayTypespec
+      vpiTypedef: Typedef name:c_t
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -573,21 +551,65 @@ Design name:unnamed:
         vpiActual: TypedefTypespec name:c_t
     StructTypespec start:13:12 end:15:5:
       vpiParent: Design name:unnamed
+      vpiStruct: Struct
+    TypedefTypespec name:e_t start:13:4 end:15:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_t start:15:6 end:15:9:
+      vpiTypedefKind: struct (4)
+      vpiTypedef: Typedef name:e_t
+  vpiStruct (2 items):
+    Struct start:8:12 end:11:5:
+      vpiParent: Design name:unnamed
+      vpiPacked: true
+      vpiTypespecMember (2 items):
+        TypespecMember name:a start:9:19 end:9:20:
+          vpiParent: Struct
+          vpiName: a
+          vpiTypespec RefTypespec name:logic start:9:7 end:9:18:
+            vpiParent: TypespecMember name:a
+            vpiName: logic
+            vpiFullName: a.logic
+            vpiActual: ArrayTypespec
+        TypespecMember name:b start:10:24 end:10:25:
+          vpiParent: Struct
+          vpiName: b
+          vpiTypespec RefTypespec name:logic start:10:7 end:10:23:
+            vpiParent: TypespecMember name:b
+            vpiName: logic
+            vpiFullName: b.logic
+            vpiActual: ArrayTypespec
+    Struct start:13:12 end:15:5:
+      vpiParent: Design name:unnamed
       vpiPacked: true
       vpiTypespecMember (1 items):
         TypespecMember name:d start:14:19 end:14:20:
-          vpiParent: StructTypespec
+          vpiParent: Struct
           vpiName: d
           vpiTypespec RefTypespec name:c_t start:14:7 end:14:18:
             vpiParent: TypespecMember name:d
             vpiName: c_t
             vpiFullName: d.c_t
             vpiActual: ArrayTypespec
-    TypedefTypespec name:e_t start:13:4 end:15:10:
+  vpiTypedef (3 items):
+    Typedef name:ab_t start:8:4 end:11:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:ab_t start:11:6 end:11:10:
+      vpiTypedefAlias RefTypespec start:8:12 end:11:5:
+        vpiParent: Typedef name:ab_t
+        vpiFullName: ab_t
+        vpiActual: StructTypespec
+    Typedef name:c_t start:12:4 end:12:27:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_t start:12:23 end:12:26:
+      vpiTypedefAlias RefTypespec start:12:12 end:12:22:
+        vpiParent: Typedef name:c_t
+        vpiFullName: c_t
+        vpiActual: ArrayTypespec
+    Typedef name:e_t start:13:4 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:e_t start:15:6 end:15:9:
       vpiTypedefAlias RefTypespec start:13:12 end:15:5:
-        vpiParent: TypedefTypespec name:e_t
+        vpiParent: Typedef name:e_t
         vpiFullName: e_t
         vpiActual: StructTypespec
 ===================
@@ -638,7 +660,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_bitsel_struct2/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             237     237       0         0
+Others                             245     245       0         0
 ----------------------------------------------------------------
-                                   237     237       0         0
+                                   245     245       0         0
 ===================== END REDUCTION RESULT =====================

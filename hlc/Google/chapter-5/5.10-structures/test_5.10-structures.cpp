@@ -94,12 +94,19 @@ TEST_F(Structure, StructHasTwoMembers) {
   const hldb::TypedefTypespec *msT = hldb::findByName<hldb::TypedefTypespec>("ms_t", top->getTypespecs());
   ASSERT_NE(msT, nullptr);
 
-  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
+  const hldb::Typedef *const td = msT->getTypedef();
+  ASSERT_NE(td, nullptr);
+
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(td->getAlias()->getActual());
   ASSERT_NE(st, nullptr) << "ms_t does not alias a StructTypespec";
-  ASSERT_NE(st->getMembers(), nullptr);
-  EXPECT_EQ(st->getMembers()->size(), 2u) << "expected members: a, b";
-  EXPECT_EQ((*st->getMembers())[0]->getName(), "a");
-  EXPECT_EQ((*st->getMembers())[1]->getName(), "b");
+
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+
+  ASSERT_NE(s->getMembers(), nullptr);
+  EXPECT_EQ(s->getMembers()->size(), 2u) << "expected members: a, b";
+  EXPECT_EQ((*s->getMembers())[0]->getName(), std::string_view("a"));
+  EXPECT_EQ((*s->getMembers())[1]->getName(), std::string_view("b"));
 }
 
 // ----
@@ -233,7 +240,7 @@ TEST_F(Structure, SecondAssignmentFirstTagIsDefault) {
   ASSERT_NE(tp0, nullptr);
   const hldb::RefObj *const tag = tp0->getTag<hldb::RefObj>();
   ASSERT_NE(tag, nullptr) << "first tag is not a RefObj (expected 'default')";
-  EXPECT_EQ(tag->getName(), "default");
+  EXPECT_EQ(tag->getName(), std::string_view("default"));
 }
 
 TEST_F(Structure, SecondAssignmentSecondTagIsTypeRef) {

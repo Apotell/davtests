@@ -222,6 +222,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_pkg start:1:9 end:1:16:
       vpiFullName: aes_pkg
+      vpiStruct (1 items):
+        Struct start:2:9 end:4:2:
+          vpiParent: Package name:aes_pkg
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:manual_operation start:3:15 end:3:31:
+              vpiParent: Struct
+              vpiName: manual_operation
+              vpiTypespec RefTypespec start:3:3 end:3:14:
+                vpiParent: TypespecMember name:manual_operation
+                vpiFullName: aes_pkg::manual_operation
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:ctrl_reg_t start:2:1 end:4:14:
+          vpiParent: Package name:aes_pkg
+          vpiName Identifier name:ctrl_reg_t start:4:3 end:4:13:
+          vpiTypedefAlias RefTypespec start:2:9 end:4:2:
+            vpiParent: Typedef name:ctrl_reg_t
+            vpiFullName: aes_pkg::ctrl_reg_t
+            vpiActual: StructTypespec
       vpiParameter (1 items):
         Parameter name:CTRL_RESET start:6:22 end:6:32:
           vpiParent: Package name:aes_pkg
@@ -289,22 +309,12 @@ Design name:unnamed:
           vpiVector: true
         StructTypespec start:2:9 end:4:2:
           vpiParent: Package name:aes_pkg
-          vpiPacked: true
-          vpiTypespecMember (1 items):
-            TypespecMember name:manual_operation start:3:15 end:3:31:
-              vpiParent: StructTypespec
-              vpiName: manual_operation
-              vpiTypespec RefTypespec start:3:3 end:3:14:
-                vpiParent: TypespecMember name:manual_operation
-                vpiFullName: aes_pkg::manual_operation
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:ctrl_reg_t start:2:1 end:4:14:
           vpiParent: Package name:aes_pkg
           vpiName Identifier name:ctrl_reg_t start:4:3 end:4:13:
-          vpiTypedefAlias RefTypespec start:2:9 end:4:2:
-            vpiParent: TypedefTypespec name:ctrl_reg_t
-            vpiFullName: aes_pkg::ctrl_reg_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:ctrl_reg_t
         BitTypespec:
           vpiParent: Package name:aes_pkg
       vpiDefName: aes_pkg
@@ -538,14 +548,17 @@ Design name:unnamed:
     ModuleTypespec name:subreg:
       vpiParent: Design name:unnamed
       vpiName Identifier name:subreg start:11:8 end:11:14:
+      vpiDefName: subreg
       vpiModule: "Module name:subreg #(.RESVAL('0))"
     ModuleTypespec name:shadow:
       vpiParent: Design name:unnamed
       vpiName Identifier name:shadow start:16:8 end:16:14:
+      vpiDefName: shadow
       vpiModule: "Module name:shadow #(.RESVAL('0))"
     ModuleTypespec name:aes_core:
       vpiParent: Design name:unnamed
       vpiName Identifier name:aes_core start:22:8 end:22:16:
+      vpiDefName: aes_core
       vpiModule: Module name:aes_core
 ===================
 [  FATAL] : 0
@@ -595,7 +608,7 @@ COMMAND: ${HLC_DIR}/regression/PAssignType/PAssignType/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                    87      87       0         0
+                                    90      90       0         0
 ===================== END REDUCTION RESULT =====================

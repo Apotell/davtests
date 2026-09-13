@@ -80,21 +80,32 @@ Design name:unnamed:
         vpiFullName: test.work
       vpiCell: test
   vpiTypespec (5 items):
-    TypedefTypespec start:15:1 end:15:22:
+    TypedefTypespec name:uvec8_t start:15:1 end:15:22:
       vpiParent: Design name:unnamed
-      vpiTypedefAlias RefTypespec name:uvec8_t start:15:14 end:15:21:
-        vpiParent: TypedefTypespec
-        vpiName: uvec8_t
-        vpiFullName: uvec8_t
-        vpiActual: TypedefTypespec name:uvec8_t
+      vpiName Identifier name:uvec8_t start:15:14 end:15:21:
+      vpiTypedefKind: enum (2)
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     EnumTypespec start:16:9 end:19:2:
       vpiParent: Design name:unnamed
+      vpiEnum: Enum
+    TypedefTypespec name:uvec8_t start:16:1 end:19:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:uvec8_t start:19:3 end:19:10:
+      vpiTypedefKind: enum (2)
+      vpiTypedef: Typedef name:uvec8_t
+    ModuleTypespec name:test:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:test start:21:8 end:21:12:
+      vpiDefName: test
+      vpiModule: Module name:test
+  vpiEnum (1 items):
+    Enum start:16:9 end:19:2:
+      vpiParent: Design name:unnamed
       vpiEnumConst (2 items):
         EnumConst name:Global start:17:3 end:17:13:
-          vpiParent: EnumTypespec
+          vpiParent: Enum
           vpiName Identifier name:Global start:17:3 end:17:9:
           vpiValue Constant start:17:12 end:17:13:
             vpiParent: EnumConst name:Global
@@ -107,7 +118,7 @@ Design name:unnamed:
             vpiDecompile: "2"
             vpiValue: 2
         EnumConst name:Local start:18:3 end:18:12:
-          vpiParent: EnumTypespec
+          vpiParent: Enum
           vpiName Identifier name:Local start:18:3 end:18:8:
           vpiValue Constant start:18:11 end:18:12:
             vpiParent: EnumConst name:Local
@@ -119,17 +130,14 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
-    TypedefTypespec name:uvec8_t start:16:1 end:19:11:
+  vpiTypedef (1 items):
+    Typedef name:uvec8_t start:16:1 end:19:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:uvec8_t start:19:3 end:19:10:
       vpiTypedefAlias RefTypespec start:16:9 end:19:2:
-        vpiParent: TypedefTypespec name:uvec8_t
+        vpiParent: Typedef name:uvec8_t
         vpiFullName: uvec8_t
         vpiActual: EnumTypespec
-    ModuleTypespec name:test:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:21:8 end:21:12:
-      vpiModule: Module name:test
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -178,7 +186,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_22/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              25      25       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    25      25       0         0
 ===================== END REDUCTION RESULT =====================

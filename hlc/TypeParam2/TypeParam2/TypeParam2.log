@@ -100,6 +100,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:8:8 end:8:11:
       vpiFullName: top
+      vpiStruct (1 items):
+        Struct start:9:10 end:13:4:
+          vpiParent: Module name:top
+          vpiPacked: true
+          vpiTypespecMember (3 items):
+            TypespecMember name:result start:10:19 end:10:25:
+              vpiParent: Struct
+              vpiName: result
+              vpiTypespec RefTypespec start:10:5 end:10:16:
+                vpiParent: TypespecMember name:result
+                vpiFullName: top.result
+                vpiActual: LogicTypespec
+            TypespecMember name:status start:11:11 end:11:17:
+              vpiParent: Struct
+              vpiName: status
+              vpiTypespec RefTypespec start:11:5 end:11:10:
+                vpiParent: TypespecMember name:status
+                vpiFullName: top.status
+                vpiActual: LogicTypespec
+            TypespecMember name:tag start:12:22 end:12:25:
+              vpiParent: Struct
+              vpiName: tag
+              vpiTypespec RefTypespec start:12:5 end:12:10:
+                vpiParent: TypespecMember name:tag
+                vpiFullName: top.tag
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:output_t start:9:2 end:13:14:
+          vpiParent: Module name:top
+          vpiName Identifier name:output_t start:13:5 end:13:13:
+          vpiTypedefAlias RefTypespec start:9:10 end:13:4:
+            vpiParent: Typedef name:output_t
+            vpiFullName: top.output_t
+            vpiActual: StructTypespec
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -131,36 +165,12 @@ Design name:unnamed:
           vpiParent: Module name:top
         StructTypespec start:9:10 end:13:4:
           vpiParent: Module name:top
-          vpiPacked: true
-          vpiTypespecMember (3 items):
-            TypespecMember name:result start:10:19 end:10:25:
-              vpiParent: StructTypespec
-              vpiName: result
-              vpiTypespec RefTypespec start:10:5 end:10:16:
-                vpiParent: TypespecMember name:result
-                vpiFullName: top.result
-                vpiActual: LogicTypespec
-            TypespecMember name:status start:11:11 end:11:17:
-              vpiParent: StructTypespec
-              vpiName: status
-              vpiTypespec RefTypespec start:11:5 end:11:10:
-                vpiParent: TypespecMember name:status
-                vpiFullName: top.status
-                vpiActual: LogicTypespec
-            TypespecMember name:tag start:12:22 end:12:25:
-              vpiParent: StructTypespec
-              vpiName: tag
-              vpiTypespec RefTypespec start:12:5 end:12:10:
-                vpiParent: TypespecMember name:tag
-                vpiFullName: top.tag
-                vpiActual: LogicTypespec
+          vpiStruct: Struct
         TypedefTypespec name:output_t start:9:2 end:13:14:
           vpiParent: Module name:top
           vpiName Identifier name:output_t start:13:5 end:13:13:
-          vpiTypedefAlias RefTypespec start:9:10 end:13:4:
-            vpiParent: TypedefTypespec name:output_t
-            vpiFullName: top.output_t
-            vpiActual: StructTypespec
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:output_t
         ModuleTypespec name:rr_arb_tree start:15:2 end:15:13:
           vpiParent: Module name:top
           vpiName Identifier name:rr_arb_tree start:15:2 end:15:13:
@@ -178,6 +188,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: output_t
                 vpiFullName: top.rr_arb_tree.output_t
+                vpiActual: Typedef name:output_t
           vpiModule: Module name:rr_arb_tree #(.DataType(logic [DataWidth-1:0]))
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -199,6 +210,7 @@ Design name:unnamed:
     ModuleTypespec name:rr_arb_tree:
       vpiParent: Design name:unnamed
       vpiName Identifier name:rr_arb_tree start:1:8 end:1:19:
+      vpiDefName: rr_arb_tree
       vpiModule: Module name:rr_arb_tree #(.DataType(logic [DataWidth-1:0]))
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -206,6 +218,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:8:8 end:8:11:
+      vpiDefName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0
@@ -255,7 +268,7 @@ COMMAND: ${HLC_DIR}/regression/TypeParam2/TypeParam2/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

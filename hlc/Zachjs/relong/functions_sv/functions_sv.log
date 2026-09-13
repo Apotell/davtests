@@ -1430,20 +1430,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     EnumTypespec start:3:9 end:3:24:
       vpiParent: Design name:unnamed
-      vpiEnumConst (2 items):
-        EnumConst name:FOO start:3:15 end:3:18:
-          vpiParent: EnumTypespec
-          vpiName Identifier name:FOO start:3:15 end:3:18:
-        EnumConst name:BAR start:3:20 end:3:23:
-          vpiParent: EnumTypespec
-          vpiName Identifier name:BAR start:3:20 end:3:23:
+      vpiEnum: Enum
     TypedefTypespec name:State_t start:3:1 end:3:33:
       vpiParent: Design name:unnamed
       vpiName Identifier name:State_t start:3:25 end:3:32:
-      vpiTypedefAlias RefTypespec start:3:9 end:3:24:
-        vpiParent: TypedefTypespec name:State_t
-        vpiFullName: State_t
-        vpiActual: EnumTypespec
+      vpiTypedefKind: enum (2)
+      vpiTypedef: Typedef name:State_t
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -1473,10 +1465,34 @@ Design name:unnamed:
       vpiSigned: true
     StructTypespec start:5:9 end:8:2:
       vpiParent: Design name:unnamed
+      vpiStruct: Struct
+    TypedefTypespec name:MyStruct_t start:5:1 end:8:14:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:MyStruct_t start:8:3 end:8:13:
+      vpiTypedefKind: struct (4)
+      vpiTypedef: Typedef name:MyStruct_t
+    ModuleTypespec name:Example:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Example start:10:8 end:10:15:
+      vpiDefName: Example
+      vpiModule: Module name:Example
+  vpiEnum (1 items):
+    Enum start:3:9 end:3:24:
+      vpiParent: Design name:unnamed
+      vpiEnumConst (2 items):
+        EnumConst name:FOO start:3:15 end:3:18:
+          vpiParent: Enum
+          vpiName Identifier name:FOO start:3:15 end:3:18:
+        EnumConst name:BAR start:3:20 end:3:23:
+          vpiParent: Enum
+          vpiName Identifier name:BAR start:3:20 end:3:23:
+  vpiStruct (1 items):
+    Struct start:5:9 end:8:2:
+      vpiParent: Design name:unnamed
       vpiPacked: true
       vpiTypespecMember (2 items):
         TypespecMember name:state start:6:13 end:6:18:
-          vpiParent: StructTypespec
+          vpiParent: Struct
           vpiName: state
           vpiTypespec RefTypespec name:State_t start:6:5 end:6:12:
             vpiParent: TypespecMember name:state
@@ -1484,23 +1500,27 @@ Design name:unnamed:
             vpiFullName: state.State_t
             vpiActual: TypedefTypespec name:State_t
         TypespecMember name:data start:7:18 end:7:22:
-          vpiParent: StructTypespec
+          vpiParent: Struct
           vpiName: data
           vpiTypespec RefTypespec start:7:5 end:7:17:
             vpiParent: TypespecMember name:data
             vpiFullName: data
             vpiActual: LogicTypespec
-    TypedefTypespec name:MyStruct_t start:5:1 end:8:14:
+  vpiTypedef (2 items):
+    Typedef name:State_t start:3:1 end:3:33:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:State_t start:3:25 end:3:32:
+      vpiTypedefAlias RefTypespec start:3:9 end:3:24:
+        vpiParent: Typedef name:State_t
+        vpiFullName: State_t
+        vpiActual: EnumTypespec
+    Typedef name:MyStruct_t start:5:1 end:8:14:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MyStruct_t start:8:3 end:8:13:
       vpiTypedefAlias RefTypespec start:5:9 end:8:2:
-        vpiParent: TypedefTypespec name:MyStruct_t
+        vpiParent: Typedef name:MyStruct_t
         vpiFullName: MyStruct_t
         vpiActual: StructTypespec
-    ModuleTypespec name:Example:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:Example start:10:8 end:10:15:
-      vpiModule: Module name:Example
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -1549,7 +1569,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/functions_sv/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             222     222       0         0
+Others                             228     228       0         0
 ----------------------------------------------------------------
-                                   222     222       0         0
+                                   228     228       0         0
 ===================== END REDUCTION RESULT =====================

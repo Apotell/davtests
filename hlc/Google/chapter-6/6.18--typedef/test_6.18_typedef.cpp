@@ -100,7 +100,7 @@ TEST_F(TypedefTest, ATypespecNameIsLogicT) {
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getName(), "logic_t");
+  EXPECT_EQ(rts->getName(), std::string_view("logic_t"));
 }
 
 TEST_F(TypedefTest, ATypespecActualIsTypedef) {
@@ -119,15 +119,17 @@ TEST_F(TypedefTest, ModuleHasTypedefTypespec) {
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("logic_t", top->getTypespecs());
   ASSERT_NE(td, nullptr) << "module should own a TypedefTypespec named 'logic_t'";
-  EXPECT_EQ(td->getName(), "logic_t");
+  EXPECT_EQ(td->getName(), std::string_view("logic_t"));
 }
 
 TEST_F(TypedefTest, TypedefAliasResolvesToLogic) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("logic_t", top->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("logic_t", top->getTypespecs());
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
-  const hldb::RefTypespec *const alias = td->getTypedefAlias();
+  const hldb::RefTypespec *const alias = td->getAlias();
   ASSERT_NE(alias, nullptr);
   EXPECT_NE(alias->getActual<hldb::LogicTypespec>(), nullptr)
       << "typedef logic_t alias should resolve to LogicTypespec";

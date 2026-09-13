@@ -151,9 +151,9 @@ n<$Source01/8.26.4--illegal_implements_parameter.sv> u<137> t<Top_level_rule> c<
         n<> u<133> t<ENDMODULE> p<134> l<35:1> el<35:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/8.26.4--illegal_implements_parameter.sv:17:1: Compile module "class_tb".
-[WRN:CP5851] $Source01/8.26.4--illegal_implements_parameter.sv:32:9: Failed to bind "id:64, name:new".
+[WRN:CP5851] $Source01/8.26.4--illegal_implements_parameter.sv:32:9: Failed to bind "id:66, name:new".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/8.26.4--illegal_implements_parameter.sv:32:9: Null Actual: id:64, type:MethodFuncCall, name:new, relation:vpiRhs.
+[ERR:LN7705] $Source01/8.26.4--illegal_implements_parameter.sv:32:9: Null Actual: id:66, type:MethodFuncCall, name:new, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -200,15 +200,22 @@ Design name:unnamed:
           vpiParent: Module name:class_tb
           vpiName Identifier name:ihello start:18:18 end:18:24:
           vpiFullName: class_tb::ihello
+          vpiTypedef (1 items):
+            Typedef name:int_t start:19:3 end:19:21:
+              vpiParent: ClassDefn name:ihello
+              vpiName Identifier name:int_t start:19:15 end:19:20:
+              vpiTypedefAlias RefTypespec start:19:11 end:19:14:
+                vpiParent: Typedef name:int_t
+                vpiFullName: class_tb::ihello::int_t
+                vpiActual: IntTypespec
           vpiTypespec (1 items):
             TypedefTypespec name:int_t start:19:3 end:19:21:
               vpiParent: ClassDefn name:ihello
               vpiName Identifier name:int_t start:19:15 end:19:20:
-              vpiTypedefAlias RefTypespec start:19:11 end:19:14:
-                vpiParent: TypedefTypespec name:int_t
-                vpiFullName: class_tb::ihello::int_t
-                vpiActual: IntTypespec
+              vpiTypedef: Typedef name:int_t
           vpiDefName: ihello
+          vpiVirtual: true
+          vpiIsInterfaceClass: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:ihello
@@ -363,6 +370,7 @@ Design name:unnamed:
     ModuleTypespec name:class_tb:
       vpiParent: Design name:unnamed
       vpiName Identifier name:class_tb start:17:8 end:17:16:
+      vpiDefName: class_tb
       vpiModule: Module name:class_tb
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -419,7 +427,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.26.4--illegal_implements_param
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

@@ -70,16 +70,21 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:some_package start:15:9 end:15:21:
       vpiFullName: some_package
+      vpiTypedef (1 items):
+        Typedef name:some_type start:16:4 end:16:26:
+          vpiParent: Package name:some_package
+          vpiName Identifier name:some_type start:16:16 end:16:25:
+          vpiTypedefAlias RefTypespec start:16:12 end:16:15:
+            vpiParent: Typedef name:some_type
+            vpiFullName: some_package::some_type
+            vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Package name:some_package
         TypedefTypespec name:some_type start:16:4 end:16:26:
           vpiParent: Package name:some_package
           vpiName Identifier name:some_type start:16:16 end:16:25:
-          vpiTypedefAlias RefTypespec start:16:12 end:16:15:
-            vpiParent: TypedefTypespec name:some_type
-            vpiFullName: some_package::some_type
-            vpiActual: BitTypespec
+          vpiTypedef: Typedef name:some_type
       vpiDefName: some_package
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -118,14 +123,21 @@ Design name:unnamed:
     TypedefTypespec name:myalias start:19:1 end:19:41:
       vpiParent: Design name:unnamed
       vpiName Identifier name:myalias start:19:33 end:19:40:
-      vpiTypedefAlias RefTypespec start:19:9 end:19:32:
-        vpiParent: TypedefTypespec name:myalias
-        vpiFullName: myalias
-        vpiActual: UnsupportedTypespec name:some_package::some_type
+      vpiTypedefKind: unsupported (7)
+      vpiTypedef: Typedef name:myalias
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:21:8 end:21:12:
+      vpiDefName: test
       vpiModule: Module name:test
+  vpiTypedef (1 items):
+    Typedef name:myalias start:19:1 end:19:41:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:myalias start:19:33 end:19:40:
+      vpiTypedefAlias RefTypespec start:19:9 end:19:32:
+        vpiParent: Typedef name:myalias
+        vpiFullName: myalias
+        vpiActual: UnsupportedTypespec name:some_package::some_type
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -174,7 +186,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_14/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    27      27       0         0
 ===================== END REDUCTION RESULT =====================

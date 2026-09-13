@@ -111,7 +111,7 @@ n<$Source01/basic/package_enum.sv> u<96> t<Top_level_rule> c<1> l<1:1> el<13:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/basic/package_enum.sv:1:1: Compile package "foo_pkg".
 [INF:CP5804] $Source01/basic/package_enum.sv:8:1: Compile module "top".
-[WRN:CP5851] $Source01/basic/package_enum.sv:10:28: Failed to bind "id:47, name:AccessAck".
+[WRN:CP5851] $Source01/basic/package_enum.sv:10:28: Failed to bind "id:50, name:AccessAck".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -126,6 +126,48 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo_pkg start:1:9 end:1:16:
       vpiFullName: foo_pkg
+      vpiEnum (1 items):
+        Enum start:2:13 end:5:6:
+          vpiParent: Package name:foo_pkg
+          vpiBaseTypespec RefTypespec start:2:18 end:2:29:
+            vpiParent: Enum
+            vpiFullName: foo_pkg
+            vpiActual: LogicTypespec
+          vpiEnumConst (2 items):
+            EnumConst name:AccessAck start:3:9 end:3:29:
+              vpiParent: Enum
+              vpiName Identifier name:AccessAck start:3:9 end:3:18:
+              vpiValue Constant start:3:25 end:3:29:
+                vpiParent: EnumConst name:AccessAck
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo_pkg::AccessAck
+                  vpiActual: LogicTypespec
+                vpiConstType: decimal (1)
+                vpiSize: 3
+                vpiDecompile: "3'd0"
+                vpiValue: "0"
+            EnumConst name:AccessAckData start:4:9 end:4:29:
+              vpiParent: Enum
+              vpiName Identifier name:AccessAckData start:4:9 end:4:22:
+              vpiValue Constant start:4:25 end:4:29:
+                vpiParent: EnumConst name:AccessAckData
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo_pkg::AccessAckData
+                  vpiActual: LogicTypespec
+                vpiConstType: decimal (1)
+                vpiSize: 3
+                vpiDecompile: "3'd1"
+                vpiValue: "1"
+      vpiTypedef (1 items):
+        Typedef name:inp_t start:2:5 end:5:13:
+          vpiParent: Package name:foo_pkg
+          vpiName Identifier name:inp_t start:5:7 end:5:12:
+          vpiTypedefAlias RefTypespec start:2:13 end:5:6:
+            vpiParent: Typedef name:inp_t
+            vpiFullName: foo_pkg::inp_t
+            vpiActual: EnumTypespec
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Package name:foo_pkg
@@ -155,44 +197,12 @@ Design name:unnamed:
           vpiVector: true
         EnumTypespec start:2:13 end:5:6:
           vpiParent: Package name:foo_pkg
-          vpiBaseTypespec RefTypespec start:2:18 end:2:29:
-            vpiParent: EnumTypespec
-            vpiFullName: foo_pkg
-            vpiActual: LogicTypespec
-          vpiEnumConst (2 items):
-            EnumConst name:AccessAck start:3:9 end:3:29:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:AccessAck start:3:9 end:3:18:
-              vpiValue Constant start:3:25 end:3:29:
-                vpiParent: EnumConst name:AccessAck
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: foo_pkg::AccessAck
-                  vpiActual: LogicTypespec
-                vpiConstType: decimal (1)
-                vpiSize: 3
-                vpiDecompile: "3'd0"
-                vpiValue: "0"
-            EnumConst name:AccessAckData start:4:9 end:4:29:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:AccessAckData start:4:9 end:4:22:
-              vpiValue Constant start:4:25 end:4:29:
-                vpiParent: EnumConst name:AccessAckData
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: foo_pkg::AccessAckData
-                  vpiActual: LogicTypespec
-                vpiConstType: decimal (1)
-                vpiSize: 3
-                vpiDecompile: "3'd1"
-                vpiValue: "1"
+          vpiEnum: Enum
         TypedefTypespec name:inp_t start:2:5 end:5:13:
           vpiParent: Package name:foo_pkg
           vpiName Identifier name:inp_t start:5:7 end:5:12:
-          vpiTypedefAlias RefTypespec start:2:13 end:5:6:
-            vpiParent: TypedefTypespec name:inp_t
-            vpiFullName: foo_pkg::inp_t
-            vpiActual: EnumTypespec
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:inp_t
       vpiDefName: foo_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -266,6 +276,7 @@ Design name:unnamed:
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:8:8 end:8:11:
+      vpiDefName: top
       vpiModule: Module name:top
 ===================
 [  FATAL] : 0
@@ -315,7 +326,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/basic/package_enum_sv/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              46      46       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    46      46       0         0
 ===================== END REDUCTION RESULT =====================

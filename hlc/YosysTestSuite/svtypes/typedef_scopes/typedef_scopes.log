@@ -318,6 +318,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:4:8 end:4:11:
       vpiFullName: top
+      vpiTypedef (1 items):
+        Typedef name:inner_type start:9:2 end:9:33:
+          vpiParent: Module name:top
+          vpiName Identifier name:inner_type start:9:22 end:9:32:
+          vpiTypedefAlias RefTypespec start:9:10 end:9:21:
+            vpiParent: Typedef name:inner_type
+            vpiFullName: top.inner_type
+            vpiActual: LogicTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -348,10 +356,7 @@ Design name:unnamed:
         TypedefTypespec name:inner_type start:9:2 end:9:33:
           vpiParent: Module name:top
           vpiName Identifier name:inner_type start:9:22 end:9:32:
-          vpiTypedefAlias RefTypespec start:9:10 end:9:21:
-            vpiParent: TypedefTypespec name:inner_type
-            vpiFullName: top.inner_type
-            vpiActual: LogicTypespec
+          vpiTypedef: Typedef name:inner_type
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -452,6 +457,14 @@ Design name:unnamed:
             vpiParent: GenIf
             vpiName Identifier name:genblock start:13:16 end:13:24:
             vpiFullName: top.genblock
+            vpiTypedef (1 items):
+              Typedef name:inner_type start:14:3 end:14:34:
+                vpiParent: Begin name:genblock
+                vpiName Identifier name:inner_type start:14:23 end:14:33:
+                vpiTypedefAlias RefTypespec start:14:11 end:14:22:
+                  vpiParent: Typedef name:inner_type
+                  vpiFullName: top.genblock.inner_type
+                  vpiActual: LogicTypespec
             vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin name:genblock
@@ -482,10 +495,7 @@ Design name:unnamed:
               TypedefTypespec name:inner_type start:14:3 end:14:34:
                 vpiParent: Begin name:genblock
                 vpiName Identifier name:inner_type start:14:23 end:14:33:
-                vpiTypedefAlias RefTypespec start:14:11 end:14:22:
-                  vpiParent: TypedefTypespec name:inner_type
-                  vpiFullName: top.genblock.inner_type
-                  vpiActual: LogicTypespec
+                vpiTypedef: Typedef name:inner_type
             vpiStmt (1 items):
               Always start:16:3 end:16:43:
                 vpiParent: Begin name:genblock
@@ -543,16 +553,22 @@ Design name:unnamed:
     TypedefTypespec name:outer_uint4_t start:2:1 end:2:35:
       vpiParent: Design name:unnamed
       vpiName Identifier name:outer_uint4_t start:2:21 end:2:34:
-      vpiTypedefAlias RefTypespec start:2:9 end:2:20:
-        vpiParent: TypedefTypespec name:outer_uint4_t
-        vpiFullName: outer_uint4_t
-        vpiActual: LogicTypespec
+      vpiTypedef: Typedef name:outer_uint4_t
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:4:8 end:4:11:
+      vpiDefName: top
       vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
+  vpiTypedef (1 items):
+    Typedef name:outer_uint4_t start:2:1 end:2:35:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:outer_uint4_t start:2:21 end:2:34:
+      vpiTypedefAlias RefTypespec start:2:9 end:2:20:
+        vpiParent: Typedef name:outer_uint4_t
+        vpiFullName: outer_uint4_t
+        vpiActual: LogicTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 9
@@ -601,7 +617,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/svtypes/typedef_scopes/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              69      69       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    69      69       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

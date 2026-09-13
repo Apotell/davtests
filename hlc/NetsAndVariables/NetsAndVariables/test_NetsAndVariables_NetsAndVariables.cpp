@@ -197,7 +197,9 @@ void CheckNet(const hldb::Module *mod, const NetExpectation &e) {
 const hldb::StructTypespec *ResolveStruct(const hldb::Typespec *actual) {
   if (const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(actual)) return st;
   if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(actual)) {
-    if (tdt->getTypedefAlias() != nullptr) return tdt->getTypedefAlias()->getActual<hldb::StructTypespec>();
+    if (const hldb::Typedef *const td = tdt->getTypedef()) {
+      if (td->getAlias() != nullptr) return td->getAlias()->getActual<hldb::StructTypespec>();
+    }
   }
   return nullptr;
 }
@@ -988,9 +990,10 @@ TEST_F(NetsAndVariablesTest, Section5_EnumVariableHasLogicBaseAndTwoConsts) {
   // actual is the EnumTypespec directly.
   const hldb::EnumTypespec *const et = venum->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(et, nullptr) << "'v_enum' typespec does not resolve to an EnumTypespec";
-
-  ASSERT_NE(et->getBaseTypespec(), nullptr);
-  const hldb::Typespec *const base = et->getBaseTypespec()->getActual();
+  const hldb::Enum *const e = et->getEnum();
+  ASSERT_NE(e, nullptr);
+  ASSERT_NE(e->getBaseTypespec(), nullptr);
+  const hldb::Typespec *const base = e->getBaseTypespec()->getActual();
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(static_cast<uint32_t>(base->getAnyType()), static_cast<uint32_t>(hldb::AnyType::LogicTypespec));
   // "enum logic [1:0] {...}" -- checked via the raw left/right bound
@@ -1003,10 +1006,10 @@ TEST_F(NetsAndVariablesTest, Section5_EnumVariableHasLogicBaseAndTwoConsts) {
   EXPECT_EQ(ConstantIntValue(baseRanges->at(0)->getLeftExpr()), 1);
   EXPECT_EQ(ConstantIntValue(baseRanges->at(0)->getRightExpr()), 0);
 
-  ASSERT_NE(et->getEnumConsts(), nullptr);
-  ASSERT_EQ(et->getEnumConsts()->size(), 2u);
-  EXPECT_NE(hldb::findByName<hldb::EnumConst>("V_IDLE", et->getEnumConsts()), nullptr) << "enum const 'V_IDLE' not found";
-  EXPECT_NE(hldb::findByName<hldb::EnumConst>("V_BUSY", et->getEnumConsts()), nullptr) << "enum const 'V_BUSY' not found";
+  ASSERT_NE(e->getEnumConsts(), nullptr);
+  ASSERT_EQ(e->getEnumConsts()->size(), 2u);
+  EXPECT_NE(hldb::findByName<hldb::EnumConst>("V_IDLE", e->getEnumConsts()), nullptr) << "enum const 'V_IDLE' not found";
+  EXPECT_NE(hldb::findByName<hldb::EnumConst>("V_BUSY", e->getEnumConsts()), nullptr) << "enum const 'V_BUSY' not found";
 }
 
 TEST_F(NetsAndVariablesTest, Section5_TypedefPairTResolvesToPackedStruct) {
@@ -1017,16 +1020,18 @@ TEST_F(NetsAndVariablesTest, Section5_TypedefPairTResolvesToPackedStruct) {
   const hldb::TypedefTypespec *const tdt =
       hldb::findByName<hldb::TypedefTypespec>("pair_t", mod->getTypespecs());
   ASSERT_NE(tdt, nullptr) << "typedef 'pair_t' not found among module typespecs";
-
-  ASSERT_NE(tdt->getTypedefAlias(), nullptr) << "typedef 'pair_t' has no alias";
-  const hldb::StructTypespec *const st = tdt->getTypedefAlias()->getActual<hldb::StructTypespec>();
+  const hldb::Typedef *const td = tdt->getTypedef();
+  ASSERT_NE(td, nullptr);
+  ASSERT_NE(td->getAlias(), nullptr) << "typedef 'pair_t' has no alias";
+  const hldb::StructTypespec *const st = td->getAlias()->getActual<hldb::StructTypespec>();
   ASSERT_NE(st, nullptr) << "'pair_t' does not resolve to a StructTypespec";
-  EXPECT_TRUE(st->getPacked());
-
-  ASSERT_NE(st->getMembers(), nullptr);
-  ASSERT_EQ(st->getMembers()->size(), 2u);
-  const hldb::TypespecMember *const hi = hldb::findByName<hldb::TypespecMember>("hi", st->getMembers());
-  const hldb::TypespecMember *const lo = hldb::findByName<hldb::TypespecMember>("lo", st->getMembers());
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  EXPECT_TRUE(s->getPacked());
+  ASSERT_NE(s->getMembers(), nullptr);
+  ASSERT_EQ(s->getMembers()->size(), 2u);
+  const hldb::TypespecMember *const hi = hldb::findByName<hldb::TypespecMember>("hi", s->getMembers());
+  const hldb::TypespecMember *const lo = hldb::findByName<hldb::TypespecMember>("lo", s->getMembers());
   ASSERT_NE(hi, nullptr) << "struct member 'hi' not found";
   ASSERT_NE(lo, nullptr) << "struct member 'lo' not found";
 
@@ -1057,9 +1062,11 @@ TEST_F(NetsAndVariablesTest, Section5_StructVariableResolvesThroughTypedefToPack
 
   const hldb::StructTypespec *const st = ResolveStruct(vstruct->getTypespec()->getActual());
   ASSERT_NE(st, nullptr) << "'v_struct' typespec does not resolve to a StructTypespec";
-  EXPECT_TRUE(st->getPacked());
-  ASSERT_NE(st->getMembers(), nullptr);
-  EXPECT_EQ(st->getMembers()->size(), 2u);
+  const hldb::Struct *const s = st->getStruct();
+  ASSERT_NE(s, nullptr);
+  EXPECT_TRUE(s->getPacked());
+  ASSERT_NE(s->getMembers(), nullptr);
+  EXPECT_EQ(s->getMembers()->size(), 2u);
 }
 
 TEST_F(NetsAndVariablesTest, Section5_PackedTwoDimVariableHasTwoRanges) {

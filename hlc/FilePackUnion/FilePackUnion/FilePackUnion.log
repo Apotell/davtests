@@ -274,41 +274,51 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo_flags_pkg start:2:9 end:2:22:
       vpiFullName: foo_flags_pkg
-      vpiTypespec (3 items):
-        LogicTypespec:
-          vpiParent: Package name:foo_flags_pkg
-        StructTypespec start:4:11 end:8:4:
+      vpiStruct (1 items):
+        Struct start:4:11 end:8:4:
           vpiParent: Package name:foo_flags_pkg
           vpiPacked: true
           vpiTypespecMember (3 items):
             TypespecMember name:a start:5:11 end:5:12:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: a
               vpiTypespec RefTypespec start:5:5 end:5:10:
                 vpiParent: TypespecMember name:a
                 vpiFullName: foo_flags_pkg::a
                 vpiActual: LogicTypespec
             TypespecMember name:b start:6:11 end:6:12:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: b
               vpiTypespec RefTypespec start:6:5 end:6:10:
                 vpiParent: TypespecMember name:b
                 vpiFullName: foo_flags_pkg::b
                 vpiActual: LogicTypespec
             TypespecMember name:c start:7:11 end:7:12:
-              vpiParent: StructTypespec
+              vpiParent: Struct
               vpiName: c
               vpiTypespec RefTypespec start:7:5 end:7:10:
                 vpiParent: TypespecMember name:c
                 vpiFullName: foo_flags_pkg::c
                 vpiActual: LogicTypespec
-        TypedefTypespec name:common_flags_t start:4:3 end:8:20:
+      vpiTypedef (1 items):
+        Typedef name:common_flags_t start:4:3 end:8:20:
           vpiParent: Package name:foo_flags_pkg
           vpiName Identifier name:common_flags_t start:8:5 end:8:19:
           vpiTypedefAlias RefTypespec start:4:11 end:8:4:
-            vpiParent: TypedefTypespec name:common_flags_t
+            vpiParent: Typedef name:common_flags_t
             vpiFullName: foo_flags_pkg::common_flags_t
             vpiActual: StructTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Package name:foo_flags_pkg
+        StructTypespec start:4:11 end:8:4:
+          vpiParent: Package name:foo_flags_pkg
+          vpiStruct: Struct
+        TypedefTypespec name:common_flags_t start:4:3 end:8:20:
+          vpiParent: Package name:foo_flags_pkg
+          vpiName Identifier name:common_flags_t start:8:5 end:8:19:
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:common_flags_t
       vpiDefName: foo_flags_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -321,6 +331,34 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:fooes_pkg start:12:9 end:12:18:
       vpiFullName: fooes_pkg
+      vpiEnum (1 items):
+        Enum start:14:11 end:19:4:
+          vpiParent: Package name:fooes_pkg
+          vpiBaseTypespec RefTypespec start:14:16 end:14:27:
+            vpiParent: Enum
+            vpiFullName: fooes_pkg
+            vpiActual: LogicTypespec
+          vpiEnumConst (4 items):
+            EnumConst name:a start:15:5 end:15:6:
+              vpiParent: Enum
+              vpiName Identifier name:a start:15:5 end:15:6:
+            EnumConst name:b start:16:5 end:16:6:
+              vpiParent: Enum
+              vpiName Identifier name:b start:16:5 end:16:6:
+            EnumConst name:c start:17:5 end:17:6:
+              vpiParent: Enum
+              vpiName Identifier name:c start:17:5 end:17:6:
+            EnumConst name:d start:18:5 end:18:6:
+              vpiParent: Enum
+              vpiName Identifier name:d start:18:5 end:18:6:
+      vpiTypedef (1 items):
+        Typedef name:classes_e start:14:3 end:19:15:
+          vpiParent: Package name:fooes_pkg
+          vpiName Identifier name:classes_e start:19:5 end:19:14:
+          vpiTypedefAlias RefTypespec start:14:11 end:19:4:
+            vpiParent: Typedef name:classes_e
+            vpiFullName: fooes_pkg::classes_e
+            vpiActual: EnumTypespec
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Package name:fooes_pkg
@@ -350,30 +388,12 @@ Design name:unnamed:
           vpiVector: true
         EnumTypespec start:14:11 end:19:4:
           vpiParent: Package name:fooes_pkg
-          vpiBaseTypespec RefTypespec start:14:16 end:14:27:
-            vpiParent: EnumTypespec
-            vpiFullName: fooes_pkg
-            vpiActual: LogicTypespec
-          vpiEnumConst (4 items):
-            EnumConst name:a start:15:5 end:15:6:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:a start:15:5 end:15:6:
-            EnumConst name:b start:16:5 end:16:6:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:b start:16:5 end:16:6:
-            EnumConst name:c start:17:5 end:17:6:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:c start:17:5 end:17:6:
-            EnumConst name:d start:18:5 end:18:6:
-              vpiParent: EnumTypespec
-              vpiName Identifier name:d start:18:5 end:18:6:
+          vpiEnum: Enum
         TypedefTypespec name:classes_e start:14:3 end:19:15:
           vpiParent: Package name:fooes_pkg
           vpiName Identifier name:classes_e start:19:5 end:19:14:
-          vpiTypedefAlias RefTypespec start:14:11 end:19:4:
-            vpiParent: TypedefTypespec name:classes_e
-            vpiFullName: fooes_pkg::classes_e
-            vpiActual: EnumTypespec
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:classes_e
       vpiDefName: fooes_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -386,6 +406,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:goog start:28:9 end:28:13:
       vpiFullName: goog
+      vpiTypedef (1 items):
+        Typedef name:top_flag_t start:29:1 end:32:14:
+          vpiParent: Package name:goog
+          vpiName Identifier name:top_flag_t start:32:3 end:32:13:
+          vpiTypedefAlias RefTypespec start:29:9 end:32:2:
+            vpiParent: Typedef name:top_flag_t
+            vpiFullName: goog::top_flag_t
+            vpiActual: UnionTypespec
+      vpiUnion (1 items):
+        Union start:29:9 end:32:2:
+          vpiParent: Package name:goog
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:atype_t start:30:45 end:30:52:
+              vpiParent: Union
+              vpiName: atype_t
+              vpiTypespec RefTypespec name:foo_flags_pkg::common_flags_t start:30:3 end:30:44:
+                vpiParent: TypespecMember name:atype_t
+                vpiName: foo_flags_pkg::common_flags_t
+                vpiFullName: goog::atype_t::foo_flags_pkg::common_flags_t
+                vpiActual: TypedefTypespec name:common_flags_t
+            TypespecMember name:btype_t start:31:33 end:31:40:
+              vpiParent: Union
+              vpiName: btype_t
+              vpiTypespec RefTypespec name:padded_fooes_t start:31:3 end:31:32:
+                vpiParent: TypespecMember name:btype_t
+                vpiName: padded_fooes_t
+                vpiFullName: goog::btype_t::padded_fooes_t
+                vpiActual: ArrayTypespec
       vpiTypespec (7 items):
         UnsupportedTypespec name:common_flags_t start:30:18 end:30:39:
           vpiParent: Package name:goog
@@ -513,31 +562,12 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:padded_fooes_t
         UnionTypespec start:29:9 end:32:2:
           vpiParent: Package name:goog
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:atype_t start:30:45 end:30:52:
-              vpiParent: UnionTypespec
-              vpiName: atype_t
-              vpiTypespec RefTypespec name:foo_flags_pkg::common_flags_t start:30:3 end:30:44:
-                vpiParent: TypespecMember name:atype_t
-                vpiName: foo_flags_pkg::common_flags_t
-                vpiFullName: goog::atype_t::foo_flags_pkg::common_flags_t
-                vpiActual: TypedefTypespec name:common_flags_t
-            TypespecMember name:btype_t start:31:33 end:31:40:
-              vpiParent: UnionTypespec
-              vpiName: btype_t
-              vpiTypespec RefTypespec name:padded_fooes_t start:31:3 end:31:32:
-                vpiParent: TypespecMember name:btype_t
-                vpiName: padded_fooes_t
-                vpiFullName: goog::btype_t::padded_fooes_t
-                vpiActual: ArrayTypespec
+          vpiUnion: Union
         TypedefTypespec name:top_flag_t start:29:1 end:32:14:
           vpiParent: Package name:goog
           vpiName Identifier name:top_flag_t start:32:3 end:32:13:
-          vpiTypedefAlias RefTypespec start:29:9 end:32:2:
-            vpiParent: TypedefTypespec name:top_flag_t
-            vpiFullName: goog::top_flag_t
-            vpiActual: UnionTypespec
+          vpiTypedefKind: union (6)
+          vpiTypedef: Typedef name:top_flag_t
       vpiDefName: goog
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -690,34 +720,45 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     StructTypespec start:23:9 end:26:2:
       vpiParent: Design name:unnamed
+      vpiStruct: Struct
+    TypedefTypespec name:padded_fooes_t start:23:1 end:26:18:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:padded_fooes_t start:26:3 end:26:17:
+      vpiTypedefKind: struct (4)
+      vpiTypedef: Typedef name:padded_fooes_t
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:35:8 end:35:11:
+      vpiDefName: top
+      vpiModule: Module name:top
+  vpiStruct (1 items):
+    Struct start:23:9 end:26:2:
+      vpiParent: Design name:unnamed
       vpiPacked: true
       vpiTypespecMember (2 items):
         TypespecMember name:a start:24:9 end:24:10:
-          vpiParent: StructTypespec
+          vpiParent: Struct
           vpiName: a
           vpiTypespec RefTypespec start:24:3 end:24:8:
             vpiParent: TypespecMember name:a
             vpiFullName: a
             vpiActual: LogicTypespec
         TypespecMember name:b start:25:24 end:25:25:
-          vpiParent: StructTypespec
+          vpiParent: Struct
           vpiName: b
           vpiTypespec RefTypespec name:fooes_pkg::classes_e start:25:3 end:25:23:
             vpiParent: TypespecMember name:b
             vpiName: fooes_pkg::classes_e
             vpiFullName: b.fooes_pkg::classes_e
             vpiActual: TypedefTypespec name:classes_e
-    TypedefTypespec name:padded_fooes_t start:23:1 end:26:18:
+  vpiTypedef (1 items):
+    Typedef name:padded_fooes_t start:23:1 end:26:18:
       vpiParent: Design name:unnamed
       vpiName Identifier name:padded_fooes_t start:26:3 end:26:17:
       vpiTypedefAlias RefTypespec start:23:9 end:26:2:
-        vpiParent: TypedefTypespec name:padded_fooes_t
+        vpiParent: Typedef name:padded_fooes_t
         vpiFullName: padded_fooes_t
         vpiActual: StructTypespec
-    ModuleTypespec name:top:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:top start:35:8 end:35:11:
-      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -769,7 +810,7 @@ Constant                            12      11       1         2
 Operation                            1       0       0         1
 RefTypespec                         36      35       1         2
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                   129     126       2         5
+                                   141     138       2         5
 ===================== END REDUCTION RESULT =====================
