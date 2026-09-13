@@ -1,0 +1,60 @@
+/*
+:name: chapter14_error_rules
+:description: IEEE 1800-2023 Clause 14 error scenarios
+:tags: 14.5 14.11 14.14 14.16
+*/
+
+// Every scenario below is derived from one row of the SV error catalog
+// (docs/error_catalog.xml). The "catalog row N" comment is the link back to
+// that row; the matching gtest is named RowN_...
+
+// catalog row 441 | 14.5 | COMP
+// An expression assigned to a clocking signal in its declaration shall be
+// legal as a port connection of the corresponding direction: input/inout
+// expressions must be legal for a module input port, output/inout
+// expressions must be legal for a module output port.
+module r441_m;
+  logic clk;
+  logic [7:0] q;
+  clocking cb @(posedge clk);
+    output w = 8'hFF; // illegal: constant expression cannot be connected to an output port
+    input  r = q + 1; // ok: legal input port connection expression
+  endclocking
+endmodule
+
+// catalog row 444 | 14.11 | COMP
+// If no default clocking has been specified for the current module,
+// interface, checker, or program, use of a ## cycle delay shall cause the
+// compiler to issue an error.
+module r444_m;
+  logic clk;
+  clocking cb @(posedge clk); // declared but not made the default
+  endclocking
+  initial begin
+    ##5; // illegal: no default clocking in scope for the cycle delay
+  end
+endmodule
+
+// catalog row 450 | 14.14 | ELAB
+// $global_clock resolution shall result in an error if no effective global
+// clocking declaration is found in the enclosing instance scope or any
+// ancestor up to and including a top-level hierarchy block.
+module r450_top;
+  r450_sub s(); // no global clocking anywhere in the hierarchy
+endmodule
+module r450_sub;
+  always @($global_clock) begin // illegal: no effective global clocking declaration found
+  end
+endmodule
+
+// catalog row 453 | 14.16 | PARSE
+// The clockvar_expression on the left-hand side of a synchronous drive
+// shall be a whole clockvar, a bit-select, or a slice; a concatenation is
+// not allowed.
+module r453_m;
+  logic clk, a, b;
+  clocking cb @(posedge clk);
+    output a, b;
+  endclocking
+  initial {cb.a, cb.b} <= 2'b10; // illegal: concatenation as a clockvar_expression
+endmodule
