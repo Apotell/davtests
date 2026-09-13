@@ -15,14 +15,15 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 30 (Specify blocks) error scenarios
-// catalogued in sv_error_catalog_Latest.xlsx (row 1010).
+// catalogued in sv_error_catalog_Latest.xlsx (rows 1010, 1013).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
 //
 // Behaviour observed while writing this file (hlc.exe -d db over the fixture):
 // r1010_m compiles. The only diagnostic is a CP5810 note about q taking an
-// implicit wire type, which is unrelated to the rule and not asserted.
+// implicit wire type, which is unrelated to the rule and not asserted. Row
+// 1013's r1013_m also compiles with no diagnostic naming the rule.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -53,6 +54,18 @@ TEST_F(Chapter30ErrorRulesTest, Row1010_InternalNetAsModulePathSourceIsRejected)
   // in the path.
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SPECIFY_PATH, "internal", 15, 6), nullptr)
       << "a module path source must be an input or inout port net (IEEE 1800-2023 30.4.1)";
+}
+
+// --- row 1013: output port is not a legal state-dependent path condition operand (30.4.4.1)
+
+TEST_F(Chapter30ErrorRulesTest, Row1013_OutputPortIsNotALegalStateDependentPathConditionOperand) {
+  // catalog row 1013 | 30.4.4.1 | COMP
+  // The operands of a state-dependent path conditional expression shall be
+  // only module input/inout ports (or their selects), locally defined
+  // variables/nets (or their selects), and compile-time constants; 'ctrl' on
+  // line 27 is an output port and is not a legal operand here.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r1013_m", 27, 15), nullptr)
+      << "an output port cannot be a state-dependent path condition operand (IEEE 1800-2023 30.4.4.1)";
 }
 
 }  // namespace hlc

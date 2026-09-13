@@ -1,7 +1,7 @@
 /*
 :name: chapter8_error_rules
 :description: IEEE 1800-2023 Clause 8 (Classes) error scenarios
-:tags: 8.7 8.10 8.11 8.15 8.17 8.21 8.24
+:tags: 8.7 8.10 8.11 8.15 8.17 8.21 8.23 8.24
 */
 
 // Every scenario below is derived from one row of the SV error catalog
@@ -81,6 +81,20 @@ module r230_m;
   r230_base p;
   initial p = new;
 endmodule
+
+// catalog row 236 | 8.23 | COMP
+// A nested class shall not have implicit access to non-static properties
+// and methods of the containing class; an unqualified reference to a
+// non-static outer class member from a nested class is illegal (there is
+// no implicit this handle to the outer class).
+class r236_outer;
+  int outerProp;
+  class r236_inner;
+    function void innerMethod();
+      outerProp = 0;
+    endfunction
+  endclass
+endclass
 
 // catalog row 239 | 8.24 | COMP
 // An out-of-block declaration shall be declared in the same scope as the class
