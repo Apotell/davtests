@@ -16,17 +16,17 @@
 
 // Tests for the IEEE 1800-2023 Clause 12 (Procedural programming statements)
 // error scenarios catalogued in sv_error_catalog_Latest.xlsx (rows 378, 380,
-// 384, 392).
+// 384, 385, 392).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
 //
 // Behaviour observed while writing this file (hlc.exe -d db over the fixture):
-// all four modules compile. Row 384's mixed for-loop initialization is
-// rejected by the grammar; the parser recovers locally, so r392_m after it is
-// still built. Rows 378, 380 and 392 produce no diagnostic. The Linter's
-// single orphan-node complaint is a consequence of the row 384 recovery, not a
-// diagnostic for any of these rules, and is not asserted.
+// all five modules compile. Row 384's mixed for-loop initialization is
+// rejected by the grammar; the parser recovers locally, so the modules after
+// it are still built. Rows 378, 380, 385 and 392 produce no diagnostic. The
+// Linter's single orphan-node complaint is a consequence of the row 384
+// recovery, not a diagnostic for any of these rules, and is not asserted.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -80,14 +80,26 @@ TEST_F(Chapter12ErrorRulesTest, Row384_MixedLocalAndNonLocalLoopVariablesAreReje
       << "for-loop control variables must be all local or none (IEEE 1800-2023 12.7.1)";
 }
 
+// --- row 385: foreach array identifier cannot be a function call (12.7.3) --
+
+TEST_F(Chapter12ErrorRulesTest, Row385_ForeachArrayIdentifierCannotBeAFunctionCall) {
+  // catalog row 385 | 12.7.3 | COMP
+  // "It shall be an error to include a function call as an implicit variable
+  // declaration in the foreach-loop array identifier." Line 50's
+  // "foreach (get_arr()[i])" uses a function call where the loop's array
+  // identifier must be a variable/array reference.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r385_m", 50, 5), nullptr)
+      << "a function call cannot serve as the foreach-loop array identifier (IEEE 1800-2023 12.7.3)";
+}
+
 // --- row 392: a nonvoid function must return a value (12.8) -----------------
 
 TEST_F(Chapter12ErrorRulesTest, Row392_NonvoidFunctionReturnWithoutExpressionIsRejected) {
   // catalog row 392 | 12.8 | COMP
   // "In a function, the return statement shall specify an expression of the
   // correct type" -- only a void function, a task or a block may return
-  // bare. f is declared to return int, and line 48 returns nothing.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "f", 48, 5), nullptr)
+  // bare. f is declared to return int, and line 58 returns nothing.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "f", 58, 5), nullptr)
       << "a nonvoid function cannot return without an expression (IEEE 1800-2023 12.8)";
 }
 

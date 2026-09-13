@@ -15,7 +15,8 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 35 (DPI) error scenarios catalogued in
-// sv_error_catalog_Latest.xlsx (row 1108).
+// sv_error_catalog_Latest.xlsx / docs/error_catalog.xml (rows 1108, 1109,
+// 1123).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
@@ -62,6 +63,29 @@ TEST_F(Chapter35ErrorRulesTest, Row1108_LinkageNameThatIsNotACIdentifierIsReject
                   "name to be a valid C identifier";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DPI_DECLARATION, "init[1]", 14, 18), nullptr)
       << "a DPI linkage name must be a valid C identifier (IEEE 1800-2023 35.4)";
+}
+
+// --- row 1109: same c_identifier must use the same DPI version string (35.4)
+
+TEST_F(Chapter35ErrorRulesTest, Row1109_SameCIdentifierMustUseSameDpiVersionString) {
+  // catalog row 1109 | 35.4 | LINT
+  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 35.4)";
+  // All declarations using the same c_identifier shall be declared with the
+  // same DPI version string; r1109_m uses "DPI-C" and r1109_n uses "DPI"
+  // for the same c_identifier 'r1109_f'.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DPI_DECLARATION, "r1109_n"), nullptr)
+      << "mixing the deprecated 'DPI' and 'DPI-C' spec strings for one c_identifier is illegal (IEEE 1800-2023 35.4)";
+}
+
+// --- row 1123: the deprecated "DPI" spec string must be diagnosed (35.5.4) --
+
+TEST_F(Chapter35ErrorRulesTest, Row1123_DeprecatedDpiSpecStringIsDiagnosed) {
+  // catalog row 1123 | 35.5.4 | COMP
+  // Use of the deprecated dpi_spec_string "DPI" shall generate a
+  // compile-time warning or error stating that "DPI" is deprecated and
+  // should be replaced with "DPI-C".
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DPI_DECLARATION, "r1123_f"), nullptr)
+      << "the deprecated 'DPI' spec string must be diagnosed (IEEE 1800-2023 35.5.4)";
 }
 
 }  // namespace hlc

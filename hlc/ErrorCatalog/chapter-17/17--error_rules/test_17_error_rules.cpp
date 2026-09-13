@@ -15,7 +15,8 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 17 (Checkers) error scenarios catalogued
-// in sv_error_catalog_Latest.xlsx (row 573).
+// in sv_error_catalog_Latest.xlsx / docs/error_catalog.xml (rows 573, 580,
+// 582, 596, 597).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
@@ -23,6 +24,11 @@
 // Behaviour observed while writing this file (hlc.exe -d db over the fixture):
 // r573_sub compiles, and the instantiation inside the checker is rejected by
 // the grammar with a single syntax error at 13:2.
+//
+// Rows 580, 582, 596, 597 were merged in from a sibling snapshot of this same
+// catalog file. All four are semantic (COMP/LINT) violations that parse
+// cleanly. Rows 580, 582 and 597 are not yet implemented in HLC's Linter and
+// are marked GTEST_SKIP() accordingly -- see each test's own comment.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -52,6 +58,65 @@ TEST_F(Chapter17ErrorRulesTest, Row573_ModuleInstantiationInsideACheckerIsReject
   // unnecessary for this row. Recorded here rather than acted on.
   EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 13, 2), nullptr)
       << "a module cannot be instantiated inside a checker (IEEE 1800-2023 17.2)";
+}
+
+// --- row 580: $ as an actual requires an untyped formal used only as a -----
+// --- delay-range upper bound (17.3) -----------------------------------------
+
+TEST_F(Chapter17ErrorRulesTest, Row580_DollarActualRequiresUntypedFormalUsedAsDelayBound) {
+  // catalog row 580 | 17.3 | LINT
+  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 17.3)";
+  // If $ is an actual input argument to a checker instance, the
+  // corresponding formal shall be untyped and each of its references shall
+  // either be an upper bound in a cycle_delay_const_range_expression or
+  // itself be an actual argument in an instance of a named sequence or
+  // property, in a checker instance, or as a default argument to a nested
+  // checker. r580_inst passes $ to "hi", a typed (logic) formal that is used
+  // as a plain assertion operand, not a delay-range bound.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r580_inst"), nullptr)
+      << "$ passed to a typed formal used outside a delay-range bound must be diagnosed (IEEE 1800-2023 17.3)";
+}
+
+// --- row 582: checker actual output argument must be an lvalue (17.3) ------
+
+TEST_F(Chapter17ErrorRulesTest, Row582_CheckerOutputArgumentMustBeLvalue) {
+  // catalog row 582 | 17.3 | COMP
+  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 17.3)";
+  // Each checker actual output argument shall be a variable_lvalue or a
+  // net_lvalue. r582_inst's second actual, "r582_y & r582_z", is a plain
+  // expression, not an lvalue.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r582_inst"), nullptr)
+      << "a checker actual output argument that is not an lvalue must be diagnosed (IEEE 1800-2023 17.3)";
+}
+
+// --- row 596: functions in checker variable assignments cannot have output,-
+// --- inout or ref arguments (17.8) ------------------------------------------
+
+TEST_F(Chapter17ErrorRulesTest, Row596_FunctionInCheckerAssignmentCannotHaveOutputArgument) {
+  // catalog row 596 | 17.8 | COMP
+  // Functions appearing in expressions on the right-hand side of checker
+  // variable assignments shall not contain output, inout, or ref arguments
+  // (const ref is allowed). r596_f has an output argument and is called from
+  // "z <= f(t)" inside checker r596_c.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r596_f"), nullptr)
+      << "a function with an output argument used in a checker variable assignment must be diagnosed "
+         "(IEEE 1800-2023 17.8)";
+}
+
+// --- row 597: functions in checker variable assignments must be automatic --
+// --- and side-effect free (17.8) --------------------------------------------
+
+TEST_F(Chapter17ErrorRulesTest, Row597_FunctionInCheckerAssignmentMustBeSideEffectFree) {
+  // catalog row 597 | 17.8 | COMP
+  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 17.8)";
+  // Functions called in expressions on the right-hand side of checker
+  // variable assignments shall be automatic (or preserve no state
+  // information) and have no side effects. r597_f retains state via a
+  // static local variable and is called from "z <= f(a)" inside checker
+  // r597_c.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "r597_f"), nullptr)
+      << "a stateful/side-effecting function used in a checker variable assignment must be diagnosed "
+         "(IEEE 1800-2023 17.8)";
 }
 
 }  // namespace hlc

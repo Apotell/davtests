@@ -1,7 +1,7 @@
 /*
 :name: chapter12_error_rules
 :description: IEEE 1800-2023 Clause 12 (Procedural programming statements) error scenarios
-:tags: 12.5 12.6 12.7.1 12.8
+:tags: 12.5 12.6 12.7.1 12.7.3 12.8
 */
 
 // catalog row 378 | 12.5 | COMP
@@ -38,6 +38,16 @@ module r384_m;
   int x;
   initial
     for (x = 0, int y = 0; x < 4; x++) ;
+endmodule
+
+// catalog row 385 | 12.7.3 | COMP
+// It shall be an error to include a function call as an implicit variable
+// declaration in the foreach-loop array identifier.
+module r385_m;
+  function int get_arr();
+  endfunction
+  initial
+    foreach (get_arr()[i]) ;
 endmodule
 
 // catalog row 392 | 12.8 | COMP

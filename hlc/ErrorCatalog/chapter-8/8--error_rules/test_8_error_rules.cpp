@@ -15,7 +15,7 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 8 (Classes) error scenarios catalogued
-// in sv_error_catalog_Latest.xlsx (rows 198, 201, 203, 207, 215, 230, 239).
+// in sv_error_catalog_Latest.xlsx (rows 198, 201, 203, 207, 215, 230, 236, 239).
 //
 // Scope: this file asserts ONLY that the diagnostic each catalog row requires
 // is emitted. It makes no assertion about the shape of the compiled model.
@@ -163,13 +163,29 @@ TEST_F(Chapter8ErrorRulesTest, Row230_AbstractClassCannotBeConstructedDirectly) 
       << "an object of an abstract class cannot be constructed (IEEE 1800-2023 8.21)";
 }
 
+// --- row 236: nested class has no implicit access to the outer class (8.23)
+
+TEST_F(Chapter8ErrorRulesTest, Row236_NestedClassCannotImplicitlyAccessOuterNonStaticMember) {
+  // catalog row 236 | 8.23 | COMP
+  // "A nested class shall not have implicit access to non-static properties
+  // and methods of the containing class ... there is no implicit this handle
+  // to the outer class." r236_inner::innerMethod() references r236_outer's
+  // 'outerProp' unqualified, on line 45, with no enclosing-instance handle
+  // available.
+  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.23 makes an unqualified reference to a "
+                  "non-static outer-class member from a nested class illegal";
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NONSTATIC_ACCESS, "outerProp", 45, 7), nullptr)
+      << "a nested class has no implicit access to a non-static outer-class member "
+         "(IEEE 1800-2023 8.23)";
+}
+
 // --- row 239: out-of-block declarations follow the class (8.24) -------------
 
 TEST_F(Chapter8ErrorRulesTest, Row239_OutOfBlockDeclarationMustFollowTheClass) {
   // catalog row 239 | 8.24 | COMP
   // "The out-of-block declaration shall be declared in the same scope as the
   // class declaration and shall follow the class declaration." The body on
-  // line 92 precedes class r239_c, which starts on line 94.
+  // line 105 precedes class r239_c, which starts on line 107.
   //
   // NOT IMPLEMENTED, deliberately: only the "shall follow" half of the
   // sentence is decidable after binding. The "same scope" half is not --
@@ -180,7 +196,7 @@ TEST_F(Chapter8ErrorRulesTest, Row239_OutOfBlockDeclarationMustFollowTheClass) {
   // while the other half silently accepts illegal code, so nothing is wired.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.24 requires an out-of-block method "
                   "declaration to follow the class declaration in the same scope";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISPLACED_EXTERN_DECLARATION, "r239_c", 92, 1), nullptr)
+  EXPECT_NE(findError(ErrorDefinition::COMP_MISPLACED_EXTERN_DECLARATION, "r239_c", 105, 1), nullptr)
       << "an out-of-block declaration must follow its class (IEEE 1800-2023 8.24)";
 }
 

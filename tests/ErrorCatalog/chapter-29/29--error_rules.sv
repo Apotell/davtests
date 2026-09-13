@@ -1,7 +1,7 @@
 /*
 :name: chapter29_error_rules
 :description: IEEE 1800-2023 Clause 29 (User-defined primitives) error scenarios
-:tags: 29.3.1 29.3.4
+:tags: 29.3.1 29.3.4 29.7
 */
 
 // catalog row 991 | 29.3.1 | COMP
@@ -11,6 +11,18 @@ primitive r991_p (i, o);
   output o;
   table
     0 : 1;
+  endtable
+endprimitive
+
+// catalog row 1005 | 29.7 | COMP
+// The procedural assignment in a UDP initial statement shall assign to a reg
+// whose identifier matches the identifier of the output port.
+primitive r1005_srff (q, s, r);
+  output q; reg q;
+  input s, r;
+  initial s = 1'b0;
+  table
+    1 0 : ? : 1 ;
   endtable
 endprimitive
 
