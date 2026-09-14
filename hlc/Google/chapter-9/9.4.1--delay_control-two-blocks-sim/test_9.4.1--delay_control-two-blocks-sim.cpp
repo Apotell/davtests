@@ -16,7 +16,7 @@
 
 // ============================================================================
 // SystemVerilog source under test:
-// tests/Google/chapter-9/9.4.1--delay_control-sim.sv
+// tests/Google/chapter-9/9.4.1--delay_control-two-blocks-sim.sv
 // ----------------------------------------------------------------------------
 // // Copyright (C) 2019-2021  The SymbiFlow Authors.
 // //
@@ -27,8 +27,8 @@
 // // SPDX-License-Identifier: ISC
 //
 // /*
-// :name: delay_control_sim
-// :description: delay control simulation
+// :name: delay_control_two_blocks_sim
+// :description: delay control simulation with two blocks
 // :tags: 9.4.1
 // :type: simulation
 // */
@@ -48,48 +48,46 @@
 //
 //       $finish;
 //    end
+//
+//    initial begin
+//       #5;
+//       #10;
+//       #10;
+//    end
 // endmodule
 // ============================================================================
 //
-// IEEE 1800-2023 construct under test (Sec 9.4.1, "Delay control", Sec
-// 20.2 "$display", and Sec 20.3 "$time"): three bare "#10;" delay control
-// statements (with no controlled statement) interleaved with four
-// "$display(...)" calls that print the running $time -- a self-checking
-// simulation pattern (":assert: (N == %d)") verifying the compiler's own
-// delay-control accounting is not something this compile-only object model
-// can execute (see NOT CHECKED).
+// IEEE 1800-2023 construct under test (Sec 9.4.1, "Delay control"): the
+// same self-checking "$display + #10 delay" pattern as
+// test_9.4.1--delay_control-sim.sv, but here module "top" additionally
+// declares a SECOND, independent initial block containing three bare
+// delay-control statements (#5, #10, #10) and no other statements --
+// confirming that multiple processes with independent delay-control
+// statements are each modeled as their own Process/Begin, not merged.
 //
 // ----------------------------------------------------------------------------
 // CHECKED (this file):
-//   - module "top" exists.
-//   - the initial block's explicit "begin...end" produces a Begin wrapping
-//     exactly eight statements, in order: SysTaskCall("$display"),
-//     DelayControl, SysTaskCall("$display"), DelayControl,
-//     SysTaskCall("$display"), DelayControl, SysTaskCall("$display"),
-//     SysTaskCall("$finish").
-//   - each of the three DelayControl statements has getStmt() == null
-//     (bare "#10;", no controlled statement) and getDelay() a Constant
-//     whose getDecompile() is "10".
-//   - each "$display(...)" SysTaskCall has exactly two arguments: a
-//     Constant (the format-string literal) and a SysFuncCall named
-//     "$time" with no arguments (getArguments() == null, since "$time" is
-//     called with no parentheses/args).
-//   - the final "$finish;" is a SysTaskCall named "$finish" with no
-//     arguments.
+//   - module "top" exists and has exactly two processes (two initial
+//     blocks).
+//   - the first process is structurally identical to
+//     test_9.4.1--delay_control-sim.sv's single initial block: a Begin
+//     wrapping four "$display(..., $time)" SysTaskCalls, three bare
+//     10-unit DelayControl statements, and a final "$finish;"
+//     SysTaskCall, in that order.
+//   - the second process is a distinct Begin wrapping exactly three bare
+//     DelayControl statements, each with getStmt() == null: "#5;" (delay
+//     Constant "5"), then "#10;" and "#10;" (delay Constant "10" each).
 //
 // NOT CHECKED (out of scope; every assertion below states only what IEEE
 // 1800-2023 requires -- none of it is based on reading a .log file or any
 // other tool-output dump):
-//   - The exact decompiled text of each format-string Constant (the
-//     ":assert: (N == %d)" literals): only presence/type is asserted, for
-//     the same reason as the hex-literal caveat in
-//     test_9.3.3--block_start_finish.cpp.
-//   - Runtime behavior: whether $time actually reads 0, 10, 20, 30 at each
-//     $display call, and whether $finish actually ends simulation. HLC is
-//     a compiler/elaborator with no simulation, so no execution ever
-//     happens for this test to observe -- the ":assert:" markers in the
-//     source are meant for an external simulator's self-check, not for
-//     this test suite.
+//   - The exact decompiled text of each format-string Constant in the
+//     first process's $display calls (same caveat as
+//     test_9.4.1--delay_control-sim.sv).
+//   - Runtime interleaving between the two independent initial blocks
+//     (e.g. whether the second block's delays run concurrently with the
+//     first's): HLC is a compiler/elaborator with no simulation, so no
+//     execution ever happens for this test to observe.
 // ============================================================================
 
 #include <hldb/Utils.h>
@@ -108,8 +106,6 @@
 
 namespace hlc {
 namespace {
-// Confirms "stmt" is '$display(<format-string Constant>, $time);' and
-// returns the SysTaskCall for further inspection, or null on mismatch.
 const hldb::SysTaskCall *CheckDisplayOfTime(const hldb::Any *stmt) {
   const hldb::SysTaskCall *const display = any_cast<hldb::SysTaskCall>(stmt);
   if (display == nullptr || display->getName() != "$display") return nullptr;
@@ -125,37 +121,39 @@ const hldb::SysTaskCall *CheckDisplayOfTime(const hldb::Any *stmt) {
   return display;
 }
 
-const hldb::DelayControl *CheckTenUnitBareDelay(const hldb::Any *stmt) {
+const hldb::DelayControl *CheckBareDelay(const hldb::Any *stmt, std::string_view delayText) {
   const hldb::DelayControl *const delay = any_cast<hldb::DelayControl>(stmt);
   if (delay == nullptr || delay->getStmt() != nullptr) return nullptr;
 
   const hldb::Constant *const delayValue = delay->getDelay<hldb::Constant>();
-  if (delayValue == nullptr || delayValue->getDecompile() != "10") return nullptr;
+  if (delayValue == nullptr || delayValue->getDecompile() != delayText) return nullptr;
 
   return delay;
 }
 }  // namespace
 
-class DelayControlSimTest : public Test {
+class DelayControlTwoBlocksSimTest : public Test {
  public:
-  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "9.4.1--delay_control-sim.hlc"}); }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "9.4.1--delay_control-two-blocks-sim.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
-// ... All tests belonging to DelayControlSimTest go here!
+// ... All tests belonging to DelayControlTwoBlocksSimTest go here!
 
-TEST_F(DelayControlSimTest, ModuleTopExists) {
+TEST_F(DelayControlTwoBlocksSimTest, ModuleTopExistsWithTwoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
+  ASSERT_NE(top->getProcesses(), nullptr);
+  EXPECT_EQ(top->getProcesses()->size(), 2u) << "module top has exactly two processes: the two initial blocks";
 }
 
-TEST_F(DelayControlSimTest, InitialBeginHasFourDisplaysThreeDelaysAndFinishInOrder) {
+TEST_F(DelayControlTwoBlocksSimTest, FirstInitialHasFourDisplaysThreeDelaysAndFinishInOrder) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
-  ASSERT_EQ(top->getProcesses()->size(), 1u);
+  ASSERT_EQ(top->getProcesses()->size(), 2u);
 
-  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
-  ASSERT_NE(init, nullptr);
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr) << "the first process should specifically be an Initial block";
 
   ASSERT_NE(init->getStmt(), nullptr) << "'initial begin ... end' should always produce a Begin";
   const hldb::Begin *const body = any_cast<hldb::Begin>(init->getStmt());
@@ -166,18 +164,39 @@ TEST_F(DelayControlSimTest, InitialBeginHasFourDisplaysThreeDelaysAndFinishInOrd
                                               "eight statements";
 
   EXPECT_NE(CheckDisplayOfTime(body->getStmts()->at(0)), nullptr) << "1st '$display(..., $time);' should match";
-  EXPECT_NE(CheckTenUnitBareDelay(body->getStmts()->at(1)), nullptr) << "1st '#10;' should match";
+  EXPECT_NE(CheckBareDelay(body->getStmts()->at(1), "10"), nullptr) << "1st '#10;' should match";
   EXPECT_NE(CheckDisplayOfTime(body->getStmts()->at(2)), nullptr) << "2nd '$display(..., $time);' should match";
-  EXPECT_NE(CheckTenUnitBareDelay(body->getStmts()->at(3)), nullptr) << "2nd '#10;' should match";
+  EXPECT_NE(CheckBareDelay(body->getStmts()->at(3), "10"), nullptr) << "2nd '#10;' should match";
   EXPECT_NE(CheckDisplayOfTime(body->getStmts()->at(4)), nullptr) << "3rd '$display(..., $time);' should match";
-  EXPECT_NE(CheckTenUnitBareDelay(body->getStmts()->at(5)), nullptr) << "3rd '#10;' should match";
+  EXPECT_NE(CheckBareDelay(body->getStmts()->at(5), "10"), nullptr) << "3rd '#10;' should match";
   EXPECT_NE(CheckDisplayOfTime(body->getStmts()->at(6)), nullptr) << "4th '$display(..., $time);' should match";
 
   const hldb::SysTaskCall *const finish = any_cast<hldb::SysTaskCall>(body->getStmts()->at(7));
   ASSERT_NE(finish, nullptr) << "'$finish;' should be a SysTaskCall";
   EXPECT_EQ(finish->getName(), "$finish");
-  EXPECT_TRUE(finish->getArguments() == nullptr || finish->getArguments()->empty())
-      << "'$finish;' takes no arguments here";
+}
+
+TEST_F(DelayControlTwoBlocksSimTest, SecondInitialIsThreeBareDelaysOnly) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getProcesses(), nullptr);
+  ASSERT_EQ(top->getProcesses()->size(), 2u);
+
+  const hldb::Initial *const firstInit = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const secondInit = any_cast<hldb::Initial>(top->getProcesses()->at(1));
+  ASSERT_NE(secondInit, nullptr) << "the second process should specifically be an Initial block";
+  EXPECT_NE(secondInit, firstInit) << "the second initial block must be a distinct object from the first";
+
+  ASSERT_NE(secondInit->getStmt(), nullptr) << "'initial begin ... end' should always produce a Begin";
+  const hldb::Begin *const body = any_cast<hldb::Begin>(secondInit->getStmt());
+  ASSERT_NE(body, nullptr) << "explicit begin/end should produce a Begin scope node";
+
+  ASSERT_NE(body->getStmts(), nullptr);
+  ASSERT_EQ(body->getStmts()->size(), 3u) << "'#5;', '#10;', '#10;' are exactly three bare delay statements";
+
+  EXPECT_NE(CheckBareDelay(body->getStmts()->at(0), "5"), nullptr) << "'#5;' should match";
+  EXPECT_NE(CheckBareDelay(body->getStmts()->at(1), "10"), nullptr) << "1st '#10;' should match";
+  EXPECT_NE(CheckBareDelay(body->getStmts()->at(2), "10"), nullptr) << "2nd '#10;' should match";
 }
 
 }  // namespace hlc
