@@ -47,15 +47,15 @@
 //   - Stmt[0]: arr = new [16] -- blocking Assignment, RHS=ArrayExpr with 1
 //     Constant "16" (vpiUIntConst)
 //   - Stmt[1]: SysTaskCall "$display" with 2 arguments; 2nd argument is a
-//     HierPath "arr.size" -- COMPILER BEHAVIOR: arr.size is stored as a
-//     HierPath, not as a recognized built-in method call (same behavior
+//     RefObj "arr.size" -- COMPILER BEHAVIOR: arr.size is stored as a
+//     RefObj, not as a recognized built-in method call (same behavior
 //     documented for op-delete.sv), with 2 path elements: RefObj "arr" and
 //     RefObj "size"
 //   - Stmt[2]: arr = new [8] -- a SECOND, independent blocking Assignment,
 //     RHS=ArrayExpr with 1 Constant "8" (vpiUIntConst); per Sec 7.5.1 this
 //     destructively resizes arr from 16 elements down to 8
 //   - Stmt[3]: SysTaskCall "$display" with 2 arguments; 2nd argument is a
-//     HierPath "arr.size" (same COMPILER BEHAVIOR as Stmt[1])
+//     RefObj "arr.size" (same COMPILER BEHAVIOR as Stmt[1])
 //   - design has 3 typespecs: ModuleTypespec "top", IntTypespec,
 //     StringTypespec (StringTypespec present because $display uses string
 //     literal arguments; a single shared StringTypespec instance is reused
@@ -73,7 +73,7 @@
 //   - actual runtime value returned by arr.size() -- this harness only
 //     compiles/elaborates op-size.sv; it does not run a simulator, so the
 //     size() method's return value cannot be observed here (nor can it be
-//     observed at all given the HierPath COMPILER BEHAVIOR above, since
+//     observed at all given the RefObj COMPILER BEHAVIOR above, since
 //     arr.size is never modeled as an actual MethodFuncCall to begin with).
 //     op-size.sv's own $display format strings document the expected sizes.
 
@@ -89,7 +89,6 @@
 #include <hldb/bit_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -351,15 +350,15 @@ TEST_F(DynamicArrayOpSizeTest, FirstDisplayNameAndFormatString) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 16)");
 }
 
-TEST_F(DynamicArrayOpSizeTest, FirstDisplaySecondArgIsArrSizeHierPath) {
-  // COMPILER BEHAVIOR: arr.size is stored as HierPath, not as a method call
+TEST_F(DynamicArrayOpSizeTest, FirstDisplaySecondArgIsArrSizeRefObj) {
+  // COMPILER BEHAVIOR: arr.size is stored as RefObj, not as a method call
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(call->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(call->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -430,15 +429,15 @@ TEST_F(DynamicArrayOpSizeTest, SecondDisplayNameAndFormatString) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 8)");
 }
 
-TEST_F(DynamicArrayOpSizeTest, SecondDisplaySecondArgIsArrSizeHierPath) {
-  // COMPILER BEHAVIOR: arr.size is stored as HierPath, not as a method call
+TEST_F(DynamicArrayOpSizeTest, SecondDisplaySecondArgIsArrSizeRefObj) {
+  // COMPILER BEHAVIOR: arr.size is stored as RefObj, not as a method call
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(call->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(call->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }

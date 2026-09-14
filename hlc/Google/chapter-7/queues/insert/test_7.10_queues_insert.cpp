@@ -36,12 +36,12 @@
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded)
-//   - "q.insert(0, 1)" is correctly parsed as a HierPath with a RefObj "q"
+//   - "q.insert(0, 1)" is correctly parsed as a RefObj with a RefObj "q"
 //     (resolved to Net "q") and a MethodFuncCall named "insert" carrying 2
 //     Constant arguments, in order: "0" (the index) and "1" (the item) --
 //     confirming both the index and the inserted value are captured, and
 //     in the right positions
-//   - "q.size" (no parens) must resolve like "q.size()" would: a HierPath
+//   - "q.size" (no parens) must resolve like "q.size()" would: a RefObj
 //     with RefObj "q" (resolved) and a MethodFuncCall named "size" taking
 //     no arguments -- see the KNOWN BUG note below
 //   - "q[0]" is a BitSelect with prefix RefObj "q" (resolved) and index
@@ -79,7 +79,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -195,11 +194,11 @@ TEST_F(QueuesInsertTest, InitialBeginHasThreeStmts) {
 
 // --- q.insert(0, 1) ----
 
-TEST_F(QueuesInsertTest, InsertCallIsHierPathWithMethodFuncCall) {
+TEST_F(QueuesInsertTest, InsertCallIsRefObjWithMethodFuncCall) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(0));
-  ASSERT_NE(hp, nullptr) << "'q.insert(0, 1)' should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(0));
+  ASSERT_NE(hp, nullptr) << "'q.insert(0, 1)' should be a RefObj";
   EXPECT_EQ(hp->getName(), "q.insert(0, 1)");
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
@@ -217,7 +216,7 @@ TEST_F(QueuesInsertTest, InsertCallIsHierPathWithMethodFuncCall) {
 TEST_F(QueuesInsertTest, InsertCallHasIndexAndItemArguments) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(0));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(0));
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -251,7 +250,7 @@ TEST_F(QueuesInsertTest, FirstDisplayAssertsSizeOne) {
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 1)");
 
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);

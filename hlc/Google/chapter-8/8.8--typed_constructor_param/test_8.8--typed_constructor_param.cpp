@@ -70,7 +70,7 @@
 //   - the initial process' Begin block has exactly 2 statements: the
 //     "super_obj = test_cls#(.t(23))::new(.def(41))" assignment and a
 //     $display
-//   - "$display(super_obj.s)": HierPath resolving "s" to super_cls's own
+//   - "$display(super_obj.s)": RefObj resolving "s" to super_cls's own
 //     property Variable
 //   - design-level: exactly 2 classes
 //
@@ -121,7 +121,6 @@
 #include <hldb/design.h>
 #include <hldb/extends.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -373,8 +372,8 @@ TEST_F(ClassTypedConstructorParamTest, TestConstructorFirstStmtIsSuperNewCall) {
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "'super.new(def + 3)' should be a bare HierPath statement";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
+  ASSERT_NE(path, nullptr) << "'super.new(def + 3)' should be a bare RefObj statement";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 
@@ -543,8 +542,8 @@ TEST_F(ClassTypedConstructorParamTest, DisplayArgIsSuperObjDotS) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'super_obj.s' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'super_obj.s' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 

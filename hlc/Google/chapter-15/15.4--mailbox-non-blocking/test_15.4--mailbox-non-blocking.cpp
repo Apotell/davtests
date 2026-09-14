@@ -196,8 +196,8 @@ TEST_F(MailboxNonBlockingTest, TryPutShouldBeNonBlockingMethodFuncCallWithOneArg
   // try_put() returns an int status (Sec 15.4), so it should be a
   // MethodFuncCall used as a bare statement (its return value discarded),
   // not a MethodTaskCall like the blocking put().
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(secondStmt);
-  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(secondStmt);
+  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
   EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
   const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
@@ -225,8 +225,8 @@ TEST_F(MailboxNonBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgument
 
   const hldb::Any *const thirdStmt = body->getStmts()->at(2);
   ASSERT_NE(thirdStmt, nullptr) << "'m.peek(r_peek);' should produce some statement";
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(thirdStmt);
-  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(thirdStmt);
+  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
   EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
   const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
@@ -257,8 +257,8 @@ TEST_F(MailboxNonBlockingTest, TryGetShouldBeNonBlockingMethodFuncCallWithOneArg
 
   const hldb::Any *const fifthStmt = body->getStmts()->at(4);
   ASSERT_NE(fifthStmt, nullptr) << "'m.try_get(r);' should produce some statement";
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(fifthStmt);
-  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(fifthStmt);
+  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
   EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
   const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
@@ -294,8 +294,8 @@ TEST_F(MailboxNonBlockingTest, NumShouldBeMethodFuncCallUsedAsDisplayArgumentBut
 
   const hldb::Any *const secondArg = display->getArguments()->at(1);
   ASSERT_NE(secondArg, nullptr) << "'m.num()' should produce some expression";
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(secondArg);
-  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(secondArg);
+  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
   EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
   const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));

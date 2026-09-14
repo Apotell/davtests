@@ -41,7 +41,7 @@
 //   - Initial process: 1 Begin with 2 stmts (1 Assignment + 1 SysFuncCall)
 //   - Stmt[0]: blocking Assignment, lhs RefObj "un" resolving Net "un" (the
 //     WHOLE union is assigned, not a member -- there is no "un.valid"
-//     HierPath here), rhs Constant unsigned int "10" (value 10)
+//     RefObj here), rhs Constant unsigned int "10" (value 10)
 //   - Stmt[1]: $display with 2 args (format ":assert: ('%p' ==
 //     ''{valid:valid:10})'" + RefObj "un")
 //   - compiler emits zero errors

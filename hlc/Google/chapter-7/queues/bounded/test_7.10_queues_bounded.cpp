@@ -45,13 +45,13 @@
 //     (vpiConstType=unbounded), right bound is Constant "2"
 //     (vpiConstType=unsigned int) -- i.e. the parser keeps the "$:2" bound
 //     on the queue's Range rather than discarding it
-//   - the 4 "q.push_back(N)" calls are each parsed as a HierPath with 2
+//   - the 4 "q.push_back(N)" calls are each parsed as a RefObj with 2
 //     path elements: RefObj "q" (resolved to Variable "q") and a
 //     MethodFuncCall named "push_back" carrying 1 Constant argument (1, 2,
 //     3, 4 respectively)
 //   - "q[0]"/"q[1]"/"q[2]" are BitSelects with prefix RefObj "q" (resolved
 //     to Variable "q") and Constant indices 0, 1, 2
-//   - "q.size" (no parens) must be parsed as a HierPath with 2 path
+//   - "q.size" (no parens) must be parsed as a RefObj with 2 path
 //     elements: RefObj "q" (resolved) and a MethodFuncCall named "size"
 //     taking no arguments -- see the KNOWN BUG note below
 //   - the initial process' Begin block has exactly 8 statements in source
@@ -91,7 +91,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -231,13 +230,13 @@ TEST_F(QueuesBoundedTest, InitialBeginHasEightStmts) {
   EXPECT_EQ(begin->getStmts()->size(), 8u);
 }
 
-// --- q.push_back(1/2/3/4) parsed as HierPath + MethodFuncCall ----
+// --- q.push_back(1/2/3/4) parsed as RefObj + MethodFuncCall ----
 
 TEST_F(QueuesBoundedTest, FirstPushBackCallsPushBackWithArgOne) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(0));
-  ASSERT_NE(hp, nullptr) << "'q.push_back(1)' should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(0));
+  ASSERT_NE(hp, nullptr) << "'q.push_back(1)' should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
@@ -259,7 +258,7 @@ TEST_F(QueuesBoundedTest, FirstPushBackCallsPushBackWithArgOne) {
 TEST_F(QueuesBoundedTest, SecondPushBackCallsPushBackWithArgTwo) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
@@ -274,7 +273,7 @@ TEST_F(QueuesBoundedTest, SecondPushBackCallsPushBackWithArgTwo) {
 TEST_F(QueuesBoundedTest, ThirdPushBackCallsPushBackWithArgThree) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(2));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(2));
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
@@ -339,8 +338,8 @@ TEST_F(QueuesBoundedTest, SecondDisplayIsQueueFullMarker) {
 TEST_F(QueuesBoundedTest, FourthPushBackCallsPushBackWithArgFour) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(5));
-  ASSERT_NE(hp, nullptr) << "'q.push_back(4)' should be a HierPath even though the queue is already full";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(5));
+  ASSERT_NE(hp, nullptr) << "'q.push_back(4)' should be a RefObj even though the queue is already full";
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -382,7 +381,7 @@ TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(7));
   ASSERT_NE(disp, nullptr);
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);

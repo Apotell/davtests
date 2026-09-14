@@ -36,9 +36,9 @@
 //   - design has module top with 1 variable (a: string, uninitialized)
 //   - variable 'a' has no compile-time initial value (realtoa writes at runtime)
 //   - top has 1 Initial process
-//   - Initial stmt is a HierPath named "a.realtoa(4.76)"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - HierPath element[1] is FuncCall "realtoa" with 1 argument (Constant "4.76")
+//   - Initial stmt is a RefObj named "a.realtoa(4.76)"
+//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - RefObj element[1] is FuncCall "realtoa" with 1 argument (Constant "4.76")
 //   - argument to realtoa is stored as vpiRealConst (real literal, unlike the
 //     integer *toa variants which use vpiUIntConst)
 
@@ -53,7 +53,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
@@ -110,25 +109,25 @@ TEST_F(StringRealtoaTest, InitialProcessExists) {
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
-TEST_F(StringRealtoaTest, InitialStmtIsHierPath) {
+TEST_F(StringRealtoaTest, InitialStmtIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "Initial stmt is not a HierPath";
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "Initial stmt is not a RefObj";
   EXPECT_EQ(hp->getName(), "a.realtoa(4.76)");
 }
 
 // ---------------------------------------------------------------------------
-// HierPath -- receiver 'a' and FuncCall 'realtoa' with 1 real argument
+// RefObj -- receiver 'a' and FuncCall 'realtoa' with 1 real argument
 // ---------------------------------------------------------------------------
-TEST_F(StringRealtoaTest, HierPathReceiverIsA) {
+TEST_F(StringRealtoaTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
@@ -138,12 +137,12 @@ TEST_F(StringRealtoaTest, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringRealtoaTest, HierPathMethodIsRealtoa) {
+TEST_F(StringRealtoaTest, RefObjMethodIsRealtoa) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
@@ -156,7 +155,7 @@ TEST_F(StringRealtoaTest, RealtoaArgumentIs4dot76) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

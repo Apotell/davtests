@@ -90,7 +90,7 @@
 //     "incs = super.incs();" -- a blocking Assignment whose lhs RefObj
 //     "incs" resolves, via getActual<Function>(), to test_cls's OWN
 //     "incs" (the same "assign to own name" idiom as
-//     chapter-8/8.10--static_methods), and whose rhs is a HierPath
+//     chapter-8/8.10--static_methods), and whose rhs is a RefObj
 //     "super.incs()" -- first path elem a RefObj "super" resolving (via
 //     getActual<ClassDefn>()) to super_cls's ClassDefn, second path elem
 //     a MethodFuncCall "incs" whose getTaskFunc() resolves to super_cls's
@@ -109,7 +109,7 @@
 //   - "super_obj = test_obj": the same upcast-assignment shape already
 //     confirmed in chapter-8/8.14--override_member.sv -- a plain
 //     Assignment with a plain RefObj rhs, no cast node
-//   - "$display(test_obj.s)": HierPath resolving "s" to super_cls's own
+//   - "$display(test_obj.s)": RefObj resolving "s" to super_cls's own
 //     property Variable
 //   - "$display(test_obj.incs())": "test_obj.incs()" (test_obj statically
 //     typed test_cls) must resolve getTaskFunc() to test_cls's OWN
@@ -157,7 +157,6 @@
 #include <hldb/design.h>
 #include <hldb/extends.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -501,8 +500,8 @@ TEST_F(ClassSuperTest, TestIncsSecondStmtCallsSuperIncs) {
   EXPECT_EQ(lhs->getActual<hldb::Function>(), incs)
       << "assigning to 'incs' inside the override should resolve to test_cls's OWN incs Function";
 
-  const hldb::HierPath *const path = assign->getRhs<hldb::HierPath>();
-  ASSERT_NE(path, nullptr) << "'super.incs()' should be a HierPath";
+  const hldb::RefObj *const path = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(path, nullptr) << "'super.incs()' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 
@@ -549,8 +548,8 @@ TEST_F(ClassSuperTest, TestNewFirstStmtIsSuperNewCall) {
   const hldb::Begin *const body = ctor->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "stmt[0] should be a bare HierPath ('super.new(def + 3)')";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
+  ASSERT_NE(path, nullptr) << "stmt[0] should be a bare RefObj ('super.new(def + 3)')";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -655,8 +654,8 @@ TEST_F(ClassSuperTest, ThirdStmtDisplaysTestObjS) {
   ASSERT_NE(disp, nullptr) << "stmt[2] should be a $display SysTaskCall";
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj.s' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj.s' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -679,8 +678,8 @@ TEST_F(ClassSuperTest, FourthStmtDisplaysTestObjIncs) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));

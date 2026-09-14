@@ -89,16 +89,16 @@
 //     "test_obj0", rhs MethodFuncCall "new" taking no arguments, with
 //     getIsShallowCopy() == false (an ordinary construction, not a copy)
 //   - "test_obj0.a = 12" / "$display(test_obj0.a)": as in the sibling
-//     8.12--assignment file, a HierPath-based property write/read
+//     8.12--assignment file, a RefObj-based property write/read
 //   - "test_obj1 = new test_obj0": THE CRUX of this file -- a blocking
 //     Assignment whose lhs RefObj resolves to Variable "test_obj1" and whose
 //     rhs is a MethodFuncCall "new" with getIsShallowCopy() == true and
 //     exactly 1 argument, a RefObj resolving to Variable "test_obj0" (the
 //     source handle being copied)
-//   - "test_obj0.test_method(9)": a bare HierPath statement (as in the
+//   - "test_obj0.test_method(9)": a bare RefObj statement (as in the
 //     sibling file), second path elem a MethodTaskCall resolving
 //     getTaskFunc() to the "test_method" Task, 1 argument Constant "9"
-//   - "$display(test_obj1.a)": a SysTaskCall whose HierPath resolves "a"
+//   - "$display(test_obj1.a)": a SysTaskCall whose RefObj resolves "a"
 //     to the SAME declared property Variable as every other "a" access in
 //     this file (HLC has only one Variable per property declaration
 //     regardless of how many objects notionally exist)
@@ -136,7 +136,6 @@
 #include <hldb/class_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -435,8 +434,8 @@ TEST_F(ClassShallowCopyTest, SecondStmtAssignsTestObj0ATwelve) {
   ASSERT_NE(assign, nullptr) << "stmt[1] should be an Assignment (test_obj0.a = 12)";
   EXPECT_TRUE(assign->getBlocking());
 
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
-  ASSERT_NE(lhs, nullptr) << "'test_obj0.a' (write target) should be a HierPath";
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr) << "'test_obj0.a' (write target) should be a RefObj";
   ASSERT_NE(lhs->getPathElems(), nullptr);
   ASSERT_EQ(lhs->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
@@ -463,8 +462,8 @@ TEST_F(ClassShallowCopyTest, ThirdStmtDisplaysTestObj0A) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj0.a' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj0.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -517,8 +516,8 @@ TEST_F(ClassShallowCopyTest, FifthStmtCallsTestObj0TestMethodWithNine) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 4u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(begin->getStmts()->at(4));
-  ASSERT_NE(path, nullptr) << "stmt[4] should be a bare HierPath (test_obj0.test_method(9))";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(begin->getStmts()->at(4));
+  ASSERT_NE(path, nullptr) << "stmt[4] should be a bare RefObj (test_obj0.test_method(9))";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 
@@ -550,8 +549,8 @@ TEST_F(ClassShallowCopyTest, SixthStmtDisplaysTestObj1A) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj1.a' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj1.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));

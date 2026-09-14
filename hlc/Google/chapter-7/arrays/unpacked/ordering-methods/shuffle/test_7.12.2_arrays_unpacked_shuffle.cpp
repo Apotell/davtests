@@ -33,13 +33,13 @@
 //     elem -> IntTypespec; initial value stored directly on the Variable as
 //     an Operation (vpiOpType=concatenation(33)) with 5 unsigned Constant
 //     operands 1, 2, 3, 4, 5
-//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + HierPath +
+//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + RefObj +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 6 args (":info:" format + BitSelect ia[0..4])
 //     -- NOTE: unlike sibling ordering-methods files, this uses ":info:"
 //     rather than ":assert:", since a shuffled order has no single
 //     deterministic expected result
-//   - Stmt[1]: ia.shuffle (no parens) -- HierPath "ia.shuffle()" with 2
+//   - Stmt[1]: ia.shuffle (no parens) -- RefObj "ia.shuffle()" with 2
 //     path elems: RefObj "ia" (resolving Variable "ia") and MethodFuncCall
 //     "shuffle" with no arguments -- correctly resolves, zero errors
 //   - Stmt[2]: $display with 6 args (":info:" format + BitSelect ia[0..4],
@@ -71,7 +71,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -176,13 +175,13 @@ TEST_F(UnpackedShuffleTest, FirstStmtDisplaysInfoFormatWithFiveElements) {
   }
 }
 
-TEST_F(UnpackedShuffleTest, SecondStmtIsShuffleHierPathWithNoParens) {
+TEST_F(UnpackedShuffleTest, SecondStmtIsShuffleRefObjWithNoParens) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr) << "'ia.shuffle' should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
+  ASSERT_NE(hp, nullptr) << "'ia.shuffle' should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
   EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
