@@ -345,7 +345,7 @@ TEST_F(BindTest, T16_HierarchicalForm2) {
   // elaboration resolves the full path top_instances.u0 to a specific instance.
   const auto *bd = findBD(m_design->getBindDirectives(), "bd_t16");
   ASSERT_NE(bd, nullptr);
-  const auto *scope = bd->getBindTargetScope<hldb::HierPath>();
+  const auto *scope = bd->getBindTargetScope<hldb::RefObj>();
   ASSERT_NE(scope, nullptr) << "Hierarchical Form 2 path";
   ASSERT_NE(scope->getPathElems(), nullptr);
   ASSERT_EQ(scope->getPathElems()->size(), 2u);

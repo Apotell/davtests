@@ -36,12 +36,12 @@
 //   - Initial body is a Begin block with 4 statements
 //   - Stmt[0]: blocking Assignment, RHS=ArrayExpr with 1 Constant "16" (vpiUIntConst)
 //   - Stmt[1]: SysTaskCall "$display" with 2 arguments
-//   - Stmt[2]: HierPath "arr.delete" -- COMPILER BEHAVIOR: arr.delete stored as HierPath
+//   - Stmt[2]: RefObj "arr.delete" -- COMPILER BEHAVIOR: arr.delete stored as RefObj
 //       not as a method call; HLC emits EL0535 "Illegal implicit variable"
-//   - HierPath getName()="arr.delete"
-//   - HierPath has 2 path elements: RefObj "arr" and RefObj "delete"
+//   - RefObj getName()="arr.delete"
+//   - RefObj has 2 path elements: RefObj "arr" and RefObj "delete"
 //   - Stmt[3]: SysTaskCall "$display" with 2 arguments
-//   - arr.size inside $display args is also a HierPath (same compiler behavior)
+//   - arr.size inside $display args is also a RefObj (same compiler behavior)
 //   - design has 3 typespecs: ModuleTypespec "top", IntTypespec, StringTypespec
 //   - StringTypespec present because $display uses string literal arguments
 //   - no continuous assignments
@@ -63,7 +63,6 @@
 #include <hldb/bit_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -363,55 +362,55 @@ TEST_F(OpDeleteTest, FirstDisplayHasTwoArguments) {
   EXPECT_EQ(call->getArguments()->size(), 2u);
 }
 
-TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeHierPath) {
-  // COMPILER BEHAVIOR: arr.size is stored as HierPath, not a method call
+TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeRefObj) {
+  // COMPILER BEHAVIOR: arr.size is stored as RefObj, not a method call
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(call->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(call->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }
 
 // --- Stmt[2]: arr.delete (COMPILER BEHAVIOR) ----
 
-TEST_F(OpDeleteTest, ThirdStmtIsHierPath) {
+TEST_F(OpDeleteTest, ThirdStmtIsRefObj) {
   // COMPILER BEHAVIOR: arr.delete is not recognized as a built-in method;
-  // HLC emits EL0535 and stores it as a HierPath statement
+  // HLC emits EL0535 and stores it as a RefObj statement
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_NE(any_cast<hldb::HierPath>(begin->getStmts()->at(2)), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(begin->getStmts()->at(2)), nullptr);
 }
 
-TEST_F(OpDeleteTest, DeleteHierPathNameIsArrDelete) {
+TEST_F(OpDeleteTest, DeleteRefObjNameIsArrDelete) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.delete");
 }
 
-TEST_F(OpDeleteTest, DeleteHierPathHasTwoPathElems) {
+TEST_F(OpDeleteTest, DeleteRefObjHasTwoPathElems) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2u);
 }
 
-TEST_F(OpDeleteTest, DeleteHierPathFirstElemIsArr) {
+TEST_F(OpDeleteTest, DeleteRefObjFirstElemIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -420,12 +419,12 @@ TEST_F(OpDeleteTest, DeleteHierPathFirstElemIsArr) {
   EXPECT_EQ(elem->getName(), "arr");
 }
 
-TEST_F(OpDeleteTest, DeleteHierPathSecondElemIsDelete) {
+TEST_F(OpDeleteTest, DeleteRefObjSecondElemIsDelete) {
   // The second path element has name "delete" -- proof that arr.delete is
-  // treated as two-segment HierPath, not a recognized built-in method call
+  // treated as two-segment RefObj, not a recognized built-in method call
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -464,15 +463,15 @@ TEST_F(OpDeleteTest, SecondDisplayHasTwoArguments) {
   EXPECT_EQ(call->getArguments()->size(), 2u);
 }
 
-TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeHierPath) {
-  // COMPILER BEHAVIOR: second $display also gets arr.size as HierPath
+TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeRefObj) {
+  // COMPILER BEHAVIOR: second $display also gets arr.size as RefObj
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(call->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(call->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }

@@ -38,7 +38,7 @@
 //     IntTypespec, decompile/value "1000") and string Constant rhs
 //     (typespec StringTypespec, value "a") -- exercises an out-of-byte-range
 //     literal (1000 > 255) used as a byte-indexed associative array key
-//   - rc = map.first(ix): rhs HierPath "map.first(ix)" whose 2nd path elem is
+//   - rc = map.first(ix): rhs RefObj "map.first(ix)" whose 2nd path elem is
 //     a MethodFuncCall "first" with 1 argument RefObj "ix" resolving to Variable
 //     ix
 //   - $display call and its RefObj("rc")/RefObj("ix") arguments
@@ -65,7 +65,6 @@
 #include <hldb/byte_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -200,7 +199,7 @@ TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "rc");
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
-  const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view("map.first(ix)"));
   ASSERT_NE(rhs->getPathElems(), nullptr);

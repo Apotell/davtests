@@ -36,9 +36,9 @@
 //   - Initial -> Begin has 1 Variable "val" (TypedefTypespec, inline init RefObj "b" -> EnumConst)
 //     (NOTE: initializer is "b" not "a", since prev() needs a non-first value)
 //   - Begin has 1 blocking assignment: val = val.prev()
-//   - assignment rhs is HierPath "val.prev()"
-//   - HierPath pathElems[0] is RefObj "val", pathElems[1] is FuncCall "prev" (no args)
-//   - HierPath receiver RefObj "val" resolves to the local Variable
+//   - assignment rhs is RefObj "val.prev()"
+//   - RefObj pathElems[0] is RefObj "val", pathElems[1] is FuncCall "prev" (no args)
+//   - RefObj receiver RefObj "val" resolves to the local Variable
 //   - prev() FuncCall carries no static return typespec (enum type is only
 //     resolved at simulation runtime)
 
@@ -56,7 +56,6 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
@@ -132,9 +131,9 @@ TEST_F(EnumPrevTest, ValVariableDeclaredWithInitB) {
 }
 
 // ---------------------------------------------------------------------------
-// Assignment: val = val.prev() -- rhs is HierPath "val.prev()"
+// Assignment: val = val.prev() -- rhs is RefObj "val.prev()"
 // ---------------------------------------------------------------------------
-TEST_F(EnumPrevTest, AssignmentRhsIsHierPath) {
+TEST_F(EnumPrevTest, AssignmentRhsIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -147,12 +146,12 @@ TEST_F(EnumPrevTest, AssignmentRhsIsHierPath) {
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("val"));
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "val.prev() rhs should be a HierPath";
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "val.prev() rhs should be a RefObj";
   EXPECT_EQ(hp->getName(), std::string_view("val.prev"));
 }
 
-TEST_F(EnumPrevTest, HierPathReceiverAndFuncCall) {
+TEST_F(EnumPrevTest, RefObjReceiverAndFuncCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -161,7 +160,7 @@ TEST_F(EnumPrevTest, HierPathReceiverAndFuncCall) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
@@ -174,7 +173,7 @@ TEST_F(EnumPrevTest, HierPathReceiverAndFuncCall) {
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "prev() takes no arguments";
 }
 
-TEST_F(EnumPrevTest, HierPathReceiverResolvesToVariable) {
+TEST_F(EnumPrevTest, RefObjReceiverResolvesToVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -183,7 +182,7 @@ TEST_F(EnumPrevTest, HierPathReceiverResolvesToVariable) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
@@ -200,7 +199,7 @@ TEST_F(EnumPrevTest, PrevCallHasNoStaticReturnTypespec) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

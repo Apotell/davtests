@@ -118,7 +118,7 @@
 //     a Function whose return type resolves to a ClassTypespec matching
 //     uvm_report_object itself (confirming it IS a constructor), no
 //     IODecls (empty argument list), single-statement body (not wrapped
-//     in Begin) "super.new();" -- a bare HierPath whose first path elem
+//     in Begin) "super.new();" -- a bare RefObj whose first path elem
 //     "super" resolves to uvm_object's ClassDefn (unambiguous, since
 //     uvm_object is uvm_report_object's direct and only base) and whose
 //     second path elem is a MethodFuncCall "new" -- per KNOWN COMPILER BUG #8
@@ -138,7 +138,7 @@
 //     Variable "u0" (not a Net) and whose rhs is a no-argument
 //     MethodFuncCall "new" -- see the note below for why this is NOT
 //     filed under KNOWN COMPILER BUG #6 the usual way
-//     "u0.print();" -- a bare HierPath whose second path elem is a
+//     "u0.print();" -- a bare RefObj whose second path elem is a
 //     MethodFuncCall "print" resolving getTaskFunc() to uvm_object's OWN
 //     "print" Function (an ordinary, non-inherited method call here,
 //     since u0 is statically typed uvm_object itself, the same class
@@ -179,7 +179,6 @@
 #include <hldb/design.h>
 #include <hldb/extends.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/identifier.h>
 #include <hldb/import_typespec.h>
 #include <hldb/initial.h>
@@ -449,7 +448,7 @@ TEST_F(ClassSuperDefaultNewTest, NewHasNoIODecls) {
 TEST_F(ClassSuperDefaultNewTest, NewBodyIsSuperNewCall) {
   const hldb::Function *const ctor = getReportObjectNewFunction();
   ASSERT_NE(ctor, nullptr);
-  const hldb::HierPath *const path = ctor->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const path = ctor->getStmt<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "'super.new();' is uvm_report_object::new's only statement, so it is NOT wrapped "
                               "in a Begin";
   ASSERT_NE(path->getPathElems(), nullptr);
@@ -589,8 +588,8 @@ TEST_F(ClassSuperDefaultNewTest, FourthStmtCallsU0Print) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 3u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(begin->getStmts()->at(3));
-  ASSERT_NE(path, nullptr) << "stmt[3] should be a bare HierPath ('u0.print();')";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(begin->getStmts()->at(3));
+  ASSERT_NE(path, nullptr) << "stmt[3] should be a bare RefObj ('u0.print();')";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 

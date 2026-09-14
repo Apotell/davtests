@@ -35,10 +35,10 @@
 //     elem -> IntTypespec; initial value stored directly on the Variable as
 //     an Operation (vpiOpType=concatenation(33)) with 4 unsigned Constant
 //     operands 4, 5, 3, 1
-//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + HierPath +
+//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + RefObj +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 5 args (format + BitSelect ia[0..3])
-//   - Stmt[1]: ia.rsort (no parens) -- HierPath "ia.rsort()" with 2 path
+//   - Stmt[1]: ia.rsort (no parens) -- RefObj "ia.rsort()" with 2 path
 //     elems: RefObj "ia" (resolving Variable "ia") and MethodFuncCall
 //     "rsort" with no arguments -- correctly resolves, zero errors
 //   - Stmt[2]: $display with 5 args (format + BitSelect ia[0..3],
@@ -65,7 +65,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -170,13 +169,13 @@ TEST_F(UnpackedRsortTest, FirstStmtDisplaysFourFiveThreeOne) {
   }
 }
 
-TEST_F(UnpackedRsortTest, SecondStmtIsRsortHierPathWithNoParens) {
+TEST_F(UnpackedRsortTest, SecondStmtIsRsortRefObjWithNoParens) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr) << "'ia.rsort' should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
+  ASSERT_NE(hp, nullptr) << "'ia.rsort' should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
   EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);

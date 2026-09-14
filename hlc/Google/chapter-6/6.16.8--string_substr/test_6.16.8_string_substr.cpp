@@ -36,11 +36,11 @@
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
 //   - variable 'b' typespec resolves to StringTypespec
 //   - variable 'b' has a non-null initial value (vpiValue is set)
-//   - variable 'b' initial value is a HierPath named "a.substr(1, 2)"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - HierPath element[1] is FuncCall "substr" with 2 Constant arguments "1" and "2"
+//   - variable 'b' initial value is a RefObj named "a.substr(1, 2)"
+//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - RefObj element[1] is FuncCall "substr" with 2 Constant arguments "1" and "2"
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. "es") -- HLC
-//     stores the unevaluated HierPath expression only
+//     stores the unevaluated RefObj expression only
 //   - const type of arguments "1" and "2" is vpiUIntConst (same as itoa lesson)
 //   - the actual string result of a.substr(1, 2) ("es") -- kept as a real
 //     assertion for when HLC adds compile-time evaluation of string methods
@@ -56,7 +56,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
 #include <hldb/ref_obj.h>
@@ -115,7 +114,7 @@ TEST_F(StringSubstrTest, BVariableTypespecIsString) {
 }
 
 // ---------------------------------------------------------------------------
-// HierPath -- b's initial value is the method call a.substr(1, 2)
+// RefObj -- b's initial value is the method call a.substr(1, 2)
 // ---------------------------------------------------------------------------
 TEST_F(StringSubstrTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -131,25 +130,25 @@ TEST_F(StringSubstrTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.substr(1,2) to a constant; b holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.substr(1,2) to a constant; b holds only the RefObj expression";
 }
 
-TEST_F(StringSubstrTest, BVariableValueIsHierPath) {
+TEST_F(StringSubstrTest, BVariableValueIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a HierPath";
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a RefObj";
   EXPECT_EQ(hp->getName(), "a.substr(1, 2)");
 }
 
-TEST_F(StringSubstrTest, HierPathReceiverIsA) {
+TEST_F(StringSubstrTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
@@ -160,12 +159,12 @@ TEST_F(StringSubstrTest, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringSubstrTest, HierPathMethodIsSubstr) {
+TEST_F(StringSubstrTest, RefObjMethodIsSubstr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
@@ -179,7 +178,7 @@ TEST_F(StringSubstrTest, SubstrFirstArgumentIsOne) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -196,7 +195,7 @@ TEST_F(StringSubstrTest, SubstrSecondArgumentIsTwo) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -213,7 +212,7 @@ TEST_F(StringSubstrTest, SubstrArgumentsAreUIntConst) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

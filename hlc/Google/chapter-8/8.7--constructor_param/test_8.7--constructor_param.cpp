@@ -67,7 +67,7 @@
 //     IODecl's default of 42), resolving back to the constructor (see the
 //     FIXED COMPILER BUG note below)
 //   - "$display(...)" has 2 arguments: a Constant string
-//     ":assert:(%d == 37)", and a HierPath "test_obj.a" with 2 path elems
+//     ":assert:(%d == 37)", and a RefObj "test_obj.a" with 2 path elems
 //     (RefObj "test_obj" resolved to the local Variable; RefObj "a"
 //     resolved to the class's property Variable)
 //   - design-level: exactly 1 class (test_cls)
@@ -116,7 +116,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -399,8 +398,8 @@ TEST_F(ClassConstructorParamTest, DisplaySecondArgIsTestObjDotA) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 1u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
-  ASSERT_NE(path, nullptr) << "'test_obj.a' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  ASSERT_NE(path, nullptr) << "'test_obj.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 

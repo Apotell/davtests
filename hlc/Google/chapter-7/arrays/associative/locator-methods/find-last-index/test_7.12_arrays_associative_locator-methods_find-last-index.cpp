@@ -36,10 +36,10 @@
 //     left-range ("$"); ElemTypespec -> IntTypespec
 //   - Initial process: 1 Begin with 3 stmts (Assignment + 2 SysFuncCall)
 //   - Assignment: qi = s.find_last_index with (item == "hello") is a
-//     HierPath "s.find_last_index()" whose 2nd path elem is a MethodFuncCall
+//     RefObj "s.find_last_index()" whose 2nd path elem is a MethodFuncCall
 //     "find_last_index" with a vpiWith Operation (equal) comparing RefObj
 //     "item" to Constant "hello"
-//   - both $display calls and their HierPath("qi.size")/BitSelect("qi[0]")
+//   - both $display calls and their RefObj("qi.size")/BitSelect("qi[0]")
 //     arguments
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec, IntTypespec
 //   - compiler emits exactly 1 error (nbFatal=0, nbSyntax=0, nbError=1,
@@ -63,7 +63,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -244,7 +243,7 @@ TEST_F(ArrayLocatorFindLastIndexTest, AssignmentIsBlockingToQi) {
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(ArrayLocatorFindLastIndexTest, AssignmentRhsIsHierPathSDotFindLastIndex) {
+TEST_F(ArrayLocatorFindLastIndexTest, AssignmentRhsIsRefObjSDotFindLastIndex) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -253,7 +252,7 @@ TEST_F(ArrayLocatorFindLastIndexTest, AssignmentRhsIsHierPathSDotFindLastIndex) 
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view("s.find_last_index"));
   ASSERT_NE(rhs->getPathElems(), nullptr);
@@ -269,8 +268,8 @@ TEST_F(ArrayLocatorFindLastIndexTest, MethodFuncCallIsNamedFindLastIndex) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const rhs =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -282,8 +281,8 @@ TEST_F(ArrayLocatorFindLastIndexTest, MethodFuncCallWithClauseComparesItemToHell
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const rhs =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -329,7 +328,7 @@ TEST_F(ArrayLocatorFindLastIndexTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "qi.size");
   ASSERT_NE(size->getPathElems(), nullptr);

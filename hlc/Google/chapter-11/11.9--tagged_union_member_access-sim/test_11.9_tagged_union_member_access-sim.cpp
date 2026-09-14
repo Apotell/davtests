@@ -43,7 +43,7 @@
 //     statements:
 //       1) blocking Assignment: lhs RefObj "a"; rhs TaggedPattern name
 //          "Valid" whose getTag<Constant>() decompiles to "42"
-//       2) blocking Assignment: lhs RefObj "b"; rhs HierPath name "a.Valid"
+//       2) blocking Assignment: lhs RefObj "b"; rhs RefObj name "a.Valid"
 //          whose getPathElems() has exactly 2 items: RefObj "a" (resolving
 //          to Variable "a") and RefObj "Valid" (resolving to the union's
 //          TypespecMember "Valid", not a variable)
@@ -71,7 +71,6 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -160,7 +159,7 @@ TEST_F(TaggedUnionMemberAccessSimTest, SecondStatementReadsAdotValidIntoB) {
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "b");
 
-  const hldb::HierPath *const path = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const path = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(path, nullptr);
   EXPECT_EQ(path->getName(), "a.Valid");
   ASSERT_NE(path->getPathElems(), nullptr);

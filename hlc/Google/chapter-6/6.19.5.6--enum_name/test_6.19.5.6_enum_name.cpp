@@ -35,9 +35,9 @@
 //   - Initial -> Begin has 2 Variables (val, s) and NO assignment statements
 //     (inline initializers are stored as vpiValue, not as stmt assignments)
 //   - val: TypedefTypespec, inline init RefObj "a" -> EnumConst
-//   - s: StringTypespec ("string" keyword), inline init HierPath "val.name()"
-//   - HierPath pathElems[0] is RefObj "val", pathElems[1] is FuncCall "name" (no args)
-//   - HierPath receiver RefObj "val" resolves to the local Variable
+//   - s: StringTypespec ("string" keyword), inline init RefObj "val.name()"
+//   - RefObj pathElems[0] is RefObj "val", pathElems[1] is FuncCall "name" (no args)
+//   - RefObj receiver RefObj "val" resolves to the local Variable
 //   - name() FuncCall carries no static return typespec (the string value is
 //     only computed at simulation runtime)
 
@@ -54,7 +54,6 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
@@ -145,7 +144,7 @@ TEST_F(EnumNameTest, ValVariableDeclaredWithInitA) {
 }
 
 // ---------------------------------------------------------------------------
-// Variable "s" -- StringTypespec, inline init = HierPath "val.name()"
+// Variable "s" -- StringTypespec, inline init = RefObj "val.name()"
 // ---------------------------------------------------------------------------
 TEST_F(EnumNameTest, SVariableIsStringType) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -160,7 +159,7 @@ TEST_F(EnumNameTest, SVariableIsStringType) {
   EXPECT_NE(s->getTypespec()->getActual<hldb::StringTypespec>(), nullptr) << "string keyword maps to StringTypespec";
 }
 
-TEST_F(EnumNameTest, SInitializerIsHierPath) {
+TEST_F(EnumNameTest, SInitializerIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -169,12 +168,12 @@ TEST_F(EnumNameTest, SInitializerIsHierPath) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const s = blk->getVariables()->at(1);
   ASSERT_NE(s, nullptr);
-  const hldb::HierPath *const hp = s->getValue<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "s's vpiValue should be HierPath (inline initializer string s = val.name())";
+  const hldb::RefObj *const hp = s->getValue<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "s's vpiValue should be RefObj (inline initializer string s = val.name())";
   EXPECT_EQ(hp->getName(), std::string_view("val.name"));
 }
 
-TEST_F(EnumNameTest, HierPathReceiverAndFuncCall) {
+TEST_F(EnumNameTest, RefObjReceiverAndFuncCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -183,7 +182,7 @@ TEST_F(EnumNameTest, HierPathReceiverAndFuncCall) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const s = blk->getVariables()->at(1);
   ASSERT_NE(s, nullptr);
-  const hldb::HierPath *const hp = s->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = s->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
@@ -196,7 +195,7 @@ TEST_F(EnumNameTest, HierPathReceiverAndFuncCall) {
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "name() takes no arguments";
 }
 
-TEST_F(EnumNameTest, HierPathReceiverResolvesToVariable) {
+TEST_F(EnumNameTest, RefObjReceiverResolvesToVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -205,7 +204,7 @@ TEST_F(EnumNameTest, HierPathReceiverResolvesToVariable) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const s = blk->getVariables()->at(1);
   ASSERT_NE(s, nullptr);
-  const hldb::HierPath *const hp = s->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = s->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
@@ -222,7 +221,7 @@ TEST_F(EnumNameTest, NameCallHasNoStaticReturnTypespec) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const s = blk->getVariables()->at(1);
   ASSERT_NE(s, nullptr);
-  const hldb::HierPath *const hp = s->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = s->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

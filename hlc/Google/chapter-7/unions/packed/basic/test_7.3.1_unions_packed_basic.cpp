@@ -36,15 +36,15 @@
 //     (packed union members must all be the same size)
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
-//   - Initial process: 1 Begin with 3 stmts (1 HierPath Assignment + 2
+//   - Initial process: 1 Begin with 3 stmts (1 RefObj Assignment + 2
 //     SysFuncCall)
-//   - Stmt[0]: blocking Assignment, lhs HierPath "un.v1" (RefObj "un" -> Net
+//   - Stmt[0]: blocking Assignment, lhs RefObj "un.v1" (RefObj "un" -> Net
 //     "un", RefObj "v1" -> TypespecMember "v1"), rhs Constant decimal
 //     "8'd140" (value "140")
 //   - Stmt[1]: $display with 2 args (format ":assert: (%d == 140)" +
-//     HierPath "un.v1")
+//     RefObj "un.v1")
 //   - Stmt[2]: $display with 2 args (format ":assert: (%d == 140)" +
-//     HierPath "un.v2") -- SAME expected value as v1, unlike the unpacked
+//     RefObj "un.v2") -- SAME expected value as v1, unlike the unpacked
 //     case (chapter-7/unions/basic.sv), since a packed union's members fully
 //     overlap the same bits
 //   - compiler emits zero errors
@@ -68,7 +68,6 @@
 #include <hldb/bit_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -168,7 +167,7 @@ TEST_F(UnionsPackedBasicTest, FirstStmtAssignsDecimalOneFourZeroToUnV1) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view("un.v1"));
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
@@ -185,7 +184,7 @@ TEST_F(UnionsPackedBasicTest, SecondStmtDisplaysUnV1) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
   EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"));
-  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), std::string_view("un.v1"));
+  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), std::string_view("un.v1"));
 }
 
 TEST_F(UnionsPackedBasicTest, ThirdStmtDisplaysUnV2ExpectingSameValueAsV1) {
@@ -196,7 +195,7 @@ TEST_F(UnionsPackedBasicTest, ThirdStmtDisplaysUnV2ExpectingSameValueAsV1) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
   EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"));
-  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), std::string_view("un.v2"));
+  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), std::string_view("un.v2"));
 }
 
 // --- design-level typespecs / compiler diagnostics ----

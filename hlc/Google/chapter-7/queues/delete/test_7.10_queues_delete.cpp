@@ -43,15 +43,15 @@
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded)
 //   - net "r": typespec resolves directly to a signed IntTypespec
-//   - the 3 "q.push_back(N)" calls are each parsed as a HierPath with a
+//   - the 3 "q.push_back(N)" calls are each parsed as a RefObj with a
 //     RefObj "q" (resolved to Net "q") and a MethodFuncCall "push_back"
 //     carrying 1 Constant argument (2, 3, 4)
-//   - "q.delete(0)" IS correctly parsed as a HierPath with a RefObj "q"
+//   - "q.delete(0)" IS correctly parsed as a RefObj with a RefObj "q"
 //     (resolved) and a MethodFuncCall named "delete" carrying 1 Constant
 //     argument "0" -- this is the parenthesized-call form working as
 //     intended
 //   - "q.delete;" (no parens, no args) must be parsed just like
-//     "q.delete()" would be: a HierPath with RefObj "q" (resolved) and a
+//     "q.delete()" would be: a RefObj with RefObj "q" (resolved) and a
 //     MethodFuncCall named "delete" taking no arguments -- see the KNOWN
 //     BUG note below
 //   - the 3 "q.size" (no parens) accesses must each resolve the same way:
@@ -73,7 +73,7 @@
 //   The parenthesis-less forms "q.delete;" and "q.size" are instead parsed
 //   as plain, unresolved hierarchical references and raise a spurious
 //   COMP_FAILED_TO_BIND ("Failed to bind") each. The
-//   DeleteWithNoArgsIsHierPathWithMethodFuncCall test and the two
+//   DeleteWithNoArgsIsRefObjWithMethodFuncCall test and the two
 //   error-count tests below assert the IEEE-mandated (parenthesis-less
 //   works too) behavior and will FAIL until the parser is fixed -- they
 //   are intentionally red, tracking this bug rather than tolerating it.
@@ -91,7 +91,6 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -141,15 +140,15 @@ class QueuesDeleteTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "q.push_back(value)": HierPath -> RefObj "q"
+  // Verifies stmt[index] is "q.push_back(value)": RefObj -> RefObj "q"
   // (resolved to Net) + MethodFuncCall "push_back" with 1 Constant arg.
   static void ExpectPushBack(size_t index, std::string_view value) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_NE(begin->getStmts(), nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(index));
-    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a HierPath (q.push_back(...))";
+    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(index));
+    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a RefObj (q.push_back(...))";
     ASSERT_NE(hp->getPathElems(), nullptr);
     ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
@@ -169,7 +168,7 @@ class QueuesDeleteTest : public Test {
   }
 
   // Verifies stmt[index] is "$display(fmt, q.size)": SysFuncCall with a
-  // Constant format-string arg and a "q.size" HierPath arg.
+  // Constant format-string arg and a "q.size" RefObj arg.
   static void ExpectDisplayWithQSize(size_t index, std::string_view fmt) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
@@ -184,7 +183,7 @@ class QueuesDeleteTest : public Test {
     ASSERT_NE(fmtArg, nullptr);
     EXPECT_EQ(fmtArg->getValue(), fmt);
 
-    const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+    const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
     ASSERT_NE(size, nullptr);
     EXPECT_EQ(size->getName(), "q.size");
     ASSERT_NE(size->getPathElems(), nullptr);
@@ -302,12 +301,12 @@ TEST_F(QueuesDeleteTest, FirstDisplayAssertsSizeThree) { ExpectDisplayWithQSize(
 
 // --- q.delete(0): parenthesized delete(index) IS correctly recognized ----
 
-TEST_F(QueuesDeleteTest, DeleteWithIndexIsHierPathWithMethodFuncCall) {
+TEST_F(QueuesDeleteTest, DeleteWithIndexIsRefObjWithMethodFuncCall) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 4u);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(4));
-  ASSERT_NE(hp, nullptr) << "'q.delete(0)' should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(4));
+  ASSERT_NE(hp, nullptr) << "'q.delete(0)' should be a RefObj";
   EXPECT_EQ(hp->getName(), "q.delete(0)");
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
@@ -325,7 +324,7 @@ TEST_F(QueuesDeleteTest, DeleteWithIndexIsHierPathWithMethodFuncCall) {
 TEST_F(QueuesDeleteTest, DeleteWithIndexArgumentIsConstantZero) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(4));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(4));
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -343,12 +342,12 @@ TEST_F(QueuesDeleteTest, SecondDisplayAssertsSizeTwo) { ExpectDisplayWithQSize(5
 
 // --- q.delete; (no parens, no args): must resolve like q.delete() ----
 
-TEST_F(QueuesDeleteTest, DeleteWithNoArgsIsHierPathWithMethodFuncCall) {
+TEST_F(QueuesDeleteTest, DeleteWithNoArgsIsRefObjWithMethodFuncCall) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 6u);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(6));
-  ASSERT_NE(hp, nullptr) << "'q.delete;' should still be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(6));
+  ASSERT_NE(hp, nullptr) << "'q.delete;' should still be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 

@@ -332,7 +332,7 @@ TEST_F(Chapter6ErrorRulesTest, Row26_HierarchicalReferenceIntoUnnamedBlockIsReje
   // reference at all, but not via this row's dedicated rule.
   //
   // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalHierRefIntoUnnamedBlock()
-  // (ModelBuilder.cpp). Since the HierPath's trailing path element is left
+  // (ModelBuilder.cpp). Since the RefObj's trailing path element is left
   // permanently unbound (per the COMP_FAILED_TO_BIND above), this falls back
   // to name matching: collect every Variable declared directly inside an
   // unnamed Begin block anywhere in the design, then match the unbound

@@ -25,13 +25,13 @@
 //   Initial -> Begin
 //     SysTaskCall "$display"
 //       Arguments[0]: Constant (vpiStringConst=6) -- format string
-//       Arguments[1]: HierPath "array.size()"
+//       Arguments[1]: RefObj "array.size()"
 //         PathElems[0]: RefObj "array"
 //         PathElems[1]: FuncCall "size"
 //
 // Key API:
 //   SysTaskCall inherits TFCall::getArguments() -> AnyCollection*
-//   HierPath::getPathElems()                    -> AnyCollection*
+//   RefObj::getPathElems()                      -> AnyCollection*
 //   FuncCall inherits TFCall::getName()         -> std::string_view
 
 #include <hlc/Common/Session.h>
@@ -44,7 +44,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -191,23 +190,23 @@ TEST_F(BuiltinMethodsArrays, FirstArgumentIsStringConstant) {
 }
 
 // ----
-// array.size() -- HierPath with RefObj + FuncCall
+// array.size() -- RefObj with RefObj + FuncCall
 // ----
-TEST_F(BuiltinMethodsArrays, SecondArgumentIsHierPath) {
+TEST_F(BuiltinMethodsArrays, SecondArgumentIsRefObj) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
 
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
-  ASSERT_NE(hp, nullptr) << "second argument should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
+  ASSERT_NE(hp, nullptr) << "second argument should be a RefObj";
   EXPECT_EQ(hp->getName(), "array.size");
 }
 
-TEST_F(BuiltinMethodsArrays, HierPathHasTwoPathElems) {
+TEST_F(BuiltinMethodsArrays, RefObjHasTwoPathElems) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2u);
@@ -216,7 +215,7 @@ TEST_F(BuiltinMethodsArrays, HierPathHasTwoPathElems) {
 TEST_F(BuiltinMethodsArrays, FirstPathElemIsArrayRef) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
@@ -228,7 +227,7 @@ TEST_F(BuiltinMethodsArrays, FirstPathElemIsArrayRef) {
 TEST_F(BuiltinMethodsArrays, SecondPathElemIsSizeMethodFuncCall) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 

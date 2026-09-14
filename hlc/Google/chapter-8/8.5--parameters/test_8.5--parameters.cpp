@@ -51,7 +51,7 @@
 //   - "test_obj = new": blocking Assignment, lhs RefObj "test_obj" resolved
 //     to the Variable, rhs MethodFuncCall "new" taking no arguments
 //   - "$display(...)" has 2 arguments: a Constant string
-//     ":assert:(%d == 34)", and a HierPath "test_obj.a" with 2 path elems
+//     ":assert:(%d == 34)", and a RefObj "test_obj.a" with 2 path elems
 //     (RefObj "test_obj" resolved to the Variable; RefObj "a" resolved to a
 //     Parameter), with the 34-override reachable via test_obj's own
 //     ClassTypespec ParamAssigns (see the FIXED COMPILER BUG #2 note below)
@@ -94,7 +94,6 @@
 #include <hldb/class_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
@@ -303,8 +302,8 @@ TEST_F(ClassParametersTest, DisplaySecondArgIsTestObjDotA) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 1u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
-  ASSERT_NE(path, nullptr) << "'test_obj.a' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  ASSERT_NE(path, nullptr) << "'test_obj.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 

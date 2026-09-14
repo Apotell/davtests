@@ -95,18 +95,18 @@
 //     rhs is an ordinary RefObj resolving to Variable "test_obj0" -- NOT a
 //     MethodFuncCall "new". This is the structural signature that
 //     distinguishes a handle-copy assignment from object construction.
-//   - "test_obj0.a = 12": a blocking Assignment whose lhs is a HierPath
+//   - "test_obj0.a = 12": a blocking Assignment whose lhs is a RefObj
 //     resolving "a" to the class's property Variable, rhs Constant "12"
 //   - "$display(test_obj0.a)": a SysTaskCall (not SysFuncCall, as this is
 //     a bare statement, not an expression argument) whose argument is a
-//     HierPath resolving "a" the same way
-//   - "test_obj0.test_method(9)": appears directly as a bare HierPath
+//     RefObj resolving "a" the same way
+//   - "test_obj0.test_method(9)": appears directly as a bare RefObj
 //     statement (no enclosing Assignment/SysTaskCall), whose second path
 //     element is a MethodTaskCall "test_method" -- the task-call
 //     counterpart of MethodFuncCall, used because "test_method" is a Task
 //     -- resolving getTaskFunc() to the class's "test_method" Task, with
 //     exactly 1 argument, Constant "9"
-//   - "$display(test_obj1.a)": a SysTaskCall whose HierPath's FIRST path
+//   - "$display(test_obj1.a)": a SysTaskCall whose RefObj's FIRST path
 //     elem resolves to the OTHER variable (test_obj1, not test_obj0) but whose
 //     SECOND path elem ("a") resolves to the exact SAME Variable object as
 //     every other "a" access in this file
@@ -143,7 +143,6 @@
 #include <hldb/class_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -467,8 +466,8 @@ TEST_F(ClassAssignmentTest, ThirdStmtAssignsTestObj0ATwelve) {
   ASSERT_NE(assign, nullptr) << "stmt[2] should be an Assignment (test_obj0.a = 12)";
   EXPECT_TRUE(assign->getBlocking());
 
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
-  ASSERT_NE(lhs, nullptr) << "'test_obj0.a' (write target) should be a HierPath";
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr) << "'test_obj0.a' (write target) should be a RefObj";
   ASSERT_NE(lhs->getPathElems(), nullptr);
   ASSERT_EQ(lhs->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
@@ -497,8 +496,8 @@ TEST_F(ClassAssignmentTest, FourthStmtDisplaysTestObj0A) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj0.a' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj0.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -513,7 +512,7 @@ TEST_F(ClassAssignmentTest, FourthStmtDisplaysTestObj0A) {
 
 // --- test_obj0.test_method(9); (stmt[4]) ------------------------------------------
 
-// This call appears directly as a bare HierPath statement (no enclosing
+// This call appears directly as a bare RefObj statement (no enclosing
 // Assignment or SysTaskCall), whose second path elem is a MethodTaskCall
 // -- the task-call counterpart of MethodFuncCall, used because
 // "test_method" is a Task rather than a Function/constructor.
@@ -521,8 +520,8 @@ TEST_F(ClassAssignmentTest, FifthStmtCallsTestObj0TestMethodWithNine) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 4u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(begin->getStmts()->at(4));
-  ASSERT_NE(path, nullptr) << "stmt[4] should be a bare HierPath (test_obj0.test_method(9))";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(begin->getStmts()->at(4));
+  ASSERT_NE(path, nullptr) << "stmt[4] should be a bare RefObj (test_obj0.test_method(9))";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 
@@ -558,8 +557,8 @@ TEST_F(ClassAssignmentTest, SixthStmtDisplaysTestObj1A) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj1.a' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj1.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));

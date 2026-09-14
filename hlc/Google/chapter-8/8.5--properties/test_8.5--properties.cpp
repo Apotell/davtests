@@ -52,12 +52,12 @@
 //     "test_obj = new", "test_obj.a = 12", and a $display
 //   - "test_obj = new": blocking Assignment, lhs RefObj "test_obj" resolved
 //     to the Variable, rhs MethodFuncCall "new" taking no arguments
-//   - "test_obj.a = 12": blocking Assignment whose LHS is a HierPath (not a
+//   - "test_obj.a = 12": blocking Assignment whose LHS is a RefObj (not a
 //     plain RefObj, since it addresses a property through a handle) with 2
 //     path elems (RefObj "test_obj" resolved to the Variable; RefObj "a"
 //     resolved to the class's Variable "a"), and whose rhs is Constant "12"
 //   - "$display(...)" has 2 arguments: a Constant string
-//     ":assert:(%d == 12)", and a HierPath "test_obj.a" whose second path
+//     ":assert:(%d == 12)", and a RefObj "test_obj.a" whose second path
 //     elem resolves to the SAME Variable "a" object as the write above --
 //     confirming the write and the later read agree on which property they
 //     address
@@ -102,7 +102,6 @@
 #include <hldb/class_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -302,8 +301,8 @@ TEST_F(ClassPropertiesTest, SecondStmtIsBlockingAssignment) {
 TEST_F(ClassPropertiesTest, SecondStmtLhsIsTestObjDotA) {
   const hldb::Assignment *const assign = getAssignmentStmt(1);
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
-  ASSERT_NE(lhs, nullptr) << "'test_obj.a' (write target) should be a HierPath";
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr) << "'test_obj.a' (write target) should be a RefObj";
   ASSERT_NE(lhs->getPathElems(), nullptr);
   ASSERT_EQ(lhs->getPathElems()->size(), 2u);
 
@@ -352,8 +351,8 @@ TEST_F(ClassPropertiesTest, DisplaySecondArgIsTestObjDotAMatchingTheEarlierWrite
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 1u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
-  ASSERT_NE(path, nullptr) << "'test_obj.a' (read) should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  ASSERT_NE(path, nullptr) << "'test_obj.a' (read) should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 

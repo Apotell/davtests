@@ -70,7 +70,7 @@
 //   - the initial process' Begin block has exactly 4 statements:
 //     "test_obj0 = new", "test_obj1 = new",
 //     "$display(test_obj0.next_id())", "$display(test_obj1.next_id())"
-//   - both "test_obj0.next_id()" and "test_obj1.next_id()" are HierPaths
+//   - both "test_obj0.next_id()" and "test_obj1.next_id()" are RefObjs
 //     whose second path element is a MethodFuncCall "next_id" that
 //     resolves getTaskFunc() to the SAME "next_id" Function -- unlike
 //     KNOWN COMPILER BUG #6 below (ordinary "new()" never resolves
@@ -129,7 +129,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -213,7 +212,7 @@ class ClassStaticMethodsTest : public Test {
   }
 
   // Verifies stmt[index] is "$display(<varName>.next_id())": a SysFuncCall
-  // whose sole argument is a HierPath resolving "next_id" to a
+  // whose sole argument is a RefObj resolving "next_id" to a
   // MethodFuncCall whose getTaskFunc() resolves to the class's "next_id"
   // Function.
   static void ExpectNextIdDisplay(size_t index, std::string_view varName, const hldb::Variable *var) {
@@ -226,8 +225,8 @@ class ClassStaticMethodsTest : public Test {
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-    const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-    ASSERT_NE(path, nullptr) << "'" << varName << ".next_id()' should be a HierPath";
+    const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+    ASSERT_NE(path, nullptr) << "'" << varName << ".next_id()' should be a RefObj";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);
     const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));

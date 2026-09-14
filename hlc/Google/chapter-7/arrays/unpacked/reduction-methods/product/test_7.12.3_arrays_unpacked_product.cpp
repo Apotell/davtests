@@ -41,7 +41,7 @@
 //     SysFuncCall)
 //   - Stmt[0]: $display with 5 args (format + BitSelect b[0..3])
 //   - Stmt[1]: y = b.product (no parens) -- blocking Assignment, lhs
-//     RefObj "y" resolving Variable "y", rhs HierPath "b.product()" with 2
+//     RefObj "y" resolving Variable "y", rhs RefObj "b.product()" with 2
 //     path elems: RefObj "b" (resolving Variable "b") and MethodFuncCall
 //     "product" with no arguments -- correctly resolves, zero errors
 //   - Stmt[2]: $display with 2 args (format + RefObj "y")
@@ -70,7 +70,6 @@
 #include <hldb/byte_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -198,7 +197,7 @@ TEST_F(UnpackedProductTest, SecondStmtAssignsYFromBProductReduction) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "y");
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);

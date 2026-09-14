@@ -64,7 +64,7 @@
 //     class's constructor still returns its own type, not the base's
 //   - the derived constructor's body is a 2-statement Begin:
 //     "super.new(def + 3);" and "a = def;"
-//   - "super.new(def + 3)" is a HierPath with 2 path elems: RefObj "super"
+//   - "super.new(def + 3)" is a RefObj with 2 path elems: RefObj "super"
 //     resolving DIRECTLY to the SAME ClassDefn as "super_cls" (not to some
 //     intermediate wrapper object), and a MethodFuncCall (the "super.new"
 //     production -- Phase2ModelBuilder::leavePA_Super_dot_new -- lowers to
@@ -84,9 +84,9 @@
 //     resolved to the Variable, rhs MethodFuncCall "new" taking 1 Constant
 //     argument "37", resolving to the constructor same as the "super.new"
 //     call above (see the FIXED COMPILER BUG note below)
-//   - "$display(test_obj.a)": HierPath, "a" resolves to test_cls's own
+//   - "$display(test_obj.a)": RefObj, "a" resolves to test_cls's own
 //     property
-//   - "$display(test_obj.s)": HierPath, "s" resolves to the SAME Variable
+//   - "$display(test_obj.s)": RefObj, "s" resolves to the SAME Variable
 //     found on super_cls -- confirms a derived-class handle correctly
 //     reaches an INHERITED property, not just its own class's members
 //   - design-level: exactly 2 classes
@@ -134,7 +134,6 @@
 #include <hldb/design.h>
 #include <hldb/extends.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -427,8 +426,8 @@ TEST_F(ClassConstructorSuperTest, TestConstructorFirstStmtIsSuperNewCall) {
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "'super.new(def + 3)' should be a bare HierPath statement";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
+  ASSERT_NE(path, nullptr) << "'super.new(def + 3)' should be a bare RefObj statement";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 
@@ -582,8 +581,8 @@ TEST_F(ClassConstructorSuperTest, SecondStmtDisplaysTestObjA) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj.a' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -606,8 +605,8 @@ TEST_F(ClassConstructorSuperTest, ThirdStmtDisplaysInheritedTestObjS) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj.s' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj.s' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));

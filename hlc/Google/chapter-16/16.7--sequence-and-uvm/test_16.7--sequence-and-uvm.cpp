@@ -236,7 +236,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
@@ -271,7 +270,7 @@ const hldb::Operation *FindOperationByOpType(const hldb::Any *root, int32_t opTy
 }
 
 // True if some operand of "op" is a RefObj, or the leaf element of a
-// HierPath, whose name equals "name".
+// RefObj, whose name equals "name".
 bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
   if (op == nullptr || op->getOperands() == nullptr) {
     return false;
@@ -282,7 +281,7 @@ bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
         return true;
       }
     }
-    if (const hldb::HierPath *const path = any_cast<hldb::HierPath>(operand)) {
+    if (const hldb::RefObj *const path = any_cast<hldb::RefObj>(operand)) {
       if (path->getPathElems() != nullptr && !path->getPathElems()->empty()) {
         const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(path->getPathElems()->back());
         if (leaf != nullptr && leaf->getName() == name) {

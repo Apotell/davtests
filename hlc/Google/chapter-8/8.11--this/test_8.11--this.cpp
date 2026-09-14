@@ -51,11 +51,11 @@
 //     `this.a += a;` -- a blocking Assignment (the "+=" operator-assignment
 //     is desugared to a plain Assignment whose rhs is an explicit "add"
 //     Operation), where:
-//       - the LHS is a HierPath "this.a" whose first path element is a
+//       - the LHS is a RefObj "this.a" whose first path element is a
 //         RefObj "this" resolving (via getActual<ClassDefn>()) to the
 //         enclosing ClassDefn itself, and whose second path element is a
 //         RefObj "a" resolving to the class's property Variable "a"
-//       - the RHS Operation's first operand is the SAME shape of HierPath
+//       - the RHS Operation's first operand is the SAME shape of RefObj
 //         "this.a" (property Variable "a" again)
 //       - the RHS Operation's second operand is a bare RefObj "a"
 //         resolving instead to the IODecl "a" (the task's own argument) --
@@ -112,7 +112,6 @@
 #include <hldb/class_defn.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
 #include <hldb/module.h>
@@ -161,12 +160,12 @@ class ClassThisTest : public Test {
     return t->getStmt<hldb::Begin>();
   }
 
-  // Verifies the given node is a HierPath "this.a" whose first path elem
+  // Verifies the given node is a RefObj "this.a" whose first path elem
   // is a RefObj "this" resolving to the class's own ClassDefn, and whose
   // second path elem is a RefObj "a" resolving to the class property
   // Variable "a".
-  static void ExpectThisDotAPath(const hldb::HierPath *path) {
-    ASSERT_NE(path, nullptr) << "'this.a' should be a HierPath";
+  static void ExpectThisDotAPath(const hldb::RefObj *path) {
+    ASSERT_NE(path, nullptr) << "'this.a' should be a RefObj";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);
 
@@ -329,7 +328,7 @@ TEST_F(ClassThisTest, SecondStmtIsThisADotPlusEqualsA) {
   ASSERT_NE(assign, nullptr) << "stmt[1] should be an Assignment ('this.a += a;')";
   EXPECT_TRUE(assign->getBlocking());
 
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ExpectThisDotAPath(lhs);
 
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
@@ -338,7 +337,7 @@ TEST_F(ClassThisTest, SecondStmtIsThisADotPlusEqualsA) {
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 2u);
 
-  const hldb::HierPath *const firstOperand = any_cast<hldb::HierPath>(rhs->getOperands()->at(0));
+  const hldb::RefObj *const firstOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(0));
   ExpectThisDotAPath(firstOperand);
 }
 

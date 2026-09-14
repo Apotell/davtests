@@ -37,9 +37,9 @@
 //   - variable 'a' typespec resolves to StringTypespec
 //   - variable 'a' has no compile-time initial value (itoa writes at runtime)
 //   - top has 1 Initial process
-//   - Initial stmt is a HierPath named "a.itoa(12)"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - HierPath element[1] is FuncCall "itoa" with 1 argument
+//   - Initial stmt is a RefObj named "a.itoa(12)"
+//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - RefObj element[1] is FuncCall "itoa" with 1 argument
 //   - argument to itoa is Constant "12" stored as vpiUIntConst (HLDB stores
 //     unsized integer literals as unsigned; vpiIntConst is NOT used here)
 
@@ -54,7 +54,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
@@ -111,25 +110,25 @@ TEST_F(StringItoaTest, InitialProcessExists) {
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
-TEST_F(StringItoaTest, InitialStmtIsHierPath) {
+TEST_F(StringItoaTest, InitialStmtIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "Initial stmt is not a HierPath";
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "Initial stmt is not a RefObj";
   EXPECT_EQ(hp->getName(), "a.itoa(12)");
 }
 
 // ---------------------------------------------------------------------------
-// HierPath -- receiver 'a' and FuncCall 'itoa' with 1 argument
+// RefObj -- receiver 'a' and FuncCall 'itoa' with 1 argument
 // ---------------------------------------------------------------------------
-TEST_F(StringItoaTest, HierPathReceiverIsA) {
+TEST_F(StringItoaTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
@@ -139,12 +138,12 @@ TEST_F(StringItoaTest, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringItoaTest, HierPathMethodIsItoa) {
+TEST_F(StringItoaTest, RefObjMethodIsItoa) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
@@ -157,7 +156,7 @@ TEST_F(StringItoaTest, ItoaArgumentIs12) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -173,7 +172,7 @@ TEST_F(StringItoaTest, ItoaArgumentIs12AsIntegerConst) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

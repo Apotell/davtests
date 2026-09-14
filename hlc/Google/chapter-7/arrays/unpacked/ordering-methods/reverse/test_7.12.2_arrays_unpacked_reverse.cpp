@@ -35,10 +35,10 @@
 //     elem -> StringTypespec; initial value stored directly on the
 //     Variable as an Operation (vpiOpType=concatenation(33)) with 3 string
 //     Constant operands "hello", "sad", "world"
-//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + HierPath +
+//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + RefObj +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 4 args (format + BitSelect s[0], s[1], s[2])
-//   - Stmt[1]: s.reverse (no parens) -- HierPath "s.reverse()" with 2 path
+//   - Stmt[1]: s.reverse (no parens) -- RefObj "s.reverse()" with 2 path
 //     elems: RefObj "s" (resolving Variable "s") and MethodFuncCall
 //     "reverse" with no arguments -- COMPILER BEHAVIOR: unlike the
 //     parenthesis-less ".size"/".index" gap documented elsewhere in this
@@ -72,7 +72,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -177,13 +176,13 @@ TEST_F(UnpackedReverseTest, FirstStmtDisplaysHelloSadWorld) {
   }
 }
 
-TEST_F(UnpackedReverseTest, SecondStmtIsReverseHierPathWithNoErrorDespiteNoParens) {
+TEST_F(UnpackedReverseTest, SecondStmtIsReverseRefObjWithNoErrorDespiteNoParens) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr) << "'s.reverse' should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
+  ASSERT_NE(hp, nullptr) << "'s.reverse' should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));

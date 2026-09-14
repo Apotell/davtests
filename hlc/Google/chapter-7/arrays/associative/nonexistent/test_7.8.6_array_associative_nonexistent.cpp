@@ -31,7 +31,7 @@
 //   - module has exactly 2 variables: 'arr' (assoc ArrayTypespec, idx=int, elem=int) and 'r' (IntTypespec)
 //   - 1 Initial process; Begin with 5 stmts
 //   - stmt[0]: blocking Assignment arr[10]=10 (BitSelect lhs, Constant rhs)
-//   - stmt[1]: $display(2 args) ? HierPath "arr.size" as second arg
+//   - stmt[1]: $display(2 args) ? RefObj "arr.size" as second arg
 //   - stmt[2]: $display(1 arg) ? Constant ":re: BEGIN:ARRAY_NONEXISTENT"
 //   - stmt[3]: blocking Assignment r=arr[9] (RefObj lhs, BitSelect rhs)
 //   - stmt[4]: $display(1 arg) ? Constant ":re: END"
@@ -39,7 +39,7 @@
 //
 // Also checked:
 //   - HLC emits COMP_FAILED_TO_BIND for arr.size, while still placing the
-//     HierPath "arr.size" in UHDM (see SecondStmtIsDisplayWithArrSize)
+//     RefObj "arr.size" in UHDM (see SecondStmtIsDisplayWithArrSize)
 //   - reading a nonexistent key (arr[9]) itself raises no additional compile
 //     error beyond the arr.size COMP_FAILED_TO_BIND -- exactly 1 error total
 //     (the actual "returns default value 0" semantics is runtime-only, out
@@ -57,7 +57,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -171,7 +170,7 @@ TEST_F(Nonexistent, FirstStmtAssignsArr10To10) {
 TEST_F(Nonexistent, SecondStmtIsDisplayWithArrSize) {
   // $display(":assert: (%d == 1)", arr.size)
   // HLC emits EL0535 for "size" (treated as implicit variable) but the
-  // method call still appears as HierPath "arr.size" in UHDM.
+  // method call still appears as RefObj "arr.size" in UHDM.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -181,7 +180,7 @@ TEST_F(Nonexistent, SecondStmtIsDisplayWithArrSize) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   EXPECT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }

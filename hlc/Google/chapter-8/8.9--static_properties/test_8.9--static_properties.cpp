@@ -64,10 +64,10 @@
 //     lhs RefObj resolved to the respective Variable, rhs MethodFuncCall "new"
 //     taking no arguments
 //   - "test_obj0.s = 12" / "test_obj0.s = 13": blocking Assignments whose
-//     lhs is a HierPath resolving "s" to the class's SAME property
+//     lhs is a RefObj resolving "s" to the class's SAME property
 //     Variable, rhs Constant "12"/"13"
-//   - "$display(test_obj0.s)": HierPath resolving "s" the same way
-//   - "$display(test_obj1.s)": HierPath whose FIRST path elem resolves to
+//   - "$display(test_obj0.s)": RefObj resolving "s" the same way
+//   - "$display(test_obj1.s)": RefObj whose FIRST path elem resolves to
 //     the OTHER variable (test_obj1, not test_obj0) but whose SECOND path elem
 //     ("s") resolves to the exact SAME Variable object as every other "s"
 //     access in this file -- confirming that accessing the static property
@@ -112,7 +112,6 @@
 #include <hldb/class_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -189,7 +188,7 @@ class ClassStaticPropertiesTest : public Test {
   }
 
   // Verifies stmt[index] is "<varName>.s = <value>;": a blocking
-  // Assignment whose lhs HierPath resolves "s" to the class's property
+  // Assignment whose lhs RefObj resolves "s" to the class's property
   // Variable, and whose rhs is a Constant matching "value".
   static void ExpectSAssignment(size_t index, std::string_view varName, const hldb::Variable *var, std::string_view value) {
     const hldb::Begin *const begin = getInitialBegin();
@@ -200,8 +199,8 @@ class ClassStaticPropertiesTest : public Test {
                                << ")";
     EXPECT_TRUE(assign->getBlocking());
 
-    const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
-    ASSERT_NE(lhs, nullptr) << "'" << varName << ".s' (write target) should be a HierPath";
+    const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+    ASSERT_NE(lhs, nullptr) << "'" << varName << ".s' (write target) should be a RefObj";
     ASSERT_NE(lhs->getPathElems(), nullptr);
     ASSERT_EQ(lhs->getPathElems()->size(), 2u);
     const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(lhs->getPathElems()->at(0));
@@ -229,8 +228,8 @@ class ClassStaticPropertiesTest : public Test {
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-    const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-    ASSERT_NE(path, nullptr) << "'" << varName << ".s' should be a HierPath";
+    const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+    ASSERT_NE(path, nullptr) << "'" << varName << ".s' should be a RefObj";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);
     const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));

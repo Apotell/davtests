@@ -98,7 +98,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -268,7 +267,7 @@ TEST_F(QueuesPushBackAssignTest, FourthStmtDisplayAssertsSizeThree) {
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
 
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);

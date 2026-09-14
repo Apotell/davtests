@@ -39,10 +39,10 @@
 //     Constant "$"
 //   - Initial process: 1 Begin with 2 stmts
 //   - Stmt[0]: q = arr.find with (item == item.index) -- blocking
-//     Assignment, lhs RefObj "q" resolving Net "q", rhs HierPath
+//     Assignment, lhs RefObj "q" resolving Net "q", rhs RefObj
 //     "arr.find()" with 2 path elems: RefObj "arr" (resolving Net "arr")
 //     and MethodFuncCall "find" whose vpiWith is an Operation
-//     (vpiOpType=equal(14)) with 2 operands: RefObj "item" and HierPath
+//     (vpiOpType=equal(14)) with 2 operands: RefObj "item" and RefObj
 //     "item.index" (path elems RefObj "item" + RefObj "index")
 //   - COMPILER BEHAVIOR: "item" (used twice) resolves to a compiler-
 //     synthesized iterator Variable held on MethodFuncCall "find"'s own
@@ -51,7 +51,7 @@
 //     with no real declaration to point at, but ObjectBinder recognizes its
 //     prefix is the iterator variable and does not report a binding error
 //     for it
-//   - Stmt[1]: $display with 5 args -- format string + HierPath "q.size()"
+//   - Stmt[1]: $display with 5 args -- format string + RefObj "q.size()"
 //     (2 path elems: RefObj "q" resolving Net "q", MethodFuncCall "size"
 //     with no arguments) + BitSelect q[0], q[1], q[2] (each prefix RefObj
 //     "q" resolving Net "q")
@@ -91,7 +91,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -210,7 +209,7 @@ TEST_F(UnpackedIndexTest, FirstStmtAssignsQFromArrFindWithClause) {
   EXPECT_EQ(lhs->getName(), "q");
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
@@ -238,7 +237,7 @@ TEST_F(UnpackedIndexTest, WithClauseFirstOperandIsItemRefObj) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const find = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(find, nullptr);
@@ -249,20 +248,20 @@ TEST_F(UnpackedIndexTest, WithClauseFirstOperandIsItemRefObj) {
   EXPECT_EQ(item->getName(), "item");
 }
 
-TEST_F(UnpackedIndexTest, WithClauseSecondOperandIsItemDotIndexHierPath) {
+TEST_F(UnpackedIndexTest, WithClauseSecondOperandIsItemDotIndexRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const outer = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const outer = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(outer, nullptr);
   const hldb::MethodFuncCall *const find = any_cast<hldb::MethodFuncCall>(outer->getPathElems()->at(1));
   ASSERT_NE(find, nullptr);
   const hldb::Operation *const with = find->getWith<hldb::Operation>();
   ASSERT_NE(with, nullptr);
-  const hldb::HierPath *const itemIndex = any_cast<hldb::HierPath>(with->getOperands()->at(1));
+  const hldb::RefObj *const itemIndex = any_cast<hldb::RefObj>(with->getOperands()->at(1));
   ASSERT_NE(itemIndex, nullptr);
   EXPECT_EQ(itemIndex->getName(), "item.index");
   ASSERT_NE(itemIndex->getPathElems(), nullptr);
@@ -285,7 +284,7 @@ TEST_F(UnpackedIndexTest, SecondStmtDisplaysSizeAndThreeElements) {
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 3) and (%d == 0) and (%d == 1) and (%d == 3))");
 
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);
@@ -343,7 +342,7 @@ TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolve) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const find = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(find, nullptr);
@@ -351,7 +350,7 @@ TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolve) {
   ASSERT_NE(with, nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(with->getOperands()->at(0))->getActual(), nullptr)
       << "'item' should resolve to the implicit iterator argument";
-  const hldb::HierPath *const itemIndex = any_cast<hldb::HierPath>(with->getOperands()->at(1));
+  const hldb::RefObj *const itemIndex = any_cast<hldb::RefObj>(with->getOperands()->at(1));
   ASSERT_NE(itemIndex, nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(0))->getActual(), nullptr)
       << "'item' (in item.index) should resolve";

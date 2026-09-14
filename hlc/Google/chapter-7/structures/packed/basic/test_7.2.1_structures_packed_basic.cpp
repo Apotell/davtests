@@ -44,8 +44,8 @@
 //     rhs Constant hexadecimal "8'h5a" (value "5a")
 //   - Stmt[1]: $display with 2 args (format ":assert: ('%h' == '5a')" +
 //     RefObj "p1" resolving Variable "p1")
-//   - Stmt[2]: $display with 3 args (format + HierPath "p1.hi" [RefObj "p1"
-//     -> Variable "p1", RefObj "hi" -> TypespecMember "hi"] + HierPath "p1.lo"
+//   - Stmt[2]: $display with 3 args (format + RefObj "p1.hi" [RefObj "p1"
+//     -> Variable "p1", RefObj "hi" -> TypespecMember "hi"] + RefObj "p1.lo"
 //     [RefObj "p1" -> Variable "p1", RefObj "lo" -> TypespecMember "lo"])
 //   - compiler emits zero errors
 //   - no continuous assignments
@@ -68,7 +68,6 @@
 #include <hldb/bit_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -218,7 +217,7 @@ TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (('%h' == 'a') and ('%h' == '5'))"));
 
-  const hldb::HierPath *const hi = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const hi = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(hi->getName(), std::string_view("p1.hi"));
   ASSERT_NE(hi->getPathElems(), nullptr);
@@ -226,7 +225,7 @@ TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
 
-  const hldb::HierPath *const lo = any_cast<hldb::HierPath>(disp->getArguments()->at(2));
+  const hldb::RefObj *const lo = any_cast<hldb::RefObj>(disp->getArguments()->at(2));
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(lo->getName(), std::string_view("p1.lo"));
   ASSERT_NE(lo->getPathElems(), nullptr);

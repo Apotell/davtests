@@ -28,13 +28,13 @@
 //   - design has module top
 //   - module has exactly 1 variable: 'arr' (associative ArrayTypespec, idx=IntTypespec, elem=IntTypespec)
 //   - 1 Initial process; body is a Begin with 3 stmts
-//   - stmt[0]: $display(":assert: (%d == 0)", arr.size) ? HierPath with 2 RefObj elems
+//   - stmt[0]: $display(":assert: (%d == 0)", arr.size) ? RefObj with 2 RefObj elems
 //   - stmt[1]: blocking Assignment arr[10]=10 (BitSelect lhs, Constant rhs)
 //   - stmt[2]: $display(":assert: (%d == 1)", arr.size)
 //   - top has no continuous assignments
 //
 // Not checked:
-//   - arr.size produces EL0535 errors (illegal implicit variable "size") but appears in UHDM as HierPath
+//   - arr.size produces EL0535 errors (illegal implicit variable "size") but appears in UHDM as RefObj
 //   - 'arr' variable has no initial value
 //   - runtime behavior (arr.size returns 0 then 1 after allocation)
 
@@ -49,7 +49,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -172,7 +171,7 @@ TEST_F(Alloc, FirstStmtIsDisplayWithAssertZero) {
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 0)\"");
 }
 
-TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeHierPath) {
+TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -182,12 +181,12 @@ TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeHierPath) {
   const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(sc->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(sc->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }
 
-TEST_F(Alloc, ArrSizeHierPathHasTwoElems) {
+TEST_F(Alloc, ArrSizeRefObjHasTwoElems) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -196,7 +195,7 @@ TEST_F(Alloc, ArrSizeHierPathHasTwoElems) {
   ASSERT_NE(blk, nullptr);
   const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(sc->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(sc->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2u);

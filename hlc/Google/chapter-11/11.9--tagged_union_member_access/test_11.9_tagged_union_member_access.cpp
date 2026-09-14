@@ -30,7 +30,7 @@
 // (which was legitimately assigned "tagged Valid(42)" the line before --
 // this is the *valid* access; see the "_inv" sibling for the invalid one).
 // Per IEEE 1800-2017 11.9, member access on a tagged union compiles to a
-// HierPath, exactly the same node kind used for any other "x.y" hierarchical
+// RefObj, exactly the same node kind used for any other "x.y" hierarchical
 // reference -- the trailing path element resolves not to a declared Net or
 // Variable but to the union type's own TypespecMember.
 //
@@ -43,7 +43,7 @@
 //   - module has exactly 3 variables: "a", "b" (both "u_int") and "c" (plain
 //     IntTypespec), none decl-assigned
 //   - the initial block's Begin has exactly 3 statements; the third is a
-//     blocking Assignment: lhs RefObj "c"; rhs HierPath name "b.Valid"
+//     blocking Assignment: lhs RefObj "c"; rhs RefObj name "b.Valid"
 //     whose getPathElems() has exactly 2 items: RefObj "b" (resolving via
 //     getActual<Variable>() to Variable "b") and RefObj "Valid" (resolving
 //     via getActual<TypespecMember>() to the union's own "Valid" member --
@@ -66,7 +66,6 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -154,7 +153,7 @@ TEST_F(TaggedUnionMemberAccessTest, FirstTwoStatementsAssignInvalidAndValidTags)
   EXPECT_EQ(bPat->getTag<hldb::Constant>()->getDecompile(), "42");
 }
 
-TEST_F(TaggedUnionMemberAccessTest, ThirdStatementReadsBDotValidAsHierPathToTypespecMember) {
+TEST_F(TaggedUnionMemberAccessTest, ThirdStatementReadsBDotValidAsRefObjToTypespecMember) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -165,7 +164,7 @@ TEST_F(TaggedUnionMemberAccessTest, ThirdStatementReadsBDotValidAsHierPathToType
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "c");
 
-  const hldb::HierPath *const path = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const path = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(path, nullptr);
   EXPECT_EQ(path->getName(), "b.Valid");
   ASSERT_NE(path->getPathElems(), nullptr);

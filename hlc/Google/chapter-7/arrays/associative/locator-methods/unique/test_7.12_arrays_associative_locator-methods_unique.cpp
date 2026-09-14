@@ -37,15 +37,15 @@
 //     a queue ("int qi[$]") as a queue array with an unbounded
 //     left-range ("$"); ElemTypespec -> IntTypespec
 //   - Initial process: 1 Begin with 4 stmts (Assignment + SysFuncCall +
-//     HierPath("qi.sort") + SysFuncCall)
-//   - Assignment: qi = s.unique is a HierPath "s.unique()" whose 2nd path
+//     RefObj("qi.sort") + SysFuncCall)
+//   - Assignment: qi = s.unique is a RefObj "s.unique()" whose 2nd path
 //     elem IS a MethodFuncCall "unique" (unlike max/min, ".unique" with
 //     source parens-less call is still modeled as a method call) with no
 //     vpiWith clause (unique.sv has no "with" clause)
-//   - "qi.sort;" on its own line is parsed as a bare HierPath statement (not
+//   - "qi.sort;" on its own line is parsed as a bare RefObj statement (not
 //     a SysFuncCall/MethodFuncCall) with 2 RefObj path elems: "qi" (resolved)
 //     and "sort" (unresolved)
-//   - both $display calls; first has HierPath("qi.size") argument, second
+//   - both $display calls; first has RefObj("qi.size") argument, second
 //     has 3 BitSelect("qi[0]"/"qi[1]"/"qi[2]") arguments
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //     (element type is int, so IntTypespec is created before the
@@ -73,7 +73,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -260,7 +259,7 @@ TEST_F(ArrayLocatorUniqueTest, AssignmentIsBlockingToQi) {
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(ArrayLocatorUniqueTest, AssignmentRhsIsHierPathSDotUnique) {
+TEST_F(ArrayLocatorUniqueTest, AssignmentRhsIsRefObjSDotUnique) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -269,7 +268,7 @@ TEST_F(ArrayLocatorUniqueTest, AssignmentRhsIsHierPathSDotUnique) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view("s.unique"));
   ASSERT_NE(rhs->getPathElems(), nullptr);
@@ -285,8 +284,8 @@ TEST_F(ArrayLocatorUniqueTest, MethodFuncCallIsNamedUniqueWithNoWithClause) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const rhs =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -297,12 +296,12 @@ TEST_F(ArrayLocatorUniqueTest, MethodFuncCallIsNamedUniqueWithNoWithClause) {
 
 // --- qi.sort; ----
 
-TEST_F(ArrayLocatorUniqueTest, ThirdStmtIsHierPathQiDotSort) {
+TEST_F(ArrayLocatorUniqueTest, ThirdStmtIsRefObjQiDotSort) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const sort = any_cast<hldb::HierPath>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
+  const hldb::RefObj *const sort = any_cast<hldb::RefObj>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(sort, nullptr);
   EXPECT_EQ(sort->getName(), "qi.sort");
   ASSERT_NE(sort->getPathElems(), nullptr);
@@ -343,7 +342,7 @@ TEST_F(ArrayLocatorUniqueTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "qi.size");
   ASSERT_NE(size->getPathElems(), nullptr);

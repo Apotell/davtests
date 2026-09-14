@@ -42,7 +42,7 @@
 //     StringTypespec
 //   - Initial process: 1 Begin with 3 stmts (2 Assignment + 1 SysFuncCall)
 //   - Stmt[0]: blocking Assignment, lhs RefObj "un" resolving Net "un" (the
-//     whole union, no HierPath member access), rhs Constant unsigned int
+//     whole union, no RefObj member access), rhs Constant unsigned int
 //     "10" (from 'tagged v2 (10)')
 //   - Stmt[1]: blocking Assignment, lhs RefObj "un", rhs Constant unsigned
 //     int "85" (from 'tagged v1 (85)')
