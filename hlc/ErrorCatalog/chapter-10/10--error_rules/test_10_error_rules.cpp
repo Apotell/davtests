@@ -73,7 +73,7 @@ TEST_F(Chapter10ErrorRulesTest, Row298_SelectIntoAtomicNetLhsIsRejected) {
   // nettype) shall not drive part of the net; the entire nettype value shall
   // be driven. r298_m's line 27, "assign n[0] = 1'b1;", indexes into the
   // nettype's data type on the LHS.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "n", 27, 10), nullptr)
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r298_m", 27, 10), nullptr)
       << "a continuous assignment to an atomic (user-defined nettype) net shall not "
          "select part of it (IEEE 1800-2023 10.3.2)";
 }
