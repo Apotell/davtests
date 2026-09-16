@@ -43,14 +43,14 @@
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded), right bound Constant "5" (vpiConstType=
 //     unsigned int) -- confirms the ":5" bound is retained
-//   - the 7 "q.push_back(N)" calls (0..6) are each parsed as a HierPath
+//   - the 7 "q.push_back(N)" calls (0..6) are each parsed as a RefObj
 //     with a RefObj "q" (resolved to Net "q") and a MethodFuncCall
 //     "push_back" carrying 1 Constant argument -- the 7th call (index 6,
 //     past the bound) still parses identically to the first 6; nothing
 //     about hitting the bound changes how push_back itself is modeled
 //   - BOTH "q.size" (no parens) accesses -- one before and one after the
 //     bound-exceeding push_back(6) -- must be parsed the SAME way: a
-//     HierPath with RefObj "q" (resolved) and a MethodFuncCall named
+//     RefObj with RefObj "q" (resolved) and a MethodFuncCall named
 //     "size" taking no arguments, in both occurrences; see the KNOWN BUG
 //     note below
 //   - the initial process' Begin block has exactly 9 statements in source
@@ -86,7 +86,6 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -130,15 +129,15 @@ class QueuesMaxSizeTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "q.push_back(value)": HierPath -> RefObj "q"
+  // Verifies stmt[index] is "q.push_back(value)": RefObj -> RefObj "q"
   // (resolved to Net) + MethodFuncCall "push_back" with 1 Constant arg.
   static void ExpectPushBack(size_t index, std::string_view value) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_NE(begin->getStmts(), nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(index));
-    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a HierPath (q.push_back(...))";
+    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(index));
+    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a RefObj (q.push_back(...))";
     ASSERT_NE(hp->getPathElems(), nullptr);
     ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
@@ -173,7 +172,7 @@ class QueuesMaxSizeTest : public Test {
     ASSERT_NE(fmtArg, nullptr);
     EXPECT_EQ(fmtArg->getValue(), fmt);
 
-    const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+    const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
     ASSERT_NE(size, nullptr);
     EXPECT_EQ(size->getName(), "q.size");
     ASSERT_NE(size->getPathElems(), nullptr);

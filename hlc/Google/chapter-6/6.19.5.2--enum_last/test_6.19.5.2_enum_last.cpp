@@ -33,9 +33,9 @@
 //   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
 //   - Initial -> Begin has 1 Variable "val" (TypedefTypespec, inline init RefObj "a" -> EnumConst)
 //   - Begin has 1 blocking assignment: val = val.last()
-//   - assignment rhs is HierPath "val.last()"
-//   - HierPath pathElems[0] is RefObj "val", pathElems[1] is FuncCall "last" (no args)
-//   - HierPath receiver RefObj "val" resolves to the local Variable
+//   - assignment rhs is RefObj "val.last()"
+//   - RefObj pathElems[0] is RefObj "val", pathElems[1] is FuncCall "last" (no args)
+//   - RefObj receiver RefObj "val" resolves to the local Variable
 //   - last() FuncCall carries no static return typespec (enum type is only
 //     resolved at simulation runtime)
 
@@ -49,16 +49,17 @@
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
+#include <hldb/class_defn.h>
 #include <hldb/design.h>
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/scope.h>
+#include <hldb/task_func.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/variable.h>
 
@@ -129,9 +130,9 @@ TEST_F(EnumLastTest, ValVariableDeclaredWithInitA) {
 }
 
 // ---------------------------------------------------------------------------
-// Assignment: val = val.last() -- rhs is HierPath "val.last()"
+// Assignment: val = val.last() -- rhs is RefObj "val.last()"
 // ---------------------------------------------------------------------------
-TEST_F(EnumLastTest, AssignmentRhsIsHierPath) {
+TEST_F(EnumLastTest, AssignmentRhsIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -144,12 +145,12 @@ TEST_F(EnumLastTest, AssignmentRhsIsHierPath) {
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("val"));
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "val.last() rhs should be a HierPath";
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "val.last() rhs should be a RefObj";
   EXPECT_EQ(hp->getName(), std::string_view("val.last"));
 }
 
-TEST_F(EnumLastTest, HierPathReceiverAndFuncCall) {
+TEST_F(EnumLastTest, RefObjReceiverAndFuncCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -158,7 +159,7 @@ TEST_F(EnumLastTest, HierPathReceiverAndFuncCall) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
@@ -171,7 +172,7 @@ TEST_F(EnumLastTest, HierPathReceiverAndFuncCall) {
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "last() takes no arguments";
 }
 
-TEST_F(EnumLastTest, HierPathReceiverResolvesToVariable) {
+TEST_F(EnumLastTest, RefObjReceiverResolvesToVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -180,7 +181,7 @@ TEST_F(EnumLastTest, HierPathReceiverResolvesToVariable) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
@@ -188,7 +189,7 @@ TEST_F(EnumLastTest, HierPathReceiverResolvesToVariable) {
       << "receiver RefObj 'val' in val.last() should resolve to the local Variable";
 }
 
-TEST_F(EnumLastTest, LastCallHasNoStaticReturnTypespec) {
+TEST_F(EnumLastTest, LastCallBindsToBuiltinEnumerationIterator) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -197,12 +198,18 @@ TEST_F(EnumLastTest, LastCallHasNoStaticReturnTypespec) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getTypespec(), nullptr)
-      << "last() return type is only known at simulation runtime; HLC does not attach a static typespec";
+  // IEEE 1800-2023 Sec 6.19.5.2: "last()" is an enumerated-type method. It is declared in
+  // no user scope, so it can only resolve to the builtin "enumeration_iterator" class.
+  const hldb::TaskFunc *const tf = call->getTaskFunc();
+  ASSERT_NE(tf, nullptr) << "enum.last() must bind (IEEE 1800-2023 Sec 6.19.5.2)";
+  EXPECT_EQ(tf->getName(), "last");
+  const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
+  ASSERT_NE(owner, nullptr);
+  EXPECT_EQ(owner->getName(), "enumeration_iterator");
 }
 
 TEST_F(EnumLastTest, CompilerReportsZeroErrors) {
@@ -210,8 +217,10 @@ TEST_F(EnumLastTest, CompilerReportsZeroErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view("last")), nullptr)
-      << "enum.last() must bind (IEEE 1800-2023 6.19.5.2)";
+  // COMP_FAILED_TO_BIND does not fire for an unresolved enumerated-type method; the Linter
+  // reports LINT_NULL_ACTUAL instead, so check that (see Sec 6.19.5.2).
+  EXPECT_EQ(findError(ErrorDefinition::LINT_NULL_ACTUAL), nullptr)
+      << "enum.last() must bind (IEEE 1800-2023 Sec 6.19.5.2)";
 }
 
 }  // namespace hlc

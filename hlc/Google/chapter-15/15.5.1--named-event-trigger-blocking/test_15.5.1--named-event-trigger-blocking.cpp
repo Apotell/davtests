@@ -172,7 +172,7 @@ TEST_F(NamedEventTriggerBlockingTest, InnerTriggerShouldBeBlockingEventStmtTarge
   const hldb::EventStmt *const trigger = any_cast<hldb::EventStmt>(init->getStmt());
   ASSERT_NE(trigger, nullptr) << "'-> top.e;' should be an EventStmt per IEEE 1800-2023 Sec 15.5.1 (see file header)";
   EXPECT_TRUE(trigger->getBlocking()) << "'->' (no extra '>') is the blocking trigger form";
-  const hldb::HierPath *const hp = trigger->getNamedEvent<hldb::HierPath>();
+  const hldb::RefObj *const hp = trigger->getNamedEvent<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2);

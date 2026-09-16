@@ -37,11 +37,11 @@
 //     2 bare method-call statements for map.delete("sad") and map.delete)
 //   - the 3 index assignments (map["hello"]=1, map["sad"]=2, map["world"]=3)
 //     as BitSelect lhs with string Constant index and unsigned int Constant rhs
-//   - map.delete("sad") is a bare HierPath statement whose 2nd path elem is a
+//   - map.delete("sad") is a bare RefObj statement whose 2nd path elem is a
 //     MethodFuncCall "delete" with 1 string Constant argument "sad"
-//   - map.delete (no parens) is a bare HierPath statement whose 2nd path elem
+//   - map.delete (no parens) is a bare RefObj statement whose 2nd path elem
 //     is an unresolved RefObj "delete" (not a MethodFuncCall)
-//   - all 3 $display calls and their HierPath("map.size") arguments
+//   - all 3 $display calls and their RefObj("map.size") arguments
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //   - compiler emits exactly 4 errors (nbFatal=0, nbSyntax=0, nbError=4,
 //     nbWarning=0), all COMP_FAILED_TO_BIND
@@ -83,7 +83,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -230,7 +229,7 @@ TEST_F(AssociativeArrayDeleteTest, FirstDisplayAssertsSizeEqualsThree) {
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "map.size");
   ASSERT_NE(size->getPathElems(), nullptr);
@@ -247,12 +246,12 @@ TEST_F(AssociativeArrayDeleteTest, FirstDisplayAssertsSizeEqualsThree) {
 
 // --- map.delete("sad") ----
 
-TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsHierPathWithMethodFuncCall) {
+TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsRefObjWithMethodFuncCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), std::string_view("map.delete(\"sad\")"));
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -284,19 +283,19 @@ TEST_F(AssociativeArrayDeleteTest, SecondDisplayAssertsSizeEqualsTwo) {
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "map.size");
 }
 
 // --- map.delete (no parens) ----
 
-TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsHierPathWithUnresolvedRefObj) {
+TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsRefObjWithUnresolvedRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "map.delete");
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -307,7 +306,7 @@ TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsHierPathWithUnresolvedRe
   EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const deleteRef = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(deleteRef, nullptr)
-      << "map.delete without parens should still parse as HierPath pathElem RefObj, not MethodFuncCall";
+      << "map.delete without parens should still parse as RefObj pathElem RefObj, not MethodFuncCall";
   EXPECT_EQ(deleteRef->getName(), "delete");
   EXPECT_EQ(deleteRef->getTaskFunc(), nullptr);
 }
@@ -324,7 +323,7 @@ TEST_F(AssociativeArrayDeleteTest, ThirdDisplayAssertsSizeEqualsZero) {
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "map.size");
 }
@@ -362,7 +361,7 @@ TEST_F(AssociativeArrayDeleteTest, ArrRefObjsShouldResolve) {
 
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(varRef, nullptr);
@@ -374,7 +373,7 @@ TEST_F(AssociativeArrayDeleteTest, ArrRefObjsShouldResolve) {
   ASSERT_NE(sizeMfc, nullptr);
   EXPECT_EQ(sizeMfc->getTaskFunc(), nullptr) << "map.size is intrinsic and doesn't resolve";
 
-  const hldb::HierPath *const bareDelete = any_cast<hldb::HierPath>(begin->getStmts()->at(6));
+  const hldb::RefObj *const bareDelete = any_cast<hldb::RefObj>(begin->getStmts()->at(6));
   ASSERT_NE(bareDelete, nullptr);
   const hldb::MethodFuncCall *const deleteMfc = any_cast<hldb::MethodFuncCall>(bareDelete->getPathElems()->at(1));
   ASSERT_NE(deleteMfc, nullptr);

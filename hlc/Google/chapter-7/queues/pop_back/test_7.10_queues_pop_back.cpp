@@ -40,12 +40,12 @@
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded)
 //   - net "r": typespec resolves directly to a signed IntTypespec
-//   - the 3 "q.push_back(N)" calls are each parsed as a HierPath with a
+//   - the 3 "q.push_back(N)" calls are each parsed as a RefObj with a
 //     RefObj "q" (resolved to Net "q") and a MethodFuncCall "push_back"
 //     carrying 1 Constant argument (2, 3, 4)
 //   - "r = q.pop_back" must resolve like "r = q.pop_back()" would:
 //     Assignment (blocking) whose lhs is RefObj "r" (resolved) and whose
-//     rhs is a HierPath with RefObj "q" (resolved) and a MethodFuncCall
+//     rhs is a RefObj with RefObj "q" (resolved) and a MethodFuncCall
 //     named "pop_back" taking no arguments -- see the KNOWN BUG note below
 //   - "q.size" must likewise resolve like "q.size()" would (RefObj "q"
 //     resolved + MethodFuncCall "size" taking no arguments) -- same gap
@@ -92,7 +92,6 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -142,15 +141,15 @@ class QueuesPopBackTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "q.push_back(value)": HierPath -> RefObj "q"
+  // Verifies stmt[index] is "q.push_back(value)": RefObj -> RefObj "q"
   // (resolved to Net) + MethodFuncCall "push_back" with 1 Constant arg.
   static void ExpectPushBack(size_t index, std::string_view value) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_NE(begin->getStmts(), nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(index));
-    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a HierPath (q.push_back(...))";
+    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(index));
+    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a RefObj (q.push_back(...))";
     ASSERT_NE(hp->getPathElems(), nullptr);
     ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
@@ -284,8 +283,8 @@ TEST_F(QueuesPopBackTest, FourthStmtAssignmentRhsMustBePopBackMethodCall) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(3));
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
-  ASSERT_NE(rhs, nullptr) << "'q.pop_back' should be a HierPath";
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr) << "'q.pop_back' should be a RefObj";
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
 
@@ -320,7 +319,7 @@ TEST_F(QueuesPopBackTest, FifthStmtDisplayAssertsSizeTwo) {
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
 
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);

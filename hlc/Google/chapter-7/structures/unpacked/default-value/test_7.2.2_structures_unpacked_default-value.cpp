@@ -45,13 +45,13 @@
 //   - member "hi": typespec -> BitTypespec [3:0] vector, no default value
 //   - design-level typespecs (4): ModuleTypespec, IntTypespec (unsigned),
 //     IntTypespec (signed), StringTypespec
-//   - Initial process: 1 Begin with 2 stmts (1 HierPath Assignment + 1
+//   - Initial process: 1 Begin with 2 stmts (1 RefObj Assignment + 1
 //     SysFuncCall) -- note p1.lo is never explicitly assigned; it relies on
 //     its declared default value 'c' (== 4'h5)
-//   - Stmt[0]: blocking Assignment, lhs HierPath "p1.hi" (RefObj "p1" -> Net
+//   - Stmt[0]: blocking Assignment, lhs RefObj "p1.hi" (RefObj "p1" -> Net
 //     "p1", RefObj "hi" -> TypespecMember "hi"), rhs Constant hexadecimal
 //     "4'ha" (value "a")
-//   - Stmt[1]: $display with 3 args (format + HierPath "p1.hi" + HierPath
+//   - Stmt[1]: $display with 3 args (format + RefObj "p1.hi" + RefObj
 //     "p1.lo")
 //   - compiler emits zero errors
 //   - no continuous assignments
@@ -75,7 +75,6 @@
 #include <hldb/bit_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
@@ -218,7 +217,7 @@ TEST_F(UnpackedStructDefaultValueTest, FirstStmtAssignsHexAToPOneHi) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view("p1.hi"));
   ASSERT_NE(lhs->getPathElems(), nullptr);
@@ -242,8 +241,8 @@ TEST_F(UnpackedStructDefaultValueTest, SecondStmtDisplaysHiAndLoFields) {
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (('%h' == 'a') and ('%h' == '5'))"));
-  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), std::string_view("p1.hi"));
-  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(2))->getName(), std::string_view("p1.lo"));
+  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), std::string_view("p1.hi"));
+  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(2))->getName(), std::string_view("p1.lo"));
 }
 
 // --- design-level typespecs / compiler diagnostics ----

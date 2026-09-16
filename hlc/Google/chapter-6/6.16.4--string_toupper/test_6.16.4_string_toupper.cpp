@@ -36,11 +36,11 @@
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
 //   - variable 'b' typespec resolves to StringTypespec (same type as receiver)
 //   - variable 'b' has a non-null initial value (vpiValue is set)
-//   - variable 'b' initial value is a HierPath named "a.toupper()"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - HierPath element[1] is FuncCall "toupper" with no arguments
+//   - variable 'b' initial value is a RefObj named "a.toupper()"
+//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - RefObj element[1] is FuncCall "toupper" with no arguments
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. "TEST") -- HLC
-//     stores the unevaluated HierPath expression only
+//     stores the unevaluated RefObj expression only
 //   - the actual string result of a.toupper() ("TEST") -- kept as a real
 //     assertion for when HLC adds compile-time evaluation of string methods
 
@@ -55,7 +55,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
 #include <hldb/ref_obj.h>
@@ -118,7 +117,7 @@ TEST_F(StringToupperTest, BVariableTypespecIsString) {
 }
 
 // ---------------------------------------------------------------------------
-// HierPath -- b's initial value is the method call a.toupper()
+// RefObj -- b's initial value is the method call a.toupper()
 // ---------------------------------------------------------------------------
 TEST_F(StringToupperTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -134,25 +133,25 @@ TEST_F(StringToupperTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.toupper() to a constant; b holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.toupper() to a constant; b holds only the RefObj expression";
 }
 
-TEST_F(StringToupperTest, BVariableValueIsHierPath) {
+TEST_F(StringToupperTest, BVariableValueIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a HierPath";
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a RefObj";
   EXPECT_EQ(hp->getName(), "a.toupper");
 }
 
-TEST_F(StringToupperTest, HierPathReceiverIsA) {
+TEST_F(StringToupperTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
@@ -163,12 +162,12 @@ TEST_F(StringToupperTest, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringToupperTest, HierPathMethodIsToupper) {
+TEST_F(StringToupperTest, RefObjMethodIsToupper) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
@@ -182,7 +181,7 @@ TEST_F(StringToupperTest, ToupperHasNoArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

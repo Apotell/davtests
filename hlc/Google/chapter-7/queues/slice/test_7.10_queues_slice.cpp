@@ -50,7 +50,7 @@
 //   - net "r": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded), NO right bound (unbounded queue)
-//   - the 6 "q.push_back(N)" calls are each parsed as a HierPath with a
+//   - the 6 "q.push_back(N)" calls are each parsed as a RefObj with a
 //     RefObj "q" (resolved to Net "q") and a MethodFuncCall "push_back"
 //     carrying 1 Constant argument, in source order (0..5)
 //   - each "r = q[a:b]" is an Assignment (blocking) whose rhs is a
@@ -114,7 +114,6 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -165,15 +164,15 @@ class QueuesSliceTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "q.push_back(value)": HierPath -> RefObj "q"
+  // Verifies stmt[index] is "q.push_back(value)": RefObj -> RefObj "q"
   // (resolved to Net) + MethodFuncCall "push_back" with 1 Constant arg.
   static void ExpectPushBack(size_t index, std::string_view value) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_NE(begin->getStmts(), nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(index));
-    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a HierPath (q.push_back(...))";
+    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(index));
+    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a RefObj (q.push_back(...))";
     ASSERT_NE(hp->getPathElems(), nullptr);
     ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
@@ -208,7 +207,7 @@ class QueuesSliceTest : public Test {
     ASSERT_NE(fmtArg, nullptr);
     EXPECT_EQ(fmtArg->getValue(), fmt);
 
-    const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+    const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
     ASSERT_NE(size, nullptr);
     ASSERT_NE(size->getPathElems(), nullptr);
     ASSERT_EQ(size->getPathElems()->size(), 2u);

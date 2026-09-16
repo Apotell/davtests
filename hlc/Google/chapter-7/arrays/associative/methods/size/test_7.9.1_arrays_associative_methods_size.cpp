@@ -33,7 +33,7 @@
 //   - variable "arr": ArrayTypespec vpiArrayType=associative(3), index typespec ->
 //     IntTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 7 stmts (4 SysFuncCall + 3 Assignment)
-//   - all 4 $display calls: format string plus HierPath("arr.size") whose
+//   - all 4 $display calls: format string plus RefObj("arr.size") whose
 //     2nd path elem is an unresolved RefObj "size" (no parens form, same
 //     limitation as ".num"/".delete" without parens)
 //   - the 3 index assignments use decimal (arr[3]), hex (arr[16'hffff]), and
@@ -74,7 +74,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
@@ -150,7 +149,7 @@ TEST_F(AssociativeArraySizeTest, FirstDisplayAssertsSizeEqualsZero) {
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -197,7 +196,7 @@ TEST_F(AssociativeArraySizeTest, SecondDisplayAssertsSizeEqualsOne) {
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 1)");
-  EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), "arr.size");
+  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr.size");
 }
 
 TEST_F(AssociativeArraySizeTest, SecondAssignmentSetsArrHexFfffToTwo) {
@@ -278,7 +277,7 @@ TEST_F(AssociativeArraySizeTest, ArrRefObjShouldResolve) {
   for (const size_t idx : displayStmtIndices) {
     const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(idx));
     ASSERT_NE(disp, nullptr);
-    const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
     ASSERT_NE(hp, nullptr);
     const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
     ASSERT_NE(varRef, nullptr);

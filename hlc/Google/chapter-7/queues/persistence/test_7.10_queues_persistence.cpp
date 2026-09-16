@@ -57,13 +57,13 @@
 //     (#100) wrapping the blocking assignment "e = 10", then $display(e)
 //     again; both RefObj "e" occurrences resolve to the IODecl "e"
 //   - first initial process: Begin with 5 statements -- 3 "q.push_back(N)"
-//     HierPaths (1, 2, 3), a $display with 3 BitSelects (q[0], q[1], q[2]),
+//     RefObjs (1, 2, 3), a $display with 3 BitSelects (q[0], q[1], q[2]),
 //     and a FuncCall "fun" with 1 argument, BitSelect "q[1]" (prefix "q"
 //     resolved to Net "q") -- i.e. the queue element at index 1 is what
 //     gets passed by ref into "fun"
 //   - second initial process: Begin with 4 statements -- a DelayControl
 //     (#50) wrapping a $display(q[1]), "q.delete()" (WITH parens; a
-//     HierPath resolving to a MethodFuncCall named "delete" taking no
+//     RefObj resolving to a MethodFuncCall named "delete" taking no
 //     arguments -- correctly recognized, see the note below), a bare
 //     DelayControl (#100) with no wrapped statement, and a final
 //     $display(q.size)
@@ -111,7 +111,6 @@
 #include <hldb/delay_control.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -351,8 +350,8 @@ TEST_F(QueuesPersistenceTest, FirstInitialPushBacksOneTwoThree) {
   const hldb::Begin *const begin = getInitialBegin(0);
   ASSERT_NE(begin, nullptr);
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(i));
-    ASSERT_NE(hp, nullptr) << "stmt[" << i << "] should be a HierPath (q.push_back(...))";
+    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(i));
+    ASSERT_NE(hp, nullptr) << "stmt[" << i << "] should be a RefObj (q.push_back(...))";
     ASSERT_NE(hp->getPathElems(), nullptr);
     ASSERT_EQ(hp->getPathElems()->size(), 2u);
     const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
@@ -441,8 +440,8 @@ TEST_F(QueuesPersistenceTest, SecondInitialFirstStmtIsDelayedDisplayOfQAtOne) {
 TEST_F(QueuesPersistenceTest, SecondInitialSecondStmtIsDeleteWithParensCorrectlyRecognized) {
   const hldb::Begin *const begin = getInitialBegin(1);
   ASSERT_NE(begin, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr) << "'q.delete()' should be a HierPath";
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
+  ASSERT_NE(hp, nullptr) << "'q.delete()' should be a RefObj";
   EXPECT_EQ(hp->getName(), "q.delete");
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
@@ -482,7 +481,7 @@ TEST_F(QueuesPersistenceTest, SecondInitialFourthStmtDisplaysSizeAssert) {
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
 
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);

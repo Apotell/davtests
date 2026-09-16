@@ -36,11 +36,11 @@
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "4.76" (vpiStringConst)
 //   - variable 'b' typespec resolves to RealTypespec (not IntTypespec -- key distinction vs atoi)
 //   - variable 'b' has a non-null initial value (vpiValue is set)
-//   - variable 'b' initial value is a HierPath named "a.atoreal()"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - HierPath element[1] is FuncCall "atoreal" with no arguments
+//   - variable 'b' initial value is a RefObj named "a.atoreal()"
+//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - RefObj element[1] is FuncCall "atoreal" with no arguments
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. 4.76) -- HLDB stores
-//     the unevaluated HierPath expression only; compile-time evaluation of
+//     the unevaluated RefObj expression only; compile-time evaluation of
 //     string method return values is not performed
 
 #include <hlc/Common/Session.h>
@@ -54,7 +54,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
 #include <hldb/real_typespec.h>
@@ -126,25 +125,25 @@ TEST_F(StringAtorealTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.atoreal() to a constant; b holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.atoreal() to a constant; b holds only the RefObj expression";
 }
 
-TEST_F(StringAtorealTest, BVariableValueIsHierPath) {
+TEST_F(StringAtorealTest, BVariableValueIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "a.atoreal");
 }
 
-TEST_F(StringAtorealTest, HierPathReceiverIsA) {
+TEST_F(StringAtorealTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
@@ -154,12 +153,12 @@ TEST_F(StringAtorealTest, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringAtorealTest, HierPathMethodIsAtoreal) {
+TEST_F(StringAtorealTest, RefObjMethodIsAtoreal) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));

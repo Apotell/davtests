@@ -70,7 +70,7 @@
 //     (Design::getAllModules()), and class "foo" exists (Design::getAllClasses()).
 //   - `@top.e;` (module inner, no begin/end, no controlled statement) produces
 //     a bare EventControl bound directly as the Initial's statement, with
-//     getStmt() == null and getCondition() a HierPath whose two path elements
+//     getStmt() == null and getCondition() a RefObj whose two path elements
 //     resolve "top" to module top and "e" to the event declared there.
 //   - `@ e;` inside module top's explicit begin/end block produces a Begin
 //     wrapping exactly one EventControl, whose condition is a RefObj named "e".
@@ -86,9 +86,9 @@
 // a .log file or any other tool-output dump):
 //   - vpiPrefix (the "e" side of a would-be "obj.event" style method target)
 //     has no generated C++ accessor anywhere in this object model for
-//     EventControl; only RefObj::getActual()/HierPath path elements are
+//     EventControl; only RefObj::getActual()/RefObj path elements are
 //     checkable, so no deeper "which object owns this event" check is possible
-//     beyond what RefObj/HierPath already expose.
+//     beyond what RefObj already expose.
 //   - Runtime wait behavior (does execution actually block until "e" fires)
 //     cannot be observed: HLC is a compiler/elaborator with no simulation
 //     capability, so no execution ever happens for this test to check.
@@ -100,7 +100,6 @@
 #include <hldb/class_defn.h>
 #include <hldb/design.h>
 #include <hldb/event_control.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/named_event.h>
@@ -181,8 +180,8 @@ TEST_F(NamedEventWaitTest, InnerHierarchicalEventReferenceResolvesTopAndEvent) {
   ASSERT_NE(ec, nullptr);
 
   ASSERT_NE(ec->getCondition(), nullptr) << "'top.e' is the wait condition and must be present";
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(ec->getCondition());
-  ASSERT_NE(path, nullptr) << "'top.e' is a hierarchical name and should produce a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(ec->getCondition());
+  ASSERT_NE(path, nullptr) << "'top.e' is a hierarchical name and should produce a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u) << "'top.e' has exactly two path elements: 'top' and 'e'";
 
@@ -226,7 +225,7 @@ TEST_F(NamedEventWaitTest, TopInitialWrapsSingleEventControlInBegin) {
 
   ASSERT_NE(ec->getCondition(), nullptr);
   const hldb::RefObj *const ref = any_cast<hldb::RefObj>(ec->getCondition());
-  ASSERT_NE(ref, nullptr) << "'e' (non-hierarchical) should be a plain RefObj, not a HierPath";
+  ASSERT_NE(ref, nullptr) << "'e' (non-hierarchical) should be a plain RefObj, not a RefObj";
   EXPECT_EQ(ref->getName(), "e");
   EXPECT_NE(ref->getActual(), nullptr) << "'e' should resolve to the event declared in the same module";
 }

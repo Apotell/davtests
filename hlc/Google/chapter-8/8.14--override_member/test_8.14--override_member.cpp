@@ -105,7 +105,7 @@
 //     "incs = s;" resolves its lhs, via getActual<Function>(), to
 //     test_cls's OWN "incs" Function (not super_cls's)
 //   - test_cls's "new": same shape as chapter-8/8.13--inheritance's
-//     derived constructor -- "super.new(def + 3);" (a bare HierPath whose
+//     derived constructor -- "super.new(def + 3);" (a bare RefObj whose
 //     MethodFuncCall resolves getTaskFunc() to super_cls's own "new")
 //     followed by "a = def;"
 //   - the initial process' Begin block has exactly 6 statements:
@@ -125,7 +125,7 @@
 //     chapter-8/8.12--assignment/test_8.12--assignment.cpp; it is not
 //     asserted as a bug, since SystemVerilog upcast handle assignment
 //     needs no runtime conversion.
-//   - "$display(test_obj.s)" (both occurrences): HierPath resolving "s" to
+//   - "$display(test_obj.s)" (both occurrences): RefObj resolving "s" to
 //     super_cls's own property Variable, same object both times
 //   - "$display(test_obj.incs())": THE CRUX of member overriding -- the
 //     MethodFuncCall's getTaskFunc() must resolve to test_cls's OWN
@@ -177,7 +177,6 @@
 #include <hldb/design.h>
 #include <hldb/extends.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -282,8 +281,8 @@ class ClassOverrideMemberTest : public Test {
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-    const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-    ASSERT_NE(path, nullptr) << "'" << varName << ".s' should be a HierPath";
+    const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+    ASSERT_NE(path, nullptr) << "'" << varName << ".s' should be a RefObj";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);
     const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -603,8 +602,8 @@ TEST_F(ClassOverrideMemberTest, TestNewFirstStmtIsSuperNewCall) {
   const hldb::Begin *const body = ctor->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "stmt[0] should be a bare HierPath ('super.new(def + 3)')";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
+  ASSERT_NE(path, nullptr) << "stmt[0] should be a bare RefObj ('super.new(def + 3)')";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -724,8 +723,8 @@ TEST_F(ClassOverrideMemberTest, FourthStmtDisplaysTestObjIncs) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -760,8 +759,8 @@ TEST_F(ClassOverrideMemberTest, SixthStmtDisplaysSuperObjIncs) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'super_obj.incs()' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'super_obj.incs()' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));

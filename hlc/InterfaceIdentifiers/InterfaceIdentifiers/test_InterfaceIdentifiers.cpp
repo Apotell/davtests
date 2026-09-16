@@ -282,7 +282,7 @@ TEST_F(InterfaceIdentifiers, SpecifyPathsModuleExists) {
 }
 
 TEST_F(InterfaceIdentifiers, SpecifyPathsModuleHasModPaths) {
-  GTEST_SKIP() << "ModPath and HierPaths are ambiguous in this context. These need to be resolved post binding.";
+  GTEST_SKIP() << "ModPath and RefObjs are ambiguous in this context. These need to be resolved post binding.";
   const hldb::Module *const m = hldb::findByDefName<hldb::Module>("mod_specify_paths", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_NE(m->getModPaths(), nullptr) << "mod_specify_paths has no mod paths (specify block)";

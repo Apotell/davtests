@@ -36,11 +36,11 @@
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "10101" (vpiStringConst)
 //   - variable 'b' typespec resolves to IntTypespec
 //   - variable 'b' has a non-null initial value (vpiValue is set)
-//   - variable 'b' initial value is a HierPath named "a.atobin()"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - HierPath element[1] is FuncCall "atobin" with no arguments
+//   - variable 'b' initial value is a RefObj named "a.atobin()"
+//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - RefObj element[1] is FuncCall "atobin" with no arguments
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. 21) -- HLDB stores
-//     the unevaluated HierPath expression only
+//     the unevaluated RefObj expression only
 //   - the actual numeric result of a.atobin() (21) -- kept as a real assertion
 //     for when HLC adds compile-time evaluation of string methods
 
@@ -55,7 +55,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
@@ -114,7 +113,7 @@ TEST_F(StringAtobinTest, BVariableTypespecIsInt) {
 }
 
 // ---------------------------------------------------------------------------
-// HierPath -- b's initial value is the method call a.atobin()
+// RefObj -- b's initial value is the method call a.atobin()
 // ---------------------------------------------------------------------------
 TEST_F(StringAtobinTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -130,25 +129,25 @@ TEST_F(StringAtobinTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.atobin() to a constant; b holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.atobin() to a constant; b holds only the RefObj expression";
 }
 
-TEST_F(StringAtobinTest, BVariableValueIsHierPath) {
+TEST_F(StringAtobinTest, BVariableValueIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a HierPath";
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a RefObj";
   EXPECT_EQ(hp->getName(), "a.atobin");
 }
 
-TEST_F(StringAtobinTest, HierPathReceiverIsA) {
+TEST_F(StringAtobinTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
@@ -159,12 +158,12 @@ TEST_F(StringAtobinTest, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringAtobinTest, HierPathMethodIsAtobin) {
+TEST_F(StringAtobinTest, RefObjMethodIsAtobin) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
@@ -178,7 +177,7 @@ TEST_F(StringAtobinTest, AtobinHasNoArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

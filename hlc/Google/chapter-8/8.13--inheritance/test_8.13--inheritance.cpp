@@ -83,7 +83,7 @@
 //   - test_cls's "new": return type resolves to a ClassTypespec matching
 //     test_cls itself; 1 IODecl ("def", input, IntTypespec, default expr
 //     Constant "42"); 2-statement Begin body:
-//     "super.new(def + 3);" -- a bare HierPath statement (not wrapped in
+//     "super.new(def + 3);" -- a bare RefObj statement (not wrapped in
 //     any Assignment/ExprStmt), first path elem a RefObj "super"
 //     resolving (via getActual<ClassDefn>()) to super_cls's ClassDefn --
 //     the same "resolves to the enclosing/referenced ClassDefn" shape
@@ -103,11 +103,11 @@
 //   - "test_obj = new(37)": a blocking Assignment, rhs MethodFuncCall
 //     "new" with 1 argument, Constant "37", resolving getTaskFunc() to the
 //     real constructor Function (see the FIXED COMPILER BUG #6 note below)
-//   - "$display(test_obj.incs())": a SysTaskCall whose HierPath's second
+//   - "$display(test_obj.incs())": a SysTaskCall whose RefObj's second
 //     path elem is a MethodFuncCall "incs" resolving getTaskFunc() to
 //     super_cls's "incs" Function -- CONFIRMING that an INHERITED method,
 //     called through a derived-class-typed handle, resolves correctly
-//   - "$display(test_obj.s)": a SysTaskCall whose HierPath's second path
+//   - "$display(test_obj.s)": a SysTaskCall whose RefObj's second path
 //     elem is a RefObj "s" resolving to super_cls's OWN property
 //     Variable -- confirming INHERITED property access resolves to the
 //     base class's declared Variable, not a duplicated/derived-scoped copy
@@ -153,7 +153,6 @@
 #include <hldb/design.h>
 #include <hldb/extends.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
@@ -540,8 +539,8 @@ TEST_F(ClassInheritanceTest, TestClsNewFirstStmtIsSuperNewCall) {
   const hldb::Begin *const body = ctor->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "stmt[0] should be a bare HierPath ('super.new(def + 3)')";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
+  ASSERT_NE(path, nullptr) << "stmt[0] should be a bare RefObj ('super.new(def + 3)')";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 
@@ -669,8 +668,8 @@ TEST_F(ClassInheritanceTest, SecondStmtDisplaysTestObjIncs) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
@@ -699,8 +698,8 @@ TEST_F(ClassInheritanceTest, ThirdStmtDisplaysTestObjS) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj.s' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj.s' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));

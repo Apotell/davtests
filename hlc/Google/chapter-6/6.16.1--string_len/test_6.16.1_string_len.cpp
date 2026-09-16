@@ -36,11 +36,11 @@
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
 //   - variable 'b' typespec resolves to IntTypespec
 //   - variable 'b' has a non-null initial value (vpiValue is set)
-//   - variable 'b' initial value is a HierPath named "a.len()"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - HierPath element[1] is FuncCall "len" with no arguments
+//   - variable 'b' initial value is a RefObj named "a.len()"
+//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - RefObj element[1] is FuncCall "len" with no arguments
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. 4) -- HLDB stores
-//     the unevaluated HierPath expression only; compile-time evaluation of
+//     the unevaluated RefObj expression only; compile-time evaluation of
 //     string method return values is not performed
 
 #include <hlc/Common/Session.h>
@@ -54,7 +54,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
@@ -117,7 +116,7 @@ TEST_F(StringLenTest, BVariableTypespecIsInt) {
 }
 
 // ---------------------------------------------------------------------------
-// HierPath -- b's initial value is the method call a.len()
+// RefObj -- b's initial value is the method call a.len()
 // ---------------------------------------------------------------------------
 TEST_F(StringLenTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -133,47 +132,47 @@ TEST_F(StringLenTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.len() to a constant; b holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.len() to a constant; b holds only the RefObj expression";
 }
 
-TEST_F(StringLenTest, BVariableValueIsHierPath) {
+TEST_F(StringLenTest, BVariableValueIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a HierPath";
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a RefObj";
   EXPECT_EQ(hp->getName(), "a.len");
 }
 
-TEST_F(StringLenTest, HierPathReceiverIsA) {
+TEST_F(StringLenTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
 
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(receiver, nullptr) << "HierPath actual[0] is not a RefObj";
+  ASSERT_NE(receiver, nullptr) << "RefObj actual[0] is not a RefObj";
   EXPECT_EQ(receiver->getName(), "a");
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr) << "receiver 'a' should resolve to Variable a";
 }
 
-TEST_F(StringLenTest, HierPathMethodIsLen) {
+TEST_F(StringLenTest, RefObjMethodIsLen) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "HierPath actual[1] is not a FuncCall";
+  ASSERT_NE(call, nullptr) << "RefObj actual[1] is not a FuncCall";
   EXPECT_EQ(call->getName(), "len");
 }
 
@@ -182,7 +181,7 @@ TEST_F(StringLenTest, LenCallHasNoArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

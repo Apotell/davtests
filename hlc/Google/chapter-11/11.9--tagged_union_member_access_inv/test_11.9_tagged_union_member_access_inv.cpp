@@ -47,11 +47,11 @@
 //     none decl-assigned
 //   - the initial block's Begin has exactly 3 statements: "a = tagged
 //     Invalid", "b = tagged Valid(42)", and "c = a.Valid" -- the last one
-//     is a blocking Assignment whose rhs is a HierPath name "a.Valid" with
+//     is a blocking Assignment whose rhs is a RefObj name "a.Valid" with
 //     the same shape as the valid-access case: getPathElems() has 2 items,
 //     RefObj "a" (resolving to Variable "a") and RefObj "Valid" (resolving
 //     to the union's TypespecMember "Valid", not a variable) -- i.e. the
-//     HierPath references variable "a", which was actually tagged Invalid,
+//     RefObj references variable "a", which was actually tagged Invalid,
 //     not "b", which was actually tagged Valid
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
 //   - compiler emits zero errors (confirming the invalidity is not a
@@ -65,7 +65,7 @@
 //     itself specifies this as a run-time check, not a static one. HLC is a
 //     static compiler/elaborator with no notion of "which tag is currently
 //     active" tracked anywhere in the object model (confirmed against
-//     union_typespec.h, typespec_member.h, hier_path.h, variable.h) -- there
+//     union_typespec.h, typespec_member.h, variable.h) -- there
 //     is no field to assert against for "was this read invalid". The nearest
 //     currently-checkable proxy is that error reporting stays at zero,
 //     which is the opposite of what should happen once runtime tag
@@ -82,7 +82,6 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -172,9 +171,9 @@ TEST_F(TaggedUnionMemberAccessInvTest, ThirdStatementReadsAdotValidEvenThoughAIs
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "c");
 
-  const hldb::HierPath *const path = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const path = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(path, nullptr);
-  EXPECT_EQ(path->getName(), "a.Valid") << "the HierPath references variable 'a', which was tagged Invalid, not 'b'";
+  EXPECT_EQ(path->getName(), "a.Valid") << "the RefObj references variable 'a', which was tagged Invalid, not 'b'";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 
@@ -214,8 +213,8 @@ TEST_F(TaggedUnionMemberAccessInvTest, ReadingInactiveTagShouldRaiseARuntimeErro
                   "tag, which IEEE 1800-2017 11.9 makes a run-time error. "
                   "HLC is a static compiler/elaborator with no 'currently "
                   "active tag' field tracked anywhere in the object model "
-                  "(confirmed against variable.h, tagged_pattern.h, "
-                  "hier_path.h) -- there is nothing to assert against for "
+                  "(confirmed against variable.h, tagged_pattern.h)"
+                  "-- there is nothing to assert against for "
                   "'this read was invalid' today. If runtime tag-checking is ever added, "
                   "compiling and running this program should report at "
                   "least one runtime error; the assertion below documents "

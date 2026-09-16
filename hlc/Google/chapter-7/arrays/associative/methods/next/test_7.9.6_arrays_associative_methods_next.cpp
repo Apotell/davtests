@@ -39,8 +39,8 @@
 //     map["hello"/"sad"/"world"] + Assignment rc=map.first(s) + SysFuncCall +
 //     Assignment rc=map.next(s) + SysFuncCall)
 //   - rc=map.first(s) assignment: lhs RefObj "rc" resolves to Variable rc, rhs
-//     HierPath "map.first(s)" whose 2nd path elem is MethodFuncCall "first"
-//   - rc=map.next(s) assignment: rhs HierPath "map.next(s)" whose 2nd path
+//     RefObj "map.first(s)" whose 2nd path elem is MethodFuncCall "first"
+//   - rc=map.next(s) assignment: rhs RefObj "map.next(s)" whose 2nd path
 //     elem is a MethodFuncCall "next" with 1 argument RefObj "s" resolving to
 //     Variable s
 //   - both $display calls and their RefObj("rc")/RefObj("s") arguments
@@ -67,7 +67,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -168,7 +167,7 @@ TEST_F(AssociativeArrayNextTest, FirstCallAssignsRcFromMapFirstS) {
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "rc");
-  const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view("map.first(s)"));
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
@@ -209,7 +208,7 @@ TEST_F(AssociativeArrayNextTest, SecondCallAssignsRcFromMapNextS) {
       any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(5));
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "rc");
-  const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view("map.next(s)"));
   ASSERT_NE(rhs->getPathElems(), nullptr);

@@ -522,11 +522,11 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC2HasValue) {
   ASSERT_NE(orOp->getOperands(), nullptr);
   ASSERT_EQ(orOp->getOperands()->size(), 2u) << "|| should have two operands";
   // left operand: RefObj("a.a2")
-  const auto *lhs = any_cast<hldb::HierPath>((*orOp->getOperands())[0]);
+  const auto *lhs = any_cast<hldb::RefObj>((*orOp->getOperands())[0]);
   ASSERT_NE(lhs, nullptr) << "left operand of || should be RefObj";
   EXPECT_EQ(lhs->getName(), "a.a2");
   // right operand: RefObj("b.b2")
-  const auto *rhs = any_cast<hldb::HierPath>((*orOp->getOperands())[1]);
+  const auto *rhs = any_cast<hldb::RefObj>((*orOp->getOperands())[1]);
   ASSERT_NE(rhs, nullptr) << "right operand of || should be RefObj";
   EXPECT_EQ(rhs->getName(), "b.b2");
 }
@@ -546,11 +546,11 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC3HasValue) {
   ASSERT_NE(andOp->getOperands(), nullptr);
   ASSERT_EQ(andOp->getOperands()->size(), 2u) << "&& should have two operands";
   // left operand: RefObj("a.a1")
-  const auto *lhs = any_cast<hldb::HierPath>((*andOp->getOperands())[0]);
+  const auto *lhs = any_cast<hldb::RefObj>((*andOp->getOperands())[0]);
   ASSERT_NE(lhs, nullptr) << "left operand of && should be RefObj";
   EXPECT_EQ(lhs->getName(), "a.a1");
   // right operand: RefObj("b.b4")
-  const auto *rhs = any_cast<hldb::HierPath>((*andOp->getOperands())[1]);
+  const auto *rhs = any_cast<hldb::RefObj>((*andOp->getOperands())[1]);
   ASSERT_NE(rhs, nullptr) << "right operand of && should be RefObj";
   EXPECT_EQ(rhs->getName(), "b.b4");
 }

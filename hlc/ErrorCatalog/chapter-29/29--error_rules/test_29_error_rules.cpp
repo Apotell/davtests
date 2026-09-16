@@ -15,17 +15,23 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 29 (User-defined primitives) error
-// scenarios catalogued in sv_error_catalog_Latest.xlsx (rows 991, 995).
+// scenarios catalogued in sv_error_catalog_Latest.xlsx (rows 991, 995, 1005).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
 //
 // Behaviour observed while writing this file (hlc.exe -d db over the fixture):
-// both UDPs are compiled. Row 991's reversed port order draws no complaint at
-// all. Row 995's two-edge table row is rejected by the grammar with a single
-// syntax error at 28:9; a control fixture whose sequential table rows each
+// all three UDPs compile. Row 991's reversed port order draws no complaint at
+// all. Row 1005's initial statement assigns to input port s (not output q) --
+// checkUdpDefn (Linter.cpp) reports COMP_ILLEGAL_ASSIGNMENT_LHS for this,
+// since s resolves to an IODecl that is not the UDP's first (output) port.
+// Row 995's two-edge table row is rejected by the grammar with a single
+// syntax error at 40:9; a control fixture whose sequential table rows each
 // carry exactly one edge parses cleanly, which is what makes that enforcement
-// of the rule rather than a missing production for edge specifiers.
+// of the rule rather than a missing production for edge specifiers. Row 1005
+// is placed BEFORE row 995 in the fixture (rather than in strict ascending
+// catalog-row order) specifically to keep row 995's deliberately-last,
+// parser-recovery-sensitive fixture last in the file.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -53,19 +59,31 @@ TEST_F(Chapter29ErrorRulesTest, Row991_OutputPortMustBeFirstInTheUdpPortList) {
       << "the output port must come first in a UDP port list (IEEE 1800-2023 29.3.1)";
 }
 
+// --- row 1005: UDP initial statement must assign to the output port reg (29.7)
+
+TEST_F(Chapter29ErrorRulesTest, Row1005_UdpInitialStatementMustAssignToOutputPortReg) {
+  // catalog row 1005 | 29.7 | COMP
+  // The procedural assignment in a UDP initial statement shall assign to a
+  // reg whose identifier matches the identifier of the output port; here the
+  // assignment on line 23 targets input port 's', not the output port reg 'q'.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "s", 23, 11), nullptr)
+      << "a UDP initial statement must assign to the output port reg, not any other reg "
+         "(IEEE 1800-2023 29.7)";
+}
+
 // --- row 995: one transition per table row (29.3.4) -------------------------
 
 TEST_F(Chapter29ErrorRulesTest, Row995_TwoEdgesInOneUdpTableRowAreRejected) {
   // catalog row 995 | 29.3.4 | COMP
   // "Each table entry can have a transition specified for, at most, one
-  // input." The row on line 28 specifies (01) on a and (10) on b at once.
+  // input." The row on line 40 specifies (01) on a and (10) on b at once.
   //
   // HLC enforces this in the grammar: the sequential table entry production
   // admits at most one edge_indicator, so the second one is a syntax error.
   // Verified against a control fixture whose rows each carry exactly one edge
   // -- it parses cleanly -- so this is the rule being enforced, not edge
   // specifiers being unsupported.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 28, 9), nullptr)
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 40, 9), nullptr)
       << "a UDP table row may specify a transition on at most one input (IEEE 1800-2023 29.3.4)";
 }
 

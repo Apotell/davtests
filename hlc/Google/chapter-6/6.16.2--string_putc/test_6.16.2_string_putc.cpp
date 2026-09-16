@@ -20,7 +20,7 @@
 //     initial a.putc(2, "B");
 //   endmodule
 // Key property: unlike len/getc/toupper, putc is a void call inside an
-// Initial process (no result variable 'b'). The Initial stmt is a HierPath
+// Initial process (no result variable 'b'). The Initial stmt is a RefObj
 // "a.putc(2, \"B\")" whose FuncCall carries two arguments: Constant 2 and
 // Constant "B".
 //
@@ -38,8 +38,8 @@
 // Checked:
 //   - design has module top with 1 variable (a: string)
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
-//   - top has 1 Initial process whose stmt is a HierPath named "a.putc(2, \"B\")"
-//   - HierPath element[0] is RefObj "a"; element[1] is FuncCall "putc" with 2 arguments
+//   - top has 1 Initial process whose stmt is a RefObj named "a.putc(2, \"B\")"
+//   - RefObj element[0] is RefObj "a"; element[1] is FuncCall "putc" with 2 arguments
 //   - putc arguments are Constant "2" and Constant "B" (vpiStringConst)
 //   - the in-place mutation of 'a' performed by putc (index 2 set to 'B') --
 //     kept as a real assertion for when HLC adds compile-time evaluation of
@@ -56,7 +56,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
@@ -118,46 +117,46 @@ TEST_F(StringPutcTest, InitialProcessExists) {
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
-TEST_F(StringPutcTest, InitialStmtIsHierPath) {
+TEST_F(StringPutcTest, InitialStmtIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "Initial stmt is not a HierPath";
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "Initial stmt is not a RefObj";
   EXPECT_EQ(hp->getName(), "a.putc(2, \"B\")");
 }
 
 // ---------------------------------------------------------------------------
-// HierPath -- receiver 'a' and FuncCall 'putc' with 2 arguments
+// RefObj -- receiver 'a' and FuncCall 'putc' with 2 arguments
 // ---------------------------------------------------------------------------
-TEST_F(StringPutcTest, HierPathReceiverIsA) {
+TEST_F(StringPutcTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
 
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(receiver, nullptr) << "HierPath pathElems[0] is not a RefObj";
+  ASSERT_NE(receiver, nullptr) << "RefObj pathElems[0] is not a RefObj";
   EXPECT_EQ(receiver->getName(), "a");
 }
 
-TEST_F(StringPutcTest, HierPathMethodIsPutc) {
+TEST_F(StringPutcTest, RefObjMethodIsPutc) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "HierPath pathElems[1] is not a FuncCall";
+  ASSERT_NE(call, nullptr) << "RefObj pathElems[1] is not a FuncCall";
   EXPECT_EQ(call->getName(), "putc");
 }
 
@@ -166,7 +165,7 @@ TEST_F(StringPutcTest, PutcFirstArgumentIsTwo) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
@@ -183,7 +182,7 @@ TEST_F(StringPutcTest, PutcSecondArgumentIsB) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
+  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

@@ -38,12 +38,12 @@
 // What is checked:
 //   - module top has no Nets and exactly 1 Variable "a" (IntTypespec, no
 //     inline initializer)
-//   - 1 Initial process; Initial stmt is directly SysFuncCall "$cast"
+//   - 1 Initial process; Initial stmt is directly SysTaskCall "$cast"
 //     (no IfStmt wrapper, since the return value is discarded)
 //   - $cast has 2 args: RefObj "a" -> Variable, vpiMultOp(vpiRealConst
 //     "2.1", vpiRealConst "3.7")
 //   - top has no continuous assignments
-//   - $cast SysFuncCall carries no static return typespec, consistent
+//   - $cast SysTaskCall carries no static return typespec, consistent
 //     with the return value being discarded in void (task) context
 //   - compiler reports zero errors (this file is fully legal per 6.8)
 //
@@ -105,28 +105,28 @@ TEST_F(CastTaskTest, AIsIntTypeWithNoValue) {
 }
 
 // ---------------------------------------------------------------------------
-// Initial statement is directly SysFuncCall "$cast" (no IfStmt wrapper)
+// Initial statement is directly SysTaskCall "$cast" (no IfStmt wrapper)
 // ---------------------------------------------------------------------------
-TEST_F(CastTaskTest, InitialStmtIsCastSysFuncCall) {
+TEST_F(CastTaskTest, InitialStmtIsCastSysTaskCall) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const castFn = init->getStmt<hldb::SysFuncCall>();
-  ASSERT_NE(castFn, nullptr) << "$cast(a, ...) used as task: Initial stmt is SysFuncCall directly, no IfStmt";
+  const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
+  ASSERT_NE(castFn, nullptr) << "$cast(a, ...) used as task: IEEE 1800-2023 Sec 6.24.2: called as a task (bare statement, return value not consumed), so the Initial stmt is a SysTaskCall directly, no IfStmt";
   EXPECT_EQ(castFn->getName(), "$cast");
 }
 
 // ---------------------------------------------------------------------------
 // $cast arguments: arg[0]=RefObj "a" -> Variable, arg[1]=Operation(multiply, ...)
 // ---------------------------------------------------------------------------
-TEST_F(CastTaskTest, CastFuncCallHasTwoArguments) {
+TEST_F(CastTaskTest, CastTaskCallHasTwoArguments) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const castFn = init->getStmt<hldb::SysFuncCall>();
+  const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(castFn, nullptr);
   ASSERT_NE(castFn->getArguments(), nullptr);
   EXPECT_EQ(castFn->getArguments()->size(), 2u);
@@ -137,7 +137,7 @@ TEST_F(CastTaskTest, CastArgZeroIsRefToVariableA) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const castFn = init->getStmt<hldb::SysFuncCall>();
+  const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(castFn, nullptr);
   const hldb::RefObj *const arg0 = any_cast<hldb::RefObj>(castFn->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr);
@@ -150,7 +150,7 @@ TEST_F(CastTaskTest, CastArgOneIsMultiplyOperation) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const castFn = init->getStmt<hldb::SysFuncCall>();
+  const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(castFn, nullptr);
   const hldb::Operation *const multOp = any_cast<hldb::Operation>(castFn->getArguments()->at(1));
   ASSERT_NE(multOp, nullptr);
@@ -176,12 +176,12 @@ TEST_F(CastTaskTest, NoContAssigns) {
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-TEST_F(CastTaskTest, CastSysFuncCallHasNoStaticReturnTypespec) {
+TEST_F(CastTaskTest, CastSysTaskCallHasNoStaticReturnTypespec) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const castFn = init->getStmt<hldb::SysFuncCall>();
+  const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(castFn, nullptr);
   EXPECT_EQ(castFn->getTypespec(), nullptr)
       << "$cast used as a task discards its return value; HLC does not attach a static typespec";

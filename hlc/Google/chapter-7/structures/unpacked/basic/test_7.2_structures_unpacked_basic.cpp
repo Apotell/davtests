@@ -34,16 +34,16 @@
 //     BitTypespec with 1 Range [3:0], vpiVector true
 //   - design-level typespecs (4): ModuleTypespec, IntTypespec (signed),
 //     IntTypespec (unsigned), StringTypespec
-//   - Initial process: 1 Begin with 3 stmts (2 HierPath Assignment + 1
+//   - Initial process: 1 Begin with 3 stmts (2 RefObj Assignment + 1
 //     SysFuncCall)
-//   - Stmt[0]: blocking Assignment, lhs HierPath "p1.lo" (RefObj "p1" -> Net
+//   - Stmt[0]: blocking Assignment, lhs RefObj "p1.lo" (RefObj "p1" -> Net
 //     "p1", RefObj "lo" -> TypespecMember "lo"), rhs Constant hexadecimal
 //     "4'h5" (value "5")
-//   - Stmt[1]: blocking Assignment, lhs HierPath "p1.hi" (RefObj "p1" -> Net
+//   - Stmt[1]: blocking Assignment, lhs RefObj "p1.hi" (RefObj "p1" -> Net
 //     "p1", RefObj "hi" -> TypespecMember "hi"), rhs Constant hexadecimal
 //     "4'ha" (value "a")
 //   - Stmt[2]: $display with 3 args (format ":assert: (('%h' == 'a') and
-//     ('%h' == '5'))" + HierPath "p1.hi" + HierPath "p1.lo")
+//     ('%h' == '5'))" + RefObj "p1.hi" + RefObj "p1.lo")
 //   - compiler emits zero errors
 //   - no continuous assignments
 //
@@ -65,7 +65,6 @@
 #include <hldb/bit_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -165,7 +164,7 @@ TEST_F(UnpackedStructBasicTest, FirstStmtAssignsHexFiveToPOneLo) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view("p1.lo"));
   ASSERT_NE(lhs->getPathElems(), nullptr);
@@ -184,7 +183,7 @@ TEST_F(UnpackedStructBasicTest, SecondStmtAssignsHexAToPOneHi) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view("p1.hi"));
   ASSERT_NE(lhs->getPathElems(), nullptr);
@@ -209,10 +208,10 @@ TEST_F(UnpackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (('%h' == 'a') and ('%h' == '5'))"));
 
-  const hldb::HierPath *const hi = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const hi = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(hi->getName(), std::string_view("p1.hi"));
-  const hldb::HierPath *const lo = any_cast<hldb::HierPath>(disp->getArguments()->at(2));
+  const hldb::RefObj *const lo = any_cast<hldb::RefObj>(disp->getArguments()->at(2));
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(lo->getName(), std::string_view("p1.lo"));
 }

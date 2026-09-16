@@ -37,12 +37,12 @@
 //   - variable 'a' initial value is "Test" (vpiStringConst); variable 'b' is "TEST"
 //   - variable 'c' typespec resolves to IntTypespec
 //   - variable 'c' has a non-null initial value (vpiValue is set)
-//   - variable 'c' initial value is a HierPath named "a.compare(b)"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - HierPath element[1] is FuncCall "compare" with 1 argument
+//   - variable 'c' initial value is a RefObj named "a.compare(b)"
+//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - RefObj element[1] is FuncCall "compare" with 1 argument
 //   - compare() argument is RefObj "b" resolving to Variable 'b' (not a Constant)
 //   - 'c' does NOT get a pre-evaluated constant value -- HLDB stores the
-//     unevaluated HierPath expression only; runtime comparison result not known
+//     unevaluated RefObj expression only; runtime comparison result not known
 //   - the actual numeric result of a.compare(b) -- kept as a real assertion
 //     for when HLC adds compile-time evaluation of string methods
 
@@ -57,7 +57,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/hier_path.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
@@ -135,7 +134,7 @@ TEST_F(StringCompareTest, CVariableTypespecIsInt) {
 }
 
 // ---------------------------------------------------------------------------
-// HierPath -- c's initial value is the method call a.compare(b)
+// RefObj -- c's initial value is the method call a.compare(b)
 // ---------------------------------------------------------------------------
 TEST_F(StringCompareTest, CVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -151,25 +150,25 @@ TEST_F(StringCompareTest, CVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.compare(b) to a constant; c holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.compare(b) to a constant; c holds only the RefObj expression";
 }
 
-TEST_F(StringCompareTest, CVariableValueIsHierPath) {
+TEST_F(StringCompareTest, CVariableValueIsRefObj) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "variable 'c' initial value is not a HierPath";
+  const hldb::RefObj *const hp = c->getValue<hldb::RefObj>();
+  ASSERT_NE(hp, nullptr) << "variable 'c' initial value is not a RefObj";
   EXPECT_EQ(hp->getName(), "a.compare(b)");
 }
 
-TEST_F(StringCompareTest, HierPathReceiverIsA) {
+TEST_F(StringCompareTest, RefObjReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = c->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
@@ -180,12 +179,12 @@ TEST_F(StringCompareTest, HierPathReceiverIsA) {
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringCompareTest, HierPathMethodIsCompare) {
+TEST_F(StringCompareTest, RefObjMethodIsCompare) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = c->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
@@ -199,7 +198,7 @@ TEST_F(StringCompareTest, CompareArgumentIsRefObjB) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
+  const hldb::RefObj *const hp = c->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);

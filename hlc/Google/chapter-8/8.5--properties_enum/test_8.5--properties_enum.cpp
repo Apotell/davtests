@@ -56,7 +56,7 @@
 //   - "test_obj = new": blocking Assignment, lhs RefObj "test_obj" resolved
 //     to the Variable, rhs MethodFuncCall "new" taking no arguments
 //   - "$display(test_obj.C)" has exactly 1 argument (no format string, only
-//     the enum-constant reference): a HierPath "test_obj.C" with 2 path
+//     the enum-constant reference): a RefObj "test_obj.C" with 2 path
 //     elems (RefObj "test_obj" resolved to the Variable; RefObj "C" resolved to
 //     the SAME EnumConst "C" found on the class's EnumTypespec)
 //   - design-level: exactly 1 class (test_cls)
@@ -89,7 +89,6 @@
 #include <hldb/design.h>
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
@@ -377,8 +376,8 @@ TEST_F(ClassPropertiesEnumTest, DisplayArgIsTestObjDotC) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 0u);
-  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(0));
-  ASSERT_NE(path, nullptr) << "'test_obj.C' should be a HierPath";
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'test_obj.C' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
 

@@ -32,7 +32,7 @@
 //     StringTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 5 stmts (3 Assignment + 2 SysFuncCall)
 //   - the 3 index assignments (map["hello"]=1, map["sad"]=2, map["world"]=3)
-//   - both $display calls: format string plus HierPath("map.exists(...)")
+//   - both $display calls: format string plus RefObj("map.exists(...)")
 //     whose 2nd path elem is a MethodFuncCall "exists" with 1 string Constant
 //     argument ("sad" / "happy")
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
@@ -59,7 +59,6 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
@@ -191,7 +190,7 @@ TEST_F(AssociativeArrayExistsTest, FirstDisplaySecondArgIsMapExistsSad) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), std::string_view("map.exists(\"sad\")"));
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -232,7 +231,7 @@ TEST_F(AssociativeArrayExistsTest, SecondDisplaySecondArgIsMapExistsHappy) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
-  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), std::string_view("map.exists(\"happy\")"));
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
