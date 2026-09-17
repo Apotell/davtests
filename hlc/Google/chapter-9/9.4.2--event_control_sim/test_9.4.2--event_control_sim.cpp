@@ -129,19 +129,15 @@ TEST_F(EventControlSimTest, NamedEventEExists) {
 }
 
 TEST_F(EventControlSimTest, IIsVariableWithZeroInitializer) {
-  GTEST_SKIP() << "Same module-scope net/variable misclassification bug as the reg/wire files in "
-                  "this chapter (see project memory): 'int i' is a variable-type keyword (IEEE "
-                  "1800-2023 6.8) but does not appear in getVariables() here.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Variable *const i = hldb::findByName<hldb::Variable>("i", top->getVariables());
   ASSERT_NE(i, nullptr) << "'int i' is a variable-type keyword (IEEE 1800-2023 6.8 integer_atom_type)";
 
-  const hldb::Constant *const initValue = any_cast<hldb::Constant>(i->getExpr());
+  const hldb::Constant *const initValue = i->getValue<hldb::Constant>();
   ASSERT_NE(initValue, nullptr);
-  EXPECT_EQ(initValue->getDecompile(), "0");
+  EXPECT_EQ(initValue->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(EventControlSimTest, EventTriggerStatementTargetsE) {

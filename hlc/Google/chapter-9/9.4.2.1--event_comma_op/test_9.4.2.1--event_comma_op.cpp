@@ -140,10 +140,6 @@ TEST_F(EventCommaOpTest, ExactlyOnePlainAlwaysProcess) {
 }
 
 TEST_F(EventCommaOpTest, CommaSeparatedEventListIsEventOrOfFourOperands) {
-  GTEST_SKIP() << "The exact internal shape of the comma-joined event list (a single flattened "
-                  "4-operand vpiEventOrOp vs. some other encoding) was inferred, not confirmed "
-                  "from a header or the spec's object model, and no .log was consulted.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 

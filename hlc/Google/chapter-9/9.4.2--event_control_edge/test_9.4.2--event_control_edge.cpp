@@ -100,11 +100,6 @@ TEST_F(EventControlEdgeTest, ClkIsNetNotVariable) {
 }
 
 TEST_F(EventControlEdgeTest, AIsVariableNotNet) {
-  GTEST_SKIP() << "HLC classifies module-scope declarations by scope, not by keyword, so this "
-                  "'reg' does not appear in getVariables() (confirmed net/variable "
-                  "misclassification bug, see project memory). Per IEEE 1800-2023 6.7/6.8 this "
-                  "should be a Variable regardless of scope.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
@@ -112,11 +107,11 @@ TEST_F(EventControlEdgeTest, AIsVariableNotNet) {
   ASSERT_NE(a, nullptr) << "'a' is declared with the variable-type keyword 'reg' (IEEE 1800-2023 6.8), "
                            "so it must be a Variable regardless of module scope";
 
-  const hldb::Expr *const initExpr = a->getExpr();
+  const hldb::Expr *const initExpr = a->getValue();
   ASSERT_NE(initExpr, nullptr) << "'reg [3:0] a = 0' has a variable_decl_assignment initializer";
   const hldb::Constant *const initValue = any_cast<hldb::Constant>(initExpr);
   ASSERT_NE(initValue, nullptr);
-  EXPECT_EQ(initValue->getDecompile(), "0");
+  EXPECT_EQ(initValue->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(EventControlEdgeTest, ExactlyOnePlainAlwaysProcess) {

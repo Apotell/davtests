@@ -110,10 +110,6 @@ TEST_F(EventImplicitTest, ExactlyOnePlainAlwaysProcess) {
 }
 
 TEST_F(EventImplicitTest, StarExpandsToEventOrOfExactlyTheReadSignals) {
-  GTEST_SKIP() << "Whether/how '@*' expands into an explicit event-or list (vs. some other "
-                  "flag-based encoding EventControl's header doesn't expose) was inferred, not "
-                  "confirmed from a header or the spec's object model, and no .log was consulted.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
@@ -128,34 +124,37 @@ TEST_F(EventImplicitTest, StarExpandsToEventOrOfExactlyTheReadSignals) {
 
   const hldb::EventControl *const eventControl = any_cast<hldb::EventControl>(always->getStmt());
   ASSERT_NE(eventControl, nullptr) << "always @(*) must produce an EventControl";
+  EXPECT_TRUE(eventControl->getIsImplicitControl());
 
-  const hldb::Operation *const condition = any_cast<hldb::Operation>(eventControl->getCondition());
-  ASSERT_NE(condition, nullptr) << "'@*' must expand to an explicit event-or list per 9.4.2.2, "
-                                   "since EventControl has no separate 'implicit' flag";
-  EXPECT_EQ(condition->getOpType(), vpiEventOrOp);
+  if (m_design->getElaborated()) {
+    const hldb::Operation *const condition = any_cast<hldb::Operation>(eventControl->getCondition());
+    ASSERT_NE(condition, nullptr) << "'@*' must expand to an explicit event-or list per 9.4.2.2, "
+                                    "since EventControl has no separate 'implicit' flag";
+    EXPECT_EQ(condition->getOpType(), vpiEventOrOp);
 
-  ASSERT_NE(condition->getOperands(), nullptr);
-  ASSERT_EQ(condition->getOperands()->size(), 4u)
-      << "the implicit list must contain exactly the 4 signals read in the body (a,b,c,d) -- "
-         "not more (e.g. 'out', which is only written) and not fewer";
+    ASSERT_NE(condition->getOperands(), nullptr);
+    ASSERT_EQ(condition->getOperands()->size(), 4u)
+        << "the implicit list must contain exactly the 4 signals read in the body (a,b,c,d) -- "
+          "not more (e.g. 'out', which is only written) and not fewer";
 
-  bool sawA = false;
-  bool sawB = false;
-  bool sawC = false;
-  bool sawD = false;
-  for (const hldb::Any *const operand : *condition->getOperands()) {
-    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(operand);
-    ASSERT_NE(ref, nullptr);
-    EXPECT_NE(ref->getName(), "out") << "'out' is only written, never read, so it must not be in the implicit list";
-    if (ref->getName() == "a") sawA = true;
-    if (ref->getName() == "b") sawB = true;
-    if (ref->getName() == "c") sawC = true;
-    if (ref->getName() == "d") sawD = true;
+    bool sawA = false;
+    bool sawB = false;
+    bool sawC = false;
+    bool sawD = false;
+    for (const hldb::Any *const operand : *condition->getOperands()) {
+      const hldb::RefObj *const ref = any_cast<hldb::RefObj>(operand);
+      ASSERT_NE(ref, nullptr);
+      EXPECT_NE(ref->getName(), "out") << "'out' is only written, never read, so it must not be in the implicit list";
+      if (ref->getName() == "a") sawA = true;
+      if (ref->getName() == "b") sawB = true;
+      if (ref->getName() == "c") sawC = true;
+      if (ref->getName() == "d") sawD = true;
+    }
+    EXPECT_TRUE(sawA);
+    EXPECT_TRUE(sawB);
+    EXPECT_TRUE(sawC);
+    EXPECT_TRUE(sawD);
   }
-  EXPECT_TRUE(sawA);
-  EXPECT_TRUE(sawB);
-  EXPECT_TRUE(sawC);
-  EXPECT_TRUE(sawD);
 }
 
 TEST_F(EventImplicitTest, ControlledStatementIsOutAssignment) {

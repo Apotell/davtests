@@ -111,10 +111,6 @@ TEST_F(EventConditionalTest, ExactlyOnePlainAlwaysProcess) {
 }
 
 TEST_F(EventConditionalTest, IffGatesPosedgeClkWithEnEqualsOne) {
-  GTEST_SKIP() << "The exact nested shape of the 'iff' qualifier (a vpiIffOp wrapping a posedge "
-                  "Operation and a vpiEqOp guard) was inferred from the general Operation API, "
-                  "not confirmed from a header or the spec's object model, and no .log was used.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
@@ -130,22 +126,22 @@ TEST_F(EventConditionalTest, IffGatesPosedgeClkWithEnEqualsOne) {
   const hldb::EventControl *const eventControl = any_cast<hldb::EventControl>(always->getStmt());
   ASSERT_NE(eventControl, nullptr) << "always @(posedge clk iff en == 1) must produce an EventControl";
 
-  const hldb::Operation *const iffOp = any_cast<hldb::Operation>(eventControl->getCondition());
-  ASSERT_NE(iffOp, nullptr) << "'iff' must produce a vpiIffOp Operation gating the qualified event";
-  EXPECT_EQ(iffOp->getOpType(), vpiIffOp);
-  ASSERT_NE(iffOp->getOperands(), nullptr);
-  ASSERT_EQ(iffOp->getOperands()->size(), 2u);
-
-  const hldb::Operation *const posedgeOp = any_cast<hldb::Operation>(iffOp->getOperands()->at(0));
+  const hldb::Operation *const posedgeOp = eventControl->getCondition<hldb::Operation>();
   ASSERT_NE(posedgeOp, nullptr) << "first 'iff' operand must be the qualified posedge event";
   EXPECT_EQ(posedgeOp->getOpType(), vpiPosedgeOp);
   ASSERT_NE(posedgeOp->getOperands(), nullptr);
-  ASSERT_EQ(posedgeOp->getOperands()->size(), 1u);
+  ASSERT_EQ(posedgeOp->getOperands()->size(), 2u);
   const hldb::RefObj *const clkRef = any_cast<hldb::RefObj>(posedgeOp->getOperands()->front());
   ASSERT_NE(clkRef, nullptr);
   EXPECT_EQ(clkRef->getName(), "clk");
 
-  const hldb::Operation *const guardOp = any_cast<hldb::Operation>(iffOp->getOperands()->at(1));
+  const hldb::Operation *const iffOp = any_cast<hldb::Operation>(posedgeOp->getOperands()->back());
+  ASSERT_NE(iffOp, nullptr) << "'iff' must produce a vpiIffOp Operation gating the qualified event";
+  EXPECT_EQ(iffOp->getOpType(), vpiIffOp);
+  ASSERT_NE(iffOp->getOperands(), nullptr);
+  ASSERT_EQ(iffOp->getOperands()->size(), 1u);
+
+  const hldb::Operation *const guardOp = any_cast<hldb::Operation>(iffOp->getOperands()->front());
   ASSERT_NE(guardOp, nullptr) << "second 'iff' operand must be the guard expression 'en == 1'";
   EXPECT_EQ(guardOp->getOpType(), vpiEqOp);
   ASSERT_NE(guardOp->getOperands(), nullptr);

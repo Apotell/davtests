@@ -168,11 +168,6 @@ TEST_F(EventSequenceTest, ABCYClkAreNets) {
 }
 
 TEST_F(EventSequenceTest, SequenceDeclSeqExistsAndReferencesClkAndABC) {
-  GTEST_SKIP() << "The assumed traversal (RefObj names reachable through nested "
-                  "Operation::getOperands()) does not find clk/a/b/c as expected; the sequence "
-                  "body's real shape was inferred, not confirmed from a header, and no .log was "
-                  "consulted.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("seq_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
@@ -186,11 +181,12 @@ TEST_F(EventSequenceTest, SequenceDeclSeqExistsAndReferencesClkAndABC) {
   }
   ASSERT_NE(seq, nullptr) << "'sequence seq; ... endsequence' must produce a SequenceDecl named 'seq'";
 
-  const hldb::Any *const body = seq->getExpr();
+  const hldb::ClockedSeq *const body = seq->getExpr<hldb::ClockedSeq>();
   ASSERT_NE(body, nullptr) << "'@(posedge clk) a ##1 b ##1 c' must be a non-null sequence body";
 
   std::set<std::string_view> names;
-  CollectRefNames(body, &names);
+  CollectRefNames(body->getClockingEvent(), &names);
+  CollectRefNames(body->getSequenceExpr(), &names);
   EXPECT_TRUE(names.count("clk") > 0) << "the clocking event 'posedge clk' must appear in the sequence body";
   EXPECT_TRUE(names.count("a") > 0) << "'a' is the first matched term";
   EXPECT_TRUE(names.count("b") > 0) << "'b' is the second matched term (after '##1')";
