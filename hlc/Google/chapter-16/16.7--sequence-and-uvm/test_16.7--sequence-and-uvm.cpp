@@ -167,7 +167,7 @@
 //   - SequenceDecl::getExpr() is a ClockedSeq (the object designed to pair
 //     a leading clocking event with a sequence body, hldb/clocked_seq.h).
 //   - ClockedSeq::getClockingEvent() is an Operation with opType ==
-//     vpiPosedge (per the test-writing guide's own documented mapping for
+//     vpiPosedgeOp (per the test-writing guide's own documented mapping for
 //     "posedge" clocking events).
 //   - ClockedSeq::getSequenceExpr() is an Operation with opType ==
 //     vpiUnaryCycleDelayOp (per the test-writing guide's own documented
