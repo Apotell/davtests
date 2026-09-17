@@ -107,7 +107,7 @@
 //   - sequence "seq" is declared in module top, and its getVariables()
 //     contains a local Variable named "x".
 //   - SequenceDecl::getExpr() is a ClockedSeq whose getClockingEvent() is
-//     an Operation (opType == vpiPosedge) referencing "clk".
+//     an Operation (opType == vpiPosedgeOp) referencing "clk".
 //   - getSequenceExpr() is an Operation with opType == vpiUnaryCycleDelayOp
 //     carrying a Constant "4" (the "##4" delay), and containing an
 //     Operation with opType == vpiEqOp referencing "out" and containing an
@@ -137,7 +137,6 @@
 #include <hldb/concurrent_assertions.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/hier_path.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
@@ -149,25 +148,7 @@
 namespace hlc {
 namespace {
 bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
-  if (op == nullptr || op->getOperands() == nullptr) {
-    return false;
-  }
-  for (const hldb::Any *const operand : *op->getOperands()) {
-    if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(operand)) {
-      if (ref->getName() == name) {
-        return true;
-      }
-    }
-    if (const hldb::HierPath *const path = any_cast<hldb::HierPath>(operand)) {
-      if (path->getPathElems() != nullptr && !path->getPathElems()->empty()) {
-        const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(path->getPathElems()->back());
-        if (leaf != nullptr && leaf->getName() == name) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
+  return (op != nullptr) && (hldb::findByName<hldb::RefObj>(name, op->getOperands()) != nullptr);
 }
 
 bool OperandsContainConstant(const hldb::Operation *op, std::string_view value) {
@@ -228,12 +209,6 @@ TEST_F(SequenceLocalVarFailTest, SequenceSeqDeclaredWithLocalVariableX) {
 }
 
 TEST_F(SequenceLocalVarFailTest, SequenceExprIsClockedSeqWithPosedgeClockingEvent) {
-  // Unconfirmed (2026-09-08): object shape resolves fine; only
-  // clockOp->getOpType() != vpiPosedge is uncertain -- same open question
-  // as test_16.7--sequence-and-uvm.cpp. Not a confirmed HLC bug.
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
@@ -246,8 +221,8 @@ TEST_F(SequenceLocalVarFailTest, SequenceExprIsClockedSeqWithPosedgeClockingEven
   ASSERT_NE(clocked->getClockingEvent(), nullptr) << "'@(posedge clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(clocked->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("clk"))) << "the posedge operand should reference 'clk'";
 }
 
 TEST_F(SequenceLocalVarFailTest, SequenceExprIsCycleDelayedEqualityWithLocalVariable) {

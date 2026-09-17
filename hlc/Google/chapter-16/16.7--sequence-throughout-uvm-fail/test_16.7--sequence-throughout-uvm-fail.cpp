@@ -170,7 +170,6 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
@@ -183,25 +182,7 @@
 namespace hlc {
 namespace {
 bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
-  if (op == nullptr || op->getOperands() == nullptr) {
-    return false;
-  }
-  for (const hldb::Any *const operand : *op->getOperands()) {
-    if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(operand)) {
-      if (ref->getName() == name) {
-        return true;
-      }
-    }
-    if (const hldb::HierPath *const path = any_cast<hldb::HierPath>(operand)) {
-      if (path->getPathElems() != nullptr && !path->getPathElems()->empty()) {
-        const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(path->getPathElems()->back());
-        if (leaf != nullptr && leaf->getName() == name) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
+  return (op != nullptr) && (hldb::findByName<hldb::RefObj>(name, op->getOperands()) != nullptr);
 }
 
 bool OperandsContainConstant(const hldb::Operation *op, std::string_view value) {
@@ -265,16 +246,16 @@ TEST_F(SequenceThroughoutUvmFailTest, SequenceSeqIsSingleCycleDelay) {
   ASSERT_NE(clocked->getClockingEvent(), nullptr);
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(clocked->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("clk"))) << "the posedge operand should reference 'clk'";
 
   ASSERT_NE(clocked->getSequenceExpr(), nullptr);
   const hldb::Operation *const op = any_cast<hldb::Operation>(clocked->getSequenceExpr());
   ASSERT_NE(op, nullptr) << "'dif.req ##5 dif.gnt0' should be an Operation";
   EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp);
   EXPECT_TRUE(OperandsContainConstant(op, "5")) << "the delay magnitude, '5', should be present";
-  EXPECT_TRUE(OperandsContainNamedRef(op, "req")) << "'dif.req' should be an operand";
-  EXPECT_TRUE(OperandsContainNamedRef(op, "gnt0")) << "'dif.gnt0' should be an operand";
+  EXPECT_TRUE(OperandsContainNamedRef(op, "dif.req")) << "'dif.req' should be an operand";
+  EXPECT_TRUE(OperandsContainNamedRef(op, "dif.gnt0")) << "'dif.gnt0' should be an operand";
 }
 
 TEST_F(SequenceThroughoutUvmFailTest, AssertPropertyIsThroughoutOfGnt2AndSeq) {

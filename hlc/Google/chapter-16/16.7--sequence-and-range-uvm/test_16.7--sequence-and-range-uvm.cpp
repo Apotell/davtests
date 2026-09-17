@@ -154,7 +154,7 @@
 //     Task), matching the same pattern as the other UVM assertion files.
 //   - sequence "seq" is declared in module top.
 //   - SequenceDecl::getExpr() is a ClockedSeq with getClockingEvent() an
-//     Operation (opType == vpiPosedge, referencing "clk").
+//     Operation (opType == vpiPosedgeOp, referencing "clk").
 //   - ClockedSeq::getSequenceExpr() is an Operation with opType ==
 //     vpiUnaryCycleDelayOp (the outer "##0"), with a Constant "0" and a
 //     reference to "gnt2" somewhere in its operands.
