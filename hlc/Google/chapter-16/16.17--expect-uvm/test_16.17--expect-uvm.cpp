@@ -126,7 +126,7 @@
 //     block binds it via a Begin wrapping exactly one statement, an
 //     ExpectStmt.
 //   - ExpectStmt::getPropertySpec() is a PropertySpec whose
-//     getClockingEvent() is an Operation (opType == vpiPosedge)
+//     getClockingEvent() is an Operation (opType == vpiPosedgeOp)
 //     referencing "clk".
 //   - PropertySpec::getPropertyExpr() is an Operation with opType ==
 //     vpiUnaryCycleDelayOp ("##1"), with a Constant "1" delay magnitude,
@@ -267,14 +267,11 @@ TEST_F(ExpectUvmTest, ExpectStmtPropertySpecHasPosedgeClockingEvent) {
                                                         "produce a PropertySpec";
   const hldb::PropertySpec *const spec = expectStmt->getPropertySpec();
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(spec->getClockingEvent(), nullptr) << "'@(posedge dif.clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(spec->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("dif.clk"))) << "the posedge operand should reference 'clk'";
 }
 
 TEST_F(ExpectUvmTest, PropertyExprIsCycleDelayOfReadAndWrite) {

@@ -88,7 +88,7 @@
 //   - module "clk_gen" and module "top" both exist.
 //   - property "prop" is declared in module top.
 //   - PropertyDecl::getPropertySpec() is a PropertySpec whose
-//     getClockingEvent() is an Operation (opType == vpiPosedge)
+//     getClockingEvent() is an Operation (opType == vpiPosedgeOp)
 //     referencing "clk".
 //   - PropertySpec::getDisableCondition() is an Operation with opType ==
 //     vpiBitNegOp ("~"), whose single operand references "rst" -- not a
@@ -158,9 +158,6 @@ TEST_F(PropertyDisableIffFailTest, PropertyPropDeclaredWithPosedgeClockingEventA
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr) << "property 'prop' not found in module top";
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(prop->getPropertySpec(), nullptr) << "'@(posedge clk) disable iff (~rst) out' should produce a "
                                                   "PropertySpec";
   const hldb::PropertySpec *const spec = prop->getPropertySpec();
@@ -168,13 +165,19 @@ TEST_F(PropertyDisableIffFailTest, PropertyPropDeclaredWithPosedgeClockingEventA
   ASSERT_NE(spec->getClockingEvent(), nullptr) << "'@(posedge clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(spec->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("clk"))) << "the posedge operand should reference 'clk'";
 
   ASSERT_NE(spec->getDisableCondition(), nullptr) << "'disable iff (~rst)' should produce a disable condition";
-  const hldb::Operation *const negOp = any_cast<hldb::Operation>(spec->getDisableCondition());
-  ASSERT_NE(negOp, nullptr) << "'~rst' should be an Operation, not a bare RefObj (unlike the passing file's "
+  const hldb::Operation *const iffOp = spec->getDisableCondition<hldb::Operation>();
+  ASSERT_NE(iffOp, nullptr) << "'~rst' should be an Operation, not a bare RefObj (unlike the passing file's "
                                 "'disable iff (rst)')";
+
+  EXPECT_EQ(iffOp->getOpType(), vpiIffOp);
+  ASSERT_NE(iffOp->getOperands(), nullptr);
+  ASSERT_EQ(iffOp->getOperands()->size(), 1u);
+
+  const hldb::Operation *const negOp = any_cast<hldb::Operation>(iffOp->getOperands()->front());
   EXPECT_EQ(negOp->getOpType(), vpiBitNegOp) << "'~' should be vpiBitNegOp";
   ASSERT_NE(negOp->getOperands(), nullptr);
   ASSERT_EQ(negOp->getOperands()->size(), 1u) << "'~' is unary";

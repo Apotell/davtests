@@ -63,7 +63,7 @@
 //   - `assert property (...)` is reachable via
 //     Scope::getConcurrentAssertions(), is an Assert.
 //   - Assert::getProperty() is a PropertySpec whose getClockingEvent() is
-//     an Operation (opType == vpiPosedge) referencing "clk".
+//     an Operation (opType == vpiPosedgeOp) referencing "clk".
 //   - PropertySpec::getDisableCondition() is present and references "a".
 //   - PropertySpec::getPropertyExpr() is an Operation with opType ==
 //     vpiOverlapImplyOp ("|->"), with two operands referencing "b" and "c".
@@ -141,9 +141,6 @@ TEST_F(PropertyDisableIffTest, PropertySpecHasPosedgeClockingEventAndDisableCond
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(assertProp->getProperty(), nullptr) << "the property_spec is the asserted property and must be present";
   const hldb::PropertySpec *const spec = any_cast<hldb::PropertySpec>(assertProp->getProperty());
   ASSERT_NE(spec, nullptr) << "'@(posedge clk) disable iff (a) b |-> c' should directly be a PropertySpec";
@@ -151,13 +148,19 @@ TEST_F(PropertyDisableIffTest, PropertySpecHasPosedgeClockingEventAndDisableCond
   ASSERT_NE(spec->getClockingEvent(), nullptr) << "'@(posedge clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(spec->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("clk"))) << "the posedge operand should reference 'clk'";
 
   ASSERT_NE(spec->getDisableCondition(), nullptr) << "'disable iff (a)' should produce a disable condition";
-  const hldb::RefObj *const disableRef = any_cast<hldb::RefObj>(spec->getDisableCondition());
+  const hldb::Operation *const op = spec->getDisableCondition<hldb::Operation>();
+  ASSERT_NE(op, nullptr);
+  EXPECT_EQ(op->getOpType(), vpiIffOp);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_EQ(op->getOperands()->size(), 1u);
+
+  const hldb::RefObj *const disableRef = any_cast<hldb::RefObj>(op->getOperands()->front());
   ASSERT_NE(disableRef, nullptr) << "'a' should be a plain RefObj";
-  EXPECT_EQ(disableRef->getName(), "a");
+  EXPECT_EQ(disableRef->getName(), std::string_view("a"));
 }
 
 TEST_F(PropertyDisableIffTest, PropertyExprIsOverlappedImplicationOfBAndC) {

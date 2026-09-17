@@ -53,7 +53,7 @@
 //   - `assert property (...)` is reachable via
 //     Scope::getConcurrentAssertions(), is an Assert, with no else-clause.
 //   - Assert::getProperty() is a PropertySpec whose getClockingEvent() is
-//     an Operation (opType == vpiPosedge) referencing "clk", and whose
+//     an Operation (opType == vpiPosedgeOp) referencing "clk", and whose
 //     getDisableCondition() is null.
 //   - PropertySpec::getPropertyExpr() is an Operation with opType ==
 //     vpiIffOp ("iff"), with two operands referencing "a" and "b".
@@ -128,9 +128,6 @@ TEST_F(PropertyIffTest, PropertySpecHasPosedgeClockingEventAndNoDisableCondition
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(assertProp->getProperty(), nullptr) << "the property_spec is the asserted property and must be present";
   const hldb::PropertySpec *const spec = any_cast<hldb::PropertySpec>(assertProp->getProperty());
   ASSERT_NE(spec, nullptr) << "'@(posedge clk) a iff b' should directly be a PropertySpec";
@@ -138,8 +135,8 @@ TEST_F(PropertyIffTest, PropertySpecHasPosedgeClockingEventAndNoDisableCondition
   ASSERT_NE(spec->getClockingEvent(), nullptr) << "'@(posedge clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(spec->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("clk"))) << "the posedge operand should reference 'clk'";
 
   EXPECT_EQ(spec->getDisableCondition(), nullptr) << "no 'disable iff' was written";
 }

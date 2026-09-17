@@ -135,7 +135,7 @@
 //     declared, per the same inheritance module uses), is an Assert, with
 //     a non-null getElseStmt().
 //   - Assert::getProperty() is a PropertySpec whose getClockingEvent() is
-//     an Operation (opType == vpiPosedge) referencing "clk", and whose
+//     an Operation (opType == vpiPosedgeOp) referencing "clk", and whose
 //     getDisableCondition() is null.
 //   - PropertySpec::getPropertyExpr() is an Operation with opType ==
 //     vpiNotOp ("!"), whose single operand is an Operation with opType ==
@@ -265,9 +265,6 @@ TEST_F(PropertyInterfaceUvmTest, PropertySpecHasPosedgeClockingEvent) {
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(iface->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(assertProp->getProperty(), nullptr) << "the property_spec is the asserted property and must be present";
   const hldb::PropertySpec *const spec = any_cast<hldb::PropertySpec>(assertProp->getProperty());
   ASSERT_NE(spec, nullptr) << "'@(posedge clk) !(read & write)' should directly be a PropertySpec";
@@ -275,8 +272,8 @@ TEST_F(PropertyInterfaceUvmTest, PropertySpecHasPosedgeClockingEvent) {
   ASSERT_NE(spec->getClockingEvent(), nullptr) << "'@(posedge clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(spec->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("clk"))) << "the posedge operand should reference 'clk'";
 
   EXPECT_EQ(spec->getDisableCondition(), nullptr) << "no 'disable iff' was written";
 }

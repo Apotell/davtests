@@ -127,7 +127,7 @@
 //     Scope::getConcurrentAssertions(), is an Assert, with a non-null
 //     getElseStmt().
 //   - Assert::getProperty() is a PropertySpec whose getClockingEvent() is
-//     an Operation (opType == vpiPosedge) referencing "clk", and whose
+//     an Operation (opType == vpiPosedgeOp) referencing "clk", and whose
 //     getDisableCondition() is null.
 //   - PropertySpec::getPropertyExpr() is an Operation with opType ==
 //     vpiNonOverlapImplyOp ("|=>"), with two operands referencing "read"
@@ -164,17 +164,7 @@
 namespace hlc {
 namespace {
 bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
-  if (op == nullptr || op->getOperands() == nullptr) {
-    return false;
-  }
-  for (const hldb::Any *const operand : *op->getOperands()) {
-    if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(operand)) {
-      if (ref->getName() == name) {
-        return true;
-      }
-    }
-  }
-  return false;
+  return (op != nullptr) && (hldb::findByName<hldb::RefObj>(name, op->getOperands()));
 }
 }  // namespace
 
@@ -228,18 +218,15 @@ TEST_F(PropertyPrecUvmTest, PropertySpecHasPosedgeClockingEvent) {
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(assertProp->getProperty(), nullptr) << "the property_spec is the asserted property and must be present";
-  const hldb::PropertySpec *const spec = any_cast<hldb::PropertySpec>(assertProp->getProperty());
+  const hldb::PropertySpec *const spec = assertProp->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr) << "'@(posedge dif.clk) dif.read |=> dif.write' should directly be a PropertySpec";
 
   ASSERT_NE(spec->getClockingEvent(), nullptr) << "'@(posedge dif.clk)' is the clocking event";
-  const hldb::Operation *const clockOp = any_cast<hldb::Operation>(spec->getClockingEvent());
+  const hldb::Operation *const clockOp = spec->getClockingEvent<hldb::Operation>();
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("dif.clk"))) << "the posedge operand should reference 'clk'";
 
   EXPECT_EQ(spec->getDisableCondition(), nullptr) << "no 'disable iff' was written";
 }
@@ -249,22 +236,18 @@ TEST_F(PropertyPrecUvmTest, PropertyExprIsNonOverlappedImplicationOfReadAndWrite
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
-  const hldb::PropertySpec *const spec = any_cast<hldb::PropertySpec>(assertProp->getProperty());
+  const hldb::PropertySpec *const spec = assertProp->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
 
-  GTEST_SKIP() << "OperandsContainNamedRef only matches a bare RefObj; 'dif.read'/'dif.write' are "
-                  "interface-qualified references and likely compile to HierPath instead (see "
-                  "test_16.15--property-iff-uvm.cpp for the same HierPath-vs-RefObj finding).";
-
   ASSERT_NE(spec->getPropertyExpr(), nullptr) << "'dif.read |=> dif.write' is the property expression";
-  const hldb::Operation *const implyOp = any_cast<hldb::Operation>(spec->getPropertyExpr());
+  const hldb::Operation *const implyOp = spec->getPropertyExpr<hldb::Operation>();
   ASSERT_NE(implyOp, nullptr) << "'|=>' should be an Operation";
   EXPECT_EQ(implyOp->getOpType(), vpiNonOverlapImplyOp) << "'|=>' should be vpiNonOverlapImplyOp";
 
   ASSERT_NE(implyOp->getOperands(), nullptr);
   ASSERT_EQ(implyOp->getOperands()->size(), 2u) << "'|=>' takes exactly two operands";
-  EXPECT_TRUE(OperandsContainNamedRef(implyOp, "read")) << "'dif.read' should be an operand of '|=>'";
-  EXPECT_TRUE(OperandsContainNamedRef(implyOp, "write")) << "'dif.write' should be an operand of '|=>'";
+  EXPECT_TRUE(OperandsContainNamedRef(implyOp, std::string_view("dif.read"))) << "'dif.read' should be an operand of '|=>'";
+  EXPECT_TRUE(OperandsContainNamedRef(implyOp, std::string_view("dif.write"))) << "'dif.write' should be an operand of '|=>'";
 }
 
 }  // namespace hlc

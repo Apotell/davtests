@@ -125,11 +125,11 @@
 //     "connect_phase" (a Function) and "run_phase" (a Task).
 //   - sequence "seq" is declared in module top.
 //   - SequenceDecl::getExpr() is a ClockedSeq whose getClockingEvent() is
-//     an Operation (opType == vpiPosedge) referencing "clk0" -- the
+//     an Operation (opType == vpiPosedgeOp) referencing "clk0" -- the
 //     sequence's initial (outer) clock.
 //   - somewhere within that ClockedSeq's getSequenceExpr() tree there is a
 //     second, nested ClockedSeq whose own getClockingEvent() is an
-//     Operation (opType == vpiPosedge) referencing "clk1" -- confirming
+//     Operation (opType == vpiPosedgeOp) referencing "clk1" -- confirming
 //     the mid-sequence clock change to "clk1" is present, and that its own
 //     getSequenceExpr() references "out1".
 //   - `assert property (seq) else ...;` is reachable via
@@ -167,7 +167,6 @@
 #include <hldb/concurrent_assertions.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
@@ -188,10 +187,9 @@ bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
       if (ref->getName() == name) {
         return true;
       }
-    }
-    if (const hldb::HierPath *const path = any_cast<hldb::HierPath>(operand)) {
-      if (path->getPathElems() != nullptr && !path->getPathElems()->empty()) {
-        const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(path->getPathElems()->back());
+
+      if (ref->getPathElems() != nullptr && !ref->getPathElems()->empty()) {
+        const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(ref->getPathElems()->back());
         if (leaf != nullptr && leaf->getName() == name) {
           return true;
         }
@@ -264,17 +262,14 @@ TEST_F(SequenceMulticlockUvmTest, SequenceExprIsClockedSeqWithPosedgeClk0) {
   ASSERT_NE(seq, nullptr);
 
   ASSERT_NE(seq->getExpr(), nullptr) << "'@(posedge dif.clk0) ...;' is the sequence body and must be present";
-  const hldb::ClockedSeq *const outerClocked = any_cast<hldb::ClockedSeq>(seq->getExpr());
+  const hldb::ClockedSeq *const outerClocked = seq->getExpr<hldb::ClockedSeq>();
   ASSERT_NE(outerClocked, nullptr) << "a sequence with a leading clocking event should be a ClockedSeq";
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(outerClocked->getClockingEvent(), nullptr) << "'@(posedge dif.clk0)' is the outer clocking event";
-  const hldb::Operation *const clockOp = any_cast<hldb::Operation>(outerClocked->getClockingEvent());
+  const hldb::Operation *const clockOp = outerClocked->getClockingEvent<hldb::Operation>();
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk0")) << "the posedge operand should reference 'clk0'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("clk0"))) << "the posedge operand should reference 'clk0'";
 }
 
 TEST_F(SequenceMulticlockUvmTest, SequenceExprContainsNestedClockedSeqWithPosedgeClk1) {
@@ -282,7 +277,7 @@ TEST_F(SequenceMulticlockUvmTest, SequenceExprContainsNestedClockedSeqWithPosedg
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
-  const hldb::ClockedSeq *const outerClocked = any_cast<hldb::ClockedSeq>(seq->getExpr());
+  const hldb::ClockedSeq *const outerClocked = seq->getExpr<hldb::ClockedSeq>();
   ASSERT_NE(outerClocked, nullptr);
 
   ASSERT_NE(outerClocked->getSequenceExpr(), nullptr)
@@ -291,18 +286,14 @@ TEST_F(SequenceMulticlockUvmTest, SequenceExprContainsNestedClockedSeqWithPosedg
   const hldb::ClockedSeq *const innerClocked = FindClockedSeq(outerClocked->getSequenceExpr());
   ASSERT_NE(innerClocked, nullptr) << "'@(posedge dif.clk1) dif.out1' should produce a nested ClockedSeq "
                                        "somewhere in the outer sequence body";
-
-  GTEST_SKIP() << "innerClockOp->getOpType() != vpiPosedge; same open question as the outer clocking event -- "
-                  "see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(innerClocked->getClockingEvent(), nullptr) << "'@(posedge dif.clk1)' is the inner clocking event";
-  const hldb::Operation *const innerClockOp = any_cast<hldb::Operation>(innerClocked->getClockingEvent());
+  const hldb::Operation *const innerClockOp = innerClocked->getClockingEvent<hldb::Operation>();
   ASSERT_NE(innerClockOp, nullptr) << "the inner clocking event should be an Operation";
-  EXPECT_EQ(innerClockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(innerClockOp, "clk1")) << "the inner posedge operand should reference 'clk1'";
+  EXPECT_EQ(innerClockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(innerClockOp, std::string_view("dif.clk1"))) << "the inner posedge operand should reference 'clk1'";
 
   ASSERT_NE(innerClocked->getSequenceExpr(), nullptr) << "'dif.out1' is the inner sequence body";
-  EXPECT_NE(any_cast<hldb::RefObj>(innerClocked->getSequenceExpr()), nullptr)
+  EXPECT_NE(innerClocked->getSequenceExpr<hldb::RefObj>(), nullptr)
       << "'dif.out1' should be a plain RefObj (no further hierarchy)";
 }
 

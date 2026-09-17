@@ -143,7 +143,7 @@
 //   - sequence "seq" is declared in module top, and its getVariables()
 //     contains a local Variable named "x".
 //   - SequenceDecl::getExpr() is a ClockedSeq whose getClockingEvent() is
-//     an Operation (opType == vpiPosedge) referencing "clk".
+//     an Operation (opType == vpiPosedgeOp) referencing "clk".
 //   - getSequenceExpr() is present (an Operation) -- existence only; see
 //     NOT CHECKED below for why its internal opcode is not asserted here.
 //   - `assert property (seq) else `uvm_info(...);` is reachable via
@@ -186,7 +186,6 @@
 #include <hldb/concurrent_assertions.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
-#include <hldb/hier_path.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
@@ -198,30 +197,6 @@
 #include <hlc/Tests/Test.h>
 
 namespace hlc {
-namespace {
-bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
-  if (op == nullptr || op->getOperands() == nullptr) {
-    return false;
-  }
-  for (const hldb::Any *const operand : *op->getOperands()) {
-    if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(operand)) {
-      if (ref->getName() == name) {
-        return true;
-      }
-    }
-    if (const hldb::HierPath *const path = any_cast<hldb::HierPath>(operand)) {
-      if (path->getPathElems() != nullptr && !path->getPathElems()->empty()) {
-        const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(path->getPathElems()->back());
-        if (leaf != nullptr && leaf->getName() == name) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-}  // namespace
-
 class SequenceSubroutineUvmTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "16.11--sequence-subroutine-uvm.hlc"}); }
@@ -272,14 +247,12 @@ TEST_F(SequenceSubroutineUvmTest, SequenceExprIsClockedSeqWithPosedgeClockingEve
   const hldb::ClockedSeq *const clocked = any_cast<hldb::ClockedSeq>(seq->getExpr());
   ASSERT_NE(clocked, nullptr) << "a sequence with a leading clocking event should be a ClockedSeq";
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(clocked->getClockingEvent(), nullptr) << "'@(posedge dif.clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(clocked->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_NE(hldb::findByName<hldb::RefObj>("dif.clk", clockOp->getOperands()), nullptr)
+      << "the posedge operand should reference 'clk'";
 }
 
 TEST_F(SequenceSubroutineUvmTest, SequenceExprIsPresent) {

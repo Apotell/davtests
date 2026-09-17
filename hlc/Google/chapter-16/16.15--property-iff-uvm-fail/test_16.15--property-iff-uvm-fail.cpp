@@ -130,7 +130,7 @@
 //     "connect_phase" (a Function) and "run_phase" (a Task).
 //   - property "prop" is declared in module top.
 //   - PropertyDecl::getPropertySpec() is a PropertySpec whose
-//     getClockingEvent() is an Operation (opType == vpiPosedge)
+//     getClockingEvent() is an Operation (opType == vpiPosedgeOp)
 //     referencing "clk".
 //   - PropertySpec::getDisableCondition() is a plain RefObj referencing
 //     "rst" (matching the source's actual text, not the description's
@@ -219,24 +219,27 @@ TEST_F(PropertyIffUvmFailTest, PropertyPropDeclaredWithPosedgeClockingEventAndDi
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr) << "property 'prop' not found in module top";
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(prop->getPropertySpec(), nullptr) << "'@(posedge dif.clk) disable iff (dif.rst) dif.out' should "
                                                   "produce a PropertySpec";
   const hldb::PropertySpec *const spec = prop->getPropertySpec();
 
   ASSERT_NE(spec->getClockingEvent(), nullptr) << "'@(posedge dif.clk)' is the clocking event";
-  const hldb::Operation *const clockOp = any_cast<hldb::Operation>(spec->getClockingEvent());
+  const hldb::Operation *const clockOp = spec->getClockingEvent<hldb::Operation>();
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("dif.clk"))) << "the posedge operand should reference 'clk'";
 
   ASSERT_NE(spec->getDisableCondition(), nullptr) << "'disable iff (dif.rst)' should produce a disable condition";
-  const hldb::RefObj *const disableRef = any_cast<hldb::RefObj>(spec->getDisableCondition());
+  const hldb::Operation *const op = spec->getDisableCondition<hldb::Operation>();
+  ASSERT_NE(op, nullptr);
+  EXPECT_EQ(op->getOpType(), vpiIffOp);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_EQ(op->getOperands()->size(), 1u);
+  
+  const hldb::RefObj *const disableRef = any_cast<hldb::RefObj>(op->getOperands()->front());
   ASSERT_NE(disableRef, nullptr) << "'dif.rst' should be a plain RefObj (matching the source's actual text "
                                      "-- see file header note)";
-  EXPECT_EQ(disableRef->getName(), "rst");
+  EXPECT_EQ(disableRef->getName(), std::string_view("dif.rst"));
 }
 
 TEST_F(PropertyIffUvmFailTest, PropertyExprIsBareReferenceToOut) {
@@ -246,15 +249,10 @@ TEST_F(PropertyIffUvmFailTest, PropertyExprIsBareReferenceToOut) {
   ASSERT_NE(prop, nullptr);
   ASSERT_NE(prop->getPropertySpec(), nullptr);
 
-  GTEST_SKIP() << "any_cast<RefObj>(getPropertyExpr()) returns null for the interface-qualified 'dif.out' "
-                  "reference: unlike a plain module signal, an interface instance member is compiled to a "
-                  "HierPath (hldb/hier_path.h), not a bare RefObj -- new finding, distinct from the "
-                  "vpiPosedge/cycle-delay open questions.";
-
   ASSERT_NE(prop->getPropertySpec()->getPropertyExpr(), nullptr) << "'dif.out' is the property expression";
-  const hldb::RefObj *const outRef = any_cast<hldb::RefObj>(prop->getPropertySpec()->getPropertyExpr());
+  const hldb::RefObj *const outRef = prop->getPropertySpec()->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(outRef, nullptr) << "'dif.out' should be a plain RefObj, not an Operation";
-  EXPECT_EQ(outRef->getName(), "out");
+  EXPECT_EQ(outRef->getName(), std::string_view("dif.out"));
 }
 
 TEST_F(PropertyIffUvmFailTest, AssertPropertyIsReachableAndReferencesProp) {

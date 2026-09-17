@@ -55,7 +55,7 @@
 //     Scope::getConcurrentAssertions(), is an Assume, with no else-clause
 //     (the source gives none).
 //   - Assume::getProperty() is a PropertySpec whose getClockingEvent() is
-//     an Operation (opType == vpiPosedge) referencing "clk", and whose
+//     an Operation (opType == vpiPosedgeOp) referencing "clk", and whose
 //     getDisableCondition() is null.
 //   - PropertySpec::getPropertyExpr() is an Operation with opType ==
 //     vpiEqOp ("=="), with two operands: RefObj "a" and a Constant "1".
@@ -145,9 +145,6 @@ TEST_F(AssumePropertyTest, PropertySpecHasPosedgeClockingEventAndNoDisableCondit
   const hldb::Assume *const assumeProp = any_cast<hldb::Assume>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assumeProp, nullptr);
 
-  GTEST_SKIP() << "clockOp->getOpType() != vpiPosedge; wrong constant for this test vs. HLC gap not yet "
-                  "determined -- see test_16.7--sequence-and-uvm.cpp.";
-
   ASSERT_NE(assumeProp->getProperty(), nullptr) << "the property_spec is the asserted property and must be present";
   const hldb::PropertySpec *const spec = any_cast<hldb::PropertySpec>(assumeProp->getProperty());
   ASSERT_NE(spec, nullptr) << "'@(posedge clk) (a == 1)' should directly be a PropertySpec";
@@ -155,8 +152,8 @@ TEST_F(AssumePropertyTest, PropertySpecHasPosedgeClockingEventAndNoDisableCondit
   ASSERT_NE(spec->getClockingEvent(), nullptr) << "'@(posedge clk)' is the clocking event";
   const hldb::Operation *const clockOp = any_cast<hldb::Operation>(spec->getClockingEvent());
   ASSERT_NE(clockOp, nullptr) << "the clocking event should be an Operation";
-  EXPECT_EQ(clockOp->getOpType(), vpiPosedge);
-  EXPECT_TRUE(OperandsContainNamedRef(clockOp, "clk")) << "the posedge operand should reference 'clk'";
+  EXPECT_EQ(clockOp->getOpType(), vpiPosedgeOp);
+  EXPECT_TRUE(OperandsContainNamedRef(clockOp, std::string_view("clk"))) << "the posedge operand should reference 'clk'";
 
   EXPECT_EQ(spec->getDisableCondition(), nullptr) << "no 'disable iff' was written";
 }
