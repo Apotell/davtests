@@ -102,11 +102,6 @@ TEST_F(StatementLabelsSeqTest, ModuleBlockTbExists) {
 }
 
 TEST_F(StatementLabelsSeqTest, LeadingStatementLabelProducesSameBeginNameAsBlockNamingForm) {
-  GTEST_SKIP() << "Whether a leading generic statement label ('name: begin') actually sets "
-                  "Begin::getName()/getEndLabel() the same way trailing block-naming syntax "
-                  "('begin : name') does was inferred from the spec's 'functionally identical' "
-                  "wording, not confirmed via a header or a .log.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
@@ -120,10 +115,10 @@ TEST_F(StatementLabelsSeqTest, LeadingStatementLabelProducesSameBeginNameAsBlock
   const hldb::Begin *const body = any_cast<hldb::Begin>(init->getStmt());
   ASSERT_NE(body, nullptr) << "'name: begin ... end: name' should produce a Begin";
 
-  EXPECT_EQ(body->getName(), "name") << "IEEE 1800-2023 Sec 9.3.5: a leading statement label is 'functionally "
+  EXPECT_EQ(body->getName(), std::string_view("name")) << "IEEE 1800-2023 Sec 9.3.5: a leading statement label is 'functionally "
                                         "identical' to naming the block -- 'name: begin' should set the Begin's "
                                         "own name to 'name' the same way 'begin : name' does";
-  EXPECT_EQ(body->getEndLabel(), "name") << "'end : name' should set the Begin's end label to 'name'";
+  EXPECT_EQ(body->getEndLabel(), std::string_view("name")) << "'end : name' should set the Begin's end label to 'name'";
 
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u) << "'a = 1;', 'b = a;', 'c = b;' are exactly three statements";
@@ -132,26 +127,26 @@ TEST_F(StatementLabelsSeqTest, LeadingStatementLabelProducesSameBeginNameAsBlock
   ASSERT_NE(assignA, nullptr) << "'a = 1;' should be a plain Assignment";
   const hldb::RefObj *const lhsA = assignA->getLhs<hldb::RefObj>();
   ASSERT_NE(lhsA, nullptr);
-  EXPECT_EQ(lhsA->getName(), "a");
+  EXPECT_EQ(lhsA->getName(), std::string_view("a"));
   EXPECT_NE(any_cast<hldb::Constant>(assignA->getRhs()), nullptr) << "'1' should be a Constant";
 
   const hldb::Assignment *const assignB = any_cast<hldb::Assignment>(body->getStmts()->at(1));
   ASSERT_NE(assignB, nullptr) << "'b = a;' should be a plain Assignment";
   const hldb::RefObj *const lhsB = assignB->getLhs<hldb::RefObj>();
   ASSERT_NE(lhsB, nullptr);
-  EXPECT_EQ(lhsB->getName(), "b");
+  EXPECT_EQ(lhsB->getName(), std::string_view("b"));
   const hldb::RefObj *const rhsB = any_cast<hldb::RefObj>(assignB->getRhs());
   ASSERT_NE(rhsB, nullptr) << "'a' (on the right-hand side) should be a RefObj";
-  EXPECT_EQ(rhsB->getName(), "a");
+  EXPECT_EQ(rhsB->getName(), std::string_view("a"));
 
   const hldb::Assignment *const assignC = any_cast<hldb::Assignment>(body->getStmts()->at(2));
   ASSERT_NE(assignC, nullptr) << "'c = b;' should be a plain Assignment";
   const hldb::RefObj *const lhsC = assignC->getLhs<hldb::RefObj>();
   ASSERT_NE(lhsC, nullptr);
-  EXPECT_EQ(lhsC->getName(), "c");
+  EXPECT_EQ(lhsC->getName(), std::string_view("c"));
   const hldb::RefObj *const rhsC = any_cast<hldb::RefObj>(assignC->getRhs());
   ASSERT_NE(rhsC, nullptr) << "'b' (on the right-hand side) should be a RefObj";
-  EXPECT_EQ(rhsC->getName(), "b");
+  EXPECT_EQ(rhsC->getName(), std::string_view("b"));
 }
 
 }  // namespace hlc

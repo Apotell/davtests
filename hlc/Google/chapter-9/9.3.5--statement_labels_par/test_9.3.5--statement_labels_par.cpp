@@ -100,11 +100,6 @@ TEST_F(StatementLabelsParTest, ModuleBlockTbExists) {
 }
 
 TEST_F(StatementLabelsParTest, LeadingStatementLabelProducesSameForkStmtNameAsBlockNamingForm) {
-  GTEST_SKIP() << "Whether a leading generic statement label ('name: fork') actually sets "
-                  "ForkStmt::getName()/getEndLabel() the same way trailing block-naming syntax "
-                  "('fork : name') does was inferred from the spec's 'functionally identical' "
-                  "wording, not confirmed via a header or a .log.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
@@ -119,10 +114,11 @@ TEST_F(StatementLabelsParTest, LeadingStatementLabelProducesSameForkStmtNameAsBl
   ASSERT_NE(fork, nullptr) << "'name: fork ... join: name' should produce a ForkStmt";
   EXPECT_EQ(fork->getJoinType(), vpiJoin) << "plain 'join' should be vpiJoin, not join_any/join_none";
 
-  EXPECT_EQ(fork->getName(), "name") << "IEEE 1800-2023 Sec 9.3.5: a leading statement label is 'functionally "
-                                        "identical' to naming the block -- 'name: fork' should set the "
-                                        "ForkStmt's own name to 'name' the same way 'fork : name' does";
-  EXPECT_EQ(fork->getEndLabel(), "name") << "'join : name' should set the ForkStmt's end label to 'name'";
+  EXPECT_EQ(fork->getName(), std::string_view("name"))
+      << "IEEE 1800-2023 Sec 9.3.5: a leading statement label is 'functionally "
+         "identical' to naming the block -- 'name: fork' should set the "
+         "ForkStmt's own name to 'name' the same way 'fork : name' does";
+  EXPECT_EQ(fork->getEndLabel(), std::string_view("name")) << "'join : name' should set the ForkStmt's end label to 'name'";
 
   ASSERT_NE(fork->getStmts(), nullptr);
   ASSERT_EQ(fork->getStmts()->size(), 1u) << "'a = 1;' is the block's single statement";
@@ -130,10 +126,10 @@ TEST_F(StatementLabelsParTest, LeadingStatementLabelProducesSameForkStmtNameAsBl
   ASSERT_NE(assign, nullptr) << "'a = 1;' should be a plain Assignment";
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "a");
+  EXPECT_EQ(lhs->getName(), std::string_view("a"));
   const hldb::Constant *const rhs = any_cast<hldb::Constant>(assign->getRhs());
   ASSERT_NE(rhs, nullptr) << "'1' should be a Constant";
-  EXPECT_EQ(rhs->getDecompile(), "1");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("1"));
 }
 
 }  // namespace hlc

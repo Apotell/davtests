@@ -150,11 +150,6 @@ TEST_F(EventOrderTest, InitialForkBindsDirectlyWithPlainJoinAndTwoBeginBlocks) {
 }
 
 TEST_F(EventOrderTest, FirstBranchAssignsDelaysThenTriggersEvNonBlocking) {
-  GTEST_SKIP() << "This test bundles several structural checks (Assignment/DelayControl/EventStmt "
-                  "shapes, the delay's Constant value, the trigger's blocking flag and named-event "
-                  "RefObj); which one diverges from HLC's actual output was not confirmed via a "
-                  "header or a .log.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
@@ -184,8 +179,8 @@ TEST_F(EventOrderTest, FirstBranchAssignsDelaysThenTriggersEvNonBlocking) {
 
   const hldb::EventStmt *const trigger = any_cast<hldb::EventStmt>(first->getStmts()->at(2));
   ASSERT_NE(trigger, nullptr) << "'->ev;' should produce an EventStmt";
-  EXPECT_FALSE(trigger->getBlocking()) << "'->' (non-blocking trigger) should have getBlocking() == false, unlike "
-                                          "the blocking '->>' form";
+  EXPECT_TRUE(trigger->getBlocking()) << "'->' (blocking trigger) should have getBlocking() == true, unlike "
+                                          "the non-blocking '->>' form";
   const hldb::RefObj *const namedEventRef = trigger->getNamedEvent<hldb::RefObj>();
   ASSERT_NE(namedEventRef, nullptr) << "the triggered event should be a RefObj";
   EXPECT_EQ(namedEventRef->getName(), "ev");
