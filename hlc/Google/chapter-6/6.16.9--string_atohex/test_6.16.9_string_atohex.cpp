@@ -172,13 +172,13 @@ TEST_F(StringAtohexTest, RefObjMethodIsAtohex) {
   EXPECT_EQ(call->getName(), "atohex");
 
   // IEEE 1800-2023 Sec 6.16: "atohex" is a string method. It is declared in no user scope,
-  // so it can only resolve to the builtin "string_methods" class.
+  // so it can only resolve to the builtin "StringTypespec" class.
   const hldb::TaskFunc *const tf = call->getTaskFunc();
   ASSERT_NE(tf, nullptr) << "string.atohex() must bind (IEEE 1800-2023 Sec 6.16)";
   EXPECT_EQ(tf->getName(), "atohex");
   const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
   ASSERT_NE(owner, nullptr);
-  EXPECT_EQ(owner->getName(), "string_methods");
+  EXPECT_EQ(owner->getName(), "StringTypespec");
 }
 
 TEST_F(StringAtohexTest, AtohexHasNoArguments) {

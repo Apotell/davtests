@@ -25,14 +25,14 @@
 //
 // A string method is declared in no user scope -- the standard gives these methods no
 // nameable owning type -- so a bound call resolves to the compiler-synthesized
-// "string_methods" class. That owner is what each test below asserts: checking only
+// "StringTypespec" class. That owner is what each test below asserts: checking only
 // that getTaskFunc() is non-null would also pass if the call had bound to some other
 // method that happened to share the name, which is exactly the shadowing case tested
 // at the bottom.
 //
 // Checked:
 //   - typedef of string, struct member, class property (with and without a handle),
-//     subroutine formal, subroutine local, and a chained call all bind to string_methods
+//     subroutine formal, subroutine local, and a chained call all bind to StringTypespec
 //   - a user-declared class method whose name collides with a string method is not
 //     displaced by the builtin
 //   - an element of a queue of strings is a KNOWN GAP (skipped, see that test)
@@ -102,33 +102,33 @@ TEST_F(StringMethodReceiversTest, ModuleExists) {
 // ---------------------------------------------------------------------------
 // Receiver shapes that must all reach the same builtin
 // ---------------------------------------------------------------------------
-TEST_F(StringMethodReceiversTest, TypedefReceiverBindsToStringMethods) {
-  EXPECT_EQ(ownerOfCall("via_typedef.len"), "string_methods")
+TEST_F(StringMethodReceiversTest, TypedefReceiverBindsToStringTypespec) {
+  EXPECT_EQ(ownerOfCall("via_typedef.len"), "StringTypespec")
       << "a 'typedef string' receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
-TEST_F(StringMethodReceiversTest, StructMemberReceiverBindsToStringMethods) {
-  EXPECT_EQ(ownerOfCall("rec.name.len"), "string_methods")
+TEST_F(StringMethodReceiversTest, StructMemberReceiverBindsToStringTypespec) {
+  EXPECT_EQ(ownerOfCall("rec.name.len"), "StringTypespec")
       << "a string struct member receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
-TEST_F(StringMethodReceiversTest, ClassPropertyViaHandleBindsToStringMethods) {
-  EXPECT_EQ(ownerOfCall("h.prop.len"), "string_methods")
+TEST_F(StringMethodReceiversTest, ClassPropertyViaHandleBindsToStringTypespec) {
+  EXPECT_EQ(ownerOfCall("h.prop.len"), "StringTypespec")
       << "a string class property reached through a handle must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
-TEST_F(StringMethodReceiversTest, ClassPropertyWithoutHandleBindsToStringMethods) {
-  EXPECT_EQ(ownerOfCall("prop.len"), "string_methods")
+TEST_F(StringMethodReceiversTest, ClassPropertyWithoutHandleBindsToStringTypespec) {
+  EXPECT_EQ(ownerOfCall("prop.len"), "StringTypespec")
       << "a string class property named from inside its own class must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
-TEST_F(StringMethodReceiversTest, SubroutineFormalReceiverBindsToStringMethods) {
-  EXPECT_EQ(ownerOfCall("formal.len"), "string_methods")
+TEST_F(StringMethodReceiversTest, SubroutineFormalReceiverBindsToStringTypespec) {
+  EXPECT_EQ(ownerOfCall("formal.len"), "StringTypespec")
       << "a string subroutine formal receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
-TEST_F(StringMethodReceiversTest, SubroutineLocalReceiverBindsToStringMethods) {
-  EXPECT_EQ(ownerOfCall("local_str.len"), "string_methods")
+TEST_F(StringMethodReceiversTest, SubroutineLocalReceiverBindsToStringTypespec) {
+  EXPECT_EQ(ownerOfCall("local_str.len"), "StringTypespec")
       << "a string subroutine local receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
@@ -145,7 +145,7 @@ TEST_F(StringMethodReceiversTest, ChainedCallBindsBothMethods) {
   EXPECT_EQ(substr->getName(), "substr");
   EXPECT_NE(substr->getTaskFunc(), nullptr) << "substr() must bind (IEEE 1800-2023 Sec 6.16.8)";
 
-  EXPECT_EQ(ownerOfCall("plain.substr(1, 2).len"), "string_methods")
+  EXPECT_EQ(ownerOfCall("plain.substr(1, 2).len"), "StringTypespec")
       << "a substr() result is a string per Sec 6.16.8, so len() on it must bind";
 }
 
@@ -160,13 +160,13 @@ TEST_F(StringMethodReceiversTest, UserMethodWithStringMethodNameIsNotDisplaced) 
 // ---------------------------------------------------------------------------
 // Known gap
 // ---------------------------------------------------------------------------
-TEST_F(StringMethodReceiversTest, QueueElementReceiverBindsToStringMethods) {
+TEST_F(StringMethodReceiversTest, QueueElementReceiverBindsToStringTypespec) {
   GTEST_SKIP() << "known gap: an element of an array/queue of strings does not bind. After a "
                   "select path element the binder's context is the Variable, where q.len() "
                   "(illegal) cannot be told apart from q[1].len() (legal per IEEE 1800-2023 "
                   "Sec 6.16, the element being of type string). Needs the element-type "
                   "resolution the queue and associative-array methods also require.";
-  EXPECT_EQ(ownerOfCall("q[1].len"), "string_methods");
+  EXPECT_EQ(ownerOfCall("q[1].len"), "StringTypespec");
   EXPECT_EQ(findError(ErrorDefinition::LINT_NULL_ACTUAL), nullptr);
 }
 

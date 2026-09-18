@@ -180,13 +180,13 @@ TEST_F(StringGetcTest, RefObjMethodIsGetc) {
   EXPECT_EQ(call->getName(), "getc");
 
   // IEEE 1800-2023 Sec 6.16: "getc" is a string method. It is declared in no user scope,
-  // so it can only resolve to the builtin "string_methods" class.
+  // so it can only resolve to the builtin "StringTypespec" class.
   const hldb::TaskFunc *const tf = call->getTaskFunc();
   ASSERT_NE(tf, nullptr) << "string.getc() must bind (IEEE 1800-2023 Sec 6.16)";
   EXPECT_EQ(tf->getName(), "getc");
   const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
   ASSERT_NE(owner, nullptr);
-  EXPECT_EQ(owner->getName(), "string_methods");
+  EXPECT_EQ(owner->getName(), "StringTypespec");
 }
 
 TEST_F(StringGetcTest, GetcArgumentIsTwo) {
