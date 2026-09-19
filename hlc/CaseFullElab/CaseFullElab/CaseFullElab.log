@@ -1721,28 +1721,26 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
         Function name:try_put start:12:3 end:13:14:
           vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:try_put start:12:12 end:12:19:
+          vpiName Identifier name:try_put start:12:16 end:12:23:
           vpiFullName: mailbox::try_put
-          vpiTypespec (2 items):
-            LogicTypespec start:12:12 end:12:12:
-              vpiParent: Function name:try_put
+          vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:try_put
           vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
-            IODecl name:message start:12:21 end:12:28:
+            IODecl name:message start:12:25 end:12:32:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec start:12:25 end:12:25:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
-          vpiReturn RefTypespec start:12:12 end:12:12:
+          vpiReturn RefTypespec start:12:12 end:12:15:
             vpiParent: Function name:try_put
             vpiFullName: mailbox::try_put
-            vpiActual: LogicTypespec
+            vpiActual: IntTypespec
         Task name:get start:15:3 end:16:10:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:get start:15:8 end:15:11:
@@ -1823,7 +1821,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Scratch/0_builtin.sv start:30:1 end:61:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
       vpiFullName: process
@@ -1867,7 +1865,7 @@ Design name:unnamed:
       vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
-      vpiMethod (6 items):
+      vpiMethod (9 items):
         Function name:self start:34:10 end:35:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:self start:34:27 end:34:31:
@@ -1898,33 +1896,94 @@ Design name:unnamed:
             vpiParent: Function name:status
             vpiFullName: process::status
             vpiActual: UnsupportedTypespec name:state
-        Task name:kill start:40:3 end:41:10:
+        Function name:kill start:40:3 end:41:14:
           vpiParent: ClassDefn name:process
-          vpiName Identifier name:kill start:40:8 end:40:12:
+          vpiName Identifier name:kill start:40:17 end:40:21:
           vpiFullName: process::kill
           vpiMethod: true
           vpiVisibility: public (1)
+          vpiReturn RefTypespec start:40:12 end:40:16:
+            vpiParent: Function name:kill
+            vpiFullName: process::kill
+            vpiActual: VoidTypespec
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:await start:43:8 end:43:13:
           vpiFullName: process::await
           vpiMethod: true
           vpiVisibility: public (1)
-        Task name:suspend start:46:3 end:47:10:
+        Function name:suspend start:46:3 end:47:14:
           vpiParent: ClassDefn name:process
-          vpiName Identifier name:suspend start:46:8 end:46:15:
+          vpiName Identifier name:suspend start:46:17 end:46:24:
           vpiFullName: process::suspend
           vpiMethod: true
           vpiVisibility: public (1)
-        Task name:resume start:49:3 end:50:10:
+          vpiReturn RefTypespec start:46:12 end:46:16:
+            vpiParent: Function name:suspend
+            vpiFullName: process::suspend
+            vpiActual: VoidTypespec
+        Function name:resume start:49:3 end:50:14:
           vpiParent: ClassDefn name:process
-          vpiName Identifier name:resume start:49:8 end:49:14:
+          vpiName Identifier name:resume start:49:17 end:49:23:
           vpiFullName: process::resume
           vpiMethod: true
           vpiVisibility: public (1)
-    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:55:1 end:69:9:
+          vpiReturn RefTypespec start:49:12 end:49:16:
+            vpiParent: Function name:resume
+            vpiFullName: process::resume
+            vpiActual: VoidTypespec
+        Function name:srandom start:52:3 end:53:14:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:srandom start:52:17 end:52:24:
+          vpiFullName: process::srandom
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:seed start:52:29 end:52:33:
+              vpiParent: Function name:srandom
+              vpiName: seed
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:52:25 end:52:28:
+                vpiParent: IODecl name:seed
+                vpiFullName: process::srandom::seed
+                vpiActual: IntTypespec
+          vpiReturn RefTypespec start:52:12 end:52:16:
+            vpiParent: Function name:srandom
+            vpiFullName: process::srandom
+            vpiActual: VoidTypespec
+        Function name:get_randstate start:55:3 end:56:14:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:get_randstate start:55:19 end:55:32:
+          vpiFullName: process::get_randstate
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiReturn RefTypespec start:55:12 end:55:18:
+            vpiParent: Function name:get_randstate
+            vpiFullName: process::get_randstate
+            vpiActual: StringTypespec
+        Function name:set_randstate start:58:3 end:59:14:
+          vpiParent: ClassDefn name:process
+          vpiName Identifier name:set_randstate start:58:17 end:58:30:
+          vpiFullName: process::set_randstate
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:state start:58:38 end:58:43:
+              vpiParent: Function name:set_randstate
+              vpiName: state
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec name:string start:58:31 end:58:37:
+                vpiParent: IODecl name:state
+                vpiName: string
+                vpiFullName: process::set_randstate::state::string
+                vpiActual: StringTypespec
+          vpiReturn RefTypespec start:58:12 end:58:16:
+            vpiParent: Function name:set_randstate
+            vpiFullName: process::set_randstate
+            vpiActual: VoidTypespec
+    ClassDefn name:semaphore file:$Scratch/0_builtin.sv start:64:1 end:78:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:semaphore start:55:7 end:55:16:
+      vpiName Identifier name:semaphore start:64:7 end:64:16:
       vpiFullName: semaphore
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
@@ -1937,18 +1996,18 @@ Design name:unnamed:
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
-        Function name:new start:57:3 end:58:14:
+        Function name:new start:66:3 end:67:14:
           vpiParent: ClassDefn name:semaphore
           vpiName Identifier name:new:
           vpiFullName: semaphore::new
           vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
-            IODecl name:keyCount start:57:20 end:57:28:
+            IODecl name:keyCount start:66:20 end:66:28:
               vpiParent: Function name:new
               vpiName: keyCount
               vpiDirection: input (1)
-              vpiExpr Constant start:57:31 end:57:32:
+              vpiExpr Constant start:66:31 end:66:32:
                 vpiParent: IODecl name:keyCount
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -1958,7 +2017,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
-              vpiTypespec RefTypespec start:57:16 end:57:19:
+              vpiTypespec RefTypespec start:66:16 end:66:19:
                 vpiParent: IODecl name:keyCount
                 vpiFullName: semaphore::new::keyCount
                 vpiActual: IntTypespec
@@ -1967,18 +2026,18 @@ Design name:unnamed:
             vpiName: semaphore
             vpiFullName: semaphore::new::semaphore
             vpiActual: ClassTypespec name:semaphore
-        Task name:put start:60:3 end:61:10:
+        Function name:put start:69:3 end:70:14:
           vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:put start:60:8 end:60:11:
+          vpiName Identifier name:put start:69:17 end:69:20:
           vpiFullName: semaphore::put
           vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
-            IODecl name:keyCount start:60:16 end:60:24:
-              vpiParent: Task name:put
+            IODecl name:keyCount start:69:25 end:69:33:
+              vpiParent: Function name:put
               vpiName: keyCount
               vpiDirection: input (1)
-              vpiExpr Constant start:60:27 end:60:28:
+              vpiExpr Constant start:69:36 end:69:37:
                 vpiParent: IODecl name:keyCount
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -1988,22 +2047,26 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-              vpiTypespec RefTypespec start:60:12 end:60:15:
+              vpiTypespec RefTypespec start:69:21 end:69:24:
                 vpiParent: IODecl name:keyCount
                 vpiFullName: semaphore::put::keyCount
                 vpiActual: IntTypespec
-        Task name:get start:63:3 end:64:10:
+          vpiReturn RefTypespec start:69:12 end:69:16:
+            vpiParent: Function name:put
+            vpiFullName: semaphore::put
+            vpiActual: VoidTypespec
+        Task name:get start:72:3 end:73:10:
           vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:get start:63:8 end:63:11:
+          vpiName Identifier name:get start:72:8 end:72:11:
           vpiFullName: semaphore::get
           vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
-            IODecl name:keyCount start:63:16 end:63:24:
+            IODecl name:keyCount start:72:16 end:72:24:
               vpiParent: Task name:get
               vpiName: keyCount
               vpiDirection: input (1)
-              vpiExpr Constant start:63:27 end:63:28:
+              vpiExpr Constant start:72:27 end:72:28:
                 vpiParent: IODecl name:keyCount
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -2013,22 +2076,22 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-              vpiTypespec RefTypespec start:63:12 end:63:15:
+              vpiTypespec RefTypespec start:72:12 end:72:15:
                 vpiParent: IODecl name:keyCount
                 vpiFullName: semaphore::get::keyCount
                 vpiActual: IntTypespec
-        Function name:try_get start:66:3 end:67:14:
+        Function name:try_get start:75:3 end:76:14:
           vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:try_get start:66:16 end:66:23:
+          vpiName Identifier name:try_get start:75:16 end:75:23:
           vpiFullName: semaphore::try_get
           vpiMethod: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
-            IODecl name:keyCount start:66:28 end:66:36:
+            IODecl name:keyCount start:75:28 end:75:36:
               vpiParent: Function name:try_get
               vpiName: keyCount
               vpiDirection: input (1)
-              vpiExpr Constant start:66:39 end:66:40:
+              vpiExpr Constant start:75:39 end:75:40:
                 vpiParent: IODecl name:keyCount
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -2038,11 +2101,11 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-              vpiTypespec RefTypespec start:66:24 end:66:27:
+              vpiTypespec RefTypespec start:75:24 end:75:27:
                 vpiParent: IODecl name:keyCount
                 vpiFullName: semaphore::try_get::keyCount
                 vpiActual: IntTypespec
-          vpiReturn RefTypespec start:66:12 end:66:15:
+          vpiReturn RefTypespec start:75:12 end:75:15:
             vpiParent: Function name:try_get
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
@@ -2683,7 +2746,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 RefObj                              34      30       0         4
 ----------------------------------------------------------------
-Others                             824     824       0         0
+Others                             848     848       0         0
 ----------------------------------------------------------------
-                                   858     854       0         4
+                                   882     878       0         4
 ===================== END REDUCTION RESULT =====================
