@@ -209,6 +209,24 @@ TEST_F(PreprocUhdmCovTest, MismatchedEndLabelIsReportedAsError) {
                                  "(mismatched end label)";
 }
 
+// ----
+// MismatchedEndLabelIsReportedAsError above asserts an exact total error
+// count of 1, but dut.sv's own module body is a synthetic macro/
+// preprocessor-coverage fixture (see the "1. Macro..." tests above) that
+// also happens to contain a few other genuinely-diagnosable, but unrelated,
+// constructs: three repeated continuous assignments to the same net ("a"),
+// and an instantiation of an undefined module ("prim_subreg"). Those push
+// the real nbError well past 1, which is why the test above currently
+// fails -- but the actual thing this section cares about (the mismatched
+// end label being reported at all) is independently verifiable with
+// findError(), decoupled from that unrelated fixture noise, per this
+// project's own convention (davtests.md: prefer findError() over asserting
+// a total error count).
+TEST_F(PreprocUhdmCovTest, MismatchedEndLabelIsReportedAsError_ViaFindError) {
+  EXPECT_NE(findError(ErrorDefinition::COMP_UNMATCHED_LABEL, "top"), nullptr)
+      << "'module top ... endmodule : toto' must be reported as a mismatched end label error";
+}
+
 TEST_F(PreprocUhdmCovTest, TopModuleEndLabelIsRecordedDespiteMismatch) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' must still compile despite the end-label error";

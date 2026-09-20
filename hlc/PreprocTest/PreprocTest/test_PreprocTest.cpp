@@ -160,6 +160,25 @@ TEST_F(PreprocTestTest, NoErrorsReported) {
   EXPECT_EQ(stats.nbError, 0);
 }
 
+// ----
+// Known gaps behind NoErrorsReported's current failure (nbError == 2, not
+// the 0 it asserts). Neither is related to preprocessing (what this file
+// is actually about) -- both are HLC enum base-typespec resolution bugs:
+//
+//   1. bp_common_me_if.vh:5 "typedef enum bit [2:0] {...} ...;" -- an
+//      explicit vector enum base type -- resolves to an UnsupportedTypespec
+//      named "bit" instead of the real base type (IEEE 1800-2023 Sec 6.19,
+//      enum_base_type).
+//   2. hlc's own builtin.sv (compiled into every design) has an anonymous,
+//      no-explicit-base "enum {...} state;" that never gets its implicit
+//      int base typespec -- see hldb_model_gaps.md item 6.
+//
+TEST_F(PreprocTestTest, KnownGap_EnumBaseTypespecResolution) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {
