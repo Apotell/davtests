@@ -233,6 +233,62 @@ TEST_F(PreprocUhdmCovTest, TopModuleEndLabelIsRecordedDespiteMismatch) {
   EXPECT_EQ(top->getEndLabel(), "toto") << "the (mismatched) end label text must still be recorded verbatim";
 }
 
+// ----
+// 3. Other diagnostics contributing to the "nbError == 9" noise named in
+// MismatchedEndLabelIsReportedAsError_ViaFindError's own comment above.
+// Each gets its own dedicated test here instead of being left as only a
+// prose mention, per the project's convention of one findError() check per
+// diagnostic rather than one coarse count. These are NOT GTEST_SKIP()'d --
+// each asserts the diagnostic should be absent (the file is otherwise
+// legal SV, so the module's own "a"/"prim_subreg" usage should not itself
+// be an error) and is left failing red, since HLC currently does report
+// each of them.
+// ----
+
+// "assign a = b;" appears four times (lines 9, 15, 20, 26) driving the same
+// output port "a", declared "output logic b, a" -- i.e. a variable, not an
+// explicit net. HLC's HLDB_MULTIPLE_CONT_ASSIGN check fires for repeated
+// continuous assignment to the same object here. Flagging this rather than
+// asserting it is definitely wrong: this project has an established,
+// separately-documented net-vs-variable misclassification bug (see e.g.
+// Google/chapter-6/6.23--type_op's own file comment), and it is not yet
+// independently confirmed whether "a" is being incorrectly modeled as a
+// variable here (which IEEE 1800-2023 10.3.2 restricts to at most one
+// continuous driver) when it should be a net (which permits multiple
+// continuous drivers with resolution) -- this test exists to make that
+// question visible and trackable, not to assert a settled verdict.
+TEST_F(PreprocUhdmCovTest, NoSpuriousMultipleContAssignOnA) {
+  EXPECT_EQ(findError(ErrorDefinition::HLDB_MULTIPLE_CONT_ASSIGN, "a"), nullptr)
+      << "dut.sv's repeated 'assign a = b;' should not be flagged as multiple continuous assignments unless "
+         "'a' is genuinely a variable (not a net) here -- possible net/variable misclassification, see this "
+         "test's own comment";
+}
+
+// "prim_subreg #(...) u_ip0_p7 (...)" (line 30) instantiates a module with
+// no corresponding definition anywhere in this fixture. HLC currently
+// models the unresolved instance's typespec as an UnsupportedTypespec named
+// "prim_subreg" instead of reporting a proper "module not found"/binding
+// diagnostic for it.
+TEST_F(PreprocUhdmCovTest, PrimSubregInstantiationDoesNotReportUnsupportedTypespec) {
+  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "prim_subreg"), nullptr)
+      << "an unresolved module instantiation ('prim_subreg' has no definition anywhere in this fixture) should "
+         "not surface as an UnsupportedTypespec -- it should get its own dedicated unresolved-instance "
+         "diagnostic instead";
+}
+
+// Same builtin enum base-typespec gap documented in
+// PreprocTest/test_PreprocTest.cpp's own KnownGap_EnumBaseTypespecResolution
+// (hldb_model_gaps.md item 6): hlc's own builtin.sv has an anonymous,
+// no-explicit-base "enum {...} state;" that never gets its implicit int
+// base typespec, so it always resolves to an UnsupportedTypespec named
+// "state" -- present in every single compile, entirely unrelated to this
+// file's own content.
+TEST_F(PreprocUhdmCovTest, BuiltinStateEnumDoesNotReportUnsupportedTypespec) {
+  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "state"), nullptr)
+      << "hlc's own builtin.sv anonymous enum should resolve to its implicit int base typespec, not an "
+         "UnsupportedTypespec named \"state\" -- see hldb_model_gaps.md item 6";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

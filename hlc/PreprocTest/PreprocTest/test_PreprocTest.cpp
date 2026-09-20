@@ -179,6 +179,34 @@ TEST_F(PreprocTestTest, KnownGap_EnumBaseTypespecResolution) {
   EXPECT_EQ(stats.nbError, 0);
 }
 
+// ----
+// KnownGap_EnumBaseTypespecResolution above bundles both underlying HLDB
+// diagnostics into one aggregate nbError check. Each gets its own
+// findError()-based test here as well, per the project's convention of one
+// check per diagnostic. Neither is GTEST_SKIP()'d -- both assert the
+// diagnostic should be absent and are left failing red, since HLC
+// currently reports each of them.
+// ----
+
+// bp_common_me_if.vh:5 "typedef enum bit [2:0] {...} bp_lce_cce_resp_type_e;"
+// -- an explicit vector enum base type -- resolves to an UnsupportedTypespec
+// named "bit" instead of the real base type.
+TEST_F(PreprocTestTest, ExplicitVectorEnumBaseTypeDoesNotReportUnsupportedTypespec) {
+  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "bit"), nullptr)
+      << "IEEE 1800-2023 Sec 6.19 (enum_base_type): 'typedef enum bit [2:0] {...}' should resolve its base "
+         "type normally, not as an UnsupportedTypespec named \"bit\" (bp_common_me_if.vh:5)";
+}
+
+// hlc's own builtin.sv has an anonymous, no-explicit-base "enum {...}
+// state;" that never gets its implicit int base typespec -- see
+// hldb_model_gaps.md item 6. Present in every compile, unrelated to this
+// file's own content.
+TEST_F(PreprocTestTest, BuiltinStateEnumDoesNotReportUnsupportedTypespec) {
+  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "state"), nullptr)
+      << "hlc's own builtin.sv anonymous enum should resolve to its implicit int base typespec, not an "
+         "UnsupportedTypespec named \"state\" -- see hldb_model_gaps.md item 6";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {
