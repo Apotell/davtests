@@ -1,7 +1,7 @@
 /*
 :name: chapter23_error_rules
 :description: IEEE 1800-2023 Clause 23 error scenarios
-:tags: 23.3.3.2 23.3.3.4 23.10.1
+:tags: 23.2.2.1 23.3.3.2 23.3.3.4 23.10.1
 */
 
 // Every scenario below is derived from one row of the SV error catalog
@@ -38,4 +38,11 @@ module r881_top;
   r881_other o ();
   r881_sub u ();
   defparam u.p = o.q; // illegal: referenced parameter is not declared in the module containing the defparam
+endmodule
+
+// catalog row 835 | 23.2.2.1 | COMP
+// It shall be illegal to specify signed for a port declared as an
+// interconnect port.
+module r835_m (r835_a);
+  inout interconnect signed r835_a; // illegal: signed on an interconnect port
 endmodule

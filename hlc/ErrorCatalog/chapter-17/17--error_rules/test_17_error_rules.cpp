@@ -16,7 +16,7 @@
 
 // Tests for the IEEE 1800-2023 Clause 17 (Checkers) error scenarios catalogued
 // in sv_error_catalog_Latest.xlsx / docs/error_catalog.xml (rows 573, 580,
-// 582, 596, 597).
+// 582, 590, 595, 596, 597).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
@@ -29,6 +29,13 @@
 // catalog file. All four are semantic (COMP/LINT) violations that parse
 // cleanly. Rows 580, 582 and 597 are not yet implemented in HLC's Linter and
 // are marked GTEST_SKIP() accordingly -- see each test's own comment.
+//
+// Rows 590 and 595 were added later: row 590's automatic-lifetime checker
+// variable compiles with no diagnostic at all. Row 595's "rand" qualifier on
+// a function formal is rejected by the grammar itself -- a PA_SYNTAX_ERROR
+// fires at 80:22, the same style of grammar-level gap already documented for
+// row 573 above -- so its own catalogued COMP_ILLEGAL_QUALIFIER code never
+// gets a chance to run either.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -117,6 +124,38 @@ TEST_F(Chapter17ErrorRulesTest, Row597_FunctionInCheckerAssignmentMustBeSideEffe
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "r597_f"), nullptr)
       << "a stateful/side-effecting function used in a checker variable assignment must be diagnosed "
          "(IEEE 1800-2023 17.8)";
+}
+
+// --- row 590: checker variables must have static lifetime (17.7) -----------
+
+TEST_F(Chapter17ErrorRulesTest, Row590_AutomaticLifetimeCheckerVariableIsRejected) {
+  // catalog row 590 | 17.7 | COMP
+  // r590_c's "automatic bit r590_v;" on line 73 declares a checker variable
+  // with an explicit automatic lifetime.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_AUTOMATIC_LIFETIME, "r590_v", 73, 17), nullptr)
+      << "a checker variable must have a static lifetime (IEEE 1800-2023 17.7)";
+}
+
+// --- row 595: checker function formals/internals cannot be rand (17.8) -----
+
+TEST_F(Chapter17ErrorRulesTest, Row595_CheckerFunctionFormalAndInternalCannotBeRand) {
+  // catalog row 595 | 17.8 | COMP
+  GTEST_SKIP() << "blocked on a grammar change (rand/randc is rejected on any function formal "
+                  "everywhere, not just in checkers -- a corpus-wide-impact fix); see "
+                  ".claude/instructions/error_catalog_known_gaps.md item 2";
+  // The formal arguments and internal variables of functions used in
+  // checkers shall not be declared as free (rand) variables. r595_f declares
+  // both a rand formal (line 80) and a rand internal variable (line 81).
+  //
+  // HLC's grammar already rejects "rand" as a function-formal qualifier
+  // outright -- a PA_SYNTAX_ERROR fires at 80:22 -- the same shape as row
+  // 573's grammar-level rejection above, so the catalog's own designated
+  // code below never gets a chance to run; the assertions still target that
+  // code, per project convention.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r595_p", 80, 32), nullptr)
+      << "a checker function's formal argument cannot be rand (IEEE 1800-2023 17.8)";
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r595_local_v", 81, 14), nullptr)
+      << "a checker function's internal variable cannot be rand (IEEE 1800-2023 17.8)";
 }
 
 }  // namespace hlc

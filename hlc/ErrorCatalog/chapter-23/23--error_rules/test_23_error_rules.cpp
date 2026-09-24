@@ -15,7 +15,7 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 23 error scenarios catalogued in
-// docs/error_catalog.xml (rows 862, 864, 881).
+// docs/error_catalog.xml (rows 835, 862, 864, 881).
 //
 // Scope: this file asserts ONLY that the diagnostic each catalog row
 // requires is emitted. It deliberately makes no assertion about the shape
@@ -32,6 +32,9 @@
 // expected to be red today -- that is the intended, documented state of this
 // exercise, not a bug for this file to work around. No test asserts the
 // absence of a diagnostic, which would lock the gap in.
+//
+// Row 835 was added later: "signed" on an interconnect port compiles with no
+// diagnostic at all.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -78,6 +81,33 @@ TEST_F(Chapter23ErrorRulesTest, Row881_DefparamRhsParameterMustBeLocalToDefparam
   // in module r881_other, not in r881_top where the defparam statement lives.
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r881_top"), nullptr)
       << "a defparam RHS parameter must be declared in the defparam's own module (IEEE 1800-2023 23.10.1)";
+}
+
+// --- row 835: signed is illegal on an interconnect port (23.2.2.1) ----------
+
+TEST_F(Chapter23ErrorRulesTest, Row835_SignedIllegalOnInterconnectPort) {
+  // catalog row 835 | 23.2.2.1 | COMP
+  GTEST_SKIP() << "blocked on a grammar/tree-shape change (the INTERCONNECT terminal is dropped "
+                  "from the AST entirely for this port-declaration spelling); see "
+                  ".claude/instructions/error_catalog_known_gaps.md item 5";
+  // r835_m's "inout interconnect signed r835_a;" on line 47 specifies
+  // signed on an interconnect port.
+  //
+  // Root-caused, not just unchecked: net_port_type's "INTERCONNECT
+  // implicit_data_type" alternative leaves no trace of the INTERCONNECT
+  // keyword in the AST at all (confirmed by instrumented debugging of
+  // leavePA_Port_declaration) -- the resulting net_port_type node has only a
+  // paImplicit_data_type child, structurally identical to a bare, typeless
+  // port ("input a;"). There is currently no way to tell "this port is
+  // declared interconnect" from "this port has no type at all" once parsed,
+  // for this specific (port-declaration) spelling of interconnect -- fixing
+  // this needs the grammar/tree-shape listener to retain the INTERCONNECT
+  // terminal, not a Phase2ModelBuilder-side check. The sibling, unambiguous
+  // net_declaration spelling ("interconnect signed w;", a standalone
+  // statement rather than a port) IS covered (see the "Catalog row 835"
+  // comment in Phase2ModelBuilder.cpp's leavePA_Net_declaration).
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r835_a", 47, 29), nullptr)
+      << "signed cannot be specified for an interconnect port (IEEE 1800-2023 23.2.2.1)";
 }
 
 }  // namespace hlc

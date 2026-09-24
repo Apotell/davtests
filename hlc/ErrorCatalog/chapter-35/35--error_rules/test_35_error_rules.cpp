@@ -16,7 +16,7 @@
 
 // Tests for the IEEE 1800-2023 Clause 35 (DPI) error scenarios catalogued in
 // sv_error_catalog_Latest.xlsx / docs/error_catalog.xml (rows 1108, 1109,
-// 1123).
+// 1116, 1123, 1126).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
@@ -28,6 +28,10 @@
 // same import written with a plain (non-escaped) identifier parses cleanly.
 // HLC simply cannot parse an escaped identifier in the linkage-name position,
 // legal or not, so the syntax errors are asserted nowhere below.
+//
+// Rows 1116 and 1126 were added later: both r1116_m's "pure function void"
+// and r1126_m's "function void ...(ref int a)" compile with no diagnostic at
+// all.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -86,6 +90,26 @@ TEST_F(Chapter35ErrorRulesTest, Row1123_DeprecatedDpiSpecStringIsDiagnosed) {
   // should be replaced with "DPI-C".
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DPI_DECLARATION, "r1123_f"), nullptr)
       << "the deprecated 'DPI' spec string must be diagnosed (IEEE 1800-2023 35.5.4)";
+}
+
+// --- row 1116: only nonvoid functions may be pure (35.5.2) ------------------
+
+TEST_F(Chapter35ErrorRulesTest, Row1116_VoidImportedFunctionCannotBePure) {
+  // catalog row 1116 | 35.5.2 | COMP
+  // r1116_m's "import \"DPI-C\" pure function void r1116_f(input int i);" on
+  // line 41 specifies pure on a void function.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r1116_f", 41, 3), nullptr)
+      << "a void imported function cannot be specified pure (IEEE 1800-2023 35.5.2)";
+}
+
+// --- row 1126: ref cannot be used in an import declaration (35.5.4) ---------
+
+TEST_F(Chapter35ErrorRulesTest, Row1126_RefQualifierIllegalOnDpiFormal) {
+  // catalog row 1126 | 35.5.4 | COMP
+  // r1126_m's "import \"DPI-C\" function void r1126_f(ref int a);" on line
+  // 48 declares a ref formal on a DPI import.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "a", 48, 48), nullptr)
+      << "ref cannot be used on a DPI import declaration's formal argument (IEEE 1800-2023 35.5.4)";
 }
 
 }  // namespace hlc

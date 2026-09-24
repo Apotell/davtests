@@ -53,6 +53,11 @@
 // designated ErrorDefinition code (not the PA_SYNTAX_ERROR that happens to
 // fire today for those five rows), since that is the diagnostic IEEE
 // 1800-2023 actually requires for the rule being tested.
+//
+// Rows 601, 602, 603, 604, 605, 606, 607 (18.4) and 609 (18.4.2) were added
+// later, covering the randc/rand type-qualifier restrictions. All eight
+// classes compile with zero diagnostics of any kind -- none of these
+// restrictions is checked in HLC today.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -373,6 +378,89 @@ TEST_F(Chapter18ErrorRulesTest, Row666_RandJoinWeightMustBeInZeroToOneRange) {
   // gives a weight of 1.5, outside that range.
   EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r666_TOP"), nullptr)
       << "a rand join weight outside 0.0..1.0 must be diagnosed (IEEE 1800-2023 18.17.5)";
+}
+
+// --- row 601: real variables cannot be randc (18.4) -------------------------
+
+TEST_F(Chapter18ErrorRulesTest, Row601_RealVariableCannotBeRandc) {
+  // catalog row 601 | 18.4 | COMP
+  // r601_C's "randc real r601_r;" on line 231 declares a real property randc.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r601_r", 231, 14), nullptr)
+      << "a real variable cannot be declared randc (IEEE 1800-2023 18.4)";
+}
+
+// --- row 602: object handles cannot be randc (18.4) -------------------------
+
+TEST_F(Chapter18ErrorRulesTest, Row602_ObjectHandleCannotBeRandc) {
+  // catalog row 602 | 18.4 | COMP
+  // r602_C's "randc r602_D r602_h;" on line 238 declares an object handle randc.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r602_h", 238, 16), nullptr)
+      << "an object handle cannot be declared randc (IEEE 1800-2023 18.4)";
+}
+
+// --- row 603: unpacked structures cannot be randc (18.4) --------------------
+
+TEST_F(Chapter18ErrorRulesTest, Row603_UnpackedStructureCannotBeRandc) {
+  // catalog row 603 | 18.4 | COMP
+  // r603_C's "randc r603_s_t r603_s;" on line 245 declares an unpacked
+  // struct-typed property randc.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r603_s", 245, 18), nullptr)
+      << "an unpacked structure cannot be declared randc (IEEE 1800-2023 18.4)";
+}
+
+// --- row 604: unpacked unions cannot be rand or randc (18.4) ----------------
+
+TEST_F(Chapter18ErrorRulesTest, Row604_UnpackedUnionCannotBeRandOrRandc) {
+  // catalog row 604 | 18.4 | COMP
+  // r604_C's "rand r604_u_t r604_u;" on line 252 declares an unpacked
+  // union-typed property rand.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r604_u", 252, 17), nullptr)
+      << "an unpacked union cannot be declared rand or randc (IEEE 1800-2023 18.4)";
+}
+
+// --- row 605: packed tagged unions cannot be rand or randc (18.4) -----------
+
+TEST_F(Chapter18ErrorRulesTest, Row605_PackedTaggedUnionCannotBeRandOrRandc) {
+  // catalog row 605 | 18.4 | COMP
+  // r605_C's "rand r605_tu_t r605_u;" on line 259 declares a packed tagged
+  // union-typed property rand.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r605_u", 259, 18), nullptr)
+      << "a packed tagged union cannot be declared rand or randc (IEEE 1800-2023 18.4)";
+}
+
+// --- row 606: packed untagged union members cannot carry rand/randc (18.4) -
+
+TEST_F(Chapter18ErrorRulesTest, Row606_PackedUntaggedUnionMemberCannotBeRandOrRandc) {
+  // catalog row 606 | 18.4 | COMP
+  // r606_C's union member "rand bit [7:0] a;" on line 267 carries a rand
+  // modifier.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_STRUCT_UNION_QUALIFIER, "a", 267, 20), nullptr)
+      << "a packed untagged union member cannot carry a rand/randc modifier (IEEE 1800-2023 18.4)";
+}
+
+// --- row 607: packed structure members cannot carry rand/randc (18.4) ------
+
+TEST_F(Chapter18ErrorRulesTest, Row607_PackedStructureMemberCannotBeRandOrRandc) {
+  // catalog row 607 | 18.4 | COMP
+  // r607_C's struct member "rand bit [7:0] a;" on line 277 carries a rand
+  // modifier.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_STRUCT_UNION_QUALIFIER, "a", 277, 20), nullptr)
+      << "a packed structure member cannot carry a rand/randc modifier (IEEE 1800-2023 18.4)";
+}
+
+// --- row 609: a randc permutation width may be capped, but not below 8 bits
+//              (18.4.2) -----------------------------------------------------
+
+TEST_F(Chapter18ErrorRulesTest, Row609_RandcPermutationWidthLimit) {
+  // catalog row 609 | 18.4.2 | COMP
+  GTEST_SKIP() << "blocked on a product decision (IEEE only requires an implementation-chosen "
+                  "randc width limit, if any, to be >= 8 bits -- HLC imposes none today); see "
+                  ".claude/instructions/error_catalog_known_gaps.md item 3";
+  // r609_C's "randc bit [63:0] r609_big;" on line 288 may exceed an
+  // implementation's chosen randc width limit.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "r609_big", 288, 20), nullptr)
+      << "a randc variable exceeding the implementation's permutation width limit must be "
+         "diagnosed (IEEE 1800-2023 18.4.2)";
 }
 
 }  // namespace hlc

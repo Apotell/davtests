@@ -1,7 +1,7 @@
 /*
 :name: chapter13_error_rules
 :description: IEEE 1800-2023 Clause 13 (Tasks and functions) error scenarios
-:tags: 13.4 13.4.1 13.4.3 13.4.4 13.5 13.5.3
+:tags: 13.4 13.4.1 13.4.3 13.4.4 13.5 13.5.2 13.5.3
 */
 
 // catalog row 402 | 13.4 | COMP
@@ -83,4 +83,12 @@ module r432_m;
     read();
     read(1, , 7);
   end
+endmodule
+
+// catalog row 424 | 13.5.2 | COMP
+// It shall be illegal to use argument passing by reference for a
+// subroutine with a lifetime of static.
+module r424_m;
+  task static t(ref int a);  // ILLEGAL: ref argument in a static-lifetime subroutine
+  endtask
 endmodule

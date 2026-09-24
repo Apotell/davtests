@@ -276,3 +276,23 @@ module r728_m;
     option.per_instance = b;
   endgroup
 endmodule
+
+// catalog row 670 | 19.3 | COMP
+// An output or inout formal argument shall be illegal in a covergroup
+// argument list.
+module r670_m;
+  bit r670_clk;
+  covergroup r670_cg (output int a) @(posedge r670_clk); // ILLEGAL: output formal argument of a covergroup
+    coverpoint a;
+  endgroup
+endmodule
+
+// catalog row 729 | 19.8.1 | COMP
+// Formal arguments of an overridden sample method shall not designate an
+// output direction.
+module r729_m;
+  int r729_y;
+  covergroup r729_C1 with function sample (output int v); // ILLEGAL: output formal in an overridden sample method
+    coverpoint v;
+  endgroup
+endmodule

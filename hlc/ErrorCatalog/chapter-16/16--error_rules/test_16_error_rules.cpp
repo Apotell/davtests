@@ -15,8 +15,9 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 16 (Assertions) error scenarios
-// catalogued in sv_error_catalog_Latest.xlsx (rows 468, 474, 476, 477, 478,
-// 483, 484, 489, 490, 511, 512, 513, 514, 515, 554, 560, 563).
+// catalogued in sv_error_catalog_Latest.xlsx / docs/error_catalog.xml (rows
+// 468, 474, 476, 477, 478, 483, 484, 489, 490, 496, 511, 512, 513, 514, 515,
+// 544, 554, 560, 563).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
@@ -26,6 +27,10 @@
 // The only diagnostic is a CP5811 "Port b definition missing its direction"
 // warning at 141:39, which is about how r515_m's header is written and has
 // nothing to do with any of these rules; it is not asserted.
+//
+// Rows 496 and 544 were added later and are both grammar-level rejections
+// (PA_SYNTAX_ERROR), not gaps in HLC's semantic checking -- see each test's
+// own comment.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -271,6 +276,43 @@ TEST_F(Chapter16ErrorRulesTest, Row563_ExplicitClockingEventInsideClockingBlockD
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r563_m"), nullptr)
       << "a sequence declared inside a clocking block cannot carry its own explicit clocking "
          "event (IEEE 1800-2023 16.16)";
+}
+
+// --- row 496: a directioned sequence port item also needs local (16.8.2) ---
+
+TEST_F(Chapter16ErrorRulesTest, Row496_DirectionedSequencePortItemNeedsLocalKeyword) {
+  // catalog row 496 | 16.8.2 | COMP
+  // r496_s's "sequence r496_s(output logic v);" on line 188 gives formal 'v'
+  // a direction without the local keyword.
+  //
+  // sequence_port_item's own grammar already makes this unwritable: a
+  // direction can only ever follow LOCAL ("(LOCAL sequence_lvar_port_
+  // direction?)? sequence_formal_type identifier"), so "output" with no
+  // preceding "local" is rejected outright as a syntax error at 188:18
+  // ("extraneous input 'output'") -- the same shape as row 573's grammar-
+  // level rejection in hlc/ErrorCatalog/chapter-17. The rule is honoured
+  // either way, which is what this asserts; the catalog's own
+  // COMP_ILLEGAL_QUALIFIER code never gets a chance to run here.
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 188, 18), nullptr)
+      << "a direction on a sequence port item requires the local keyword (IEEE 1800-2023 16.8.2)";
+}
+
+// --- row 544: a property's local formal may only be input (16.12.19) -------
+
+TEST_F(Chapter16ErrorRulesTest, Row544_PropertyLocalFormalMustBeInputDirection) {
+  // catalog row 544 | 16.12.19 | COMP
+  // r544_p's "property r544_p(local output int lv);" on line 200 declares a
+  // local formal with direction output.
+  //
+  // Same grammar-level rejection as row 496 above: property_port_item's own
+  // grammar only ever allows INPUT as a property_lvar_port_direction
+  // ("(LOCAL property_lvar_port_direction?)? property_formal_type
+  // identifier", and property_lvar_port_direction: INPUT alone), so "output"
+  // is rejected outright as a syntax error at 200:24 ("extraneous input
+  // 'output'") before the catalog's own COMP_ILLEGAL_QUALIFIER code would
+  // ever run.
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 200, 24), nullptr)
+      << "a property's local formal argument cannot have direction output (IEEE 1800-2023 16.12.19)";
 }
 
 }  // namespace hlc

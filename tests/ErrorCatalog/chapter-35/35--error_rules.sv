@@ -1,7 +1,7 @@
 /*
 :name: chapter35_error_rules
 :description: IEEE 1800-2023 Clause 35 (DPI) error scenarios
-:tags: 35.4 35.5.4
+:tags: 35.4 35.5.2 35.5.4
 */
 
 // catalog row 1108 | 35.4 | COMP
@@ -32,4 +32,18 @@ endmodule
 // changes in the application's C code.
 module r1123_m;
   import "DPI" function int r1123_f(int i); // warning/error: "DPI" is deprecated, use "DPI-C"
+endmodule
+
+// catalog row 1116 | 35.5.2 | COMP
+// Only nonvoid functions can be specified as pure; a void imported function
+// may not carry the pure property.
+module r1116_m;
+  import "DPI-C" pure function void r1116_f(input int i); // ERROR: void function cannot be pure
+endmodule
+
+// catalog row 1126 | 35.5.4 | COMP
+// The qualifier ref cannot be used in import declarations; DPI formals may
+// not use pass-by-reference mode.
+module r1126_m;
+  import "DPI-C" function void r1126_f(ref int a); // ERROR: ref is not allowed on a DPI formal
 endmodule

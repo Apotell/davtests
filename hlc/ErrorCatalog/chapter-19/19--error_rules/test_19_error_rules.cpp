@@ -15,9 +15,9 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 19 (Functional coverage) error scenarios
-// catalogued in sv_error_catalog_Latest.xlsx (rows 672, 680, 682, 684, 685,
-// 688, 694, 696, 705, 706, 707, 711, 713, 719, 720, 721, 722, 723, 725, 726,
-// 728).
+// catalogued in sv_error_catalog_Latest.xlsx / docs/error_catalog.xml (rows
+// 670, 672, 680, 682, 684, 685, 688, 694, 696, 705, 706, 707, 711, 713, 719,
+// 720, 721, 722, 723, 725, 726, 728, 729).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
@@ -36,6 +36,15 @@
 // that shape with a syntax error rather than reaching semantic analysis at
 // all, so those rows are asserted (and skipped) against their own catalogued
 // COMP/LINT ErrorDefinition code, not against the parser gap.
+//
+// Rows 670 and 729 were added later. Row 670's covergroup compiles with no
+// diagnostic. Row 729's "with function sample (output int v)" raises a
+// DB2038 "'vpiCoverageEvent' property value on object is invalid" error at
+// its own covergroup declaration line -- but that identical error already
+// fires for row 728's own "with function sample" construct above (which has
+// no output formal at all), so it is a pre-existing binding gap in modelling
+// an overridden sample() method generally, not enforcement of the
+// output-direction rule; not asserted here.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -350,6 +359,38 @@ TEST_F(Chapter19ErrorRulesTest, Row728_SampleFormalUsableOnlyInCoverpointOrGuard
                   "sample() formal argument to a coverpoint or a conditional guard expression";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "b", 276, 27), nullptr)
       << "an overridden sample() formal is usable only in a coverpoint or guard expression (IEEE 1800-2023 19.8.1)";
+}
+
+// --- row 670: output/inout formals are illegal in a covergroup argument
+//              list (19.3) --------------------------------------------------
+
+TEST_F(Chapter19ErrorRulesTest, Row670_OutputFormalIllegalInCovergroupArgumentList) {
+  // catalog row 670 | 19.3 | COMP
+  // r670_cg's "covergroup r670_cg (output int a) @(posedge r670_clk);" on
+  // line 285 declares formal 'a' with direction output.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "a", 285, 34), nullptr)
+      << "an output formal argument is illegal in a covergroup argument list (IEEE 1800-2023 19.3)";
+}
+
+// --- row 729: an overridden sample() formal cannot be output (19.8.1) ------
+
+TEST_F(Chapter19ErrorRulesTest, Row729_OverriddenSampleFormalCannotBeOutputDirection) {
+  // catalog row 729 | 19.8.1 | COMP
+  GTEST_SKIP() << "blocked on an unrelated pre-existing binding gap ('with function sample' -> "
+                  "vpiCoverageEvent, shared with row 728) that must be fixed first; see "
+                  ".claude/instructions/error_catalog_known_gaps.md item 4";
+  // Formal arguments of an overridden sample method shall not designate an
+  // output direction. r729_C1's "with function sample (output int v)" on
+  // line 295 declares formal 'v' with direction output.
+  //
+  // HLC does raise a DB2038 "'vpiCoverageEvent' property value on object is
+  // invalid" error at 295:3, but the identical error also fires for row
+  // 728's own "with function sample" construct (whose formal is a plain
+  // bit, no direction at all) -- a pre-existing binding gap in modelling any
+  // overridden sample() method, not enforcement of this direction rule; not
+  // asserted here.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "v", 295, 55), nullptr)
+      << "an overridden sample() formal argument cannot be output (IEEE 1800-2023 19.8.1)";
 }
 
 }  // namespace hlc

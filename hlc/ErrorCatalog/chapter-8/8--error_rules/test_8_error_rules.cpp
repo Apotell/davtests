@@ -15,7 +15,8 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 8 (Classes) error scenarios catalogued
-// in sv_error_catalog_Latest.xlsx (rows 198, 201, 203, 207, 215, 230, 236, 239).
+// in sv_error_catalog_Latest.xlsx / docs/error_catalog.xml (rows 198, 201,
+// 203, 207, 215, 221, 230, 236, 239).
 //
 // Scope: this file asserts ONLY that the diagnostic each catalog row requires
 // is emitted. It makes no assertion about the shape of the compiled model.
@@ -49,6 +50,12 @@
 //     Row 230 does raise an unrelated "Failed to bind new" warning plus a
 //     Linter null-actual error at 82:15; that is a binding gap for the new
 //     call itself, not the abstract-class rule, so it is not asserted here.
+//   - row 221 raises a CP5883 "Illegal assignment to constant size" error at
+//     118:19 -- COMP_ASSIGNMENT_TO_CONST, not the catalogued
+//     COMP_ILLEGAL_QUALIFIER. HLC accepts "static const" on a class property
+//     without complaint, and only then trips over the constructor's own
+//     assignment to that (wrongly-accepted) constant; that is a side effect
+//     of not checking 8.19, not enforcement of it, so it is not asserted here.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -198,6 +205,21 @@ TEST_F(Chapter8ErrorRulesTest, Row239_OutOfBlockDeclarationMustFollowTheClass) {
                   "declaration to follow the class declaration in the same scope";
   EXPECT_NE(findError(ErrorDefinition::COMP_MISPLACED_EXTERN_DECLARATION, "r239_c", 105, 1), nullptr)
       << "an out-of-block declaration must follow its class (IEEE 1800-2023 8.24)";
+}
+
+// --- row 221: an instance constant cannot be static (8.19) ------------------
+
+TEST_F(Chapter8ErrorRulesTest, Row221_InstanceConstantCannotBeStatic) {
+  // catalog row 221 | 8.19 | COMP
+  GTEST_SKIP() << "blocked on an HLDB model change (no 'static' flag on class properties at all); "
+                  "see .claude/instructions/error_catalog_known_gaps.md item 1";
+  // r221_C declares "static const int size;" on line 117 with no initial
+  // value, then assigns it in the constructor on line 118. HLC accepts the
+  // static+const combination and instead reports the constructor's own
+  // assignment as CP5883 "Illegal assignment to constant size" -- a
+  // consequence of not checking this rule, not enforcement of it.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "size", 117, 3), nullptr)
+      << "an instance constant cannot be declared static (IEEE 1800-2023 8.19)";
 }
 
 }  // namespace hlc

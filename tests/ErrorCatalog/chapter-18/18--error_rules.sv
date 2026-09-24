@@ -1,7 +1,7 @@
 /*
 :name: chapter18_error_rules
 :description: IEEE 1800-2023 Clause 18 (Constrained random value generation) error scenarios
-:tags: 18.4 18.5 18.5.1 18.5.3 18.5.4 18.5.7.1 18.5.9 18.5.11 18.5.13.1 18.7 18.11 18.17.1 18.17.4 18.17.5
+:tags: 18.4 18.4.2 18.5 18.5.1 18.5.3 18.5.4 18.5.7.1 18.5.9 18.5.11 18.5.13.1 18.7 18.11 18.17.1 18.17.4 18.17.5
 */
 
 // catalog row 608 | 18.4 | COMP
@@ -224,3 +224,66 @@ module r666_m;
     endsequence
   end
 endmodule
+
+// catalog row 601 | 18.4 | COMP
+// Real variables shall not be declared randc.
+class r601_C;
+  randc real r601_r; // ILLEGAL: real cannot be randc
+endclass
+
+// catalog row 602 | 18.4 | COMP
+// Object handles shall not be declared randc.
+class r602_D; endclass
+class r602_C;
+  randc r602_D r602_h; // ILLEGAL: object handle cannot be randc
+endclass
+
+// catalog row 603 | 18.4 | COMP
+// Unpacked structures shall not be declared randc.
+class r603_C;
+  typedef struct { int a; } r603_s_t;
+  randc r603_s_t r603_s; // ILLEGAL: unpacked struct cannot be randc
+endclass
+
+// catalog row 604 | 18.4 | COMP
+// Unpacked unions shall not be declared rand or randc.
+class r604_C;
+  typedef union { int a; shortint b; } r604_u_t;
+  rand r604_u_t r604_u; // ILLEGAL: unpacked union cannot be rand/randc
+endclass
+
+// catalog row 605 | 18.4 | COMP
+// Packed tagged unions shall not be declared rand or randc.
+class r605_C;
+  typedef union tagged packed { bit [7:0] a; bit [7:0] b; } r605_tu_t;
+  rand r605_tu_t r605_u; // ILLEGAL: packed tagged union cannot be rand/randc
+endclass
+
+// catalog row 606 | 18.4 | COMP
+// Members of a packed untagged union shall not have a rand or randc
+// modifier.
+class r606_C;
+  typedef union packed {
+    rand bit [7:0] a; // ILLEGAL: member of packed union with rand modifier
+    bit [7:0] b;
+  } r606_u_t;
+  rand r606_u_t r606_u;
+endclass
+
+// catalog row 607 | 18.4 | COMP
+// Members of a packed structure shall not have a rand or randc modifier.
+class r607_C;
+  typedef struct packed {
+    rand bit [7:0] a; // ILLEGAL: member of packed struct with rand modifier
+  } r607_s_t;
+  rand r607_s_t r607_s;
+endclass
+
+// catalog row 609 | 18.4.2 | COMP
+// The permutation sequence of a randc variable shall contain only 2-state
+// values; implementations may limit the maximum size of a randc variable
+// but the limit shall be no less than 8 bits (exceeding an implementation
+// limit is an error).
+class r609_C;
+  randc bit [63:0] r609_big; // may exceed implementation randc width limit (limit shall be >= 8 bits)
+endclass

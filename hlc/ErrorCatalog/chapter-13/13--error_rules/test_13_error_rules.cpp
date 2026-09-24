@@ -15,15 +15,15 @@
 */
 
 // Tests for the IEEE 1800-2023 Clause 13 (Tasks and functions) error scenarios
-// catalogued in sv_error_catalog_Latest.xlsx (rows 402, 404, 408, 420, 421,
-// 432).
+// catalogued in sv_error_catalog_Latest.xlsx / docs/error_catalog.xml (rows
+// 402, 404, 408, 420, 421, 424, 432).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
 //
 // Behaviour observed while writing this file (hlc.exe -d db over the fixture):
 // 13--error_rules.sv compiles with no errors, no warnings and no syntax errors
-// at all; every module is built. None of these six rules is checked in HLC
+// at all; every module is built. None of these seven rules is checked in HLC
 // today.
 //
 // Row 404 is the one row in this file whose rule has two halves that must be
@@ -137,6 +137,17 @@ TEST_F(Chapter13ErrorRulesTest, Row432_OmittedArgumentWithoutDefaultIsRejected) 
   EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_ARGUMENT, "k", 84, 5), nullptr)
       << "an empty argument position for k, which has no default value, is illegal "
          "(IEEE 1800-2023 13.5.3)";
+}
+
+// --- row 424: ref arguments are illegal in a static-lifetime subroutine
+//              (13.5.2) -----------------------------------------------------
+
+TEST_F(Chapter13ErrorRulesTest, Row424_RefArgumentIllegalInStaticLifetimeSubroutine) {
+  // catalog row 424 | 13.5.2 | COMP
+  // r424_m's "task static t(ref int a);" on line 92 declares a static-
+  // lifetime task with a ref formal argument.
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_QUALIFIER, "a", 92, 25), nullptr)
+      << "a ref argument is illegal in a subroutine with a static lifetime (IEEE 1800-2023 13.5.2)";
 }
 
 }  // namespace hlc

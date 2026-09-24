@@ -1,7 +1,7 @@
 /*
 :name: chapter17_error_rules
 :description: IEEE 1800-2023 Clause 17 (Checkers) error scenarios
-:tags: 17.2 17.3 17.8
+:tags: 17.2 17.3 17.7 17.8
 */
 
 // catalog row 573 | 17.2 | COMP
@@ -64,4 +64,21 @@ checker r597_c(bit r597_a, event r597_clk);
   endfunction
   always_ff @r597_clk
     r597_z <= r597_f(r597_a); // ILLEGAL: function retains state / has side effects
+endchecker
+
+// catalog row 590 | 17.7 | COMP
+// All variables defined in a checker body shall have static lifetimes; an
+// automatic-lifetime checker variable is illegal.
+checker r590_c(bit r590_a);
+  automatic bit r590_v; // illegal: checker variables shall have static lifetime
+endchecker
+
+// catalog row 595 | 17.8 | COMP
+// The formal arguments and internal variables of functions used in
+// checkers shall not be declared as free (rand) variables.
+checker r595_c(bit r595_a);
+  function bit r595_f(rand bit r595_p); // illegal: function formal declared as a free variable
+    rand bit r595_local_v;              // illegal: function internal variable declared as a free variable
+    return r595_p;
+  endfunction
 endchecker

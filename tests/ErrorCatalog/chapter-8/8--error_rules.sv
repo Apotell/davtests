@@ -1,7 +1,7 @@
 /*
 :name: chapter8_error_rules
 :description: IEEE 1800-2023 Clause 8 (Classes) error scenarios
-:tags: 8.7 8.10 8.11 8.15 8.17 8.21 8.23 8.24
+:tags: 8.7 8.10 8.11 8.15 8.17 8.19 8.21 8.23 8.24
 */
 
 // Every scenario below is derived from one row of the SV error catalog
@@ -107,4 +107,13 @@ function void r239_c::f();
 endfunction
 class r239_c;
   extern function void f();
+endclass
+
+// catalog row 221 | 8.19 | COMP
+// An instance constant (a const class property with no initial value)
+// cannot be declared static, since that would disallow all assignments in
+// the constructor.
+class r221_C;
+  static const int size;   // ILLEGAL: instance constant declared static
+  function new(); size = 4; endfunction
 endclass

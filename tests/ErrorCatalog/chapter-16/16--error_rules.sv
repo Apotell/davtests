@@ -1,7 +1,7 @@
 /*
 :name: chapter16_error_rules
 :description: IEEE 1800-2023 Clause 16 (Assertions) error scenarios
-:tags: 16.4 16.6 16.8 16.8.1 16.9.4 16.10 16.13.6 16.14.7 16.16
+:tags: 16.4 16.6 16.8 16.8.1 16.8.2 16.9.4 16.10 16.12.19 16.13.6 16.14.7 16.16
 */
 
 // catalog row 468 | 16.4 | COMP
@@ -178,4 +178,26 @@ module r563_m (input logic clk, logic b);
       @(posedge clk) b[*3];
     endsequence
   endclocking
+endmodule
+
+// catalog row 496 | 16.8.2 | COMP
+// If one of the directions input, inout, or output is specified in a
+// sequence port item, then the keyword local shall also be specified in
+// that port item.
+module r496_m (input logic clk, logic a);
+  sequence r496_s(output logic v); // illegal: a direction requires the local keyword
+    (a, v = a);
+  endsequence
+  logic r496_w;
+  r496_a1: assert property (@(posedge clk) r496_s(r496_w));
+endmodule
+
+// catalog row 544 | 16.12.19 | COMP
+// A local variable formal argument of a named property shall have direction
+// input; it shall be illegal to declare a local variable formal argument of
+// a named property with direction inout or output.
+module r544_m (input logic clk, logic a, b, int data);
+  property r544_p(local output int lv); (a, lv = data) |=> b; endproperty // illegal: output local variable formal in a property
+  int r544_v;
+  r544_a1: assert property (@(posedge clk) r544_p(r544_v));
 endmodule
