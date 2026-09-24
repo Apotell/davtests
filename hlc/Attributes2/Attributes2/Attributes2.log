@@ -1628,10 +1628,11 @@ AST_DEBUG_END
 [INF:CP5808] $Source01/dut.sv:128:9: Compile checker "Attributes2_checker".
 [INF:CP5804] $Source01/dut.sv:133:1: Compile module "Attributes2_top".
 [INF:CP5836] $Source01/dut.sv:202:24: Compile generate block "gen_blk".
+[ERR:CP5824] $Source01/dut.sv:133:1: Multiply defined typedef "Attributes2_cg".
 [INF:CP5804] $Source01/dut.sv:251:1: Compile module "Attributes2_top_nonansi".
-[WRN:CP5851] $Source01/dut.sv:183:58: Failed to bind "id:502, name:cp_in".
-[WRN:CP5851] $Source01/dut.sv:183:64: Failed to bind "id:503, name:low".
-[WRN:CP5851] $Source01/dut.sv:186:28: Failed to bind "id:511, name:new".
+[WRN:CP5851] $Source01/dut.sv:183:58: Failed to bind "id:508, name:cp_in".
+[WRN:CP5851] $Source01/dut.sv:183:64: Failed to bind "id:509, name:low".
+[WRN:CP5851] $Source01/dut.sv:186:28: Failed to bind "id:516, name:new".
 [WRN:PA5506] $Source01/dut.sv:38:1: No timescale set for "Attributes2_pkg".
 [WRN:PA5506] $Source01/dut.sv:54:1: No timescale set for "bar".
 [WRN:PA5506] $Source01/dut.sv:59:1: No timescale set for "foo".
@@ -1642,11 +1643,11 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:112:3: No timescale set for "Attributes2_nested_program".
 [WRN:PA5506] $Source01/dut.sv:117:1: No timescale set for "Attributes2_program_nonansi".
 [WRN:PA5506] $Source01/dut.sv:123:1: No timescale set for "Attributes2_program_ansi".
-[ERR:LN7705] $Source01/dut.sv:186:28: Null Actual: id:511, type:MethodFuncCall, name:new, relation:vpiValue.
-[ERR:LN7705] $Source01/dut.sv:239:19: Null Actual: id:640, type:MethodFuncCall, name:sum, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:239:25: Null Actual: id:635, type:MethodFuncCall, name:sum, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:243:19: Null Actual: id:652, type:MethodFuncCall, name:sum, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:243:25: Null Actual: id:646, type:MethodFuncCall, name:sum, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:186:28: Null Actual: id:516, type:MethodFuncCall, name:new, relation:vpiValue.
+[ERR:LN7705] $Source01/dut.sv:239:19: Null Actual: id:646, type:MethodFuncCall, name:sum, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:239:25: Null Actual: id:641, type:MethodFuncCall, name:sum, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:243:19: Null Actual: id:658, type:MethodFuncCall, name:sum, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:243:25: Null Actual: id:652, type:MethodFuncCall, name:sum, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1759,9 +1760,13 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Attributes2_iface_nonansi start:92:44 end:92:69:
       vpiFullName: Attributes2_iface_nonansi
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:Attributes2_iface_nonansi
+        ClockingBlockTypespec name:cb:
+          vpiParent: Interface name:Attributes2_iface_nonansi
+          vpiName: cb
+          vpiClockingBlock: ClockingBlock name:cb
       vpiAttribute (1 items):
         Attribute name:a_interface_nonansi_header start:92:4 end:92:30:
           vpiParent: Interface name:Attributes2_iface_nonansi
@@ -1853,6 +1858,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
+          vpiTypespec (1 items):
+            PropertyTypespec name:p_cb_check:
+              vpiParent: ClockingBlock name:cb
+              vpiName: p_cb_check
+              vpiPropertyDecl: PropertyDecl name:p_cb_check
           vpiClockingEvent EventControl start:102:15 end:102:29:
             vpiParent: ClockingBlock name:cb
             vpiCondition Operation start:102:17 end:102:28:
@@ -2851,6 +2861,7 @@ Design name:unnamed:
             vpiParent: Variable name:cg_inst
             vpiName: Attributes2_cg
             vpiFullName: Attributes2_top.cg_inst.Attributes2_cg
+            vpiActual: CoverGroupTypespec name:Attributes2_cg
           vpiName: cg_inst
           vpiFullName: Attributes2_top.cg_inst
           vpiValue MethodFuncCall name:new start:186:28 end:186:33:
@@ -2958,7 +2969,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (10 items):
+      vpiTypespec (14 items):
         LogicTypespec:
           vpiParent: Module name:Attributes2_top
         LogicTypespec:
@@ -3076,6 +3087,22 @@ Design name:unnamed:
           vpiName Identifier name:packed_struct_t start:161:5 end:161:20:
           vpiTypedefKind: struct (4)
           vpiTypedef: Typedef name:packed_struct_t
+        PropertyTypespec name:Attributes2_prop:
+          vpiParent: Module name:Attributes2_top
+          vpiName: Attributes2_prop
+          vpiPropertyDecl: PropertyDecl name:Attributes2_prop
+        SequenceTypespec name:Attributes2_seq:
+          vpiParent: Module name:Attributes2_top
+          vpiName: Attributes2_seq
+          vpiSequenceDecl: SequenceDecl name:Attributes2_seq
+        CoverGroupTypespec name:Attributes2_cg:
+          vpiParent: Module name:Attributes2_top
+          vpiName: Attributes2_cg
+          vpiCoverGroup: CoverGroup name:Attributes2_cg
+        CoverGroupTypespec name:Attributes2_cg start:186:3 end:186:17:
+          vpiParent: Module name:Attributes2_top
+          vpiName: Attributes2_cg
+          vpiCoverGroup: CoverGroup name:Attributes2_cg
         ArrayTypespec:
           vpiParent: Module name:Attributes2_top
           vpiArrayType: dynamic (2)
@@ -3088,6 +3115,7 @@ Design name:unnamed:
         UdpDefnTypespec name:Attributes2_udp_nonansi start:246:3 end:246:26:
           vpiParent: Module name:Attributes2_top
           vpiName: Attributes2_udp_nonansi
+          vpiUdpDefn: UdpDefn name:Attributes2_udp_nonansi
       vpiLetDecl (1 items):
         LetDecl name:Attributes2_let start:173:3 end:173:59:
           vpiParent: Module name:Attributes2_top
@@ -4061,11 +4089,13 @@ Design name:unnamed:
     UdpDefnTypespec name:Attributes2_udp_nonansi:
       vpiParent: Design name:unnamed
       vpiName: Attributes2_udp_nonansi
+      vpiUdpDefn: UdpDefn name:Attributes2_udp_nonansi
     StringTypespec:
       vpiParent: Design name:unnamed
     UdpDefnTypespec name:Attributes2_udp_ansi:
       vpiParent: Design name:unnamed
       vpiName: Attributes2_udp_ansi
+      vpiUdpDefn: UdpDefn name:Attributes2_udp_ansi
     InterfaceTypespec name:Attributes2_iface_nonansi:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Attributes2_iface_nonansi start:92:44 end:92:69:
@@ -4138,7 +4168,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 7
 [WARNING] : 16
 [   NOTE] : 0
 ********************************************************************************
@@ -4187,7 +4217,7 @@ Operation                           16      15       0         1
 RefObj                              99      98       0         1
 RefTypespec                        124     124       1         1
 ----------------------------------------------------------------
-Others                             342     342       0         0
+Others                             348     348       0         0
 ----------------------------------------------------------------
-                                   622     620       2         4
+                                   628     626       2         4
 ===================== END REDUCTION RESULT =====================

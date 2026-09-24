@@ -1856,6 +1856,7 @@ n<$Source01/19--error_rules.sv> u<1818> t<Top_level_rule> c<1> l<11:1> el<279:1>
         n<> u<1814> t<ENDMODULE> p<1815> l<278:1> el<278:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/19--error_rules.sv:11:1: Compile module "r672_m".
+[ERR:CP5824] $Source01/19--error_rules.sv:11:1: Multiply defined typedef "r672_cg".
 [INF:CP5804] $Source01/19--error_rules.sv:24:1: Compile module "r680_m".
 [INF:CP5804] $Source01/19--error_rules.sv:51:1: Compile module "r684_m".
 [INF:CP5804] $Source01/19--error_rules.sv:64:1: Compile module "r685_m".
@@ -1869,24 +1870,26 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/19--error_rules.sv:165:1: Compile module "r713_m".
 [INF:CP5804] $Source01/19--error_rules.sv:179:1: Compile module "r719_m".
 [INF:CP5804] $Source01/19--error_rules.sv:192:1: Compile module "r720_m".
+[ERR:CP5824] $Source01/19--error_rules.sv:192:1: Multiply defined typedef "r720_cg".
 [INF:CP5804] $Source01/19--error_rules.sv:206:1: Compile module "r721_m".
+[ERR:CP5824] $Source01/19--error_rules.sv:206:1: Multiply defined typedef "r721_cg".
 [INF:CP5804] $Source01/19--error_rules.sv:220:1: Compile module "r722_m".
 [INF:CP5804] $Source01/19--error_rules.sv:233:1: Compile module "r723_m".
 [INF:CP5804] $Source01/19--error_rules.sv:248:1: Compile module "r725_m".
 [INF:CP5804] $Source01/19--error_rules.sv:260:1: Compile module "r726_m".
 [INF:CP5804] $Source01/19--error_rules.sv:274:1: Compile module "r728_m".
-[WRN:CP5851] $Source01/19--error_rules.sv:16:16: Failed to bind "id:90, name:new".
-[WRN:CP5851] $Source01/19--error_rules.sv:198:16: Failed to bind "id:520, name:new".
-[WRN:CP5851] $Source01/19--error_rules.sv:212:16: Failed to bind "id:543, name:new".
+[WRN:CP5851] $Source01/19--error_rules.sv:16:16: Failed to bind "id:131, name:new".
+[WRN:CP5851] $Source01/19--error_rules.sv:198:16: Failed to bind "id:548, name:new".
+[WRN:CP5851] $Source01/19--error_rules.sv:212:16: Failed to bind "id:571, name:new".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/19--error_rules.sv:16:16: Null Actual: id:90, type:MethodFuncCall, name:new, relation:vpiValue.
+[ERR:LN7705] $Source01/19--error_rules.sv:16:16: Null Actual: id:131, type:MethodFuncCall, name:new, relation:vpiValue.
 [ERR:CP5929] $Source01/19--error_rules.sv:57:33: Illegal expression in this context: r684_f.
 [ERR:CP5966] $Source01/19--error_rules.sv:81:5: Illegal bins specification: cpr.
 [WRN:CP5967] $Source01/19--error_rules.sv:119:32: Bin value can never be sampled by the coverpoint: b2.
 [WRN:CP5967] $Source01/19--error_rules.sv:131:45: Bin value can never be sampled by the coverpoint: b1.
 [WRN:CP5967] $Source01/19--error_rules.sv:142:31: Bin value can never be sampled by the coverpoint: bx.
-[ERR:LN7705] $Source01/19--error_rules.sv:198:16: Null Actual: id:520, type:MethodFuncCall, name:new, relation:vpiValue.
-[ERR:LN7705] $Source01/19--error_rules.sv:212:16: Null Actual: id:543, type:MethodFuncCall, name:new, relation:vpiValue.
+[ERR:LN7705] $Source01/19--error_rules.sv:198:16: Null Actual: id:548, type:MethodFuncCall, name:new, relation:vpiValue.
+[ERR:LN7705] $Source01/19--error_rules.sv:212:16: Null Actual: id:571, type:MethodFuncCall, name:new, relation:vpiValue.
 [ERR:CP5968] $Source01/19--error_rules.sv:224:29: Illegal coverage option: name.
 [WRN:CP5969] $Source01/19--error_rules.sv:240:7: Overlapping bins in coverpoint b2.
 [ERR:CP5968] $Source01/19--error_rules.sv:266:38: Illegal coverage option: real_interval.
@@ -2021,7 +2024,7 @@ Design name:unnamed:
           vpiFullName: r682_C::o
           vpiRandType: (1)
           vpiVisibility: public (1)
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: ClassDefn name:r682_C
         ClassTypespec name:r682_Other start:42:3 end:42:13:
@@ -2029,6 +2032,10 @@ Design name:unnamed:
           vpiName Identifier name:r682_Other start:42:3 end:42:13:
           vpiDefName: r682_Other
           vpiClassDefn: ClassDefn name:r682_Other
+        CoverGroupTypespec name:r682_cv:
+          vpiParent: ClassDefn name:r682_C
+          vpiName: r682_cv
+          vpiCoverGroup: CoverGroup name:r682_cv
       vpiDefName: r682_C
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -2099,6 +2106,7 @@ Design name:unnamed:
             vpiParent: Variable name:ci
             vpiName: r672_cg
             vpiFullName: r672_m.ci.r672_cg
+            vpiActual: CoverGroupTypespec name:r672_cg
           vpiName: ci
           vpiFullName: r672_m.ci
           vpiValue MethodFuncCall name:new start:16:16 end:16:22:
@@ -2115,9 +2123,17 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r672_m
+        CoverGroupTypespec name:r672_cg:
+          vpiParent: Module name:r672_m
+          vpiName: r672_cg
+          vpiCoverGroup: CoverGroup name:r672_cg
+        CoverGroupTypespec name:r672_cg start:16:3 end:16:10:
+          vpiParent: Module name:r672_m
+          vpiName: r672_cg
+          vpiCoverGroup: CoverGroup name:r672_cg
       vpiDefName: r672_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:11:8 end:11:14:
@@ -2191,11 +2207,15 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: r680_m.x
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r680_m
         LogicTypespec:
           vpiParent: Module name:r680_m
+        CoverGroupTypespec name:r680_cg:
+          vpiParent: Module name:r680_m
+          vpiName: r680_cg
+          vpiCoverGroup: CoverGroup name:r680_cg
       vpiDefName: r680_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:24:8 end:24:14:
@@ -2289,9 +2309,13 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: v
           vpiFullName: r684_m.v
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:r684_m
+        CoverGroupTypespec name:r684_cg:
+          vpiParent: Module name:r684_m
+          vpiName: r684_cg
+          vpiCoverGroup: CoverGroup name:r684_cg
       vpiDefName: r684_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:51:8 end:51:14:
@@ -2397,9 +2421,13 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: r685_m.x
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:r685_m
+        CoverGroupTypespec name:r685_cg:
+          vpiParent: Module name:r685_m
+          vpiName: r685_cg
+          vpiCoverGroup: CoverGroup name:r685_cg
       vpiDefName: r685_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:64:8 end:64:14:
@@ -2499,11 +2527,15 @@ Design name:unnamed:
             vpiActual: RealTypespec
           vpiName: r
           vpiFullName: r688_m.r
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r688_m
         LogicTypespec:
           vpiParent: Module name:r688_m
+        CoverGroupTypespec name:r688_cg:
+          vpiParent: Module name:r688_m
+          vpiName: r688_cg
+          vpiCoverGroup: CoverGroup name:r688_cg
       vpiDefName: r688_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:77:8 end:77:14:
@@ -2607,11 +2639,15 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: y
           vpiFullName: r694_m.y
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r694_m
         LogicTypespec:
           vpiParent: Module name:r694_m
+        CoverGroupTypespec name:r694_cg:
+          vpiParent: Module name:r694_m
+          vpiName: r694_cg
+          vpiCoverGroup: CoverGroup name:r694_cg
       vpiDefName: r694_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:89:8 end:89:14:
@@ -2697,11 +2733,15 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: y
           vpiFullName: r696_m.y
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r696_m
         LogicTypespec:
           vpiParent: Module name:r696_m
+        CoverGroupTypespec name:r696_cg:
+          vpiParent: Module name:r696_m
+          vpiName: r696_cg
+          vpiCoverGroup: CoverGroup name:r696_cg
       vpiDefName: r696_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:101:8 end:101:14:
@@ -2802,7 +2842,7 @@ Design name:unnamed:
           vpiName: p1
           vpiFullName: r705_m.p1
           vpiVector: true
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r705_m
         BitTypespec:
@@ -2831,6 +2871,10 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        CoverGroupTypespec name:r705_g1:
+          vpiParent: Module name:r705_m
+          vpiName: r705_g1
+          vpiCoverGroup: CoverGroup name:r705_g1
       vpiDefName: r705_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:115:8 end:115:14:
@@ -2949,7 +2993,7 @@ Design name:unnamed:
           vpiName: p1
           vpiFullName: r706_m.p1
           vpiVector: true
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r706_m
         BitTypespec:
@@ -2978,6 +3022,10 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        CoverGroupTypespec name:r706_g1:
+          vpiParent: Module name:r706_m
+          vpiName: r706_g1
+          vpiCoverGroup: CoverGroup name:r706_g1
       vpiDefName: r706_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:127:8 end:127:14:
@@ -3052,7 +3100,7 @@ Design name:unnamed:
           vpiName: p
           vpiFullName: r707_m.p
           vpiVector: true
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r707_m
         LogicTypespec:
@@ -3081,6 +3129,10 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        CoverGroupTypespec name:r707_g1:
+          vpiParent: Module name:r707_m
+          vpiName: r707_g1
+          vpiCoverGroup: CoverGroup name:r707_g1
       vpiDefName: r707_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:138:8 end:138:14:
@@ -3188,11 +3240,15 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: b
           vpiFullName: r711_m.b
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r711_m
         LogicTypespec:
           vpiParent: Module name:r711_m
+        CoverGroupTypespec name:r711_cg:
+          vpiParent: Module name:r711_m
+          vpiName: r711_cg
+          vpiCoverGroup: CoverGroup name:r711_cg
       vpiDefName: r711_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:150:8 end:150:14:
@@ -3316,11 +3372,15 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: b
           vpiFullName: r713_m.b
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r713_m
         LogicTypespec:
           vpiParent: Module name:r713_m
+        CoverGroupTypespec name:r713_cg:
+          vpiParent: Module name:r713_m
+          vpiName: r713_cg
+          vpiCoverGroup: CoverGroup name:r713_cg
       vpiDefName: r713_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:165:8 end:165:14:
@@ -3393,9 +3453,13 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: r719_m.x
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:r719_m
+        CoverGroupTypespec name:r719_cg:
+          vpiParent: Module name:r719_m
+          vpiName: r719_cg
+          vpiCoverGroup: CoverGroup name:r719_cg
       vpiDefName: r719_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:179:8 end:179:14:
@@ -3456,14 +3520,23 @@ Design name:unnamed:
             vpiParent: Variable name:ci
             vpiName: r720_cg
             vpiFullName: r720_m.ci.r720_cg
+            vpiActual: CoverGroupTypespec name:r720_cg
           vpiName: ci
           vpiFullName: r720_m.ci
           vpiValue MethodFuncCall name:new start:198:16 end:198:19:
             vpiParent: Variable name:ci
             vpiName Identifier name:new:
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r720_m
+        CoverGroupTypespec name:r720_cg:
+          vpiParent: Module name:r720_m
+          vpiName: r720_cg
+          vpiCoverGroup: CoverGroup name:r720_cg
+        CoverGroupTypespec name:r720_cg start:198:3 end:198:10:
+          vpiParent: Module name:r720_m
+          vpiName: r720_cg
+          vpiCoverGroup: CoverGroup name:r720_cg
       vpiDefName: r720_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:192:8 end:192:14:
@@ -3532,16 +3605,25 @@ Design name:unnamed:
             vpiParent: Variable name:ci
             vpiName: r721_cg
             vpiFullName: r721_m.ci.r721_cg
+            vpiActual: CoverGroupTypespec name:r721_cg
           vpiName: ci
           vpiFullName: r721_m.ci
           vpiValue MethodFuncCall name:new start:212:16 end:212:19:
             vpiParent: Variable name:ci
             vpiName Identifier name:new:
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
         BitTypespec:
           vpiParent: Module name:r721_m
         LogicTypespec:
           vpiParent: Module name:r721_m
+        CoverGroupTypespec name:r721_cg:
+          vpiParent: Module name:r721_m
+          vpiName: r721_cg
+          vpiCoverGroup: CoverGroup name:r721_cg
+        CoverGroupTypespec name:r721_cg start:212:3 end:212:10:
+          vpiParent: Module name:r721_m
+          vpiName: r721_cg
+          vpiCoverGroup: CoverGroup name:r721_cg
       vpiDefName: r721_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:206:8 end:206:14:
@@ -3640,11 +3722,15 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: b
           vpiFullName: r722_m.b
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r722_m
         LogicTypespec:
           vpiParent: Module name:r722_m
+        CoverGroupTypespec name:r722_cg:
+          vpiParent: Module name:r722_m
+          vpiName: r722_cg
+          vpiCoverGroup: CoverGroup name:r722_cg
       vpiDefName: r722_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:220:8 end:220:14:
@@ -3775,7 +3861,7 @@ Design name:unnamed:
           vpiName: v
           vpiFullName: r723_m.v
           vpiVector: true
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r723_m
         BitTypespec:
@@ -3804,6 +3890,10 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        CoverGroupTypespec name:r723_cg:
+          vpiParent: Module name:r723_m
+          vpiName: r723_cg
+          vpiCoverGroup: CoverGroup name:r723_cg
       vpiDefName: r723_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:233:8 end:233:14:
@@ -3858,9 +3948,13 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: r725_m.x
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:r725_m
+        CoverGroupTypespec name:r725_cg:
+          vpiParent: Module name:r725_m
+          vpiName: r725_cg
+          vpiCoverGroup: CoverGroup name:r725_cg
       vpiDefName: r725_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:248:8 end:248:14:
@@ -3972,11 +4066,15 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: b
           vpiFullName: r726_m.b
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:r726_m
         LogicTypespec:
           vpiParent: Module name:r726_m
+        CoverGroupTypespec name:r726_cg:
+          vpiParent: Module name:r726_m
+          vpiName: r726_cg
+          vpiCoverGroup: CoverGroup name:r726_cg
       vpiDefName: r726_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:260:8 end:260:14:
@@ -4012,9 +4110,13 @@ Design name:unnamed:
                 vpiName: b
                 vpiFullName: r728_m.r728_C1.per_instance.b
               vpiCoverageOptionType: option (1)
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:r728_m
+        CoverGroupTypespec name:r728_C1:
+          vpiParent: Module name:r728_m
+          vpiName: r728_C1
+          vpiCoverGroup: CoverGroup name:r728_C1
       vpiDefName: r728_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:274:8 end:274:14:
@@ -4145,7 +4247,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 8
-[  ERROR] : 7
+[  ERROR] : 10
 [WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
@@ -4193,7 +4295,7 @@ Constant                            33      33       2         2
 Operation                           32      30       0         2
 RefTypespec                        106     106       2         2
 ----------------------------------------------------------------
-Others                             451     451       0         0
+Others                             475     475       0         0
 ----------------------------------------------------------------
-                                   622     620       4         6
+                                   646     644       4         6
 ===================== END REDUCTION RESULT =====================

@@ -254,8 +254,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
 [INF:CP5807] $Source01/dut.sv:7:10: Compile program "test".
 [WRN:CP5815] $Source01/dut.sv:7:10: Using programs is discouraged "test", programs are obsoleted by UVM.
-[WRN:CP5851] $Source01/dut.sv:15:21: Failed to bind "id:122, name:cpu1".
-[WRN:CP5851] $Source01/dut.sv:15:26: Failed to bind "id:123, name:state".
+[WRN:CP5851] $Source01/dut.sv:15:21: Failed to bind "id:126, name:cpu1".
+[WRN:CP5851] $Source01/dut.sv:15:26: Failed to bind "id:127, name:state".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
 [WRN:PA5506] $Source01/dut.sv:7:2: No timescale set for "test".
 ====== HLDB =======
@@ -271,7 +271,11 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiFullName: top
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        ClockingBlockTypespec name:mem:
+          vpiParent: Module name:top
+          vpiName: mem
+          vpiClockingBlock: ClockingBlock name:mem
         ProgramTypespec name:test:
           vpiParent: Module name:top
           vpiName Identifier name:test start:7:10 end:7:14:
@@ -308,7 +312,7 @@ Design name:unnamed:
               vpiName: cmd_reg
               vpiFullName: top.test.cmd_reg
               vpiVector: true
-          vpiTypespec (4 items):
+          vpiTypespec (6 items):
             LogicTypespec:
               vpiParent: Program name:test
             LogicTypespec:
@@ -389,6 +393,14 @@ Design name:unnamed:
                     vpiDecompile: "1"
                     vpiValue: 1
               vpiVector: true
+            ClockingBlockTypespec name:cd1:
+              vpiParent: Program name:test
+              vpiName: cd1
+              vpiClockingBlock: ClockingBlock name:cd1
+            ClockingBlockTypespec name:cd2:
+              vpiParent: Program name:test
+              vpiName: cd2
+              vpiClockingBlock: ClockingBlock name:cd2
           vpiDefName: test
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work start:7:10 end:7:14:
@@ -774,7 +786,7 @@ COMMAND: ${HLC_DIR}/regression/ClockingSntx/ClockingSntx/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             119     119       0         0
+Others                             122     122       0         0
 ----------------------------------------------------------------
-                                   119     119       0         0
+                                   122     122       0         0
 ===================== END REDUCTION RESULT =====================

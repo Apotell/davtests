@@ -624,9 +624,9 @@ AST_DEBUG_END
 [INF:CP5808] $Source01/dut.sv:1:9: Compile checker "assert_window1".
 [INF:CP5836] $Source01/dut.sv:36:46: Compile generate block "cover_b".
 [INF:CP5808] $Source01/dut.sv:50:9: Compile checker "op_test".
-[WRN:CP5851] $Source01/dut.sv:57:19: Failed to bind "id:209, name:new".
-[WRN:CP5851] $Source01/dut.sv:59:46: Failed to bind "id:225, name:sample".
-[ERR:LN7705] $Source01/dut.sv:57:19: Null Actual: id:209, type:MethodFuncCall, name:new, relation:vpiValue.
+[WRN:CP5851] $Source01/dut.sv:57:19: Failed to bind "id:214, name:new".
+[WRN:CP5851] $Source01/dut.sv:59:46: Failed to bind "id:230, name:sample".
+[ERR:LN7705] $Source01/dut.sv:57:19: Null Actual: id:214, type:MethodFuncCall, name:new, relation:vpiValue.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -781,11 +781,18 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b1"
             vpiValue: "1"
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: CheckerDecl name:assert_window1
+        ClockingBlockTypespec:
+          vpiParent: CheckerDecl name:assert_window1
+          vpiClockingBlock: ClockingBlock
         BitTypespec:
           vpiParent: CheckerDecl name:assert_window1
+        PropertyTypespec name:p_window:
+          vpiParent: CheckerDecl name:assert_window1
+          vpiName: p_window
+          vpiPropertyDecl: PropertyDecl name:p_window
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:9 end:1:23:
         vpiParent: CheckerDecl name:assert_window1
@@ -1300,12 +1307,13 @@ Design name:unnamed:
             vpiParent: Variable name:cg_op_1
             vpiName: cg_op
             vpiFullName: op_test.cg_op_1.cg_op
+            vpiActual: CoverGroupTypespec name:cg_op
           vpiName: cg_op_1
           vpiFullName: op_test.cg_op_1
           vpiValue MethodFuncCall name:new start:57:19 end:57:24:
             vpiParent: Variable name:cg_op_1
             vpiName Identifier name:new:
-      vpiTypespec (3 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: CheckerDecl name:op_test
         LogicTypespec:
@@ -1360,6 +1368,18 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        CoverGroupTypespec name:cg_op:
+          vpiParent: CheckerDecl name:op_test
+          vpiName: cg_op
+          vpiCoverGroup: CoverGroup name:cg_op
+        CoverGroupTypespec name:cg_op start:57:3 end:57:8:
+          vpiParent: CheckerDecl name:op_test
+          vpiName: cg_op
+          vpiCoverGroup: CoverGroup name:cg_op
+        SequenceTypespec name:op_accept:
+          vpiParent: CheckerDecl name:op_test
+          vpiName: op_accept
+          vpiSequenceDecl: SequenceDecl name:op_accept
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:50:9 end:50:16:
         vpiParent: CheckerDecl name:op_test
@@ -1483,7 +1503,7 @@ Operation                           24      20       0         4
 RefObj                              41      37       0         4
 RefTypespec                         33      37       4         0
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                   207     208       9         8
+                                   212     213       9         8
 ===================== END REDUCTION RESULT =====================
