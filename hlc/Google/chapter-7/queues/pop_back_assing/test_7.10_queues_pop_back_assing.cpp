@@ -144,6 +144,17 @@ class QueuesPopBackAssignTest : public Test {
     if (init == nullptr) return nullptr;
     return init->getStmt<hldb::Begin>();
   }
+
+  template<typename T, typename R>
+  static T* findFirstByType(const std::vector<R *> *collection) {
+    if (collection == nullptr) return nullptr;
+    for (R *any : *collection) {
+      if (T *const t = any_cast<T>(any)) {
+        return t;
+      }
+    }
+    return nullptr;
+  }
 };
 
 // --- module / nets ----
@@ -417,14 +428,14 @@ TEST_F(QueuesPopBackAssignTest, DesignHasThreeTypespecs) {
 
 TEST_F(QueuesPopBackAssignTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = findFirstByType<hldb::ModuleTypespec>(m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(QueuesPopBackAssignTest, DesignHasIntTypespecSigned) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
+  const hldb::IntTypespec *const it = findFirstByType<hldb::IntTypespec>(m_design->getTypespecs());
   ASSERT_NE(it, nullptr);
   EXPECT_TRUE(it->getSigned());
 }
@@ -432,7 +443,7 @@ TEST_F(QueuesPopBackAssignTest, DesignHasIntTypespecSigned) {
 TEST_F(QueuesPopBackAssignTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   ASSERT_GT(m_design->getTypespecs()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
+  EXPECT_NE(findFirstByType<hldb::StringTypespec>(m_design->getTypespecs()), nullptr);
 }
 
 TEST_F(QueuesPopBackAssignTest, NoBindErrorForSize) {

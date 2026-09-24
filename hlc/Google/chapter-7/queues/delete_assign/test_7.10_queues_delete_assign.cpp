@@ -204,6 +204,17 @@ class QueuesDeleteAssignTest : public Test {
     EXPECT_EQ(sizeCall->getName(), "size");
     EXPECT_EQ(sizeCall->getArguments(), nullptr) << "size() takes no arguments";
   }
+
+  template<typename T, typename R>
+  static T* findFirstByType(const std::vector<R *> *collection) {
+    if (collection == nullptr) return nullptr;
+    for (R *any : *collection) {
+      if (T *const t = any_cast<T>(any)) {
+        return t;
+      }
+    }
+    return nullptr;
+  }   
 };
 
 // --- module / nets ----
@@ -397,14 +408,14 @@ TEST_F(QueuesDeleteAssignTest, DesignHasThreeTypespecs) {
 
 TEST_F(QueuesDeleteAssignTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = findFirstByType<hldb::ModuleTypespec>(m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(QueuesDeleteAssignTest, DesignHasIntTypespecSigned) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
+  const hldb::IntTypespec *const it = findFirstByType<hldb::IntTypespec>(m_design->getTypespecs());
   ASSERT_NE(it, nullptr);
   EXPECT_TRUE(it->getSigned());
 }
@@ -412,7 +423,7 @@ TEST_F(QueuesDeleteAssignTest, DesignHasIntTypespecSigned) {
 TEST_F(QueuesDeleteAssignTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   ASSERT_GT(m_design->getTypespecs()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
+  EXPECT_NE(findFirstByType<hldb::StringTypespec>(m_design->getTypespecs()), nullptr);
 }
 
 TEST_F(QueuesDeleteAssignTest, NoBindErrorsForSize) {

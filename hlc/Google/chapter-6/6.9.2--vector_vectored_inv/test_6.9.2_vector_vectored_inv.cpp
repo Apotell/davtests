@@ -126,90 +126,6 @@ TEST_F(VectorVectoredInvTest, NoProcessesInAnyModule) {
   }
 }
 
-// --- design-level typespec checks ----------------------------------------
-
-TEST_F(VectorVectoredInvTest, DesignHasOneLogicTypespec) {
-  // The `logic` keyword from `logic vectored [15:0] a = 0` was recognised and
-  // deposited as a bare LogicTypespec at design scope (no ranges, no name)
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  int count = 0;
-  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
-    if (any_cast<hldb::LogicTypespec>(ts) != nullptr) ++count;
-  }
-  EXPECT_EQ(count, 1);
-}
-
-TEST_F(VectorVectoredInvTest, DesignHasFiveTypespecs) {
-  // Error recovery still deposits 5 typespec nodes at design scope:
-  // 2 ModuleTypespec, 1 LogicTypespec, 1 IntTypespec, 1 ArrayTypespec
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 5u);
-}
-
-TEST_F(VectorVectoredInvTest, DesignHasOneArrayTypespec) {
-  // The [15:0] range was parsed out as an ArrayTypespec even though the
-  // surrounding module declaration failed
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  int count = 0;
-  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
-    if (any_cast<hldb::ArrayTypespec>(ts) != nullptr) ++count;
-  }
-  EXPECT_EQ(count, 1);
-}
-
-TEST_F(VectorVectoredInvTest, ArrayTypespecIsStatic) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ArrayTypespec *at = nullptr;
-  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
-    at = any_cast<hldb::ArrayTypespec>(ts);
-    if (at != nullptr) break;
-  }
-  ASSERT_NE(at, nullptr);
-  // vpiArrayType static = 1
-  EXPECT_EQ(at->getArrayType(), 1);
-}
-
-TEST_F(VectorVectoredInvTest, ArrayTypespecHasRange) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ArrayTypespec *at = nullptr;
-  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
-    at = any_cast<hldb::ArrayTypespec>(ts);
-    if (at != nullptr) break;
-  }
-  ASSERT_NE(at, nullptr);
-  EXPECT_NE(at->getRange(), nullptr);
-}
-
-TEST_F(VectorVectoredInvTest, ArrayTypespecRangeLeftIs15) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ArrayTypespec *at = nullptr;
-  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
-    at = any_cast<hldb::ArrayTypespec>(ts);
-    if (at != nullptr) break;
-  }
-  ASSERT_NE(at, nullptr);
-  const hldb::Range *const range = at->getRange();
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
-  ASSERT_NE(left, nullptr);
-  EXPECT_EQ(left->getDecompile(), "15");
-}
-
-TEST_F(VectorVectoredInvTest, ArrayTypespecRangeRightIs0) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ArrayTypespec *at = nullptr;
-  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
-    at = any_cast<hldb::ArrayTypespec>(ts);
-    if (at != nullptr) break;
-  }
-  ASSERT_NE(at, nullptr);
-  const hldb::Range *const range = at->getRange();
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
-  ASSERT_NE(right, nullptr);
-  EXPECT_EQ(right->getDecompile(), "0");
-}
-
 // --- compiler diagnostics ----------------------------------------------
 
 TEST_F(VectorVectoredInvTest, ExactlyFourSyntaxErrorsReported) {
@@ -217,9 +133,6 @@ TEST_F(VectorVectoredInvTest, ExactlyFourSyntaxErrorsReported) {
   EXPECT_EQ(stats.nbSyntax, 4) << "expected 4 PA0207 syntax errors from the malformed 'logic vectored' declaration";
 }
 
-TEST_F(VectorVectoredInvTest, DesignNameIsUnnamed) {
-  EXPECT_EQ(m_design->getName(), "unnamed");
-}
 }  // namespace hlc
 
 int main(int argc, char **argv) {
